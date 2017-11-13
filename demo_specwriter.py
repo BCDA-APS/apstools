@@ -5,35 +5,9 @@ demonstrate a BlueSky callback that writes SPEC data files
 """
 
 
+import datetime
 from databroker import Broker
 from filewriters import SpecWriterCallback
-
-
-# load config from ~/.config/databroker/mongodb_config.yml
-mongodb_config = {
-    'description': 'heavyweight shared database',
-    'metadatastore': {
-        'module': 'databroker.headersource.mongo',
-        'class': 'MDS',
-        'config': {
-            'host': 'localhost',
-            'port': 27017,
-            'database': 'prj-metadatastore-testing',
-            'timezone': 'US/Central'
-        }
-    },
-    'assets': {
-        'module': 'databroker.assets.mongo',
-        'class': 'Registry',
-        'config': {
-            'host': 'localhost',
-            'port': 27017,
-            'database': 'prj-metadatastore-testing'
-        }
-    }
-}
-db = Broker.from_config(mongodb_config)
-
 
 
 def example(headers, path=None):
@@ -53,11 +27,13 @@ def plan_catalog(db):
     import pyRestTable
     n = len(db[-10000:])
     t = pyRestTable.Table()
-    t.labels = "index short_uid scan_id plan_name plan_args".split()
+    t.labels = "# date/time short_uid scan_id plan_name plan_args".split()
     for i in range(n):
         _i = i - n
         h = db[_i]['start']
         row = [_i]
+        dt = datetime.datetime.fromtimestamp(h["time"])
+        row.append(str(dt).split(".")[0])
         row.append(h['uid'][:8])
         row.append(h['scan_id'])
         row.append(h['plan_name'])
@@ -71,11 +47,40 @@ def plan_catalog(db):
         row.append(", ".join(s))
         t.addRow(row)
     print(t)
-        
+
+
+def setup_broker():
+    # load config from ~/.config/databroker/mongodb_config.yml
+    mongodb_config = {
+        'description': 'heavyweight shared database',
+        'metadatastore': {
+            'module': 'databroker.headersource.mongo',
+            'class': 'MDS',
+            'config': {
+                'host': 'localhost',
+                'port': 27017,
+                'database': 'prj-metadatastore-testing',
+                'timezone': 'US/Central'
+            }
+        },
+        'assets': {
+            'module': 'databroker.assets.mongo',
+            'class': 'Registry',
+            'config': {
+                'host': 'localhost',
+                'port': 27017,
+                'database': 'prj-metadatastore-testing'
+            }
+        }
+    }
+    db = Broker.from_config(mongodb_config)
+    return db
 
 if __name__ == "__main__":
-    # plan_catalog(db)
-    example(db[-1])
+    db = setup_broker()
+
+    plan_catalog(db)
+    # example(db[-1])
     # example(db[-1:])
     # example(db["1d2a3890"])
     # example(db["15d12d"])
