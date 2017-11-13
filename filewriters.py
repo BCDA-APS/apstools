@@ -33,8 +33,6 @@ from collections import OrderedDict
 import datetime
 import os
 
-from databroker import Broker
-
 
 #    Programmer's Note: subclassing from `object` avoids the need 
 #    to import `bluesky.callbacks.core.CallbackBase`.  
@@ -207,16 +205,23 @@ class SpecWriterCallback(object):
             if len(self.detectors) > 0:
                 # find 1st detector and move to last
                 det_name = list(self.detectors.keys())[0]
-                self.data.move_to_end(det_name)
+                if det_name not in self.data:
+                    det_name = list(doc["data_keys"].keys())[0]
+                if det_name in self.data:
+                    self.data.move_to_end(det_name)
 
     def event(self, doc):
         """
         handle *event* documents
         """
-        # check the desccriptor for "primary"
+        # first, ensure that all data keys in this event doc are expected
+        # as a substitute check of the descriptor document for "primary"
+        for k in doc["data"].keys():
+            if k not in self.data.keys():
+                return                  # not our expected event data
         for k in self.data.keys():
             if k == "Epoch":
-                v = int(doc["time"] - self.time)
+                v = int(doc["time"] - self.time + 0.5)
             elif k == "Epoch_float":
                 v = doc["time"] - self.time
             else:
@@ -258,9 +263,6 @@ class SpecWriterCallback(object):
         
         buffer all content in memory before writing the file
         """
-        if self.num_primary_data == 0:
-            print("SPEC writer: No data to be written")
-            return
         dt = datetime.datetime.fromtimestamp(self.spec_epoch)
         lines = []
         lines.append("#F " + self.spec_filename)
@@ -288,10 +290,13 @@ class SpecWriterCallback(object):
             lines.append("#MD {} = {}".format(k, v))
 
         lines.append("#N " + str(self.num_primary_data))
-        lines.append("#L " + "  ".join(self.data.keys()))
-        for i in range(self.num_primary_data):
-            s = [str(self.data[k][i]) for k in self.data.keys()]
-            lines.append(" ".join(s))
+        if len(self.data.keys()) > 0:
+            lines.append("#L " + "  ".join(self.data.keys()))
+            for i in range(self.num_primary_data):
+                s = [str(self.data[k][i]) for k in self.data.keys()]
+                lines.append(" ".join(s))
+        else:
+            lines.append("#C no data column labels identified")
 
         for v in self.comments["event"]:
             lines.append("#C " + v)

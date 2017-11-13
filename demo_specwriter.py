@@ -1,14 +1,13 @@
-
+#!/usr/bin/env python
 
 """
-a BlueSky callback that writes SPEC data files
+demonstrate a BlueSky callback that writes SPEC data files
 """
 
 
-import os
-import sys
 from databroker import Broker
 from filewriters import SpecWriterCallback
+
 
 # load config from ~/.config/databroker/mongodb_config.yml
 mongodb_config = {
@@ -37,21 +36,24 @@ db = Broker.from_config(mongodb_config)
 
 
 
-def example(db, db_key=None, path=None):
+def example(headers, path=None):
     specwriter = SpecWriterCallback(path, auto_write=False)
-    db_key = db_key or -1
-    h = db[db_key]
-    for key, doc in db.get_documents(db[db_key]):
-        specwriter.receiver(key, doc)
-    lines = specwriter.prepare_file_contents()
-    print("\n".join(lines))
+    if not isinstance(headers, list):
+        headers = [headers]
+    for h in headers:
+        for key, doc in h.db.get_documents(h):
+            specwriter.receiver(key, doc)
+        lines = specwriter.prepare_file_contents()
+        if lines is not None:
+            print("\n".join(lines))
+        print("#"*60)
 
 
-def scan_catalog(db):
+def plan_catalog(db):
     import pyRestTable
     n = len(db[-10000:])
     t = pyRestTable.Table()
-    t.labels = "index uid scan_id plan_name plan_args".split()
+    t.labels = "index short_uid scan_id plan_name plan_args".split()
     for i in range(n):
         _i = i - n
         h = db[_i]['start']
@@ -72,9 +74,14 @@ def scan_catalog(db):
         
 
 if __name__ == "__main__":
-    # scan_catalog(db)
-    # #example(db, db_key="15d12d")
-    example(db)
-    # example(db, db_key="b7f84d0c")
-    # example(db, db_key="83c440c2")
-    # example(db, db_key="ebdcbfb8")
+    # plan_catalog(db)
+    example(db[-1])
+    # example(db[-1:])
+    # example(db["1d2a3890"])
+    # example(db["15d12d"])
+    # example(db["b7f84d0c"])
+    # example(db["83c440c2"])
+    # example(db["ebdcbfb8"])
+    # example(db[-10:-5])
+    # example(db[-100])
+    # example(db[-10000:][-25:])
