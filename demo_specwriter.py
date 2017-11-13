@@ -26,14 +26,20 @@ def specfile_example(headers, path=None):
 def plan_catalog(db):
     import pyRestTable
     t = pyRestTable.Table()
-    t.labels = "date/time short_uid plan".split()
+    t.labels = "date/time short_uid id plan args".split()
     for h in db.hs.find_run_starts():
         row = []
         dt = datetime.datetime.fromtimestamp(h["time"])
         row.append(str(dt).split(".")[0])
         row.append(h['uid'][:8])
-        plan = _rebuild_scan_command(h)
+        command = _rebuild_scan_command(h)
+        scan_id = command.split()[0]
+        command = command[len(scan_id):].strip()
+        plan = command.split("(")[0]
+        args = command[len(plan)+1:].rstrip(")")
+        row.append(scan_id)
         row.append(plan)
+        row.append(args)
         t.addRow(row)
     t.rows = t.rows[::-1]   # reverse the list
     print(t)
