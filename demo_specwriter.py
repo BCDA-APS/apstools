@@ -49,6 +49,7 @@ def plan_catalog(db):
 
 if __name__ == "__main__":
     # load config from ~/.config/databroker/mongodb_config.yml
+    #db = Broker.named("mongodb_config")
     mongodb_config = {
         'description': 'heavyweight shared database',
         'metadatastore': {
@@ -71,8 +72,7 @@ if __name__ == "__main__":
             }
         }
     }
-    # db = Broker.from_config(mongodb_config)
-    db = Broker.named("mongodb_config")
+    db = Broker.from_config(mongodb_config)
 
     plan_catalog(db)
     # specfile_example(db[-1])
@@ -83,6 +83,6 @@ if __name__ == "__main__":
     # specfile_example(db["83c440c2"])
     # specfile_example(db["ebdcbfb8"])
     # specfile_example(db[-10:-5])
-    # specfile_example(db[-100])
+    # specfile_example(db[-80])
     # specfile_example(db[-10000:][-25:])
     # specfile_example(db["82df580d"])
