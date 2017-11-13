@@ -46,6 +46,47 @@ import os
 #    CallbackBase | RE.subscribe(specwriter)
 
 
+def _rebuild_scan_command(doc):
+    """reconstruct the scan command for SPEC data file #S line"""
+    
+    def get_name(src):
+        """
+        get name field from object representation
+        
+        given: EpicsMotor(prefix='xxx:m1', name='m1', settle_time=0.0, 
+                    timeout=None, read_attrs=['user_readback', 'user_setpoint'], 
+                    configuration_attrs=['motor_egu', 'velocity', 'acceleration', 
+                    'user_offset', 'user_offset_dir'])
+        return: "m1"
+        """
+        s = str(src)
+        p = s.find("(")
+        if p > 0:           # only if an open parenthesis is found
+            parts = s[p+1:].rstrip(")").split(",")
+            for item in parts:
+                # should be key=value pairs
+                item = item.strip()
+                p = item.find("=")
+                if item[:p] == "name":
+                    s = item[p+1:]      # get the name value
+                    break
+        return s
+
+    s = []
+    for _k, _v in doc['plan_args'].items():
+        if _k == "detectors":
+            _v = doc[_k]
+        elif _k.startswith("motor"):
+            _v = doc["motors"]
+        elif _k == "args":
+            _v = "[" +  ", ".join(map(get_name, _v)) + "]"
+        s.append("{}={}".format(_k, _v))
+    
+    cmd = "{}({})".format(doc.get("plan_name", ""), ", ".join(s))
+    scan_id = doc.get("scan_id") or 1    # TODO: improve the default
+    return "{}  {}".format(scan_id, cmd)
+
+
 class SpecWriterCallback(object):
     """
     collect data from BlueSky RunEngine documents to write as SPEC data
@@ -152,7 +193,7 @@ class SpecWriterCallback(object):
                     obj[key] = None
         
         self.comments["start"].insert(0, "plan_type = " + doc["plan_type"])
-        self.scan_command = self._rebuild_scan_command(doc)
+        self.scan_command = _rebuild_scan_command(doc)
     
     def _build_file_name(self, doc):
         """create the SPEC data file name"""
@@ -160,20 +201,6 @@ class SpecWriterCallback(object):
         s = self.uid[:self.uid_short_length]
         s += self.file_suffix
         return s
-
-    def _rebuild_scan_command(self, doc):
-        """reconstruct the scan command for SPEC data file #S line"""
-        s = []
-        for _k, _v in doc['plan_args'].items():
-            if _k == "detectors":
-                _v = doc[_k]
-            elif _k.startswith("motor"):
-                _v = doc["motors"]
-            s.append("{}={}".format(_k, _v))
-        
-        cmd = "{}({})".format(doc.get("plan_name", ""), ", ".join(s))
-        scan_id = doc.get("scan_id") or 1    # TODO: improve the default
-        return "{}  {}".format(scan_id, cmd)
         
     def descriptor(self, doc):
         """

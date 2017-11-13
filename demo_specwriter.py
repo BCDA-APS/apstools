@@ -7,10 +7,10 @@ demonstrate a BlueSky callback that writes SPEC data files
 
 import datetime
 from databroker import Broker
-from filewriters import SpecWriterCallback
+from filewriters import SpecWriterCallback, _rebuild_scan_command
 
 
-def example(headers, path=None):
+def specfile_example(headers, path=None):
     specwriter = SpecWriterCallback(path, auto_write=False)
     if not isinstance(headers, list):
         headers = [headers]
@@ -25,31 +25,23 @@ def example(headers, path=None):
 
 def plan_catalog(db):
     import pyRestTable
-    n = len(db[-10000:])
     t = pyRestTable.Table()
-    t.labels = "# date/time short_uid scan_id plan_name plan_args".split()
-    for i in range(n):
-        _i = i - n
-        h = db[_i]['start']
-        row = [_i]
+    t.labels = "date/time short_uid plan".split()
+    for h in db.hs.find_run_starts():
+        row = []
         dt = datetime.datetime.fromtimestamp(h["time"])
         row.append(str(dt).split(".")[0])
         row.append(h['uid'][:8])
-        row.append(h['scan_id'])
-        row.append(h['plan_name'])
-        s = []
-        for _k, _v in h['plan_args'].items():
-            if _k == "detectors":
-                _v = h[_k]
-            elif _k.startswith("motor"):
-                _v = h["motors"]
-            s.append("{}={}".format(_k, _v))
-        row.append(", ".join(s))
+        plan = _rebuild_scan_command(h)
+        row.append(plan)
         t.addRow(row)
+    t.rows = t.rows[::-1]   # reverse the list
     print(t)
+    print("Found {} plans (start documents)".format(len(t.rows)))
 
 
-def setup_broker():
+
+if __name__ == "__main__":
     # load config from ~/.config/databroker/mongodb_config.yml
     mongodb_config = {
         'description': 'heavyweight shared database',
@@ -73,20 +65,18 @@ def setup_broker():
             }
         }
     }
-    db = Broker.from_config(mongodb_config)
-    return db
-
-if __name__ == "__main__":
-    db = setup_broker()
+    # db = Broker.from_config(mongodb_config)
+    db = Broker.named("mongodb_config")
 
     plan_catalog(db)
-    # example(db[-1])
-    # example(db[-1:])
-    # example(db["1d2a3890"])
-    # example(db["15d12d"])
-    # example(db["b7f84d0c"])
-    # example(db["83c440c2"])
-    # example(db["ebdcbfb8"])
-    # example(db[-10:-5])
-    # example(db[-100])
-    # example(db[-10000:][-25:])
+    # specfile_example(db[-1])
+    # specfile_example(db[-1:])
+    # specfile_example(db["1d2a3890"])
+    # specfile_example(db["15d12d"])
+    # specfile_example(db["b7f84d0c"])
+    # specfile_example(db["83c440c2"])
+    # specfile_example(db["ebdcbfb8"])
+    # specfile_example(db[-10:-5])
+    # specfile_example(db[-100])
+    # specfile_example(db[-10000:][-25:])
+    # specfile_example(db["82df580d"])
