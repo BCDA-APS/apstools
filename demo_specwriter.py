@@ -9,15 +9,17 @@ import datetime
 from databroker import Broker
 from filewriters import SpecWriterCallback, _rebuild_scan_command
 
+DEMO_SPEC_FILE = "test_specdata.txt"
 
-def specfile_example(headers, path=None):
-    specwriter = SpecWriterCallback(path, auto_write=False)
+
+def specfile_example(headers, filename=DEMO_SPEC_FILE):
+    specwriter = SpecWriterCallback(filename=filename, auto_write=True)
     if not isinstance(headers, list):
         headers = [headers]
     for h in headers:
         for key, doc in h.db.get_documents(h):
             specwriter.receiver(key, doc)
-        lines = specwriter.prepare_file_contents()
+        lines = specwriter.prepare_scan_contents()
         if lines is not None:
             print("\n".join(lines))
         print("#"*60)

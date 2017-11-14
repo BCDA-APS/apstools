@@ -14,24 +14,27 @@ EXAMPLE : use as writer from Databroker::
     specwriter = SpecWriterCallback()
     for key, doc in db.get_documents(db[-1]):
         specwriter.receiver(key, doc)
+    print("Look at SPEC data file: "+specwriter.spec_filename)
 
 EXAMPLE : use as writer from Databroker with customizations::
 
     from filewriters import SpecWriterCallback
-    specwriter = SpecWriterCallback(path="/tmp", auto_write=False)
+    # write into file: /tmp/cerium.spec
+    specwriter = SpecWriterCallback(filename="/tmp/cerium.spec")
     for key, doc in db.get_documents(db[-1]):
         specwriter.receiver(key, doc)
-    # write into file: /tmp/cerium.spec
-    specwriter.spec_filename = "cerium"
-    specwriter.file_suffix = ".spec"
-    specwriter.write_file()
+    for key, doc in db.get_documents(db["b46b63d4"]):
+        specwriter.receiver(key, doc)
 
 """
 
 
 from collections import OrderedDict
 import datetime
+import getpass
 import os
+import socket
+import time
 
 
 #    Programmer's Note: subclassing from `object` avoids the need 
@@ -83,7 +86,7 @@ def _rebuild_scan_command(doc):
         s.append("{}={}".format(_k, _v))
     
     cmd = "{}({})".format(doc.get("plan_name", ""), ", ".join(s))
-    scan_id = doc.get("scan_id") or 1    # TODO: improve the default
+    scan_id = doc.get("scan_id") or 1    # TODO: improve the `1` default
     return "{}  {}".format(scan_id, cmd)
 
 
@@ -91,38 +94,42 @@ class SpecWriterCallback(object):
     """
     collect data from BlueSky RunEngine documents to write as SPEC data
     
-    This gathers data from all documents and writes the file when the 
-    *stop* document is received.  Only one scan is written to a data 
-    file now.  (An upgrade would be to add a flag to the callback 
-    to write more than one scan to a single data file.)
+    This gathers data from all documents and appends scan to the file 
+    when the *stop* document is received.
     
     Parameters
     ----------
-    path : string, optional
-        The directory in which to write SPEC data files.
-        If path = None (or not specified), then the current 
-        working directory (`os.getcwd()`) will be used.
+    filename : string, optional
+        Local, relative or absolute name of SPEC data file to be used.
+        If `filename=None`, defaults to format of YYYmmdd-HHMMSS.dat
+        derived from the current system time.
     auto_write : boolean, optional
-        If True (default), `write_file()` is called when *stop* document 
+        If True (default), `write_scan()` is called when *stop* document 
         is received.
-        If False, the caller is responsible for calling `write_file()`.
+        If False, the caller is responsible for calling `write_scan()`
+        before the next *start* document is received.
 
     """
     
-    def __init__(self, path=None, auto_write=True):
+    def __init__(self, filename=None, auto_write=True):
         self.clear()
-        self.path = path or os.getcwd()
+        self.spec_filename = filename
         self.auto_write = auto_write
-        self.file_suffix = ".dat"
         self.uid_short_length = 8
+        self.write_file_header = False
+        self.spec_epoch = None      # for both #E & #D line in header, also offset for all scans
+        self.spec_host = None
+        self.spec_user = None 
+        if filename is None or not os.path.exists(filename):
+            self.newfile(filename)
+        else:
+            last_scan_id = self.usefile(filename)   # TODO: set RE's scan_id based on result?
 
     def clear(self):
         """reset all scan data defaults"""
         self.uid = None
-        self.spec_filename = None
-        self.spec_epoch = None      # for both #E & #D line in header, also offset for all scans
+        self.scan_epoch = None      # absolute epoch to report in scan #D line
         self.time = None            # full time from document
-        self.spec_comment = None    # for first #C line in header
         self.comments = dict(start=[], event=[], descriptor=[], stop=[])
         self.data = OrderedDict()           # data in the scan
         self.detectors = OrderedDict()      # names of detectors in the scan
@@ -134,7 +141,7 @@ class SpecWriterCallback(object):
         #
         # note: for one scan, #O & #P information is not provided
         # unless collecting baseline data
-        # TODO: show case for baseline data that needs #O/#P lines
+        # wait for case with baseline data that needs #O/#P lines
         #
         self.columns = OrderedDict()        # #L in scan
         self.scan_command = None            # #S line
@@ -167,16 +174,16 @@ class SpecWriterCallback(object):
 
         self.clear()
         self.uid = doc["uid"]
-        self.spec_filename = self._build_file_name(doc)
+        self.comments["start"].append("uid = {}".format(self.uid))
         self.time = doc["time"]
-        self.spec_epoch = int(self.time)
-        self.spec_comment = "BlueSky  uid = " + self.uid
+        self.scan_epoch = int(self.time)
+        self.scan_id = doc["scan_id"] or 0
         # Which reference? fixed counting time or fixed monitor count?
         # Can this be omitted?
         self.T_or_M = None          # for now
-        #self.T_or_M = "T"           # TODO: how to get this from the document stream?
-        #self.T_or_M_value = 1
-        self.comments["start"].append("!!! #T line not correct yet !!!")
+        # self.T_or_M = "T"           # TODO: how to get this from the document stream?
+        # self.T_or_M_value = 1
+        # self.comments["start"].append("!!! #T line not correct yet !!!")
         dt = datetime.datetime.fromtimestamp(self.time)
         self.comments["start"].append("time = " + str(dt))
         
@@ -195,13 +202,6 @@ class SpecWriterCallback(object):
         self.comments["start"].insert(0, "plan_type = " + doc["plan_type"])
         self.scan_command = _rebuild_scan_command(doc)
     
-    def _build_file_name(self, doc):
-        """create the SPEC data file name"""
-        # example shows how to override with a custom name
-        s = self.uid[:self.uid_short_length]
-        s += self.file_suffix
-        return s
-        
     def descriptor(self, doc):
         """
         handle *descriptor* documents
@@ -274,39 +274,22 @@ class SpecWriterCallback(object):
             self.comments["stop"].append("exit_status = not available")
 
         if self.auto_write:
-            self.write_file()
+            self.write_scan()
 
-    def write_file(self):
-        lines = self.prepare_file_contents()
-        if lines is not None:
-            fname = os.path.join(self.path, self.spec_filename)
-            with open(fname, "w") as f:
-                f.write("\n".join(lines))
-                print("wrote SPEC file: " + fname)
-
-    def prepare_file_contents(self):
+    def prepare_scan_contents(self):
         """
-        write the SPEC data file
+        format the scan for a SPEC data file
         
-        buffer all content in memory before writing the file
+        :returns: [str] a list of lines to append to the data file
         """
-        dt = datetime.datetime.fromtimestamp(self.spec_epoch)
+        dt = datetime.datetime.fromtimestamp(self.scan_epoch)
         lines = []
-        lines.append("#F " + self.spec_filename)
-        lines.append("#E " + str(self.spec_epoch))
-        lines.append("#D " + datetime.datetime.strftime(dt, "%c"))
-        lines.append("#C " + self.spec_comment)
-        # TODO: #O line(s)
-
         lines.append("")
         lines.append("#S " + self.scan_command)
         lines.append("#D " + datetime.datetime.strftime(dt, "%c"))
         if self.T_or_M is not None:
             lines.append("#{} {}".format(self.T_or_M, self.T_or_M_value))
-            self.T_or_M = "T"
-            self.T_or_M_value = 1
 
-        # TODO: #P line(s)
         for v in self.comments["start"]:
             lines.append("#C " + v)
         for v in self.comments["descriptor"]:
@@ -332,3 +315,112 @@ class SpecWriterCallback(object):
             lines.append("#C " + v)
         
         return lines
+    
+    def _write_lines_(self, lines, mode="a"):
+        """write (more) lines to the file"""
+        with open(self.spec_filename, mode) as f:
+            f.write("\n".join(lines))
+    
+    def write_header(self):
+        """write the header section of a SPEC data file"""
+        dt = datetime.datetime.fromtimestamp(self.spec_epoch)
+        lines = []
+        lines.append("#F " + self.spec_filename)
+        lines.append("#E " + str(self.spec_epoch))
+        lines.append("#D " + datetime.datetime.strftime(dt, "%c"))
+        lines.append("#C " + "BlueSky  user = {}  host = {}".format(self.spec_user, self.spec_host))
+        lines.append("")
+
+        if os.path.exists(self.spec_filename):
+            raise IOError("file ({}) exists".format(self.spec_filename))
+        self._write_lines_(lines, mode="w")
+        self.write_file_header = False
+    
+    def write_scan(self):
+        """
+        write the most recent (completed) scan to the file
+        
+        * creates file if not existing
+        * writes header if needed
+        * appends scan data
+        
+        note:  does nothing if there are no lines to be written
+        """
+        if os.path.exists(self.spec_filename):
+            with open(self.spec_filename) as f:
+                buf = f.read()
+                if buf.find(self.uid) >= 0:
+                    # raise exception if uid is already in the file!
+                    fmt = "{} already contains uid={}"
+                    raise ValueError(fmt.format(self.spec_filename, self.uid))
+        lines = self.prepare_scan_contents()
+        lines.append("")
+        if lines is not None:
+            if self.write_file_header:
+                self.write_header()
+                print("wrote header to SPEC file: " + self.spec_filename)
+            self._write_lines_(lines, mode="a")
+            print("wrote scan {} to SPEC file: {}".format(self.scan_id, self.spec_filename))
+
+    def newfile(self, filename=None, reset_scan_id=False):
+        """
+        prepare to use a new SPEC data file
+        
+        but don't create it until we have data
+        """
+        self.clear()
+        now = datetime.datetime.now()
+        filename = filename or datetime.datetime.strftime(now, "%Y%m%d-%H%M%S")
+        if os.path.exists(self.spec_filename):
+            ValueError("file {} exists".format(filename))
+        self.spec_filename = filename
+        self.spec_epoch = int(time.time())  # ! no roundup here!!!
+        self.spec_host = socket.gethostname() or 'localhost'
+        self.spec_user = getpass.getuser() or 'BlueSkyUser' 
+        self.write_file_header = True       # don't write the file yet
+        if reset_scan_id:
+            raise NotImplemented("How to reset the BlueSky RE scan_id?")
+        return self.spec_filename
+    
+    def usefile(self, filename):
+        """read from existing SPEC data file"""
+        if not os.path.exists(self.spec_filename):
+            IOError("file {} does not exist".format(filename))
+        scan_id = None
+        with open(filename, "r") as f:
+            key = "#F"
+            line = f.readline().strip()
+            if not line.startswith(key+" "):
+                raise ValueError("first line does not start with "+key)
+
+            key = "#E"
+            line = f.readline().strip()
+            if not line.startswith(key+" "):
+                raise ValueError("first line does not start with "+key)
+            epoch = int(line.split()[-1])
+
+            key = "#D"
+            line = f.readline().strip()
+            if not line.startswith(key+" "):
+                raise ValueError("first line does not start with "+key)
+            # ignore content, it is derived from #E line
+
+            key = "#C"
+            line = f.readline().strip()
+            if not line.startswith(key+" "):
+                raise ValueError("first line does not start with "+key)
+            p = line.split()
+            username = "BlueSkyUser"
+            if len(p) > 4 and p[2] == "user":
+                username = p[4]
+            
+            # find the last scan number used
+            key = "#S"
+            for line in f.readlines():
+                if line.startswith(key+" ") and len(line.split())>1:
+                    scan_id = int(line.split()[1])
+
+        self.spec_filename = filename
+        self.spec_epoch = epoch
+        self.spec_user = username
+        return scan_id
