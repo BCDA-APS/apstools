@@ -46,9 +46,9 @@ __classifiers__ = [
 
 __entry_points__  = {
     'console_scripts': [
-            'pvview = bcdaqwidgets.pvview:main',
-            'motor_qt = motorqt_demo.motor_qt:main',
-            'multimotor = motorqt_demo.multimotor:main',
+            # 'pvview = bcdaqwidgets.pvview:main',
+            # 'motor_qt = motorqt_demo.motor_qt:main',
+            # 'multimotor = motorqt_demo.multimotor:main',
         ],
     #'gui_scripts': [],
 }
