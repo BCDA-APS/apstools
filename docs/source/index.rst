@@ -23,7 +23,7 @@ Package Information
 :email:         jemian@anl.gov
 :copyright:     2017-, Pete R. Jemian
 :license:       ANL OPEN SOURCE LICENSE (see LICENSE file)
-:documentation: http://APS_BlueSky_tools.readthedocs.io
+:documentation: https://APS_BlueSky_tools.readthedocs.io
 :source:        https://github.com/BCDA-APS/APS_BlueSky_tools
 
 .. toctree::
