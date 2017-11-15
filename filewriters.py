@@ -23,10 +23,14 @@ EXAMPLE : use as writer from Databroker::
 EXAMPLE : use as writer from Databroker with customizations::
 
     from filewriters import SpecWriterCallback
+    
     # write into file: /tmp/cerium.spec
     specwriter = SpecWriterCallback(filename="/tmp/cerium.spec")
     for key, doc in db.get_documents(db[-1]):
         specwriter.receiver(key, doc)
+    
+    # write into file: /tmp/barium.dat
+    specwriter.newfile("/tmp/barium.dat")
     for key, doc in db.get_documents(db["b46b63d4"]):
         specwriter.receiver(key, doc)
 
@@ -116,6 +120,30 @@ class SpecWriterCallback(object):
         is received.
         If False, the caller is responsible for calling `write_scan()`
         before the next *start* document is received.
+
+    User Interface methods
+    ----------------------
+
+    .. autosummary::
+       
+       ~receiver
+       ~newfile
+       ~usefile
+       ~clear
+       ~prepare_scan_contents
+       ~write_scan
+
+    Internal methods
+    ----------------
+
+    .. autosummary::
+       
+       ~write_header
+       ~start
+       ~descriptor
+       ~event
+       ~bulk_events
+       ~stop
 
     """
     
