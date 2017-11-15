@@ -25,7 +25,8 @@ item              | description
 
 item  | description
 ------|--------------
-latest tag | [![latest tag](https://github.com/BCDA-APS/APS_BlueSky_tools/tags)](https://img.shields.io/github/tag/BCDA-APS/APS_BlueSky_tools.svg)
+
+latest tag | [![latest tag](https://img.shields.io/github/tag/BCDA-APS/APS_BlueSky_tools.svg)](https://github.com/BCDA-APS/APS_BlueSky_tools/tags)
 latest release | -tba-
 PyPI version | -tba-
 documentation | [![Documentation Status](https://readthedocs.org/projects/aps-bluesky-tools/badge/?version=latest)](http://aps-bluesky-tools.readthedocs.io/en/latest/?badge=latest)
