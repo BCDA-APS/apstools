@@ -91,6 +91,7 @@ class ImageZMQCallback(object):
             # other end of 0MQ pair shoudl reconstruct the numpy array 
             # based on the rank and shape
             # image = np.array(bytes).reshape(shape=shape)
+            # https://docs.scipy.org/doc/numpy/reference/generated/numpy.reshape.html
             self.talker.send_string("rank")
             self.talker.send_string(str(len(self.detector.image.shape)))
             self.talker.send_string("shape")
