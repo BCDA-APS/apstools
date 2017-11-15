@@ -5,4 +5,5 @@ pid/
 security/
 __pycache__/
 *.pyc
-
+*.egg-info
+*.tar.gz

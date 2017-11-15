@@ -4,10 +4,12 @@
 demonstrate a BlueSky callback that writes SPEC data files
 """
 
+# Copyright (c) 2017-, UChicago Argonne, LLC.  See LICENSE file.
+
 
 import datetime
 from databroker import Broker
-from filewriters import SpecWriterCallback, _rebuild_scan_command
+from .filewriters import SpecWriterCallback, _rebuild_scan_command
 import logging
 
 

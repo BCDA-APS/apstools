@@ -36,6 +36,8 @@ EXAMPLE : use as writer from Databroker with customizations::
 
 """
 
+# Copyright (c) 2017-, UChicago Argonne, LLC.  See LICENSE file.
+
 
 from collections import OrderedDict
 import datetime
