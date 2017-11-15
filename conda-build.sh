@@ -8,6 +8,7 @@
 export PACKAGE=APS_BlueSky_tools
 export SANDBOX=/tmp/${PACKAGE}-sandbox
 
+/bin/rm -rf ${SANDBOX}
 mkdir -p ${SANDBOX}
 cd ${SANDBOX}
 

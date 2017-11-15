@@ -1,7 +1,7 @@
-{% set version = "0.0.2" %}
+{% set version = "0.0.3" %}
 
 package:
-    name: APS_BlueSky_tools
+    name: aps_bluesky_tools
     version: {{ version }}
 
 source:
