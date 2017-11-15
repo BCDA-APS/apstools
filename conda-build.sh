@@ -5,7 +5,8 @@
 
 # this script intended to be run ONLY from linux-64 host architecture
 
-export PACKAGE=APS_BlueSky_tools
+# all lower case (for conda build command below)
+export PACKAGE=aps_bluesky_tools
 export SANDBOX=/tmp/${PACKAGE}-sandbox
 
 /bin/rm -rf ${SANDBOX}
