@@ -32,9 +32,13 @@ EXAMPLE : use as writer from Databroker with customizations::
 from collections import OrderedDict
 import datetime
 import getpass
+import logging
 import os
 import socket
 import time
+
+
+logger = logging.getLogger(__name__).addHandler(logging.NullHandler())
 
 
 #    Programmer's Note: subclassing from `object` avoids the need 
@@ -155,12 +159,14 @@ class SpecWriterCallback(object):
             bulk_events = self.bulk_events,
             stop = self.stop,
         )
+        logger = logging.getLogger(__name__)
+        logger.debug("{} document, uid={}".format(key, document["uid"]))
         if key in xref:
             xref[key](document)
         else:
             msg = "custom_callback encountered: {} : {}".format(key, document)
             # raise ValueError(msg)
-            print(msg)
+            logger.warn(msg)
         return
     
     def start(self, doc):
@@ -353,14 +359,15 @@ class SpecWriterCallback(object):
                     # raise exception if uid is already in the file!
                     fmt = "{} already contains uid={}"
                     raise ValueError(fmt.format(self.spec_filename, self.uid))
+        logger = logging.getLogger(__name__)
         lines = self.prepare_scan_contents()
         lines.append("")
         if lines is not None:
             if self.write_file_header:
                 self.write_header()
-                print("wrote header to SPEC file: " + self.spec_filename)
+                logger.info("wrote header to SPEC file: " + self.spec_filename)
             self._write_lines_(lines, mode="a")
-            print("wrote scan {} to SPEC file: {}".format(self.scan_id, self.spec_filename))
+            logger.info("wrote scan {} to SPEC file: {}".format(self.scan_id, self.spec_filename))
 
     def newfile(self, filename=None, reset_scan_id=False):
         """

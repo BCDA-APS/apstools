@@ -8,7 +8,11 @@ demonstrate a BlueSky callback that writes SPEC data files
 import datetime
 from databroker import Broker
 from filewriters import SpecWriterCallback, _rebuild_scan_command
+import logging
 
+
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
 DEMO_SPEC_FILE = "test_specdata.txt"
 
 
@@ -21,8 +25,9 @@ def specfile_example(headers, filename=DEMO_SPEC_FILE):
             specwriter.receiver(key, doc)
         lines = specwriter.prepare_scan_contents()
         if lines is not None:
-            print("\n".join(lines))
-        print("#"*60)
+            logger.info("\n".join(lines))
+        logger.info("#"*60)
+    logger.info("Look at SPEC data file: "+specwriter.spec_filename)
 
 
 def plan_catalog(db):
@@ -44,8 +49,8 @@ def plan_catalog(db):
         row.append(args)
         t.addRow(row)
     t.rows = t.rows[::-1]   # reverse the list
-    print(t)
-    print("Found {} plans (start documents)".format(len(t.rows)))
+    logger.info(t)
+    logger.info("Found {} plans (start documents)".format(len(t.rows)))
 
 
 
