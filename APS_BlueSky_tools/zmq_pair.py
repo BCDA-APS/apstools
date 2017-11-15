@@ -7,6 +7,8 @@ Python ZeroMQ pair connection example
 :seealso: https://stackoverflow.com/questions/23855563/simple-client-server-zmq-in-python-to-send-multiple-lines-per-request
 """
 
+# Copyright (c) 2017-, UChicago Argonne, LLC.  See LICENSE file.
+
 # example that shows polling for input
 # http://learning-0mq-with-pyzmq.readthedocs.io/en/latest/pyzmq/multisocket/zmqpoller.html
 
@@ -53,8 +55,11 @@ class ZMQ_Pair(object):
 
 def server_example():
     """
-    from zmq_pair import server_example
-    server_example()
+    ::
+    
+        from zmq_pair import server_example
+        server_example()
+    
     """
     from zmq_pair import ZMQ_Pair
     import socket
@@ -81,10 +86,13 @@ def server_example():
 
 def client_example(filename, host=None):
     """
-    from zmq_pair import client_example
-    client_example("zmq_pair.py")   # on localhost
-    # or
-    client_example("zmq_pair.py", "10.0.2.2") # on VM
+    ::
+
+        from zmq_pair import client_example
+        client_example("zmq_pair.py")   # on localhost
+        # or
+        client_example("zmq_pair.py", "10.0.2.2") # on VM
+
     """
     from zmq_pair import ZMQ_Pair
 

@@ -1,0 +1,5 @@
+include README.md
+include CHANGES*
+include APS_BlueSky_tools/LICENSE
+include versioneer.py
+include APS_BlueSky_tools/_version.py
