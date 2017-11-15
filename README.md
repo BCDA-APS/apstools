@@ -26,7 +26,7 @@ item              | description
 item  | description
 ------|--------------
 
-latest tag | [![latest tag](https://img.shields.io/github/tag/BCDA-APS/APS_BlueSky_tools.svg)](https://github.com/BCDA-APS/APS_BlueSky_tools/tags)
-latest release | -tba-
-PyPI version | -tba-
+latest tag | [![tag](https://img.shields.io/github/tag/BCDA-APS/APS_BlueSky_tools.svg)](https://github.com/BCDA-APS/APS_BlueSky_tools/tags)
+latest release | [![release](https://img.shields.io/github/release/BCDA-APS/APS_BlueSky_tools.svg)](https://github.com/BCDA-APS/APS_BlueSky_tools/releases)
+PyPI version | [![release](https://img.shields.io/pypi/v/APS_BlueSky_tools.svg)](https://pypi.python.org/pypi/APS_BlueSky_tools)
 documentation | [![Documentation Status](https://readthedocs.org/projects/aps-bluesky-tools/badge/?version=latest)](http://aps-bluesky-tools.readthedocs.io/en/latest/?badge=latest)
