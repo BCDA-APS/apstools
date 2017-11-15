@@ -2,6 +2,10 @@
 """
 BlueSky callback that writes SPEC data files
 
+.. autosummary::
+   
+   ~SpecWriterCallback
+
 EXAMPLE : use as BlueSky callback::
 
     from filewriters import SpecWriterCallback
