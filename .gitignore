@@ -7,5 +7,7 @@ __pycache__/
 *.pyc
 *.egg-info
 *.tar.gz
-docs/build
+*.whl
+docs/build/
 .settings/
+build/
