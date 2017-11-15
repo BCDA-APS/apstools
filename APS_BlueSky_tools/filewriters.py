@@ -112,7 +112,7 @@ class SpecWriterCallback(object):
     when the *stop* document is received.
     
     Parameters
-    ----------
+
     filename : string, optional
         Local, relative or absolute name of SPEC data file to be used.
         If `filename=None`, defaults to format of YYYmmdd-HHMMSS.dat
@@ -124,7 +124,6 @@ class SpecWriterCallback(object):
         before the next *start* document is received.
 
     User Interface methods
-    ----------------------
 
     .. autosummary::
        
@@ -136,7 +135,6 @@ class SpecWriterCallback(object):
        ~write_scan
 
     Internal methods
-    ----------------
 
     .. autosummary::
        
@@ -185,7 +183,7 @@ class SpecWriterCallback(object):
         self.scan_command = None            # #S line
 
     def receiver(self, key, document):
-        """receive all documents for handling"""
+        """BlueSky callback: receive all documents for handling"""
         xref = dict(
             start = self.start,
             descriptor = self.descriptor,

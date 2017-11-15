@@ -55,8 +55,11 @@ class ZMQ_Pair(object):
 
 def server_example():
     """
-    from zmq_pair import server_example
-    server_example()
+    ::
+    
+        from zmq_pair import server_example
+        server_example()
+    
     """
     from zmq_pair import ZMQ_Pair
     import socket
@@ -83,10 +86,13 @@ def server_example():
 
 def client_example(filename, host=None):
     """
-    from zmq_pair import client_example
-    client_example("zmq_pair.py")   # on localhost
-    # or
-    client_example("zmq_pair.py", "10.0.2.2") # on VM
+    ::
+
+        from zmq_pair import client_example
+        client_example("zmq_pair.py")   # on localhost
+        # or
+        client_example("zmq_pair.py", "10.0.2.2") # on VM
+
     """
     from zmq_pair import ZMQ_Pair
 
