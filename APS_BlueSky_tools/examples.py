@@ -51,6 +51,7 @@ class SynPseudoVoigt(ophyd.sim.SynSignal):
     EXAMPLE
     
     ::
+
         motor = Mover('motor', {'motor': lambda x: x}, {'x': 0})
         det = SynPseudoVoigt('det', motor, 'motor', 
             center=0, eta=0.5, scale=1, sigma=1, bkg=0)
@@ -58,6 +59,7 @@ class SynPseudoVoigt(ophyd.sim.SynSignal):
     EXAMPLE
     
     ::
+
         import numpy as np
         synthetic_pseudovoigt = SynPseudoVoigt(
             'synthetic_pseudovoigt', m1, 'm1', 
