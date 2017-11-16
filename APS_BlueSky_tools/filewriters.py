@@ -401,6 +401,11 @@ class SpecWriterCallback(object):
             self._write_lines_(lines, mode="a")
             logger.info("wrote scan {} to SPEC file: {}".format(self.scan_id, self.spec_filename))
 
+    def make_default_filename(self):
+        """generate a file name to be used as default"""
+        now = datetime.datetime.now()
+        return datetime.datetime.strftime(now, "%Y%m%d-%H%M%S")+".dat"
+
     def newfile(self, filename=None, reset_scan_id=False):
         """
         prepare to use a new SPEC data file
@@ -408,9 +413,8 @@ class SpecWriterCallback(object):
         but don't create it until we have data
         """
         self.clear()
-        now = datetime.datetime.now()
-        filename = filename or datetime.datetime.strftime(now, "%Y%m%d-%H%M%S")
-        if os.path.exists(self.spec_filename):
+        filename = filename or self.make_default_filename()
+        if os.path.exists(filename):
             ValueError("file {} exists".format(filename))
         self.spec_filename = filename
         self.spec_epoch = int(time.time())  # ! no roundup here!!!
