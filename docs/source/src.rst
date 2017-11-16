@@ -26,3 +26,18 @@ Example 0MQ Pair Connection
 
 .. automodule:: APS_BlueSky_tools.zmq_pair
     :members: 
+
+
+Examples
+--------
+
+.. automodule:: APS_BlueSky_tools.examples
+    :members: 
+
+
+Plans
+-----
+
+.. automodule:: APS_BlueSky_tools.plans
+    :members: 
+ 
