@@ -1,0 +1,26 @@
+# :file: .travis.yml
+#
+# :url:  https://travis-ci.org/prjemian/spec2nexus
+#
+# for advice, see:
+#  https://docs.travis-ci.com/user/customizing-the-build#The-Build-Lifecycle
+#  https://docs.travis-ci.com/user/languages/python
+
+language: python
+python:
+  - "3.6"
+
+install:
+  - pip install -r requirements.txt
+
+# command to run tests
+script:
+  - which coverage
+  - coverage run tests/
+
+after_success:
+  - coverage report -m
+  - which coveralls
+  - coveralls
+  - source deactivate
+  - conda env remove -y -n $PY_ENV

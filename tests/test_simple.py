@@ -12,7 +12,7 @@ _path = os.path.join(_path, '..')
 if _path not in sys.path:
     sys.path.insert(0, _path)
 
-from APS_BlueSky_tools import zmq_pair
+import APS_BlueSky_tools
 
 
 class Test_Something(unittest.TestCase):
@@ -24,8 +24,7 @@ class Test_Something(unittest.TestCase):
         pass
     
     def test_the_ALL_attribute(self):
-        self.assertEqual(len(zmq_pair.__all__), 3)
-        self.assertEqual(zmq_pair.__all__[0], "ZMQ_Pair")
+        self.assertEqual(APS_BlueSky_tools.__project__, u'APS_BlueSky_tools')
 
 
 def suite(*args, **kw):
