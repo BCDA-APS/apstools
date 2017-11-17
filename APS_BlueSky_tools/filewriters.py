@@ -63,6 +63,8 @@ logger = logging.getLogger(__name__).addHandler(logging.NullHandler())
 #    CallbackBase | RE.subscribe(specwriter)
 
 
+SPEC_TIME_FORMAT = "%a %b %d %H:%M:%S %Y"
+
 def _rebuild_scan_command(doc):
     """reconstruct the scan command for SPEC data file #S line"""
     
@@ -155,7 +157,9 @@ class SpecWriterCallback(object):
         self.write_file_header = False
         self.spec_epoch = None      # for both #E & #D line in header, also offset for all scans
         self.spec_host = None
-        self.spec_user = None 
+        self.spec_user = None
+        self._datetime = None       # most recent document time as datetime object
+        self._streams = {}          # descriptor documents, keyed by uid
         if filename is None or not os.path.exists(filename):
             self.newfile(filename)
         else:
@@ -182,6 +186,11 @@ class SpecWriterCallback(object):
         self.columns = OrderedDict()        # #L in scan
         self.scan_command = None            # #S line
 
+    def _cmt(self, key, text):
+        """enter a comment"""
+        ts = datetime.datetime.strftime(self._datetime, SPEC_TIME_FORMAT)
+        self.comments[key].append("{}.  {}".format(ts, text))
+
     def receiver(self, key, document):
         """BlueSky callback: receive all documents for handling"""
         xref = dict(
@@ -194,6 +203,7 @@ class SpecWriterCallback(object):
         logger = logging.getLogger(__name__)
         logger.debug("{} document, uid={}".format(key, document["uid"]))
         if key in xref:
+            self._datetime = datetime.datetime.fromtimestamp(document["time"])
             xref[key](document)
         else:
             msg = "custom_callback encountered: {} : {}".format(key, document)
@@ -212,7 +222,7 @@ class SpecWriterCallback(object):
 
         self.clear()
         self.uid = doc["uid"]
-        self.comments["start"].append("uid = {}".format(self.uid))
+        self._cmt("start", "uid = {}".format(self.uid))
         self.time = doc["time"]
         self.scan_epoch = int(self.time)
         self.scan_id = doc["scan_id"] or 0
@@ -221,9 +231,7 @@ class SpecWriterCallback(object):
         self.T_or_M = None          # for now
         # self.T_or_M = "T"           # TODO: how to get this from the document stream?
         # self.T_or_M_value = 1
-        # self.comments["start"].append("!!! #T line not correct yet !!!")
-        dt = datetime.datetime.fromtimestamp(self.time)
-        self.comments["start"].append("time = " + str(dt))
+        # self._cmt("start", "!!! #T line not correct yet !!!")
         
         # metadata
         for key in sorted(doc.keys()):
@@ -237,7 +245,9 @@ class SpecWriterCallback(object):
                 for key in doc.get(item):
                     obj[key] = None
         
-        self.comments["start"].insert(0, "plan_type = " + doc["plan_type"])
+        cmt = "plan_type = " + doc["plan_type"]
+        ts = datetime.datetime.strftime(self._datetime, SPEC_TIME_FORMAT)
+        self.comments["start"].insert(0, "{}.  {}".format(ts, cmt))
         self.scan_command = _rebuild_scan_command(doc)
     
     def descriptor(self, doc):
@@ -246,6 +256,16 @@ class SpecWriterCallback(object):
         
         prepare for primary scan data, ignore any other data stream
         """
+        # TODO: log descriptor documents by uid 
+        #       for reference from event and bulk_events documents
+        if doc["uid"] in self._streams:
+            fmt = "duplicate descriptor UID {} found"
+            raise KeyError(fmt.format(doc["uid"]))
+        
+        # log descriptor documents by uid
+        # referenced by event and bulk_events documents
+        self._streams[doc["uid"]] = doc
+        
         if doc["name"] == "primary":        # general?
             for k in doc["data_keys"].keys():
                 self.data[k] = []
@@ -279,20 +299,25 @@ class SpecWriterCallback(object):
         """
         handle *event* documents
         """
-        # first, ensure that all data keys in this event doc are expected
-        # as a substitute check of the descriptor document for "primary"
-        for k in doc["data"].keys():
-            if k not in self.data.keys():
-                return                  # not our expected event data
-        for k in self.data.keys():
-            if k == "Epoch":
-                v = int(doc["time"] - self.time + 0.5)
-            elif k == "Epoch_float":
-                v = doc["time"] - self.time
-            else:
-                v = doc["data"][k]
-            self.data[k].append(v)
-        self.num_primary_data += 1
+        stream_doc = self._streams.get(doc["descriptor"])
+        if stream_doc is None:
+            fmt = "descriptor UID {} not found"
+            raise KeyError(fmt.format(doc["descriptor"]))
+        if stream_doc["name"] == "primary":
+            for k in doc["data"].keys():
+                if k not in self.data.keys():
+                    fmt = "unexpected failure here, key {} not found"
+                    raise KeyError(fmt.format(k))
+                    #return                  # not our expected event data
+            for k in self.data.keys():
+                if k == "Epoch":
+                    v = int(doc["time"] - self.time + 0.5)
+                elif k == "Epoch_float":
+                    v = doc["time"] - self.time
+                else:
+                    v = doc["data"][k]
+                self.data[k].append(v)
+            self.num_primary_data += 1
     
     def bulk_events(self, doc):
         """handle *bulk_events* documents"""
@@ -302,14 +327,14 @@ class SpecWriterCallback(object):
         """handle *stop* documents"""
         if "num_events" in doc:
             for k, v in doc["num_events"].items():
-                self.comments["stop"].append("num_events_{} = {}".format(k, v))
+                self._cmt("stop", "num_events_{} = {}".format(k, v))
         if "time" in doc:
             dt = datetime.datetime.fromtimestamp(doc["time"])
-            self.comments["stop"].append("time = " + str(dt))
+            self._cmt("stop", "time = " + str(dt))
         if "exit_status" in doc:
-            self.comments["stop"].append("exit_status = " + doc["exit_status"])
+            self._cmt("stop", "exit_status = " + doc["exit_status"])
         else:
-            self.comments["stop"].append("exit_status = not available")
+            self._cmt("stop", "exit_status = not available")
 
         if self.auto_write:
             self.write_scan()
@@ -324,12 +349,13 @@ class SpecWriterCallback(object):
         lines = []
         lines.append("")
         lines.append("#S " + self.scan_command)
-        lines.append("#D " + datetime.datetime.strftime(dt, "%c"))
+        lines.append("#D " + datetime.datetime.strftime(dt, SPEC_TIME_FORMAT))
         if self.T_or_M is not None:
             lines.append("#{} {}".format(self.T_or_M, self.T_or_M_value))
 
         for v in self.comments["start"]:
-            lines.append("#C " + v)
+            #C Wed Feb 03 16:51:38 2016.  do ./usaxs.mac.
+            lines.append("#C " + v)     # TODO: add time/date stamp as SPEC does
         for v in self.comments["descriptor"]:
             lines.append("#C " + v)
 
@@ -365,7 +391,7 @@ class SpecWriterCallback(object):
         lines = []
         lines.append("#F " + self.spec_filename)
         lines.append("#E " + str(self.spec_epoch))
-        lines.append("#D " + datetime.datetime.strftime(dt, "%c"))
+        lines.append("#D " + datetime.datetime.strftime(dt, SPEC_TIME_FORMAT))
         lines.append("#C " + "BlueSky  user = {}  host = {}".format(self.spec_user, self.spec_host))
         lines.append("")
 
