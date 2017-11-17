@@ -7,6 +7,10 @@ Callbacks that might be useful at the APS using BlueSky
    ~DocumentCollectorCallback
    ~ImageZMQCallback
 
+FILE WRITER CALLBACK
+
+see :class:`SpecWriterCallback()`
+
 """
 
 # Copyright (c) 2017-, UChicago Argonne, LLC.  See LICENSE file.
