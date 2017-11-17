@@ -57,43 +57,14 @@ def plan_catalog(db):
 
 
 if __name__ == "__main__":
-    mongodb_config = {
-        'description': 'heavyweight shared database',
-        'metadatastore': {
-            'module': 'databroker.headersource.mongo',
-            'class': 'MDS',
-            'config': {
-                'host': 'localhost',
-                'port': 27017,
-                'database': 'prj-metadatastore-testing',
-                'timezone': 'US/Central'
-            }
-        },
-        'assets': {
-            'module': 'databroker.assets.mongo',
-            'class': 'Registry',
-            'config': {
-                'host': 'localhost',
-                'port': 27017,
-                'database': 'prj-metadatastore-testing'
-            }
-        }
-    }
-    db_conf = Broker.from_config(mongodb_config)
     # load config from ~/.config/databroker/mongodb_config.yml
-    db_yml = Broker.named("mongodb_config")
-    # db = db_yml
-    db = db_conf
+    db = Broker.named("mongodb_config")
 
     plan_catalog(db)
     # specfile_example(db[-1])
-    # specfile_example(db[-1:])
+    # specfile_example(db[-5:][::-1])
     # specfile_example(db["1d2a3890"])
     # specfile_example(db["15d12d"])
-    # specfile_example(db["b7f84d0c"])
-    # specfile_example(db["83c440c2"])
-    # specfile_example(db["ebdcbfb8"])
     # specfile_example(db[-10:-5])
     # specfile_example(db[-80])
     # specfile_example(db[-10000:][-25:])
-    # specfile_example(db["82df580d"])
