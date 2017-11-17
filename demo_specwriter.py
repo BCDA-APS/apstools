@@ -9,7 +9,7 @@ demonstrate a BlueSky callback that writes SPEC data files
 
 import datetime
 from databroker import Broker
-from .filewriters import SpecWriterCallback, _rebuild_scan_command
+from APS_BlueSky_tools.filewriters import SpecWriterCallback, _rebuild_scan_command
 import logging
 
 
