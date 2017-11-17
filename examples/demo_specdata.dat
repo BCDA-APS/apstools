@@ -1,3 +1,8 @@
+#F test_specdata.txt
+#E 1510948301
+#D Fri Nov 17 13:51:41 2017
+#C BlueSky  user = mintadmin  host = mint-vm
+
 #S 233  scan(detectors=['synthetic_pseudovoigt'], num=20, motor=['m1'], start=-1.65, stop=-1.25, per_step=None)
 #D Fri Nov 17 11:58:56 2017
 #C Fri Nov 17 11:58:56 2017.  plan_type = generator
