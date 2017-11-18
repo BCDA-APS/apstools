@@ -12,7 +12,7 @@ import unittest
 
 def suite(*args, **kw):
 
-    from . import test_simple
+    import test_simple
     test_suite = unittest.TestSuite()
     test_list = [
         test_simple,
