@@ -29,8 +29,9 @@ Package Information
 .. toctree::
    :maxdepth: 2
    :caption: Contents:
+   :glob:
 
-   src
+   source_code/*
 
 
 Indices and tables
