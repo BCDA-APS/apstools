@@ -16,9 +16,10 @@ before_script:
   - bash miniconda.sh -b -p $HOME/miniconda
   - export PATH=$HOME/miniconda/bin:$PATH
   - export PY_ENV=travis-$TRAVIS_PYTHON_VERSION
-  - export CONDA_PKGS=python=$TRAVIS_PYTHON_VERSION
-  - export CONDA_PKGS+= numpy requests coverage docopt
-  - export CONDA_PKGS+= databroker
+  - CONDA_PKGS=python=$TRAVIS_PYTHON_VERSION
+  - CONDA_PKGS+= numpy requests coverage docopt
+  - CONDA_PKGS+= databroker
+  - export CONDA_PKGS
   - conda create -y -n $PY_ENV -c lightsource2-tag $CONDA_PKGS
   - echo $CONDA_PKGS
   - source activate $PY_ENV
