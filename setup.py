@@ -14,12 +14,20 @@ sys.path.insert(0, path.join('APS_BlueSky_tools', ))
 import APS_BlueSky_tools as package
 
 
+__entry_points__  = {
+    'console_scripts': [
+        'aps_bluesky_tools = APS_BlueSky_tools.demo:main',
+        ],
+    #'gui_scripts': [],
+}
+
+
 setup(
     author           = package.__author__,
     author_email     = package.__author_email__,
     classifiers      = package.__classifiers__,
     description      = package.__description__,
-    entry_points     = package.__entry_points__,
+    entry_points     = __entry_points__,
     license          = package.__license__,
     long_description = package.__long_description__,
     install_requires = package.__install_requires__,

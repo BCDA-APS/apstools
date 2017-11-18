@@ -9,7 +9,7 @@ demonstrate a BlueSky callback that writes SPEC data files
 
 import datetime
 from databroker import Broker
-from APS_BlueSky_tools.filewriters import SpecWriterCallback, _rebuild_scan_command
+from filewriters import SpecWriterCallback, _rebuild_scan_command
 import logging
 
 
@@ -33,6 +33,7 @@ def specfile_example(headers, filename=DEMO_SPEC_FILE):
 
 
 def plan_catalog(db):
+    """make a table of all scans known in the databroker"""
     import pyRestTable
     t = pyRestTable.Table()
     t.labels = "date/time short_uid id plan args".split()
@@ -51,16 +52,24 @@ def plan_catalog(db):
         row.append(args)
         t.addRow(row)
     t.rows = t.rows[::-1]   # reverse the list
-    logger.info(t)
-    logger.info("Found {} plans (start documents)".format(len(t.rows)))
+    return t
 
+
+def main():
+    # load config from ~/.config/databroker/mongodb_config.yml
+    db = Broker.named("mongodb_config")
+    table = plan_catalog(db)
+    print(table)
+    print("Found {} plans (start documents)".format(len(table.rows)))
 
 
 if __name__ == "__main__":
-    # load config from ~/.config/databroker/mongodb_config.yml
-    db = Broker.named("mongodb_config")
+    main()
 
-    plan_catalog(db)
+    # load config from ~/.config/databroker/mongodb_config.yml
+    # db = Broker.named("mongodb_config")
+
+    # plan_catalog(db)
     # specfile_example(db[-1])
     # specfile_example(db[-5:][::-1])
     # specfile_example(db["1d2a3890"])

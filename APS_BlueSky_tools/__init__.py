@@ -44,14 +44,6 @@ __classifiers__ = [
     'Topic :: Utilities',
 ]
 
-__entry_points__  = {
-    'console_scripts': [
-            # 'pvview = bcdaqwidgets.pvview:main',
-            # 'motor_qt = motorqt_demo.motor_qt:main',
-            # 'multimotor = motorqt_demo.multimotor:main',
-        ],
-    #'gui_scripts': [],
-}
 from ._version import get_versions
 __version__ = get_versions()['version']
 del get_versions
