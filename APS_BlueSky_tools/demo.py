@@ -8,8 +8,7 @@ demonstrate a BlueSky callback that writes SPEC data files
 
 
 import datetime
-from databroker import Broker
-from filewriters import SpecWriterCallback, _rebuild_scan_command
+from .filewriters import SpecWriterCallback, _rebuild_scan_command
 import logging
 
 
@@ -56,6 +55,7 @@ def plan_catalog(db):
 
 
 def main():
+    from databroker import Broker
     # load config from ~/.config/databroker/mongodb_config.yml
     db = Broker.named("mongodb_config")
     table = plan_catalog(db)
