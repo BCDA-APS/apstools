@@ -20,6 +20,7 @@ before_script:
   - export CONDA_PKGS+= numpy requests coverage docopt
   - export CONDA_PKGS+= databroker
   - conda create -y -n $PY_ENV -c lightsource2-tag $CONDA_PKGS
+  - echo $CONDA_PKGS
   - source activate $PY_ENV
   - which pip
   - which python
