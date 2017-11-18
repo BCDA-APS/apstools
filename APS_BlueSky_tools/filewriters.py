@@ -328,9 +328,6 @@ class SpecWriterCallback(object):
         if "num_events" in doc:
             for k, v in doc["num_events"].items():
                 self._cmt("stop", "num_events_{} = {}".format(k, v))
-        if "time" in doc:
-            dt = datetime.datetime.fromtimestamp(doc["time"])
-            self._cmt("stop", "time = " + str(dt))
         if "exit_status" in doc:
             self._cmt("stop", "exit_status = " + doc["exit_status"])
         else:

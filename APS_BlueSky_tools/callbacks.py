@@ -31,7 +31,7 @@ class DocumentCollectorCallback(object):
     EXAMPLE::
     
         doc_collector = DocumentCollectorCallback()
-        RE.subscribe(doc_collector)
+        RE.subscribe(doc_collector.receiver)
         ...
         RE(some_plan())
         print(doc_collector.uids)
@@ -46,8 +46,9 @@ class DocumentCollectorCallback(object):
 
     def receiver(self, key, document):
         """keep all documents from recent plan in memory"""
-        if "uid" in document:
-            self.uids.append(document["uid"])
+        if "uid" not in document:
+            raise KeyError("No uid in {} document".format(key))
+        self.uids.append(document["uid"])
         logger = logging.getLogger(__name__)
         logger.debug("{} document  uid={}".format(key, document["uid"]))
         if key == "start":
