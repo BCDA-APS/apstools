@@ -8,12 +8,11 @@ import unittest
 # _path = os.path.join(os.path.dirname(__file__), '..',)
 # if _path not in sys.path:
 #     sys.path.insert(0, _path)
-sys.path.insert(0, os.path.dirname(__file__))
-from . import test_simple
 
 
 def suite(*args, **kw):
 
+    from . import test_simple
     test_suite = unittest.TestSuite()
     test_list = [
         test_simple,
