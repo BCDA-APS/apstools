@@ -266,9 +266,8 @@ class SpecWriterCallback(object):
         # referenced by event and bulk_events documents
         self._streams[doc["uid"]] = doc
         
-        if doc["name"] == "primary":        # general?
-            for k in doc["data_keys"].keys():
-                self.data[k] = []
+        if doc["name"] == "primary":
+            self.data.update({k: [] for k in sorted(doc["data_keys"].keys())})
             self.data["Epoch"] = []
             self.data["Epoch_float"] = []
         
