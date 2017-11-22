@@ -2,6 +2,19 @@
 """
 Ophyd support for the EPICS synApps swait record
 
+EXAMPLES:;
+
+    import APS_BlueSky_tools.synApps_ophyd
+    calcs = APS_BlueSky_tools.synApps_ophyd.userCalcsDevice("xxx:", name="calcs")
+
+    calc1 = calcs.calc1
+    APS_BlueSky_tools.synApps_ophyd.swait_setup_random_number(calc1)
+
+    APS_BlueSky_tools.synApps_ophyd.swait_setup_incrementer(calcs.calc2)
+    
+    calc1.reset()
+
+
 .. autosummary::
    
     ~swaitRecord 

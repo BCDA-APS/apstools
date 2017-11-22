@@ -5,8 +5,7 @@ Ophyd support for synApps configuration of EPICS records
 Support the default structures as provided by the 
 synApps template XXX IOC.
 
-EXAMPLES
-========
+EXAMPLES:;
 
     import APS_BlueSky_tools.synApps_ophyd
     scans = APS_BlueSky_tools.synApps_ophyd.sscanDevice("xxx:", name="scans")
