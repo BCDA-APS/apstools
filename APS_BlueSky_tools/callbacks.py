@@ -30,6 +30,7 @@ class DocumentCollectorCallback(object):
     
     EXAMPLE::
     
+        from APS_BlueSky_tools.callbacks import DocumentCollector
         doc_collector = DocumentCollectorCallback()
         RE.subscribe(doc_collector.receiver)
         ...

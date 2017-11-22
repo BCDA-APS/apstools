@@ -22,6 +22,9 @@ class SynPseudoVoigt(ophyd.sim.SynSignal):
     """
     Evaluate a point on a pseudo-Voigt based on the value of a motor.
     
+    Provides a signal to be measured.
+    Acts like a detector.
+    
     :see: https://en.wikipedia.org/wiki/Voigt_profile
 
     PARAMETERS
@@ -52,6 +55,7 @@ class SynPseudoVoigt(ophyd.sim.SynSignal):
     
     ::
 
+        from APS_BlueSky_tools.examples import SynPseudoVoigt
         motor = Mover('motor', {'motor': lambda x: x}, {'x': 0})
         det = SynPseudoVoigt('det', motor, 'motor', 
             center=0, eta=0.5, scale=1, sigma=1, bkg=0)
@@ -61,6 +65,7 @@ class SynPseudoVoigt(ophyd.sim.SynSignal):
     ::
 
         import numpy as np
+        from APS_BlueSky_tools.examples import SynPseudoVoigt
         synthetic_pseudovoigt = SynPseudoVoigt(
             'synthetic_pseudovoigt', m1, 'm1', 
             center=-1.5 + 0.5*np.random.uniform(), 

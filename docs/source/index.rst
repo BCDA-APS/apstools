@@ -31,6 +31,7 @@ Package Information
    :caption: Contents:
    :glob:
 
+   demo
    source_code/*
 
 

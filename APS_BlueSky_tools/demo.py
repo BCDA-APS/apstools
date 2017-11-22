@@ -2,6 +2,12 @@
 
 """
 demonstrate a BlueSky callback that writes SPEC data files
+
+.. autosummary::
+   
+   ~plan_catalog
+   ~specfile_example
+
 """
 
 # Copyright (c) 2017-, UChicago Argonne, LLC.  See LICENSE file.
@@ -18,6 +24,7 @@ DEMO_SPEC_FILE = "test_specdata.txt"
 
 
 def specfile_example(headers, filename=DEMO_SPEC_FILE):
+    """write one or more headers (scans) to a SPEC data file"""
     specwriter = SpecWriterCallback(filename=filename, auto_write=True)
     if not isinstance(headers, list):
         headers = [headers]
@@ -32,7 +39,15 @@ def specfile_example(headers, filename=DEMO_SPEC_FILE):
 
 
 def plan_catalog(db):
-    """make a table of all scans known in the databroker"""
+    """
+    make a table of all scans known in the databroker
+    
+    Example::
+    
+        from APS_BlueSky_tools.demo import plan_catalog
+        plan_catalog(db)
+    
+    """
     import pyRestTable
     t = pyRestTable.Table()
     t.labels = "date/time short_uid id plan args".split()

@@ -8,13 +8,13 @@ BlueSky callback that writes SPEC data files
 
 EXAMPLE : use as BlueSky callback::
 
-    from filewriters import SpecWriterCallback
+    from APS_BlueSky_tools.filewriters import SpecWriterCallback
     specwriter = SpecWriterCallback()
     RE.subscribe(specwriter.receiver)
 
 EXAMPLE : use as writer from Databroker::
 
-    from filewriters import SpecWriterCallback
+    from APS_BlueSky_tools.filewriters import SpecWriterCallback
     specwriter = SpecWriterCallback()
     for key, doc in db.get_documents(db[-1]):
         specwriter.receiver(key, doc)
@@ -22,7 +22,7 @@ EXAMPLE : use as writer from Databroker::
 
 EXAMPLE : use as writer from Databroker with customizations::
 
-    from filewriters import SpecWriterCallback
+    from APS_BlueSky_tools.filewriters import SpecWriterCallback
     
     # write into file: /tmp/cerium.spec
     specwriter = SpecWriterCallback(filename="/tmp/cerium.spec")
@@ -132,6 +132,7 @@ class SpecWriterCallback(object):
        ~receiver
        ~newfile
        ~usefile
+       ~make_default_filename
        ~clear
        ~prepare_scan_contents
        ~write_scan

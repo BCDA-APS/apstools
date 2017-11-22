@@ -4,7 +4,7 @@ Plans that might be useful at the APS using BlueSky
 .. comment: no content yet
     .. autosummary::
        
-       ~SynPseudoVoigt
+       ~some_plan
 
 """
 
