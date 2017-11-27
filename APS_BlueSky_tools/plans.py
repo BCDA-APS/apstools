@@ -4,6 +4,7 @@ Plans that might be useful at the APS using BlueSky
 .. autosummary::
    
    ~nscan
+   ~sscan
 
 """
 
@@ -14,6 +15,7 @@ import logging
 import numpy as np 
 from bluesky import preprocessors as bpp
 from bluesky import plan_stubs as bps
+from _ast import Not
 
 
 logger = logging.getLogger(__name__).addHandler(logging.NullHandler())
@@ -101,3 +103,12 @@ def nscan(detectors, *motor_sets, num=11, per_step=None, md=None):
             yield from per_step(detectors, step_cache, pos_cache)
 
     return (yield from inner_scan())
+
+
+def sscan(*args, md=None, **kw):        # TODO: planned
+    """
+    gather data form the sscan record and emit documents
+    
+    Should this operate a complete scan using the sscan record?
+    """
+    raise NotImplemented("this is only planned")
