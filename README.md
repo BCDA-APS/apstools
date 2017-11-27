@@ -2,10 +2,6 @@
 
 Various Python tools for use with BlueSky at the APS
 
-   .. image:: https://img.shields.io/pypi/pyversions/bcdamenu.svg
-      :target: https://pypi.python.org/pypi/bcdamenu
-      :alt: PyPI version
-
 [![Python version](https://img.shields.io/pypi/pyversions/APS_BlueSky_tools.svg)](https://pypi.python.org/pypi/APS_BlueSky_tools)
 [![Documentation Status](https://readthedocs.org/projects/aps-bluesky-tools/badge/?version=latest)](http://aps-bluesky-tools.readthedocs.io/en/latest/?badge=latest)
 [![tag](https://img.shields.io/github/tag/BCDA-APS/APS_BlueSky_tools.svg)](https://github.com/BCDA-APS/APS_BlueSky_tools/tags)
