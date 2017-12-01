@@ -51,7 +51,7 @@ DEMO_SPEC_FILE = "test_specdata.txt"
 def main():
     host = socket.gethostname()
     ip = socket.gethostbyname(host)
-    if host.find("mintvm") >= 0:
+    if host.find("mint-vm") >= 0:
         prefix = "prj:"
     else:
         prefix = "xxx:"
