@@ -5,6 +5,7 @@ Plans that might be useful at the APS using BlueSky
    
    ~nscan
    ~sscan
+   ~TuneAxis
 
 """
 
@@ -15,7 +16,8 @@ import logging
 import numpy as np 
 from bluesky import preprocessors as bpp
 from bluesky import plan_stubs as bps
-from _ast import Not
+from bluesky import plans as bp
+from bluesky.callbacks.fitting import PeakStats
 
 
 logger = logging.getLogger(__name__).addHandler(logging.NullHandler())
@@ -112,3 +114,73 @@ def sscan(*args, md=None, **kw):        # TODO: planned
     Should this operate a complete scan using the sscan record?
     """
     raise NotImplemented("this is only planned")
+
+
+class TuneAxis(object):
+    """
+    tune an axis with a signal
+    
+    Example::
+    
+        tuner = TuneAxis([det], axis)
+        RE(tuner.tune(RE, width=2, num=9), LiveTable(["axis", "det"]))
+
+    """
+    
+    def __init__(self, signals, axis, signal_name=None):
+        self.signals = signals
+        self.signal_name = signal_name or signals[0].name
+        self.axis = axis
+        self.stats = {}
+        self.tune_ok = False
+        self.peaks = None
+        self.center = None
+        self.max_passes = 6
+    
+    def tune(self, RE, width=1, step_factor=10, num=10, snake=True, md=None):
+        """
+        BlueSky plan for tuning this axis with this signal
+        """
+        # TODO: support md
+        for _pass_number in range(self.max_passes):
+            self.peaks = PeakStats(x=self.axis.name, y=self.signal_name)
+            subscription_number = RE.subscribe(self.peaks)
+            yield from self._tune(width=width, num=num)
+            RE.unsubscribe(subscription_number)
+            if not self.tune_ok:
+                return
+            width /= step_factor
+            if snake:
+                width *= -1
+    
+    def _tune(self, width, num=10):
+        """
+        execute one pass through the current scan range
+        """
+        initial_position = self.axis.position
+        start = initial_position - width/2
+        finish = initial_position + width/2
+        self.tune_ok = False
+        yield from bp.scan(self.signals, self.axis, start, finish, num=num)
+        
+        if self.peak_detected():
+            self.tune_ok = True
+            self.center = self.peaks.cen
+        
+        if self.center is not None:
+            self.axis.move(self.center)
+        else:
+            self.axis.move(initial_position)
+    
+    def peak_detected(self):
+        """returns True if a peak was detected, otherwise False"""
+        if self.peaks is None:
+            return False
+        self.peaks.compute()
+        if self.peaks.max is None:
+            return False
+        
+        # TODO: needs completion criterion
+        ymax = self.peaks.max[-1]
+        ymin = self.peaks.min[-1]
+        return ymax > 4*ymin        # this works for USAXS

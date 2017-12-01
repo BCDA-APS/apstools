@@ -36,7 +36,11 @@ from bluesky.plan_tools import print_summary
 from ophyd import EpicsMotor
 
 from APS_BlueSky_tools.synApps_ophyd import swaitRecord, swait_setup_random_number
-from plans import nscan
+from APS_BlueSky_tools.examples import SynPseudoVoigt
+import numpy as np
+from time import sleep
+
+from plans import nscan, TuneAxis
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
@@ -44,6 +48,25 @@ DEMO_SPEC_FILE = "test_specdata.txt"
 
 
 def main():
+    prefix = "prj:"
+    m1 = EpicsMotor(prefix+"m1", name="m1")
+    
+    sleep(0.1)  # wait for connect
+    
+    spvoigt = SynPseudoVoigt(
+        'spvoigt', m1, 'm1', 
+        center=-1.5 + 0.4*np.random.uniform(), 
+        eta=0.2 + 0.5*np.random.uniform(), 
+        sigma=0.001 + 0.05*np.random.uniform(), 
+        scale=1e5,
+        bkg=0.01*np.random.uniform())
+
+    tuner = TuneAxis([spvoigt], m1, signal_name="spvoigt")
+    RE(tuner.tune(RE, width=2, num=11), LiveTable(["m1", "spvoigt"]))
+    print("center: ", tuner.center)
+
+
+def main_nscan():
     prefix = "prj:"
     m1 = EpicsMotor(prefix+"m1", name="m1")
     m2 = EpicsMotor(prefix+"m2", name="m2")
