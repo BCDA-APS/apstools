@@ -158,9 +158,9 @@ class TuneAxis(object):
         finish = initial_position + width/2
         self.tune_ok = False
 
-        _md = {'plan_width': width,
-               'plan_center_initial': self.axis.position,
-               'plan_name': 'TuneAxis.tune',
+        _md = {'tune_width': width,
+               'tune_center_initial': self.axis.position,
+               'plan_name': self.__class__.__name__ + '.tune',
                'time_iso8601': str(datetime.datetime.now()),
                }
         _md.update(md or {})
@@ -197,7 +197,7 @@ class TuneAxis(object):
             for _pass_number in range(self.pass_max):
                 _md = {'pass': _pass_number+1,
                        'pass_max': self.pass_max,
-                       'plan_name': 'TuneAxis.multi_pass_tune',
+                       'plan_name': self.__class__.__name__ + '.multi_pass_tune',
                        'time_iso8601': str(datetime.datetime.now()),
                        }
                 _md.update(md or {})
