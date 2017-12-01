@@ -195,7 +195,7 @@ class TuneAxis(object):
 
         def _scan(width=1, step_factor=10, num=10, snake=True):
             for _pass_number in range(self.pass_max):
-                _md = {'pass': _pass_number,
+                _md = {'pass': _pass_number+1,
                        'pass_max': self.pass_max,
                        'plan_name': 'TuneAxis.multi_pass_tune',
                        'time_iso8601': str(datetime.datetime.now()),

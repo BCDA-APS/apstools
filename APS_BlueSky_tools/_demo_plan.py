@@ -38,6 +38,7 @@ from ophyd import EpicsMotor
 from APS_BlueSky_tools.synApps_ophyd import swaitRecord, swait_setup_random_number
 from APS_BlueSky_tools.examples import SynPseudoVoigt
 import numpy as np
+import socket
 from time import sleep
 
 from plans import nscan, TuneAxis
@@ -48,8 +49,12 @@ DEMO_SPEC_FILE = "test_specdata.txt"
 
 
 def main():
-    prefix = "xxx:"
-    #prefix = "prj:"
+    host = socket.gethostname()
+    ip = socket.gethostbyname(host)
+    if host.find("mintvm") >= 0:
+        prefix = "prj:"
+    else:
+        prefix = "xxx:"
     m1 = EpicsMotor(prefix+"m1", name="m1")
     
     sleep(0.1)  # wait for connect
