@@ -58,6 +58,7 @@ def main():
     m1 = EpicsMotor(prefix+"m1", name="m1")
     
     sleep(0.1)  # wait for connect
+    m1.move(-1.5)
     starting_position = m1.position
     
     spvoigt = SynPseudoVoigt(
@@ -67,22 +68,31 @@ def main():
         sigma=0.001 + 0.05*np.random.uniform(), 
         scale=1e5,
         bkg=0.01*np.random.uniform())
+    print("spvoigt.center: ", spvoigt.center)
+    print("spvoigt.eta: ", spvoigt.eta)
+    print("spvoigt.sigma: ", spvoigt.sigma)
+    print("spvoigt.scale: ", spvoigt.scale)
+    print("spvoigt.bkg: ", spvoigt.bkg)
 
     tuner = TuneAxis([spvoigt], m1, RE, signal_name="spvoigt")
     live_table = LiveTable(["m1", "spvoigt"])
-    RE(tuner.multi_pass_tune(width=2, num=11), live_table)
+    RE(tuner.multi_pass_tune(width=2, num=16), live_table)
     print("final: ", tuner.center)
+    print("max", tuner.peaks.max)
+    print("min", tuner.peaks.min)
     for stat in tuner.stats:
         print("--", stat.cen, stat.fwhm)
+    print("m1=", m1.position, "", "det=", spvoigt.value)
 
     # repeat but with only one pass
     m1.move(starting_position)
-    RE(tuner.tune(2, num=33), live_table)
+    RE(tuner.tune(2, num=49), live_table)
     print("final: ", tuner.center)
     print("max", tuner.peaks.max)
     print("min", tuner.peaks.min)
     print("centroid", tuner.peaks.cen)
     print("FWHM", tuner.peaks.fwhm)
+    print("m1=", m1.position, "", "det=", spvoigt.value)
 
 
 def main_nscan():
