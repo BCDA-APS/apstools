@@ -198,7 +198,6 @@ class TuneAxis(object):
                 _md = {'pass': _pass_number+1,
                        'pass_max': self.pass_max,
                        'plan_name': self.__class__.__name__ + '.multi_pass_tune',
-                       'time_iso8601': str(datetime.datetime.now()),
                        }
                 _md.update(md or {})
             
