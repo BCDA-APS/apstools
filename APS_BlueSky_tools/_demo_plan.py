@@ -48,10 +48,12 @@ DEMO_SPEC_FILE = "test_specdata.txt"
 
 
 def main():
-    prefix = "prj:"
+    prefix = "xxx:"
+    #prefix = "prj:"
     m1 = EpicsMotor(prefix+"m1", name="m1")
     
     sleep(0.1)  # wait for connect
+    starting_position = m1.position
     
     spvoigt = SynPseudoVoigt(
         'spvoigt', m1, 'm1', 
@@ -61,9 +63,21 @@ def main():
         scale=1e5,
         bkg=0.01*np.random.uniform())
 
-    tuner = TuneAxis([spvoigt], m1, signal_name="spvoigt")
-    RE(tuner.tune(RE, width=2, num=11), LiveTable(["m1", "spvoigt"]))
-    print("center: ", tuner.center)
+    tuner = TuneAxis([spvoigt], m1, RE, signal_name="spvoigt")
+    live_table = LiveTable(["m1", "spvoigt"])
+    RE(tuner.multi_pass_tune(width=2, num=11), live_table)
+    print("final: ", tuner.center)
+    for stat in tuner.stats:
+        print("--", stat.cen, stat.fwhm)
+
+    # repeat but with only one pass
+    m1.move(starting_position)
+    RE(tuner.tune(2, num=33), live_table)
+    print("final: ", tuner.center)
+    print("max", tuner.peaks.max)
+    print("min", tuner.peaks.min)
+    print("centroid", tuner.peaks.cen)
+    print("FWHM", tuner.peaks.fwhm)
 
 
 def main_nscan():

@@ -18,6 +18,7 @@ from bluesky import preprocessors as bpp
 from bluesky import plan_stubs as bps
 from bluesky import plans as bp
 from bluesky.callbacks.fitting import PeakStats
+import datetime
 
 
 logger = logging.getLogger(__name__).addHandler(logging.NullHandler())
@@ -77,6 +78,7 @@ def nscan(detectors, *motor_sets, num=11, per_step=None, md=None):
            'plan_name': 'nscan',
            'plan_pattern': 'linspace',
            'hints': {},
+           'iso8601': datetime.datetime.now(),
            }
     _md.update(md or {})
 
@@ -122,55 +124,93 @@ class TuneAxis(object):
     
     Example::
     
-        tuner = TuneAxis([det], axis)
-        RE(tuner.tune(RE, width=2, num=9), LiveTable(["axis", "det"]))
+        tuner = TuneAxis([det], axis, RE)
+        live_table = LiveTable(["axis", "det"])
+        RE(tuner.multi_pass_tune(width=2, num=9), live_table)
+        RE(tuner.tune(0.05, num=9), live_table)
+
+    .. autosummary::
+       
+       ~tune
+       ~multi_pass_tune
+       ~peak_detected
 
     """
     
-    def __init__(self, signals, axis, signal_name=None):
+    def __init__(self, signals, axis, RE, signal_name=None):
         self.signals = signals
         self.signal_name = signal_name or signals[0].name
         self.axis = axis
+        self.RE = RE        # TODO: can we avoid needing this term?  decorator?
         self.stats = {}
         self.tune_ok = False
         self.peaks = None
         self.center = None
-        self.max_passes = 6
+        self.pass_max = 6
+        self.stats = []
     
-    def tune(self, RE, width=1, step_factor=10, num=10, snake=True, md=None):
+    def tune(self, width, num=10, md=None):
         """
-        BlueSky plan for tuning this axis with this signal
-        """
-        # TODO: support md
-        for _pass_number in range(self.max_passes):
-            self.peaks = PeakStats(x=self.axis.name, y=self.signal_name)
-            subscription_number = RE.subscribe(self.peaks)
-            yield from self._tune(width=width, num=num)
-            RE.unsubscribe(subscription_number)
-            if not self.tune_ok:
-                return
-            width /= step_factor
-            if snake:
-                width *= -1
-    
-    def _tune(self, width, num=10):
-        """
-        execute one pass through the current scan range
+        BlueSky plan to execute one pass through the current scan range
         """
         initial_position = self.axis.position
         start = initial_position - width/2
         finish = initial_position + width/2
         self.tune_ok = False
-        yield from bp.scan(self.signals, self.axis, start, finish, num=num)
+
+        _md = {'plan_width': width,
+               'plan_center_initial': self.axis.position,
+               'plan_name': 'TuneAxis.tune',
+               'time_iso8601': str(datetime.datetime.now()),
+               }
+        _md.update(md or {})
+        if "pass_max" not in _md:
+            self.stats = []
         
-        if self.peak_detected():
-            self.tune_ok = True
-            self.center = self.peaks.cen
+        def _scan():
+            self.peaks = PeakStats(x=self.axis.name, y=self.signal_name)
+            subscription_number = self.RE.subscribe(self.peaks)
+            yield from bp.scan(self.signals, self.axis, start, finish, num=num, md=_md)
+            self.RE.unsubscribe(subscription_number)
+            
+            if self.peak_detected():
+                self.tune_ok = True
+                self.center = self.peaks.cen
+            
+            if self.center is not None:
+                self.axis.move(self.center)
+            else:
+                self.axis.move(initial_position)
+            self.stats.append(self.peaks)
+    
+        return (yield from _scan())
         
-        if self.center is not None:
-            self.axis.move(self.center)
-        else:
-            self.axis.move(initial_position)
+    
+    def multi_pass_tune(self, width=1, step_factor=10, num=10, pass_max=6, snake=True, md=None):
+        """
+        BlueSky plan for tuning this axis with this signal
+        """
+        self.pass_max = pass_max or self.pass_max
+        self.stats = []
+
+        def _scan(width=1, step_factor=10, num=10, snake=True):
+            for _pass_number in range(self.pass_max):
+                _md = {'pass': _pass_number,
+                       'pass_max': self.pass_max,
+                       'plan_name': 'TuneAxis.multi_pass_tune',
+                       'time_iso8601': str(datetime.datetime.now()),
+                       }
+                _md.update(md or {})
+            
+                yield from self.tune(width=width, num=num, md=_md)
+
+                if not self.tune_ok:
+                    return
+                width /= step_factor
+                if snake:
+                    width *= -1
+        
+        return (yield from _scan(width=width, step_factor=step_factor, num=num, snake=snake))
     
     def peak_detected(self):
         """returns True if a peak was detected, otherwise False"""
