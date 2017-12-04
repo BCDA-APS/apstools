@@ -77,7 +77,7 @@ def main():
     tuner = TuneAxis([spvoigt], m1, RE, signal_name="spvoigt")
     live_table = LiveTable(["m1", "spvoigt"])
     tuner.width = 2
-    tuner.num = 16
+    tuner.step_factor = tuner.num/2.5
     RE(tuner.multi_pass_tune(), live_table)
     print("final: ", tuner.center)
     print("max", tuner.peaks.max)

@@ -28,8 +28,8 @@ def nscan(detectors, *motor_sets, num=11, per_step=None, md=None):
     """
     Scan over ``n`` variables moved together, each in equally spaced steps.
 
-    Parameters
-    ----------
+    PARAMETERS
+
     detectors : list
         list of 'readable' objects
     motor_sets : list
@@ -151,13 +151,29 @@ class TuneAxis(object):
         # defaults
         self.width = 1
         self.num = 10
-        self.step_factor = 10
+        self.step_factor = 4
         self.pass_max = 6
         self.snake = True
     
     def tune(self, width=None, num=None, md=None):
         """
         BlueSky plan to execute one pass through the current scan range
+        
+        Scan self.axis centered about current position from
+        ``-width/2`` to ``+width/2`` with ``num`` steps.
+        If a peak was detected (default check is that max >= 4*min), 
+        then set ``self.tune_ok = True``.
+
+        PARAMETERS
+    
+        width : float
+            width of the tuning scan in the units of ``self.axis``
+            Default value in ``self.width`` (initially 1)
+        num : int
+            number of steps
+            Default value in ``self.num`` (initially 10)
+        md : dict, optional
+            metadata
         """
         width = width or self.width
         num = num or self.num
@@ -179,7 +195,8 @@ class TuneAxis(object):
         def _scan():
             self.peaks = PeakStats(x=self.axis.name, y=self.signal_name)
             subscription_number = self.RE.subscribe(self.peaks)
-            yield from bp.scan(self.signals, self.axis, start, finish, num=num, md=_md)
+            yield from bp.scan(
+                self.signals, self.axis, start, finish, num=num, md=_md)
             self.RE.unsubscribe(subscription_number)
             
             if self.peak_detected():
@@ -199,6 +216,32 @@ class TuneAxis(object):
                         num=None, pass_max=None, snake=None, md=None):
         """
         BlueSky plan for tuning this axis with this signal
+        
+        Execute multiple passes to refine the centroid determination.
+        Each subsequent pass will reduce the width of scan by ``step_factor``.
+        If ``snake=True`` then the scan direction will reverse with
+        each subsequent pass.
+
+        PARAMETERS
+    
+        width : float
+            width of the tuning scan in the units of ``self.axis``
+            Default value in ``self.width`` (initially 1)
+        num : int
+            number of steps
+            Default value in ``self.num`` (initially 10)
+        step_factor : float
+            This reduces the width of the next tuning scan by the given factor.
+            Default value in ``self.step_factor`` (initially 4)
+        pass_max : int
+            Maximum number of passes to be executed (avoids runaway
+            scans when a centroid is not found).
+            Default value in ``self.pass_max`` (initially 10)
+        snake : bool
+            If ``True``, reverse scan direction on next pass.
+            Default value in ``self.snake`` (initially True)
+        md : dict, optional
+            metadata
         """
         width = width or self.width
         num = num or self.num
@@ -224,17 +267,24 @@ class TuneAxis(object):
                 if snake:
                     width *= -1
         
-        return (yield from _scan(width=width, step_factor=step_factor, num=num, snake=snake))
+        return (
+            yield from _scan(
+                width=width, step_factor=step_factor, num=num, snake=snake))
     
     def peak_detected(self):
-        """returns True if a peak was detected, otherwise False"""
+        """
+        returns True if a peak was detected, otherwise False
+        
+        The default algorithm identifies a peak when the maximum
+        value is four times the minimum value.  Change this routine
+        by subclassing :class:`TuneAxis` and override :meth:`peak_detected`.
+        """
         if self.peaks is None:
             return False
         self.peaks.compute()
         if self.peaks.max is None:
             return False
         
-        # TODO: needs completion criterion
         ymax = self.peaks.max[-1]
         ymin = self.peaks.min[-1]
         return ymax > 4*ymin        # this works for USAXS
