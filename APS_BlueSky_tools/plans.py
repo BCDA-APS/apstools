@@ -4,7 +4,6 @@ Plans that might be useful at the APS using BlueSky
 .. autosummary::
    
    ~nscan
-   ~sscan
    ~TuneAxis
 
 """
@@ -109,25 +108,39 @@ def nscan(detectors, *motor_sets, num=11, per_step=None, md=None):
     return (yield from inner_scan())
 
 
-def sscan(*args, md=None, **kw):        # TODO: planned
-    """
-    gather data form the sscan record and emit documents
-    
-    Should this operate a complete scan using the sscan record?
-    """
-    raise NotImplemented("this is only planned")
+# def sscan(*args, md=None, **kw):        # TODO: planned
+#     """
+#     gather data form the sscan record and emit documents
+#     
+#     Should this operate a complete scan using the sscan record?
+#     """
+#     raise NotImplemented("this is only planned")
 
 
 class TuneAxis(object):
     """
     tune an axis with a signal
     
+    This class provides a tuning object so that a Device or other entity
+    may gain its own tuning process, keeping track of the particulars
+    needed to tune this device again.  For example, one could add
+    a tuner to a motor stage::
+    
+        motor = EpicsMotor("xxx:motor", "motor")
+        motor.tuner = TuneAxis([det], motor)
+    
+    Then the ``motor`` could be tuned individually::
+    
+        RE(motor.tuner.tune(md={"activity": "tuning"}))
+    
+    or the :meth:`tune()` could be part of a plan with other steps.
+    
     Example::
     
-        tuner = TuneAxis([det], axis, RE)
+        tuner = TuneAxis([det], axis)
         live_table = LiveTable(["axis", "det"])
         RE(tuner.multi_pass_tune(width=2, num=9), live_table)
-        RE(tuner.tune(0.05, num=9), live_table)
+        RE(tuner.tune(width=0.05, num=9), live_table)
 
     .. autosummary::
        
@@ -137,11 +150,10 @@ class TuneAxis(object):
 
     """
     
-    def __init__(self, signals, axis, RE, signal_name=None):
+    def __init__(self, signals, axis, signal_name=None):
         self.signals = signals
         self.signal_name = signal_name or signals[0].name
         self.axis = axis
-        self.RE = RE        # TODO: can we avoid needing this term?  decorator?
         self.stats = {}
         self.tune_ok = False
         self.peaks = None
@@ -191,13 +203,12 @@ class TuneAxis(object):
         _md.update(md or {})
         if "pass_max" not in _md:
             self.stats = []
+        self.peaks = PeakStats(x=self.axis.name, y=self.signal_name)
         
+        @bpp.subs_decorator(self.peaks)
         def _scan():
-            self.peaks = PeakStats(x=self.axis.name, y=self.signal_name)
-            subscription_number = self.RE.subscribe(self.peaks)
             yield from bp.scan(
                 self.signals, self.axis, start, finish, num=num, md=_md)
-            self.RE.unsubscribe(subscription_number)
             
             if self.peak_detected():
                 self.tune_ok = True

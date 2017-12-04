@@ -74,7 +74,7 @@ def main():
     print("spvoigt.scale: ", spvoigt.scale)
     print("spvoigt.bkg: ", spvoigt.bkg)
 
-    tuner = TuneAxis([spvoigt], m1, RE, signal_name="spvoigt")
+    tuner = TuneAxis([spvoigt], m1, signal_name="spvoigt")
     live_table = LiveTable(["m1", "spvoigt"])
     tuner.width = 2
     tuner.step_factor = tuner.num/2.5
