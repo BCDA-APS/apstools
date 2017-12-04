@@ -68,17 +68,35 @@ def main():
         sigma=0.001 + 0.05*np.random.uniform(), 
         scale=1e5,
         bkg=0.01*np.random.uniform())
-    print("spvoigt.center: ", spvoigt.center)
-    print("spvoigt.eta: ", spvoigt.eta)
-    print("spvoigt.sigma: ", spvoigt.sigma)
     print("spvoigt.scale: ", spvoigt.scale)
+    print("spvoigt.center: ", spvoigt.center)
+    print("spvoigt.sigma: ", spvoigt.sigma)
+    print("spvoigt.eta: ", spvoigt.eta)
     print("spvoigt.bkg: ", spvoigt.bkg)
+    
+    md = dict(
+        activity = "TuneAxis development and testing",
+#         peak_model = dict(
+#             name = "pseudo Voigt",
+#             scale = spvoigt.scale,
+#             center = spvoigt.center,
+#             sigma = spvoigt.sigma,
+#             eta = spvoigt.eta,
+#             bkg = spvoigt.bkg
+#             ),
+        peak_model = "pseudo Voigt",
+        peak_scale = spvoigt.scale,
+        peak_center = spvoigt.center,
+        peak_sigma = spvoigt.sigma,
+        peak_eta = spvoigt.eta,
+        peak_bkg = spvoigt.bkg
+        )
 
     tuner = TuneAxis([spvoigt], m1, signal_name="spvoigt")
     live_table = LiveTable(["m1", "spvoigt"])
     tuner.width = 2
     tuner.step_factor = tuner.num/2.5
-    RE(tuner.multi_pass_tune(), live_table)
+    RE(tuner.multi_pass_tune(), live_table, md=md)
     print("final: ", tuner.center)
     print("max", tuner.peaks.max)
     print("min", tuner.peaks.min)
@@ -89,7 +107,7 @@ def main():
     # repeat but with only one pass
     m1.move(starting_position)
     tuner.num *= 3
-    RE(tuner.tune(), live_table)
+    RE(tuner.tune(), live_table, md=md)
     print("final: ", tuner.center)
     print("max", tuner.peaks.max)
     print("min", tuner.peaks.min)
