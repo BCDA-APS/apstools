@@ -92,14 +92,15 @@ def _rebuild_scan_command(doc):
         return s
 
     s = []
-    for _k, _v in doc['plan_args'].items():
-        if _k == "detectors":
-            _v = doc[_k]
-        elif _k.startswith("motor"):
-            _v = doc["motors"]
-        elif _k == "args":
-            _v = "[" +  ", ".join(map(get_name, _v)) + "]"
-        s.append("{}={}".format(_k, _v))
+    if "plan_args" in doc:
+        for _k, _v in doc['plan_args'].items():
+            if _k == "detectors":
+                _v = doc[_k]
+            elif _k.startswith("motor"):
+                _v = doc["motors"]
+            elif _k == "args":
+                _v = "[" +  ", ".join(map(get_name, _v)) + "]"
+            s.append("{}={}".format(_k, _v))
     
     cmd = "{}({})".format(doc.get("plan_name", ""), ", ".join(s))
     scan_id = doc.get("scan_id") or 1    # TODO: improve the `1` default
