@@ -76,7 +76,9 @@ def main():
 
     tuner = TuneAxis([spvoigt], m1, RE, signal_name="spvoigt")
     live_table = LiveTable(["m1", "spvoigt"])
-    RE(tuner.multi_pass_tune(width=2, num=16), live_table)
+    tuner.width = 2
+    tuner.num = 16
+    RE(tuner.multi_pass_tune(), live_table)
     print("final: ", tuner.center)
     print("max", tuner.peaks.max)
     print("min", tuner.peaks.min)
@@ -86,7 +88,8 @@ def main():
 
     # repeat but with only one pass
     m1.move(starting_position)
-    RE(tuner.tune(2, num=49), live_table)
+    tuner.num *= 3
+    RE(tuner.tune(), live_table)
     print("final: ", tuner.center)
     print("max", tuner.peaks.max)
     print("min", tuner.peaks.min)

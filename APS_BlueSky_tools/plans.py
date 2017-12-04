@@ -146,13 +146,22 @@ class TuneAxis(object):
         self.tune_ok = False
         self.peaks = None
         self.center = None
-        self.pass_max = 6
         self.stats = []
+        
+        # defaults
+        self.width = 1
+        self.num = 10
+        self.step_factor = 10
+        self.pass_max = 6
+        self.snake = True
     
-    def tune(self, width, num=10, md=None):
+    def tune(self, width=None, num=None, md=None):
         """
         BlueSky plan to execute one pass through the current scan range
         """
+        width = width or self.width
+        num = num or self.num
+
         initial_position = self.axis.position
         start = initial_position - width/2
         finish = initial_position + width/2
@@ -186,17 +195,23 @@ class TuneAxis(object):
         return (yield from _scan())
         
     
-    def multi_pass_tune(self, width=1, step_factor=10, num=10, pass_max=6, snake=True, md=None):
+    def multi_pass_tune(self, width=None, step_factor=None, 
+                        num=None, pass_max=None, snake=None, md=None):
         """
         BlueSky plan for tuning this axis with this signal
         """
-        self.pass_max = pass_max or self.pass_max
+        width = width or self.width
+        num = num or self.num
+        step_factor = step_factor or self.step_factor
+        snake = snake or self.snake
+        pass_max = pass_max or self.pass_max
+        
         self.stats = []
 
         def _scan(width=1, step_factor=10, num=10, snake=True):
-            for _pass_number in range(self.pass_max):
+            for _pass_number in range(pass_max):
                 _md = {'pass': _pass_number+1,
-                       'pass_max': self.pass_max,
+                       'pass_max': pass_max,
                        'plan_name': self.__class__.__name__ + '.multi_pass_tune',
                        }
                 _md.update(md or {})
