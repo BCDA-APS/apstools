@@ -192,6 +192,9 @@ def mona_zmq_receiver(filename):
     import json
     import socket
     
+    hdf5_data_compression = "gzip"
+    # hdf5_data_compression = "lzf"
+    
     def process_message():
         """
         """
@@ -224,6 +227,7 @@ def mona_zmq_receiver(filename):
     nexus.attrs["filename"] = filename
     nexus.attrs["file_time"] = str(datetime.datetime.now())
     nexus.attrs["creator"] = "BlueSky ZMQ Callback"
+    nexus.attrs["H5PY_VERSION"] = h5py.__version__
     nexus.close()
     
     while True:
@@ -263,7 +267,11 @@ def mona_zmq_receiver(filename):
             nxnote.create_dataset("json", data=json.dumps(document))
         elif key == "image":
             data_name = "image_{}".format(image_number)
-            ds = nxdata.create_dataset(data_name, data=document)
+            ds = nxdata.create_dataset(
+                data_name, 
+                data = document,
+                compression = hdf5_data_compression,
+                )
             ds.attrs["units"] = "counts"
             if image_number == 0:
                 nxdata.attrs["signal"] = data_name
