@@ -253,14 +253,16 @@ def mona_zmq_receiver(filename):
             ds = nxentry.create_dataset("experiment_identifier", data=uid)
             ds.attrs["meaning"] = "UUID"
 
-            nxnote = nxentry.create_group(key + "_document")
+            item_name = key+"_" + document["uid"][:8]
+            nxnote = nxentry.create_group(item_name)
             nxnote.attrs["NX_class"] = "NXnote"
             nxnote.create_dataset("json", data=json.dumps(document))
 
             nxdata = nxentry.create_group("data")
             nxdata.attrs["NX_class"] = "NXdata"
         elif key == "stop":
-            nxnote = nxentry.create_group(key + "_document")
+            item_name = key+"_" + document["uid"][:8]
+            nxnote = nxentry.create_group(item_name)
             nxnote.attrs["NX_class"] = "NXnote"
             nxnote.create_dataset("json", data=json.dumps(document))
             nexus.close()
