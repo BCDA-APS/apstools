@@ -159,13 +159,17 @@ def mona_zmq_sender(sender, key, document, detector):
     sender.send_string(key)
     sender.send_string(json.dumps(document))
     if key == "event" and detector is not None:
-        # Is it faster to pick this up by EPICS CA?
-        # Using 0MQ, no additional library is needed
-        image = detector.image
-        sender.send_string("image")
-        sender.send_string(str(image.shape))
-        sender.send_string(str(image.dtype))
-        sender.send(image)
+        dname = detector.name + "_array_counter"
+        # print(dname, "?", document["data"])
+        if document["data"].get(dname) is not None:
+            # Is it faster to pick this up by EPICS CA?
+            # Using 0MQ, no additional library is needed
+            # print("... sending image ...")
+            image = detector.image
+            sender.send_string("image")
+            sender.send_string(str(image.shape))
+            sender.send_string(str(image.dtype))
+            sender.send(image)
     
 
 def mona_zmq_receiver(filename):
