@@ -115,7 +115,7 @@ def client_example(filename, host=None):
     print("\nEnding 0MQ client")
 
 
-def mona_zmq_sender(sender, key, document, detector):
+def mona_zmq_sender(sender, key, document, detector, signal_name):
     '''
     send documents from BlueSky events for the MONA project via a ZMQ pair
     
@@ -158,10 +158,9 @@ def mona_zmq_sender(sender, key, document, detector):
     import json
     sender.send_string(key)
     sender.send_string(json.dumps(document))
-    if key == "event" and detector is not None:
-        dname = detector.name + "_array_counter"
-        # print(dname, "?", document["data"])
-        if document["data"].get(dname) is not None:
+    if key == "event" and detector is not None and signal_name is not None:
+        # print(signal_name, "?", document["data"])
+        if document["data"].get(signal_name) is not None:
             # Is it faster to pick this up by EPICS CA?
             # Using 0MQ, no additional library is needed
             # print("... sending image ...")
@@ -201,6 +200,11 @@ def mona_zmq_receiver(filename):
     
     def process_message():
         """
+        get messages from 0MQ and convert them back to original form
+        
+        Messages are in the form of (key, buffer) pairs
+        where key is one of (start descriptor event stop bulk_events image)
+        and buffer is json for all except image, which is binary data.
         """
         msg = listener.receive()
         if str(msg) == str(listener.eot_signal_text):
@@ -208,7 +212,11 @@ def mona_zmq_receiver(filename):
         key = msg.decode()
         if key in ("start", "descriptor", "event", "stop", "bulk_events"):
             document = listener.receive().decode()
-            return key, json.loads(document)
+            try:
+                return key, json.loads(document)
+            except Exception as msg:
+                print(msg)
+                return ()
         elif key == "image":
             s = listener.receive().decode().rstrip(')').lstrip('(').split(',')
             shape = tuple(map(int, s))
@@ -235,7 +243,11 @@ def mona_zmq_receiver(filename):
     nexus.close()
     
     while True:
-        results = process_message()
+        try:
+            results = process_message()
+        except Exception as msg:
+            print(msg)
+            continue
         if len(results) == 0:
             break
         key, document = results
