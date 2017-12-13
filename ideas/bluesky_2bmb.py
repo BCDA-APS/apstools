@@ -241,12 +241,12 @@ def initEdge(samInPos=0, samStage=None, rotStage=None):
     det.cam.acquire.put("Done")
     # det.cam.acquire.put("Done")  
     det.cam.pco_trigger_mode.put("Auto")
-	det.cam.image_mode.put("Continuous")
-	det.cam.pco_edge_fastscan.put("Normal")
-	det.cam.pco_is_frame_rate_mode.put(0)
-	det.cam.acquire_time.put(0.2)
-	det.cam.size.size_x.put(2560)
-	det.cam.size.size_y.put(1400)
+    det.cam.image_mode.put("Continuous")
+    det.cam.pco_edge_fastscan.put("Normal")
+    det.cam.pco_is_frame_rate_mode.put(0)
+    det.cam.acquire_time.put(0.2)
+    det.cam.size.size_x.put(2560)
+    det.cam.size.size_y.put(1400)
     if hasattr(det, "hdf1"):
         det.hdf1.enable.put("Enable")
         det.hdf1.capture.put("Done")
@@ -267,10 +267,8 @@ def initEdge(samInPos=0, samStage=None, rotStage=None):
 
 
 def change2White():
-    shutter = "2bma:A_shutter"    
-    BL = '2bma'
-	A_shutter.close()
-	# am33.move(107.8, wait=False)
+    A_shutter.close()
+    # am33.move(107.8, wait=False)
     A_filter.put(0)
     A_mirror1.angle.put(0)
     time.sleep(1)                
@@ -292,8 +290,8 @@ def change2White():
 
 
 def change2Mono():
-	A_shutter.close()
-	# am33.move(121)
+    A_shutter.close()
+    # am33.move(121)
     A_filter.put(0)
     A_mirror1.average.put(0)
     time.sleep(1) 
@@ -353,17 +351,17 @@ def changeDMMEng(energy=24.9):
     A_mirror1.angle.put(Mirr_Ang_list[energy_index])
     A_mirror1.average.put(Mirr_YAvg_list[energy_index])
     
-	am26.move(DMM_USY_OB_list[energy_index], wait=False)
-	am27.move(DMM_USY_IB_list[energy_index], wait=False)
-	am29.move(DMM_DSY_list[energy_index], wait=False)
-	am30.move(USArm_list[energy_index], wait=False)
-	am31.move(DSArm_list[energy_index])
+    am26.move(DMM_USY_OB_list[energy_index], wait=False)
+    am27.move(DMM_USY_IB_list[energy_index], wait=False)
+    am29.move(DMM_DSY_list[energy_index], wait=False)
+    am30.move(USArm_list[energy_index], wait=False)
+    am31.move(DSArm_list[energy_index])
     time.sleep(3)
 
-	am32.move(M2Y_list[energy_index], wait=False)
-	am25.move(DMM_USX_list[energy_index], wait=False)
-	am28.move(DMM_DSX_list[energy_index])
-	am7.move(XIASlit_list[energy_index] )
+    am32.move(M2Y_list[energy_index], wait=False)
+    am25.move(DMM_USX_list[energy_index], wait=False)
+    am28.move(DMM_DSX_list[energy_index])
+    am7.move(XIASlit_list[energy_index] )
     print('DMM energy is set to ', energy, 'keV.')
 
 
@@ -378,8 +376,8 @@ def centerAxis(axisShift=12.5, refYofX0=14.976):
     """
     posRefPos = refYofX0 
                                 
-	##### AHutch tomo configurations -- start                           
-	#### for LAT                
+    ##### AHutch tomo configurations -- start                           
+    #### for LAT                
     samStage = am49
     posStage = am20      
                 
@@ -401,7 +399,7 @@ def centerAxis(axisShift=12.5, refYofX0=14.976):
 
     samStageOffset = axisShift * (posStage.position - posRefPos)/1000.0  
     print(samStageOffset)
-	samStage.move(samStageOffset)
+    samStage.move(samStageOffset)
     print('done')
 
  
@@ -413,8 +411,8 @@ def DimaxRadiography(exposureTime=0.1, frmRate=9, acqPeroid=30,   # FIXME: typo
 
     samStage = am49; station = 'AHutch'
     #samStage = bm63; station = 'BHutch'
-	cam = "dimax"; det = pco_dimax
-	# cam = "edge"; det = pco_edge
+    cam = "dimax"; det = pco_dimax
+    # cam = "edge"; det = pco_edge
     posStage = am20 
     rotStage = bm82
 
@@ -440,11 +438,11 @@ def DimaxRadiography(exposureTime=0.1, frmRate=9, acqPeroid=30,   # FIXME: typo
 	# if hasattr(det, "hdf1"):
 	#     det.hdf1.xml_layout_file.put("DynaMCTHDFLayout.xml")
 
-	for ii in range(repeat):
+    for ii in range(repeat):
 		tomo_shutter.close()
-        timestamp = [x for x in time.asctime().rsplit(' ') if x!='']
+		timestamp = [x for x in time.asctime().rsplit(' ') if x!='']
 		
-        filepath = os.path.join(filepath_top, \
+		filepath = os.path.join(filepath_top, \
                    caputRecorder1.value+ \
                    caputRecorder2.value.zfill(3)+'_'+ 'Radiography_'+\
                    caputRecorder4.value+'_'+\
@@ -458,18 +456,18 @@ def DimaxRadiography(exposureTime=0.1, frmRate=9, acqPeroid=30,   # FIXME: typo
                    caputRecorder9.value+'_'+\
                    str(int(A_mirror1.angle.value*1000)/1000.0)+'mrad_USArm'+str(int(am30.position*1000)/1000.0)+\
                    '_monoY_'+str(int(am26.position*1000)/1000.0)+'_'+station)     
-        filename = caputRecorder_filename.value   
+		filename = caputRecorder_filename.value   
     
 		det.cam.acquire.put("Done")
 
 		det.cam.pco_trigger_mode.put("Auto")
 		det.cam.pco_is_frame_rate_mode.put("DelayExp")
 		det.cam.pco_live_view.put("No")
-        det.cam.size.size_x.put(roiSizeX)
-        det.cam.size.size_y.put(roiSizeY)
+		det.cam.size.size_x.put(roiSizeX)
+		det.cam.size.size_y.put(roiSizeY)
 		det.cam.acquire_period.put(0)
 
-        if hasattr(det, "hdf1"):
+		if hasattr(det, "hdf1"):
 			det.hdf1.capture.put("Done")
 			det.hdf1.create_directory.put(-5)	# TODO: Why -5?
 			det.hdf1.file_number.put(caputRecorder10.value)
@@ -515,21 +513,19 @@ def DimaxRadiography(exposureTime=0.1, frmRate=9, acqPeroid=30,   # FIXME: typo
 		det.cam.acquire.put("Done")
         print('dark is done')
 
-        if hasattr(det, "hdf1"):
+		if hasattr(det, "hdf1"):
 			det.hdf1.capture.put("Done", wait=False)
 		det.cam.image_mode.put("Continuous")
 
 		caputRecorder10.put(det.hdf1.file_number.value)
-        if caputRecorder3.value == 'Yes':
-            caputRecorder2.put(int(caputRecorder2.value)+1)
+		if caputRecorder3.value == 'Yes':
+			caputRecorder2.put(int(caputRecorder2.value)+1)
 
         print(str(ii), 'the acquisition is done at ', time.asctime())
         if ii != repeat-1:
             time.sleep(delay)
 
-	det.cam.pco_live_view.put("Yes")
+    det.cam.pco_live_view.put("Yes")
     tomo_shutter.close()
-	A_shutter.close()
+    A_shutter.close()
     print('Radiography acquisition finished!')
-
- 
