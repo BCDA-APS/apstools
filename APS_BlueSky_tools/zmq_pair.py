@@ -160,6 +160,9 @@ def mona_zmq_sender(sender, key, document, detector, signal_name):
     import json
     sender.send_string(key)
     sender.send_string(json.dumps(document))
+    # TODO: cache the rotation angle and time stamp
+    # TODO: ignore images when we don't know rotation angle (event before descriptor)
+    # TODO: ignore images after scan (but how?)
     if key == "event" and detector is not None and signal_name is not None:
         # print(signal_name, "?", document["data"])
         if document["data"].get(signal_name) is not None:
@@ -168,6 +171,10 @@ def mona_zmq_sender(sender, key, document, detector, signal_name):
             # print("... sending image ...")
             image = detector.image
             sender.send_string("image")
+            # TODO: make these metadata into a json(dict)
+            # TODO: send image number
+            # TODO: send rotation angle and its timestamp
+            # TODO: send timestamp of this image
             sender.send_string(str(image.shape))
             sender.send_string(str(image.dtype))
             sender.send(image)
@@ -226,6 +233,10 @@ def mona_zmq_receiver(filename):
                 print(msg)
                 return ()
         elif key == "image":
+            # TODO: intend to receive these metadata as a json(dict)
+            # TODO: image number
+            # TODO: rotation angle and its timestamp
+            # TODO: timestamp of this image
             s = listener.receive().decode().rstrip(')').lstrip('(').split(',')
             shape = tuple(map(int, s))
             dtype = listener.receive().decode()
