@@ -119,6 +119,8 @@ def mona_zmq_sender(sender, key, document, detector, signal_name):
     '''
     send documents from BlueSky events for the MONA project via a ZMQ pair
     
+    This is the ZMQ client end of the pipe
+    
     This code is called from a BlueSky callback
     
     EXAMPLE::
@@ -173,7 +175,11 @@ def mona_zmq_sender(sender, key, document, detector, signal_name):
 
 def mona_zmq_receiver(filename):
     """
-    create a ZMQ pair server to receive documents from BlueSky events for the MONA project
+    receive documents from BlueSky events for the MONA project
+    
+    This is the ZMQ server end of the pipe
+    
+    create a ZMQ pair server before starting BlueSky
     
     This code runs on the data processing stream computer *before* BlueSky starts.
     The BlueSky callback will attempt to connect with this server as a client
@@ -206,8 +212,10 @@ def mona_zmq_receiver(filename):
         where key is one of (start descriptor event stop bulk_events image)
         and buffer is json for all except image, which is binary data.
         """
+        # TODO: Can ZMQ tell us if the connection has been dropped?
         msg = listener.receive()
         if str(msg) == str(listener.eot_signal_text):
+            # TODO: propagate end() message to clients
             return ()
         key = msg.decode()
         if key in ("start", "descriptor", "event", "stop", "bulk_events"):
@@ -249,6 +257,7 @@ def mona_zmq_receiver(filename):
             print(msg)
             continue
         if len(results) == 0:
+            # TODO: propagate end() message to clients
             break
         key, document = results
         if key == "start":
