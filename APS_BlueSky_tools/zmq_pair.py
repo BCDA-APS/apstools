@@ -255,6 +255,7 @@ def mona_zmq_receiver(filename):
             uid = document["uid"]
             entry_name = "entry_" + uid[:8]
             image_number = 0
+            doc_stream = []
 
             nexus = h5py.File(filename, "a")
             nexus.attrs["default"] = entry_name
@@ -265,8 +266,12 @@ def mona_zmq_receiver(filename):
             ds = nxentry.create_dataset("experiment_identifier", data=uid)
             ds.attrs["meaning"] = "UUID"
 
+            docs_group = nexus.create_group("BlueSky_document_stream")
+            docs_group.attrs["NX_class"] = "NXnote"
+
             item_name = key+"_" + document["uid"][:8]
-            nxnote = nxentry.create_group(item_name)
+            doc_stream.append(item_name)
+            nxnote = docs_group.create_group(item_name)
             nxnote.attrs["NX_class"] = "NXnote"
             nxnote.create_dataset("json", data=json.dumps(document))
 
@@ -274,13 +279,16 @@ def mona_zmq_receiver(filename):
             nxdata.attrs["NX_class"] = "NXdata"
         elif key == "stop":
             item_name = key+"_" + document["uid"][:8]
-            nxnote = nxentry.create_group(item_name)
+            doc_stream.append(item_name)
+            nxnote = docs_group.create_group(item_name)
             nxnote.attrs["NX_class"] = "NXnote"
             nxnote.create_dataset("json", data=json.dumps(document))
+            docs_group.attrs["document_sequence"] = "\n".join(doc_stream)
             nexus.close()
         elif key in ("event", "descriptor"):
             item_name = key+"_" + document["uid"][:8]
-            nxnote = nxentry.create_group(item_name)
+            doc_stream.append(item_name)
+            nxnote = docs_group.create_group(item_name)
             nxnote.attrs["NX_class"] = "NXnote"
             nxnote.create_dataset("json", data=json.dumps(document))
         elif key == "image":
