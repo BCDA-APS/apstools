@@ -261,6 +261,8 @@ def mona_zmq_receiver(filename):
     nexus.attrs["H5PY_VERSION"] = h5py.__version__
     nexus.close()
     
+    doc_stream = []
+    
     while True:
         try:
             results = process_message()
@@ -275,7 +277,6 @@ def mona_zmq_receiver(filename):
             uid = document["uid"]
             entry_name = "entry_" + uid[:8]
             image_number = 0
-            doc_stream = []
 
             nexus = h5py.File(filename, "a")
             nexus.attrs["default"] = entry_name
@@ -286,7 +287,7 @@ def mona_zmq_receiver(filename):
             ds = nxentry.create_dataset("experiment_identifier", data=uid)
             ds.attrs["meaning"] = "UUID"
 
-            docs_group = nexus.create_group("BlueSky_document_stream")
+            docs_group = nxentry.require_group("BlueSky_document_stream")
             docs_group.attrs["NX_class"] = "NXnote"
 
             item_name = key+"_" + document["uid"][:8]
@@ -305,6 +306,7 @@ def mona_zmq_receiver(filename):
             nxnote.create_dataset("json", data=json.dumps(document))
             docs_group.attrs["document_sequence"] = "\n".join(doc_stream)
             nexus.close()
+            doc_stream = []
         elif key in ("event", "descriptor"):
             item_name = key+"_" + document["uid"][:8]
             doc_stream.append(item_name)
