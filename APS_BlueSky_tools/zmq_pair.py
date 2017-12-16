@@ -222,7 +222,8 @@ def mona_zmq_sender(
             __data_cache__.set("rotation_time", ts)
 
         image_number = document["data"].get(signal_name)
-        if image_number is not None:
+        rotation = __data_cache__.get("rotation")
+        if image_number is not None and rotation is not None:
             # print("... sending image ...")
             image = detector.image
             sender.send_string("image")
@@ -309,8 +310,8 @@ def mona_zmq_receiver(filename):
             image = numpy.fromstring(msg, dtype=dtype).reshape(shape)
             return key, {
                 "image": image,
-                "number": image_number,
-                "time": image_timestamp}
+                "image_number": image_number,
+                "image_time": image_timestamp}
 
     listener = ZMQ_Pair()
     print("0MQ server Listening now: {}".format(str(listener)))
@@ -343,7 +344,7 @@ def mona_zmq_receiver(filename):
         if key == "start":
             uid = document["uid"]
             entry_name = "entry_" + uid[:8]
-            image_number = 0
+            local_image_number = 0
 
             nexus = h5py.File(filename, "a")
             nexus.attrs["default"] = entry_name
@@ -381,19 +382,25 @@ def mona_zmq_receiver(filename):
             nxnote.attrs["NX_class"] = "NXnote"
             nxnote.create_dataset("json", data=json.dumps(document))
         elif key == "image":
-            data_name = "image_{}".format(image_number)
-            ds = nxdata.create_dataset(
-                data_name, 
-                data = document["image"],
-                compression = hdf5_data_compression,
-                )
+            data_name = "image_{}".format(local_image_number)
+            try:
+                ds = nxdata.create_dataset(
+                    data_name, 
+                    data = document["image"],
+                    compression = hdf5_data_compression,
+                    )
+            except ValueError as err:
+                print("err", err)
+                print("image size", len(document["image"]))
+                print("compression", hdf5_data_compression)
+                continue
             ds.attrs["units"] = "counts"
-            ds.attrs["image_number"] = image_number
-            ds.attrs["AD_image_number"] = document["number"]
-            ds.attrs["timestamp"] = document["time"]
-            if image_number == 0:
+            ds.attrs["local_image_number"] = local_image_number
+            ds.attrs["AD_image_number"] = document["image_number"]
+            ds.attrs["timestamp"] = document["image_time"]
+            if local_image_number == 0:
                 nxdata.attrs["signal"] = data_name
-            image_number += 1
+            local_image_number += 1
         else:
             pass
 
