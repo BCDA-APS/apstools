@@ -13,11 +13,11 @@ Python ZeroMQ pair connection example
 # http://learning-0mq-with-pyzmq.readthedocs.io/en/latest/pyzmq/multisocket/zmqpoller.html
 
 
+import collections
 import numpy
 import zmq
 
 __all__ = ['ZMQ_Pair', 'server_example', 'client_example']
-
 
 class ZMQ_Pair(object):
     """
@@ -56,6 +56,34 @@ class ZMQ_Pair(object):
     def end(self):
         """send an "end" message to the other end of the ZMQ pair"""
         self.send_string(self.eot_signal_text.decode())
+
+
+class DataCache(object):
+    """remember rotation angle and other info during a scan"""
+    
+    def __init__(self):
+        self.clear()
+    
+    def clear(self):
+        self.cache = collections.OrderedDict()
+    
+    def update(self, md={}):
+        self.cache.update(md)
+    
+    def get(self, key, default=None):
+        return self.cache.get(key, default)
+    
+    def set(self, key, value):
+        return self.cache.update({key: value})
+    
+    def keys(self):
+        return self.cache.keys()
+    
+    def __len__(self):
+        return len(self.cache)
+
+
+__data_cache__ = DataCache()    # singleton!
 
 
 def server_example():
@@ -115,7 +143,12 @@ def client_example(filename, host=None):
     print("\nEnding 0MQ client")
 
 
-def mona_zmq_sender(sender, key, document, detector, signal_name):
+def mona_zmq_sender(
+        sender, key, 
+        document, 
+        detector, 
+        signal_name=None,
+        rotation_name=None):
     '''
     send documents from BlueSky events for the MONA project via a ZMQ pair
     
@@ -165,26 +198,52 @@ def mona_zmq_sender(sender, key, document, detector, signal_name):
     protocols (json).
     '''
     import json
+    global __data_cache__
     sender.send_string(key)
     sender.send_string(json.dumps(document))
     # TODO: cache the rotation angle and time stamp
     # TODO: ignore images when we don't know rotation angle (event before descriptor)
     # TODO: ignore images after scan (but how?)
-    if key == "event" and detector is not None and signal_name is not None:
-        # print(signal_name, "?", document["data"])
+    if key == "descriptor":
+        uid = document["uid"]
+        nm = key + "_" + uid[:8]
+        __data_cache__.set(nm, document)
+        print("cache keys", sorted(__data_cache__.keys()))
+    elif key == "event"  \
+             and detector is not None  \
+             and signal_name is not None \
+             and rotation_name is not None:
+
+        rotation = document["data"].get(rotation_name)
+        if rotation is not None:
+            print("rotation", rotation)
+            __data_cache__.set("rotation", rotation)
+            ts = document["timestamps"].get(rotation_name)
+            __data_cache__.set("rotation_time", ts)
+
         image_number = document["data"].get(signal_name)
         if image_number is not None:
             # print("... sending image ...")
             image = detector.image
             sender.send_string("image")
             # TODO: send rotation angle and its timestamp
-            sender.send_string(str(image.shape))
-            sender.send_string(str(image.dtype))
+            sender.send_string(image.shape)
+            sender.send_string(image.dtype)
             sender.send_string(image_number)
             sender.send_string(document["timestamps"].get(signal_name))
+            #sender.send_string(__data_cache__.get("rotation"))
+            #sender.send_string(__data_cache__.get("rotation_time"))
             
             sender.send(image)
-    
+    elif key == "start":
+        __data_cache__.clear()
+        uid = document["uid"]
+        nm = key + "_" + uid[:8]
+        __data_cache__.set(nm, document)
+        print("cache keys", sorted(__data_cache__.keys()))
+    elif key == "stop":
+        __data_cache__.clear()
+
 
 def mona_zmq_receiver(filename):
     """
