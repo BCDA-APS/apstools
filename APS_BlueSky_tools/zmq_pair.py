@@ -156,38 +156,9 @@ def mona_zmq_sender(
     
     This code is called from a BlueSky callback
     
-    EXAMPLE::
+    .. TODO: EXAMPLE::
     
-        from ophyd import SingleTrigger, SimDetector, ImagePlugin
-        from APS_BlueSky_tools.zmq_pair import ZMQ_Pair, mona_zmq_sender
-        
-        class MyPlainSimDetector(SimDetector, SingleTrigger):
-            image = Component(ImagePlugin, suffix="image1:")
-
-        class MonaCallback0MQ(object):
-           """
-           My BlueSky 0MQ talker to send *all* documents emitted
-           """
-           
-           def __init__(self, host=None, port=None, detector=None):
-               self.talker = ZMQ_Pair(host or "localhost", port or "5556")
-               self.detector = detector
-           
-           def end(self):
-               """ZMQ client tells the server to end the connection"""
-               self.talker.end()
-        
-           def receiver(self, key, document):
-               """receive from RunEngine, send from 0MQ talker"""
-               mona_zmq_sender(self.talker, key, document, self.detector)
-       
-        zmq_talker = MonaCallback0MQ(detector=plainsimdet.image)
-        RE.subscribe(zmq_talker.receiver)
-        adsimple = MyPlainSimDetector('13SIM1:', name='adsimple')
-        adsimple.read_attrs = ['cam']
-        RE(bp.count([adsimple], num=2))
-        RE(bp.count([adsimple], num=5))
-        zmq_talker.end()
+        --update-- --needed--
     
     It may be faster for the ZMQ receiver to pick up the image 
     from EPICS directly but by passing the image with a BlueSky 
@@ -208,39 +179,49 @@ def mona_zmq_sender(
         uid = document["uid"]
         nm = key + "_" + uid[:8]
         __data_cache__.set(nm, document)
-        print("cache keys", sorted(__data_cache__.keys()))
+        if document.get("name") == 'primary':
+            __data_cache__.set("primary_descriptor_uid", uid)
     elif key == "event"  \
              and detector is not None  \
              and signal_name is not None \
              and rotation_name is not None:
 
+        primary_descriptor_uid = __data_cache__.get("primary_descriptor_uid")
+        if document["descriptor"] == primary_descriptor_uid:
+            __data_cache__.set("prescan_phase", False)
+
         rotation = document["data"].get(rotation_name)
         if rotation is not None:
-            print("rotation", rotation)
             __data_cache__.set("rotation", rotation)
             ts = document["timestamps"].get(rotation_name)
             __data_cache__.set("rotation_time", ts)
 
-        image_number = document["data"].get(signal_name)
-        rotation = __data_cache__.get("rotation")
-        if image_number is not None and rotation is not None:
-            # print("... sending image ...")
-            image = detector.image
-            sender.send_string("image")
-            sender.send_string(image.shape)
-            sender.send_string(image.dtype)
-            sender.send_string(image_number)
-            sender.send_string(document["timestamps"].get(signal_name))
-            sender.send_string(__data_cache__.get("rotation"))
-            sender.send_string(__data_cache__.get("rotation_time"))
-            
-            sender.send(image)
+        if not __data_cache__.get("prescan_phase", True):
+            image_number = document["data"].get(signal_name)
+            rotation = __data_cache__.get("rotation")
+            if image_number is not None and rotation is not None:
+                # print("... sending image ...")
+                # print("primary_descriptor_uid", primary_descriptor_uid)
+                # print("prescan_phase", document["data"].get("prescan_phase"))
+                # print("rotation", rotation)
+                # print("image_number", image_number)
+                image = detector.image
+                sender.send_string("image")
+                sender.send_string(image.shape)
+                sender.send_string(image.dtype)
+                sender.send_string(image_number)
+                sender.send_string(document["timestamps"].get(signal_name))
+                sender.send_string(__data_cache__.get("rotation"))
+                sender.send_string(__data_cache__.get("rotation_time"))
+                
+                sender.send(image)
     elif key == "start":
         __data_cache__.clear()
         uid = document["uid"]
         nm = key + "_" + uid[:8]
+        __data_cache__.set("prescan_phase", True)
+        __data_cache__.set("primary_descriptor_uid", None)
         __data_cache__.set(nm, document)
-        print("cache keys", sorted(__data_cache__.keys()))
     elif key == "stop":
         __data_cache__.clear()
 
