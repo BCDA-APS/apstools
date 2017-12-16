@@ -178,10 +178,11 @@ def mona_zmq_sender(sender, key, document, detector, signal_name):
             image = detector.image
             sender.send_string("image")
             # TODO: send rotation angle and its timestamp
-            # TODO: send timestamp of this image
             sender.send_string(str(image.shape))
             sender.send_string(str(image.dtype))
             sender.send_string(image_number)
+            sender.send_string(document["timestamps"].get(signal_name))
+            
             sender.send(image)
     
 
@@ -239,15 +240,18 @@ def mona_zmq_receiver(filename):
                 return ()
         elif key == "image":
             # TODO: rotation angle and its timestamp
-            # TODO: timestamp of this image
             s = listener.receive().decode().rstrip(')').lstrip('(').split(',')
             shape = tuple(map(int, s))
             dtype = listener.receive().decode()
             image_number = int(listener.receive().decode())
+            image_timestamp = float(listener.receive().decode())
             # see: https://stackoverflow.com/questions/28995937/convert-python-byte-string-to-numpy-int#28996024
             msg = listener.receive()
             image = numpy.fromstring(msg, dtype=dtype).reshape(shape)
-            return key, {"image": image, "number": image_number}
+            return key, {
+                "image": image,
+                "number": image_number,
+                "time": image_timestamp}
 
     listener = ZMQ_Pair()
     print("0MQ server Listening now: {}".format(str(listener)))
@@ -327,6 +331,7 @@ def mona_zmq_receiver(filename):
             ds.attrs["units"] = "counts"
             ds.attrs["image_number"] = image_number
             ds.attrs["AD_image_number"] = document["number"]
+            ds.attrs["timestamp"] = document["time"]
             if image_number == 0:
                 nxdata.attrs["signal"] = data_name
             image_number += 1
