@@ -156,6 +156,13 @@ def mona_zmq_sender(sender, key, document, detector, signal_name):
         RE(bp.count([adsimple], num=5))
         zmq_talker.end()
     
+    It may be faster for the ZMQ receiver to pick up the image 
+    from EPICS directly but by passing the image with a BlueSky 
+    event, BlueSky can synchronize the image with the associated 
+    rotation angle.  Also, when BlueSky gathers and sends all 
+    the information, the client needs only a minimum number of 
+    support packages to support the pipe (zmq) and packaging 
+    protocols (json).
     '''
     import json
     sender.send_string(key)
@@ -165,18 +172,17 @@ def mona_zmq_sender(sender, key, document, detector, signal_name):
     # TODO: ignore images after scan (but how?)
     if key == "event" and detector is not None and signal_name is not None:
         # print(signal_name, "?", document["data"])
-        if document["data"].get(signal_name) is not None:
-            # Is it faster to pick this up by EPICS CA?
-            # Using 0MQ, no additional library is needed
+        image_number = document["data"].get(signal_name)
+        if image_number is not None:
             # print("... sending image ...")
             image = detector.image
             sender.send_string("image")
             # TODO: make these metadata into a json(dict)
-            # TODO: send image number
             # TODO: send rotation angle and its timestamp
             # TODO: send timestamp of this image
             sender.send_string(str(image.shape))
             sender.send_string(str(image.dtype))
+            sender.send_string(image_number)
             sender.send(image)
     
 
@@ -234,16 +240,16 @@ def mona_zmq_receiver(filename):
                 return ()
         elif key == "image":
             # TODO: intend to receive these metadata as a json(dict)
-            # TODO: image number
             # TODO: rotation angle and its timestamp
             # TODO: timestamp of this image
             s = listener.receive().decode().rstrip(')').lstrip('(').split(',')
             shape = tuple(map(int, s))
             dtype = listener.receive().decode()
+            image_number = int(listener.receive().decode())
             # see: https://stackoverflow.com/questions/28995937/convert-python-byte-string-to-numpy-int#28996024
             msg = listener.receive()
             image = numpy.fromstring(msg, dtype=dtype).reshape(shape)
-            return key, image
+            return key, {"image": image, "number": image_number}
 
     listener = ZMQ_Pair()
     print("0MQ server Listening now: {}".format(str(listener)))
@@ -317,10 +323,12 @@ def mona_zmq_receiver(filename):
             data_name = "image_{}".format(image_number)
             ds = nxdata.create_dataset(
                 data_name, 
-                data = document,
+                data = document["image"],
                 compression = hdf5_data_compression,
                 )
             ds.attrs["units"] = "counts"
+            ds.attrs["image_number"] = image_number
+            ds.attrs["AD_image_number"] = document["number"]
             if image_number == 0:
                 nxdata.attrs["signal"] = data_name
             image_number += 1
