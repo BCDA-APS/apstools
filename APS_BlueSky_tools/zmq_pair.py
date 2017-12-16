@@ -239,7 +239,6 @@ def mona_zmq_receiver(filename):
                 print(msg)
                 return ()
         elif key == "image":
-            # TODO: intend to receive these metadata as a json(dict)
             # TODO: rotation angle and its timestamp
             # TODO: timestamp of this image
             s = listener.receive().decode().rstrip(')').lstrip('(').split(',')
