@@ -177,7 +177,6 @@ def mona_zmq_sender(sender, key, document, detector, signal_name):
             # print("... sending image ...")
             image = detector.image
             sender.send_string("image")
-            # TODO: make these metadata into a json(dict)
             # TODO: send rotation angle and its timestamp
             # TODO: send timestamp of this image
             sender.send_string(str(image.shape))
