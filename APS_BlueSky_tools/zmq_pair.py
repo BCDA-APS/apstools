@@ -181,10 +181,7 @@ def mona_zmq_sender(
         __data_cache__.set(nm, document)
         if document.get("name") == 'primary':
             __data_cache__.set("primary_descriptor_uid", uid)
-    elif key == "event"  \
-             and detector is not None  \
-             and signal_name is not None \
-             and rotation_name is not None:
+    elif key == "event" and None not in (detector, signal_name, rotation_name):
 
         primary_descriptor_uid = __data_cache__.get("primary_descriptor_uid")
         if document["descriptor"] == primary_descriptor_uid:
