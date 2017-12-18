@@ -47,11 +47,36 @@ class ZMQ_Pair(object):
     def receive(self):
         return self.socket.recv()
     
-    def send_string(self, msg):
-        self.socket.send_string(str(msg))
+    def receive_json(self):
+        return self.socket.recv_json()
+    
+    def receive_numpy_array(self, flags=0, copy=True, track=False):
+        """recv a numpy array"""
+        # see: https://pyzmq.readthedocs.io/en/latest/serialization.html#using-your-own-serialization
+        md = self.socket.recv_json(flags=flags)
+        msg = self.socket.recv(flags=flags, copy=copy, track=track)
+        buf = buffer(msg)
+        A = numpy.frombuffer(buf, dtype=md['dtype'])
+        return A.reshape(md['shape'])
     
     def send(self, chunk):
-        self.socket.send(chunk)
+        return self.socket.send(chunk)
+    
+    def send_json(self, chunk):
+        return self.socket.send_json(chunk)
+    
+    def send_numpy_array(self, A, flags=0, copy=True, track=False):
+        """send a numpy array with metadata"""
+        # see: https://pyzmq.readthedocs.io/en/latest/serialization.html#using-your-own-serialization
+        md = dict(
+            dtype = str(A.dtype),
+            shape = A.shape,
+        )
+        self.socket.send_json(md, flags|zmq.SNDMORE)
+        return self.socket.send(A, flags, copy=copy, track=track)
+    
+    def send_string(self, msg):
+        return self.socket.send_string(str(msg))
     
     def end(self):
         """send an "end" message to the other end of the ZMQ pair"""
