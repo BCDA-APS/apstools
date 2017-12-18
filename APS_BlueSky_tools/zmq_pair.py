@@ -55,7 +55,7 @@ class ZMQ_Pair(object):
         # see: https://pyzmq.readthedocs.io/en/latest/serialization.html#using-your-own-serialization
         md = self.socket.recv_json(flags=flags)
         msg = self.socket.recv(flags=flags, copy=copy, track=track)
-        buf = buffer(msg)
+        buf = memoryview(msg)
         A = numpy.frombuffer(buf, dtype=md['dtype'])
         return A.reshape(md['shape'])
     
@@ -80,7 +80,8 @@ class ZMQ_Pair(object):
     
     def end(self):
         """send an "end" message to the other end of the ZMQ pair"""
-        self.send_string(self.eot_signal_text.decode())
+        #self.send_string(self.eot_signal_text.decode())
+        self.send_json({"key": self.eot_signal_text.decode(), "document": "end"})
 
 
 _cache_ = {}
@@ -170,8 +171,62 @@ def mona_zmq_sender(
     '''
     import json
     global _cache_
-    sender.send_string(key)
-    sender.send_string(json.dumps(document))
+    # sender.send_string(key)
+    # sender.send_string(json.dumps(document))
+    sender.send_json({"key": key, "document": document})
+    if key == "start":
+        _cache_ = {}
+        uid = document["uid"]
+        nm = key + "_" + uid[:8]
+        _cache_["prescan_phase"] = True
+        _cache_["primary_descriptor_uid"] = None
+        _cache_[nm] = document
+    elif key == "stop":
+        _cache_ = {}
+    elif key == "descriptor":
+        uid = document["uid"]
+        nm = key + "_" + uid[:8]
+        _cache_[nm] = document
+        if document.get("name") == 'primary':
+            _cache_["primary_descriptor_uid"] = uid
+    elif key == "event" and None not in (detector, signal_name, rotation_name):
+
+        primary_descriptor_uid = _cache_.get("primary_descriptor_uid")
+        if document["descriptor"] == primary_descriptor_uid:
+            # do not send images in prescan phase
+            _cache_["prescan_phase"] = False
+
+        rotation = document["data"].get(rotation_name)
+        if rotation is not None:
+            # cache the rotation angle and its timestamp
+            _cache_["rotation"] = rotation
+            ts = document["timestamps"].get(rotation_name)
+            _cache_["rotation_time"] = ts
+
+        if _cache_.get("prescan_phase", True):
+            return
+
+        # pump out the image
+        flags=0
+        image_number = document["data"].get(signal_name)
+        rotation = _cache_.get("rotation")
+        if image_number is not None and rotation is not None:
+            sender.socket.send_json(
+                dict(
+                    key = "image",
+                    dtype = str(detector.image.dtype),
+                    shape = detector.image.shape,
+                    image_timestamp = document["timestamps"].get(signal_name),
+                    rotation = _cache_["rotation"],
+                    rotation_timestamp = _cache_["rotation_time"],
+    
+                ), flags|zmq.SNDMORE
+            )
+            # binary image is not serializable in JSON, send separately
+            sender.socket.send(detector.image)
+    return
+    # --------------------------------------------------------------
+    
     # TODO: cache the rotation angle and time stamp
     # TODO: ignore images when we don't know rotation angle (event before descriptor)
     # TODO: ignore images after scan (but how?)
@@ -211,7 +266,8 @@ def mona_zmq_sender(
                 sender.send_string(_cache_["rotation"])
                 sender.send_string(_cache_["rotation_time"])
                 
-                sender.send(image)
+                #sender.send(image)
+                sender.send_numpy_array(image)
     elif key == "start":
         _cache_ = {}
         uid = document["uid"]
@@ -223,6 +279,49 @@ def mona_zmq_sender(
         _cache_ = {}
 
 def mona_zmq_receiver(filename):
+    #from zmq_pair import ZMQ_Pair
+    import json
+    import socket
+    listener = ZMQ_Pair()
+    print("0MQ server Listening now: {}".format(str(listener)))
+    print("  host: {}".format(listener.host))
+    print("  port: {}".format(listener.port))
+    print("  addr: {}".format(listener.addr))
+    serverhost = socket.gethostname() or 'localhost' 
+    print("  serverhost: {}".format(serverhost))
+    print("#"*40)
+
+    while True:
+        md = listener.receive_json()
+        key = md.get("key")
+        if key is None:
+            print("no 'key' in message")
+            continue
+        if key == "start":
+            print(key, md["document"])
+        elif key == "descriptor":
+            print(key, md["document"])
+        elif key == "event":
+            print(key, md["document"])
+        elif key == "image":
+            print(key, md)
+            dtype = md["dtype"]
+            shape = md["shape"]
+            image = memoryview(listener.receive())
+            image = numpy.frombuffer(image, dtype=dtype).reshape(shape)
+        elif key == "bulk_events":
+            print(key, md["document"])
+        elif key == "stop":
+            print(key, md["document"])
+        #elif key == listener.eot_signal_text:
+            # FIXME: key is str but RHS is bytes
+        elif md["document"] == "end":
+            print("EOT received")
+            break
+    print("Connection ended")
+
+
+def __PREVIOUS__mona_zmq_receiver(filename):
     """
     receive documents from BlueSky events for the MONA project
     
