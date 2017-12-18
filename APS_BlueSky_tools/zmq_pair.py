@@ -81,7 +81,7 @@ class ZMQ_Pair(object):
     def end(self):
         """send an "end" message to the other end of the ZMQ pair"""
         #self.send_string(self.eot_signal_text.decode())
-        self.send_json({"key": self.eot_signal_text.decode(), "document": "end"})
+        self.send_json({"key": "end", "document": self.eot_signal_text.decode()})
 
 
 _cache_ = {}
@@ -219,6 +219,7 @@ def mona_zmq_sender(
                     image_timestamp = document["timestamps"].get(signal_name),
                     rotation = _cache_["rotation"],
                     rotation_timestamp = _cache_["rotation_time"],
+                    document = "... see next message ...",
     
                 ), flags|zmq.SNDMORE
             )
@@ -227,8 +228,6 @@ def mona_zmq_sender(
     return
     # --------------------------------------------------------------
     
-    # TODO: cache the rotation angle and time stamp
-    # TODO: ignore images when we don't know rotation angle (event before descriptor)
     # TODO: ignore images after scan (but how?)
     if key == "descriptor":
         uid = document["uid"]
@@ -313,9 +312,9 @@ def mona_zmq_receiver(filename):
             print(key, md["document"])
         elif key == "stop":
             print(key, md["document"])
-        #elif key == listener.eot_signal_text:
-            # FIXME: key is str but RHS is bytes
-        elif md["document"] == "end":
+        elif key == "end":
+            # TODO: verify with md["document"] == listener.eot_signal_text
+            # BUT document is str while listener.eot_signal_text is bytes
             print("EOT received")
             break
     print("Connection ended")
