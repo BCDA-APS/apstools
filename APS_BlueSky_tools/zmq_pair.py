@@ -50,30 +50,11 @@ class ZMQ_Pair(object):
     def receive_json(self):
         return self.socket.recv_json()
     
-    def receive_numpy_array(self, flags=0, copy=True, track=False):
-        """recv a numpy array"""
-        # see: https://pyzmq.readthedocs.io/en/latest/serialization.html#using-your-own-serialization
-        md = self.socket.recv_json(flags=flags)
-        msg = self.socket.recv(flags=flags, copy=copy, track=track)
-        buf = memoryview(msg)
-        A = numpy.frombuffer(buf, dtype=md['dtype'])
-        return A.reshape(md['shape'])
-    
     def send(self, chunk):
         return self.socket.send(chunk)
     
     def send_json(self, chunk):
         return self.socket.send_json(chunk)
-    
-    def send_numpy_array(self, A, flags=0, copy=True, track=False):
-        """send a numpy array with metadata"""
-        # see: https://pyzmq.readthedocs.io/en/latest/serialization.html#using-your-own-serialization
-        md = dict(
-            dtype = str(A.dtype),
-            shape = A.shape,
-        )
-        self.socket.send_json(md, flags|zmq.SNDMORE)
-        return self.socket.send(A, flags, copy=copy, track=track)
     
     def send_string(self, msg):
         return self.socket.send_string(str(msg))
@@ -81,7 +62,8 @@ class ZMQ_Pair(object):
     def end(self):
         """send an "end" message to the other end of the ZMQ pair"""
         #self.send_string(self.eot_signal_text.decode())
-        self.send_json({"key": "end", "document": self.eot_signal_text.decode()})
+        self.send_json({"key": "end", 
+                        "document": self.eot_signal_text.decode()})
 
 
 _cache_ = {}
@@ -169,11 +151,9 @@ def mona_zmq_sender(
     support packages to support the pipe (zmq) and packaging 
     protocols (json).
     '''
-    import json
     global _cache_
-    # sender.send_string(key)
-    # sender.send_string(json.dumps(document))
-    sender.send_json({"key": key, "document": document})
+    sender.send_json({"key": key, 
+                      "document": document})
     if key == "start":
         _cache_ = {}
         uid = document["uid"]
@@ -181,8 +161,6 @@ def mona_zmq_sender(
         _cache_["prescan_phase"] = True
         _cache_["primary_descriptor_uid"] = None
         _cache_[nm] = document
-    elif key == "stop":
-        _cache_ = {}
     elif key == "descriptor":
         uid = document["uid"]
         nm = key + "_" + uid[:8]
@@ -190,12 +168,12 @@ def mona_zmq_sender(
         if document.get("name") == 'primary':
             _cache_["primary_descriptor_uid"] = uid
     elif key == "event" and None not in (detector, signal_name, rotation_name):
-
         primary_descriptor_uid = _cache_.get("primary_descriptor_uid")
         if document["descriptor"] == primary_descriptor_uid:
             # do not send images in prescan phase
             _cache_["prescan_phase"] = False
 
+        # only certain events have the rotation angle
         rotation = document["data"].get(rotation_name)
         if rotation is not None:
             # cache the rotation angle and its timestamp
@@ -206,80 +184,37 @@ def mona_zmq_sender(
         if _cache_.get("prescan_phase", True):
             return
 
-        # pump out the image
-        flags=0
         image_number = document["data"].get(signal_name)
         rotation = _cache_.get("rotation")
-        if image_number is not None and rotation is not None:
-            sender.socket.send_json(
-                dict(
-                    key = "image",
-                    dtype = str(detector.image.dtype),
-                    shape = detector.image.shape,
-                    image_timestamp = document["timestamps"].get(signal_name),
-                    rotation = _cache_["rotation"],
-                    rotation_timestamp = _cache_["rotation_time"],
-                    document = "... see next message ...",
-    
-                ), flags|zmq.SNDMORE
-            )
-            # binary image is not serializable in JSON, send separately
-            sender.socket.send(detector.image)
-    return
-    # --------------------------------------------------------------
-    
-    # TODO: ignore images after scan (but how?)
-    if key == "descriptor":
-        uid = document["uid"]
-        nm = key + "_" + uid[:8]
-        _cache_[nm] = document
-        if document.get("name") == 'primary':
-            _cache_["primary_descriptor_uid"] = uid
-    elif key == "event" and None not in (detector, signal_name, rotation_name):
+        if None in (image_number, rotation):
+            return
 
-        primary_descriptor_uid = _cache_.get("primary_descriptor_uid")
-        if document["descriptor"] == primary_descriptor_uid:
-            _cache_["prescan_phase"] = False
+        rotation_time = _cache_["rotation_time"]
+        image_time = document["timestamps"].get(signal_name)
+        MOTOR_STILL_TOO_LONG_s = 0.1
+        if image_time - rotation_time > MOTOR_STILL_TOO_LONG_s:
+            return
 
-        rotation = document["data"].get(rotation_name)
-        if rotation is not None:
-            _cache_["rotation"] = rotation
-            ts = document["timestamps"].get(rotation_name)
-            _cache_["rotation_time"] = ts
+        # pump out the image
+        sender.socket.send_json(
+            dict(
+                key = "image",
+                dtype = str(detector.image.dtype),
+                shape = detector.image.shape,
+                image_timestamp = image_time,
+                rotation = _cache_["rotation"],
+                rotation_timestamp = rotation_time,
+                document = "... see next message ...",
 
-        if not _cache_.get("prescan_phase", True):
-            image_number = document["data"].get(signal_name)
-            rotation = _cache_.get("rotation")
-            if image_number is not None and rotation is not None:
-                # print("... sending image ...")
-                # print("primary_descriptor_uid", primary_descriptor_uid)
-                # print("prescan_phase", document["data"].get("prescan_phase"))
-                # print("rotation", rotation)
-                # print("image_number", image_number)
-                image = detector.image
-                sender.send_string("image")
-                sender.send_string(image.shape)
-                sender.send_string(image.dtype)
-                sender.send_string(image_number)
-                sender.send_string(document["timestamps"].get(signal_name))
-                sender.send_string(_cache_["rotation"])
-                sender.send_string(_cache_["rotation_time"])
-                
-                #sender.send(image)
-                sender.send_numpy_array(image)
-    elif key == "start":
-        _cache_ = {}
-        uid = document["uid"]
-        nm = key + "_" + uid[:8]
-        _cache_["prescan_phase"] = True
-        _cache_["primary_descriptor_uid"] = None
-        _cache_[nm] = document
+            ), zmq.SNDMORE
+        )
+        # binary image is not serializable in JSON, send separately
+        sender.socket.send(detector.image)
     elif key == "stop":
         _cache_ = {}
 
+
 def mona_zmq_receiver(filename):
-    #from zmq_pair import ZMQ_Pair
-    import json
     import socket
     listener = ZMQ_Pair()
     print("0MQ server Listening now: {}".format(str(listener)))
@@ -301,21 +236,25 @@ def mona_zmq_receiver(filename):
         elif key == "descriptor":
             print(key, md["document"])
         elif key == "event":
-            print(key, md["document"])
+            # print(key, md["document"])
+            pass
         elif key == "image":
-            print(key, md)
+            #print(key, md)
             dtype = md["dtype"]
             shape = md["shape"]
             image = memoryview(listener.receive())
             image = numpy.frombuffer(image, dtype=dtype).reshape(shape)
+            print("image", md["rotation"], md["image_timestamp"]-md["rotation_timestamp"])
         elif key == "bulk_events":
-            print(key, md["document"])
+            #print(key, md["document"])
+            pass
         elif key == "stop":
             print(key, md["document"])
         elif key == "end":
             # TODO: verify with md["document"] == listener.eot_signal_text
             # BUT document is str while listener.eot_signal_text is bytes
             print("EOT received")
+            # TODO: should we disconnect()?
             break
     print("Connection ended")
 
