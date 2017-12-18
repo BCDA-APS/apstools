@@ -83,32 +83,7 @@ class ZMQ_Pair(object):
         self.send_string(self.eot_signal_text.decode())
 
 
-class DataCache(object):
-    """remember rotation angle and other info during a scan"""
-    
-    def __init__(self):
-        self.clear()
-    
-    def clear(self):
-        self.cache = collections.OrderedDict()
-    
-    def update(self, md={}):
-        self.cache.update(md)
-    
-    def get(self, key, default=None):
-        return self.cache.get(key, default)
-    
-    def set(self, key, value):
-        return self.cache.update({key: value})
-    
-    def keys(self):
-        return self.cache.keys()
-    
-    def __len__(self):
-        return len(self.cache)
-
-
-__data_cache__ = DataCache()    # singleton!
+_cache_ = {}
 
 
 def server_example():
@@ -194,7 +169,7 @@ def mona_zmq_sender(
     protocols (json).
     '''
     import json
-    global __data_cache__
+    global _cache_
     sender.send_string(key)
     sender.send_string(json.dumps(document))
     # TODO: cache the rotation angle and time stamp
@@ -203,24 +178,24 @@ def mona_zmq_sender(
     if key == "descriptor":
         uid = document["uid"]
         nm = key + "_" + uid[:8]
-        __data_cache__.set(nm, document)
+        _cache_[nm] = document
         if document.get("name") == 'primary':
-            __data_cache__.set("primary_descriptor_uid", uid)
+            _cache_["primary_descriptor_uid"] = uid
     elif key == "event" and None not in (detector, signal_name, rotation_name):
 
-        primary_descriptor_uid = __data_cache__.get("primary_descriptor_uid")
+        primary_descriptor_uid = _cache_.get("primary_descriptor_uid")
         if document["descriptor"] == primary_descriptor_uid:
-            __data_cache__.set("prescan_phase", False)
+            _cache_["prescan_phase"] = False
 
         rotation = document["data"].get(rotation_name)
         if rotation is not None:
-            __data_cache__.set("rotation", rotation)
+            _cache_["rotation"] = rotation
             ts = document["timestamps"].get(rotation_name)
-            __data_cache__.set("rotation_time", ts)
+            _cache_["rotation_time"] = ts
 
-        if not __data_cache__.get("prescan_phase", True):
+        if not _cache_.get("prescan_phase", True):
             image_number = document["data"].get(signal_name)
-            rotation = __data_cache__.get("rotation")
+            rotation = _cache_.get("rotation")
             if image_number is not None and rotation is not None:
                 # print("... sending image ...")
                 # print("primary_descriptor_uid", primary_descriptor_uid)
@@ -233,20 +208,19 @@ def mona_zmq_sender(
                 sender.send_string(image.dtype)
                 sender.send_string(image_number)
                 sender.send_string(document["timestamps"].get(signal_name))
-                sender.send_string(__data_cache__.get("rotation"))
-                sender.send_string(__data_cache__.get("rotation_time"))
+                sender.send_string(_cache_["rotation"])
+                sender.send_string(_cache_["rotation_time"])
                 
                 sender.send(image)
     elif key == "start":
-        __data_cache__.clear()
+        _cache_ = {}
         uid = document["uid"]
         nm = key + "_" + uid[:8]
-        __data_cache__.set("prescan_phase", True)
-        __data_cache__.set("primary_descriptor_uid", None)
-        __data_cache__.set(nm, document)
+        _cache_["prescan_phase"] = True
+        _cache_["primary_descriptor_uid"] = None
+        _cache_[nm] = document
     elif key == "stop":
-        __data_cache__.clear()
-
+        _cache_ = {}
 
 def mona_zmq_receiver(filename):
     """
