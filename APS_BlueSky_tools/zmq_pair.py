@@ -192,7 +192,7 @@ def mona_zmq_sender(
         rotation_time = _cache_["rotation_time"]
         image_time = document["timestamps"].get(signal_name)
         MOTOR_STILL_TOO_LONG_s = 0.1
-        if image_time - rotation_time > MOTOR_STILL_TOO_LONG_s:
+        if (image_time - rotation_time) > MOTOR_STILL_TOO_LONG_s:
             return
 
         # pump out the image
@@ -201,6 +201,7 @@ def mona_zmq_sender(
                 key = "image",
                 dtype = str(detector.image.dtype),
                 shape = detector.image.shape,
+                image_number = image_number,
                 image_timestamp = image_time,
                 rotation = _cache_["rotation"],
                 rotation_timestamp = rotation_time,
@@ -214,7 +215,8 @@ def mona_zmq_sender(
         _cache_ = {}
 
 
-def mona_zmq_receiver(filename):
+def mona_zmq_receiver(*args, **kwds):
+    """receive data from BlueSky data acquisition"""
     import socket
     listener = ZMQ_Pair()
     print("0MQ server Listening now: {}".format(str(listener)))
@@ -244,7 +246,10 @@ def mona_zmq_receiver(filename):
             shape = md["shape"]
             image = memoryview(listener.receive())
             image = numpy.frombuffer(image, dtype=dtype).reshape(shape)
-            print("image", md["rotation"], md["image_timestamp"]-md["rotation_timestamp"])
+            print("image", 
+                  md["image_number"],
+                  md["rotation"], 
+                  md["image_timestamp"]-md["rotation_timestamp"])
         elif key == "bulk_events":
             #print(key, md["document"])
             pass
