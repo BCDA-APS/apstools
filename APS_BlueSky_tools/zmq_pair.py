@@ -14,7 +14,9 @@ Python ZeroMQ pair connection example
 
 
 import collections
+import json
 import numpy
+import time
 import zmq
 
 __all__ = ['ZMQ_Pair', 'server_example', 'client_example']
@@ -43,6 +45,7 @@ class ZMQ_Pair(object):
             self.socket.bind(self.addr)
         else:
             self.socket.connect(self.addr)
+            self.send_json(dict(key="connect", client=hostname()))
     
     def receive(self):
         return self.socket.recv()
@@ -61,9 +64,13 @@ class ZMQ_Pair(object):
     
     def end(self):
         """send an "end" message to the other end of the ZMQ pair"""
-        #self.send_string(self.eot_signal_text.decode())
         self.send_json({"key": "end", 
                         "document": self.eot_signal_text.decode()})
+
+
+def hostname():
+    import socket
+    return socket.gethostname() or 'localhost' 
 
 
 _cache_ = {}
@@ -105,6 +112,7 @@ def mona_zmq_sender(
         This suppresses extra images at the end of the scan
         as well as multiple images while the motor waits
         at one location with no updates.
+        Default: 0.1 s
         
         .. note:: Likely there is a better way to solve #13 than this.
 
@@ -135,10 +143,21 @@ def mona_zmq_sender(
         uid = document["uid"]
         nm = key + "_" + uid[:8]
         _cache_[nm] = document
+        _cache_[uid] = document
+
+        #sender.socket.send_json(dict(key="DEVELOPER", message=str(document.get("name"))))
+
         if document.get("name") == 'primary':
             _cache_["primary_descriptor_uid"] = uid
     elif key == "event" and None not in (detector, signal_name, rotation_name):
         primary_descriptor_uid = _cache_.get("primary_descriptor_uid")
+        #sender.socket.send_json(
+        #    dict(
+        #        key="DEVELOPER", 
+        #        message="event document",
+        #        descriptor_name=_cache_[document["descriptor"]]
+        #        )
+        #    )
         if document["descriptor"] == primary_descriptor_uid:
             # do not send images in prescan phase
             _cache_["prescan_phase"] = False
@@ -162,9 +181,12 @@ def mona_zmq_sender(
 
         rotation_time = _cache_["rotation_time"]
         image_time = document["timestamps"].get(signal_name)
+
         if (image_time - rotation_time) > max_motor_still_time:
             # motor has not updated in a while, no image
             return
+
+        # sender.socket.send_json(dict(key="DEVELOPER", message="image next"))
 
         # pump out the image
         sender.socket.send_json(
@@ -174,6 +196,7 @@ def mona_zmq_sender(
                 shape = detector.image.shape,
                 image_number = image_number,
                 image_timestamp = image_time,
+                sending_timestamp = time.time(),
                 rotation = _cache_["rotation"],
                 rotation_timestamp = rotation_time,
                 document = "... see next message ...",
@@ -188,15 +211,14 @@ def mona_zmq_sender(
 
 def mona_zmq_receiver(*args, **kwds):
     """receive data from BlueSky data acquisition"""
-    import socket
     listener = ZMQ_Pair()
     print("0MQ server Listening now: {}".format(str(listener)))
     print("  host: {}".format(listener.host))
     print("  port: {}".format(listener.port))
     print("  addr: {}".format(listener.addr))
-    serverhost = socket.gethostname() or 'localhost' 
-    print("  serverhost: {}".format(serverhost))
+    print("  serverhost: {}".format(hostname()))
     print("#"*40)
+    stream = None
 
     while True:
         md = listener.receive_json()
@@ -205,33 +227,57 @@ def mona_zmq_receiver(*args, **kwds):
             print("no 'key' in message")
             continue
         if key == "start":
-            print(key, md["document"])
+            #print(key, md["document"])
+            uid = md["document"]["uid"]
+            fname = "/tmp/{}.txt".format(uid[:8])
+            stream = []
+            stream.append((key, md["document"]))
         elif key == "descriptor":
-            print(key, md["document"])
+            #print(key, md["document"])
+            if stream is not None:
+                stream.append((key, md["document"]))
         elif key == "event":
-            # print(key, md["document"])
-            pass
+            if stream is not None:
+                stream.append((key, md["document"]))
+                # print(key, md["document"])
+                pass
         elif key == "image":
+            md["receiving_timestamp"] = time.time()
             #print(key, md)
             dtype = md["dtype"]
             shape = md["shape"]
+            #print("... getting image ...")
             image = memoryview(listener.receive())
             image = numpy.frombuffer(image, dtype=dtype).reshape(shape)
             print("image", 
                   md["image_number"],
                   "%.6f" % md["rotation"], 
                   "%.4f" % (md["image_timestamp"]-md["rotation_timestamp"]))
+            if stream is not None:
+                stream.append((key, md))
         elif key == "bulk_events":
+            if stream is not None:
+                stream.append((key, md))
             #print(key, md["document"])
             pass
         elif key == "stop":
-            print(key, md["document"])
+            #print(key, md["document"])
+            if stream is not None:
+                stream.append((key, md["document"]))
+                with open(fname, "w") as fp:
+                    for entry in stream:
+                        key, doc = entry
+                        fp.write(key + " " + str(json.dumps(doc)) + "\n")
+                stream = None
+                print("wrote", fname)
         elif key == "end":
-            # TODO: verify with md["document"] == listener.eot_signal_text
-            # BUT document is str while listener.eot_signal_text is bytes
-            print("EOT received")
             # TODO: should we disconnect()?
             break
+        elif key == "connect":
+            print("  client: {}".format(md["client"]))
+            print("#"*40)
+        else:
+            print("!!!! md: {}".format(json.dumps(md)))
     print("Connection ended")
 
 
