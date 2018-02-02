@@ -22,7 +22,8 @@
 
 
 from .synApps_ophyd import *
-from ophyd import Component, EpicsMotor, Device
+from ophyd import Component, Device, DeviceStatus
+from ophyd import EpicsMotor, EpicsSignal
 from bluesky.plan_stubs import mv, mvr, abs_set, wait
 
 
