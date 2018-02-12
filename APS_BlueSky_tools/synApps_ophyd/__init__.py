@@ -23,5 +23,6 @@ https://github.com/klauer/recordwhat
 """
 
 
+from .busy import *
 from .sscan import *
 from .swait import *
