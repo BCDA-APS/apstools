@@ -120,7 +120,21 @@ class ApsPssShutter(Device):
         return status
 
 
-class EpicsMotorWithDial(EpicsMotor):
+class EpicsMotorDialMixin(object):
+    """
+    add motor record's dial coordinate fields
+    
+    USAGE::
+    
+        class myEpicsMotor(EpicsMotor, EpicsMotorDialMixin): pass
+        m1 = myEpicsMotor('xxx:m1', name='m1')
+    
+    """
+    
+    dial = Component(EpicsSignal, ".DRBV", write_pv=".DVAL")
+
+
+class EpicsMotorWithDial(EpicsMotor, EpicsMotorDialMixin):
     """
     add motor record's dial coordinates to EpicsMotor
     
@@ -128,15 +142,65 @@ class EpicsMotorWithDial(EpicsMotor):
     
         m1 = EpicsMotorWithDial('xxx:m1', name='m1')
     
+    This is legacy support.  For new work, use `EpicsMotorDialMixin`.
     """
-    dial = Component(EpicsSignal, ".DRBV", write_pv=".DVAL")
+    pass
 
 
-class EpicsMotorWithServo(EpicsMotor):
-    """extend basic motor support to enable/disable the servo loop controls"""
+class EpicsMotorServoMixin(object):
+    """
+    add motor record's servo loop controls
+    
+    USAGE::
+    
+        class myEpicsMotor(EpicsMotor, EpicsMotorServoMixin): pass
+        m1 = myEpicsMotor('xxx:m1', name='m1')
+    
+    """
     
     # values: "Enable" or "Disable"
     servo = Component(EpicsSignal, ".CNEN", string=True)
+
+
+class EpicsMotorWithServo(EpicsMotor, EpicsMotorServoMixin):
+    """
+    extend basic motor support to enable/disable the servo loop controls
+    
+    USAGE::
+    
+        m1 = EpicsMotorWithDial('xxx:m1', name='m1')
+    
+    This is legacy support.  For new work, use `EpicsMotorServoMixin`.
+    """
+    pass
+
+
+class EpicsMotorRawMixin(object):
+    """
+    add motor record's raw coordinate fields
+    
+    USAGE::
+    
+        class myEpicsMotor(EpicsMotor, EpicsMotorRawMixin): pass
+        m1 = myEpicsMotor('xxx:m1', name='m1')
+    
+    """
+    
+    raw = Component(EpicsSignal, ".RRBV", write_pv=".RVAL")
+
+
+class EpicsMotorDescriptionMixin(object):
+    """
+    add motor record's description field
+    
+    USAGE::
+    
+        class myEpicsMotor(EpicsMotor, EpicsMotorDescriptionMixin): pass
+        m1 = myEpicsMotor('xxx:m1', name='m1')
+    
+    """
+    
+    desc = Component(EpicsSignal, ".DESC")
 
 
 class EpicsMotorShutter(Device):
