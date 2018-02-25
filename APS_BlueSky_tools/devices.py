@@ -5,8 +5,10 @@
 .. autosummary::
    
     ~ApsPssShutter
-    ~EpicsMotorWithDial
-    ~EpicsMotorWithServo
+    ~EpicsMotorDialMixin
+    ~EpicsMotorServoMixin
+    ~EpicsMotorRawMixin
+    ~EpicsMotorDescriptionMixin
     ~EpicsMotorShutter
     ~sscanRecord  
     ~sscanDevice
@@ -16,6 +18,13 @@
     ~swait_setup_lorentzian
     ~swait_setup_incrementer
     ~userCalcsDevice
+
+Legacy routines
+
+.. autosummary::
+   
+    ~EpicsMotorWithDial
+    ~EpicsMotorWithServo
 
 """
 
