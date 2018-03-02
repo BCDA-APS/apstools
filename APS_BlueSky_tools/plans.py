@@ -5,6 +5,7 @@ Plans that might be useful at the APS using BlueSky
    
    ~nscan
    ~TuneAxis
+   ~tune_axes
 
 """
 
@@ -150,6 +151,8 @@ class TuneAxis(object):
 
     """
     
+    _peak_choices_ = "cen com".split()
+    
     def __init__(self, signals, axis, signal_name=None):
         self.signals = signals
         self.signal_name = signal_name or signals[0].name
@@ -157,6 +160,7 @@ class TuneAxis(object):
         self.stats = {}
         self.tune_ok = False
         self.peaks = None
+        self.peak_choice = self._peak_choices_[0]
         self.center = None
         self.stats = []
         
@@ -189,6 +193,11 @@ class TuneAxis(object):
         """
         width = width or self.width
         num = num or self.num
+        
+        if self.peak_choice not in self._peak_choices_:
+            msg = "peak_choice must be one of {}, geave {}"
+            msg = msg.format(self._peak_choices_, self.peak_choice)
+            raise ValueError(msg)
 
         initial_position = self.axis.position
         start = initial_position - width/2
@@ -210,14 +219,18 @@ class TuneAxis(object):
             yield from bp.scan(
                 self.signals, self.axis, start, finish, num=num, md=_md)
             
+            final_position = initial_position
             if self.peak_detected():
                 self.tune_ok = True
-                self.center = self.peaks.cen
+                if self.peak_choice == "cen":
+                    final_position = self.peaks.cen
+                elif self.peak_choice == "com":
+                    final_position = self.peaks.com
+                else:
+                    final_position = None
+                self.center = final_position
             
-            if self.center is not None:
-                yield from bps.mv(self.axis, self.center)
-            else:
-                yield from bps.mv(self.axis, initial_position)
+            yield from bps.mv(self.axis, final_position)
             self.stats.append(self.peaks)
     
         return (yield from _scan())
@@ -298,4 +311,12 @@ class TuneAxis(object):
         
         ymax = self.peaks.max[-1]
         ymin = self.peaks.min[-1]
-        return ymax > 4*ymin        # this works for USAXS
+        return ymax > 4*ymin        # this works for USAXS@APS
+
+
+def tune_axes(axes):
+    """
+    BlueSky plan to tune a list of axes in sequence
+    """
+    for axis in axes:
+        yield from axis.tune()
