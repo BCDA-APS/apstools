@@ -13,13 +13,12 @@ Python ZeroMQ pair connection example
 # http://learning-0mq-with-pyzmq.readthedocs.io/en/latest/pyzmq/multisocket/zmqpoller.html
 
 
-import collections
 import json
 import numpy
 import time
 import zmq
 
-__all__ = ['ZMQ_Pair', 'server_example', 'client_example']
+__all__ = ['ZMQ_Pair', 'mona_zmq_sender', 'mona_zmq_receiver']
 
 class ZMQ_Pair(object):
     """

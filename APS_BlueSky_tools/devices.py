@@ -319,6 +319,7 @@ class EpicsMotorShutter(Device):
     a shutter, implemented with an EPICS motor moved between two positions
     
     USAGE::
+
         tomo_shutter = EpicsMotorShutter("2bma:m23", name="tomo_shutter")
         tomo_shutter.closed_position = 1.0      # default
         tomo_shutter.open_position = 0.0        # default
@@ -337,6 +338,7 @@ class EpicsMotorShutter(Device):
         def planA():
             yield from mv(tomo_shutter, "open")
             yield from mv(tomo_shutter, "close")
+
     """
     motor = Component(EpicsMotor, "")
     closed_position = 1.0
@@ -361,18 +363,20 @@ class EpicsMotorShutter(Device):
         """
         `set()` is like `put()`, but used in BlueSky plans
 
-        Parameters
-        ----------
+        PARAMETERS
+        
         value : "open" or "close"
+
         timeout : float, optional
             Maximum time to wait. Note that set_and_wait does not support
             an infinite timeout.
+
         settle_time: float, optional
             Delay after the set() has completed to indicate completion
             to the caller
 
-        Returns
-        -------
+        RETURNS
+        
         status : DeviceStatus
         """
 
