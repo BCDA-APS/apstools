@@ -172,7 +172,7 @@ class TuneAxis(object):
         BlueSky plan to execute one pass through the current scan range
         
         Scan self.axis centered about current position from
-        ``-width/2`` to ``+width/2`` with ``num`` steps.
+        ``-width/2`` to ``+width/2`` with ``num`` observations.
         If a peak was detected (default check is that max >= 4*min), 
         then set ``self.tune_ok = True``.
 
@@ -215,9 +215,9 @@ class TuneAxis(object):
                 self.center = self.peaks.cen
             
             if self.center is not None:
-                self.axis.move(self.center)
+                yield from bps.mv(self.axis, self.center)
             else:
-                self.axis.move(initial_position)
+                yield from bps.mv(self.axis, initial_position)
             self.stats.append(self.peaks)
     
         return (yield from _scan())
