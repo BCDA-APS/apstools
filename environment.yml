@@ -1,0 +1,22 @@
+name: toolsdoc
+channels:
+- lightsource2-tag
+- defaults
+dependencies:
+- pip
+- pyqt=5
+- python=3.6
+- qt=5
+- sphinx
+- sphinx_rtd_theme
+- bluesky
+- ophyd
+- prettytable
+- pip:
+  - ipython-genutils==0.2.0
+  - prompt-toolkit==1.0.15
+  - sphinx-rtd-theme
+  - super-state-machine
+  - versioneer
+prefix: /home/mintadmin/Apps/BlueSky/envs/toolsdoc
+
