@@ -204,10 +204,13 @@ class TuneAxis(object):
         finish = initial_position + width/2
         self.tune_ok = False
 
-        _md = {'tune_width': width,
-               'tune_center_initial': self.axis.position,
+        tune_md = dict(
+            width = width,
+            initial_position = self.axis.position,
+            time_iso8601 = str(datetime.datetime.now()),
+            )
+        _md = {'tune_md': tune_md,
                'plan_name': self.__class__.__name__ + '.tune',
-               'time_iso8601': str(datetime.datetime.now()),
                }
         _md.update(md or {})
         if "pass_max" not in _md:
