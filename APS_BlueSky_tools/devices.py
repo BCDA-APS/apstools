@@ -221,14 +221,14 @@ class AxisTunerMixin(object):
         md["purpose"] = "tuner"
         md["datetime"] = str(datetime.now())
 
-        if self.pre_tune_method is not None:
-            self.pre_tune_method()
-
         if self.tuner is not None:
-            yield from self.tuner.tune(md=md, **kwargs)
+            if self.pre_tune_method is not None:
+                self.pre_tune_method()
 
-        if self.post_tune_method is not None:
-            self.post_tune_method()
+            yield from self.tuner.tune(md=md, **kwargs)
+    
+            if self.post_tune_method is not None:
+                self.post_tune_method()
 
 
 class EpicsMotorDialMixin(object):
