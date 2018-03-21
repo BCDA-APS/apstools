@@ -19,6 +19,7 @@
     ~swait_setup_gaussian
     ~swait_setup_lorentzian
     ~swait_setup_incrementer
+    ~use_EPICS_scaler_channels
     ~userCalcsDevice
 
 Legacy routines
@@ -41,6 +42,18 @@ from .synApps_ophyd import *
 from ophyd import Component, Device, DeviceStatus
 from ophyd import Signal, EpicsMotor, EpicsSignal
 from bluesky.plan_stubs import mv, mvr, abs_set, wait
+
+
+def use_EPICS_scaler_channels(scaler):
+    """
+    configure scaler for only the channels with names assigned in EPICS 
+    """
+    read_attrs = []
+    for ch in scaler.channels.component_names:
+        _nam = epics.caget("{}.NM{}".format(scaler.prefix, int(ch[4:])))
+        if len(_nam.strip()) > 0:
+            read_attrs.append(ch)
+    scaler.channels.read_attrs = read_attrs
 
 
 class ApsPssShutter(Device):
