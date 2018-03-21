@@ -203,7 +203,6 @@ class AxisTunerMixin(object):
     """
     
     def __init__(self):
-        # self.tuner = PeakAxisTuner()
         self.tuner = None   # such as: APS_BlueSky_tools.plans.TuneAxis
         
         # Hook functions for callers to add additional plan parts
