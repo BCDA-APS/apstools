@@ -46,8 +46,8 @@ from datetime import datetime
 import threading
 import time
 from .synApps_ophyd import *
-from ophyd import Component, Device, DeviceStatus
-from ophyd import Signal, EpicsMotor, EpicsSignal
+from ophyd import Component, Device, DeviceStatus, FormattedComponent
+from ophyd import Signal, EpicsMotor, EpicsSignal, EpicsSignalRO
 from bluesky.plan_stubs import mv, mvr, abs_set, wait
 
 
@@ -85,12 +85,18 @@ class ApsMachineParametersDevice(Device):
         APS = APS_Machine_Parameters_Device(name="APS")
         aps_current = APS.current
 
-        # make sure these values are logged by every scan
-        # relies on this global setup:
-        #   from bluesky import SupplementalData
-        #   sd = SupplementalData()
-        #   RE.preprocessors.append(sd)
+        # make sure these values are logged at start and stop of every scan
         sd.baseline.append(APS)
+        # record storage ring current as secondary stream during scans
+        # name: aps_current_monitor
+        # db[-1].table("aps_current_monitor")
+        sd.monitors.append(aps_current)
+
+    The `sd.baseline` and `sd.monitors` usage relies on this global setup:
+
+        from bluesky import SupplementalData
+        sd = SupplementalData()
+        RE.preprocessors.append(sd)
 
     """
     current = Component(EpicsSignalRO, "S:SRcurrentAI")
