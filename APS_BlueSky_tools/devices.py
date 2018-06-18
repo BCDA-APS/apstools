@@ -4,6 +4,7 @@
 
 .. autosummary::
    
+    ~ApsMachineParametersDevice
     ~ApsPssShutter
     ~AxisTunerException
     ~AxisTunerMixin
@@ -21,6 +22,12 @@
     ~swait_setup_incrementer
     ~use_EPICS_scaler_channels
     ~userCalcsDevice
+
+Internal routines
+
+.. autosummary::
+
+    ~ApsOperatorMessagesDevice
 
 Legacy routines
 
@@ -54,6 +61,49 @@ def use_EPICS_scaler_channels(scaler):
         if len(_nam.strip()) > 0:
             read_attrs.append(ch)
     scaler.channels.read_attrs = read_attrs
+
+
+class ApsOperatorMessagesDevice(Device):
+    """general messages from the APS main control room"""
+    operators = Component(EpicsSignalRO, "OPS:message1", string=True)
+    floor_coordinator = Component(EpicsSignalRO, "OPS:message2", string=True)
+    fll_pattern = Component(EpicsSignalRO, "OPS:message3", string=True)
+    last_problem_message = Component(EpicsSignalRO, "OPS:message4", string=True)
+    last_trip_message = Component(EpicsSignalRO, "OPS:message5", string=True)
+    # messages 6-8: meaning?
+    message6 = Component(EpicsSignalRO, "OPS:message6", string=True)
+    message7 = Component(EpicsSignalRO, "OPS:message7", string=True)
+    message8 = Component(EpicsSignalRO, "OPS:message8", string=True)
+
+
+class ApsMachineParametersDevice(Device):
+    """
+    common operational parameters of the APS of general interest
+    
+    USAGE::
+
+        APS = APS_Machine_Parameters_Device(name="APS")
+        aps_current = APS.current
+
+        # make sure these values are logged by every scan
+        # relies on this global setup:
+        #   from bluesky import SupplementalData
+        #   sd = SupplementalData()
+        #   RE.preprocessors.append(sd)
+        sd.baseline.append(APS)
+
+    """
+    current = Component(EpicsSignalRO, "S:SRcurrentAI")
+    lifetime = Component(EpicsSignalRO, "S:SRlifeTimeHrsCC")
+    machine_status = Component(EpicsSignalRO, "S:DesiredMode", string=True)
+    operating_mode = Component(EpicsSignalRO, "S:ActualMode", string=True)
+    shutter_permit = Component(EpicsSignalRO, "ACIS:ShutterPermit", string=True)
+    fill_number = Component(EpicsSignalRO, "S:FillNumber")
+    orbit_correction = Component(EpicsSignalRO, "S:OrbitCorrection:CC")
+    global_feedback = Component(EpicsSignalRO, "SRFB:GBL:LoopStatusBI", string=True)
+    global_feedback_h = Component(EpicsSignalRO, "SRFB:GBL:HLoopStatusBI", string=True)
+    global_feedback_v = Component(EpicsSignalRO, "SRFB:GBL:VLoopStatusBI", string=True)
+    operator_messages = Component(ApsOperatorMessagesDevice)
 
 
 class ApsPssShutter(Device):
