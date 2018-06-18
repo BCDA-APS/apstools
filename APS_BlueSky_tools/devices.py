@@ -208,20 +208,27 @@ class ApsPssShutterWithStatus(Device):
     
     USAGE:
     
-        shutter_a = ApsPssShutterWithStatus("2bma:A_shutter", name="shutter")
+        A_shutter = ApsPssShutterWithStatus(
+            "2bma:A_shutter", 
+            "PA:02BM:STA_A_FES_OPEN_PL", 
+            name="A_shutter")
+        B_shutter = ApsPssShutterWithStatus(
+            "2bma:B_shutter", 
+            "PA:02BM:STA_B_SBS_OPEN_PL", 
+            name="B_shutter")
         
-        shutter_a.open()
-        shutter_a.close()
+        A_shutter.open()
+        A_shutter.close()
         
         or
         
-        %mov shutter_a "open"
-        %mov shutter_a "close"
+        %mov A_shutter "open"
+        %mov A_shutter "close"
         
         or
         
-        shutter_a.set("open")       # MUST be "open", not "Open"
-        shutter_a.set("close")
+        A_shutter.set("open")       # MUST be "open", not "Open"
+        A_shutter.set("close")
         
     When using the shutter in a plan, be sure to use `yield from`.
 
@@ -230,14 +237,13 @@ class ApsPssShutterWithStatus(Device):
             # do something
             yield from abs_set(shutter, "close", wait=True)
         
-        RE(in_a_plan(shutter_a))
+        RE(in_a_plan(A_shutter))
         
     The strings accepted by `set()` are defined in attributes
     (`open_str` and `close_str`).
     """
     open_bit = Component(EpicsSignal, ":open")
     close_bit = Component(EpicsSignal, ":close")
-    delay_s = 1.2
     pss_state = FormattedComponent(EpicsSignalRO, "{self.state_pv}")
 
     # strings the user will use
