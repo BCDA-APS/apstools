@@ -1,9 +1,10 @@
 """
-Plans that might be useful at the APS using BlueSky
+Plans that might be useful at the APS when using BlueSky
 
 .. autosummary::
    
    ~nscan
+   ~run_in_thread
    ~TuneAxis
    ~tune_axes
 
@@ -12,16 +13,41 @@ Plans that might be useful at the APS using BlueSky
 # Copyright (c) 2017-, UChicago Argonne, LLC.  See LICENSE file.
 
 from collections import OrderedDict
+import datetime
 import logging
 import numpy as np 
+import threading
+
 from bluesky import preprocessors as bpp
 from bluesky import plan_stubs as bps
 from bluesky import plans as bp
 from bluesky.callbacks.fitting import PeakStats
-import datetime
 
 
 logger = logging.getLogger(__name__).addHandler(logging.NullHandler())
+
+
+def run_in_thread(func):
+    """
+    (decorator) run ``func`` in thread
+    
+    USAGE::
+
+       @run_in_thread
+       def progress_reporting():
+           logger.debug("progress_reporting is starting")
+           # ...
+       
+       #...
+       progress_reporting()   # runs in separate thread
+       #...
+
+    """
+    def wrapper(*args, **kwargs):
+        thread = threading.Thread(target=func, args=args, kwargs=kwargs)
+        thread.start()
+        return thread
+    return wrapper
 
 
 def nscan(detectors, *motor_sets, num=11, per_step=None, md=None):
