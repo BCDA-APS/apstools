@@ -46,8 +46,10 @@ from datetime import datetime
 import threading
 import time
 from .synApps_ophyd import *
+import ophyd
 from ophyd import Component, Device, DeviceStatus, FormattedComponent
 from ophyd import Signal, EpicsMotor, EpicsSignal, EpicsSignalRO
+from ophyd.scaler import EpicsScaler, ScalerCH
 from bluesky.plan_stubs import mv, mvr, abs_set, wait
 
 
@@ -55,12 +57,21 @@ def use_EPICS_scaler_channels(scaler):
     """
     configure scaler for only the channels with names assigned in EPICS 
     """
-    read_attrs = []
-    for ch in scaler.channels.component_names:
-        _nam = epics.caget("{}.NM{}".format(scaler.prefix, int(ch[4:])))
-        if len(_nam.strip()) > 0:
-            read_attrs.append(ch)
-    scaler.channels.read_attrs = read_attrs
+    if isinstance(scaler, EpicsScaler):
+        import epics
+        read_attrs = []
+        for ch in scaler.channels.component_names:
+            _nam = epics.caget("{}.NM{}".format(scaler.prefix, int(ch[4:])))
+            if len(_nam.strip()) > 0:
+                read_attrs.append(ch)
+        scaler.channels.read_attrs = read_attrs
+    elif isinstance(scaler, ScalerCH):
+        read_attrs = []
+        for ch in scaler.channels.component_names:
+            nm_pv = scaler.channels.__getattribute__(ch)
+            if nm_pv is not None and len(nm_pv.chname.value.strip()) > 0:
+                read_attrs.append(ch)
+        scaler.channels.read_attrs = read_attrs
 
 
 class ApsOperatorMessagesDevice(Device):
