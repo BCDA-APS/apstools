@@ -34,7 +34,7 @@ setup(
     name             = package.__project__,
     #platforms        = package.__platforms__,
     packages         = find_packages(exclude=['docs', 
-                                              'examples', 'ideas', 'tests']),
+                                              'examples', 'tests']),
     url              = package.__url__,
     version          = versioneer.get_version(),
     cmdclass         = versioneer.get_cmdclass(),

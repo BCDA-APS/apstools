@@ -5,7 +5,6 @@ Callbacks that might be useful at the APS using BlueSky
 .. autosummary::
    
    ~DocumentCollectorCallback
-   ~ImageZMQCallback
 
 FILE WRITER CALLBACK
 
@@ -16,7 +15,6 @@ see :class:`SpecWriterCallback()`
 # Copyright (c) 2017-, UChicago Argonne, LLC.  See LICENSE file.
 
 import logging
-from .zmq_pair import ZMQ_Pair
 
 
 logger = logging.getLogger(__name__).addHandler(logging.NullHandler())
@@ -74,35 +72,3 @@ class DocumentCollectorCallback(object):
                 self.documents[key] = []
             self.documents[key].append(document)
         return
-
-
-class ImageZMQCallback(object):
-    """
-    BlueSky callback: send *all* documents through a 0MQ pair connection
-    
-    note: under development, expected to change frequently without notice
-    note: for APS MONA project
-    """
-    
-    def __init__(self, host=None, port=None, detector=None):
-        self.talker = ZMQ_Pair(host or "localhost", port or "5556")
-        self.detector = detector
-    
-    def end(self):
-        self.talker.send_string(self.talker.eot_signal_text.decode())
-
-    def receiver(self, key, document):
-        """receive from RunEngine, send from 0MQ talker"""
-        self.talker.send_string(key)
-        self.talker.send_string(document)
-        if key == "event" and self.detector is not None:
-            # other end of 0MQ pair shoudl reconstruct the numpy array 
-            # based on the rank and shape
-            # image = np.array(bytes).reshape(shape=shape)
-            # https://docs.scipy.org/doc/numpy/reference/generated/numpy.reshape.html
-            self.talker.send_string("rank")
-            self.talker.send_string(str(len(self.detector.image.shape)))
-            self.talker.send_string("shape")
-            self.talker.send_string(str(self.detector.image.shape))
-            self.talker.send_string("image")
-            self.talker.send(self.detector.image)
