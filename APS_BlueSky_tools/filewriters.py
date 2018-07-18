@@ -365,8 +365,21 @@ class SpecWriterCallback(object):
         if len(self.data.keys()) > 0:
             lines.append("#L " + "  ".join(self.data.keys()))
             for i in range(self.num_primary_data):
-                s = [str(self.data[k][i]) for k in self.data.keys()]
+                str_data = OrderedDict()
+                s = []
+                for k in self.data.keys():
+                    datum = self.data[k][i]
+                    if isinstance(datum, str):
+                        # SPEC scan data is expected to be numbers
+                        # this is text, substitute the row number 
+                        # and report after this line in a #U line
+                        str_data[k] = datum
+                        datum = i
+                    s.append(str(datum))
                 lines.append(" ".join(s))
+                for k in str_data.keys():
+                    # report the text data
+                    lines.append("#U {} {} {}".format(i, k, str_data[k]))
         else:
             lines.append("#C no data column labels identified")
 
