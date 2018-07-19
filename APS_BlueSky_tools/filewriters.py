@@ -269,7 +269,8 @@ class SpecWriterCallback(object):
         self._streams[doc["uid"]] = doc
         
         if doc["name"] == "primary":
-            self.data.update({k: [] for k in sorted(doc["data_keys"].keys())})
+            doc_data_keys = list(doc["data_keys"].keys())
+            self.data.update({k: [] for k in sorted(doc_data_keys)})
             self.data["Epoch"] = []
             self.data["Epoch_float"] = []
         
@@ -291,8 +292,8 @@ class SpecWriterCallback(object):
             if len(self.detectors) > 0:
                 # find 1st detector and move to last
                 det_name = list(self.detectors.keys())[0]
-                if det_name not in self.data:
-                    det_name = list(doc["data_keys"].keys())[0]
+                if det_name not in self.data and len(doc_data_keys) > 0:
+                    det_name = doc_data_keys[0]
                 if det_name in self.data:
                     self.data.move_to_end(det_name)
 
