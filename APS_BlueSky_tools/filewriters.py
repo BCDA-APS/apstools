@@ -202,9 +202,9 @@ class SpecWriterCallback(object):
             bulk_events = self.bulk_events,
             stop = self.stop,
         )
-        logger = logging.getLogger(__name__)
-        logger.debug("{} document, uid={}".format(key, document["uid"]))
         if key in xref:
+            logger = logging.getLogger(__name__)
+            logger.debug("{} document, uid={}".format(key, document["uid"]))
             self._datetime = datetime.datetime.fromtimestamp(document["time"])
             xref[key](document)
         else:
