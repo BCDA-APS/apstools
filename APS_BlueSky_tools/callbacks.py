@@ -12,7 +12,7 @@ see :class:`SpecWriterCallback()`
 
 """
 
-# Copyright (c) 2017-, UChicago Argonne, LLC.  See LICENSE file.
+# Copyright (c) 2017-2018, UChicago Argonne, LLC.  See LICENSE file.
 
 import logging
 
@@ -45,11 +45,16 @@ class DocumentCollectorCallback(object):
 
     def receiver(self, key, document):
         """keep all documents from recent plan in memory"""
-        if "uid" not in document:
-            raise KeyError("No uid in {} document".format(key))
-        self.uids.append(document["uid"])
+        if key == "datum":
+            uid = document.get("datum_id")
+            # not likely to handle that here anyway
+        else:
+            uid = document.get("uid")
+        if "uid" is None:
+            raise KeyError("No uid in '{}' document".format(key))
+        self.uids.append(uid)
         logger = logging.getLogger(__name__)
-        logger.debug("{} document  uid={}".format(key, document["uid"]))
+        logger.debug("{} document  uid={}".format(key, uid))
         if key == "start":
             self.documents = {key: document}
         elif key in self.data_event_names:
