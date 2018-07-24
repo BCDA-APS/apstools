@@ -22,12 +22,17 @@
     ~swait_setup_incrementer
     ~use_EPICS_scaler_channels
     ~userCalcsDevice
+    
+    ~ApsHDF5Plugin
 
 Internal routines
 
 .. autosummary::
 
     ~ApsOperatorMessagesDevice
+    ~ApsFileStoreHDF5
+    ~ApsHDF5FileStore
+    ~ApsFileStoreHDF5IterativeWrite
 
 Legacy routines
 
@@ -51,6 +56,10 @@ from ophyd import Component, Device, DeviceStatus, FormattedComponent
 from ophyd import Signal, EpicsMotor, EpicsSignal, EpicsSignalRO
 from ophyd.scaler import EpicsScaler, ScalerCH
 from bluesky.plan_stubs import mv, mvr, abs_set, wait
+
+from ophyd.areadetector.filestore_mixins import FileStoreHDF5
+from ophyd.areadetector.filestore_mixins import FileStoreIterativeWrite
+from ophyd import HDF5Plugin
 
 
 def use_EPICS_scaler_channels(scaler):
@@ -579,3 +588,86 @@ class EpicsMotorShutter(Device):
             pos, use_complete=True, callback=put_callback)
 
         return status
+
+
+class ApsFileStoreHDF5(FileStoreHDF5):
+    """
+    custom class to define image file name from EPICS
+
+	To allow users to control the file name,
+	we need to override some underlying code.
+
+	The image file name is set in `FileStoreBase.make_filename()` from 
+	`ophyd.areadetector.filestore_mixins`.  This is called (during device
+	staging) from `FileStoreBase.stage()`
+
+	To use this custom class, we need to connect it to some
+	intervening structure:
+
+	================================  ============================
+	custom class                      superclass(es)
+	================================  ============================
+	`ApsFileStoreHDF5`                `FileStoreHDF5`
+	`ApsHDF5FileStore`                `ApsFileStoreHDF5`
+	`ApsFileStoreHDF5IterativeWrite`  `ApsHDF5FileStore`, `FileStoreIterativeWrite`
+	`ApsHDF5Plugin`                   `HDF5Plugin`, `ApsFileStoreHDF5IterativeWrite`
+	================================  ============================
+    """
+
+    def make_filename(self):
+        """
+        overrides default behavior: Get info from EPICS HDF5 plugin.
+        """
+        # start of the file name, file number will be appended per template
+        filename = self.file_name.value
+        
+        # this is where the HDF5 plugin will write the image, 
+        # relative to the IOC's filesystem
+        write_path = self.file_path.value
+        
+        # this is where the DataBroker will find the image, 
+        # on a filesystem accessible to BlueSky
+        read_path = write_path
+
+        return filename, read_path, write_path
+
+
+class ApsHDF5FileStore(ApsFileStoreHDF5):
+    """custom class to enable users to control image file name"""
+    # TODO: necessary?
+
+
+class ApsFileStoreHDF5IterativeWrite(ApsHDF5FileStore, FileStoreIterativeWrite):
+    """custom class to enable users to control image file name"""
+    # TODO: use ApsFileStoreHDF5 superclass instead?
+
+
+class ApsHDF5Plugin(HDF5Plugin, ApsFileStoreHDF5IterativeWrite):
+    """
+    custom class to use EPICS image file name
+    
+    USAGE::
+
+		class MySimDetector(SingleTrigger, SimDetector):
+			"""SimDetector with HDF5 file names specified by EPICS"""
+			
+			cam = ADComponent(MyAltaCam, "cam1:")
+			image = ADComponent(ImagePlugin, "image1:")
+			
+			hdf1 = ADComponent(
+				ApsHDF5Plugin, 
+				suffix = "HDF1:", 
+				root = "/",
+				write_path_template = "/local/data",
+				)
+
+		simdet = MySimDetector("13SIM1:", name="simdet")
+		# remove this so array counter is not set to zero each staging
+		del simdet.hdf1.stage_sigs["array_counter"]
+		simdet.hdf1.stage_sigs["file_template"] = '%s%s_%3.3d.h5'
+		simdet.hdf1.file_path.put("/local/data/demo/")
+		simdet.hdf1.file_name.put("test")
+		simdet.hdf1.array_counter.put(0)
+		RE(bp.count([simdet]))
+
+    """
