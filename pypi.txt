@@ -10,12 +10,12 @@ example ``~/.pypirc`` file::
 		test
 
 	[pypi]
-	repository: https://upload.pypi.org/legacy
+	repository: https://upload.pypi.org/legacy/
 	username: Pete.R.Jemian
 	password: 
 
 	[test]
-	repository: https://test.pypi.org/legacy
+	repository: https://test.pypi.org/legacy/
 	username: Pete.R.Jemian
 	password: 
 
