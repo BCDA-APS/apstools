@@ -10,7 +10,7 @@ demonstrate a BlueSky callback that writes SPEC data files
 
 """
 
-# Copyright (c) 2017-, UChicago Argonne, LLC.  See LICENSE file.
+# Copyright (c) 2017-2018, UChicago Argonne, LLC.  See LICENSE file.
 
 
 import datetime

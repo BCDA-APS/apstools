@@ -10,7 +10,7 @@ Plans that might be useful at the APS when using BlueSky
 
 """
 
-# Copyright (c) 2017-, UChicago Argonne, LLC.  See LICENSE file.
+# Copyright (c) 2017-2018, UChicago Argonne, LLC.  See LICENSE file.
 
 from collections import OrderedDict
 import datetime
