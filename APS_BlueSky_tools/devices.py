@@ -652,6 +652,13 @@ class ApsFileStoreHDF5(FileStorePluginBase):
 
         return filename, read_path, write_path
 
+    def generate_datum(self, key, timestamp, datum_kwargs):
+        "Generate a uid and cache it with its key for later insertion."
+        datum_kwargs["developer"] = "testing"
+        # TODO: inject the actual name of the HDF5 file here into datum_kwargs
+        # datum_kwargs["HDF5_file_name"] = "-tba-"
+        return super().generate_datum(key, timestamp, datum_kwargs)
+
     def get_frames_per_point(self):
         return self.num_capture.get()
 
