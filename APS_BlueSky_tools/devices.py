@@ -106,7 +106,7 @@ class ApsMachineParametersDevice(Device):
     
     USAGE::
 
-        APS = APS_Machine_Parameters_Device(name="APS")
+        APS = ApsMachineParametersDevice(name="APS")
         aps_current = APS.current
 
         # make sure these values are logged at start and stop of every scan
