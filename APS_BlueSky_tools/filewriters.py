@@ -193,6 +193,7 @@ class SpecWriterCallback(object):
         ts = datetime.datetime.strftime(self._datetime, SPEC_TIME_FORMAT)
         self.comments[key].append("{}.  {}".format(ts, text))
 
+
     def receiver(self, key, document):
         """BlueSky callback: receive all documents for handling"""
         xref = dict(
@@ -200,19 +201,26 @@ class SpecWriterCallback(object):
             descriptor = self.descriptor,
             event = self.event,
             bulk_events = self.bulk_events,
+            datum = self.datum,
+            resource = self.resource,
             stop = self.stop,
         )
+        logger = logging.getLogger(__name__)
         if key in xref:
-            logger = logging.getLogger(__name__)
-            logger.debug("{} document, uid={}".format(key, document["uid"]))
-            self._datetime = datetime.datetime.fromtimestamp(document["time"])
+            uid = document.get("uid") or document.get("datum_id")
+            logger.debug("{} document, uid={}".format(key, uid))
+            ts = document.get("time")
+            if ts is None:
+                ts = datetime.datetime.now()
+            else:
+                ts = datetime.datetime.fromtimestamp(document["time"])
+            self._datetime = ts
             xref[key](document)
         else:
             msg = "custom_callback encountered: {} : {}".format(key, document)
             # raise ValueError(msg)
-            logger.warn(msg)
-        return
-    
+            logger.warning(msg)
+
     def start(self, doc):
         """handle *start* documents"""
         
@@ -325,6 +333,32 @@ class SpecWriterCallback(object):
         """handle *bulk_events* documents"""
         pass
     
+    def datum(self, doc):
+        """handle *datum* documents"""
+        """
+        datum {
+            'resource': '2565d58d-4eb9-4ba0-a2be-2d8aaf8eff90', 
+            'datum_id': '2565d58d-4eb9-4ba0-a2be-2d8aaf8eff90/0', 
+            'datum_kwargs': {'point_number': 0}
+        }
+        """
+        # TODO: with resource, make into SPEC comment
+    
+    def resource(self, doc):
+        """handle *resource* documents"""
+        """
+        resource {
+            'spec': 'AD_HDF5', 
+            'root': '/', 
+            'resource_path': 'tmp/simdet/wafer_041.h5', 
+            'resource_kwargs': {'frame_per_point': 1}, 
+            'path_semantics': 'posix', 
+            'uid': '2565d58d-4eb9-4ba0-a2be-2d8aaf8eff90', 
+            'run_start': 'd4251bbb-6bf2-4e70-9e20-86c3257c6172'
+        }
+        """
+        # TODO: with datum, make into SPEC comment
+
     def stop(self, doc):
         """handle *stop* documents"""
         if "num_events" in doc:
