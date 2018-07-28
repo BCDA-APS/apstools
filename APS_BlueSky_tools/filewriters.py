@@ -172,7 +172,7 @@ class SpecWriterCallback(object):
         self.uid = None
         self.scan_epoch = None      # absolute epoch to report in scan #D line
         self.time = None            # full time from document
-        self.comments = dict(start=[], event=[], descriptor=[], stop=[])
+        self.comments = dict(start=[], event=[], descriptor=[], resource=[], datum=[], stop=[])
         self.data = OrderedDict()           # data in the scan
         self.detectors = OrderedDict()      # names of detectors in the scan
         self.hints = OrderedDict()          # why?
@@ -334,30 +334,12 @@ class SpecWriterCallback(object):
         pass
     
     def datum(self, doc):
-        """handle *datum* documents
-        
-        datum {
-            'resource': '2565d58d-4eb9-4ba0-a2be-2d8aaf8eff90', 
-            'datum_id': '2565d58d-4eb9-4ba0-a2be-2d8aaf8eff90/0', 
-            'datum_kwargs': {'point_number': 0}
-        }
-        """
-        # TODO: with resource, make into SPEC comment
+        """handle *datum* documents"""
+        self._cmt("datum", "datum " + str(doc))
     
     def resource(self, doc):
-        """handle *resource* documents
-        
-        resource {
-            'spec': 'AD_HDF5', 
-            'root': '/', 
-            'resource_path': 'tmp/simdet/wafer_041.h5', 
-            'resource_kwargs': {'frame_per_point': 1}, 
-            'path_semantics': 'posix', 
-            'uid': '2565d58d-4eb9-4ba0-a2be-2d8aaf8eff90', 
-            'run_start': 'd4251bbb-6bf2-4e70-9e20-86c3257c6172'
-        }
-        """
-        # TODO: with datum, make into SPEC comment
+        """handle *resource* documents"""
+        self._cmt("resource", "resource " + str(doc))
 
     def stop(self, doc):
         """handle *stop* documents"""
@@ -419,6 +401,12 @@ class SpecWriterCallback(object):
             lines.append("#C no data column labels identified")
 
         for v in self.comments["event"]:
+            lines.append("#C " + v)
+
+        for v in self.comments["resource"]:
+            lines.append("#C " + v)
+
+        for v in self.comments["datum"]:
             lines.append("#C " + v)
 
         for v in self.comments["stop"]:
