@@ -334,8 +334,8 @@ class SpecWriterCallback(object):
         pass
     
     def datum(self, doc):
-        """handle *datum* documents"""
-        """
+        """handle *datum* documents
+        
         datum {
             'resource': '2565d58d-4eb9-4ba0-a2be-2d8aaf8eff90', 
             'datum_id': '2565d58d-4eb9-4ba0-a2be-2d8aaf8eff90/0', 
@@ -345,8 +345,8 @@ class SpecWriterCallback(object):
         # TODO: with resource, make into SPEC comment
     
     def resource(self, doc):
-        """handle *resource* documents"""
-        """
+        """handle *resource* documents
+        
         resource {
             'spec': 'AD_HDF5', 
             'root': '/', 
