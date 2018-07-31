@@ -40,7 +40,7 @@ EXAMPLE : use as writer from Databroker with customizations::
 
 
 from collections import OrderedDict
-import datetime
+from datetime import datetime
 import getpass
 import logging
 import os
@@ -64,6 +64,7 @@ logger = logging.getLogger(__name__).addHandler(logging.NullHandler())
 
 
 SPEC_TIME_FORMAT = "%a %b %d %H:%M:%S %Y"
+SCAN_ID_RESET_VALUE = 1
 
 def _rebuild_scan_command(doc):
     """reconstruct the scan command for SPEC data file #S line"""
@@ -147,6 +148,8 @@ class SpecWriterCallback(object):
        ~descriptor
        ~event
        ~bulk_events
+       ~datum
+       ~resource
        ~stop
 
     """
@@ -190,7 +193,7 @@ class SpecWriterCallback(object):
 
     def _cmt(self, key, text):
         """enter a comment"""
-        ts = datetime.datetime.strftime(self._datetime, SPEC_TIME_FORMAT)
+        ts = datetime.strftime(self._datetime, SPEC_TIME_FORMAT)
         self.comments[key].append("{}.  {}".format(ts, text))
 
 
@@ -208,12 +211,12 @@ class SpecWriterCallback(object):
         logger = logging.getLogger(__name__)
         if key in xref:
             uid = document.get("uid") or document.get("datum_id")
-            logger.debug("{} document, uid={}".format(key, uid))
+            logger.debug("%s document, uid=%s", key, str(uid))
             ts = document.get("time")
             if ts is None:
-                ts = datetime.datetime.now()
+                ts = datetime.now()
             else:
-                ts = datetime.datetime.fromtimestamp(document["time"])
+                ts = datetime.fromtimestamp(document["time"])
             self._datetime = ts
             xref[key](document)
         else:
@@ -256,7 +259,7 @@ class SpecWriterCallback(object):
                     obj[key] = None
         
         cmt = "plan_type = " + doc["plan_type"]
-        ts = datetime.datetime.strftime(self._datetime, SPEC_TIME_FORMAT)
+        ts = datetime.strftime(self._datetime, SPEC_TIME_FORMAT)
         self.comments["start"].insert(0, "{}.  {}".format(ts, cmt))
         self.scan_command = _rebuild_scan_command(doc)
     
@@ -360,11 +363,11 @@ class SpecWriterCallback(object):
         
         :returns: [str] a list of lines to append to the data file
         """
-        dt = datetime.datetime.fromtimestamp(self.scan_epoch)
+        dt = datetime.fromtimestamp(self.scan_epoch)
         lines = []
         lines.append("")
         lines.append("#S " + self.scan_command)
-        lines.append("#D " + datetime.datetime.strftime(dt, SPEC_TIME_FORMAT))
+        lines.append("#D " + datetime.strftime(dt, SPEC_TIME_FORMAT))
         if self.T_or_M is not None:
             lines.append("#{} {}".format(self.T_or_M, self.T_or_M_value))
 
@@ -421,11 +424,11 @@ class SpecWriterCallback(object):
     
     def write_header(self):
         """write the header section of a SPEC data file"""
-        dt = datetime.datetime.fromtimestamp(self.spec_epoch)
+        dt = datetime.fromtimestamp(self.spec_epoch)
         lines = []
         lines.append("#F " + self.spec_filename)
         lines.append("#E " + str(self.spec_epoch))
-        lines.append("#D " + datetime.datetime.strftime(dt, SPEC_TIME_FORMAT))
+        lines.append("#D " + datetime.strftime(dt, SPEC_TIME_FORMAT))
         lines.append("#C " + "BlueSky  user = {}  host = {}".format(self.spec_user, self.spec_host))
         lines.append("")
 
@@ -457,16 +460,16 @@ class SpecWriterCallback(object):
         if lines is not None:
             if self.write_file_header:
                 self.write_header()
-                logger.info("wrote header to SPEC file: " + self.spec_filename)
+                logger.info("wrote header to SPEC file: %s", self.spec_filename)
             self._write_lines_(lines, mode="a")
-            logger.info("wrote scan {} to SPEC file: {}".format(self.scan_id, self.spec_filename))
+            logger.info("wrote scan %d to SPEC file: %s", self.scan_id, self.spec_filename)
 
     def make_default_filename(self):
         """generate a file name to be used as default"""
-        now = datetime.datetime.now()
-        return datetime.datetime.strftime(now, "%Y%m%d-%H%M%S")+".dat"
+        now = datetime.now()
+        return datetime.strftime(now, "%Y%m%d-%H%M%S")+".dat"
 
-    def newfile(self, filename=None, reset_scan_id=False):
+    def newfile(self, filename=None, reset_scan_id=False, RE=None):
         """
         prepare to use a new SPEC data file
         
@@ -481,8 +484,10 @@ class SpecWriterCallback(object):
         self.spec_host = socket.gethostname() or 'localhost'
         self.spec_user = getpass.getuser() or 'BlueSkyUser' 
         self.write_file_header = True       # don't write the file yet
-        if reset_scan_id:
-            raise NotImplemented("How to reset the BlueSky RE scan_id?")
+        if reset_scan_id and RE is not None:
+            # assume isinstance(RE, bluesky.run_engine.RunEngine)
+            RE.md["scan_id"] = SCAN_ID_RESET_VALUE
+            print("scan ID set to {}".format(SCAN_ID_RESET_VALUE))
         return self.spec_filename
     
     def usefile(self, filename):
