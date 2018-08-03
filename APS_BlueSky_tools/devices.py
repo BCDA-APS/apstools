@@ -94,7 +94,7 @@ class ApsOperatorMessagesDevice(Device):
     """general messages from the APS main control room"""
     operators = Component(EpicsSignalRO, "OPS:message1", string=True)
     floor_coordinator = Component(EpicsSignalRO, "OPS:message2", string=True)
-    fll_pattern = Component(EpicsSignalRO, "OPS:message3", string=True)
+    fill_pattern = Component(EpicsSignalRO, "OPS:message3", string=True)
     last_problem_message = Component(EpicsSignalRO, "OPS:message4", string=True)
     last_trip_message = Component(EpicsSignalRO, "OPS:message5", string=True)
     # messages 6-8: meaning?
@@ -109,7 +109,8 @@ class ApsMachineParametersDevice(Device):
     
     USAGE::
 
-        APS = ApsMachineParametersDevice(name="APS")
+        import APS_BlueSky_tools.devices as APS_devices
+        APS = APS_devices.ApsMachineParametersDevice(name="APS")
         aps_current = APS.current
 
         # make sure these values are logged at start and stop of every scan
@@ -148,7 +149,7 @@ class ApsPssShutter(Device):
     * no indication that the shutter has actually moved from the bits
       (see :func:`ApsPssShutterWithStatus()` for alternative)
     
-    USAGE:
+    USAGE::
     
         shutter_a = ApsPssShutter("2bma:A_shutter", name="shutter")
         
@@ -158,7 +159,9 @@ class ApsPssShutter(Device):
         shutter_a.set("open")
         shutter_a.set("close")
         
-    When using the shutter in a plan, be sure to use `yield from`.
+    When using the shutter in a plan, be sure to use ``yield from``.
+    
+    ::
 
         def in_a_plan(shutter):
             yield from abs_set(shutter, "open", wait=True)
@@ -239,7 +242,7 @@ class ApsPssShutterWithStatus(Device):
     * a separate status PV tells if the shutter is open or closed
       (see :func:`ApsPssShutter()` for alternative)
     
-    USAGE:
+    USAGE::
     
         A_shutter = ApsPssShutterWithStatus(
             "2bma:A_shutter", 
@@ -966,9 +969,9 @@ class ApsHDF5Plugin(HDF5Plugin, ApsFileStoreHDF5IterativeWrite):
     custom class to take image file names from EPICS
     
     NOTE: replaces standard Bluesky algorithm where file names
-       are defined as UUID strings, virtually guaranteeing that 
-       no existing images files will ever be overwritten.
-       *Caveat emptor* applies here.  You assume some expertise!
+          are defined as UUID strings, virtually guaranteeing that 
+          no existing images files will ever be overwritten.
+          *Caveat emptor* applies here.  You assume some expertise!
     
     USAGE::
 
