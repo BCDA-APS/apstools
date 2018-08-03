@@ -661,9 +661,9 @@ class DualPf4FilterBox(Device):
 
 class ProcedureRegistry(Device):
     """
-    Procedure Registry
+    Procedure Registry:  run a blocking function in a thread
     
-    With many instruments, such as USAXS,, there are several operating 
+    With many instruments, such as USAXS, there are several operating 
     modes to be used, each with its own setup code.  This ophyd Device
     should coordinate those modes so that the setup procedures can be called
     either as part of a Bluesky plan or from the command line directly.
@@ -699,13 +699,14 @@ class ProcedureRegistry(Device):
             scaler.channels.chan02.chname.put("I0")
             scaler.channels.chan03.chname.put("detector")
     
-    add them::
+    create a registry and add the two functions (default name
+    is the function name):
     
         use_mode = ProcedureRegistry(name="ProcedureRegistry")
         use_mode.add(clearScalerNames)
         use_mode.add(setMyScalerNames)
     
-    and then use this in a plan such as this::
+    and then use this registry in a plan, such as this::
     
         def myPlan():
             yield from bps.mv(use_mode, "setMyScalerNames")
