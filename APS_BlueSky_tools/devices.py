@@ -12,6 +12,7 @@
     ~AxisTunerMixin
     ~DualPf4FilterBox
     ~EpicsMotorDialMixin
+    ~EpicsMotorLimitsMixin
     ~EpicsMotorServoMixin
     ~EpicsMotorRawMixin
     ~EpicsMotorDescriptionMixin
@@ -449,6 +450,40 @@ class EpicsMotorWithDial(EpicsMotor, EpicsMotorDialMixin):
     This is legacy support.  For new work, use `EpicsMotorDialMixin`.
     """
     pass
+
+
+class EpicsMotorLimitsMixin(Device):
+    """
+    add motor record HLM & LLM fields & compatibility get_lim() and set_lim()
+    """
+    
+    soft_limit_lo = Component(EpicsSignal, ".LLM")
+    soft_limit_hi = Component(EpicsSignal, ".HLM")
+    
+    def get_lim(self, flag):
+        """
+        Returns the user limit of motor
+        
+        flag > 0: returns high limit
+        flag < 0: returns low limit
+        flag == 0: returns None
+        """
+        if flag > 0:
+            return self.high_limit
+        else:
+            return self.low_limit
+    
+    def set_lim(self, low, high):
+        """
+        Sets the low and high limits of motor
+        
+        * Low limit is set to lesser of (low, high)
+        * High limit is set to greater of (low, high)
+        * No action taken if motor is moving. 
+        """
+        if not self.moving:
+            self.soft_limit_lo.put(min(low, high))
+            self.soft_limit_hi.put(max(low, high))
 
 
 class EpicsMotorServoMixin(object):
