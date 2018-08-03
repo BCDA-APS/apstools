@@ -625,14 +625,13 @@ class DualPf4FilterBox(Device):
 
 # AreaDetector support
 
-
 AD_FrameType_schemes = {
-    "named" : dict(
-        ZRST = "image",
-        ONST = "dark",
-        TWST = "white",
+    "reset" : dict(             # default names from Area Detector code
+        ZRST = "Normal",
+        ONST = "Background",
+        TWST = "FlatField",
         ),
-    "NeXus" : dict(      # NeXus (typical locations)
+    "NeXus" : dict(             # NeXus (typical locations)
         ZRST = "/entry/data/data",
         ONST = "/entry/data/dark",
         TWST = "/entry/data/white",
