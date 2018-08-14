@@ -4,6 +4,7 @@ Plans that might be useful at the APS when using BlueSky
 .. autosummary::
    
    ~nscan
+   ~run_blocker_in_plan
    ~run_in_thread
    ~TuneAxis
    ~tune_axes
@@ -48,6 +49,35 @@ def run_in_thread(func):
         thread.start()
         return thread
     return wrapper
+
+
+def run_blocker_in_plan(blocker, *args, **kwargs):
+    """
+    run blocking function ``blocker_(*args, **kwargs)`` from a Bluesky plan
+    
+    Example (using ``time.sleep`` as blocking function)::
+    
+        RE(run_blocker_in_plan(time.sleep, 2.14))
+
+        def my_sleep(t=1.0):
+            yield from run_blocker_in_plan(time.sleep, t)
+
+        RE(my_sleep())
+
+    """
+    status = Status()
+    
+    @run_in_thread
+    def _internal(blocking_function, *args, **kwargs):
+        blocking_function(*args, **kwargs)
+        status._finished(success=True, done=True)
+    
+    # FIXME: how to keep this from running during summarize_plan()?
+    _internal(blocker, *args, **kwargs)
+
+    while not status.done:
+        yield from bps.sleep(0.005)
+    return status
 
 
 def nscan(detectors, *motor_sets, num=11, per_step=None, md=None):
