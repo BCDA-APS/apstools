@@ -37,7 +37,7 @@ class DocumentCollectorCallback(object):
         print(doc_collector.documents["stop"])
     
     """
-    data_event_names = "descriptor event bulk_events".split()
+    data_event_names = "descriptor event resource datum bulk_events".split()
     
     def __init__(self):
         self.documents = {}     # key: name, value: document
@@ -45,16 +45,12 @@ class DocumentCollectorCallback(object):
 
     def receiver(self, key, document):
         """keep all documents from recent plan in memory"""
-        if key == "datum":
-            uid = document.get("datum_id")
-            # not likely to handle that here anyway
-        else:
-            uid = document.get("uid")
+        uid = document.get("uid") or document.get("datum_id")
         if "uid" is None:
             raise KeyError("No uid in '{}' document".format(key))
         self.uids.append(uid)
         logger = logging.getLogger(__name__)
-        logger.debug("{} document  uid={}".format(key, uid))
+        logger.debug("%s document  uid=%s", key, str(uid))
         if key == "start":
             self.documents = {key: document}
         elif key in self.data_event_names:
@@ -71,8 +67,8 @@ class DocumentCollectorCallback(object):
                         len(self.documents[item])
                     )
         else:
-            txt = "custom_callback encountered: {}\n{}"
-            logger.warn(txt.format(key, document))
+            txt = "custom_callback encountered: %s\n%s"
+            logger.warning(txt, key, document)
             if key not in self.documents:
                 self.documents[key] = []
             self.documents[key].append(document)

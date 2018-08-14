@@ -4,15 +4,20 @@
 
 .. autosummary::
    
+    ~AD_setup_FrameType
+    ~ApsHDF5Plugin
     ~ApsMachineParametersDevice
     ~ApsPssShutter
     ~AxisTunerException
     ~AxisTunerMixin
+    ~DualPf4FilterBox
     ~EpicsMotorDialMixin
+    ~EpicsMotorLimitsMixin
     ~EpicsMotorServoMixin
     ~EpicsMotorRawMixin
     ~EpicsMotorDescriptionMixin
     ~EpicsMotorShutter
+    ~ProcedureRegistry
     ~sscanRecord  
     ~sscanDevice
     ~swaitRecord
@@ -22,8 +27,6 @@
     ~swait_setup_incrementer
     ~use_EPICS_scaler_channels
     ~userCalcsDevice
-    
-    ~ApsHDF5Plugin
 
 Internal routines
 
@@ -91,7 +94,7 @@ class ApsOperatorMessagesDevice(Device):
     """general messages from the APS main control room"""
     operators = Component(EpicsSignalRO, "OPS:message1", string=True)
     floor_coordinator = Component(EpicsSignalRO, "OPS:message2", string=True)
-    fll_pattern = Component(EpicsSignalRO, "OPS:message3", string=True)
+    fill_pattern = Component(EpicsSignalRO, "OPS:message3", string=True)
     last_problem_message = Component(EpicsSignalRO, "OPS:message4", string=True)
     last_trip_message = Component(EpicsSignalRO, "OPS:message5", string=True)
     # messages 6-8: meaning?
@@ -106,7 +109,8 @@ class ApsMachineParametersDevice(Device):
     
     USAGE::
 
-        APS = ApsMachineParametersDevice(name="APS")
+        import APS_BlueSky_tools.devices as APS_devices
+        APS = APS_devices.ApsMachineParametersDevice(name="APS")
         aps_current = APS.current
 
         # make sure these values are logged at start and stop of every scan
@@ -145,7 +149,7 @@ class ApsPssShutter(Device):
     * no indication that the shutter has actually moved from the bits
       (see :func:`ApsPssShutterWithStatus()` for alternative)
     
-    USAGE:
+    USAGE::
     
         shutter_a = ApsPssShutter("2bma:A_shutter", name="shutter")
         
@@ -155,7 +159,9 @@ class ApsPssShutter(Device):
         shutter_a.set("open")
         shutter_a.set("close")
         
-    When using the shutter in a plan, be sure to use `yield from`.
+    When using the shutter in a plan, be sure to use ``yield from``.
+    
+    ::
 
         def in_a_plan(shutter):
             yield from abs_set(shutter, "open", wait=True)
@@ -236,7 +242,7 @@ class ApsPssShutterWithStatus(Device):
     * a separate status PV tells if the shutter is open or closed
       (see :func:`ApsPssShutter()` for alternative)
     
-    USAGE:
+    USAGE::
     
         A_shutter = ApsPssShutterWithStatus(
             "2bma:A_shutter", 
@@ -450,6 +456,40 @@ class EpicsMotorWithDial(EpicsMotor, EpicsMotorDialMixin):
     pass
 
 
+class EpicsMotorLimitsMixin(Device):
+    """
+    add motor record HLM & LLM fields & compatibility get_lim() and set_lim()
+    """
+    
+    soft_limit_lo = Component(EpicsSignal, ".LLM")
+    soft_limit_hi = Component(EpicsSignal, ".HLM")
+    
+    def get_lim(self, flag):
+        """
+        Returns the user limit of motor
+        
+        flag > 0: returns high limit
+        flag < 0: returns low limit
+        flag == 0: returns None
+        """
+        if flag > 0:
+            return self.high_limit
+        else:
+            return self.low_limit
+    
+    def set_lim(self, low, high):
+        """
+        Sets the low and high limits of motor
+        
+        * Low limit is set to lesser of (low, high)
+        * High limit is set to greater of (low, high)
+        * No action taken if motor is moving. 
+        """
+        if not self.moving:
+            self.soft_limit_lo.put(min(low, high))
+            self.soft_limit_hi.put(max(low, high))
+
+
 class EpicsMotorServoMixin(object):
     """
     add motor record's servo loop controls
@@ -594,7 +634,216 @@ class EpicsMotorShutter(Device):
         return status
 
 
+class DualPf4FilterBox(Device):
+    """
+    Dual Xia PF4 filter boxes using support from synApps (using Al, Ti foils)
+    
+    Example::
+    
+        pf4 = DualPf4FilterBox("2bmb:pf4:", name="pf4")
+        pf4_AlTi = DualPf4FilterBox("9idcRIO:pf4:", name="pf4_AlTi")
+    
+    """
+    fPosA = Component(EpicsSignal, "fPosA")
+    fPosB = Component(EpicsSignal, "fPosB")
+    bankA = Component(EpicsSignalRO, "bankA")
+    bankB = Component(EpicsSignalRO, "bankB")
+    bitFlagA = Component(EpicsSignalRO, "bitFlagA")
+    bitFlagB = Component(EpicsSignalRO, "bitFlagB")
+    transmission = Component(EpicsSignalRO, "trans")
+    transmission_a = Component(EpicsSignalRO, "transA")
+    transmission_b = Component(EpicsSignalRO, "transB")
+    inverse_transmission = Component(EpicsSignalRO, "invTrans")
+    thickness_Al_mm = Component(EpicsSignalRO, "filterAl")
+    thickness_Ti_mm = Component(EpicsSignalRO, "filterTi")
+    thickness_glass_mm = Component(EpicsSignalRO, "filterGlass")
+    energy_keV_local = Component(EpicsSignal, "E:local")
+    energy_keV_mono = Component(EpicsSignal, "displayEnergy")
+    mode = Component(EpicsSignal, "useMono", string=True)    
+
+
+class ProcedureRegistry(Device):
+    """
+    Procedure Registry:  run a blocking function in a thread
+    
+    With many instruments, such as USAXS, there are several operating 
+    modes to be used, each with its own setup code.  This ophyd Device
+    should coordinate those modes so that the setup procedures can be called
+    either as part of a Bluesky plan or from the command line directly.
+    Assumes that users will write functions to setup a particular 
+    operation or operating mode.  The user-written functions may not
+    be appropriate to use in a plan directly since they might
+    make blocking calls.  The ProcedureRegistry will call the function
+    in a thread (which is allowed to make blocking calls) and wait
+    for the thread to complete.
+    
+    It is assumed that each user-written function will not return until
+    it is complete.
+    .. autosummary::
+       
+        ~dir
+        ~add
+        ~remove
+        ~set
+        ~put
+
+    EXAMPLE:
+    
+    Given these function definitions::
+
+        def clearScalerNames():
+            for ch in scaler.channels.configuration_attrs:
+                if ch.find(".") < 0:
+                    chan = scaler.channels.__getattribute__(ch)
+                    chan.chname.put("")
+
+        def setMyScalerNames():
+            scaler.channels.chan01.chname.put("clock")
+            scaler.channels.chan02.chname.put("I0")
+            scaler.channels.chan03.chname.put("detector")
+    
+    create a registry and add the two functions (default name
+    is the function name):
+    
+        use_mode = ProcedureRegistry(name="ProcedureRegistry")
+        use_mode.add(clearScalerNames)
+        use_mode.add(setMyScalerNames)
+    
+    and then use this registry in a plan, such as this::
+    
+        def myPlan():
+            yield from bps.mv(use_mode, "setMyScalerNames")
+            yield from bps.sleep(5)
+            yield from bps.mv(use_mode, "clearScalerNames")
+
+    """
+    
+    busy = Component(Signal, value=False)
+    registry = {}
+    delay_s = 0
+    timeout_s = None
+    state = "__created__"
+    
+    @property
+    def dir(self):
+        """tuple of procedure names"""
+        return tuple(sorted(self.registry.keys()))
+    
+    def add(self, procedure, proc_name=None):
+        """
+        add procedure to registry
+        """
+        #if procedure.__class__ == "function":
+        nm = proc_name or procedure.__name__
+        self.registry[nm] = procedure
+    
+    def remove(self, procedure):
+        """
+        remove procedure from registry
+        """
+        if isinstance(procedure, str):
+            nm = procedure
+        else:
+            nm = procedure.__name__
+        if nm in self.registry:
+            del self.registry[nm]
+    
+    def set(self, proc_name):
+        """
+        run procedure in a thread, return once it is complete
+        
+        proc_name (str) : name of registered procedure to be run
+        """
+        if not isinstance(proc_name, str):
+            raise ValueError("expected a procedure name, not {}".format(proc_name))
+        if proc_name not in self.registry:
+            raise KeyError("unknown procedure name: "+proc_name)
+        if self.busy.value:
+            raise RuntimeError("busy now")
+ 
+        self.state = "__busy__"
+        status = DeviceStatus(self)
+        
+        @APS_plans.run_in_thread
+        def run_and_delay():
+            self.busy.put(True)
+            self.registry[proc_name]()
+            # optional delay
+            if self.delay_s > 0:
+                time.sleep(self.delay_s)
+            self.busy.put(False)
+            status._finished(success=True)
+        
+        run_and_delay()
+        ophyd.status.wait(status, timeout=self.timeout_s)
+        self.state = proc_name
+        return status
+    
+    def put(self, value):   # TODO: risky?
+        """replaces ophyd Device default put() behavior"""
+        self.set(value)
+
+
 # AreaDetector support
+
+AD_FrameType_schemes = {
+    "reset" : dict(             # default names from Area Detector code
+        ZRST = "Normal",
+        ONST = "Background",
+        TWST = "FlatField",
+        ),
+    "NeXus" : dict(             # NeXus (typical locations)
+        ZRST = "/entry/data/data",
+        ONST = "/entry/data/dark",
+        TWST = "/entry/data/white",
+        ),
+    "DataExchange" : dict(      # APS Data Exchange
+        ZRST = "/exchange/data",
+        ONST = "/exchange/data_dark",
+        TWST = "/exchange/data_white",
+        ),
+}
+
+
+def AD_setup_FrameType(prefix, scheme="NeXus"):
+    """
+    configure so frames are identified & handled by type (dark, white, or image)
+    
+    PARAMETERS
+
+        prefix (str) : EPICS PV prefix of area detector, such as "13SIM1:"
+        scheme (str) : any key in the `AD_FrameType_schemes` dictionary
+    
+    This routine prepares the EPICS Area Detector to identify frames
+    by image type for handling by clients, such as the HDF5 file writing plugin.
+    With the HDF5 plugin, the `FrameType` PV is added to the NDattributes
+    and then used in the layout file to direct the acquired frame to
+    the chosen dataset.  The `FrameType` PV value provides the HDF5 address
+    to be used.
+    
+    To use a different scheme than the defaults, add a new key to
+    the `AD_FrameType_schemes` dictionary, defining storage values for the
+    fields of the EPICS `mbbo` record that you will be using.
+    
+    see: https://github.com/BCDA-APS/use_bluesky/blob/master/notebooks/images_darks_flats.ipynb
+    
+    EXAMPLE::
+    
+        AD_setup_FrameType("2bmbPG3:", scheme="DataExchange")
+    
+    * Call this function *before* creating the ophyd area detector object
+    * use lower-level PyEpics interface
+    """
+    db = AD_FrameType_schemes.get(scheme)
+    if db is None:
+        msg = "unknown AD_FrameType_schemes scheme: {}".format(scheme)
+        msg += "\n Should be one of: " + ", ".join(AD_FrameType_schemes.keys())
+        raise ValueError(msg)
+
+    template = "{}cam1:FrameType{}.{}"
+    for field, value in db.items():
+        epics.caput(template.format(prefix, "", field), value)
+        epics.caput(template.format(prefix, "_RBV", field), value)
 
 
 class ApsFileStoreHDF5(FileStorePluginBase):
@@ -720,9 +969,9 @@ class ApsHDF5Plugin(HDF5Plugin, ApsFileStoreHDF5IterativeWrite):
     custom class to take image file names from EPICS
     
     NOTE: replaces standard Bluesky algorithm where file names
-       are defined as UUID strings, virtually guaranteeing that 
-       no existing images files will ever be overwritten.
-       *Caveat emptor* applies here.  You assume some expertise!
+          are defined as UUID strings, virtually guaranteeing that 
+          no existing images files will ever be overwritten.
+          *Caveat emptor* applies here.  You assume some expertise!
     
     USAGE::
 
