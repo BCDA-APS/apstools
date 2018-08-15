@@ -23,6 +23,7 @@ from bluesky import preprocessors as bpp
 from bluesky import plan_stubs as bps
 from bluesky import plans as bp
 from bluesky.callbacks.fitting import PeakStats
+import ophyd
 
 
 logger = logging.getLogger(__name__).addHandler(logging.NullHandler())
@@ -51,13 +52,21 @@ def run_in_thread(func):
     return wrapper
 
 
-def run_blocker_in_plan(blocker, *args, **kwargs):
+def run_blocker_in_plan(blocker, *args, _poll_s_=0.01, _timeout_s_=None, **kwargs):
     """
     run blocking function ``blocker_(*args, **kwargs)`` from a Bluesky plan
+    
+    blocker (func) : function object to be called in a Bluesky plan
+
+    _poll_s_ (float) : sleep interval in loop while waiting for completion (default: 0.01)
+
+    _timeout_s_ (float) : maximum time for completion (default: `None` which means no timeout)
     
     Example (using ``time.sleep`` as blocking function)::
     
         RE(run_blocker_in_plan(time.sleep, 2.14))
+
+    Example (within a plan, using ``time.sleep`` as blocking function)::
 
         def my_sleep(t=1.0):
             yield from run_blocker_in_plan(time.sleep, t)
@@ -65,18 +74,25 @@ def run_blocker_in_plan(blocker, *args, **kwargs):
         RE(my_sleep())
 
     """
-    status = Status()
+    status = ophyd.status.Status()
     
     @run_in_thread
     def _internal(blocking_function, *args, **kwargs):
         blocking_function(*args, **kwargs)
         status._finished(success=True, done=True)
     
+    if _timeout_s_ is not None:
+        t_expire = time.time() + _timeout_s_
+
     # FIXME: how to keep this from running during summarize_plan()?
     _internal(blocker, *args, **kwargs)
 
     while not status.done:
-        yield from bps.sleep(0.005)
+        if _timeout_s_ is not None:
+            if time.time() > t_expire:
+                status._finished(success=False, done=True)
+                break
+        yield from bps.sleep(_poll_s_)
     return status
 
 
