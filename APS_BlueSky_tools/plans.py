@@ -19,6 +19,7 @@ import datetime
 import logging
 import numpy as np 
 import threading
+import time
 
 from bluesky import preprocessors as bpp
 from bluesky import plan_stubs as bps
@@ -398,7 +399,7 @@ def tune_axes(axes):
         yield from axis.tune()
 
 
-class ProcedureRegistry(Device):
+class ProcedureRegistry(ophyd.Device):
     """
     Procedure Registry
     
@@ -469,7 +470,7 @@ class ProcedureRegistry(Device):
 
     """
     
-    busy = Component(Signal, value=False)
+    busy = ophyd.Component(ophyd.Signal, value=False)
     registry = {}
     delay_s = 0
     timeout_s = None
@@ -513,9 +514,9 @@ class ProcedureRegistry(Device):
             raise RuntimeError("busy now")
  
         self.state = "__busy__"
-        status = DeviceStatus(self)
+        status = ophyd.DeviceStatus(self)
         
-        @APS_plans.run_in_thread
+        @run_in_thread
         def run_and_delay():
             self.busy.put(True)
             self.registry[proc_name]()
