@@ -8,6 +8,7 @@
     ~ApsHDF5Plugin
     ~ApsMachineParametersDevice
     ~ApsPssShutter
+    ~ApsPssShutterWithStatus
     ~AxisTunerException
     ~AxisTunerMixin
     ~DualPf4FilterBox
