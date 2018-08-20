@@ -51,6 +51,7 @@ Legacy routines
 
 from collections import OrderedDict
 from datetime import datetime
+import epics
 import itertools
 import threading
 import time
