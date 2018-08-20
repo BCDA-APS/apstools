@@ -297,9 +297,11 @@ class ApsPssShutterWithStatus(Device):
         super().__init__(prefix, *args, **kwargs)
 
     def open(self, timeout=10):
+        " "
         ophyd.status.wait(self.set(self.open_str), timeout=timeout)
 
     def close(self, timeout=10):
+        " "
         ophyd.status.wait(self.set(self.close_str), timeout=timeout)
 
     def set(self, value, **kwargs):
@@ -335,10 +337,12 @@ class ApsPssShutterWithStatus(Device):
 
     @property
     def isOpen(self):
+        " "
         return self.pss_state.value == self.open_val
     
     @property
     def isClosed(self):
+        " "
         return self.pss_state.value == self.close_val 
 
 
@@ -589,10 +593,12 @@ class EpicsMotorShutter(Device):
     
     @property
     def isOpen(self):
+        " "
         return abs(self.motor.position - self.open_position) <= self._tolerance
     
     @property
     def isClosed(self):
+        " "
         return abs(self.motor.position - self.closed_position) <= self._tolerance
     
     def open(self):
