@@ -333,6 +333,14 @@ class ApsPssShutterWithStatus(Device):
         command_signal.set(1)
         return working_status
 
+    @property
+    def isOpen(self):
+        return self.pss_state.value == self.open_val
+    
+    @property
+    def isClosed(self):
+        return self.pss_state.value == self.close_val 
+
 
 class AxisTunerException(ValueError): 
     """Exception during execution of `AxisTunerBase` subclass"""
@@ -579,10 +587,12 @@ class EpicsMotorShutter(Device):
     open_position = 0.0
     _tolerance = 0.01
     
-    def isopen(self):
+    @property
+    def isOpen(self):
         return abs(self.motor.position - self.open_position) <= self._tolerance
     
-    def isclosed(self):
+    @property
+    def isClosed(self):
         return abs(self.motor.position - self.closed_position) <= self._tolerance
     
     def open(self):
