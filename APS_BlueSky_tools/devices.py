@@ -5,6 +5,7 @@
 .. autosummary::
    
     ~AD_setup_FrameType
+    ~AD_warmed_up
     ~ApsHDF5Plugin
     ~ApsMachineParametersDevice
     ~ApsPssShutter
@@ -863,6 +864,20 @@ def AD_setup_FrameType(prefix, scheme="NeXus"):
         epics.caput(template.format(prefix, "", field), value)
         epics.caput(template.format(prefix, "_RBV", field), value)
 
+         
+def AD_warmed_up(detector):
+   """Test if the HDF5 file writer plugin been primed with a new NDarray?"""
+    old_capture = detector.hdf1.capture.value
+    old_file_write_mode = detector.hdf1.file_write_mode.value
+    if old_capture == 1:
+        return True
+    
+    detector.hdf1.file_write_mode.put(1)
+    detector.hdf1.capture.put(1)
+    verdict = detector.hdf1.capture.get() == 1
+    detector.hdf1.capture.put(old_capture)
+    detector.hdf1.file_write_mode.put(old_file_write_mode)
+    return verdict
 
 class ApsFileStoreHDF5(FileStorePluginBase):
     """
