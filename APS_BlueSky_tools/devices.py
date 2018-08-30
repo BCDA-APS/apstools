@@ -866,7 +866,17 @@ def AD_setup_FrameType(prefix, scheme="NeXus"):
 
          
 def AD_warmed_up(detector):
-   """Test if the HDF5 file writer plugin been primed with a new NDarray?"""
+    """
+    Has area detector pushed an NDarray to the HDF5 plugin?  True or False
+
+    Works around an observed issue: #598
+    https://github.com/NSLS-II/ophyd/issues/598#issuecomment-414311372
+
+    If detector IOC has just been started and has not yet taken an image
+    with the HDF5 plugin, then a TimeoutError will occur as the
+    HDF5 plugin "Capture" is set to 1 (Start).  In such case,
+    first acquire at least one image with the HDF5 plugin enabled.
+    """
     old_capture = detector.hdf1.capture.value
     old_file_write_mode = detector.hdf1.file_write_mode.value
     if old_capture == 1:
@@ -878,6 +888,7 @@ def AD_warmed_up(detector):
     detector.hdf1.capture.put(old_capture)
     detector.hdf1.file_write_mode.put(old_file_write_mode)
     return verdict
+
 
 class ApsFileStoreHDF5(FileStorePluginBase):
     """
