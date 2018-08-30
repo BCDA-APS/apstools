@@ -129,11 +129,37 @@ class ApsMachineParametersDevice(Device):
         sd = SupplementalData()
         RE.preprocessors.append(sd)
 
+    .. autosummary::
+    
+        ~inUserOperations
+   
+
     """
     current = Component(EpicsSignalRO, "S:SRcurrentAI")
     lifetime = Component(EpicsSignalRO, "S:SRlifeTimeHrsCC")
     machine_status = Component(EpicsSignalRO, "S:DesiredMode", string=True)
+    """
+    In [3]: APS.machine_status.enum_strs
+    Out[3]: 
+    ('State Unknown',
+     'USER OPERATIONS',
+     'Bm Ln Studies',
+     'INJ Studies',
+     'ASD Studies',
+     'NO BEAM',
+     'MAINTENANCE')
+    """
     operating_mode = Component(EpicsSignalRO, "S:ActualMode", string=True)
+    """
+    In [4]: APS.operating_mode.enum_strs
+    Out[4]: 
+    ('State Unknown',
+    'NO BEAM',
+    'Injecting',
+    'Stored Beam',
+    'Delivered Beam',
+    'MAINTENANCE')
+   """
     shutter_permit = Component(EpicsSignalRO, "ACIS:ShutterPermit", string=True)
     fill_number = Component(EpicsSignalRO, "S:FillNumber")
     orbit_correction = Component(EpicsSignalRO, "S:OrbitCorrection:CC")
@@ -141,6 +167,30 @@ class ApsMachineParametersDevice(Device):
     global_feedback_h = Component(EpicsSignalRO, "SRFB:GBL:HLoopStatusBI", string=True)
     global_feedback_v = Component(EpicsSignalRO, "SRFB:GBL:VLoopStatusBI", string=True)
     operator_messages = Component(ApsOperatorMessagesDevice)
+    
+    @property
+    def inUserOperations(self):
+        """
+        determine if APS is in User Operations mode (boolean)
+        
+        Use this property to configure ophyd Devices for direct or simulated hardware.
+        See issue #49 (https://github.com/BCDA-APS/APS_BlueSky_tools/issues/49) for details.
+        
+        EXAMPLE::
+        
+            APS = APS_BlueSky_tools.devices.ApsMachineParametersDevice(name="APS")
+            
+            if APS.inUserOperations:
+                suspend_APS_current = bluesky.suspenders.SuspendFloor(APS.current, 2, resume_thresh=10)
+                RE.install_suspender(suspend_APS_current)
+            else:
+                # use pseudo shutter controls and no current suspenders
+                pass
+
+        """
+        verdict = self.machine_status.value in (1, "USER OPERATIONS")
+        # verdict = verdict and self.operating_mode.value not in (5, "MAINTENANCE")
+        return verdict
 
 
 class ApsPssShutter(Device):
