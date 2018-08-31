@@ -1,4 +1,9 @@
 
+
+# IOC_PREFIX = "gov:"
+# IOC_PREFIX = "xxx:"
+IOC_PREFIX = "prj:"
+
 import numpy as np
 from ophyd.scaler import ScalerCH
 from ophyd import EpicsMotor, Signal, Component, Device
@@ -29,8 +34,8 @@ install_qt_kicker()
 RE = RunEngine({})
 RE.subscribe(BestEffortCallback())
 
-m1 = EpicsMotor("xxx:m1", name="m1")
-scaler = ScalerCH("xxx:scaler1", name="scaler")
+m1 = EpicsMotor(IOC_PREFIX+"m1", name="m1")
+scaler = ScalerCH(IOC_PREFIX+"scaler1", name="scaler")
 
 time.sleep(1)
 
@@ -183,7 +188,7 @@ def myCallback(key, doc):
             print("\t", key, k, v)
 
 
-m1 = TunableEpicsMotor("xxx:m1", name="m1")
+m1 = TunableEpicsMotor(IOC_PREFIX+"m1", name="m1")
 m1.tuner = MyTuneAxis([scaler], m1, signal_name="scint")
 m1.tuner.width = 0.02
 m1.tuner.num = 21
