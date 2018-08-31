@@ -27,6 +27,7 @@
     ~swait_setup_gaussian
     ~swait_setup_lorentzian
     ~swait_setup_incrementer
+    ~TunableEpicsMotor
     ~use_EPICS_scaler_channels
     ~userCalcsDevice
 
@@ -58,6 +59,8 @@ import threading
 import time
 
 from .synApps_ophyd import *
+from . import plans as APS_plans
+
 import ophyd
 from ophyd import Component, Device, DeviceStatus, FormattedComponent
 from ophyd import Signal, EpicsMotor, EpicsSignal, EpicsSignalRO
@@ -492,6 +495,27 @@ class AxisTunerMixin(object):
     
             if self.post_tune_method is not None:
                 self.post_tune_method()
+
+
+class TunableEpicsMotor(EpicsMotor, AxisTunerMixin):
+    """
+    EPICS motor with signal for tuning
+    
+    USAGE::
+
+        def a2r_pretune_hook():
+            # set the counting time for *this* tune
+            yield from bps.abs_set(scaler.preset_time, 0.2)
+    
+        a2r = TunableEpicsMotor("xxx:m1", name="a2r")
+        a2r.tuner = TuneAxis([scaler], a2r, signal_name=scaler.channels.chan2.name)
+        a2r.tuner.width = 0.02
+        a2r.tuner.num = 21
+        a2r.pre_tune_method = a2r_pretune_hook
+        RE(a2r.tune())
+    
+    """
+    pass
 
 
 class EpicsMotorDialMixin(object):
