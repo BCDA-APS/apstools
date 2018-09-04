@@ -1,8 +1,14 @@
 
+import socket
+hostname = socket.gethostname()
 
-# IOC_PREFIX = "gov:"
-# IOC_PREFIX = "xxx:"
-IOC_PREFIX = "prj:"
+if hostname in ('otz.aps.anl.gov',):
+    IOC_PREFIX = "gov:"
+elif hostname.endswith('jemian.org'):
+    IOC_PREFIX = "prj:"
+else:
+    IOC_PREFIX = "xxx:"
+
 
 import numpy as np
 from ophyd.scaler import ScalerCH
