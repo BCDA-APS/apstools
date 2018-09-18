@@ -26,6 +26,7 @@ from bluesky import plan_stubs as bps
 from bluesky import plans as bp
 from bluesky.callbacks.fitting import PeakStats
 import ophyd
+from ophyd import Device, Component, Signal
 
 
 logger = logging.getLogger(__name__).addHandler(logging.NullHandler())
