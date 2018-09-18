@@ -106,7 +106,7 @@ class ExcelDatabaseFileBase(object):
             v = None
         else:
             v = to_unicode_or_bust(v)
-            if isinstance(v, unicode):
+            if isinstance(v, str):
                 v = v.strip()
         return v
     
