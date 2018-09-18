@@ -141,28 +141,24 @@ class ApsMachineParametersDevice(Device):
     current = Component(EpicsSignalRO, "S:SRcurrentAI")
     lifetime = Component(EpicsSignalRO, "S:SRlifeTimeHrsCC")
     machine_status = Component(EpicsSignalRO, "S:DesiredMode", string=True)
-    """
-    In [3]: APS.machine_status.enum_strs
-    Out[3]: 
-    ('State Unknown',
-     'USER OPERATIONS',
-     'Bm Ln Studies',
-     'INJ Studies',
-     'ASD Studies',
-     'NO BEAM',
-     'MAINTENANCE')
-    """
+    # In [3]: APS.machine_status.enum_strs
+    # Out[3]: 
+    # ('State Unknown',
+    #  'USER OPERATIONS',
+    #  'Bm Ln Studies',
+    #  'INJ Studies',
+    #  'ASD Studies',
+    #  'NO BEAM',
+    #  'MAINTENANCE')
     operating_mode = Component(EpicsSignalRO, "S:ActualMode", string=True)
-    """
-    In [4]: APS.operating_mode.enum_strs
-    Out[4]: 
-    ('State Unknown',
-    'NO BEAM',
-    'Injecting',
-    'Stored Beam',
-    'Delivered Beam',
-    'MAINTENANCE')
-   """
+    # In [4]: APS.operating_mode.enum_strs
+    # Out[4]: 
+    # ('State Unknown',
+    # 'NO BEAM',
+    # 'Injecting',
+    # 'Stored Beam',
+    # 'Delivered Beam',
+    # 'MAINTENANCE')
     shutter_permit = Component(EpicsSignalRO, "ACIS:ShutterPermit", string=True)
     fill_number = Component(EpicsSignalRO, "S:FillNumber")
     orbit_correction = Component(EpicsSignalRO, "S:OrbitCorrection:CC")
@@ -987,9 +983,9 @@ class ApsFileStoreHDF5(FileStorePluginBase):
     ====================================  ============================
     custom class                          superclass(es)
     ====================================  ============================
-    ``ApsFileStoreHDF5``                  ``FileStorePluginBase`
-    ``ApsFileStoreHDF5IterativeWrite``    ``ApsFileStoreHDF5`, `FileStoreIterativeWrite`
-    ``ApsHDF5Plugin``                     ``HDF5Plugin`, `ApsFileStoreHDF5IterativeWrite`
+    ``ApsFileStoreHDF5``                  ``FileStorePluginBase``
+    ``ApsFileStoreHDF5IterativeWrite``    ``ApsFileStoreHDF5``, `FileStoreIterativeWrite``
+    ``ApsHDF5Plugin``                     ``HDF5Plugin``, `ApsFileStoreHDF5IterativeWrite``
     ====================================  ============================
     """
 
@@ -1020,7 +1016,7 @@ class ApsFileStoreHDF5(FileStorePluginBase):
         return filename, read_path, write_path
 
     def generate_datum(self, key, timestamp, datum_kwargs):
-        "Generate a uid and cache it with its key for later insertion."
+        """Generate a uid and cache it with its key for later insertion."""
         template = self.file_template.get()
         filename, read_path, write_path = self.make_filename()
         file_number = self.file_number.get()
@@ -1033,9 +1029,11 @@ class ApsFileStoreHDF5(FileStorePluginBase):
         return super().generate_datum(key, timestamp, datum_kwargs)
 
     def get_frames_per_point(self):
+        """ """
         return self.num_capture.get()
 
     def stage(self):
+        """ """
         # Make a filename.
         filename, read_path, write_path = self.make_filename()
 
@@ -1063,8 +1061,8 @@ class ApsFileStoreHDF5(FileStorePluginBase):
         self._fn = template % (read_path, filename, file_number)
         self._fp = read_path
         if not self.file_path_exists.get():
-            raise IOError("Path %s does not exist on IOC."
-                          "" % self.file_path.get())
+            raise IOError("Path {} does not exist on IOC.".format(
+                          self.file_path.get()))
 
         # from FileStoreIterativeWrite.stage()
         self._point_counter = itertools.count()
