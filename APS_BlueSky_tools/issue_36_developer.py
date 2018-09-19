@@ -71,6 +71,7 @@ scaler.channels.chan02.chname.put("I0")
 scaler.channels.chan03.chname.put("scint")
 scaler.channels.chan04.chname.put("Jake")
 scaler.channels.chan05.chname.put("")
+scaler.preset_time.put(0.3)
 
 scaler.match_names()
 use_EPICS_scaler_channels(scaler)
@@ -89,8 +90,8 @@ noisy = EpicsSignal(noisy_calc.prefix, name="noisy")
 
 m1.tuner = TuneAxis([noisy], m1, signal_name=noisy.name)
 # m1.tuner = MyTuneAxis([det], m1, signal_name="det")
-m1.tuner.width = 5
-m1.tuner.num = 21
+m1.tuner.width = 3
+m1.tuner.num = 41
 
 
 #RE(bp.count([scaler]))
