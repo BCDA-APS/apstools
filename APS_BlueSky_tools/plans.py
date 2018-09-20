@@ -294,6 +294,12 @@ class TuneAxis(object):
                     peak_choice = self.peak_choice,
                     x_axis = self.axis.name,
                     y_axis = self.signal_name,
+                   ),
+               'hints': dict(
+                   dimensions = [
+                       (
+                           [self.axis.name], 
+                           'primary')]
                    )
                }
         _md.update(md or {})
@@ -324,13 +330,12 @@ class TuneAxis(object):
                     print("{} : {}".format(key, getattr(self, key).value))
 
         @bpp.subs_decorator(self.peaks)
-        def _scan():
-            yield from bps.open_run()
+        def _scan(md=None):
+            yield from bps.open_run(md)
 
             position_list = np.linspace(start, finish, num)
             signal_list = list(self.signals)
             signal_list += [self.axis,]
-            # TODO: need some hints to show the Y axis
             for pos in position_list:
                 yield from bps.mv(self.axis, pos)
                 yield from bps.trigger_and_read(signal_list)
@@ -368,7 +373,7 @@ class TuneAxis(object):
 
             results.report()
     
-        return (yield from _scan())
+        return (yield from _scan(md=_md))
         
     
     def multi_pass_tune(self, width=None, step_factor=None, 
