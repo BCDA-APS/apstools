@@ -31,7 +31,7 @@ class MyTuneAxis(TuneAxis): pass
 
 
 def myCallback(key, doc):
-    if key in (" start", " descriptor", " event", " stop"):
+    # if key in (" start", " descriptor", " event", " stop"):
         print("-"*20)
         for k, v in doc.items():
             print("\t", key, k, v)
@@ -107,10 +107,10 @@ m1.move(0)
 # RE(bp.scan([noisy], m1, -2, 2, 5))
 RE(m1.tune(), myCallback)
 
-m1.tuner.width /= 10
-RE(m1.tune(), myCallback)
+# m1.tuner.width /= 10
+# RE(m1.tune(), myCallback)
+# 
+# m1.tuner.width /= 10
+# RE(m1.tune(), myCallback)
 
-m1.tuner.width /= 10
-RE(m1.tune(), myCallback)
-
-time.sleep(60)
+# time.sleep(60)
