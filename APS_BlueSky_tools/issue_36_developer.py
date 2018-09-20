@@ -1,4 +1,5 @@
 
+import math
 import numpy as np
 import socket
 import time
@@ -86,6 +87,13 @@ _srev.put(8000)
 m1 = TunableEpicsMotor(IOC_PREFIX+"m1", name="m1")
 noisy_calc = calcs.calc1
 setRandomPeak(noisy_calc, m1)
+print("programmed peak signal: {}".format(calcs.calc1.channels.D.value.value))
+print("programmed center: {}".format(calcs.calc1.channels.B.value.value))
+sigma = calcs.calc1.channels.C.value.value
+fwhm = 2*math.sqrt(2* sigma**2 * math.log(2))
+print("programmed sigma: {}".format(sigma))
+print("programmed FWHM: {}".format(fwhm))
+print("programmed noise: {}".format(calcs.calc1.channels.E.value.value))
 noisy = EpicsSignal(noisy_calc.prefix, name="noisy")
 
 m1.tuner = TuneAxis([noisy], m1, signal_name=noisy.name)
@@ -93,7 +101,16 @@ m1.tuner = TuneAxis([noisy], m1, signal_name=noisy.name)
 m1.tuner.width = 3
 m1.tuner.num = 41
 
+m1.move(0)
 
 #RE(bp.count([scaler]))
-#RE(bp.scan([scaler], m1, -1, 1, 5))
+# RE(bp.scan([noisy], m1, -2, 2, 5))
 RE(m1.tune(), myCallback)
+
+m1.tuner.width /= 10
+RE(m1.tune(), myCallback)
+
+m1.tuner.width /= 10
+RE(m1.tune(), myCallback)
+
+time.sleep(60)
