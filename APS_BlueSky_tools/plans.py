@@ -26,6 +26,7 @@ from bluesky import plan_stubs as bps
 from bluesky import plans as bp
 from bluesky.callbacks.fitting import PeakStats
 import ophyd
+from ophyd import Device, Component, Signal
 
 
 logger = logging.getLogger(__name__).addHandler(logging.NullHandler())
@@ -244,7 +245,7 @@ class TuneAxis(object):
         self.step_factor = 4
         self.pass_max = 6
         self.snake = True
-    
+
     def tune(self, width=None, num=None, md=None):
         """
         BlueSky plan to execute one pass through the current scan range
@@ -274,6 +275,7 @@ class TuneAxis(object):
             raise ValueError(msg)
 
         initial_position = self.axis.position
+        final_position = initial_position       # unless tuned
         start = initial_position - width/2
         finish = initial_position + width/2
         self.tune_ok = False
@@ -285,16 +287,58 @@ class TuneAxis(object):
             )
         _md = {'tune_md': tune_md,
                'plan_name': self.__class__.__name__ + '.tune',
+               'tune_parameters': dict(
+                    num = num,
+                    width = width,
+                    initial_position = self.axis.position,
+                    peak_choice = self.peak_choice,
+                    x_axis = self.axis.name,
+                    y_axis = self.signal_name,
+                   ),
+               'hints': dict(
+                   dimensions = [
+                       (
+                           [self.axis.name], 
+                           'primary')]
+                   )
                }
         _md.update(md or {})
         if "pass_max" not in _md:
             self.stats = []
         self.peaks = PeakStats(x=self.axis.name, y=self.signal_name)
         
+        class Results(Device):
+            """because bps.read() needs a Device or a Signal)"""
+            tune_ok = Component(Signal)
+            initial_position = Component(Signal)
+            final_position = Component(Signal)
+            center = Component(Signal)
+            # - - - - -
+            x = Component(Signal)
+            y = Component(Signal)
+            cen = Component(Signal)
+            com = Component(Signal)
+            fwhm = Component(Signal)
+            min = Component(Signal)
+            max = Component(Signal)
+            crossings = Component(Signal)
+            peakstats_attrs = "x y cen com fwhm min max crossings".split()
+            
+            def report(self):
+                keys = self.peakstats_attrs + "tune_ok center initial_position final_position".split()
+                for key in keys:
+                    print("{} : {}".format(key, getattr(self, key).value))
+
         @bpp.subs_decorator(self.peaks)
-        def _scan():
-            yield from bp.scan(
-                self.signals, self.axis, start, finish, num=num, md=_md)
+        def _scan(md=None):
+            yield from bps.open_run(md)
+
+            position_list = np.linspace(start, finish, num)
+            signal_list = list(self.signals)
+            signal_list += [self.axis,]
+            for pos in position_list:
+                yield from bps.mv(self.axis, pos)
+                yield from bps.trigger_and_read(signal_list)
             
             final_position = initial_position
             if self.peak_detected():
@@ -306,11 +350,30 @@ class TuneAxis(object):
                 else:
                     final_position = None
                 self.center = final_position
+
+            # add stream with results
+            # yield from add_results_stream()
+            stream_name = "PeakStats"
+            results = Results(name=stream_name)
+
+            for key in "tune_ok center".split():
+                getattr(results, key).put(getattr(self, key))
+            results.final_position.put(final_position)
+            results.initial_position.put(initial_position)
+            for key in results.peakstats_attrs:
+                getattr(results, key).put(getattr(self.peaks, key))
+
+            yield from bps.create(name=stream_name)
+            yield from bps.read(results)
+            yield from bps.save()
             
             yield from bps.mv(self.axis, final_position)
             self.stats.append(self.peaks)
+            yield from bps.close_run()
+
+            results.report()
     
-        return (yield from _scan())
+        return (yield from _scan(md=_md))
         
     
     def multi_pass_tune(self, width=None, step_factor=None, 

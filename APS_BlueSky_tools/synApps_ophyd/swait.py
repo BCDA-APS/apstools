@@ -52,6 +52,8 @@ class swaitRecordChannel(Device):
     value = FC(EpicsSignal, '{self.prefix}.{self._ch_letter}')
     input_pv = FC(EpicsSignal, '{self.prefix}.IN{self._ch_letter}N')
     input_trigger = FC(EpicsSignal, '{self.prefix}.IN{self._ch_letter}P')
+    hints = {'fields': ['value',]}
+    read_attrs = ['value', ]
     
     def __init__(self, prefix, letter, **kwargs):
         self._ch_letter = letter
@@ -86,6 +88,9 @@ class swaitRecord(Device):
     dopt = Cpt(EpicsSignal, '.DOPT')
     oopt = Cpt(EpicsSignal, '.OOPT')
     flnk = Cpt(EpicsSignal, '.FLNK')
+
+    hints = {'fields': ["channels.%s" % c for c in "A B C D E F G H I J K L".split()]}
+    read_attrs = ["channels.%s" % c for c in "A B C D E F G H I J K L".split()]
     
     channels = DDC(
         _swait_channels(
@@ -108,7 +113,11 @@ class swaitRecord(Device):
         self.outn.put("")
         for letter in self.channels.read_attrs:
             channel = self.channels.__getattr__(letter)
-            channel.reset()
+            if isinstance(channel, swaitRecordChannel):
+                channel.reset()
+        self.hints = {'fields': ["channels.%s" % c for c in "A B C D E F G H I J K L".split()]}
+        self.read_attrs = ["channels.%s" % c for c in "A B C D E F G H I J K L".split()]
+        self.read_attrs.append('val')
 
 
 class userCalcsDevice(Device):
@@ -138,6 +147,7 @@ class userCalcsDevice(Device):
         self.calc8.reset()
         self.calc9.reset()
         self.calc10.reset()
+        self.read_attrs = ["calc%d" % (c+1) for c in range(10)]
 
 
 def swait_setup_random_number(swait, **kw):
@@ -147,6 +157,9 @@ def swait_setup_random_number(swait, **kw):
     swait.calc.put("RNDM")
     swait.scan.put(".1 second")
     swait.desc.put("uniform random numbers")
+
+    swait.hints = {"fields": ['val',]}
+    swait.read_attrs = ['val',]
 
 
 def swait_setup_gaussian(swait, motor, center=0, width=1, scale=1, noise=0.05):
@@ -166,6 +179,9 @@ def swait_setup_gaussian(swait, motor, center=0, width=1, scale=1, noise=0.05):
     swait.scan.put("I/O Intr")
     swait.desc.put("noisy Gaussian curve")
 
+    swait.hints = {"fields": ['val',]}
+    swait.read_attrs = ['val',]
+
 
 def swait_setup_lorentzian(swait, motor, center=0, width=1, scale=1, noise=0.05):
     """setup swait record for noisy Lorentzian"""
@@ -184,6 +200,9 @@ def swait_setup_lorentzian(swait, motor, center=0, width=1, scale=1, noise=0.05)
     swait.scan.put("I/O Intr")
     swait.desc.put("noisy Lorentzian curve")
 
+    swait.hints = {"fields": ['val',]}
+    swait.read_attrs = ['val',]
+
 
 def swait_setup_incrementer(swait, scan=None, limit=100000):
     """setup swait record as an incrementer"""
@@ -197,3 +216,6 @@ def swait_setup_incrementer(swait, scan=None, limit=100000):
     swait.calc.put("(A+1) % B")
     swait.scan.put(scan)
     swait.desc.put("incrementer")
+
+    swait.hints = {"fields": ['val',]}
+    swait.read_attrs = ['val',]
