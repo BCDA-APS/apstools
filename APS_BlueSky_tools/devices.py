@@ -402,7 +402,6 @@ class ApsUndulator(Device):
     
     USAGE:  ``undulator = ApsUndulator("ID09ds:", name="undulator")``
     """
-    # TODO: add to APS_BlueSky_tools
     energy = Component(EpicsSignal, "Energy", write_pv="EnergySet")
     energy_taper = Component(EpicsSignal, "TaperEnergy", write_pv="TaperEnergySet")
     gap = Component(EpicsSignal, "Gap", write_pv="GapSet")
