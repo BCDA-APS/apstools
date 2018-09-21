@@ -5,6 +5,9 @@ Various utilities
    
    ~ExcelDatabaseFileBase
    ~ExcelDatabaseFileGeneric
+   ~ipython_profile_name
+   ~text_encode
+   ~to_unicode_or_bust
 
 """
 
@@ -20,9 +23,7 @@ logger = logging.getLogger(__name__)
 
 
 def text_encode(source):
-    """
-    encode ``source`` using the default codepoint
-    """
+    """encode ``source`` using the default codepoint"""
     return source.encode(errors='ignore')
 
 
@@ -137,3 +138,25 @@ class ExcelDatabaseFileGeneric(ExcelDatabaseFileBase):
         key = str(self._index_)
         self.db[key] = entry
         self._index_ += 1
+
+
+def ipython_profile_name():
+    """
+    return the name of the current ipython profile or `None`
+    
+    Example (add to default RunEngine metadata)::
+
+        RE.md['ipython_profile'] = str(ipython_profile_name())
+        print("using profile: " + RE.md['ipython_profile'])
+
+    """
+    import IPython.paths
+    import IPython.core.profileapp
+    import IPython.core.profiledir
+    
+    path = IPython.paths.get_ipython_dir()
+    ipd = IPython.core.profiledir.ProfileDir()
+    for p in IPython.core.profileapp.list_profiles_in(path):
+        pd = ipd.find_profile_dir_by_name(path, p)
+        if os.path.dirname(__file__) == pd.startup_dir:
+            return p
