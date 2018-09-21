@@ -393,7 +393,49 @@ class ApsPssShutterWithStatus(Device):
     @property
     def isClosed(self):
         " "
-        return self.pss_state.value == self.close_val 
+        return self.pss_state.value == self.close_val
+
+
+class ApsUndulator(Device):
+    """
+    APS Undulator
+    
+    USAGE:  ``undulator = ApsUndulator("ID09ds:", name="undulator")``
+    """
+    # TODO: add to APS_BlueSky_tools
+    energy = Component(EpicsSignal, "Energy", write_pv="EnergySet")
+    energy_taper = Component(EpicsSignal, "TaperEnergy", write_pv="TaperEnergySet")
+    gap = Component(EpicsSignal, "Gap", write_pv="GapSet")
+    gap_taper = Component(EpicsSignal, "TaperGap", write_pv="TaperGapSet")
+    start_button = Component(EpicsSignal, "Start")
+    stop_button = Component(EpicsSignal, "Stop")
+    harmonic_value = Component(EpicsSignal, "HarmonicValue")
+    gap_deadband = Component(EpicsSignal, "DeadbandGap")
+    device_limit = Component(EpicsSignal, "DeviceLimit")
+
+    access_mode = Component(EpicsSignalRO, "AccessSecurity")
+    device_status = Component(EpicsSignalRO, "Busy")
+    total_power = Component(EpicsSignalRO, "TotalPower")
+    message1 = Component(EpicsSignalRO, "Message1")
+    message2 = Component(EpicsSignalRO, "Message2")
+    message3 = Component(EpicsSignalRO, "Message3")
+    time_left = Component(EpicsSignalRO, "ShClosedTime")
+
+    device = Component(EpicsSignalRO, "Device")
+    location = Component(EpicsSignalRO, "Location")
+    version = Component(EpicsSignalRO, "Version")
+
+
+class ApsUndulatorDual(Device):
+    """
+    APS Undulator with upstream *and* downstream controls
+    
+    USAGE:  ``undulator = ApsUndulatorDual("ID09", name="undulator")``
+    
+    note:: the trailing ``:`` in the PV prefix should be omitted
+    """
+    upstream = Component(ApsUndulator, "us:")
+    downstream = Component(ApsUndulator, "ds:")
 
 
 class AxisTunerException(ValueError): 
