@@ -19,6 +19,7 @@
     ~EpicsMotorRawMixin
     ~EpicsMotorDescriptionMixin
     ~EpicsMotorShutter
+    ~EpicsOnOffShutter
     ~ProcedureRegistry
     ~sscanRecord  
     ~sscanDevice
@@ -759,6 +760,94 @@ class EpicsMotorShutter(Device):
             msg + " : received " + str(value)
             raise ValueError(msg)
         self.motor.user_setpoint.put(
+            pos, use_complete=True, callback=put_callback)
+
+        return status
+
+
+class EpicsOnOffShutter(Device):
+    """
+    a shutter, implemented with an EPICS PV moved between two positions
+    
+    Use for a shutter controlled by a single PV which takes a 
+    value for the close command and a different value for the open command.
+    The current position is determined by comparing the value of the control
+    with the expected open and close values.
+    
+    USAGE::
+
+        bit_shutter = EpicsOnOffShutter("2bma:bit1", name="bit_shutter")
+        bit_shutter.closed_position = 0      # default
+        bit_shutter.open_position = 1        # default
+        bit_shutter.open()
+        bit_shutter.close()
+        
+        # or, when used in a plan
+        def planA():
+            yield from mv(bit_shutter, "open")
+            yield from mv(bit_shutter, "close")
+
+    """
+    control = Component(EpicsSignal, "")
+    closed_position = 0
+    open_position = 1
+    
+    @property
+    def isOpen(self):
+        " "
+        return self.control.value == self.open_position
+    
+    @property
+    def isClosed(self):
+        " "
+        return self.control.value == self.closed_position
+    
+    def open(self):
+        """move control to BEAM NOT BLOCKED position, interactive use"""
+        self.control.put(self.open_position)
+    
+    def close(self):
+        """move control to BEAM BLOCKED position, interactive use"""
+        self.control.put(self.closed_position)
+
+    def set(self, value, *, timeout=None, settle_time=None):
+        """
+        `set()` is like `put()`, but used in BlueSky plans
+
+        PARAMETERS
+        
+        value : "open" or "close"
+
+        timeout : float, optional
+            Maximum time to wait. Note that set_and_wait does not support
+            an infinite timeout.
+
+        settle_time: float, optional
+            Delay after the set() has completed to indicate completion
+            to the caller
+
+        RETURNS
+        
+        status : DeviceStatus
+        """
+
+        # using put completion:
+        # timeout and settle time is handled by the status object.
+        status = DeviceStatus(
+            self, timeout=timeout, settle_time=settle_time)
+
+        def put_callback(**kwargs):
+            status._finished(success=True)
+
+        if value.lower() == "open":
+            pos = self.open_position
+        elif value.lower() == "close":
+            pos = self.closed_position
+        else:
+            msg = "value should be either open or close"
+            msg + " : received " + str(value)
+            raise ValueError(msg)
+        self.control.put(
             pos, use_complete=True, callback=put_callback)
 
         return status
