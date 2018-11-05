@@ -438,6 +438,35 @@ class ApsUndulatorDual(Device):
     downstream = Component(ApsUndulator, "ds:")
 
 
+class ApsBssUserInfoDevice(Device):
+    """
+    provide current experiment info from the APS BSS
+    
+    BSS: Beamtime Scheduling System
+
+    USAGE::
+
+        bss_user_info = ApsBssUserInfoDevice(
+                            "9id_bss:",
+                            name="bss_user_info")
+        sd.baseline.append(bss_user_info)
+
+    """
+    proposal_number =   Component(EpicsSignal, "proposal_number")
+    activity =          Component(EpicsSignal, "activity",      string=True)
+    badge =             Component(EpicsSignal, "badge",         string=True)
+    bss_name =          Component(EpicsSignal, "bss_name",      string=True)
+    contact =           Component(EpicsSignal, "contact",       string=True)
+    email =             Component(EpicsSignal, "email",         string=True)
+    institution =       Component(EpicsSignal, "institution",   string=True)
+    station =           Component(EpicsSignal, "station",       string=True)
+    team_others =       Component(EpicsSignal, "team_others",   string=True)
+    time_begin =        Component(EpicsSignal, "time_begin",    string=True)
+    time_end =          Component(EpicsSignal, "time_end",      string=True)
+    timestamp =         Component(EpicsSignal, "timestamp",     string=True)
+    title =             Component(EpicsSignal, "title",         string=True)
+
+
 class AxisTunerException(ValueError): 
     """Exception during execution of `AxisTunerBase` subclass"""
     pass
