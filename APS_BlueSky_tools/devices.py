@@ -556,6 +556,10 @@ class ApsBssUserInfoDevice(Device):
     time_end =          Component(EpicsSignal, "time_end",      string=True)
     timestamp =         Component(EpicsSignal, "timestamp",     string=True)
     title =             Component(EpicsSignal, "title",         string=True)
+    # not yet updated, see: https://git.aps.anl.gov/jemian/aps_bss_user_info/issues/10
+    esaf =              Component(EpicsSignal, "esaf",          string=True)
+    esaf_contact =      Component(EpicsSignal, "esaf_contact",  string=True)
+    esaf_team =         Component(EpicsSignal, "esaf_team",     string=True)
 
 
 class AxisTunerException(ValueError): 
