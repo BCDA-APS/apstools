@@ -21,6 +21,7 @@
     ~EpicsMotorShutter
     ~EpicsOnOffShutter
     ~ProcedureRegistry
+    ~SimulatedApsPssShutterWithStatus
     ~sscanRecord  
     ~sscanDevice
     ~swaitRecord
