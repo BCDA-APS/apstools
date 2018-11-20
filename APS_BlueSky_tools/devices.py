@@ -420,9 +420,6 @@ class SimulatedApsPssShutterWithStatus(Device):
     open_val = 1
     close_val = 0
 
-    # simulated response time for PSS status
-    response_time = 0.5
-
     def __init__(self, *args, **kwargs):
         super().__init__(self, *args, **kwargs)
         self.open_bit.set(0)
@@ -436,6 +433,11 @@ class SimulatedApsPssShutterWithStatus(Device):
     def close(self, timeout=10):
         """request the shutter to close"""
         self.set(self.close_str)
+    
+    def get_response_time(self):
+        """simulated response time for PSS status"""
+        # return 0.5
+        return np.random.uniform(0.1, 0.9)
 
     def set(self, value, **kwargs):
         """set the shutter to "close" or "open" """
@@ -461,7 +463,7 @@ class SimulatedApsPssShutterWithStatus(Device):
         def shutter_cb(value, timestamp, **kwargs):
             self.pss_state.clear_sub(shutter_cb)
             if simulate_delay:
-                time.sleep(np.random.uniform(0.1, 0.9))
+                time.sleep(self.get_response_time())
             self.pss_state.set(expected_value)
             working_status._finished()
         
