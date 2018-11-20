@@ -15,11 +15,6 @@ Various Python tools for use with BlueSky at the APS
 * http://nsls-ii.github.io/
 * https://github.com/NSLS-II/bluesky
 
-## Provides
-
-* `SpecWriterCallback()` : write SPEC data files from BlueSky
-* ...
-
 ## Package Information
 
 item              | description

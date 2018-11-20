@@ -11,11 +11,6 @@ Various Python tools for use with BlueSky at the APS
 * http://nsls-ii.github.io/
 * https://github.com/NSLS-II/bluesky
 
-Provides
---------
-
-* `APS_BlueSky_tools.filewriters.SpecWriterCallback`
-
 Package Information
 -------------------
 
