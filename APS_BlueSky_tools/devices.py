@@ -421,7 +421,7 @@ class SimulatedApsPssShutterWithStatus(Device):
     close_val = 0
 
     def __init__(self, *args, **kwargs):
-        super().__init__(self, *args, **kwargs)
+        super().__init__(*args, **kwargs)
         self.open_bit.set(0)
         self.close_bit.set(0)
         self.pss_state.set(self.close_val)
