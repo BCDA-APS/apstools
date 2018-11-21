@@ -33,6 +33,7 @@ from ophyd.device import (
     DynamicDeviceComponent as DDC,
     FormattedComponent as FC)
 from ophyd import EpicsSignal, EpicsSignalRO
+from ophyd.status import DeviceStatus
 
 
 __all__ = """
@@ -124,7 +125,7 @@ def _sscan_detectors(channel_list):
 def _sscan_triggers(channel_list):
     defn = OrderedDict()
     for chan in channel_list:
-        attr = 'd{}'.format(chan)
+        attr = 't{}'.format(chan)
         defn[attr] = (sscanTrigger, '', {'num': chan})
     return defn
 
