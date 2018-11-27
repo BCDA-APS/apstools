@@ -8,6 +8,7 @@ Various utilities
    ~ipython_profile_name
    ~text_encode
    ~to_unicode_or_bust
+   ~unix_cmd
 
 """
 
@@ -25,6 +26,13 @@ logger = logging.getLogger(__name__)
 def text_encode(source):
     """encode ``source`` using the default codepoint"""
     return source.encode(errors='ignore')
+
+
+def unix_cmd(command_list):
+   """run a UNIX command, returns (stdout, stderr)"""
+    process = subprocess.Popen(command_list, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+    stdout, stderr = process.communicate()
+    return stdout, stderr
 
 
 def to_unicode_or_bust(obj, encoding='utf-8'):
