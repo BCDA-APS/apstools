@@ -3,6 +3,7 @@ Various utilities
 
 .. autosummary::
    
+   ~EmailNotifications
    ~ExcelDatabaseFileBase
    ~ExcelDatabaseFileGeneric
    ~ipython_profile_name
@@ -13,10 +14,12 @@ Various utilities
 """
 
 from collections import OrderedDict
+from email.mime.text import MIMEText
 import logging
 import math
 import os
 import pandas
+import smtplib
 import subprocess
 
 
@@ -42,6 +45,34 @@ def to_unicode_or_bust(obj, encoding='utf-8'):
         if not isinstance(obj, str):
             obj = str(obj, encoding)
     return obj
+
+
+class EmailNotifications(object):
+    """
+    send email notifications when requested
+    
+    use default OS mail utility (so no credentials needed)
+    """
+    
+    def __init__(self, sender=None):
+        self.addresses = []
+        self.notify_on_feedback = True
+        self.sender = sender or "nobody@localhost"
+        self.smtp_host = "localhost"
+    
+    def add_addresses(self, *args):
+        for address in args:
+            self.addresses.append(address)
+
+    def send(self, subject, message):
+        """send ``message`` to all addresses"""
+        msg = MIMEText(message)
+        msg['Subject'] = subject
+        msg['From'] = self.sender
+        msg['To'] = ",".join(self.addresses)
+        s = smtplib.SMTP(self.smtp_host)
+        s.sendmail(self.sender, self.addresses, msg.as_string())
+        s.quit()
 
 
 class ExcelDatabaseFileBase(object):
