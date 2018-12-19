@@ -1,0 +1,14 @@
+rpi5bf5:0:humidity
+rpi5bf5:0:temperature
+rpi5bf5:0:humidity:1m
+rpi5bf5:0:temperature:1m
+rpi5bf5:0:humidity:1m:sdev
+rpi5bf5:0:temperature:1m:sdev
+rpi5bf5:0:humidity:15m
+rpi5bf5:0:temperature:15m
+rpi5bf5:0:humidity:15m:sdev
+rpi5bf5:0:temperature:15m:sdev
+rpi5bf5:0:humidity:60m
+rpi5bf5:0:temperature:60m
+rpi5bf5:0:humidity:60m:sdev
+rpi5bf5:0:temperature:60m:sdev
