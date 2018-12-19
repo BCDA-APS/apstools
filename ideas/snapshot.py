@@ -5,7 +5,12 @@ record a snapshot of some PVs using Bluesky, ophyd, and databroker
 """
 
 
+from collections import OrderedDict
+import datetime
 import os
+import pyRestTable
+import time
+
 from ophyd import EpicsSignal
 from databroker import Broker
 from bluesky import RunEngine
@@ -14,10 +19,7 @@ from bluesky import (
     plan_patterns as bpp, 
     plan_stubs as bps, 
     plan_tools as bpt)
-import time
-from collections import OrderedDict
-import pyRestTable
-import datetime
+from bluesky.callbacks.core import CallbackBase
 
 
 def connect_pvlist(pvlist):
@@ -80,6 +82,52 @@ def callback(key, doc):
         print(f"\t{k}\t{v}")
 
 
+class SnapshotReport(CallbackBase):
+    
+    xref = {}    # key=PVname, value=dict(value, iso8601 timestamp)
+    
+    def descriptor(self, doc):
+        """
+        special case:  
+           the data is both in the descriptor AND the event docs
+           due to the way our plan created it
+        """
+        self.xref = {}
+        for k, v in doc["configuration"].items():
+            ts = v["timestamps"][k]
+            dt = datetime.datetime.fromtimestamp(ts).isoformat().replace("T", " ")
+            pvname = v["data_keys"][k]["source"][3:]
+            value = v["data"][k]
+            self.xref[pvname] = dict(value=value, timestamp=dt)
+    
+    def stop(self, doc):
+        t = pyRestTable.Table()
+        t.addLabel("EPICS PV")
+        t.addLabel("value")
+        t.addLabel("timestamp")
+        for k, v in sorted(self.xref.items()):
+            t.addRow((k, v["value"], v["timestamp"]))
+        print(t)
+    
+    def print_report(self, header):
+        """
+        simplify the job of writing our custom data table
+        
+        method: play the entire document stream through this callback
+        """
+        print("="*40)
+        print("snapshot:", header.start["iso8601"])
+        print("="*40)
+        print()
+        for k, v in sorted(header.start.items()):
+            #if k not in plan_keys:
+                print(f"{k}: {v}")
+        print()
+        for key, doc in header.documents():
+            self(key, doc)        
+        print()
+
+
 def snapshot_cli():
     with open("pvlist.txt", "r") as f:
         pvlist = f.read().strip().splitlines()
@@ -93,11 +141,16 @@ def snapshot_cli():
     
     db = Broker.named("mongodb_config")
     RE.subscribe(db.insert)
-    RE(snapshot(obj_dict.values()))
+    RE(
+        snapshot(
+            obj_dict.values(), 
+            md=dict(purpose="python code development and testing")))
     
     h = db[-1]
     print(h.start)
     print(h.table())
+    reporter = SnapshotReport()
+    reporter.print_report(h)
 
 
 if __name__ == "__main__":
