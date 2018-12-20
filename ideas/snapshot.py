@@ -1,4 +1,4 @@
-#1/usr/bin/env python
+#!/usr/bin/env python
 
 """
 record a snapshot of some PVs using Bluesky, ophyd, and databroker
@@ -19,9 +19,7 @@ import ophyd
 import APS_BlueSky_tools
 
 
-from ophyd import EpicsSignal
-from databroker import Broker
-from bluesky import RunEngine
+from ophyd import EpicsSignal, Signal
 from bluesky import (
     plans as bp, 
     plan_patterns as bpp, 
@@ -30,7 +28,7 @@ from bluesky import (
 from bluesky.callbacks.core import CallbackBase
 
 
-def connect_pvlist(pvlist):
+def connect_pvlist(pvlist, wait=True):
     obj_dict = OrderedDict()
     for item in pvlist:
         if len(item.strip()) == 0:
@@ -39,29 +37,25 @@ def connect_pvlist(pvlist):
         oname = "signal_{}".format(len(obj_dict))
         obj = EpicsSignal(pvname, name=oname)
         obj_dict[oname] = obj
+    # TODO: wait for all to connect?
     return obj_dict
-
-
-def print_signals_in_table(obj_dict):
-    t = pyRestTable.Table()
-    t.addLabel("EPICS PV")
-    t.addLabel("value")
-    t.addLabel("timestamp")
-    for oname, obj in obj_dict.items():
-        r = obj.read()
-        ts = r[oname]["timestamp"]
-        value = r[oname]["value"]
-        dt = datetime.datetime.fromtimestamp(ts).isoformat().replace("T", " ")
-        row = [obj.pvname, value, dt]
-        # print(obj.pvname, r[oname])
-        t.addRow(row)
-    print(t)
 
 
 def snapshot(obj_list, stream="primary", md=None):
     """
     bluesky plan: record current value of list of ophyd signals
     """
+    validated_objects = []
+    for obj in obj_list:
+        # TODO: consider supporting Device objects
+        if isinstance(obj, (Signal, EpicsSignal)):
+            validated_objects.append(obj)
+        else:
+            raise RuntimeWarning(f"ignoring object: {obj}")
+        
+        if len(validated_objects) == 0:
+            raise ValueError("No signals to log.")
+
     # we want this metadata to appear
     _md = dict(
         plan_name = "snapshot",
@@ -82,7 +76,7 @@ def snapshot(obj_list, stream="primary", md=None):
     def _snap(md=None):
         yield from bps.open_run(md)
         yield from bps.create(name=stream)
-        for obj in obj_list:
+        for obj in validated_objects:
             # passive observation: DO NOT TRIGGER, only read
             yield from bps.read(obj)
         yield from bps.save()
@@ -132,6 +126,7 @@ class SnapshotReport(CallbackBase):
         
         method: play the entire document stream through this callback
         """
+        print()
         print("="*40)
         print("snapshot:", header.start["iso8601"])
         print("="*40)
@@ -146,15 +141,19 @@ class SnapshotReport(CallbackBase):
 
 
 def snapshot_cli():
-    with open("pvlist.txt", "r") as f:
-        pvlist = f.read().strip().split()
+    """
+    given a list of PVs on the command line, snapshot and print report
+    """
+    from databroker import Broker
+    from bluesky import RunEngine
+
+    pvlist = sys.argv[1:]
 
     obj_dict = connect_pvlist(pvlist)
     time.sleep(2)   # FIXME: allow time to connect
-    #print_signals_in_table(obj_dict)
     
     RE = RunEngine({})
-    RE(snapshot(obj_dict.values()), callback)
+    RE(snapshot(obj_dict.values()))
     
     db = Broker.named("mongodb_config")
     RE.subscribe(db.insert)
@@ -164,10 +163,9 @@ def snapshot_cli():
             md=dict(purpose="python code development and testing")))
     
     h = db[-1]
-    print(h.start)
-    print(h.table())
-    reporter = SnapshotReport()
-    reporter.print_report(h)
+    #print(h.start)
+    #print(h.table())
+    SnapshotReport().print_report(h)
 
 
 if __name__ == "__main__":
