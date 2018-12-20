@@ -12,6 +12,11 @@ from APS_BlueSky_tools import plans as APS_plans
 from APS_BlueSky_tools import callbacks as APS_callbacks
 
 
+# TODO: caller may want to change this
+BROKER_CONFIG = "mongodb_config"
+# TODO: caller may want to provide more metadata
+
+
 def snapshot_cli():
     """
     given a list of PVs on the command line, snapshot and print report
@@ -40,7 +45,7 @@ def snapshot_cli():
     #     APS_plans.snapshot(obj_dict.values()), 
     #     APS_callbacks.document_contents_callback)
     
-    db = Broker.named("mongodb_config")
+    db = Broker.named(BROKER_CONFIG)
     RE.subscribe(db.insert)
     uuid_list = RE(
         APS_plans.snapshot(
