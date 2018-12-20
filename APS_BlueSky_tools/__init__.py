@@ -50,7 +50,10 @@ __documentation_mocks__ = [
     'matplotlib', 
     'matplotlib.backends', 
     'matplotlib.backends.backend_agg',
-    'pyRestTable',
+    'bluesky',
+    'bluesky.callbacks',
+    'bluesky.callbacks.core',
+    'bluesky.callbacks.core.CallbackBase',
     # do NOT mock the "six" package!
 ]
 
