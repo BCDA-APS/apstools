@@ -569,7 +569,7 @@ class AxisTunerException(ValueError):
     pass
 
 
-class AxisTunerMixin(object):
+class AxisTunerMixin:
     """
     Mixin class to provide tuning capabilities for an axis
     
