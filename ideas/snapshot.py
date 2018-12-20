@@ -133,13 +133,13 @@ class SnapshotReport(CallbackBase):
     
     def stop(self, doc):
         t = pyRestTable.Table()
+        t.addLabel("timestamp")
         t.addLabel("source")
         t.addLabel("name")
         t.addLabel("value")
-        t.addLabel("timestamp")
         for k, v in sorted(self.xref.items()):
             p = k.find(":")
-            t.addRow((k[:p], k[p+1:], v["value"], v["timestamp"]))
+            t.addRow((v["timestamp"], k[:p], k[p+1:], v["value"]))
         print(t)
     
     def print_report(self, header):
