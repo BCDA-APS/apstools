@@ -4,7 +4,9 @@ Callbacks that might be useful at the APS using BlueSky
 
 .. autosummary::
    
+   ~document_contents_callback
    ~DocumentCollectorCallback
+   ~SnapshotReport
 
 FILE WRITER CALLBACK
 
@@ -14,10 +16,22 @@ see :class:`SpecWriterCallback()`
 
 # Copyright (c) 2017-2018, UChicago Argonne, LLC.  See LICENSE file.
 
+import datetime
 import logging
+import pyRestTable
+from bluesky.callbacks.core import CallbackBase
 
 
 logger = logging.getLogger(__name__).addHandler(logging.NullHandler())
+
+
+def document_contents_callback(key, doc):
+    """
+    prints document contents
+    """
+    print(key)
+    for k, v in doc.items():
+        print(f"\t{k}\t{v}")
 
 
 class DocumentCollectorCallback(object):
@@ -73,3 +87,55 @@ class DocumentCollectorCallback(object):
                 self.documents[key] = []
             self.documents[key].append(document)
         return
+
+
+class SnapshotReport(CallbackBase):
+    """
+    show the data from a ``APS_BlueSky_Tools.plans.snapshot()``
+    """
+    
+    # TODO: What if it is not a snapshot plan?  Handle that.
+    xref = {}    # key=PVname, value=dict(value, iso8601 timestamp)
+    
+    def descriptor(self, doc):
+        """
+        special case:  
+           the data is both in the descriptor AND the event docs
+           due to the way our plan created it
+        """
+        self.xref = {}
+        for k, v in doc["configuration"].items():
+            ts = v["timestamps"][k]
+            dt = datetime.datetime.fromtimestamp(ts).isoformat().replace("T", " ")
+            pvname = v["data_keys"][k]["source"]
+            value = v["data"][k]
+            self.xref[pvname] = dict(value=value, timestamp=dt)
+    
+    def stop(self, doc):
+        t = pyRestTable.Table()
+        t.addLabel("timestamp")
+        t.addLabel("source")
+        t.addLabel("name")
+        t.addLabel("value")
+        for k, v in sorted(self.xref.items()):
+            p = k.find(":")
+            t.addRow((v["timestamp"], k[:p], k[p+1:], v["value"]))
+        print(t)
+    
+    def print_report(self, header):
+        """
+        simplify the job of writing our custom data table
+        
+        method: play the entire document stream through this callback
+        """
+        print()
+        print("="*40)
+        print("snapshot:", header.start["iso8601"])
+        print("="*40)
+        print()
+        for k, v in sorted(header.start.items()):
+            print(f"{k}: {v}")
+        print()
+        for key, doc in header.documents():
+            self(key, doc)        
+        print()

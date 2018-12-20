@@ -7,6 +7,7 @@ Plans that might be useful at the APS when using BlueSky
    ~ProcedureRegistry
    ~run_blocker_in_plan
    ~run_in_thread
+   ~snapshot
    ~TuneAxis
    ~tune_axes
 
@@ -17,7 +18,8 @@ Plans that might be useful at the APS when using BlueSky
 from collections import OrderedDict
 import datetime
 import logging
-import numpy as np 
+import numpy as np
+import sys
 import threading
 import time
 
@@ -182,6 +184,69 @@ def nscan(detectors, *motor_sets, num=11, per_step=None, md=None):
             yield from per_step(detectors, step_cache, pos_cache)
 
     return (yield from inner_scan())
+
+
+def snapshot(obj_list, stream="primary", md=None):
+    """
+    bluesky plan: record current values of list of ophyd signals
+
+    PARAMETERS
+
+    obj_list : list
+        list of ophyd Signal or EpicsSignal objects
+    stream : str
+        document stream, default: "primary"
+    md : dict
+        metadata
+    """
+    from .__init__ import __version__
+    import bluesky
+    import databroker
+    import epics
+    from ophyd import EpicsSignal
+
+    objects = []
+    for obj in obj_list:
+        # TODO: consider supporting Device objects
+        if isinstance(obj, (Signal, EpicsSignal)) and obj.connected:
+            objects.append(obj)
+        else:
+            if hasattr(obj, "pvname"):
+                nm = obj.pvname
+            else:
+                nm = obj.name
+            print(f"ignoring object: {nm}")
+        
+        if len(objects) == 0:
+            raise ValueError("No signals to log.")
+
+    # we want this metadata to appear
+    _md = dict(
+        plan_name = "snapshot",
+        plan_description = "archive snapshot of ophyd Signals (usually EPICS PVs)",
+        iso8601 = str(datetime.datetime.now()),     # human-readable
+        hints = {},
+        software_versions = dict(
+            python = sys.version,
+            PyEpics = epics.__version__,
+            bluesky = bluesky.__version__,
+            ophyd = ophyd.__version__,
+            databroker = databroker.__version__,
+            APS_Bluesky_Tools = __version__,),
+        )
+    # caller may have given us additional metadata
+    _md.update(md or {})
+
+    def _snap(md=None):
+        yield from bps.open_run(md)
+        yield from bps.create(name=stream)
+        for obj in objects:
+            # passive observation: DO NOT TRIGGER, only read
+            yield from bps.read(obj)
+        yield from bps.save()
+        yield from bps.close_run()
+
+    return (yield from _snap(md=_md))
 
 
 # def sscan(*args, md=None, **kw):        # TODO: planned
