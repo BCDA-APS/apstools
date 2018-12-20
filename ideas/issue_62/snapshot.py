@@ -5,16 +5,36 @@ record a snapshot of some PVs using Bluesky, ophyd, and databroker
 """
 
 
+import argparse
 import sys
 import time
+
 from APS_BlueSky_tools import utils as APS_utils
 from APS_BlueSky_tools import plans as APS_plans
 from APS_BlueSky_tools import callbacks as APS_callbacks
 
 
-# TODO: caller may want to change this
 BROKER_CONFIG = "mongodb_config"
 # TODO: caller may want to provide more metadata
+
+
+def get_args():
+    """
+    get command line arguments
+    """
+    #from .__init__ import __version__
+    doc = __doc__.strip()
+    parser = argparse.ArgumentParser(description=doc)
+
+    parser.add_argument('EPICS_PV', action='store', nargs='+',
+                        help="EPICS PV name", default="")
+
+    # optional arguments
+    parser.add_argument('-b', action='store', dest='broker_config',
+                        help="YAML configuration for databroker", 
+                        default="mongodb_config")
+
+    return parser.parse_args()
 
 
 def snapshot_cli():
@@ -35,9 +55,9 @@ def snapshot_cli():
     from databroker import Broker
     from bluesky import RunEngine
 
-    pvlist = sys.argv[1:]
+    args = get_args()
 
-    obj_dict = APS_utils.connect_pvlist(pvlist, wait=False)
+    obj_dict = APS_utils.connect_pvlist(args.EPICS_PV, wait=False)
     time.sleep(2)   # FIXME: allow time to connect
     
     RE = RunEngine({})
@@ -45,7 +65,7 @@ def snapshot_cli():
     #     APS_plans.snapshot(obj_dict.values()), 
     #     APS_callbacks.document_contents_callback)
     
-    db = Broker.named(BROKER_CONFIG)
+    db = Broker.named(args.broker_config)
     RE.subscribe(db.insert)
     uuid_list = RE(
         APS_plans.snapshot(
