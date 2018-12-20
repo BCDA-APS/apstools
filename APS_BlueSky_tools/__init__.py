@@ -55,6 +55,8 @@ __documentation_mocks__ = [
     'bluesky.callbacks',
     'bluesky.callbacks.core',
     'bluesky.callbacks.core.CallbackBase',
+    'bluesky.callbacks.fitting',
+    'bluesky.suspenders',
     # do NOT mock the "six" package!
 ]
 
