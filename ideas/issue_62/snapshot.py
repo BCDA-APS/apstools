@@ -6,6 +6,7 @@ record a snapshot of some PVs using Bluesky, ophyd, and databroker
 
 
 import argparse
+from collections import OrderedDict
 import sys
 import time
 
@@ -34,7 +35,28 @@ def get_args():
                         help="YAML configuration for databroker", 
                         default="mongodb_config")
 
+    help = """
+    additional metadata, enclose in quotes,
+    such as -m "purpose=just tuned, situation=routine"
+    """
+    parser.add_argument('-m', action='store', dest='metadata',
+                        help=help, 
+                        default="")
+
     return parser.parse_args()
+
+
+def parse_metadata(args):
+    md = OrderedDict()
+    for metadata in args.metadata.split(","):
+        parts = metadata.strip().split("=")
+        if len(parts) == 2:
+            md[parts[0].strip()] = parts[1].strip()
+        else:
+            msg = f"incorrect metadata specification {metadata}"
+            msg += ", must specify key = value [, key2 = value2 ]"
+            raise ValueError(msg)
+    return md
 
 
 def snapshot_cli():
@@ -56,25 +78,20 @@ def snapshot_cli():
     from bluesky import RunEngine
 
     args = get_args()
+    
+    md = OrderedDict(purpose="python code development and testing")
+    md.update(parse_metadata(args))
 
     obj_dict = APS_utils.connect_pvlist(args.EPICS_PV, wait=False)
     time.sleep(2)   # FIXME: allow time to connect
     
-    RE = RunEngine({})
-    # RE(
-    #     APS_plans.snapshot(obj_dict.values()), 
-    #     APS_callbacks.document_contents_callback)
-    
     db = Broker.named(args.broker_config)
+    RE = RunEngine({})
     RE.subscribe(db.insert)
-    uuid_list = RE(
-        APS_plans.snapshot(
-            obj_dict.values(), 
-            md=dict(purpose="python code development and testing")))
+
+    uuid_list = RE(APS_plans.snapshot(obj_dict.values(), md=md))
     
     snap = list(db(uuid_list[0]))[0]
-    #print(h.start)
-    #print(h.table())
     APS_callbacks.SnapshotReport().print_report(snap)
 
 
