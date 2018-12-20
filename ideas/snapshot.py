@@ -66,10 +66,14 @@ def snapshot(obj_list, stream="primary", md=None):
     validated_objects = []
     for obj in obj_list:
         # TODO: consider supporting Device objects
-        if isinstance(obj, (Signal, EpicsSignal)):
+        if isinstance(obj, (Signal, EpicsSignal)) and obj.connected:
             validated_objects.append(obj)
         else:
-            raise RuntimeWarning(f"ignoring object: {obj}")
+            if hasattr(obj, "pvname"):
+                nm = obj.pvname
+            else:
+                nm = obj.name
+            print(f"ignoring object: {nm}")
         
         if len(validated_objects) == 0:
             raise ValueError("No signals to log.")
