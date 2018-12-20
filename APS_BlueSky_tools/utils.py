@@ -33,7 +33,7 @@ def text_encode(source):
 
 
 def unix_cmd(command_list):
-   """run a UNIX command, returns (stdout, stderr)"""
+    """run a UNIX command, returns (stdout, stderr)"""
     process = subprocess.Popen(command_list, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
     stdout, stderr = process.communicate()
     return stdout, stderr
