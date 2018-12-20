@@ -17,6 +17,7 @@ import APS_BlueSky_tools as package
 __entry_points__  = {
     'console_scripts': [
         'aps_bluesky_tools = APS_BlueSky_tools.demo:main',
+        'bluesky_snapshot = APS_BlueSky_tools.snapshot:snapshot_cli',
         ],
     #'gui_scripts': [],
 }

@@ -35,13 +35,12 @@ def get_args():
                         help="YAML configuration for databroker", 
                         default="mongodb_config")
 
-    help = """
+    text = """
     additional metadata, enclose in quotes,
     such as -m "purpose=just tuned, situation=routine"
     """
-    parser.add_argument('-m', action='store', dest='metadata',
-                        help=help, 
-                        default="")
+    parser.add_argument('-m', action='store', 
+                        dest='metadata', help=text, default="")
 
     return parser.parse_args()
 
@@ -79,7 +78,7 @@ def snapshot_cli():
 
     args = get_args()
     
-    md = OrderedDict(purpose="python code development and testing")
+    md = OrderedDict(purpose="archive a set of EPICS PVs")
     md.update(parse_metadata(args))
 
     obj_dict = APS_utils.connect_pvlist(args.EPICS_PV, wait=False)
