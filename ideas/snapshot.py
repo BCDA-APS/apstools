@@ -9,7 +9,15 @@ from collections import OrderedDict
 import datetime
 import os
 import pyRestTable
+import sys
 import time
+
+import bluesky
+import databroker
+import epics
+import ophyd
+import APS_BlueSky_tools
+
 
 from ophyd import EpicsSignal
 from databroker import Broker
@@ -60,7 +68,13 @@ def snapshot(obj_list, stream="primary", md=None):
         plan_description = "archive snapshot of ophyd Signals (usually EPICS PVs)",
         iso8601 = str(datetime.datetime.now()),     # human-readable
         hints = {},
-        # TODO: versions of PYTHON, Bluesky, ophyd, PyEpics, APS_Bluesky_Tools
+        software_versions = dict(
+            PYTHON = sys.version,
+            PYEPICS = epics.__version__,
+            BLUESKY = bluesky.__version__,
+            OPHYD = ophyd.__version__,
+            DATABROKER = databroker.__version__,
+            APS_BLUESKY_TOOLS = APS_BlueSky_tools.__version__,),
         )
     # caller may have given us additional metadata
     _md.update(md or {})
