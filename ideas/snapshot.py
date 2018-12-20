@@ -60,6 +60,7 @@ def snapshot(obj_list, stream="primary", md=None):
         plan_description = "archive snapshot of ophyd Signals (usually EPICS PVs)",
         iso8601 = str(datetime.datetime.now()),     # human-readable
         hints = {},
+        # TODO: versions of PYTHON, Bluesky, ophyd, PyEpics, APS_Bluesky_Tools
         )
     # caller may have given us additional metadata
     _md.update(md or {})
@@ -96,17 +97,19 @@ class SnapshotReport(CallbackBase):
         for k, v in doc["configuration"].items():
             ts = v["timestamps"][k]
             dt = datetime.datetime.fromtimestamp(ts).isoformat().replace("T", " ")
-            pvname = v["data_keys"][k]["source"][3:]
+            pvname = v["data_keys"][k]["source"]
             value = v["data"][k]
             self.xref[pvname] = dict(value=value, timestamp=dt)
     
     def stop(self, doc):
         t = pyRestTable.Table()
-        t.addLabel("EPICS PV")
+        t.addLabel("source")
+        t.addLabel("name")
         t.addLabel("value")
         t.addLabel("timestamp")
         for k, v in sorted(self.xref.items()):
-            t.addRow((k, v["value"], v["timestamp"]))
+            p = k.find(":")
+            t.addRow((k[:p], k[p+1:], v["value"], v["timestamp"]))
         print(t)
     
     def print_report(self, header):
@@ -130,8 +133,8 @@ class SnapshotReport(CallbackBase):
 
 def snapshot_cli():
     with open("pvlist.txt", "r") as f:
-        pvlist = f.read().strip().splitlines()
-    
+        pvlist = f.read().strip().split()
+
     obj_dict = connect_pvlist(pvlist)
     time.sleep(2)   # FIXME: allow time to connect
     #print_signals_in_table(obj_dict)
