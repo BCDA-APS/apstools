@@ -67,7 +67,6 @@ from . import plans as APS_plans
 import ophyd
 from ophyd import Component, Device, DeviceStatus, FormattedComponent
 from ophyd import Signal, EpicsMotor, EpicsSignal, EpicsSignalRO
-from ophyd.ophydobj import OphydObject
 from ophyd.positioner import PositionerBase
 from ophyd.scaler import EpicsScaler, ScalerCH
 from bluesky.plan_stubs import mv, mvr, abs_set, wait
@@ -572,7 +571,7 @@ class AxisTunerException(ValueError):
     pass
 
 
-class AxisTunerMixin(PositionerBase):
+class AxisTunerMixin(EpicsMotor):
     """
     Mixin class to provide tuning capabilities for an axis
     
