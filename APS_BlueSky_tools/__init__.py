@@ -50,6 +50,7 @@ __documentation_mocks__ = [
     'matplotlib', 
     'matplotlib.backends', 
     'matplotlib.backends.backend_agg',
+    'pandas',
     'bluesky',
     'bluesky.callbacks',
     'bluesky.callbacks.core',
