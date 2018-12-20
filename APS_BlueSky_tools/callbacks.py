@@ -140,9 +140,6 @@ class SnapshotReport(CallbackBase):
         
         method: play the entire document stream through this callback
         """
-        if self.xref is None:       # not from a snapshot plan
-            return
-
         print()
         print("="*40)
         print("snapshot:", header.start["iso8601"])

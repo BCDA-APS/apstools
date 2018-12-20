@@ -7,7 +7,9 @@ record a snapshot of some PVs using Bluesky, ophyd, and databroker
 
 import sys
 import time
-import APS_BlueSky_tools
+from APS_BlueSky_tools import utils as APS_utils
+from APS_BlueSky_tools import plans as APS_plans
+from APS_BlueSky_tools import callbacks as APS_callbacks
 
 
 def snapshot_cli():
@@ -30,23 +32,25 @@ def snapshot_cli():
 
     pvlist = sys.argv[1:]
 
-    obj_dict = APS_BlueSky_tools.utils.connect_pvlist(pvlist, wait=False)
+    obj_dict = APS_utils.connect_pvlist(pvlist, wait=False)
     time.sleep(2)   # FIXME: allow time to connect
     
     RE = RunEngine({})
-    RE(APS_BlueSky_tools.plans.snapshot(obj_dict.values()))
+    # RE(
+    #     APS_plans.snapshot(obj_dict.values()), 
+    #     APS_callbacks.document_contents_callback)
     
     db = Broker.named("mongodb_config")
     RE.subscribe(db.insert)
     RE(
-        APS_BlueSky_tools.plans.snapshot(
+        APS_plans.snapshot(
             obj_dict.values(), 
             md=dict(purpose="python code development and testing")))
     
     h = db[-1]
     #print(h.start)
     #print(h.table())
-    APS_BlueSky_tools.callbacks.SnapshotReport().print_report(h)
+    APS_callbacks.SnapshotReport().print_report(h)
 
 
 if __name__ == "__main__":
