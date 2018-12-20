@@ -42,15 +42,15 @@ def snapshot_cli():
     
     db = Broker.named("mongodb_config")
     RE.subscribe(db.insert)
-    RE(
+    uuid_list = RE(
         APS_plans.snapshot(
             obj_dict.values(), 
             md=dict(purpose="python code development and testing")))
     
-    h = db[-1]
+    snap = list(db(uuid_list[0]))[0]
     #print(h.start)
     #print(h.table())
-    APS_callbacks.SnapshotReport().print_report(h)
+    APS_callbacks.SnapshotReport().print_report(snap)
 
 
 if __name__ == "__main__":
