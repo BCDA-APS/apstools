@@ -143,6 +143,17 @@ class SnapshotReport(CallbackBase):
 def snapshot_cli():
     """
     given a list of PVs on the command line, snapshot and print report
+    
+    EXAMPLES::
+    
+        snapshot.py pv1 [more pvs ...]
+        snapshot.py `cat pvlist.txt`
+
+    Note that these are equivalent::
+
+        snapshot.py rpi5bf5:0:humidity rpi5bf5:0:temperature
+        snapshot.py rpi5bf5:0:{humidity,temperature}
+
     """
     from databroker import Broker
     from bluesky import RunEngine
