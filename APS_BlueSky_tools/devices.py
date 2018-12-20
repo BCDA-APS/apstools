@@ -571,13 +571,13 @@ class AxisTunerException(ValueError):
     pass
 
 
-class AxisTunerMixin(EpicsMotor):
+class AxisTunerMixin(object):
     """
     Mixin class to provide tuning capabilities for an axis
     
     USAGE::
     
-        class TunableEpicsMotor(EpicsMotor, AxisTunerMixin):
+        class TunableEpicsMotor(AxisTunerMixin, EpicsMotor):
             pass
         
         def a2r_pretune_hook():
@@ -609,7 +609,7 @@ class AxisTunerMixin(EpicsMotor):
         def my_post_tune_hook(axis):
             yield from bps.mv(shutter, "close")
         
-        class TunableSynAxis(SynAxis, AxisTunerMixin):
+        class TunableSynAxis(AxisTunerMixin, SynAxis):
             pass
 
         myaxis = TunableSynAxis(name="myaxis")
@@ -663,7 +663,7 @@ class AxisTunerMixin(EpicsMotor):
                 self.post_tune_method()
 
 
-class TunableEpicsMotor(EpicsMotor, AxisTunerMixin):
+class TunableEpicsMotor(AxisTunerMixin, EpicsMotor):
     """
     EPICS motor with signal for tuning
     
