@@ -92,6 +92,20 @@ class DocumentCollectorCallback(object):
 class SnapshotReport(CallbackBase):
     """
     show the data from a ``APS_BlueSky_Tools.plans.snapshot()``
+    
+    Find most recent snapshot between certain dates::
+    
+        headers = db(plan_name="snapshot", since="2018-12-15", until="2018-12-21")
+        h = list(headers)[0]        # pick the first one, it's the most recent
+        APS_BlueSky_Tools.callbacks.SnapshotReport().print_report(h)
+    
+    Use as callback to a snapshot plan::
+    
+        RE(
+            APS_BlueSky_Tools.plans.snapshot(ophyd_objects_list),
+            APS_BlueSky_Tools.callbacks.SnapshotReport()
+        )
+    
     """
     
     xref = None
