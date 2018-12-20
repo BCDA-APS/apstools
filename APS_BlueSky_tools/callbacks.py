@@ -94,8 +94,13 @@ class SnapshotReport(CallbackBase):
     show the data from a ``APS_BlueSky_Tools.plans.snapshot()``
     """
     
-    # TODO: What if it is not a snapshot plan?  Handle that.
-    xref = {}    # key=PVname, value=dict(value, iso8601 timestamp)
+    xref = None
+    
+    def start(self, doc):
+        if doc.get("plan_name", "nope") == "snapshot":
+            self.xref = {}    # key=source, value=dict(value, iso8601 timestamp)
+        else:
+            self.xref = None
     
     def descriptor(self, doc):
         """
@@ -103,7 +108,9 @@ class SnapshotReport(CallbackBase):
            the data is both in the descriptor AND the event docs
            due to the way our plan created it
         """
-        self.xref = {}
+        if self.xref is None:       # not from a snapshot plan
+            return
+
         for k, v in doc["configuration"].items():
             ts = v["timestamps"][k]
             dt = datetime.datetime.fromtimestamp(ts).isoformat().replace("T", " ")
@@ -112,6 +119,9 @@ class SnapshotReport(CallbackBase):
             self.xref[pvname] = dict(value=value, timestamp=dt)
     
     def stop(self, doc):
+        if self.xref is None:       # not from a snapshot plan
+            return
+
         t = pyRestTable.Table()
         t.addLabel("timestamp")
         t.addLabel("source")
@@ -121,6 +131,8 @@ class SnapshotReport(CallbackBase):
             p = k.find(":")
             t.addRow((v["timestamp"], k[:p], k[p+1:], v["value"]))
         print(t)
+        for k, v in sorted(doc.items()):
+            print(f"{k}: {v}")
     
     def print_report(self, header):
         """
@@ -128,6 +140,9 @@ class SnapshotReport(CallbackBase):
         
         method: play the entire document stream through this callback
         """
+        if self.xref is None:       # not from a snapshot plan
+            return
+
         print()
         print("="*40)
         print("snapshot:", header.start["iso8601"])
