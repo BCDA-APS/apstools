@@ -190,13 +190,5 @@ def ipython_profile_name():
         print("using profile: " + RE.md['ipython_profile'])
 
     """
-    import IPython.paths
-    import IPython.core.profileapp
-    import IPython.core.profiledir
-    
-    path = IPython.paths.get_ipython_dir()
-    ipd = IPython.core.profiledir.ProfileDir()
-    for p in IPython.core.profileapp.list_profiles_in(path):
-        pd = ipd.find_profile_dir_by_name(path, p)
-        if os.path.dirname(__file__) == pd.startup_dir:
-            return p
+    from IPython import get_ipython
+    return get_ipython().profile
