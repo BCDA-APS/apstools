@@ -28,7 +28,7 @@ from bluesky import (
 from bluesky.callbacks.core import CallbackBase
 
 
-def connect_pvlist(pvlist, wait=True):
+def connect_pvlist(pvlist, wait=True, timeout=2, poll_interval=0.2):
     obj_dict = OrderedDict()
     for item in pvlist:
         if len(item.strip()) == 0:
@@ -37,7 +37,25 @@ def connect_pvlist(pvlist, wait=True):
         oname = "signal_{}".format(len(obj_dict))
         obj = EpicsSignal(pvname, name=oname)
         obj_dict[oname] = obj
-    # TODO: wait for all to connect?
+
+    if wait:
+        times_up = time.time() + min(0, timeout)
+        poll_interval = min(0.01, poll_interval)
+        waiting = True
+        while waiting and time.time() < times_up:
+            time.sleep(poll_interval)
+            waiting = False in [o.connected for o in obj_dict.values()]
+        if waiting:
+            n = OrderedDict()
+            for k, v in obj_dict.items():
+                if v.connected:
+                    n[k] = v
+                else:
+                    print(f"Could not connect {v.pvname}")
+            if len(n) == 0:
+                raise RuntimeError("Could not connect any PVs in the list")
+            obj_dict = n
+
     return obj_dict
 
 
@@ -160,7 +178,7 @@ def snapshot_cli():
 
     pvlist = sys.argv[1:]
 
-    obj_dict = connect_pvlist(pvlist)
+    obj_dict = connect_pvlist(pvlist, wait=False)
     time.sleep(2)   # FIXME: allow time to connect
     
     RE = RunEngine({})
