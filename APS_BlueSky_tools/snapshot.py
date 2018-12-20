@@ -2,6 +2,24 @@
 
 """
 record a snapshot of some PVs using Bluesky, ophyd, and databroker
+
+USAGE::
+
+    (base) user@hostname .../pwd $ bluesky_snapshot -h
+    usage: bluesky_snapshot [-h] [-b BROKER_CONFIG] [-m METADATA]
+                            EPICS_PV [EPICS_PV ...]
+    
+    record a snapshot of some PVs using Bluesky, ophyd, and databroker
+    
+    positional arguments:
+      EPICS_PV          EPICS PV name
+    
+    optional arguments:
+      -h, --help        show this help message and exit
+      -b BROKER_CONFIG  YAML configuration for databroker
+      -m METADATA       additional metadata, enclose in quotes, such as -m
+                        "purpose=just tuned, situation=routine"
+
 """
 
 
