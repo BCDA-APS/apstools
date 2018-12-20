@@ -577,7 +577,7 @@ class AxisTunerMixin(object):
     
     USAGE::
     
-        class TunableEpicsMotor(AxisTunerMixin, EpicsMotor):
+        class TunableEpicsMotor(EpicsMotor, AxisTunerMixin):
             pass
         
         def a2r_pretune_hook():
@@ -609,7 +609,7 @@ class AxisTunerMixin(object):
         def my_post_tune_hook(axis):
             yield from bps.mv(shutter, "close")
         
-        class TunableSynAxis(AxisTunerMixin, SynAxis):
+        class TunableSynAxis(SynAxis, AxisTunerMixin):
             pass
 
         myaxis = TunableSynAxis(name="myaxis")
@@ -663,7 +663,7 @@ class AxisTunerMixin(object):
                 self.post_tune_method()
 
 
-class TunableEpicsMotor(AxisTunerMixin, EpicsMotor):
+class TunableEpicsMotor(EpicsMotor, AxisTunerMixin):
     """
     EPICS motor with signal for tuning
     
