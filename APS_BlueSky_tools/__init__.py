@@ -43,22 +43,6 @@ __classifiers__ = [
     'Topic :: Software Development',
     'Topic :: Utilities',
 ]
-__documentation_mocks__ = [
-    'h5py',    
-    'numpy', 
-    'numpy.ma',
-    'matplotlib', 
-    'matplotlib.backends', 
-    'matplotlib.backends.backend_agg',
-    'pandas',
-    'bluesky',
-    'bluesky.callbacks',
-    'bluesky.callbacks.core',
-    'bluesky.callbacks.core.CallbackBase',
-    'bluesky.callbacks.fitting',
-    'bluesky.suspenders',
-    # do NOT mock the "six" package!
-]
 
 from ._version import get_versions
 __version__ = get_versions()['version']

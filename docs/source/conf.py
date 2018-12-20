@@ -171,21 +171,4 @@ texinfo_documents = [
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
 # http://www.sphinx-doc.org/en/master/usage/extensions/autodoc.html#confval-autodoc_mock_imports
-autodoc_mock_imports = "h5py numpy matplotlib pandas bluesky ophyd".split()
-
-# # picked from http://read-the-docs.readthedocs.org/en/latest/faq.html#i-get-import-errors-on-libraries-that-depend-on-c-modules  # noqa
-# try:
-#     from unittest.mock import MagicMock
-# except ImportError:
-#     # py < 3.3 needs to: pip install mock
-#     from mock import Mock as MagicMock
-# 
-# class Mock(MagicMock):
-#     @classmethod
-#     def __getattr__(cls, name):
-#         return MagicMock()
-#  
-# sys.modules.update(
-#     (mod_name, Mock()) 
-#     for mod_name in APS_BlueSky_tools.__documentation_mocks__
-#     )
+autodoc_mock_imports = "h5py numpy matplotlib pandas bluesky ophyd pyRestTable".split()
