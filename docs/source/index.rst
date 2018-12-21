@@ -27,6 +27,7 @@ Package Information
    :glob:
 
    demo
+   source_code/snapshot
    source_code/*
 
 
