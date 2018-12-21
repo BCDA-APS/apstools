@@ -40,8 +40,9 @@ def get_args():
     """
     get command line arguments
     """
-    #from .__init__ import __version__
+    from .__init__ import __version__
     doc = __doc__.strip()
+
     parser = argparse.ArgumentParser(description=doc)
 
     parser.add_argument('EPICS_PV', action='store', nargs='+',
@@ -58,16 +59,24 @@ def get_args():
     additional metadata, enclose in quotes,
     such as -m "purpose=just tuned, situation=routine"
     """
-    parser.add_argument('-m', action='store', 
-                        dest='metadata', help=text, default="")
+    parser.add_argument('-m', '--metadata', action='store', 
+                        dest='metadata_spec', help=text, default="")
+
+    parser.add_argument('-r', '--report', action='store_false', 
+                        dest='report', 
+                        help="suppress snapshot report", 
+                        default=True)
+
+    parser.add_argument('-v', '--version', 
+                        action='version', version=__version__)
 
     return parser.parse_args()
 
 
 def parse_metadata(args):
     md = OrderedDict()
-    if len(args.metadata.strip()) > 0:
-        for metadata in args.metadata.split(","):
+    if len(args.metadata_spec.strip()) > 0:
+        for metadata in args.metadata_spec.split(","):
             parts = metadata.strip().split("=")
             if len(parts) == 2:
                 md[parts[0].strip()] = parts[1].strip()
@@ -110,8 +119,9 @@ def snapshot_cli():
 
     uuid_list = RE(APS_plans.snapshot(obj_dict.values(), md=md))
     
-    snap = list(db(uuid_list[0]))[0]
-    APS_callbacks.SnapshotReport().print_report(snap)
+    if args.report:
+        snap = list(db(uuid_list[0]))[0]
+        APS_callbacks.SnapshotReport().print_report(snap)
 
 
 if __name__ == "__main__":

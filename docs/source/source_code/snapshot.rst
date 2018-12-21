@@ -152,6 +152,9 @@ You can log text and arrays, too.::
 	
 
 
+Source code documentation
++++++++++++++++++++++++++
+
 
 .. automodule:: APS_BlueSky_tools.snapshot
     :members: 
