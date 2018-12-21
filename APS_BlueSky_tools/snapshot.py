@@ -34,7 +34,6 @@ from APS_BlueSky_tools import callbacks as APS_callbacks
 
 
 BROKER_CONFIG = "mongodb_config"
-# TODO: caller may want to provide more metadata
 
 
 def get_args():
@@ -49,9 +48,11 @@ def get_args():
                         help="EPICS PV name", default="")
 
     # optional arguments
+    text = "YAML configuration for databroker"
+    text += f", default: {BROKER_CONFIG}"
     parser.add_argument('-b', action='store', dest='broker_config',
-                        help="YAML configuration for databroker", 
-                        default="mongodb_config")
+                        help=text, 
+                        default=BROKER_CONFIG)
 
     text = """
     additional metadata, enclose in quotes,
@@ -65,14 +66,15 @@ def get_args():
 
 def parse_metadata(args):
     md = OrderedDict()
-    for metadata in args.metadata.split(","):
-        parts = metadata.strip().split("=")
-        if len(parts) == 2:
-            md[parts[0].strip()] = parts[1].strip()
-        else:
-            msg = f"incorrect metadata specification {metadata}"
-            msg += ", must specify key = value [, key2 = value2 ]"
-            raise ValueError(msg)
+    if len(args.metadata.strip()) > 0:
+        for metadata in args.metadata.split(","):
+            parts = metadata.strip().split("=")
+            if len(parts) == 2:
+                md[parts[0].strip()] = parts[1].strip()
+            else:
+                msg = f"incorrect metadata specification {metadata}"
+                msg += ", must specify key = value [, key2 = value2 ]"
+                raise ValueError(msg)
     return md
 
 
