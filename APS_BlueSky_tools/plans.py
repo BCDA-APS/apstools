@@ -204,6 +204,8 @@ def snapshot(obj_list, stream="primary", md=None):
     import databroker
     import epics
     from ophyd import EpicsSignal
+    import socket 
+    import getpass 
 
     objects = []
     for obj in obj_list:
@@ -220,6 +222,9 @@ def snapshot(obj_list, stream="primary", md=None):
         if len(objects) == 0:
             raise ValueError("No signals to log.")
 
+    hostname = socket.gethostname() or 'localhost' 
+    username = getpass.getuser() or 'bluesky_user'
+
     # we want this metadata to appear
     _md = dict(
         plan_name = "snapshot",
@@ -233,6 +238,9 @@ def snapshot(obj_list, stream="primary", md=None):
             ophyd = ophyd.__version__,
             databroker = databroker.__version__,
             APS_Bluesky_Tools = __version__,),
+        hostname = hostname,
+        username = username,
+        login_id = f"{hostname}@{username}",
         )
     # caller may have given us additional metadata
     _md.update(md or {})
