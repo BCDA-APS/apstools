@@ -41,7 +41,8 @@ def get_args():
     get command line arguments
     """
     from .__init__ import __version__
-    doc = __doc__.strip()
+    doc = __doc__.strip().splitlines()[0].strip()
+    doc += f" version={__version__}"
 
     parser = argparse.ArgumentParser(description=doc)
 
