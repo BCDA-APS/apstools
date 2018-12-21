@@ -240,7 +240,7 @@ def snapshot(obj_list, stream="primary", md=None):
             APS_Bluesky_Tools = __version__,),
         hostname = hostname,
         username = username,
-        login_id = f"{hostname}@{username}",
+        login_id = f"{username}@{hostname}",
         )
     # caller may have given us additional metadata
     _md.update(md or {})
