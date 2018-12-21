@@ -8,6 +8,7 @@ Various utilities
    ~ExcelDatabaseFileBase
    ~ExcelDatabaseFileGeneric
    ~ipython_profile_name
+   ~print_snapshot_list
    ~text_encode
    ~to_unicode_or_bust
    ~unix_cmd
@@ -20,6 +21,7 @@ import logging
 import math
 import os
 import pandas
+import pyRestTable
 import smtplib
 import subprocess
 import time
@@ -241,3 +243,80 @@ def ipython_profile_name():
     """
     from IPython import get_ipython
     return get_ipython().profile
+
+
+def print_snapshot_list(db, **search_criteria):
+    """
+    print (stdout) a list of all snapshots in the databroker
+    
+    USAGE::
+    
+        print_snapshot_list(db, )
+        print_snapshot_list(db, purpose="this is an example")
+        print_snapshot_list(db, since="2018-12-21", until="2019")
+    
+    EXAMPLE::
+    
+        In [16]: from APS_BlueSky_tools.utils import print_snapshot_list
+            ...: from APS_BlueSky_tools.callbacks import SnapshotReport 
+            ...: print_snapshot_list(db, since="2018-12-21", until="2019") 
+            ...:                                                                                                                            
+        = ======== ========================== ==================
+        # uid      date/time                  purpose           
+        = ======== ========================== ==================
+        0 d7831dae 2018-12-21 11:39:52.956904 this is an example
+        1 5049029d 2018-12-21 11:39:30.062463 this is an example
+        2 588e0149 2018-12-21 11:38:43.153055 this is an example
+        = ======== ========================== ==================
+        
+        In [17]: SnapshotReport().print_report(db["5049029d"])                                                                              
+        
+        ========================================
+        snapshot: 2018-12-21 11:39:30.062463
+        ========================================
+        
+        example: example 2
+        hints: {}
+        iso8601: 2018-12-21 11:39:30.062463
+        look: can snapshot text and arrays too
+        note: no commas in metadata
+        plan_description: archive snapshot of ophyd Signals (usually EPICS PVs)
+        plan_name: snapshot
+        plan_type: generator
+        purpose: this is an example
+        scan_id: 1
+        software_versions: {'python': '3.6.2 |Continuum Analytics, Inc.| (default, Jul 20 2017, 13:51:32) \n[GCC 4.4.7 20120313 (Red Hat 4.4.7-1)]', 'PyEpics': '3.3.1', 'bluesky': '1.4.1', 'ophyd': '1.3.0', 'databroker': '0.11.3', 'APS_Bluesky_Tools': '0.0.38'}
+        time: 1545413970.063167
+        uid: 5049029d-075c-453c-96d2-55431273852b
+        
+        ========================== ====== ================ ===================
+        timestamp                  source name             value              
+        ========================== ====== ================ ===================
+        2018-12-20 18:24:34.220028 PV     compress         [0.1, 0.2, 0.3]    
+        2018-12-13 14:49:53.121188 PV     gov:HOSTNAME     otz.aps.anl.gov    
+        2018-12-21 11:39:24.268148 PV     gov:IOC_CPU_LOAD 0.22522317161410768
+        2018-12-21 11:39:24.268151 PV     gov:SYS_CPU_LOAD 9.109026666525944  
+        2018-12-21 11:39:30.017643 PV     gov:iso8601      2018-12-21T11:39:30
+        2018-12-13 14:49:53.135016 PV     otz:HOSTNAME     otz.aps.anl.gov    
+        2018-12-21 11:39:27.705304 PV     otz:IOC_CPU_LOAD 0.1251210270549924 
+        2018-12-21 11:39:27.705301 PV     otz:SYS_CPU_LOAD 11.611234438304471 
+        2018-12-21 11:39:30.030321 PV     otz:iso8601      2018-12-21T11:39:30
+        ========================== ====== ================ ===================
+        
+        exit_status: success
+        num_events: {'primary': 1}
+        run_start: 5049029d-075c-453c-96d2-55431273852b
+        time: 1545413970.102147
+        uid: 6c1b2100-1ef6-404d-943e-405da9ada882
+       
+    """
+    t = pyRestTable.Table()
+    t.addLabel("#")
+    t.addLabel("uid")
+    t.addLabel("date/time")
+    t.addLabel("purpose")
+    search_criteria["plan_name"] = "snapshot"
+    for i, h in enumerate(db(**search_criteria)):
+        uid = h.start["uid"].split("-")[0]
+        t.addRow((i, uid, h.start["iso8601"], h.start["purpose"]))
+    print(t) 
