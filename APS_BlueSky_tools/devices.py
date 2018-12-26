@@ -548,44 +548,25 @@ class ApsBssUserInfoDevice(Device):
     esaf_team =         Component(EpicsSignal, "esaf_team",     string=True)
 
 
-class EpicsMotorMixinBase(EpicsMotor):
-    """Base class for EpicsMotor mixin classes"""
-
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
+class DeviceMixinBase(Device):
+    """Base class for APS_Bluesky_tools Device mixin classes"""
 
 
-class EpicsMotorDialMixin(EpicsMotorMixinBase):
+class EpicsMotorDialMixin(DeviceMixinBase):
     """
     add motor record's dial coordinate fields
     
-    USAGE::
+    EXAMPLE::
     
-        class myEpicsMotor(EpicsMotorDialMixin, EpicsMotor): pass
-        m1 = myEpicsMotor('xxx:m1', name='m1')
+        from ophyd import EpicsMotor
+        from APS_BlueSky_tools.devices import EpicsMotorDialMixin
+        class EpicsMotorWithDial(EpicsMotorDialMixin, EpicsMotor): pass
+
+        m1 = EpicsMotorWithDial('xxx:m1', name='m1')
     
     """
     
     dial = Component(EpicsSignal, ".DRBV", write_pv=".DVAL")
-
-
-class EpicsMotorWithDial(EpicsMotorDialMixin, EpicsMotor):
-    """
-    add motor record's dial coordinates to EpicsMotor
-      
-    USAGE::
-      
-        m1 = EpicsMotorWithDial('xxx:m1', name='m1')
-      
-    This is legacy support.  For new work, use `EpicsMotorDialMixin`.
-    
-    EXAMPLE::
-
-        import APS_BlueSky_tools.devices
-        m1 = APS_BlueSky_tools.devices.EpicsMotorWithDial("prj:m1", name="m1")
-        m1.dial.read()
-
-    """
 
 
 class EpicsMotorShutter(Device):
