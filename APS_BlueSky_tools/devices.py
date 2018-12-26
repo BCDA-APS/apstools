@@ -103,7 +103,7 @@ class ApsMachineParametersDevice(Device):
     """
     common operational parameters of the APS of general interest
     
-    USAGE::
+    EXAMPLE::
 
         import APS_BlueSky_tools.devices as APS_devices
         APS = APS_devices.ApsMachineParametersDevice(name="APS")
@@ -191,7 +191,7 @@ class ApsPssShutter(Device):
     * no indication that the shutter has actually moved from the bits
       (see :func:`ApsPssShutterWithStatus()` for alternative)
     
-    USAGE::
+    EXAMPLE::
     
         shutter_a = ApsPssShutter("2bma:A_shutter", name="shutter")
         
@@ -201,9 +201,7 @@ class ApsPssShutter(Device):
         shutter_a.set("open")
         shutter_a.set("close")
         
-    When using the shutter in a plan, be sure to use ``yield from``.
-    
-    ::
+    When using the shutter in a plan, be sure to use ``yield from``, such as::
 
         def in_a_plan(shutter):
             yield from abs_set(shutter, "open", wait=True)
@@ -284,7 +282,7 @@ class ApsPssShutterWithStatus(Device):
     * a separate status PV tells if the shutter is open or closed
       (see :func:`ApsPssShutter()` for alternative)
     
-    USAGE::
+    EXAMPLE::
     
         A_shutter = ApsPssShutterWithStatus(
             "2bma:A_shutter", 
@@ -390,7 +388,7 @@ class SimulatedApsPssShutterWithStatus(Device):
     """
     Simulated APS PSS shutter
     
-    USAGE::
+    EXAMPLE::
     
 		sim = SimulatedApsPssShutterWithStatus(name="sim")
     
@@ -482,7 +480,9 @@ class ApsUndulator(Device):
     """
     APS Undulator
     
-    USAGE:  ``undulator = ApsUndulator("ID09ds:", name="undulator")``
+    EXAMPLE::
+    
+        undulator = ApsUndulator("ID09ds:", name="undulator")
     """
     energy = Component(EpicsSignal, "Energy", write_pv="EnergySet")
     energy_taper = Component(EpicsSignal, "TaperEnergy", write_pv="TaperEnergySet")
@@ -511,7 +511,9 @@ class ApsUndulatorDual(Device):
     """
     APS Undulator with upstream *and* downstream controls
     
-    USAGE:  ``undulator = ApsUndulatorDual("ID09", name="undulator")``
+    EXAMPLE::
+    
+        undulator = ApsUndulatorDual("ID09", name="undulator")
     
     note:: the trailing ``:`` in the PV prefix should be omitted
     """
@@ -525,7 +527,7 @@ class ApsBssUserInfoDevice(Device):
     
     BSS: Beamtime Scheduling System
 
-    USAGE::
+    EXAMPLE::
 
         bss_user_info = ApsBssUserInfoDevice(
                             "9id_bss:",
@@ -576,7 +578,7 @@ class EpicsDescriptionMixin(DeviceMixinBase):
 
 class EpicsMotorDialMixin(DeviceMixinBase):
     """
-    add motor record's dial coordinate fields
+    add motor record's dial coordinate fields to Device
     
     EXAMPLE::
     
@@ -603,7 +605,11 @@ class EpicsMotorLimitsMixin(DeviceMixinBase):
 
         class myEpicsMotor(EpicsMotorLimitsMixin, EpicsMotor): pass
         m1 = myEpicsMotor('xxx:m1', name='m1')
+        lo = m1.get_lim(-1)
+        hi = m1.get_lim(1)
+        m1.set_lim(-25, -5)
         print(m1.get_lim(-1), m1.get_lim(1))
+        m1.set_lim(lo, hi)
     """
     
     soft_limit_lo = Component(EpicsSignal, ".LLM")
@@ -613,9 +619,9 @@ class EpicsMotorLimitsMixin(DeviceMixinBase):
         """
         Returns the user limit of motor
         
-        flag > 0: returns high limit
-        flag < 0: returns low limit
-        flag == 0: returns None
+        * flag > 0: returns high limit
+        * flag < 0: returns low limit
+        * flag == 0: returns None
         
         Similar with SPEC command
         """
@@ -628,9 +634,9 @@ class EpicsMotorLimitsMixin(DeviceMixinBase):
         """
         Sets the low and high limits of motor
         
+        * No action taken if motor is moving.
         * Low limit is set to lesser of (low, high)
         * High limit is set to greater of (low, high)
-        * No action taken if motor is moving.
         
         Similar with SPEC command
         """
@@ -641,7 +647,7 @@ class EpicsMotorLimitsMixin(DeviceMixinBase):
 
 class EpicsMotorServoMixin(DeviceMixinBase):
     """
-    add motor record's servo loop controls
+    add motor record's servo loop controls to Device
     
     EXAMPLE::
     
@@ -659,7 +665,7 @@ class EpicsMotorServoMixin(DeviceMixinBase):
 
 class EpicsMotorRawMixin(DeviceMixinBase):
     """
-    add motor record's raw coordinate fields
+    add motor record's raw coordinate fields to Device
     
     EXAMPLE::
     
@@ -678,7 +684,7 @@ class EpicsMotorShutter(Device):
     """
     a shutter, implemented with an EPICS motor moved between two positions
     
-    USAGE::
+    EXAMPLE::
 
         tomo_shutter = EpicsMotorShutter("2bma:m23", name="tomo_shutter")
         tomo_shutter.closed_position = 1.0      # default
@@ -775,7 +781,7 @@ class EpicsOnOffShutter(Device):
     The current position is determined by comparing the value of the control
     with the expected open and close values.
     
-    USAGE::
+    EXAMPLE::
 
         bit_shutter = EpicsOnOffShutter("2bma:bit1", name="bit_shutter")
         bit_shutter.closed_position = 0      # default
@@ -858,7 +864,7 @@ class DualPf4FilterBox(Device):
     """
     Dual Xia PF4 filter boxes using support from synApps (using Al, Ti foils)
     
-    Example::
+    EXAMPLE::
     
         pf4 = DualPf4FilterBox("2bmb:pf4:", name="pf4")
         pf4_AlTi = DualPf4FilterBox("9idcRIO:pf4:", name="pf4_AlTi")
