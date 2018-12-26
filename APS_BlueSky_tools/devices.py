@@ -9,6 +9,8 @@
     ~ApsMachineParametersDevice
     ~ApsPssShutter
     ~ApsPssShutterWithStatus
+    ~AxisTunerException
+    ~AxisTunerMixin
     ~DualPf4FilterBox
     ~EpicsDescriptionMixin
     ~EpicsMotorDialMixin
@@ -552,6 +554,100 @@ class ApsBssUserInfoDevice(Device):
     esaf =              Component(EpicsSignal, "esaf",          string=True)
     esaf_contact =      Component(EpicsSignal, "esaf_contact",  string=True)
     esaf_team =         Component(EpicsSignal, "esaf_team",     string=True)
+
+
+class AxisTunerException(ValueError): 
+    """Exception during execution of `AxisTunerBase` subclass"""
+
+
+class AxisTunerMixin(EpicsMotor):
+    """
+    Mixin class to provide tuning capabilities for an axis
+    
+    EXAMPLE::
+    
+        class TunableEpicsMotor(AxisTunerMixin, EpicsMotor): pass
+        
+        def a2r_pretune_hook():
+            # set the counting time for *this* tune
+            yield from bps.abs_set(scaler.preset_time, 0.2)
+            
+        a2r = TunableEpicsMotor("xxx:m1", name="a2r")
+        a2r.tuner = TuneAxis([scaler], a2r, signal_name=scaler.channels.chan2.name)
+        a2r.tuner.width = 0.02
+        a2r.tuner.num = 21
+        a2r.pre_tune_method = a2r_pretune_hook
+        RE(a2r.tune())
+        
+        # tune four of the USAXS axes (using preconfigured parameters for each)
+        RE(tune_axes([mr, m2r, ar, a2r])
+
+    HOOK METHODS
+    
+    There are two hook methods (`pre_tune_method()`, and `post_tune_method()`)
+    for callers to add additional plan parts, such as opening or closing shutters, 
+    setting detector parameters, or other actions.
+    
+    Each hook method must accept a single argument: 
+    an axis object such as `EpicsMotor` or `SynAxis`,
+    such as::
+    
+        def my_pre_tune_hook(axis):
+            yield from bps.mv(shutter, "open")
+        def my_post_tune_hook(axis):
+            yield from bps.mv(shutter, "close")
+        
+        class TunableSynAxis(AxisTunerMixin, SynAxis): pass
+
+        myaxis = TunableSynAxis(name="myaxis")
+        mydet = SynGauss('mydet', myaxis, 'myaxis', center=0.21, Imax=0.98e5, sigma=0.127)
+        myaxis.tuner = TuneAxis([mydet], myaxis)
+        myaxis.pre_tune_method = my_pre_tune_hook
+        myaxis.post_tune_method = my_post_tune_hook
+        
+        RE(myaxis.tune())
+
+    """
+    
+    def __init__(self):
+        self.tuner = None   # such as: APS_BlueSky_tools.plans.TuneAxis
+        
+        # Hook functions for callers to add additional plan parts
+        # Each must accept one argument: axis object such as `EpicsMotor` or `SynAxis`
+        self.pre_tune_method = self._default_pre_tune_method
+        self.post_tune_method = self._default_post_tune_method
+    
+    def _default_pre_tune_method(self):
+        """called before `tune()`"""
+        print("{} position before tuning: {}".format(self.name, self.position))
+
+    def _default_post_tune_method(self):
+        """called after `tune()`"""
+        print("{} position after tuning: {}".format(self.name, self.position))
+
+    def tune(self, md=None, **kwargs):
+        if self.tuner is None:
+            msg = "Must define an axis tuner, none specified."
+            msg += "  Consider using APS_BlueSky_tools.plans.TuneAxis()"
+            raise AxisTunerException(msg)
+        
+        if self.tuner.axis is None:
+            msg = "Must define an axis, none specified."
+            raise AxisTunerException(msg)
+
+        if md is None:
+            md = OrderedDict()
+        md["purpose"] = "tuner"
+        md["datetime"] = str(datetime.now())
+
+        if self.tuner is not None:
+            if self.pre_tune_method is not None:
+                self.pre_tune_method()
+
+            yield from self.tuner.tune(md=md, **kwargs)
+    
+            if self.post_tune_method is not None:
+                self.post_tune_method()
 
 
 class DeviceMixinBase(Device):
