@@ -561,7 +561,7 @@ class EpicsMotorDialMixin(EpicsMotorMixinBase):
     
     USAGE::
     
-        class myEpicsMotor(EpicsMotor, EpicsMotorDialMixin): pass
+        class myEpicsMotor(EpicsMotorDialMixin, EpicsMotor): pass
         m1 = myEpicsMotor('xxx:m1', name='m1')
     
     """
