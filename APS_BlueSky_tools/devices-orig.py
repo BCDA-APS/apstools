@@ -6,22 +6,30 @@
    
     ~AD_setup_FrameType
     ~AD_warmed_up
+    ~ApsHDF5Plugin
     ~ApsMachineParametersDevice
     ~ApsPssShutter
     ~ApsPssShutterWithStatus
+    ~AxisTunerException
+    ~AxisTunerMixin
     ~DualPf4FilterBox
     ~EpicsMotorDialMixin
+    ~EpicsMotorLimitsMixin
+    ~EpicsMotorServoMixin
+    ~EpicsMotorRawMixin
+    ~EpicsMotorDescriptionMixin
     ~EpicsMotorShutter
     ~EpicsOnOffShutter
     ~ProcedureRegistry
     ~SimulatedApsPssShutterWithStatus
-    ~sscanRecord
+    ~sscanRecord  
     ~sscanDevice
     ~swaitRecord
     ~swait_setup_random_number
     ~swait_setup_gaussian
     ~swait_setup_lorentzian
     ~swait_setup_incrementer
+    ~TunableEpicsMotor
     ~use_EPICS_scaler_channels
     ~userCalcsDevice
 
@@ -30,6 +38,15 @@ Internal routines
 .. autosummary::
 
     ~ApsOperatorMessagesDevice
+    ~ApsFileStoreHDF5
+    ~ApsFileStoreHDF5IterativeWrite
+
+Legacy routines
+
+.. autosummary::
+   
+    ~EpicsMotorWithDial
+    ~EpicsMotorWithServo
 
 """
 
@@ -51,7 +68,6 @@ import ophyd
 from ophyd import Component, Device, DeviceStatus, FormattedComponent
 from ophyd import Signal, EpicsMotor, EpicsSignal, EpicsSignalRO
 from ophyd.scaler import EpicsScaler, ScalerCH
-from ophyd.positioner import PositionerBase
 
 from ophyd.areadetector.filestore_mixins import FileStoreHDF5
 from ophyd.areadetector.filestore_mixins import FileStoreBase
@@ -548,6 +564,124 @@ class ApsBssUserInfoDevice(Device):
     esaf_team =         Component(EpicsSignal, "esaf_team",     string=True)
 
 
+class AxisTunerException(ValueError): 
+    """Exception during execution of `AxisTunerBase` subclass"""
+    pass
+
+
+class AxisTunerMixin(EpicsMotor):
+    """
+    Mixin class to provide tuning capabilities for an axis
+    
+    USAGE::
+    
+        class TunableEpicsMotor(AxisTunerMixin, EpicsMotor):
+            pass
+        
+        def a2r_pretune_hook():
+            # set the counting time for *this* tune
+            yield from bps.abs_set(scaler.preset_time, 0.2)
+            
+        a2r = TunableEpicsMotor("xxx:m1", name="a2r")
+        a2r.tuner = TuneAxis([scaler], a2r, signal_name=scaler.channels.chan2.name)
+        a2r.tuner.width = 0.02
+        a2r.tuner.num = 21
+        a2r.pre_tune_method = a2r_pretune_hook
+        RE(a2r.tune())
+        
+        # tune four of the USAXS axes (using preconfigured parameters for each)
+        RE(tune_axes([mr, m2r, ar, a2r])
+
+    HOOK METHODS
+    
+    There are two hook methods (`pre_tune_method()`, and `post_tune_method()`)
+    for callers to add additional plan parts, such as opening or closing shutters, 
+    setting detector parameters, or other actions.
+    
+    Each hook method must accept one argument: 
+    axis object such as `EpicsMotor` or `SynAxis`,
+    such as::
+    
+        def my_pre_tune_hook(axis):
+            yield from bps.mv(shutter, "open")
+        def my_post_tune_hook(axis):
+            yield from bps.mv(shutter, "close")
+        
+        class TunableSynAxis(AxisTunerMixin, SynAxis):
+            pass
+
+        myaxis = TunableSynAxis(name="myaxis")
+        mydet = SynGauss('mydet', myaxis, 'myaxis', center=0.21, Imax=0.98e5, sigma=0.127)
+        myaxis.tuner = TuneAxis([mydet], myaxis)
+        myaxis.pre_tune_method = my_pre_tune_hook
+        myaxis.post_tune_method = my_post_tune_hook
+        
+        RE(myaxis.tune())
+
+    """
+    
+    def __init__(self):
+        self.tuner = None   # such as: APS_BlueSky_tools.plans.TuneAxis
+        
+        # Hook functions for callers to add additional plan parts
+        # Each must accept one argument: axis object such as `EpicsMotor` or `SynAxis`
+        self.pre_tune_method = self._default_pre_tune_method
+        self.post_tune_method = self._default_post_tune_method
+    
+    def _default_pre_tune_method(self):
+        """called before `tune()`"""
+        print("{} position before tuning: {}".format(self.name, self.position))
+
+    def _default_post_tune_method(self):
+        """called after `tune()`"""
+        print("{} position after tuning: {}".format(self.name, self.position))
+
+    def tune(self, md=None, **kwargs):
+        if self.tuner is None:
+            msg = "Must define an axis tuner, none specified."
+            msg += "  Consider using APS_BlueSky_tools.plans.TuneAxis()"
+            raise AxisTunerException(msg)
+        
+        if self.tuner.axis is None:
+            msg = "Must define an axis, none specified."
+            raise AxisTunerException(msg)
+
+        if md is None:
+            md = OrderedDict()
+        md["purpose"] = "tuner"
+        md["datetime"] = str(datetime.now())
+
+        if self.tuner is not None:
+            if self.pre_tune_method is not None:
+                self.pre_tune_method()
+
+            yield from self.tuner.tune(md=md, **kwargs)
+    
+            if self.post_tune_method is not None:
+                self.post_tune_method()
+
+
+class TunableEpicsMotor(AxisTunerMixin, EpicsMotor):
+    """
+    EPICS motor with signal for tuning
+    
+    USAGE::
+
+        def a2r_pretune_hook():
+            # set the counting time for *this* tune
+            yield from bps.abs_set(scaler.preset_time, 0.2)
+    
+        a2r = TunableEpicsMotor("xxx:m1", name="a2r")
+        a2r.tuner = TuneAxis([scaler], a2r, signal_name=scaler.channels.chan2.name)
+        a2r.tuner.width = 0.02
+        a2r.tuner.num = 21
+        a2r.pre_tune_method = a2r_pretune_hook
+        RE(a2r.tune())
+    
+    """
+    __metaclass__ = EpicsMotor
+
+
 class EpicsMotorDialMixin(object):
     """
     add motor record's dial coordinate fields
@@ -562,16 +696,107 @@ class EpicsMotorDialMixin(object):
     dial = Component(EpicsSignal, ".DRBV", write_pv=".DVAL")
 
 
-# class EpicsMotorWithDial(EpicsMotorDialMixin, EpicsMotor):
-#     """
-#     add motor record's dial coordinates to EpicsMotor
-#      
-#     USAGE::
-#      
-#         m1 = EpicsMotorWithDial('xxx:m1', name='m1')
-#      
-#     This is legacy support.  For new work, use `EpicsMotorDialMixin`.
-#     """
+class EpicsMotorWithDial(EpicsMotor, EpicsMotorDialMixin):
+    """
+    add motor record's dial coordinates to EpicsMotor
+    
+    USAGE::
+    
+        m1 = EpicsMotorWithDial('xxx:m1', name='m1')
+    
+    This is legacy support.  For new work, use `EpicsMotorDialMixin`.
+    """
+    pass
+
+
+class EpicsMotorLimitsMixin(Device):
+    """
+    add motor record HLM & LLM fields & compatibility get_lim() and set_lim()
+    """
+    
+    soft_limit_lo = Component(EpicsSignal, ".LLM")
+    soft_limit_hi = Component(EpicsSignal, ".HLM")
+    
+    def get_lim(self, flag):
+        """
+        Returns the user limit of motor
+        
+        flag > 0: returns high limit
+        flag < 0: returns low limit
+        flag == 0: returns None
+        """
+        if flag > 0:
+            return self.high_limit
+        else:
+            return self.low_limit
+    
+    def set_lim(self, low, high):
+        """
+        Sets the low and high limits of motor
+        
+        * Low limit is set to lesser of (low, high)
+        * High limit is set to greater of (low, high)
+        * No action taken if motor is moving. 
+        """
+        if not self.moving:
+            self.soft_limit_lo.put(min(low, high))
+            self.soft_limit_hi.put(max(low, high))
+
+
+class EpicsMotorServoMixin(object):
+    """
+    add motor record's servo loop controls
+    
+    USAGE::
+    
+        class myEpicsMotor(EpicsMotor, EpicsMotorServoMixin): pass
+        m1 = myEpicsMotor('xxx:m1', name='m1')
+    
+    """
+    
+    # values: "Enable" or "Disable"
+    servo = Component(EpicsSignal, ".CNEN", string=True)
+
+
+class EpicsMotorWithServo(EpicsMotor, EpicsMotorServoMixin):
+    """
+    extend basic motor support to enable/disable the servo loop controls
+    
+    USAGE::
+    
+        m1 = EpicsMotorWithDial('xxx:m1', name='m1')
+    
+    This is legacy support.  For new work, use `EpicsMotorServoMixin`.
+    """
+    pass
+
+
+class EpicsMotorRawMixin(object):
+    """
+    add motor record's raw coordinate fields
+    
+    USAGE::
+    
+        class myEpicsMotor(EpicsMotor, EpicsMotorRawMixin): pass
+        m1 = myEpicsMotor('xxx:m1', name='m1')
+    
+    """
+    
+    raw = Component(EpicsSignal, ".RRBV", write_pv=".RVAL")
+
+
+class EpicsMotorDescriptionMixin(object):
+    """
+    add motor record's description field
+    
+    USAGE::
+    
+        class myEpicsMotor(EpicsMotor, EpicsMotorDescriptionMixin): pass
+        m1 = myEpicsMotor('xxx:m1', name='m1')
+    
+    """
+    
+    desc = Component(EpicsSignal, ".DESC")
 
 
 class EpicsMotorShutter(Device):
@@ -1101,3 +1326,47 @@ class ApsFileStoreHDF5(FileStorePluginBase):
         # from FileStoreHDF5.stage()
         res_kwargs = {'frame_per_point': self.get_frames_per_point()}
         self._generate_resource(res_kwargs)
+
+
+class ApsFileStoreHDF5IterativeWrite(ApsFileStoreHDF5, FileStoreIterativeWrite):
+    """custom class to enable users to control image file name"""
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        FileStoreIterativeWrite.__init__(self, *args, **kwargs)
+
+
+class ApsHDF5Plugin(HDF5Plugin, ApsFileStoreHDF5IterativeWrite):
+    """
+    custom class to take image file names from EPICS
+    
+    NOTE: replaces standard Bluesky algorithm where file names
+          are defined as UUID strings, virtually guaranteeing that 
+          no existing images files will ever be overwritten.
+          *Caveat emptor* applies here.  You assume some expertise!
+    
+    USAGE::
+
+        class MySimDetector(SingleTrigger, SimDetector):
+            '''SimDetector with HDF5 file names specified by EPICS'''
+            
+            cam = ADComponent(MyAltaCam, "cam1:")
+            image = ADComponent(ImagePlugin, "image1:")
+            
+            hdf1 = ADComponent(
+                ApsHDF5Plugin, 
+                suffix = "HDF1:", 
+                root = "/",
+                write_path_template = "/local/data",
+                )
+
+        simdet = MySimDetector("13SIM1:", name="simdet")
+        # remove this so array counter is not set to zero each staging
+        del simdet.hdf1.stage_sigs["array_counter"]
+        simdet.hdf1.stage_sigs["file_template"] = '%s%s_%3.3d.h5'
+        simdet.hdf1.file_path.put("/local/data/demo/")
+        simdet.hdf1.file_name.put("test")
+        simdet.hdf1.array_counter.put(0)
+        RE(bp.count([simdet]))
+
+    """
