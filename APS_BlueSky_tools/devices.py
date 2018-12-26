@@ -10,7 +10,11 @@
     ~ApsPssShutter
     ~ApsPssShutterWithStatus
     ~DualPf4FilterBox
+    ~EpicsDescriptionMixin
     ~EpicsMotorDialMixin
+    ~EpicsMotorLimitsMixin
+    ~EpicsMotorRawMixin
+    ~EpicsMotorServoMixin
     ~EpicsMotorShutter
     ~EpicsOnOffShutter
     ~ProcedureRegistry
@@ -552,6 +556,24 @@ class DeviceMixinBase(Device):
     """Base class for APS_Bluesky_tools Device mixin classes"""
 
 
+class EpicsDescriptionMixin(DeviceMixinBase):
+    """
+    add a record's description field to a Device, such as EpicsMotor
+    
+    EXAMPLE::
+    
+        from ophyd import EpicsMotor
+        from APS_BlueSky_tools.devices import EpicsDescriptionMixin
+    
+        class myEpicsMotor(EpicsDescriptionMixin, EpicsMotor): pass
+        m1 = myEpicsMotor('xxx:m1', name='m1')
+        print(m1.desc.value)
+    
+    """
+    
+    desc = Component(EpicsSignal, ".DESC")
+
+
 class EpicsMotorDialMixin(DeviceMixinBase):
     """
     add motor record's dial coordinate fields
@@ -560,13 +582,96 @@ class EpicsMotorDialMixin(DeviceMixinBase):
     
         from ophyd import EpicsMotor
         from APS_BlueSky_tools.devices import EpicsMotorDialMixin
-        class EpicsMotorWithDial(EpicsMotorDialMixin, EpicsMotor): pass
 
-        m1 = EpicsMotorWithDial('xxx:m1', name='m1')
+        class myEpicsMotor(EpicsMotorDialMixin, EpicsMotor): pass
+        m1 = myEpicsMotor('xxx:m1', name='m1')
+        print(m1.dial.read())
     
     """
     
     dial = Component(EpicsSignal, ".DRBV", write_pv=".DVAL")
+
+
+class EpicsMotorLimitsMixin(DeviceMixinBase):
+    """
+    add motor record HLM & LLM fields & compatibility get_lim() and set_lim()
+    
+    EXAMPLE::
+    
+        from ophyd import EpicsMotor
+        from APS_BlueSky_tools.devices import EpicsMotorLimitsMixin
+
+        class myEpicsMotor(EpicsMotorLimitsMixin, EpicsMotor): pass
+        m1 = myEpicsMotor('xxx:m1', name='m1')
+        print(m1.get_lim(-1), m1.get_lim(1))
+    """
+    
+    soft_limit_lo = Component(EpicsSignal, ".LLM")
+    soft_limit_hi = Component(EpicsSignal, ".HLM")
+    
+    def get_lim(self, flag):
+        """
+        Returns the user limit of motor
+        
+        flag > 0: returns high limit
+        flag < 0: returns low limit
+        flag == 0: returns None
+        
+        Similar with SPEC command
+        """
+        if flag > 0:
+            return self.soft_limit_hi.value
+        else:
+            return self.soft_limit_lo.value
+    
+    def set_lim(self, low, high):
+        """
+        Sets the low and high limits of motor
+        
+        * Low limit is set to lesser of (low, high)
+        * High limit is set to greater of (low, high)
+        * No action taken if motor is moving.
+        
+        Similar with SPEC command
+        """
+        if not self.moving:
+            self.soft_limit_lo.put(min(low, high))
+            self.soft_limit_hi.put(max(low, high))
+
+
+class EpicsMotorServoMixin(DeviceMixinBase):
+    """
+    add motor record's servo loop controls
+    
+    EXAMPLE::
+    
+        from ophyd import EpicsMotor
+        from APS_BlueSky_tools.devices import EpicsMotorServoMixin
+
+        class myEpicsMotor(EpicsMotorServoMixin, EpicsMotor): pass
+        m1 = myEpicsMotor('xxx:m1', name='m1')
+        print(m1.servo.read())
+    """
+    
+    # values: "Enable" or "Disable"
+    servo = Component(EpicsSignal, ".CNEN", string=True)
+
+
+class EpicsMotorRawMixin(DeviceMixinBase):
+    """
+    add motor record's raw coordinate fields
+    
+    EXAMPLE::
+    
+        from ophyd import EpicsMotor
+        from APS_BlueSky_tools.devices import EpicsMotorRawMixin
+    
+        class myEpicsMotor(EpicsMotorRawMixin, EpicsMotor): pass
+        m1 = myEpicsMotor('xxx:m1', name='m1')
+        print(m1.raw.read())
+    """
+    
+    raw = Component(EpicsSignal, ".RRBV", write_pv=".RVAL")
 
 
 class EpicsMotorShutter(Device):
