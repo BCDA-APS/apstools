@@ -269,7 +269,7 @@ def print_snapshot_list(db, **search_criteria):
         2 588e0149 2018-12-21 11:38:43.153055 this is an example
         = ======== ========================== ==================
         
-        In [17]: SnapshotReport().print_report(db["5049029d"])                                                                              
+        In [17]: SnapshotReport().print_report(db["5049029d"])
         
         ========================================
         snapshot: 2018-12-21 11:39:30.062463
@@ -285,7 +285,16 @@ def print_snapshot_list(db, **search_criteria):
         plan_type: generator
         purpose: this is an example
         scan_id: 1
-        software_versions: {'python': '3.6.2 |Continuum Analytics, Inc.| (default, Jul 20 2017, 13:51:32) \n[GCC 4.4.7 20120313 (Red Hat 4.4.7-1)]', 'PyEpics': '3.3.1', 'bluesky': '1.4.1', 'ophyd': '1.3.0', 'databroker': '0.11.3', 'APS_Bluesky_Tools': '0.0.38'}
+        software_versions: {
+            'python': 
+                '''3.6.2 |Continuum Analytics, Inc.| (default, Jul 20 2017, 13:51:32)
+                [GCC 4.4.7 20120313 (Red Hat 4.4.7-1)]''', 
+            'PyEpics': '3.3.1', 
+            'bluesky': '1.4.1', 
+            'ophyd': '1.3.0', 
+            'databroker': '0.11.3', 
+            'APS_Bluesky_Tools': '0.0.38'
+            }
         time: 1545413970.063167
         uid: 5049029d-075c-453c-96d2-55431273852b
         
