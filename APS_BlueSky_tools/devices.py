@@ -578,10 +578,12 @@ class EpicsMotorWithDial(EpicsMotorDialMixin, EpicsMotor):
         m1 = EpicsMotorWithDial('xxx:m1', name='m1')
       
     This is legacy support.  For new work, use `EpicsMotorDialMixin`.
+    
+    EXAMPLE::
 
-    import APS_BlueSky_tools.devices
-    m1 = APS_BlueSky_tools.devices.EpicsMotorWithDial("prj:m1", name="m1")
-    m1.dial.read()
+        import APS_BlueSky_tools.devices
+        m1 = APS_BlueSky_tools.devices.EpicsMotorWithDial("prj:m1", name="m1")
+        m1.dial.read()
 
     """
 
