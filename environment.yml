@@ -20,3 +20,4 @@ dependencies:
   - super-state-machine
   - versioneer
   - pyRestTable
+prefix: /home/mintadmin/Apps/BlueSky/envs/toolsdoc
