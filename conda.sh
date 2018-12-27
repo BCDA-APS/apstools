@@ -1,4 +1,4 @@
 #!/bin/bash
 
-# http://conda-test.pydata.org/docs/bdist_conda.html
+#  https://conda.io/docs/user-guide/tasks/build-packages/build-without-recipe.html
 python setup.py bdist_conda
