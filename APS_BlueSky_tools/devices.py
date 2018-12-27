@@ -74,6 +74,7 @@ Internal routines
 .. autosummary::
 
     ~ApsOperatorMessagesDevice
+    ~DeviceMixinBase
 
 """
 
@@ -594,6 +595,10 @@ class ApsBssUserInfoDevice(Device):
     esaf_team =         Component(EpicsSignal, "esaf_team",     string=True)
 
 
+class DeviceMixinBase(Device):
+    """Base class for APS_Bluesky_tools Device mixin classes"""
+
+
 class AxisTunerException(ValueError): 
     """Exception during execution of `AxisTunerBase` subclass"""
 
@@ -602,24 +607,8 @@ class AxisTunerMixin(EpicsMotor):
     """
     Mixin class to provide tuning capabilities for an axis
     
-    EXAMPLE::
+    See this example: :func:`APS_BlueSky_tools.demo_plan.demo_TuneAxis`
     
-        class TunableEpicsMotor(AxisTunerMixin, EpicsMotor): pass
-        
-        def a2r_pretune_hook():
-            # set the counting time for *this* tune
-            yield from bps.abs_set(scaler.preset_time, 0.2)
-            
-        a2r = TunableEpicsMotor("xxx:m1", name="a2r")
-        a2r.tuner = TuneAxis([scaler], a2r, signal_name=scaler.channels.chan2.name)
-        a2r.tuner.width = 0.02
-        a2r.tuner.num = 21
-        a2r.pre_tune_method = a2r_pretune_hook
-        RE(a2r.tune())
-        
-        # tune four of the USAXS axes (using preconfigured parameters for each)
-        RE(tune_axes([mr, m2r, ar, a2r])
-
     HOOK METHODS
     
     There are two hook methods (`pre_tune_method()`, and `post_tune_method()`)
@@ -647,7 +636,8 @@ class AxisTunerMixin(EpicsMotor):
 
     """
     
-    def __init__(self):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
         self.tuner = None   # such as: APS_BlueSky_tools.plans.TuneAxis
         
         # Hook functions for callers to add additional plan parts
@@ -686,10 +676,6 @@ class AxisTunerMixin(EpicsMotor):
     
             if self.post_tune_method is not None:
                 self.post_tune_method()
-
-
-class DeviceMixinBase(Device):
-    """Base class for APS_Bluesky_tools Device mixin classes"""
 
 
 class EpicsDescriptionMixin(DeviceMixinBase):
