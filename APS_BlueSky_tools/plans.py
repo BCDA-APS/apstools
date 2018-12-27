@@ -124,6 +124,8 @@ def nscan(detectors, *motor_sets, num=11, per_step=None, md=None):
         Expected signature: ``f(detectors, step_cache, pos_cache)``
     md : dict, optional
         metadata
+    
+    See this example: :func:`APS_BlueSky_tools.demo_plan.demo_nscan`
     """
     def take_n_at_a_time(args, n=2):
         yield from zip(*[iter(args)]*n)
@@ -434,7 +436,10 @@ class TuneAxis(object):
             results.final_position.put(final_position)
             results.initial_position.put(initial_position)
             for key in results.peakstats_attrs:
-                getattr(results, key).put(getattr(self.peaks, key))
+                v = getattr(self.peaks, key)
+                if key in ("crossings", "min", "max"):
+                    v = np.array(v)
+                getattr(results, key).put(v)
 
             yield from bps.create(name=stream_name)
             yield from bps.read(results)
@@ -530,6 +535,12 @@ class TuneAxis(object):
 def tune_axes(axes):
     """
     BlueSky plan to tune a list of axes in sequence
+    
+    EXAMPLE
+    
+    Sequentially, tune a list of preconfigured axes::
+        
+        RE(tune_axes([mr, m2r, ar, a2r])
     """
     for axis in axes:
         yield from axis.tune()

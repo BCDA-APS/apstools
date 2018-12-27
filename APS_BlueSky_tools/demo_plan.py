@@ -1,7 +1,12 @@
 #!/usr/bin/env python
 
 """
-demonstrate a BlueSky nscan plan
+demonstrate ``nscan`` and ``TuneAxis``
+
+.. autosummary::
+    
+    demo_TuneAxis
+    demo_nscan
 
 """
 
@@ -13,10 +18,6 @@ import logging
 from databroker import Broker
 # load config from ~/.config/databroker/mongodb_config.yml
 db = Broker.named("mongodb_config")
-
-# Make ophyd listen to pyepics.
-from ophyd import setup_ophyd
-setup_ophyd()
 
 from bluesky import RunEngine
 from bluesky.utils import get_history
@@ -31,25 +32,29 @@ plt.ion()
 from bluesky.utils import install_qt_kicker
 install_qt_kicker()
 
-from bluesky.callbacks import LiveTable
-from bluesky.plan_tools import print_summary
-from ophyd import EpicsMotor
-
-from APS_BlueSky_tools.synApps_ophyd import swaitRecord, swait_setup_random_number
-from APS_BlueSky_tools.examples import SynPseudoVoigt
 import numpy as np
 import socket
 
-from plans import nscan, TuneAxis
+from bluesky.callbacks import LiveTable
+from bluesky.simulators import summarize_plan
+from ophyd import EpicsMotor
+
+from APS_BlueSky_tools.examples import SynPseudoVoigt
+from APS_BlueSky_tools.plans import nscan, TuneAxis
+from APS_BlueSky_tools.synApps_ophyd import swaitRecord, swait_setup_random_number
+
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 DEMO_SPEC_FILE = "test_specdata.txt"
 
 
-def main():
+def demo_TuneAxis():
+    """
+    demonstrate :func:`TuneAxis()` with both multi-pass and single-pass examples
+    """
     host = socket.gethostname()
-    ip = socket.gethostbyname(host)
+    # ip = socket.gethostbyname(host)
     if host.find("mint-vm") >= 0:
         prefix = "prj:"
     else:
@@ -103,7 +108,7 @@ def main():
         print("--", stat.cen, stat.fwhm)
     print("m1=", m1.position, "", "det=", spvoigt.value)
 
-    # repeat but with only one pass
+    print("\n" + "#"*40 + "\n" + "# repeat but with only one pass" + "\n")
     m1.move(starting_position)
     tuner.num *= 3
     RE(tuner.tune(), live_table, md=md)
@@ -115,7 +120,10 @@ def main():
     print("m1=", m1.position, "", "det=", spvoigt.value)
 
 
-def main_nscan():
+def demo_nscan():
+    """
+    Scan two motors together, each in equally spaced steps
+    """
     prefix = "prj:"
     m1 = EpicsMotor(prefix+"m1", name="m1")
     m2 = EpicsMotor(prefix+"m2", name="m2")
@@ -129,4 +137,5 @@ def main_nscan():
 
 
 if __name__ == "__main__":
-    main()
+#     demo_TuneAxis()
+    demo_nscan()
