@@ -11,6 +11,7 @@ dependencies:
 - sphinx_rtd_theme
 - bluesky
 - ophyd
+- databroker
 - prettytable
 - pip:
   - ipython-genutils==0.2.0
@@ -18,5 +19,4 @@ dependencies:
   - sphinx-rtd-theme
   - super-state-machine
   - versioneer
-prefix: /home/mintadmin/Apps/BlueSky/envs/toolsdoc
-
+  - pyRestTable
