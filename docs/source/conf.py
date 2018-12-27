@@ -171,4 +171,4 @@ texinfo_documents = [
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
 # http://www.sphinx-doc.org/en/master/usage/extensions/autodoc.html#confval-autodoc_mock_imports
-autodoc_mock_imports = "h5py numpy matplotlib pandas bluesky ophyd databroker pyRestTable".split()
+autodoc_mock_imports = "h5py numpy matplotlib pandas".split()

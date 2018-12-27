@@ -38,6 +38,10 @@ MOTORS, POSITIONERS, AXES, ...
     ~EpicsMotorServoMixin
     ~EpicsMotorShutter
     ~EpicsOnOffShutter
+    ~EpicsMotorWithDescription
+    ~EpicsMotorWithMore
+    ~TunableEpicsMotor
+    ~TunableSynAxis
 
 SHUTTERS
 
@@ -678,6 +682,10 @@ class AxisTunerMixin(EpicsMotor):
                 self.post_tune_method()
 
 
+class TunableSynAxis(AxisTunerMixin, SynAxis): """synthetic axis that can be tuned"""
+class TunableEpicsMotor(AxisTunerMixin, EpicsMotor): """EpicsMotor that can be tuned"""
+
+
 class EpicsDescriptionMixin(DeviceMixinBase):
     """
     add a record's description field to a Device, such as EpicsMotor
@@ -798,6 +806,23 @@ class EpicsMotorRawMixin(DeviceMixinBase):
     """
     
     raw = Component(EpicsSignal, ".RRBV", write_pv=".RVAL")
+
+
+class EpicsMotorWithDescription(EpicsDescriptionMixin, EpicsMotor): """EpicsMotor with description field"""
+class EpicsMotorWithMore(
+    EpicsDescriptionMixin, 
+    EpicsMotorLimitsMixin, 
+    EpicsMotorDialMixin,
+    EpicsMotorRawMixin, 
+    EpicsMotor): 
+    """
+    EpicsMotor with more fields
+    
+    * description (``desc``)
+    * soft motor limits (``soft_limit_hi``, ``soft_limit_lo``)
+    * dial coordinates (``dial``)
+    * raw coordinates (``raw``)
+    """
 
 
 class EpicsMotorShutter(Device):
