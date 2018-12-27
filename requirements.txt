@@ -1,5 +1,4 @@
 versioneer
 coverage
 coveralls
-unittest
 pyRestTable
