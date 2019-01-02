@@ -1,0 +1,149 @@
+#F test_specdata.txt
+#E 1546473171
+#D Wed Jan 02 17:52:51 2019
+#C BlueSky  user = mintadmin  host = mint-vm
+
+#S 1094  scan(detectors=['scaler'], num=5, args=['m1', -1, 1, 'm2', 0, 1], per_step=None)
+#D Wed Dec 05 13:39:39 2018
+#C Wed Dec 05 13:39:39 2018.  plan_type = generator
+#C Wed Dec 05 13:39:39 2018.  uid = e6a293cf-e517-4a11-8c76-81b6286e32db
+#MD APS_BlueSky_tools_VERSION = 0.0.35
+#MD BLUESKY_VERSION = 1.4.1
+#MD OPHYD_VERSION = 1.3.0
+#MD SESSION_START = 2018-12-05 13:37:25.804493
+#MD beamline_id = developer
+#MD ipython_session_start = 2018-02-14 12:54:06.447450
+#MD login_id = mintadmin@mint-vm
+#MD motors = ['m1', 'm2']
+#MD num_intervals = 4
+#MD num_points = 5
+#MD pid = 4309
+#MD plan_pattern = inner_product
+#MD plan_pattern_args = {'num': 5, 'args': ["EpicsMotor(prefix='prj:m1', name='m1', settle_time=0.0, timeout=None, read_attrs=['user_readback', 'user_setpoint'], configuration_attrs=['user_offset', 'user_offset_dir', 'velocity', 'acceleration', 'motor_egu'])", -1, 1, "EpicsMotor(prefix='prj:m2', name='m2', settle_time=0.0, timeout=None, read_attrs=['user_readback', 'user_setpoint'], configuration_attrs=['user_offset', 'user_offset_dir', 'velocity', 'acceleration', 'motor_egu'])", 0, 1]}
+#MD plan_pattern_module = bluesky.plan_patterns
+#MD proposal_id = None
+#N 5
+#L m1  m1_user_setpoint  m2  m2_user_setpoint  Epoch_float  Epoch  scaler_time
+-1.0 -1.0 0.0 0.0 3.7072696685791016 4 1.1
+-0.5 -0.5 0.25 0.25 5.7236008644104 6 1.1
+0.0 0.0 0.5 0.5 7.7211034297943115 8 1.1
+0.5 0.5 0.75 0.75 9.731889724731445 10 1.1
+1.0 1.0 1.0 1.0 11.736937999725342 12 1.1
+#C Wed Dec 05 13:39:51 2018.  num_events_primary = 5
+#C Wed Dec 05 13:39:51 2018.  exit_status = success
+
+#S 1093  scan(detectors=['scaler'], num=5, args=['m1', -1, 1, 'm2', 0, 1], per_step=None)
+#D Wed Dec 05 13:39:25 2018
+#C Wed Dec 05 13:39:25 2018.  plan_type = generator
+#C Wed Dec 05 13:39:25 2018.  uid = e23bbb44-2bf6-4887-972f-356173860337
+#MD APS_BlueSky_tools_VERSION = 0.0.35
+#MD BLUESKY_VERSION = 1.4.1
+#MD OPHYD_VERSION = 1.3.0
+#MD SESSION_START = 2018-12-05 13:37:25.804493
+#MD beamline_id = developer
+#MD ipython_session_start = 2018-02-14 12:54:06.447450
+#MD login_id = mintadmin@mint-vm
+#MD motors = ['m1', 'm2']
+#MD num_intervals = 4
+#MD num_points = 5
+#MD pid = 4309
+#MD plan_pattern = inner_product
+#MD plan_pattern_args = {'num': 5, 'args': ["EpicsMotor(prefix='prj:m1', name='m1', settle_time=0.0, timeout=None, read_attrs=['user_readback', 'user_setpoint'], configuration_attrs=['user_offset', 'user_offset_dir', 'velocity', 'acceleration', 'motor_egu'])", -1, 1, "EpicsMotor(prefix='prj:m2', name='m2', settle_time=0.0, timeout=None, read_attrs=['user_readback', 'user_setpoint'], configuration_attrs=['user_offset', 'user_offset_dir', 'velocity', 'acceleration', 'motor_egu'])", 0, 1]}
+#MD plan_pattern_module = bluesky.plan_patterns
+#MD proposal_id = None
+#N 5
+#L m1  m1_user_setpoint  m2  m2_user_setpoint  Epoch_float  Epoch  scaler_time
+-1.0 -1.0 0.0 0.0 2.584486722946167 3 1.1
+-0.5 -0.5 0.25 0.25 4.475306749343872 4 1.1
+0.0 0.0 0.5 0.5 6.383528709411621 6 1.1
+0.5 0.5 0.75 0.75 8.29332685470581 8 1.1
+1.0 1.0 1.0 1.0 10.198333978652954 10 1.1
+#C Wed Dec 05 13:39:35 2018.  num_events_primary = 5
+#C Wed Dec 05 13:39:35 2018.  exit_status = success
+
+#S 1088  scan(detectors=['scaler'], num=5, args=['m1', -1, 1, 'm2', 0, 1], per_step=None)
+#D Wed Dec 05 13:29:14 2018
+#C Wed Dec 05 13:29:14 2018.  plan_type = generator
+#C Wed Dec 05 13:29:14 2018.  uid = 26cec641-2f13-4711-a09d-be8d8e2d8ead
+#MD APS_BlueSky_tools_VERSION = 0.0.35
+#MD BLUESKY_VERSION = 1.4.1
+#MD OPHYD_VERSION = 1.3.0
+#MD SESSION_START = 2018-12-05 13:26:09.632475
+#MD beamline_id = developer
+#MD ipython_session_start = 2018-02-14 12:54:06.447450
+#MD login_id = mintadmin@mint-vm
+#MD motors = ['m1', 'm2']
+#MD num_intervals = 4
+#MD num_points = 5
+#MD pid = 1931
+#MD plan_pattern = inner_product
+#MD plan_pattern_args = {'num': 5, 'args': ["EpicsMotor(prefix='prj:m1', name='m1', settle_time=0.0, timeout=None, read_attrs=['user_readback', 'user_setpoint'], configuration_attrs=['user_offset', 'user_offset_dir', 'velocity', 'acceleration', 'motor_egu'])", -1, 1, "EpicsMotor(prefix='prj:m2', name='m2', settle_time=0.0, timeout=None, read_attrs=['user_readback', 'user_setpoint'], configuration_attrs=['user_offset', 'user_offset_dir', 'velocity', 'acceleration', 'motor_egu'])", 0, 1]}
+#MD plan_pattern_module = bluesky.plan_patterns
+#MD proposal_id = None
+#N 5
+#L m1_user_setpoint  m2  m2_user_setpoint  scaler_time  Epoch_float  Epoch  m1
+-1.0 0.0 0.0 1.1 3.6816906929016113 4 -1.0
+-0.5 0.25 0.25 1.1 5.704963445663452 6 -0.5
+0.0 0.5 0.5 1.0 7.622475624084473 8 0.0
+0.5 0.75 0.75 1.1 9.526179313659668 10 0.5
+1.0 1.0 1.0 1.1 11.434032201766968 11 1.0
+#C Wed Dec 05 13:29:25 2018.  num_events_primary = 5
+#C Wed Dec 05 13:29:25 2018.  exit_status = success
+
+#S 1087  scan(detectors=['scaler'], num=5, args=['m1', -1, 1, 'm2', 0, 1], per_step=None)
+#D Wed Dec 05 13:28:55 2018
+#C Wed Dec 05 13:28:55 2018.  plan_type = generator
+#C Wed Dec 05 13:28:55 2018.  uid = e40da52b-8e00-4ace-96f8-497bc38f94b4
+#MD APS_BlueSky_tools_VERSION = 0.0.35
+#MD BLUESKY_VERSION = 1.4.1
+#MD OPHYD_VERSION = 1.3.0
+#MD SESSION_START = 2018-12-05 13:26:09.632475
+#MD beamline_id = developer
+#MD ipython_session_start = 2018-02-14 12:54:06.447450
+#MD login_id = mintadmin@mint-vm
+#MD motors = ['m1', 'm2']
+#MD num_intervals = 4
+#MD num_points = 5
+#MD pid = 1931
+#MD plan_pattern = inner_product
+#MD plan_pattern_args = {'num': 5, 'args': ["EpicsMotor(prefix='prj:m1', name='m1', settle_time=0.0, timeout=None, read_attrs=['user_readback', 'user_setpoint'], configuration_attrs=['user_offset', 'user_offset_dir', 'velocity', 'acceleration', 'motor_egu'])", -1, 1, "EpicsMotor(prefix='prj:m2', name='m2', settle_time=0.0, timeout=None, read_attrs=['user_readback', 'user_setpoint'], configuration_attrs=['user_offset', 'user_offset_dir', 'velocity', 'acceleration', 'motor_egu'])", 0, 1]}
+#MD plan_pattern_module = bluesky.plan_patterns
+#MD proposal_id = None
+#N 5
+#L m1_user_setpoint  m2  m2_user_setpoint  scaler_time  Epoch_float  Epoch  m1
+-1.0 0.0 0.0 1.1 3.6778171062469482 4 -1.0
+-0.5 0.25 0.25 1.1 5.577483177185059 6 -0.5
+0.0 0.5 0.5 1.1 7.481954097747803 7 0.0
+0.5 0.75 0.75 1.1 9.39044713973999 9 0.5
+1.0 1.0 1.0 1.1 11.29593825340271 11 1.0
+#C Wed Dec 05 13:29:06 2018.  num_events_primary = 5
+#C Wed Dec 05 13:29:06 2018.  exit_status = success
+
+#S 1086  scan(detectors=['scaler'], num=5, args=['m1', -1, 1, 'm2', 0, 1], per_step=None)
+#D Wed Dec 05 13:28:26 2018
+#C Wed Dec 05 13:28:26 2018.  plan_type = generator
+#C Wed Dec 05 13:28:26 2018.  uid = 087c957d-f7ec-45b8-97f3-cf80ea46c14d
+#MD APS_BlueSky_tools_VERSION = 0.0.35
+#MD BLUESKY_VERSION = 1.4.1
+#MD OPHYD_VERSION = 1.3.0
+#MD SESSION_START = 2018-12-05 13:26:09.632475
+#MD beamline_id = developer
+#MD ipython_session_start = 2018-02-14 12:54:06.447450
+#MD login_id = mintadmin@mint-vm
+#MD motors = ['m1', 'm2']
+#MD num_intervals = 4
+#MD num_points = 5
+#MD pid = 1931
+#MD plan_pattern = inner_product
+#MD plan_pattern_args = {'num': 5, 'args': ["EpicsMotor(prefix='prj:m1', name='m1', settle_time=0.0, timeout=None, read_attrs=['user_readback', 'user_setpoint'], configuration_attrs=['user_offset', 'user_offset_dir', 'velocity', 'acceleration', 'motor_egu'])", -1, 1, "EpicsMotor(prefix='prj:m2', name='m2', settle_time=0.0, timeout=None, read_attrs=['user_readback', 'user_setpoint'], configuration_attrs=['user_offset', 'user_offset_dir', 'velocity', 'acceleration', 'motor_egu'])", 0, 1]}
+#MD plan_pattern_module = bluesky.plan_patterns
+#MD proposal_id = None
+#N 5
+#L m1_user_setpoint  m2  m2_user_setpoint  scaler_time  Epoch_float  Epoch  m1
+-1.0 0.0 0.0 1.1 2.8163833618164062 3 -1.0
+-0.5 0.25 0.25 1.1 4.767565011978149 5 -0.5
+0.0 0.5 0.5 1.1 6.664952754974365 7 0.0
+0.5 0.75 0.75 1.1 8.574125528335571 9 0.5
+1.0 1.0 1.0 1.1 10.473979234695435 10 1.0
+#C Wed Dec 05 13:28:36 2018.  num_events_primary = 5
+#C Wed Dec 05 13:28:36 2018.  exit_status = success

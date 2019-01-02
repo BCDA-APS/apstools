@@ -1,0 +1,21 @@
+#F /tmp/spec1.dat
+#E 1546473170
+#D Wed Jan 02 17:52:50 2019
+#C BlueSky  user = mintadmin  host = mint-vm
+
+#S 1  snapshot()
+#D Thu Dec 27 00:36:00 2018
+#C Thu Dec 27 00:36:00 2018.  plan_type = generator
+#C Thu Dec 27 00:36:00 2018.  uid = 9bc1fe93-e56b-4dfc-a2bc-ee91b6f88200
+#MD hostname = mint-vm
+#MD iso8601 = 2018-12-27 00:36:00.050644
+#MD login_id = mintadmin@mint-vm
+#MD plan_description = archive snapshot of ophyd Signals (usually EPICS PVs)
+#MD purpose = example
+#MD software_versions = {'python': '3.6.6 |Anaconda custom (64-bit)| (default, Jun 28 2018, 17:14:51) \n[GCC 7.2.0]', 'PyEpics': '3.3.1', 'bluesky': '1.4.1', 'ophyd': '1.3.0', 'databroker': '0.11.3', 'APS_Bluesky_Tools': '0.0.40+1.g8705698'}
+#MD username = mintadmin
+#N 1
+#L Epoch_float  signal_0  signal_1  Epoch
+0.1414647102355957 0.5004422061971736 21.11895183692659 0
+#C Thu Dec 27 00:36:00 2018.  num_events_primary = 1
+#C Thu Dec 27 00:36:00 2018.  exit_status = success

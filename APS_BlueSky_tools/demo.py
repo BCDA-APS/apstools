@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 """
-demonstrate a BlueSky callback that writes SPEC data files
+demonstrate BlueSky callbacks
 
 .. autosummary::
    
@@ -13,6 +13,7 @@ demonstrate a BlueSky callback that writes SPEC data files
 # Copyright (c) 2017-2018, UChicago Argonne, LLC.  See LICENSE file.
 
 
+import databroker
 import datetime
 from .filewriters import SpecWriterCallback, _rebuild_scan_command
 import logging
@@ -26,7 +27,7 @@ DEMO_SPEC_FILE = "test_specdata.txt"
 def specfile_example(headers, filename=DEMO_SPEC_FILE):
     """write one or more headers (scans) to a SPEC data file"""
     specwriter = SpecWriterCallback(filename=filename, auto_write=True)
-    if not isinstance(headers, list):
+    if not isinstance(headers, (list, databroker._core.Results)):
         headers = [headers]
     for h in headers:
         for key, doc in h.db.get_documents(h):
