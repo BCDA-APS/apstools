@@ -11,3 +11,4 @@ __pycache__/
 docs/build/
 .settings/
 build/
+.ipynb_checkpoints/
