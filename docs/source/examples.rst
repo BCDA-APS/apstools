@@ -2,22 +2,13 @@
 Examples
 ========
 
-.. rubric:: EXAMPLES
+* :ref:`example_plan_catalog`
+* :ref:`example_specfile`
+* :ref:`example_nscan`
+* :ref:`example_tuneaxis`
+* :ref:`example_source`
+* :ref:`examples_downloads`
 
-* :ref:`source code <demo_source>`
-* :ref:`plan_catalog() <example_plan_catalog>`
-* :ref:`specfile_example() <example_specfile>`
-* :ref:`nscan() <example_nscan>`
-* :ref:`TuneAxis() <example_tuneaxis>`
-
-
-.. _demo_source:
-
-SOURCE CODE
-+++++++++++
-
-.. automodule:: APS_BlueSky_tools.examples
-    :members: 
 
 .. _example_plan_catalog:
 
@@ -93,7 +84,18 @@ We'll use a Jupyter notebook to demonstrate the ``TuneAxis()`` support that prov
 of a signal against an axis.
 Follow here: https://github.com/BCDA-APS/APS_BlueSky_tools/blob/master/docs/source/resources/demo_tuneaxis.ipynb
 
-downloads
+
+.. _example_source:
+
+Source Code Documentation
++++++++++++++++++++++++++
+
+.. automodule:: APS_BlueSky_tools.examples
+    :members:
+
+.. _examples_downloads:
+
+Downloads
 +++++++++
 
 The jupyter notebook and files related to this section may be downloaded from the following table.

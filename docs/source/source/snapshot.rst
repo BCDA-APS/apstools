@@ -1,3 +1,4 @@
+.. _bluesky_snapshot:
 
 bluesky_snapshot
 ----------------
