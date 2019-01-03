@@ -27,7 +27,8 @@ Package Information
    :glob:
 
    demo
-   source_code/*
+   source/*
+   synApps/*
 
 
 Indices and tables
