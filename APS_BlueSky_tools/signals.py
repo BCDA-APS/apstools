@@ -1,6 +1,6 @@
 
 """
-Examples that might be useful at the APS using BlueSky
+(ophyd) Signals that might be useful at the APS using Bluesky
 
 .. autosummary::
    
@@ -8,7 +8,7 @@ Examples that might be useful at the APS using BlueSky
 
 """
 
-# Copyright (c) 2017-2018, UChicago Argonne, LLC.  See LICENSE file.
+# Copyright (c) 2017-2019, UChicago Argonne, LLC.  See LICENSE file.
 
 import logging
 import ophyd.sim
@@ -55,7 +55,7 @@ class SynPseudoVoigt(ophyd.sim.SynSignal):
     
     ::
 
-        from APS_BlueSky_tools.examples import SynPseudoVoigt
+        from APS_BlueSky_tools.signals import SynPseudoVoigt
         motor = Mover('motor', {'motor': lambda x: x}, {'x': 0})
         det = SynPseudoVoigt('det', motor, 'motor', 
             center=0, eta=0.5, scale=1, sigma=1, bkg=0)
@@ -65,7 +65,7 @@ class SynPseudoVoigt(ophyd.sim.SynSignal):
     ::
 
         import numpy as np
-        from APS_BlueSky_tools.examples import SynPseudoVoigt
+        from APS_BlueSky_tools.signals import SynPseudoVoigt
         synthetic_pseudovoigt = SynPseudoVoigt(
             'synthetic_pseudovoigt', m1, 'm1', 
             center=-1.5 + 0.5*np.random.uniform(), 
