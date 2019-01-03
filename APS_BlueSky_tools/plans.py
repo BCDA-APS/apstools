@@ -293,6 +293,9 @@ class TuneAxis(object):
         live_table = LiveTable(["axis", "det"])
         RE(tuner.multi_pass_tune(width=2, num=9), live_table)
         RE(tuner.tune(width=0.05, num=9), live_table)
+    
+    Also see the jupyter notebook referenced here:
+    :ref:`example_tuneaxis`.
 
     .. autosummary::
        
@@ -551,7 +554,10 @@ class ProcedureRegistry(ophyd.Device):
     """
     Procedure Registry
     
-    With many instruments, such as USAXS,, there are several operating 
+    .. caution::  This device may be removed in future releases.
+       Its use is complicated and could lead to instability.
+    
+    With many instruments, such as USAXS, there are several operating 
     modes to be used, each with its own setup code.  This ophyd Device
     should coordinate those modes so that the setup procedures can be called
     either as part of a Bluesky plan or from the command line directly.
