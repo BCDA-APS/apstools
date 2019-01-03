@@ -554,7 +554,7 @@ class ProcedureRegistry(ophyd.Device):
     """
     Procedure Registry
     
-    .. caution::  This device may be removed in future releases.
+    .. caution::  This Device may be relocated or removed entirely in future releases.
        Its use is complicated and could lead to instability.
     
     With many instruments, such as USAXS, there are several operating 
