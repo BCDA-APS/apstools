@@ -52,6 +52,7 @@ synApps records
 
 .. autosummary::
    
+    ~busyRecord
     ~sscanRecord
     ~sscanDevice
     ~swaitRecord
