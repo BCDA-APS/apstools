@@ -16,19 +16,24 @@ Before using the command-line interface, find out what
 the *bluesky_snapshot* expects::
 
 	$ bluesky_snapshot -h
-	usage: bluesky_snapshot [-h] [-b BROKER_CONFIG] [-m METADATA]
-	                        EPICS_PV [EPICS_PV ...]
-	
-	record a snapshot of some PVs using Bluesky, ophyd, and databroker
-	
-	positional arguments:
-	  EPICS_PV          EPICS PV name
-	
-	optional arguments:
-	  -h, --help        show this help message and exit
-	  -b BROKER_CONFIG  YAML configuration for databroker
-	  -m METADATA       additional metadata, enclose in quotes, such as -m
-	                    "purpose=just tuned, situation=routine"
+   usage: bluesky_snapshot [-h] [-b BROKER_CONFIG] [-m METADATA_SPEC] [-r] [-v]
+                           EPICS_PV [EPICS_PV ...]
+   
+   record a snapshot of some PVs using Bluesky, ophyd, and databroker
+   version=0.0.40+26.g323cd35
+   
+   positional arguments:
+     EPICS_PV              EPICS PV name
+   
+   optional arguments:
+     -h, --help            show this help message and exit
+     -b BROKER_CONFIG      YAML configuration for databroker, default:
+                           mongodb_config
+     -m METADATA_SPEC, --metadata METADATA_SPEC
+                           additional metadata, enclose in quotes, such as -m
+                           "purpose=just tuned, situation=routine"
+     -r, --report          suppress snapshot report
+     -v, --version         show program's version number and exit
 
 The help does not tell you that the default for BROKER_CONFIG is 
 "mongodb_config", a YAML file in one of the default locations where 
@@ -37,41 +42,45 @@ the databroker expects to find it.  That's what we have.
 We want to snapshot just a couple PVs to show basic use.  
 Here are their current values::
 
-	$ caget otz:IOC_CPU_LOAD otz:SYS_CPU_LOAD
-	otz:IOC_CPU_LOAD               0.100096
-	otz:SYS_CPU_LOAD               8.25789
+	$ caget prj:IOC_CPU_LOAD prj:SYS_CPU_LOAD
+   prj:IOC_CPU_LOAD               0.900851
+   prj:SYS_CPU_LOAD               4.50426
 
 Here's the snapshot (we'll also set a metadata that says this is an example)::
 
-	$ bluesky_snapshot otz:IOC_CPU_LOAD otz:SYS_CPU_LOAD -m "purpose=example"
+	$ bluesky_snapshot prj:IOC_CPU_LOAD prj:SYS_CPU_LOAD -m "purpose=example"
 
-	========================================
-	snapshot: 2018-12-20 18:18:27.052009
-	========================================
-	
-	hints: {}
-	iso8601: 2018-12-20 18:18:27.052009
-	plan_description: archive snapshot of ophyd Signals (usually EPICS PVs)
-	plan_name: snapshot
-	plan_type: generator
-	purpose: example
-	scan_id: 1
-	software_versions: {'python': '3.6.2 |Continuum Analytics, Inc.| (default, Jul 20 2017, 13:51:32) \n[GCC 4.4.7 20120313 (Red Hat 4.4.7-1)]', 'PyEpics': '3.3.1', 'bluesky': '1.4.1', 'ophyd': '1.3.0', 'databroker': '0.11.3', 'APS_Bluesky_Tools': '0.0.37'}
-	time: 1545351507.0527153
-	uid: ab270806-0697-4056-ba44-80f7b462bedc
-	
-	========================== ====== ================ ===================
-	timestamp                  source name             value              
-	========================== ====== ================ ===================
-	2018-12-20 18:18:17.109931 PV     otz:IOC_CPU_LOAD 0.10009559468607492
-	2018-12-20 18:18:17.109927 PV     otz:SYS_CPU_LOAD 10.935451151721377 
-	========================== ====== ================ ===================
-	
-	exit_status: success
-	num_events: {'primary': 1}
-	run_start: ab270806-0697-4056-ba44-80f7b462bedc
-	time: 1545351507.0696447
-	uid: a0b5b4ff-d9a7-47ce-ace7-1bba818da77b
+   ========================================
+   snapshot: 2019-01-03 17:02:42.922197
+   ========================================
+   
+   hints: {}
+   hostname: mint-vm
+   iso8601: 2019-01-03 17:02:42.922197
+   login_id: mintadmin@mint-vm
+   plan_description: archive snapshot of ophyd Signals (usually EPICS PVs)
+   plan_name: snapshot
+   plan_type: generator
+   purpose: example
+   scan_id: 1
+   software_versions: {'python': '3.6.6 |Anaconda custom (64-bit)| (default, Jun 28 2018, 17:14:51) \n[GCC 7.2.0]', 'PyEpics': '3.3.1', 'bluesky': '1.4.1', 'ophyd': '1.3.0', 'databroker': '0.11.3', 'APS_Bluesky_Tools': '0.0.40+26.g323cd35.dirty'}
+   time: 1546556562.9231327
+   uid: 98a86a91-d41e-4965-a048-afa5b982a17c
+   username: mintadmin
+   
+   ========================== ====== ================ ==================
+   timestamp                  source name             value             
+   ========================== ====== ================ ==================
+   2019-01-03 17:02:33.930067 PV     prj:IOC_CPU_LOAD 0.8007421685989062
+   2019-01-03 17:02:33.930069 PV     prj:SYS_CPU_LOAD 10.309472772459404
+   ========================== ====== ================ ==================
+   
+   exit_status: success
+   num_events: {'primary': 1}
+   run_start: 98a86a91-d41e-4965-a048-afa5b982a17c
+   time: 1546556563.1087885
+   uid: 026fa69c-45b7-4b45-a3b3-266aadbf7176
+
 
 We have a second IOC (*gov*) that has the same PVs.  Let's get them, too.::
 

@@ -6,19 +6,24 @@ record a snapshot of some PVs using Bluesky, ophyd, and databroker
 USAGE::
 
     (base) user@hostname .../pwd $ bluesky_snapshot -h
-    usage: bluesky_snapshot [-h] [-b BROKER_CONFIG] [-m METADATA]
+    usage: bluesky_snapshot [-h] [-b BROKER_CONFIG] [-m METADATA_SPEC] [-r] [-v]
                             EPICS_PV [EPICS_PV ...]
     
     record a snapshot of some PVs using Bluesky, ophyd, and databroker
+    version=0.0.40+26.g323cd35
     
     positional arguments:
-      EPICS_PV          EPICS PV name
+      EPICS_PV              EPICS PV name
     
     optional arguments:
-      -h, --help        show this help message and exit
-      -b BROKER_CONFIG  YAML configuration for databroker
-      -m METADATA       additional metadata, enclose in quotes, such as -m
-                        "purpose=just tuned, situation=routine"
+      -h, --help            show this help message and exit
+      -b BROKER_CONFIG      YAML configuration for databroker, default:
+                            mongodb_config
+      -m METADATA_SPEC, --metadata METADATA_SPEC
+                            additional metadata, enclose in quotes, such as -m
+                            "purpose=just tuned, situation=routine"
+      -r, --report          suppress snapshot report
+      -v, --version         show program's version number and exit
 
 """
 
