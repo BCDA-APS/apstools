@@ -27,6 +27,7 @@ Package Information
    :glob:
 
    applications
+   snapshot
    examples
    source/*
    synApps/*
