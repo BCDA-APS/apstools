@@ -16,7 +16,7 @@ Examples
 SOURCE CODE
 +++++++++++
 
-.. automodule:: APS_BlueSky_tools.demo
+.. automodule:: APS_BlueSky_tools.examples
     :members: 
 
 .. _example_plan_catalog:

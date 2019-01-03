@@ -26,7 +26,7 @@ Package Information
    :caption: Contents:
    :glob:
 
-   demo
+   examples
    source/*
    synApps/*
 

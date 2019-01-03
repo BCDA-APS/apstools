@@ -1,6 +1,6 @@
 #F test_specdata.txt
-#E 1546473171
-#D Wed Jan 02 17:52:51 2019
+#E 1546553636
+#D Thu Jan 03 16:13:56 2019
 #C BlueSky  user = mintadmin  host = mint-vm
 
 #S 1094  scan(detectors=['scaler'], num=5, args=['m1', -1, 1, 'm2', 0, 1], per_step=None)

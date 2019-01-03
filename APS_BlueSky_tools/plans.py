@@ -125,7 +125,8 @@ def nscan(detectors, *motor_sets, num=11, per_step=None, md=None):
     md : dict, optional
         metadata
     
-    See this example: :func:`APS_BlueSky_tools.demo_plan.demo_nscan`
+    See the `nscan()` example in a Jupyter notebook:
+    https://github.com/BCDA-APS/APS_BlueSky_tools/blob/master/docs/source/resources/demo_nscan.ipynb
     """
     def take_n_at_a_time(args, n=2):
         yield from zip(*[iter(args)]*n)

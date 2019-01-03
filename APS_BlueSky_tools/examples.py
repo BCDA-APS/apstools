@@ -45,7 +45,7 @@ def plan_catalog(db):
     
     Example::
     
-        from APS_BlueSky_tools.demo import plan_catalog
+        from APS_BlueSky_tools.examples import plan_catalog
         plan_catalog(db)
     
     """

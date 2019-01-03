@@ -607,7 +607,8 @@ class AxisTunerMixin(EpicsMotor):
     """
     Mixin class to provide tuning capabilities for an axis
     
-    See this example: :func:`APS_BlueSky_tools.demo_plan.demo_TuneAxis`
+    See the `TuneAxis()` example in this jupyter notebook: 
+    https://github.com/BCDA-APS/APS_BlueSky_tools/blob/master/docs/source/resources/demo_tuneaxis.ipynb
     
     HOOK METHODS
     

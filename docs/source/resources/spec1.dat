@@ -1,6 +1,6 @@
 #F /tmp/spec1.dat
-#E 1546473170
-#D Wed Jan 02 17:52:50 2019
+#E 1546553635
+#D Thu Jan 03 16:13:55 2019
 #C BlueSky  user = mintadmin  host = mint-vm
 
 #S 1  snapshot()
