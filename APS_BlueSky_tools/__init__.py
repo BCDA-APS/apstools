@@ -3,7 +3,7 @@
 
 __project__     = u'APS_BlueSky_tools'
 __description__ = u"Various Python tools for use with BlueSky at the APS"
-__copyright__   = u'2017-2018, UChicago Argonne, LLC'
+__copyright__   = u'2017-2019, UChicago Argonne, LLC'
 __authors__     = [u'Pete Jemian', ]
 __author__      = ', '.join(__authors__)
 __institution__ = u"Advanced Photon Source, Argonne National Laboratory"

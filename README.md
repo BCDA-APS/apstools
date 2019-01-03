@@ -21,7 +21,7 @@ item              | description
 ------------------|--------------------------------
 **author**        | Pete R. Jemian
 **email**         | jemian@anl.gov
-**copyright**     | 2017-2018, Pete R. Jemian
+**copyright**     | 2017-2019, Pete R. Jemian
 [**license**](APS_BlueSky_tools/LICENSE) | ANL OPEN SOURCE LICENSE
 [**documentation**](https://APS_BlueSky_tools.readthedocs.io) | https://APS_BlueSky_tools.readthedocs.io
 **source**        | https://github.com/BCDA-APS/APS_BlueSky_tools
