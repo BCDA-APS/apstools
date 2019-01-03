@@ -6,6 +6,8 @@ BlueSky callback that writes SPEC data files
    
    ~SpecWriterCallback
 
+EXAMPLE : the :ref:`specfile_example() <example_specfile>` writes one or more scans to a SPEC data file using a jupyter notebook.
+
 EXAMPLE : use as BlueSky callback::
 
     from APS_BlueSky_tools.filewriters import SpecWriterCallback
@@ -33,6 +35,7 @@ EXAMPLE : use as writer from Databroker with customizations::
     specwriter.newfile("/tmp/barium.dat")
     for key, doc in db.get_documents(db["b46b63d4"]):
         specwriter.receiver(key, doc)
+
 
 """
 
