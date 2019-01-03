@@ -27,7 +27,7 @@ logger = logging.getLogger(__name__).addHandler(logging.NullHandler())
 
 def document_contents_callback(key, doc):
     """
-    prints document contents
+    prints document contents -- use for diagnosing a document stream
     """
     print(key)
     for k, v in doc.items():
