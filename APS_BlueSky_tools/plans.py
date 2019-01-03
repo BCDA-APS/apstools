@@ -59,19 +59,26 @@ def run_in_thread(func):
 
 def run_blocker_in_plan(blocker, *args, _poll_s_=0.01, _timeout_s_=None, **kwargs):
     """
-    run blocking function ``blocker_(*args, **kwargs)`` from a Bluesky plan
+    plan: run blocking function ``blocker_(*args, **kwargs)`` from a Bluesky plan
     
-    blocker (func) : function object to be called in a Bluesky plan
+    PARAMETERS
 
-    _poll_s_ (float) : sleep interval in loop while waiting for completion (default: 0.01)
+    blocker : func
+        function object to be called in a Bluesky plan
 
-    _timeout_s_ (float) : maximum time for completion (default: `None` which means no timeout)
+    _poll_s_ : float
+        sleep interval in loop while waiting for completion 
+        (default: 0.01)
+
+    _timeout_s_ : float
+        maximum time for completion 
+        (default: `None` which means no timeout)
     
-    Example (using ``time.sleep`` as blocking function)::
+    Example: use ``time.sleep`` as blocking function::
     
         RE(run_blocker_in_plan(time.sleep, 2.14))
 
-    Example (within a plan, using ``time.sleep`` as blocking function)::
+    Example: in a plan, use ``time.sleep`` as blocking function::
 
         def my_sleep(t=1.0):
             yield from run_blocker_in_plan(time.sleep, t)
@@ -128,6 +135,7 @@ def nscan(detectors, *motor_sets, num=11, per_step=None, md=None):
     See the `nscan()` example in a Jupyter notebook:
     https://github.com/BCDA-APS/APS_BlueSky_tools/blob/master/docs/source/resources/demo_nscan.ipynb
     """
+    # TODO: Isn't there a similar plan in bluesky?  At least reference it.
     def take_n_at_a_time(args, n=2):
         yield from zip(*[iter(args)]*n)
         
