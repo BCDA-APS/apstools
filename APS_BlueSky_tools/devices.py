@@ -107,6 +107,10 @@ from ophyd import HDF5Plugin
 from ophyd.utils import set_and_wait
 
 
+"""for convenience"""		# TODO: contribute to ophyd?
+SCALER_AUTOCOUNT_MODE = 1
+
+
 def use_EPICS_scaler_channels(scaler):
     """
     configure scaler for only the channels with names assigned in EPICS 
