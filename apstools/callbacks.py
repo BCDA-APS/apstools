@@ -14,7 +14,7 @@ see :class:`SpecWriterCallback()`
 
 """
 
-# Copyright (c) 2017-2018, UChicago Argonne, LLC.  See LICENSE file.
+# Copyright (c) 2017-2019, UChicago Argonne, LLC.  See LICENSE file.
 
 import datetime
 import logging

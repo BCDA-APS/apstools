@@ -39,7 +39,7 @@ EXAMPLE : use as writer from Databroker with customizations::
 
 """
 
-# Copyright (c) 2017-2018, UChicago Argonne, LLC.  See LICENSE file.
+# Copyright (c) 2017-2019, UChicago Argonne, LLC.  See LICENSE file.
 
 
 from collections import OrderedDict
