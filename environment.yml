@@ -18,4 +18,4 @@ dependencies:
   - sphinx-rtd-theme
   - super-state-machine
   - versioneer
-prefix: /home/mintadmin/Apps/BlueSky/envs/toolsdoc
+# prefix: /home/mintadmin/Apps/BlueSky/envs/toolsdoc
