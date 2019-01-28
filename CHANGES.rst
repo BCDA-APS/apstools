@@ -4,13 +4,10 @@
 Change History
 ##############
 
-Production
-**********
-
-:2019.0129.0:
+:2019.0128.0:
 
     * rename to *apstools*
 
 :2019.0103.0:
 
-    * first release (as *APS_BlueSky_tools*)
+    * first production release (as *APS_BlueSky_tools*)
