@@ -3,7 +3,7 @@
 # Coded for both python2 and python3.
 
 '''
-Create release notes for a new relase of the GitHub repository.
+Create release notes for a new release of the GitHub repository.
 '''
 
 from __future__ import print_function
@@ -15,14 +15,9 @@ import argparse
 
 
 CREDS_FILE_NAME = "__github_creds__.txt"
-GITHUB_ORGANIZATION = "BCDA-APS"            # TODO: learn from local .git/config?
-GITHUB_REPOSITORY = "apstools"     # TODO: learn from local .git/config?
+# GITHUB_ORGANIZATION = "BCDA-APS"        # see below, after get_GitHub_org_and_repo()
+# GITHUB_REPOSITORY = "apstools"
 GITHUB_PER_PAGE = 30
-"""  <root>/.git/config
-[remote "origin"]
-    url = https://github.com/BCDA-APS/apstools
-    fetch = +refs/heads/*:refs/remotes/origin/*
-"""
 
 
 def str2time(time_string):
@@ -41,6 +36,39 @@ def find_creds_file(fname):
         if os.path.exists(filename):
             return filename
     raise ValueError('Missing file: ' + fname)
+
+
+def get_GitHub_org_and_repo():
+    """
+    get the GitHub organization name and repository name
+    
+    Simplistic search of ``<root>/.git/config``::
+
+        [remote "origin"]
+            url = https://github.com/BCDA-APS/apstools
+            fetch = +refs/heads/*:refs/remotes/origin/*
+    """
+    config_file = os.path.join(os.path.dirname(__file__), ".git", "config")
+    if not os.path.exists(config_file):
+        msg = "Could not find file: " + config_file
+        raise RuntimeError(msg)
+    
+    with open(config_file, "r") as fp:
+        get_next_url = False        # a trigger
+        for line in fp.readlines():
+            text = line.strip()
+            if text == '[remote "origin"]':
+                get_next_url = True
+            elif get_next_url and text.startswith("url = https://github.com/"):
+                org, repo = text.split("/")[-2:]
+                repo = os.path.splitext(repo)[0]
+                return org, repo
+        msg = "Could not find GitHub info in: " + config_file
+        raise RuntimeError(msg)
+
+
+GITHUB_ORGANIZATION, GITHUB_REPOSITORY = get_GitHub_org_and_repo()
+
 
 class ReleaseNotes(object):
     
