@@ -9,8 +9,8 @@ Various Python tools for use with BlueSky at the APS
 [![PyPi](https://img.shields.io/pypi/v/apstools.svg)](https://pypi.python.org/pypi/apstools)
 [![conda](https://anaconda.org/prjemian/apstools/badges/version.svg)](https://anaconda.org/prjemian/apstools)
 [![unit test](https://travis-ci.org/BCDA-APS/apstools.svg?branch=master)](https://travis-ci.org/BCDA-APS/apstools)
-[![coverage](https://coveralls.io/repos/github/BCDA-APS/apstools/badge.svg?branch=master)](https://coveralls.io/github/BCDA-APS/apstools?branch=master)
-[![code health](https://landscape.io/github/BCDA-APS/apstools/master/landscape.svg?style=plastic)](https://landscape.io/github/BCDA-APS/apstools/master)
+# [![coverage](https://coveralls.io/repos/github/BCDA-APS/apstools/badge.svg?branch=master)](https://coveralls.io/github/BCDA-APS/apstools?branch=master)
+# [![code health](https://landscape.io/github/BCDA-APS/apstools/master/landscape.svg?style=plastic)](https://landscape.io/github/BCDA-APS/apstools/master)
 
 * http://nsls-ii.github.io/
 * https://github.com/NSLS-II/bluesky
