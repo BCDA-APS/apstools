@@ -53,7 +53,7 @@ Legacy routines
 
 """
 
-# Copyright (c) 2017-2018, UChicago Argonne, LLC.  See LICENSE file.
+# Copyright (c) 2017-2019, UChicago Argonne, LLC.  See LICENSE file.
 
 
 from collections import OrderedDict
@@ -120,7 +120,7 @@ class ApsMachineParametersDevice(Device):
     
     USAGE::
 
-        import APS_BlueSky_tools.devices as APS_devices
+        import apstools.devices as APS_devices
         APS = APS_devices.ApsMachineParametersDevice(name="APS")
         aps_current = APS.current
 
@@ -178,11 +178,11 @@ class ApsMachineParametersDevice(Device):
         determine if APS is in User Operations mode (boolean)
         
         Use this property to configure ophyd Devices for direct or simulated hardware.
-        See issue #49 (https://github.com/BCDA-APS/APS_BlueSky_tools/issues/49) for details.
+        See issue #49 (https://github.com/BCDA-APS/apstools/issues/49) for details.
         
         EXAMPLE::
         
-            APS = APS_BlueSky_tools.devices.ApsMachineParametersDevice(name="APS")
+            APS = apstools.devices.ApsMachineParametersDevice(name="APS")
             
             if APS.inUserOperations:
                 suspend_APS_current = bluesky.suspenders.SuspendFloor(APS.current, 2, resume_thresh=10)
@@ -624,7 +624,7 @@ class AxisTunerMixin(EpicsMotor):
     """
     
     def __init__(self):
-        self.tuner = None   # such as: APS_BlueSky_tools.plans.TuneAxis
+        self.tuner = None   # such as: apstools.plans.TuneAxis
         
         # Hook functions for callers to add additional plan parts
         # Each must accept one argument: axis object such as `EpicsMotor` or `SynAxis`
@@ -642,7 +642,7 @@ class AxisTunerMixin(EpicsMotor):
     def tune(self, md=None, **kwargs):
         if self.tuner is None:
             msg = "Must define an axis tuner, none specified."
-            msg += "  Consider using APS_BlueSky_tools.plans.TuneAxis()"
+            msg += "  Consider using apstools.plans.TuneAxis()"
             raise AxisTunerException(msg)
         
         if self.tuner.axis is None:

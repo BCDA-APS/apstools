@@ -42,8 +42,8 @@ def get_config():
     cfg.VCS = "git"
     cfg.style = "pep440"
     cfg.tag_prefix = ""
-    cfg.parentdir_prefix = "APS_BlueSky_tools-"
-    cfg.versionfile_source = "APS_BlueSky_tools/_version.py"
+    cfg.parentdir_prefix = "apstools-"
+    cfg.versionfile_source = "apstools/_version.py"
     cfg.verbose = False
     return cfg
 

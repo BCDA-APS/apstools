@@ -12,4 +12,4 @@ exclude_lines =
 [run]
 omit =
 	versioneer.py
-	APS_BlueSky_tools/_version.py
+	apstools/_version.py

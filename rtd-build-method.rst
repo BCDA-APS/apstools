@@ -56,7 +56,7 @@ as created before::
 
     source activate toolsdoc
     conda install -c lightsource2-tag bluesky ophyd
-    cd ~/Documents/eclipse/APS_BlueSky_tools
+    cd ~/Documents/eclipse/apstools
 
 Check that the documentation builds with no errors::
  

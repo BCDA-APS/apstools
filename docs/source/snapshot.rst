@@ -5,7 +5,7 @@ bluesky_snapshot
 
 Take a snapshot of a list of EPICS PVs and record it in the databroker.
 Retrieve (and display) that snapshot later using 
-``APS_BlueSky_tools.callbacks.SnapshotReport``.
+``apstools.callbacks.SnapshotReport``.
 
 .. TODO: example how to read would be useful
 
@@ -63,7 +63,7 @@ Here's the snapshot (we'll also set a metadata that says this is an example)::
    plan_type: generator
    purpose: example
    scan_id: 1
-   software_versions: {'python': '3.6.6 |Anaconda custom (64-bit)| (default, Jun 28 2018, 17:14:51) \n[GCC 7.2.0]', 'PyEpics': '3.3.1', 'bluesky': '1.4.1', 'ophyd': '1.3.0', 'databroker': '0.11.3', 'APS_Bluesky_Tools': '0.0.40+26.g323cd35.dirty'}
+   software_versions: {'python': '3.6.6 |Anaconda custom (64-bit)| (default, Jun 28 2018, 17:14:51) \n[GCC 7.2.0]', 'PyEpics': '3.3.1', 'bluesky': '1.4.1', 'ophyd': '1.3.0', 'databroker': '0.11.3', 'apstools': '0.0.40+26.g323cd35.dirty'}
    time: 1546556562.9231327
    uid: 98a86a91-d41e-4965-a048-afa5b982a17c
    username: mintadmin
@@ -98,7 +98,7 @@ We have a second IOC (*gov*) that has the same PVs.  Let's get them, too.::
 	plan_type: generator
 	purpose: this is an example
 	scan_id: 1
-	software_versions: {'python': '3.6.2 |Continuum Analytics, Inc.| (default, Jul 20 2017, 13:51:32) \n[GCC 4.4.7 20120313 (Red Hat 4.4.7-1)]', 'PyEpics': '3.3.1', 'bluesky': '1.4.1', 'ophyd': '1.3.0', 'databroker': '0.11.3', 'APS_Bluesky_Tools': '0.0.37'}
+	software_versions: {'python': '3.6.2 |Continuum Analytics, Inc.| (default, Jul 20 2017, 13:51:32) \n[GCC 4.4.7 20120313 (Red Hat 4.4.7-1)]', 'PyEpics': '3.3.1', 'bluesky': '1.4.1', 'ophyd': '1.3.0', 'databroker': '0.11.3', 'apstools': '0.0.37'}
 	time: 1545351713.3727024
 	uid: d5e15ba3-0393-4df3-8217-1b72d82b5cf9
 	
@@ -136,7 +136,7 @@ You can log text and arrays, too.::
 	plan_type: generator
 	purpose: this is an example
 	scan_id: 1
-	software_versions: {'python': '3.6.2 |Continuum Analytics, Inc.| (default, Jul 20 2017, 13:51:32) \n[GCC 4.4.7 20120313 (Red Hat 4.4.7-1)]', 'PyEpics': '3.3.1', 'bluesky': '1.4.1', 'ophyd': '1.3.0', 'databroker': '0.11.3', 'APS_Bluesky_Tools': '0.0.37'}
+	software_versions: {'python': '3.6.2 |Continuum Analytics, Inc.| (default, Jul 20 2017, 13:51:32) \n[GCC 4.4.7 20120313 (Red Hat 4.4.7-1)]', 'PyEpics': '3.3.1', 'bluesky': '1.4.1', 'ophyd': '1.3.0', 'databroker': '0.11.3', 'apstools': '0.0.37'}
 	time: 1545352108.8262713
 	uid: 7e77708e-9169-45ab-b2b6-4e31534d980a
 	
@@ -166,5 +166,5 @@ Source code documentation
 +++++++++++++++++++++++++
 
 
-.. automodule:: APS_BlueSky_tools.snapshot
+.. automodule:: apstools.snapshot
     :members: 

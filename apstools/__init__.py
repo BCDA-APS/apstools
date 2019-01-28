@@ -1,14 +1,14 @@
 
-# Copyright (c) 2017-2018, UChicago Argonne, LLC.  See LICENSE file.
+# Copyright (c) 2017-2019, UChicago Argonne, LLC.  See LICENSE file.
 
-__project__     = u'APS_BlueSky_tools'
+__project__     = u'apstools'
 __description__ = u"Various Python tools for use with BlueSky at the APS"
 __copyright__   = u'2017-2019, UChicago Argonne, LLC'
 __authors__     = [u'Pete Jemian', ]
 __author__      = ', '.join(__authors__)
 __institution__ = u"Advanced Photon Source, Argonne National Laboratory"
 __author_email__= u"jemian@anl.gov"
-__url__         = u"http://APS_BlueSky_tools.readthedocs.org"
+__url__         = u"http://apstools.readthedocs.org"
 __license__     = u"(c) " + __copyright__
 __license__     += u" (see LICENSE file for details)"
 __platforms__   = 'any'

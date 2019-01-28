@@ -7,14 +7,14 @@ synApps template XXX IOC.
 
 EXAMPLES:;
 
-    import APS_BlueSky_tools.synApps_ophyd
-    scans = APS_BlueSky_tools.synApps_ophyd.sscanDevice("xxx:", name="scans")
-    calcs = APS_BlueSky_tools.synApps_ophyd.userCalcsDevice("xxx:", name="calcs")
+    import apstools.synApps_ophyd
+    scans = apstools.synApps_ophyd.sscanDevice("xxx:", name="scans")
+    calcs = apstools.synApps_ophyd.userCalcsDevice("xxx:", name="calcs")
 
     calc1 = calcs.calc1
-    APS_BlueSky_tools.synApps_ophyd.swait_setup_random_number(calc1)
+    apstools.synApps_ophyd.swait_setup_random_number(calc1)
 
-    APS_BlueSky_tools.synApps_ophyd.swait_setup_incrementer(calcs.calc2)
+    apstools.synApps_ophyd.swait_setup_incrementer(calcs.calc2)
     
     calc1.reset()
 

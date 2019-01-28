@@ -79,7 +79,7 @@ Internal routines
 
 """
 
-# Copyright (c) 2017-2018, UChicago Argonne, LLC.  See LICENSE file.
+# Copyright (c) 2017-2019, UChicago Argonne, LLC.  See LICENSE file.
 
 
 from collections import OrderedDict
@@ -151,7 +151,7 @@ class ApsMachineParametersDevice(Device):
     
     EXAMPLE::
 
-        import APS_BlueSky_tools.devices as APS_devices
+        import apstools.devices as APS_devices
         APS = APS_devices.ApsMachineParametersDevice(name="APS")
         aps_current = APS.current
 
@@ -209,11 +209,11 @@ class ApsMachineParametersDevice(Device):
         determine if APS is in User Operations mode (boolean)
         
         Use this property to configure ophyd Devices for direct or simulated hardware.
-        See issue #49 (https://github.com/BCDA-APS/APS_BlueSky_tools/issues/49) for details.
+        See issue #49 (https://github.com/BCDA-APS/apstools/issues/49) for details.
         
         EXAMPLE::
         
-            APS = APS_BlueSky_tools.devices.ApsMachineParametersDevice(name="APS")
+            APS = apstools.devices.ApsMachineParametersDevice(name="APS")
             
             if APS.inUserOperations:
                 suspend_APS_current = bluesky.suspenders.SuspendFloor(APS.current, 2, resume_thresh=10)
@@ -601,7 +601,7 @@ class ApsBssUserInfoDevice(Device):
 
 
 class DeviceMixinBase(Device):
-    """Base class for APS_Bluesky_tools Device mixin classes"""
+    """Base class for apstools Device mixin classes"""
 
 
 class AxisTunerException(ValueError): 
@@ -613,7 +613,7 @@ class AxisTunerMixin(EpicsMotor):
     Mixin class to provide tuning capabilities for an axis
     
     See the `TuneAxis()` example in this jupyter notebook: 
-    https://github.com/BCDA-APS/APS_BlueSky_tools/blob/master/docs/source/resources/demo_tuneaxis.ipynb
+    https://github.com/BCDA-APS/apstools/blob/master/docs/source/resources/demo_tuneaxis.ipynb
     
     HOOK METHODS
     
@@ -644,7 +644,7 @@ class AxisTunerMixin(EpicsMotor):
     
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.tuner = None   # such as: APS_BlueSky_tools.plans.TuneAxis
+        self.tuner = None   # such as: apstools.plans.TuneAxis
         
         # Hook functions for callers to add additional plan parts
         # Each must accept one argument: axis object such as `EpicsMotor` or `SynAxis`
@@ -662,7 +662,7 @@ class AxisTunerMixin(EpicsMotor):
     def tune(self, md=None, **kwargs):
         if self.tuner is None:
             msg = "Must define an axis tuner, none specified."
-            msg += "  Consider using APS_BlueSky_tools.plans.TuneAxis()"
+            msg += "  Consider using apstools.plans.TuneAxis()"
             raise AxisTunerException(msg)
         
         if self.tuner.axis is None:
@@ -696,7 +696,7 @@ class EpicsDescriptionMixin(DeviceMixinBase):
     EXAMPLE::
     
         from ophyd import EpicsMotor
-        from APS_BlueSky_tools.devices import EpicsDescriptionMixin
+        from apstools.devices import EpicsDescriptionMixin
     
         class myEpicsMotor(EpicsDescriptionMixin, EpicsMotor): pass
         m1 = myEpicsMotor('xxx:m1', name='m1')
@@ -714,7 +714,7 @@ class EpicsMotorDialMixin(DeviceMixinBase):
     EXAMPLE::
     
         from ophyd import EpicsMotor
-        from APS_BlueSky_tools.devices import EpicsMotorDialMixin
+        from apstools.devices import EpicsMotorDialMixin
 
         class myEpicsMotor(EpicsMotorDialMixin, EpicsMotor): pass
         m1 = myEpicsMotor('xxx:m1', name='m1')
@@ -732,7 +732,7 @@ class EpicsMotorLimitsMixin(DeviceMixinBase):
     EXAMPLE::
     
         from ophyd import EpicsMotor
-        from APS_BlueSky_tools.devices import EpicsMotorLimitsMixin
+        from apstools.devices import EpicsMotorLimitsMixin
 
         class myEpicsMotor(EpicsMotorLimitsMixin, EpicsMotor): pass
         m1 = myEpicsMotor('xxx:m1', name='m1')
@@ -783,7 +783,7 @@ class EpicsMotorServoMixin(DeviceMixinBase):
     EXAMPLE::
     
         from ophyd import EpicsMotor
-        from APS_BlueSky_tools.devices import EpicsMotorServoMixin
+        from apstools.devices import EpicsMotorServoMixin
 
         class myEpicsMotor(EpicsMotorServoMixin, EpicsMotor): pass
         m1 = myEpicsMotor('xxx:m1', name='m1')
@@ -801,7 +801,7 @@ class EpicsMotorRawMixin(DeviceMixinBase):
     EXAMPLE::
     
         from ophyd import EpicsMotor
-        from APS_BlueSky_tools.devices import EpicsMotorRawMixin
+        from apstools.devices import EpicsMotorRawMixin
     
         class myEpicsMotor(EpicsMotorRawMixin, EpicsMotor): pass
         m1 = myEpicsMotor('xxx:m1', name='m1')
@@ -1301,7 +1301,7 @@ class AD_EpicsHdf5FileName(FileStorePluginBase):
     
     override default file naming::
         
-        from APS_BlueSky_tools.devices import AD_EpicsHdf5FileName
+        from apstools.devices import AD_EpicsHdf5FileName
     
     make a custom iterative writer::
         

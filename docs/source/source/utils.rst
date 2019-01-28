@@ -2,6 +2,6 @@
 Utilities
 ---------
 
-.. automodule:: APS_BlueSky_tools.utils
+.. automodule:: apstools.utils
     :members: 
  

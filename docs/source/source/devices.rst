@@ -2,6 +2,6 @@
 Devices
 -------
 
-.. automodule:: APS_BlueSky_tools.devices
+.. automodule:: apstools.devices
     :members: 
  

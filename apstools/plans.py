@@ -13,7 +13,7 @@ Plans that might be useful at the APS when using BlueSky
 
 """
 
-# Copyright (c) 2017-2018, UChicago Argonne, LLC.  See LICENSE file.
+# Copyright (c) 2017-2019, UChicago Argonne, LLC.  See LICENSE file.
 
 from collections import OrderedDict
 import datetime
@@ -133,7 +133,7 @@ def nscan(detectors, *motor_sets, num=11, per_step=None, md=None):
         metadata
     
     See the `nscan()` example in a Jupyter notebook:
-    https://github.com/BCDA-APS/APS_BlueSky_tools/blob/master/docs/source/resources/demo_nscan.ipynb
+    https://github.com/BCDA-APS/apstools/blob/master/docs/source/resources/demo_nscan.ipynb
     """
     # TODO: Isn't there a similar plan in bluesky?  At least reference it.
     def take_n_at_a_time(args, n=2):
@@ -248,7 +248,7 @@ def snapshot(obj_list, stream="primary", md=None):
             bluesky = bluesky.__version__,
             ophyd = ophyd.__version__,
             databroker = databroker.__version__,
-            APS_Bluesky_Tools = __version__,),
+            apstools = __version__,),
         hostname = hostname,
         username = username,
         login_id = f"{username}@{hostname}",

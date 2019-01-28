@@ -4,8 +4,8 @@ Ophyd support for the EPICS synApps sscan record
 
 EXAMPLE
 
-    import APS_BlueSky_tools.synApps_ophyd
-    scans = APS_BlueSky_tools.synApps_ophyd.sscanDevice("xxx:", name="scans")
+    import apstools.synApps_ophyd
+    scans = apstools.synApps_ophyd.sscanDevice("xxx:", name="scans")
 
 
 Public Structures
