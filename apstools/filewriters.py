@@ -10,13 +10,13 @@ EXAMPLE : the :ref:`specfile_example() <example_specfile>` writes one or more sc
 
 EXAMPLE : use as BlueSky callback::
 
-    from APS_BlueSky_tools.filewriters import SpecWriterCallback
+    from apstools.filewriters import SpecWriterCallback
     specwriter = SpecWriterCallback()
     RE.subscribe(specwriter.receiver)
 
 EXAMPLE : use as writer from Databroker::
 
-    from APS_BlueSky_tools.filewriters import SpecWriterCallback
+    from apstools.filewriters import SpecWriterCallback
     specwriter = SpecWriterCallback()
     for key, doc in db.get_documents(db[-1]):
         specwriter.receiver(key, doc)
@@ -24,7 +24,7 @@ EXAMPLE : use as writer from Databroker::
 
 EXAMPLE : use as writer from Databroker with customizations::
 
-    from APS_BlueSky_tools.filewriters import SpecWriterCallback
+    from apstools.filewriters import SpecWriterCallback
     
     # write into file: /tmp/cerium.spec
     specwriter = SpecWriterCallback(filename="/tmp/cerium.spec")

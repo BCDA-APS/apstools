@@ -16,8 +16,13 @@ import argparse
 
 CREDS_FILE_NAME = "__github_creds__.txt"
 GITHUB_ORGANIZATION = "BCDA-APS"            # TODO: learn from local .git/config?
-GITHUB_REPOSITORY = "APS_BlueSky_tools"     # TODO: learn from local .git/config?
+GITHUB_REPOSITORY = "apstools"     # TODO: learn from local .git/config?
 GITHUB_PER_PAGE = 30
+"""  <root>/.git/config
+[remote "origin"]
+    url = https://github.com/BCDA-APS/apstools
+    fetch = +refs/heads/*:refs/remotes/origin/*
+"""
 
 
 def str2time(time_string):

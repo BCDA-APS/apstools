@@ -4,7 +4,7 @@
 # You can set these variables from the command line.
 SPHINXOPTS    =
 SPHINXBUILD   = python -msphinx
-SPHINXPROJ    = APS_BlueSky_tools
+SPHINXPROJ    = apstools
 SOURCEDIR     = source
 BUILDDIR      = build
 

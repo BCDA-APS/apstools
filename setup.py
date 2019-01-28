@@ -1,5 +1,5 @@
 """
-packaging setup for APS_BlueSky_tools
+packaging setup for apstools
 """
 
 # Always prefer setuptools over distutils
@@ -10,14 +10,14 @@ import sys
 import versioneer
 
 here = path.abspath(path.dirname(__file__))
-sys.path.insert(0, path.join('APS_BlueSky_tools', ))
-import APS_BlueSky_tools as package
+sys.path.insert(0, path.join('apstools', ))
+import apstools as package
 
 
 __entry_points__  = {
     'console_scripts': [
-        'aps_bluesky_tools_plan_catalog = APS_BlueSky_tools.examples:main',
-        'bluesky_snapshot = APS_BlueSky_tools.snapshot:snapshot_cli',
+        'apstools_plan_catalog = apstools.examples:main',
+        'bluesky_snapshot = apstools.snapshot:snapshot_cli',
         ],
     #'gui_scripts': [],
 }

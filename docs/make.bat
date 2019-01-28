@@ -9,7 +9,7 @@ if "%SPHINXBUILD%" == "" (
 )
 set SOURCEDIR=source
 set BUILDDIR=build
-set SPHINXPROJ=APS_BlueSky_tools
+set SPHINXPROJ=apstools
 
 if "%1" == "" goto help
 

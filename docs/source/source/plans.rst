@@ -2,6 +2,6 @@
 Plans
 -----
 
-.. automodule:: APS_BlueSky_tools.plans
+.. automodule:: apstools.plans
     :members: 
  

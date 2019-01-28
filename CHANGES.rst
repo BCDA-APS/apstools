@@ -7,6 +7,10 @@ Change History
 Production
 **********
 
-:prerelease:
+:2019.0129.0:
 
-    * -tba-
+    * rename to *apstools*
+
+:2019.0103.0:
+
+    * first release (as *APS_BlueSky_tools*)

@@ -12,7 +12,7 @@ _path = os.path.join(_path, '..')
 if _path not in sys.path:
     sys.path.insert(0, _path)
 
-import APS_BlueSky_tools
+import apstools
 
 
 class Test_Something(unittest.TestCase):
@@ -24,7 +24,7 @@ class Test_Something(unittest.TestCase):
         pass
     
     def test_the_ALL_attribute(self):
-        self.assertEqual(APS_BlueSky_tools.__project__, u'APS_BlueSky_tools')
+        self.assertEqual(apstools.__project__, u'apstools')
 
 
 def suite(*args, **kw):

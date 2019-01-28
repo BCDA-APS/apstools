@@ -2,7 +2,7 @@
 File Writers
 ------------
 
-.. automodule:: APS_BlueSky_tools.filewriters
+.. automodule:: apstools.filewriters
     :members: 
 
 Example output from ``SpecWriterCallback()``:

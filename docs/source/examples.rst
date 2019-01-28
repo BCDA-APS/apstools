@@ -15,7 +15,7 @@ Examples
 Example: ``plan_catalog()``
 +++++++++++++++++++++++++++
 
-The APS_BlueSky_tools package provides an executable that can be 
+The *apstools* package provides an executable that can be 
 used to display a summary of all the scans in the database.  
 The executable wraps the demo function: :func:`plan_catalog()`.
 It is for demonstration purposes only (since it does not filter
@@ -47,7 +47,7 @@ The output is a table, formatted as restructured text, with these columns:
 
 This is run as a linux console command::
 
-   aps_bluesky_tools_plan_catalog | tee out.txt
+   apstools_plan_catalog | tee out.txt
 
 The :download:`full output <resources/plan_catalog.txt>`
 is almost a thousand lines.  Here are the first few lines:
@@ -63,7 +63,7 @@ Example: ``specfile_example()``
 +++++++++++++++++++++++++++++++
 
 We'll use a Jupyter notebook to demonstrate the ``specfile_example()`` that writes one or more scans to a SPEC data file.
-Follow here: https://github.com/BCDA-APS/APS_BlueSky_tools/blob/master/docs/source/resources/demo_specfile_example.ipynb
+Follow here: https://github.com/BCDA-APS/apstools/blob/master/docs/source/resources/demo_specfile_example.ipynb
 
 
 .. _example_nscan:
@@ -73,7 +73,7 @@ Example: ``nscan()``
 
 We'll use a Jupyter notebook to demonstrate the ``nscan()`` plan.  An *nscan* is used to scan two or more axes together,
 such as a :math:`\theta`-:math:`2\theta` diffractometer scan.
-Follow here: https://github.com/BCDA-APS/APS_BlueSky_tools/blob/master/docs/source/resources/demo_nscan.ipynb
+Follow here: https://github.com/BCDA-APS/apstools/blob/master/docs/source/resources/demo_nscan.ipynb
 
 .. _example_tuneaxis:
 
@@ -82,7 +82,7 @@ Example: ``TuneAxis()``
 
 We'll use a Jupyter notebook to demonstrate the ``TuneAxis()`` support that provides custom alignment
 of a signal against an axis.
-Follow here: https://github.com/BCDA-APS/APS_BlueSky_tools/blob/master/docs/source/resources/demo_tuneaxis.ipynb
+Follow here: https://github.com/BCDA-APS/apstools/blob/master/docs/source/resources/demo_tuneaxis.ipynb
 
 
 .. _example_source:
@@ -90,7 +90,7 @@ Follow here: https://github.com/BCDA-APS/APS_BlueSky_tools/blob/master/docs/sour
 Source Code Documentation
 +++++++++++++++++++++++++
 
-.. automodule:: APS_BlueSky_tools.examples
+.. automodule:: apstools.examples
     :members:
 
 .. _examples_downloads:

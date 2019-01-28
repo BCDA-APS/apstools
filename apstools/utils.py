@@ -257,8 +257,8 @@ def print_snapshot_list(db, **search_criteria):
     
     EXAMPLE::
     
-        In [16]: from APS_BlueSky_tools.utils import print_snapshot_list
-            ...: from APS_BlueSky_tools.callbacks import SnapshotReport 
+        In [16]: from apstools.utils import print_snapshot_list
+            ...: from apstools.callbacks import SnapshotReport 
             ...: print_snapshot_list(db, since="2018-12-21", until="2019") 
             ...:                                                                                                                            
         = ======== ========================== ==================
@@ -293,7 +293,7 @@ def print_snapshot_list(db, **search_criteria):
             'bluesky': '1.4.1', 
             'ophyd': '1.3.0', 
             'databroker': '0.11.3', 
-            'APS_Bluesky_Tools': '0.0.38'
+            'apstools': '0.0.38'
             }
         time: 1545413970.063167
         uid: 5049029d-075c-453c-96d2-55431273852b

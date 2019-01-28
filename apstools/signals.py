@@ -55,7 +55,7 @@ class SynPseudoVoigt(ophyd.sim.SynSignal):
     
     ::
 
-        from APS_BlueSky_tools.signals import SynPseudoVoigt
+        from apstools.signals import SynPseudoVoigt
         motor = Mover('motor', {'motor': lambda x: x}, {'x': 0})
         det = SynPseudoVoigt('det', motor, 'motor', 
             center=0, eta=0.5, scale=1, sigma=1, bkg=0)
@@ -65,7 +65,7 @@ class SynPseudoVoigt(ophyd.sim.SynSignal):
     ::
 
         import numpy as np
-        from APS_BlueSky_tools.signals import SynPseudoVoigt
+        from apstools.signals import SynPseudoVoigt
         synthetic_pseudovoigt = SynPseudoVoigt(
             'synthetic_pseudovoigt', m1, 'm1', 
             center=-1.5 + 0.5*np.random.uniform(), 

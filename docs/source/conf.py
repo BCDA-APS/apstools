@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-# APS_BlueSky_tools documentation build configuration file, created by
+# apstools documentation build configuration file, created by
 # sphinx-quickstart on Wed Nov 15 14:58:09 2017.
 #
 # This file is execfile()d with the current directory set to its
@@ -20,7 +20,7 @@ import os
 import sys
 # sys.path.insert(0, os.path.abspath('.'))
 sys.path.insert(0, os.path.abspath(os.path.join('..', '..')))
-import APS_BlueSky_tools
+import apstools
 
 
 # -- General configuration ------------------------------------------------
@@ -53,16 +53,16 @@ source_suffix = '.rst'
 master_doc = 'index'
 
 # General information about the project.
-project = APS_BlueSky_tools.__package_name__
-copyright = APS_BlueSky_tools.__copyright__
-author = APS_BlueSky_tools.__author__
+project = apstools.__package_name__
+copyright = apstools.__copyright__
+author = apstools.__author__
 
 # The version info for the project you're documenting, acts as replacement for
 # |version| and |release|, also used in various other places throughout the
 # built documents.
 #
 # The short X.Y version.
-version = APS_BlueSky_tools.__version__
+version = apstools.__version__
 # The full version, including alpha/beta/rc tags.
 release = version
 
@@ -108,7 +108,7 @@ html_static_path = ['_static']
 # -- Options for HTMLHelp output ------------------------------------------
 
 # Output file base name for HTML help builder.
-htmlhelp_basename = 'APS_BlueSky_toolsdoc'
+htmlhelp_basename = 'apstoolsdoc'
 
 
 # -- Options for LaTeX output ---------------------------------------------
@@ -136,8 +136,8 @@ latex_elements = {
 #  author, documentclass [howto, manual, or own class]).
 latex_documents = [
     (master_doc, 
-     'APS_BlueSky_tools.tex', 
-     u'APS\\_BlueSky\\_tools Documentation',
+     'apstools.tex', 
+     u'apstools Documentation',
      u'Pete R. Jemian', 
      'manual'),
 ]
@@ -148,7 +148,7 @@ latex_documents = [
 # One entry per manual page. List of tuples
 # (source start file, name, description, authors, manual section).
 man_pages = [
-    (master_doc, 'aps_bluesky_tools', u'APS_BlueSky_tools Documentation',
+    (master_doc, 'apstools', u'apstools Documentation',
      [author], 1)
 ]
 
@@ -159,10 +159,10 @@ man_pages = [
 # (source start file, target name, title, author,
 #  dir menu entry, description, category)
 texinfo_documents = [
-    (master_doc, 'APS_BlueSky_tools', u'APS_BlueSky_tools Documentation',
+    (master_doc, 'apstools', u'apstools Documentation',
      author, 
-     APS_BlueSky_tools.__package_name__, 
-     APS_BlueSky_tools.__description__,
+     apstools.__package_name__, 
+     apstools.__description__,
      'Miscellaneous'),
 ]
 

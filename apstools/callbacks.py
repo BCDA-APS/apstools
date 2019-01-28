@@ -42,7 +42,7 @@ class DocumentCollectorCallback(object):
     
     EXAMPLE::
     
-        from APS_BlueSky_tools.callbacks import DocumentCollector
+        from apstools.callbacks import DocumentCollector
         doc_collector = DocumentCollectorCallback()
         RE.subscribe(doc_collector.receiver)
         ...
@@ -91,19 +91,19 @@ class DocumentCollectorCallback(object):
 
 class SnapshotReport(CallbackBase):
     """
-    show the data from a ``APS_BlueSky_Tools.plans.snapshot()``
+    show the data from a ``apstools.plans.snapshot()``
     
     Find most recent snapshot between certain dates::
     
         headers = db(plan_name="snapshot", since="2018-12-15", until="2018-12-21")
         h = list(headers)[0]        # pick the first one, it's the most recent
-        APS_BlueSky_Tools.callbacks.SnapshotReport().print_report(h)
+        apstools.callbacks.SnapshotReport().print_report(h)
     
     Use as callback to a snapshot plan::
     
         RE(
-            APS_BlueSky_Tools.plans.snapshot(ophyd_objects_list),
-            APS_BlueSky_Tools.callbacks.SnapshotReport()
+            apstools.plans.snapshot(ophyd_objects_list),
+            apstools.callbacks.SnapshotReport()
         )
     
     """

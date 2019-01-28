@@ -2,5 +2,5 @@
 Callbacks
 ---------
 
-.. automodule:: APS_BlueSky_tools.callbacks
+.. automodule:: apstools.callbacks
     :members: 

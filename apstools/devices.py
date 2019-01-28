@@ -1,55 +1,81 @@
-#
-# this file will be removed before initial release!
-#
 
 """
 (ophyd) Devices that might be useful at the APS using BlueSky
+
+APS GENERAL SUPPORT
+
+.. autosummary::
+   
+    ~ApsMachineParametersDevice
+    ~ApsPssShutter
+    ~ApsPssShutterWithStatus
+    ~SimulatedApsPssShutterWithStatus
+
+AREA DETECTOR SUPPORT
 
 .. autosummary::
    
     ~AD_setup_FrameType
     ~AD_warmed_up
-    ~ApsHDF5Plugin
-    ~ApsMachineParametersDevice
-    ~ApsPssShutter
-    ~ApsPssShutterWithStatus
+    ~AD_EpicsHdf5FileName
+
+DETECTOR / SCALER SUPPORT
+
+.. autosummary::
+   
+    ~use_EPICS_scaler_channels
+
+MOTORS, POSITIONERS, AXES, ...
+
+.. autosummary::
+   
     ~AxisTunerException
     ~AxisTunerMixin
-    ~DualPf4FilterBox
+    ~EpicsDescriptionMixin
     ~EpicsMotorDialMixin
     ~EpicsMotorLimitsMixin
-    ~EpicsMotorServoMixin
     ~EpicsMotorRawMixin
-    ~EpicsMotorDescriptionMixin
+    ~EpicsMotorServoMixin
     ~EpicsMotorShutter
     ~EpicsOnOffShutter
-    ~ProcedureRegistry
-    ~SimulatedApsPssShutterWithStatus
-    ~sscanRecord  
+
+SHUTTERS
+
+.. autosummary::
+   
+    ~ApsPssShutter
+    ~ApsPssShutterWithStatus
+    ~EpicsMotorShutter
+    ~EpicsOnOffShutter
+
+synApps records
+
+.. autosummary::
+   
+    ~busyRecord
+    ~sscanRecord
     ~sscanDevice
     ~swaitRecord
     ~swait_setup_random_number
     ~swait_setup_gaussian
     ~swait_setup_lorentzian
     ~swait_setup_incrementer
-    ~TunableEpicsMotor
-    ~use_EPICS_scaler_channels
     ~userCalcsDevice
+
+OTHER SUPPORT
+
+.. autosummary::
+   
+    ~DualPf4FilterBox
+    ~EpicsDescriptionMixin
+    ~ProcedureRegistry
 
 Internal routines
 
 .. autosummary::
 
     ~ApsOperatorMessagesDevice
-    ~ApsFileStoreHDF5
-    ~ApsFileStoreHDF5IterativeWrite
-
-Legacy routines
-
-.. autosummary::
-   
-    ~EpicsMotorWithDial
-    ~EpicsMotorWithServo
+    ~DeviceMixinBase
 
 """
 
@@ -71,6 +97,7 @@ import ophyd
 from ophyd import Component, Device, DeviceStatus, FormattedComponent
 from ophyd import Signal, EpicsMotor, EpicsSignal, EpicsSignalRO
 from ophyd.scaler import EpicsScaler, ScalerCH
+from ophyd.positioner import PositionerBase
 
 from ophyd.areadetector.filestore_mixins import FileStoreHDF5
 from ophyd.areadetector.filestore_mixins import FileStoreBase
@@ -78,6 +105,10 @@ from ophyd.areadetector.filestore_mixins import FileStorePluginBase
 from ophyd.areadetector.filestore_mixins import FileStoreIterativeWrite
 from ophyd import HDF5Plugin
 from ophyd.utils import set_and_wait
+
+
+"""for convenience"""		# TODO: contribute to ophyd?
+SCALER_AUTOCOUNT_MODE = 1
 
 
 def use_EPICS_scaler_channels(scaler):
@@ -118,9 +149,9 @@ class ApsMachineParametersDevice(Device):
     """
     common operational parameters of the APS of general interest
     
-    USAGE::
+    EXAMPLE::
 
-        import APS_BlueSky_tools.devices as APS_devices
+        import apstools.devices as APS_devices
         APS = APS_devices.ApsMachineParametersDevice(name="APS")
         aps_current = APS.current
 
@@ -178,11 +209,11 @@ class ApsMachineParametersDevice(Device):
         determine if APS is in User Operations mode (boolean)
         
         Use this property to configure ophyd Devices for direct or simulated hardware.
-        See issue #49 (https://github.com/BCDA-APS/APS_BlueSky_tools/issues/49) for details.
+        See issue #49 (https://github.com/BCDA-APS/apstools/issues/49) for details.
         
         EXAMPLE::
         
-            APS = APS_BlueSky_tools.devices.ApsMachineParametersDevice(name="APS")
+            APS = apstools.devices.ApsMachineParametersDevice(name="APS")
             
             if APS.inUserOperations:
                 suspend_APS_current = bluesky.suspenders.SuspendFloor(APS.current, 2, resume_thresh=10)
@@ -206,7 +237,7 @@ class ApsPssShutter(Device):
     * no indication that the shutter has actually moved from the bits
       (see :func:`ApsPssShutterWithStatus()` for alternative)
     
-    USAGE::
+    EXAMPLE::
     
         shutter_a = ApsPssShutter("2bma:A_shutter", name="shutter")
         
@@ -216,9 +247,7 @@ class ApsPssShutter(Device):
         shutter_a.set("open")
         shutter_a.set("close")
         
-    When using the shutter in a plan, be sure to use ``yield from``.
-    
-    ::
+    When using the shutter in a plan, be sure to use ``yield from``, such as::
 
         def in_a_plan(shutter):
             yield from abs_set(shutter, "open", wait=True)
@@ -292,14 +321,14 @@ class ApsPssShutter(Device):
 
 class ApsPssShutterWithStatus(Device):
     """
-    APS PSS shutter
+    APS PSS shutter with separate status PV
     
     * APS PSS shutters have separate bit PVs for open and close
     * set either bit, the shutter moves, and the bit resets a short time later
     * a separate status PV tells if the shutter is open or closed
       (see :func:`ApsPssShutter()` for alternative)
     
-    USAGE::
+    EXAMPLE::
     
         A_shutter = ApsPssShutterWithStatus(
             "2bma:A_shutter", 
@@ -405,7 +434,7 @@ class SimulatedApsPssShutterWithStatus(Device):
     """
     Simulated APS PSS shutter
     
-    USAGE::
+    EXAMPLE::
     
 		sim = SimulatedApsPssShutterWithStatus(name="sim")
     
@@ -497,7 +526,9 @@ class ApsUndulator(Device):
     """
     APS Undulator
     
-    USAGE:  ``undulator = ApsUndulator("ID09ds:", name="undulator")``
+    EXAMPLE::
+    
+        undulator = ApsUndulator("ID09ds:", name="undulator")
     """
     energy = Component(EpicsSignal, "Energy", write_pv="EnergySet")
     energy_taper = Component(EpicsSignal, "TaperEnergy", write_pv="TaperEnergySet")
@@ -526,7 +557,9 @@ class ApsUndulatorDual(Device):
     """
     APS Undulator with upstream *and* downstream controls
     
-    USAGE:  ``undulator = ApsUndulatorDual("ID09", name="undulator")``
+    EXAMPLE::
+    
+        undulator = ApsUndulatorDual("ID09", name="undulator")
     
     note:: the trailing ``:`` in the PV prefix should be omitted
     """
@@ -540,7 +573,7 @@ class ApsBssUserInfoDevice(Device):
     
     BSS: Beamtime Scheduling System
 
-    USAGE::
+    EXAMPLE::
 
         bss_user_info = ApsBssUserInfoDevice(
                             "9id_bss:",
@@ -567,42 +600,29 @@ class ApsBssUserInfoDevice(Device):
     esaf_team =         Component(EpicsSignal, "esaf_team",     string=True)
 
 
+class DeviceMixinBase(Device):
+    """Base class for apstools Device mixin classes"""
+
+
 class AxisTunerException(ValueError): 
     """Exception during execution of `AxisTunerBase` subclass"""
-    pass
 
 
 class AxisTunerMixin(EpicsMotor):
     """
     Mixin class to provide tuning capabilities for an axis
     
-    USAGE::
+    See the `TuneAxis()` example in this jupyter notebook: 
+    https://github.com/BCDA-APS/apstools/blob/master/docs/source/resources/demo_tuneaxis.ipynb
     
-        class TunableEpicsMotor(AxisTunerMixin, EpicsMotor):
-            pass
-        
-        def a2r_pretune_hook():
-            # set the counting time for *this* tune
-            yield from bps.abs_set(scaler.preset_time, 0.2)
-            
-        a2r = TunableEpicsMotor("xxx:m1", name="a2r")
-        a2r.tuner = TuneAxis([scaler], a2r, signal_name=scaler.channels.chan2.name)
-        a2r.tuner.width = 0.02
-        a2r.tuner.num = 21
-        a2r.pre_tune_method = a2r_pretune_hook
-        RE(a2r.tune())
-        
-        # tune four of the USAXS axes (using preconfigured parameters for each)
-        RE(tune_axes([mr, m2r, ar, a2r])
-
     HOOK METHODS
     
     There are two hook methods (`pre_tune_method()`, and `post_tune_method()`)
     for callers to add additional plan parts, such as opening or closing shutters, 
     setting detector parameters, or other actions.
     
-    Each hook method must accept one argument: 
-    axis object such as `EpicsMotor` or `SynAxis`,
+    Each hook method must accept a single argument: 
+    an axis object such as `EpicsMotor` or `SynAxis`,
     such as::
     
         def my_pre_tune_hook(axis):
@@ -610,8 +630,7 @@ class AxisTunerMixin(EpicsMotor):
         def my_post_tune_hook(axis):
             yield from bps.mv(shutter, "close")
         
-        class TunableSynAxis(AxisTunerMixin, SynAxis):
-            pass
+        class TunableSynAxis(AxisTunerMixin, SynAxis): pass
 
         myaxis = TunableSynAxis(name="myaxis")
         mydet = SynGauss('mydet', myaxis, 'myaxis', center=0.21, Imax=0.98e5, sigma=0.127)
@@ -623,8 +642,9 @@ class AxisTunerMixin(EpicsMotor):
 
     """
     
-    def __init__(self):
-        self.tuner = None   # such as: APS_BlueSky_tools.plans.TuneAxis
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.tuner = None   # such as: apstools.plans.TuneAxis
         
         # Hook functions for callers to add additional plan parts
         # Each must accept one argument: axis object such as `EpicsMotor` or `SynAxis`
@@ -642,7 +662,7 @@ class AxisTunerMixin(EpicsMotor):
     def tune(self, md=None, **kwargs):
         if self.tuner is None:
             msg = "Must define an axis tuner, none specified."
-            msg += "  Consider using APS_BlueSky_tools.plans.TuneAxis()"
+            msg += "  Consider using apstools.plans.TuneAxis()"
             raise AxisTunerException(msg)
         
         if self.tuner.axis is None:
@@ -664,57 +684,63 @@ class AxisTunerMixin(EpicsMotor):
                 self.post_tune_method()
 
 
-class TunableEpicsMotor(AxisTunerMixin, EpicsMotor):
-    """
-    EPICS motor with signal for tuning
-    
-    USAGE::
-
-        def a2r_pretune_hook():
-            # set the counting time for *this* tune
-            yield from bps.abs_set(scaler.preset_time, 0.2)
-    
-        a2r = TunableEpicsMotor("xxx:m1", name="a2r")
-        a2r.tuner = TuneAxis([scaler], a2r, signal_name=scaler.channels.chan2.name)
-        a2r.tuner.width = 0.02
-        a2r.tuner.num = 21
-        a2r.pre_tune_method = a2r_pretune_hook
-        RE(a2r.tune())
-    
-    """
-    __metaclass__ = EpicsMotor
+# TODO: issue #76
+# class TunableSynAxis(AxisTunerMixin, SynAxis): """synthetic axis that can be tuned"""
+# class TunableEpicsMotor(AxisTunerMixin, EpicsMotor): """EpicsMotor that can be tuned"""
 
 
-class EpicsMotorDialMixin(object):
+class EpicsDescriptionMixin(DeviceMixinBase):
     """
-    add motor record's dial coordinate fields
+    add a record's description field to a Device, such as EpicsMotor
     
-    USAGE::
+    EXAMPLE::
     
-        class myEpicsMotor(EpicsMotor, EpicsMotorDialMixin): pass
+        from ophyd import EpicsMotor
+        from apstools.devices import EpicsDescriptionMixin
+    
+        class myEpicsMotor(EpicsDescriptionMixin, EpicsMotor): pass
         m1 = myEpicsMotor('xxx:m1', name='m1')
+        print(m1.desc.value)
+    
+    """
+    
+    desc = Component(EpicsSignal, ".DESC")
+
+
+class EpicsMotorDialMixin(DeviceMixinBase):
+    """
+    add motor record's dial coordinate fields to Device
+    
+    EXAMPLE::
+    
+        from ophyd import EpicsMotor
+        from apstools.devices import EpicsMotorDialMixin
+
+        class myEpicsMotor(EpicsMotorDialMixin, EpicsMotor): pass
+        m1 = myEpicsMotor('xxx:m1', name='m1')
+        print(m1.dial.read())
     
     """
     
     dial = Component(EpicsSignal, ".DRBV", write_pv=".DVAL")
 
 
-class EpicsMotorWithDial(EpicsMotor, EpicsMotorDialMixin):
-    """
-    add motor record's dial coordinates to EpicsMotor
-    
-    USAGE::
-    
-        m1 = EpicsMotorWithDial('xxx:m1', name='m1')
-    
-    This is legacy support.  For new work, use `EpicsMotorDialMixin`.
-    """
-    pass
-
-
-class EpicsMotorLimitsMixin(Device):
+class EpicsMotorLimitsMixin(DeviceMixinBase):
     """
     add motor record HLM & LLM fields & compatibility get_lim() and set_lim()
+    
+    EXAMPLE::
+    
+        from ophyd import EpicsMotor
+        from apstools.devices import EpicsMotorLimitsMixin
+
+        class myEpicsMotor(EpicsMotorLimitsMixin, EpicsMotor): pass
+        m1 = myEpicsMotor('xxx:m1', name='m1')
+        lo = m1.get_lim(-1)
+        hi = m1.get_lim(1)
+        m1.set_lim(-25, -5)
+        print(m1.get_lim(-1), m1.get_lim(1))
+        m1.set_lim(lo, hi)
     """
     
     soft_limit_lo = Component(EpicsSignal, ".LLM")
@@ -724,89 +750,92 @@ class EpicsMotorLimitsMixin(Device):
         """
         Returns the user limit of motor
         
-        flag > 0: returns high limit
-        flag < 0: returns low limit
-        flag == 0: returns None
+        * flag > 0: returns high limit
+        * flag < 0: returns low limit
+        * flag == 0: returns None
+        
+        Similar with SPEC command
         """
         if flag > 0:
-            return self.high_limit
+            return self.soft_limit_hi.value
         else:
-            return self.low_limit
+            return self.soft_limit_lo.value
     
     def set_lim(self, low, high):
         """
         Sets the low and high limits of motor
         
+        * No action taken if motor is moving.
         * Low limit is set to lesser of (low, high)
         * High limit is set to greater of (low, high)
-        * No action taken if motor is moving. 
+        
+        Similar with SPEC command
         """
         if not self.moving:
             self.soft_limit_lo.put(min(low, high))
             self.soft_limit_hi.put(max(low, high))
 
 
-class EpicsMotorServoMixin(object):
+class EpicsMotorServoMixin(DeviceMixinBase):
     """
-    add motor record's servo loop controls
+    add motor record's servo loop controls to Device
     
-    USAGE::
+    EXAMPLE::
     
-        class myEpicsMotor(EpicsMotor, EpicsMotorServoMixin): pass
+        from ophyd import EpicsMotor
+        from apstools.devices import EpicsMotorServoMixin
+
+        class myEpicsMotor(EpicsMotorServoMixin, EpicsMotor): pass
         m1 = myEpicsMotor('xxx:m1', name='m1')
-    
+        print(m1.servo.read())
     """
     
     # values: "Enable" or "Disable"
     servo = Component(EpicsSignal, ".CNEN", string=True)
 
 
-class EpicsMotorWithServo(EpicsMotor, EpicsMotorServoMixin):
+class EpicsMotorRawMixin(DeviceMixinBase):
     """
-    extend basic motor support to enable/disable the servo loop controls
+    add motor record's raw coordinate fields to Device
     
-    USAGE::
+    EXAMPLE::
     
-        m1 = EpicsMotorWithDial('xxx:m1', name='m1')
+        from ophyd import EpicsMotor
+        from apstools.devices import EpicsMotorRawMixin
     
-    This is legacy support.  For new work, use `EpicsMotorServoMixin`.
-    """
-    pass
-
-
-class EpicsMotorRawMixin(object):
-    """
-    add motor record's raw coordinate fields
-    
-    USAGE::
-    
-        class myEpicsMotor(EpicsMotor, EpicsMotorRawMixin): pass
+        class myEpicsMotor(EpicsMotorRawMixin, EpicsMotor): pass
         m1 = myEpicsMotor('xxx:m1', name='m1')
-    
+        print(m1.raw.read())
     """
     
     raw = Component(EpicsSignal, ".RRBV", write_pv=".RVAL")
 
 
-class EpicsMotorDescriptionMixin(object):
-    """
-    add motor record's description field
-    
-    USAGE::
-    
-        class myEpicsMotor(EpicsMotor, EpicsMotorDescriptionMixin): pass
-        m1 = myEpicsMotor('xxx:m1', name='m1')
-    
-    """
-    
-    desc = Component(EpicsSignal, ".DESC")
+# TODO: issue #76
+# class EpicsMotorWithDescription(EpicsDescriptionMixin, EpicsMotor):
+#     """EpicsMotor with description field"""
+#
+# class EpicsMotorWithMore(
+#     EpicsDescriptionMixin, 
+#     EpicsMotorLimitsMixin, 
+#     EpicsMotorDialMixin,
+#     EpicsMotorRawMixin, 
+#     EpicsMotor): 
+#     """
+#     EpicsMotor with more fields
+#     
+#     * description (``desc``)
+#     * soft motor limits (``soft_limit_hi``, ``soft_limit_lo``)
+#     * dial coordinates (``dial``)
+#     * raw coordinates (``raw``)
+#     """
 
 
 class EpicsMotorShutter(Device):
     """
     a shutter, implemented with an EPICS motor moved between two positions
     
-    USAGE::
+    EXAMPLE::
 
         tomo_shutter = EpicsMotorShutter("2bma:m23", name="tomo_shutter")
         tomo_shutter.closed_position = 1.0      # default
@@ -903,7 +932,7 @@ class EpicsOnOffShutter(Device):
     The current position is determined by comparing the value of the control
     with the expected open and close values.
     
-    USAGE::
+    EXAMPLE::
 
         bit_shutter = EpicsOnOffShutter("2bma:bit1", name="bit_shutter")
         bit_shutter.closed_position = 0      # default
@@ -986,7 +1015,7 @@ class DualPf4FilterBox(Device):
     """
     Dual Xia PF4 filter boxes using support from synApps (using Al, Ti foils)
     
-    Example::
+    EXAMPLE::
     
         pf4 = DualPf4FilterBox("2bmb:pf4:", name="pf4")
         pf4_AlTi = DualPf4FilterBox("9idcRIO:pf4:", name="pf4_AlTi")
@@ -1219,15 +1248,31 @@ def AD_warmed_up(detector):
     return verdict
 
 
-class ApsFileStoreHDF5(FileStorePluginBase):
+class AD_EpicsHdf5FileName(FileStorePluginBase):
     """
     custom class to define image file name from EPICS
+    
+    .. caution:: *Caveat emptor* applies here.  You assume expertise!
+    
+    Replace standard Bluesky algorithm where file names
+    are defined as UUID strings, virtually guaranteeing that 
+    no existing images files will ever be overwritten.
+    
+    Also, this method decouples the data files from the databroker,
+    which needs the files to be named by UUID.
+    
+    .. autosummary::
+       
+        ~make_filename
+        ~generate_datum
+        ~get_frames_per_point
+        ~stage
 
-    To allow users to control the file name,
+    To allow users to control the file **name**,
     we override the ``make_filename()`` method here
     and we need to override some intervening classes.
 
-    To allow users to control the file number,
+    To allow users to control the file **number**,
     we override the ``stage()`` method here
     and triple-comment out that line, and bring in
     sections from the methods we are replacing here.
@@ -1235,17 +1280,75 @@ class ApsFileStoreHDF5(FileStorePluginBase):
     The image file name is set in `FileStoreBase.make_filename()` 
     from `ophyd.areadetector.filestore_mixins`.  This is called 
     (during device staging) from `FileStoreBase.stage()`
+    
+    EXAMPLE:
 
     To use this custom class, we need to connect it to some
-    intervening structure:
+    intervening structure.  Here are the steps:
+    
+    #. override default file naming
+    #. use to make your custom iterative writer
+    #. use to make your custom HDF5 plugin
+    #. use to make your custom AD support
+    
+    imports::
 
-    ====================================  ============================
-    custom class                          superclass(es)
-    ====================================  ============================
-    ``ApsFileStoreHDF5``                  ``FileStorePluginBase``
-    ``ApsFileStoreHDF5IterativeWrite``    ``ApsFileStoreHDF5``, `FileStoreIterativeWrite``
-    ``ApsHDF5Plugin``                     ``HDF5Plugin``, `ApsFileStoreHDF5IterativeWrite``
-    ====================================  ============================
+        from bluesky import RunEngine, plans as bp
+        from ophyd.areadetector import SimDetector, SingleTrigger
+        from ophyd.areadetector import ADComponent, ImagePlugin, SimDetectorCam
+        from ophyd.areadetector import HDF5Plugin
+        from ophyd.areadetector.filestore_mixins import FileStoreIterativeWrite
+    
+    override default file naming::
+        
+        from apstools.devices import AD_EpicsHdf5FileName
+    
+    make a custom iterative writer::
+        
+        class myHdf5EpicsIterativeWriter(AD_EpicsHdf5FileName, FileStoreIterativeWrite): pass
+    
+    make a custom HDF5 plugin::
+        
+        class myHDF5FileNames(HDF5Plugin, myHdf5EpicsIterativeWriter): pass
+    
+    define support for the detector (simulated detector here)::
+        
+        class MySimDetector(SingleTrigger, SimDetector):
+            '''SimDetector with HDF5 file names specified by EPICS'''
+            
+            cam = ADComponent(SimDetectorCam, "cam1:")
+            image = ADComponent(ImagePlugin, "image1:")
+            
+            hdf1 = ADComponent(
+                myHDF5FileNames, 
+                suffix = "HDF1:", 
+                root = "/",
+                write_path_template = "/",
+                )
+    
+    create an instance of the detector::
+        
+        simdet = MySimDetector("13SIM1:", name="simdet")
+        if hasattr(simdet.hdf1.stage_sigs, "array_counter"):
+            # remove this so array counter is not set to zero each staging
+            del simdet.hdf1.stage_sigs["array_counter"]
+        simdet.hdf1.stage_sigs["file_template"] = '%s%s_%3.3d.h5'
+    
+    setup the file names using the EPICS HDF5 plugin::
+        
+        simdet.hdf1.file_path.put("/tmp/simdet_demo/")    # ! ALWAYS end with a "/" !
+        simdet.hdf1.file_name.put("test")
+        simdet.hdf1.array_counter.put(0)
+    
+    If you have not already, create a bluesky RunEngine::
+        
+        RE = RunEngine({})
+    
+    take an image::
+
+        RE(bp.count([simdet]))
+    
+    INTERNAL METHODS
     """
 
     def __init__(self, *args, **kwargs):
@@ -1288,11 +1391,16 @@ class ApsFileStoreHDF5(FileStorePluginBase):
         return super().generate_datum(key, timestamp, datum_kwargs)
 
     def get_frames_per_point(self):
-        """ """
+        """overrides default behavior"""
         return self.num_capture.get()
 
     def stage(self):
-        """ """
+        """
+        overrides default behavior
+        
+        Set EPICS items before device is staged, then copy EPICS 
+        naming template (and other items) to ophyd after staging.
+        """
         # Make a filename.
         filename, read_path, write_path = self.make_filename()
 
@@ -1329,47 +1437,3 @@ class ApsFileStoreHDF5(FileStorePluginBase):
         # from FileStoreHDF5.stage()
         res_kwargs = {'frame_per_point': self.get_frames_per_point()}
         self._generate_resource(res_kwargs)
-
-
-class ApsFileStoreHDF5IterativeWrite(ApsFileStoreHDF5, FileStoreIterativeWrite):
-    """custom class to enable users to control image file name"""
-
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        FileStoreIterativeWrite.__init__(self, *args, **kwargs)
-
-
-class ApsHDF5Plugin(HDF5Plugin, ApsFileStoreHDF5IterativeWrite):
-    """
-    custom class to take image file names from EPICS
-    
-    NOTE: replaces standard Bluesky algorithm where file names
-          are defined as UUID strings, virtually guaranteeing that 
-          no existing images files will ever be overwritten.
-          *Caveat emptor* applies here.  You assume some expertise!
-    
-    USAGE::
-
-        class MySimDetector(SingleTrigger, SimDetector):
-            '''SimDetector with HDF5 file names specified by EPICS'''
-            
-            cam = ADComponent(MyAltaCam, "cam1:")
-            image = ADComponent(ImagePlugin, "image1:")
-            
-            hdf1 = ADComponent(
-                ApsHDF5Plugin, 
-                suffix = "HDF1:", 
-                root = "/",
-                write_path_template = "/local/data",
-                )
-
-        simdet = MySimDetector("13SIM1:", name="simdet")
-        # remove this so array counter is not set to zero each staging
-        del simdet.hdf1.stage_sigs["array_counter"]
-        simdet.hdf1.stage_sigs["file_template"] = '%s%s_%3.3d.h5'
-        simdet.hdf1.file_path.put("/local/data/demo/")
-        simdet.hdf1.file_name.put("test")
-        simdet.hdf1.array_counter.put(0)
-        RE(bp.count([simdet]))
-
-    """
