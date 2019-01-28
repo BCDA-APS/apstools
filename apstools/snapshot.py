@@ -33,9 +33,9 @@ from collections import OrderedDict
 import sys
 import time
 
-from apstools import utils as APS_utils
-from apstools import plans as APS_plans
-from apstools import callbacks as APS_callbacks
+from . import utils as APS_utils
+from . import plans as APS_plans
+from . import callbacks as APS_callbacks
 
 
 BROKER_CONFIG = "mongodb_config"

@@ -1,5 +1,5 @@
 
-# Copyright (c) 2017-2018, UChicago Argonne, LLC.  See LICENSE file.
+# Copyright (c) 2017-2019, UChicago Argonne, LLC.  See LICENSE file.
 
 __project__     = u'apstools'
 __description__ = u"Various Python tools for use with BlueSky at the APS"
