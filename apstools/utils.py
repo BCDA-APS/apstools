@@ -27,7 +27,6 @@ import subprocess
 import time
 
 
-HOME_PATH = os.path.dirname(__file__)
 logger = logging.getLogger(__name__)
 
 
@@ -165,7 +164,7 @@ class ExcelDatabaseFileBase(object):
         self.data_labels = None
         if self.EXCEL_FILE is None:
             raise ValueError("subclass must define EXCEL_FILE")
-        self.fname = os.path.join(HOME_PATH, self.EXCEL_FILE)
+        self.fname = os.path.join(os.getcwd(), self.EXCEL_FILE)
 
         self.parse()
         
