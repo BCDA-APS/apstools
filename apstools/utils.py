@@ -26,6 +26,8 @@ import smtplib
 import subprocess
 import time
 
+from .plans import run_in_thread
+
 
 logger = logging.getLogger(__name__)
 
@@ -114,6 +116,7 @@ class EmailNotifications(object):
         for address in args:
             self.addresses.append(address)
 
+    @run_in_thread
     def send(self, subject, message):
         """send ``message`` to all addresses"""
         msg = MIMEText(message)
