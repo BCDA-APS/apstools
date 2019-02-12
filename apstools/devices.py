@@ -106,6 +106,8 @@ from ophyd.areadetector.filestore_mixins import FileStoreIterativeWrite
 from ophyd import HDF5Plugin
 from ophyd.utils import set_and_wait
 
+from bluesky import plan_stubs as bps
+
 
 """for convenience"""		# TODO: contribute to ophyd?
 SCALER_AUTOCOUNT_MODE = 1
@@ -608,7 +610,8 @@ class AxisTunerException(ValueError):
     """Exception during execution of `AxisTunerBase` subclass"""
 
 
-class AxisTunerMixin(EpicsMotor):
+
+class AxisTunerMixin(EpicsMotor):   # from apstools.devices
     """
     Mixin class to provide tuning capabilities for an axis
     
@@ -631,7 +634,6 @@ class AxisTunerMixin(EpicsMotor):
             yield from bps.mv(shutter, "close")
         
         class TunableSynAxis(AxisTunerMixin, SynAxis): pass
-
         myaxis = TunableSynAxis(name="myaxis")
         mydet = SynGauss('mydet', myaxis, 'myaxis', center=0.21, Imax=0.98e5, sigma=0.127)
         myaxis.tuner = TuneAxis([mydet], myaxis)
@@ -639,32 +641,33 @@ class AxisTunerMixin(EpicsMotor):
         myaxis.post_tune_method = my_post_tune_hook
         
         RE(myaxis.tune())
-
     """
-    
+
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.tuner = None   # such as: apstools.plans.TuneAxis
-        
+
         # Hook functions for callers to add additional plan parts
         # Each must accept one argument: axis object such as `EpicsMotor` or `SynAxis`
         self.pre_tune_method = self._default_pre_tune_method
         self.post_tune_method = self._default_post_tune_method
-    
+
     def _default_pre_tune_method(self):
         """called before `tune()`"""
         print("{} position before tuning: {}".format(self.name, self.position))
+        yield from bps.null()
 
     def _default_post_tune_method(self):
         """called after `tune()`"""
         print("{} position after tuning: {}".format(self.name, self.position))
+        yield from bps.null()
 
     def tune(self, md=None, **kwargs):
         if self.tuner is None:
             msg = "Must define an axis tuner, none specified."
             msg += "  Consider using apstools.plans.TuneAxis()"
             raise AxisTunerException(msg)
-        
+
         if self.tuner.axis is None:
             msg = "Must define an axis, none specified."
             raise AxisTunerException(msg)
@@ -676,12 +679,12 @@ class AxisTunerMixin(EpicsMotor):
 
         if self.tuner is not None:
             if self.pre_tune_method is not None:
-                self.pre_tune_method()
+                yield from self.pre_tune_method()
 
             yield from self.tuner.tune(md=md, **kwargs)
-    
+
             if self.post_tune_method is not None:
-                self.post_tune_method()
+                yield from self.post_tune_method()
 
 
 # TODO: issue #76
