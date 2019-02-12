@@ -86,6 +86,7 @@ from collections import OrderedDict
 from datetime import datetime
 import epics
 import itertools
+import logging
 import numpy as np
 import threading
 import time
@@ -108,6 +109,8 @@ from ophyd.utils import set_and_wait
 
 from bluesky import plan_stubs as bps
 
+
+logger = logging.getLogger(__name__)
 
 """for convenience"""		# TODO: contribute to ophyd?
 SCALER_AUTOCOUNT_MODE = 1
@@ -654,12 +657,12 @@ class AxisTunerMixin(EpicsMotor):   # from apstools.devices
 
     def _default_pre_tune_method(self):
         """called before `tune()`"""
-        print("{} position before tuning: {}".format(self.name, self.position))
+        logger.info("{} position before tuning: {}".format(self.name, self.position))
         yield from bps.null()
 
     def _default_post_tune_method(self):
         """called after `tune()`"""
-        print("{} position after tuning: {}".format(self.name, self.position))
+        logger.info("{} position after tuning: {}".format(self.name, self.position))
         yield from bps.null()
 
     def tune(self, md=None, **kwargs):
@@ -1390,7 +1393,7 @@ class AD_EpicsHdf5FileName(FileStorePluginBase):
         # inject the actual name of the HDF5 file here into datum_kwargs
         datum_kwargs["HDF5_file_name"] = hdf5_file_name
         
-        # print("make_filename:", hdf5_file_name)
+        logger.debug("make_filename:", hdf5_file_name)
         return super().generate_datum(key, timestamp, datum_kwargs)
 
     def get_frames_per_point(self):
