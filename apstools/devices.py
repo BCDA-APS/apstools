@@ -48,6 +48,8 @@ SHUTTERS
     ~EpicsMotorShutter
     ~EpicsOnOffShutter
     ~OneSignalShutter
+    ~ShutterBase
+    ~SimulatedApsPssShutterWithStatus
 
 synApps records
 
@@ -319,8 +321,8 @@ class ShutterBase(Device):
     
     # - - - - - - possible to override in subclass - - - - - -
     
-    def __init__(self, prefix, *args, **kwargs):
-        super().__init__(prefix, *args, **kwargs)
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
         self.valid_open_values = list(map(self.lowerCaseString, self.valid_open_values))
         self.valid_close_values = list(map(self.lowerCaseString, self.valid_close_values))
     
@@ -438,7 +440,7 @@ class OneSignalShutter(ShutterBase):
 
     Create a simulated shutter:
 
-        shutter = OneSignalShutter("", name="shutter")
+        shutter = OneSignalShutter(name="shutter")
 
     open the shutter (interactively):
 
@@ -717,90 +719,99 @@ class ApsPssShutterWithStatus(Device):
         return self.pss_state.value == self.close_val
 
 
-class SimulatedApsPssShutterWithStatus(Device):
+class SimulatedApsPssShutterWithStatus(ShutterBase):
     """
     Simulated APS PSS shutter
     
     EXAMPLE::
     
-		sim = SimulatedApsPssShutterWithStatus(name="sim")
+        sim = SimulatedApsPssShutterWithStatus(name="sim")
     
     """
-    open_bit = Component(Signal, value=0)
-    close_bit = Component(Signal, value=0)
+    open_signal = Component(Signal, value=0)
+    close_signal = Component(Signal, value=0)
     pss_state = FormattedComponent(Signal, value='close')
+    open_value = 1
+    close_value = 0
+    open_text = "open"
+    close_text = "close"
 
-    # strings the user will use
-    open_str = 'open'
-    close_str = 'close'
+    @property
+    def state(self):
+        if self.pss_state.value == self.open_text:
+            result = self.open_text
+        elif self.pss_state.value == self.close_text:
+            result = self.close_text
+        else:
+            result = self.unknown_state
+        return result
 
-    # pss_state PV values from EPICS
-    open_val = 1
-    close_val = 0
-
-    def open(self, timeout=10):
+    def open(self):
         """request the shutter to open"""
-        self.set(self.open_str)
+        if not self.isOpen:
+            self.open_signal.put(self.open_value)
+            self.delay_s = self.simulate_response_time()
+            if self.delay_s > 0:
+                time.sleep(self.delay_s)    # blocking call OK here
+            self.pss_state.put(self.open_text)
 
-    def close(self, timeout=10):
+    def close(self):
         """request the shutter to close"""
-        self.set(self.close_str)
-    
-    def get_response_time(self):
+        if not self.isClosed:
+            self.close_signal.put(self.close_value)
+            self.delay_s = self.simulate_response_time()
+            if self.delay_s > 0:
+                time.sleep(self.delay_s)    # blocking call OK here
+            self.pss_state.put(self.close_text)
+
+    def simulate_response_time(self):
         """simulated response time for PSS status"""
-        # return 0.5
         return np.random.uniform(0.1, 0.9)
 
     def set(self, value, **kwargs):
-        """set the shutter to "close" or "open" """
-        # first, validate the input value
-        acceptables = (self.close_str, self.open_str)
-        if value not in acceptables:
-            msg = "value should be one of " + " | ".join(acceptables)
-            msg += " : received " + str(value)
-            raise ValueError(msg)
+        """
+        plan: request the shutter to open or close
 
-        command_signal = {
-            self.open_str: self.open_bit, 
-            self.close_str: self.close_bit
-        }[value]
-        expected_value = {
-            self.open_str: self.open_val, 
-            self.close_str: self.close_val
-        }[value]
+        PARAMETERS
+        
+        value : str
+            any from ``self.choices`` (typically "open" or "close")
+        
+        kwargs : dict
+            ignored at this time
 
-        working_status = DeviceStatus(self)
-        simulate_delay = self.pss_state.value != expected_value
+        """
+        if self.busy.value:
+            raise RuntimeError("shutter is operating")
         
-        def shutter_cb(value, timestamp, **kwargs):
-            self.pss_state.clear_sub(shutter_cb)
-            if simulate_delay:
-                time.sleep(self.get_response_time())
-            self.pss_state.set(expected_value)
-            working_status._finished()
+        __value__ = self.lowerCaseString(value)
+        self.validTarget(__value__)
+
+        status = DeviceStatus(self)
         
-        self.pss_state.subscribe(shutter_cb)
-        
-        command_signal.put(1)
-        
+        if self.inPosition(__value__):
+            # no need to move, cut straight to the end
+            status._finished(success=True)
+        else:
+            def move_it():
+                # runs in a thread, no need to "yield from"
+                self.busy.put(True)
+                if __value__ in self.valid_open_values:
+                    self.open()
+                    expected_value = self.open_text
+                elif __value__ in self.valid_close_values:
+                    self.close()
+                    expected_value = self.close_text
+                self.pss_state.set(expected_value)
+                self.busy.put(False)
+                status._finished(success=True)
+            # get it moving
+            threading.Thread(target=move_it, daemon=True).start()
+
         # finally, make sure both signals are reset
-        self.open_bit.put(0)
-        self.close_bit.put(0)
-        return working_status
-
-    @property
-    def isOpen(self):
-        """is the shutter open?"""
-        if self.pss_state.value is None:
-            self.pss_state.set(self.close_val)
-        return self.pss_state.value == self.open_val
-    
-    @property
-    def isClosed(self):
-        """is the shutter closed?"""
-        if self.pss_state.value is None:
-            self.pss_state.set(self.close_val)
-        return self.pss_state.value == self.close_val
+        self.open_signal.put(0)
+        self.close_signal.put(0)
+        return status
 
 
 class ApsUndulator(Device):
