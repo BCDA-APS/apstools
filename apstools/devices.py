@@ -1138,7 +1138,7 @@ class EpicsOnOffShutter(OneSignalShutter):
     signal = Component(EpicsSignal, "")
 
 
-class EpicsMotorShutter(EpicsOnOffShutter):
+class EpicsMotorShutter(OneSignalShutter):
     """
     a shutter, implemented with an EPICS motor moved between two positions
     
@@ -1181,11 +1181,18 @@ class EpicsMotorShutter(EpicsOnOffShutter):
     
     def open(self):
         """move motor to BEAM NOT BLOCKED position, interactive use"""
-        self.signal.move(self.open_value)
+        if not self.isOpen:
+            self.signal.move(self.open_value)
+            if self.delay_s > 0:
+                time.sleep(self.delay_s)    # blocking call OK here
     
     def close(self):
         """move motor to BEAM BLOCKED position, interactive use"""
         self.signal.move(self.close_value)
+        if not self.isClosed:
+            self.signal.move(self.close_value)
+            if self.delay_s > 0:
+                time.sleep(self.delay_s)    # blocking call OK here
 
 
 class DualPf4FilterBox(Device):
