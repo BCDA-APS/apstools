@@ -239,9 +239,7 @@ class ShutterBase(Device):
     
     Create a shutter from an EPICS PV:
 
-        class MyCustomShutter(ShutterBase): pass
-
-        shutter = MyCustomShutter("ioc:shutter_pv", name="shutter")
+        shutter = ShutterBase("", name="shutter")
 
     When using the shutter in a plan, be sure to use ``yield from``, such as::
 
@@ -258,8 +256,8 @@ class ShutterBase(Device):
     
     Example, add "o" & "x" as aliases for "open" & "close":
     
-        shutter.valid_open_values.append("o")
-        shutter.valid_close_values.append("x")
+        shutter.addOpenValue("o")
+        shutter.addCloseValue("x")
         shutter.set("o")
         shutter.set("x")
     """
@@ -273,16 +271,27 @@ class ShutterBase(Device):
     delay_s = 0.0       # time to wait (s) after move is complete
     busy = Component(Signal, value=False)
     unknown_state = "unknown"       # cannot move to this position
+
+    def __init__(self, prefix, *args, **kwargs):
+        super().__init__(prefix, *args, **kwargs)
+        self.valid_open_values = list(map(self.cleanupInput, self.valid_open_values))
+        self.valid_close_values = list(map(self.cleanupInput, self.valid_close_values))
     
     def cleanupInput(self, value):
         """ensure any value is a lower-case string"""
         return str(value).lower()
     
+    def addOpenValue(self, text):
+        self.valid_open_values.append(self.cleanupInput(text))
+        return self.choices
+    
+    def addCloseValue(self, text):
+        self.valid_close_values.append(self.cleanupInput(text))
+        return self.choices
+
     @property
     def choices(self):
         """return list of acceptable choices for set()"""
-        self.valid_open_values = list(map(self.cleanupInput, self.valid_open_values))
-        self.valid_close_values = list(map(self.cleanupInput, self.valid_close_values))
         return self.valid_open_values + self.valid_close_values
 
     def validTarget(self, target, should_raise=True):
@@ -332,15 +341,32 @@ class ShutterBase(Device):
         return False
     
     def open(self):
-        """BLOCKING: request shutter to open"""
-        self.signal.put(self.open_value)
+        """BLOCKING: request shutter to open, called by set()"""
+        if not self.isOpen:
+            self.signal.put(self.open_value)
+            if self.delay_s > 0:
+                time.sleep(self.delay_s)    # blocking call OK here
 
     def close(self):
-        """BLOCKING: request shutter to close"""
-        self.signal.put(self.close_value)
+        """BLOCKING: request shutter to close, called by set()"""
+        if not self.isClosed:
+            self.signal.put(self.close_value)
+            if self.delay_s > 0:
+                time.sleep(self.delay_s)    # blocking call OK here
 
     def set(self, value, **kwargs):
-        """plan: request the shutter to open or close, ignore the kwargs"""
+        """
+        plan: request the shutter to open or close
+
+        PARAMETERS
+        
+        value : str
+            any from ``self.choices`` (typically "open" or "close")
+        
+        kwargs : dict
+            ignored at this time
+
+        """
         if self.busy.value:
             raise RuntimeError("shutter is operating")
         
@@ -349,24 +375,21 @@ class ShutterBase(Device):
 
         status = DeviceStatus(self)
         
-        def run_and_delay():
-            # runs in a thread, no need to "yield from"
-            self.busy.put(True)
-            if __value__ in self.valid_open_values:
-                self.open()     # no need to yield inside a thread
-            elif __value__ in self.valid_close_values:
-                self.close()
-            # sleep, since we don't *know* when the shutter has moved
-            time.sleep(self.delay_s)    # blocking call OK here
-            self.busy.put(False)
-            status._finished(success=True)
-
         if self.inPosition(__value__):
             # no need to move, cut straight to the end
             status._finished(success=True)
         else:
+            def move_it():
+                # runs in a thread, no need to "yield from"
+                self.busy.put(True)
+                if __value__ in self.valid_open_values:
+                    self.open()
+                elif __value__ in self.valid_close_values:
+                    self.close()
+                self.busy.put(False)
+                status._finished(success=True)
             # get it moving
-            threading.Thread(target=run_and_delay, daemon=True).start()
+            threading.Thread(target=move_it, daemon=True).start()
         return status
 
 
