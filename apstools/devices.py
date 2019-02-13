@@ -278,19 +278,44 @@ class ShutterBase(Device):
         cannot move to this position
         (default = "unknown")
 
+    EXAMPLE
 
     Create a shutter from an EPICS PV:
 
         shutter = ShutterBase("", name="shutter")
 
-    When using the shutter in a plan, be sure to use ``yield from``, such as::
+    open the shutter (interactively):
+
+        shutter.open()
+
+    Check the shutter is open:
+
+        In [144]: shutter.isOpen
+        Out[144]: True
+
+    Use the shutter in a Bluesky plan.
+    Set a post-move delay time of 1.0 seconds.
+    Be sure to use ``yield from``, such as::
 
         def in_a_plan(shutter):
+            shutter.delay_s = 1.0
+            t0 = time.time()
+            print("Shutter state: " + shutter.state, time.time()-t0)
             yield from bps.abs_set(shutter, "open", wait=True)    # wait for completion is optional
-            # do something
+            print("Shutter state: " + shutter.state, time.time()-t0)
+            yield from bps.mv(shutter, "open")    # do it again
+            print("Shutter state: " + shutter.state, time.time()-t0)
             yield from bps.mv(shutter, "close")    # ALWAYS waits for completion
+            print("Shutter state: " + shutter.state, time.time()-t0)
         
         RE(in_a_plan(shutter))
+    
+    which gives this output:
+
+        Shutter state: close 1.7642974853515625e-05
+        Shutter state: open 1.0032124519348145
+        Shutter state: open 1.0057861804962158
+        Shutter state: close 2.009695529937744
         
     The strings accepted by `set()` are defined in two lists:
     `valid_open_values` and `valid_close_values`.  These lists
@@ -398,12 +423,12 @@ class ShutterBase(Device):
     def addCloseValue(self, text):
         """a synonym to close the shutter, use with set()"""
         self.valid_close_values.append(self.lowerCaseString(text))
-        return self.choices
+        return self.choices     # return the list of acceptable values
     
     def addOpenValue(self, text):
         """a synonym to open the shutter, use with set()"""
         self.valid_open_values.append(self.lowerCaseString(text))
-        return self.choices
+        return self.choices     # return the list of acceptable values
 
     @property
     def choices(self):
