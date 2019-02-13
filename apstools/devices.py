@@ -344,28 +344,8 @@ class ShutterBase(Device):
         self.valid_open_values = list(map(self.lowerCaseString, self.valid_open_values))
         self.valid_close_values = list(map(self.lowerCaseString, self.valid_close_values))
     
-    # - - - - possible to override these methods in subclass - - - -
+    # - - - - likely to override these methods in subclass - - - -
 
-    @property
-    def isOpen(self):
-        """is the shutter open?"""
-        return str(self.state) == self.valid_open_values[0]
-    
-    @property
-    def isClosed(self):
-        """is the shutter closed?"""
-        return str(self.state) == self.valid_close_values[0]
-
-    def inPosition(self, target):
-        """is the shutter at the target position?"""
-        self.validTarget(target)
-        __value__ = self.lowerCaseString(target)
-        if __value__ in self.valid_open_values and self.isOpen:
-            return True
-        elif __value__ in self.valid_close_values and self.isClosed:
-            return True
-        return False
-    
     def open(self):
         """BLOCKING: request shutter to open, called by set()"""
         if not self.isOpen:
@@ -417,6 +397,28 @@ class ShutterBase(Device):
             # get it moving
             threading.Thread(target=move_it, daemon=True).start()
         return status
+    
+    # - - - - - - possible to override in subclass - - - - - -
+    
+    @property
+    def isOpen(self):
+        """is the shutter open?"""
+        return str(self.state) == self.valid_open_values[0]
+    
+    @property
+    def isClosed(self):
+        """is the shutter closed?"""
+        return str(self.state) == self.valid_close_values[0]
+
+    def inPosition(self, target):
+        """is the shutter at the target position?"""
+        self.validTarget(target)
+        __value__ = self.lowerCaseString(target)
+        if __value__ in self.valid_open_values and self.isOpen:
+            return True
+        elif __value__ in self.valid_close_values and self.isClosed:
+            return True
+        return False
     
     # - - - - - - not likely to override in subclass - - - - - -
 
@@ -668,7 +670,7 @@ class ApsPssShutterWithStatus(Device):
         return self.pss_state.value == self.close_val
 
 
-class SimulatedApsPssShutterWithStatus(Device):
+class SimulatedApsPssShutterWithStatus(ShutterBase):
     """
     Simulated APS PSS shutter
     
@@ -677,9 +679,9 @@ class SimulatedApsPssShutterWithStatus(Device):
 		sim = SimulatedApsPssShutterWithStatus(name="sim")
     
     """
-    open_bit = Component(Signal)
-    close_bit = Component(Signal)
-    pss_state = FormattedComponent(Signal)
+    open_bit = Component(Signal, value=0)
+    close_bit = Component(Signal, value=0)
+    pss_state = FormattedComponent(Signal, value='close')
 
     # strings the user will use
     open_str = 'open'
@@ -688,12 +690,6 @@ class SimulatedApsPssShutterWithStatus(Device):
     # pss_state PV values from EPICS
     open_val = 1
     close_val = 0
-
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.open_bit.set(0)
-        self.close_bit.set(0)
-        self.pss_state.set(self.close_val)
 
     def open(self, timeout=10):
         """request the shutter to open"""
@@ -844,7 +840,6 @@ class DeviceMixinBase(Device):
 
 class AxisTunerException(ValueError): 
     """Exception during execution of `AxisTunerBase` subclass"""
-
 
 
 class AxisTunerMixin(EpicsMotor):   # from apstools.devices
@@ -1164,7 +1159,7 @@ class EpicsMotorShutter(Device):
 
 class EpicsOnOffShutter(Device):
     """
-    a shutter, implemented with an EPICS PV moved between two positions
+    a shutter, implemented with a single EPICS PV moved between two positions
     
     Use for a shutter controlled by a single PV which takes a 
     value for the close command and a different value for the open command.
