@@ -814,6 +814,73 @@ class SimulatedApsPssShutterWithStatus(ShutterBase):
         return status
 
 
+class newApsPssShutterWithStatus(SimulatedApsPssShutterWithStatus):
+    # FIXME: this is not ready for use - needs testing, some attention to pss_state
+    """
+    APS PSS shutter with separate status PV
+    
+    * APS PSS shutters have separate bit PVs for open and close
+    * set either bit, the shutter moves, and the bit resets a short time later
+    * a separate status PV tells if the shutter is open or closed
+      (see :func:`ApsPssShutter()` for alternative)
+    
+    EXAMPLE::
+    
+        A_shutter = ApsPssShutterWithStatus(
+            "2bma:A_shutter", 
+            "PA:02BM:STA_A_FES_OPEN_PL", 
+            name="A_shutter")
+        B_shutter = ApsPssShutterWithStatus(
+            "2bma:B_shutter", 
+            "PA:02BM:STA_B_SBS_OPEN_PL", 
+            name="B_shutter")
+        
+        A_shutter.open()
+        A_shutter.close()
+        
+        or
+        
+        %mov A_shutter "open"
+        %mov A_shutter "close"
+        
+        or
+        
+        A_shutter.set("open")
+        A_shutter.set("close")
+        
+    When using the shutter in a plan, be sure to use `yield from`.
+
+        def in_a_plan(shutter):
+            yield from abs_set(shutter, "open", wait=True)
+            # do something
+            yield from abs_set(shutter, "close", wait=True)
+        
+        RE(in_a_plan(A_shutter))
+        
+    The strings accepted by `set()` are defined in attributes
+    (`open_text` and `close_text`).
+    """
+    open_signal = Component(EpicsSignal, ":open")
+    close_signal = Component(EpicsSignal, ":close")
+    pss_state = FormattedComponent(EpicsSignalRO, "{self.state_pv}")
+
+    def open(self, timeout=10):
+        """request the shutter to open (ignore timeout)"""
+        if not self.isOpen:
+            self.open_signal.put(self.open_value)
+            # TODO: wait for pss_state.value = self.open_text, with timeout
+            if self.delay_s > 0:
+                time.sleep(self.delay_s)    # blocking call OK here
+
+    def close(self, timeout=10):
+        """request the shutter to close (ignore timeout)"""
+        if not self.isClosed:
+            self.close_signal.put(self.close_value)
+            # TODO: wait for pss_state.value = self.open_text, with timeout
+            if self.delay_s > 0:
+                time.sleep(self.delay_s)    # blocking call OK here
+
+
 class ApsUndulator(Device):
     """
     APS Undulator
