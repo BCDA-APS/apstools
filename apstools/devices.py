@@ -319,50 +319,7 @@ class ShutterBase(Device):
         self.valid_open_values = list(map(self.lowerCaseString, self.valid_open_values))
         self.valid_close_values = list(map(self.lowerCaseString, self.valid_close_values))
     
-    def lowerCaseString(self, value):
-        """ensure any given value is a lower-case string"""
-        return str(value).lower()
-    
-    def addOpenValue(self, text):
-        """a synonym to open the shutter, use with set()"""
-        self.valid_open_values.append(self.lowerCaseString(text))
-        return self.choices
-    
-    def addCloseValue(self, text):
-        """a synonym to close the shutter, use with set()"""
-        self.valid_close_values.append(self.lowerCaseString(text))
-        return self.choices
-
-    @property
-    def choices(self):
-        """return list of acceptable choices for set()"""
-        return self.valid_open_values + self.valid_close_values
-
-    def validTarget(self, target, should_raise=True):
-        """
-        return whether (or not) target value is acceptable for self.set()
-        
-        raise ValueError if not acceptable (default)
-        """
-        acceptable_values = self.choices
-        ok = self.lowerCaseString(target) in acceptable_values
-        if not ok and should_raise:
-            msg = "received " + str(target)
-            msg += " : should be only one of "
-            msg += " | ".join(acceptable_values)
-            raise ValueError(msg)
-        return ok
-
-    @property
-    def state(self):
-        """is shutter "open", "close", or "unknown"?"""
-        if self.signal.value == self.open_value:
-            result = self.valid_open_values[0]
-        elif self.signal.value == self.close_value:
-            result = self.valid_close_values[0]
-        else:
-            result = self.unknown_state
-        return result
+    # - - - - possible to override these methods in subclass - - - -
 
     @property
     def isOpen(self):
@@ -435,6 +392,53 @@ class ShutterBase(Device):
             # get it moving
             threading.Thread(target=move_it, daemon=True).start()
         return status
+    
+    # - - - - - - not likely to override in subclass - - - - - -
+
+    def addCloseValue(self, text):
+        """a synonym to close the shutter, use with set()"""
+        self.valid_close_values.append(self.lowerCaseString(text))
+        return self.choices
+    
+    def addOpenValue(self, text):
+        """a synonym to open the shutter, use with set()"""
+        self.valid_open_values.append(self.lowerCaseString(text))
+        return self.choices
+
+    @property
+    def choices(self):
+        """return list of acceptable choices for set()"""
+        return self.valid_open_values + self.valid_close_values
+    
+    def lowerCaseString(self, value):
+        """ensure any given value is a lower-case string"""
+        return str(value).lower()
+
+    @property
+    def state(self):
+        """is shutter "open", "close", or "unknown"?"""
+        if self.signal.value == self.open_value:
+            result = self.valid_open_values[0]
+        elif self.signal.value == self.close_value:
+            result = self.valid_close_values[0]
+        else:
+            result = self.unknown_state
+        return result
+
+    def validTarget(self, target, should_raise=True):
+        """
+        return whether (or not) target value is acceptable for self.set()
+        
+        raise ValueError if not acceptable (default)
+        """
+        acceptable_values = self.choices
+        ok = self.lowerCaseString(target) in acceptable_values
+        if not ok and should_raise:
+            msg = "received " + str(target)
+            msg += " : should be only one of "
+            msg += " | ".join(acceptable_values)
+            raise ValueError(msg)
+        return ok
 
 
 class ApsPssShutter(Device):
