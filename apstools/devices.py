@@ -237,6 +237,48 @@ class ShutterBase(Device):
     """
     base class for all shutter Devices
     
+    PARAMETERS
+    
+    value : str
+        any from ``self.choices`` (typically "open" or "close")
+
+    signal : EpicsSignal or Signal
+        (override in subclass)
+        The ``signal`` is the comunication to the hardware.
+        In a subclass, the hardware may have more than
+        one communication channel to use.  See the
+        ``ApsPssShutter`` as an example.
+
+    valid_open_values : [str]
+        A list of lower-case text values that are acceptable 
+        for use with the ``set()`` command to open the shutter.
+
+    valid_close_values : [str]
+        A list of lower-case text values that are acceptable
+        for use with the ``set()`` command to close the shutter.
+
+    open_value : number
+        The actual value to send to ``signal`` to open the shutter.
+        (default = 1)
+
+    close_value : number
+        The actual value to send to ``signal`` to close the shutter.
+        (default = 1)
+
+    delay_s : float
+        time to wait (s) after move is complete, 
+        does not wait if shutter already in position
+        (default = 0)
+
+    busy : Signal
+        (internal) tells if a move is in progress
+
+    unknown_state : str
+        (constant) Text reported by ``state`` when not open or closed.
+        cannot move to this position
+        (default = "unknown")
+
+
     Create a shutter from an EPICS PV:
 
         shutter = ShutterBase("", name="shutter")
@@ -274,19 +316,21 @@ class ShutterBase(Device):
 
     def __init__(self, prefix, *args, **kwargs):
         super().__init__(prefix, *args, **kwargs)
-        self.valid_open_values = list(map(self.cleanupInput, self.valid_open_values))
-        self.valid_close_values = list(map(self.cleanupInput, self.valid_close_values))
+        self.valid_open_values = list(map(self.lowerCaseString, self.valid_open_values))
+        self.valid_close_values = list(map(self.lowerCaseString, self.valid_close_values))
     
-    def cleanupInput(self, value):
-        """ensure any value is a lower-case string"""
+    def lowerCaseString(self, value):
+        """ensure any given value is a lower-case string"""
         return str(value).lower()
     
     def addOpenValue(self, text):
-        self.valid_open_values.append(self.cleanupInput(text))
+        """a synonym to open the shutter, use with set()"""
+        self.valid_open_values.append(self.lowerCaseString(text))
         return self.choices
     
     def addCloseValue(self, text):
-        self.valid_close_values.append(self.cleanupInput(text))
+        """a synonym to close the shutter, use with set()"""
+        self.valid_close_values.append(self.lowerCaseString(text))
         return self.choices
 
     @property
@@ -301,7 +345,7 @@ class ShutterBase(Device):
         raise ValueError if not acceptable (default)
         """
         acceptable_values = self.choices
-        ok = self.cleanupInput(target) in acceptable_values
+        ok = self.lowerCaseString(target) in acceptable_values
         if not ok and should_raise:
             msg = "received " + str(target)
             msg += " : should be only one of "
@@ -333,7 +377,7 @@ class ShutterBase(Device):
     def inPosition(self, target):
         """is the shutter at the target position?"""
         self.validTarget(target)
-        __value__ = self.cleanupInput(target)
+        __value__ = self.lowerCaseString(target)
         if __value__ in self.valid_open_values and self.isOpen:
             return True
         elif __value__ in self.valid_close_values and self.isClosed:
@@ -370,7 +414,7 @@ class ShutterBase(Device):
         if self.busy.value:
             raise RuntimeError("shutter is operating")
         
-        __value__ = self.cleanupInput(value)
+        __value__ = self.lowerCaseString(value)
         self.validTarget(__value__)
 
         status = DeviceStatus(self)
