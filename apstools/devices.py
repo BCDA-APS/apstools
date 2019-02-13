@@ -1181,8 +1181,8 @@ class EpicsOnOffShutter(OneSignalShutter):
     EXAMPLE::
 
         bit_shutter = EpicsOnOffShutter("2bma:bit1", name="bit_shutter")
-        bit_shutter.closed_position = 0      # default
-        bit_shutter.open_position = 1        # default
+        bit_shutter.close_value = 0      # default
+        bit_shutter.open_value = 1       # default
         bit_shutter.open()
         bit_shutter.close()
         
