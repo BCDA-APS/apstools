@@ -746,8 +746,8 @@ class SimulatedApsPssShutterWithStatus(ShutterBase):
             result = self.unknown_state
         return result
 
-    def open(self):
-        """request the shutter to open"""
+    def open(self, timeout=10):
+        """request the shutter to open (ignore timeout)"""
         if not self.isOpen:
             self.open_signal.put(self.open_value)
             self.delay_s = self.simulate_response_time()
@@ -755,8 +755,8 @@ class SimulatedApsPssShutterWithStatus(ShutterBase):
                 time.sleep(self.delay_s)    # blocking call OK here
             self.pss_state.put(self.open_text)
 
-    def close(self):
-        """request the shutter to close"""
+    def close(self, timeout=10):
+        """request the shutter to close (ignore timeout)"""
         if not self.isClosed:
             self.close_signal.put(self.close_value)
             self.delay_s = self.simulate_response_time()
