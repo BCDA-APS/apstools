@@ -233,6 +233,143 @@ class ApsMachineParametersDevice(Device):
         return verdict
 
 
+class ShutterBase(Device):
+    """
+    base class for all shutter Devices
+    
+    Create a shutter from an EPICS PV:
+
+        class MyCustomShutter(ShutterBase): pass
+
+        shutter = MyCustomShutter("ioc:shutter_pv", name="shutter")
+
+    When using the shutter in a plan, be sure to use ``yield from``, such as::
+
+        def in_a_plan(shutter):
+            yield from bps.abs_set(shutter, "open", wait=True)    # wait for completion is optional
+            # do something
+            yield from bps.mv(shutter, "close")    # ALWAYS waits for completion
+        
+        RE(in_a_plan(shutter))
+        
+    The strings accepted by `set()` are defined in two lists:
+    `valid_open_values` and `valid_close_values`.  These lists
+    are treated (internally to `set()`) as lower case strings.
+    
+    Example, add "o" & "x" as aliases for "open" & "close":
+    
+        shutter.valid_open_values.append("o")
+        shutter.valid_close_values.append("x")
+        shutter.set("o")
+        shutter.set("x")
+    """
+
+    signal = Component(Signal, value=0)        # override in subclass
+
+    valid_open_values = ["open", "opened",]   # lower-case strings ONLY
+    valid_close_values = ["close", "closed",]
+    open_value = 1      # value of "open"
+    close_value = 0     # value of "close"
+    delay_s = 0.0       # time to wait (s) after move is complete
+    busy = Component(Signal, value=False)
+    unknown_state = "unknown"       # cannot move to this position
+    
+    def cleanupInput(self, value):
+        """ensure any value is a lower-case string"""
+        return str(value).lower()
+    
+    @property
+    def choices(self):
+        """return list of acceptable choices for set()"""
+        self.valid_open_values = list(map(self.cleanupInput, self.valid_open_values))
+        self.valid_close_values = list(map(self.cleanupInput, self.valid_close_values))
+        return self.valid_open_values + self.valid_close_values
+
+    def validTarget(self, target, should_raise=True):
+        """
+        return whether (or not) target value is acceptable for self.set()
+        
+        raise ValueError if not acceptable (default)
+        """
+        acceptable_values = self.choices
+        ok = self.cleanupInput(target) in acceptable_values
+        if not ok and should_raise:
+            msg = "received " + str(target)
+            msg += " : should be only one of "
+            msg += " | ".join(acceptable_values)
+            raise ValueError(msg)
+        return ok
+
+    @property
+    def state(self):
+        """is shutter "open", "close", or "unknown"?"""
+        if self.signal.value == self.open_value:
+            result = self.valid_open_values[0]
+        elif self.signal.value == self.close_value:
+            result = self.valid_close_values[0]
+        else:
+            result = self.unknown_state
+        return result
+
+    @property
+    def isOpen(self):
+        """is the shutter open?"""
+        return str(self.state) == self.valid_open_values[0]
+    
+    @property
+    def isClosed(self):
+        """is the shutter closed?"""
+        return str(self.state) == self.valid_close_values[0]
+
+    def inPosition(self, target):
+        """is the shutter at the target position?"""
+        self.validTarget(target)
+        __value__ = self.cleanupInput(target)
+        if __value__ in self.valid_open_values and self.isOpen:
+            return True
+        elif __value__ in self.valid_close_values and self.isClosed:
+            return True
+        return False
+    
+    def open(self):
+        """BLOCKING: request shutter to open"""
+        self.signal.put(self.open_value)
+
+    def close(self):
+        """BLOCKING: request shutter to close"""
+        self.signal.put(self.close_value)
+
+    def set(self, value, **kwargs):
+        """plan: request the shutter to open or close, ignore the kwargs"""
+        if self.busy.value:
+            raise RuntimeError("shutter is operating")
+        
+        __value__ = self.cleanupInput(value)
+        self.validTarget(__value__)
+
+        status = DeviceStatus(self)
+        
+        def run_and_delay():
+            # runs in a thread, no need to "yield from"
+            self.busy.put(True)
+            if __value__ in self.valid_open_values:
+                self.open()     # no need to yield inside a thread
+            elif __value__ in self.valid_close_values:
+                self.close()
+            # sleep, since we don't *know* when the shutter has moved
+            time.sleep(self.delay_s)    # blocking call OK here
+            self.busy.put(False)
+            status._finished(success=True)
+
+        if self.inPosition(__value__):
+            # no need to move, cut straight to the end
+            status._finished(success=True)
+        else:
+            # get it moving
+            threading.Thread(target=run_and_delay, daemon=True).start()
+        return status
+
+
 class ApsPssShutter(Device):
     """
     APS PSS shutter
