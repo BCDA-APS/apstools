@@ -1112,32 +1112,6 @@ class EpicsMotorRawMixin(DeviceMixinBase):
 #     """
 
 
-class EpicsOnOffShutter(OneSignalShutter):
-    """
-    a shutter using a single EPICS PV moved between two positions
-    
-    Use for a shutter controlled by a single PV which takes a 
-    value for the close command and a different value for the open command.
-    The current position is determined by comparing the value of the control
-    with the expected open and close values.
-    
-    EXAMPLE::
-
-        bit_shutter = EpicsOnOffShutter("2bma:bit1", name="bit_shutter")
-        bit_shutter.closed_position = 0      # default
-        bit_shutter.open_position = 1        # default
-        bit_shutter.open()
-        bit_shutter.close()
-        
-        # or, when used in a plan
-        def planA():
-            yield from mv(bit_shutter, "open")
-            yield from mv(bit_shutter, "close")
-
-    """
-    signal = Component(EpicsSignal, "")
-
-
 class EpicsMotorShutter(OneSignalShutter):
     """
     a shutter, implemented with an EPICS motor moved between two positions
@@ -1193,6 +1167,32 @@ class EpicsMotorShutter(OneSignalShutter):
             self.signal.move(self.close_value)
             if self.delay_s > 0:
                 time.sleep(self.delay_s)    # blocking call OK here
+
+
+class EpicsOnOffShutter(OneSignalShutter):
+    """
+    a shutter using a single EPICS PV moved between two positions
+    
+    Use for a shutter controlled by a single PV which takes a 
+    value for the close command and a different value for the open command.
+    The current position is determined by comparing the value of the control
+    with the expected open and close values.
+    
+    EXAMPLE::
+
+        bit_shutter = EpicsOnOffShutter("2bma:bit1", name="bit_shutter")
+        bit_shutter.closed_position = 0      # default
+        bit_shutter.open_position = 1        # default
+        bit_shutter.open()
+        bit_shutter.close()
+        
+        # or, when used in a plan
+        def planA():
+            yield from mv(bit_shutter, "open")
+            yield from mv(bit_shutter, "close")
+
+    """
+    signal = Component(EpicsSignal, "")
 
 
 class DualPf4FilterBox(Device):
