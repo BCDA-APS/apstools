@@ -47,6 +47,7 @@ SHUTTERS
     ~ApsPssShutterWithStatus
     ~EpicsMotorShutter
     ~EpicsOnOffShutter
+    ~OneSignalShutter
 
 synApps records
 
@@ -1111,98 +1112,6 @@ class EpicsMotorRawMixin(DeviceMixinBase):
 #     """
 
 
-class EpicsMotorShutter(Device):
-    """
-    a shutter, implemented with an EPICS motor moved between two positions
-    
-    EXAMPLE::
-
-        tomo_shutter = EpicsMotorShutter("2bma:m23", name="tomo_shutter")
-        tomo_shutter.closed_position = 1.0      # default
-        tomo_shutter.open_position = 0.0        # default
-        tomo_shutter.open()
-        tomo_shutter.close()
-        
-        # or, when used in a plan
-        def planA():
-            yield from abs_set(tomo_shutter, "open", group="O")
-            yield from wait("O")
-            yield from abs_set(tomo_shutter, "close", group="X")
-            yield from wait("X")
-        def planA():
-            yield from abs_set(tomo_shutter, "open", wait=True)
-            yield from abs_set(tomo_shutter, "close", wait=True)
-        def planA():
-            yield from mv(tomo_shutter, "open")
-            yield from mv(tomo_shutter, "close")
-
-    """
-    motor = Component(EpicsMotor, "")
-    closed_position = 1.0
-    open_position = 0.0
-    _tolerance = 0.01
-    
-    @property
-    def isOpen(self):
-        " "
-        return abs(self.motor.position - self.open_position) <= self._tolerance
-    
-    @property
-    def isClosed(self):
-        " "
-        return abs(self.motor.position - self.closed_position) <= self._tolerance
-    
-    def open(self):
-        """move motor to BEAM NOT BLOCKED position, interactive use"""
-        self.motor.move(self.open_position)
-    
-    def close(self):
-        """move motor to BEAM BLOCKED position, interactive use"""
-        self.motor.move(self.closed_position)
-
-    def set(self, value, *, timeout=None, settle_time=None):
-        """
-        `set()` is like `put()`, but used in BlueSky plans
-
-        PARAMETERS
-        
-        value : "open" or "close"
-
-        timeout : float, optional
-            Maximum time to wait. Note that set_and_wait does not support
-            an infinite timeout.
-
-        settle_time: float, optional
-            Delay after the set() has completed to indicate completion
-            to the caller
-
-        RETURNS
-        
-        status : DeviceStatus
-        """
-
-        # using put completion:
-        # timeout and settle time is handled by the status object.
-        status = DeviceStatus(
-            self, timeout=timeout, settle_time=settle_time)
-
-        def put_callback(**kwargs):
-            status._finished(success=True)
-
-        if value.lower() == "open":
-            pos = self.open_position
-        elif value.lower() == "close":
-            pos = self.closed_position
-        else:
-            msg = "value should be either open or close"
-            msg + " : received " + str(value)
-            raise ValueError(msg)
-        self.motor.user_setpoint.put(
-            pos, use_complete=True, callback=put_callback)
-
-        return status
-
-
 class EpicsOnOffShutter(OneSignalShutter):
     """
     a shutter using a single EPICS PV moved between two positions
@@ -1227,6 +1136,56 @@ class EpicsOnOffShutter(OneSignalShutter):
 
     """
     signal = Component(EpicsSignal, "")
+
+
+class EpicsMotorShutter(EpicsOnOffShutter):
+    """
+    a shutter, implemented with an EPICS motor moved between two positions
+    
+    EXAMPLE::
+
+        tomo_shutter = EpicsMotorShutter("2bma:m23", name="tomo_shutter")
+        tomo_shutter.close_value = 1.0      # default
+        tomo_shutter.open_value = 0.0       # default
+        tomo_shutter.tolerance = 0.01       # default
+        tomo_shutter.open()
+        tomo_shutter.close()
+        
+        # or, when used in a plan
+        def planA():
+            yield from abs_set(tomo_shutter, "open", group="O")
+            yield from wait("O")
+            yield from abs_set(tomo_shutter, "close", group="X")
+            yield from wait("X")
+        def planA():
+            yield from abs_set(tomo_shutter, "open", wait=True)
+            yield from abs_set(tomo_shutter, "close", wait=True)
+        def planA():
+            yield from mv(tomo_shutter, "open")
+            yield from mv(tomo_shutter, "close")
+
+    """
+    signal = Component(EpicsMotor, "")
+    tolerance = 0.01        # how close is considered in-position?
+
+    @property
+    def state(self):
+        """is shutter "open", "close", or "unknown"?"""
+        if abs(self.signal.position - self.open_value) <= self.tolerance:
+            result = self.valid_open_values[0]
+        elif abs(self.signal.position - self.close_value) <= self.tolerance:
+            result = self.valid_close_values[0]
+        else:
+            result = self.unknown_state
+        return result
+    
+    def open(self):
+        """move motor to BEAM NOT BLOCKED position, interactive use"""
+        self.signal.move(self.open_value)
+    
+    def close(self):
+        """move motor to BEAM BLOCKED position, interactive use"""
+        self.signal.move(self.close_value)
 
 
 class DualPf4FilterBox(Device):
