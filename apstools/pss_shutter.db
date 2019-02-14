@@ -1,0 +1,18 @@
+# simulate an APS PSS shutter EPICS interface
+ 
+record(bo, "pss:open") {
+    field(DESC, "open PSS shutter")
+    field(VAL, 0)
+}
+    
+record(bo, "pss:close") {
+    field(DESC, "close PSS shutter")
+    field(VAL, 0)
+}
+    
+record(bo, "pss:state") {
+    field(DESC, "PSS shutter state")
+    field(ZNAM, "OFF")	# closed
+    field(ONAM, "ON")	# open
+    field(VAL, 0)
+}
