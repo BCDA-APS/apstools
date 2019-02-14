@@ -755,12 +755,18 @@ class ApsPssShutterWithStatus(SimulatedApsPssShutterWithStatus):
     
     # bi record ZNAM=OFF, ONAM=ON
     pss_state = FormattedComponent(EpicsSignalRO, "{self.state_pv}")
-    pss_state_open_values = [1, "ON"]
-    pss_state_closed_values = [0, "OFF"]
+    pss_state_open_values = []
+    pss_state_closed_values = []
 
     def __init__(self, prefix, state_pv, *args, **kwargs):
         self.state_pv = state_pv
         super().__init__(prefix, *args, **kwargs)
+        self.pss_state_open_values = [
+            1,
+            self.pss_state.enum_strs[1]]
+        self.pss_state_closed_values = [
+            0,
+            self.pss_state.enum_strs[0]]
 
     @property
     def state(self):
