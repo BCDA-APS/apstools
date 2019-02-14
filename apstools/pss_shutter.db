@@ -1,11 +1,14 @@
 # simulate an APS PSS shutter EPICS interface
- 
-record(bo, "pss:open") {
+
+# command:  softIoc -d pss_shutter.db
+# gui:      pydm pss_shutter.ui &
+
+record(bo, "pss:Open") {
     field(DESC, "open PSS shutter")
     field(VAL, 0)
 }
     
-record(bo, "pss:close") {
+record(bo, "pss:Close") {
     field(DESC, "close PSS shutter")
     field(VAL, 0)
 }

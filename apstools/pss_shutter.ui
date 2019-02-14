@@ -37,7 +37,7 @@
         <bool>false</bool>
        </property>
        <property name="channel" stdset="0">
-        <string>ca://pss:open</string>
+        <string>ca://pss:Open</string>
        </property>
        <property name="widgetType" stdset="0">
         <enum>PyDMEnumButton::RadioButton</enum>
@@ -97,7 +97,7 @@
         <bool>false</bool>
        </property>
        <property name="channel" stdset="0">
-        <string>ca://pss:close</string>
+        <string>ca://pss:Close</string>
        </property>
        <property name="widgetType" stdset="0">
         <enum>PyDMEnumButton::RadioButton</enum>
