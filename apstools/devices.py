@@ -517,7 +517,7 @@ class OneSignalShutter(ShutterBase):
         return result
 
 
-class ApsPssShutter(Device):
+class ApsPssShutter(ShutterBase):
     """
     APS PSS shutter
     
@@ -525,6 +525,20 @@ class ApsPssShutter(Device):
     * set either bit, the shutter moves, and the bit resets a short time later
     * no indication that the shutter has actually moved from the bits
       (see :func:`ApsPssShutterWithStatus()` for alternative)
+    
+    Since there is no direct indication that a shutter has moved, the
+    ``state`` property will always return *unknown* and the
+    ``isOpen`` and ``isClosed`` properties will always return *False*.
+    
+    A consequence of the unknown state is that the shutter will always
+    be commanded to move (and wait the ``delay_s`` time), 
+    even if it is already at that position.  This device could keep 
+    track of the last commanded position, but that is not guaranteed
+    to be true since the shutter could be moved from other software.
+    
+    The default ``delay_s`` has been set at *1.2 s* to allow for 
+    shutter motion.  Change this as desired.  Advise if this 
+    default should be changed.
     
     EXAMPLE::
     
@@ -556,55 +570,200 @@ class ApsPssShutter(Device):
         shutter_a.set("o")
         shutter_a.set("x")
     """
-    open_bit = Component(EpicsSignal, ":open")
-    close_bit = Component(EpicsSignal, ":close")
-    delay_s = 1.2
-    valid_open_values = ["open",]   # lower-case strings ONLY
-    valid_close_values = ["close",]
-    busy = Signal(value=False, name="busy")
+    # bo records that reset after a short time, set to 1 to move
+    # note: no ":" at end of prefix!
+    # note: upper-case first characters here (unique to 9-ID)?
+    open_signal = Component(EpicsSignal, ":Open")
+    close_signal = Component(EpicsSignal, ":Close")
+    open_text = "open"
+    close_text = "close"
+
+    delay_s = 1.2       # allow time for shutter to move
+
+    @property
+    def state(self):
+        """is shutter "open", "close", or "unknown"?"""
+        return self.unknown_state   # no state info available
+
+    def open(self, timeout=10):
+        """request the shutter to open (timeout is ignored)"""
+        if not self.isOpen:
+            self.open_signal.put(1)
+            
+            # wait for the shutter to move
+            if self.delay_s > 0:
+                time.sleep(self.delay_s)    # blocking call OK here
+            
+            # reset that signal (if not done by EPICS)
+            if self.open_signal.value == 1:
+                self.open_signal.put(0)
+
+    def close(self, timeout=10):
+        """request the shutter to close (timeout is ignored)"""
+        if not self.isClosed:
+            self.close_signal.put(1)
+            
+            # wait for the shutter to move
+            if self.delay_s > 0:
+                time.sleep(self.delay_s)    # blocking call OK here
+            
+            # reset that signal (if not done by EPICS)
+            if self.close_signal.value == 1:
+                self.close_signal.put(0)
+
+
+class ApsPssShutterWithStatus(ShutterBase):
+    """
+    APS PSS shutter with separate status PV
     
-    def open(self):
-        """request shutter to open, interactive use"""
-        self.open_bit.put(1)
+    * APS PSS shutters have separate bit PVs for open and close
+    * set either bit, the shutter moves, and the bit resets a short time later
+    * a separate status PV tells if the shutter is open or closed
+      (see :func:`ApsPssShutter()` for alternative)
     
-    def close(self):
-        """request shutter to close, interactive use"""
-        self.close_bit.put(1)
+    EXAMPLE::
     
-    def set(self, value, **kwargs):
-        """request the shutter to open or close, BlueSky plan use"""
-        # ensure numerical additions to lists are now strings
-        def input_filter(v):
-            return str(v).lower()
-        self.valid_open_values = list(map(input_filter, self.valid_open_values))
-        self.valid_close_values = list(map(input_filter, self.valid_close_values))
+        A_shutter = ApsPssShutterWithStatus(
+            "2bma:A_shutter", 
+            "PA:02BM:STA_A_FES_OPEN_PL", 
+            name="A_shutter")
+        B_shutter = ApsPssShutterWithStatus(
+            "2bma:B_shutter", 
+            "PA:02BM:STA_B_SBS_OPEN_PL", 
+            name="B_shutter")
         
+        A_shutter.open()
+        A_shutter.close()
+        
+        or
+        
+        %mov A_shutter "open"
+        %mov A_shutter "close"
+        
+        or
+        
+        A_shutter.set("open")
+        A_shutter.set("close")
+        
+    When using the shutter in a plan, be sure to use `yield from`.
+
+        def in_a_plan(shutter):
+            yield from abs_set(shutter, "open", wait=True)
+            # do something
+            yield from abs_set(shutter, "close", wait=True)
+        
+        RE(in_a_plan(A_shutter))
+        
+    The strings accepted by `set()` are defined in attributes
+    (`open_text` and `close_text`).
+    """
+    # bo records that reset after a short time, set to 1 to move
+    # note: no ":" at end of prefix!
+    # note: upper-case first characters here (unique to 9-ID)?
+    open_signal = Component(EpicsSignal, ":Open")
+    close_signal = Component(EpicsSignal, ":Close")
+    open_text = "open"
+    close_text = "close"
+    
+    # bi record ZNAM=OFF, ONAM=ON
+    pss_state = FormattedComponent(EpicsSignalRO, "{self.state_pv}")
+    pss_state_open_values = []
+    pss_state_closed_values = []
+
+    def __init__(self, prefix, state_pv, *args, **kwargs):
+        self.state_pv = state_pv
+        super().__init__(prefix, *args, **kwargs)
+        self.pss_state_open_values = [
+            1,
+            self.pss_state.enum_strs[1]]
+        self.pss_state_closed_values = [
+            0,
+            self.pss_state.enum_strs[0]]
+
+    @property
+    def state(self):
+        """is shutter "open", "close", or "unknown"?"""
+        if self.pss_state.value in self.pss_state_open_values:
+            result = self.open_text
+        elif self.pss_state.value in self.pss_state_closed_values:
+            result = self.close_text
+        else:
+            result = self.unknown_state
+        return result
+
+    def wait_for_state(self, target, timeout=10, poll_s=0.01):
+        if timeout is not None:
+            expiration = time.time() + timeout
+        else:
+            expiration = None
+        
+        while self.pss_state.value not in target:
+            time.sleep(poll_s)
+            if poll_s < 0.1:
+                poll_s *= 1.5   # progressively longer
+            if expiration is not None and time.time() > expiration:
+                msg = f"Timeout ({timeout} s) waiting for PSS shutter state"
+                msg += f" to reach a value in {target}"
+                raise TimeoutError(msg)
+
+    def open(self, timeout=10):
+        """request the shutter to open"""
+        if not self.isOpen:
+            self.open_signal.put(1)
+            self.wait_for_state(
+                self.pss_state_open_values, 
+                timeout=timeout)
+            if self.delay_s > 0:
+                time.sleep(self.delay_s)    # blocking call OK here
+
+    def close(self, timeout=10):
+        """request the shutter to close"""
+        if not self.isClosed:
+            self.close_signal.put(1)
+            self.wait_for_state(
+                self.pss_state_closed_values, 
+                timeout=timeout)
+            if self.delay_s > 0:
+                time.sleep(self.delay_s)    # blocking call OK here
+
+    def set(self, value, **kwargs):
+        """
+        plan: request the shutter to open or close
+
+        PARAMETERS
+        
+        value : str
+            any from ``self.choices`` (typically "open" or "close")
+        
+        kwargs : dict
+            ignored at this time
+
+        """
         if self.busy.value:
             raise RuntimeError("shutter is operating")
-
-        acceptables = self.valid_open_values + self.valid_close_values
-        if input_filter(value) not in acceptables:
-            msg = "value should be one of " + " | ".join(acceptables)
-            msg += " : received " + str(value)
-            raise ValueError(msg)
         
+        __value__ = self.lowerCaseString(value)
+        self.validTarget(__value__)
+
         status = DeviceStatus(self)
         
-        def move_shutter():
-            if input_filter(value) in self.valid_open_values:
-                self.open()     # no need to yield inside a thread
-            elif input_filter(value) in self.valid_close_values:
-                self.close()
-        
-        def run_and_delay():
-            self.busy.put(True)
-            move_shutter()
-            # sleep, since we don't *know* when the shutter has moved
-            time.sleep(self.delay_s)
-            self.busy.put(False)
+        if self.inPosition(__value__):
+            # no need to move, cut straight to the end
             status._finished(success=True)
-        
-        threading.Thread(target=run_and_delay, daemon=True).start()
+        else:
+            def move_it():
+                # runs in a thread, no need to "yield from"
+                self.busy.put(True)
+                if __value__ in self.valid_open_values:
+                    self.open()
+                elif __value__ in self.valid_close_values:
+                    self.close()
+                self.busy.put(False)
+                status._finished(success=True)
+
+            # get it moving
+            threading.Thread(target=move_it, daemon=True).start()
+
         return status
 
 
@@ -701,161 +860,6 @@ class SimulatedApsPssShutterWithStatus(ShutterBase):
         # finally, make sure both signals are reset
         self.open_signal.put(0)
         self.close_signal.put(0)
-        return status
-
-
-class ApsPssShutterWithStatus(ShutterBase):
-    """
-    APS PSS shutter with separate status PV
-    
-    * APS PSS shutters have separate bit PVs for open and close
-    * set either bit, the shutter moves, and the bit resets a short time later
-    * a separate status PV tells if the shutter is open or closed
-      (see :func:`ApsPssShutter()` for alternative)
-    
-    EXAMPLE::
-    
-        A_shutter = ApsPssShutterWithStatus(
-            "2bma:A_shutter", 
-            "PA:02BM:STA_A_FES_OPEN_PL", 
-            name="A_shutter")
-        B_shutter = ApsPssShutterWithStatus(
-            "2bma:B_shutter", 
-            "PA:02BM:STA_B_SBS_OPEN_PL", 
-            name="B_shutter")
-        
-        A_shutter.open()
-        A_shutter.close()
-        
-        or
-        
-        %mov A_shutter "open"
-        %mov A_shutter "close"
-        
-        or
-        
-        A_shutter.set("open")
-        A_shutter.set("close")
-        
-    When using the shutter in a plan, be sure to use `yield from`.
-
-        def in_a_plan(shutter):
-            yield from abs_set(shutter, "open", wait=True)
-            # do something
-            yield from abs_set(shutter, "close", wait=True)
-        
-        RE(in_a_plan(A_shutter))
-        
-    The strings accepted by `set()` are defined in attributes
-    (`open_text` and `close_text`).
-    """
-    # bo records that reset after a short time, set to 1 to move
-    # note: no ":" at end of prefix!
-    # note: upper-case first characters here (unique to 9-ID)?
-    open_signal = Component(EpicsSignal, ":Open")
-    close_signal = Component(EpicsSignal, ":Close")
-    open_text = "open"
-    close_text = "close"
-    
-    # bi record ZNAM=OFF, ONAM=ON
-    pss_state = FormattedComponent(EpicsSignalRO, "{self.state_pv}")
-    pss_state_open_values = []
-    pss_state_closed_values = []
-
-    def __init__(self, prefix, state_pv, *args, **kwargs):
-        self.state_pv = state_pv
-        super().__init__(prefix, *args, **kwargs)
-        self.pss_state_open_values = [
-            1,
-            self.pss_state.enum_strs[1]]
-        self.pss_state_closed_values = [
-            0,
-            self.pss_state.enum_strs[0]]
-
-    @property
-    def state(self):
-        """is shutter "open", "close", or "unknown"?"""
-        if self.pss_state.value in self.pss_state_open_values:
-            result = self.open_text
-        elif self.pss_state.value in self.pss_state_closed_values:
-            result = self.close_text
-        else:
-            result = self.unknown_state
-        return result
-
-    def wait_for_pss_state(self, target, timeout=10, poll_s=0.01):
-        if timeout is not None:
-            expiration = time.time() + timeout
-        else:
-            expiration = None
-        
-        while self.pss_state.value not in target:
-            time.sleep(poll_s)
-            if poll_s < 0.1:
-                poll_s *= 1.5   # progressively longer
-            if expiration is not None and time.time() > expiration:
-                msg = f"Timeout ({timeout} s) waiting for PSS shutter state"
-                msg += f" to reach a value in {target}"
-                raise TimeoutError(msg)
-
-    def open(self, timeout=10):
-        """request the shutter to open"""
-        if not self.isOpen:
-            self.open_signal.put(1)
-            self.wait_for_pss_state(
-                self.pss_state_open_values, 
-                timeout=timeout)
-            if self.delay_s > 0:
-                time.sleep(self.delay_s)    # blocking call OK here
-
-    def close(self, timeout=10):
-        """request the shutter to close"""
-        if not self.isClosed:
-            self.close_signal.put(1)
-            self.wait_for_pss_state(
-                self.pss_state_closed_values, 
-                timeout=timeout)
-            if self.delay_s > 0:
-                time.sleep(self.delay_s)    # blocking call OK here
-
-    def set(self, value, **kwargs):
-        """
-        plan: request the shutter to open or close
-
-        PARAMETERS
-        
-        value : str
-            any from ``self.choices`` (typically "open" or "close")
-        
-        kwargs : dict
-            ignored at this time
-
-        """
-        if self.busy.value:
-            raise RuntimeError("shutter is operating")
-        
-        __value__ = self.lowerCaseString(value)
-        self.validTarget(__value__)
-
-        status = DeviceStatus(self)
-        
-        if self.inPosition(__value__):
-            # no need to move, cut straight to the end
-            status._finished(success=True)
-        else:
-            def move_it():
-                # runs in a thread, no need to "yield from"
-                self.busy.put(True)
-                if __value__ in self.valid_open_values:
-                    self.open()
-                elif __value__ in self.valid_close_values:
-                    self.close()
-                self.busy.put(False)
-                status._finished(success=True)
-
-            # get it moving
-            threading.Thread(target=move_it, daemon=True).start()
-
         return status
 
 
