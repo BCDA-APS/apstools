@@ -756,7 +756,7 @@ class ApsPssShutterWithStatus(ApsPssShutter):
                 self.close_signal.put(0)
 
 
-class SimulatedApsPssShutterWithStatus(ShutterBase):
+class SimulatedApsPssShutterWithStatus(ApsPssShutterWithStatus):
     """
     Simulated APS PSS shutter
     
@@ -768,88 +768,30 @@ class SimulatedApsPssShutterWithStatus(ShutterBase):
     open_signal = Component(Signal, value=0)
     close_signal = Component(Signal, value=0)
     pss_state = FormattedComponent(Signal, value='close')
-    open_value = 1
-    close_value = 0
-    open_text = "open"
-    close_text = "close"
 
-    @property
-    def state(self):
-        """is shutter "open", "close", or "unknown"?"""
-        if self.pss_state.value == self.open_text:
-            result = self.open_text
-        elif self.pss_state.value == self.close_text:
-            result = self.close_text
-        else:
-            result = self.unknown_state
-        return result
+    def __init__(self, *args, **kwargs):
+        super(ApsPssShutter, self).__init__("", *args, **kwargs)
+        self.pss_state_open_values += self.valid_open_values
+        self.pss_state_closed_values += self.valid_close_values
 
-    def open(self, timeout=10):
-        """request the shutter to open (ignore timeout)"""
-        if not self.isOpen:
-            self.open_signal.put(self.open_value)
-            self.delay_s = self.simulate_response_time()
-            if self.delay_s > 0:
-                time.sleep(self.delay_s)    # blocking call OK here
-            self.pss_state.put(self.open_text)
-
-    def close(self, timeout=10):
-        """request the shutter to close (ignore timeout)"""
-        if not self.isClosed:
-            self.close_signal.put(self.close_value)
-            self.delay_s = self.simulate_response_time()
-            if self.delay_s > 0:
-                time.sleep(self.delay_s)    # blocking call OK here
-            self.pss_state.put(self.close_text)
-
-    def simulate_response_time(self):
-        """simulated response time for PSS status"""
-        return np.random.uniform(0.1, 0.9)
-
-    def set(self, value, **kwargs):
+    def wait_for_state(self, target, timeout=10, poll_s=0.01):
         """
-        plan: request the shutter to open or close
-
+        wait for the PSS state to reach a desired target
+        
         PARAMETERS
         
-        value : str
-            any from ``self.choices`` (typically "open" or "close")
+        target : [str]
+            list of strings containing acceptable values
         
-        kwargs : dict
-            ignored at this time
-
+        timeout : non-negative number
+            Ignored in the simulation.
+        
+        poll_s : non-negative number
+            Ignored in the simulation.
         """
-        if self.busy.value:
-            raise RuntimeError("shutter is operating")
-        
-        __value__ = self.lowerCaseString(value)
-        self.validTarget(__value__)
-
-        status = DeviceStatus(self)
-        
-        if self.inPosition(__value__):
-            # no need to move, cut straight to the end
-            status._finished(success=True)
-        else:
-            def move_it():
-                # runs in a thread, no need to "yield from"
-                self.busy.put(True)
-                if __value__ in self.valid_open_values:
-                    self.open()
-                    expected_value = self.open_text
-                elif __value__ in self.valid_close_values:
-                    self.close()
-                    expected_value = self.close_text
-                self.pss_state.set(expected_value)
-                self.busy.put(False)
-                status._finished(success=True)
-            # get it moving
-            threading.Thread(target=move_it, daemon=True).start()
-
-        # finally, make sure both signals are reset
-        self.open_signal.put(0)
-        self.close_signal.put(0)
-        return status
+        simulated_response_time_s = np.random.uniform(0.1, 0.9)
+        time.sleep(simulated_response_time_s)
+        self.pss_state.put(target[0])
 
 
 class ApsUndulator(Device):
