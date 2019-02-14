@@ -134,7 +134,6 @@ def nscan(detectors, *motor_sets, num=11, per_step=None, md=None):
     See the `nscan()` example in a Jupyter notebook:
     https://github.com/BCDA-APS/apstools/blob/master/docs/source/resources/demo_nscan.ipynb
     """
-    # TODO: Isn't there a similar plan in bluesky?  At least reference it.
     def take_n_at_a_time(args, n=2):
         yield from zip(*[iter(args)]*n)
         
