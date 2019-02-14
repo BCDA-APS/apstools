@@ -956,11 +956,6 @@ class AxisTunerMixin(EpicsMotor):   # from apstools.devices
                 yield from self.post_tune_method()
 
 
-# TODO: issue #76
-# class TunableSynAxis(AxisTunerMixin, SynAxis): """synthetic axis that can be tuned"""
-# class TunableEpicsMotor(AxisTunerMixin, EpicsMotor): """EpicsMotor that can be tuned"""
-
-
 class EpicsDescriptionMixin(DeviceMixinBase):
     """
     add a record's description field to a Device, such as EpicsMotor
@@ -974,6 +969,29 @@ class EpicsDescriptionMixin(DeviceMixinBase):
         m1 = myEpicsMotor('xxx:m1', name='m1')
         print(m1.desc.value)
     
+    more ideas::
+        
+        class TunableSynAxis(AxisTunerMixin, SynAxis):
+            '''synthetic axis that can be tuned'''
+        class TunableEpicsMotor(AxisTunerMixin, EpicsMotor):
+            '''EpicsMotor that can be tuned'''
+        class EpicsMotorWithDescription(EpicsDescriptionMixin, EpicsMotor):
+            '''EpicsMotor with description field'''
+        
+        class EpicsMotorWithMore(
+            EpicsDescriptionMixin, 
+            EpicsMotorLimitsMixin, 
+            EpicsMotorDialMixin,
+            EpicsMotorRawMixin, 
+            EpicsMotor): 
+            '''
+            EpicsMotor with more fields
+             
+            * description (``desc``)
+            * soft motor limits (``soft_limit_hi``, ``soft_limit_lo``)
+            * dial coordinates (``dial``)
+            * raw coordinates (``raw``)
+            '''
     """
     
     desc = Component(EpicsSignal, ".DESC")
@@ -1081,26 +1099,6 @@ class EpicsMotorRawMixin(DeviceMixinBase):
     """
     
     raw = Component(EpicsSignal, ".RRBV", write_pv=".RVAL")
-
-
-# TODO: issue #76
-# class EpicsMotorWithDescription(EpicsDescriptionMixin, EpicsMotor):
-#     """EpicsMotor with description field"""
-#
-# class EpicsMotorWithMore(
-#     EpicsDescriptionMixin, 
-#     EpicsMotorLimitsMixin, 
-#     EpicsMotorDialMixin,
-#     EpicsMotorRawMixin, 
-#     EpicsMotor): 
-#     """
-#     EpicsMotor with more fields
-#     
-#     * description (``desc``)
-#     * soft motor limits (``soft_limit_hi``, ``soft_limit_lo``)
-#     * dial coordinates (``dial``)
-#     * raw coordinates (``raw``)
-#     """
 
 
 class EpicsMotorShutter(OneSignalShutter):
