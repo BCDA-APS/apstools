@@ -565,8 +565,8 @@ class ApsPssShutter(ShutterBase):
     
     Example, add "o" & "x" as aliases for "open" & "close":
     
-        shutter_a.valid_open_values.append("o")
-        shutter_a.valid_close_values.append("x")
+        shutter_a.addOpenValue("o")
+        shutter_a.addCloseValue("x")
         shutter_a.set("o")
         shutter_a.set("x")
     """
