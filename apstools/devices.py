@@ -488,8 +488,17 @@ class OneSignalShutter(ShutterBase):
     """
 
     signal = Component(Signal, value=0)
-    
-    # - - - - likely to override these methods in subclass - - - -
+
+    @property
+    def state(self):
+        """is shutter "open", "close", or "unknown"?"""
+        if self.signal.value == self.open_value:
+            result = self.valid_open_values[0]
+        elif self.signal.value == self.close_value:
+            result = self.valid_close_values[0]
+        else:
+            result = self.unknown_state
+        return result
 
     def open(self):
         """BLOCKING: request shutter to open, called by set()"""
@@ -504,17 +513,6 @@ class OneSignalShutter(ShutterBase):
             self.signal.put(self.close_value)
             if self.delay_s > 0:
                 time.sleep(self.delay_s)    # blocking call OK here
-
-    @property
-    def state(self):
-        """is shutter "open", "close", or "unknown"?"""
-        if self.signal.value == self.open_value:
-            result = self.valid_open_values[0]
-        elif self.signal.value == self.close_value:
-            result = self.valid_close_values[0]
-        else:
-            result = self.unknown_state
-        return result
 
 
 class ApsPssShutter(ShutterBase):
