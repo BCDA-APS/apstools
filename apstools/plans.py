@@ -266,9 +266,9 @@ def snapshot(obj_list, stream="primary", md=None):
     return (yield from _snap(md=_md))
 
 
-# def sscan(*args, md=None, **kw):        # TODO: planned
+# def sscan(*args, md=None, **kw):        # TODO: planned as #91
 #     """
-#     gather data form the sscan record and emit documents
+#     gather data from the sscan record and emit documents
 #     
 #     Should this operate a complete scan using the sscan record?
 #     """
