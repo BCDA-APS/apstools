@@ -704,7 +704,7 @@ class SimulatedApsPssShutterWithStatus(ShutterBase):
         return status
 
 
-class ApsPssShutterWithStatus(SimulatedApsPssShutterWithStatus):
+class ApsPssShutterWithStatus(ShutterBase):
     """
     APS PSS shutter with separate status PV
     
@@ -750,8 +750,12 @@ class ApsPssShutterWithStatus(SimulatedApsPssShutterWithStatus):
     (`open_text` and `close_text`).
     """
     # bo records that reset after a short time, set to 1 to move
-    open_signal = Component(EpicsSignal, "open")    # :open
-    close_signal = Component(EpicsSignal, "close")  # :close
+    # note: no ":" at end of prefix!
+    # note: upper-case first characters here (unique to 9-ID)?
+    open_signal = Component(EpicsSignal, ":Open")
+    close_signal = Component(EpicsSignal, ":Close")
+    open_text = "open"
+    close_text = "close"
     
     # bi record ZNAM=OFF, ONAM=ON
     pss_state = FormattedComponent(EpicsSignalRO, "{self.state_pv}")
