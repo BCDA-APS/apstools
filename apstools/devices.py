@@ -71,7 +71,6 @@ OTHER SUPPORT
    
     ~DualPf4FilterBox
     ~EpicsDescriptionMixin
-    ~ProcedureRegistry
 
 Internal routines
 
@@ -1209,129 +1208,7 @@ class DualPf4FilterBox(Device):
     thickness_glass_mm = Component(EpicsSignalRO, "filterGlass")
     energy_keV_local = Component(EpicsSignal, "E:local")
     energy_keV_mono = Component(EpicsSignal, "displayEnergy")
-    mode = Component(EpicsSignal, "useMono", string=True)    
-
-
-class ProcedureRegistry(Device):
-    """
-    Procedure Registry:  run a blocking function in a thread
-    
-    With many instruments, such as USAXS, there are several operating 
-    modes to be used, each with its own setup code.  This ophyd Device
-    should coordinate those modes so that the setup procedures can be called
-    either as part of a Bluesky plan or from the command line directly.
-    Assumes that users will write functions to setup a particular 
-    operation or operating mode.  The user-written functions may not
-    be appropriate to use in a plan directly since they might
-    make blocking calls.  The ProcedureRegistry will call the function
-    in a thread (which is allowed to make blocking calls) and wait
-    for the thread to complete.
-    
-    It is assumed that each user-written function will not return until
-    it is complete.
-    .. autosummary::
-       
-        ~dir
-        ~add
-        ~remove
-        ~set
-        ~put
-
-    EXAMPLE:
-    
-    Given these function definitions::
-
-        def clearScalerNames():
-            for ch in scaler.channels.configuration_attrs:
-                if ch.find(".") < 0:
-                    chan = scaler.channels.__getattribute__(ch)
-                    chan.chname.put("")
-
-        def setMyScalerNames():
-            scaler.channels.chan01.chname.put("clock")
-            scaler.channels.chan02.chname.put("I0")
-            scaler.channels.chan03.chname.put("detector")
-    
-    create a registry and add the two functions (default name
-    is the function name):
-    
-        use_mode = ProcedureRegistry(name="ProcedureRegistry")
-        use_mode.add(clearScalerNames)
-        use_mode.add(setMyScalerNames)
-    
-    and then use this registry in a plan, such as this::
-    
-        def myPlan():
-            yield from bps.mv(use_mode, "setMyScalerNames")
-            yield from bps.sleep(5)
-            yield from bps.mv(use_mode, "clearScalerNames")
-
-    """
-    
-    busy = Component(Signal, value=False)
-    registry = {}
-    delay_s = 0
-    timeout_s = None
-    state = "__created__"
-    
-    @property
-    def dir(self):
-        """tuple of procedure names"""
-        return tuple(sorted(self.registry.keys()))
-    
-    def add(self, procedure, proc_name=None):
-        """
-        add procedure to registry
-        """
-        #if procedure.__class__ == "function":
-        nm = proc_name or procedure.__name__
-        self.registry[nm] = procedure
-    
-    def remove(self, procedure):
-        """
-        remove procedure from registry
-        """
-        if isinstance(procedure, str):
-            nm = procedure
-        else:
-            nm = procedure.__name__
-        if nm in self.registry:
-            del self.registry[nm]
-    
-    def set(self, proc_name):
-        """
-        run procedure in a thread, return once it is complete
-        
-        proc_name (str) : name of registered procedure to be run
-        """
-        if not isinstance(proc_name, str):
-            raise ValueError("expected a procedure name, not {}".format(proc_name))
-        if proc_name not in self.registry:
-            raise KeyError("unknown procedure name: "+proc_name)
-        if self.busy.value:
-            raise RuntimeError("busy now")
- 
-        self.state = "__busy__"
-        status = DeviceStatus(self)
-        
-        @APS_plans.run_in_thread
-        def run_and_delay():
-            self.busy.put(True)
-            self.registry[proc_name]()
-            # optional delay
-            if self.delay_s > 0:
-                time.sleep(self.delay_s)
-            self.busy.put(False)
-            status._finished(success=True)
-        
-        run_and_delay()
-        ophyd.status.wait(status, timeout=self.timeout_s)
-        self.state = proc_name
-        return status
-    
-    def put(self, value):   # TODO: risky?
-        """replaces ophyd Device default put() behavior"""
-        self.set(value)
+    mode = Component(EpicsSignal, "useMono", string=True)
 
 
 # AreaDetector support
