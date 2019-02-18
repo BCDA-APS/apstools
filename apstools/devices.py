@@ -539,7 +539,7 @@ class ApsPssShutter(ShutterBase):
     
     EXAMPLE::
     
-        shutter_a = ApsPssShutter("2bma:A_shutter", name="shutter")
+        shutter_a = ApsPssShutter("2bma:A_shutter:", name="shutter")
         
         shutter_a.open()
         shutter_a.close()
@@ -568,10 +568,9 @@ class ApsPssShutter(ShutterBase):
         shutter_a.set("x")
     """
     # bo records that reset after a short time, set to 1 to move
-    # note: no ":" at end of prefix!
     # note: upper-case first characters here (unique to 9-ID)?
-    open_signal = Component(EpicsSignal, ":Open")
-    close_signal = Component(EpicsSignal, ":Close")
+    open_signal = Component(EpicsSignal, "Open")
+    close_signal = Component(EpicsSignal, "Close")
 
     delay_s = 1.2       # allow time for shutter to move
 
@@ -619,11 +618,11 @@ class ApsPssShutterWithStatus(ApsPssShutter):
     EXAMPLE::
     
         A_shutter = ApsPssShutterWithStatus(
-            "2bma:A_shutter", 
+            "2bma:A_shutter:", 
             "PA:02BM:STA_A_FES_OPEN_PL", 
             name="A_shutter")
         B_shutter = ApsPssShutterWithStatus(
-            "2bma:B_shutter", 
+            "2bma:B_shutter:", 
             "PA:02BM:STA_B_SBS_OPEN_PL", 
             name="B_shutter")
         
