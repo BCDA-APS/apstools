@@ -878,7 +878,7 @@ class AxisTunerException(ValueError):
     """Exception during execution of `AxisTunerBase` subclass"""
 
 
-class AxisTunerMixin(EpicsMotor):   # from apstools.devices
+class AxisTunerMixin(EpicsMotor):
     """
     Mixin class to provide tuning capabilities for an axis
     
