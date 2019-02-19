@@ -1060,8 +1060,10 @@ class EpicsMotorLimitsMixin(DeviceMixinBase):
         Similar with SPEC command
         """
         if not self.moving:
-            self.soft_limit_lo.put(min(low, high))
-            self.soft_limit_hi.put(max(low, high))
+            yield from bps.mv(
+                self.soft_limit_lo, min(low, high),
+                self.soft_limit_hi, max(low, high),
+            )
 
 
 class EpicsMotorServoMixin(DeviceMixinBase):
