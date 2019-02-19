@@ -12,3 +12,4 @@ docs/build/
 .settings/
 build/
 .ipynb_checkpoints/
+.pydevproject
