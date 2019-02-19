@@ -70,6 +70,7 @@ OTHER SUPPORT
 
 .. autosummary::
    
+    ~DCM_Feedback
     ~DualPf4FilterBox
     ~EpicsDescriptionMixin
     ~KohzuSeqCtl_Monochromator
@@ -120,6 +121,10 @@ logger = logging.getLogger(__name__)
 
 """for convenience"""		# TODO: contribute to ophyd?
 SCALER_AUTOCOUNT_MODE = 1
+
+
+# simple enumeration used by DCM_Feedback()
+MONO_FEEDBACK_OFF, MONO_FEEDBACK_ON = range(2)
 
 
 def use_EPICS_scaler_channels(scaler):
@@ -1186,6 +1191,34 @@ class EpicsOnOffShutter(OneSignalShutter):
 
     """
     signal = Component(EpicsSignal, "")
+
+
+class DCM_Feedback(Device):
+    """
+    monochromator EPID-record-based feedback program: fb_epid
+    """
+    control = Component(EpicsSignal, "")
+    on = Component(EpicsSignal, ":on")
+    drvh = Component(EpicsSignal, ".DRVH")
+    drvl = Component(EpicsSignal, ".DRVL")
+    oval = Component(EpicsSignal, ".OVAL")
+
+    @property
+    def is_on(self):
+        return self.on.value == 1
+
+    def check_position(self):
+        diff_hi = self.drvh.value - self.oval.value
+        diff_lo = self.oval.value - self.drvl.value
+        if min(diff_hi, diff_lo) < 0.2:
+            if email_notices.notify_on_feedback:
+                subject = "USAXS Feedback problem"
+                message = "Feedback is very close to its limits."
+                # TODO: must call in thread
+                #email_notices.send(subject, message)
+                print("!"*15)
+                print(subject, message)
+                print("!"*15)
 
 
 class KohzuSeqCtl_Monochromator(Device):
