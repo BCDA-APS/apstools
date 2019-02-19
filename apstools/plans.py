@@ -451,9 +451,10 @@ class TuneAxis(object):
                     v = np.array(v)
                 getattr(results, key).put(v)
 
-            yield from bps.create(name=stream_name)
-            yield from bps.read(results)
-            yield from bps.save()
+            if results.tune_ok.value:
+                yield from bps.create(name=stream_name)
+                yield from bps.read(results)
+                yield from bps.save()
             
             yield from bps.mv(self.axis, final_position)
             self.stats.append(self.peaks)
