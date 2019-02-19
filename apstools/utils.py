@@ -12,6 +12,7 @@ Various utilities
    ~print_snapshot_list
    ~text_encode
    ~to_unicode_or_bust
+   ~trim_string_for_EPICS
    ~unix_cmd
 
 """
@@ -31,6 +32,8 @@ from .plans import run_in_thread
 
 
 logger = logging.getLogger(__name__)
+
+MAX_EPICS_STRINGOUT_LENGTH = 40
 
 
 def pairwise(iterable):
@@ -64,6 +67,13 @@ def to_unicode_or_bust(obj, encoding='utf-8'):
         if not isinstance(obj, str):
             obj = str(obj, encoding)
     return obj
+
+
+def trim_string_for_EPICS(msg):
+    """string must not be too long for EPICS PV"""
+    if len(msg) > MAX_EPICS_STRINGOUT_LENGTH:
+        msg = msg[:MAX_EPICS_STRINGOUT_LENGTH]
+    return msg
 
 
 def unix_cmd(command_list):
