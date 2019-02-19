@@ -8,6 +8,7 @@ Various utilities
    ~ExcelDatabaseFileBase
    ~ExcelDatabaseFileGeneric
    ~ipython_profile_name
+   ~pairwise
    ~print_snapshot_list
    ~text_encode
    ~to_unicode_or_bust
@@ -57,19 +58,19 @@ def text_encode(source):
     return source.encode(errors='ignore')
 
 
-def unix_cmd(command_list):
-    """run a UNIX command, returns (stdout, stderr)"""
-    process = subprocess.Popen(command_list, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-    stdout, stderr = process.communicate()
-    return stdout, stderr
-
-
 def to_unicode_or_bust(obj, encoding='utf-8'):
     """from: http://farmdev.com/talks/unicode/"""
     if isinstance(obj, str):
         if not isinstance(obj, str):
             obj = str(obj, encoding)
     return obj
+
+
+def unix_cmd(command_list):
+    """run a UNIX command, returns (stdout, stderr)"""
+    process = subprocess.Popen(command_list, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+    stdout, stderr = process.communicate()
+    return stdout, stderr
 
 
 def connect_pvlist(pvlist, wait=True, timeout=2, poll_interval=0.1):
