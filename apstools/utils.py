@@ -32,6 +32,26 @@ from .plans import run_in_thread
 logger = logging.getLogger(__name__)
 
 
+def pairwise(iterable):
+    """
+    break a list (or other iterable) into pairs
+    
+    ::
+    
+    s -> (s0, s1), (s2, s3), (s4, s5), ...
+    
+    In [71]: for item in pairwise("a b c d e fg".split()): 
+        ...:     print(item) 
+        ...:                                                                                                                         
+    ('a', 'b')
+    ('c', 'd')
+    ('e', 'fg')
+  
+    """
+    a = iter(iterable)
+    return zip(a, a)
+
+
 def text_encode(source):
     """encode ``source`` using the default codepoint"""
     return source.encode(errors='ignore')
