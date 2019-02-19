@@ -1193,6 +1193,34 @@ class EpicsOnOffShutter(OneSignalShutter):
     signal = Component(EpicsSignal, "")
 
 
+class DualPf4FilterBox(Device):
+    """
+    Dual Xia PF4 filter boxes using support from synApps (using Al, Ti foils)
+    
+    EXAMPLE::
+    
+        pf4 = DualPf4FilterBox("2bmb:pf4:", name="pf4")
+        pf4_AlTi = DualPf4FilterBox("9idcRIO:pf4:", name="pf4_AlTi")
+    
+    """
+    fPosA = Component(EpicsSignal, "fPosA")
+    fPosB = Component(EpicsSignal, "fPosB")
+    bankA = Component(EpicsSignalRO, "bankA")
+    bankB = Component(EpicsSignalRO, "bankB")
+    bitFlagA = Component(EpicsSignalRO, "bitFlagA")
+    bitFlagB = Component(EpicsSignalRO, "bitFlagB")
+    transmission = Component(EpicsSignalRO, "trans")
+    transmission_a = Component(EpicsSignalRO, "transA")
+    transmission_b = Component(EpicsSignalRO, "transB")
+    inverse_transmission = Component(EpicsSignalRO, "invTrans")
+    thickness_Al_mm = Component(EpicsSignalRO, "filterAl")
+    thickness_Ti_mm = Component(EpicsSignalRO, "filterTi")
+    thickness_glass_mm = Component(EpicsSignalRO, "filterGlass")
+    energy_keV_local = Component(EpicsSignal, "E:local")
+    energy_keV_mono = Component(EpicsSignal, "displayEnergy")
+    mode = Component(EpicsSignal, "useMono", string=True)
+
+
 class DCM_Feedback(Device):
     """
     monochromator EPID-record-based feedback program: fb_epid
@@ -1279,34 +1307,6 @@ class Struck3820(Device):
     output_polarity = Component(EpicsSignal, "OutputPolarity")
     read_rate = Component(EpicsSignal, "ReadAll.SCAN")
     do_readl_all = Component(EpicsSignal, "DoReadAll")
-
-
-class DualPf4FilterBox(Device):
-    """
-    Dual Xia PF4 filter boxes using support from synApps (using Al, Ti foils)
-    
-    EXAMPLE::
-    
-        pf4 = DualPf4FilterBox("2bmb:pf4:", name="pf4")
-        pf4_AlTi = DualPf4FilterBox("9idcRIO:pf4:", name="pf4_AlTi")
-    
-    """
-    fPosA = Component(EpicsSignal, "fPosA")
-    fPosB = Component(EpicsSignal, "fPosB")
-    bankA = Component(EpicsSignalRO, "bankA")
-    bankB = Component(EpicsSignalRO, "bankB")
-    bitFlagA = Component(EpicsSignalRO, "bitFlagA")
-    bitFlagB = Component(EpicsSignalRO, "bitFlagB")
-    transmission = Component(EpicsSignalRO, "trans")
-    transmission_a = Component(EpicsSignalRO, "transA")
-    transmission_b = Component(EpicsSignalRO, "transB")
-    inverse_transmission = Component(EpicsSignalRO, "invTrans")
-    thickness_Al_mm = Component(EpicsSignalRO, "filterAl")
-    thickness_Ti_mm = Component(EpicsSignalRO, "filterTi")
-    thickness_glass_mm = Component(EpicsSignalRO, "filterGlass")
-    energy_keV_local = Component(EpicsSignal, "E:local")
-    energy_keV_mono = Component(EpicsSignal, "displayEnergy")
-    mode = Component(EpicsSignal, "useMono", string=True)
 
 
 # AreaDetector support
