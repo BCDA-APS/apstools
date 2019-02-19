@@ -4,6 +4,10 @@
 Change History
 ##############
 
+:2019.0219.1:
+
+    * tag only, bring code from USAXS, standardize shutter support
+
 :2019.0128.0:
 
     * rename to *apstools*
