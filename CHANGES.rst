@@ -4,7 +4,7 @@
 Change History
 ##############
 
-:2019.0219.1:
+:2019.0219.2:
 
     * tag only, bring code from USAXS, standardize shutter support
 
