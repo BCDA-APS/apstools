@@ -356,9 +356,11 @@ def print_snapshot_list(db, **search_criteria):
     t.addLabel("#")
     t.addLabel("uid")
     t.addLabel("date/time")
+    t.addLabel("#items")
     t.addLabel("purpose")
     search_criteria["plan_name"] = "snapshot"
     for i, h in enumerate(db(**search_criteria)):
         uid = h.start["uid"].split("-")[0]
-        t.addRow((i, uid, h.start["iso8601"], h.start["purpose"]))
+        n = len(list(h.start.keys()))
+        t.addRow((i, uid, h.start["iso8601"], n, h.start["purpose"]))
     print(t) 
