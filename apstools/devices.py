@@ -635,11 +635,6 @@ class ApsPssShutterWithStatus(ApsPssShutter):
         
         or
         
-        %mov A_shutter "open"
-        %mov A_shutter "close"
-        
-        or
-        
         A_shutter.set("open")
         A_shutter.set("close")
         
