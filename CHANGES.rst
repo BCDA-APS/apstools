@@ -4,6 +4,10 @@
 Change History
 ##############
 
+:2019.0220.0:
+
+    * tag only, add a simple Tkinter-based snapshot viewer
+
 :2019.0219.3:
 
     * tag only, bring code from USAXS, standardize shutter support
