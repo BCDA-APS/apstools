@@ -18,6 +18,7 @@ __entry_points__  = {
     'console_scripts': [
         'apstools_plan_catalog = apstools.examples:main',
         'bluesky_snapshot = apstools.snapshot:snapshot_cli',
+        'bluesky_snapshot_viewer = apstools.snapshot:snapshot_gui',
         ],
     #'gui_scripts': [],
 }

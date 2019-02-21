@@ -30,8 +30,13 @@ USAGE::
 
 import argparse
 from collections import OrderedDict
+from io import StringIO
 import sys
 import time
+import tkinter as tk
+import tkinter.ttk as ttk
+
+from databroker import Broker
 
 from . import utils as APS_utils
 from . import plans as APS_plans
@@ -128,6 +133,140 @@ def snapshot_cli():
     if args.report:
         snap = list(db(uuid_list[0]))[0]
         APS_callbacks.SnapshotReport().print_report(snap)
+
+
+class Capturing(list):
+    """
+    capture stdout output from a Python function call
+    
+    https://stackoverflow.com/a/16571630/1046449
+    """
+    def __enter__(self):
+        self._stdout = sys.stdout
+        sys.stdout = self._stringio = StringIO()
+        return self
+    def __exit__(self, *args):
+        self.extend(self._stringio.getvalue().splitlines())
+        del self._stringio    # free up some memory
+        sys.stdout = self._stdout
+
+
+def snapshot_gui():
+    """run the snapshot viewer"""
+    SnapshotGui()
+
+
+class SnapshotGui(object):
+    """
+    Browse and display snapshots in a Tkinter GUI
+    
+    USAGE (from command line)::
+    
+        bluesky_snapshot_viewer
+    
+    """
+    
+    search_criteria = dict(plan_name = "snapshot")
+    
+    def __init__(self):
+        self.db = Broker.named(BROKER_CONFIG)
+        self.uids = []
+        
+        self._build_gui_()
+        self.tree.bind('<<TreeviewSelect>>', self.receiver)
+        self.load_data()
+        tk.mainloop()
+    
+    def _build_gui_(self):
+        self.main_window = tk.Tk()
+        self.main_window.winfo_toplevel().title("Bluesky snapshot viewer")
+        
+        m = tk.PanedWindow(self.main_window, orient=tk.HORIZONTAL)
+        m.pack(fill=tk.BOTH, expand=True)
+        
+        lpane = tk.Label(m, text="left pane")
+        m.add(lpane)
+        
+        rpane = tk.Label(m, text="right pane")
+        m.add(rpane)
+
+        # -- left pane, tree of available snapshots
+
+        fr = ttk.Frame(lpane)
+        fr.pack(side=tk.TOP, fill=tk.BOTH, expand=True)
+    
+        xsb = ttk.Scrollbar(fr, orient=tk.HORIZONTAL)
+        ysb = ttk.Scrollbar(fr, orient=tk.VERTICAL)
+        xsb.pack(side=tk.BOTTOM, fill=tk.X)
+        ysb.pack(side=tk.RIGHT, fill=tk.Y)
+    
+        column_keys = []
+        column_keys.append("iso8601")
+        self.tree = ttk.Treeview(fr, columns=column_keys)
+        self.tree['xscroll'] = xsb.set
+        self.tree['yscroll'] = ysb.set
+    
+        self.tree.column("#0", width=90, stretch=tk.NO)
+        self.tree.column("iso8601", width=70, stretch=tk.NO)
+        self.tree.heading("#0", text="yyyy-mm-dd")
+        self.tree.heading("iso8601", text="written")
+
+        xsb.configure(command=self.tree.xview)
+        ysb.configure(command=self.tree.yview)
+        self.tree.configure(
+            xscrollcommand=xsb.set,
+            yscrollcommand=ysb.set)
+        self.tree.pack(fill=tk.Y, expand=True)
+
+        # -- right pane, content of selected snapshot
+
+        fr = ttk.Frame(rpane)
+        fr.pack(side=tk.TOP, fill=tk.BOTH, expand=True)
+    
+        xsb = ttk.Scrollbar(fr, orient=tk.HORIZONTAL)
+        ysb = ttk.Scrollbar(fr, orient=tk.VERTICAL)
+        xsb.pack(side=tk.BOTTOM, fill=tk.X)
+        ysb.pack(side=tk.RIGHT, fill=tk.Y)
+        
+        self.snapview = tk.Text(fr)
+        xsb.configure(command=self.snapview.xview)
+        ysb.configure(command=self.snapview.yview)
+        self.snapview.configure(
+            xscrollcommand=xsb.set,
+            yscrollcommand=ysb.set)
+        self.snapview.pack(expand=True, fill=tk.BOTH)
+        
+    @property
+    def get_snapshots(self):
+        return self.db(**self.search_criteria)
+        
+    def receiver(self, event):
+        from . import callbacks
+        item_index = event.widget.focus()
+        if item_index in self.uids:
+            hh = self.db(item_index)
+            header = list(hh)[0]
+            with Capturing() as lines:
+                callbacks.SnapshotReport().print_report(header)
+            self.show_contents("\n".join(lines))
+
+    def show_contents(self, text):
+        self.snapview.delete("1.0", tk.END)
+        self.snapview.insert(tk.END, text)
+
+    def load_data(self):
+        parents = []
+        for h in self.get_snapshots:
+            start_doc = h.start
+            uid = start_doc["uid"].split("-")[0]
+            iso = start_doc["iso8601"].split(".")[0]
+            ymd = iso.split()[0]
+            if ymd not in parents:
+                parents.append(ymd)
+                self.tree.insert("", "end", ymd, text=ymd)
+            self.uids.append(uid)
+            values = [iso.split()[-1]]
+            self.tree.insert(ymd, "end", iid=uid, values=values)
 
 
 if __name__ == "__main__":
