@@ -793,6 +793,17 @@ class SimulatedApsPssShutterWithStatus(ApsPssShutterWithStatus):
         time.sleep(simulated_response_time_s)
         self.pss_state.put(target[0])
 
+    @property
+    def state(self):
+        """is shutter "open", "close", or "unknown"?"""
+        if self.pss_state.value in self.pss_state_open_values:
+            result = self.valid_open_values[0]
+        elif self.pss_state.value in self.pss_state_closed_values:
+            result = self.valid_close_values[0]
+        else:
+            result = self.unknown_state
+        return result
+	
 
 class ApsUndulator(Device):
     """
