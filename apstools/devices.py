@@ -663,11 +663,6 @@ class ApsPssShutterWithStatus(ApsPssShutter):
         self.state_pv = state_pv
         super().__init__(prefix, *args, **kwargs)
 
-        if len(self.pss_state.enum_strs[1]) > 0:
-            self.pss_state_open_values.append(self.pss_state.enum_strs[1])
-        if len(self.pss_state.enum_strs[0]) > 0:
-            self.pss_state_closed_values.append(self.pss_state.enum_strs[0])
-
     @property
     def state(self):
         """is shutter "open", "close", or "unknown"?"""
