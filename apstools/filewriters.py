@@ -160,6 +160,7 @@ class SpecWriterCallback(object):
     
     def __init__(self, filename=None, auto_write=True):
         self.clear()
+        self.buffered_comments = self._empty_comments_dict()
         self.spec_filename = filename
         self.auto_write = auto_write
         self.uid_short_length = 8
@@ -179,7 +180,7 @@ class SpecWriterCallback(object):
         self.uid = None
         self.scan_epoch = None      # absolute epoch to report in scan #D line
         self.time = None            # full time from document
-        self.comments = dict(start=[], event=[], descriptor=[], resource=[], datum=[], stop=[])
+        self.comments = self._empty_comments_dict()
         self.data = OrderedDict()           # data in the scan
         self.detectors = OrderedDict()      # names of detectors in the scan
         self.hints = OrderedDict()          # why?
@@ -194,11 +195,26 @@ class SpecWriterCallback(object):
         #
         self.columns = OrderedDict()        # #L in scan
         self.scan_command = None            # #S line
+        self.scanning = False
+
+    def _empty_comments_dict(self):
+        return dict(
+            start=[], 
+            event=[], 
+            descriptor=[], 
+            resource=[], 
+            datum=[], 
+            stop=[])
 
     def _cmt(self, key, text):
         """enter a comment"""
-        ts = datetime.strftime(self._datetime, SPEC_TIME_FORMAT)
-        self.comments[key].append(f"{ts}.  {text}")
+        dt = self._datetime or datetime.now()
+        ts = datetime.strftime(dt, SPEC_TIME_FORMAT)
+        if self.scanning:
+            dest = self.comments
+        else:
+            dest = self.buffered_comments
+        dest[key].append(f"{ts}.  {text}")
 
 
     def receiver(self, key, document):
@@ -238,8 +254,15 @@ class SpecWriterCallback(object):
         """.split()
 
         self.clear()
+        self.scanning = True
         self.uid = doc["uid"]
+
         self._cmt("start", f"uid = {self.uid}")
+        for d, cl in self.buffered_comments.items():
+            # bring in any comments collected when not scanning
+            self.comments[d] += cl
+        self.buffered_comments = self._empty_comments_dict()
+
         self.time = doc["time"]
         self.scan_epoch = int(self.time)
         self.scan_id = doc["scan_id"] or 0
@@ -360,6 +383,8 @@ class SpecWriterCallback(object):
 
         if self.auto_write:
             self.write_scan()
+
+        self.scanning = False
 
     def prepare_scan_contents(self):
         """
@@ -544,12 +569,11 @@ class SpecWriterCallback(object):
         return scan_id
 
 
-def spec_comment(comment, doc="event", writer=None):
+def spec_comment(comment, doc=None, writer=None):
     """
     make it easy to add spec-style comments in a custom plan
     
     These comments *only* go into the SPEC data file.
-    Only comments made between ``open_run()`` and ``close_run()`` will be recorded.
 
     Parameters
 
@@ -612,4 +636,10 @@ def spec_comment(comment, doc="event", writer=None):
     """
     global specwriter       # such as: specwriter = SpecWriterCallback()
     writer = writer or specwriter
-    writer._cmt(doc, comment)
+    if doc is None:
+        if writer.scanning:
+            doc = "event"
+        else:
+            doc = "start"
+    for line in comment.splitlines():
+        writer._cmt(doc, line)
