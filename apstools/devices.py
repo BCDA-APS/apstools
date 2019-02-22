@@ -803,7 +803,7 @@ class SimulatedApsPssShutterWithStatus(ApsPssShutterWithStatus):
         else:
             result = self.unknown_state
         return result
-	
+
 
 class ApsUndulator(Device):
     """
