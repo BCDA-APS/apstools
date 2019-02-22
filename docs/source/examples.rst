@@ -66,6 +66,15 @@ We'll use a Jupyter notebook to demonstrate the ``specfile_example()`` that writ
 Follow here: https://github.com/BCDA-APS/apstools/blob/master/docs/source/resources/demo_specfile_example.ipynb
 
 
+.. _example_specfile_databroker:
+
+Example: Create a SPEC file from databroker
++++++++++++++++++++++++++++++++++++++++++++
+
+We'll use a Jupyter notebook to demonstrate the how to get a scan from the databroker and write it to a spec data file.
+Follow here: https://github.com/BCDA-APS/apstools/blob/master/docs/source/resources/demo_specfile_databroker.ipynb
+
+
 .. _example_nscan:
 
 Example: ``nscan()``

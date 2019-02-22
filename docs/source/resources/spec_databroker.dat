@@ -1,0 +1,44 @@
+#F spec_databroker.dat
+#E 1550879457
+#D Fri Feb 22 17:50:57 2019
+#C BlueSky  user = mintadmin  host = mint-vm
+
+#S 74  scan(detectors=['scaler'], num=8, args=['m1', -5, 5], per_step=None)
+#D Fri Feb 22 17:08:44 2019
+#C Fri Feb 22 17:08:44 2019.  plan_type = generator
+#C Fri Feb 22 17:08:44 2019.  uid = 7ea6bf2a-ba29-4938-9faa-bf1df1672397
+#MD APSTOOLS_VERSION = 2019.0220.0+7.g4f8000f.dirty
+#MD BLUESKY_VERSION = 1.4.1
+#MD OPHYD_VERSION = 1.3.0
+#MD Sample_Name = Al foil
+#MD Scan_Type = STEP_SCAN
+#MD Thickness = 0.1
+#MD beamline_id = Linux Mint VM7
+#MD code_number = 6061-T6
+#MD login_id = mintadmin@mint-vm
+#MD m2 = 12.0
+#MD m3 = 6.0
+#MD motors = ['m1']
+#MD num_intervals = 7
+#MD num_points = 8
+#MD pid = 23635
+#MD plan_pattern = inner_product
+#MD plan_pattern_args = {'num': 8, 'args': ["EpicsMotor(prefix='vm7:m1', name='m1', settle_time=0.0, timeout=None, read_attrs=['user_readback', 'user_setpoint'], configuration_attrs=['user_offset', 'user_offset_dir', 'velocity', 'acceleration', 'motor_egu'])", -5, 5]}
+#MD plan_pattern_module = bluesky.plan_patterns
+#MD proposal_id = testing
+#MD remarks = None
+#MD shutter = open
+#MD sx = 12
+#MD sy = 6
+#N 8
+#L m1  I0  m1_user_setpoint  scaler_time  scint  Epoch_float  Epoch  clock
+-5.0 1.0 -5.0 0.2 1.0 1.6995606422424316 2 2000000.0
+-3.5725000000000002 1.0 -3.571428571428571 0.2 1.0 2.4727885723114014 2 2000000.0
+-2.1425 0.0 -2.142857142857143 0.2 0.0 3.1733808517456055 3 2000000.0
+-0.715 0.0 -0.7142857142857144 0.2 0.0 3.7735178470611572 4 2000000.0
+0.715 1.0 0.7142857142857144 0.2 0.0 4.376965284347534 4 2000000.0
+2.1425 0.0 2.1428571428571432 0.2 1.0 5.079007148742676 5 2000000.0
+3.5725000000000002 0.0 3.571428571428571 0.2 0.0 5.780789613723755 6 2000000.0
+5.0 0.0 5.0 0.2 1.0 6.381625652313232 6 2000000.0
+#C Fri Feb 22 17:08:51 2019.  num_events_primary = 8
+#C Fri Feb 22 17:08:51 2019.  exit_status = success
