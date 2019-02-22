@@ -24,6 +24,7 @@ import math
 import os
 import pandas
 import pyRestTable
+import re
 import smtplib
 import subprocess
 import time
@@ -34,6 +35,24 @@ from .plans import run_in_thread
 logger = logging.getLogger(__name__)
 
 MAX_EPICS_STRINGOUT_LENGTH = 40
+
+
+def cleanupText(text):
+    """
+    convert text so it can be used as a dictionary key
+
+    Given some input text string, return a clean version
+    remove troublesome characters, perhaps other cleanup as well.
+    This is best done with regular expression pattern matching.
+    """
+    pattern = "[a-zA-Z0-9_]"
+
+    def mapper(c):
+        if re.match(pattern, c) is not None:
+            return c
+        return "_"
+
+    return "".join([mapper(c) for c in text])
 
 
 def pairwise(iterable):
