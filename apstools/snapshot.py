@@ -209,7 +209,7 @@ class SnapshotGui(object):
         self.tree.column("#0", width=90, stretch=tk.NO)
         self.tree.column("iso8601", width=70, stretch=tk.NO)
         self.tree.heading("#0", text="yyyy-mm-dd")
-        self.tree.heading("iso8601", text="written")
+        self.tree.heading("iso8601", text="hh:mm:ss")
 
         xsb.configure(command=self.tree.xview)
         ysb.configure(command=self.tree.yview)
@@ -251,14 +251,16 @@ class SnapshotGui(object):
             self.show_contents("\n".join(lines))
 
     def show_contents(self, text):
+        # TODO: turn off read-only
         self.snapview.delete("1.0", tk.END)
         self.snapview.insert(tk.END, text)
+        # TODO: turn on read-only
 
     def load_data(self):
         parents = []
         for h in self.get_snapshots:
             start_doc = h.start
-            uid = start_doc["uid"].split("-")[0]
+            uid = start_doc["uid"]
             iso = start_doc["iso8601"].split(".")[0]
             ymd = iso.split()[0]
             if ymd not in parents:
