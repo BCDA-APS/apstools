@@ -3,6 +3,7 @@ Various utilities
 
 .. autosummary::
    
+   ~cleanupText
    ~connect_pvlist
    ~EmailNotifications
    ~ExcelDatabaseFileBase
@@ -18,6 +19,7 @@ Various utilities
 """
 
 from collections import OrderedDict
+import datetime
 from email.mime.text import MIMEText
 import logging
 import math
