@@ -105,11 +105,11 @@ def _rebuild_scan_command(doc):
                 _v = doc["motors"]
             elif _k == "args":
                 _v = "[" +  ", ".join(map(get_name, _v)) + "]"
-            s.append("{}={}".format(_k, _v))
+            s.append(f"{_k}={_v}")
     
     cmd = "{}({})".format(doc.get("plan_name", ""), ", ".join(s))
-    scan_id = doc.get("scan_id") or 1    # TODO: improve the `1` default
-    return "{}  {}".format(scan_id, cmd)
+    scan_id = doc.get("scan_id") or 1
+    return f"{scan_id}  {cmd}"
 
 
 class SpecWriterCallback(object):
@@ -198,7 +198,7 @@ class SpecWriterCallback(object):
     def _cmt(self, key, text):
         """enter a comment"""
         ts = datetime.strftime(self._datetime, SPEC_TIME_FORMAT)
-        self.comments[key].append("{}.  {}".format(ts, text))
+        self.comments[key].append(f"{ts}.  {text}")
 
 
     def receiver(self, key, document):
@@ -224,7 +224,7 @@ class SpecWriterCallback(object):
             self._datetime = ts
             xref[key](document)
         else:
-            msg = "custom_callback encountered: {} : {}".format(key, document)
+            msg = f"custom_callback encountered: {key} : {document}"
             # raise ValueError(msg)
             logger.warning(msg)
 
@@ -239,7 +239,7 @@ class SpecWriterCallback(object):
 
         self.clear()
         self.uid = doc["uid"]
-        self._cmt("start", "uid = {}".format(self.uid))
+        self._cmt("start", f"uid = {self.uid}")
         self.time = doc["time"]
         self.scan_epoch = int(self.time)
         self.scan_id = doc["scan_id"] or 0
@@ -264,7 +264,7 @@ class SpecWriterCallback(object):
         
         cmt = "plan_type = " + doc["plan_type"]
         ts = datetime.strftime(self._datetime, SPEC_TIME_FORMAT)
-        self.comments["start"].insert(0, "{}.  {}".format(ts, cmt))
+        self.comments["start"].insert(0, f"{ts}.  {cmt}")
         self.scan_command = _rebuild_scan_command(doc)
     
     def descriptor(self, doc):
@@ -323,8 +323,8 @@ class SpecWriterCallback(object):
         if stream_doc["name"] == "primary":
             for k in doc["data"].keys():
                 if k not in self.data.keys():
-                    fmt = "unexpected failure here, key {} not found"
-                    raise KeyError(fmt.format(k))
+                    msg = f"unexpected failure here, key {k} not found"
+                    raise KeyError(msg)
                     #return                  # not our expected event data
             for k in self.data.keys():
                 if k == "Epoch":
@@ -352,7 +352,7 @@ class SpecWriterCallback(object):
         """handle *stop* documents"""
         if "num_events" in doc:
             for k, v in doc["num_events"].items():
-                self._cmt("stop", "num_events_{} = {}".format(k, v))
+                self._cmt("stop", f"num_events_{k} = {v}")
         if "exit_status" in doc:
             self._cmt("stop", "exit_status = " + doc["exit_status"])
         else:
@@ -373,7 +373,7 @@ class SpecWriterCallback(object):
         lines.append("#S " + self.scan_command)
         lines.append("#D " + datetime.strftime(dt, SPEC_TIME_FORMAT))
         if self.T_or_M is not None:
-            lines.append("#{} {}".format(self.T_or_M, self.T_or_M_value))
+            lines.append(f"#{self.T_or_M} {self.T_or_M_value}")
 
         for v in self.comments["start"]:
             #C Wed Feb 03 16:51:38 2016.  do ./usaxs.mac.
@@ -383,7 +383,7 @@ class SpecWriterCallback(object):
 
         for k, v in self.metadata.items():
             # "#MD" is our ad hoc SPEC data tag
-            lines.append("#MD {} = {}".format(k, v))
+            lines.append(f"#MD {k} = {v}")
 
         lines.append("#N " + str(self.num_primary_data))
         if len(self.data.keys()) > 0:
@@ -403,7 +403,7 @@ class SpecWriterCallback(object):
                 lines.append(" ".join(s))
                 for k in str_data.keys():
                     # report the text data
-                    lines.append("#U {} {} {}".format(i, k, str_data[k]))
+                    lines.append(f"#U {i} {k} {str_data[k]}")
         else:
             lines.append("#C no data column labels identified")
 
@@ -430,15 +430,15 @@ class SpecWriterCallback(object):
         """write the header section of a SPEC data file"""
         dt = datetime.fromtimestamp(self.spec_epoch)
         lines = []
-        lines.append("#F " + self.spec_filename)
-        lines.append("#E " + str(self.spec_epoch))
-        lines.append("#D " + datetime.strftime(dt, SPEC_TIME_FORMAT))
-        lines.append("#C " + "BlueSky  user = {}  host = {}".format(self.spec_user, self.spec_host))
+        lines.append(f"#F {self.spec_filename}")
+        lines.append(f"#E {self.spec_epoch}")
+        lines.append(f"#D {datetime.strftime(dt, SPEC_TIME_FORMAT)}")
+        lines.append(f"#C BlueSky  user = {self.spec_user}  host = {self.spec_host}")
         lines.append("")
 
         if os.path.exists(self.spec_filename):
-            raise IOError("file ({}) exists".format(self.spec_filename))
-        self._write_lines_(lines, mode="w")
+            lines.insert(0, "")
+        self._write_lines_(lines, mode="a+")
         self.write_file_header = False
     
     def write_scan(self):
@@ -456,8 +456,8 @@ class SpecWriterCallback(object):
                 buf = f.read()
                 if buf.find(self.uid) >= 0:
                     # raise exception if uid is already in the file!
-                    fmt = "{} already contains uid={}"
-                    raise ValueError(fmt.format(self.spec_filename, self.uid))
+                    msg = f"{self.spec_filename} already contains uid={self.uid}"
+                    raise ValueError(msg)
         logger = logging.getLogger(__name__)
         lines = self.prepare_scan_contents()
         lines.append("")
@@ -473,7 +473,7 @@ class SpecWriterCallback(object):
         now = datetime.now()
         return datetime.strftime(now, "%Y%m%d-%H%M%S")+".dat"
 
-    def newfile(self, filename=None, reset_scan_id=False, RE=None):
+    def newfile(self, filename=None, scan_id=None, RE=None):
         """
         prepare to use a new SPEC data file
         
@@ -482,33 +482,39 @@ class SpecWriterCallback(object):
         self.clear()
         filename = filename or self.make_default_filename()
         if os.path.exists(filename):
-            ValueError("file {} exists".format(filename))
+            ValueError(f"file {filename} exists")
         self.spec_filename = filename
         self.spec_epoch = int(time.time())  # ! no roundup here!!!
         self.spec_host = socket.gethostname() or 'localhost'
         self.spec_user = getpass.getuser() or 'BlueSkyUser' 
         self.write_file_header = True       # don't write the file yet
-        if reset_scan_id and RE is not None:
+        
+        # backwards-compatibility
+        if scan_id == True:
+            scan_id = SCAN_ID_RESET_VALUE
+        elif scan_id == False:
+            scan_id = None
+        if scan_id is not None and RE is not None:
             # assume isinstance(RE, bluesky.run_engine.RunEngine)
-            RE.md["scan_id"] = SCAN_ID_RESET_VALUE
-            print("scan ID set to {}".format(SCAN_ID_RESET_VALUE))
+            RE.md["scan_id"] = scan_id
+            print(f"scan ID set to {scan_id}")
         return self.spec_filename
     
     def usefile(self, filename):
         """read from existing SPEC data file"""
         if not os.path.exists(self.spec_filename):
-            IOError("file {} does not exist".format(filename))
+            IOError(f"file {filename} does not exist")
         scan_id = None
         with open(filename, "r") as f:
             key = "#F"
             line = f.readline().strip()
             if not line.startswith(key+" "):
-                raise ValueError("first line does not start with "+key)
+                raise ValueError(f"first line does not start with {key}")
 
             key = "#E"
             line = f.readline().strip()
             if not line.startswith(key+" "):
-                raise ValueError("first line does not start with "+key)
+                raise ValueError(f"first line does not start with {key}")
             epoch = int(line.split()[-1])
 
             key = "#D"
