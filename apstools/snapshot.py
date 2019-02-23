@@ -41,7 +41,6 @@ from databroker import Broker
 from . import utils as APS_utils
 from . import plans as APS_plans
 from . import callbacks as APS_callbacks
-from . import textreadonly
 
 
 BROKER_CONFIG = "mongodb_config"
@@ -229,17 +228,11 @@ class SnapshotGui(object):
         ysb.pack(side=tk.RIGHT, fill=tk.Y)
         
         self.snapview = tk.Text(fr)
-        # self.snapview = textreadonly.TextReadOnly(fr)
         xsb.configure(command=self.snapview.xview)
         ysb.configure(command=self.snapview.yview)
         self.snapview.configure(
             xscrollcommand=xsb.set,
             yscrollcommand=ysb.set)
-        # FIXME: # make sure the widget gets focus when clicked
-        # FIXME: # on, to enable highlighting and copying to the
-        # FIXME: # clipboard.
-        # FIXME: self.snapview.bind("<1>", lambda event: self.snapview.focus_set())
-        self.snapview.bind("<Key>", lambda e: "break")
         self.snapview.pack(expand=True, fill=tk.BOTH)
         
     @property
@@ -257,10 +250,10 @@ class SnapshotGui(object):
             self.show_contents("\n".join(lines))
 
     def show_contents(self, text):
-        # FIXME: self.snapview.configure(state="normal")
+        # TODO: make snapview writable
         self.snapview.delete("1.0", tk.END)
         self.snapview.insert(tk.END, text)
-        # FIXME: self.snapview.configure(state="disabled")
+        # TODO: make snapview read-only
 
     def load_data(self):
         parents = []
