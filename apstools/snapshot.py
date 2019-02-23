@@ -228,8 +228,8 @@ class SnapshotGui(object):
         xsb.pack(side=tk.BOTTOM, fill=tk.X)
         ysb.pack(side=tk.RIGHT, fill=tk.Y)
         
-        # self.snapview = tk.Text(fr)
-        self.snapview = textreadonly.TextReadOnly(fr)
+        self.snapview = tk.Text(fr)
+        # self.snapview = textreadonly.TextReadOnly(fr)
         xsb.configure(command=self.snapview.xview)
         ysb.configure(command=self.snapview.yview)
         self.snapview.configure(
@@ -239,6 +239,7 @@ class SnapshotGui(object):
         # FIXME: # on, to enable highlighting and copying to the
         # FIXME: # clipboard.
         # FIXME: self.snapview.bind("<1>", lambda event: self.snapview.focus_set())
+        self.snapview.bind("<Key>", lambda e: "break")
         self.snapview.pack(expand=True, fill=tk.BOTH)
         
     @property
