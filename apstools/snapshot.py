@@ -167,8 +167,9 @@ class SnapshotGui(object):
     
     search_criteria = dict(plan_name = "snapshot")
     
-    def __init__(self):
-        self.db = Broker.named(BROKER_CONFIG)
+    def __init__(self, config=None):
+        config = config or BROKER_CONFIG
+        self.db = Broker.named(config)
         self.uids = []
         
         self._build_gui_()
