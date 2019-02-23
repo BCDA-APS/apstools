@@ -125,12 +125,16 @@ class SnapshotReport(CallbackBase):
         if self.xref is None:       # not from a snapshot plan
             return
 
-        for k, v in doc["configuration"].items():
-            ts = v["timestamps"][k]
-            dt = datetime.datetime.fromtimestamp(ts).isoformat().replace("T", " ")
-            pvname = v["data_keys"][k]["source"]
-            value = v["data"][k]
-            self.xref[pvname] = dict(value=value, timestamp=dt)
+        # The only way we have a stream that is not "primary"
+        # is when the snapshot has been made from python code.
+        # The command line tool will not create additional streams.
+        if doc.name == "primary":
+            for k, v in doc["configuration"].items():
+                ts = v["timestamps"][k]
+                dt = datetime.datetime.fromtimestamp(ts).isoformat().replace("T", " ")
+                pvname = v["data_keys"][k]["source"]
+                value = v["data"][k]
+                self.xref[pvname] = dict(value=value, timestamp=dt)
     
     def stop(self, doc):
         if self.xref is None:       # not from a snapshot plan

@@ -113,7 +113,6 @@ def snapshot_cli():
         snapshot.py rpi5bf5:0:{humidity,temperature}
 
     """
-    from databroker import Broker
     from bluesky import RunEngine
 
     args = get_args()
