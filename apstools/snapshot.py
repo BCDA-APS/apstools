@@ -41,6 +41,7 @@ from databroker import Broker
 from . import utils as APS_utils
 from . import plans as APS_plans
 from . import callbacks as APS_callbacks
+from . import textreadonly
 
 
 BROKER_CONFIG = "mongodb_config"
@@ -227,16 +228,17 @@ class SnapshotGui(object):
         xsb.pack(side=tk.BOTTOM, fill=tk.X)
         ysb.pack(side=tk.RIGHT, fill=tk.Y)
         
-        self.snapview = tk.Text(fr)
+        # self.snapview = tk.Text(fr)
+        self.snapview = textreadonly.TextReadOnly(fr)
         xsb.configure(command=self.snapview.xview)
         ysb.configure(command=self.snapview.yview)
         self.snapview.configure(
             xscrollcommand=xsb.set,
             yscrollcommand=ysb.set)
-        # make sure the widget gets focus when clicked
-        # on, to enable highlighting and copying to the
-        # clipboard.
-        self.snapview.bind("<1>", lambda event: self.snapview.focus_set())
+        # FIXME: # make sure the widget gets focus when clicked
+        # FIXME: # on, to enable highlighting and copying to the
+        # FIXME: # clipboard.
+        # FIXME: self.snapview.bind("<1>", lambda event: self.snapview.focus_set())
         self.snapview.pack(expand=True, fill=tk.BOTH)
         
     @property
@@ -254,10 +256,10 @@ class SnapshotGui(object):
             self.show_contents("\n".join(lines))
 
     def show_contents(self, text):
-        self.snapview.configure(state="normal")
+        # FIXME: self.snapview.configure(state="normal")
         self.snapview.delete("1.0", tk.END)
         self.snapview.insert(tk.END, text)
-        self.snapview.configure(state="disabled")
+        # FIXME: self.snapview.configure(state="disabled")
 
     def load_data(self):
         parents = []
