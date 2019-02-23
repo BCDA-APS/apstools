@@ -4,6 +4,10 @@
 Change History
 ##############
 
+:2019.0223.0:
+
+    * tag only: #97, #98, additions from USAXS, add specfile comments any time, example databroker -> SPEC file
+
 :2019.0220.0:
 
     * tag only, add a simple Tkinter-based snapshot viewer
