@@ -233,6 +233,10 @@ class SnapshotGui(object):
         self.snapview.configure(
             xscrollcommand=xsb.set,
             yscrollcommand=ysb.set)
+        # make sure the widget gets focus when clicked
+        # on, to enable highlighting and copying to the
+        # clipboard.
+        self.snapview.bind("<1>", lambda event: self.snapview.focus_set())
         self.snapview.pack(expand=True, fill=tk.BOTH)
         
     @property
@@ -250,10 +254,10 @@ class SnapshotGui(object):
             self.show_contents("\n".join(lines))
 
     def show_contents(self, text):
-        # TODO: turn off read-only
+        self.snapview.configure(state="normal")
         self.snapview.delete("1.0", tk.END)
         self.snapview.insert(tk.END, text)
-        # TODO: turn on read-only
+        self.snapview.configure(state="disabled")
 
     def load_data(self):
         parents = []
