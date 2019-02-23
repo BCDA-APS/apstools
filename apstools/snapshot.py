@@ -150,9 +150,9 @@ class Capturing(list):
         sys.stdout = self._stdout
 
 
-def snapshot_gui():
+def snapshot_gui(config=None):
     """run the snapshot viewer"""
-    SnapshotGui()
+    SnapshotGui(config or BROKER_CONFIG)
 
 
 class SnapshotGui(object):
