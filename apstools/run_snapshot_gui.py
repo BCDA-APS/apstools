@@ -27,4 +27,4 @@ if __name__ == "__main__":
             print("Mongodb configuration file not found: " + config + ext)
             print(exc)
         except ServerSelectionTimeoutError:
-            print("Timeout when cennecting with mongodb server: " + config + ext)
+            print("Connection timeout with mongodb server: " + config + ext)
