@@ -41,6 +41,7 @@ from databroker import Broker
 from . import utils as APS_utils
 from . import plans as APS_plans
 from . import callbacks as APS_callbacks
+from . import textreadonly
 
 
 BROKER_CONFIG = "mongodb_config"
@@ -228,7 +229,8 @@ class SnapshotGui(object):
         xsb.pack(side=tk.BOTTOM, fill=tk.X)
         ysb.pack(side=tk.RIGHT, fill=tk.Y)
         
-        self.snapview = tk.Text(fr)
+        # self.snapview = tk.Text(fr)
+        self.snapview = textreadonly.TextReadOnly(fr)
         xsb.configure(command=self.snapview.xview)
         ysb.configure(command=self.snapview.yview)
         self.snapview.configure(
