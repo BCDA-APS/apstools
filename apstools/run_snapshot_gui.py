@@ -14,6 +14,7 @@ developer_config_candidates = [
     "mongodb_config",
     "mongodb_poof",
     "mongodb_ookhd",
+    "mongodb_localhost",
     ]
 
 if __name__ == "__main__":
