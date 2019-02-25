@@ -229,7 +229,6 @@ class SnapshotGui(object):
         xsb.pack(side=tk.BOTTOM, fill=tk.X)
         ysb.pack(side=tk.RIGHT, fill=tk.Y)
         
-        # self.snapview = tk.Text(fr)
         self.snapview = textreadonly.TextReadOnly(fr)
         xsb.configure(command=self.snapview.xview)
         ysb.configure(command=self.snapview.yview)
@@ -253,10 +252,8 @@ class SnapshotGui(object):
             self.show_contents("\n".join(lines))
 
     def show_contents(self, text):
-        # TODO: make snapview writable
         self.snapview.delete("1.0", tk.END)
         self.snapview.insert(tk.END, text)
-        # TODO: make snapview read-only
 
     def load_data(self):
         parents = []
