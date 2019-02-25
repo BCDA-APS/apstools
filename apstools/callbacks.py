@@ -128,7 +128,7 @@ class SnapshotReport(CallbackBase):
         # The only way we have a stream that is not "primary"
         # is when the snapshot has been made from python code.
         # The command line tool will not create additional streams.
-        if doc.name == "primary":
+        if doc["name"] == "primary":
             for k, v in doc["configuration"].items():
                 ts = v["timestamps"][k]
                 dt = datetime.datetime.fromtimestamp(ts).isoformat().replace("T", " ")
