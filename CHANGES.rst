@@ -4,6 +4,10 @@
 Change History
 ##############
 
+:2019.0225.0:
+
+    * tag only: #99
+
 :2019.0223.0:
 
     * tag only: #97, #98, additions from USAXS, add specfile comments any time, example databroker -> SPEC file
