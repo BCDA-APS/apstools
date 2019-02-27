@@ -135,12 +135,19 @@ def use_EPICS_scaler_channels(scaler):
                 read_attrs.append(ch)
         scaler.channels.read_attrs = read_attrs
     elif isinstance(scaler, ScalerCH):
+        scaler.match_names()
         read_attrs = []
+        configuration_attrs = []
         for ch in scaler.channels.component_names:
             nm_pv = scaler.channels.__getattribute__(ch)
             if nm_pv is not None and len(nm_pv.chname.value.strip()) > 0:
                 read_attrs.append(ch)
+                configuration_attrs.append(ch)
+                configuration_attrs.append(ch+".chname")
+                configuration_attrs.append(ch+".preset")
+                configuration_attrs.append(ch+".gate")
         scaler.channels.read_attrs = read_attrs
+        scaler.channels.configuration_attrs = configuration_attrs
 
 
 class ApsOperatorMessagesDevice(Device):
