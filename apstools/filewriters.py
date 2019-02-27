@@ -319,7 +319,7 @@ class SpecWriterCallback(object):
             middle_keys = [k for k in doc_data_keys if k not in first_keys + last_keys]
             epoch_keys = "Epoch Epoch_float".split()
             
-            for keyset in (first_keys, epoch_keys, middle_keys, last_keys):
+            for keyset in (first_keys, middle_keys, epoch_keys, last_keys):
                 self.data.update({k: [] for k in keyset})
             
             if False:
