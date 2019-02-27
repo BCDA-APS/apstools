@@ -307,48 +307,20 @@ class SpecWriterCallback(object):
         self._streams[doc["uid"]] = doc
         
         if doc["name"] == "primary":
-            doc_data_keys = list(doc["data_keys"].keys())
+            keyset = list(doc["data_keys"].keys())
             
             # independent variable(s) first, dependent variable(s) last, others in middle
-            first_keys = [k for k in self.motors if k in doc_data_keys]
+            first_keys = [k for k in self.motors if k in keyset]
             last_keys = []
             for d in self.detectors:
-                if d in doc["hints"]:    # TODO: is this general? or specific to bp.scan?
+                if d in doc["hints"]:    # seems general but first place to look if trouble
                     last_keys += doc["hints"][d]["fields"]
-            # remove these keys from doc_data_keys
-            middle_keys = [k for k in doc_data_keys if k not in first_keys + last_keys]
+            # get remaining keys from keyset
+            middle_keys = [k for k in keyset if k not in first_keys + last_keys]
             epoch_keys = "Epoch Epoch_float".split()
             
-            for keyset in (first_keys, middle_keys, epoch_keys, last_keys):
+            for keyset in (first_keys, epoch_keys, middle_keys, last_keys):
                 self.data.update({k: [] for k in keyset})
-            
-            if False:
-                self.data.update({k: [] for k in sorted(doc_data_keys)})
-                self.data["Epoch"] = []
-                self.data["Epoch_float"] = []
-            
-                # SPEC data files have implied defaults
-                # SPEC default: X axis in 1st column and Y axis in last column
-                _at_last = len(self.motors) > 0
-                self.data.move_to_end("Epoch_float", last=_at_last)
-                self.data.move_to_end("Epoch")
-                
-                # TODO: move motors to first
-                # TODO: move detectors to last
-                
-                if len(self.motors) > 0:
-                    # find 1st motor and move to last
-                    motor_name = list(self.motors.keys())[0]
-                    self.data.move_to_end(motor_name, last=False)
-                # monitor (detector) in next to last position 
-                # but how can we get that name here?
-                if len(self.detectors) > 0:
-                    # find 1st detector and move to last
-                    det_name = list(self.detectors.keys())[0]
-                    if det_name not in self.data and len(doc_data_keys) > 0:
-                        det_name = doc_data_keys[0]
-                    if det_name in self.data:
-                        self.data.move_to_end(det_name)
 
     def event(self, doc):
         """
