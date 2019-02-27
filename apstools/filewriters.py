@@ -317,10 +317,9 @@ class SpecWriterCallback(object):
                     last_keys += doc["hints"][d]["fields"]
             # get remaining keys from keyset
             middle_keys = [k for k in keyset if k not in first_keys + last_keys]
-            epoch_keys = "Epoch Epoch_float".split()
+            epoch_keys = "Epoch_float Epoch".split()
             
-            for keyset in (first_keys, epoch_keys, middle_keys, last_keys):
-                self.data.update({k: [] for k in keyset})
+            self.data.update({k: [] for k in first_keys+epoch_keys+middle_keys+last_keys})
 
     def event(self, doc):
         """
