@@ -130,6 +130,11 @@ class SpecWriterCallback(object):
         is received.
         If False, the caller is responsible for calling `write_scan()`
         before the next *start* document is received.
+    RE : instance of bluesky.RunEngine or None
+    reset_scan_id : boolean, optional
+        If True, and filename exists, then sets RE.md.scan_id to
+        highest scan number in existing SPEC data file.
+        default: False
 
     User Interface methods
 
@@ -158,7 +163,7 @@ class SpecWriterCallback(object):
 
     """
     
-    def __init__(self, filename=None, auto_write=True):
+    def __init__(self, filename=None, auto_write=True, RE=None, reset_scan_id=False):
         self.clear()
         self.buffered_comments = self._empty_comments_dict()
         self.spec_filename = filename
@@ -170,10 +175,14 @@ class SpecWriterCallback(object):
         self.spec_user = None
         self._datetime = None       # most recent document time as datetime object
         self._streams = {}          # descriptor documents, keyed by uid
+        self.RE = RE
+        self.reset_scan_id = reset_scan_id
         if filename is None or not os.path.exists(filename):
             self.newfile(filename)
         else:
-            last_scan_id = self.usefile(filename)   # TODO: set RE's scan_id based on result?
+            max_scan_id = self.usefile(filename)
+            if RE is not None and reset_scan_id:
+                RE.md["scan_id"] = max_scan_id
 
     def clear(self):
         """reset all scan data defaults"""
@@ -543,11 +552,14 @@ class SpecWriterCallback(object):
             if len(p) > 4 and p[2] == "user":
                 username = p[4]
             
-            # find the last scan number used
+            # find the highest scan number used
             key = "#S"
+            scan_ids = []
             for line in f.readlines():
                 if line.startswith(key+" ") and len(line.split())>1:
                     scan_id = int(line.split()[1])
+                    scan_ids.append(scan_id)
+            scan_id = max(scan_ids)
 
         self.spec_filename = filename
         self.spec_epoch = epoch
