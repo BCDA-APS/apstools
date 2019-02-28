@@ -13,3 +13,4 @@ docs/build/
 build/
 .ipynb_checkpoints/
 .pydevproject
+issue*.py
