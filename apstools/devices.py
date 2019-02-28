@@ -132,7 +132,10 @@ SCALER_AUTOCOUNT_MODE = 1
 
 def use_EPICS_scaler_channels(scaler):
     """
-    configure scaler for only the channels with names assigned in EPICS 
+    configure scaler for only the channels with names assigned in EPICS
+    
+    Note: For `ScalerCH`, use `scaler.select_channels(None)` instead of this code.
+    (Applies only to `ophyd.scaler.ScalerCH` in releases after 2019-02-27.)
     """
     if isinstance(scaler, EpicsScaler):
         import epics
@@ -143,6 +146,7 @@ def use_EPICS_scaler_channels(scaler):
                 read_attrs.append(ch)
         scaler.channels.read_attrs = read_attrs
     elif isinstance(scaler, ScalerCH):
+	# superceded by: https://github.com/NSLS-II/ophyd/commit/543e7ef81f3cb760192a0de719e51f9359642ae8
         scaler.match_names()
         read_attrs = []
         configuration_attrs = []
