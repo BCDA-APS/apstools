@@ -133,12 +133,15 @@ class SpecWriterCallback(object):
         Local, relative or absolute name of SPEC data file to be used.
         If `filename=None`, defaults to format of YYYmmdd-HHMMSS.dat
         derived from the current system time.
+
     auto_write : boolean, optional
         If True (default), `write_scan()` is called when *stop* document 
         is received.
         If False, the caller is responsible for calling `write_scan()`
         before the next *start* document is received.
+
     RE : instance of bluesky.RunEngine or None
+
     reset_scan_id : boolean, optional
         If True, and filename exists, then sets RE.md.scan_id to
         highest scan number in existing SPEC data file.
