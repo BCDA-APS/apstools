@@ -1,13 +1,13 @@
 {% set name = "apstools" %}
-{% set version = "2019.228.0" %}
+{% set data = load_setup_py_data() %}
+{% set version = data.get('version') %}
 
 package:
   name: "{{ name|lower }}"
   version: "{{ version }}"
 
 source:
-  url: https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.tar.gz
-  sha256: 16545278e7afdb5127ee7c61f8fb4311f08481f1f502be858fd7b8186d794f19
+  git_url: ../
 
 build:
   number: 0
@@ -20,7 +20,7 @@ build:
 requirements:
   host:
     - pip
-    - python
+    - python  {{ python }}
     - ophyd
     - databroker
     - bluesky
@@ -37,19 +37,20 @@ test:
     - apstools
     - apstools.synApps_ophyd
   commands:
-    - apstools_plan_catalog --help
+    - python -c "import apstools;"
+    # - apstools_plan_catalog --help
     - bluesky_snapshot --help
-    - bluesky_snapshot_viewer --help
+    # - bluesky_snapshot_viewer --help
 
 about:
-  home: https://apstools.readthedocs.org
+  home: https://github.com/prjemian/apstools
   license: (c) 2017-2019, UChicago Argonne, LLC (see file for details)
   license_family: OTHER
-  license_file: 
-  summary: Various Python tools for use with BlueSky at the APS
-  doc_url: 
+  license_file: LICENSE.txt
+  summary: Various Python tools for use with Bluesky at the APS
+  doc_url: https://apstools.readthedocs.org
   dev_url: 
 
 extra:
   recipe-maintainers:
-    - your-github-id-here
+    - prjemian
