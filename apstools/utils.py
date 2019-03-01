@@ -73,14 +73,14 @@ def pairwise(iterable):
     
     ::
     
-    s -> (s0, s1), (s2, s3), (s4, s5), ...
-    
-    In [71]: for item in pairwise("a b c d e fg".split()): 
-        ...:     print(item) 
-        ...:                                                                                                                         
-    ('a', 'b')
-    ('c', 'd')
-    ('e', 'fg')
+		s -> (s0, s1), (s2, s3), (s4, s5), ...
+		
+		In [71]: for item in pairwise("a b c d e fg".split()): 
+			...:     print(item) 
+			...:                                                                                                                         
+		('a', 'b')
+		('c', 'd')
+		('e', 'fg')
   
     """
     a = iter(iterable)
