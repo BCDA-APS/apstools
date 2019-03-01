@@ -1,0 +1,19 @@
+Copying /home/mintadmin/Documents/eclipse/apstools to /home/mintadmin/Apps/anaconda/conda-bld/apstools_1551467002409/work
+Adding in variants from internal_defaults
+Adding in variants from config.variant
+Attempting to finalize metadata for apstools
+Collecting package metadata: ...working... done
+Solving environment: ...working... failed
+
+Leaving build/test directories:
+  Work:
+ /home/mintadmin/Apps/anaconda/conda-bld/work 
+  Test:
+ /home/mintadmin/Apps/anaconda/conda-bld/test_tmp 
+Leaving build/test environments:
+  Test:
+source activate  /home/mintadmin/Apps/anaconda/conda-bld/_test_env_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_place 
+  Build:
+source activate  /home/mintadmin/Apps/anaconda/conda-bld/_build_env 
+
+
