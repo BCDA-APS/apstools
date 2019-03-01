@@ -1,0 +1,55 @@
+{% set name = "apstools" %}
+{% set version = "2019.228.0" %}
+
+package:
+  name: "{{ name|lower }}"
+  version: "{{ version }}"
+
+source:
+  url: https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.tar.gz
+  sha256: 16545278e7afdb5127ee7c61f8fb4311f08481f1f502be858fd7b8186d794f19
+
+build:
+  number: 0
+  entry_points:
+    - apstools_plan_catalog = apstools.examples:main
+    - bluesky_snapshot = apstools.snapshot:snapshot_cli
+    - bluesky_snapshot_viewer = apstools.snapshot:snapshot_gui
+  script: "{{ PYTHON }} -m pip install . --no-deps --ignore-installed -vv "
+
+requirements:
+  host:
+    - pip
+    - python
+    - ophyd
+    - databroker
+    - bluesky
+    - pyRestTable
+  run:
+    - python
+    - ophyd
+    - databroker
+    - bluesky
+    - pyRestTable
+
+test:
+  imports:
+    - apstools
+    - apstools.synApps_ophyd
+  commands:
+    - apstools_plan_catalog --help
+    - bluesky_snapshot --help
+    - bluesky_snapshot_viewer --help
+
+about:
+  home: https://apstools.readthedocs.org
+  license: (c) 2017-2019, UChicago Argonne, LLC (see file for details)
+  license_family: OTHER
+  license_file: 
+  summary: Various Python tools for use with BlueSky at the APS
+  doc_url: 
+  dev_url: 
+
+extra:
+  recipe-maintainers:
+    - your-github-id-here
