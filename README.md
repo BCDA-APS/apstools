@@ -20,7 +20,7 @@ item              | description
 **author**        | Pete R. Jemian
 **email**         | jemian@anl.gov
 **copyright**     | 2017-2019, UChicago Argonne, LLC
-[**license**](apstools/LICENSE) | ANL OPEN SOURCE LICENSE
+[**license**](LICENSE.txt) | ANL OPEN SOURCE LICENSE
 [**documentation**](https://apstools.readthedocs.io) | https://apstools.readthedocs.io
 **source**        | https://github.com/BCDA-APS/apstools
 

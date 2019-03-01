@@ -1,5 +1,5 @@
 include README.md
 include CHANGES*
-include apstools/LICENSE
+include LICENSE.txt
 include versioneer.py
 include apstools/_version.py

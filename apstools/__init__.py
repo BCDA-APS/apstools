@@ -18,7 +18,7 @@ __institution__ = u"Advanced Photon Source, Argonne National Laboratory"
 __author_email__= u"jemian@anl.gov"
 __url__         = u"https://apstools.readthedocs.org"
 __license__     = u"(c) " + __copyright__
-__license__     += u" (see LICENSE file for details)"
+__license__     += u" (see LICENSE.txt file for details)"
 __platforms__   = 'any'
 __zip_safe__    = False
 
