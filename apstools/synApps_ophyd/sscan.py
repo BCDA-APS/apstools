@@ -44,6 +44,8 @@ from ophyd.device import (
     FormattedComponent as FC)
 from ophyd import EpicsSignal, EpicsSignalRO
 from ophyd.status import DeviceStatus
+from ophyd.ophydobj import Kind
+from builtins import getattr
 
 
 __all__ = """
@@ -57,7 +59,7 @@ class sscanPositioner(Device):
     
     readback_pv = FC(EpicsSignal, '{self.prefix}.R{self._ch_num}PV')
     readback_value = FC(EpicsSignalRO, '{self.prefix}.R{self._ch_num}CV')
-    array = FC(EpicsSignalRO, '{self.prefix}.P{self._ch_num}CA')
+    array = FC(EpicsSignalRO, '{self.prefix}.P{self._ch_num}CA', kind=Kind.omitted)
     setpoint_pv = FC(EpicsSignal, '{self.prefix}.P{self._ch_num}PV')
     setpoint_value = FC(EpicsSignalRO, '{self.prefix}.P{self._ch_num}DV')
     start = FC(EpicsSignal, '{self.prefix}.P{self._ch_num}SP')
@@ -84,6 +86,15 @@ class sscanPositioner(Device):
         self.width.put(0)
         self.abs_rel.put("ABSOLUTE")
         self.mode.put("LINEAR")
+    
+    def get_configured_channels(self):
+        """return list of all channels configured in EPICS"""
+        channel_names = []
+        for ch in self.component_names:
+            if len(self.setpoint_pv.value.strip()) > 0:
+                if ch not in channel_names:
+                    channel_names.append(ch)
+        return channel_names
 
 
 class sscanDetector(Device):
@@ -91,7 +102,7 @@ class sscanDetector(Device):
     
     input_pv = FC(EpicsSignal, '{self.prefix}.D{self._ch_num}PV')
     current_value = FC(EpicsSignal, '{self.prefix}.D{self._ch_num}CV')
-    array = FC(EpicsSignal, '{self.prefix}.D{self._ch_num}CA')
+    array = FC(EpicsSignal, '{self.prefix}.D{self._ch_num}CA', kind=Kind.omitted)
     
     def __init__(self, prefix, num, **kwargs):
         self._ch_num = num
@@ -100,6 +111,15 @@ class sscanDetector(Device):
     def reset(self):
         """set all fields to default values"""
         self.input_pv.put("")
+    
+    def get_configured_channels(self):
+        """return list of all channels configured in EPICS"""
+        channel_names = []
+        for ch in self.component_names:
+            if len(self.input_pv.value.strip()) > 0:
+                if ch not in channel_names:
+                    channel_names.append(ch)
+        return channel_names
 
 
 class sscanTrigger(Device):
@@ -116,6 +136,15 @@ class sscanTrigger(Device):
         """set all fields to default values"""
         self.trigger_pv.put("")
         self.trigger_value.put(1)
+    
+    def get_configured_channels(self):
+        """return list of all channels configured in EPICS"""
+        channel_names = []
+        for ch in self.component_names:
+            if len(self.trigger_pv.value.strip()) > 0:
+                if ch not in channel_names:
+                    channel_names.append(ch)
+        return channel_names
 
 
 def _sscan_positioners(channel_list):
@@ -234,6 +263,26 @@ class sscanRecord(Device):
         self.pdly.put(0)
         while self.wcnt.get() > 0:
             self.wait.put(0)
+    
+    def select_channels(self):
+        """
+        Select channels that are configured in EPICS
+        """
+        for part in (self.positioners, self.detectors, self.triggers):
+            channel_names = part.get_configured_channels()
+
+            attrs = []
+            for ch in channel_names:
+                attrs.append(ch)
+                for attr in part.component_names:
+                    attrs.append(ch + "." + attr)
+    
+            part.configuration_attrs = channel_names
+            part.read_attrs = attrs
+            part.kind = Kind.normal
+            # TODO: (pattern from ScalerCH)
+            # for ch in channel_names:
+            #     getattr(part, ch).s.kind = Kind.hinted
 
 
 class sscanDevice(Device):
@@ -251,8 +300,12 @@ class sscanDevice(Device):
 
     def reset(self):
         """set all fields to default values"""
-        self.scan1.reset()
-        self.scan2.reset()
-        self.scan3.reset()
-        self.scan4.reset()
-        self.scanH.reset()
+        for chnum in "1 2 3 4 H".split():
+            getattr(self, "scan" + chnum).reset()
+    
+    def select_channels(self):
+        """
+        Select channels of each scan that are configured in EPICS
+        """
+        for chnum in "1 2 3 4 H".split():
+            getattr(self, "scan" + chnum).select_channels()
