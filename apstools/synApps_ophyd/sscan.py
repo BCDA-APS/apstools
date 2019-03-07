@@ -2,10 +2,13 @@
 """
 Ophyd support for the EPICS synApps sscan record
 
+see:  https://epics.anl.gov/bcda/synApps/sscan/sscanRecord.html
+
 EXAMPLE
 
     import apstools.synApps_ophyd
     scans = apstools.synApps_ophyd.sscanDevice("xxx:", name="scans")
+    scans.select_channels()     # only the channels configured in EPICS
 
 
 Public Structures
@@ -45,7 +48,6 @@ from ophyd.device import (
 from ophyd import EpicsSignal, EpicsSignalRO
 from ophyd.status import DeviceStatus
 from ophyd.ophydobj import Kind
-from builtins import getattr
 
 
 __all__ = """
@@ -57,19 +59,19 @@ __all__ = """
 class sscanPositioner(Device):
     """positioner of an EPICS sscan record"""
     
-    readback_pv = FC(EpicsSignal, '{self.prefix}.R{self._ch_num}PV')
+    readback_pv = FC(EpicsSignal, '{self.prefix}.R{self._ch_num}PV', kind=Kind.config)
     readback_value = FC(EpicsSignalRO, '{self.prefix}.R{self._ch_num}CV')
     array = FC(EpicsSignalRO, '{self.prefix}.P{self._ch_num}CA', kind=Kind.omitted)
-    setpoint_pv = FC(EpicsSignal, '{self.prefix}.P{self._ch_num}PV')
+    setpoint_pv = FC(EpicsSignal, '{self.prefix}.P{self._ch_num}PV', kind=Kind.config)
     setpoint_value = FC(EpicsSignalRO, '{self.prefix}.P{self._ch_num}DV')
-    start = FC(EpicsSignal, '{self.prefix}.P{self._ch_num}SP')
-    center = FC(EpicsSignal, '{self.prefix}.P{self._ch_num}CP')
-    end = FC(EpicsSignal, '{self.prefix}.P{self._ch_num}EP')
-    step_size = FC(EpicsSignal, '{self.prefix}.P{self._ch_num}SI')
-    width = FC(EpicsSignal, '{self.prefix}.P{self._ch_num}WD')
-    abs_rel = FC(EpicsSignal, '{self.prefix}.P{self._ch_num}AR')
-    mode = FC(EpicsSignal, '{self.prefix}.P{self._ch_num}SM')
-    units = FC(EpicsSignalRO, '{self.prefix}.P{self._ch_num}EU')
+    start = FC(EpicsSignal, '{self.prefix}.P{self._ch_num}SP', kind=Kind.config)
+    center = FC(EpicsSignal, '{self.prefix}.P{self._ch_num}CP', kind=Kind.config)
+    end = FC(EpicsSignal, '{self.prefix}.P{self._ch_num}EP', kind=Kind.config)
+    step_size = FC(EpicsSignal, '{self.prefix}.P{self._ch_num}SI', kind=Kind.config)
+    width = FC(EpicsSignal, '{self.prefix}.P{self._ch_num}WD', kind=Kind.config)
+    abs_rel = FC(EpicsSignal, '{self.prefix}.P{self._ch_num}AR', kind=Kind.config)
+    mode = FC(EpicsSignal, '{self.prefix}.P{self._ch_num}SM', kind=Kind.config)
+    units = FC(EpicsSignalRO, '{self.prefix}.P{self._ch_num}EU', kind=Kind.config)
 
     def __init__(self, prefix, num, **kwargs):
         self._ch_num = num
@@ -87,20 +89,16 @@ class sscanPositioner(Device):
         self.abs_rel.put("ABSOLUTE")
         self.mode.put("LINEAR")
     
-    def get_configured_channels(self):
-        """return list of all channels configured in EPICS"""
-        channel_names = []
-        for ch in self.component_names:
-            if len(self.setpoint_pv.value.strip()) > 0:
-                if ch not in channel_names:
-                    channel_names.append(ch)
-        return channel_names
+    @property
+    def defined_in_EPICS(self):
+        """True if defined in EPICS"""
+        return len(self.setpoint_pv.value.strip()) > 0
 
 
 class sscanDetector(Device):
     """detector of an EPICS sscan record"""
     
-    input_pv = FC(EpicsSignal, '{self.prefix}.D{self._ch_num}PV')
+    input_pv = FC(EpicsSignal, '{self.prefix}.D{self._ch_num}PV', kind=Kind.config)
     current_value = FC(EpicsSignal, '{self.prefix}.D{self._ch_num}CV')
     array = FC(EpicsSignal, '{self.prefix}.D{self._ch_num}CA', kind=Kind.omitted)
     
@@ -112,20 +110,16 @@ class sscanDetector(Device):
         """set all fields to default values"""
         self.input_pv.put("")
     
-    def get_configured_channels(self):
-        """return list of all channels configured in EPICS"""
-        channel_names = []
-        for ch in self.component_names:
-            if len(self.input_pv.value.strip()) > 0:
-                if ch not in channel_names:
-                    channel_names.append(ch)
-        return channel_names
+    @property
+    def defined_in_EPICS(self):
+        """True if defined in EPICS"""
+        return len(self.input_pv.value.strip()) > 0
 
 
 class sscanTrigger(Device):
     """detector trigger of an EPICS sscan record"""
     
-    trigger_pv = FC(EpicsSignal, '{self.prefix}.T{self._ch_num}PV')
+    trigger_pv = FC(EpicsSignal, '{self.prefix}.T{self._ch_num}PV', kind=Kind.config)
     trigger_value = FC(EpicsSignal, '{self.prefix}.T{self._ch_num}CD')
 
     def __init__(self, prefix, num, **kwargs):
@@ -137,14 +131,10 @@ class sscanTrigger(Device):
         self.trigger_pv.put("")
         self.trigger_value.put(1)
     
-    def get_configured_channels(self):
-        """return list of all channels configured in EPICS"""
-        channel_names = []
-        for ch in self.component_names:
-            if len(self.trigger_pv.value.strip()) > 0:
-                if ch not in channel_names:
-                    channel_names.append(ch)
-        return channel_names
+    @property
+    def defined_in_EPICS(self):
+        """True if defined in EPICS"""
+        return len(self.trigger_pv.value.strip()) > 0
 
 
 def _sscan_positioners(channel_list):
@@ -174,11 +164,15 @@ def _sscan_triggers(channel_list):
 class sscanRecord(Device):
     """EPICS synApps sscan record: used as $(P):scan(N)"""
     
-    desc = Cpt(EpicsSignal, '.DESC')
-    faze = Cpt(EpicsSignalRO, '.FAZE')
+    desc = Cpt(EpicsSignal, '.DESC', kind=Kind.config)
+    scan_phase = Cpt(EpicsSignalRO, '.FAZE')
     data_state = Cpt(EpicsSignalRO, '.DSTATE')
+    data_ready = Cpt(EpicsSignalRO, '.DATA')
+    scan_busy = Cpt(EpicsSignalRO, '.BUSY')
+    alert_flag = Cpt(EpicsSignalRO, '.ALRT')
+    alert_message = Cpt(EpicsSignalRO, '.SMSG')
     npts = Cpt(EpicsSignal, '.NPTS')
-    cpt = Cpt(EpicsSignalRO, '.CPT')
+    current_point = Cpt(EpicsSignalRO, '.CPT')
     pasm = Cpt(EpicsSignal, '.PASM')
     exsc = Cpt(EpicsSignal, '.EXSC')
     bspv = Cpt(EpicsSignal, '.BSPV')
@@ -269,20 +263,21 @@ class sscanRecord(Device):
         Select channels that are configured in EPICS
         """
         for part in (self.positioners, self.detectors, self.triggers):
-            channel_names = part.get_configured_channels()
+            channel_names = []      # part.get_configured_channels()
+            channel_names = [ch for ch in part.component_names if getattr(part, ch).defined_in_EPICS]
 
-            attrs = []
-            for ch in channel_names:
-                attrs.append(ch)
-                for attr in part.component_names:
-                    attrs.append(ch + "." + attr)
-    
             part.configuration_attrs = channel_names
-            part.read_attrs = attrs
+            part.read_attrs = channel_names
             part.kind = Kind.normal
-            # TODO: (pattern from ScalerCH)
-            # for ch in channel_names:
-            #     getattr(part, ch).s.kind = Kind.hinted
+    
+    @property
+    def defined_in_EPICS(self):
+        """True if will be used in EPICS"""
+        self.select_channels()
+        channels = len(self.positioners.read_attrs)
+        channels += len(self.detectors.read_attrs)
+        #channels += len(self.triggers.read_attrs)
+        return channels > 0
 
 
 class sscanDevice(Device):
@@ -305,7 +300,12 @@ class sscanDevice(Device):
     
     def select_channels(self):
         """
-        Select channels of each scan that are configured in EPICS
+        Select only the scans that are configured in EPICS
         """
-        for chnum in "1 2 3 4 H".split():
-            getattr(self, "scan" + chnum).select_channels()
+        scans = ["scan"+ch for ch in "1 2 3 4 H".split()]
+        attrs = []
+        for nm in self.component_names:
+            if nm in scans and not getattr(self, nm).defined_in_EPICS:
+                continue
+            attrs.append(nm)
+        self.read_attrs = attrs
