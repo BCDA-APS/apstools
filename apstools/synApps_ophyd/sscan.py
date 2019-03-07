@@ -57,6 +57,7 @@ class sscanPositioner(Device):
     
     readback_pv = FC(EpicsSignal, '{self.prefix}.R{self._ch_num}PV')
     readback_value = FC(EpicsSignalRO, '{self.prefix}.R{self._ch_num}CV')
+    array = FC(EpicsSignalRO, '{self.prefix}.P{self._ch_num}CA')
     setpoint_pv = FC(EpicsSignal, '{self.prefix}.P{self._ch_num}PV')
     setpoint_value = FC(EpicsSignalRO, '{self.prefix}.P{self._ch_num}DV')
     start = FC(EpicsSignal, '{self.prefix}.P{self._ch_num}SP')
@@ -90,6 +91,7 @@ class sscanDetector(Device):
     
     input_pv = FC(EpicsSignal, '{self.prefix}.D{self._ch_num}PV')
     current_value = FC(EpicsSignal, '{self.prefix}.D{self._ch_num}CV')
+    array = FC(EpicsSignal, '{self.prefix}.D{self._ch_num}CA')
     
     def __init__(self, prefix, num, **kwargs):
         self._ch_num = num
