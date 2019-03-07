@@ -233,8 +233,8 @@ class sscanRecord(Device):
         self.desc.put(self.desc.pvname.split(".")[0])
         self.npts.put(1000)
         for part in (self.positioners, self.detectors, self.triggers):
-            for ch_name in part.read_attrs:
-                channel = part.__getattr__(ch_name)
+            for ch_name in part.component_names:
+                channel = getattr(part, ch_name)
                 channel.reset()
         self.a1pv.put("")
         self.acqm.put("NORMAL")
