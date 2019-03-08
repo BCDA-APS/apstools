@@ -90,6 +90,7 @@ class swaitRecord(Device):
     calc = Cpt(EpicsSignal, '.CALC')
     val = Cpt(EpicsSignalRO, '.VAL')
     prec = Cpt(EpicsSignal, '.PREC')
+    process = Cpt(EpicsSignal, '.PROC')
     oevt = Cpt(EpicsSignal, '.OEVT')
     outn = Cpt(EpicsSignal, '.OUTN')
     odly = Cpt(EpicsSignal, '.ODLY')
@@ -122,7 +123,7 @@ class swaitRecord(Device):
         self.oopt.put("Every Time")
         self.outn.put("")
         for letter in self.channels.read_attrs:
-            channel = self.channels.__getattr__(letter)
+            channel = getattr(self.channels, letter)
             if isinstance(channel, swaitRecordChannel):
                 channel.reset()
         self.hints = {'fields': ["channels.%s" % c for c in "A B C D E F G H I J K L".split()]}

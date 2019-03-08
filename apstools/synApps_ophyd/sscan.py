@@ -171,17 +171,18 @@ class sscanRecord(Device):
     scan_busy = Cpt(EpicsSignalRO, '.BUSY')
     alert_flag = Cpt(EpicsSignalRO, '.ALRT')
     alert_message = Cpt(EpicsSignalRO, '.SMSG')
-    npts = Cpt(EpicsSignal, '.NPTS')
+    number_points = Cpt(EpicsSignal, '.NPTS', kind=Kind.config)
+    maximum_number_points = Cpt(EpicsSignal, '.MPTS', kind=Kind.config)
     current_point = Cpt(EpicsSignalRO, '.CPT')
     pasm = Cpt(EpicsSignal, '.PASM')
-    exsc = Cpt(EpicsSignal, '.EXSC')
-    bspv = Cpt(EpicsSignal, '.BSPV')
+    execute_scan = Cpt(EpicsSignal, '.EXSC')
+    bspv = Cpt(EpicsSignal, '.BSPV', kind=Kind.config)
     bscd = Cpt(EpicsSignal, '.BSCD')
     bswait = Cpt(EpicsSignal, '.BSWAIT')
     cmnd = Cpt(EpicsSignal, '.CMND')
-    ddly = Cpt(EpicsSignal, '.DDLY')
-    pdly = Cpt(EpicsSignal, '.PDLY')
-    refd = Cpt(EpicsSignal, '.REFD')
+    detector_delay = Cpt(EpicsSignal, '.DDLY')
+    positioner_delay = Cpt(EpicsSignal, '.PDLY')
+    reference_detector = Cpt(EpicsSignal, '.REFD', kind=Kind.config)
     wait = Cpt(EpicsSignal, '.WAIT')
     wcnt = Cpt(EpicsSignalRO, '.WCNT')
     awct = Cpt(EpicsSignal, '.AWCT')
@@ -189,9 +190,10 @@ class sscanRecord(Device):
     acqm = Cpt(EpicsSignal, '.ACQM')
     atime = Cpt(EpicsSignal, '.ATIME')
     copyto = Cpt(EpicsSignal, '.COPYTO')
-    a1pv = Cpt(EpicsSignal, '.A1PV')
+    a1pv = Cpt(EpicsSignal, '.A1PV', kind=Kind.config)
+    a1nv = Cpt(EpicsSignal, '.A1NV', kind=Kind.config)
     a1cd = Cpt(EpicsSignal, '.A1CD')
-    aspv = Cpt(EpicsSignal, '.ASPV')
+    aspv = Cpt(EpicsSignal, '.ASPV', kind=Kind.config)
     ascd = Cpt(EpicsSignal, '.ASCD')
 
     positioners = DDC(
@@ -231,7 +233,7 @@ class sscanRecord(Device):
     def reset(self):
         """set all fields to default values"""
         self.desc.put(self.desc.pvname.split(".")[0])
-        self.npts.put(1000)
+        self.number_points.put(1000)
         for part in (self.positioners, self.detectors, self.triggers):
             for ch_name in part.component_names:
                 channel = getattr(part, ch_name)
