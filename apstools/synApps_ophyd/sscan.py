@@ -251,12 +251,12 @@ class sscanRecord(Device):
         self.a1cd.put(1)
         self.ascd.put(1)
         self.bscd.put(1)
-        self.refd.put(1)
+        self.reference_detector.put(1)
         self.atime.put(0)
         self.awct.put(0)
         self.copyto.put(0)
-        self.ddly.put(0)
-        self.pdly.put(0)
+        self.detector_delay.put(0)
+        self.positioner_delay.put(0)
         while self.wcnt.get() > 0:
             self.wait.put(0)
     
