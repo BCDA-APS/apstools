@@ -84,7 +84,14 @@ def _swait_channels(channel_list):
 
 
 class swaitRecord(Device):
-    """synApps swait record: used as $(P):userCalc$(N)"""
+    """
+    synApps swait record: used as $(P):userCalc$(N)
+
+    .. autosummary::
+       
+        ~reset
+
+    """
     desc = Cpt(EpicsSignal, '.DESC')
     scan = Cpt(EpicsSignal, '.SCAN')
     calc = Cpt(EpicsSignal, '.CALC')
@@ -132,7 +139,14 @@ class swaitRecord(Device):
 
 
 class userCalcsDevice(Device):
-    """synApps XXX IOC setup of userCalcs: $(P):userCalc$(N)"""
+    """
+    synApps XXX IOC setup of userCalcs: $(P):userCalc$(N)
+
+    .. autosummary::
+       
+        ~reset
+
+    """
 
     enable = Cpt(EpicsSignal, 'userCalcEnable')
     calc1 = Cpt(swaitRecord, 'userCalc1')

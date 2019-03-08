@@ -42,6 +42,10 @@ class SaveData(Device):
 
         from apstools.synApps_ophyd import SaveData
         save_data = SaveData("xxx:saveData_", name="save_data")
+
+    .. autosummary::
+       
+        ~reset
     
     """
 

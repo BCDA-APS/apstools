@@ -15,15 +15,15 @@ Public Structures
 
 .. autosummary::
    
-    ~sscanRecord  
+    ~sscanRecord
     ~sscanDevice
 
 Private Structures
 
 .. autosummary::
    
-    ~sscanPositioner  
-    ~sscanDetector  
+    ~sscanPositioner
+    ~sscanDetector
     ~sscanTrigger
 
 """
@@ -57,7 +57,15 @@ __all__ = """
 
 
 class sscanPositioner(Device):
-    """positioner of an EPICS sscan record"""
+    """
+    positioner of an EPICS sscan record
+
+    .. autosummary::
+       
+        ~defined_in_EPICS
+        ~reset
+
+    """
     
     readback_pv = FC(EpicsSignal, '{self.prefix}.R{self._ch_num}PV', kind=Kind.config)
     readback_value = FC(EpicsSignalRO, '{self.prefix}.R{self._ch_num}CV')
@@ -96,7 +104,15 @@ class sscanPositioner(Device):
 
 
 class sscanDetector(Device):
-    """detector of an EPICS sscan record"""
+    """
+    detector of an EPICS sscan record
+
+    .. autosummary::
+       
+        ~defined_in_EPICS
+        ~reset
+
+    """
     
     input_pv = FC(EpicsSignal, '{self.prefix}.D{self._ch_num}PV', kind=Kind.config)
     current_value = FC(EpicsSignal, '{self.prefix}.D{self._ch_num}CV')
@@ -117,7 +133,13 @@ class sscanDetector(Device):
 
 
 class sscanTrigger(Device):
-    """detector trigger of an EPICS sscan record"""
+    """
+    detector trigger of an EPICS sscan record
+
+    .. autosummary::
+       
+        ~reset
+    """
     
     trigger_pv = FC(EpicsSignal, '{self.prefix}.T{self._ch_num}PV', kind=Kind.config)
     trigger_value = FC(EpicsSignal, '{self.prefix}.T{self._ch_num}CD')
@@ -162,7 +184,16 @@ def _sscan_triggers(channel_list):
 
 
 class sscanRecord(Device):
-    """EPICS synApps sscan record: used as $(P):scan(N)"""
+    """
+    EPICS synApps sscan record: used as $(P):scan(N)
+
+    .. autosummary::
+       
+        ~defined_in_EPICS
+        ~reset
+        ~select_channels
+
+    """
     
     desc = Cpt(EpicsSignal, '.DESC', kind=Kind.config)
     scan_phase = Cpt(EpicsSignalRO, '.FAZE')
@@ -283,7 +314,15 @@ class sscanRecord(Device):
 
 
 class sscanDevice(Device):
-    """synApps XXX IOC setup of sscan records: $(P):scan$(N)"""
+    """
+    synApps XXX IOC setup of sscan records: $(P):scan$(N)
+
+    .. autosummary::
+       
+        ~reset
+        ~select_channels
+
+    """
 
     scan_dimension = Cpt(EpicsSignalRO, 'ScanDim')
     scan_pause = Cpt(EpicsSignal, 'scanPause')
