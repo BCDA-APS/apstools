@@ -7,6 +7,7 @@ Plans that might be useful at the APS when using BlueSky
    ~run_blocker_in_plan
    ~run_in_thread
    ~snapshot
+   ~sscan_step_1D
    ~TuneAxis
    ~tune_axes
 
@@ -274,13 +275,90 @@ def snapshot(obj_list, stream="primary", md=None):
     return (yield from _snap(md=_md))
 
 
-# def sscan(*args, md=None, **kw):        # TODO: planned as #91
-#     """
-#     gather data from the sscan record and emit documents
-#     
-#     Should this operate a complete scan using the sscan record?
-#     """
-#     raise NotImplemented("this is only planned")
+def _get_sscan_data_objects(sscan):
+    """
+    prepare a dictionary of the "interesting" ophyd data objects for this sscan
+    """
+    scan_data_objects = OrderedDict()
+    for part in (sscan.positioners, sscan.detectors):
+        for chname in part.read_attrs:
+            if not chname.endswith("_value"):
+                continue
+            obj = getattr(part, chname)
+            key = obj.name.lstrip(sscan.name + "_")
+            scan_data_objects[key] = obj
+    return scan_data_objects
+
+
+def sscan_step_1D(sscan, _md={}):
+    """
+    simple 1-D step scan using EPICS synApps sscan record
+    
+    assumes the sscan record has already been setup properly for a scan
+    
+    EXAMPLE::
+    
+        from apstools.devices import sscanDevice
+        from apstools.plans import sscan_step_1D
+        scans = sscanDevice(P, name="scans")
+        # assume ready setup for this 1-D scan
+        RE(sscan_step_1D(scans.scan1), md=dict(purpose="demo"))
+
+    """
+    global new_data
+    
+    t0 = time.time()
+    sscan_status = ophyd.DeviceStatus(sscan.execute_scan)
+    started = False
+    new_data = False
+    
+    def execute_cb(value, timestamp, **kwargs):
+        """watch for sscan to complete"""
+        if started and value in (0, "IDLE"):
+            sscan_status._finished()
+            sscan.execute_scan.unsubscribe_all()
+            sscan.scan_phase.unsubscribe_all()
+    
+    def phase_cb(value, timestamp, **kwargs):
+        """watch for new data"""
+        global new_data
+        if value in (15, "RECORD SCALAR DATA"):
+            new_data = True            # set flag for main plan
+    
+    # acquire only the channels with non-empty configuration in EPICS
+    sscan.select_channels()
+    # pre-identify the configured channels
+    sscan_data_objects = _get_sscan_data_objects(sscan)
+    
+    # watch for sscan to complete
+    sscan.execute_scan.subscribe(execute_cb)
+    # watch for new data to be read out
+    sscan.scan_phase.subscribe(phase_cb)
+    
+    _md["plan_name"] = "sscan_step_1D"
+
+    yield from bps.open_run(_md)               # start data collection
+    yield from bps.mv(sscan.execute_scan, 1)   # start sscan
+    started = True
+
+    # collect and emit data, wait for sscan to end
+    while not sscan_status.done or new_data:
+        if new_data:
+            new_data = False
+            yield from bps.create("primary")
+            for k, obj in sscan_data_objects.items():
+                yield from bps.read(obj)
+            yield from bps.save()
+        yield from bps.sleep(0.001)
+
+    # dump the entire sscan record into another stream
+    yield from bps.create("sscan")
+    yield from bps.read(sscan)
+    yield from bps.save()
+
+    yield from bps.close_run()
+
+    return sscan_status
 
 
 class TuneAxis(object):
