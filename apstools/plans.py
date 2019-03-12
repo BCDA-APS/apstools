@@ -296,12 +296,14 @@ def sscan_step_1D(sscan, _md={}):
     
     assumes the sscan record has already been setup properly for a scan
     
-    EXAMPLE::
+    EXAMPLE
+    
+    Assume that the chosen sscan record has already been setup.
     
         from apstools.devices import sscanDevice
-        from apstools.plans import sscan_step_1D
         scans = sscanDevice(P, name="scans")
-        # assume ready setup for this 1-D scan
+        
+        from apstools.plans import sscan_step_1D
         RE(sscan_step_1D(scans.scan1), md=dict(purpose="demo"))
 
     """
