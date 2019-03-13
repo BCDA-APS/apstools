@@ -299,6 +299,8 @@ def _get_sscan_data_objects(sscan):
 def sscan_1D(
         sscan, 
         poll_delay_s=0.001, 
+        running_stream="primary", 
+        # array_data_stream=None, 
         device_settings_stream="{}_settings", 
         md={}):
     """
@@ -310,6 +312,12 @@ def sscan_1D(
 
     sscan : Device
         one EPICS sscan record (instance of `apstools.synApps_ophyd.sscanRecord`)
+    running_stream : str
+        (default: ``"primary"``)
+        Name of document stream to write positioners and detectors data
+        made available while the sscan is running.  This is typically 
+        the scan data, row by row.
+        If set to `None`, this stream will not be written.
     device_settings_stream : str
         (default: ``"{}_settings"``)
         Name of document stream to write settings of the sscan device 
@@ -374,12 +382,12 @@ def sscan_1D(
 
     # collect and emit data, wait for sscan to end
     while not sscan_status.done or new_data:
-        if new_data:
-            new_data = False
-            yield from bps.create("primary")
+        if new_data and running_stream is not None:
+            yield from bps.create(running_stream)
             for k, obj in sscan_data_objects.items():
                 yield from bps.read(obj)
             yield from bps.save()
+        new_data = False
         yield from bps.sleep(poll_delay_s)
 
     # dump the entire sscan record into another stream
