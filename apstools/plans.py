@@ -7,7 +7,7 @@ Plans that might be useful at the APS when using BlueSky
    ~run_blocker_in_plan
    ~run_in_thread
    ~snapshot
-   ~sscan_step_1D
+   ~sscan_1D
    ~TuneAxis
    ~tune_axes
 
@@ -290,9 +290,9 @@ def _get_sscan_data_objects(sscan):
     return scan_data_objects
 
 
-def sscan_step_1D(sscan, _md={}):
+def sscan_1D(sscan, _md={}):
     """
-    simple 1-D step scan using EPICS synApps sscan record
+    simple 1-D scan using EPICS synApps sscan record
     
     assumes the sscan record has already been setup properly for a scan
     
@@ -303,8 +303,8 @@ def sscan_step_1D(sscan, _md={}):
         from apstools.devices import sscanDevice
         scans = sscanDevice(P, name="scans")
         
-        from apstools.plans import sscan_step_1D
-        RE(sscan_step_1D(scans.scan1), md=dict(purpose="demo"))
+        from apstools.plans import sscan_1D
+        RE(sscan_1D(scans.scan1), md=dict(purpose="demo"))
 
     """
     global new_data
@@ -337,7 +337,7 @@ def sscan_step_1D(sscan, _md={}):
     # watch for new data to be read out
     sscan.scan_phase.subscribe(phase_cb)
     
-    _md["plan_name"] = "sscan_step_1D"
+    _md["plan_name"] = "sscan_1D"
 
     yield from bps.open_run(_md)               # start data collection
     yield from bps.mv(sscan.execute_scan, 1)   # start sscan
