@@ -278,6 +278,12 @@ def snapshot(obj_list, stream="primary", md=None):
 def _get_sscan_data_objects(sscan):
     """
     prepare a dictionary of the "interesting" ophyd data objects for this sscan
+
+    PARAMETERS
+
+    sscan : Device
+        one EPICS sscan record (instance of `apstools.synApps_ophyd.sscanRecord`)
+
     """
     scan_data_objects = OrderedDict()
     for part in (sscan.positioners, sscan.detectors):
@@ -290,11 +296,21 @@ def _get_sscan_data_objects(sscan):
     return scan_data_objects
 
 
-def sscan_1D(sscan, _md={}):
+def sscan_1D(sscan, poll_delay_s=0.001, md={}):
     """
     simple 1-D scan using EPICS synApps sscan record
     
     assumes the sscan record has already been setup properly for a scan
+
+    PARAMETERS
+
+    sscan : Device
+        one EPICS sscan record (instance of `apstools.synApps_ophyd.sscanRecord`)
+    poll_delay_s : float
+        (default: 0.001 seconds)
+        How long to sleep during each polling loop while collecting
+        interim data values and waiting for sscan to complete.
+        Must be a number between zero and 0.1 seconds.
     
     EXAMPLE
     
@@ -308,6 +324,9 @@ def sscan_1D(sscan, _md={}):
 
     """
     global new_data
+    
+    msg = f"poll_delay_s must be a number between 0 and 0.1, received {poll_delay_s}"
+    assert 0 <= poll_delay_s <= 0.1, msg
     
     t0 = time.time()
     sscan_status = ophyd.DeviceStatus(sscan.execute_scan)
@@ -337,9 +356,9 @@ def sscan_1D(sscan, _md={}):
     # watch for new data to be read out
     sscan.scan_phase.subscribe(phase_cb)
     
-    _md["plan_name"] = "sscan_1D"
+    md["plan_name"] = "sscan_1D"
 
-    yield from bps.open_run(_md)               # start data collection
+    yield from bps.open_run(md)               # start data collection
     yield from bps.mv(sscan.execute_scan, 1)   # start sscan
     started = True
 
@@ -351,7 +370,7 @@ def sscan_1D(sscan, _md={}):
             for k, obj in sscan_data_objects.items():
                 yield from bps.read(obj)
             yield from bps.save()
-        yield from bps.sleep(0.001)
+        yield from bps.sleep(poll_delay_s)
 
     # dump the entire sscan record into another stream
     yield from bps.create("sscan")
