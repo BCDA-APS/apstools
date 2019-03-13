@@ -299,6 +299,7 @@ def _get_sscan_data_objects(sscan):
 def sscan_1D(
         sscan, 
         poll_delay_s=0.001, 
+        phase_timeout_s = 60.0,
         running_stream="primary", 
         final_array_stream=None, 
         device_settings_stream="settings", 
@@ -333,6 +334,13 @@ def sscan_1D(
         How long to sleep during each polling loop while collecting
         interim data values and waiting for sscan to complete.
         Must be a number between zero and 0.1 seconds.
+    phase_timeout_s : float
+        (default: 60 seconds)
+        How long to wait after last update of the ``sscan.FAZE``.
+        When scanning, we expect the scan phase to update regularly
+        as positioners move and detectors are triggered.  If the scan
+        hangs for some reason, this is a way to end the plan early.
+        To cancel this feature, set it to ``None``.
     
     NOTE about the document stream names
     
@@ -353,7 +361,7 @@ def sscan_1D(
         RE(sscan_1D(scans.scan1), md=dict(purpose="demo"))
 
     """
-    global new_data
+    global new_data, inactive_deadline
     
     msg = f"poll_delay_s must be a number between 0 and 0.1, received {poll_delay_s}"
     assert 0 <= poll_delay_s <= 0.1, msg
@@ -362,6 +370,9 @@ def sscan_1D(
     sscan_status = ophyd.DeviceStatus(sscan.execute_scan)
     started = False
     new_data = False
+    inactive_deadline = time.time()
+    if phase_timeout_s is not None:
+        inactive_deadline += phase_timeout_s
     
     def execute_cb(value, timestamp, **kwargs):
         """watch for sscan to complete"""
@@ -372,7 +383,9 @@ def sscan_1D(
     
     def phase_cb(value, timestamp, **kwargs):
         """watch for new data"""
-        global new_data
+        global new_data, inactive_deadline
+        if phase_timeout_s is not None:
+            inactive_deadline = time.time() + phase_timeout_s
         if value in (15, "RECORD SCALAR DATA"):
             new_data = True            # set flag for main plan
     
@@ -400,6 +413,10 @@ def sscan_1D(
                 yield from bps.read(obj)
             yield from bps.save()
         new_data = False
+        if phase_timeout_s is not None and time.time() > inactive_deadline:
+            print(f"No change in sscan record for {phase_timeout_s} seconds.")
+            print("ending plan early as unsuccessful")
+            sscan_status._finished(success=False)
         yield from bps.sleep(poll_delay_s)
 
     # dump the complete data arrays
