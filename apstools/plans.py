@@ -301,7 +301,7 @@ def sscan_1D(
         poll_delay_s=0.001, 
         running_stream="primary", 
         final_array_stream=None, 
-        device_settings_stream="{}_settings", 
+        device_settings_stream="settings", 
         md={}):
     """
     simple 1-D scan using EPICS synApps sscan record
@@ -324,16 +324,23 @@ def sscan_1D(
         posted *after* the sscan has ended.
         If set to `None`, this stream will not be written.
     device_settings_stream : str or `None`
-        (default: ``"{}_settings"``)
-        Name of document stream to write settings of the sscan device 
-        (all the information returned by ``sscan.read()``).  The name of the
-        ophyd sscan device (``sscan.name``) will be used within the ``{}``.
+        (default: ``"settings"``)
+        Name of document stream to write *settings* of the sscan device.
+        This is all the information returned by ``sscan.read()``.
         If set to `None`, this stream will not be written.
     poll_delay_s : float
         (default: 0.001 seconds)
         How long to sleep during each polling loop while collecting
         interim data values and waiting for sscan to complete.
         Must be a number between zero and 0.1 seconds.
+    
+    NOTE about the document stream names
+    
+    Make certain the names for the document streams are different from 
+    each other.  If you make them all the same (such as ``primary``),
+    you will have difficulty when reading your data later on.
+    
+    *Don't cross the streams!*
     
     EXAMPLE
     
@@ -398,6 +405,8 @@ def sscan_1D(
     # dump the complete data arrays
     if final_array_stream is not None:
         yield from bps.create(final_array_stream)
+        # we have to search for the arrays since they have ``kind="omitted"``
+        # (which means they do not get reported by the ``.read()`` method)
         for part in (sscan.positioners, sscan.detectors):
             for nm in part.read_attrs:
                 if "." not in nm:
@@ -407,7 +416,7 @@ def sscan_1D(
 
     # dump the entire sscan record into another stream
     if device_settings_stream is not None:
-        yield from bps.create(device_settings_stream.format(sscan.name))
+        yield from bps.create(device_settings_stream)
         yield from bps.read(sscan)
         yield from bps.save()
 
