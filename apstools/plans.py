@@ -300,7 +300,7 @@ def sscan_1D(
         sscan, 
         poll_delay_s=0.001, 
         running_stream="primary", 
-        # array_data_stream=None, 
+        final_array_stream=None, 
         device_settings_stream="{}_settings", 
         md={}):
     """
@@ -312,13 +312,18 @@ def sscan_1D(
 
     sscan : Device
         one EPICS sscan record (instance of `apstools.synApps_ophyd.sscanRecord`)
-    running_stream : str
+    running_stream : str or `None`
         (default: ``"primary"``)
         Name of document stream to write positioners and detectors data
         made available while the sscan is running.  This is typically 
         the scan data, row by row.
         If set to `None`, this stream will not be written.
-    device_settings_stream : str
+    final_array_stream : str or `None`
+        (default: ``None``)
+        Name of document stream to write positioners and detectors data 
+        posted *after* the sscan has ended.
+        If set to `None`, this stream will not be written.
+    device_settings_stream : str or `None`
         (default: ``"{}_settings"``)
         Name of document stream to write settings of the sscan device 
         (all the information returned by ``sscan.read()``).  The name of the
@@ -389,6 +394,16 @@ def sscan_1D(
             yield from bps.save()
         new_data = False
         yield from bps.sleep(poll_delay_s)
+
+    # dump the complete data arrays
+    if final_array_stream is not None:
+        yield from bps.create(final_array_stream)
+        for part in (sscan.positioners, sscan.detectors):
+            for nm in part.read_attrs:
+                if "." not in nm:
+                    # TODO: write just the acquired data, not the FULL arrays!
+                    yield from bps.read(getattr(part, nm).array)
+        yield from bps.save()
 
     # dump the entire sscan record into another stream
     if device_settings_stream is not None:
