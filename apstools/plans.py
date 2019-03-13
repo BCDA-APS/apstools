@@ -296,7 +296,11 @@ def _get_sscan_data_objects(sscan):
     return scan_data_objects
 
 
-def sscan_1D(sscan, poll_delay_s=0.001, md={}):
+def sscan_1D(
+        sscan, 
+        poll_delay_s=0.001, 
+        device_settings_stream="{}_settings", 
+        md={}):
     """
     simple 1-D scan using EPICS synApps sscan record
     
@@ -306,6 +310,12 @@ def sscan_1D(sscan, poll_delay_s=0.001, md={}):
 
     sscan : Device
         one EPICS sscan record (instance of `apstools.synApps_ophyd.sscanRecord`)
+    device_settings_stream : str
+        (default: ``"{}_settings"``)
+        Name of document stream to write settings of the sscan device 
+        (all the information returned by ``sscan.read()``).  The name of the
+        ophyd sscan device (``sscan.name``) will be used within the ``{}``.
+        If set to `None`, this stream will not be written.
     poll_delay_s : float
         (default: 0.001 seconds)
         How long to sleep during each polling loop while collecting
@@ -373,9 +383,10 @@ def sscan_1D(sscan, poll_delay_s=0.001, md={}):
         yield from bps.sleep(poll_delay_s)
 
     # dump the entire sscan record into another stream
-    yield from bps.create("sscan")
-    yield from bps.read(sscan)
-    yield from bps.save()
+    if device_settings_stream is not None:
+        yield from bps.create(device_settings_stream.format(sscan.name))
+        yield from bps.read(sscan)
+        yield from bps.save()
 
     yield from bps.close_run()
 
