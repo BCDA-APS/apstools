@@ -33,7 +33,7 @@ build:
 requirements:
   host:
     - pip
-    - python  {{ python }}
+    - python
     - ophyd
     - databroker
     - bluesky

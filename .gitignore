@@ -14,3 +14,4 @@ build/
 .ipynb_checkpoints/
 .pydevproject
 issue*.py
+build_log.txt
