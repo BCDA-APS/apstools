@@ -31,6 +31,7 @@ Package Information
    examples
    source/*
    synApps/*
+   license
 
 
 Indices and tables
