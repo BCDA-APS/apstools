@@ -26,7 +26,7 @@ You'll need to have an action plan for every different action your spreadsheet
 will specify.  Call these plans from your ``Excel_plan()`` within an ``elif`` block,
 as shown in this example.
 
-:::
+::
 
         if scan_command == "step_scan":
             yield from step_scan(...)
