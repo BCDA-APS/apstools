@@ -2,12 +2,45 @@
 Examples
 ========
 
+* :ref:`example_Excel_scan`
 * :ref:`example_plan_catalog`
 * :ref:`example_specfile`
 * :ref:`example_nscan`
 * :ref:`example_tuneaxis`
 * :ref:`example_source`
 * :ref:`examples_downloads`
+
+
+.. _example_Excel_scan:
+
+Example: *Excel scan*
++++++++++++++++++++++++++++
+
+You can use an Excel spreadsheet as a multi-sample batch scan tool.  Follow
+the example spreadsheet and accompanying Jupyter notebook (in the 
+:ref:`examples_downloads` section below) to write your own ``Excel_plan()``.
+You'll need to have a plan for every different action your spreadsheet
+will specify.  Call these plans from your ``Excel_plan()`` within an ``elif`` block,
+as shown in the example.
+
+The idea is that your table will start with column labels 
+in row 4 of the Excel spreadsheet.  One of the columns will be the name
+of the action (in the example, it is ``Scan Type``).  The other columns will
+be parameters or other information.  Each of the rows under the labels will
+describe one type of action such as a scan.  Basically, whatever you  
+handle in your ``Excel_plan()``.  
+Any rows that you do not handle will be reported to the console during execution
+but will not result in any action.
+
+.. note:  For now, make sure there is no content in any of the spreadsheet
+   cells outside of your table.  Such content will trigger a cryptic error
+   about a numpy float that cannot be converted.  Instead, put that content 
+   in a second spreadsheet page.
+   
+   .. see: https://github.com/BCDA-APS/apstools/issues/116
+
+The example plan saves all row parameters as metadata to the row's action.
+This may be useful for diagnostic purposes.
 
 
 .. _example_plan_catalog:
@@ -107,9 +140,13 @@ Source Code Documentation
 Downloads
 +++++++++
 
-The jupyter notebook and files related to this section may be downloaded from the following table.
+The jupyter notebooks and files related to this section may be downloaded from the following table.
 
 * :download:`plan_catalog.txt <resources/plan_catalog.txt>`
+* jupyter notebook: :download:`demo_excel_scan <resources/excel_scan.ipynb>`
+
+  * :download:`sample_example.xlsx <resources/sample_example.xlsx>`
+
 * jupyter notebook: :download:`demo_nscan <resources/demo_nscan.ipynb>`
 * jupyter notebook: :download:`demo_tuneaxis <resources/demo_tuneaxis.ipynb>`
 * jupyter notebook: :download:`demo_specfile_example <resources/demo_specfile_example.ipynb>`
