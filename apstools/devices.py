@@ -729,7 +729,7 @@ class ApsPssShutterWithStatus(ApsPssShutter):
         elif poll_s < self._poll_s_min_:
             poll_s = self._poll_s_min_
 
-        while self.pss_state.value not in target:
+        while self.pss_state.get() not in target:
             time.sleep(poll_s)
             if poll_s < self._poll_s_max_:
                 poll_s *= self._poll_factor_   # progressively longer
