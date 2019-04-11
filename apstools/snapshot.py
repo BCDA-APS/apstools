@@ -255,7 +255,7 @@ class SnapshotGui(object):
         from . import callbacks
         item_index = event.widget.focus()
         if item_index in self.uids:
-            hh = self.db(item_index)
+            hh = self.db(plan_name = "snapshot", uid=item_index)
             header = list(hh)[0]
             with Capturing() as lines:
                 callbacks.SnapshotReport().print_report(header)
@@ -271,13 +271,12 @@ class SnapshotGui(object):
             start_doc = h.start
             uid = start_doc["uid"]
             iso = start_doc["iso8601"].split(".")[0]
-            ymd = iso.split()[0]
+            ymd, hms = iso.split()
             if ymd not in parents:
                 parents.append(ymd)
                 self.tree.insert("", "end", ymd, text=ymd)
             self.uids.append(uid)
-            values = [iso.split()[-1]]
-            self.tree.insert(ymd, "end", iid=uid, values=values)
+            self.tree.insert(ymd, "end", iid=uid, values=[hms])
 
 
 if __name__ == "__main__":
