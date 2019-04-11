@@ -17,11 +17,25 @@ Example: *Excel scan*
 +++++++++++++++++++++++++++
 
 You can use an Excel spreadsheet as a multi-sample batch scan tool.  Follow
-the example spreadsheet and accompanying Jupyter notebook (in the 
-:ref:`examples_downloads` section below) to write your own ``Excel_plan()``.
-You'll need to have a plan for every different action your spreadsheet
+the example spreadsheet (in the 
+:ref:`examples_downloads` section below)
+and accompanying Jupyter notebook 
+(https://github.com/BCDA-APS/apstools/blob/master/docs/source/resources/excel_scan.ipynb)
+to write your own ``Excel_plan()``.
+You'll need to have an action plan for every different action your spreadsheet
 will specify.  Call these plans from your ``Excel_plan()`` within an ``elif`` block,
-as shown in the example.
+as shown in this example.
+
+:::
+
+        if scan_command == "step_scan":
+            yield from step_scan(...)
+        elif scan_command == "energy_scan":
+            yield from scan_energy(...)
+        elif scan_command == "radiograph":
+            yield from AcquireImage(...)
+        else:
+            print(f"no handling for table row {i+1}: {row}")
 
 The idea is that your table will start with column labels 
 in row 4 of the Excel spreadsheet.  One of the columns will be the name
