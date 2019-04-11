@@ -219,8 +219,8 @@ class SnapshotGui(object):
     
         self.tree.column("#0", width=90, stretch=tk.NO)
         self.tree.column("iso8601", width=70, stretch=tk.NO)
-        self.tree.heading("#0", text="yyyy-mm-dd")
-        self.tree.heading("iso8601", text="hh:mm:ss")
+        self.tree.heading("#0", text="date")
+        self.tree.heading("iso8601", text="time")
 
         xsb.configure(command=self.tree.xview)
         ysb.configure(command=self.tree.yview)
