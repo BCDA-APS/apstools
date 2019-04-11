@@ -28,9 +28,28 @@ to write your own ``Excel_plan()``.
    
    Example Excel spreadsheet for multi-sample batch scans.
 
+The idea is that your table will start with column labels 
+in **row 4** of the Excel spreadsheet.  One of the columns will be the name
+of the action (in the example, it is ``Scan Type``).  The other columns will
+be parameters or other information.  Each of the rows under the labels will
+describe one type of action such as a scan.  Basically, whatever you  
+handle in your ``Excel_plan()``.  
+Any rows that you do not handle will be reported to the console during execution
+but will not result in any action.
+Grow (or shrink) the table as needed.
+
+.. note::  For now, make sure there is no content in any of the spreadsheet
+   cells outside (either below or to the right) of your table.  
+   Such content will trigger a cryptic error
+   about a numpy float that cannot be converted.  Instead, put that content 
+   in a second spreadsheet page.
+   
+   .. see: https://github.com/BCDA-APS/apstools/issues/116
+
 You'll need to have an action plan for every different action your spreadsheet
 will specify.  Call these plans from your ``Excel_plan()`` within an ``elif`` block,
-as shown in this example.
+as shown in this example.  The example ``Excel_plan()`` converts the ``Scan Type`` 
+into  lower case for simpler comparisons.  Your plan can be different if you choose.
 
 ::
 
@@ -42,22 +61,6 @@ as shown in this example.
             yield from AcquireImage(...)
         else:
             print(f"no handling for table row {i+1}: {row}")
-
-The idea is that your table will start with column labels 
-in row 4 of the Excel spreadsheet.  One of the columns will be the name
-of the action (in the example, it is ``Scan Type``).  The other columns will
-be parameters or other information.  Each of the rows under the labels will
-describe one type of action such as a scan.  Basically, whatever you  
-handle in your ``Excel_plan()``.  
-Any rows that you do not handle will be reported to the console during execution
-but will not result in any action.
-
-.. note:  For now, make sure there is no content in any of the spreadsheet
-   cells outside of your table.  Such content will trigger a cryptic error
-   about a numpy float that cannot be converted.  Instead, put that content 
-   in a second spreadsheet page.
-   
-   .. see: https://github.com/BCDA-APS/apstools/issues/116
 
 The example plan saves all row parameters as metadata to the row's action.
 This may be useful for diagnostic purposes.
