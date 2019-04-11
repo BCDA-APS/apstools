@@ -22,6 +22,12 @@ the example spreadsheet (in the
 and accompanying Jupyter notebook 
 (https://github.com/BCDA-APS/apstools/blob/master/docs/source/resources/excel_scan.ipynb)
 to write your own ``Excel_plan()``.
+
+.. figure:: resources/excel_plan_spreadsheet.jpg
+   :width: 95%
+   
+   Example Excel spreadsheet for multi-sample batch scans.
+
 You'll need to have an action plan for every different action your spreadsheet
 will specify.  Call these plans from your ``Excel_plan()`` within an ``elif`` block,
 as shown in this example.
