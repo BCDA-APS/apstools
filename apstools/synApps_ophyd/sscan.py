@@ -251,13 +251,13 @@ class sscanRecord(Device):
         working_status = DeviceStatus(self)
         started = False
 
-        def exsc_cb(value, timestamp, **kwargs):
+        def execute_scan_cb(value, timestamp, **kwargs):
             value = int(value)
             if started and value == 0:
                 working_status._finished()
         
-        self.exsc.subscribe(exsc_cb)
-        self.exsc.set(1)
+        self.execute_scan.subscribe(execute_scan_cb)
+        self.execute_scan.set(1)
         started = True
         return working_status
     
