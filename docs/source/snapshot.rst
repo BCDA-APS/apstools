@@ -1,3 +1,7 @@
+
+
+.. index:: bluesky_snapshot
+
 .. _bluesky_snapshot:
 
 bluesky_snapshot
@@ -5,7 +9,7 @@ bluesky_snapshot
 
 Take a snapshot of a list of EPICS PVs and record it in the databroker.
 Retrieve (and display) that snapshot later using 
-``apstools.callbacks.SnapshotReport``.
+``apstools.callbacks.SnapshotReport`` or :ref:`bluesky_snapshot_viewer`.
 
 Example - command line
 ++++++++++++++++++++++
@@ -157,7 +161,33 @@ You can log text and arrays, too.::
 	run_start: 7e77708e-9169-45ab-b2b6-4e31534d980a
 	time: 1545352108.8656788
 	uid: 0de0ec62-504e-4dbc-ad08-2507d4ed44f9
-	
+
+
+.. index:: bluesky_snapshot_viewer
+
+.. _bluesky_snapshot_viewer:
+
+bluesky_snapshot_viewer
+-----------------------
+
+View a snapshot previously recorded by the *databroker*.
+This is a GUI program started with the command: `bluesky_snapshot_viewer`
+
+Internally, this tool calls :class:`apstools.callbacks.SnapshotReport` to 
+make the report.  There are no command line options or command line help.
+
+Here is a screen shot:
+
+.. image:: resources/bsv1.jpg
+      :target: resources/bsv1.jpg
+
+
+.. note:  The `bluesky_snapshot_viewer` requires the existence of a
+   databroker configuration file named `mongodb_config.yml` in one 
+   of the expected directories [#]_.
+
+   .. [#] databroker search path for configuration files:
+      http://nsls-ii.github.io/databroker/configuration.html#search-path
 
 
 Source code documentation
