@@ -38,12 +38,16 @@ requirements:
     - databroker
     - bluesky
     - pyRestTable
+    - pandas
+    - xlrd
   run:
     - python
     - ophyd
     - databroker
     - bluesky
     - pyRestTable
+    - pandas
+    - xlrd
 
 test:
   imports:

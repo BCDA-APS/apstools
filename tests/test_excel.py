@@ -14,7 +14,6 @@ if _path not in sys.path:
 
 import apstools.utils
 
-
 class Test_Demo3(unittest.TestCase):
     
     xl_file = os.path.join(PATH, "demo3.xlsx")

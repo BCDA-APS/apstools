@@ -17,7 +17,7 @@ before_script:
   - bash miniconda.sh -b -p $HOME/miniconda
   - export PATH=$HOME/miniconda/bin:$PATH
   - export PY_ENV=travis-$TRAVIS_PYTHON_VERSION
-  - conda create -y -n $PY_ENV -c lightsource2-tag python=$TRAVIS_PYTHON_VERSION numpy requests coverage docopt databroker
+  - conda create -y -n $PY_ENV -c lightsource2-tag -c defaults python=$TRAVIS_PYTHON_VERSION numpy requests coverage docopt databroker pandas xlrd
   - source activate $PY_ENV
   - which pip
   - which python

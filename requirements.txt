@@ -2,3 +2,5 @@ versioneer
 coverage
 coveralls
 pyRestTable
+pandas
+xlrd
