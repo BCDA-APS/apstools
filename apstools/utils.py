@@ -224,14 +224,16 @@ class ExcelDatabaseFileBase(object):
     # EXCEL_FILE = os.path.join("abstracts", "index of abstracts.xlsx")
     LABELS_ROW = 3          # labels are on line LABELS_ROW+1 in the Excel file
 
-    def __init__(self):
+    def __init__(self, ignore_extra=True):
         self.db = OrderedDict()
         self.data_labels = None
         if self.EXCEL_FILE is None:
             raise ValueError("subclass must define EXCEL_FILE")
         self.fname = os.path.join(os.getcwd(), self.EXCEL_FILE)
+        
+        self.sheet_name = 0
 
-        self.parse()
+        self.parse(ignore_extra=ignore_extra)
         
     def handle_single_entry(self, entry):       # subclass MUST override
         raise NotImplementedError("subclass must override handle_single_entry() method")
@@ -239,25 +241,35 @@ class ExcelDatabaseFileBase(object):
     def handleExcelRowEntry(self, entry):       # subclass MUST override
         raise NotImplementedError("subclass must override handleExcelRowEntry() method")
 
-    def parse(self, labels_row_num=None, data_start_row_num=None):
+    def parse(self, labels_row_num=None, data_start_row_num=None, ignore_extra=True):
         labels_row_num = labels_row_num or self.LABELS_ROW
-        xl = pandas.read_excel(self.fname, sheet_name=0, header=None)
-        self.data_labels = list(xl.iloc[labels_row_num,:])
+        if ignore_extra:
+            # ignore data outside of table in spreadsheet file
+            nrows, ncols = self.getTableBoundaries(labels_row_num)
+            xl = pandas.read_excel(
+                self.fname, 
+                sheet_name=self.sheet_name, 
+                skiprows=labels_row_num,
+                usecols=range(ncols),
+                nrows=nrows,
+                )
+        else:
+            xl = pandas.read_excel(
+                self.fname, 
+                sheet_name=self.sheet_name, 
+                header=None,
+                )
+        self.data_labels = list(map(str, xl.columns.values))
         data_start_row_num = data_start_row_num or labels_row_num+1
-        grid = xl.iloc[data_start_row_num:,:]
-        # grid is a pandas DataFrame
-        # logger.info(type(grid))
-        # logger.info(grid.iloc[:,1])
-        for row_number, _ignored in enumerate(grid.iloc[:,0]):
-            row_data = grid.iloc[row_number,:]
-            entry = {}
+        for row_data in xl.values:
+            entry = OrderedDict()
             for _col, label in enumerate(self.data_labels):
                 entry[label] = self._getExcelColumnValue(row_data, _col)
                 self.handle_single_entry(entry)
             self.handleExcelRowEntry(entry)
 
     def _getExcelColumnValue(self, row_data, col):
-        v = row_data.values[col]
+        v = row_data[col]
         if self._isExcel_nan(v):
             v = None
         else:
@@ -271,19 +283,52 @@ class ExcelDatabaseFileBase(object):
             return False
         return math.isnan(value)
 
+    def getTableBoundaries(self, labels_row_num=None):
+        """
+        identify how many rows and columns are in the Excel spreadsheet table
+        """
+        labels_row_num = labels_row_num or self.LABELS_ROW
+        xl = pandas.read_excel(self.fname, sheet_name=self.sheet_name, skiprows=labels_row_num)
+    
+        ncols = len(xl.columns)
+        for i, k in enumerate(xl.columns):
+            if k.startswith(f"Unnamed: {i}"):
+                # TODO: verify all values under this label are NaN
+                ncols = i
+                break
+    
+        nrows = len(xl.values)
+        for j, r in enumerate(xl.values):
+            r = r[:ncols]
+            if False not in [self._isExcel_nan(value) for value in r]:
+                nrows = j
+                break
+        
+        return nrows, ncols
+
 
 class ExcelDatabaseFileGeneric(ExcelDatabaseFileBase):
     """
     Generic (read-only) handling of Excel spreadsheet-as-database
     
     Table labels are given on Excel row ``N``, ``self.labels_row = N-1``
+    
+    EXAMPLE::
+    
+        import apstools.utils
+        xl = apstools.utils.ExcelDatabaseFileGeneric(self.xl_file)
+        for r, row in xl.db.items():
+            print(f"row {r+1}")
+            for k, v in row.items():
+                print(f"\t{k} = {v}")
+    
     """
     
-    def __init__(self, filename, labels_row=3):
+    def __init__(self, filename, labels_row=3, ignore_extra=True):
         self._index_ = 0
         self.EXCEL_FILE = self.EXCEL_FILE or filename
         self.LABELS_ROW = labels_row
-        ExcelDatabaseFileBase.__init__(self)
+        ExcelDatabaseFileBase.__init__(self, ignore_extra=ignore_extra)
 
     def handle_single_entry(self, entry):
         pass
