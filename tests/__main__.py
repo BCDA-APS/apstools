@@ -13,11 +13,13 @@ import unittest
 def suite(*args, **kw):
 
     import test_simple
-    test_suite = unittest.TestSuite()
+    import test_excel
     test_list = [
         test_simple,
+        test_excel
         ]
 
+    test_suite = unittest.TestSuite()
     for test in test_list:
         test_suite.addTest(test.suite())
     return test_suite
