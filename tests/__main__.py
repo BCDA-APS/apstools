@@ -13,10 +13,10 @@ import unittest
 def suite(*args, **kw):
 
     import test_simple
-    import test_excel
+    # import test_excel
     test_list = [
         test_simple,
-        test_excel
+        # test_excel
         ]
 
     test_suite = unittest.TestSuite()
