@@ -4,9 +4,12 @@
 Change History
 ##############
 
-:1.1.0:  released *2019.04.dd*
+:1.1.0:  released *2019.04.16*
 
-    * first release using Semantic Versioning
+    * change release numbering to Semantic Versioning
+    * batch scans using Excel spreadsheets
+    * bluesky_snapshot_viewer and bluesky_snapshot
+    * conda package available
 
 :2019.0321.1:
 
