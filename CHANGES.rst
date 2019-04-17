@@ -4,6 +4,10 @@
 Change History
 ##############
 
+:1.1.0:  released *2019.04.dd*
+
+    * first release using Semantic Versioning
+
 :2019.0321.1:
 
     * tag only: #103
