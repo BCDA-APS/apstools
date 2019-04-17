@@ -194,6 +194,8 @@ class ExcelDatabaseFileBase(object):
     """
     base class: read-only support for Excel files, treat them like databases
     
+    Use this class when creating new, specific spreadsheet support.
+    
     EXAMPLE
     
     Show how to read an Excel file where one of the columns
@@ -311,7 +313,18 @@ class ExcelDatabaseFileGeneric(ExcelDatabaseFileBase):
     """
     Generic (read-only) handling of Excel spreadsheet-as-database
     
-    Table labels are given on Excel row ``N``, ``self.labels_row = N-1``
+    .. note:: This is the class to use when reading Excel spreadsheets.
+
+    PARAMETERS
+
+    filename : str
+        name (absolute or relative) of Excel spreadsheet file
+    labels_row : int
+        Row (zero-based numbering) of Excel file with column labels,
+        default: `3` (Excel row 4)
+    ignore_extra : bool
+        ignore any cells outside of the table,
+        default: `True`
     
     EXAMPLE::
     
