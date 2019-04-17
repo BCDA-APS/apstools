@@ -313,7 +313,34 @@ class ExcelDatabaseFileGeneric(ExcelDatabaseFileBase):
     """
     Generic (read-only) handling of Excel spreadsheet-as-database
     
+    .. index:: Excel scan, scan; Excel
+    
     .. note:: This is the class to use when reading Excel spreadsheets.
+
+    In the spreadsheet, the first sheet should contain the table to be used.
+    By default (see keyword parameter `labels_row`), the table should start
+    in cell A4.  The column labels are given in row 4.  A blank column 
+    should appear to the right of the table (see keyword parameter `ignore_extra`).
+    The column labels will describe the action and its parameters.  Additional
+    columns may be added for metadata or other purposes.
+    The rows below the column labels should contain actions and parameters
+    for those actions, one action per row.
+    To make a comment, place a `#` in the action column.  A comment
+    should be ignored by the bluesky plan that reads this table.
+    The table will end with a row of empty cells.
+    
+    While it's a good idea to put the `action` column first, that is not necessary.
+    It is not even necessary to name the column `action`.
+    You can re-arrange the order of the columns and change their names 
+    **as long as** the column names match
+    what text strings your Python code expects to find.
+    
+    A future upgrade [#]_ will allow the table boundaries to be named by Excel when
+    using Excel's `Format as Table` [#]_ feature.
+    For now, leave a blank row and column at the bottom and right edges of the table.
+    
+    .. [#] https://github.com/BCDA-APS/apstools/issues/122
+    .. [#] Excel's `Format as Table`: https://support.office.com/en-us/article/Format-an-Excel-table-6789619F-C889-495C-99C2-2F971C0E2370
 
     PARAMETERS
 
@@ -323,18 +350,73 @@ class ExcelDatabaseFileGeneric(ExcelDatabaseFileBase):
         Row (zero-based numbering) of Excel file with column labels,
         default: `3` (Excel row 4)
     ignore_extra : bool
-        ignore any cells outside of the table,
+        When True, ignore any cells outside of the table,
         default: `True`
+        
+        Note that when True, a row of cells *within* the table will
+        be recognized as the end of the table, even if there are
+        actions in following rows.  To force an empty row, use
+        a comment symbol `#` (actually, any non-empty content will work).
+        
+        When False, cells with other information (in Sheet 1) will be made available,
+        sometimes with unpredictable results.
     
-    EXAMPLE::
+    EXAMPLE
     
-        import apstools.utils
-        xl = apstools.utils.ExcelDatabaseFileGeneric(self.xl_file)
-        for r, row in xl.db.items():
-            print(f"row {r+1}")
-            for k, v in row.items():
-                print(f"\t{k} = {v}")
+    See section :ref:`example_Excel_scan` for more examples.
+
+    (See also :ref:`example screen shot <excel_plan_spreadsheet_screen>`.)
+    Table (on Sheet 1) begins on row 4 in first column::
     
+        1  |  some text here, maybe a title
+        2  |  (could have content here)
+        3  |  (or even more content here)
+        4  |  action  | sx   | sy   | sample     | comments          |  | <-- leave empty column
+        5  |  close   |      |                   | close the shutter |  |
+        6  |  image   | 0    | 0    | dark       | dark image        |  |
+        7  |  open    |      |      |            | open the shutter  |  |
+        8  |  image   | 0    | 0    | flat       | flat field image  |  |
+        9  |  image   | 5.1  | -3.2 | 4140 steel | heat 9172634      |  |
+        10 |  scan    | 5.1  | -3.2 | 4140 steel | heat 9172634      |  |
+        11 |  scan    | 0    | 0    | blank      |                   |  |
+        12 |  
+        13 |  ^^^ leave empty row ^^^
+        14 | (could have content here)
+
+
+    
+    Example python code to read this spreadsheet::
+    
+        from apstools.utils import ExcelDatabaseFileGeneric, cleanupText
+        
+        def myExcelPlan(xl_file, md={}):
+            excel_file = os.path.abspath(xl_file)
+            xl = ExcelDatabaseFileGeneric(excel_file)
+            for i, row in xl.db.values():
+                # prepare the metadata
+                _md = {cleanupText(k): v for k, v in row.items()}
+                _md["xl_file"] = xl_file
+                _md["excel_row_number"] = i+1
+                _md.update(md) # overlay with user-supplied metadata
+
+                # determine what action to take
+                action = row["action"].lower()
+                if action == "open":
+                    yield from bps.mv(shutter, "open")
+                elif action == "close":
+                    yield from bps.mv(shutter, "close")
+                elif action == "image":
+                    # your code to take an image, given **row as parameters
+                    yield from my_image(**row, md=_md)
+                elif action == "scan":
+                    # your code to make a scan, given **row as parameters
+                    yield from my_scan(**row, md=_md)
+                else:
+                    print(f"no handling for row {i+1}: action={action}")
+    
+        # execute this plan through the RunEngine
+        RE(myExcelPlan("spreadsheet.xlsx", md=dict(purpose="apstools demo"))
+        
     """
     
     def __init__(self, filename, labels_row=3, ignore_extra=True):

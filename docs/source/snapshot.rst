@@ -176,11 +176,10 @@ This is a GUI program started with the command: `bluesky_snapshot_viewer`
 Internally, this tool calls :class:`apstools.callbacks.SnapshotReport` to 
 make the report.  There are no command line options or command line help.
 
-Here is a screen shot:
-
-.. image:: resources/bsv1.jpg
-      :target: resources/bsv1.jpg
-
+.. figure:: resources/bsv1.jpg
+   :width: 95%
+   
+   Screen shot of `bluesky_snapshot_viewer` GUI.
 
 .. note:  The `bluesky_snapshot_viewer` requires the existence of a
    databroker configuration file named `mongodb_config.yml` in one 

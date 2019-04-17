@@ -10,6 +10,7 @@ Examples
 * :ref:`example_source`
 * :ref:`examples_downloads`
 
+.. index:: Excel scan, scan; Excel
 
 .. _example_Excel_scan:
 
@@ -22,6 +23,20 @@ the example spreadsheet (in the
 and accompanying Jupyter notebook 
 (https://github.com/BCDA-APS/apstools/blob/master/docs/source/resources/excel_scan.ipynb)
 to write your own ``Excel_plan()``.
+
+**SIMPLE**:  Your Excel spreadsheet could be rather simple...
+
+.. figure:: resources/excel_simple.jpg
+   :width: 95%
+   
+   Unformatted Excel spreadsheet for batch scans.
+
+See :class:`ExcelDatabaseFileGeneric` for an example bluesky plan
+that reads from this spreadsheet.
+
+**FANCY**:  ... or contain much more information, including formatting.
+
+.. _excel_plan_spreadsheet_screen:
 
 .. figure:: resources/excel_plan_spreadsheet.jpg
    :width: 95%
