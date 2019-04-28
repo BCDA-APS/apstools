@@ -76,7 +76,7 @@ logger = logging.getLogger(__name__).addHandler(logging.NullHandler())
 
 
 SPEC_TIME_FORMAT = "%a %b %d %H:%M:%S %Y"
-SCAN_ID_RESET_VALUE = 1
+SCAN_ID_RESET_VALUE = 0
 
 def _rebuild_scan_command(doc):
     """reconstruct the scan command for SPEC data file #S line"""
