@@ -278,6 +278,7 @@ class SpecWriterCallback(object):
         self.uid = doc["uid"]
 
         self._cmt("start", f"uid = {self.uid}")
+        self.metadata["uid"] = f"{self.uid}"
         for d, cl in self.buffered_comments.items():
             # bring in any comments collected when not scanning
             self.comments[d] += cl
