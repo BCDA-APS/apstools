@@ -547,6 +547,8 @@ class TuneAxis(object):
                     x_axis = self.axis.name,
                     y_axis = self.signal_name,
                    ),
+               'motors': (self.axis.name,),
+               'detectors': (self.signal_name,),
                'hints': dict(
                    dimensions = [
                        (
