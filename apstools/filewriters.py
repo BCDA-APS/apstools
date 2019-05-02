@@ -317,8 +317,6 @@ class SpecWriterCallback(object):
         
         prepare for primary scan data, ignore any other data stream
         """
-        # TODO: log descriptor documents by uid 
-        #       for reference from event and bulk_events documents
         if doc["uid"] in self._streams:
             fmt = "duplicate descriptor UID {} found"
             raise KeyError(fmt.format(doc["uid"]))
