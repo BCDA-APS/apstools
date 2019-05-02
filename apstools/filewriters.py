@@ -269,7 +269,7 @@ class SpecWriterCallback(object):
         
         known_properties = """
             uid time project sample scan_id group owner
-            detectors hints
+            hints
             plan_type plan_name plan_args
         """.split()
 
@@ -299,6 +299,8 @@ class SpecWriterCallback(object):
             if key not in known_properties:
                 self.metadata[key] = doc[key]
         
+        self.start_hints = doc.get("hints", {})
+
         # various dicts
         for item in "detectors hints motors".split():
             if item in doc:
@@ -325,20 +327,30 @@ class SpecWriterCallback(object):
         # referenced by event and bulk_events documents
         self._streams[doc["uid"]] = doc
         
-        if doc["name"] == "primary":
-            keyset = list(doc["data_keys"].keys())
-            
-            # independent variable(s) first, dependent variable(s) last, others in middle
-            first_keys = [k for k in self.motors if k in keyset]
-            last_keys = []
-            for d in self.detectors:
-                if d in doc["hints"]:    # seems general but first place to look if trouble
-                    last_keys += doc["hints"][d]["fields"]
-            # get remaining keys from keyset
-            middle_keys = [k for k in keyset if k not in first_keys + last_keys]
-            epoch_keys = "Epoch_float Epoch".split()
-            
-            self.data.update({k: [] for k in first_keys+epoch_keys+middle_keys+last_keys})
+        if doc["name"] != "primary":
+            return
+
+        keyset = list(doc["data_keys"].keys())
+        doc_hints_names = []
+        for k, d in doc["hints"].items():
+            doc_hints_names.append(k)
+            doc_hints_names += doc["hints"][k]["fields"]
+        
+        # independent variable(s) first 
+        # assumes start["motors"] was defined
+        first_keys = [k for k in self.motors if k in keyset]
+        # TODO: if len(first_keys) == 0: look at self.start_hints
+        
+        # dependent variable(s) last
+        # assumes start["detectors"] was defined
+        last_keys = [d for d in self.detectors if d in doc_hints_names]
+        # TODO: if len(last_keys) == 0: look at doc["hints"]
+        
+        # get remaining keys from keyset, they go in the middle
+        middle_keys = [k for k in keyset if k not in first_keys + last_keys]
+        epoch_keys = "Epoch_float Epoch".split()
+        
+        self.data.update({k: [] for k in first_keys+epoch_keys+middle_keys+last_keys})
 
     def event(self, doc):
         """
