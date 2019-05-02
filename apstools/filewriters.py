@@ -372,7 +372,7 @@ class SpecWriterCallback(object):
                 elif k == "Epoch_float":
                     v = doc["time"] - self.time
                 else:
-                    v = doc["data"][k]
+                    v = doc["data"].get(k, 0)   # like SPEC, default to 0 if not found by name
                 self.data[k].append(v)
             self.num_primary_data += 1
     
