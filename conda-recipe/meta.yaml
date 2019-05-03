@@ -23,7 +23,7 @@ package:
   version: "{{ version }}"
 
 build:
-  script: python setup.py install
+  script: python setup.py install --single-version-externally-managed --record=record.txt
   noarch: python
   entry_points:
     - apstools_plan_catalog = apstools.examples:main

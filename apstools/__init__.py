@@ -26,7 +26,6 @@ __package_name__ = __project__
 __long_description__ = __description__
 
 __install_requires__ = ('databroker', 'pandas', 'xlrd')
-__install_requires__ = ()       # TODO: for conda build now
 __classifiers__ = [
     'Development Status :: 5 - Production/Stable',
     'Environment :: Console',
