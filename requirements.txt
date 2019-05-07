@@ -1,6 +1,10 @@
 versioneer
 coverage
 coveralls
-pyRestTable
+bluesky
+databroker[all]
+historydict
+ophyd
 pandas
+pyRestTable
 xlrd

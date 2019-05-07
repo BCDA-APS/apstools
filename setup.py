@@ -35,11 +35,10 @@ setup(
     install_requires = package.__install_requires__,
     name             = package.__project__,
     #platforms        = package.__platforms__,
-    packages         = find_packages(exclude=['docs', 
-                                              'examples', 'tests']),
+    packages         = find_packages(exclude=package.__exclude_project_dirs__),
     url              = package.__url__,
     version          = versioneer.get_version(),
     cmdclass         = versioneer.get_cmdclass(),
     zip_safe         = package.__zip_safe__,
-    python_requires  = '>=3.5',
+    python_requires  = package.__python_version_required__,
  )

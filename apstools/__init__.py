@@ -1,4 +1,3 @@
-
 #-----------------------------------------------------------------------------
 # :author:    Pete R. Jemian
 # :email:     jemian@anl.gov
@@ -21,11 +20,16 @@ __license__     = u"(c) " + __copyright__
 __license__     += u" (see LICENSE.txt file for details)"
 __platforms__   = 'any'
 __zip_safe__    = False
+__exclude_project_dirs__ = "docs examples tests".split()
+__python_version_required__ = ">=3.5"
 
 __package_name__ = __project__
 __long_description__ = __description__
 
-__install_requires__ = ('databroker', 'pandas', 'xlrd')
+from ._requirements import learn_requirements
+__install_requires__ = learn_requirements()
+del learn_requirements
+
 __classifiers__ = [
     'Development Status :: 5 - Production/Stable',
     'Environment :: Console',
