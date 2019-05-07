@@ -6,10 +6,12 @@
 #  https://docs.travis-ci.com/user/customizing-the-build#The-Build-Lifecycle
 #  https://docs.travis-ci.com/user/languages/python
 
+dist: xenial   # required for Python >= 3.7
 language: python
 python:
   - "3.6"
   - "3.7"
+  - "nightly"
 
 before_script:
   - wget http://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh -O miniconda.sh
