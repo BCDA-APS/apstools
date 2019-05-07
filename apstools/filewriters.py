@@ -187,12 +187,16 @@ class SpecWriterCallback(object):
         self._datetime = None       # most recent document time as datetime object
         self._streams = {}          # descriptor documents, keyed by uid
         self.RE = RE
+        
+        if reset_scan_id == True:
+            reset_scan_id = SCAN_ID_RESET_VALUE
         self.reset_scan_id = reset_scan_id
+
         if filename is None or not os.path.exists(filename):
             self.newfile(filename)
         else:
             max_scan_id = self.usefile(filename)
-            if RE is not None and reset_scan_id:
+            if RE is not None and reset_scan_id is not False:
                 RE.md["scan_id"] = max_scan_id
 
     def clear(self):
