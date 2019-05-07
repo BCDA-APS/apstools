@@ -37,7 +37,7 @@ requirements:
   run:
     - python
     - ophyd
-    - databroker[all]
+    - databroker
     - bluesky
     - historydict
     - pyRestTable
