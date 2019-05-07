@@ -11,7 +11,7 @@ language: python
 python:
   - "3.6"
   - "3.7"
-  - "nightly"
+  # - "nightly"
 
 before_script:
   - wget http://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh -O miniconda.sh
@@ -25,13 +25,12 @@ before_script:
   - which python
   - which conda
   - python --version
-  - pip install pyRestTable
-  - pip install -r requirements-dev.txt
   - which coveralls
-  - conda list
 
 install:
   - pip install -r requirements.txt
+  - pip install -r requirements-dev.txt
+  - conda list
 
 # command to run tests
 script:
