@@ -4,6 +4,21 @@
 Change History
 ##############
 
+:1.1.1:  -tba-
+
+    * `#134 <https://github.com/BCDA-APS/apstools/issues/134>`_
+       add build on travis-ci with py3.7
+    * `#130 <https://github.com/BCDA-APS/apstools/issues/130>`_
+       fix conda recipe and pip dependencies (thanks to Maksim Rakitin!) 
+    * `#127 <https://github.com/BCDA-APS/apstools/issues/127>`_
+       fixed: KeyError from SPEC filewriter
+    * `#126 <https://github.com/BCDA-APS/apstools/issues/126>`_
+       add uid to metadata
+    * `#124 <https://github.com/BCDA-APS/apstools/issues/124>`_
+       fixed: utils.trim_string_for_EPICS() trimmed string too long
+    * `#100 <https://github.com/BCDA-APS/apstools/issues/100>`_
+       fixed: SPEC file data columns in wrong places
+
 :1.1.0:  released *2019.04.16*
 
     * change release numbering to Semantic Versioning
