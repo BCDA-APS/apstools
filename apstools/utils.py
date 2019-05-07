@@ -103,7 +103,7 @@ def to_unicode_or_bust(obj, encoding='utf-8'):
 def trim_string_for_EPICS(msg):
     """string must not be too long for EPICS PV"""
     if len(msg) > MAX_EPICS_STRINGOUT_LENGTH:
-        msg = msg[:MAX_EPICS_STRINGOUT_LENGTH]
+        msg = msg[:MAX_EPICS_STRINGOUT_LENGTH-1]
     return msg
 
 
