@@ -5,3 +5,4 @@ ophyd
 pandas
 pyRestTable
 xlrd
+spec2nexus
