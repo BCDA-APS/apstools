@@ -37,6 +37,8 @@ class Test_Data_is_Readable(unittest.TestCase):
             os.path.exists(ZIP_FILE), 
             "zip file with test data")
         
+    
+    def test_testfile_content(self):
         # get our test document stream
         with zipfile.ZipFile(ZIP_FILE, "r") as fp:
             self.assertIn(JSON_FILE, fp.namelist(), "JSON test data")
