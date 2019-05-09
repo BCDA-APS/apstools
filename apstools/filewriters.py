@@ -528,7 +528,7 @@ class SpecWriterCallback(object):
         self.clear()
         filename = filename or self.make_default_filename()
         if os.path.exists(filename):
-            ValueError(f"file {filename} exists")
+            raise ValueError(f"file {filename} exists")
         self.spec_filename = filename
         self.spec_epoch = int(time.time())  # ! no roundup here!!!
         self.spec_host = socket.gethostname() or 'localhost'
