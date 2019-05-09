@@ -57,7 +57,7 @@ class Test_Data_is_Readable(unittest.TestCase):
         self.assertEqual(len(census.keys()), len(keys), "four document types")
         for k, v in keys.items():
             self.assertIn(k, census, f"{k} document exists")
-            self.assertEqual(census[k], v, f"{v} {k} document(s)")
+            self.assertEqual(census[k], v, f"expected {v} '{k}' document(s)")
 
 
 class Test_newfile(unittest.TestCase):
@@ -76,8 +76,10 @@ class Test_newfile(unittest.TestCase):
     
     def test_writer(self):
         self.assertTrue(len(self.db) > 0, "test data ready")
+
         testfile = os.path.join(self.tempdir, "tune_mr.dat")
         specwriter = SpecWriterCallback(filename=testfile)
+
         self.assertIsInstance(specwriter, SpecWriterCallback, "specwriter object")
         self.assertEqual(specwriter.spec_filename, testfile, "output data file")
         self.assertFalse(os.path.exists(testfile), "data file not created yet")
