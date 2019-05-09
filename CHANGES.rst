@@ -4,16 +4,23 @@
 Change History
 ##############
 
-:1.1.1:  -tba-
+:1.1.1rc1:  tagged *2019-05-09*
 
+    * adds packaging dependence on spec2nexus
+    * `#136 <https://github.com/BCDA-APS/apstools/issues/136>`_
+       get json document stream(s) 
     * `#134 <https://github.com/BCDA-APS/apstools/issues/134>`_
        add build on travis-ci with py3.7
     * `#130 <https://github.com/BCDA-APS/apstools/issues/130>`_
-       fix conda recipe and pip dependencies (thanks to Maksim Rakitin!) 
+       fix conda recipe and pip dependencies (thanks to Maksim Rakitin!)
+    * `#128 <https://github.com/BCDA-APS/apstools/issues/128>`_
+       SpecWriterCallback.newfile() problem with scan_id = 0 
     * `#127 <https://github.com/BCDA-APS/apstools/issues/127>`_
        fixed: KeyError from SPEC filewriter
     * `#126 <https://github.com/BCDA-APS/apstools/issues/126>`_
        add uid to metadata
+    * `#125 <https://github.com/BCDA-APS/apstools/issues/125>`_
+       SPEC filewriter scan numbering when "new" data file exists
     * `#124 <https://github.com/BCDA-APS/apstools/issues/124>`_
        fixed: utils.trim_string_for_EPICS() trimmed string too long
     * `#100 <https://github.com/BCDA-APS/apstools/issues/100>`_
