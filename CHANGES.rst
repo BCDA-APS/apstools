@@ -4,7 +4,7 @@
 Change History
 ##############
 
-:1.1.1rc1:  tagged *2019-05-09*
+:1.1.1:  released *2019-05-09*
 
     * adds packaging dependence on spec2nexus
     * `#136 <https://github.com/BCDA-APS/apstools/issues/136>`_
