@@ -136,17 +136,46 @@ class Test_SpecWriterCallback(unittest.TestCase):
             os.remove(testfile)
         specwriter = SpecWriterCallback(filename=testfile)
 
+        from apstools.filewriters import SCAN_ID_RESET_VALUE
+        self.assertEqual(SCAN_ID_RESET_VALUE, 0, "default reset scan id")
+
         write_stream(specwriter, self.db["tune_mr"])
         self.assertTrue(os.path.exists(testfile), "data file created")
         
-        # TODO: #128 do not raise if exists
         try:
             specwriter.newfile(filename=testfile)
             raised = False
         except ValueError:
             raised = True
         finally:
-            self.assertTrue(raised, "file exists")
+            self.assertFalse(raised, "file exists")
+        self.assertEqual(specwriter.reset_scan_id, 0, "check scan id")
+        
+        class my_RunEngine:
+            # dick type for testing _here_
+            md = dict(scan_id=SCAN_ID_RESET_VALUE)
+        RE = my_RunEngine()
+        
+        specwriter.scan_id = -5  # an unusual value for testing only
+        RE.md["scan_id"] = -10   # an unusual value for testing only
+        specwriter.newfile(filename=testfile, scan_id=None, RE=RE)
+        self.assertEqual(specwriter.scan_id, -5, "scan_id unchanged")
+        self.assertEqual(RE.md["scan_id"], -10, "RE.md['scan_id'] unchanged")
+
+        specwriter.newfile(filename=testfile, scan_id=False, RE=RE)
+        self.assertEqual(specwriter.scan_id, -5, "scan_id unchanged")
+        self.assertEqual(RE.md["scan_id"], -10, "RE.md['scan_id'] unchanged")
+
+        specwriter.newfile(filename=testfile, scan_id=True, RE=RE)
+        self.assertEqual(specwriter.scan_id, SCAN_ID_RESET_VALUE, "scan_id reset")
+        self.assertEqual(RE.md["scan_id"], SCAN_ID_RESET_VALUE, "RE.md['scan_id'] reset")
+
+        for n in (0, 108, 110):
+            specwriter.scan_id = -5  # an unusual value for testing only
+            RE.md["scan_id"] = -10   # an unusual value for testing only
+            specwriter.newfile(filename=testfile, scan_id=n, RE=RE)
+            self.assertEqual(specwriter.scan_id, n, f"scan_id set to {n}")
+            self.assertEqual(RE.md["scan_id"], n, f"RE.md['scan_id'] set to {n}")
     
     def test__rebuild_scan_command(self):
         from apstools.filewriters import _rebuild_scan_command
