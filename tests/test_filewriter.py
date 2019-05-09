@@ -13,6 +13,7 @@ if _path not in sys.path:
     sys.path.insert(0, _path)
 
 import apstools
+from apstools.filewriters import SpecWriterCallback
 from databroker import Broker
 import json
 import shutil
@@ -73,9 +74,22 @@ class Test_newfile(unittest.TestCase):
         if os.path.exists(self.tempdir):
             shutil.rmtree(self.tempdir, ignore_errors=True)
     
-    def test_test(self):
+    def test_writer(self):
         self.assertTrue(len(self.db) > 0, "test data ready")
-        # TODO: newfile() tests
+        testfile = os.path.join(self.tempdir, "tune_mr.dat")
+        specwriter = SpecWriterCallback(filename=testfile)
+        self.assertIsInstance(specwriter, SpecWriterCallback, "specwriter object")
+        self.assertEqual(specwriter.spec_filename, testfile, "output data file")
+        self.assertFalse(os.path.exists(testfile), "data file not created yet")
+
+        # write the doc stream to the file
+        for document in self.db["tune_mr"]:
+            tag, doc = document
+            specwriter.receiver(tag, doc)
+
+        self.assertTrue(os.path.exists(testfile), "data file created")
+        
+        # TODO: test newfile() with existing file
 
 
 def suite(*args, **kw):
