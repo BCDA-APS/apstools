@@ -30,26 +30,32 @@ def write_stream(specwriter, stream):
         specwriter.receiver(tag, doc)
 
 
+def get_test_data():
+    """get document streams as dict from zip file"""
+    with zipfile.ZipFile(ZIP_FILE, "r") as fp:
+        buf = fp.read(JSON_FILE).decode("utf-8")
+        return json.loads(buf)
+
+
 class Test_Data_is_Readable(unittest.TestCase):
     
-    def test_00_testfile_exists(self):
+    def test_00_testdata_exist(self):
         self.assertTrue(
             os.path.exists(ZIP_FILE), 
             "zip file with test data")
-        
-    
-    def test_testfile_content(self):
-        # get our test document stream
         with zipfile.ZipFile(ZIP_FILE, "r") as fp:
             self.assertIn(JSON_FILE, fp.namelist(), "JSON test data")
-            buf = fp.read(JSON_FILE).decode("utf-8")
-            datasets = json.loads(buf)
-            census = {}
-            for document in datasets["tune_mr"]:
-                tag, _doc = document
-                if tag not in census:
-                    census[tag] = 0
-                census[tag] += 1
+        
+    def test_testfile_content(self):
+        # get our test document stream
+        datasets = get_test_data()
+        
+        census = {}
+        for document in datasets["tune_mr"]:
+            tag, _doc = document
+            if tag not in census:
+                census[tag] = 0
+            census[tag] += 1
         
         # test that tune_mr content arrived intact
         keys = dict(start=1, descriptor=2, event=33, stop=1)
@@ -69,11 +75,7 @@ class Test_newfile(unittest.TestCase):
 
     def setUp(self):
         self.tempdir = tempfile.mkdtemp()
-        self.db = None
-        # get our test document stream
-        with zipfile.ZipFile(ZIP_FILE, "r") as fp:
-            buf = fp.read(JSON_FILE).decode("utf-8")
-            self.db = json.loads(buf)
+        self.db = get_test_data()
 
     def tearDown(self):
         if os.path.exists(self.tempdir):
