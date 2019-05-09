@@ -173,6 +173,11 @@ class Test_SpecWriterCallback(unittest.TestCase):
         if os.path.exists(testfile):
             os.remove(testfile)
         specwriter = SpecWriterCallback(filename=testfile)
+
+        for category in "buffered_comments comments".split():
+            for k in "start stop descriptor event".split():
+                o = getattr(specwriter, category)
+                self.assertEqual(len(o[k]), 0, f"no '{k}' {category}")
         
         # insert comments with every document
         spec_comment(
@@ -199,16 +204,33 @@ class Test_SpecWriterCallback(unittest.TestCase):
                     msg % "after", 
                     doc=tag, 
                     writer=specwriter)
+
+        self.assertEqual(
+            len(specwriter.buffered_comments['stop']), 
+            1, 
+            "last 'stop' comment buffered")
         
         # since stop doc was received, this appears in the next scan
         spec_comment(
             "TESTING: Appears at END of next scan", 
             doc="stop", 
             writer=specwriter)
+
+        self.assertEqual(
+            len(specwriter.buffered_comments['stop']), 
+            2, 
+            "last end of scan comment buffered")
         write_stream(specwriter, self.db["tune_ar"])
 
-        pass    # TODO: test the file for the comments
-
+        for k in "start descriptor event".split():
+            o = specwriter.buffered_comments
+            self.assertEqual(len(o[k]), 0, f"no '{k}' {category}")
+        expected = dict(start=2, stop=5, event=0, descriptor=0)
+        for k, v in expected.items():
+            self.assertEqual(
+                len(specwriter.comments[k]), 
+                v, 
+                f"'{k}' comments")
 
 
 def suite(*args, **kw):
