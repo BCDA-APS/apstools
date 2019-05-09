@@ -34,16 +34,9 @@ ZIP_FILE = os.path.join(_test_path, "usaxs_docs.json.zip")
 JSON_FILE = "usaxs_docs.json.txt"
 
 
-class Test_Something(unittest.TestCase):
-
-    def setUp(self):
-        self.tempdir = tempfile.mkdtemp()
-
-    def tearDown(self):
-        if os.path.exists(self.tempdir):
-            shutil.rmtree(self.tempdir, ignore_errors=True)
+class Test_Data_is_Readable(unittest.TestCase):
     
-    def test_newfile(self):
+    def test_00_testfile_exists(self):
         self.assertTrue(os.path.exists(ZIP_FILE), "zip file with test data")
         
         # get our test document stream
@@ -51,16 +44,44 @@ class Test_Something(unittest.TestCase):
             self.assertIn(JSON_FILE, fp.namelist(), "JSON test data")
             buf = fp.read(JSON_FILE).decode("utf-8")
             datasets = json.loads(buf)
+            census = {}
             for document in datasets["tune_mr"]:
-                tag, doc = document
-                print(tag)
+                tag, _doc = document
+                if tag not in census:
+                    census[tag] = 0
+                census[tag] += 1
         
-        # TODO: finish this test
+        # test that tune_mr content arrived intact
+        keys = dict(start=1, descriptor=2, event=33, stop=1)
+        self.assertEqual(len(census.keys()), len(keys), "four document types")
+        for k, v in keys.items():
+            self.assertIn(k, census, f"{k} document exists")
+            self.assertEqual(census[k], v, f"{v} {k} document(s)")
+
+
+class Test_newfile(unittest.TestCase):
+
+    def setUp(self):
+        self.tempdir = tempfile.mkdtemp()
+        self.db = None
+        # get our test document stream
+        with zipfile.ZipFile(ZIP_FILE, "r") as fp:
+            buf = fp.read(JSON_FILE).decode("utf-8")
+            self.db = json.loads(buf)
+
+    def tearDown(self):
+        if os.path.exists(self.tempdir):
+            shutil.rmtree(self.tempdir, ignore_errors=True)
+    
+    def test_test(self):
+        self.assertTrue(len(self.db) > 0, "test data ready")
+        # TODO: newfile() tests
 
 
 def suite(*args, **kw):
     test_list = [
-        Test_Something,
+        Test_Data_is_Readable,
+        Test_newfile,
         ]
     test_suite = unittest.TestSuite()
     for test_case in test_list:
