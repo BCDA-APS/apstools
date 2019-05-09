@@ -42,7 +42,6 @@ def get_broker_sqlite_config(path, tz=None):
     """
     
     tz = tz or "US/Central"
-    assets_dir = path       # FIXME:
     config = {
          'description': 'lightweight personal database',
          'metadatastore': {
@@ -56,7 +55,7 @@ def get_broker_sqlite_config(path, tz=None):
              'module': 'databroker.assets.sqlite',
              'class': 'Registry',
              'config': {
-                 'dbpath': os.path.join(path, '/assets.sqlite')}
+                 'dbpath': os.path.join(path, 'assets.sqlite')}
          }
      }
     return config
