@@ -71,7 +71,7 @@ class Test_Data_is_Readable(unittest.TestCase):
                 f"expected {v} '{k}' document(s)")
 
 
-class Test_newfile(unittest.TestCase):
+class Test_SpecWriterCallback(unittest.TestCase):
 
     def setUp(self):
         self.tempdir = tempfile.mkdtemp()
@@ -112,6 +112,8 @@ class Test_newfile(unittest.TestCase):
         self.assertTrue(len(self.db) > 0, "test data ready")
 
         testfile = os.path.join(self.tempdir, "tune_mr.dat")
+        if os.path.exists(testfile):
+            os.remove(testfile)
         specwriter = SpecWriterCallback(filename=testfile)
 
         self.assertIsInstance(
@@ -130,7 +132,10 @@ class Test_newfile(unittest.TestCase):
 
     def test_newfile_exists(self):
         testfile = os.path.join(self.tempdir, "tune_mr.dat")
+        if os.path.exists(testfile):
+            os.remove(testfile)
         specwriter = SpecWriterCallback(filename=testfile)
+
         write_stream(specwriter, self.db["tune_mr"])
         self.assertTrue(os.path.exists(testfile), "data file created")
         
@@ -142,12 +147,74 @@ class Test_newfile(unittest.TestCase):
             raised = True
         finally:
             self.assertTrue(raised, "file exists")
+    
+    def test__rebuild_scan_command(self):
+        from apstools.filewriters import _rebuild_scan_command
+
+        self.assertTrue(len(self.db) > 0, "test data ready")
+
+        start_docs = []
+        for header in self.db["tune_mr"]:
+            tag, doc = header
+            if tag == "start":
+                start_docs.append(doc)
+        self.assertEqual(len(start_docs), 1, "unique start doc found")
+
+        doc = start_docs[0]
+        expected = "108  tune_mr()"
+        result = _rebuild_scan_command(doc)
+        self.assertEqual(result, expected, "rebuilt #S line")
+    
+    def test_spec_comment(self):
+        from apstools.filewriters import spec_comment
+        
+        # spec_comment(comment, doc=None, writer=None)
+        testfile = os.path.join(self.tempdir, "spec_comment.dat")
+        if os.path.exists(testfile):
+            os.remove(testfile)
+        specwriter = SpecWriterCallback(filename=testfile)
+        
+        # insert comments with every document
+        spec_comment(
+            "TESTING: Should appear within start doc", 
+            doc=None, 
+            writer=specwriter)
+
+        for idx, document in enumerate(self.db["tune_mr"]):
+            tag, doc = document
+            msg = f"TESTING: document {idx+1}: '{tag}' %s specwriter.receiver"
+            spec_comment(
+                msg % "before", 
+                doc=tag, 
+                writer=specwriter)
+            specwriter.receiver(tag, doc)
+            if tag == "stop":
+                # since stop doc was received, this appears in the next scan
+                spec_comment(
+                    str(msg % "before") + " (appears at END of next scan)", 
+                    doc=tag, 
+                    writer=specwriter)
+            else:
+                spec_comment(
+                    msg % "after", 
+                    doc=tag, 
+                    writer=specwriter)
+        
+        # since stop doc was received, this appears in the next scan
+        spec_comment(
+            "TESTING: Appears at END of next scan", 
+            doc="stop", 
+            writer=specwriter)
+        write_stream(specwriter, self.db["tune_ar"])
+
+        pass    # TODO: test the file for the comments
+
 
 
 def suite(*args, **kw):
     test_list = [
         Test_Data_is_Readable,
-        Test_newfile,
+        Test_SpecWriterCallback,
         ]
     test_suite = unittest.TestSuite()
     for test_case in test_list:
