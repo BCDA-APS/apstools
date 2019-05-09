@@ -338,7 +338,7 @@ class SpecWriterCallback(object):
         doc_hints_names = []
         for k, d in doc["hints"].items():
             doc_hints_names.append(k)
-            doc_hints_names += doc["hints"][k]["fields"]
+            doc_hints_names += d["fields"]
         
         # independent variable(s) first 
         # assumes start["motors"] was defined
@@ -528,7 +528,8 @@ class SpecWriterCallback(object):
         self.clear()
         filename = filename or self.make_default_filename()
         if os.path.exists(filename):
-            raise ValueError(f"file {filename} exists")
+            # raise ValueError(f"file {filename} exists")
+            _z = 2  # TODO: examine the file per issue #128
         self.spec_filename = filename
         self.spec_epoch = int(time.time())  # ! no roundup here!!!
         self.spec_host = socket.gethostname() or 'localhost'
@@ -536,14 +537,14 @@ class SpecWriterCallback(object):
         self.write_file_header = True       # don't write the file yet
         
         # backwards-compatibility
-        if scan_id == True:
-            scan_id = SCAN_ID_RESET_VALUE
-        elif scan_id == False:
-            scan_id = None
+        if isinstance(scan_id, bool):
+            # True means reset the scan ID to default
+            # False means do not modify it
+            scan_id = {True: SCAN_ID_RESET_VALUE, False: None}[scan_id]
         if scan_id is not None and RE is not None:
-            # assume isinstance(RE, bluesky.run_engine.RunEngine)
+            # RE is an instance of bluesky.run_engine.RunEngine (or duck type for testing)
             RE.md["scan_id"] = scan_id
-            print(f"scan ID set to {scan_id}")
+            self.scan_id = scan_id
         return self.spec_filename
     
     def usefile(self, filename):
