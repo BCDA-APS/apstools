@@ -13,9 +13,11 @@ import unittest
 def suite(*args, **kw):
 
     import test_simple
+    import test_filewriter
     # import test_excel
     test_list = [
         test_simple,
+        test_filewriter,
         # test_excel
         ]
 

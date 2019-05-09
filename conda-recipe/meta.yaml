@@ -43,6 +43,7 @@ requirements:
     - pyRestTable
     - pandas
     - xlrd
+    - spec2nexus
 
 test:
   imports:

@@ -528,8 +528,13 @@ class SpecWriterCallback(object):
         self.clear()
         filename = filename or self.make_default_filename()
         if os.path.exists(filename):
-            # raise ValueError(f"file {filename} exists")
-            _z = 2  # TODO: examine the file per issue #128
+            from spec2nexus.spec import SpecDataFile
+            sdf = SpecDataFile(filename)
+            scan_list = sdf.getScanNumbers()
+            l = len(scan_list)
+            m = max(map(float, scan_list))
+            highest = int(max(l, m) + 0.9999)     # solves issue #128
+            scan_id = max(scan_id or 0, highest)
         self.spec_filename = filename
         self.spec_epoch = int(time.time())  # ! no roundup here!!!
         self.spec_host = socket.gethostname() or 'localhost'
@@ -542,7 +547,8 @@ class SpecWriterCallback(object):
             # False means do not modify it
             scan_id = {True: SCAN_ID_RESET_VALUE, False: None}[scan_id]
         if scan_id is not None and RE is not None:
-            # RE is an instance of bluesky.run_engine.RunEngine (or duck type for testing)
+            # RE is an instance of bluesky.run_engine.RunEngine
+            # (or duck type for testing)
             RE.md["scan_id"] = scan_id
             self.scan_id = scan_id
         return self.spec_filename
