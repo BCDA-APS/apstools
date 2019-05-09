@@ -17,6 +17,7 @@ from databroker import Broker
 import json
 import shutil
 import tempfile
+import zipfile
 
 
 """
@@ -29,59 +30,30 @@ sqlite3.InterfaceError: Error binding parameter 107 - probably unsupported type.
 Can we pick a different backend for temporary work?
 """
 
-DOCS_FILE = os.path.join(_test_path, "docs_tune_mr.json")
-
-
-def get_broker_sqlite_config(path, tz=None):
-    """
-    get a temporary sqlite directory configuration
-    
-    path = "/tmp"
-    config_tmp_sqlite = get_broker_sqlite_config(path)
-    self.db = Broker.from_config(config_tmp_sqlite)
-    """
-    
-    tz = tz or "US/Central"
-    config = {
-         'description': 'lightweight personal database',
-         'metadatastore': {
-             'module': 'databroker.headersource.sqlite',
-             'class': 'MDS',
-             'config': {
-                 'directory': path,
-                 'timezone': tz}
-         },
-         'assets': {
-             'module': 'databroker.assets.sqlite',
-             'class': 'Registry',
-             'config': {
-                 'dbpath': os.path.join(path, 'assets.sqlite')}
-         }
-     }
-    return config
+ZIP_FILE = os.path.join(_test_path, "usaxs_docs.json.zip")
+JSON_FILE = "usaxs_docs.json.txt"
 
 
 class Test_Something(unittest.TestCase):
 
     def setUp(self):
         self.tempdir = tempfile.mkdtemp()
-        config_tmp_sqlite = get_broker_sqlite_config(self.tempdir)
-        self.db = Broker.from_config(config_tmp_sqlite)
 
     def tearDown(self):
         if os.path.exists(self.tempdir):
             shutil.rmtree(self.tempdir, ignore_errors=True)
     
     def test_newfile(self):
-        self.assertTrue(os.path.exists(DOCS_FILE))
+        self.assertTrue(os.path.exists(ZIP_FILE), "zip file with test data")
         
-        # load the db with our test document stream
-        with open(DOCS_FILE, "r") as fp:
-            plans = json.load(fp)
-            for document in plans["tune_mr"]:
+        # get our test document stream
+        with zipfile.ZipFile(ZIP_FILE, "r") as fp:
+            self.assertIn(JSON_FILE, fp.namelist(), "JSON test data")
+            buf = fp.read(JSON_FILE).decode("utf-8")
+            datasets = json.loads(buf)
+            for document in datasets["tune_mr"]:
                 tag, doc = document
                 print(tag)
-                self.db.insert(tag, doc)    # FIXME: fails here
         
         # TODO: finish this test
 
