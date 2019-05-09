@@ -77,7 +77,34 @@ class Test_newfile(unittest.TestCase):
         if os.path.exists(self.tempdir):
             shutil.rmtree(self.tempdir, ignore_errors=True)
     
-    def test_writer(self):
+    def test_writer_default_name(self):
+        specwriter = SpecWriterCallback()
+        path = os.path.abspath(
+            os.path.dirname(
+                specwriter.spec_filename))
+        self.assertNotEqual(
+            path, 
+            self.tempdir, 
+            "default file not in tempdir")
+        self.assertEqual(
+            path, 
+            os.path.abspath(os.getcwd()), 
+            "default file to go in pwd")
+
+        # change the directory
+        specwriter.spec_filename = os.path.join(
+            self.tempdir, 
+            specwriter.spec_filename)
+
+        self.assertFalse(
+            os.path.exists(specwriter.spec_filename), 
+            "data file not created yet")
+        write_stream(specwriter, self.db["tune_mr"])
+        self.assertTrue(
+            os.path.exists(specwriter.spec_filename), 
+            "data file created")
+    
+    def test_writer_filename(self):
         self.assertTrue(len(self.db) > 0, "test data ready")
 
         testfile = os.path.join(self.tempdir, "tune_mr.dat")
@@ -94,8 +121,13 @@ class Test_newfile(unittest.TestCase):
         self.assertFalse(
             os.path.exists(testfile), 
             "data file not created yet")
-        write_stream(
-            specwriter, self.db["tune_mr"])
+        write_stream(specwriter, self.db["tune_mr"])
+        self.assertTrue(os.path.exists(testfile), "data file created")
+
+    def test_newfile_exists(self):
+        testfile = os.path.join(self.tempdir, "tune_mr.dat")
+        specwriter = SpecWriterCallback(filename=testfile)
+        write_stream(specwriter, self.db["tune_mr"])
         self.assertTrue(os.path.exists(testfile), "data file created")
         
         # TODO: #128 do not raise if exists
@@ -106,32 +138,6 @@ class Test_newfile(unittest.TestCase):
             raised = True
         finally:
             self.assertTrue(raised, "file exists")
-
-        specwriter = SpecWriterCallback()
-        path = os.path.abspath(
-            os.path.dirname(
-                specwriter.spec_filename))
-        self.assertNotEqual(
-            path, 
-            self.tempdir, 
-            "default file not in tempdir")
-        self.assertEqual(
-            path, 
-            os.path.abspath(os.getcwd()), 
-            "default file in pwd")
-
-        # change the directory
-        specwriter.spec_filename = os.path.join(
-            self.tempdir, 
-            specwriter.spec_filename)
-
-        self.assertFalse(
-            os.path.exists(specwriter.spec_filename), 
-            "data file not created yet")
-        write_stream(specwriter, self.db["tune_mr"])
-        self.assertTrue(
-            os.path.exists(specwriter.spec_filename), 
-            "data file created")
 
 
 def suite(*args, **kw):
