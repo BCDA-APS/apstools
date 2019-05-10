@@ -45,6 +45,7 @@ class Test_JsonExport(unittest.TestCase):
         db = get_db()
         if db is None:
             self.assertTrue(True, "skipping test: no databroker")
+            return
         headers = db(plan_name="count")
         headers = list(headers)[0:1]
 
@@ -70,6 +71,7 @@ class Test_JsonExport(unittest.TestCase):
         db = get_db()
         if db is None:
             self.assertTrue(True, "skipping test: no databroker")
+            return
         headers = db(plan_name="count")
         headers = list(headers)[0:1]
         
