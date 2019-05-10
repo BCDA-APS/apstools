@@ -20,6 +20,18 @@ if _path not in sys.path:
 from apstools.utils import json_export, json_import
 
 
+def get_db():
+    try:
+        from databroker import Broker
+    except ModuleNotFoundError:
+        return
+    try:
+        db = Broker.named("mongodb_config")
+    except FileNotFoundError:
+        return
+    return db
+
+
 class Test_ExportZippedJson(unittest.TestCase):
 
     def setUp(self):
@@ -30,8 +42,9 @@ class Test_ExportZippedJson(unittest.TestCase):
             shutil.rmtree(self.tempdir, ignore_errors=True)
     
     def test_export_import(self):
-        from databroker import Broker
-        db = Broker.named("mongodb_config")
+        db = get_db()
+        if db is None:
+            self.assertTrue(True, "skipping test: no databroker")
         headers = db(plan_name="count")
         headers = list(headers)[0:1]
 
@@ -54,8 +67,9 @@ class Test_ExportZippedJson(unittest.TestCase):
             )
     
     def test_export_import_zip(self):
-        from databroker import Broker
-        db = Broker.named("mongodb_config")
+        db = get_db()
+        if db is None:
+            self.assertTrue(True, "skipping test: no databroker")
         headers = db(plan_name="count")
         headers = list(headers)[0:1]
         
