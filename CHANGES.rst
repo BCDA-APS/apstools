@@ -4,11 +4,17 @@
 Change History
 ##############
 
+:1.1.2:  released *2019-05-10*
+
+    * adds packaging dependence on event_model
+    * `#137 <https://github.com/BCDA-APS/apstools/issues/137>`_
+       adds `utils.json_export()` and `utils.json_import()`
+
 :1.1.1:  released *2019-05-09*
 
     * adds packaging dependence on spec2nexus
     * `#136 <https://github.com/BCDA-APS/apstools/issues/136>`_
-       get json document stream(s) 
+       get json document stream(s)
     * `#134 <https://github.com/BCDA-APS/apstools/issues/134>`_
        add build on travis-ci with py3.7
     * `#130 <https://github.com/BCDA-APS/apstools/issues/130>`_
