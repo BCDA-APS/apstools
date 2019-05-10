@@ -32,7 +32,7 @@ def get_db():
     return db
 
 
-class Test_ExportZippedJson(unittest.TestCase):
+class Test_JsonExport(unittest.TestCase):
 
     def setUp(self):
         self.tempdir = tempfile.mkdtemp()
@@ -100,7 +100,7 @@ class Test_ExportZippedJson(unittest.TestCase):
 
 def suite(*args, **kw):
     test_list = [
-        Test_ExportZippedJson,
+        Test_JsonExport,
         ]
 
     test_suite = unittest.TestSuite()
