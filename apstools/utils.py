@@ -569,12 +569,14 @@ def export_json(headers, filename, zipfilename=None):
     
     EXAMPLE: READ THE ZIP FILE::
 
+        import json, zipfile
         with zipfile.ZipFile(zipfilename, "r") as fp:
             buf = fp.read(filename).decode("utf-8")
             header_dict = json.loads(buf)
     
     EXAMPLE: READ THE JSON TEXT FILE::
 
+        import json
         with open(filename, "r") as fp:
             buf = fp.read().decode("utf-8")
             header_dict = json.loads(buf)
