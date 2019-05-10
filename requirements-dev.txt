@@ -1,4 +1,3 @@
 versioneer
 coverage
 coveralls
-pyRestTable

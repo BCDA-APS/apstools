@@ -24,13 +24,14 @@ before_script:
   - which pip
   - which python
   - which conda
+  - pip install -r requirements.txt
   - pip install -r requirements-dev.txt
   - conda list
   - python --version
   - which coveralls
 
-install:
-  - pip install -r requirements.txt
+# install:
+#   - pip install -r requirements.txt
 
 # command to run tests
 script:

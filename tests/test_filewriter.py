@@ -142,9 +142,9 @@ class Test_SpecWriterCallback(unittest.TestCase):
         write_stream(specwriter, self.db["tune_mr"])
         self.assertTrue(os.path.exists(testfile), "data file created")
         
+        raised = False
         try:
             specwriter.newfile(filename=testfile)
-            raised = False
         except ValueError:
             raised = True
         finally:
