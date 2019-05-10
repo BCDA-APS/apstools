@@ -14,10 +14,12 @@ def suite(*args, **kw):
 
     import test_simple
     import test_filewriter
+    import test_export_json
     # import test_excel
     test_list = [
         test_simple,
         test_filewriter,
+        test_export_json,
         # test_excel
         ]
 

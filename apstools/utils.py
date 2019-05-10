@@ -8,6 +8,7 @@ Various utilities
    ~EmailNotifications
    ~ExcelDatabaseFileBase
    ~ExcelDatabaseFileGeneric
+   ~export_json
    ~ipython_profile_name
    ~pairwise
    ~print_snapshot_list
@@ -31,6 +32,9 @@ Various utilities
 from collections import OrderedDict
 import datetime
 from email.mime.text import MIMEText
+from event_model import NumpyEncoder
+from io import StringIO
+import json
 import logging
 import math
 import os
@@ -40,6 +44,7 @@ import re
 import smtplib
 import subprocess
 import time
+import zipfile
 
 from .plans import run_in_thread
 
@@ -535,3 +540,50 @@ def print_snapshot_list(db, **search_criteria):
         n = len(list(h.start.keys()))
         t.addRow((i, uid, h.start["iso8601"], n, h.start["purpose"]))
     print(t) 
+
+
+def export_json(headers, filename, zipfilename=None):
+    """
+    write a list of headers (all documents) to a file
+
+    PARAMETERS
+
+    headers : list(headers) or `databroker._core.Results` object
+        list of databroker headers as returned from `db(...search criteria...)`
+    filename : str
+        name of file into which to write JSON
+    zipfilename : str or None
+        name of ZIP file container of `filename` 
+        (if None, do not ZIP `filename`)
+    
+    EXAMPLE::
+
+        from databroker import Broker
+        db = Broker.named("mongodb_config")
+        headers = db(plan_name="count", since="2019-04-01")
+
+        export_json(
+            headers, 
+            "data.json", 
+            zipfilename="bluesky_data.zip")
+    
+    EXAMPLE: READ THE ZIP FILE::
+
+        with zipfile.ZipFile(zipfilename, "r") as fp:
+            buf = fp.read(filename).decode("utf-8")
+            header_dict = json.loads(buf)
+
+    """
+    datasets = [list(h.documents()) for h in headers]
+#     for h in headers:
+#         uid = h.start["uid"]
+#         datasets[uid] = list(h.documents())
+
+    json_docs = json.dumps(datasets, cls=NumpyEncoder, indent=2)
+    if zipfilename is None:
+        with open(filename, "w") as fp:
+            fp.write(json_docs)
+    else:
+        with zipfile.ZipFile(zipfilename, "w", allowZip64=True) as fp:
+            fp.writestr(filename, json_docs, compress_type=zipfile.ZIP_LZMA)
+                
