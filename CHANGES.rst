@@ -4,9 +4,9 @@
 Change History
 ##############
 
-:1.1.2:  released *2019-05-10*
+:1.1.3:  released *2019-05-10*
 
-    * adds packaging dependence on event_model
+    * adds packaging dependence on event-model
     * `#137 <https://github.com/BCDA-APS/apstools/issues/137>`_
        adds `utils.json_export()` and `utils.json_import()`
 

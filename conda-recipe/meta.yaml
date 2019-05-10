@@ -38,7 +38,7 @@ requirements:
     - python
     - bluesky
     - databroker
-    - event_model
+    - event-model
     - historydict
     - ophyd
     - pandas

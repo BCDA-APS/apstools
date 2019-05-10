@@ -1,7 +1,7 @@
 bluesky
 databroker[all]
 historydict
-event_model
+event-model
 ophyd
 pandas
 pyRestTable
