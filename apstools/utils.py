@@ -569,11 +569,15 @@ def json_export(headers, filename, zipfilename=None):
             "data.json", 
             zipfilename="bluesky_data.zip")
     
-    EXAMPLE: READ THE ZIP FILE::
+    EXAMPLE: READ THE ZIP FILE:
+    
+     using :meth:`~json_import`::
 
         datasets = json_import("data.json", zipfilename="bluesky_data.zip")
     
-    EXAMPLE: READ THE JSON TEXT FILE::
+    EXAMPLE: READ THE JSON TEXT FILE
+    
+    using :meth:`~json_import`::
 
         datasets = json_import("data.json)
 
