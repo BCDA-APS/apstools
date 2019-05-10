@@ -17,7 +17,7 @@ _path = os.path.join(_test_path, '..')
 if _path not in sys.path:
     sys.path.insert(0, _path)
 
-from apstools.utils import export_json
+from apstools.utils import json_export, json_import
 
 
 class Test_ExportZippedJson(unittest.TestCase):
@@ -29,28 +29,48 @@ class Test_ExportZippedJson(unittest.TestCase):
         if os.path.exists(self.tempdir):
             shutil.rmtree(self.tempdir, ignore_errors=True)
     
-    def test_writer_default_name(self):
+    def test_export_import(self):
         from databroker import Broker
         db = Broker.named("mongodb_config")
         headers = db(plan_name="count")
         headers = list(headers)[0:1]
 
         filename = os.path.join(self.tempdir, "export1.txt")
-        export_json(headers, filename=filename)
+        json_export(headers, filename=filename)
         self.assertTrue(os.path.exists(filename), f"wrote to requested {filename}")
+
+        testdata = json_import(filename)
+        self.assertEqual(len(testdata), 1, "file contains one dataset")
+        dataset = testdata[0]
+        self.assertGreater(len(dataset), 1, "dataset contains more than one document")
+        tag, doc = dataset[0]
+        self.assertEqual(tag, "start", "found start document")
+        self.assertNotEqual(doc.get("plan_name"), None, "found a start document by duck type")
+        self.assertNotEqual(doc.get("uid"), None, "found a uid document")
+        self.assertEqual(
+            doc["uid"],
+            headers[0].start["uid"],
+            "found matching start document"
+            )
+    
+    def test_export_import_zip(self):
+        from databroker import Broker
+        db = Broker.named("mongodb_config")
+        headers = db(plan_name="count")
+        headers = list(headers)[0:1]
         
         filename = "export2.txt"
         zipfilename = os.path.join(self.tempdir, "export2.zip")
-        export_json(headers, filename, zipfilename=zipfilename)
+        json_export(headers, filename, zipfilename=zipfilename)
         self.assertFalse(os.path.exists(filename), f"did not write to {filename}")
         self.assertTrue(
             os.path.exists(zipfilename), 
             f"wrote to requested ZIP {zipfilename}")
         with zipfile.ZipFile(zipfilename, "r") as fp:
             self.assertIn(filename, fp.namelist(), "found JSON test data")
-            buf = fp.read(filename).decode("utf-8")
-            testdata = json.loads(buf)
-        self.assertEqual(len(testdata), 1, "ZIP file contains one dataset")
+
+        testdata = json_import(filename, zipfilename)
+        self.assertEqual(len(testdata), 1, "file contains one dataset")
         dataset = testdata[0]
         self.assertGreater(len(dataset), 1, "dataset contains more than one document")
         tag, doc = dataset[0]

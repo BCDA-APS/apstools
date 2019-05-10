@@ -8,7 +8,8 @@ Various utilities
    ~EmailNotifications
    ~ExcelDatabaseFileBase
    ~ExcelDatabaseFileGeneric
-   ~export_json
+   ~json_export
+   ~json_import
    ~ipython_profile_name
    ~pairwise
    ~print_snapshot_list
@@ -30,10 +31,8 @@ Various utilities
 #-----------------------------------------------------------------------------
 
 from collections import OrderedDict
-import datetime
 from email.mime.text import MIMEText
 from event_model import NumpyEncoder
-from io import StringIO
 import json
 import logging
 import math
@@ -542,7 +541,7 @@ def print_snapshot_list(db, **search_criteria):
     print(t) 
 
 
-def export_json(headers, filename, zipfilename=None):
+def json_export(headers, filename, zipfilename=None):
     """
     write a list of headers (from databroker) to a file
 
@@ -555,6 +554,9 @@ def export_json(headers, filename, zipfilename=None):
     zipfilename : str or None
         name of ZIP file container of `filename` 
         (if None, do not ZIP `filename`)
+        
+        .. note::  If writing to a ZIP file, the data file is
+           *only* written into the ZIP file.
     
     EXAMPLE::
 
@@ -562,33 +564,42 @@ def export_json(headers, filename, zipfilename=None):
         db = Broker.named("mongodb_config")
         headers = db(plan_name="count", since="2019-04-01")
 
-        export_json(
+        json_export(
             headers, 
             "data.json", 
             zipfilename="bluesky_data.zip")
     
     EXAMPLE: READ THE ZIP FILE::
 
-        import json, zipfile
-        with zipfile.ZipFile(zipfilename, "r") as fp:
-            buf = fp.read(filename).decode("utf-8")
-            header_dict = json.loads(buf)
+        datasets = json_import("data.json", zipfilename="bluesky_data.zip")
     
     EXAMPLE: READ THE JSON TEXT FILE::
 
-        import json
-        with open(filename, "r") as fp:
-            buf = fp.read().decode("utf-8")
-            header_dict = json.loads(buf)
+        datasets = json_import("data.json)
 
     """
     datasets = [list(h.documents()) for h in headers]
-    text = json.dumps(datasets, cls=NumpyEncoder, indent=2)
+    buf = json.dumps(datasets, cls=NumpyEncoder, indent=2)
 
     if zipfilename is None:
         with open(filename, "w") as fp:
-            fp.write(text)
+            fp.write(buf)
     else:
         with zipfile.ZipFile(zipfilename, "w", allowZip64=True) as fp:
-            fp.writestr(filename, text, compress_type=zipfile.ZIP_LZMA)
+            fp.writestr(filename, buf, compress_type=zipfile.ZIP_LZMA)
                 
+
+def json_import(filename, zipfilename=None):
+    """
+    read the file exported by :meth:`~json_export()`
+    """
+    if zipfilename is None:
+        with open(filename, "r") as fp:
+            buf = fp.read()
+            datasets = json.loads(buf)
+    else:
+        with zipfile.ZipFile(zipfilename, "r") as fp:
+            buf = fp.read(filename).decode("utf-8")
+            datasets = json.loads(buf)
+    
+    return datasets
