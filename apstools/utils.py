@@ -575,9 +575,6 @@ def export_json(headers, filename, zipfilename=None):
 
     """
     datasets = [list(h.documents()) for h in headers]
-#     for h in headers:
-#         uid = h.start["uid"]
-#         datasets[uid] = list(h.documents())
 
     json_docs = json.dumps(datasets, cls=NumpyEncoder, indent=2)
     if zipfilename is None:
