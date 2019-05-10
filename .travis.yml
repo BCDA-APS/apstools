@@ -13,6 +13,10 @@ python:
   - "3.7"
   # - "nightly"
 
+# see https://github.com/BCDA-APS/apstools/issues/137#ref-commit-5c7baa2
+# install:
+#   - pip install -r requirements.txt
+
 before_script:
   - wget http://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh -O miniconda.sh
   - chmod +x miniconda.sh
@@ -29,9 +33,6 @@ before_script:
   - conda list
   - python --version
   - which coveralls
-
-# install:
-#   - pip install -r requirements.txt
 
 # command to run tests
 script:
