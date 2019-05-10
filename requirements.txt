@@ -1,8 +1,9 @@
 bluesky
 databroker[all]
 historydict
+event_model
 ophyd
 pandas
 pyRestTable
-xlrd
 spec2nexus
+xlrd

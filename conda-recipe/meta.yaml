@@ -36,14 +36,15 @@ requirements:
     - pip
   run:
     - python
-    - ophyd
-    - databroker
     - bluesky
+    - databroker
+    - event_model
     - historydict
-    - pyRestTable
+    - ophyd
     - pandas
-    - xlrd
+    - pyRestTable
     - spec2nexus
+    - xlrd
 
 test:
   imports:
