@@ -544,7 +544,7 @@ def print_snapshot_list(db, **search_criteria):
 
 def export_json(headers, filename, zipfilename=None):
     """
-    write a list of headers (all documents) to a file
+    write a list of headers (from databroker) to a file
 
     PARAMETERS
 
@@ -572,15 +572,21 @@ def export_json(headers, filename, zipfilename=None):
         with zipfile.ZipFile(zipfilename, "r") as fp:
             buf = fp.read(filename).decode("utf-8")
             header_dict = json.loads(buf)
+    
+    EXAMPLE: READ THE JSON TEXT FILE::
+
+        with open(filename, "r") as fp:
+            buf = fp.read().decode("utf-8")
+            header_dict = json.loads(buf)
 
     """
     datasets = [list(h.documents()) for h in headers]
+    text = json.dumps(datasets, cls=NumpyEncoder, indent=2)
 
-    json_docs = json.dumps(datasets, cls=NumpyEncoder, indent=2)
     if zipfilename is None:
         with open(filename, "w") as fp:
-            fp.write(json_docs)
+            fp.write(text)
     else:
         with zipfile.ZipFile(zipfilename, "w", allowZip64=True) as fp:
-            fp.writestr(filename, json_docs, compress_type=zipfile.ZIP_LZMA)
+            fp.writestr(filename, text, compress_type=zipfile.ZIP_LZMA)
                 
