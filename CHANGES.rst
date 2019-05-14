@@ -4,6 +4,11 @@
 Change History
 ##############
 
+:1.1.5:  released *2019-05-14*
+
+    * `#135 <https://github.com/BCDA-APS/apstools/issues/135>`_
+       add refresh button to snapshot GUI
+
 :1.1.4:  released *2019-05-14*
 
     * `#140 <https://github.com/BCDA-APS/apstools/issues/140>`_
