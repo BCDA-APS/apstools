@@ -579,14 +579,16 @@ class TuneAxis(object):
             crossings = Component(Signal)
             peakstats_attrs = "x y cen com fwhm min max crossings".split()
             
-            def report(self):
+            def report(self, title=None):
                 keys = self.peakstats_attrs + "tune_ok center initial_position final_position".split()
                 t = pyRestTable.Table()
                 t.addLabel("key")
-                t.addLabel("PeakStats value")
+                t.addLabel("result")
                 for key in keys:
                     v = getattr(self, key).value
                     t.addRow((key, v))
+                if title is not None:
+                    print(title)
                 print(t)
 
         @bpp.subs_decorator(self.peaks)
@@ -626,11 +628,17 @@ class TuneAxis(object):
                     v = np.array(v)
                 getattr(results, key).put(v)
 
-            results.report()
+            results.report(stream_name)
 
             if results.tune_ok.value:
                 yield from bps.create(name=stream_name)
-                yield from bps.read(results)
+                try:
+                    yield from bps.read(results)
+                except ValueError as ex:
+                    separator = " "*8 + "-"*12
+                    print(separator)
+                    print(f"Error saving stream {stream_name}:\n{ex}")
+                    print(separator)
                 yield from bps.save()
             
             yield from bps.mv(self.axis, final_position)
