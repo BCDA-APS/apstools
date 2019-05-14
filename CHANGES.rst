@@ -4,6 +4,13 @@
 Change History
 ##############
 
+:1.1.4:  released *2019-05-14*
+
+    * `#140 <https://github.com/BCDA-APS/apstools/issues/140>`_
+       `event-model` needs at least v1.8.0
+    * `#139 <https://github.com/BCDA-APS/apstools/issues/139>`_
+       `ValueError` in `plans.TuneAxis.tune._scan `
+
 :1.1.3:  released *2019-05-10*
 
     * adds packaging dependence on event-model
