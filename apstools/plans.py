@@ -618,8 +618,8 @@ class TuneAxis(object):
             stream_name = "PeakStats"
             results = Results(name=stream_name)
 
-            for key in "tune_ok center".split():
-                getattr(results, key).put(getattr(self, key))
+            results.tune_ok.put(self.tune_ok)
+            results.center.put(self.center)
             results.final_position.put(final_position)
             results.initial_position.put(initial_position)
             for key in results.peakstats_attrs:
