@@ -27,6 +27,7 @@ from collections import OrderedDict
 import datetime
 import logging
 import numpy as np
+import pyRestTable
 import sys
 import threading
 import time
@@ -580,8 +581,13 @@ class TuneAxis(object):
             
             def report(self):
                 keys = self.peakstats_attrs + "tune_ok center initial_position final_position".split()
+                t = pyRestTable.Table()
+                t.addLabel("key")
+                t.addLabel("PeakStats value")
                 for key in keys:
-                    print("{} : {}".format(key, getattr(self, key).value))
+                    v = getattr(self, key).value
+                    t.addRow((key, v))
+                print(t)
 
         @bpp.subs_decorator(self.peaks)
         def _scan(md=None):
