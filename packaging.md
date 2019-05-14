@@ -1,19 +1,24 @@
 # Packaging Hints
 
+## Define the release
+
+	RELEASE=1.1.4
+
 ## PyPI upload
 
-Preceed the wildcard with tag text (`apstools-1.1.1*`)::
+Build and upload::
 
 	python setup.py sdist bdist_wheel
-	twine upload dist/*
+	twine upload dist/apstools-${RELEASE}*
 
 ## Conda upload
 
-In the upload command below, use the text reported 
-at (near) the end of a successful conda build.
+Build and upload::
 
 	conda build ./conda-recipe/
-	anaconda upload -u aps-anl-tag /home/mintadmin/Apps/anaconda/conda-bld/noarch/apstools-1.1.1-py_0.tar.bz2
+	anaconda upload -u aps-anl-tag /home/mintadmin/Apps/anaconda/conda-bld/noarch/apstools-${RELEASE}-py_0.tar.bz2
+
+### Conda channels
 
 * `aps-anl-tag` production releases
 * `aps-anl-dev` anything else, such as: pre-release, release candidates, or testing purposes
