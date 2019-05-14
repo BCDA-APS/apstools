@@ -228,6 +228,12 @@ class SnapshotGui(object):
             xscrollcommand=xsb.set,
             yscrollcommand=ysb.set)
         self.tree.pack(fill=tk.Y, expand=True)
+        
+        self.refresh_button = ttk.Button(
+            lpane, 
+            text="refresh list", 
+            command=self.refresh)
+        self.refresh_button.pack(fill=tk.X)
 
         # -- right pane, content of selected snapshot
 
@@ -264,6 +270,14 @@ class SnapshotGui(object):
     def show_contents(self, text):
         self.snapview.delete("1.0", tk.END)
         self.snapview.insert(tk.END, text)
+    
+    def refresh(self):
+        kids = self.tree.get_children()
+        for item in kids:
+            self.tree.delete(item)
+        kids = self.tree.get_children()
+        self.uids = []
+        self.load_data()
 
     def load_data(self):
         parents = []
