@@ -620,6 +620,8 @@ class TuneAxis(object):
                     v = np.array(v)
                 getattr(results, key).put(v)
 
+            results.report()
+
             if results.tune_ok.value:
                 yield from bps.create(name=stream_name)
                 yield from bps.read(results)
@@ -628,8 +630,6 @@ class TuneAxis(object):
             yield from bps.mv(self.axis, final_position)
             self.stats.append(self.peaks)
             yield from bps.close_run()
-
-            results.report()
     
         return (yield from _scan(md=_md))
         
