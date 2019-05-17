@@ -556,7 +556,7 @@ class SpecWriterCallback(object):
     def usefile(self, filename):
         """read from existing SPEC data file"""
         if not os.path.exists(self.spec_filename):
-            IOError(f"file {filename} does not exist")
+            raise IOError(f"file {filename} does not exist")
         scan_id = None
         with open(filename, "r") as f:
             key = "#F"
