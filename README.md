@@ -12,6 +12,8 @@ Various Python tools for use with BlueSky at the APS
 [![release](https://img.shields.io/github/release/BCDA-APS/apstools.svg)](https://github.com/BCDA-APS/apstools/releases)
 [![PyPi](https://img.shields.io/pypi/v/apstools.svg)](https://pypi.python.org/pypi/apstools)
 [![conda](https://anaconda.org/aps-anl-tag/apstools/badges/version.svg)](https://anaconda.org/aps-anl-tag/apstools)
+[![Language grade: Python](https://img.shields.io/lgtm/grade/python/g/BCDA-APS/apstools.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/BCDA-APS/apstools/context:python)
+[![Total alerts](https://img.shields.io/lgtm/alerts/g/BCDA-APS/apstools.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/BCDA-APS/apstools/alerts/)
 
 ## Package Information
 
