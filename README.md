@@ -6,14 +6,15 @@ Various Python tools for use with BlueSky at the APS
 [![unit test](https://travis-ci.org/BCDA-APS/apstools.svg?branch=master)](https://travis-ci.org/BCDA-APS/apstools)
 [![Documentation Status](https://readthedocs.org/projects/apstools/badge/?version=latest)](http://apstools.readthedocs.io/en/latest/?badge=latest)
 
+[![Language grade: Python](https://img.shields.io/lgtm/grade/python/g/BCDA-APS/apstools.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/BCDA-APS/apstools/context:python)
+[![Total alerts](https://img.shields.io/lgtm/alerts/g/BCDA-APS/apstools.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/BCDA-APS/apstools/alerts/)
+
 <!--
 [![tag](https://img.shields.io/github/tag/BCDA-APS/apstools.svg)](https://github.com/BCDA-APS/apstools/tags)
 -->
 [![release](https://img.shields.io/github/release/BCDA-APS/apstools.svg)](https://github.com/BCDA-APS/apstools/releases)
 [![PyPi](https://img.shields.io/pypi/v/apstools.svg)](https://pypi.python.org/pypi/apstools)
 [![conda](https://anaconda.org/aps-anl-tag/apstools/badges/version.svg)](https://anaconda.org/aps-anl-tag/apstools)
-[![Language grade: Python](https://img.shields.io/lgtm/grade/python/g/BCDA-APS/apstools.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/BCDA-APS/apstools/context:python)
-[![Total alerts](https://img.shields.io/lgtm/alerts/g/BCDA-APS/apstools.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/BCDA-APS/apstools/alerts/)
 
 ## Package Information
 
