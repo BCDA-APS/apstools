@@ -685,7 +685,7 @@ class ApsPssShutterWithStatus(ApsPssShutter):
     @property
     def state(self):
         """is shutter "open", "close", or "unknown"?"""
-		# update the list of acceptable values - very inefficient but works
+        # update the list of acceptable values - very inefficient but works
         for item in self.pss_state.enum_strs[1]:
             if item not in self.pss_state_open_values:
                 self.pss_state_open_values.append(item)
