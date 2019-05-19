@@ -789,7 +789,8 @@ class SimulatedApsPssShutterWithStatus(ApsPssShutterWithStatus):
     pss_state = FormattedComponent(Signal, value='close')
 
     def __init__(self, *args, **kwargs):
-        super(ApsPssShutter, self).__init__("", *args, **kwargs)
+        # was: super(ApsPssShutter, self).__init__("", *args, **kwargs)
+        super(SimulatedApsPssShutterWithStatus, self).__init__("", "", *args, **kwargs)
         self.pss_state_open_values += self.valid_open_values
         self.pss_state_closed_values += self.valid_close_values
 
