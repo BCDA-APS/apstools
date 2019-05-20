@@ -187,8 +187,8 @@ def swait_setup_random_number(swait, **kw):
     swait.read_attrs = ['val',]
 
 
-def swait_setup_gaussian(swait, motor, center=0, width=1, scale=1, noise=0.05):
-    """setup swait for noisy Gaussian"""
+def _setup_peak_swait_(calc, desc, swait, motor, center=0, width=1, scale=1, noise=0.05):
+    """internal: setup that is common to both Gaussian and Lorentzian swaits"""
     # consider a noisy background, as well (needs a couple calcs)
     assert(isinstance(motor, EpicsMotor))
     assert(width > 0)
@@ -200,33 +200,38 @@ def swait_setup_gaussian(swait, motor, center=0, width=1, scale=1, noise=0.05):
     swait.channels.C.value.put(width)
     swait.channels.D.value.put(scale)
     swait.channels.E.value.put(noise)
-    swait.calc.put("D*(0.95+E*RNDM)/exp(((A-b)/c)^2)")
+    swait.calc.put(calc)
     swait.scan.put("I/O Intr")
-    swait.desc.put("noisy Gaussian curve")
+    swait.desc.put(desc)
 
     swait.hints = {"fields": ['val',]}
     swait.read_attrs = ['val',]
+
+
+def swait_setup_gaussian(swait, motor, center=0, width=1, scale=1, noise=0.05):
+    """setup swait for noisy Gaussian"""
+    _setup_peak_swait_(
+        "D*(0.95+E*RNDM)/exp(((A-b)/c)^2)",
+        "noisy Gaussian curve", 
+        swait, 
+        motor, 
+        center=center, 
+        width=width, 
+        scale=scale, 
+        noise=noise)
 
 
 def swait_setup_lorentzian(swait, motor, center=0, width=1, scale=1, noise=0.05):
     """setup swait record for noisy Lorentzian"""
-    # consider a noisy background, as well (needs a couple calcs)
-    assert(isinstance(motor, EpicsMotor))
-    assert(width > 0)
-    assert(0.0 <= noise <= 1.0)
-    swait.reset()
-    swait.scan.put("Passive")
-    swait.channels.A.input_pv.put(motor.user_readback.pvname)
-    swait.channels.B.value.put(center)
-    swait.channels.C.value.put(width)
-    swait.channels.D.value.put(scale)
-    swait.channels.E.value.put(noise)
-    swait.calc.put("D*(0.95+E*RNDM)/(1+((A-b)/c)^2)")
-    swait.scan.put("I/O Intr")
-    swait.desc.put("noisy Lorentzian curve")
-
-    swait.hints = {"fields": ['val',]}
-    swait.read_attrs = ['val',]
+    _setup_peak_swait_(
+        "D*(0.95+E*RNDM)/(1+((A-b)/c)^2)", 
+        "noisy Lorentzian curve", 
+        swait, 
+        motor, 
+        center=center, 
+        width=width, 
+        scale=scale, 
+        noise=noise)
 
 
 def swait_setup_incrementer(swait, scan=None, limit=100000):
