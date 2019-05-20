@@ -105,20 +105,14 @@ import threading
 import time
 
 from .synApps_ophyd import *
-from . import plans as APS_plans
 
-import ophyd
 from ophyd import Component, Device, DeviceStatus, FormattedComponent
 from ophyd import Signal, EpicsMotor, EpicsSignal, EpicsSignalRO
 from ophyd.mca import EpicsMCARecord
 from ophyd.scaler import EpicsScaler, ScalerCH
-from ophyd.positioner import PositionerBase
 
-from ophyd.areadetector.filestore_mixins import FileStoreHDF5
 from ophyd.areadetector.filestore_mixins import FileStoreBase
 from ophyd.areadetector.filestore_mixins import FileStorePluginBase
-from ophyd.areadetector.filestore_mixins import FileStoreIterativeWrite
-from ophyd import HDF5Plugin
 from ophyd.utils import set_and_wait
 
 from bluesky import plan_stubs as bps
@@ -138,7 +132,6 @@ def use_EPICS_scaler_channels(scaler):
     (Applies only to `ophyd.scaler.ScalerCH` in releases after 2019-02-27.)
     """
     if isinstance(scaler, EpicsScaler):
-        import epics
         read_attrs = []
         for ch in scaler.channels.component_names:
             _nam = epics.caget("{}.NM{}".format(scaler.prefix, int(ch[4:])))
@@ -146,7 +139,7 @@ def use_EPICS_scaler_channels(scaler):
                 read_attrs.append(ch)
         scaler.channels.read_attrs = read_attrs
     elif isinstance(scaler, ScalerCH):
-	# superceded by: https://github.com/NSLS-II/ophyd/commit/543e7ef81f3cb760192a0de719e51f9359642ae8
+        # superceded by: https://github.com/NSLS-II/ophyd/commit/543e7ef81f3cb760192a0de719e51f9359642ae8
         scaler.match_names()
         read_attrs = []
         configuration_attrs = []
@@ -308,38 +301,56 @@ class ShutterBase(Device):
     # - - - - likely to override these methods in subclass - - - -
 
     def open(self):
-        """BLOCKING: request shutter to open, called by set()"""
-        raise NotImplementedError("must implement in subclass")
-        """ example code
-        if not self.isOpen:
-            self.signal.put(self.open_value)
-            if self.delay_s > 0:
-                time.sleep(self.delay_s)    # blocking call OK here
         """
+        BLOCKING: request shutter to open, called by set()
+        
+        Must implement in subclass of ShutterBase()
+        
+        EXAMPLE::
+
+            if not self.isOpen:
+                self.signal.put(self.open_value)
+                if self.delay_s > 0:
+                    time.sleep(self.delay_s)    # blocking call OK here
+
+        """
+        raise NotImplementedError("must implement in subclass")
 
     def close(self):
-        """BLOCKING: request shutter to close, called by set()"""
-        raise NotImplementedError("must implement in subclass")
-        """ example code
-        if not self.isClosed:
-            self.signal.put(self.close_value)
-            if self.delay_s > 0:
-                time.sleep(self.delay_s)    # blocking call OK here
         """
+        BLOCKING: request shutter to close, called by set()
+        
+        Must implement in subclass of ShutterBase()
+        
+        EXAMPLE::
+
+            if not self.isClosed:
+                self.signal.put(self.close_value)
+                if self.delay_s > 0:
+                    time.sleep(self.delay_s)    # blocking call OK here
+
+        """
+        raise NotImplementedError("must implement in subclass")
 
     @property
     def state(self):
-        """returns 'open', 'close', or 'unknown'"""
-        raise NotImplementedError("must implement in subclass")
-        """ example code
-        if self.signal.value == self.open_value:
-            result = self.valid_open_values[0]
-        elif self.signal.value == self.close_value:
-            result = self.valid_close_values[0]
-        else:
-            result = self.unknown_state
-        return result
         """
+        returns 'open', 'close', or 'unknown'
+        
+        Must implement in subclass of ShutterBase()
+        
+        EXAMPLE::
+
+            if self.signal.value == self.open_value:
+                result = self.valid_open_values[0]
+            elif self.signal.value == self.close_value:
+                result = self.valid_close_values[0]
+            else:
+                result = self.unknown_state
+            return result
+
+        """
+        raise NotImplementedError("must implement in subclass")
     
     # - - - - - - possible to override in subclass - - - - - -
     
@@ -685,7 +696,7 @@ class ApsPssShutterWithStatus(ApsPssShutter):
     @property
     def state(self):
         """is shutter "open", "close", or "unknown"?"""
-		# update the list of acceptable values - very inefficient but works
+        # update the list of acceptable values - very inefficient but works
         for item in self.pss_state.enum_strs[1]:
             if item not in self.pss_state_open_values:
                 self.pss_state_open_values.append(item)
@@ -789,7 +800,8 @@ class SimulatedApsPssShutterWithStatus(ApsPssShutterWithStatus):
     pss_state = FormattedComponent(Signal, value='close')
 
     def __init__(self, *args, **kwargs):
-        super(ApsPssShutter, self).__init__("", *args, **kwargs)
+        # was: super(ApsPssShutter, self).__init__("", *args, **kwargs)
+        super(SimulatedApsPssShutterWithStatus, self).__init__("", "", *args, **kwargs)
         self.pss_state_open_values += self.valid_open_values
         self.pss_state_closed_values += self.valid_close_values
 
@@ -1265,7 +1277,7 @@ class KohzuSeqCtl_Monochromator(Device):
     crystal_k = Component(EpicsSignal, "BraggKAO")
     crystal_l = Component(EpicsSignal, "BraggLAO")
     crystal_lattice_constant = Component(EpicsSignal, "BraggAAO")
-    crystal_mode = Component(EpicsSignal, "Bragg2dSpacingAO")
+    crystal_2d_spacing = Component(EpicsSignal, "Bragg2dSpacingAO")
     crystal_type = Component(EpicsSignal, "BraggTypeMO")
 
 
@@ -1293,7 +1305,7 @@ class Struck3820(Device):
     firmware = Component(EpicsSignalRO, "Firmware")
     channel_advance = Component(EpicsSignal, "ChannelAdvance")
     count_on_start = Component(EpicsSignal, "CountOnStart")
-    channel_advance = Component(EpicsSignal, "SoftwareChannelAdvance")
+    software_channel_advance = Component(EpicsSignal, "SoftwareChannelAdvance")
     channel1_source = Component(EpicsSignal, "Channel1Source")
     user_led = Component(EpicsSignal, "UserLED")
     mux_output = Component(EpicsSignal, "MUXOutput")

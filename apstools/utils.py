@@ -266,7 +266,7 @@ class ExcelDatabaseFileBase(object):
                 header=None,
                 )
         self.data_labels = list(map(str, xl.columns.values))
-        data_start_row_num = data_start_row_num or labels_row_num+1
+        # unused: data_start_row_num = data_start_row_num or labels_row_num+1
         for row_data in xl.values:
             entry = OrderedDict()
             for _col, label in enumerate(self.data_labels):

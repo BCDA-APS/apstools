@@ -8,7 +8,7 @@ Create release notes for a new release of the GitHub repository.
 
 from __future__ import print_function
 from datetime import datetime
-import os, sys
+import os
 import github       # pip install pygithub or conda install -c conda-forge pygithub
 import collections
 import argparse
