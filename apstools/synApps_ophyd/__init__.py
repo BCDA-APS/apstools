@@ -37,3 +37,17 @@ from .busy import *
 from .save_data import *
 from .sscan import *
 from .swait import *
+
+__all__ = """
+    busyRecord
+    BusyStatus
+    SaveData
+    sscanRecord  
+    sscanDevice
+    swaitRecord 
+    userCalcsDevice
+    swait_setup_random_number 
+    swait_setup_gaussian
+    swait_setup_lorentzian 
+    swait_setup_incrementer
+    """.split()

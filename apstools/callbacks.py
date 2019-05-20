@@ -67,8 +67,8 @@ class DocumentCollectorCallback(object):
 
     def receiver(self, key, document):
         """keep all documents from recent plan in memory"""
-        uid = document.get("uid", None) or document.get("datum_id", None)
-        if "uid" is None:
+        uid = document.get("uid") or document.get("datum_id")
+        if uid is None:
             raise KeyError("No uid in '{}' document".format(key))
         self.uids.append(uid)
         logger = logging.getLogger(__name__)
