@@ -51,4 +51,3 @@ __all__ = """
     swait_setup_lorentzian 
     swait_setup_incrementer
     """.split()
-    ]
