@@ -275,7 +275,6 @@ class SnapshotGui(object):
         kids = self.tree.get_children()
         for item in kids:
             self.tree.delete(item)
-        kids = self.tree.get_children()
         self.uids = []
         self.load_data()
 
