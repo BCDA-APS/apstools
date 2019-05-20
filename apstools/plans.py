@@ -34,10 +34,9 @@ import time
 
 from bluesky import preprocessors as bpp
 from bluesky import plan_stubs as bps
-from bluesky import plans as bp
 from bluesky.callbacks.fitting import PeakStats
-import ophyd
-from ophyd import Device, Component, Signal
+from ophyd import Device, Component, Signal, DeviceStatus, EpicsSignal
+from ophyd.status import Status
 
 
 logger = logging.getLogger(__name__).addHandler(logging.NullHandler())
@@ -95,7 +94,7 @@ def run_blocker_in_plan(blocker, *args, _poll_s_=0.01, _timeout_s_=None, **kwarg
         RE(my_sleep())
 
     """
-    status = ophyd.status.Status()
+    status = Status()
     
     @run_in_thread
     def _internal(blocking_function, *args, **kwargs):
@@ -219,10 +218,10 @@ def snapshot(obj_list, stream="primary", md=None):
         metadata
     """
     from .__init__ import __version__
-    import bluesky
-    import databroker
-    import epics
-    from ophyd import EpicsSignal
+    from bluesky import __version__ as bluesky_version
+    from databroker import __version__ as databroker_version
+    from epics import __version__ as pyepics_version
+    from ophyd import __version__ as ophyd_version
     import socket 
     import getpass 
 
@@ -252,10 +251,10 @@ def snapshot(obj_list, stream="primary", md=None):
         hints = {},
         software_versions = dict(
             python = sys.version,
-            PyEpics = epics.__version__,
-            bluesky = bluesky.__version__,
-            ophyd = ophyd.__version__,
-            databroker = databroker.__version__,
+            PyEpics = pyepics_version,
+            bluesky = bluesky_version,
+            ophyd = ophyd_version,
+            databroker = databroker_version,
             apstools = __version__,),
         hostname = hostname,
         username = username,
@@ -368,7 +367,7 @@ def sscan_1D(
     assert 0 <= poll_delay_s <= 0.1, msg
     
     t0 = time.time()
-    sscan_status = ophyd.DeviceStatus(sscan.execute_scan)
+    sscan_status = DeviceStatus(sscan.execute_scan)
     started = False
     new_data = False
     inactive_deadline = time.time()
@@ -410,7 +409,7 @@ def sscan_1D(
     while not sscan_status.done or new_data:
         if new_data and running_stream is not None:
             yield from bps.create(running_stream)
-            for k, obj in sscan_data_objects.items():
+            for _k, obj in sscan_data_objects.items():
                 yield from bps.read(obj)
             yield from bps.save()
         new_data = False
@@ -439,6 +438,9 @@ def sscan_1D(
         yield from bps.save()
 
     yield from bps.close_run()
+    
+    elapsed = time.time() - t0
+    print(f"total time for sscan_1D: {elapsed} s")
 
     return sscan_status
 
@@ -528,7 +530,7 @@ class TuneAxis(object):
             raise ValueError(msg)
 
         initial_position = self.axis.position
-        final_position = initial_position       # unless tuned
+        # final_position = initial_position       # unless tuned
         start = initial_position - width/2
         finish = initial_position + width/2
         self.tune_ok = False

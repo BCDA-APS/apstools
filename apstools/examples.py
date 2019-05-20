@@ -87,9 +87,8 @@ def main():
     This can be unwieldy if there are many scans in the databroker.
     Consider it as a demo program rather than for general, long-term use.
     """
-    from databroker import Broker
     # load config from ~/.config/databroker/mongodb_config.yml
-    db = Broker.named("mongodb_config")
+    db = databroker.Broker.named("mongodb_config")
     table = plan_catalog(db)
     print(table)
     print("Found {} plans (start documents)".format(len(table.rows)))
