@@ -145,7 +145,7 @@ def snapshot_cli():
         APS_callbacks.SnapshotReport().print_report(snap)
 
 
-class Capturing(list):
+class Capturing(list):      # LGTM
     """
     capture stdout output from a Python function call
     
