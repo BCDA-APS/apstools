@@ -5,6 +5,7 @@ Various utilities
    
    ~cleanupText
    ~connect_pvlist
+   ~dictionary_table
    ~EmailNotifications
    ~ExcelDatabaseFileBase
    ~ExcelDatabaseFileGeneric
@@ -69,6 +70,55 @@ def cleanupText(text):
         return "_"
 
     return "".join([mapper(c) for c in text])
+
+
+def dictionary_table(dictionary, fmt="simple"):
+    """
+    return a text table from ``dictionary``
+    
+    PARAMETERS
+
+    dictionary : dict
+        Python dictionary
+    fmt : str
+        Any of the format names provided by 
+        `spec2nexus <https://pyresttable.readthedocs.io/en/latest/examples/index.html#examples>`_
+        One of these: ``simple | plain | grid | complex | markdown | list-table | html``
+        
+        default: ``simple``
+    
+    RETURNS
+
+    table : obj
+        instance of :class:`pyRestTable.Table()`
+        or ``None`` if dictionary has no contents
+    
+    EXAMPLE::
+
+	In [8]: RE.md                                                                                                               
+	Out[8]: {'login_id': 'jemian:wow.aps.anl.gov', 'beamline_id': 'developer', 'proposal_id': None, 'pid': 19072, 'scan_id': 10, 'version': {'bluesky': '1.5.2', 'ophyd': '1.3.3', 'apstools': '1.1.5', 'epics': '3.3.3'}}
+
+	In [9]: print(dictionary_table(RE.md))                                                                                      
+	=========== =============================================================================
+	key         value                                                                        
+	=========== =============================================================================
+	beamline_id developer                                                                    
+	login_id    jemian:wow.aps.anl.gov                                                       
+	pid         19072                                                                        
+	proposal_id None                                                                         
+	scan_id     10                                                                           
+	version     {'bluesky': '1.5.2', 'ophyd': '1.3.3', 'apstools': '1.1.5', 'epics': '3.3.3'}
+	=========== =============================================================================
+
+    """
+    if len(dictionary) == 0:
+        return
+    _t = pyRestTable.Table()
+    _t.addLabel("key")
+    _t.addLabel("value")
+    for k, v in sorted(dictionary.items()):
+        _t.addRow((k, str(v)))
+    return _t
 
 
 def pairwise(iterable):
