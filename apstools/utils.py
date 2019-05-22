@@ -77,7 +77,7 @@ def dictionary_table(dictionary, fmt="simple"):
     return a text table from ``dictionary``
     
     PARAMETERS
-
+    
     dictionary : dict
         Python dictionary
     fmt : str
@@ -89,27 +89,25 @@ def dictionary_table(dictionary, fmt="simple"):
     
     RETURNS
 
-    table : obj
-        instance of :class:`pyRestTable.Table()`
+    table : str or `None`
+        multi-line text table with dictionary contents
         or ``None`` if dictionary has no contents
     
     EXAMPLE::
 
-	In [8]: RE.md                                                                                                               
-	Out[8]: {'login_id': 'jemian:wow.aps.anl.gov', 'beamline_id': 'developer', 'proposal_id': None, 'pid': 19072, 'scan_id': 10, 'version': {'bluesky': '1.5.2', 'ophyd': '1.3.3', 'apstools': '1.1.5', 'epics': '3.3.3'}}
-
-	In [9]: print(dictionary_table(RE.md))                                                                                      
-	=========== =============================================================================
-	key         value                                                                        
-	=========== =============================================================================
-	beamline_id developer                                                                    
-	login_id    jemian:wow.aps.anl.gov                                                       
-	pid         19072                                                                        
-	proposal_id None                                                                         
-	scan_id     10                                                                           
-	version     {'bluesky': '1.5.2', 'ophyd': '1.3.3', 'apstools': '1.1.5', 'epics': '3.3.3'}
-	=========== =============================================================================
-
+        In [8]: RE.md                                                                                                               
+        Out[8]: {'login_id': 'jemian:wow.aps.anl.gov', 'beamline_id': 'developer', 'proposal_id': None, 'pid': 19072, 'scan_id': 10, 'version': {'bluesky': '1.5.2', 'ophyd': '1.3.3', 'apstools': '1.1.5', 'epics': '3.3.3'}}
+        In [9]: print(dictionary_table(RE.md))                                                                                      
+        =========== =============================================================================
+        key         value                                                                        
+        =========== =============================================================================
+        beamline_id developer                                                                    
+        login_id    jemian:wow.aps.anl.gov                                                       
+        pid         19072                                                                        
+        proposal_id None                                                                         
+        scan_id     10                                                                           
+        version     {'bluesky': '1.5.2', 'ophyd': '1.3.3', 'apstools': '1.1.5', 'epics': '3.3.3'}
+        =========== =============================================================================
     """
     if len(dictionary) == 0:
         return
@@ -118,7 +116,7 @@ def dictionary_table(dictionary, fmt="simple"):
     _t.addLabel("value")
     for k, v in sorted(dictionary.items()):
         _t.addRow((k, str(v)))
-    return _t
+    return _t.reST(fmt=fmt)
 
 
 def pairwise(iterable):
