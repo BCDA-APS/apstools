@@ -82,11 +82,12 @@ def dictionary_table(dictionary, fmt="simple"):
     dictionary : dict
         Python dictionary
     fmt : str
-        Any of the format names provided by 
-        `spec2nexus <https://pyresttable.readthedocs.io/en/latest/examples/index.html#examples>`_
+        Any of the format names provided by *pyRestTable*. [#]_
         One of these: ``simple | plain | grid | complex | markdown | list-table | html``
         
         default: ``simple``
+	
+	.. [#] *pyRestTable* : https://pyresttable.readthedocs.io/en/latest/examples/index.html#examples
     
     RETURNS
 
