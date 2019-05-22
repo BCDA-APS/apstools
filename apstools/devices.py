@@ -34,6 +34,7 @@ MOTORS, POSITIONERS, AXES, ...
     ~AxisTunerMixin
     ~EpicsDescriptionMixin
     ~EpicsMotorDialMixin
+    ~EpicsMotorEnableMixin
     ~EpicsMotorLimitsMixin
     ~EpicsMotorRawMixin
     ~EpicsMotorServoMixin
@@ -1055,6 +1056,46 @@ class EpicsMotorDialMixin(DeviceMixinBase):
     """
     
     dial = Component(EpicsSignal, ".DRBV", write_pv=".DVAL")
+
+      
+class EpicsMotorEnableMixin(DeviceMixinBase):
+    """
+    mixin providing access to motor enable/disable
+    
+    EXAMPLE::
+    
+        from ophyd import EpicsMotor
+        from apstools.devices import EpicsMotorEnableMixin
+    
+        class MyEpicsMotor(EpicsMotorEnableMixin, EpicsMotor): ...
+        
+        m1 = MyEpicsMotor('xxx:m1', name='m1')
+        print(m1.enabled)
+    
+    In a bluesky plan::
+    
+        yield from bps.mv(m1.enable_disable, m1.MOTOR_DISABLE)
+        # ... other activities
+        yield from bps.mv(m1.enable_disable, m1.MOTOR_ENABLE)
+    
+    """
+    enable_disable = Component(EpicsSignal, "_able", kind='omitted')
+   
+    # constants for internal use
+    MOTOR_ENABLE = 0
+    MOTOR_DISABLE = 1
+
+    @property
+    def enabled(self):
+        return self.enable_disable.value in (self.MOTOR_ENABLE, "Enabled")
+    
+    def enable_motor(self):
+        """BLOCKING call to enable motor axis"""
+        self.enable_disable.put(self.MOTOR_ENABLE)
+    
+    def disable_motor(self):
+        """BLOCKING call to disable motor axis"""
+        self.enable_disable.put(self.MOTOR_DISABLE)
 
 
 class EpicsMotorLimitsMixin(DeviceMixinBase):
