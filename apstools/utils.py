@@ -123,7 +123,7 @@ def dictionary_table(dictionary, fmt="simple"):
     return _t.reST(fmt=fmt)
 
 
-def print_RE_md(dictionary=RE.md, fmt="simple"):
+def print_RE_md(dictionary=None, fmt="simple"):
     """
     custom print the RunEngine metadata in a table
     
@@ -152,6 +152,8 @@ def print_RE_md(dictionary=RE.md, fmt="simple"):
         ======================== ===================================
     
     """
+    global RE
+    dictionary = dictionary or RE.md
     md = dict(dictionary)   # copy of input for editing
     v = dictionary_table(md["versions"], fmt=fmt)   # sub-table
     md["versions"] = str(v).rstrip()
