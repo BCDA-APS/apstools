@@ -14,6 +14,7 @@ Various utilities
    ~ipython_profile_name
    ~pairwise
    ~print_snapshot_list
+   ~print_RE_md
    ~text_encode
    ~to_unicode_or_bust
    ~trim_string_for_EPICS
@@ -77,7 +78,7 @@ def dictionary_table(dictionary, fmt="simple"):
     return a text table from ``dictionary``
     
     PARAMETERS
-
+    
     dictionary : dict
         Python dictionary
     fmt : str
@@ -90,14 +91,14 @@ def dictionary_table(dictionary, fmt="simple"):
     RETURNS
 
     table : str or `None`
-        multiline text with table in chosen format
+        multiline text table with dictionary contents in chosen format
         or ``None`` if dictionary has no contents
     
     EXAMPLE::
 
         In [8]: RE.md                                                                                                               
         Out[8]: {'login_id': 'jemian:wow.aps.anl.gov', 'beamline_id': 'developer', 'proposal_id': None, 'pid': 19072, 'scan_id': 10, 'version': {'bluesky': '1.5.2', 'ophyd': '1.3.3', 'apstools': '1.1.5', 'epics': '3.3.3'}}
-        
+
         In [9]: print(dictionary_table(RE.md))                                                                                      
         =========== =============================================================================
         key         value                                                                        
