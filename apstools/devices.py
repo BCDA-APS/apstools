@@ -74,6 +74,7 @@ OTHER SUPPORT
     ~DualPf4FilterBox
     ~EpicsDescriptionMixin
     ~KohzuSeqCtl_Monochromator
+    ~ProcessController
     ~Struck3820
 
 Internal routines
@@ -121,7 +122,7 @@ from bluesky import plan_stubs as bps
 
 logger = logging.getLogger(__name__)
 
-"""for convenience"""		# TODO: contribute to ophyd?
+"""for convenience"""        # TODO: contribute to ophyd?
 SCALER_AUTOCOUNT_MODE = 1
 
 
@@ -1322,60 +1323,81 @@ class KohzuSeqCtl_Monochromator(Device):
     crystal_type = Component(EpicsSignal, "BraggTypeMO")
 
 
-class TemperatureController_Base(Device):
+class ProcessController(Device):
     """
-    common parts of temperature controller support
+    common parts of a process controller support
+    
+    A process controller keeps a signal (a readback value such as 
+    temperature, vacuum, himdity, etc.) as close as possible 
+    to a target (set point) value.  It has additional fields 
+    that describe parameters specific to the controller such 
+    as PID loop, on/off, applied controller power, and other
+    details.
+    
+    This is a base class to standardize the few common terms
+    used to command and record the target and readback values
+    of a process controller.
+    
+    Subclasses should redefine (override) `controller_name`, 
+    ``signal``, ``target``, and ``units`` such as the example below.
+    Also set values for ``tolerance``, ``report_interval_s``, and 
+    ``poll_s`` suitable for the specific controller used.
+    
+    *Floats*: ``signal``, ``target`', and ``tolerance`` will be 
+    considered as floating point numbers in the code.
+    
+    It is assumed in "meth"`settled()` that: ``|signal - target| <= tolerance``.
+    Override this *property* method if a different decision is needed.
     
     EXAMPLE::
     
-        class MyLinkam(TemperatureController_Base):
-            controller_name = "MyLinkam"
-            temperature = Component(EpicsSignalRO, "temp")
-            set_point = Component(EpicsSignal, "setLimit", kind="omitted")
+        class MyLinkam(ProcessController):
+            controller_name = "MyLinkam Controller"
+            signal = Component(EpicsSignalRO, "temp")
+            target = Component(EpicsSignal, "setLimit", kind="omitted")
+            units = Component(Signal, kind="omitted", value="C")
         
         controller = MyLinkam("my:linkam:", name="controller")
         RE(controller.wait_until_settled(timeout=10))
     
-        controller.record_temperature()
-        print(f"{controller.controller_name} controller settled? {controller.settled}")
+        controller.record_signal()
+        print(f"{controller.controller_name} settled? {controller.settled}")
     
         def rampUp_rampDown():
             '''ramp temperature up, then back down'''
-            yield from controller.set_temperature(25, timeout=180)
-            controller.report_interval = 10    # change report interval to 10s
+            yield from controller.set_target(25, timeout=180)
+            controller.report_interval_s = 10    # change report interval to 10s
             for i in range(10, 0, -1):
-                print(f"hold at (self.value:.2f)C, time remaining: {i}s")
+                print(f"hold at {self.value:.2f}{self.units.value}, time remaining: {i}s")
                 yield from bps.sleep(1)
-            yield from controller.set_temperature(0, timeout=180)
+            yield from controller.set_target(0, timeout=180)
         
         RE(test_plan())
 
     """
     
-    controller_name = "TemperatureController_Base"
-    temperature = Component(Signal)                 # override in subclass
-    set_point = Component(Signal, kind="omitted")   # override in subclass
+    controller_name = "ProcessController"
+    signal = Component(Signal)                              # override in subclass
+    target = Component(Signal, kind="omitted")              # override in subclass
+    tolerance = Component(Signal, kind="omitted", value=1)  # override in subclass
+    units = Component(Signal, kind="omitted", value="")     # override in subclass
 
-    tolerance  = 1          # requirement: |T - target| must be <= this, degree C
-    report_interval  = 5    # time between reports during loop, s
+    tolerance  = 1          # requirement: |signal - target| <= tolerance (see `settled()`)
+    report_interval_s  = 5  # time between reports during loop, s
     poll_s = 0.02           # time to wait during polling loop, s
 
-    def record_temperature(self):
-        """write temperatures as comment"""
-        global specwriter
-        msg = f"{self.controller_name} Temperature: {self.value:.2f} C"
-        specwriter._cmt("event", msg)
+    def record_signal(self):
+        """write signal to the console"""
+        msg = f"{self.controller_name} signal: {self.value:.2f}{self.units.value}"
         print(msg)
+        return msg
 
-    def set_temperature(self, set_point, wait=True, timeout=None, timeout_fail=False):
-        """change controller to new temperature set point"""
-        global specwriter
+    def set_target(self, target, wait=True, timeout=None, timeout_fail=False):
+        """change controller to new signal set point"""
+        yield from bps.mv(self.target, target)
 
-        yield from bps.mv(self.set_point, set_point)
-
-        msg = f"Set {self.controller_name} Temperature to {set_point:.2f} C"
+        msg = f"Set {self.controller_name} target to {target:.2f}{self.units.value}"
         print(msg)
-        specwriter._cmt("event", msg)
         
         if wait:
             yield from self.wait_until_settled(
@@ -1384,58 +1406,58 @@ class TemperatureController_Base(Device):
     
     @property
     def value(self):
-        """shortcut to self.temperature.value"""
-        return self.temperature.value
+        """shortcut to self.signal.value"""
+        return self.signal.value
 
     @property
     def settled(self):
-        """Is temperature close enough to target?"""
-        diff = abs(self.temperature.get() - self.set_point.value)
+        """Is signal close enough to target?"""
+        diff = abs(self.signal.get() - self.target.value)
         return diff <= self.tolerance
 
     def wait_until_settled(self, timeout=None, timeout_fail=False):
         """
-        wait for controller to reach target temperature
+        plan: wait for controller signal to reach target within tolerance
         """
         # see: https://stackoverflow.com/questions/2829329/catch-a-threads-exception-in-the-caller-thread-in-python
         t0 = time.time()
-        _st = DeviceStatus(self.temperature)
-        started = False
+        _st = DeviceStatus(self.signal)
 
-        def changing_cb(value, timestamp, **kwargs):
-            if started and self.settled:
-                _st._finished(success=True)
-
-        token = self.temperature.subscribe(changing_cb)
-        started = True
-        
-        report = 0
-        while not _st.done and not self.settled:
-            elapsed = time.time() - t0
-            if timeout is not None and elapsed > timeout:
-                _st._finished(success=self.settled)
-                msg = f"Temperature Controller Timeout after {elapsed:.2f}s"
-                msg += f", target {self.set_point.value:.2f}C"
-                msg += f", now {self.temperature.get():.2f}C"
-                # msg += f", status={_st}"
-                print(msg)
-                if timeout_fail:
-                    raise TimeoutError(msg)
-                continue
-            if elapsed >= report:
-                report += self.report_interval
-                msg = f"Waiting {elapsed:.1f}s"
-                msg += f" to reach {self.set_point.value:.2f}C"
-                msg += f", now {self.temperature.get():.2f}C"
-                print(msg)
-            yield from bps.sleep(self.poll_s)
-
-        if not _st.done and self.settled:
-            # just in case self.temperature already at temperature
+        if self.settled:
+            # just in case signal already at target
             _st._finished(success=True)
+        else:
+            started = False
+    
+            def changing_cb(*args, **kwargs):
+                if started and self.settled:
+                    _st._finished(success=True)
+    
+            token = self.signal.subscribe(changing_cb)
+            started = True
+            report = 0
+            while not _st.done and not self.settled:
+                elapsed = time.time() - t0
+                if timeout is not None and elapsed > timeout:
+                    _st._finished(success=self.settled)
+                    msg = f"{self.controller_name} Timeout after {elapsed:.2f}s"
+                    msg += f", target {self.target.value:.2f}{self.units.value}"
+                    msg += f", now {self.signal.get():.2f}{self.units.value}"
+                    print(msg)
+                    if timeout_fail:
+                        raise TimeoutError(msg)
+                    continue
+                if elapsed >= report:
+                    report += self.report_interval_s.value
+                    msg = f"Waiting {elapsed:.1f}s"
+                    msg += f" to reach {self.target.value:.2f}{self.units.value}"
+                    msg += f", now {self.signal.get():.2f}{self.units.value}"
+                    print(msg)
+                yield from bps.sleep(self.poll_s)
 
-        self.temperature.unsubscribe(token)
-        self.record_temperature()
+            self.signal.unsubscribe(token)
+
+        self.record_signal()
         elapsed = time.time() - t0
         print(f"Total time: {elapsed:.3f}s, settled:{_st.success}")
 
