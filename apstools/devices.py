@@ -1322,6 +1322,124 @@ class KohzuSeqCtl_Monochromator(Device):
     crystal_type = Component(EpicsSignal, "BraggTypeMO")
 
 
+class TemperatureController_Base(Device):
+    """
+    common parts of temperature controller support
+    
+    EXAMPLE::
+    
+        class MyLinkam(TemperatureController_Base):
+            controller_name = "MyLinkam"
+            temperature = Component(EpicsSignalRO, "temp")
+            set_point = Component(EpicsSignal, "setLimit", kind="omitted")
+        
+        controller = MyLinkam("my:linkam:", name="controller")
+        RE(controller.wait_until_settled(timeout=10))
+    
+        controller.record_temperature()
+        print(f"{controller.controller_name} controller settled? {controller.settled}")
+    
+        def rampUp_rampDown():
+            '''ramp temperature up, then back down'''
+            yield from controller.set_temperature(25, timeout=180)
+            controller.report_interval = 10    # change report interval to 10s
+            for i in range(10, 0, -1):
+                print(f"hold at (self.value:.2f)C, time remaining: {i}s")
+                yield from bps.sleep(1)
+            yield from controller.set_temperature(0, timeout=180)
+        
+        RE(test_plan())
+
+    """
+    
+    controller_name = "TemperatureController_Base"
+    temperature = Component(Signal)                 # override in subclass
+    set_point = Component(Signal, kind="omitted")   # override in subclass
+
+    tolerance  = 1          # requirement: |T - target| must be <= this, degree C
+    report_interval  = 5    # time between reports during loop, s
+    poll_s = 0.02           # time to wait during polling loop, s
+
+    def record_temperature(self):
+        """write temperatures as comment"""
+        global specwriter
+        msg = f"{self.controller_name} Temperature: {self.value:.2f} C"
+        specwriter._cmt("event", msg)
+        print(msg)
+
+    def set_temperature(self, set_point, wait=True, timeout=None, timeout_fail=False):
+        """change controller to new temperature set point"""
+        global specwriter
+
+        yield from bps.mv(self.set_point, set_point)
+
+        msg = f"Set {self.controller_name} Temperature to {set_point:.2f} C"
+        print(msg)
+        specwriter._cmt("event", msg)
+        
+        if wait:
+            yield from self.wait_until_settled(
+                timeout=timeout, 
+                timeout_fail=timeout_fail)
+    
+    @property
+    def value(self):
+        """shortcut to self.temperature.value"""
+        return self.temperature.value
+
+    @property
+    def settled(self):
+        """Is temperature close enough to target?"""
+        diff = abs(self.temperature.get() - self.set_point.value)
+        return diff <= self.tolerance
+
+    def wait_until_settled(self, timeout=None, timeout_fail=False):
+        """
+        wait for controller to reach target temperature
+        """
+        # see: https://stackoverflow.com/questions/2829329/catch-a-threads-exception-in-the-caller-thread-in-python
+        t0 = time.time()
+        _st = DeviceStatus(self.temperature)
+        started = False
+
+        def changing_cb(value, timestamp, **kwargs):
+            if started and self.settled:
+                _st._finished(success=True)
+
+        token = self.temperature.subscribe(changing_cb)
+        started = True
+        
+        report = 0
+        while not _st.done and not self.settled:
+            elapsed = time.time() - t0
+            if timeout is not None and elapsed > timeout:
+                _st._finished(success=self.settled)
+                msg = f"Temperature Controller Timeout after {elapsed:.2f}s"
+                msg += f", target {self.set_point.value:.2f}C"
+                msg += f", now {self.temperature.get():.2f}C"
+                # msg += f", status={_st}"
+                print(msg)
+                if timeout_fail:
+                    raise TimeoutError(msg)
+                continue
+            if elapsed >= report:
+                report += self.report_interval
+                msg = f"Waiting {elapsed:.1f}s"
+                msg += f" to reach {self.set_point.value:.2f}C"
+                msg += f", now {self.temperature.get():.2f}C"
+                print(msg)
+            yield from bps.sleep(self.poll_s)
+
+        if not _st.done and self.settled:
+            # just in case self.temperature already at temperature
+            _st._finished(success=True)
+
+        self.temperature.unsubscribe(token)
+        self.record_temperature()
+        elapsed = time.time() - t0
+        print(f"Total time: {elapsed:.3f}s, settled:{_st.success}")
+
+
 class Struck3820(Device):
     """Struck/SIS 3820 Multi-Channel Scaler (as used by USAXS)"""
     start_all = Component(EpicsSignal, "StartAll")
