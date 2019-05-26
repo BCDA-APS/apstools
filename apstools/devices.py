@@ -1382,7 +1382,6 @@ class ProcessController(Device):
     tolerance = Component(Signal, kind="omitted", value=1)  # override in subclass
     units = Component(Signal, kind="omitted", value="")     # override in subclass
 
-    tolerance  = 1          # requirement: |signal - target| <= tolerance (see `settled()`)
     report_interval_s  = 5  # time between reports during loop, s
     poll_s = 0.02           # time to wait during polling loop, s
 
