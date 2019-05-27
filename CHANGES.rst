@@ -4,6 +4,23 @@
 Change History
 ##############
 
+:1.1.6:  released *2019-05-26*
+
+    * `#156 <https://github.com/BCDA-APS/apstools/issues/156>`_
+       add ProcessController Device
+    * `#153 <https://github.com/BCDA-APS/apstools/issues/153>`_
+       print dictionary contents as table
+    * `#151 <https://github.com/BCDA-APS/apstools/issues/151>`_
+       EpicsMotor support for enable/disable
+    * `#148 <https://github.com/BCDA-APS/apstools/issues/148>`_
+       more LGTM recommendations
+    * `#146 <https://github.com/BCDA-APS/apstools/issues/146>`_
+       LGTM code review recommendations
+    * `#143 <https://github.com/BCDA-APS/apstools/issues/143>`_
+       filewriter fails to raise IOError
+    * `#141 <https://github.com/BCDA-APS/apstools/issues/141>`_
+       ValueError during tune()
+
 :1.1.5:  released *2019-05-14*
 
     * `#135 <https://github.com/BCDA-APS/apstools/issues/135>`_
