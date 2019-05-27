@@ -1392,7 +1392,7 @@ class ProcessController(Device):
         return msg
 
     def set_target(self, target, wait=True, timeout=None, timeout_fail=False):
-        """change controller to new signal set point"""
+        """plan: change controller to new signal set point"""
         yield from bps.mv(self.target, target)
 
         msg = f"Set {self.controller_name} target to {target:.2f}{self.units.value}"
