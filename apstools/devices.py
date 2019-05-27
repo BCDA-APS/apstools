@@ -1343,10 +1343,10 @@ class ProcessController(Device):
     Also set values for ``tolerance``, ``report_interval_s``, and 
     ``poll_s`` suitable for the specific controller used.
     
-    *Floats*: ``signal``, ``target`', and ``tolerance`` will be 
+    *Floats*: ``signal``, ``target``, and ``tolerance`` will be 
     considered as floating point numbers in the code.
     
-    It is assumed in "meth"`settled()` that: ``|signal - target| <= tolerance``.
+    It is assumed in :meth:`settled()` that: ``|signal - target| <= tolerance``.
     Override this *property* method if a different decision is needed.
     
     EXAMPLE::
