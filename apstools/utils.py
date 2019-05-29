@@ -9,6 +9,7 @@ Various utilities
    ~EmailNotifications
    ~ExcelDatabaseFileBase
    ~ExcelDatabaseFileGeneric
+   ~ExcelReadError
    ~json_export
    ~json_import
    ~ipython_profile_name
@@ -45,6 +46,7 @@ import re
 import smtplib
 import subprocess
 import time
+import xlrd
 import zipfile
 
 from .plans import run_in_thread
@@ -53,6 +55,9 @@ from .plans import run_in_thread
 logger = logging.getLogger(__name__)
 
 MAX_EPICS_STRINGOUT_LENGTH = 40
+
+
+class ExcelReadError(xlrd.XLRDError): ...
 
 
 def cleanupText(text):
@@ -339,22 +344,25 @@ class ExcelDatabaseFileBase(object):
 
     def parse(self, labels_row_num=None, data_start_row_num=None, ignore_extra=True):
         labels_row_num = labels_row_num or self.LABELS_ROW
-        if ignore_extra:
-            # ignore data outside of table in spreadsheet file
-            nrows, ncols = self.getTableBoundaries(labels_row_num)
-            xl = pandas.read_excel(
-                self.fname, 
-                sheet_name=self.sheet_name, 
-                skiprows=labels_row_num,
-                usecols=range(ncols),
-                nrows=nrows,
-                )
-        else:
-            xl = pandas.read_excel(
-                self.fname, 
-                sheet_name=self.sheet_name, 
-                header=None,
-                )
+        try:
+            if ignore_extra:
+                # ignore data outside of table in spreadsheet file
+                nrows, ncols = self.getTableBoundaries(labels_row_num)
+                xl = pandas.read_excel(
+                    self.fname, 
+                    sheet_name=self.sheet_name, 
+                    skiprows=labels_row_num,
+                    usecols=range(ncols),
+                    nrows=nrows,
+                    )
+            else:
+                xl = pandas.read_excel(
+                    self.fname, 
+                    sheet_name=self.sheet_name, 
+                    header=None,
+                    )
+        except xlrd.XLRDError as exc:
+            raise ExcelReadError(exc)
         self.data_labels = list(map(str, xl.columns.values))
         # unused: data_start_row_num = data_start_row_num or labels_row_num+1
         for row_data in xl.values:
