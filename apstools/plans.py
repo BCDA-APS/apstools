@@ -3,6 +3,7 @@ Plans that might be useful at the APS when using BlueSky
 
 .. autosummary::
    
+   ~addDeviceDataAsStream
    ~nscan
    ~run_blocker_in_plan
    ~run_in_thread
@@ -40,6 +41,33 @@ from ophyd.status import Status
 
 
 logger = logging.getLogger(__name__).addHandler(logging.NullHandler())
+
+
+def addDeviceDataAsStream(devices, label):
+    """
+    plan: add an ophyd Device as an additional document stream
+    
+    Use this within a custom plan, such as this example::
+
+        from apstools.plans import addDeviceStream
+        ...
+        yield from bps.open_run()
+        # ...
+        yield from addDeviceDataAsStream(prescanDeviceList, "metadata_prescan")
+        # ...
+        yield from custom_scan_procedure()
+        # ...
+        yield from addDeviceDataAsStream(postscanDeviceList, "metadata_postscan")
+        # ...
+        yield from bps.close_run()
+
+    """
+    yield from bps.create(name=label)
+    if isinstance(devices, Device):     # just in case...
+        devices = [devices]
+    for d in devices:
+        yield from bps.read(d)
+        yield from bps.save()
 
 
 def run_in_thread(func):
