@@ -45,7 +45,7 @@ logger = logging.getLogger(__name__).addHandler(logging.NullHandler())
 
 def addDeviceDataAsStream(devices, label):
     """
-    add an ophyd Device as an additional document stream
+    plan: add an ophyd Device as an additional document stream
     
     Use this within a custom plan, such as this example::
 
@@ -67,7 +67,7 @@ def addDeviceDataAsStream(devices, label):
         devices = [devices]
     for d in devices:
         yield from bps.read(d)
-         yield from bps.save()
+        yield from bps.save()
 
 
 def run_in_thread(func):
