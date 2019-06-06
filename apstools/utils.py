@@ -5,6 +5,7 @@ Various utilities
    
    ~cleanupText
    ~connect_pvlist
+   ~device_read2table
    ~dictionary_table
    ~EmailNotifications
    ~ExcelDatabaseFileBase
@@ -34,6 +35,7 @@ Various utilities
 #-----------------------------------------------------------------------------
 
 from collections import OrderedDict
+import datetime
 from email.mime.text import MIMEText
 from event_model import NumpyEncoder
 import json
@@ -76,6 +78,28 @@ def cleanupText(text):
         return "_"
 
     return "".join([mapper(c) for c in text])
+
+
+def device_read2table(device, show_ancient=True, use_datetime=True):
+    """
+    read an ophyd device and return a pyRestTable Table
+    
+    Include an option to suppress ancient values identified
+    by timestamp from 1989.  These are values only defined in 
+    the original .db file.
+    """
+    table = pyRestTable.Table()
+    table.labels = "name value timestamp".split()
+    ANCIENT_YEAR = 1989
+    for k, rec in device.read().items():
+        value = rec["value"]
+        ts = rec["timestamp"]
+        dt = datetime.datetime.fromtimestamp(ts)
+        if dt.year > ANCIENT_YEAR or show_ancient:
+            if use_datetime:
+                ts = dt
+            table.addRow((k, value, ts))
+    return table
 
 
 def dictionary_table(dictionary, fmt="simple"):
