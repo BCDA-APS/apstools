@@ -4,6 +4,17 @@
 Change History
 ##############
 
+:1.2.0:  released *tba*
+
+    * `#166 <https://github.com/BCDA-APS/apstools/issues/166>`_
+       `device_read2table()`: format `device.read()` results in a pyRestTable.Table
+    * `#161 <https://github.com/BCDA-APS/apstools/issues/161>`_
+       `addDeviceDataAsStream()`: add Device as named document stream event
+    * `#159 <https://github.com/BCDA-APS/apstools/issues/159>`_
+       convert xlrd.XLRDError into apstools.utils.ExcelReadError
+    * `#158 <https://github.com/BCDA-APS/apstools/issues/158>`_
+       run a command list from text file or Excel spreadsheet
+
 :1.1.6:  released *2019-05-26*
 
     * `#156 <https://github.com/BCDA-APS/apstools/issues/156>`_
