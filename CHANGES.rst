@@ -6,6 +6,8 @@ Change History
 
 :1.2.0:  released *tba*
 
+    * `#168 <https://github.com/BCDA-APS/apstools/issues/168>`_
+       add module to migrate SPEC config file to ophyd setup
     * `#166 <https://github.com/BCDA-APS/apstools/issues/166>`_
        `device_read2table()`: format `device.read()` results in a pyRestTable.Table
     * `#161 <https://github.com/BCDA-APS/apstools/issues/161>`_
