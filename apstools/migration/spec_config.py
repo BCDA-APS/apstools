@@ -21,7 +21,8 @@ class SpecDeviceBase(object):
     def __init__(self, config_text):
         """parse the line from the SPEC config file"""
         # VM_EPICS_M1    = 9idcLAX:m58:c0: 8
-        self.name, args = config_text.split("=")
+        nm, args = config_text.split("=")
+        self.name = nm.strip()
         prefix, num_channels = args.split()
         self.prefix = prefix
         self.index = None
