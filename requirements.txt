@@ -1,7 +1,8 @@
 bluesky
 databroker[all]
+event-model>=1.10
 historydict
-event-model>=1.8
+jsonschema>3
 ophyd
 pandas
 pyRestTable
