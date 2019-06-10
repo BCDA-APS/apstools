@@ -1,3 +1,4 @@
+attrs>=17.4.0
 bluesky
 databroker[all]
 event-model>=1.10
