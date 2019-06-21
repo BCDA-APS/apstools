@@ -158,7 +158,7 @@ def get_command_list(filename):
     assert os.path.exists(full_filename)
     try:
         commands = parse_Excel_command_file(filename)
-    except Exception:          # TODO: XLRDError
+    except APS_utils.ExcelReadError:
         commands = parse_text_command_file(filename)
     return commands
 
