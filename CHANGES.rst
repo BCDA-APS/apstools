@@ -6,6 +6,8 @@ Change History
 
 :1.1.7:  released *tba* (on or before 2019-09)
 
+    * `#175 <https://github.com/BCDA-APS/apstools/issues/175>`_
+       move `plans.run_in_thread()` to `utils.run_in_thread()`
     * `#168 <https://github.com/BCDA-APS/apstools/issues/168>`_
        add module to migrate SPEC config file to ophyd setup
     * `#166 <https://github.com/BCDA-APS/apstools/issues/166>`_
