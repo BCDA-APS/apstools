@@ -56,8 +56,6 @@ import time
 import xlrd
 import zipfile
 
-from . import plans as APS_plans
-
 
 logger = logging.getLogger(__name__)
 
@@ -397,7 +395,7 @@ class EmailNotifications(object):
         for address in args:
             self.addresses.append(address)
 
-    @APS_plans.run_in_thread
+    @run_in_thread
     def send(self, subject, message):
         """send ``message`` to all addresses"""
         msg = MIMEText(message)
