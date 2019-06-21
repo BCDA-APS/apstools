@@ -83,7 +83,7 @@ def cleanupText(text):
     return "".join([mapper(c) for c in text])
 
 
-def command_list_as_table(commands):
+def command_list_as_table(commands, show_raw=False):
     """
     format a command list as a pyRestTable.Table object
     """
@@ -91,9 +91,13 @@ def command_list_as_table(commands):
     tbl.addLabel("line #")
     tbl.addLabel("action")
     tbl.addLabel("parameters")
+    if show_raw:        # only the developer might use this
+        tbl.addLabel("raw input")
     for command in commands:
-        action, args, line_number, raw_command = command
+        action, args, line_number, raw_command = command[:-1]
         row = [line_number, action, ", ".join(map(str, args))]
+        if show_raw:
+            row.append(str(raw_command))
         tbl.addRow(row)
     return tbl
 
