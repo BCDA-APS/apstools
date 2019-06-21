@@ -8,6 +8,7 @@ Various Python tools for use with BlueSky at the APS
 
 [![Language grade: Python](https://img.shields.io/lgtm/grade/python/g/BCDA-APS/apstools.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/BCDA-APS/apstools/context:python)
 [![Total alerts](https://img.shields.io/lgtm/alerts/g/BCDA-APS/apstools.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/BCDA-APS/apstools/alerts/)
+[![Coverage Status](https://coveralls.io/repos/github/BCDA-APS/apstools/badge.svg?branch=master)](https://coveralls.io/github/BCDA-APS/apstools?branch=master)
 
 <!--
 [![tag](https://img.shields.io/github/tag/BCDA-APS/apstools.svg)](https://github.com/BCDA-APS/apstools/tags)
