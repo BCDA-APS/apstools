@@ -4,6 +4,7 @@ Various utilities
 .. autosummary::
    
    ~cleanupText
+   ~command_list_as_table
    ~connect_pvlist
    ~device_read2table
    ~dictionary_table
@@ -17,6 +18,7 @@ Various utilities
    ~pairwise
    ~print_snapshot_list
    ~print_RE_md
+   ~split_quoted_line
    ~text_encode
    ~to_unicode_or_bust
    ~trim_string_for_EPICS
@@ -78,6 +80,21 @@ def cleanupText(text):
         return "_"
 
     return "".join([mapper(c) for c in text])
+
+
+def command_list_as_table(commands):
+    """
+    format a command list as a pyRestTable.Table object
+    """
+    tbl = pyRestTable.Table()
+    tbl.addLabel("line #")
+    tbl.addLabel("action")
+    tbl.addLabel("parameters")
+    for command in commands:
+        action, args, line_number, raw_command = command
+        row = [line_number, action, ", ".join(map(str, args))]
+        tbl.addRow(row)
+    return tbl
 
 
 def device_read2table(device, show_ancient=True, use_datetime=True):
@@ -208,6 +225,54 @@ def pairwise(iterable):
     """
     a = iter(iterable)
     return zip(a, a)
+
+
+def split_quoted_line(line):
+    """
+    splits a line into words some of which might be quoted
+
+    TESTS::
+
+        FlyScan 0   0   0   blank
+        FlyScan 5   2   0   "empty container"
+        FlyScan 5   12   0   "even longer name"
+        SAXS 0 0 0 blank
+        SAXS 0 0 0 "blank"
+
+    RESULTS::
+
+        ['FlyScan', '0', '0', '0', 'blank']
+        ['FlyScan', '5', '2', '0', 'empty container']
+        ['FlyScan', '5', '12', '0', 'even longer name']
+        ['SAXS', '0', '0', '0', 'blank']
+        ['SAXS', '0', '0', '0', 'blank']
+
+    """
+    parts = []
+
+    # look for open and close quoted parts and combine them
+    quoted = False
+    multi = None
+    for p in line.split():
+        if not quoted and p.startswith('"'):   # begin quoted text
+            quoted = True
+            multi = ""
+
+        if quoted:
+            if len(multi) > 0:
+                multi += " "
+            multi += p
+            if p.endswith('"'):     # end quoted text
+                quoted = False
+
+        if not quoted:
+            if multi is not None:
+                parts.append(multi[1:-1])   # remove enclosing quotes
+                multi = None
+            else:
+                parts.append(p)
+
+    return parts
 
 
 def text_encode(source):

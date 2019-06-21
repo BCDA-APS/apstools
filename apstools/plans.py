@@ -4,11 +4,17 @@ Plans that might be useful at the APS when using BlueSky
 .. autosummary::
    
    ~addDeviceDataAsStream
+   ~execute_command_list
+   ~get_command_list
    ~nscan
+   ~parse_Excel_command_file
+   ~parse_text_command_file
    ~run_blocker_in_plan
+   ~run_command_file
    ~run_in_thread
    ~snapshot
    ~sscan_1D
+   ~summarize_command_file
    ~TuneAxis
    ~tune_axes
 
@@ -28,6 +34,7 @@ from collections import OrderedDict
 import datetime
 import logging
 import numpy as np
+import os
 import pyRestTable
 import sys
 import threading
@@ -38,6 +45,8 @@ from bluesky import plan_stubs as bps
 from bluesky.callbacks.fitting import PeakStats
 from ophyd import Device, Component, Signal, DeviceStatus, EpicsSignal
 from ophyd.status import Status
+
+from . import utils as APS_utils
 
 
 logger = logging.getLogger(__name__).addHandler(logging.NullHandler())
@@ -68,6 +77,90 @@ def addDeviceDataAsStream(devices, label):
     for d in devices:
         yield from bps.read(d)
         yield from bps.save()
+
+
+def execute_command_list(filename, commands, md={}):
+    """
+    plan: execute the command list
+
+    The command list is a tuple described below.
+
+    * Only recognized commands will be executed.
+    * Unrecognized commands will be reported as comments.
+    
+    See example implementation with APS USAXS instrument:
+    https://github.com/APS-USAXS/ipython-usaxs/blob/5db882c47d935c593968f1e2144d35bec7d0181e/profile_bluesky/startup/50-plans.py#L381-L469
+
+    PARAMETERS
+
+    filename : str
+        Name of input text file.  Can be relative or absolute path,
+        such as "actions.txt", "../sample.txt", or
+        "/path/to/overnight.txt".
+    commands : list[command]
+        List of command tuples for use in ``execute_command_list()``
+
+    where
+
+    command : tuple
+        (action, OrderedDict, line_number, raw_command)
+    action: str
+        names a known action to be handled
+    parameters: list
+        List of parameters for the action.
+        The list is empty of there are no values
+    line_number: int
+        line number (1-based) from the input text file
+    raw_command: obj (str or list(str)
+        contents from input file, such as:
+        ``SAXS 0 0 0 blank``
+    """
+    full_filename = os.path.abspath(filename)
+
+    if len(commands) == 0:
+        yield from bps.null()
+        return
+
+    text = f"Command file: {filename}\n"
+    text += str(APS_utils.command_list_as_table(commands))
+    print(text)
+
+    for command in commands:
+        action, args, i, raw_command = command
+        print(f"file line {i}: {raw_command}")
+
+        _md = {}
+        _md["full_filename"] = full_filename
+        _md["filename"] = filename
+        _md["line_number"] = i
+        _md["action"] = action
+        _md["parameters"] = args    # args is shorter than parameters, means the same thing here
+
+        _md.update(md or {})      # overlay with user-supplied metadata
+
+        action = action.lower()
+        if action == "tune_optics":
+            # example: yield from tune_optics(md=_md)
+            emsg = "This is an example.  action={raw_command}."
+            emsg += "  Must define your own execute_command_list() function"
+            logger.warn(emsg)
+            yield from bps.null()
+
+        else:
+            print(f"no handling for line {i}: {raw_command}")
+
+
+def get_command_list(filename):
+    """
+    return command list from either text or Excel file
+    """
+    full_filename = os.path.abspath(filename)
+    assert os.path.exists(full_filename)
+    try:
+        commands = parse_Excel_command_file(filename)
+    except Exception:          # TODO: XLRDError
+        commands = parse_text_command_file(filename)
+    return commands
 
 
 def run_in_thread(func):
@@ -232,6 +325,134 @@ def nscan(detectors, *motor_sets, num=11, per_step=None, md=None):
     return (yield from inner_scan())
 
 
+def parse_Excel_command_file(filename):
+    """
+    parse an Excel spreadsheet with commands, return as command list
+
+    TEXT view of spreadsheet (Excel file line numbers shown)::
+
+        [1] List of sample scans to be run
+        [2]
+        [3]
+        [4] scan    sx  sy  thickness   sample name
+        [5] FlyScan 0   0   0   blank
+        [6] FlyScan 5   2   0   blank
+
+    PARAMETERS
+
+    filename : str
+        Name of input Excel spreadsheet file.  Can be relative or absolute path,
+        such as "actions.xslx", "../sample.xslx", or
+        "/path/to/overnight.xslx".
+
+    RETURNS
+
+    list of commands : list[command]
+        List of command tuples for use in ``execute_command_list()``
+
+    RAISES
+
+    FileNotFoundError
+        if file cannot be found
+
+    """
+    full_filename = os.path.abspath(filename)
+    assert os.path.exists(full_filename)
+    xl = APS_utils.ExcelDatabaseFileGeneric(full_filename)
+
+    commands = []
+
+    if len(xl.db) > 0:
+        for i, row in enumerate(xl.db.values()):
+            action, *values = list(row.values())
+
+            # trim off any None values from end
+            while len(values) > 0:
+                if values[-1] is not None:
+                    break
+                values = values[:-1]
+
+            commands.append((action, values, i+1, list(row.values())))
+
+    return commands
+
+
+def parse_text_command_file(filename):
+    """
+    parse a text file with commands, return as command list
+
+    * The text file is interpreted line-by-line.
+    * Blank lines are ignored.
+    * A pound sign (#) marks the rest of that line as a comment.
+    * All remaining lines are interpreted as commands with arguments.
+
+    Example of text file (no line numbers shown)::
+
+        #List of sample scans to be run
+        # pound sign starts a comment (through end of line)
+
+        # action  value
+        mono_shutter open
+
+        # action  x y width height
+        uslits 0 0 0.4 1.2
+
+        # action  sx  sy  thickness   sample name
+        FlyScan 0   0   0   blank
+        FlyScan 5   2   0   "empty container"
+
+        # action  sx  sy  thickness   sample name
+        SAXS 0 0 0 blank
+
+        # action  value
+        mono_shutter close
+
+    PARAMETERS
+
+    filename : str
+        Name of input text file.  Can be relative or absolute path,
+        such as "actions.txt", "../sample.txt", or
+        "/path/to/overnight.txt".
+
+    RETURNS
+
+    list of commands : list[command]
+        List of command tuples for use in ``execute_command_list()``
+
+    RAISES
+
+    FileNotFoundError
+        if file cannot be found
+    """
+    full_filename = os.path.abspath(filename)
+    assert os.path.exists(full_filename)
+    with open(full_filename, "r") as fp:
+        buf = fp.readlines()
+
+    commands = []
+    for i, raw_command in enumerate(buf):
+        row = raw_command.strip()
+        if row == "" or row.startswith("#"):
+            continue                    # comment or blank
+
+        else:                           # command line
+            action, *values = APS_utils.split_quoted_line(row)
+            commands.append((action, values, i+1, raw_command.rstrip()))
+
+    return commands
+
+
+def run_command_file(filename, md={}):
+    """
+    plan: execute a list of commands from a text or Excel file
+
+    * Parse the file into a command list
+    * yield the command list to the RunEngine (or other)
+    """
+    commands = get_command_list(filename)
+    yield from execute_command_list(filename, commands)
+
+
 def snapshot(obj_list, stream="primary", md=None):
     """
     bluesky plan: record current values of list of ophyd signals
@@ -301,6 +522,15 @@ def snapshot(obj_list, stream="primary", md=None):
         yield from bps.close_run()
 
     return (yield from _snap(md=_md))
+
+
+def summarize_command_file(filename):
+    """
+    print the command list from a text or Excel file
+    """
+    commands = get_command_list(filename)
+    print(f"Command file: {filename}")
+    print(APS_utils.command_list_as_table(commands))
 
 
 def _get_sscan_data_objects(sscan):
