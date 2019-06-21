@@ -4,7 +4,7 @@
 Change History
 ##############
 
-:1.2.0:  released *tba*
+:1.1.7:  released *tba* (on or before 2019-09)
 
     * `#168 <https://github.com/BCDA-APS/apstools/issues/168>`_
        add module to migrate SPEC config file to ophyd setup
