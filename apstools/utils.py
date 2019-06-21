@@ -12,12 +12,14 @@ Various utilities
    ~ExcelDatabaseFileBase
    ~ExcelDatabaseFileGeneric
    ~ExcelReadError
+   ~itemizer
    ~json_export
    ~json_import
    ~ipython_profile_name
    ~pairwise
    ~print_snapshot_list
    ~print_RE_md
+   ~run_in_thread
    ~split_quoted_line
    ~text_encode
    ~to_unicode_or_bust
@@ -168,6 +170,11 @@ def dictionary_table(dictionary, fmt="simple"):
     for k, v in sorted(dictionary.items()):
         _t.addRow((k, str(v)))
     return _t.reST(fmt=fmt)
+
+
+def itemizer(fmt, items):
+    """format a list of items"""
+    return [fmt % k for k in items]
 
 
 def print_RE_md(dictionary=None, fmt="simple"):

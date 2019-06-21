@@ -49,6 +49,8 @@ from ophyd import EpicsSignal, EpicsSignalRO
 from ophyd.status import DeviceStatus
 from ophyd.ophydobj import Kind
 
+from .. import utils as APS_utils
+
 
 __all__ = """
     sscanRecord  
@@ -234,7 +236,7 @@ class sscanRecord(Device):
     )
     detectors = DDC(
         _sscan_detectors(
-            [f"{k:%02d}" for k in list(range(1,71))]
+            APS_utils.itemizer("%02d", range(1,71))
         )
     )
     triggers = DDC(
