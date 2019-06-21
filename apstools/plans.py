@@ -37,7 +37,6 @@ import numpy as np
 import os
 import pyRestTable
 import sys
-import threading
 import time
 
 from bluesky import preprocessors as bpp
@@ -47,6 +46,7 @@ from ophyd import Device, Component, Signal, DeviceStatus, EpicsSignal
 from ophyd.status import Status
 
 from . import utils as APS_utils
+from .utils import run_in_thread
 
 
 logger = logging.getLogger(__name__).addHandler(logging.NullHandler())
@@ -161,29 +161,6 @@ def get_command_list(filename):
     except Exception:          # TODO: XLRDError
         commands = parse_text_command_file(filename)
     return commands
-
-
-def run_in_thread(func):
-    """
-    (decorator) run ``func`` in thread
-    
-    USAGE::
-
-       @run_in_thread
-       def progress_reporting():
-           logger.debug("progress_reporting is starting")
-           # ...
-       
-       #...
-       progress_reporting()   # runs in separate thread
-       #...
-
-    """
-    def wrapper(*args, **kwargs):
-        thread = threading.Thread(target=func, args=args, kwargs=kwargs)
-        thread.start()
-        return thread
-    return wrapper
 
 
 def run_blocker_in_plan(blocker, *args, _poll_s_=0.01, _timeout_s_=None, **kwargs):
