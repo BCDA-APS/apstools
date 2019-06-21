@@ -234,7 +234,7 @@ class sscanRecord(Device):
     )
     detectors = DDC(
         _sscan_detectors(
-            ["%02d" % k for k in range(1,71)]
+            [f"{k:%02d}" for k in list(range(1,71))]
         )
     )
     triggers = DDC(
