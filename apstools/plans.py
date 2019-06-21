@@ -11,7 +11,6 @@ Plans that might be useful at the APS when using BlueSky
    ~parse_text_command_file
    ~run_blocker_in_plan
    ~run_command_file
-   ~run_in_thread
    ~snapshot
    ~sscan_1D
    ~summarize_command_file
@@ -46,7 +45,6 @@ from ophyd import Device, Component, Signal, DeviceStatus, EpicsSignal
 from ophyd.status import Status
 
 from . import utils as APS_utils
-from .utils import run_in_thread
 
 
 logger = logging.getLogger(__name__).addHandler(logging.NullHandler())
@@ -194,7 +192,7 @@ def run_blocker_in_plan(blocker, *args, _poll_s_=0.01, _timeout_s_=None, **kwarg
     """
     status = Status()
     
-    @run_in_thread
+    @APS_utils.run_in_thread
     def _internal(blocking_function, *args, **kwargs):
         blocking_function(*args, **kwargs)
         status._finished(success=True, done=True)
