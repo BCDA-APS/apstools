@@ -50,6 +50,9 @@ from . import utils as APS_utils
 logger = logging.getLogger(__name__).addHandler(logging.NullHandler())
 
 
+class CommandFileReadError(IOError): ...
+
+
 def addDeviceDataAsStream(devices, label):
     """
     plan: add an ophyd Device as an additional document stream
@@ -157,7 +160,11 @@ def get_command_list(filename):
     try:
         commands = parse_Excel_command_file(filename)
     except APS_utils.ExcelReadError:
-        commands = parse_text_command_file(filename)
+        try:
+            commands = parse_text_command_file(filename)
+        except ValueError as exc:
+            emsg = f"could not read {filename} as command list file: {exc}"
+            raise CommandFileReadError(emsg)
     return commands
 
 
