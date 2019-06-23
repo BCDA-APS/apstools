@@ -156,7 +156,8 @@ def get_command_list(filename):
     return command list from either text or Excel file
     """
     full_filename = os.path.abspath(filename)
-    assert os.path.exists(full_filename)
+    if not os.path.exists(full_filename):
+        raise IOError(f"file not found: {filename}")
     try:
         commands = parse_Excel_command_file(filename)
     except APS_utils.ExcelReadError:
