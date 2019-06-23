@@ -14,7 +14,7 @@ if _path not in sys.path:
 
 import apstools.utils
 
-class Test_Demo3(unittest.TestCase):
+class Test_ExcelTable(unittest.TestCase):
     
     xl_file = os.path.join(PATH, "demo3.xlsx")
     
@@ -33,7 +33,7 @@ class Test_Demo3(unittest.TestCase):
 
 def suite(*args, **kw):
     test_list = [
-        Test_Demo3,
+        Test_ExcelTable,
         ]
     test_suite = unittest.TestSuite()
     for test_case in test_list:
