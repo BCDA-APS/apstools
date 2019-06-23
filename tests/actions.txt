@@ -1,0 +1,12 @@
+#List of sample scans to be run              
+# pound sign starts a comment (through end of line)
+
+# action  x y width height
+sample_slits 0 0 0.4 1.2
+
+preusaxstune
+
+# action  sx  sy  thickness   sample_name
+FlyScan 0   0   0   blank
+FlyScan 5   2   0   "empty container"
+SAXS 0 0 0 blank
