@@ -5,22 +5,22 @@ import os
 import sys
 import unittest
 
-# _path = os.path.join(os.path.dirname(__file__), '..',)
-# if _path not in sys.path:
-#     sys.path.insert(0, _path)
+_path = os.path.join(os.path.dirname(__file__), '..',)
+if _path not in sys.path:
+    sys.path.insert(0, _path)
 
 
 def suite(*args, **kw):
 
-    import test_simple
-    import test_filewriter
-    import test_export_json
-    # import test_excel
+    from tests import test_simple
+    from tests import test_filewriter
+    from tests import test_export_json
+    from tests import test_exceltable
     test_list = [
         test_simple,
         test_filewriter,
         test_export_json,
-        # test_excel
+        test_exceltable,
         ]
 
     test_suite = unittest.TestSuite()
