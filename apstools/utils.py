@@ -94,7 +94,7 @@ def command_list_as_table(commands, show_raw=False):
     if show_raw:        # only the developer might use this
         tbl.addLabel("raw input")
     for command in commands:
-        action, args, line_number, raw_command = command[:-1]
+        action, args, line_number, raw_command = command
         row = [line_number, action, ", ".join(map(str, args))]
         if show_raw:
             row.append(str(raw_command))
