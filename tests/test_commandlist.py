@@ -17,12 +17,14 @@ from apstools import plans as APS_plans
 
 class Test_CommandList(unittest.TestCase):
     
-    xl_file = os.path.join(PATH, "demo3.xlsx")      # need different demo file
-    text_file = os.path.join(PATH, "something.txt") # need different demo file
+    xl_file = os.path.join(PATH, "demo3.xlsx")
+    xl_command_file = os.path.join(PATH, "actions.xlsx")
+    text_command_file = os.path.join(PATH, "actions.txt")
     missing_file = os.path.join(PATH, "cannot find this")
     not_commands = __file__
     
-    def test_ExcelCommandList(self):
+    def test_ExcelFile(self):
+        # just a spreadsheet for testing (early version of a command file)
         commands = APS_plans.get_command_list(self.xl_file)
         self.assertEqual(len(commands), 9)             # rows
         table = APS_utils.command_list_as_table(commands, show_raw=False)
@@ -44,15 +46,50 @@ line # action parameters
         """.strip()
         self.assertEqual(expected, received)
     
-    def test_TextCommandList(self):
-        commands = APS_plans.get_command_list(self.text_file)
+    def test_ExcelCommandList(self):
+        commands = APS_plans.get_command_list(self.xl_command_file)
+        self.assertEqual(len(commands), 7)
         table = APS_utils.command_list_as_table(commands, show_raw=False)
-        # print(table)
+        received = str(table).strip()
+        expected = """
+====== ============ =============================
+line # action       parameters                   
+====== ============ =============================
+1      mono_shutter open                         
+2      USAXSscan    45.07, 98.3, 0.0, Water Blank
+3      saxsExp      45.07, 98.3, 0.0, Water Blank
+4      waxwsExp     45.07, 98.3, 0.0, Water Blank
+5      USAXSscan    12, 12.0, 1.2, plastic       
+6      USAXSscan    12, 37.0, 0.1, Al foil       
+7      mono_shutter close                        
+====== ============ =============================
+        """.strip()
+        self.assertEqual(expected, received)
+    
+    def test_TextCommandList(self):
+        commands = APS_plans.get_command_list(self.text_command_file)
+        self.assertEqual(len(commands), 5)
+        table = APS_utils.command_list_as_table(commands, show_raw=False)
+        received = str(table).strip()
+        expected = """
+====== ============ ========================
+line # action       parameters              
+====== ============ ========================
+5      sample_slits 0, 0, 0.4, 1.2          
+7      preusaxstune                         
+10     FlyScan      0, 0, 0, blank          
+11     FlyScan      5, 2, 0, empty container
+12     SAXS         0, 0, 0, blank          
+====== ============ ========================
+        """.strip()
+        self.assertEqual(expected, received)
     
     def test_CannotFindFile(self):
-        commands = APS_plans.get_command_list(self.missing_file)
-        table = APS_utils.command_list_as_table(commands, show_raw=False)
-        # print(table)
+        with self.assertRaises(IOError) as context:
+            APS_plans.get_command_list(self.missing_file)
+        received = str(context.exception)
+        expected = "file not found: "
+        self.assertTrue(received.startswith(expected))
     
     def test_NotCommandList(self):
         with self.assertRaises(APS_plans.CommandFileReadError) as context:
