@@ -84,6 +84,24 @@ line # action       parameters
         """.strip()
         self.assertEqual(expected, received)
     
+    def test_TextCommandListRaw(self):
+        commands = APS_plans.get_command_list(self.text_command_file)
+        self.assertEqual(len(commands), 5)
+        table = APS_utils.command_list_as_table(commands, show_raw=True)
+        received = str(table).strip()
+        expected = """
+====== ============ ======================== =====================================
+line # action       parameters               raw input                            
+====== ============ ======================== =====================================
+5      sample_slits 0, 0, 0.4, 1.2           sample_slits 0 0 0.4 1.2             
+7      preusaxstune                          preusaxstune                         
+10     FlyScan      0, 0, 0, blank           FlyScan 0   0   0   blank            
+11     FlyScan      5, 2, 0, empty container FlyScan 5   2   0   "empty container"
+12     SAXS         0, 0, 0, blank           SAXS 0 0 0 blank                     
+====== ============ ======================== =====================================
+        """.strip()
+        self.assertEqual(expected, received)
+    
     def test_CannotFindFile(self):
         with self.assertRaises(IOError) as context:
             APS_plans.get_command_list(self.missing_file)
