@@ -21,10 +21,7 @@ from apstools.utils import json_export, json_import
 
 
 def get_db():
-    try:
-        from databroker import Broker
-    except ModuleNotFoundError:
-        return
+    from databroker import Broker
     try:
         db = Broker.named("mongodb_config")
     except FileNotFoundError:
