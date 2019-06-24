@@ -45,6 +45,7 @@ from ophyd.device import (
     FormattedComponent as FC)
 from ophyd import EpicsSignal, EpicsSignalRO, EpicsMotor
 
+from .. import utils as APS_utils
 
 __all__ = """
     swaitRecord 
@@ -107,8 +108,8 @@ class swaitRecord(Device):
     oopt = Cpt(EpicsSignal, '.OOPT')
     flnk = Cpt(EpicsSignal, '.FLNK')
 
-    hints = {'fields': ["channels.%s" % c for c in "A B C D E F G H I J K L".split()]}
-    read_attrs = ["channels.%s" % c for c in "A B C D E F G H I J K L".split()]
+    hints = {'fields': APS_utils.itemizer("channels.%s","A B C D E F G H I J K L".split())}
+    read_attrs = APS_utils.itemizer("channels.%s","A B C D E F G H I J K L".split())
     
     channels = DDC(
         _swait_channels(

@@ -4,6 +4,7 @@ Various utilities
 .. autosummary::
    
    ~cleanupText
+   ~command_list_as_table
    ~connect_pvlist
    ~device_read2table
    ~dictionary_table
@@ -11,12 +12,15 @@ Various utilities
    ~ExcelDatabaseFileBase
    ~ExcelDatabaseFileGeneric
    ~ExcelReadError
+   ~itemizer
    ~json_export
    ~json_import
    ~ipython_profile_name
    ~pairwise
    ~print_snapshot_list
    ~print_RE_md
+   ~run_in_thread
+   ~split_quoted_line
    ~text_encode
    ~to_unicode_or_bust
    ~trim_string_for_EPICS
@@ -47,11 +51,10 @@ import pyRestTable
 import re
 import smtplib
 import subprocess
+import threading
 import time
 import xlrd
 import zipfile
-
-from .plans import run_in_thread
 
 
 logger = logging.getLogger(__name__)
@@ -78,6 +81,25 @@ def cleanupText(text):
         return "_"
 
     return "".join([mapper(c) for c in text])
+
+
+def command_list_as_table(commands, show_raw=False):
+    """
+    format a command list as a pyRestTable.Table object
+    """
+    tbl = pyRestTable.Table()
+    tbl.addLabel("line #")
+    tbl.addLabel("action")
+    tbl.addLabel("parameters")
+    if show_raw:        # only the developer might use this
+        tbl.addLabel("raw input")
+    for command in commands:
+        action, args, line_number, raw_command = command
+        row = [line_number, action, ", ".join(map(str, args))]
+        if show_raw:
+            row.append(str(raw_command))
+        tbl.addRow(row)
+    return tbl
 
 
 def device_read2table(device, show_ancient=True, use_datetime=True):
@@ -152,6 +174,11 @@ def dictionary_table(dictionary, fmt="simple"):
     return _t.reST(fmt=fmt)
 
 
+def itemizer(fmt, items):
+    """format a list of items"""
+    return [fmt % k for k in items]
+
+
 def print_RE_md(dictionary=None, fmt="simple"):
     """
     custom print the RunEngine metadata in a table
@@ -208,6 +235,77 @@ def pairwise(iterable):
     """
     a = iter(iterable)
     return zip(a, a)
+
+
+def run_in_thread(func):
+    """
+    (decorator) run ``func`` in thread
+    
+    USAGE::
+
+       @run_in_thread
+       def progress_reporting():
+           logger.debug("progress_reporting is starting")
+           # ...
+       
+       #...
+       progress_reporting()   # runs in separate thread
+       #...
+
+    """
+    def wrapper(*args, **kwargs):
+        thread = threading.Thread(target=func, args=args, kwargs=kwargs)
+        thread.start()
+        return thread
+    return wrapper
+
+
+def split_quoted_line(line):
+    """
+    splits a line into words some of which might be quoted
+
+    TESTS::
+
+        FlyScan 0   0   0   blank
+        FlyScan 5   2   0   "empty container"
+        FlyScan 5   12   0   "even longer name"
+        SAXS 0 0 0 blank
+        SAXS 0 0 0 "blank"
+
+    RESULTS::
+
+        ['FlyScan', '0', '0', '0', 'blank']
+        ['FlyScan', '5', '2', '0', 'empty container']
+        ['FlyScan', '5', '12', '0', 'even longer name']
+        ['SAXS', '0', '0', '0', 'blank']
+        ['SAXS', '0', '0', '0', 'blank']
+
+    """
+    parts = []
+
+    # look for open and close quoted parts and combine them
+    quoted = False
+    multi = None
+    for p in line.split():
+        if not quoted and p.startswith('"'):   # begin quoted text
+            quoted = True
+            multi = ""
+
+        if quoted:
+            if len(multi) > 0:
+                multi += " "
+            multi += p
+            if p.endswith('"'):     # end quoted text
+                quoted = False
+
+        if not quoted:
+            if multi is not None:
+                parts.append(multi[1:-1])   # remove enclosing quotes
+                multi = None
+            else:
+                parts.append(p)
+
+    return parts
 
 
 def text_encode(source):
