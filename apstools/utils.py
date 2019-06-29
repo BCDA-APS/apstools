@@ -827,6 +827,17 @@ def json_import(filename, zipfilename=None):
         
         See:
         https://blueskyproject.io/databroker/generated/databroker.Header.documents.html
+    
+    EXAMPLE
+    
+    Insert the datasets into the databroker ``db``::
+    
+        def insert_docs(db, datasets):
+            for i, h in enumerate(datasets):
+                print(f"{i+1}/{len(datasets)} : {len(h)} documents")
+                for k, doc in h:
+                    db.insert(k, doc)
+    
     """
     if zipfilename is None:
         with open(filename, "r") as fp:
