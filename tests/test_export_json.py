@@ -24,21 +24,13 @@ TEST_JSON_FILE = "data.json"
 TEST_ZIP_FILE = os.path.join(_test_path, "bluesky_data.zip")
 
 
-def get_db(temporary=False):
+def get_db():
     from databroker import Broker, temp_config
-    if temporary:
-        conf = temp_config()
-        conf["metadatastore"]["config"]["timezone"] = "US/Central"
-        db = Broker.from_config(conf)
-    else:
-        try:
-            db = Broker.named("mongodb_config")
-        except FileNotFoundError:
-            return
-
+    conf = temp_config()
+    conf["metadatastore"]["config"]["timezone"] = "US/Central"
+    db = Broker.from_config(conf)
     datasets = json_import(TEST_JSON_FILE, TEST_ZIP_FILE)
     insert_docs(db, datasets)
-
     return db
 
 
@@ -60,10 +52,7 @@ class Test_JsonExport(unittest.TestCase):
             shutil.rmtree(self.tempdir, ignore_errors=True)
     
     def test_export_import(self):
-        db = get_db(temporary=True)
-        if db is None:
-            self.assertTrue(True, "skipping test: no databroker")
-            return
+        db = get_db()
         headers = db(plan_name="count")
         headers = list(headers)[0:1]
 
@@ -86,10 +75,7 @@ class Test_JsonExport(unittest.TestCase):
             )
     
     def test_export_import_zip(self):
-        db = get_db(temporary=True)
-        if db is None:
-            self.assertTrue(True, "skipping test: no databroker")
-            return
+        db = get_db()
         headers = db(plan_name="count")
         headers = list(headers)[0:1]
         
