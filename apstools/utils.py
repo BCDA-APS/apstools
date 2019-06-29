@@ -816,6 +816,17 @@ def json_export(headers, filename, zipfilename=None):
 def json_import(filename, zipfilename=None):
     """
     read the file exported by :meth:`~json_export()`
+    
+    RETURNS
+
+    datasets : list of documents
+        list of 
+        `documents <https://blueskyproject.io/bluesky/documents.html/>`_,
+        such as returned by
+        `[list(h.documents()) for h in db]`
+        
+        See:
+        https://blueskyproject.io/databroker/generated/databroker.Header.documents.html
     """
     if zipfilename is None:
         with open(filename, "r") as fp:
