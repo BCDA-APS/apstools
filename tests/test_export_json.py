@@ -20,13 +20,34 @@ if _path not in sys.path:
 from apstools.utils import json_export, json_import
 
 
-def get_db():
-    from databroker import Broker
-    try:
-        db = Broker.named("mongodb_config")
-    except FileNotFoundError:
-        return
+TEST_JSON_FILE = "data.json"
+TEST_ZIP_FILE = "bluesky_data.zip"
+
+
+def get_db(temporary=False):
+    from databroker import Broker, temp_config
+    if temporary:
+        conf = temp_config()
+        conf["metadatastore"]["config"]["timezone"] = "US/Central"
+        db = Broker.from_config(conf)
+    else:
+        try:
+            db = Broker.named("mongodb_config")
+        except FileNotFoundError:
+            return
+
+    datasets = json_import(TEST_JSON_FILE, TEST_ZIP_FILE)
+    insert_docs(db, datasets)
+
     return db
+
+
+def insert_docs(db, datasets, verbose=False):
+    for i, h in enumerate(datasets):
+        if verbose:
+            print(f"{i+1}/{len(datasets)} : {len(h)} documents")
+        for k, doc in h:
+            db.insert(k, doc)
 
 
 class Test_JsonExport(unittest.TestCase):
@@ -39,7 +60,7 @@ class Test_JsonExport(unittest.TestCase):
             shutil.rmtree(self.tempdir, ignore_errors=True)
     
     def test_export_import(self):
-        db = get_db()
+        db = get_db(temporary=True)
         if db is None:
             self.assertTrue(True, "skipping test: no databroker")
             return
@@ -65,7 +86,7 @@ class Test_JsonExport(unittest.TestCase):
             )
     
     def test_export_import_zip(self):
-        db = get_db()
+        db = get_db(temporary=True)
         if db is None:
             self.assertTrue(True, "skipping test: no databroker")
             return
