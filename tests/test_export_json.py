@@ -21,7 +21,7 @@ from apstools.utils import json_export, json_import
 
 
 TEST_JSON_FILE = "data.json"
-TEST_ZIP_FILE = "bluesky_data.zip"
+TEST_ZIP_FILE = os.path.join(_test_path, "bluesky_data.zip")
 
 
 def get_db(temporary=False):
