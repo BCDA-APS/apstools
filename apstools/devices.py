@@ -1132,7 +1132,7 @@ class EpicsMotorLimitsMixin(DeviceMixinBase):
         """
         if flag > 0:
             return self.soft_limit_hi.value
-        else:
+        elif flag < 0:
             return self.soft_limit_lo.value
     
     def set_lim(self, low, high):
