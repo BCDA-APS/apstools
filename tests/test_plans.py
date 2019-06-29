@@ -8,8 +8,8 @@ import os
 import sys
 import unittest
 
-_path = os.path.dirname(__file__)
-_path = os.path.join(_path, '..')
+_test_path = os.path.dirname(__file__)
+_path = os.path.join(_test_path, '..')
 if _path not in sys.path:
     sys.path.insert(0, _path)
 
@@ -45,29 +45,95 @@ class Test_Plans(unittest.TestCase):
         pass
     
     def test_addDeviceDataAsStream(self):
-        with Capture_stdout() as printed_lines:
+        with Capture_stdout() as received:
             summarize_plan(
                 APS_plans.addDeviceDataAsStream(
                     ophyd.sim.motor1, 
                     "test-device"))
 
-        received = "\n".join([v[:21] for v in str(printed_lines).strip().splitlines()])
-        expected = str(["  Read ['motor1']"])
-        self.assertEqual(received, expected)
+        expected = ["  Read ['motor1']"]
+        self.assertEqual(str(received), str(expected))
 
-        with Capture_stdout() as lines2:
+        with Capture_stdout() as received:
             summarize_plan(
                 APS_plans.addDeviceDataAsStream(
                     [ophyd.sim.motor2, ophyd.sim.motor3], 
                     "test-device-list"))
 
-        print(f"|{lines2}|")
-        received = "\n".join([v for v in str(lines2).strip().splitlines()])
-        expected = str([
+        expected = [
             "  Read ['motor2']",        # TODO: <-- Why?
             "  Read ['motor2', 'motor3']",
-            ])
-        self.assertEqual(received, expected)
+            ]
+        self.assertEqual(str(received), str(expected))
+    
+    def test_run_command_file(self):
+        filename = os.path.join(_test_path, "actions.txt")
+        with Capture_stdout() as received:
+            summarize_plan(
+                APS_plans.run_command_file(filename))
+
+        # print(f"|{received}|")
+        expected = [
+            'Command file: /home/mintadmin/Documents/eclipse/apstools/tests/actions.txt',
+            '====== ============ ========================',
+            'line # action       parameters              ',
+            '====== ============ ========================',
+            '5      sample_slits 0, 0, 0.4, 1.2          ',
+            '7      preusaxstune                         ',
+            '10     FlyScan      0, 0, 0, blank          ',
+            '11     FlyScan      5, 2, 0, empty container',
+            '12     SAXS         0, 0, 0, blank          ',
+            '====== ============ ========================',
+            '',
+            'file line 5: sample_slits 0 0 0.4 1.2',
+            'no handling for line 5: sample_slits 0 0 0.4 1.2',
+            'file line 7: preusaxstune',
+            'no handling for line 7: preusaxstune',
+            'file line 10: FlyScan 0   0   0   blank',
+            'no handling for line 10: FlyScan 0   0   0   blank',
+            'file line 11: FlyScan 5   2   0   "empty container"',
+            'no handling for line 11: FlyScan 5   2   0   "empty container"',
+            'file line 12: SAXS 0 0 0 blank',
+            'no handling for line 12: SAXS 0 0 0 blank',
+            ]
+        self.assertEqual(str(received), str(expected))
+
+        filename = os.path.join(_test_path, "actions.xlsx")
+        with Capture_stdout() as received:
+            summarize_plan(
+                APS_plans.run_command_file(filename))
+
+        # print(f"|{received}|")
+        expected = [
+            'Command file: /home/mintadmin/Documents/eclipse/apstools/tests/actions.xlsx', 
+            '====== ============ =============================', 
+            'line # action       parameters                   ', 
+            '====== ============ =============================', 
+            '1      mono_shutter open                         ', 
+            '2      USAXSscan    45.07, 98.3, 0.0, Water Blank', 
+            '3      saxsExp      45.07, 98.3, 0.0, Water Blank', 
+            '4      waxwsExp     45.07, 98.3, 0.0, Water Blank', 
+            '5      USAXSscan    12, 12.0, 1.2, plastic       ', 
+            '6      USAXSscan    12, 37.0, 0.1, Al foil       ', 
+            '7      mono_shutter close                        ', 
+            '====== ============ =============================', 
+            '', 
+            "file line 1: ['mono_shutter', 'open', None, None, None]", 
+            "no handling for line 1: ['mono_shutter', 'open', None, None, None]", 
+            "file line 2: ['USAXSscan', 45.07, 98.3, 0.0, 'Water Blank']", 
+            "no handling for line 2: ['USAXSscan', 45.07, 98.3, 0.0, 'Water Blank']", 
+            "file line 3: ['saxsExp', 45.07, 98.3, 0.0, 'Water Blank']", 
+            "no handling for line 3: ['saxsExp', 45.07, 98.3, 0.0, 'Water Blank']", 
+            "file line 4: ['waxwsExp', 45.07, 98.3, 0.0, 'Water Blank']", 
+            "no handling for line 4: ['waxwsExp', 45.07, 98.3, 0.0, 'Water Blank']", 
+            "file line 5: ['USAXSscan', 12, 12.0, 1.2, 'plastic']", 
+            "no handling for line 5: ['USAXSscan', 12, 12.0, 1.2, 'plastic']", 
+            "file line 6: ['USAXSscan', 12, 37.0, 0.1, 'Al foil']", 
+            "no handling for line 6: ['USAXSscan', 12, 37.0, 0.1, 'Al foil']", 
+            "file line 7: ['mono_shutter', 'close', None, None, None]", 
+            "no handling for line 7: ['mono_shutter', 'close', None, None, None]"
+            ]
+        self.assertEqual(str(received), str(expected))
 
 
 def suite(*args, **kw):
