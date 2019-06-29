@@ -18,7 +18,7 @@ from apstools import plans as APS_plans
 from bluesky.simulators import summarize_plan
 import ophyd.sim
 
-class Capture_stdout(list):
+class Capture_stdout(list):     # lgtm [py/missing-equals]
     '''
     capture all printed output (to stdout) into list
     
