@@ -73,7 +73,7 @@ def addDeviceDataAsStream(devices, label):
 
     """
     yield from bps.create(name=label)
-    if isinstance(devices, Device):     # just in case...
+    if not isinstance(devices, list):     # just in case...
         devices = [devices]
     for d in devices:
         yield from bps.read(d)

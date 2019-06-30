@@ -816,6 +816,28 @@ def json_export(headers, filename, zipfilename=None):
 def json_import(filename, zipfilename=None):
     """
     read the file exported by :meth:`~json_export()`
+    
+    RETURNS
+
+    datasets : list of documents
+        list of 
+        `documents <https://blueskyproject.io/bluesky/documents.html/>`_,
+        such as returned by
+        `[list(h.documents()) for h in db]`
+        
+        See:
+        https://blueskyproject.io/databroker/generated/databroker.Header.documents.html
+    
+    EXAMPLE
+    
+    Insert the datasets into the databroker ``db``::
+    
+        def insert_docs(db, datasets):
+            for i, h in enumerate(datasets):
+                print(f"{i+1}/{len(datasets)} : {len(h)} documents")
+                for k, doc in h:
+                    db.insert(k, doc)
+    
     """
     if zipfilename is None:
         with open(filename, "r") as fp:
