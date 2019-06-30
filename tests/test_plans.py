@@ -3,7 +3,6 @@
 simple unit tests for this package
 """
 
-from io import StringIO
 import os
 import sys
 import unittest
@@ -17,23 +16,7 @@ from apstools import plans as APS_plans
 # from apstools import utils as APS_utils
 from bluesky.simulators import summarize_plan
 import ophyd.sim
-
-class Capture_stdout(list):     # lgtm [py/missing-equals]
-    '''
-    capture all printed output (to stdout) into list
-    
-    # http://stackoverflow.com/questions/16571150/how-to-capture-stdout-output-from-a-python-function-call
-    '''
-    def __enter__(self):
-        sys.stdout.flush()
-        self._stdout = sys.stdout
-        sys.stdout = self._stringio = StringIO()
-        return self
-
-    def __exit__(self, *args):
-        self.extend(self._stringio.getvalue().splitlines())
-        del self._stringio    # free up some memory
-        sys.stdout = self._stdout
+from .common import Capture_stdout
 
 
 class Test_Plans(unittest.TestCase):
@@ -74,7 +57,7 @@ class Test_Plans(unittest.TestCase):
 
         # print(f"|{received}|")
         expected = [
-            'Command file: /home/mintadmin/Documents/eclipse/apstools/tests/actions.txt',
+            f'Command file: {filename}',
             '====== ============ ========================',
             'line # action       parameters              ',
             '====== ============ ========================',
@@ -105,7 +88,7 @@ class Test_Plans(unittest.TestCase):
 
         # print(f"|{received}|")
         expected = [
-            'Command file: /home/mintadmin/Documents/eclipse/apstools/tests/actions.xlsx', 
+            f'Command file: {filename}',
             '====== ============ =============================', 
             'line # action       parameters                   ', 
             '====== ============ =============================', 
