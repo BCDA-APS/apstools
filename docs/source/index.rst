@@ -28,8 +28,7 @@ Package Information
 
    applications/index
    examples/index
-   source/*
-   synApps/index
+   source/index
    license
 
 
