@@ -6,6 +6,11 @@ Change History
 
 :1.1.7:  released *tba* (on or before 2019-07-01)
 
+	.. note:: DEPRECATION: 
+	   `apstools.plans.run_blocker_in_plan()` will be removed by 2019-12-31.
+	   `Do not write blocking code in bluesky plans.
+	   <https://github.com/BCDA-APS/apstools/issues/90#issuecomment-483405890>`_
+
     * `#175 <https://github.com/BCDA-APS/apstools/issues/175>`_
        move `plans.run_in_thread()` to `utils.run_in_thread()`
     * `#168 <https://github.com/BCDA-APS/apstools/issues/168>`_

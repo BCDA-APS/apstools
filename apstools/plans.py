@@ -182,7 +182,9 @@ def get_command_list(filename):
 def run_blocker_in_plan(blocker, *args, _poll_s_=0.01, _timeout_s_=None, **kwargs):
     """
     plan: run blocking function ``blocker_(*args, **kwargs)`` from a Bluesky plan
-    
+
+    .. warning: This plan is deprecated.  It will be removed by 2019-12-31.
+
     PARAMETERS
 
     blocker : func
@@ -208,6 +210,7 @@ def run_blocker_in_plan(blocker, *args, _poll_s_=0.01, _timeout_s_=None, **kwarg
         RE(my_sleep())
 
     """
+    logger.warning("This plan is deprecated.  It will be removed by 2019-12-31.")
     status = Status()
     
     @APS_utils.run_in_thread
