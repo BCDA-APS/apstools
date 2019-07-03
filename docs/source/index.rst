@@ -30,7 +30,7 @@ Package Information
    snapshot
    examples/index
    source/*
-   synApps/*
+   synApps/index
    license
 
 
