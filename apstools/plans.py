@@ -154,6 +154,16 @@ def execute_command_list(filename, commands, md={}):
 def get_command_list(filename):
     """
     return command list from either text or Excel file
+
+    SEE ALSO
+
+    .. autosummary::
+    
+        ~run_command_file
+        ~summarize_command_file
+        ~parse_Excel_command_file
+        ~parse_text_command_file
+
     """
     full_filename = os.path.abspath(filename)
     if not os.path.exists(full_filename):
@@ -338,6 +348,16 @@ def parse_Excel_command_file(filename):
     FileNotFoundError
         if file cannot be found
 
+    SEE ALSO
+
+    .. autosummary::
+    
+        ~get_command_list
+        ~run_command_file
+        ~summarize_command_file
+        ~parse_text_command_file
+
+
     """
     full_filename = os.path.abspath(filename)
     assert os.path.exists(full_filename)
@@ -406,6 +426,16 @@ def parse_text_command_file(filename):
 
     FileNotFoundError
         if file cannot be found
+
+    SEE ALSO
+
+    .. autosummary::
+    
+        ~get_command_list
+        ~run_command_file
+        ~summarize_command_file
+        ~parse_Excel_command_file
+
     """
     full_filename = os.path.abspath(filename)
     assert os.path.exists(full_filename)
@@ -431,6 +461,16 @@ def run_command_file(filename, md={}):
 
     * Parse the file into a command list
     * yield the command list to the RunEngine (or other)
+
+    SEE ALSO
+
+    .. autosummary::
+    
+        ~get_command_list
+        ~summarize_command_file
+        ~parse_Excel_command_file
+        ~parse_text_command_file
+
     """
     commands = get_command_list(filename)
     yield from execute_command_list(filename, commands)
@@ -510,6 +550,16 @@ def snapshot(obj_list, stream="primary", md=None):
 def summarize_command_file(filename):
     """
     print the command list from a text or Excel file
+
+    SEE ALSO
+
+    .. autosummary::
+    
+        ~get_command_list
+        ~run_command_file
+        ~parse_Excel_command_file
+        ~parse_text_command_file
+
     """
     commands = get_command_list(filename)
     print(f"Command file: {filename}")
