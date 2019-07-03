@@ -26,8 +26,7 @@ Package Information
    :caption: Contents:
    :glob:
 
-   applications
-   snapshot
+   applications/index
    examples/index
    source/*
    synApps/index
