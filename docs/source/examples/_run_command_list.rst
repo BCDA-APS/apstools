@@ -42,7 +42,7 @@ with content as shown ...
 
 ... can be summarized in a bluesky ipython session:
 
-.. code-block:: ipython
+.. code-block:: guess
 
 	In [1]: import apstools.plans
 	In [2]: apstools.plans.summarize_command_file("sample_example.txt")
@@ -88,7 +88,7 @@ with content as shown in the next figure:
 
 This spreadsheet can be summarized in a bluesky ipython session:
 
-.. code-block:: ipython
+.. code-block:: guess
 
 	In [1]: import apstools.plans
 	In [2]: apstools.plans.summarize_command_file("sample_example.xlsx")
@@ -215,7 +215,9 @@ To test our command file, run it through the
 
 The output will be rather lengthy, if there are no errors.
 
-.. FIXME: Issue must be corrected before this documentation is complete.
+.. warning: FIXME: 
+   
+   Issue must be corrected before this documentation is complete.
    https://github.com/BCDA-APS/apstools/issues/185
 
 .. _command_file_running:
@@ -227,7 +229,10 @@ Running the command file
 
 	RE(apstools.plans.run_command_file("sample_example.txt"))
 
--tba-
+.. warning: FIXME: 
+   
+   Issue must be corrected before this documentation is complete.
+   https://github.com/BCDA-APS/apstools/issues/185
 
 .. _command_file_other_spreadsheets:
 
@@ -278,16 +283,16 @@ will specify.  Call these plans from your ``Excel_plan()`` within an ``elif`` bl
 as shown in this example.  The example ``Excel_plan()`` converts the ``Scan Type`` 
 into  lower case for simpler comparisons.  Your plan can be different if you choose.
 
-::
+.. code-block:: python
 
-        if scan_command == "step_scan":
-            yield from step_scan(...)
-        elif scan_command == "energy_scan":
-            yield from scan_energy(...)
-        elif scan_command == "radiograph":
-            yield from AcquireImage(...)
-        else:
-            print(f"no handling for table row {i+1}: {row}")
+    if scan_command == "step_scan":
+        yield from step_scan(...)
+    elif scan_command == "energy_scan":
+        yield from scan_energy(...)
+    elif scan_command == "radiograph":
+        yield from AcquireImage(...)
+    else:
+        print(f"no handling for table row {i+1}: {row}")
 
 The example plan saves all row parameters as metadata to the row's action.
 This may be useful for diagnostic purposes.
