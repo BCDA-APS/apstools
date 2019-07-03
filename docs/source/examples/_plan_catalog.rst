@@ -1,7 +1,7 @@
 .. _example_plan_catalog:
 
-Example: ``plan_catalog``
-=========================
+Example: the ``plan_catalog`` application
+==================================================
 
 The *apstools* package provides an executable that can be 
 used to display a summary of all the scans in the database.  

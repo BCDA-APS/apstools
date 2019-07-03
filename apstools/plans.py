@@ -115,6 +115,16 @@ def execute_command_list(filename, commands, md={}):
     raw_command: obj (str or list(str)
         contents from input file, such as:
         ``SAXS 0 0 0 blank``
+
+    SEE ALSO
+
+    .. autosummary::
+    
+        ~execute_command_list
+        ~run_command_file
+        ~summarize_command_file
+        ~parse_Excel_command_file
+        ~parse_text_command_file
     """
     full_filename = os.path.abspath(filename)
 
@@ -159,6 +169,8 @@ def get_command_list(filename):
 
     .. autosummary::
     
+        ~execute_command_list
+        ~get_command_list
         ~run_command_file
         ~summarize_command_file
         ~parse_Excel_command_file
@@ -434,6 +446,7 @@ def parse_text_command_file(filename):
 
     .. autosummary::
     
+        ~execute_command_list
         ~get_command_list
         ~run_command_file
         ~summarize_command_file
@@ -469,6 +482,7 @@ def run_command_file(filename, md={}):
 
     .. autosummary::
     
+        ~execute_command_list
         ~get_command_list
         ~summarize_command_file
         ~parse_Excel_command_file
@@ -558,6 +572,7 @@ def summarize_command_file(filename):
 
     .. autosummary::
     
+        ~execute_command_list
         ~get_command_list
         ~run_command_file
         ~parse_Excel_command_file
@@ -772,6 +787,12 @@ class TuneAxis(object):
        ~tune
        ~multi_pass_tune
        ~peak_detected
+    
+    SEE ALSO
+
+    .. autosummary::
+       
+       ~tune_axes
 
     """
     
@@ -1031,6 +1052,12 @@ def tune_axes(axes):
     Sequentially, tune a list of preconfigured axes::
         
         RE(tune_axes([mr, m2r, ar, a2r])
+    
+    SEE ALSO
+
+    .. autosummary::
+       
+       ~TuneAxis
     """
     for axis in axes:
         yield from axis.tune()

@@ -1,7 +1,7 @@
 .. _example_specfile:
 
-Example: ``specfile``
-=====================
+Example: write SPEC data file
+==========================================
 
 We'll use a Jupyter notebook to demonstrate the ``specfile_example()`` 
 that writes one or more scans to a SPEC data file.
