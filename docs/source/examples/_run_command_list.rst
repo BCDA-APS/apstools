@@ -2,17 +2,32 @@
 
 .. _example_run_command_file:
 
-Example: the ``run_command_file`` plan
-======================================
+Example: the :func:`~apstools.plans.run_command_file` plan
+================================================================
 
 You can use a text file or an Excel spreadsheet as a multi-sample 
-batch scan tool using the :func:`run_command_file` plan.
+batch scan tool using the :func:`~apstools.plans.run_command_file` plan.
+This section is divided into these parts.
+
+* :ref:`command_file`
+
+	* :ref:`command_file_text`
+	* :ref:`command_file_spreadsheet`
+
+* :ref:`command_file_actions`
+* :ref:`command_file_testing`
+* :ref:`command_file_running`
+* :ref:`command_file_other_spreadsheets`
+
+.. _command_file:
 
 The Command File
 ++++++++++++++++
 
 A command file can be written as either a plain text file or a 
 spreadsheet (such as from Microsoft Excel or Libre Office).
+
+.. _command_file_text:
 
 Text Command File
 -----------------
@@ -46,6 +61,8 @@ The action on line 8 will be passed to ``execute_command_list()`` which will
 then report the ``this`` action it is not handled.  
 (Looks like another type of a comment.)
 See :func:`~apstools.plans.parse_text_command_file()` for more details.
+
+.. _command_file_spreadsheet:
 
 Spreadsheet Command File
 ------------------------
@@ -90,6 +107,8 @@ at the first blank line.  The action described on line 3 will not be handled
 (since we will not define an action named 
 ``this will be ignored (and also the next blank row will be ignored)``).
 See :func:`~apstools.plans.parse_Excel_command_file()` for more details.
+
+.. _command_file_actions:
 
 The *Actions*
 ++++++++++++++++
@@ -169,30 +188,51 @@ with our own definition to include those two actions:
 	
 	        action = action.lower()
 	        if action == "step_scan":
-	            yield from step_scan(*args. md=_md)
+	            yield from step_scan(*args, md=_md)
 	        elif action == "other_scan":
-	            yield from other_scan(*args. md=_md)
+	            yield from other_scan(*args, md=_md)
 	
 	        else:
 	            logger.info(f"no handling for line {i}: {raw_command}")
 
-Testing
-++++++++++++++++
+.. _command_file_testing:
 
-``bluesky.simulators.summarize_plan(run_command_file("sample_example.txt"))``
+Testing the command file
+++++++++++++++++++++++++
+
+As you were developing plans for each of your actions, we showed you
+how to test that each plan was free of basic syntax and bluesky procedural
+errors.  The :func:`bluesky.simulators.summarize_plan()` function
+will run through your plan and show you the basic data acquisition steps
+that will be executed during your plan.  Becuase you did not write
+any blocking code, no hardware should ever be changed by running
+this plan summary.
+
+To test our command file, run it through the 
+:func:`bluesky.simulators.summarize_plan()` function::
+
+    bluesky.simulators.summarize_plan(run_command_file("sample_example.txt"))
+
+The output will be rather lengthy, if there are no errors.
+
+.. FIXME: Issue must be corrected before this documentation is complete.
+   https://github.com/BCDA-APS/apstools/issues/185
+
+.. _command_file_running:
+
+Running the command file
+++++++++++++++++++++++++
+
+:: 
+
+	RE(apstools.plans.run_command_file("sample_example.txt"))
 
 -tba-
 
-Running
-++++++++++++++++
+.. _command_file_other_spreadsheets:
 
-``RE(run_command_file("sample_example.txt"))``
-
--tba-
-
-.. TODO: re-write below per issue 178
-
-------------
+Appendix: Other spreadsheet examples
+++++++++++++++++++++++++++++++++++++
 
 You can use an Excel spreadsheet as a multi-sample batch scan tool.  
 
@@ -203,7 +243,7 @@ You can use an Excel spreadsheet as a multi-sample batch scan tool.
    
    Unformatted Excel spreadsheet for batch scans.
 
-See :class:`ExcelDatabaseFileGeneric` for an example bluesky plan
+See :class:`~apstools.utils.ExcelDatabaseFileGeneric` for an example bluesky plan
 that reads from this spreadsheet.
 
 **FANCY**:  ... or contain much more information, including formatting.

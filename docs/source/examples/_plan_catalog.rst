@@ -5,7 +5,7 @@ Example: the ``plan_catalog`` application
 
 The *apstools* package provides an executable that can be 
 used to display a summary of all the scans in the database.  
-The executable wraps the demo function: :func:`plan_catalog()`.
+The executable wraps the demo function: :func:`~apstools.examples.plan_catalog()`.
 It is for demonstration purposes only (since it does not filter
 the output to any specific subset of scans).
 
