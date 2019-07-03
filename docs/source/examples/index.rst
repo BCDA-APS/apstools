@@ -7,7 +7,7 @@ Examples
    :maxdepth: 2
    :glob:
 
-   ex_*
+   _*
 
    downloads
    source
