@@ -1,6 +1,5 @@
 .. _example_plan_catalog:
 
-=========================
 Example: ``plan_catalog``
 =========================
 

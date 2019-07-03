@@ -1,11 +1,12 @@
-.. _example_run_command_list:
+.. index:: Excel scan, scan; Excel, command list
 
-======================================
-Example: the ``run_command_list`` plan
+.. _example_run_command_file:
+
+Example: the ``run_command_file`` plan
 ======================================
 
 You can use a text file or an Excel spreadsheet as a multi-sample 
-batch scan tool using the :func:`run_command_list` plan.
+batch scan tool using the :func:`run_command_file` plan.
 
 .. TODO: re-write below per issue 178
 

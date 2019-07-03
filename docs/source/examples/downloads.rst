@@ -1,9 +1,7 @@
-
 .. _examples_downloads:
 
-=================
-Example Downloads
-=================
+Examples: File Downloads
+========================
 
 The jupyter notebooks and files related to this section may be downloaded from the following table.
 
