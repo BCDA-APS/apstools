@@ -587,7 +587,7 @@ class ExcelDatabaseFileGeneric(ExcelDatabaseFileBase):
     
     EXAMPLE
     
-    See section :ref:`example_Excel_scan` for more examples.
+    See section :ref:`example_run_command_list` for more examples.
 
     (See also :ref:`example screen shot <excel_plan_spreadsheet_screen>`.)
     Table (on Sheet 1) begins on row 4 in first column::

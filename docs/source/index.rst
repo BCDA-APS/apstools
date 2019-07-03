@@ -28,7 +28,7 @@ Package Information
 
    applications
    snapshot
-   examples
+   examples/index
    source/*
    synApps/*
    license
