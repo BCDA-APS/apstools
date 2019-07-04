@@ -244,25 +244,45 @@ To test our command file, run it through the
     bluesky.simulators.summarize_plan(run_command_file("sample_example.txt"))
 
 The output will be rather lengthy, if there are no errors.
+Here are the first few lines:
 
-.. warning: FIXME: 
-   
-   Issue must be corrected before this documentation is complete.
-   https://github.com/BCDA-APS/apstools/issues/185
+.. literalinclude:: ../resources/sample_example_summary.txt
+   :tab-width: 4
+   :language: guess
+   :lines: 1-20
+
+and the last few lines:
+
+.. literalinclude:: ../resources/sample_example_summary.txt
+   :tab-width: 4
+   :language: guess
+   :lines: 728-
 
 .. _command_file_running:
 
 Running the command file
 ++++++++++++++++++++++++
 
-:: 
+To run the command file, you need to pass this to an instance of the
+:class:`bluesky.RunEngine`, usually defined as ``RE``, such as:: 
 
 	RE(apstools.plans.run_command_file("sample_example.txt"))
 
-.. warning: FIXME: 
-   
-   Issue must be corrected before this documentation is complete.
-   https://github.com/BCDA-APS/apstools/issues/185
+The output will be rather lengthy, if there are no errors.
+Here are the first few lines:
+
+.. TODO:
+	.. literalinclude:: ../resources/sample_example_run.txt
+	   :tab-width: 4
+	   :language: guess
+	   :lines: 1-20
+	
+	and the last few lines:
+	
+	.. literalinclude:: ../resources/sample_example_run.txt
+	   :tab-width: 4
+	   :language: guess
+	   :lines: ???
 
 .. _command_file_other_spreadsheets:
 
