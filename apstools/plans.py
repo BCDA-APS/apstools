@@ -9,6 +9,7 @@ Plans that might be useful at the APS when using BlueSky
    ~nscan
    ~parse_Excel_command_file
    ~parse_text_command_file
+   ~register_command_handler
    ~run_blocker_in_plan
    ~run_command_file
    ~snapshot
@@ -121,6 +122,7 @@ def execute_command_list(filename, commands, md={}):
     .. autosummary::
     
         ~execute_command_list
+        ~register_command_handler
         ~run_command_file
         ~summarize_command_file
         ~parse_Excel_command_file
@@ -171,6 +173,7 @@ def get_command_list(filename):
     
         ~execute_command_list
         ~get_command_list
+        ~register_command_handler
         ~run_command_file
         ~summarize_command_file
         ~parse_Excel_command_file
@@ -368,6 +371,7 @@ def parse_Excel_command_file(filename):
     .. autosummary::
     
         ~get_command_list
+        ~register_command_handler
         ~run_command_file
         ~summarize_command_file
         ~parse_text_command_file
@@ -448,6 +452,7 @@ def parse_text_command_file(filename):
     
         ~execute_command_list
         ~get_command_list
+        ~register_command_handler
         ~run_command_file
         ~summarize_command_file
         ~parse_Excel_command_file
@@ -471,6 +476,39 @@ def parse_text_command_file(filename):
     return commands
 
 
+# internal use, allows redefinition of execute_command_list()
+_COMMAND_HANDLER_ = execute_command_list
+
+
+def register_command_handler(handler=None):
+    """
+    (re)define the function called to execute the command list
+
+    PARAMETERS
+
+    handler : obj
+        Reference of the ``execute_command_list`` function
+        to be used from :func:`~apstools.plans.run_command_file()`.
+        If ``None`` or not provided, 
+        will reset to :func:`~apstools.plans.execute_command_list()`,
+        which is also the initial setting.
+
+    SEE ALSO
+
+    .. autosummary::
+    
+        ~execute_command_list
+        ~get_command_list
+        ~register_command_handler
+        ~summarize_command_file
+        ~parse_Excel_command_file
+        ~parse_text_command_file
+
+    """
+    global _COMMAND_HANDLER_
+    _COMMAND_HANDLER_ = handler or execute_command_list
+
+
 def run_command_file(filename, md={}):
     """
     plan: execute a list of commands from a text or Excel file
@@ -484,13 +522,14 @@ def run_command_file(filename, md={}):
     
         ~execute_command_list
         ~get_command_list
+        ~register_command_handler
         ~summarize_command_file
         ~parse_Excel_command_file
         ~parse_text_command_file
 
     """
     commands = get_command_list(filename)
-    yield from execute_command_list(filename, commands)
+    yield from _COMMAND_HANDLER_(filename, commands)
 
 
 def snapshot(obj_list, stream="primary", md=None):

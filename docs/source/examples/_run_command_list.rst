@@ -15,6 +15,7 @@ This section is divided into these parts.
 	* :ref:`command_file_spreadsheet`
 
 * :ref:`command_file_actions`
+* :ref:`command_file_register`
 * :ref:`command_file_testing`
 * :ref:`command_file_running`
 * :ref:`command_file_other_spreadsheets`
@@ -194,6 +195,35 @@ with our own definition to include those two actions:
 	
 	        else:
 	            logger.info(f"no handling for line {i}: {raw_command}")
+
+.. _command_file_register:
+
+Register our own ``execute_command_list``
++++++++++++++++++++++++++++++++++++++++++
+
+Finally, we register our new version of ``execute_command_list``
+(which replaces the default :func:`~apstools.plans.execute_command_list()`)::
+
+    APS_plans.register_command_handler(execute_command_list)
+
+If you wish to verify that your own code has been installed, use this command::
+
+    print(APS_plans._COMMAND_HANDLER_)
+
+If its output contains ``apstools.plans.execute_command_list``, you have not 
+registered your own function.  However, if the output looks something such as 
+either of these::
+
+	<function __main__.execute_command_list(filename, commands, md={})>
+	# or
+	<function execute_command_list at 0x7f4cf0d616a8>
+
+then you have installed your own code.
+
+.. tip:  You do not have to use the exact name ``execute_command_list``.
+   By using :func:`~apstools.plans.register_command_handler()`, your handler
+   function can be named as you wish.  However, the parameters must match
+   the signature of :func:`~apstools.plans.execute_command_list()`.
 
 .. _command_file_testing:
 
