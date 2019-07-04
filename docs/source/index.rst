@@ -26,11 +26,9 @@ Package Information
    :caption: Contents:
    :glob:
 
-   applications
-   snapshot
-   examples
-   source/*
-   synApps/*
+   applications/index
+   examples/index
+   source/index
    license
 
 

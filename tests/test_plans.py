@@ -49,6 +49,20 @@ class Test_Plans(unittest.TestCase):
             ]
         self.assertEqual(str(received), str(expected))
     
+    def test_register_action_handler(self):
+        APS_plans.register_command_handler(summarize_plan)
+        self.assertNotEqual(
+            APS_plans._COMMAND_HANDLER_, 
+            APS_plans.execute_command_list)
+        self.assertEqual(
+            APS_plans._COMMAND_HANDLER_, 
+            summarize_plan)
+        
+        APS_plans.register_command_handler()
+        self.assertEqual(
+            APS_plans._COMMAND_HANDLER_, 
+            APS_plans.execute_command_list)
+    
     def test_run_command_file(self):
         filename = os.path.join(_test_path, "actions.txt")
         with Capture_stdout() as received:

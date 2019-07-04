@@ -9,6 +9,7 @@ Plans that might be useful at the APS when using BlueSky
    ~nscan
    ~parse_Excel_command_file
    ~parse_text_command_file
+   ~register_command_handler
    ~run_blocker_in_plan
    ~run_command_file
    ~snapshot
@@ -115,6 +116,17 @@ def execute_command_list(filename, commands, md={}):
     raw_command: obj (str or list(str)
         contents from input file, such as:
         ``SAXS 0 0 0 blank``
+
+    SEE ALSO
+
+    .. autosummary::
+    
+        ~execute_command_list
+        ~register_command_handler
+        ~run_command_file
+        ~summarize_command_file
+        ~parse_Excel_command_file
+        ~parse_text_command_file
     """
     full_filename = os.path.abspath(filename)
 
@@ -154,6 +166,19 @@ def execute_command_list(filename, commands, md={}):
 def get_command_list(filename):
     """
     return command list from either text or Excel file
+
+    SEE ALSO
+
+    .. autosummary::
+    
+        ~execute_command_list
+        ~get_command_list
+        ~register_command_handler
+        ~run_command_file
+        ~summarize_command_file
+        ~parse_Excel_command_file
+        ~parse_text_command_file
+
     """
     full_filename = os.path.abspath(filename)
     if not os.path.exists(full_filename):
@@ -172,7 +197,9 @@ def get_command_list(filename):
 def run_blocker_in_plan(blocker, *args, _poll_s_=0.01, _timeout_s_=None, **kwargs):
     """
     plan: run blocking function ``blocker_(*args, **kwargs)`` from a Bluesky plan
-    
+
+    .. warning: This plan is deprecated.  It will be removed by 2019-12-31.
+
     PARAMETERS
 
     blocker : func
@@ -198,6 +225,7 @@ def run_blocker_in_plan(blocker, *args, _poll_s_=0.01, _timeout_s_=None, **kwarg
         RE(my_sleep())
 
     """
+    logger.warning("This plan is deprecated.  It will be removed by 2019-12-31.")
     status = Status()
     
     @APS_utils.run_in_thread
@@ -338,6 +366,17 @@ def parse_Excel_command_file(filename):
     FileNotFoundError
         if file cannot be found
 
+    SEE ALSO
+
+    .. autosummary::
+    
+        ~get_command_list
+        ~register_command_handler
+        ~run_command_file
+        ~summarize_command_file
+        ~parse_text_command_file
+
+
     """
     full_filename = os.path.abspath(filename)
     assert os.path.exists(full_filename)
@@ -406,6 +445,18 @@ def parse_text_command_file(filename):
 
     FileNotFoundError
         if file cannot be found
+
+    SEE ALSO
+
+    .. autosummary::
+    
+        ~execute_command_list
+        ~get_command_list
+        ~register_command_handler
+        ~run_command_file
+        ~summarize_command_file
+        ~parse_Excel_command_file
+
     """
     full_filename = os.path.abspath(filename)
     assert os.path.exists(full_filename)
@@ -425,15 +476,60 @@ def parse_text_command_file(filename):
     return commands
 
 
+# internal use, allows redefinition of execute_command_list()
+_COMMAND_HANDLER_ = execute_command_list
+
+
+def register_command_handler(handler=None):
+    """
+    (re)define the function called to execute the command list
+
+    PARAMETERS
+
+    handler : obj
+        Reference of the ``execute_command_list`` function
+        to be used from :func:`~apstools.plans.run_command_file()`.
+        If ``None`` or not provided, 
+        will reset to :func:`~apstools.plans.execute_command_list()`,
+        which is also the initial setting.
+
+    SEE ALSO
+
+    .. autosummary::
+    
+        ~execute_command_list
+        ~get_command_list
+        ~register_command_handler
+        ~summarize_command_file
+        ~parse_Excel_command_file
+        ~parse_text_command_file
+
+    """
+    global _COMMAND_HANDLER_
+    _COMMAND_HANDLER_ = handler or execute_command_list
+
+
 def run_command_file(filename, md={}):
     """
     plan: execute a list of commands from a text or Excel file
 
     * Parse the file into a command list
     * yield the command list to the RunEngine (or other)
+
+    SEE ALSO
+
+    .. autosummary::
+    
+        ~execute_command_list
+        ~get_command_list
+        ~register_command_handler
+        ~summarize_command_file
+        ~parse_Excel_command_file
+        ~parse_text_command_file
+
     """
     commands = get_command_list(filename)
-    yield from execute_command_list(filename, commands)
+    yield from _COMMAND_HANDLER_(filename, commands)
 
 
 def snapshot(obj_list, stream="primary", md=None):
@@ -510,6 +606,17 @@ def snapshot(obj_list, stream="primary", md=None):
 def summarize_command_file(filename):
     """
     print the command list from a text or Excel file
+
+    SEE ALSO
+
+    .. autosummary::
+    
+        ~execute_command_list
+        ~get_command_list
+        ~run_command_file
+        ~parse_Excel_command_file
+        ~parse_text_command_file
+
     """
     commands = get_command_list(filename)
     print(f"Command file: {filename}")
@@ -719,6 +826,12 @@ class TuneAxis(object):
        ~tune
        ~multi_pass_tune
        ~peak_detected
+    
+    SEE ALSO
+
+    .. autosummary::
+       
+       ~tune_axes
 
     """
     
@@ -978,6 +1091,12 @@ def tune_axes(axes):
     Sequentially, tune a list of preconfigured axes::
         
         RE(tune_axes([mr, m2r, ar, a2r])
+    
+    SEE ALSO
+
+    .. autosummary::
+       
+       ~TuneAxis
     """
     for axis in axes:
         yield from axis.tune()

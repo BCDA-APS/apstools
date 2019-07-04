@@ -35,8 +35,9 @@ import apstools
 extensions = [
     'sphinx.ext.autodoc',
     'sphinx.ext.autosummary',
-    'sphinx.ext.todo',
+    'sphinx.ext.coverage',
     'sphinx.ext.mathjax',
+    'sphinx.ext.todo',
     'sphinx.ext.viewcode',
     ]
 
