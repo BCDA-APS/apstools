@@ -50,7 +50,7 @@ class Test_Plans(unittest.TestCase):
         self.assertEqual(str(received), str(expected))
     
     def test_register_action_handler(self):
-        APS_plans.register_action_handler(summarize_plan)
+        APS_plans.register_command_handler(summarize_plan)
         self.assertNotEqual(
             APS_plans._COMMAND_HANDLER_, 
             APS_plans.execute_command_list)
@@ -58,7 +58,7 @@ class Test_Plans(unittest.TestCase):
             APS_plans._COMMAND_HANDLER_, 
             summarize_plan)
         
-        APS_plans.register_action_handler()
+        APS_plans.register_command_handler()
         self.assertEqual(
             APS_plans._COMMAND_HANDLER_, 
             APS_plans.execute_command_list)

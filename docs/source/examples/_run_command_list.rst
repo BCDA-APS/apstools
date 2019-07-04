@@ -204,7 +204,7 @@ Register our own ``execute_command_list``
 Finally, we register our new version of ``execute_command_list``
 (which replaces the default :func:`~apstools.plans.execute_command_list()`)::
 
-    APS_plans.register_action_handler(execute_command_list)
+    APS_plans.register_command_handler(execute_command_list)
 
 If you wish to verify that your own code has been installed, use this command::
 
@@ -221,7 +221,7 @@ either of these::
 then you have installed your own code.
 
 .. tip:  You do not have to use the exact name ``execute_command_list``.
-   By using :func:`~apstools.plans.register_action_handler()`, your handler
+   By using :func:`~apstools.plans.register_command_handler()`, your handler
    function can be named as you wish.  However, the parameters must match
    the signature of :func:`~apstools.plans.execute_command_list()`.
 

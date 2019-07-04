@@ -9,7 +9,7 @@ Plans that might be useful at the APS when using BlueSky
    ~nscan
    ~parse_Excel_command_file
    ~parse_text_command_file
-   ~register_action_handler
+   ~register_command_handler
    ~run_blocker_in_plan
    ~run_command_file
    ~snapshot
@@ -122,7 +122,7 @@ def execute_command_list(filename, commands, md={}):
     .. autosummary::
     
         ~execute_command_list
-        ~register_action_handler
+        ~register_command_handler
         ~run_command_file
         ~summarize_command_file
         ~parse_Excel_command_file
@@ -173,7 +173,7 @@ def get_command_list(filename):
     
         ~execute_command_list
         ~get_command_list
-        ~register_action_handler
+        ~register_command_handler
         ~run_command_file
         ~summarize_command_file
         ~parse_Excel_command_file
@@ -371,7 +371,7 @@ def parse_Excel_command_file(filename):
     .. autosummary::
     
         ~get_command_list
-        ~register_action_handler
+        ~register_command_handler
         ~run_command_file
         ~summarize_command_file
         ~parse_text_command_file
@@ -452,7 +452,7 @@ def parse_text_command_file(filename):
     
         ~execute_command_list
         ~get_command_list
-        ~register_action_handler
+        ~register_command_handler
         ~run_command_file
         ~summarize_command_file
         ~parse_Excel_command_file
@@ -480,7 +480,7 @@ def parse_text_command_file(filename):
 _COMMAND_HANDLER_ = execute_command_list
 
 
-def register_action_handler(handler=None):
+def register_command_handler(handler=None):
     """
     (re)define the function called to execute the command list
 
@@ -499,7 +499,7 @@ def register_action_handler(handler=None):
     
         ~execute_command_list
         ~get_command_list
-        ~register_action_handler
+        ~register_command_handler
         ~summarize_command_file
         ~parse_Excel_command_file
         ~parse_text_command_file
@@ -522,7 +522,7 @@ def run_command_file(filename, md={}):
     
         ~execute_command_list
         ~get_command_list
-        ~register_action_handler
+        ~register_command_handler
         ~summarize_command_file
         ~parse_Excel_command_file
         ~parse_text_command_file
