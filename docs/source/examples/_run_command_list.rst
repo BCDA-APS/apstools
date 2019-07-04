@@ -18,7 +18,7 @@ This section is divided into these parts.
 * :ref:`command_file_register`
 * :ref:`command_file_testing`
 * :ref:`command_file_running`
-* :ref:`command_file_other_spreadsheets`
+* :ref:`command_file_appendix`
 
 .. _command_file:
 
@@ -263,28 +263,83 @@ and the last few lines:
 Running the command file
 ++++++++++++++++++++++++
 
+Prepare the RE
+^^^^^^^^^^^^^^^
+
+These steps were used to prepare our bluesky ipython session to run the plan:
+
+.. code-block:: python
+	:linenos:
+   
+	from bluesky import RunEngine
+	from bluesky.utils import get_history
+	RE = RunEngine(get_history())
+
+	# Import matplotlib and put it in interactive mode.
+	import matplotlib.pyplot as plt
+	plt.ion()
+
+	# load config from ~/.config/databroker/mongodb_config.yml
+	from databroker import Broker
+	db = Broker.named("mongodb_config")
+
+	# Subscribe metadatastore to documents.
+	# If this is removed, data is not saved to metadatastore.
+	RE.subscribe(db.insert)
+
+	# Set up SupplementalData.
+	from bluesky import SupplementalData
+	sd = SupplementalData()
+	RE.preprocessors.append(sd)
+	
+	# Add a progress bar.
+	from bluesky.utils import ProgressBarManager
+	pbar_manager = ProgressBarManager()
+	RE.waiting_hook = pbar_manager
+	
+	# Register bluesky IPython magics.
+	from bluesky.magics import BlueskyMagics
+	get_ipython().register_magics(BlueskyMagics)
+	
+	# Set up the BestEffortCallback.
+	from bluesky.callbacks.best_effort import BestEffortCallback
+	bec = BestEffortCallback()
+	RE.subscribe(bec)
+
+Also, since we are using an EPICS area detector (ADSimDetector) and have just
+started its IOC, we must process at least one image from the CAM to each of the
+file writing plugins we'll use (just the HDF1 for us).  A procedure has been added
+to the ``ophyd.areadetector`` code for this.  Here is the command we used
+for this procedure:
+
+    areadetector.hdf1.warmup() 
+
+Run the command file
+^^^^^^^^^^^^^^^^^^^^^
+
 To run the command file, you need to pass this to an instance of the
-:class:`bluesky.RunEngine`, usually defined as ``RE``, such as:: 
+:class:`bluesky.RunEngine`, defined as ``RE`` above:: 
 
 	RE(apstools.plans.run_command_file("sample_example.txt"))
 
-The output will be rather lengthy, if there are no errors.
-Here are the first few lines:
+The output will be rather lengthy.
+Here are the first few lines of the output on my system (your hardware
+may be different so the exact data columns and values will vary):
 
-.. TODO:
-	.. literalinclude:: ../resources/sample_example_run.txt
-	   :tab-width: 4
-	   :language: guess
-	   :lines: 1-20
-	
-	and the last few lines:
-	
-	.. literalinclude:: ../resources/sample_example_run.txt
-	   :tab-width: 4
-	   :language: guess
-	   :lines: ???
+.. literalinclude:: ../resources/sample_example_run.txt
+   :tab-width: 4
+   :language: guess
+   :lines: 1-25
 
-.. _command_file_other_spreadsheets:
+and the last few lines:
+
+.. literalinclude:: ../resources/sample_example_run.txt
+   :tab-width: 4
+   :language: guess
+   :lines: 390-
+
+
+.. _command_file_appendix:
 
 Appendix: Other spreadsheet examples
 ++++++++++++++++++++++++++++++++++++
