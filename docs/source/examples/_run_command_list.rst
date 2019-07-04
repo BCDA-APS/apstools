@@ -264,7 +264,7 @@ Running the command file
 ++++++++++++++++++++++++
 
 Prepare the RE
-^^^^^^^^^^^^^^^
+-------------------
 
 These steps were used to prepare our bluesky ipython session to run the plan:
 
@@ -315,7 +315,7 @@ for this procedure:
     areadetector.hdf1.warmup() 
 
 Run the command file
-^^^^^^^^^^^^^^^^^^^^^
+---------------------------
 
 To run the command file, you need to pass this to an instance of the
 :class:`bluesky.RunEngine`, defined as ``RE`` above:: 
