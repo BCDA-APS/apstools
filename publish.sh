@@ -23,6 +23,6 @@ CHANNEL=aps-anl-tag
 ### publish
 
 conda build ./conda-recipe/
-CONDA_BASE=$(dirname $(dirname `which anaconda`))
+CONDA_BASE=`conda info --base`
 BUILD_DIR=${CONDA_BASE}/conda-bld/noarch
 anaconda upload -u ${CHANNEL} ${BUILD_DIR}/${PACKAGE}-${RELEASE}-py_0.tar.bz2
