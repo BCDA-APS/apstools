@@ -39,11 +39,11 @@ with content as shown ...
 .. literalinclude:: ../resources/sample_example.txt
    :tab-width: 4
    :linenos:
-   :language: guess
+   :language: none
 
 ... can be summarized in a bluesky ipython session:
 
-.. code-block:: guess
+.. code-block:: python
 
 	In [1]: import apstools.plans
 	In [2]: apstools.plans.summarize_command_file("sample_example.txt")
@@ -89,7 +89,7 @@ with content as shown in the next figure:
 
 This spreadsheet can be summarized in a bluesky ipython session:
 
-.. code-block:: guess
+.. code-block:: python
 
 	In [1]: import apstools.plans
 	In [2]: apstools.plans.summarize_command_file("sample_example.xlsx")
@@ -248,14 +248,14 @@ Here are the first few lines:
 
 .. literalinclude:: ../resources/sample_example_summary.txt
    :tab-width: 4
-   :language: guess
+   :language: none
    :lines: 1-20
 
 and the last few lines:
 
 .. literalinclude:: ../resources/sample_example_summary.txt
    :tab-width: 4
-   :language: guess
+   :language: none
    :lines: 728-
 
 .. _command_file_running:
@@ -328,14 +328,14 @@ may be different so the exact data columns and values will vary):
 
 .. literalinclude:: ../resources/sample_example_run.txt
    :tab-width: 4
-   :language: guess
+   :language: none
    :lines: 1-25
 
 and the last few lines:
 
 .. literalinclude:: ../resources/sample_example_run.txt
    :tab-width: 4
-   :language: guess
+   :language: none
    :lines: 390-
 
 
