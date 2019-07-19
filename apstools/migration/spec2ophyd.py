@@ -12,7 +12,7 @@ import re
 
 
 CONFIG_FILE = 'config-8idi'
-KNOWN_DEVICES = "PSE_MAC_MOT VM_EPICS_M1 VM_EPICS_SC".split()
+KNOWN_DEVICES = "PSE_MAC_MOT VM_EPICS_M1 VM_EPICS_PV VM_EPICS_SC".split()
 
 
 class SpecDeviceBase(object):
@@ -97,6 +97,10 @@ class SpecMotor(ItemNameBase):
                 unit, chan = list(map(int, uc_str.split("/")))
                 self.device = device_list[unit]
                 self.pvname = "{}m{}".format(self.device.prefix, chan)
+        elif self.cntrl.startswith("MAC_MOT"):
+            pass        # TODO:
+        elif self.cntrl.startswith("NONE"):
+            pass        # TODO:
 
 
 class SpecCounter(ItemNameBase):
@@ -145,6 +149,10 @@ class SpecCounter(ItemNameBase):
                 self.device = device_list[self.unit]
                 # scalers are goofy, SPEC uses 0-based numbering, scaler uses 1-based
                 self.pvname = "{}.S{}".format(self.device.prefix, self.chan+1)
+        elif self.cntrl.startswith("EPICS_PV"):
+            pass        # TODO:
+        elif self.cntrl.startswith("NONE"):
+            pass        # TODO:
 
 
 class SpecConfig(object):
