@@ -2,6 +2,8 @@
 
 """
 read SPEC config file and convert to ophyd setup commands
+
+output of ophyd configuration to stdout
 """
 
 
@@ -9,7 +11,7 @@ from collections import OrderedDict
 import re
 
 
-CONFIG_FILE = 'config'
+CONFIG_FILE = 'config-8idi'
 KNOWN_DEVICES = "PSE_MAC_MOT VM_EPICS_M1 VM_EPICS_SC".split()
 
 
@@ -76,6 +78,7 @@ class SpecMotor(ItemNameBase):
         self.mne, self.name = pop_word(r)
         self.device = None
         self.pvname = None
+        self.motpar = []
     
     def __str__(self):
         items = [self.item_name_value(k) for k in "index mne name".split()]
@@ -158,6 +161,7 @@ class SpecConfig(object):
     
     def read_config(self, config_file=None):
         self.config_file = config_file or self.config_file
+        motor = None
         with open(self.config_file, 'r') as f:
             for line in f.readlines():
                 line = line.strip()
@@ -173,8 +177,9 @@ class SpecConfig(object):
                     # 0-based numbering
                     device.index = len(self.devices[device.name])
                     self.devices[device.name].append(device)
-                elif word0 == "MOTPAR:read_mode":
-                    self.unhandled.append(line)
+                elif word0.startswith("MOTPAR:"):
+                    if motor is not None:
+                        motor.motpar.append(line[len("MOTPAR:"):])
                 elif re.match("CNT\d*", line) is not None:
                     counter = SpecCounter(line)
                     counter.setDevice(self.devices)
@@ -197,24 +202,30 @@ def create_ophyd_setup(spec_config):
             if not import_shown:
                 print("from ophyd.scaler import ScalerCH")
                 import_shown = True
-            print("{} = {}('{}', name='{}')".format(
-                mne, "ScalerCH", device.prefix, mne))
+            print(f"{mne} = ScalerCH('{device.prefix}', name='{mne}')")
             chans = []
             for counter in spec_config.counters.values():
                 if counter.device == device:
                     key = "chan%02d" % (counter.chan+1)
-                    print("# {} : {} ({})".format(key, counter.mne, counter.name))
+                    print(f"# {key} : {counter.mne} ({counter.name})")
                     chans.append(key)
             if len(chans) > 0:
-                print("{}.channels.read_attrs = {}".format(mne, chans))
+                print(f"{mne}.channels.read_attrs = {chans}")
 
     mne_list = []
     for mne, motor in sorted(spec_config.motors.items()):
         if motor.pvname is not None:
             mne = mne.replace(".", "_")
             mne_list.append(mne)
-            print("{} = {}('{}', name='{}')  # {}".format(
-                mne, "EpicsMotor", motor.pvname, mne, motor.name))
+            msg = f"{mne} = EpicsMotor('{motor.pvname}', name='{mne}')"
+            comments = []
+            if motor.mne != motor.name:
+                comments.append(f"{motor.name}")
+            if len(motor.motpar) > 0:
+                comments.append(f" TODO: {', '.join(motor.motpar)}")
+            if len(comments) > 0:
+                msg += f"  # {(' '.join(comments)).strip()}"
+            print(msg)
 
 
 
