@@ -221,9 +221,6 @@ class SpecConfig(object):
     def __init__(self, config_file):
         self.config_file = config_file or CONFIG_FILE
         self.devices = OrderedDict()
-        self.motors = OrderedDict()
-        self.counters = OrderedDict()
-        self.signals = OrderedDict()
         self.scalers = []
         self.collection = []
         self.unhandled = []
@@ -254,7 +251,6 @@ class SpecConfig(object):
                     counter.setDevice(self.devices)
                     if counter.ctrl == "EPICS_PV":
                         signal = SpecSignal(counter.mne, counter.name, counter.pvname)
-                        self.signals[signal.mne] = signal
                         self.collection.append(signal)
                     else:
                         if counter.pvname is not None:
@@ -266,12 +262,10 @@ class SpecConfig(object):
                                 self.scalers.append(pvname)
                                 self.collection.append(scaler)
                         
-                        self.counters[counter.mne] = counter
                         self.collection.append(counter)
                 elif re.match("MOT\d*", line) is not None:
                     motor = SpecMotor(line)
                     motor.setDevice(self.devices)
-                    self.motors[motor.mne] = motor
                     self.collection.append(motor)
                 else:
                     self.unhandled.append(line)
