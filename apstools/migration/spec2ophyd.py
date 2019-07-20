@@ -15,7 +15,24 @@ CONFIG_FILE = 'config-8idi'
 KNOWN_DEVICES = "PSE_MAC_MOT VM_EPICS_M1 VM_EPICS_PV VM_EPICS_SC".split()
 
 
-class SpecDevice(object):
+class Spec2ophydBase(object):
+
+    str_keys = []
+
+    def obj_keys_to_list(self):
+        items = []
+        for k in self.str_keys:
+            v = self.__getattribute__(k)
+            if v is not None:
+                items.append(f"{k}='{v}'")
+        return items
+    
+    def __str__(self):
+        items = self.obj_keys_to_list()
+        return f"{self.__class__.__name__}({', '.join(items)})"
+
+
+class SpecDevice(Spec2ophydBase):
     """
     SPEC configuration of a device, such as a multi-channel motor controller
     
@@ -24,23 +41,23 @@ class SpecDevice(object):
     
     def __init__(self, config_text):
         """parse the line from the SPEC config file"""
+        self.raw = config_text
         # VM_EPICS_M1    = 9idcLAX:m58:c0: 8
         nm, args = config_text.split("=")
         self.name = nm.strip()
         prefix, num_channels = args.split()
         self.prefix = prefix
+        self.config_line = None
         self.index = None
         self.num_channels = int(num_channels)
         self.ophyd_device = None
-    
-    def __str__(self):
-        items = [f"{k}={self.__getattribute__(k)}" for k in "index name prefix num_channels".split()]
-        return f"{self.__class__.__name__}({', '.join(items)})"
+        self.str_keys = "config_line name index, prefix num_channels".split()
 
 
-class ItemNameBase(object):
+class ItemNameBase(Spec2ophydBase):
     
     ignore = False
+    str_keys = "mne config_line name"
 
     def item_name_value(self, item):
         if hasattr(self, item):
@@ -55,23 +72,21 @@ class SpecSignal(ItemNameBase):
     SPEC configuration of a single EPICS PV
     """
     
-    def __init__(self, mne, nm, pvname):
+    def __init__(self, mne, nm, pvname, config_text):
         """data provided by caller"""
+        self.raw = config_text
         self.mne = mne
         self.name = nm
         self.pvname = pvname
         self.signal_name = "EpicsSignal"
-
-    def __str__(self):
-        items = [f"{k}={self.__getattribute__(k)}" for k in "mne name pvname signal_name".split()]
-        return f"{self.__class__.__name__}({', '.join(items)})"
+        self.str_keys = "mne config_line name pvname signal_name".split()
     
     def ophyd_config(self):
         s = f"{self.mne} = {self.signal_name}('{self.pvname}', name='{self.mne}')"
         if self.mne != self.name:
             s += f"  # {self.name}"
         if self.ignore:
-            s = "#ignore " + s
+            s = "# NONE: " + s
         return s
 
 
@@ -82,10 +97,11 @@ class SpecMotor(ItemNameBase):
     
     def __init__(self, config_text):
         """parse the line from the SPEC config file"""
+        self.raw = config_text
         # Motor    ctrl steps sign slew base backl accel nada  flags   mne  name
         # MOT002 = EPICS_M2:0/3   2000  1  2000  200   50  125    0 0x003       my  my
         lr = config_text.split(sep="=", maxsplit=1)
-        self.index = int(lr[0].strip("MOT"))
+        self.config_line = int(lr[0].strip("MOT"))
         
         def pop_word(line, int_result=False):
             line = line.strip()
@@ -109,14 +125,13 @@ class SpecMotor(ItemNameBase):
         self.pvname = None
         self.motpar = []
         self.macro_prefix = None
+        self.str_keys = "mne config_line name macro_prefix".split()
     
     def __str__(self):
-        items = [self.item_name_value(k) for k in "index mne name".split()]
-        txt = self.item_name_value("pvname")
-        if txt is not None:
+        items = self.obj_keys_to_list()
+        txt = self.item_name_value("pvname") or self.item_name_value("ctrl")
+        if not txt.endswith("=None"):
             items.append(txt)
-        else:
-            items.append(self.item_name_value("ctrl"))
         return f"{self.__class__.__name__}({', '.join(items)})"
     
     def setDevice(self, devices):
@@ -140,14 +155,15 @@ class SpecMotor(ItemNameBase):
     
     def ophyd_config(self):
         s = f"{self.mne} = EpicsMotor('{self.pvname}', name='{self.mne}')"
+        if self.pvname is None:
+            if self.macro_prefix is not None:
+                s = f"# Macro Motor: {self}"
+            else:
+                s = f"# line {self.config_line}: {self.raw}"
         if self.mne != self.name:
             s += f"  # {self.name}"
         if len(self.motpar) > 0:
             s += f" # {', '.join(self.motpar)}"
-        if self.macro_prefix is not None:
-            s += f"  # macro prefix: {self.macro_prefix}"
-        if self.ignore:
-            s = "#ignore " + s
         return s
 
 
@@ -162,6 +178,7 @@ class SpecCounter(ItemNameBase):
     
     def __init__(self, config_text):
         """parse the line from the SPEC config file"""
+        self.raw = config_text
         # # Counter   ctrl unit chan scale flags    mne  name
         # CNT000 = EPICS_SC  0  0 10000000 0x001      sec  seconds
 
@@ -174,7 +191,7 @@ class SpecCounter(ItemNameBase):
             return l, r
 
         l, r = pop_word(config_text)
-        self.index = int(l.strip("CNT"))
+        self.config_line = int(l.strip("CNT"))
         l, r = pop_word(r)      # ignore "="
         self.ctrl, r = pop_word(r)
         self.unit, r = pop_word(r, True)
@@ -185,9 +202,10 @@ class SpecCounter(ItemNameBase):
         self.device = None
         self.pvname = None
         self.reported_pvs = []
+        self.str_keys = "mne config_line name unit chan".split()
 
     def __str__(self):
-        items = [self.item_name_value(k) for k in "mne name unit chan".split()]
+        items = self.obj_keys_to_list()
         txt = self.item_name_value("pvname")
         if txt is not None:
             items.append(txt)
@@ -214,7 +232,7 @@ class SpecCounter(ItemNameBase):
     def ophyd_config(self):
         s = f"# counter: {self.mne} = {self}"
         if self.ignore:
-            s = "#ignore " + s
+            s = f"# line {self.config_line}: {self.raw}"
         return s
 
 
@@ -234,7 +252,7 @@ class SpecConfig(object):
         self.config_file = config_file or self.config_file
         motor = None
         with open(self.config_file, 'r') as f:
-            for line in f.readlines():
+            for line_number, line in enumerate(f.readlines()):
                 line = line.strip()
 
                 if line.startswith("#"):
@@ -246,6 +264,7 @@ class SpecConfig(object):
                     if device.name not in self.devices:
                         self.devices[device.name] = []
                     # 0-based numbering
+                    device.config_line = line_number
                     device.index = len(self.devices[device.name])
                     self.devices[device.name].append(device)
                 elif word0.startswith("MOTPAR:"):
@@ -255,14 +274,14 @@ class SpecConfig(object):
                     counter = SpecCounter(line)
                     counter.setDevice(self.devices)
                     if counter.ctrl == "EPICS_PV":
-                        signal = SpecSignal(counter.mne, counter.name, counter.pvname)
+                        signal = SpecSignal(counter.mne, counter.name, counter.pvname, line)
                         self.collection.append(signal)
                     else:
                         if counter.pvname is not None:
                             pvname = counter.pvname.split(".")[0]
                             if pvname not in self.scalers:
                                 mne = pvname.lower().split(":")[-1]
-                                scaler = SpecSignal(mne, mne, pvname)
+                                scaler = SpecSignal(mne, mne, pvname, line)
                                 scaler.signal_name = "ScalerCH"
                                 self.scalers.append(pvname)
                                 self.collection.append(scaler)
