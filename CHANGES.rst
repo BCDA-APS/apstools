@@ -4,6 +4,17 @@
 Change History
 ##############
 
+:1.1.8:  release -tba-
+
+    * `#193 <https://github.com/BCDA-APS/apstools/issues/193>`_
+       `spec2ophyd` ignore None items in SPEC config file
+    * `#192 <https://github.com/BCDA-APS/apstools/issues/192>`_
+       `spec2ophyd` handles VM_EPICS_PV in SPEC config file
+    * `#191 <https://github.com/BCDA-APS/apstools/issues/191>`_
+       `spec2ophyd` handles PSE_MAC_MOT in SPEC config file
+    * `#190 <https://github.com/BCDA-APS/apstools/issues/190>`_
+       `spec2ophyd` handles MOTPAR in SPEC config file
+
 :1.1.7:  released 2019-07-04
 
 	.. note:: DEPRECATION: 
