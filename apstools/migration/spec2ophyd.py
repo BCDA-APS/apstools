@@ -15,9 +15,11 @@ CONFIG_FILE = 'config-8idi'
 KNOWN_DEVICES = "PSE_MAC_MOT VM_EPICS_M1 VM_EPICS_PV VM_EPICS_SC".split()
 
 
-class SpecDeviceBase(object):
+class SpecDevice(object):
     """
     SPEC configuration of a device, such as a multi-channel motor controller
+    
+    SPEC "devices" are components which counters or motors to controllers
     """
     
     def __init__(self, config_text):
@@ -153,6 +155,9 @@ class SpecMotor(ItemNameBase):
 class SpecCounter(ItemNameBase):
     """
     SPEC configuration of a counter channel
+    
+    In SPEC's config file, a single PV signal is described as a counter,
+    attached to an EPICS_PV (as described by a VM_EPICS_PV device).
     """
     
     def __init__(self, config_text):
@@ -237,7 +242,7 @@ class SpecConfig(object):
 
                 word0 = line.split(sep="=", maxsplit=1)[0].strip()
                 if word0 in KNOWN_DEVICES:
-                    device = SpecDeviceBase(line)
+                    device = SpecDevice(line)
                     if device.name not in self.devices:
                         self.devices[device.name] = []
                     # 0-based numbering
