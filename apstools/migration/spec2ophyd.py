@@ -101,6 +101,7 @@ class SpecMotor(ItemNameBase):
         self.device = None
         self.pvname = None
         self.motpar = []
+        self.macro_prefix = None
     
     def __str__(self):
         items = [self.item_name_value(k) for k in "index mne name".split()]
@@ -120,7 +121,13 @@ class SpecMotor(ItemNameBase):
                 self.device = device_list[unit]
                 self.pvname = "{}m{}".format(self.device.prefix, chan)
         elif self.ctrl.startswith("MAC_MOT"):
-            pass        # TODO:
+            device_list = devices.get("PSE_MAC_MOT")
+            if device_list is not None:
+                uc_str = self.ctrl[len("MAC_MOT:"):]
+                unit, chan = list(map(int, uc_str.split("/")))
+                self.device = device_list[unit]
+                self.macro_prefix = self.device.prefix
+                # TODO: what else?
         elif self.ctrl.startswith("NONE"):
             pass        # TODO:
     
@@ -130,6 +137,8 @@ class SpecMotor(ItemNameBase):
             s += f"  # {self.name}"
         if len(self.motpar) > 0:
             s += f" # {', '.join(self.motpar)}"
+        if self.macro_prefix is not None:
+            s += f"  # macro prefix: {self.macro_prefix}"
         return s
 
 
