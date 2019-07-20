@@ -37,6 +37,9 @@ class SpecDeviceBase(object):
 
 
 class ItemNameBase(object):
+    
+    ignore = False
+
     def item_name_value(self, item):
         if hasattr(self, item):
             return f"{item}={self.__getattribute__(item)}"
@@ -65,6 +68,8 @@ class SpecSignal(ItemNameBase):
         s = f"{self.mne} = {self.signal_name}('{self.pvname}', name='{self.mne}')"
         if self.mne != self.name:
             s += f"  # {self.name}"
+        if self.ignore:
+            s = "#ignore " + s
         return s
 
 
@@ -129,7 +134,7 @@ class SpecMotor(ItemNameBase):
                 self.macro_prefix = self.device.prefix
                 # TODO: what else?
         elif self.ctrl.startswith("NONE"):
-            pass        # TODO:
+            self.ignore = True
     
     def ophyd_config(self):
         s = f"{self.mne} = EpicsMotor('{self.pvname}', name='{self.mne}')"
@@ -139,6 +144,8 @@ class SpecMotor(ItemNameBase):
             s += f" # {', '.join(self.motpar)}"
         if self.macro_prefix is not None:
             s += f"  # macro prefix: {self.macro_prefix}"
+        if self.ignore:
+            s = "#ignore " + s
         return s
 
 
@@ -197,10 +204,13 @@ class SpecCounter(ItemNameBase):
                 self.pvname = self.device.prefix
                 self.ophyd_device = "EpicsSignal"
         elif self.ctrl.startswith("NONE"):
-            pass        # TODO:
+            self.ignore = True
     
     def ophyd_config(self):
-        return f"# counter: {self.mne} = {self}"
+        s = f"# counter: {self.mne} = {self}"
+        if self.ignore:
+            s = "#ignore " + s
+        return s
 
 
 class SpecConfig(object):
