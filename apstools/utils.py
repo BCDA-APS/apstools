@@ -279,7 +279,7 @@ def show_ophyd_symbols(show_pv=True, printing=True, verbose=False, symbols=None)
         If True, also show ``str(obj``.
     symbols: dict (default: `globals()`)
         If None, use global symbol table.
-        If not None, use provided dictionary.
+        If not None, use provided dictionary.                                                                                                                                                                                            
     
     **TIP** ``globals()`` only gets the module's globals
     
@@ -302,6 +302,30 @@ def show_ophyd_symbols(show_pv=True, printing=True, verbose=False, symbols=None)
                 verbose=verbose,
                 symbols=symbols
             )
+    
+    EXAMPLE::
+    
+        In [1]: show_ophyd_symbols()                                                                                                                                                                           
+        ======== ================================ =============
+        name     ophyd structure                  EPICS PV     
+        ======== ================================ =============
+        adsimdet MySingleTriggerSimDetector       vm7SIM1:     
+        m1       EpicsMotor                       vm7:m1       
+        m2       EpicsMotor                       vm7:m2       
+        m3       EpicsMotor                       vm7:m3       
+        m4       EpicsMotor                       vm7:m4       
+        m5       EpicsMotor                       vm7:m5       
+        m6       EpicsMotor                       vm7:m6       
+        m7       EpicsMotor                       vm7:m7       
+        m8       EpicsMotor                       vm7:m8       
+        noisy    EpicsSignalRO                    vm7:userCalc1
+        scaler   ScalerCH                         vm7:scaler1  
+        shutter  SimulatedApsPssShutterWithStatus              
+        ======== ================================ =============
+        
+        Out[1]: <pyRestTable.rest_table.Table at 0x7fa4398c7cf8>
+        
+        In [2]:    
     """
     table = pyRestTable.Table()
     table.labels = ["name", "ophyd structure"]
