@@ -393,15 +393,13 @@ def connect_pvlist(pvlist, wait=True, timeout=2, poll_interval=0.1):
     poll_interval : float
         time to sleep between checks for PV connections, seconds, default: 0.1
     """
-    from ophyd import EpicsSignal
-
     obj_dict = OrderedDict()
     for item in pvlist:
         if len(item.strip()) == 0:
             continue
         pvname = item.strip()
         oname = "signal_{}".format(len(obj_dict))
-        obj = EpicsSignal(pvname, name=oname)
+        obj = ophyd.EpicsSignal(pvname, name=oname)
         obj_dict[oname] = obj
 
     if wait:
