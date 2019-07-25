@@ -26,7 +26,7 @@ import numpy as np
 logger = logging.getLogger(__name__).addHandler(logging.NullHandler())
 
 
-class SynPseudoVoigt(ophyd.sim.SynSignal):      # lgtm [py/missing-call-to-init]
+class SynPseudoVoigt(ophyd.sim.SynSignal):
     """
     Evaluate a point on a pseudo-Voigt based on the value of a motor.
     
@@ -135,4 +135,4 @@ class SynPseudoVoigt(ophyd.sim.SynSignal):      # lgtm [py/missing-call-to-init]
                 v += np.random.uniform(-1, 1) * noise_multiplier
             return v
 
-        super().__init__(name=name, func=pvoigt, **kwargs)
+        ophyd.sim.SynSignal.__init__(name=name, func=pvoigt, **kwargs)
