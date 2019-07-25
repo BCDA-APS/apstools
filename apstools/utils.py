@@ -20,6 +20,7 @@ Various utilities
    ~print_snapshot_list
    ~print_RE_md
    ~run_in_thread
+   ~show_ophyd_symbols
    ~split_quoted_line
    ~text_encode
    ~to_unicode_or_bust
@@ -258,6 +259,40 @@ def run_in_thread(func):
         thread.start()
         return thread
     return wrapper
+
+
+def show_ophyd_symbols(show_pv=False, verbose=False):
+    """
+    show all the ophyd Signal and Device objects defined as globals
+    
+    PARAMETERS
+    
+    show_pv: bool (default: False)
+        If True, also show relevant EPICS PV, if available.
+    verbose: bool (default: False)
+        If True, also show ``str(obj``.
+    """
+    table = pyRestTable.Table()
+    table.labels = "name class".split()
+    if show_pv:
+        table.addLabel("EPICS PV")
+    if verbose:
+        table.addLabel("object representation")
+    for k, v in sorted(globals().items()):
+        if isinstance(v, (ophyd.Signal, ophyd.Device)):
+            row = [k, v.__class__.__name__]
+            if show_pv:
+                if hasattr(v, "pvname"):
+                    row.append(v.pvname)
+                elif hasattr(v, "prefix"):
+                    row.append(v.prefix)
+                else:
+                    table.addLabel("")
+            if verbose:
+                row.append(str(v))
+            table.addRow(row)
+    print(table)
+    return table
 
 
 def split_quoted_line(line):
