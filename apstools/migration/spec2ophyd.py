@@ -123,7 +123,7 @@ class SpecMotor(ItemNameBase):
         self.mne, self.name = pop_word(r)
         self.device = None
         self.pvname = None
-        self.motpar = []
+        self.motpar = {}
         self.macro_prefix = None
         self.str_keys = "mne config_line name macro_prefix".split()
     
@@ -155,6 +155,11 @@ class SpecMotor(ItemNameBase):
     
     def ophyd_config(self):
         s = f"{self.mne} = EpicsMotor('{self.pvname}', name='{self.mne}')"
+        suffix = self.motpar.get("misc_par_1")
+        if suffix is not None:
+            del self.motpar["misc_par_1"]
+            pvname = f"{self.device.prefix}{suffix}"
+            s = f"{self.mne} = EpicsMotor('{pvname}', name='{self.mne}')"
         if self.pvname is None:
             if self.macro_prefix is not None:
                 s = f"# Macro Motor: {self}"
@@ -163,7 +168,8 @@ class SpecMotor(ItemNameBase):
         if self.mne != self.name:
             s += f"  # {self.name}"
         if len(self.motpar) > 0:
-            s += f" # {', '.join(self.motpar)}"
+            terms = [f"{k}={v}" for k, v in self.motpar.items()]
+            s += f" # {', '.join(terms)}"
         return s
 
 
@@ -269,7 +275,8 @@ class SpecConfig(object):
                     self.devices[device.name].append(device)
                 elif word0.startswith("MOTPAR:"):
                     if motor is not None:
-                        motor.motpar.append(line[len("MOTPAR:"):])
+                        k, v = line[len("MOTPAR:"):].split("=")
+                        motor.motpar[k.strip()] = v.strip()
                 elif re.match("CNT\d*", line) is not None:
                     counter = SpecCounter(line)
                     counter.setDevice(self.devices)
