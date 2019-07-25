@@ -262,7 +262,7 @@ def run_in_thread(func):
     return wrapper
 
 
-def show_ophyd_symbols(show_pv=True, printing=True, verbose=False):
+def show_ophyd_symbols(show_pv=True, printing=True, verbose=False, symbols=None):
     """
     show all the ophyd Signal and Device objects defined as globals
     
@@ -274,6 +274,9 @@ def show_ophyd_symbols(show_pv=True, printing=True, verbose=False):
         If True, print table to stdout.
     verbose: bool (default: False)
         If True, also show ``str(obj``.
+    symbols: dict (default: `globals()`)
+        If None, use global symbol table.
+        If not None, use provided dictionary.
     """
     table = pyRestTable.Table()
     table.labels = ["name", "ophyd structure"]
@@ -281,7 +284,7 @@ def show_ophyd_symbols(show_pv=True, printing=True, verbose=False):
         table.addLabel("EPICS PV")
     if verbose:
         table.addLabel("object representation")
-    g = globals()
+    g = symbols or globals()
     for k, v in sorted(g.items()):
         if isinstance(v, (ophyd.Signal, ophyd.Device)):
             row = [k, v.__class__.__name__]

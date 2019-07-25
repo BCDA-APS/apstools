@@ -153,13 +153,19 @@ version     {'bluesky': '1.5.2', 'ophyd': '1.3.3', 'apstools': '1.1.5', 'epics':
     
     def test_show_ophyd_symbols(self):
         from ophyd.sim import hw
-        sims = hw()
-        globals().update(sims.__dict__)
-        num = len(sims.__dict__)
+        sims = hw().__dict__
+        wont_show = ("flyer1", "flyer2", "new_trivial_flyer", "trivial_flyer")
+        num = len(sims) - len(wont_show)
+        kk = sorted(sims.keys())
         # sims hardware not found by show_ophyd_symbols() in globals!
-        table = APS_utils.show_ophyd_symbols()
+        table = APS_utils.show_ophyd_symbols(symbols=sims, printing=False)
         self.assertEqual(3, len(table.labels))
-        # FIXME: self.assertEqual(num, len(table.rows))
+        rr = [r[0] for r in table.rows]
+        for k in kk:
+            msg = f"{k} not found"
+            if k not in wont_show:
+                self.assertTrue(k in rr, msg)
+        self.assertEqual(num, len(table.rows))
 
 
 def suite(*args, **kw):
