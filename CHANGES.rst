@@ -4,7 +4,7 @@
 Change History
 ##############
 
-:1.1.8:  release expected *2019-07-25* : updates
+:1.1.8:  released *2019-07-25* : updates
 
     * `#196 <https://github.com/BCDA-APS/apstools/issues/196>`_
        `spec2ophyd` handle MOTPAR:read_misc_1
