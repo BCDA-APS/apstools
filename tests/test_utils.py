@@ -3,7 +3,6 @@
 simple unit tests for this package
 """
 
-from collections import OrderedDict
 import os
 import sys
 import unittest
@@ -15,7 +14,7 @@ if _path not in sys.path:
 
 from apstools import utils as APS_utils
 from apstools import __version__ as APS__version__
-from common import Capture_stdout
+from tests.common import Capture_stdout
 
 
 RE = None
@@ -151,6 +150,16 @@ version     {'bluesky': '1.5.2', 'ophyd': '1.3.3', 'apstools': '1.1.5', 'epics':
         self.assertGreater(len(source), len(received))
         expected = source[:APS_utils.MAX_EPICS_STRINGOUT_LENGTH-1]
         self.assertEqual(received, expected)
+    
+    def test_show_ophyd_symbols(self):
+        from ophyd.sim import hw
+        sims = hw()
+        globals().update(sims.__dict__)
+        num = len(sims.__dict__)
+        # sims hardware not found by show_ophyd_symbols() in globals!
+        table = APS_utils.show_ophyd_symbols()
+        self.assertEqual(3, len(table.labels))
+        # FIXME: self.assertEqual(num, len(table.rows))
 
 
 def suite(*args, **kw):

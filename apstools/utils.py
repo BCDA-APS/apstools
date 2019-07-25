@@ -281,7 +281,8 @@ def show_ophyd_symbols(show_pv=True, printing=True, verbose=False):
         table.addLabel("EPICS PV")
     if verbose:
         table.addLabel("object representation")
-    for k, v in sorted(globals().items()):
+    g = globals()
+    for k, v in sorted(g.items()):
         if isinstance(v, (ophyd.Signal, ophyd.Device)):
             row = [k, v.__class__.__name__]
             if show_pv:
