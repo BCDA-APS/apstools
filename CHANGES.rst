@@ -4,8 +4,12 @@
 Change History
 ##############
 
-:1.1.8:  release -tba-
+:1.1.8:  release expected *2019-07-25* : updates
 
+    * `#196 <https://github.com/BCDA-APS/apstools/issues/196>`_
+       `spec2ophyd` handle MOTPAR:read_misc_1
+    * `#194 <https://github.com/BCDA-APS/apstools/issues/194>`_
+       show table of global ophyd `Signal`s and `Device`s
     * `#193 <https://github.com/BCDA-APS/apstools/issues/193>`_
        `spec2ophyd` ignore None items in SPEC config file
     * `#192 <https://github.com/BCDA-APS/apstools/issues/192>`_

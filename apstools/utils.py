@@ -20,6 +20,7 @@ Various utilities
    ~print_snapshot_list
    ~print_RE_md
    ~run_in_thread
+   ~show_ophyd_symbols
    ~split_quoted_line
    ~text_encode
    ~to_unicode_or_bust
@@ -45,6 +46,7 @@ from event_model import NumpyEncoder
 import json
 import logging
 import math
+import ophyd
 import os
 import pandas
 import pyRestTable
@@ -179,7 +181,7 @@ def itemizer(fmt, items):
     return [fmt % k for k in items]
 
 
-def print_RE_md(dictionary=None, fmt="simple"):
+def print_RE_md(dictionary=None, fmt="simple", printing=True):
     """
     custom print the RunEngine metadata in a table
     
@@ -213,8 +215,11 @@ def print_RE_md(dictionary=None, fmt="simple"):
     md = dict(dictionary)   # copy of input for editing
     v = dictionary_table(md["versions"], fmt=fmt)   # sub-table
     md["versions"] = str(v).rstrip()
-    print("RunEngine metadata dictionary:")
-    print(dictionary_table(md, fmt=fmt))
+    table = dictionary_table(md, fmt=fmt)
+    if printing:
+        print("RunEngine metadata dictionary:")
+        print(table)
+    return table
 
 
 def pairwise(iterable):
@@ -258,6 +263,93 @@ def run_in_thread(func):
         thread.start()
         return thread
     return wrapper
+
+
+def show_ophyd_symbols(show_pv=True, printing=True, verbose=False, symbols=None):
+    """
+    show all the ophyd Signal and Device objects defined as globals
+    
+    PARAMETERS
+    
+    show_pv: bool (default: True)
+        If True, also show relevant EPICS PV, if available.
+    printing: bool (default: True)
+        If True, print table to stdout.
+    verbose: bool (default: False)
+        If True, also show ``str(obj``.
+    symbols: dict (default: `globals()`)
+        If None, use global symbol table.
+        If not None, use provided dictionary.                                                                                                                                                                                            
+    
+    **TIP** ``globals()`` only gets the module's globals
+    
+    To get ``globals()`` from the global namespace, need to
+    pass that from the global namespace into this function.
+    Define this function *in* the global namespace::
+    
+        from apstools import utils as APS_utils
+    
+        def show_ophyd_symbols(
+            show_pv=True, 
+            printing=True, 
+            verbose=False, 
+            symbols=None
+        ):
+            symbols = symbols or globals()
+            return APS_utils.show_ophyd_symbols(
+                show_pv=show_pv,
+                printing=printing,
+                verbose=verbose,
+                symbols=symbols
+            )
+    
+    EXAMPLE::
+    
+        In [1]: show_ophyd_symbols()                                                                                                                                                                           
+        ======== ================================ =============
+        name     ophyd structure                  EPICS PV     
+        ======== ================================ =============
+        adsimdet MySingleTriggerSimDetector       vm7SIM1:     
+        m1       EpicsMotor                       vm7:m1       
+        m2       EpicsMotor                       vm7:m2       
+        m3       EpicsMotor                       vm7:m3       
+        m4       EpicsMotor                       vm7:m4       
+        m5       EpicsMotor                       vm7:m5       
+        m6       EpicsMotor                       vm7:m6       
+        m7       EpicsMotor                       vm7:m7       
+        m8       EpicsMotor                       vm7:m8       
+        noisy    EpicsSignalRO                    vm7:userCalc1
+        scaler   ScalerCH                         vm7:scaler1  
+        shutter  SimulatedApsPssShutterWithStatus              
+        ======== ================================ =============
+        
+        Out[1]: <pyRestTable.rest_table.Table at 0x7fa4398c7cf8>
+        
+        In [2]:    
+    """
+    table = pyRestTable.Table()
+    table.labels = ["name", "ophyd structure"]
+    if show_pv:
+        table.addLabel("EPICS PV")
+    if verbose:
+        table.addLabel("object representation")
+    g = symbols or globals()
+    for k, v in sorted(g.items()):
+        if isinstance(v, (ophyd.Signal, ophyd.Device)):
+            row = [k, v.__class__.__name__]
+            if show_pv:
+                if hasattr(v, "pvname"):
+                    row.append(v.pvname)
+                elif hasattr(v, "prefix"):
+                    row.append(v.prefix)
+                else:
+                    row.append("")
+            if verbose:
+                row.append(str(v))
+            table.addRow(row)
+    if printing:
+        print(table)
+    return table
 
 
 def split_quoted_line(line):
@@ -350,15 +442,13 @@ def connect_pvlist(pvlist, wait=True, timeout=2, poll_interval=0.1):
     poll_interval : float
         time to sleep between checks for PV connections, seconds, default: 0.1
     """
-    from ophyd import EpicsSignal
-
     obj_dict = OrderedDict()
     for item in pvlist:
         if len(item.strip()) == 0:
             continue
         pvname = item.strip()
         oname = "signal_{}".format(len(obj_dict))
-        obj = EpicsSignal(pvname, name=oname)
+        obj = ophyd.EpicsSignal(pvname, name=oname)
         obj_dict[oname] = obj
 
     if wait:
