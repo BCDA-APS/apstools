@@ -46,6 +46,7 @@ from event_model import NumpyEncoder
 import json
 import logging
 import math
+import ophyd
 import os
 import pandas
 import pyRestTable
@@ -261,19 +262,21 @@ def run_in_thread(func):
     return wrapper
 
 
-def show_ophyd_symbols(show_pv=False, verbose=False):
+def show_ophyd_symbols(show_pv=True, printing=True, verbose=False):
     """
     show all the ophyd Signal and Device objects defined as globals
     
     PARAMETERS
     
-    show_pv: bool (default: False)
+    show_pv: bool (default: True)
         If True, also show relevant EPICS PV, if available.
+    printing: bool (default: True)
+        If True, print table to stdout.
     verbose: bool (default: False)
         If True, also show ``str(obj``.
     """
     table = pyRestTable.Table()
-    table.labels = "name class".split()
+    table.labels = ["name", "ophyd structure"]
     if show_pv:
         table.addLabel("EPICS PV")
     if verbose:
@@ -287,11 +290,12 @@ def show_ophyd_symbols(show_pv=False, verbose=False):
                 elif hasattr(v, "prefix"):
                     row.append(v.prefix)
                 else:
-                    table.addLabel("")
+                    row.append("")
             if verbose:
                 row.append(str(v))
             table.addRow(row)
-    print(table)
+    if printing:
+        print(table)
     return table
 
 
