@@ -21,7 +21,18 @@ class Spec2ophydBase(object):
 
     def obj_keys_to_list(self):
         items = []
-        for k in self.str_keys:
+        keys = list(self.str_keys)
+
+        if ("mne" in keys
+            and "name" in keys
+            and hasattr(self, "mne")
+            and hasattr(self, "name")
+            and self.mne == self.name
+        ):
+            p = keys.index("name")
+            keys.pop(p)
+
+        for k in keys:
             if hasattr(self, k):
                 v = self.__getattribute__(k)
                 items.append(f"{k}='{v}'")
