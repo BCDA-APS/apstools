@@ -29,8 +29,7 @@ class Spec2ophydBase(object):
             and hasattr(self, "name")
             and self.mne == self.name
         ):
-            p = keys.index("name")
-            keys.pop(p)
+            keys.pop(keys.index("name"))    # redundant, do not show
 
         for k in keys:
             if hasattr(self, k):
