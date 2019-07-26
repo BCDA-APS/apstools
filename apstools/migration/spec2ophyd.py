@@ -40,7 +40,6 @@ class Spec2ophydBase(object):
     def __str__(self):
         items = self.obj_keys_to_list()
         return f"{self.__class__.__name__}({', '.join(items)})"
-        # return f"{self.__class__.__name__}()"
 
 
 class SpecDevice(Spec2ophydBase):
