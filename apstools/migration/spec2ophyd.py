@@ -102,6 +102,9 @@ class SpecSignal(ItemNameBase):
         
         self.ctrl, r = pop_word(lr[1])
         self.unit, r = pop_word(r, True)
+        self.chan, r = pop_word(r, True)
+        self.scale, r = pop_word(r, True)
+        self.flags = pop_word(r)[0]
 
         self.str_keys = "mne config_line name pvname signal_name".split()
         self.cntpar = {}
