@@ -11,7 +11,7 @@ from collections import OrderedDict
 import re
 
 
-CONFIG_FILE = 'config-8idi'
+CONFIG_FILE = 'config-CNTPAR'
 KNOWN_DEVICES = "PSE_MAC_MOT VM_EPICS_M1 VM_EPICS_PV VM_EPICS_SC".split()
 
 
@@ -21,9 +21,19 @@ class Spec2ophydBase(object):
 
     def obj_keys_to_list(self):
         items = []
-        for k in self.str_keys:
-            v = self.__getattribute__(k)
-            if v is not None:
+        keys = list(self.str_keys)
+
+        if ("mne" in keys
+            and "name" in keys
+            and hasattr(self, "mne")
+            and hasattr(self, "name")
+            and self.mne == self.name
+        ):
+            keys.pop(keys.index("name"))    # redundant, do not show
+
+        for k in keys:
+            if hasattr(self, k):
+                v = self.__getattribute__(k)
                 items.append(f"{k}='{v}'")
         return items
     
@@ -78,15 +88,51 @@ class SpecSignal(ItemNameBase):
         self.mne = mne
         self.name = nm
         self.pvname = pvname
+        self.device = None
         self.signal_name = "EpicsSignal"
+
+        lr = config_text.split(sep="=", maxsplit=1)
+        def pop_word(line, int_result=False):
+            line = line.strip()
+            pos = line.find(" ")
+            l, r = line[:pos].strip(), line[pos:].strip()
+            if int_result:
+                l = int(l)
+            return l, r
+        
+        self.ctrl, r = pop_word(lr[1])
+        self.unit, r = pop_word(r, True)
+        self.chan, r = pop_word(r, True)
+        self.scale, r = pop_word(r, True)
+        self.flags = pop_word(r)[0]
+
         self.str_keys = "mne config_line name pvname signal_name".split()
+        self.cntpar = {}
     
+    def setDevice(self, devices):
+        if self.ctrl.startswith("EPICS_PV"):
+            device_list = devices.get("VM_EPICS_PV")
+            if device_list is not None:
+                self.device = device_list[self.unit]
+                self.pvname = self.device.prefix
+                self.ophyd_device = "EpicsSignal"
+        elif self.ctrl.startswith("NONE"):
+            self.ignore = True
+
     def ophyd_config(self):
         s = f"{self.mne} = {self.signal_name}('{self.pvname}', name='{self.mne}')"
+        suffix = None
+        if "misc_par_1" in self.cntpar:
+            suffix = self.cntpar.pop("misc_par_1")
+            pvname = f"{self.device.prefix}{suffix}"
+            s = f"{self.mne} = EpicsSignal('{pvname}', name='{self.mne}')"
         if self.mne != self.name:
             s += f"  # {self.name}"
         if self.ignore:
             s = "# NONE: " + s
+        if len(self.cntpar) > 0:
+            terms = [f"{k}={v}" for k, v in self.cntpar.items()]
+            s += f" # {', '.join(terms)}"
         return s
 
 
@@ -126,7 +172,7 @@ class SpecMotor(ItemNameBase):
         self.motpar = {}
         self.macro_prefix = None
         self.str_keys = "mne config_line name macro_prefix".split()
-    
+
     def __str__(self):
         items = self.obj_keys_to_list()
         txt = self.item_name_value("pvname") or self.item_name_value("ctrl")
@@ -155,9 +201,9 @@ class SpecMotor(ItemNameBase):
     
     def ophyd_config(self):
         s = f"{self.mne} = EpicsMotor('{self.pvname}', name='{self.mne}')"
-        suffix = self.motpar.get("misc_par_1")
-        if suffix is not None:
-            del self.motpar["misc_par_1"]
+        suffix = None
+        if "misc_par_1" in self.motpar:
+            suffix = self.motpar.pop("misc_par_1")
             pvname = f"{self.device.prefix}{suffix}"
             s = f"{self.mne} = EpicsMotor('{pvname}', name='{self.mne}')"
         if self.pvname is None:
@@ -209,6 +255,7 @@ class SpecCounter(ItemNameBase):
         self.pvname = None
         self.reported_pvs = []
         self.str_keys = "mne config_line name unit chan".split()
+        self.cntpar = {}
 
     def __str__(self):
         items = self.obj_keys_to_list()
@@ -237,8 +284,16 @@ class SpecCounter(ItemNameBase):
     
     def ophyd_config(self):
         s = f"# counter: {self.mne} = {self}"
+        suffix = None
+        if "misc_par_1" in self.cntpar:
+            suffix = self.cntpar.pop("misc_par_1")
+            pvname = f"{self.device.prefix}{suffix}"
+            s = f"{self.mne} = EpicsSignal('{pvname}', name='{self.mne}')"
         if self.ignore:
             s = f"# line {self.config_line}: {self.raw}"
+        if len(self.cntpar) > 0:
+            terms = [f"{k}={v}" for k, v in self.cntpar.items()]
+            s += f" # {', '.join(terms)}"
         return s
 
 
@@ -257,6 +312,7 @@ class SpecConfig(object):
     def read_config(self, config_file=None):
         self.config_file = config_file or self.config_file
         motor = None
+        counter = None
         with open(self.config_file, 'r') as f:
             for line_number, line in enumerate(f.readlines()):
                 line = line.strip()
@@ -273,17 +329,23 @@ class SpecConfig(object):
                     device.config_line = line_number
                     device.index = len(self.devices[device.name])
                     self.devices[device.name].append(device)
+                elif word0.startswith("CNTPAR:"):
+                    item = self.collection[-1]    # most recent item
+                    if isinstance(item, (SpecSignal, SpecCounter)):
+                        k, v = line[len("CNTPAR:"):].split("=")
+                        item.cntpar[k.strip()] = v.strip()
                 elif word0.startswith("MOTPAR:"):
                     if motor is not None:
                         k, v = line[len("MOTPAR:"):].split("=")
                         motor.motpar[k.strip()] = v.strip()
                 elif re.match("CNT\d*", line) is not None:
                     counter = SpecCounter(line)
-                    counter.setDevice(self.devices)
                     if counter.ctrl == "EPICS_PV":
                         signal = SpecSignal(counter.mne, counter.name, counter.pvname, line)
+                        signal.setDevice(self.devices)
                         self.collection.append(signal)
                     else:
+                        counter.setDevice(self.devices)
                         if counter.pvname is not None:
                             pvname = counter.pvname.split(".")[0]
                             if pvname not in self.scalers:
