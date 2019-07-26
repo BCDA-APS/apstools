@@ -210,7 +210,7 @@ class SpecMotor(ItemNameBase):
             if self.macro_prefix is not None:
                 s = f"# Macro Motor: {self}"
             else:
-                s = f"# line {self.config_line}: {self.raw}"
+                s = f"# {self.config_line}: {self.raw}"
         if self.mne != self.name:
             s += f"  # {self.name}"
         if len(self.motpar) > 0:
@@ -290,7 +290,7 @@ class SpecCounter(ItemNameBase):
             pvname = f"{self.device.prefix}{suffix}"
             s = f"{self.mne} = EpicsSignal('{pvname}', name='{self.mne}')"
         if self.ignore:
-            s = f"# line {self.config_line}: {self.raw}"
+            s = f"# {self.config_line}: {self.raw}"
         if len(self.cntpar) > 0:
             terms = [f"{k}={v}" for k, v in self.cntpar.items()]
             s += f" # {', '.join(terms)}"
