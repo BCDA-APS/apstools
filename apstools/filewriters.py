@@ -431,7 +431,7 @@ class SpecWriterCallback(object):
             # "#MD" is our ad hoc SPEC data tag
             lines.append(f"#MD {k} = {v}")
 
-        lines.append("#N " + str(self.num_primary_data))
+        lines.append("#N " + str(len(self.data.keys())))
         if len(self.data.keys()) > 0:
             lines.append("#L " + "  ".join(self.data.keys()))
             for i in range(self.num_primary_data):
