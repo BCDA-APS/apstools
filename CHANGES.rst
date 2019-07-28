@@ -4,7 +4,7 @@
 Change History
 ##############
 
-:1.1.9:  release *tba* : updates & bug fix
+:1.1.9:  release expected *2019-07-28* : updates & bug fix
 
     * `#203 <https://github.com/BCDA-APS/apstools/issues/203>`_
        `SpecWriterCallback`: `#N` is number of data columns
