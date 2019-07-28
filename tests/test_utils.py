@@ -121,7 +121,8 @@ version     {'bluesky': '1.5.2', 'ophyd': '1.3.3', 'apstools': '1.1.5', 'epics':
             '========= ================================',
             ''
             ]
-        self.assertEqual(str(received), str(expected))
+        for r, e in zip(received, expected):
+            self.assertEqual(r, e)
 
     def test_pairwise(self):
         items = [1.0, 1.1, 1.01, 1.001, 1.0001, 1.00001, 2]
