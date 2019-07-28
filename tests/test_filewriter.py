@@ -115,8 +115,8 @@ class Test_SpecWriterCallback(unittest.TestCase):
 
         # check that the #N line is written properly (issue #203)
         scans = sdf.getScanNumbers()
-        self.assertFalse(108 in scans)
-        self.assertTrue("108" in scans)
+        self.assertNotIn(108, scans)
+        self.assertIn("108", scans)
         scan = sdf.getScan(108)
         self.assertEqual(scan.N[0], len(scan.L))
     
