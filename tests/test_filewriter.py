@@ -6,6 +6,7 @@ unit tests for the SPEC filewriter
 import json
 import os
 import shutil
+import spec2nexus
 import sys
 import tempfile
 import unittest
@@ -107,6 +108,17 @@ class Test_SpecWriterCallback(unittest.TestCase):
         self.assertTrue(
             os.path.exists(specwriter.spec_filename), 
             "data file created")
+
+        sdf = spec2nexus.spec.SpecDataFile(specwriter.spec_filename)
+        self.assertEqual(len(sdf.headers), 1)
+        self.assertEqual(len(sdf.scans), 1)
+
+        # check that the #N line is written properly (issue #203)
+        scans = sdf.getScanNumbers()
+        self.assertFalse(108 in scans)
+        self.assertTrue("108" in scans)
+        scan = sdf.getScan(108)
+        self.assertEqual(scan.N[0], len(scan.L))
     
     def test_writer_filename(self):
         self.assertTrue(len(self.db) > 0, "test data ready")

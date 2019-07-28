@@ -4,8 +4,10 @@
 Change History
 ##############
 
-:1.1.9:  release *tba* : updates
+:1.1.9:  release *tba* : updates & bug fix
 
+    * `#203 <https://github.com/BCDA-APS/apstools/issues/203>`_
+       `SpecWriterCallback`: `#N` is number of data columns
     * `#199 <https://github.com/BCDA-APS/apstools/issues/199>`_
        `spec2ophyd` handle CNTPAR:read_misc_1
 
