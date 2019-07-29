@@ -120,12 +120,12 @@ class SpecSignal(ItemNameBase):
             self.ignore = True
 
     def ophyd_config(self):
-        s = f"{self.mne} = {self.signal_name}('{self.pvname}', name='{self.mne}')"
+        s = f"{self.mne} = {self.signal_name}('{self.pvname}', name='{self.mne}', labels=('detectors',))"
         suffix = None
         if "misc_par_1" in self.cntpar:
             suffix = self.cntpar.pop("misc_par_1")
             pvname = f"{self.device.prefix}{suffix}"
-            s = f"{self.mne} = EpicsSignal('{pvname}', name='{self.mne}')"
+            s = f"{self.mne} = EpicsSignal('{pvname}', name='{self.mne}', labels=('detectors',))"
         if self.mne != self.name:
             s += f"  # {self.name}"
         if self.ignore:
@@ -200,12 +200,12 @@ class SpecMotor(ItemNameBase):
             self.ignore = True
     
     def ophyd_config(self):
-        s = f"{self.mne} = EpicsMotor('{self.pvname}', name='{self.mne}')"
+        s = f"{self.mne} = EpicsMotor('{self.pvname}', name='{self.mne}', labels=('motor',))"
         suffix = None
         if "misc_par_1" in self.motpar:
             suffix = self.motpar.pop("misc_par_1")
             pvname = f"{self.device.prefix}{suffix}"
-            s = f"{self.mne} = EpicsMotor('{pvname}', name='{self.mne}')"
+            s = f"{self.mne} = EpicsMotor('{pvname}', name='{self.mne}', labels=('motor',))"
         if self.pvname is None:
             if self.macro_prefix is not None:
                 s = f"# Macro Motor: {self}"
@@ -288,7 +288,7 @@ class SpecCounter(ItemNameBase):
         if "misc_par_1" in self.cntpar:
             suffix = self.cntpar.pop("misc_par_1")
             pvname = f"{self.device.prefix}{suffix}"
-            s = f"{self.mne} = EpicsSignal('{pvname}', name='{self.mne}')"
+            s = f"{self.mne} = EpicsSignal('{pvname}', name='{self.mne}', labels=('detectors',))"
         if self.ignore:
             s = f"# {self.config_line}: {self.raw}"
         if len(self.cntpar) > 0:
