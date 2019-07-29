@@ -108,21 +108,26 @@ version     {'bluesky': '1.5.2', 'ophyd': '1.3.3', 'apstools': '1.1.5', 'epics':
 
         expected = [
             'RunEngine metadata dictionary:',
-            '========= ================================',
-            'key       value                           ',
-            '========= ================================',
-            'purpose   testing                         ',
-            'something else                            ',
-            'versions  ======== =======================',
-            '          key      value                  ',
-            '          ======== =======================',
+            '========= ===============================',
+            'key       value                          ',
+            '========= ===============================',
+            'purpose   testing                        ',
+            'something else                           ',
+            'versions  ======== ======================',
+            '          key      value                 ',
+            '          ======== ======================',
             f'          apstools {APS__version__}',
-            '          ======== =======================',
-            '========= ================================',
+            '          ======== ======================',
+            '========= ===============================',
             ''
             ]
-        for r, e in zip(received, expected):
-            self.assertEqual(r, e)
+        self.assertEqual(len(received), len(expected))
+        self.assertEqual(received[4].strip(), expected[4].strip())
+        self.assertEqual(received[5].strip(), expected[5].strip())
+        self.assertEqual(
+            received[9].strip(), 
+            expected[9].strip()
+            )
 
     def test_pairwise(self):
         items = [1.0, 1.1, 1.01, 1.001, 1.0001, 1.00001, 2]

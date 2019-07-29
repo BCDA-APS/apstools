@@ -4,6 +4,13 @@
 Change History
 ##############
 
+:1.1.10:  release *tba* : updates & bug fix
+
+    * `#205 <https://github.com/BCDA-APS/apstools/issues/205>`_
+       ``show_ophyd_symbols`` uses ipython shell's namespace
+    * `#202 <https://github.com/BCDA-APS/apstools/issues/202>`_
+       add ``labels`` attribute to enable ``wa`` and ``ct`` magic commands
+
 :1.1.9:  released *2019-07-28* : updates & bug fix
 
     * `#203 <https://github.com/BCDA-APS/apstools/issues/203>`_

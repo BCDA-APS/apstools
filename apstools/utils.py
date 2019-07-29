@@ -210,7 +210,11 @@ def print_RE_md(dictionary=None, fmt="simple", printing=True):
         ======================== ===================================
     
     """
-    global RE
+    try:
+        from IPython import get_ipython
+        RE = get_ipython().user_ns["RE"]
+    except AttributeError as _exc:
+        RE = None
     dictionary = dictionary or RE.md
     md = dict(dictionary)   # copy of input for editing
     v = dictionary_table(md["versions"], fmt=fmt)   # sub-table
@@ -279,29 +283,7 @@ def show_ophyd_symbols(show_pv=True, printing=True, verbose=False, symbols=None)
         If True, also show ``str(obj``.
     symbols: dict (default: `globals()`)
         If None, use global symbol table.
-        If not None, use provided dictionary.                                                                                                                                                                                            
-    
-    **TIP** ``globals()`` only gets the module's globals
-    
-    To get ``globals()`` from the global namespace, need to
-    pass that from the global namespace into this function.
-    Define this function *in* the global namespace::
-    
-        from apstools import utils as APS_utils
-    
-        def show_ophyd_symbols(
-            show_pv=True, 
-            printing=True, 
-            verbose=False, 
-            symbols=None
-        ):
-            symbols = symbols or globals()
-            return APS_utils.show_ophyd_symbols(
-                show_pv=show_pv,
-                printing=printing,
-                verbose=verbose,
-                symbols=symbols
-            )
+        If not None, use provided dictionary. 
     
     EXAMPLE::
     
@@ -333,7 +315,12 @@ def show_ophyd_symbols(show_pv=True, printing=True, verbose=False, symbols=None)
         table.addLabel("EPICS PV")
     if verbose:
         table.addLabel("object representation")
-    g = symbols or globals()
+    try:
+        from IPython import get_ipython
+        g = get_ipython().user_ns
+    except AttributeError as _exc:
+        g = globals()
+    g = symbols or g
     for k, v in sorted(g.items()):
         if isinstance(v, (ophyd.Signal, ophyd.Device)):
             row = [k, v.__class__.__name__]
