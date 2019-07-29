@@ -8,6 +8,8 @@ Change History
 
     * `#207 <https://github.com/BCDA-APS/apstools/issues/207>`_
        ``show_ophyd_symbols`` also shows labels
+    * `#206 <https://github.com/BCDA-APS/apstools/issues/206>`_
+       new: ``apstools.utils.APS_utils.list_recent_scans()``
     * `#205 <https://github.com/BCDA-APS/apstools/issues/205>`_
        ``show_ophyd_symbols`` uses ipython shell's namespace
     * `#202 <https://github.com/BCDA-APS/apstools/issues/202>`_
