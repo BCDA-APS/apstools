@@ -12,10 +12,11 @@ Various utilities
    ~ExcelDatabaseFileBase
    ~ExcelDatabaseFileGeneric
    ~ExcelReadError
+   ~ipython_profile_name
    ~itemizer
    ~json_export
    ~json_import
-   ~ipython_profile_name
+   ~list_recent_scans
    ~pairwise
    ~print_snapshot_list
    ~print_RE_md
@@ -179,6 +180,33 @@ def dictionary_table(dictionary, fmt="simple"):
 def itemizer(fmt, items):
     """format a list of items"""
     return [fmt % k for k in items]
+
+
+def list_recent_scans(num=20, db=None):
+    """
+    make a table of the most recent scans
+    """
+    try:
+        from IPython import get_ipython
+        global_db = get_ipython().user_ns["db"]
+    except AttributeError as _exc:
+        global_db = None
+    db = db or global_db
+    
+    table = pyRestTable.Table()
+    table.labels = "scan_id   date/time   plan_name   short_uid".split()
+    
+    for h in db[-abs(num):]:
+        row = [
+            h.start['scan_id'],
+            datetime.datetime.fromtimestamp(h.start['time']),
+            h.start.get("plan_name", ""),
+            h.start["uid"][:7]
+            ]
+        table.addRow(row)
+    
+    print(table)
+    return table
 
 
 def print_RE_md(dictionary=None, fmt="simple", printing=True):
