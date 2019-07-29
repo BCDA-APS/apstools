@@ -165,7 +165,7 @@ version     {'bluesky': '1.5.2', 'ophyd': '1.3.3', 'apstools': '1.1.5', 'epics':
         kk = sorted(sims.keys())
         # sims hardware not found by show_ophyd_symbols() in globals!
         table = APS_utils.show_ophyd_symbols(symbols=sims, printing=False)
-        self.assertEqual(3, len(table.labels))
+        self.assertEqual(4, len(table.labels))
         rr = [r[0] for r in table.rows]
         for k in kk:
             msg = f"{k} not found"

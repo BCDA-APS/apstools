@@ -6,6 +6,8 @@ Change History
 
 :1.1.10:  release *tba* : updates & bug fix
 
+    * `#207 <https://github.com/BCDA-APS/apstools/issues/207>`_
+       ``show_ophyd_symbols`` also shows labels
     * `#205 <https://github.com/BCDA-APS/apstools/issues/205>`_
        ``show_ophyd_symbols`` uses ipython shell's namespace
     * `#202 <https://github.com/BCDA-APS/apstools/issues/202>`_

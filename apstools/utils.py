@@ -315,6 +315,7 @@ def show_ophyd_symbols(show_pv=True, printing=True, verbose=False, symbols=None)
         table.addLabel("EPICS PV")
     if verbose:
         table.addLabel("object representation")
+    table.addLabel("label(s)")
     try:
         from IPython import get_ipython
         g = get_ipython().user_ns
@@ -333,6 +334,7 @@ def show_ophyd_symbols(show_pv=True, printing=True, verbose=False, symbols=None)
                     row.append("")
             if verbose:
                 row.append(str(v))
+            row.append(' '.join(v._ophyd_labels_))
             table.addRow(row)
     if printing:
         print(table)
