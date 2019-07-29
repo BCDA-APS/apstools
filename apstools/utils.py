@@ -182,7 +182,7 @@ def itemizer(fmt, items):
     return [fmt % k for k in items]
 
 
-def list_recent_scans(num=20, db=None):
+def list_recent_scans(num=20, printing=True, db=None):
     """
     make a table of the most recent scans
     """
@@ -205,7 +205,8 @@ def list_recent_scans(num=20, db=None):
             ]
         table.addRow(row)
     
-    print(table)
+    if printing:
+        print(table)
     return table
 
 
