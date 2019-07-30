@@ -1583,7 +1583,7 @@ def AD_warmed_up(detector):
     return verdict
 
 
-class AD_EpicsHdf5FileName(FileStorePluginBase):
+class AD_EpicsHdf5FileName(FileStorePluginBase):    # lgtm [py/missing-call-to-init]
     """
     custom class to define image file name from EPICS
     
