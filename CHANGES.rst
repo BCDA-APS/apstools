@@ -4,8 +4,10 @@
 Change History
 ##############
 
-:1.1.10:  release *tba* : updates & bug fix
+:1.1.10:  released *2019-07-30* : updates & bug fix
 
+    * `#211 <https://github.com/BCDA-APS/apstools/issues/211>`_
+       ``devices`` calls to superclass ``__init__()``
     * `#209 <https://github.com/BCDA-APS/apstools/issues/209>`_
        ``devices`` call to superclass ``__init__()``
     * `#207 <https://github.com/BCDA-APS/apstools/issues/207>`_
