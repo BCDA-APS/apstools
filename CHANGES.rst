@@ -4,6 +4,17 @@
 Change History
 ##############
 
+:1.1.10:  release *tba* : updates & bug fix
+
+    * `#207 <https://github.com/BCDA-APS/apstools/issues/207>`_
+       ``show_ophyd_symbols`` also shows labels
+    * `#206 <https://github.com/BCDA-APS/apstools/issues/206>`_
+       new: ``apstools.utils.APS_utils.list_recent_scans()``
+    * `#205 <https://github.com/BCDA-APS/apstools/issues/205>`_
+       ``show_ophyd_symbols`` uses ipython shell's namespace
+    * `#202 <https://github.com/BCDA-APS/apstools/issues/202>`_
+       add ``labels`` attribute to enable ``wa`` and ``ct`` magic commands
+
 :1.1.9:  released *2019-07-28* : updates & bug fix
 
     * `#203 <https://github.com/BCDA-APS/apstools/issues/203>`_
@@ -28,13 +39,10 @@ Change History
 
 :1.1.7:  released 2019-07-04
 
-	.. note:: DEPRECATION: 
+    * `DEPRECATION <https://github.com/BCDA-APS/apstools/issues/90#issuecomment-483405890>`_
 	   `apstools.plans.run_blocker_in_plan()` will be removed by 2019-12-31.
 	   `Do not write blocking code in bluesky plans.
-	   <https://github.com/BCDA-APS/apstools/issues/90#issuecomment-483405890>`_
-
-	.. note:: Dropped python 3.5 from supported versions
-
+    * Dropped python 3.5 from supported versions
     * `#175 <https://github.com/BCDA-APS/apstools/issues/175>`_
        move `plans.run_in_thread()` to `utils.run_in_thread()`
     * `#168 <https://github.com/BCDA-APS/apstools/issues/168>`_
