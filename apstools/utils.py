@@ -223,17 +223,16 @@ def list_recent_scans(num=20, keys=[], printing=True, db=None):
         global_db = None
     db = db or global_db
     
-    keys.insert(0, "plan_name")
-    keys.insert(0, "scan_id")
+    labels = "scan_id  plan_name".split() + keys
     
     table = pyRestTable.Table()
-    table.labels = "short_uid   date/time".split() + keys
+    table.labels = "short_uid   date/time".split() + labels
     
     for h in db[-abs(num):]:
         row = [
             h.start["uid"][:7],
             datetime.datetime.fromtimestamp(h.start['time']),
-            ] + [h.start.get(k, "") for k in keys]
+            ] + [h.start.get(k, "") for k in labels]
         table.addRow(row)
     
     if printing:
