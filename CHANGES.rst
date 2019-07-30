@@ -6,6 +6,8 @@ Change History
 
 :1.1.10:  release *tba* : updates & bug fix
 
+    * `#209 <https://github.com/BCDA-APS/apstools/issues/209>`_
+       ``devices`` call to superclass ``__init__()``
     * `#207 <https://github.com/BCDA-APS/apstools/issues/207>`_
        ``show_ophyd_symbols`` also shows labels
     * `#206 <https://github.com/BCDA-APS/apstools/issues/206>`_

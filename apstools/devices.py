@@ -1583,7 +1583,7 @@ def AD_warmed_up(detector):
     return verdict
 
 
-class AD_EpicsHdf5FileName(FileStorePluginBase):
+class AD_EpicsHdf5FileName(FileStorePluginBase):    # lgtm [py/missing-call-to-init]
     """
     custom class to define image file name from EPICS
     
@@ -1687,7 +1687,7 @@ class AD_EpicsHdf5FileName(FileStorePluginBase):
     """
 
     def __init__(self, *args, **kwargs):
-        FileStorePluginBase.__init__(*args, **kwargs)
+        FileStorePluginBase.__init__(self, *args, **kwargs)
         self.filestore_spec = 'AD_HDF5'  # spec name stored in resource doc
         self.stage_sigs.update([
             ('file_template', '%s%s_%4.4d.h5'),
