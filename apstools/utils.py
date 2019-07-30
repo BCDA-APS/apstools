@@ -59,6 +59,8 @@ import time
 import xlrd
 import zipfile
 
+from .filewriters import _rebuild_scan_command
+
 
 logger = logging.getLogger(__name__)
 
@@ -182,7 +184,7 @@ def itemizer(fmt, items):
     return [fmt % k for k in items]
 
 
-def list_recent_scans(num=20, keys=[], printing=True, db=None):
+def list_recent_scans(num=20, keys=[], printing=True, show_command=False, db=None):
     """
     make a table of the most recent scans
 
@@ -192,8 +194,20 @@ def list_recent_scans(num=20, keys=[], printing=True, db=None):
         Make the table include the ``num`` most recent scans.
     keys : [str] (default: ``[]``)
         Include these additional keys from the start document.
+        
+        Two special keys are supported:
+        
+        * ``command`` : shows the scan command.
+          (note: This command is reconstructed from keys in the start
+          document so it will not be exactly as the user typed.
+          Also, it will be truncated so that it is no more than 40 characters.)
+        * ``exit_status`` : from the stop document
+
     printing : bool (default: ``True``)
         If True, print the table to stdout
+    show_command : bool (default: ``False``)
+        If True, show the (reconstructed) full command,
+        but truncate it to no more than 40 characters)
     db : object (default: ``db`` from the IPython shell)
         Instance of ``databroker.Broker()``
 
@@ -223,7 +237,10 @@ def list_recent_scans(num=20, keys=[], printing=True, db=None):
         global_db = None
     db = db or global_db
     
-    labels = "scan_id  plan_name".split() + keys
+    if show_command:
+        labels = "scan_id  command".split() + keys
+    else:
+        labels = "scan_id  plan_name".split() + keys
     
     table = pyRestTable.Table()
     table.labels = "short_uid   date/time".split() + labels
@@ -232,7 +249,20 @@ def list_recent_scans(num=20, keys=[], printing=True, db=None):
         row = [
             h.start["uid"][:7],
             datetime.datetime.fromtimestamp(h.start['time']),
-            ] + [h.start.get(k, "") for k in labels]
+            ]
+        for k in labels:
+            if k == "command":
+                command = _rebuild_scan_command(h.start)
+                command = command[command.find(" "):].strip()
+                maxlen = 40
+                if len(command) > maxlen:
+                    suffix = " ..."
+                    command = command[:maxlen-len(suffix)] + suffix
+                row.append(command)
+            elif k == "exit_status":
+                row.append(h.stop.get(k, ""))
+            else:
+                row.append(h.start.get(k, ""))
         table.addRow(row)
     
     if printing:

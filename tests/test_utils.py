@@ -172,6 +172,24 @@ version     {'bluesky': '1.5.2', 'ophyd': '1.3.3', 'apstools': '1.1.5', 'epics':
             if k not in wont_show:
                 self.assertTrue(k in rr, msg)
         self.assertEqual(num, len(table.rows))
+    
+    def test_list_recent_scans(self):
+        from tests.test_export_json import get_db
+        db = get_db()
+        headers = db(plan_name="count")
+        headers = list(headers)[0:1]
+        self.assertEqual(len(headers), 1)
+        table = APS_utils.list_recent_scans(
+            keys=["exit_status",], 
+            show_command=True,
+            printing=False,
+            num=10,
+            db=db,
+            )
+        self.assertIsNotNone(table)
+        self.assertEqual(len(table.labels), 5, "asked for 2 extra columns (total 5)")
+        self.assertEqual(len(table.rows), 10, "asked for 10 rows")
+        self.assertLessEqual(len(table.rows[1][3]), 40, "command row should be 40 char or less")
 
 
 def suite(*args, **kw):
