@@ -141,7 +141,7 @@ def dictionary_table(dictionary, fmt="simple"):
         
         default: ``simple``
 	
-	.. [#] *pyRestTable* : https://pyresttable.readthedocs.io/en/latest/examples/index.html#examples
+        .. [#] *pyRestTable* : https://pyresttable.readthedocs.io/en/latest/examples/index.html#examples
     
     RETURNS
 
@@ -182,9 +182,39 @@ def itemizer(fmt, items):
     return [fmt % k for k in items]
 
 
-def list_recent_scans(num=20, printing=True, db=None):
+def list_recent_scans(num=20, keys=[], printing=True, db=None):
     """
     make a table of the most recent scans
+
+    PARAMETERS
+    
+    num : int (default: ``20``)
+        Make the table include the ``num`` most recent scans.
+    keys : [str] (default: ``[]``)
+        Include these additional keys from the start document.
+    printing : bool (default: ``True``)
+        If True, print the table to stdout
+    db : object (default: ``db`` from the IPython shell)
+        Instance of ``databroker.Broker()``
+
+    RETURNS
+    
+    object:
+        Instance of `pyRestTable.Table()``
+    
+    EXAMPLE::
+
+        In [7]: APS_utils.list_recent_scans(num=5, keys=["proposal_id","pid"])                                                                                                     
+        ========= ========================== ======= ========= =========== =====
+        short_uid date/time                  scan_id plan_name proposal_id pid  
+        ========= ========================== ======= ========= =========== =====
+        235cc8e   2019-07-26 19:59:57.377210 156     scan      testing     31185
+        82406dd   2019-07-26 19:57:30.607125 155     scan      testing     31185
+        f6249d8   2019-07-25 16:45:36.114533 151     count     testing     15321
+        9457fa4   2019-07-25 16:19:07.410803 150     count     testing     4845 
+        f17f026   2019-07-25 16:19:04.929030 149     count     testing     4845 
+        ========= ========================== ======= ========= =========== =====
+
     """
     try:
         from IPython import get_ipython
@@ -193,16 +223,17 @@ def list_recent_scans(num=20, printing=True, db=None):
         global_db = None
     db = db or global_db
     
+    keys.insert(0, "plan_name")
+    keys.insert(0, "scan_id")
+    
     table = pyRestTable.Table()
-    table.labels = "scan_id   date/time   plan_name   short_uid".split()
+    table.labels = "short_uid   date/time".split() + keys
     
     for h in db[-abs(num):]:
         row = [
-            h.start['scan_id'],
+            h.start["uid"][:7],
             datetime.datetime.fromtimestamp(h.start['time']),
-            h.start.get("plan_name", ""),
-            h.start["uid"][:7]
-            ]
+            ] + [h.start.get(k, "") for k in keys]
         table.addRow(row)
     
     if printing:
@@ -314,6 +345,11 @@ def show_ophyd_symbols(show_pv=True, printing=True, verbose=False, symbols=None)
         If None, use global symbol table.
         If not None, use provided dictionary. 
     
+    RETURNS
+    
+    object:
+        Instance of `pyRestTable.Table()``
+
     EXAMPLE::
     
         In [1]: show_ophyd_symbols()                                                                                                                                                                           
