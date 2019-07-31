@@ -20,6 +20,7 @@ Various utilities
    ~pairwise
    ~print_snapshot_list
    ~print_RE_md
+   ~replay
    ~run_in_thread
    ~show_ophyd_symbols
    ~split_quoted_line
@@ -40,7 +41,9 @@ Various utilities
 # The full license is in the file LICENSE.txt, distributed with this software.
 #-----------------------------------------------------------------------------
 
+from bluesky.callbacks.best_effort import BestEffortCallback
 from collections import OrderedDict
+import databroker
 import datetime
 from email.mime.text import MIMEText
 from event_model import NumpyEncoder
@@ -190,10 +193,12 @@ def list_recent_scans(num=20, keys=[], printing=True, show_command=False, db=Non
 
     PARAMETERS
     
-    num : int (default: ``20``)
+    num : int
         Make the table include the ``num`` most recent scans.
-    keys : [str] (default: ``[]``)
+        (default: ``20``)
+    keys : [str]
         Include these additional keys from the start document.
+        (default: ``[]``)
         
         Two special keys are supported:
         
@@ -203,13 +208,16 @@ def list_recent_scans(num=20, keys=[], printing=True, show_command=False, db=Non
           Also, it will be truncated so that it is no more than 40 characters.)
         * ``exit_status`` : from the stop document
 
-    printing : bool (default: ``True``)
+    printing : bool
         If True, print the table to stdout
-    show_command : bool (default: ``False``)
+        (default: ``True``)
+    show_command : bool
         If True, show the (reconstructed) full command,
         but truncate it to no more than 40 characters)
-    db : object (default: ``db`` from the IPython shell)
+        (default: ``False``)
+    db : object
         Instance of ``databroker.Broker()``
+        (default: ``db`` from the IPython shell)
 
     RETURNS
     
@@ -230,12 +238,7 @@ def list_recent_scans(num=20, keys=[], printing=True, show_command=False, db=Non
         ========= ========================== ======= ========= =========== =====
 
     """
-    try:
-        from IPython import get_ipython
-        global_db = get_ipython().user_ns["db"]
-    except AttributeError as _exc:
-        global_db = None
-    db = db or global_db
+    db = db or ipython_shell_namespace()["db"]
     
     if show_command:
         labels = "scan_id  command".split() + keys
@@ -299,12 +302,7 @@ def print_RE_md(dictionary=None, fmt="simple", printing=True):
         ======================== ===================================
     
     """
-    try:
-        from IPython import get_ipython
-        RE = get_ipython().user_ns["RE"]
-    except AttributeError as _exc:
-        RE = None
-    dictionary = dictionary or RE.md
+    dictionary = dictionary or ipython_shell_namespace()["RE"].md
     md = dict(dictionary)   # copy of input for editing
     v = dictionary_table(md["versions"], fmt=fmt)   # sub-table
     md["versions"] = str(v).rstrip()
@@ -333,6 +331,42 @@ def pairwise(iterable):
     """
     a = iter(iterable)
     return zip(a, a)
+
+
+def replay(headers, callback=None):
+    """
+    replay the document stream from one (or more) scans (headers)
+    
+    PARAMETERS
+    
+    headers: scan or [scan]
+        Scan(s) to be replayed through callback.
+        A *scan* is an instance of a Bluesky `databroker.Header`.
+        see: https://nsls-ii.github.io/databroker/api.html?highlight=header#header-api
+    
+    callback: scan or [scan]
+        The Bluesky callback to handle the stream of documents from a scan.
+        If `None`, then use the `bec` (BestEffortCallback) from the IPython shell.
+        (default:`None`)
+
+    *new in apstools release 1.1.11*
+    """
+    callback = callback or ipython_shell_namespace().get(
+        "bec",                  # get from IPython shell
+        BestEffortCallback(),   # make one, if we must
+        )
+    if isinstance(headers, databroker.Header):
+        headers = tuple(headers)
+    for h in headers:
+        if not isinstance(h, databroker.Header):
+            emsg = f"Must be a databroker Header: received: {type(h)}: |{h}|"
+            raise TypeError(emsg)
+        cmd = _rebuild_scan_command(h.start)
+        logger.debug(f"{cmd}")
+        
+        # at last, this is where the real action happens
+        for k, doc in h.documents():    # get the stream
+            callback(k, doc)            # play it through the callback
 
 
 def run_in_thread(func):
@@ -364,15 +398,19 @@ def show_ophyd_symbols(show_pv=True, printing=True, verbose=False, symbols=None)
     
     PARAMETERS
     
-    show_pv: bool (default: True)
+    show_pv: bool
         If True, also show relevant EPICS PV, if available.
-    printing: bool (default: True)
+        (default: True)
+    printing: bool
         If True, print table to stdout.
-    verbose: bool (default: False)
+        (default: True)
+    verbose: bool
         If True, also show ``str(obj``.
-    symbols: dict (default: `globals()`)
+        (default: False)
+    symbols: dict
         If None, use global symbol table.
         If not None, use provided dictionary. 
+        (default: `globals()`)
     
     RETURNS
     
@@ -410,12 +448,14 @@ def show_ophyd_symbols(show_pv=True, printing=True, verbose=False, symbols=None)
     if verbose:
         table.addLabel("object representation")
     table.addLabel("label(s)")
-    try:
-        from IPython import get_ipython
-        g = get_ipython().user_ns
-    except AttributeError as _exc:
-        g = globals()
-    g = symbols or g
+    if symbols is None:
+        # the default choice
+        g = ipython_shell_namespace()
+        if len(g) == 0:
+            # ultimate fallback
+            g = globals()
+    else:
+        g = symbols
     for k, v in sorted(g.items()):
         if isinstance(v, (ophyd.Signal, ophyd.Device)):
             row = [k, v.__class__.__name__]
@@ -844,6 +884,18 @@ def ipython_profile_name():
     """
     from IPython import get_ipython
     return get_ipython().profile
+
+
+def ipython_shell_namespace():
+    """
+    get the IPython shell's namespace dictionary (or empty if not found)
+    """
+    try:
+        from IPython import get_ipython
+        ns = get_ipython().user_ns
+    except AttributeError as _exc:
+        ns = {}
+    return ns
 
 
 def print_snapshot_list(db, **search_criteria):
