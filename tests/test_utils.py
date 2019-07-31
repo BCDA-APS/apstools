@@ -172,7 +172,16 @@ version     {'bluesky': '1.5.2', 'ophyd': '1.3.3', 'apstools': '1.1.5', 'epics':
             if k not in wont_show:
                 self.assertTrue(k in rr, msg)
         self.assertEqual(num, len(table.rows))
-    
+
+
+class Test_With_Database(unittest.TestCase):
+
+    def setUp(self):
+        pass
+
+    def tearDown(self):
+        pass
+
     def test_list_recent_scans(self):
         from tests.test_export_json import get_db
         db = get_db()
@@ -187,14 +196,24 @@ version     {'bluesky': '1.5.2', 'ophyd': '1.3.3', 'apstools': '1.1.5', 'epics':
             db=db,
             )
         self.assertIsNotNone(table)
-        self.assertEqual(len(table.labels), 5, "asked for 2 extra columns (total 5)")
-        self.assertEqual(len(table.rows), 10, "asked for 10 rows")
-        self.assertLessEqual(len(table.rows[1][3]), 40, "command row should be 40 char or less")
+        self.assertEqual(
+            len(table.labels), 
+            5, 
+            "asked for 2 extra columns (total 5)")
+        self.assertEqual(
+            len(table.rows), 
+            10, 
+            "asked for 10 rows")
+        self.assertLessEqual(
+            len(table.rows[1][3]), 
+            40, 
+            "command row should be 40 char or less")
 
 
 def suite(*args, **kw):
     test_list = [
         Test_Utils,
+        Test_With_Database,
         ]
     test_suite = unittest.TestSuite()
     for test_case in test_list:
