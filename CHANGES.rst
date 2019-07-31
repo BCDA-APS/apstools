@@ -4,7 +4,7 @@
 Change History
 ##############
 
-:1.1.11:  release *tba* : 
+:1.1.11:  released *2019-07-31* : updates & new utility
 
     * `#214 <https://github.com/BCDA-APS/apstools/issues/214>`_
        new: ``apstools.utils.APS_utils.replay()``
