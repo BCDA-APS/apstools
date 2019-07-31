@@ -4,6 +4,13 @@
 Change History
 ##############
 
+:1.1.11:  release *tba* : 
+
+    * `#213 <https://github.com/BCDA-APS/apstools/issues/213>`_
+       ``list_recent_scans`` show ``exit_status`` 
+    * `#212 <https://github.com/BCDA-APS/apstools/issues/212>`_
+       ``list_recent_scans`` show reconstructed scan command
+
 :1.1.10:  released *2019-07-30* : updates & bug fix
 
     * `#211 <https://github.com/BCDA-APS/apstools/issues/211>`_
