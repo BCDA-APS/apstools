@@ -40,7 +40,7 @@ Change History
     * `#196 <https://github.com/BCDA-APS/apstools/issues/196>`_
        `spec2ophyd` handle MOTPAR:read_misc_1
     * `#194 <https://github.com/BCDA-APS/apstools/issues/194>`_
-       show table of global ophyd `Signal`s and `Device`s
+       new ``show_ophyd_symbols`` shows table of global ophyd `Signal`s and `Device`s
     * `#193 <https://github.com/BCDA-APS/apstools/issues/193>`_
        `spec2ophyd` ignore None items in SPEC config file
     * `#192 <https://github.com/BCDA-APS/apstools/issues/192>`_
@@ -54,12 +54,12 @@ Change History
 
     * `DEPRECATION <https://github.com/BCDA-APS/apstools/issues/90#issuecomment-483405890>`_
 	   `apstools.plans.run_blocker_in_plan()` will be removed by 2019-12-31.
-	   `Do not write blocking code in bluesky plans.
+	   Do not write blocking code in bluesky plans.
     * Dropped python 3.5 from supported versions
     * `#175 <https://github.com/BCDA-APS/apstools/issues/175>`_
        move `plans.run_in_thread()` to `utils.run_in_thread()`
     * `#168 <https://github.com/BCDA-APS/apstools/issues/168>`_
-       add module to migrate SPEC config file to ophyd setup
+       new `spec2ophyd`  migrates SPEC config file to ophyd setup
     * `#166 <https://github.com/BCDA-APS/apstools/issues/166>`_
        `device_read2table()`: format `device.read()` results in a pyRestTable.Table
     * `#161 <https://github.com/BCDA-APS/apstools/issues/161>`_
@@ -67,7 +67,7 @@ Change History
     * `#159 <https://github.com/BCDA-APS/apstools/issues/159>`_
        convert xlrd.XLRDError into apstools.utils.ExcelReadError
     * `#158 <https://github.com/BCDA-APS/apstools/issues/158>`_
-       run a command list from text file or Excel spreadsheet
+       new ``run_command_file()`` runs a command list from text file or Excel spreadsheet
 
 :1.1.6:  released *2019-05-26*
 

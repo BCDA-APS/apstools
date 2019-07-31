@@ -127,6 +127,8 @@ def execute_command_list(filename, commands, md={}):
         ~summarize_command_file
         ~parse_Excel_command_file
         ~parse_text_command_file
+
+    *new in apstools release 1.1.7*
     """
     full_filename = os.path.abspath(filename)
 
@@ -179,6 +181,7 @@ def get_command_list(filename):
         ~parse_Excel_command_file
         ~parse_text_command_file
 
+    *new in apstools release 1.1.7*
     """
     full_filename = os.path.abspath(filename)
     if not os.path.exists(full_filename):
@@ -376,7 +379,7 @@ def parse_Excel_command_file(filename):
         ~summarize_command_file
         ~parse_text_command_file
 
-
+    *new in apstools release 1.1.7*
     """
     full_filename = os.path.abspath(filename)
     assert os.path.exists(full_filename)
@@ -457,6 +460,7 @@ def parse_text_command_file(filename):
         ~summarize_command_file
         ~parse_Excel_command_file
 
+    *new in apstools release 1.1.7*
     """
     full_filename = os.path.abspath(filename)
     assert os.path.exists(full_filename)
@@ -504,6 +508,7 @@ def register_command_handler(handler=None):
         ~parse_Excel_command_file
         ~parse_text_command_file
 
+    *new in apstools release 1.1.7*
     """
     global _COMMAND_HANDLER_
     _COMMAND_HANDLER_ = handler or execute_command_list
@@ -527,6 +532,7 @@ def run_command_file(filename, md={}):
         ~parse_Excel_command_file
         ~parse_text_command_file
 
+    *new in apstools release 1.1.7*
     """
     commands = get_command_list(filename)
     yield from _COMMAND_HANDLER_(filename, commands)
@@ -617,6 +623,7 @@ def summarize_command_file(filename):
         ~parse_Excel_command_file
         ~parse_text_command_file
 
+    *new in apstools release 1.1.7*
     """
     commands = get_command_list(filename)
     print(f"Command file: {filename}")

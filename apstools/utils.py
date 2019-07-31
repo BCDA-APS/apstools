@@ -237,6 +237,7 @@ def list_recent_scans(num=20, keys=[], printing=True, show_command=False, db=Non
         f17f026   2019-07-25 16:19:04.929030 149     count     testing     4845 
         ========= ========================== ======= ========= =========== =====
 
+    *new in apstools release 1.1.10*
     """
     db = db or ipython_shell_namespace()["db"]
     
@@ -440,6 +441,8 @@ def show_ophyd_symbols(show_pv=True, printing=True, verbose=False, symbols=None)
         Out[1]: <pyRestTable.rest_table.Table at 0x7fa4398c7cf8>
         
         In [2]:    
+
+    *new in apstools release 1.1.8*
     """
     table = pyRestTable.Table()
     table.labels = ["name", "ophyd structure"]
