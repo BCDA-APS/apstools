@@ -356,9 +356,10 @@ def replay(headers, callback=None):
         "bec",                  # get from IPython shell
         BestEffortCallback(),   # make one, if we must
         )
-    if isinstance(headers, databroker.Header):
-        headers = tuple(headers)
-    for h in headers:
+    _headers = headers   # do not mutate the input arg
+    if isinstance(_headers, databroker.Header):
+        _headers = [_headers]
+    for h in _headers:
         if not isinstance(h, databroker.Header):
             emsg = f"Must be a databroker Header: received: {type(h)}: |{h}|"
             raise TypeError(emsg)
