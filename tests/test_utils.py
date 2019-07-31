@@ -177,15 +177,14 @@ version     {'bluesky': '1.5.2', 'ophyd': '1.3.3', 'apstools': '1.1.5', 'epics':
 class Test_With_Database(unittest.TestCase):
 
     def setUp(self):
-        pass
+        from tests.test_export_json import get_db
+        self.db = get_db()
 
     def tearDown(self):
         pass
 
     def test_list_recent_scans(self):
-        from tests.test_export_json import get_db
-        db = get_db()
-        headers = db(plan_name="count")
+        headers = self.db(plan_name="count")
         headers = list(headers)[0:1]
         self.assertEqual(len(headers), 1)
         table = APS_utils.list_recent_scans(
@@ -193,7 +192,7 @@ class Test_With_Database(unittest.TestCase):
             show_command=True,
             printing=False,
             num=10,
-            db=db,
+            db=self.db,
             )
         self.assertIsNotNone(table)
         self.assertEqual(
@@ -208,6 +207,18 @@ class Test_With_Database(unittest.TestCase):
             len(table.rows[1][3]), 
             40, 
             "command row should be 40 char or less")
+
+    def test_replay(self):
+        replies = []
+        def my_cb(key, doc):
+            replies.append((key, len(doc)))
+        APS_utils.replay(self.db(plan_name="count"), callback=my_cb)
+
+        self.assertGreater(len(replies), 0)
+        keys = set([v[0] for v in replies])
+        for item in "start stop event descriptor datum resource".split():
+            msg = f"{item} not in {keys}"
+            self.assertIn(item, keys, msg)
 
 
 def suite(*args, **kw):
