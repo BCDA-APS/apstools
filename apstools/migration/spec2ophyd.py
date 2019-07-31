@@ -4,6 +4,8 @@
 read SPEC config file and convert to ophyd setup commands
 
 output of ophyd configuration to stdout
+
+*new in apstools release 1.1.7*
 """
 
 
