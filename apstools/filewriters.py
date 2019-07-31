@@ -79,7 +79,19 @@ SPEC_TIME_FORMAT = "%a %b %d %H:%M:%S %Y"
 SCAN_ID_RESET_VALUE = 0
 
 def _rebuild_scan_command(doc):
-    """reconstruct the scan command for SPEC data file #S line"""
+    """
+    reconstruct the scan command for SPEC data file #S line
+
+    PARAMETERS
+    
+    doc : object
+        instance of a bluesky ``start`` document
+
+    RETURNS
+    
+    str:
+        "scan_number reconstructed_scan_command"
+    """
     
     def get_name(src):
         """
