@@ -6,6 +6,8 @@ Change History
 
 :1.1.11:  release *tba* : 
 
+    * `#214 <https://github.com/BCDA-APS/apstools/issues/214>`_
+       new: ``apstools.utils.APS_utils.replay()``
     * `#213 <https://github.com/BCDA-APS/apstools/issues/213>`_
        ``list_recent_scans`` show ``exit_status`` 
     * `#212 <https://github.com/BCDA-APS/apstools/issues/212>`_
