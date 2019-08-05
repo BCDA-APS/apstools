@@ -4,6 +4,15 @@
 Change History
 ##############
 
+:1.1.12:  expect to release *2019-08-07* : bug fixes & updates
+
+    * `#219 <https://github.com/BCDA-APS/apstools/issues/219>`_
+       ``ProcessController``: bug fixes
+    * `#218 <https://github.com/BCDA-APS/apstools/issues/218>`_
+       ``replay()``: sort chronological by default
+    * `#216 <https://github.com/BCDA-APS/apstools/issues/216>`_
+       ``replay()``: fails when not list
+
 :1.1.11:  released *2019-07-31* : updates & new utility
 
     * `#214 <https://github.com/BCDA-APS/apstools/issues/214>`_
