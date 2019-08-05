@@ -210,15 +210,42 @@ class Test_With_Database(unittest.TestCase):
 
     def test_replay(self):
         replies = []
-        def my_cb(key, doc):
+        def cb1(key, doc):
             replies.append((key, len(doc)))
-        APS_utils.replay(self.db(plan_name="count"), callback=my_cb)
-
+        APS_utils.replay(self.db(plan_name="count"), callback=cb1)
         self.assertGreater(len(replies), 0)
         keys = set([v[0] for v in replies])
         for item in "start stop event descriptor datum resource".split():
             msg = f"{item} not in {keys}"
             self.assertIn(item, keys, msg)
+
+        def cb2(key, doc):
+            if key == "start":
+                replies.append(doc["time"])
+
+        replies = []
+        APS_utils.replay(self.db[-1], callback=cb2)
+        self.assertEqual(len(replies), 1, "most recent run")
+
+        replies = []
+        APS_utils.replay(self.db[-3:], callback=cb2)
+        self.assertEqual(len(replies), 3, "most recent 3 runs")
+
+        replies = []
+        APS_utils.replay(self.db(plan_name="count"), callback=cb2)
+        previous = 0
+        for i, v in enumerate(replies):
+            msg = f"expect increasing: #{i} : change={v-previous}"
+            self.assertGreater(v - previous, 0, msg)
+            previous = v
+
+        replies = []
+        APS_utils.replay(self.db(plan_name="count"), callback=cb2, sort=False)
+        previous = replies[0]+1
+        for i, v in enumerate(replies):
+            msg = f"expect decreasing: #{i} : change={v-previous}"
+            self.assertLess(v - previous, 0, msg)
+            previous = v
 
 
 def suite(*args, **kw):
