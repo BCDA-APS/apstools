@@ -1412,7 +1412,7 @@ class ProcessController(Device):
     def settled(self):
         """Is signal close enough to target?"""
         diff = abs(self.signal.get() - self.target.value)
-        return diff <= self.tolerance
+        return diff <= self.tolerance.value
 
     def wait_until_settled(self, timeout=None, timeout_fail=False):
         """
@@ -1447,7 +1447,7 @@ class ProcessController(Device):
                         raise TimeoutError(msg)
                     continue
                 if elapsed >= report:
-                    report += self.report_interval_s.value
+                    report += self.report_interval_s
                     msg = f"Waiting {elapsed:.1f}s"
                     msg += f" to reach {self.target.value:.2f}{self.units.value}"
                     msg += f", now {self.signal.get():.2f}{self.units.value}"
