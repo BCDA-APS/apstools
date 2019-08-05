@@ -334,7 +334,7 @@ def pairwise(iterable):
     return zip(a, a)
 
 
-def replay(headers, callback=None):
+def replay(headers, callback=None, sort=True):
     """
     replay the document stream from one (or more) scans (headers)
     
@@ -348,7 +348,11 @@ def replay(headers, callback=None):
     callback: scan or [scan]
         The Bluesky callback to handle the stream of documents from a scan.
         If `None`, then use the `bec` (BestEffortCallback) from the IPython shell.
-        (default:`None`)
+        (default:``None``)
+    
+    sort: bool
+        Sort the headers chronologically if True.
+        (default:``True``)
 
     *new in apstools release 1.1.11*
     """
