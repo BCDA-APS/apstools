@@ -334,7 +334,7 @@ def pairwise(iterable):
     return zip(a, a)
 
 
-def replay(headers, callback=None):
+def replay(headers, callback=None, sort=True):
     """
     replay the document stream from one (or more) scans (headers)
     
@@ -348,7 +348,11 @@ def replay(headers, callback=None):
     callback: scan or [scan]
         The Bluesky callback to handle the stream of documents from a scan.
         If `None`, then use the `bec` (BestEffortCallback) from the IPython shell.
-        (default:`None`)
+        (default:``None``)
+    
+    sort: bool
+        Sort the headers chronologically if True.
+        (default:``True``)
 
     *new in apstools release 1.1.11*
     """
@@ -359,7 +363,18 @@ def replay(headers, callback=None):
     _headers = headers   # do not mutate the input arg
     if isinstance(_headers, databroker.Header):
         _headers = [_headers]
-    for h in _headers:
+
+    def time_sorter(run):    # by increasing time
+        return run.start["time"]
+
+    sequence = list(_headers)    # for sequence_sorter
+    def sequence_sorter(run):    # by sequence as-given
+        v = sequence.index(run)
+        return v
+    
+    sorter = {True: time_sorter, False: sequence_sorter}[sort]
+
+    for h in sorted(_headers, key=sorter):
         if not isinstance(h, databroker.Header):
             emsg = f"Must be a databroker Header: received: {type(h)}: |{h}|"
             raise TypeError(emsg)
