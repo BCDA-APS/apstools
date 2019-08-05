@@ -363,7 +363,18 @@ def replay(headers, callback=None, sort=True):
     _headers = headers   # do not mutate the input arg
     if isinstance(_headers, databroker.Header):
         _headers = [_headers]
-    for h in _headers:
+
+    def time_sorter(run):    # by increasing time
+        return run.start["time"]
+
+    sequence = list(_headers)    # for sequence_sorter
+    def sequence_sorter(run):    # by sequence as-given
+        v = sequence.index(run)
+        return v
+    
+    sorter = {True: time_sorter, False: sequence_sorter}[sort]
+
+    for h in sorted(_headers, key=sorter):
         if not isinstance(h, databroker.Header):
             emsg = f"Must be a databroker Header: received: {type(h)}: |{h}|"
             raise TypeError(emsg)
