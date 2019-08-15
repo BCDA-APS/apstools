@@ -4,8 +4,10 @@
 Change History
 ##############
 
-:1.1.12:  expected *2019-08-16* : 
+:1.1.13:  expected *2019-08-16* : enhancements, bug fix, rename
 
+    * `#224 <https://github.com/prjemian/spec2nexus/issues/224>`_
+       rename: list_recent_scans --> catalog
     * `#222 <https://github.com/prjemian/spec2nexus/issues/222>`_
        writer: add empty #O0 and #P0 lines
     * `#220 <https://github.com/prjemian/spec2nexus/issues/220>`_
