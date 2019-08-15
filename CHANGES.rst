@@ -4,7 +4,9 @@
 Change History
 ##############
 
-:1.1.13:  expected *2019-08-16* : enhancements, bug fix, rename
+:1.1.14:  expected *2019-09-15* : 
+
+:1.1.13:  released *2019-08-15* : enhancements, bug fix, rename
 
     * `#226 <https://github.com/prjemian/spec2nexus/issues/226>`_
        writer: unit tests for empty #O0 & P0 control lines
