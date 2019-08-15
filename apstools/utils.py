@@ -187,34 +187,41 @@ def itemizer(fmt, items):
     return [fmt % k for k in items]
 
 
-def list_recent_scans(num=20, keys=[], printing=True, show_command=False, db=None):
+def list_recent_scans(raises=False, **kwargs):
+    """(deprecated): use ``listruns`` instead"""
+    msg = "'list_recent_scans()' is deprecated"
+    msg += ", use 'listruns()' instead"
+    if raises:
+        raise RuntimeWarning(msg)
+    logger.warning(msg)
+    return listruns(**kwargs)
+
+
+def listruns(
+        num=20, keys=[], printing=True, show_command=True, 
+        exit_status=True, db=None):
     """
-    make a table of the most recent scans
+    make a table of the most recent runs (scans)
 
     PARAMETERS
     
     num : int
-        Make the table include the ``num`` most recent scans.
+        Make the table include the ``num`` most recent runs.
         (default: ``20``)
     keys : [str]
         Include these additional keys from the start document.
         (default: ``[]``)
-        
-        Two special keys are supported:
-        
-        * ``command`` : shows the scan command.
-          (note: This command is reconstructed from keys in the start
-          document so it will not be exactly as the user typed.
-          Also, it will be truncated so that it is no more than 40 characters.)
-        * ``exit_status`` : from the stop document
-
     printing : bool
         If True, print the table to stdout
         (default: ``True``)
     show_command : bool
         If True, show the (reconstructed) full command,
         but truncate it to no more than 40 characters)
-        (default: ``False``)
+        (note: This command is reconstructed from keys in the start
+        document so it will not be exactly as the user typed.)
+        (default: ``True``)
+    exit_status : bool
+        How the run ended, as reported in the ``stop`` document.
     db : object
         Instance of ``databroker.Broker()``
         (default: ``db`` from the IPython shell)
@@ -247,12 +254,13 @@ def list_recent_scans(num=20, keys=[], printing=True, show_command=False, db=Non
         labels = "scan_id  plan_name".split() + keys
     
     table = pyRestTable.Table()
-    table.labels = "short_uid   date/time".split() + labels
+    table.labels = "short_uid   date/time  exit".split() + labels
     
     for h in db[-abs(num):]:
         row = [
             h.start["uid"][:7],
             datetime.datetime.fromtimestamp(h.start['time']),
+            h.stop.get("exit_status", "")
             ]
         for k in labels:
             if k == "command":
@@ -263,8 +271,6 @@ def list_recent_scans(num=20, keys=[], printing=True, show_command=False, db=Non
                     suffix = " ..."
                     command = command[:maxlen-len(suffix)] + suffix
                 row.append(command)
-            elif k == "exit_status":
-                row.append(h.stop.get(k, ""))
             else:
                 row.append(h.start.get(k, ""))
         table.addRow(row)
