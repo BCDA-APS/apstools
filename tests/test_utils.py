@@ -184,11 +184,17 @@ class Test_With_Database(unittest.TestCase):
         pass
 
     def test_list_recent_scans(self):
+        with self.assertRaises(RuntimeWarning):
+            APS_utils.list_recent_scans(db=self.db, raises=True)
+
+        table = APS_utils.list_recent_scans(printing=False, db=self.db)
+        self.assertIsNotNone(table)
+
+    def test_listruns(self):
         headers = self.db(plan_name="count")
         headers = list(headers)[0:1]
         self.assertEqual(len(headers), 1)
-        table = APS_utils.list_recent_scans(
-            keys=["exit_status",], 
+        table = APS_utils.listruns(
             show_command=True,
             printing=False,
             num=10,
@@ -197,14 +203,14 @@ class Test_With_Database(unittest.TestCase):
         self.assertIsNotNone(table)
         self.assertEqual(
             len(table.labels), 
-            5, 
+            3+2, 
             "asked for 2 extra columns (total 5)")
         self.assertEqual(
             len(table.rows), 
             10, 
             "asked for 10 rows")
         self.assertLessEqual(
-            len(table.rows[1][3]), 
+            len(table.rows[1][4]), 
             40, 
             "command row should be 40 char or less")
 

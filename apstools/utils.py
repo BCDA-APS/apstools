@@ -16,6 +16,7 @@ Various utilities
    ~itemizer
    ~json_export
    ~json_import
+   ~listruns
    ~list_recent_scans
    ~pairwise
    ~print_snapshot_list
@@ -187,34 +188,39 @@ def itemizer(fmt, items):
     return [fmt % k for k in items]
 
 
-def list_recent_scans(num=20, keys=[], printing=True, show_command=False, db=None):
+def list_recent_scans(raises=False, **kwargs):
+    """(deprecated): use ``listruns`` instead"""
+    msg = "'list_recent_scans()' is deprecated"
+    msg += ", use 'listruns()' instead"
+    if raises:
+        raise RuntimeWarning(msg)
+    logger.warning(msg)
+    return listruns(**kwargs)
+
+
+def listruns(
+        num=20, keys=[], printing=True, 
+        show_command=True, db=None):
     """
-    make a table of the most recent scans
+    make a table of the most recent runs (scans)
 
     PARAMETERS
     
     num : int
-        Make the table include the ``num`` most recent scans.
+        Make the table include the ``num`` most recent runs.
         (default: ``20``)
     keys : [str]
         Include these additional keys from the start document.
         (default: ``[]``)
-        
-        Two special keys are supported:
-        
-        * ``command`` : shows the scan command.
-          (note: This command is reconstructed from keys in the start
-          document so it will not be exactly as the user typed.
-          Also, it will be truncated so that it is no more than 40 characters.)
-        * ``exit_status`` : from the stop document
-
     printing : bool
         If True, print the table to stdout
         (default: ``True``)
     show_command : bool
         If True, show the (reconstructed) full command,
         but truncate it to no more than 40 characters)
-        (default: ``False``)
+        (note: This command is reconstructed from keys in the start
+        document so it will not be exactly as the user typed.)
+        (default: ``True``)
     db : object
         Instance of ``databroker.Broker()``
         (default: ``db`` from the IPython shell)
@@ -222,20 +228,22 @@ def list_recent_scans(num=20, keys=[], printing=True, show_command=False, db=Non
     RETURNS
     
     object:
-        Instance of `pyRestTable.Table()``
+        Instance of ``pyRestTable.Table()``
     
     EXAMPLE::
 
-        In [7]: APS_utils.list_recent_scans(num=5, keys=["proposal_id","pid"])                                                                                                     
-        ========= ========================== ======= ========= =========== =====
-        short_uid date/time                  scan_id plan_name proposal_id pid  
-        ========= ========================== ======= ========= =========== =====
-        235cc8e   2019-07-26 19:59:57.377210 156     scan      testing     31185
-        82406dd   2019-07-26 19:57:30.607125 155     scan      testing     31185
-        f6249d8   2019-07-25 16:45:36.114533 151     count     testing     15321
-        9457fa4   2019-07-25 16:19:07.410803 150     count     testing     4845 
-        f17f026   2019-07-25 16:19:04.929030 149     count     testing     4845 
-        ========= ========================== ======= ========= =========== =====
+        In [2]: from apstools import utils as APS_utils
+        
+        In [3]: APS_utils.listruns(num=5, keys=["proposal_id","pid"])
+        ========= ========================== ======= ======= ======================================== =========== ===
+        short_uid date/time                  exit    scan_id command                                  proposal_id pid
+        ========= ========================== ======= ======= ======================================== =========== ===
+        5f2bc62   2019-03-10 22:27:57.803193 success 3       fly()
+        ef7777d   2019-03-10 22:27:12.449852 success 2       fly()
+        8048ea1   2019-03-10 22:25:01.663526 success 1       scan(detectors=['calcs_calc2_val'],  ...
+        83ad06d   2019-03-10 22:19:14.352157 success 4       fly()
+        b713d46   2019-03-10 22:13:26.481118 success 3       fly()
+        ========= ========================== ======= ======= ======================================== =========== ===
 
     *new in apstools release 1.1.10*
     """
@@ -247,12 +255,13 @@ def list_recent_scans(num=20, keys=[], printing=True, show_command=False, db=Non
         labels = "scan_id  plan_name".split() + keys
     
     table = pyRestTable.Table()
-    table.labels = "short_uid   date/time".split() + labels
+    table.labels = "short_uid   date/time  exit".split() + labels
     
     for h in db[-abs(num):]:
         row = [
             h.start["uid"][:7],
             datetime.datetime.fromtimestamp(h.start['time']),
+            h.stop.get("exit_status", "")
             ]
         for k in labels:
             if k == "command":
@@ -263,8 +272,6 @@ def list_recent_scans(num=20, keys=[], printing=True, show_command=False, db=Non
                     suffix = " ..."
                     command = command[:maxlen-len(suffix)] + suffix
                 row.append(command)
-            elif k == "exit_status":
-                row.append(h.stop.get(k, ""))
             else:
                 row.append(h.start.get(k, ""))
         table.addRow(row)
