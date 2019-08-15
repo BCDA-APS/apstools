@@ -16,6 +16,7 @@ Various utilities
    ~itemizer
    ~json_export
    ~json_import
+   ~listscans
    ~list_recent_scans
    ~pairwise
    ~print_snapshot_list
