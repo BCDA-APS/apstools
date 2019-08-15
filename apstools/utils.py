@@ -16,7 +16,7 @@ Various utilities
    ~itemizer
    ~json_export
    ~json_import
-   ~listscans
+   ~listruns
    ~list_recent_scans
    ~pairwise
    ~print_snapshot_list
@@ -199,8 +199,8 @@ def list_recent_scans(raises=False, **kwargs):
 
 
 def listruns(
-        num=20, keys=[], printing=True, show_command=True, 
-        exit_status=True, db=None):
+        num=20, keys=[], printing=True, 
+        show_command=True, db=None):
     """
     make a table of the most recent runs (scans)
 
@@ -221,8 +221,6 @@ def listruns(
         (note: This command is reconstructed from keys in the start
         document so it will not be exactly as the user typed.)
         (default: ``True``)
-    exit_status : bool
-        How the run ended, as reported in the ``stop`` document.
     db : object
         Instance of ``databroker.Broker()``
         (default: ``db`` from the IPython shell)
@@ -230,20 +228,22 @@ def listruns(
     RETURNS
     
     object:
-        Instance of `pyRestTable.Table()``
+        Instance of ``pyRestTable.Table()``
     
     EXAMPLE::
 
-        In [7]: APS_utils.list_recent_scans(num=5, keys=["proposal_id","pid"])                                                                                                     
-        ========= ========================== ======= ========= =========== =====
-        short_uid date/time                  scan_id plan_name proposal_id pid  
-        ========= ========================== ======= ========= =========== =====
-        235cc8e   2019-07-26 19:59:57.377210 156     scan      testing     31185
-        82406dd   2019-07-26 19:57:30.607125 155     scan      testing     31185
-        f6249d8   2019-07-25 16:45:36.114533 151     count     testing     15321
-        9457fa4   2019-07-25 16:19:07.410803 150     count     testing     4845 
-        f17f026   2019-07-25 16:19:04.929030 149     count     testing     4845 
-        ========= ========================== ======= ========= =========== =====
+        In [2]: from apstools import utils as APS_utils
+        
+        In [3]: APS_utils.listruns(num=5, keys=["proposal_id","pid"])
+        ========= ========================== ======= ======= ======================================== =========== ===
+        short_uid date/time                  exit    scan_id command                                  proposal_id pid
+        ========= ========================== ======= ======= ======================================== =========== ===
+        5f2bc62   2019-03-10 22:27:57.803193 success 3       fly()
+        ef7777d   2019-03-10 22:27:12.449852 success 2       fly()
+        8048ea1   2019-03-10 22:25:01.663526 success 1       scan(detectors=['calcs_calc2_val'],  ...
+        83ad06d   2019-03-10 22:19:14.352157 success 4       fly()
+        b713d46   2019-03-10 22:13:26.481118 success 3       fly()
+        ========= ========================== ======= ======= ======================================== =========== ===
 
     *new in apstools release 1.1.10*
     """
