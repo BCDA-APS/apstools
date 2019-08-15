@@ -443,6 +443,8 @@ class SpecWriterCallback(object):
             # "#MD" is our ad hoc SPEC data tag
             lines.append(f"#MD {k} = {v}")
 
+        lines.append(f"#P0 ")
+
         lines.append("#N " + str(len(self.data.keys())))
         if len(self.data.keys()) > 0:
             lines.append("#L " + "  ".join(self.data.keys()))
@@ -492,6 +494,8 @@ class SpecWriterCallback(object):
         lines.append(f"#E {self.spec_epoch}")
         lines.append(f"#D {datetime.strftime(dt, SPEC_TIME_FORMAT)}")
         lines.append(f"#C BlueSky  user = {self.spec_user}  host = {self.spec_host}")
+        lines.append(f"#O0 ")
+        lines.append(f"#o0 ")
         lines.append("")
 
         if os.path.exists(self.spec_filename):
