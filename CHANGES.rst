@@ -9,7 +9,7 @@ Change History
     * `#226 <https://github.com/prjemian/spec2nexus/issues/226>`_
        writer: unit tests for empty #O0 & P0 control lines
     * `#224 <https://github.com/prjemian/spec2nexus/issues/224>`_
-       rename: list_recent_scans --> scanlist
+       rename: list_recent_scans --> listscans
     * `#222 <https://github.com/prjemian/spec2nexus/issues/222>`_
        writer: add empty #O0 and #P0 lines
     * `#220 <https://github.com/prjemian/spec2nexus/issues/220>`_
