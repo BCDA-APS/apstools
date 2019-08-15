@@ -4,6 +4,13 @@
 Change History
 ##############
 
+:1.1.12:  expected *2019-08-16* : 
+
+    * `#222 <https://github.com/prjemian/spec2nexus/issues/222>`_
+       writer: add empty #O0 and #P0 lines
+    * `#220 <https://github.com/prjemian/spec2nexus/issues/220>`_
+       ProcessController: bug fix - raised TypeError
+
 :1.1.12:  released *2019-08-05* : bug fixes & updates
 
     * `#219 <https://github.com/BCDA-APS/apstools/issues/219>`_

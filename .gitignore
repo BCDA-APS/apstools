@@ -15,3 +15,5 @@ build/
 .pydevproject
 issue*.py
 build_log.txt
+
+.ipython_*.log*
