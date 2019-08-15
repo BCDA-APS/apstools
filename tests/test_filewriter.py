@@ -131,6 +131,18 @@ class Test_SpecWriterCallback(unittest.TestCase):
         self.assertEqual(len(scan.P), 1)
         self.assertEqual(scan.P[0], '')
 
+        # TODO: after next spec2nexus release 
+        # self.assertGreater(scan.header.raw.find("\n#O0 \n"), 0)
+        # self.assertGreater(scan.header.raw.find("\n#o0 \n"), 0)
+        # self.assertEqual(len(scan.header.O), 1)
+        # self.assertEqual(len(scan.header.O[0]), 0)
+        # self.assertEqual(len(scan.header.o), 1)
+        # self.assertEqual(len(scan.header.o[0]), 0)
+        # self.assertGreater(scan.raw.find("\n#P0 \n"), 0)
+        # self.assertEqual(len(scan.P), 1)
+        # self.assertEqual(len(scan.P[0]), 0)
+        # self.assertEqual(len(scan.positioner), 0)
+
     def test_writer_filename(self):
         self.assertTrue(len(self.db) > 0, "test data ready")
 
