@@ -124,15 +124,13 @@ class Test_SpecWriterCallback(unittest.TestCase):
         self.assertGreater(scan.header.raw.find("\n#o0 \n"), 0)
         
         # see: https://github.com/prjemian/spec2nexus/issues/196
+        # tests/test_plugin.py  test_empty_positioner()
         self.assertEqual(len(scan.header.O), 1)
         self.assertEqual(scan.header.O[0], [''])
-
         self.assertGreater(scan.raw.find("\n#P0 \n"), 0)
-        
-        # see: https://github.com/prjemian/spec2nexus/issues/196
         self.assertEqual(len(scan.P), 1)
         self.assertEqual(scan.P[0], '')
-    
+
     def test_writer_filename(self):
         self.assertTrue(len(self.db) > 0, "test data ready")
 
