@@ -135,4 +135,4 @@ class SynPseudoVoigt(ophyd.sim.SynSignal):    # lgtm [py/missing-call-to-init]
                 v += np.random.uniform(-1, 1) * noise_multiplier
             return v
 
-        ophyd.sim.SynSignal.__init__(name=name, func=pvoigt, **kwargs)
+        ophyd.sim.SynSignal.__init__(self, name=name, func=pvoigt, **kwargs)
