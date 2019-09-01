@@ -22,10 +22,10 @@ Public Structures
 # The full license is in the file LICENSE.txt, distributed with this software.
 #-----------------------------------------------------------------------------
 
-from ophyd.device import Device, Component
+from ophyd.device import Component
 from ophyd import EpicsSignal, EpicsSignalRO
-from .common import EpicsRecordDeviceCommonAll
-from .common import EpicsRecordFloatFields
+from ._common import EpicsRecordDeviceCommonAll
+from ._common import EpicsRecordFloatFields
 
 
 __all__ = ["EpidRecord", ]
