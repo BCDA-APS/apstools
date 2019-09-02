@@ -106,7 +106,7 @@ import numpy as np
 import threading
 import time
 
-from .synApps_ophyd import *
+from apstools.synApps import *
 
 from ophyd import Component, Device, DeviceStatus, FormattedComponent
 from ophyd import Signal, EpicsMotor, EpicsSignal, EpicsSignalRO

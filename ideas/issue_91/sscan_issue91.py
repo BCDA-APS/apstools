@@ -12,16 +12,17 @@ http://nsls-ii.github.io/bluesky/async.html#flying
 """
 
 import asyncio
-from collections import deque
+from collections import deque, OrderedDict
+import numpy as np
 
 P = "xxx:"
 
 from ophyd.scaler import ScalerCH
 from ophyd import EpicsMotor
-from apstools.synApps_ophyd import UserCalcsDevice
-from apstools.synApps_ophyd import SscanDevice
-from apstools.synApps_ophyd import SaveData
-from apstools.synApps_ophyd import setup_lorentzian_swait
+from apstools.synApps import UserCalcsDevice
+from apstools.synApps import SscanDevice
+from apstools.synApps import SaveData
+from apstools.synApps import setup_lorentzian_swait
 
 scaler = ScalerCH(f"{P}scaler1", name="scaler")
 scaler.select_channels(None)
