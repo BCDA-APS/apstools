@@ -78,8 +78,8 @@ class SwaitRecordChannel(Device):
 
     def reset(self):
         """set all fields to default values"""
-        self.input_value.put(0)
         self.input_pv.put("")
+        self.input_value.put(0)
         self.input_trigger.put("Yes")
 
 
