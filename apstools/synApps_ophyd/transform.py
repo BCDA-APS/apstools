@@ -33,10 +33,10 @@ from ._common import EpicsRecordDeviceCommonAll
 from .. import utils as APS_utils
 
 
-__all__ = [
-    "TransformRecord",
-    "UserTransformsDevice",
-    ]
+__all__ = """
+    TransformRecord
+    UserTransformsDevice
+    """.split()
 
 
 CHANNEL_LETTERS_LIST = "A B C D E F G H I J K L M N O P".split()

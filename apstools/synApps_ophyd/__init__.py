@@ -8,7 +8,7 @@ synApps template XXX IOC.
 EXAMPLES:;
 
     import apstools.synApps_ophyd
-    scans = apstools.synApps_ophyd.sscanDevice("xxx:", name="scans")
+    scans = apstools.synApps_ophyd.SscanDevice("xxx:", name="scans")
     calcs = apstools.synApps_ophyd.userCalcsDevice("xxx:", name="calcs")
 
     calc1 = calcs.calc1
@@ -34,22 +34,33 @@ https://github.com/klauer/recordwhat
 
 
 from .busy import *
+from .calcout import *
 from .epid import *
 from .save_data import *
 from .sscan import *
 from .swait import *
+from .transform import *
 
 __all__ = """
-    busyRecord
+    BusyRecord
     BusyStatus
+    CalcoutRecord
+    CalcoutRecordChannel
     EpidRecord
     SaveData
-    sscanRecord  
-    sscanDevice
-    swaitRecord 
-    userCalcsDevice
-    swait_setup_random_number 
-    swait_setup_gaussian
-    swait_setup_lorentzian 
-    swait_setup_incrementer
+    SscanRecord  
+    SscanDevice
+    SwaitRecord
+    SwaitRecordChannel
+    TransformRecord
+    UserCalcoutDevice
+    UserCalcsDevice
+    UserTransformsDevice
+    setup_gaussian_calcout
+    setup_gaussian_swait
+    setup_incrementer_calcout
+    setup_incrementer_swait
+    setup_lorentzian_calcout
+    setup_lorentzian_swait 
+    setup_random_number_swait 
     """.split()

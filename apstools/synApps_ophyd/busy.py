@@ -27,7 +27,7 @@ from ophyd import EpicsSignal
 
 
 __all__ = """
-    busyRecord
+    BusyRecord
     BusyStatus
     """.split()
 
@@ -37,7 +37,7 @@ class BusyStatus(str, Enum):
     done = "Done"
 
 
-class busyRecord(Device):
+class BusyRecord(Device):
     state = Component(EpicsSignal, "")
     output_link = Component(EpicsSignal, ".OUT")
     forward_link = Component(EpicsSignal, ".FLNK")

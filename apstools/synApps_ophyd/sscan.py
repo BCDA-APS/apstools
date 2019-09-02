@@ -2,12 +2,12 @@
 """
 Ophyd support for the EPICS synApps sscan record
 
-see:  https://epics.anl.gov/bcda/synApps/sscan/sscanRecord.html
+see:  https://epics.anl.gov/bcda/synApps/sscan/SscanRecord.html
 
 EXAMPLE
 
     import apstools.synApps_ophyd
-    scans = apstools.synApps_ophyd.sscanDevice("xxx:", name="scans")
+    scans = apstools.synApps_ophyd.SscanDevice("xxx:", name="scans")
     scans.select_channels()     # only the channels configured in EPICS
 
 
@@ -15,8 +15,8 @@ Public Structures
 
 .. autosummary::
    
-    ~sscanRecord
-    ~sscanDevice
+    ~SscanRecord
+    ~SscanDevice
 
 Private Structures
 
@@ -53,8 +53,8 @@ from .. import utils as APS_utils
 
 
 __all__ = """
-    sscanRecord  
-    sscanDevice
+    SscanRecord  
+    SscanDevice
     """.split()
 
 
@@ -185,7 +185,7 @@ def _sscan_triggers(channel_list):
     return defn
 
 
-class sscanRecord(Device):
+class SscanRecord(Device):
     """
     EPICS synApps sscan record: used as $(P):scan(N)
 
@@ -315,7 +315,7 @@ class sscanRecord(Device):
         return channels > 0
 
 
-class sscanDevice(Device):
+class SscanDevice(Device):
     """
     synApps XXX IOC setup of sscan records: $(P):scan$(N)
 
@@ -329,11 +329,11 @@ class sscanDevice(Device):
     scan_dimension = Cpt(EpicsSignalRO, 'ScanDim')
     scan_pause = Cpt(EpicsSignal, 'scanPause')
     abort_scans = Cpt(EpicsSignal, 'AbortScans')
-    scan1 = Cpt(sscanRecord, 'scan1')
-    scan2 = Cpt(sscanRecord, 'scan2')
-    scan3 = Cpt(sscanRecord, 'scan3')
-    scan4 = Cpt(sscanRecord, 'scan4')
-    scanH = Cpt(sscanRecord, 'scanH')
+    scan1 = Cpt(SscanRecord, 'scan1')
+    scan2 = Cpt(SscanRecord, 'scan2')
+    scan3 = Cpt(SscanRecord, 'scan3')
+    scan4 = Cpt(SscanRecord, 'scan4')
+    scanH = Cpt(SscanRecord, 'scanH')
     resume_delay = Cpt(EpicsSignal, 'scanResumeSEQ.DLY1')
 
     def reset(self):

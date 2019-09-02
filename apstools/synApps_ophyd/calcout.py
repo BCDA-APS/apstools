@@ -32,21 +32,20 @@ from ophyd.device import (
     Component as Cpt,
     DynamicDeviceComponent as DDC,
     FormattedComponent as FC)
-from ophyd import EpicsSignal, EpicsSignalRO, EpicsMotor
+from ophyd import EpicsSignal, EpicsSignalRO
 
 from ._common import EpicsRecordDeviceCommonAll, EpicsRecordFloatFields
-# from .. import utils as APS_utils
 from .. import utils as APS_utils
 
 
-__all__ = [
-	"UserCalcoutDevice",
-	"CalcoutRecord",
-	"CalcoutRecordChannel",
-    "setup_gaussian_calcout",
-    "setup_lorentzian_calcout",
-    "setup_incrementer_calcout",
-	]
+__all__ = """
+	UserCalcoutDevice
+	CalcoutRecord
+	CalcoutRecordChannel
+    setup_gaussian_calcout
+    setup_lorentzian_calcout
+    setup_incrementer_calcout
+	""".split()
 
 CHANNEL_LETTERS_LIST = "A B C D E F G H I J K L".split()
 
@@ -73,8 +72,8 @@ class CalcoutRecordChannel(Device):
 
     def reset(self):
         """set all fields to default values"""
-        self.input_value.put(0)
         self.input_pv.put("")
+        self.input_value.put(0)
 
 
 def _channels(channel_list):
@@ -192,48 +191,131 @@ class UserCalcoutDevice(Device):
         self.read_attrs.insert(0, "enable")
 
 
-def _setup_peak_calcout_(calc, desc, calcout, motor, center=0, width=1, scale=1, noise=0.05):
-    """internal: setup that is common to both Gaussian and Lorentzian calcout"""
+def _setup_peak_calcout_(calc, desc, calcout, ref_signal, center=0, width=1, scale=1, noise=0.05):
+    """
+    internal: setup that is common to both Gaussian and Lorentzian calcouts
+    
+    PARAMETERS
+
+    calcout : object
+        instance of :class:`CalcoutRecord`
+
+    ref_signal : object
+        instance of :class:`EpicsSignal` used as $A$
+
+    center : float
+        $B$, 
+        default = 0
+
+    width : float
+        $C$,
+        default = 1
+
+    scale : float
+        $D$,
+        default = 1
+
+    noise : float
+        $E$,
+        default = 0.05
+    """
     # to add a noisy background will need another calc
-    assert(isinstance(motor, EpicsMotor))
     assert(isinstance(calcout, CalcoutRecord))
+    assert(isinstance(ref_signal, EpicsSignal))
     assert(width > 0)
     assert(0.0 <= noise <= 1.0)
     calcout.reset()
     calcout.scanning_rate.put("Passive")
-    calcout.channels.A.input_pv.put(motor.user_readback.pvname)
+    calcout.description.put(desc)
+    calcout.channels.A.input_pv.put(ref_signal.pvname)
     calcout.channels.B.input_value.put(center)
     calcout.channels.C.input_value.put(width)
     calcout.channels.D.input_value.put(scale)
     calcout.channels.E.input_value.put(noise)
     calcout.calculation.put(calc)
     calcout.scanning_rate.put(".1 second")
-    calcout.description.put(desc)
 
     calcout.read_attrs = ['input_value',]
     calcout.hints = {"fields": calcout.read_attrs}
 
 
-def setup_gaussian_calcout(calcout, motor, center=0, width=1, scale=1, noise=0.05):
-    """setup calcout for noisy Gaussian"""
+def setup_gaussian_calcout(calcout, ref_signal, center=0, width=1, scale=1, noise=0.05):
+    """
+    setup calcout for noisy Gaussian
+    
+    calculation: $D*(0.95+E*RNDM)/exp(((A-B)/C)^2)$
+    
+    PARAMETERS
+
+    calcout : object
+        instance of :class:`CalcoutRecord`
+
+    ref_signal : object
+        instance of :class:`EpicsSignal` used as $A$
+
+    center : float
+        $B$, 
+        default = 0
+
+    width : float
+        $C$,
+        default = 1
+
+    scale : float
+        $D$,
+        default = 1
+
+    noise : float
+        $E$,
+        default = 0.05
+    """
     _setup_peak_calcout_(
         "D*(0.95+E*RNDM)/exp(((A-b)/c)^2)",
         "noisy Gaussian curve", 
         calcout, 
-        motor, 
+        ref_signal, 
         center=center, 
         width=width, 
         scale=scale, 
         noise=noise)
 
 
-def setup_lorentzian_calcout(calcout, motor, center=0, width=1, scale=1, noise=0.05):
-    """setup calcout record for noisy Lorentzian"""
+def setup_lorentzian_calcout(calcout, ref_signal, 
+                             center=0, width=1, scale=1, noise=0.05):
+    """
+    setup calcout record for noisy Lorentzian
+    
+    calculation: $D*(0.95+E*RNDM)/(1+((A-B)/C)^2)$
+    
+    PARAMETERS
+
+    calcout : object
+        instance of :class:`CalcoutRecord`
+
+    ref_signal : object
+        instance of :class:`EpicsSignal` used as $A$
+
+    center : float
+        $B$, 
+        default = 0
+
+    width : float
+        $C$,
+        default = 1
+
+    scale : float
+        $D$,
+        default = 1
+
+    noise : float
+        $E$,
+        default = 0.05
+    """
     _setup_peak_calcout_(
-        "D*(0.95+E*RNDM)/(1+((A-b)/c)^2)", 
+        "D*(0.95+E*RNDM)/(1+((A-B)/C)^2)", 
         "noisy Lorentzian curve", 
         calcout, 
-        motor, 
+        ref_signal, 
         center=center, 
         width=width, 
         scale=scale, 
@@ -241,7 +323,26 @@ def setup_lorentzian_calcout(calcout, motor, center=0, width=1, scale=1, noise=0
 
 
 def setup_incrementer_calcout(calcout, scan=None, limit=100000):
-    """setup calcout record as an incrementer"""
+    """
+    setup calcout record as an incrementer
+
+    PARAMETERS
+
+    calcout : object
+        instance of :class:`CalcoutRecord`
+
+    scan : text or int or None
+        any of the EPICS record `.SCAN` values, 
+        or the index number of the value,
+        set to default if `None`,
+        default: `.1 second`
+
+    limit : int or None
+        set the incrementer back to zero 
+        when this number is reached (or passed),
+        default: 100000
+
+    """
     # consider a noisy background, as well (needs a couple calcs)
     scan = scan or ".1 second"
     calcout.reset()
