@@ -35,7 +35,6 @@ from ophyd.device import (
 from ophyd import EpicsSignal, EpicsSignalRO, EpicsMotor
 
 from ._common import EpicsRecordDeviceCommonAll, EpicsRecordFloatFields
-# from .. import utils as APS_utils
 from .. import utils as APS_utils
 
 
