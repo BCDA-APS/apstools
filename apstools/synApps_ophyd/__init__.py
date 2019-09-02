@@ -34,6 +34,7 @@ https://github.com/klauer/recordwhat
 
 
 from .busy import *
+from .epid import *
 from .save_data import *
 from .sscan import *
 from .swait import *
@@ -41,6 +42,7 @@ from .swait import *
 __all__ = """
     busyRecord
     BusyStatus
+    EpidRecord
     SaveData
     sscanRecord  
     sscanDevice
