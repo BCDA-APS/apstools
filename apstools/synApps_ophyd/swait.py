@@ -45,7 +45,7 @@ from ophyd.device import (
     Component as Cpt,
     DynamicDeviceComponent as DDC,
     FormattedComponent as FC)
-from ophyd import EpicsSignal, EpicsMotor
+from ophyd import EpicsSignal
 
 from ._common import EpicsRecordDeviceCommonAll, EpicsRecordFloatFields
 from .. import utils as APS_utils
@@ -194,16 +194,17 @@ def setup_random_number_swait(swait, **kw):
     swait.hints = {"fields": swait.read_attrs}
 
 
-def _setup_peak_swait_(calc, desc, swait, motor, center=0, width=1, scale=1, noise=0.05):
+def _setup_peak_swait_(calc, desc, swait, ref_signal, center=0, width=1, scale=1, noise=0.05):
     """internal: setup that is common to both Gaussian and Lorentzian swaits"""
     # consider a noisy background, as well (needs a couple calcs)
-    assert(isinstance(motor, EpicsMotor))
+    assert(isinstance(swait, SwaitRecord))
+    assert(isinstance(ref_signal, EpicsSignal))
     assert(width > 0)
     assert(0.0 <= noise <= 1.0)
     swait.reset()
     swait.scanning_rate.put("Passive")
     swait.description.put(desc)
-    swait.channels.A.input_pv.put(motor.user_readback.pvname)
+    swait.channels.A.input_pv.put(ref_signal.pvname)
     swait.channels.B.input_value.put(center)
     swait.channels.C.input_value.put(width)
     swait.channels.D.input_value.put(scale)
@@ -215,26 +216,26 @@ def _setup_peak_swait_(calc, desc, swait, motor, center=0, width=1, scale=1, noi
     swait.hints = {"fields": swait.read_attrs}
 
 
-def setup_gaussian_swait(swait, motor, center=0, width=1, scale=1, noise=0.05):
+def setup_gaussian_swait(swait, ref_signal, center=0, width=1, scale=1, noise=0.05):
     """setup swait for noisy Gaussian"""
     _setup_peak_swait_(
         "D*(0.95+E*RNDM)/exp(((A-b)/c)^2)",
         "noisy Gaussian curve", 
         swait, 
-        motor, 
+        ref_signal, 
         center=center, 
         width=width, 
         scale=scale, 
         noise=noise)
 
 
-def setup_lorentzian_swait(swait, motor, center=0, width=1, scale=1, noise=0.05):
+def setup_lorentzian_swait(swait, ref_signal, center=0, width=1, scale=1, noise=0.05):
     """setup swait record for noisy Lorentzian"""
     _setup_peak_swait_(
         "D*(0.95+E*RNDM)/(1+((A-b)/c)^2)", 
         "noisy Lorentzian curve", 
         swait, 
-        motor, 
+        ref_signal, 
         center=center, 
         width=width, 
         scale=scale, 
