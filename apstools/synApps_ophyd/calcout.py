@@ -38,14 +38,14 @@ from ._common import EpicsRecordDeviceCommonAll, EpicsRecordFloatFields
 from .. import utils as APS_utils
 
 
-__all__ = [
-	"UserCalcoutDevice",
-	"CalcoutRecord",
-	"CalcoutRecordChannel",
-    "setup_gaussian_calcout",
-    "setup_lorentzian_calcout",
-    "setup_incrementer_calcout",
-	]
+__all__ = """
+	UserCalcoutDevice
+	CalcoutRecord
+	CalcoutRecordChannel
+    setup_gaussian_calcout
+    setup_lorentzian_calcout
+    setup_incrementer_calcout
+	""".split()
 
 CHANNEL_LETTERS_LIST = "A B C D E F G H I J K L".split()
 
@@ -200,6 +200,7 @@ def _setup_peak_calcout_(calc, desc, calcout, motor, center=0, width=1, scale=1,
     assert(0.0 <= noise <= 1.0)
     calcout.reset()
     calcout.scanning_rate.put("Passive")
+    calcout.description.put(desc)
     calcout.channels.A.input_pv.put(motor.user_readback.pvname)
     calcout.channels.B.input_value.put(center)
     calcout.channels.C.input_value.put(width)
@@ -207,7 +208,6 @@ def _setup_peak_calcout_(calc, desc, calcout, motor, center=0, width=1, scale=1,
     calcout.channels.E.input_value.put(noise)
     calcout.calculation.put(calc)
     calcout.scanning_rate.put(".1 second")
-    calcout.description.put(desc)
 
     calcout.read_attrs = ['input_value',]
     calcout.hints = {"fields": calcout.read_attrs}

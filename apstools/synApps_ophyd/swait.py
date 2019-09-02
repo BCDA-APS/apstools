@@ -115,6 +115,10 @@ class SwaitRecord(EpicsRecordFloatFields, EpicsRecordDeviceCommonAll):
     hints = {'fields': read_attrs}
     
     channels = DDC(_swait_channels(CHANNEL_LETTERS_LIST))
+
+    @property
+    def value(self):
+        return self.calculated_value.value
     
     def reset(self):
         """set all fields to default values"""
@@ -182,9 +186,9 @@ def setup_random_number_swait(swait, **kw):
     """setup swait record to generate random numbers"""
     swait.reset()
     swait.scanning_rate.put("Passive")
+    swait.description.put("uniform random numbers")
     swait.calculation.put("RNDM")
     swait.scanning_rate.put(".1 second")
-    swait.description.put("uniform random numbers")
 
     swait.read_attrs = ['calculated_value',]
     swait.hints = {"fields": swait.read_attrs}
@@ -198,6 +202,7 @@ def _setup_peak_swait_(calc, desc, swait, motor, center=0, width=1, scale=1, noi
     assert(0.0 <= noise <= 1.0)
     swait.reset()
     swait.scanning_rate.put("Passive")
+    swait.description.put(desc)
     swait.channels.A.input_pv.put(motor.user_readback.pvname)
     swait.channels.B.input_value.put(center)
     swait.channels.C.input_value.put(width)
@@ -205,7 +210,6 @@ def _setup_peak_swait_(calc, desc, swait, motor, center=0, width=1, scale=1, noi
     swait.channels.E.input_value.put(noise)
     swait.calculation.put(calc)
     swait.scanning_rate.put("I/O Intr")
-    swait.description.put(desc)
 
     swait.read_attrs = ['calculated_value',]
     swait.hints = {"fields": swait.read_attrs}
@@ -242,13 +246,14 @@ def setup_incrementer_swait(swait, scan=None, limit=100000):
     # consider a noisy background, as well (needs a couple calcs)
     scan = scan or ".1 second"
     swait.reset()
+    swait.description.put("incrementer")
     swait.scanning_rate.put("Passive")
-    pvname = swait.calculated_value.pvname.split(".")[0]
+    pvname = swait.calculated_value.pvname
     swait.channels.A.input_pv.put(pvname)
     swait.channels.B.input_value.put(limit)
     swait.calculation.put("(A+1) % B")
+    swait.precision.put(0)
     swait.scanning_rate.put(scan)
-    swait.description.put("incrementer")
 
     swait.read_attrs = ['calculated_value',]
     swait.hints = {"fields": swait.read_attrs}

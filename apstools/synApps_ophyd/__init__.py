@@ -34,10 +34,12 @@ https://github.com/klauer/recordwhat
 
 
 from .busy import *
+from .calcout import *
 from .epid import *
 from .save_data import *
 from .sscan import *
 from .swait import *
+from .transform import *
 
 __all__ = """
     BusyRecord
