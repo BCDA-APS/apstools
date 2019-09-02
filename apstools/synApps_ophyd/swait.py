@@ -2,28 +2,30 @@
 """
 Ophyd support for the EPICS synApps swait record
 
-EXAMPLES:;
+EXAMPLES::
 
     import apstools.synApps_ophyd
-    calcs = apstools.synApps_ophyd.userCalcsDevice("xxx:", name="calcs")
+    calcs = apstools.synApps_ophyd.UserCalcsDevice("xxx:", name="calcs")
 
     calc1 = calcs.calc1
-    apstools.synApps_ophyd.swait_setup_random_number(calc1)
+    apstools.synApps_ophyd.setup_random_number_swait(calc1)
 
-    apstools.synApps_ophyd.swait_setup_incrementer(calcs.calc2)
+    apstools.synApps_ophyd.setup_incrementer_swait(calcs.calc2)
     
     calc1.reset()
 
 
 .. autosummary::
    
-    ~swaitRecord 
-    ~userCalcsDevice
-    ~swait_setup_random_number 
-    ~swait_setup_gaussian
-    ~swait_setup_lorentzian 
-    ~swait_setup_incrementer
+    ~UserCalcsDevice
+    ~SwaitRecord
+    ~SwaitRecordChannel
+    ~setup_random_number_swait 
+    ~setup_gaussian_swait
+    ~setup_lorentzian_swait 
+    ~setup_incrementer_swait
 
+:see: https://htmlpreview.github.io/?https://raw.githubusercontent.com/epics-modules/calc/R3-6-1/documentation/swaitRecord.html
 """
 
 #-----------------------------------------------------------------------------
@@ -45,26 +47,30 @@ from ophyd.device import (
     FormattedComponent as FC)
 from ophyd import EpicsSignal, EpicsSignalRO, EpicsMotor
 
+from ._common import EpicsRecordDeviceCommonAll, EpicsRecordFloatFields
 from .. import utils as APS_utils
 
 __all__ = """
-    swaitRecord 
-    userCalcsDevice
-    swait_setup_random_number 
-    swait_setup_gaussian
-    swait_setup_lorentzian 
-    swait_setup_incrementer
+    SwaitRecord
+    SwaitRecordChannel
+    UserCalcsDevice
+    setup_random_number_swait 
+    setup_gaussian_swait
+    setup_lorentzian_swait 
+    setup_incrementer_swait
 	""".split()
 
+CHANNEL_LETTERS_LIST = "A B C D E F G H I J K L".split()
 
-class swaitRecordChannel(Device):
+
+class SwaitRecordChannel(Device):
     """channel of a synApps swait record: A-L"""
 
-    value = FC(EpicsSignal, '{self.prefix}.{self._ch_letter}')
+    input_value = FC(EpicsSignal, '{self.prefix}.{self._ch_letter}')
     input_pv = FC(EpicsSignal, '{self.prefix}.IN{self._ch_letter}N')
     input_trigger = FC(EpicsSignal, '{self.prefix}.IN{self._ch_letter}P')
-    hints = {'fields': ['value',]}
-    read_attrs = ['value', ]
+    read_attrs = ['input_value', ]
+    hints = {'fields': read_attrs}
     
     def __init__(self, prefix, letter, **kwargs):
         self._ch_letter = letter
@@ -72,7 +78,7 @@ class swaitRecordChannel(Device):
 
     def reset(self):
         """set all fields to default values"""
-        self.value.put(0)
+        self.input_value.put(0)
         self.input_pv.put("")
         self.input_trigger.put("Yes")
 
@@ -80,11 +86,11 @@ class swaitRecordChannel(Device):
 def _swait_channels(channel_list):
     defn = OrderedDict()
     for chan in channel_list:
-        defn[chan] = (swaitRecordChannel, '', {'letter': chan})
+        defn[chan] = (SwaitRecordChannel, '', {'letter': chan})
     return defn
 
 
-class swaitRecord(Device):
+class SwaitRecord(EpicsRecordFloatFields, EpicsRecordDeviceCommonAll):
     """
     synApps swait record: used as $(P):userCalc$(N)
 
@@ -93,53 +99,49 @@ class swaitRecord(Device):
         ~reset
 
     """
-    desc = Cpt(EpicsSignal, '.DESC')
-    scan = Cpt(EpicsSignal, '.SCAN')
-    calc = Cpt(EpicsSignal, '.CALC')
-    val = Cpt(EpicsSignalRO, '.VAL')
-    prec = Cpt(EpicsSignal, '.PREC')
-    process = Cpt(EpicsSignal, '.PROC')
-    oevt = Cpt(EpicsSignal, '.OEVT')
-    outn = Cpt(EpicsSignal, '.OUTN')
-    odly = Cpt(EpicsSignal, '.ODLY')
-    doln = Cpt(EpicsSignal, '.DOLN')
-    dold = Cpt(EpicsSignal, '.DOLD')
-    dopt = Cpt(EpicsSignal, '.DOPT')
-    oopt = Cpt(EpicsSignal, '.OOPT')
-    flnk = Cpt(EpicsSignal, '.FLNK')
+    calculated_value = Cpt(EpicsSignal, ".VAL")
+    calculation = Cpt(EpicsSignal, ".CALC")
 
-    hints = {'fields': APS_utils.itemizer("channels.%s","A B C D E F G H I J K L".split())}
-    read_attrs = APS_utils.itemizer("channels.%s","A B C D E F G H I J K L".split())
+    output_link_pv = Cpt(EpicsSignal, '.OUTN')
+    output_location_name = Cpt(EpicsSignal, '.DOLN')
+    output_location_data = Cpt(EpicsSignal, '.DOLD')
+    output_data_option = Cpt(EpicsSignal, ".DOPT")
+
+    output_execute_option = Cpt(EpicsSignal, ".OOPT")
+    output_execution_delay = Cpt(EpicsSignal, ".ODLY")
+    event_to_issue = Cpt(EpicsSignal, ".OEVT")
+
+    read_attrs = APS_utils.itemizer("channels.%s", CHANNEL_LETTERS_LIST)
+    hints = {'fields': read_attrs}
     
-    channels = DDC(
-        _swait_channels(
-            "A B C D E F G H I J K L".split()
-        )
-    )
+    channels = DDC(_swait_channels(CHANNEL_LETTERS_LIST))
     
     def reset(self):
         """set all fields to default values"""
-        self.desc.put(self.desc.pvname.split(".")[0])
-        self.scan.put("Passive")
-        self.calc.put("0")
-        self.prec.put("5")
-        self.dold.put(0)
-        self.doln.put("")
-        self.dopt.put("Use VAL")
-        self.flnk.put("0")
-        self.odly.put(0)
-        self.oopt.put("Every Time")
-        self.outn.put("")
+        pvname = self.description.pvname.split(".")[0]
+        self.description.put(pvname)
+        self.scanning_rate.put("Passive")
+        self.calculation.put("0")
+        self.precision.put("5")
+        self.output_location_data.put(0)
+        self.output_location_name.put("")
+        self.output_data_option.put("Use VAL")
+        self.forward_link.put("0")
+        self.output_execution_delay.put(0)
+        self.output_execute_option.put("Every Time")
+        self.output_link_pv.put("")
         for letter in self.channels.read_attrs:
             channel = getattr(self.channels, letter)
-            if isinstance(channel, swaitRecordChannel):
+            if isinstance(channel, SwaitRecordChannel):
                 channel.reset()
-        self.hints = {'fields': ["channels.%s" % c for c in "A B C D E F G H I J K L".split()]}
-        self.read_attrs = ["channels.%s" % c for c in "A B C D E F G H I J K L".split()]
-        self.read_attrs.append('val')
+
+        self.read_attrs = ["channels.%s" % c for c in CHANNEL_LETTERS_LIST]
+        self.hints = {'fields': self.read_attrs}
+
+        self.read_attrs.append('calculated_value')
 
 
-class userCalcsDevice(Device):
+class UserCalcsDevice(Device):
     """
     synApps XXX IOC setup of userCalcs: $(P):userCalc$(N)
 
@@ -150,16 +152,16 @@ class userCalcsDevice(Device):
     """
 
     enable = Cpt(EpicsSignal, 'userCalcEnable')
-    calc1 = Cpt(swaitRecord, 'userCalc1')
-    calc2 = Cpt(swaitRecord, 'userCalc2')
-    calc3 = Cpt(swaitRecord, 'userCalc3')
-    calc4 = Cpt(swaitRecord, 'userCalc4')
-    calc5 = Cpt(swaitRecord, 'userCalc5')
-    calc6 = Cpt(swaitRecord, 'userCalc6')
-    calc7 = Cpt(swaitRecord, 'userCalc7')
-    calc8 = Cpt(swaitRecord, 'userCalc8')
-    calc9 = Cpt(swaitRecord, 'userCalc9')
-    calc10 = Cpt(swaitRecord, 'userCalc10')
+    calc1 = Cpt(SwaitRecord, 'userCalc1')
+    calc2 = Cpt(SwaitRecord, 'userCalc2')
+    calc3 = Cpt(SwaitRecord, 'userCalc3')
+    calc4 = Cpt(SwaitRecord, 'userCalc4')
+    calc5 = Cpt(SwaitRecord, 'userCalc5')
+    calc6 = Cpt(SwaitRecord, 'userCalc6')
+    calc7 = Cpt(SwaitRecord, 'userCalc7')
+    calc8 = Cpt(SwaitRecord, 'userCalc8')
+    calc9 = Cpt(SwaitRecord, 'userCalc9')
+    calc10 = Cpt(SwaitRecord, 'userCalc10')
 
     def reset(self):
         """set all fields to default values"""
@@ -176,16 +178,16 @@ class userCalcsDevice(Device):
         self.read_attrs = ["calc%d" % (c+1) for c in range(10)]
 
 
-def swait_setup_random_number(swait, **kw):
+def setup_random_number_swait(swait, **kw):
     """setup swait record to generate random numbers"""
     swait.reset()
-    swait.scan.put("Passive")
-    swait.calc.put("RNDM")
-    swait.scan.put(".1 second")
-    swait.desc.put("uniform random numbers")
+    swait.scanning_rate.put("Passive")
+    swait.calculation.put("RNDM")
+    swait.scanning_rate.put(".1 second")
+    swait.description.put("uniform random numbers")
 
-    swait.hints = {"fields": ['val',]}
-    swait.read_attrs = ['val',]
+    swait.read_attrs = ['calculated_value',]
+    swait.hints = {"fields": swait.read_attrs}
 
 
 def _setup_peak_swait_(calc, desc, swait, motor, center=0, width=1, scale=1, noise=0.05):
@@ -195,21 +197,21 @@ def _setup_peak_swait_(calc, desc, swait, motor, center=0, width=1, scale=1, noi
     assert(width > 0)
     assert(0.0 <= noise <= 1.0)
     swait.reset()
-    swait.scan.put("Passive")
+    swait.scanning_rate.put("Passive")
     swait.channels.A.input_pv.put(motor.user_readback.pvname)
-    swait.channels.B.value.put(center)
-    swait.channels.C.value.put(width)
-    swait.channels.D.value.put(scale)
-    swait.channels.E.value.put(noise)
-    swait.calc.put(calc)
-    swait.scan.put("I/O Intr")
-    swait.desc.put(desc)
+    swait.channels.B.input_value.put(center)
+    swait.channels.C.input_value.put(width)
+    swait.channels.D.input_value.put(scale)
+    swait.channels.E.input_value.put(noise)
+    swait.calculation.put(calc)
+    swait.scanning_rate.put("I/O Intr")
+    swait.description.put(desc)
 
-    swait.hints = {"fields": ['val',]}
-    swait.read_attrs = ['val',]
+    swait.read_attrs = ['calculated_value',]
+    swait.hints = {"fields": swait.read_attrs}
 
 
-def swait_setup_gaussian(swait, motor, center=0, width=1, scale=1, noise=0.05):
+def setup_gaussian_swait(swait, motor, center=0, width=1, scale=1, noise=0.05):
     """setup swait for noisy Gaussian"""
     _setup_peak_swait_(
         "D*(0.95+E*RNDM)/exp(((A-b)/c)^2)",
@@ -222,7 +224,7 @@ def swait_setup_gaussian(swait, motor, center=0, width=1, scale=1, noise=0.05):
         noise=noise)
 
 
-def swait_setup_lorentzian(swait, motor, center=0, width=1, scale=1, noise=0.05):
+def setup_lorentzian_swait(swait, motor, center=0, width=1, scale=1, noise=0.05):
     """setup swait record for noisy Lorentzian"""
     _setup_peak_swait_(
         "D*(0.95+E*RNDM)/(1+((A-b)/c)^2)", 
@@ -235,18 +237,18 @@ def swait_setup_lorentzian(swait, motor, center=0, width=1, scale=1, noise=0.05)
         noise=noise)
 
 
-def swait_setup_incrementer(swait, scan=None, limit=100000):
+def setup_incrementer_swait(swait, scan=None, limit=100000):
     """setup swait record as an incrementer"""
     # consider a noisy background, as well (needs a couple calcs)
     scan = scan or ".1 second"
     swait.reset()
-    swait.scan.put("Passive")
-    pvname = swait.val.pvname.split(".")[0]
+    swait.scanning_rate.put("Passive")
+    pvname = swait.calculated_value.pvname.split(".")[0]
     swait.channels.A.input_pv.put(pvname)
-    swait.channels.B.value.put(limit)
-    swait.calc.put("(A+1) % B")
-    swait.scan.put(scan)
-    swait.desc.put("incrementer")
+    swait.channels.B.input_value.put(limit)
+    swait.calculation.put("(A+1) % B")
+    swait.scanning_rate.put(scan)
+    swait.description.put("incrementer")
 
-    swait.hints = {"fields": ['val',]}
-    swait.read_attrs = ['val',]
+    swait.read_attrs = ['calculated_value',]
+    swait.hints = {"fields": swait.read_attrs}

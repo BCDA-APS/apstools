@@ -18,16 +18,16 @@ P = "xxx:"
 
 from ophyd.scaler import ScalerCH
 from ophyd import EpicsMotor
-from apstools.synApps_ophyd import userCalcsDevice
-from apstools.synApps_ophyd import sscanDevice
+from apstools.synApps_ophyd import UserCalcsDevice
+from apstools.synApps_ophyd import SscanDevice
 from apstools.synApps_ophyd import SaveData
-from apstools.synApps_ophyd import swait_setup_lorentzian
+from apstools.synApps_ophyd import setup_lorentzian_swait
 
 scaler = ScalerCH(f"{P}scaler1", name="scaler")
 scaler.select_channels(None)
 m1 = EpicsMotor(f"{P}m1", name="m1")
-calcs = userCalcsDevice(P, name="calcs")
-scans = sscanDevice(P, name="scans")
+calcs = UserCalcsDevice(P, name="calcs")
+scans = SscanDevice(P, name="scans")
 scans.select_channels()
 save_data = SaveData(f"{P}saveData_", name="save_data")
 
@@ -57,7 +57,7 @@ scan.triggers.t1.trigger_pv.put(scaler.count.pvname)
 
 scans.select_channels()     # finally, reconfigure
 
-swait_setup_lorentzian(calcs.calc2, m1, 2)
+setup_lorentzian_swait(calcs.calc2, m1, 2)
 noisy_det = calcs.calc2.val
 
 
