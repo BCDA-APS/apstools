@@ -192,7 +192,33 @@ class UserCalcoutDevice(Device):
 
 
 def _setup_peak_calcout_(calc, desc, calcout, ref_signal, center=0, width=1, scale=1, noise=0.05):
-    """internal: setup that is common to both Gaussian and Lorentzian calcout"""
+    """
+    internal: setup that is common to both Gaussian and Lorentzian calcouts
+    
+    PARAMETERS
+
+    calcout : object
+        instance of :class:`CalcoutRecord`
+
+    ref_signal : object
+        instance of :class:`EpicsSignal` used as $A$
+
+    center : float
+        $B$, 
+        default = 0
+
+    width : float
+        $C$,
+        default = 1
+
+    scale : float
+        $D$,
+        default = 1
+
+    noise : float
+        $E$,
+        default = 0.05
+    """
     # to add a noisy background will need another calc
     assert(isinstance(calcout, CalcoutRecord))
     assert(isinstance(ref_signal, EpicsSignal))
@@ -214,7 +240,35 @@ def _setup_peak_calcout_(calc, desc, calcout, ref_signal, center=0, width=1, sca
 
 
 def setup_gaussian_calcout(calcout, ref_signal, center=0, width=1, scale=1, noise=0.05):
-    """setup calcout for noisy Gaussian"""
+    """
+    setup calcout for noisy Gaussian
+    
+    calculation: $D*(0.95+E*RNDM)/exp(((A-B)/C)^2)$
+    
+    PARAMETERS
+
+    calcout : object
+        instance of :class:`CalcoutRecord`
+
+    ref_signal : object
+        instance of :class:`EpicsSignal` used as $A$
+
+    center : float
+        $B$, 
+        default = 0
+
+    width : float
+        $C$,
+        default = 1
+
+    scale : float
+        $D$,
+        default = 1
+
+    noise : float
+        $E$,
+        default = 0.05
+    """
     _setup_peak_calcout_(
         "D*(0.95+E*RNDM)/exp(((A-b)/c)^2)",
         "noisy Gaussian curve", 
@@ -226,14 +280,39 @@ def setup_gaussian_calcout(calcout, ref_signal, center=0, width=1, scale=1, nois
         noise=noise)
 
 
-def setup_lorentzian_calcout(calcout, ref_signal, center=0, width=1, scale=1, noise=0.05):
+def setup_lorentzian_calcout(calcout, ref_signal, 
+                             center=0, width=1, scale=1, noise=0.05):
     """
     setup calcout record for noisy Lorentzian
     
+    calculation: $D*(0.95+E*RNDM)/(1+((A-B)/C)^2)$
+    
     PARAMETERS
+
+    calcout : object
+        instance of :class:`CalcoutRecord`
+
+    ref_signal : object
+        instance of :class:`EpicsSignal` used as $A$
+
+    center : float
+        $B$, 
+        default = 0
+
+    width : float
+        $C$,
+        default = 1
+
+    scale : float
+        $D$,
+        default = 1
+
+    noise : float
+        $E$,
+        default = 0.05
     """
     _setup_peak_calcout_(
-        "D*(0.95+E*RNDM)/(1+((A-b)/c)^2)", 
+        "D*(0.95+E*RNDM)/(1+((A-B)/C)^2)", 
         "noisy Lorentzian curve", 
         calcout, 
         ref_signal, 
@@ -246,6 +325,23 @@ def setup_lorentzian_calcout(calcout, ref_signal, center=0, width=1, scale=1, no
 def setup_incrementer_calcout(calcout, scan=None, limit=100000):
     """
     setup calcout record as an incrementer
+
+    PARAMETERS
+
+    calcout : object
+        instance of :class:`CalcoutRecord`
+
+    scan : text or int or None
+        any of the EPICS record `.SCAN` values, 
+        or the index number of the value,
+        set to default if `None`,
+        default: `.1 second`
+
+    limit : int or None
+        set the incrementer back to zero 
+        when this number is reached (or passed),
+        default: 100000
+
     """
     # consider a noisy background, as well (needs a couple calcs)
     scan = scan or ".1 second"

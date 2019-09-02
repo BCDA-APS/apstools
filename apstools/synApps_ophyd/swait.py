@@ -195,7 +195,33 @@ def setup_random_number_swait(swait, **kw):
 
 
 def _setup_peak_swait_(calc, desc, swait, ref_signal, center=0, width=1, scale=1, noise=0.05):
-    """internal: setup that is common to both Gaussian and Lorentzian swaits"""
+    """
+    internal: setup that is common to both Gaussian and Lorentzian swaits
+    
+    PARAMETERS
+
+    swait : object
+        instance of :class:`SwaitRecord`
+
+    ref_signal : object
+        instance of :class:`EpicsSignal` used as $A$
+
+    center : float
+        $B$, 
+        default = 0
+
+    width : float
+        $C$,
+        default = 1
+
+    scale : float
+        $D$,
+        default = 1
+
+    noise : float
+        $E$,
+        default = 0.05
+    """
     # consider a noisy background, as well (needs a couple calcs)
     assert(isinstance(swait, SwaitRecord))
     assert(isinstance(ref_signal, EpicsSignal))
@@ -217,7 +243,35 @@ def _setup_peak_swait_(calc, desc, swait, ref_signal, center=0, width=1, scale=1
 
 
 def setup_gaussian_swait(swait, ref_signal, center=0, width=1, scale=1, noise=0.05):
-    """setup swait for noisy Gaussian"""
+    """
+    setup swait for noisy Gaussian
+    
+    calculation: $D*(0.95+E*RNDM)/exp(((A-B)/C)^2)$
+    
+    PARAMETERS
+
+    swait : object
+        instance of :class:`SwaitRecord`
+
+    ref_signal : object
+        instance of :class:`EpicsSignal` used as $A$
+
+    center : float
+        $B$, 
+        default = 0
+
+    width : float
+        $C$,
+        default = 1
+
+    scale : float
+        $D$,
+        default = 1
+
+    noise : float
+        $E$,
+        default = 0.05
+    """
     _setup_peak_swait_(
         "D*(0.95+E*RNDM)/exp(((A-b)/c)^2)",
         "noisy Gaussian curve", 
@@ -230,7 +284,35 @@ def setup_gaussian_swait(swait, ref_signal, center=0, width=1, scale=1, noise=0.
 
 
 def setup_lorentzian_swait(swait, ref_signal, center=0, width=1, scale=1, noise=0.05):
-    """setup swait record for noisy Lorentzian"""
+    """
+    setup swait record for noisy Lorentzian
+    
+    calculation: $D*(0.95+E*RNDM)/(1+((A-B)/C)^2)$
+    
+    PARAMETERS
+
+    swait : object
+        instance of :class:`SwaitRecord`
+
+    ref_signal : object
+        instance of :class:`EpicsSignal` used as $A$
+
+    center : float
+        $B$, 
+        default = 0
+
+    width : float
+        $C$,
+        default = 1
+
+    scale : float
+        $D$,
+        default = 1
+
+    noise : float
+        $E$,
+        default = 0.05
+    """
     _setup_peak_swait_(
         "D*(0.95+E*RNDM)/(1+((A-b)/c)^2)", 
         "noisy Lorentzian curve", 
@@ -243,7 +325,26 @@ def setup_lorentzian_swait(swait, ref_signal, center=0, width=1, scale=1, noise=
 
 
 def setup_incrementer_swait(swait, scan=None, limit=100000):
-    """setup swait record as an incrementer"""
+    """
+    setup swait record as an incrementer
+
+    PARAMETERS
+
+    swait : object
+        instance of :class:`SwaitRecord`
+
+    scan : text or int or None
+        any of the EPICS record `.SCAN` values, 
+        or the index number of the value,
+        set to default if `None`,
+        default: `.1 second`
+
+    limit : int or None
+        set the incrementer back to zero 
+        when this number is reached (or passed),
+        default: 100000
+
+    """
     # consider a noisy background, as well (needs a couple calcs)
     scan = scan or ".1 second"
     swait.reset()
