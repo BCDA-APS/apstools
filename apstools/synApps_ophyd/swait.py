@@ -45,7 +45,7 @@ from ophyd.device import (
     Component as Cpt,
     DynamicDeviceComponent as DDC,
     FormattedComponent as FC)
-from ophyd import EpicsSignal, EpicsSignalRO, EpicsMotor
+from ophyd import EpicsSignal, EpicsMotor
 
 from ._common import EpicsRecordDeviceCommonAll, EpicsRecordFloatFields
 from .. import utils as APS_utils
