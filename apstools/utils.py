@@ -59,13 +59,13 @@ import pyRestTable
 import re
 import smtplib
 import subprocess
+import sys
 import threading
 import time
 import xlrd
 import zipfile
 
 from .filewriters import _rebuild_scan_command
-from jupyter_core.tests.mocking import linux
 
 
 logger = logging.getLogger(__name__)
@@ -583,7 +583,9 @@ def unix(command, raises=True):
         If `True`, will raise exceptions as needed,
         default: `True`
     """
-    # TODO: confirm it is running on a unix system
+    if sys.platform not in "linux linux2".split():
+        emsg = f"Cannot call unix() when OS={sys.platform}"
+        raise RuntimeError(emsg)
     process = subprocess.Popen(
         command, 
         shell=True,
