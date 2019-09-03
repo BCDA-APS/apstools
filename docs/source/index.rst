@@ -11,6 +11,14 @@ Various Python tools for use with BlueSky at the APS
 * http://nsls-ii.github.io/
 * https://github.com/NSLS-II/bluesky
 
+Summary Contents
+----------------
+
+* :ref:`applications`
+* :ref:`examples`
+* :ref:`api_documentation`
+* :ref:`license`
+
 Package Information
 -------------------
 
