@@ -8,6 +8,6 @@ https://htmlpreview.github.io/?https://raw.githubusercontent.com/epics-modules/c
 see the synApps ``calc`` module suppport: 
 https://github.com/epics-modules/calc
 
-.. automodule:: apstools.synApps_ophyd.swait
+.. automodule:: apstools.synApps.swait
     :members: 
  

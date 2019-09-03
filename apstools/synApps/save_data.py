@@ -6,7 +6,7 @@ see:  https://epics.anl.gov/bcda/synApps/sscan/sscanRecord.html
 
 EXAMPLE
 
-    from apstools.synApps_ophyd import SaveData
+    from apstools.synApps import SaveData
     save_data = SaveData("xxx:saveData_", name="save_data")
 
 
@@ -40,7 +40,7 @@ class SaveData(Device):
     
     usage::
 
-        from apstools.synApps_ophyd import SaveData
+        from apstools.synApps import SaveData
         save_data = SaveData("xxx:saveData_", name="save_data")
 
     .. autosummary::

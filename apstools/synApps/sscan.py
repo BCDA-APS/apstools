@@ -6,8 +6,8 @@ see:  https://epics.anl.gov/bcda/synApps/sscan/SscanRecord.html
 
 EXAMPLE
 
-    import apstools.synApps_ophyd
-    scans = apstools.synApps_ophyd.SscanDevice("xxx:", name="scans")
+    import apstools.synApps
+    scans = apstools.synApps.SscanDevice("xxx:", name="scans")
     scans.select_channels()     # only the channels configured in EPICS
 
 

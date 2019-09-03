@@ -637,7 +637,7 @@ def _get_sscan_data_objects(sscan):
     PARAMETERS
 
     sscan : Device
-        one EPICS sscan record (instance of `apstools.synApps_ophyd.sscanRecord`)
+        one EPICS sscan record (instance of `apstools.synApps.sscanRecord`)
 
     """
     scan_data_objects = OrderedDict()
@@ -667,7 +667,7 @@ def sscan_1D(
     PARAMETERS
 
     sscan : Device
-        one EPICS sscan record (instance of `apstools.synApps_ophyd.sscanRecord`)
+        one EPICS sscan record (instance of `apstools.synApps.sscanRecord`)
     running_stream : str or `None`
         (default: ``"primary"``)
         Name of document stream to write positioners and detectors data

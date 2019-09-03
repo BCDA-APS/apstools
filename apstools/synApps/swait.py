@@ -4,13 +4,13 @@ Ophyd support for the EPICS synApps swait record
 
 EXAMPLES::
 
-    import apstools.synApps_ophyd
-    calcs = apstools.synApps_ophyd.UserCalcsDevice("xxx:", name="calcs")
+    import apstools.synApps
+    calcs = apstools.synApps.UserCalcsDevice("xxx:", name="calcs")
 
     calc1 = calcs.calc1
-    apstools.synApps_ophyd.setup_random_number_swait(calc1)
+    apstools.synApps.setup_random_number_swait(calc1)
 
-    apstools.synApps_ophyd.setup_incrementer_swait(calcs.calc2)
+    apstools.synApps.setup_incrementer_swait(calcs.calc2)
     
     calc1.reset()
 
