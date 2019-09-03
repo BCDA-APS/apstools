@@ -28,6 +28,7 @@ Various utilities
    ~text_encode
    ~to_unicode_or_bust
    ~trim_string_for_EPICS
+   ~unix
    ~unix_cmd
 
 """
@@ -569,8 +570,53 @@ def trim_string_for_EPICS(msg):
     return msg
 
 
-def unix_cmd(command_list):
-    """run a UNIX command, returns (stdout, stderr)"""
+def unix(command, raises=True):
+    """
+    run a UNIX command, returns (stdout, stderr)
+
+    PARAMETERS
+    
+    command: str
+        UNIX command to be executed
+    raises: bool
+        If `True`, will raise exceptions as needed,
+        default: `True`
+    """
+    # TODO: confirm it is running on a unix system
+    # TODO: use logging package
+    # TODO: log any error output
+    process = subprocess.Popen(
+        command, 
+        shell=True,
+        stdin = subprocess.PIPE,
+        stdout = subprocess.PIPE,
+        stderr = subprocess.PIPE,
+        )
+    output, error = process.communicate()
+    return output, error
+
+
+def unix_cmd(command_list, raises=True):
+    """
+    run a UNIX command, returns (stdout, stderr)
+
+    (deprecated): use ``listruns`` instead
+
+    PARAMETERS
+    
+    command_list: [str]
+        UNIX command, divided into a list of strings
+    raises: bool
+        If `True`, will raise `RuntimeWarning()` 
+        since this function is deprecated,
+        default: `True`
+    """
+    msg = "'unix_cmd()' is deprecated"
+    msg += ", use 'unix()' instead, slightly different API"
+    if raises:
+        raise RuntimeWarning(msg)
+    logger.warning(msg)
+    
     process = subprocess.Popen(command_list, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
     stdout, stderr = process.communicate()
     return stdout, stderr
