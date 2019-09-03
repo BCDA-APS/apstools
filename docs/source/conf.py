@@ -55,7 +55,7 @@ master_doc = 'index'
 
 # General information about the project.
 project = apstools.__package_name__
-copyright = apstools.__copyright__
+# copyright = apstools.__copyright__
 author = apstools.__author__
 
 # The version info for the project you're documenting, acts as replacement for
