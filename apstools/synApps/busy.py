@@ -7,7 +7,7 @@ Public Structures
 
 .. autosummary::
    
-    ~busyRecord
+    ~BusyRecord
 
 """
 

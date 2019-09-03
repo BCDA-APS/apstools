@@ -6,20 +6,33 @@
 Welcome to apstools's documentation!
 ====================================
 
-Various Python tools for use with BlueSky at the APS
+Various Python tools for use with Bluesky at the APS
 
-* http://nsls-ii.github.io/
-* https://github.com/NSLS-II/bluesky
+=============== ========================================
+apstools home   https://apstools.readthedocs.io
+apstools source https://github.com/BCDA-APS/apstools
+Bluesky home	https://blueskyproject.io/
+Bluesky source	https://github.com/bluesky
+=============== ========================================
+
+Summary Contents
+----------------
+
+* :ref:`applications`
+* :ref:`examples`
+* :ref:`api_documentation`
+* :ref:`license`
 
 Package Information
 -------------------
 
-:author:        Pete R. Jemian
-:email:         jemian@anl.gov
-:copyright:     2017-2019, UChicago Argonne, LLC
-:license:       ANL OPEN SOURCE LICENSE (see LICENSE.txt file)
-:documentation: https://apstools.readthedocs.io
-:source:        https://github.com/BCDA-APS/apstools
+============= ========================================
+version       |version|
+published     |today|
+copyright     2017-2019, UChicago Argonne, LLC
+license       ANL OPEN SOURCE LICENSE (see LICENSE.txt file)
+author        Pete R. Jemian <jemian@anl.gov>
+============= ========================================
 
 .. toctree::
    :maxdepth: 2
@@ -30,7 +43,6 @@ Package Information
    examples/index
    source/index
    license
-
 
 Indices and tables
 ==================
