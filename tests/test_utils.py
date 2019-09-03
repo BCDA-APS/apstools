@@ -24,11 +24,11 @@ RE = None
 
 class Test_Utils(unittest.TestCase):
 
-    def setUp(self):
-        pass
-
-    def tearDown(self):
-        pass
+    # def setUp(self):
+    #     pass
+    # 
+    # def tearDown(self):
+    #     pass
     
     def test_cleanupText(self):
         original = "1. Some text to cleanup #25"
@@ -184,6 +184,20 @@ class Test_Utils(unittest.TestCase):
                 self.assertTrue(k in rr, msg)
         self.assertEqual(num, len(table.rows))
 
+    def test_unix(self):
+        cmd = 'echo "hello"'
+        out, err = APS_utils.unix(cmd)
+        self.assertEqual(out, b'hello\n')
+        self.assertEqual(err, b"")
+        
+        cmd = "sleep 0.8 | echo hello"
+        t0 = time.time()
+        out, err = APS_utils.unix(cmd)
+        dt = time.time() - t0
+        self.assertGreaterEqual(dt, 0.8)
+        self.assertEqual(out, b'hello\n')
+        self.assertEqual(err, b"")
+
 
 class Test_With_Database(unittest.TestCase):
 
@@ -191,8 +205,8 @@ class Test_With_Database(unittest.TestCase):
         from tests.test_export_json import get_db
         self.db = get_db()
 
-    def tearDown(self):
-        pass
+    # def tearDown(self):
+    #     pass
 
     def test_list_recent_scans(self):
         # TODO: capture output to ?stderr? and test for it
@@ -264,20 +278,6 @@ class Test_With_Database(unittest.TestCase):
             msg = f"expect decreasing: #{i} : change={v-previous}"
             self.assertLess(v - previous, 0, msg)
             previous = v
-
-    def test_unix(self):
-        cmd = 'echo "hello"'
-        out, err = APS_utils.unix(cmd)
-        self.assertEqual(out, b'hello\n')
-        self.assertEqual(err, b"")
-        
-        cmd = "sleep 0.8 | echo hello"
-        t0 = time.time()
-        out, err = APS_utils.unix(cmd)
-        dt = time.time() - t0
-        self.assertGreaterEqual(dt, 0.8)
-        self.assertEqual(out, b'hello\n')
-        self.assertEqual(err, b"")
 
 
 def suite(*args, **kw):
