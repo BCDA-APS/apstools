@@ -3,12 +3,13 @@
 simple unit tests for this package
 """
 
+import ophyd.sim
 import os
 import sys
+import time
 import unittest
 
-_path = os.path.dirname(__file__)
-_path = os.path.join(_path, '..')
+_path = os.path.join(os.path.dirname(__file__), '..')
 if _path not in sys.path:
     sys.path.insert(0, _path)
 
@@ -22,11 +23,11 @@ RE = None
 
 class Test_Utils(unittest.TestCase):
 
-    def setUp(self):
-        pass
-
-    def tearDown(self):
-        pass
+    # def setUp(self):
+    #     pass
+    # 
+    # def tearDown(self):
+    #     pass
     
     def test_cleanupText(self):
         original = "1. Some text to cleanup #25"
@@ -35,29 +36,38 @@ class Test_Utils(unittest.TestCase):
         self.assertEqual(received, expected)
     
     def test_device_read2table(self):
-        from ophyd.sim import motor1
-        table = APS_utils.device_read2table(motor1, show_ancient=True, use_datetime=True)
+        motor1 = ophyd.sim.hw().motor1
+        table = APS_utils.device_read2table(
+            motor1, show_ancient=True, use_datetime=True)
         # print(table)
-        expected = """
-=============== =====
-name            value
-=============== =====
-motor1          0    
-motor1_setpoint 0    
-=============== =====
-        """.strip()
+        expected = (
+            "=============== =====\n"
+            "name            value\n"
+            "=============== =====\n"
+            "motor1          0    \n"
+            "motor1_setpoint 0    \n"
+            "=============== ====="
+            )
         # TODO: figure out how to compare with timestamps
-        received = "\n".join([v[:21] for v in str(table).strip().splitlines()])
+        received = "\n".join([
+            v[:21] 
+            for v in str(table).strip().splitlines()])
         self.assertEqual(received, expected)    # fails since timestamps do not match
 
-        table = APS_utils.device_read2table(motor1, show_ancient=True, use_datetime=False)
+        table = APS_utils.device_read2table(
+            motor1, show_ancient=True, use_datetime=False)
         # expected = """ """.strip()
-        received = "\n".join([v[:21] for v in str(table).strip().splitlines()])
+        received = "\n".join(
+            [v[:21] 
+             for v in str(table).strip().splitlines()])
         self.assertEqual(received, expected)    # fails since timestamps do not match
 
-        table = APS_utils.device_read2table(motor1, show_ancient=False, use_datetime=False)
+        table = APS_utils.device_read2table(
+            motor1, show_ancient=False, use_datetime=False)
         # expected = """ """.strip()
-        received = "\n".join([v[:21] for v in str(table).strip().splitlines()])
+        received = "\n".join([
+            v[:21] 
+            for v in str(table).strip().splitlines()])
         self.assertEqual(received, expected)    # fails since timestamps do not match
 
     def test_dictionary_table(self):
@@ -76,18 +86,18 @@ motor1_setpoint 0
               }
         table = APS_utils.dictionary_table(md)
         received = str(table).strip()
-        expected = """
-=========== =============================================================================
-key         value                                                                        
-=========== =============================================================================
-beamline_id developer                                                                    
-login_id    jemian:wow.aps.anl.gov                                                       
-pid         19072                                                                        
-proposal_id None                                                                         
-scan_id     10                                                                           
-version     {'bluesky': '1.5.2', 'ophyd': '1.3.3', 'apstools': '1.1.5', 'epics': '3.3.3'}
-=========== =============================================================================
-        """.strip()
+        expected = (
+            "=========== =============================================================================\n"
+            "key         value                                                                        \n"
+            "=========== =============================================================================\n"
+            "beamline_id developer                                                                    \n"
+            "login_id    jemian:wow.aps.anl.gov                                                       \n"
+            "pid         19072                                                                        \n"
+            "proposal_id None                                                                         \n"
+            "scan_id     10                                                                           \n"
+            "version     {'bluesky': '1.5.2', 'ophyd': '1.3.3', 'apstools': '1.1.5', 'epics': '3.3.3'}\n"
+            "=========== ============================================================================="
+        )
         self.assertEqual(received, expected)
 
     def test_itemizer(self):
@@ -173,6 +183,20 @@ version     {'bluesky': '1.5.2', 'ophyd': '1.3.3', 'apstools': '1.1.5', 'epics':
                 self.assertTrue(k in rr, msg)
         self.assertEqual(num, len(table.rows))
 
+    def test_unix(self):
+        cmd = 'echo "hello"'
+        out, err = APS_utils.unix(cmd)
+        self.assertEqual(out, b'hello\n')
+        self.assertEqual(err, b"")
+        
+        cmd = "sleep 0.8 | echo hello"
+        t0 = time.time()
+        out, err = APS_utils.unix(cmd)
+        dt = time.time() - t0
+        self.assertGreaterEqual(dt, 0.8)
+        self.assertEqual(out, b'hello\n')
+        self.assertEqual(err, b"")
+
 
 class Test_With_Database(unittest.TestCase):
 
@@ -180,10 +204,11 @@ class Test_With_Database(unittest.TestCase):
         from tests.test_export_json import get_db
         self.db = get_db()
 
-    def tearDown(self):
-        pass
+    # def tearDown(self):
+    #     pass
 
     def test_list_recent_scans(self):
+        # TODO: capture output to ?stderr? and test for it
         with self.assertRaises(RuntimeWarning):
             APS_utils.list_recent_scans(db=self.db, raises=True)
 

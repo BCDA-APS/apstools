@@ -28,6 +28,7 @@ Various utilities
    ~text_encode
    ~to_unicode_or_bust
    ~trim_string_for_EPICS
+   ~unix
    ~unix_cmd
 
 """
@@ -58,6 +59,7 @@ import pyRestTable
 import re
 import smtplib
 import subprocess
+import sys
 import threading
 import time
 import xlrd
@@ -569,8 +571,62 @@ def trim_string_for_EPICS(msg):
     return msg
 
 
-def unix_cmd(command_list):
-    """run a UNIX command, returns (stdout, stderr)"""
+def unix(command, raises=True):
+    """
+    run a UNIX command, returns (stdout, stderr)
+
+    PARAMETERS
+    
+    command: str
+        UNIX command to be executed
+    raises: bool
+        If `True`, will raise exceptions as needed,
+        default: `True`
+    """
+    if sys.platform not in ("linux", "linux2"):
+        emsg = f"Cannot call unix() when OS={sys.platform}"
+        raise RuntimeError(emsg)
+
+    process = subprocess.Popen(
+        command, 
+        shell=True,
+        stdin = subprocess.PIPE,
+        stdout = subprocess.PIPE,
+        stderr = subprocess.PIPE,
+        )
+
+    stdout, stderr = process.communicate()
+
+    if len(stderr) > 0:
+        emsg = f"unix({command}) returned error:\n{stderr}"
+        logger.error(emsg)
+        if raises:
+            raise RuntimeError(emsg)
+
+    return stdout, stderr
+
+
+def unix_cmd(command_list, raises=True):
+    """
+    run a UNIX command, returns (stdout, stderr)
+
+    (deprecated): use ``unix()`` instead
+
+    PARAMETERS
+    
+    command_list: [str]
+        UNIX command, divided into a list of strings
+    raises: bool
+        If `True`, will raise `RuntimeWarning()` 
+        since this function is deprecated,
+        default: `True`
+    """
+    msg = "'unix_cmd()' is deprecated"
+    msg += ", use 'unix()' instead, slightly different API"
+    logger.warning(msg)
+    if raises:
+        raise RuntimeWarning(msg)
+    
     process = subprocess.Popen(command_list, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
     stdout, stderr = process.communicate()
     return stdout, stderr
