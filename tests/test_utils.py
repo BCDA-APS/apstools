@@ -5,6 +5,7 @@ simple unit tests for this package
 
 import os
 import sys
+import time
 import unittest
 
 _path = os.path.dirname(__file__)
@@ -184,6 +185,7 @@ class Test_With_Database(unittest.TestCase):
         pass
 
     def test_list_recent_scans(self):
+        # TODO: capture output to ?stderr? and test for it
         with self.assertRaises(RuntimeWarning):
             APS_utils.list_recent_scans(db=self.db, raises=True)
 
@@ -252,6 +254,20 @@ class Test_With_Database(unittest.TestCase):
             msg = f"expect decreasing: #{i} : change={v-previous}"
             self.assertLess(v - previous, 0, msg)
             previous = v
+
+    def test_unix(self):
+        cmd = 'echo "hello"'
+        out, err = APS_utils.unix(cmd)
+        self.assertEqual(out, b'hello\n')
+        self.assertEqual(err, b"")
+        
+        cmd = "sleep 0.8 | echo hello"
+        t0 = time.time()
+        out, err = APS_utils.unix(cmd)
+        dt = time.time() - t0
+        self.assertGreaterEqual(dt, 0.8)
+        self.assertEqual(out, b'hello\n')
+        self.assertEqual(err, b"")
 
 
 def suite(*args, **kw):
