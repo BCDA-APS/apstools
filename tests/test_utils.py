@@ -9,8 +9,7 @@ import sys
 import time
 import unittest
 
-_path = os.path.dirname(__file__)
-_path = os.path.join(_path, '..')
+_path = os.path.join(os.path.dirname(__file__), '..')
 if _path not in sys.path:
     sys.path.insert(0, _path)
 
