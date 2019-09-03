@@ -22,12 +22,12 @@ Summary Contents
 Package Information
 -------------------
 
-:author:        Pete R. Jemian
-:email:         jemian@anl.gov
 :copyright:     2017-2019, UChicago Argonne, LLC
 :license:       ANL OPEN SOURCE LICENSE (see LICENSE.txt file)
 :documentation: https://apstools.readthedocs.io
 :source:        https://github.com/BCDA-APS/apstools
+:author:        Pete R. Jemian
+:email:         jemian@anl.gov
 
 .. toctree::
    :maxdepth: 2
