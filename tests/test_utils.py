@@ -36,9 +36,9 @@ class Test_Utils(unittest.TestCase):
         self.assertEqual(received, expected)
     
     def test_device_read2table(self):
-        sim_motor1 = ophyd.sim.hw().motor1
+        motor1 = ophyd.sim.hw().motor1
         table = APS_utils.device_read2table(
-            sim_motor1, show_ancient=True, use_datetime=True)
+            motor1, show_ancient=True, use_datetime=True)
         # print(table)
         expected = (
             "=============== =====\n"
@@ -55,7 +55,7 @@ class Test_Utils(unittest.TestCase):
         self.assertEqual(received, expected)    # fails since timestamps do not match
 
         table = APS_utils.device_read2table(
-            sim_motor1, show_ancient=True, use_datetime=False)
+            motor1, show_ancient=True, use_datetime=False)
         # expected = """ """.strip()
         received = "\n".join(
             [v[:21] 
@@ -63,7 +63,7 @@ class Test_Utils(unittest.TestCase):
         self.assertEqual(received, expected)    # fails since timestamps do not match
 
         table = APS_utils.device_read2table(
-            sim_motor1, show_ancient=False, use_datetime=False)
+            motor1, show_ancient=False, use_datetime=False)
         # expected = """ """.strip()
         received = "\n".join([
             v[:21] 
