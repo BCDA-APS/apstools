@@ -6,10 +6,10 @@
 Welcome to apstools's documentation!
 ====================================
 
-Various Python tools for use with BlueSky at the APS
+Various Python tools for use with Bluesky at the APS
 
-* http://nsls-ii.github.io/
-* https://github.com/NSLS-II/bluesky
+* Bluesky project home:  https://blueskyproject.io/
+* Bluesky on GitHub: https://github.com/bluesky
 
 Summary Contents
 ----------------
