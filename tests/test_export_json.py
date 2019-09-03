@@ -3,7 +3,6 @@
 unit tests for the SPEC filewriter
 """
 
-import json
 import os
 import shutil
 import sys
