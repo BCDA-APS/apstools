@@ -18,6 +18,8 @@ Change History
        calcout: add support for calcout record & userCalcOuts
     * `#237 <https://github.com/prjemian/spec2nexus/issues/237>`_
        epid: add support for epid record
+    * `#234 <https://github.com/prjemian/spec2nexus/issues/234>`_
+       utils: replicate the `unix()` command
     * `#230 <https://github.com/prjemian/spec2nexus/issues/230>`_
        signals: resolve TypeError
 
