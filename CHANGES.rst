@@ -11,13 +11,13 @@ Change History
     * `#245 <https://github.com/prjemian/spec2nexus/issues/245>`_
        swait & calcout: change from *EpicsMotor* to any *Signal*
     * `#240 <https://github.com/prjemian/spec2nexus/issues/240>`_
-       synApps: refactor swait record & userCalc support
+       swait: refactor swait record & userCalc support
     * `#239 <https://github.com/prjemian/spec2nexus/issues/239>`_
-       synApps: add support for transform record
+       transform: add support for transform record
     * `#238 <https://github.com/prjemian/spec2nexus/issues/238>`_
-       synApps: add support for calcout record & userCalcOuts
+       calcout: add support for calcout record & userCalcOuts
     * `#237 <https://github.com/prjemian/spec2nexus/issues/237>`_
-       synApps: add support for epid record
+       epid: add support for epid record
     * `#230 <https://github.com/prjemian/spec2nexus/issues/230>`_
        signals: resolve TypeError
 
