@@ -65,6 +65,7 @@ import xlrd
 import zipfile
 
 from .filewriters import _rebuild_scan_command
+from jupyter_core.tests.mocking import linux
 
 
 logger = logging.getLogger(__name__)
@@ -583,8 +584,6 @@ def unix(command, raises=True):
         default: `True`
     """
     # TODO: confirm it is running on a unix system
-    # TODO: use logging package
-    # TODO: log any error output
     process = subprocess.Popen(
         command, 
         shell=True,
@@ -592,8 +591,14 @@ def unix(command, raises=True):
         stdout = subprocess.PIPE,
         stderr = subprocess.PIPE,
         )
-    output, error = process.communicate()
-    return output, error
+
+    stdout, stderr = process.communicate()
+    if len(stderr) > 0:
+        emsg = f"unix({command}) returned error:\n{stderr}"
+        logger.error(emsg)
+        if raises:
+            raise RuntimeError(emsg)
+    return stdout, stderr
 
 
 def unix_cmd(command_list, raises=True):
@@ -613,9 +618,9 @@ def unix_cmd(command_list, raises=True):
     """
     msg = "'unix_cmd()' is deprecated"
     msg += ", use 'unix()' instead, slightly different API"
+    logger.warning(msg)
     if raises:
         raise RuntimeWarning(msg)
-    logger.warning(msg)
     
     process = subprocess.Popen(command_list, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
     stdout, stderr = process.communicate()
