@@ -4,7 +4,20 @@
 Change History
 ##############
 
-:1.1.14:  expected *2019-09-15* : 
+:1.1.14:  expected by *2019-09-15* : 
+
+    * `#246 <https://github.com/prjemian/spec2nexus/issues/246>`_
+       synApps: shorten name from synApps_ophyd
+    * `#240 <https://github.com/prjemian/spec2nexus/issues/240>`_
+       synApps: refactor swait record & userCalc support
+    * `#239 <https://github.com/prjemian/spec2nexus/issues/239>`_
+       synApps: add support for transform record
+    * `#238 <https://github.com/prjemian/spec2nexus/issues/238>`_
+       synApps: add support for calcout record & userCalcOuts
+    * `#237 <https://github.com/prjemian/spec2nexus/issues/237>`_
+       synApps: add support for epid record
+    * `#230 <https://github.com/prjemian/spec2nexus/issues/230>`_
+       signals: resolve TypeError
 
 :1.1.13:  released *2019-08-15* : enhancements, bug fix, rename
 
