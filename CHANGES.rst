@@ -8,6 +8,8 @@ Change History
 
     * `#246 <https://github.com/prjemian/spec2nexus/issues/246>`_
        synApps: shorten name from synApps_ophyd
+    * `#245 <https://github.com/prjemian/spec2nexus/issues/245>`_
+       swait & calcout: change from *EpicsMotor* to any *Signal*
     * `#240 <https://github.com/prjemian/spec2nexus/issues/240>`_
        synApps: refactor swait record & userCalc support
     * `#239 <https://github.com/prjemian/spec2nexus/issues/239>`_
