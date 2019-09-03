@@ -4,7 +4,9 @@
 Change History
 ##############
 
-:1.1.14:  expected by *2019-09-15* : 
+:1.1.15:  expected by *tba* : 
+
+:1.1.14:  released *2019-09-03* : bug fixes, more synApps support
 
     * `#246 <https://github.com/prjemian/spec2nexus/issues/246>`_
        synApps: shorten name from synApps_ophyd
