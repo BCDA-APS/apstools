@@ -583,9 +583,10 @@ def unix(command, raises=True):
         If `True`, will raise exceptions as needed,
         default: `True`
     """
-    if sys.platform not in "linux linux2".split():
+    if sys.platform not in ("linux", "linux2"):
         emsg = f"Cannot call unix() when OS={sys.platform}"
         raise RuntimeError(emsg)
+
     process = subprocess.Popen(
         command, 
         shell=True,
@@ -595,11 +596,13 @@ def unix(command, raises=True):
         )
 
     stdout, stderr = process.communicate()
+
     if len(stderr) > 0:
         emsg = f"unix({command}) returned error:\n{stderr}"
         logger.error(emsg)
         if raises:
             raise RuntimeError(emsg)
+
     return stdout, stderr
 
 
@@ -607,7 +610,7 @@ def unix_cmd(command_list, raises=True):
     """
     run a UNIX command, returns (stdout, stderr)
 
-    (deprecated): use ``listruns`` instead
+    (deprecated): use ``unix()`` instead
 
     PARAMETERS
     
