@@ -22,7 +22,7 @@ class Test_ExcelTable(unittest.TestCase):
         xl = apstools.utils.ExcelDatabaseFileGeneric(self.xl_file)
         self.assertEqual(len(xl.db), 9)             # rows
         self.assertEqual(len(xl.db["0"]), 7)        # columns
-        self.assertTrue("Unnamed: 7" in xl.db["0"])
+        self.assertIn("Unnamed: 7", xl.db["0"])
         self.assertEqual(xl.db["0"]["Unnamed: 7"], 8.0)
     
     def test_ExcelTable_ignore_extra_false(self):
