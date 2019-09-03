@@ -47,7 +47,7 @@ from ophyd.device import (
     FormattedComponent as FC)
 from ophyd import EpicsSignal
 
-from apstools.synApps import EpicsRecordDeviceCommonAll, EpicsRecordFloatFields
+from ._common import EpicsRecordDeviceCommonAll, EpicsRecordFloatFields
 from .. import utils as APS_utils
 
 __all__ = """
