@@ -25,7 +25,6 @@ Public Structures
 from ophyd.device import Component
 from ophyd import EpicsSignal, EpicsSignalRO
 from ._common import EpicsRecordDeviceCommonAll
-from ._common import EpicsRecordFloatFields
 
 
 __all__ = ["AsynRecord", ]
