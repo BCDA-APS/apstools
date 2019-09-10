@@ -167,7 +167,7 @@ class UserCalcsDevice(Device):
     calc9 = Cpt(SwaitRecord, 'userCalc9')
     calc10 = Cpt(SwaitRecord, 'userCalc10')
 
-    def reset(self):
+    def reset(self):             # lgtm [py/similar-function]
         """set all fields to default values"""
         self.calc1.reset()
         self.calc2.reset()
