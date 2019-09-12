@@ -143,7 +143,7 @@ class UserTransformsDevice(Device):
     transform9 = Cpt(TransformRecord, 'userTran9')
     transform10 = Cpt(TransformRecord, 'userTran10')
 
-    def reset(self):
+    def reset(self):              # lgtm [py/similar-function]
         """set all fields to default values"""
         self.transform1.reset()
         self.transform2.reset()

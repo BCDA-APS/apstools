@@ -176,7 +176,7 @@ class UserCalcoutDevice(Device):
     calcout9 = Cpt(CalcoutRecord, 'userCalcOut9')
     calcout10 = Cpt(CalcoutRecord, 'userCalcOut10')
 
-    def reset(self):
+    def reset(self):                            # lgtm [py/similar-function] 
         """set all fields to default values"""
         self.calcout1.reset()
         self.calcout2.reset()
@@ -281,8 +281,9 @@ def setup_gaussian_calcout(calcout, ref_signal, center=0, width=1, scale=1, nois
         noise=noise)
 
 
-def setup_lorentzian_calcout(calcout, ref_signal, 
-                             center=0, width=1, scale=1, noise=0.05):
+def setup_lorentzian_calcout(calcout, ref_signal,
+                             center=0, width=1, 
+			     scale=1, noise=0.05):     # lgtm [py/similar-function]
     """
     setup calcout record for noisy Lorentzian
     
