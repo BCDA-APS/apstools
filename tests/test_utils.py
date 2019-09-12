@@ -168,8 +168,7 @@ class Test_Utils(unittest.TestCase):
         self.assertEqual(received, expected)
     
     def test_show_ophyd_symbols(self):
-        from ophyd.sim import hw
-        sims = hw().__dict__
+        sims = ophyd.sim.hw().__dict__
         wont_show = ("flyer1", "flyer2", "new_trivial_flyer", "trivial_flyer")
         num = len(sims) - len(wont_show)
         kk = sorted(sims.keys())
