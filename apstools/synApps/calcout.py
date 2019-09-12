@@ -31,8 +31,9 @@ from ophyd.device import (
     Device,
     Component as Cpt,
     DynamicDeviceComponent as DDC,
-    FormattedComponent as FC)
-from ophyd import EpicsSignal, EpicsSignalRO
+    FormattedComponent as FC,
+    )
+from ophyd import EpicsSignal, EpicsSignalRO, Signal
 
 from ._common import EpicsRecordDeviceCommonAll, EpicsRecordFloatFields
 from .. import utils as APS_utils
@@ -220,10 +221,10 @@ def _setup_peak_calcout_(calc, desc, calcout, ref_signal, center=0, width=1, sca
         default = 0.05
     """
     # to add a noisy background will need another calc
-    assert(isinstance(calcout, CalcoutRecord))
-    assert(isinstance(ref_signal, EpicsSignal))
-    assert(width > 0)
-    assert(0.0 <= noise <= 1.0)
+    assert isinstance(calcout, CalcoutRecord)
+    assert isinstance(ref_signal, Signal)
+    assert width > 0
+    assert 0.0 <= noise <= 1.0
     calcout.reset()
     calcout.scanning_rate.put("Passive")
     calcout.description.put(desc)
