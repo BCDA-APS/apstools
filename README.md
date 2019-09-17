@@ -31,7 +31,7 @@ developer releases | [![conda](https://anaconda.org/aps-anl-dev/apstools/badges/
 
 
 ## See also
-* http://nsls-ii.github.io/
-* https://github.com/NSLS-II/bluesky
-* https://github.com/NSLS-II/ophyd
-* https://github.com/NSLS-II/databroker
+* http://blueskyproject.io/
+* https://github.com/bluesky/bluesky
+* https://github.com/bluesky/ophyd
+* https://github.com/bluesky/databroker
