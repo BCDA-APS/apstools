@@ -45,7 +45,7 @@ from ophyd.device import (
     Component as Cpt,
     DynamicDeviceComponent as DDC,
     FormattedComponent as FC)
-from ophyd import EpicsSignal
+from ophyd import EpicsSignal, Signal
 
 from ._common import EpicsRecordDeviceCommonAll, EpicsRecordFloatFields
 from .. import utils as APS_utils
@@ -224,7 +224,7 @@ def _setup_peak_swait_(calc, desc, swait, ref_signal, center=0, width=1, scale=1
     """
     # consider a noisy background, as well (needs a couple calcs)
     assert(isinstance(swait, SwaitRecord))
-    assert(isinstance(ref_signal, EpicsSignal))
+    assert(isinstance(ref_signal, Signal))
     assert(width > 0)
     assert(0.0 <= noise <= 1.0)
     swait.reset()
