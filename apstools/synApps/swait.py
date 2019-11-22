@@ -90,7 +90,7 @@ def _swait_channels(channel_list):
     return defn
 
 
-class SwaitRecord(EpicsRecordFloatFields, EpicsRecordDeviceCommonAll):
+class SwaitRecord(EpicsRecordDeviceCommonAll):
     """
     synApps swait record: used as $(P):userCalc$(N)
 
@@ -99,6 +99,10 @@ class SwaitRecord(EpicsRecordFloatFields, EpicsRecordDeviceCommonAll):
         ~reset
 
     """
+    precision = Cpt(EpicsSignal, ".PREC")
+    high_operating_range = Cpt(EpicsSignal, ".HOPR")
+    low_operating_range = Cpt(EpicsSignal, ".LOPR")
+
     calculated_value = Cpt(EpicsSignal, ".VAL")
     calculation = Cpt(EpicsSignal, ".CALC")
 
