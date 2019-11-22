@@ -6,7 +6,7 @@ Change History
 
 :1.1.16:  expected by *tba* : 
 
-:1.1.15:  expected by *2019-11-29* : bug fixes
+:1.1.15:  expected by *2019-11-21* : bug fixes, adds asyn record support
 
     * `#259 <https://github.com/prjemian/spec2nexus/issues/259>`_
        resolve AssertionError from setup_lorentzian_swait
