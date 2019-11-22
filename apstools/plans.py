@@ -78,7 +78,7 @@ def addDeviceDataAsStream(devices, label):
         devices = [devices]
     for d in devices:
         yield from bps.read(d)
-        yield from bps.save()
+    yield from bps.save()
 
 
 def execute_command_list(filename, commands, md={}):
