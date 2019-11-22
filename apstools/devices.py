@@ -6,6 +6,7 @@ APS GENERAL SUPPORT
 
 .. autosummary::
    
+    ~ApsCycleComputed
     ~ApsMachineParametersDevice
     ~ApsPssShutter
     ~ApsPssShutterWithStatus
@@ -129,6 +130,7 @@ from ophyd import Component, Device, DeviceStatus, FormattedComponent
 from ophyd import Signal, EpicsMotor, EpicsSignal, EpicsSignalRO
 from ophyd.mca import EpicsMCARecord
 from ophyd.scaler import EpicsScaler, ScalerCH
+from ophyd.sim import SignalRO
 
 from ophyd.areadetector.filestore_mixins import FileStoreBase
 from ophyd.areadetector.filestore_mixins import FileStorePluginBase
@@ -172,6 +174,21 @@ def use_EPICS_scaler_channels(scaler):
                 configuration_attrs.append(ch+".gate")
         scaler.channels.read_attrs = read_attrs
         scaler.channels.configuration_attrs = configuration_attrs
+
+
+class ApsCycleComputed(SignalRO):
+    """
+    compute the APS cycle name based on the calendar and the usual practice
+
+    Absent any facility PV that provides the name of the current operating 
+    cycle, this can be approximated by python computation (as long as the 
+    present scheduling pattern is maintained)
+    """
+
+    def get(self):
+        dt = datetime.now()
+        aps_cycle = f"{dt.year}-{int((dt.month-0.1)/4) + 1}"
+        return aps_cycle
 
 
 class ApsOperatorMessagesDevice(Device):
@@ -218,6 +235,7 @@ class ApsMachineParametersDevice(Device):
     """
     current = Component(EpicsSignalRO, "S:SRcurrentAI")
     lifetime = Component(EpicsSignalRO, "S:SRlifeTimeHrsCC")
+    aps_cycle = Component(ApsCycleComputed)
     machine_status = Component(EpicsSignalRO, "S:DesiredMode", string=True)
     # In [3]: APS.machine_status.enum_strs
     # Out[3]: 
