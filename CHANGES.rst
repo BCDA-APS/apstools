@@ -17,6 +17,9 @@ Change History
     * `#255 <https://github.com/prjemian/spec2nexus/issues/255>`_
        plans: resolve indentation error
 
+    * `#254 <https://github.com/prjemian/spec2nexus/issues/254>`_
+       add computed APS cycle as signal
+
     * `#252 <https://github.com/prjemian/spec2nexus/issues/252>`_
        synApps: add asyn record support
 
