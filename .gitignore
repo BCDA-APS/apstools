@@ -18,3 +18,4 @@ build_log.txt
 
 .ipython_*.log*
 .vscode/
+.logs/
