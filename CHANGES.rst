@@ -6,6 +6,9 @@ Change History
 
 :1.1.16:  expected by *tba* : 
 
+    * `#264 <https://github.com/prjemian/spec2nexus/issues/264>`_
+       Limit number of traces shown on a plot - use a FIFO
+
 :1.1.15:  expected by *2019-11-21* : bug fixes, adds asyn record support
 
     * `#259 <https://github.com/prjemian/spec2nexus/issues/259>`_
