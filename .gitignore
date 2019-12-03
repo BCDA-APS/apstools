@@ -19,3 +19,4 @@ build_log.txt
 .ipython_*.log*
 .logs/
 .vscode/
+20*.dat
