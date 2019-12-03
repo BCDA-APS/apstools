@@ -6,23 +6,23 @@ Change History
 
 :1.1.16:  expected by *tba* : 
 
+    * `#265 <https://github.com/prjemian/spec2nexus/issues/265>`_
+       refactor of #264
     * `#264 <https://github.com/prjemian/spec2nexus/issues/264>`_
        Limit number of traces shown on a plot - use a FIFO
+    * `#262 <https://github.com/prjemian/spec2nexus/issues/262>`_
+       add `lineup()` plan (from APS 8-ID-I XPCS)
 
 :1.1.15:  expected by *2019-11-21* : bug fixes, adds asyn record support
 
     * `#259 <https://github.com/prjemian/spec2nexus/issues/259>`_
        resolve AssertionError from setup_lorentzian_swait
-
     * `#258 <https://github.com/prjemian/spec2nexus/issues/258>`_
        swait record does not units, some other fields
-
     * `#255 <https://github.com/prjemian/spec2nexus/issues/255>`_
        plans: resolve indentation error
-
     * `#254 <https://github.com/prjemian/spec2nexus/issues/254>`_
        add computed APS cycle as signal
-
     * `#252 <https://github.com/prjemian/spec2nexus/issues/252>`_
        synApps: add asyn record support
 
