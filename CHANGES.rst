@@ -6,6 +6,10 @@ Change History
 
 :1.1.16:  expected by *tba* : 
 
+    * `#267 <https://github.com/prjemian/spec2nexus/issues/267>`_
+       remove `lineup()` plan for now
+    * `#266 <https://github.com/prjemian/spec2nexus/issues/266>`_
+       bug fix for #265
     * `#265 <https://github.com/prjemian/spec2nexus/issues/265>`_
        refactor of #264
     * `#264 <https://github.com/prjemian/spec2nexus/issues/264>`_
