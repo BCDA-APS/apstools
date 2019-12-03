@@ -981,7 +981,7 @@ def ipython_shell_namespace():
     return ns
 
 
-def plot_prune_fifo(n, y, x):
+def plot_prune_fifo(bec, n, y, x):
     """
     find the plot with axes x and y and replot with only the last *n* lines
 
@@ -989,22 +989,25 @@ def plot_prune_fifo(n, y, x):
 
     EXAMPLE::
 
-        plot_prune_fifo(1, noisy, m1)
+        plot_prune_fifo(bec, 1, noisy, m1)
 
     PARAMETERS
+    
+    bec : object
+        instance of BestEffortCallback
     
     n : int
         number of plots to keep
     
     y : object
-        ophyd Signal object on dependent (y) axis
+        instance of ophyd.Signal (or subclass), 
+        dependent (y) axis
     
     x : object
-        ophyd Signal object on independent (x) axis
-    
-    Assumes object `bec` (instance of BestEffortCallback) is defined.
+        instance of ophyd.Signal (or subclass), 
+        independent (x) axis
     """
-    global bec
+    assert n >= 0, "n must be 0 or greater"
     for liveplot in bec._live_plots.values():
         lp = liveplot.get(y.name)
         if lp is None:
@@ -1016,7 +1019,8 @@ def plot_prune_fifo(n, y, x):
         if len(lp.ax.lines) > n:
             logging.debug(f"limiting LivePlot({y.name}) to {n} traces")
             lp.ax.lines = lp.ax.lines[-n:]
-            lp.update_plot()
+            if n > 0:
+                lp.update_plot()
 
 
 def print_snapshot_list(db, **search_criteria):
