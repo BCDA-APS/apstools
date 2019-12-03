@@ -1016,11 +1016,21 @@ def plot_prune_fifo(bec, n, y, x):
         if lp.x != x.name or lp.y != y.name:
             logging.debug(f"no LivePlot with axes ('{x.name}', '{y.name}')")
             continue
-        if len(lp.ax.lines) > n:
+
+        # pick out only the traces that contain plot data
+        # skipping the lines that show peak centers
+        lines = [
+            tr
+            for tr in lp.ax.lines
+            if len(tr._x) != 2 or len(tr._y) != 2 or tr._x[0] != tr._x[1]
+        ]
+        if len(lines) > n:
             logging.debug(f"limiting LivePlot({y.name}) to {n} traces")
-            lp.ax.lines = lp.ax.lines[-n:]
+            lp.ax.lines = lines[-n:]
+            lp.ax.legend()
             if n > 0:
                 lp.update_plot()
+        return lp
 
 
 def print_snapshot_list(db, **search_criteria):
