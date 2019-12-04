@@ -1023,8 +1023,8 @@ def plot_prune_fifo(bec, n, y, x):
             tr
             for tr in lp.ax.lines
             if len(tr._x) != 2 
-		or len(tr._y) != 2 
-		or (len(tr._x) == 2 and tr._x[0] != tr._x[1])
+                or len(tr._y) != 2 
+                or (len(tr._x) == 2 and tr._x[0] != tr._x[1])
         ]
         if len(lines) > n:
             logger.debug(f"limiting LivePlot({y.name}) to {n} traces")
