@@ -1011,10 +1011,10 @@ def plot_prune_fifo(bec, n, y, x):
     for liveplot in bec._live_plots.values():
         lp = liveplot.get(y.name)
         if lp is None:
-            logging.debug(f"no LivePlot with name {y.name}")
+            logger.debug(f"no LivePlot with name {y.name}")
             continue
         if lp.x != x.name or lp.y != y.name:
-            logging.debug(f"no LivePlot with axes ('{x.name}', '{y.name}')")
+            logger.debug(f"no LivePlot with axes ('{x.name}', '{y.name}')")
             continue
 
         # pick out only the traces that contain plot data
@@ -1025,7 +1025,7 @@ def plot_prune_fifo(bec, n, y, x):
             if len(tr._x) != 2 or len(tr._y) != 2 or tr._x[0] != tr._x[1]
         ]
         if len(lines) > n:
-            logging.debug(f"limiting LivePlot({y.name}) to {n} traces")
+            logger.debug(f"limiting LivePlot({y.name}) to {n} traces")
             lp.ax.lines = lines[-n:]
             lp.ax.legend()
             if n > 0:
