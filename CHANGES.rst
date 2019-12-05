@@ -6,6 +6,8 @@ Change History
 
 :1.1.16:  expected by *tba* : 
 
+    * `#269 <https://github.com/prjemian/spec2nexus/issues/269>`_
+       bug: shutter does not move when expected
     * `#268 <https://github.com/prjemian/spec2nexus/issues/268>`_
        add `redefine_motor_position()` plan
     * `#267 <https://github.com/prjemian/spec2nexus/issues/267>`_

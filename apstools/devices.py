@@ -564,9 +564,9 @@ class OneSignalShutter(ShutterBase):
     @property
     def state(self):
         """is shutter "open", "close", or "unknown"?"""
-        if self.signal.value == self.open_value:
+        if self.signal.get() == self.open_value:
             result = self.valid_open_values[0]
-        elif self.signal.value == self.close_value:
+        elif self.signal.get() == self.close_value:
             result = self.valid_close_values[0]
         else:
             result = self.unknown_state
@@ -743,9 +743,9 @@ class ApsPssShutterWithStatus(ApsPssShutter):
             if item not in self.pss_state_closed_values:
                 self.pss_state_closed_values.append(item)
 
-        if self.pss_state.value in self.pss_state_open_values:
+        if self.pss_state.get() in self.pss_state_open_values:
             result = self.valid_open_values[0]
-        elif self.pss_state.value in self.pss_state_closed_values:
+        elif self.pss_state.get() in self.pss_state_closed_values:
             result = self.valid_close_values[0]
         else:
             result = self.unknown_state
@@ -866,9 +866,9 @@ class SimulatedApsPssShutterWithStatus(ApsPssShutterWithStatus):
     @property
     def state(self):
         """is shutter "open", "close", or "unknown"?"""
-        if self.pss_state.value in self.pss_state_open_values:
+        if self.pss_state.get() in self.pss_state_open_values:
             result = self.valid_open_values[0]
-        elif self.pss_state.value in self.pss_state_closed_values:
+        elif self.pss_state.get() in self.pss_state_closed_values:
             result = self.valid_close_values[0]
         else:
             result = self.unknown_state
@@ -1257,9 +1257,9 @@ class EpicsMotorShutter(OneSignalShutter):
     @property
     def state(self):
         """is shutter "open", "close", or "unknown"?"""
-        if abs(self.signal.position - self.open_value) <= self.tolerance:
+        if abs(self.signal.user_readback.get() - self.open_value) <= self.tolerance:
             result = self.valid_open_values[0]
-        elif abs(self.signal.position - self.close_value) <= self.tolerance:
+        elif abs(self.signal.user_readback.get() - self.close_value) <= self.tolerance:
             result = self.valid_close_values[0]
         else:
             result = self.unknown_state
