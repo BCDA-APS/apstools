@@ -22,6 +22,7 @@ Various utilities
    ~plot_prune_fifo
    ~print_snapshot_list
    ~print_RE_md
+   ~redefine_motor_position
    ~replay
    ~run_in_thread
    ~show_ophyd_symbols
@@ -45,6 +46,7 @@ Various utilities
 #-----------------------------------------------------------------------------
 
 from bluesky.callbacks.best_effort import BestEffortCallback
+from bluesky import plan_stubs as bps
 from collections import OrderedDict
 import databroker
 import datetime
@@ -1211,3 +1213,10 @@ def json_import(filename, zipfilename=None):
             datasets = json.loads(buf)
     
     return datasets
+
+
+def redefine_motor_position(motor, new_position):
+    """set EPICS motor record's user coordinate to `new_position`"""
+    yield from bps.mv(motor.set_use_switch, 1)
+    yield from bps.mv(motor.user_setpoint, new_position)
+    yield from bps.mv(motor.set_use_switch, 0)
