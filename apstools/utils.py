@@ -1041,7 +1041,7 @@ def plot_prune_fifo(bec, n, y, x):
         return lp
 
 
-def print_snapshot_list(db, **search_criteria):
+def print_snapshot_list(db, printing=True, **search_criteria):
     """
     print (stdout) a list of all snapshots in the databroker
     
@@ -1126,7 +1126,9 @@ def print_snapshot_list(db, **search_criteria):
         uid = h.start["uid"].split("-")[0]
         n = len(list(h.start.keys()))
         t.addRow((i, uid, h.start["iso8601"], n, h.start["purpose"]))
-    print(t) 
+    if printing:
+        print(t)
+    return t
 
 
 def json_export(headers, filename, zipfilename=None):
