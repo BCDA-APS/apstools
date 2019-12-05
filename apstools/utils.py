@@ -116,7 +116,7 @@ def command_list_as_table(commands, show_raw=False):
     return tbl
 
 
-def device_read2table(device, show_ancient=True, use_datetime=True):
+def device_read2table(device, show_ancient=True, use_datetime=True, printing=True):
     """
     read an ophyd device and return a pyRestTable Table
     
@@ -135,6 +135,10 @@ def device_read2table(device, show_ancient=True, use_datetime=True):
             if use_datetime:
                 ts = dt
             table.addRow((k, value, ts))
+
+    if printing:
+        print(table)
+
     return table
 
 
