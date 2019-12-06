@@ -40,12 +40,12 @@ import pyRestTable
 import sys
 import time
 
-from bluesky import plans as bp
+# from bluesky import plans as bp
 from bluesky import plan_stubs as bps
 from bluesky import preprocessors as bpp
 from bluesky.callbacks.fitting import PeakStats
 from ophyd import Device, Component, Signal, DeviceStatus, EpicsSignal
-from ophyd.scaler import ScalerCH, ScalerChannel
+# from ophyd.scaler import ScalerCH, ScalerChannel
 from ophyd.status import Status
 
 from . import utils as APS_utils
