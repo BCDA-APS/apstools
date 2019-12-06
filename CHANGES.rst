@@ -4,7 +4,9 @@
 Change History
 ##############
 
-:1.1.16:  expected by *tba* : 
+:1.1.17:  expected by *tba* : 
+
+:1.1.16:  released *2019-12-05*
 
     * `#269 <https://github.com/prjemian/spec2nexus/issues/269>`_
        bug: shutter does not move when expected
@@ -23,7 +25,7 @@ Change History
     * `#262 <https://github.com/prjemian/spec2nexus/issues/262>`_
        add `lineup()` plan (from APS 8-ID-I XPCS)
 
-:1.1.15:  expected by *2019-11-21* : bug fixes, adds asyn record support
+:1.1.15:  released *2019-11-21* : bug fixes, adds asyn record support
 
     * `#259 <https://github.com/prjemian/spec2nexus/issues/259>`_
        resolve AssertionError from setup_lorentzian_swait
