@@ -18,6 +18,8 @@ Change History
        refactor of #264
     * `#264 <https://github.com/prjemian/spec2nexus/issues/264>`_
        Limit number of traces shown on a plot - use a FIFO
+    * `#263 <https://github.com/prjemian/spec2nexus/issues/263>`_
+       `device_read2table()` should print unless optioned False
     * `#262 <https://github.com/prjemian/spec2nexus/issues/262>`_
        add `lineup()` plan (from APS 8-ID-I XPCS)
 
