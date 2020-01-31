@@ -6,7 +6,9 @@ Change History
 
 :1.1.18:  expected by *tba* : 
 
-:1.1.17:  released *2020-01-31* - hot fixes
+:1.1.17:  *tba*
+
+:1.1.17rc5:  tagged *2020-01-31* - hot fixes
 
     * `#277 <https://github.com/BCDA-APS/apstools/issues/277>`_
        replace .value with .get() 
