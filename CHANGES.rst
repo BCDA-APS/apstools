@@ -8,73 +8,73 @@ Change History
 
 :1.1.17:  released *2020-01-31* - hot fixes
 
-    * `#277 <https://github.com/prjemian/spec2nexus/issues/277>`_
+    * `#277 <https://github.com/BCDA-APS/apstools/issues/277>`_
        replace .value with .get() 
-    * `#276 <https://github.com/prjemian/spec2nexus/issues/276>`_
+    * `#276 <https://github.com/BCDA-APS/apstools/issues/276>`_
        update ophyd metadata after motor set_lim()
-    * `#274 <https://github.com/prjemian/spec2nexus/issues/274>`_
+    * `#274 <https://github.com/BCDA-APS/apstools/issues/274>`_
        APS user operations could be in mode 1 OR 2
 
 :1.1.16:  released *2019-12-05*
 
-    * `#269 <https://github.com/prjemian/spec2nexus/issues/269>`_
+    * `#269 <https://github.com/BCDA-APS/apstools/issues/269>`_
        bug: shutter does not move when expected
-    * `#268 <https://github.com/prjemian/spec2nexus/issues/268>`_
+    * `#268 <https://github.com/BCDA-APS/apstools/issues/268>`_
        add `redefine_motor_position()` plan
-    * `#267 <https://github.com/prjemian/spec2nexus/issues/267>`_
+    * `#267 <https://github.com/BCDA-APS/apstools/issues/267>`_
        remove `lineup()` plan for now
-    * `#266 <https://github.com/prjemian/spec2nexus/issues/266>`_
+    * `#266 <https://github.com/BCDA-APS/apstools/issues/266>`_
        bug fix for #265
-    * `#265 <https://github.com/prjemian/spec2nexus/issues/265>`_
+    * `#265 <https://github.com/BCDA-APS/apstools/issues/265>`_
        refactor of #264
-    * `#264 <https://github.com/prjemian/spec2nexus/issues/264>`_
+    * `#264 <https://github.com/BCDA-APS/apstools/issues/264>`_
        Limit number of traces shown on a plot - use a FIFO
-    * `#263 <https://github.com/prjemian/spec2nexus/issues/263>`_
+    * `#263 <https://github.com/BCDA-APS/apstools/issues/263>`_
        `device_read2table()` should print unless optioned False
-    * `#262 <https://github.com/prjemian/spec2nexus/issues/262>`_
+    * `#262 <https://github.com/BCDA-APS/apstools/issues/262>`_
        add `lineup()` plan (from APS 8-ID-I XPCS)
 
 :1.1.15:  released *2019-11-21* : bug fixes, adds asyn record support
 
-    * `#259 <https://github.com/prjemian/spec2nexus/issues/259>`_
+    * `#259 <https://github.com/BCDA-APS/apstools/issues/259>`_
        resolve AssertionError from setup_lorentzian_swait
-    * `#258 <https://github.com/prjemian/spec2nexus/issues/258>`_
+    * `#258 <https://github.com/BCDA-APS/apstools/issues/258>`_
        swait record does not units, some other fields
-    * `#255 <https://github.com/prjemian/spec2nexus/issues/255>`_
+    * `#255 <https://github.com/BCDA-APS/apstools/issues/255>`_
        plans: resolve indentation error
-    * `#254 <https://github.com/prjemian/spec2nexus/issues/254>`_
+    * `#254 <https://github.com/BCDA-APS/apstools/issues/254>`_
        add computed APS cycle as signal
-    * `#252 <https://github.com/prjemian/spec2nexus/issues/252>`_
+    * `#252 <https://github.com/BCDA-APS/apstools/issues/252>`_
        synApps: add asyn record support
 
 :1.1.14:  released *2019-09-03* : bug fixes, more synApps support
 
-    * `#246 <https://github.com/prjemian/spec2nexus/issues/246>`_
+    * `#246 <https://github.com/BCDA-APS/apstools/issues/246>`_
        synApps: shorten name from synApps_ophyd
-    * `#245 <https://github.com/prjemian/spec2nexus/issues/245>`_
+    * `#245 <https://github.com/BCDA-APS/apstools/issues/245>`_
        swait & calcout: change from *EpicsMotor* to any *EpicsSignal*
-    * `#240 <https://github.com/prjemian/spec2nexus/issues/240>`_
+    * `#240 <https://github.com/BCDA-APS/apstools/issues/240>`_
        swait: refactor swait record & userCalc support
-    * `#239 <https://github.com/prjemian/spec2nexus/issues/239>`_
+    * `#239 <https://github.com/BCDA-APS/apstools/issues/239>`_
        transform: add support for transform record
-    * `#238 <https://github.com/prjemian/spec2nexus/issues/238>`_
+    * `#238 <https://github.com/BCDA-APS/apstools/issues/238>`_
        calcout: add support for calcout record & userCalcOuts
-    * `#237 <https://github.com/prjemian/spec2nexus/issues/237>`_
+    * `#237 <https://github.com/BCDA-APS/apstools/issues/237>`_
        epid: add support for epid record
-    * `#234 <https://github.com/prjemian/spec2nexus/issues/234>`_
+    * `#234 <https://github.com/BCDA-APS/apstools/issues/234>`_
        utils: replicate the `unix()` command
-    * `#230 <https://github.com/prjemian/spec2nexus/issues/230>`_
+    * `#230 <https://github.com/BCDA-APS/apstools/issues/230>`_
        signals: resolve TypeError
 
 :1.1.13:  released *2019-08-15* : enhancements, bug fix, rename
 
-    * `#226 <https://github.com/prjemian/spec2nexus/issues/226>`_
+    * `#226 <https://github.com/BCDA-APS/apstools/issues/226>`_
        writer: unit tests for empty #O0 & P0 control lines
-    * `#224 <https://github.com/prjemian/spec2nexus/issues/224>`_
+    * `#224 <https://github.com/BCDA-APS/apstools/issues/224>`_
        rename: list_recent_scans --> listscans
-    * `#222 <https://github.com/prjemian/spec2nexus/issues/222>`_
+    * `#222 <https://github.com/BCDA-APS/apstools/issues/222>`_
        writer: add empty #O0 and #P0 lines
-    * `#220 <https://github.com/prjemian/spec2nexus/issues/220>`_
+    * `#220 <https://github.com/BCDA-APS/apstools/issues/220>`_
        ProcessController: bug fix - raised TypeError
 
 :1.1.12:  released *2019-08-05* : bug fixes & updates
