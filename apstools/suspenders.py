@@ -46,7 +46,7 @@ class SuspendWhenChanged(SuspenderBase):
                 sleep=0, pre_plan=None, post_plan=None, tripped_message='',
                 **kwargs):
         
-        self.expected_value = expected_value or signal.value
+        self.expected_value = expected_value or signal.get()
         self.allow_resume = allow_resume
         super().__init__(signal, 
             sleep=sleep, 
