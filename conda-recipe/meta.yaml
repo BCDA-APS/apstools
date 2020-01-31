@@ -38,7 +38,6 @@ requirements:
     - python
     - bluesky
     - databroker
-    - epics-base
     - event-model>=1.8
     - historydict
     - ophyd=1.4.0rc3
