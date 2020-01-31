@@ -285,12 +285,10 @@ class ApsMachineParametersDevice(Device):
                 pass
 
         """
-        valid_modes = (
+        return self.machine_status.get() in (
            1, "USER OPERATIONS",
            2, "Bm Ln Studies"
         )
-        verdict = self.machine_status.value in valid_modes
-        return verdict
 
 
 class ShutterBase(Device):
