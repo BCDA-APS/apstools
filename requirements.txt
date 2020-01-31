@@ -4,7 +4,7 @@ databroker[all]
 event-model>=1.10
 historydict
 jsonschema>3
-ophyd>=1.4.0rc4
+ophyd>=1.4.0rc3
 pandas
 pyRestTable
 spec2nexus>=2021.1.2

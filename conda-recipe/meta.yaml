@@ -40,7 +40,7 @@ requirements:
     - databroker
     - event-model>=1.8
     - historydict
-    - ophyd=1.4.0rc4
+    - ophyd=1.4.0rc3
     - pandas
     - pyRestTable
     - spec2nexus
