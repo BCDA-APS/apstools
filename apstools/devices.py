@@ -285,9 +285,10 @@ class ApsMachineParametersDevice(Device):
                 pass
 
         """
-        verdict = self.machine_status.value in (1, "USER OPERATIONS")
-        # verdict = verdict and self.operating_mode.value not in (5, "MAINTENANCE")
-        return verdict
+        return self.machine_status.get() in (
+           1, "USER OPERATIONS",
+           2, "Bm Ln Studies"
+        )
 
 
 class ShutterBase(Device):
