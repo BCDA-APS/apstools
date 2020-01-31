@@ -4,7 +4,16 @@
 Change History
 ##############
 
-:1.1.17:  expected by *tba* : 
+:1.1.18:  expected by *tba* : 
+
+:1.1.17:  released *2020-01-31* - hot fixes
+
+    * `#277 <https://github.com/prjemian/spec2nexus/issues/277>`_
+       replace .value with .get() 
+    * `#276 <https://github.com/prjemian/spec2nexus/issues/276>`_
+       update ophyd metadata after motor set_lim()
+    * `#274 <https://github.com/prjemian/spec2nexus/issues/274>`_
+       APS user operations could be in mode 1 OR 2
 
 :1.1.16:  released *2019-12-05*
 
