@@ -285,8 +285,11 @@ class ApsMachineParametersDevice(Device):
                 pass
 
         """
-        verdict = self.machine_status.value in (1, "USER OPERATIONS")
-        # verdict = verdict and self.operating_mode.value not in (5, "MAINTENANCE")
+        valid_modes = (
+           1, "USER OPERATIONS",
+           2, "Bm Ln Studies"
+        )
+        verdict = self.machine_status.value in valid_modes
         return verdict
 
 
