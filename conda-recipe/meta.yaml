@@ -49,7 +49,7 @@ requirements:
 test:
   imports:
     - apstools
-    - apstools.synApps_ophyd
+    - apstools.synApps
   commands:
     - python -c "import apstools;"
     - bluesky_snapshot --help
