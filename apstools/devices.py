@@ -1184,10 +1184,16 @@ class EpicsMotorLimitsMixin(DeviceMixinBase):
         Similar with SPEC command
         """
         if not self.moving:
+            lo = min(low, high)
+            hi = max(low, high)
+            # update EPICS
             yield from bps.mv(
                 self.soft_limit_lo, min(low, high),
                 self.soft_limit_hi, max(low, high),
             )
+            # update ophyd metadata dictionary
+            self.user_setpoint._metadata["lower_ctrl_limit"] = lo
+            self.user_setpoint._metadata["upper_ctrl_limit"] = hi
 
 
 class EpicsMotorServoMixin(DeviceMixinBase):
