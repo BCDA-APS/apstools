@@ -1,6 +1,6 @@
 name: apstoolsdoc
 channels:
-- lightsource2-tag
+- nsls2forge
 - defaults
 dependencies:
 - python=3.6

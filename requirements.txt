@@ -1,6 +1,7 @@
 attrs>=17.4.0
 bluesky
 databroker[all]
+epics-base
 event-model>=1.10
 historydict
 jsonschema>3
