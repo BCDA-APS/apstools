@@ -166,7 +166,7 @@ def use_EPICS_scaler_channels(scaler):
         configuration_attrs = []
         for ch in scaler.channels.component_names:
             nm_pv = scaler.channels.__getattribute__(ch)
-            if nm_pv is not None and len(nm_pv.chname.value.strip()) > 0:
+            if nm_pv is not None and len(nm_pv.chname.get().strip()) > 0:
                 read_attrs.append(ch)
                 configuration_attrs.append(ch)
                 configuration_attrs.append(ch+".chname")
@@ -381,9 +381,9 @@ class ShutterBase(Device):
         
         EXAMPLE::
 
-            if self.signal.value == self.open_value:
+            if self.signal.get() == self.open_value:
                 result = self.valid_open_values[0]
-            elif self.signal.value == self.close_value:
+            elif self.signal.get() == self.close_value:
                 result = self.valid_close_values[0]
             else:
                 result = self.unknown_state
@@ -432,7 +432,7 @@ class ShutterBase(Device):
             ignored at this time
 
         """
-        if self.busy.value:
+        if self.busy.get():
             raise RuntimeError("shutter is operating")
         
         __value__ = self.lowerCaseString(value)
@@ -663,7 +663,7 @@ class ApsPssShutter(ShutterBase):
                 time.sleep(self.delay_s)    # blocking call OK here
             
             # reset that signal (if not done by EPICS)
-            if self.open_signal.value == 1:
+            if self.open_signal.get() == 1:
                 self.open_signal.put(0)
 
     def close(self, timeout=10):
@@ -676,7 +676,7 @@ class ApsPssShutter(ShutterBase):
                 time.sleep(self.delay_s)    # blocking call OK here
             
             # reset that signal (if not done by EPICS)
-            if self.close_signal.value == 1:
+            if self.close_signal.get() == 1:
                 self.close_signal.put(0)
 
 
@@ -804,7 +804,7 @@ class ApsPssShutterWithStatus(ApsPssShutter):
                 time.sleep(self.delay_s)    # blocking call OK here
             
             # reset that signal (if not done by EPICS)
-            if self.open_signal.value == 1:
+            if self.open_signal.get() == 1:
                 self.open_signal.put(0)
 
     def close(self, timeout=10):
@@ -822,7 +822,7 @@ class ApsPssShutterWithStatus(ApsPssShutter):
                 time.sleep(self.delay_s)    # blocking call OK here
             
             # reset that signal (if not done by EPICS)
-            if self.close_signal.value == 1:
+            if self.close_signal.get() == 1:
                 self.close_signal.put(0)
 
 
@@ -1049,7 +1049,7 @@ class EpicsDescriptionMixin(DeviceMixinBase):
     
         class myEpicsMotor(EpicsDescriptionMixin, EpicsMotor): pass
         m1 = myEpicsMotor('xxx:m1', name='m1')
-        print(m1.desc.value)
+        print(m1.desc.get())
     
     more ideas::
         
@@ -1126,7 +1126,7 @@ class EpicsMotorEnableMixin(DeviceMixinBase):
 
     @property
     def enabled(self):
-        return self.enable_disable.value in (self.MOTOR_ENABLE, "Enabled")
+        return self.enable_disable.get() in (self.MOTOR_ENABLE, "Enabled")
     
     def enable_motor(self):
         """BLOCKING call to enable motor axis"""
@@ -1169,9 +1169,9 @@ class EpicsMotorLimitsMixin(DeviceMixinBase):
         Similar with SPEC command
         """
         if flag > 0:
-            return self.soft_limit_hi.value
+            return self.soft_limit_hi.get()
         elif flag < 0:
-            return self.soft_limit_lo.value
+            return self.soft_limit_lo.get()
     
     def set_lim(self, low, high):
         """
@@ -1412,7 +1412,7 @@ class ProcessController(Device):
             yield from controller.set_target(25, timeout=180)
             controller.report_interval_s = 10    # change report interval to 10s
             for i in range(10, 0, -1):
-                print(f"hold at {self.value:.2f}{self.units.value}, time remaining: {i}s")
+                print(f"hold at {self.get():.2f}{self.units.get()}, time remaining: {i}s")
                 yield from bps.sleep(1)
             yield from controller.set_target(0, timeout=180)
         
@@ -1431,7 +1431,7 @@ class ProcessController(Device):
 
     def record_signal(self):
         """write signal to the console"""
-        msg = f"{self.controller_name} signal: {self.value:.2f}{self.units.value}"
+        msg = f"{self.controller_name} signal: {self.get():.2f}{self.units.get()}"
         print(msg)
         return msg
 
@@ -1439,7 +1439,7 @@ class ProcessController(Device):
         """plan: change controller to new signal set point"""
         yield from bps.mv(self.target, target)
 
-        msg = f"Set {self.controller_name} target to {target:.2f}{self.units.value}"
+        msg = f"Set {self.controller_name} target to {target:.2f}{self.units.get()}"
         print(msg)
         
         if wait:
@@ -1455,8 +1455,8 @@ class ProcessController(Device):
     @property
     def settled(self):
         """Is signal close enough to target?"""
-        diff = abs(self.signal.get() - self.target.value)
-        return diff <= self.tolerance.value
+        diff = abs(self.signal.get() - self.target.get())
+        return diff <= self.tolerance.get()
 
     def wait_until_settled(self, timeout=None, timeout_fail=False):
         """
@@ -1484,8 +1484,8 @@ class ProcessController(Device):
                 if timeout is not None and elapsed > timeout:
                     _st._finished(success=self.settled)
                     msg = f"{self.controller_name} Timeout after {elapsed:.2f}s"
-                    msg += f", target {self.target.value:.2f}{self.units.value}"
-                    msg += f", now {self.signal.get():.2f}{self.units.value}"
+                    msg += f", target {self.target.get():.2f}{self.units.get()}"
+                    msg += f", now {self.signal.get():.2f}{self.units.get()}"
                     print(msg)
                     if timeout_fail:
                         raise TimeoutError(msg)
@@ -1493,8 +1493,8 @@ class ProcessController(Device):
                 if elapsed >= report:
                     report += self.report_interval_s
                     msg = f"Waiting {elapsed:.1f}s"
-                    msg += f" to reach {self.target.value:.2f}{self.units.value}"
-                    msg += f", now {self.signal.get():.2f}{self.units.value}"
+                    msg += f" to reach {self.target.get():.2f}{self.units.get()}"
+                    msg += f", now {self.signal.get():.2f}{self.units.get()}"
                     print(msg)
                 yield from bps.sleep(self.poll_s)
 
@@ -1614,8 +1614,8 @@ def AD_warmed_up(detector):
     HDF5 plugin "Capture" is set to 1 (Start).  In such case,
     first acquire at least one image with the HDF5 plugin enabled.
     """
-    old_capture = detector.hdf1.capture.value
-    old_file_write_mode = detector.hdf1.file_write_mode.value
+    old_capture = detector.hdf1.capture.get()
+    old_file_write_mode = detector.hdf1.file_write_mode.get()
     if old_capture == 1:
         return True
     
@@ -1744,11 +1744,11 @@ class AD_EpicsHdf5FileName(FileStorePluginBase):    # lgtm [py/missing-call-to-i
         overrides default behavior: Get info from EPICS HDF5 plugin.
         """
         # start of the file name, file number will be appended per template
-        filename = self.file_name.value
+        filename = self.file_name.get()
         
         # this is where the HDF5 plugin will write the image, 
         # relative to the IOC's filesystem
-        write_path = self.file_path.value
+        write_path = self.file_path.get()
         
         # this is where the DataBroker will find the image, 
         # on a filesystem accessible to BlueSky

@@ -313,7 +313,7 @@ def run_blocker_in_plan(blocker, *args, _poll_s_=0.01, _timeout_s_=None, **kwarg
 #     if hasattr(axis, "position"):
 #         old_position = axis.position
 #     else:
-#         old_position = axis.value
+#         old_position = axis.get()
 
 #     def peak_analysis():
 #         aligned = False
@@ -1075,7 +1075,7 @@ class TuneAxis(object):
                 t.addLabel("key")
                 t.addLabel("result")
                 for key in keys:
-                    v = getattr(self, key).value
+                    v = getattr(self, key).get()
                     t.addRow((key, str(v)))
                 if title is not None:
                     print(title)
@@ -1118,7 +1118,7 @@ class TuneAxis(object):
                     v = np.array(v)
                 getattr(results, key).put(v)
 
-            if results.tune_ok.value:
+            if results.tune_ok.get():
                 yield from bps.create(name=stream_name)
                 try:
                     yield from bps.read(results)
