@@ -26,7 +26,7 @@ __python_version_required__ = ">=3.5"
 __package_name__ = __project__
 __long_description__ = __description__
 
-from ._requirements import learn_requirements
+from ._requirements import learn_requirements   # lgtm [py/import-own-module]
 __install_requires__ = learn_requirements()
 del learn_requirements
 
@@ -55,6 +55,6 @@ __classifiers__ = [
     'Topic :: Utilities',
 ]
 
-from ._version import get_versions
+from ._version import get_versions      # lgtm [py/import-own-module]
 __version__ = get_versions()['version']
 del get_versions
