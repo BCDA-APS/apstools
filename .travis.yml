@@ -23,7 +23,7 @@ before_script:
   - bash miniconda.sh -b -p $HOME/miniconda
   - export PATH=$HOME/miniconda/bin:$PATH
   - export PY_ENV=travis-$TRAVIS_PYTHON_VERSION
-  - conda create -y -n $PY_ENV -c apsu -c nsls2forge -c defaults python=$TRAVIS_PYTHON_VERSION numpy requests coverage docopt databroker ophyd bluesky pandas xlrd
+  - conda create -y -n $PY_ENV -c apsu -c conda-forge -c nsls2forge -c defaults python=$TRAVIS_PYTHON_VERSION bluesky coverage databroker docopt epics-base numpy "ophyd>=1.4.0rc3" "pyepics>=3.4.1" pandas requests xlrd
   - source activate $PY_ENV
   - which pip
   - which python
