@@ -4,7 +4,12 @@
 Change History
 ##############
 
-:1.1.18:  expected *tba* : 
+:1.1.19:  expected *tba* : 
+
+:1.1.18:  released *2020-02-09*
+
+    * PyPI would not accept the 1.1.17 version: `filename has already been used`
+    * see release notes for 1.1.17
 
 :1.1.17:  released *2020-02-09* - hot fixes
 

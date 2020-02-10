@@ -14,12 +14,15 @@ if [[ ${RELEASE} == *dirty || ${RELEASE} == *+* ]] ; then
   exit 1
 fi
 
-echo "# - - - - - - - - - - - - - - - - - - - - - - - build & upload to PyPI"
+echo "# - - - - - - - - - - - - - - - - - - - - - - - build for PyPI"
 
 ## PyPI Build and upload::
 
 echo "Building for upload to PyPI"
 python setup.py sdist bdist_wheel
+
+echo "# - - - - - - - - - - - - - - - - - - - - - - - upload to PyPI"
+
 twine upload dist/${PACKAGE}-${RELEASE}*
 
 echo "# - - - - - - - - - - - - - - - - - - - - - - - conda build"
