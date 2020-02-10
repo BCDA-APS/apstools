@@ -43,6 +43,7 @@ requirements:
     - historydict
     - ophyd=1.4.0rc3
     - pandas
+    - pyEpics>=3.4.1
     - pyRestTable
     - spec2nexus
     - xlrd

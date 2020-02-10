@@ -7,6 +7,7 @@ historydict
 jsonschema>3
 ophyd>=1.4.0rc3
 pandas
+pyepics>=3.4.1
 pyRestTable
 spec2nexus>=2021.1.2
 xlrd
