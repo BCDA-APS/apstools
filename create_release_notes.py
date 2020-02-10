@@ -253,7 +253,7 @@ def main(base=None, head=None, milestone=None, token=None, debug=False):
 
     info = get_release_info(
         token, base_tag_name, head_branch_name, milestone_name)
-    milestone, tags, pulls, issues, commits = info
+    # milestone, tags, pulls, issues, commits = info
     report(milestone_name, *info)
 
 
