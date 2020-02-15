@@ -11,6 +11,10 @@ Change History
     * `#286 <https://github.com/BCDA-APS/apstools/issues/286>`_
        re-arrange package into subdirectories
 
+       * ``unix_cmd()`` removed, use ``unix()``
+       * ``list_recent_scans()`` removed, use ``listruns()``
+       * ``utils.redefine_motor_position()`` moved to ``plans``
+
 :1.1.19:  released *2020-02-15*
 
     * `#285 <https://github.com/BCDA-APS/apstools/issues/285>`_
