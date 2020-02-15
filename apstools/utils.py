@@ -142,7 +142,7 @@ def device_read2table(device, show_ancient=True, use_datetime=True, printing=Tru
     return table
 
 
-def dictionary_table(dictionary, fmt="simple"):
+def dictionary_table(dictionary, **kwargs):
     """
     return a text table from ``dictionary``
     
@@ -150,18 +150,15 @@ def dictionary_table(dictionary, fmt="simple"):
     
     dictionary : dict
         Python dictionary
-    fmt : str
-        Any of the format names provided by *pyRestTable*. [#]_
-        One of these: ``simple | plain | grid | complex | markdown | list-table | html``
-        
-        default: ``simple``
-	
-        .. [#] *pyRestTable* : https://pyresttable.readthedocs.io/en/latest/examples/index.html#examples
+
+    Note:  Keyword arguments parameters 
+    are kept for compatibility with previous
+    versions of apstools.  They are ignored now.
     
     RETURNS
 
-    table : str or `None`
-        multiline text table with dictionary contents in chosen format
+    table : object or `None`
+        ``pyRestTable.Table()`` object (multiline text table) 
         or ``None`` if dictionary has no contents
     
     EXAMPLE::
@@ -184,12 +181,12 @@ def dictionary_table(dictionary, fmt="simple"):
     """
     if len(dictionary) == 0:
         return
-    _t = pyRestTable.Table()
-    _t.addLabel("key")
-    _t.addLabel("value")
+    t = pyRestTable.Table()
+    t.addLabel("key")
+    t.addLabel("value")
     for k, v in sorted(dictionary.items()):
-        _t.addRow((k, str(v)))
-    return _t.reST(fmt=fmt)
+        t.addRow((k, str(v)))
+    return t
 
 
 def itemizer(fmt, items):
@@ -294,6 +291,19 @@ def print_RE_md(dictionary=None, fmt="simple", printing=True):
     """
     custom print the RunEngine metadata in a table
     
+    PARAMETERS
+    
+    dictionary : dict
+        Python dictionary
+
+    fmt : str
+        Any of the format names provided by *pyRestTable*. [#]_
+        One of these: ``simple | plain | grid | complex | markdown | list-table | html``
+        
+        default: ``simple``
+	
+        .. [#] *pyRestTable* : https://pyresttable.readthedocs.io/en/latest/examples/index.html#examples
+
     EXAMPLE::
 
         In [4]: print_RE_md()                                                                                                       
@@ -321,12 +331,12 @@ def print_RE_md(dictionary=None, fmt="simple", printing=True):
     """
     dictionary = dictionary or ipython_shell_namespace()["RE"].md
     md = dict(dictionary)   # copy of input for editing
-    v = dictionary_table(md["versions"], fmt=fmt)   # sub-table
+    v = dictionary_table(md["versions"])   # sub-table
     md["versions"] = str(v).rstrip()
-    table = dictionary_table(md, fmt=fmt)
+    table = dictionary_table(md)
     if printing:
         print("RunEngine metadata dictionary:")
-        print(table)
+        print(table.reST(fmt=fmt))
     return table
 
 
