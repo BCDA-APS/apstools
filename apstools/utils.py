@@ -329,10 +329,13 @@ def print_RE_md(dictionary=None, fmt="simple", printing=True):
         ======================== ===================================
     
     """
+    # override noting that fmt="markdown" will not display correctly
+    fmt="simple"
+
     dictionary = dictionary or ipython_shell_namespace()["RE"].md
     md = dict(dictionary)   # copy of input for editing
     v = dictionary_table(md["versions"])   # sub-table
-    md["versions"] = str(v).rstrip()
+    md["versions"] = v.reST(fmt=fmt).rstrip()
     table = dictionary_table(md)
     if printing:
         print("RunEngine metadata dictionary:")
