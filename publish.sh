@@ -4,6 +4,7 @@
 
 ## Define the release
 
+STARTED=`date`
 PACKAGE=`python setup.py --name`
 RELEASE=`python setup.py --version`
 echo "PACKAGE: ${PACKAGE}"
@@ -60,3 +61,6 @@ anaconda upload -u ${CHANNEL} ${BUNDLE}
 
 # also post to my personal channel
 anaconda upload ${BUNDLE}
+
+echo "started publishing script: ${STARTED}"
+echo "finished publishing script: `date`"
