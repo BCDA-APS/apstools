@@ -26,7 +26,7 @@ import pyRestTable
 
 def full_dotted_name(obj):
     """
-    Return the full dotted name of ophyd object ``obj`
+    Return the full dotted name of ophyd object ``obj``
 
     The ``.dotted_name`` property does not include the 
     name of the root object.  This routine adds that.
