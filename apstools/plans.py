@@ -6,7 +6,6 @@ Plans that might be useful at the APS when using BlueSky
    ~addDeviceDataAsStream
    ~execute_command_list
    ~get_command_list
-   ~lineup
    ~nscan
    ~parse_Excel_command_file
    ~parse_text_command_file
