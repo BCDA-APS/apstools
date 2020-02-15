@@ -8,4 +8,5 @@ API Documentation
    :glob:
 
    _*
+   _*/*
    synApps/index

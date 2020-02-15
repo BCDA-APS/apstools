@@ -12,12 +12,14 @@ Various utilities
    ~ExcelDatabaseFileBase
    ~ExcelDatabaseFileGeneric
    ~ExcelReadError
+   ~explorer.full_dotted_name
    ~ipython_profile_name
    ~itemizer
    ~json_export
    ~json_import
    ~listruns
    ~list_recent_scans
+   ~explorer.object_explorer
    ~pairwise
    ~plot_prune_fifo
    ~print_snapshot_list
