@@ -2,19 +2,10 @@
 """
 print table of signal values of an ophyd Device
 
-PUBLIC:
-
 .. autosummary::
    
    ~full_dotted_name
    ~object_explorer
-
-LOCAL:
-
-.. autosummary::
-   
-   ~get_child
-   ~walker
 
 """
 
