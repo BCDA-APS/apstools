@@ -4,7 +4,16 @@
 Change History
 ##############
 
-:1.1.19:  expected *tba* : 
+:1.1.20:  expected *tba* : 
+
+:1.1.19:  released *2020-02-15*
+
+    * `#285 <https://github.com/BCDA-APS/apstools/issues/285>`_
+       add EpicsMotorResolutionMixin
+    * `#284 <https://github.com/BCDA-APS/apstools/issues/284>`_
+       adjust ophyd.EpicsMotor when motor limits changed from other EPICS client
+    * `#283 <https://github.com/BCDA-APS/apstools/issues/283>`_
+       print_RE_md() now returns a pyRestTable.Table object
 
 :1.1.18:  released *2020-02-09*
 
