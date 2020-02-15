@@ -38,6 +38,7 @@ MOTORS, POSITIONERS, AXES, ...
     ~EpicsMotorEnableMixin
     ~EpicsMotorLimitsMixin
     ~EpicsMotorRawMixin
+    ~EpicsMotorResolutionMixin
     ~EpicsMotorServoMixin
     ~EpicsMotorShutter
     ~EpicsOnOffShutter
@@ -1249,6 +1250,35 @@ class EpicsMotorRawMixin(DeviceMixinBase):
     """
     
     raw = Component(EpicsSignal, ".RRBV", write_pv=".RVAL")
+
+
+class EpicsMotorResolutionMixin(DeviceMixinBase):
+    """
+    Add motor record's resolution fields to motor.
+
+    Usually, a facility will not provide such high-level
+    access to calibration parameters since these are
+    associated with fixed parameters of hardware.
+    For simulators, it is convenient to provide access
+    so that default settings (typically low-resolution) 
+    from the IOC can be changed as part of the device 
+    setup in bluesky.
+    
+    EXAMPLE::
+    
+        from ophyd import EpicsMotor
+        from apstools.devices import EpicsMotorResolutionMixin
+    
+        class myEpicsMotor(EpicsMotorResolutionMixin, EpicsMotor): pass
+        m1 = myEpicsMotor('xxx:m1', name='m1')
+        print(f"resolution={m1.resolution.read()}")
+        print(f"steps_per_rev={m1.steps_per_rev.read()}")
+        print(f"units_per_rev={m1.units_per_rev.read()}")
+    """
+    
+    resolution = Component(EpicsSignal, ".MRES", kind="omitted")
+    steps_per_rev = Component(EpicsSignal, ".SREV", kind="omitted")
+    units_per_rev = Component(EpicsSignal, ".UREV", kind="omitted")
 
 
 class EpicsMotorShutter(OneSignalShutter):
