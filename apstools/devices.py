@@ -1158,6 +1158,28 @@ class EpicsMotorLimitsMixin(DeviceMixinBase):
     soft_limit_lo = Component(EpicsSignal, ".LLM")
     soft_limit_hi = Component(EpicsSignal, ".HLM")
     
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+        def cb_limit_changed(value, old_value, **kwargs):
+            """
+            update EpicsSignal object when a limit CA monitor received
+            """
+            if (
+                self.connected 
+                and old_value is not None 
+                and value != old_value
+            ):
+                self.user_setpoint._metadata_changed(
+                    self.user_setpoint.pvname,
+                    self.user_setpoint._read_pv.get_ctrlvars(),
+                    from_monitor=True,
+                    update=True,
+                    )
+
+        self.soft_limit_lo.subscribe(cb_limit_changed)
+        self.soft_limit_hi.subscribe(cb_limit_changed)
+
     def get_lim(self, flag):
         """
         Returns the user limit of motor
@@ -1191,9 +1213,7 @@ class EpicsMotorLimitsMixin(DeviceMixinBase):
                 self.soft_limit_lo, min(low, high),
                 self.soft_limit_hi, max(low, high),
             )
-            # update ophyd metadata dictionary
-            self.user_setpoint._metadata["lower_ctrl_limit"] = lo
-            self.user_setpoint._metadata["upper_ctrl_limit"] = hi
+            # ophyd metadata dictionary will update via CA monitor
 
 
 class EpicsMotorServoMixin(DeviceMixinBase):
