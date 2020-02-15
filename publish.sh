@@ -7,8 +7,8 @@
 STARTED=`date`
 PACKAGE=`python setup.py --name`
 RELEASE=`python setup.py --version`
-echo "PACKAGE: ${PACKAGE}"
-echo "RELEASE: ${RELEASE}"
+echo "(`date`) PACKAGE: ${PACKAGE}"
+echo "(`date`) RELEASE: ${RELEASE}"
 
 if [[ ${RELEASE} == *dirty || ${RELEASE} == *+* ]] ; then
   echo "version: ${RELEASE} not ready to publish"
@@ -19,12 +19,14 @@ echo "# - - - - - - - - - - - - - - - - - - - - - - - build for PyPI"
 
 ## PyPI Build and upload::
 
-echo "Building for upload to PyPI"
+echo "(`date`) Building for upload to PyPI"
 python setup.py sdist bdist_wheel
+echo "(`date`) Built for PyPI"
 
 echo "# - - - - - - - - - - - - - - - - - - - - - - - upload to PyPI"
 
 twine upload dist/${PACKAGE}-${RELEASE}*
+echo "(`date`) Uploaded to PyPI"
 
 echo "# - - - - - - - - - - - - - - - - - - - - - - - conda build"
 
@@ -39,28 +41,30 @@ else
   # production releases
   CHANNEL=aps-anl-tag
 fi
-echo "CHANNEL: ${CHANNEL}"
+echo "(`date`) CHANNEL: ${CHANNEL}"
 
 ### publish (from linux)
 
-echo "Building for upload to conda"
+echo "(`date`) Building for upload to conda"
 
 export CONDA_BLD_PATH=/tmp/conda-bld
 /bin/mkdir -p ${CONDA_BLD_PATH}
 
 conda build ./conda-recipe/
+echo "(`date`) Built for conda"
 
 echo "# - - - - - - - - - - - - - - - - - - - - - - - upload conda"
 
 BUILD_DIR=${CONDA_BLD_PATH}/noarch
 _package_=$(echo ${PACKAGE} | tr '[:upper:]' '[:lower:]')
 BUNDLE=${BUILD_DIR}/${_package_}-${RELEASE}-*_0.tar.bz2
-echo "upload to conda"
-echo "CHANNEL: ${CHANNEL}"
+echo "(`date`) uploading to anaconda"
+echo "(`date`) CHANNEL: ${CHANNEL}"
 anaconda upload -u ${CHANNEL} ${BUNDLE}
 
 # also post to my personal channel
 anaconda upload ${BUNDLE}
+echo "(`date`) Uploaded to anaconda"
 
-echo "started publishing script: ${STARTED}"
-echo "finished publishing script: `date`"
+echo "(${STARTED}) started publishing script"
+echo "(`date`) finished publishing script"
