@@ -68,8 +68,8 @@ import time
 import xlrd
 import zipfile
 
-from .filewriters import _rebuild_scan_command
-from .utilities import *
+from ..filewriters import _rebuild_scan_command
+from .explorer import *
 
 
 logger = logging.getLogger(__name__)
