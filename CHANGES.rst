@@ -4,7 +4,12 @@
 Change History
 ##############
 
-:1.1.20:  expected *tba* : 
+:1.2.0:  expected *tba* : re-arrange package contents (internally)
+
+    * `#288 <https://github.com/BCDA-APS/apstools/issues/288>`_
+       add object_explorer (from APS 8-ID-I)
+    * `#286 <https://github.com/BCDA-APS/apstools/issues/286>`_
+       re-arrange package into subdirectories
 
 :1.1.19:  released *2020-02-15*
 
