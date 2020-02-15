@@ -296,14 +296,6 @@ def print_RE_md(dictionary=None, fmt="simple", printing=True):
     dictionary : dict
         Python dictionary
 
-    fmt : str
-        Any of the format names provided by *pyRestTable*. [#]_
-        One of these: ``simple | plain | grid | complex | markdown | list-table | html``
-        
-        default: ``simple``
-	
-        .. [#] *pyRestTable* : https://pyresttable.readthedocs.io/en/latest/examples/index.html#examples
-
     EXAMPLE::
 
         In [4]: print_RE_md()                                                                                                       
