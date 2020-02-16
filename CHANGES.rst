@@ -14,6 +14,7 @@ Change History
        * ``unix_cmd()`` removed, use ``unix()``
        * ``list_recent_scans()`` removed, use ``listruns()``
        * ``utils.redefine_motor_position()`` moved to ``plans``
+       * ``run_blocker_in_plan()`` removed
 
 :1.1.19:  released *2020-02-15*
 

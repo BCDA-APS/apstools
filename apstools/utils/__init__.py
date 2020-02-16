@@ -42,8 +42,8 @@ Various utilities
 # The full license is in the file LICENSE.txt, distributed with this software.
 #-----------------------------------------------------------------------------
 
-import logging
-logger = logging.getLogger(__name__)
+# import logging
+# logger = logging.getLogger(__name__)
 
 from .decorators import *
 from .doc_streams import *
