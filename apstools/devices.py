@@ -1171,9 +1171,15 @@ class EpicsMotorLimitsMixin(DeviceMixinBase):
                 and old_value is not None 
                 and value != old_value
             ):
+                pv = self.user_setpoint._read_pv
+                md = {      # only update the control limits
+                    k: v
+                    for k, v in pv.get_ctrlvars().items()
+                    if k in ["lower_ctrl_limit", "upper_ctrl_limit",]
+                }
                 self.user_setpoint._metadata_changed(
                     self.user_setpoint.pvname,
-                    self.user_setpoint._read_pv.get_ctrlvars(),
+                    md,
                     from_monitor=True,
                     update=True,
                     )
