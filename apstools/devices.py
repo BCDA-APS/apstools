@@ -1164,7 +1164,7 @@ class EpicsMotorLimitsMixin(DeviceMixinBase):
 
         def ca_monitor_limits(value, old_value, **kwargs):
             """
-            update EpicsSignal object when a limit CA monitor received
+            update EpicsMotor limits when CA monitor received
             """
             if (
                 self.connected 
