@@ -1162,7 +1162,7 @@ class EpicsMotorLimitsMixin(DeviceMixinBase):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
 
-        def cb_limit_changed(value, old_value, **kwargs):
+        def ca_monitor_limits(value, old_value, **kwargs):
             """
             update EpicsSignal object when a limit CA monitor received
             """
@@ -1184,8 +1184,8 @@ class EpicsMotorLimitsMixin(DeviceMixinBase):
                     update=True,
                     )
 
-        self.soft_limit_lo.subscribe(cb_limit_changed)
-        self.soft_limit_hi.subscribe(cb_limit_changed)
+        self.soft_limit_lo.subscribe(ca_monitor_limits)
+        self.soft_limit_hi.subscribe(ca_monitor_limits)
 
     def get_lim(self, flag):
         """
