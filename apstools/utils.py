@@ -12,12 +12,14 @@ Various utilities
    ~ExcelDatabaseFileBase
    ~ExcelDatabaseFileGeneric
    ~ExcelReadError
+   ~full_dotted_name
    ~ipython_profile_name
    ~itemizer
    ~json_export
    ~json_import
    ~listruns
    ~list_recent_scans
+   ~object_explorer
    ~pairwise
    ~plot_prune_fifo
    ~print_snapshot_list
@@ -190,6 +192,46 @@ def dictionary_table(dictionary, **kwargs):
     return t
 
 
+def full_dotted_name(obj):
+    """
+    Return the full dotted name
+
+    The ``.dotted_name`` property does not include the 
+    name of the root object.  This routine adds that.
+
+    see: https://github.com/bluesky/ophyd/pull/797
+    """
+    names = []
+    while obj.parent is not None:
+        names.append(obj.attr_name)
+        obj = obj.parent
+    names.append(obj.name)
+    return '.'.join(names[::-1])
+
+
+def _get_named_child(obj, nm):
+    """
+    return named child of ``obj`` or None
+    """
+    try:
+        child = getattr(obj, nm)
+        return child
+    except TimeoutError:
+        logger.debug(f"timeout: {obj.name}_{nm}")
+        return "TIMEOUT"
+    logger.debug(f"None: {obj.name}_{nm}")
+
+
+def _get_pv(obj):
+    """
+    returns PV name, prefix of None from ophyd object
+    """
+    if hasattr(obj, "pvname"):
+        return obj.pvname
+    elif hasattr(obj, "prefix"):
+        return obj.prefix
+
+
 def itemizer(fmt, items):
     """format a list of items"""
     return [fmt % k for k in items]
@@ -286,6 +328,59 @@ def listruns(
     if printing:
         print(table)
     return table
+
+
+def _ophyd_structure_walker(obj):
+    """
+    walk the structure of the ophyd obj
+
+    RETURNS
+
+    list of ophyd objects that are children of ``obj``
+    """
+    # import pdb; pdb.set_trace()
+    if isinstance(obj, EpicsSignalBase):
+        return [obj]
+    elif isinstance(obj, Device):
+        items = []
+        for nm in obj.component_names:
+            child = _get_named_child(obj, nm)
+            if child in (None, "TIMEOUT"):
+                continue
+            result = _ophyd_structure_walker(child)
+            if result is not None:
+                items.extend(result)
+        return items
+
+
+def object_explorer(obj, sortby=None, fmt='simple', printing=True):
+    """
+    print the contents of obj
+    """
+    t = pyRestTable.Table()
+    t.addLabel("name")
+    t.addLabel("PV reference")
+    t.addLabel("value")
+    items = _ophyd_structure_walker(obj)
+    logger.debug(f"number of items: {len(items)}")
+
+    def sorter(obj):
+        if sortby is None:
+            key = obj.dotted_name
+        elif str(sortby).lower() == "pv":
+            key = _get_pv(obj) or "--"
+        else:
+            raise ValueError(
+                "sortby should be None or 'PV'"
+                f" found sortby='{sortby}'"
+                )
+        return key
+
+    for item in sorted(items, key=sorter):
+        t.addRow((item.dotted_name, _get_pv(item), item.get()))
+    if printing:
+        print(t.reST(fmt=fmt))
+    return t
 
 
 def print_RE_md(dictionary=None, fmt="simple", printing=True):
