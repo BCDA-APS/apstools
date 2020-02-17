@@ -34,7 +34,7 @@ Plans that might be useful at the APS when using Bluesky
 # import logging
 # logger = logging.getLogger(__name__)
 
-from .alignment import *
+from .align import *
 from .command_file import *
 from .motors import *
 from .scans import *

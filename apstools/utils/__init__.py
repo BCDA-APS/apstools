@@ -54,4 +54,5 @@ from .explorer import *
 from .plotting import *
 from .reports import *
 from .shell import *
+from .specwriter import *
 from .sundry import *

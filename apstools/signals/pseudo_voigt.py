@@ -1,29 +1,20 @@
 
 """
-(ophyd) Signals that might be useful at the APS using Bluesky
+simulated pseudo-Voigt function
 
 .. autosummary::
    
    ~SynPseudoVoigt
-
 """
 
-#-----------------------------------------------------------------------------
-# :author:    Pete R. Jemian
-# :email:     jemian@anl.gov
-# :copyright: (c) 2017-2019, UChicago Argonne, LLC
-#
-# Distributed under the terms of the Creative Commons Attribution 4.0 International Public License.
-#
-# The full license is in the file LICENSE.txt, distributed with this software.
-#-----------------------------------------------------------------------------
+__all__ = ["SynPseudoVoigt",]
+
 
 import logging
+logger = logging.getLogger(__name__)
+
 import ophyd.sim
 import numpy as np
-
-
-logger = logging.getLogger(__name__).addHandler(logging.NullHandler())
 
 
 class SynPseudoVoigt(ophyd.sim.SynSignal):    # lgtm [py/missing-call-to-init]
