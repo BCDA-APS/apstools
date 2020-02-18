@@ -115,8 +115,12 @@ def get_release_info(token, base_tag_name, head_branch_name, milestone_name):
         if t.commit.sha in commits:
             tags[t.name] = t
         elif t.name == base_tag_name:
-            base_commit = repo.get_commit(t.commit.sha)
-            earliest = str2time(base_commit.last_modified)
+            # PyGitHub oddity:
+            #   t.commit == commit
+            #   t.commit.last_modified != commit.last_modified
+            commit = repo.get_commit(t.commit.sha)
+            dt = str2time(commit.last_modified)
+            earliest = min(dt, earliest or dt)
     logger.debug(f"# tags: {len(tags)}")
 
     pulls = {
@@ -137,7 +141,7 @@ def get_release_info(token, base_tag_name, head_branch_name, milestone_name):
     }
     logger.debug(f"# issues: {len(issues)}")
 
-    return milestone, tags, pulls, issues, commits
+    return repo, milestone, tags, pulls, issues, commits
 
 
 def parse_command_line():
@@ -185,7 +189,7 @@ def str2time(time_string):
         "%a, %d %b %Y %H:%M:%S %Z")
 
 
-def report(title, milestone, tags, pulls, issues, commits):
+def report(title, repo, milestone, tags, pulls, issues, commits):
     print(f"## {title}")
     print("")
     print(f"* **date/time**: {datetime.datetime.now()}")
@@ -209,7 +213,8 @@ def report(title, milestone, tags, pulls, issues, commits):
         print("tag | date | name")
         print("-"*5, " | ", "-"*5, " | ", "-"*5)
         for k, tag in sorted(tags.items()):
-            when = str2time(tag.last_modified).strftime("%Y-%m-%d")
+            commit = repo.get_commit(tag.commit.sha)
+            when = str2time(commit.last_modified).strftime("%Y-%m-%d")
             print(f"[{tag.commit.sha[:7]}]({tag.commit.html_url}) | {when} | {k}")
     print("")
     print("### Pull Requests")
