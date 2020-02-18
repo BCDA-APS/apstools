@@ -18,7 +18,6 @@ Various utilities
    ~json_export
    ~json_import
    ~listruns
-   ~list_recent_scans
    ~object_explorer
    ~pairwise
    ~plot_prune_fifo
@@ -234,16 +233,6 @@ def _get_pv(obj):
 def itemizer(fmt, items):
     """format a list of items"""
     return [fmt % k for k in items]
-
-
-def list_recent_scans(raises=False, **kwargs):
-    """(deprecated): use ``listruns`` instead"""
-    msg = "'list_recent_scans()' is deprecated"
-    msg += ", use 'listruns()' instead"
-    if raises:
-        raise RuntimeWarning(msg)
-    logger.warning(msg)
-    return listruns(**kwargs)
 
 
 def listruns(

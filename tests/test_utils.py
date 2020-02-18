@@ -206,14 +206,6 @@ class Test_With_Database(unittest.TestCase):
     # def tearDown(self):
     #     pass
 
-    def test_list_recent_scans(self):
-        # TODO: capture output to ?stderr? and test for it
-        with self.assertRaises(RuntimeWarning):
-            APS_utils.list_recent_scans(db=self.db, raises=True)
-
-        table = APS_utils.list_recent_scans(printing=False, db=self.db)
-        self.assertIsNotNone(table)
-
     def test_listruns(self):
         headers = self.db(plan_name="count")
         headers = list(headers)[0:1]
