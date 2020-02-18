@@ -4,7 +4,12 @@
 Change History
 ##############
 
-:1.2.1:  release expected -tba-
+:1.2.2:  release expected -tba-
+
+:1.2.1: released *2020-02-18* - bug fix
+
+    * `#297 <https://github.com/BCDA-APS/apstools/issues/297>`_
+       fix import error
 
 :1.2.0: released *2020-02-18* - remove deprecated functions
 
