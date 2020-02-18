@@ -6,10 +6,14 @@ Change History
 
 :1.2.0:  expected *tba* : re-arrange package contents (internally)
 
+    * `#293 <https://github.com/BCDA-APS/apstools/issues/293>`_
+       remove run_blocker_in_plan()
+    * `#292 <https://github.com/BCDA-APS/apstools/issues/292>`_
+       remove list_recent_scans()
+    * `#291 <https://github.com/BCDA-APS/apstools/issues/291>`_
+       remove unix_cmd()
     * `#288 <https://github.com/BCDA-APS/apstools/issues/288>`_
        add object_explorer (from APS 8-ID-I)
-    * `#286 <https://github.com/BCDA-APS/apstools/issues/286>`_
-       re-arrange package into subdirectories
 
 :1.1.19:  released *2020-02-15*
 
