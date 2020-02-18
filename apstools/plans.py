@@ -46,7 +46,6 @@ from bluesky import preprocessors as bpp
 from bluesky.callbacks.fitting import PeakStats
 from ophyd import Device, Component, Signal, DeviceStatus, EpicsSignal
 from ophyd.scaler import ScalerCH, ScalerChannel
-from ophyd.status import Status
 
 from . import utils as APS_utils
 
