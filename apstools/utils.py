@@ -216,7 +216,6 @@ def _get_named_child(obj, nm):
     except TimeoutError:
         logger.debug(f"timeout: {obj.name}_{nm}")
         return "TIMEOUT"
-    logger.debug(f"None: {obj.name}_{nm}")
 
 
 def _get_pv(obj):
