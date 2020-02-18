@@ -481,8 +481,9 @@ def replay(headers, callback=None, sort=True):
 
     for h in sorted(_headers, key=sorter):
         if not isinstance(h, databroker.Header):
-            emsg = f"Must be a databroker Header: received: {type(h)}: |{h}|"
-            raise TypeError(emsg)
+            raise TypeError(
+                f"Must be a databroker Header: received: {type(h)}: |{h}|"
+            )
         cmd = _rebuild_scan_command(h.start)
         logger.debug(f"{cmd}")
         
