@@ -13,7 +13,7 @@ Change History
     * `#291 <https://github.com/BCDA-APS/apstools/issues/291>`_
        remove unix_cmd()
     * `#288 <https://github.com/BCDA-APS/apstools/issues/288>`_
-       add object_explorer (from APS 8-ID-I)
+       add object_explorer() (from APS 8-ID-I)
 
 :1.1.19:  released *2020-02-15*
 
