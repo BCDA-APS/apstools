@@ -4,7 +4,9 @@
 Change History
 ##############
 
-:1.2.0:  expected *tba* : re-arrange package contents (internally)
+:1.2.1:  release expected -tba-
+
+:1.2.0: released *2020-02-18* - remove deprecated functions
 
     * `#293 <https://github.com/BCDA-APS/apstools/issues/293>`_
        remove run_blocker_in_plan()
