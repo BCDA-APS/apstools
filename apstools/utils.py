@@ -294,9 +294,10 @@ def listruns(
     table.labels = "short_uid   date/time  exit".split() + labels
     
     for h in db[-abs(num):]:
+        dt = datetime.datetime.fromtimestamp(h.start['time'])
         row = [
             h.start["uid"][:7],
-            datetime.datetime.fromtimestamp(h.start['time']),
+            dt.isoformat(sep=" ", timespec="milliseconds"),
             h.stop.get("exit_status", "")
             ]
         for k in labels:
