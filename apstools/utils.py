@@ -327,7 +327,7 @@ def _ophyd_structure_walker(obj):
     list of ophyd objects that are children of ``obj``
     """
     # import pdb; pdb.set_trace()
-    if isinstance(obj, ophyd.EpicsSignalBase):
+    if isinstance(obj, ophyd.signal.EpicsSignalBase):
         return [obj]
     elif isinstance(obj, ophyd.Device):
         items = []
