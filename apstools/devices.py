@@ -1156,8 +1156,8 @@ class EpicsMotorLimitsMixin(DeviceMixinBase):
         m1.set_lim(lo, hi)
     """
     
-    soft_limit_lo = Component(EpicsSignal, ".LLM")
-    soft_limit_hi = Component(EpicsSignal, ".HLM")
+    soft_limit_lo = Component(EpicsSignal, ".LLM", kind="omitted")
+    soft_limit_hi = Component(EpicsSignal, ".HLM", kind="omitted")
     
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
