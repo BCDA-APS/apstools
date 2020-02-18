@@ -11,7 +11,6 @@ Plans that might be useful at the APS when using BlueSky
    ~parse_Excel_command_file
    ~parse_text_command_file
    ~register_command_handler
-   ~run_blocker_in_plan
    ~run_command_file
    ~snapshot
    ~sscan_1D
@@ -199,60 +198,6 @@ def get_command_list(filename):
             emsg = f"could not read {filename} as command list file: {exc}"
             raise CommandFileReadError(emsg)
     return commands
-
-
-def run_blocker_in_plan(blocker, *args, _poll_s_=0.01, _timeout_s_=None, **kwargs):
-    """
-    plan: run blocking function ``blocker_(*args, **kwargs)`` from a Bluesky plan
-
-    .. warning: This plan is deprecated.  It will be removed by 2019-12-31.
-
-    PARAMETERS
-
-    blocker : func
-        function object to be called in a Bluesky plan
-
-    _poll_s_ : float
-        sleep interval in loop while waiting for completion 
-        (default: 0.01)
-
-    _timeout_s_ : float
-        maximum time for completion 
-        (default: `None` which means no timeout)
-    
-    Example: use ``time.sleep`` as blocking function::
-    
-        RE(run_blocker_in_plan(time.sleep, 2.14))
-
-    Example: in a plan, use ``time.sleep`` as blocking function::
-
-        def my_sleep(t=1.0):
-            yield from run_blocker_in_plan(time.sleep, t)
-
-        RE(my_sleep())
-
-    """
-    logger.warning("This plan is deprecated.  It will be removed by 2019-12-31.")
-    status = Status()
-    
-    @APS_utils.run_in_thread
-    def _internal(blocking_function, *args, **kwargs):
-        blocking_function(*args, **kwargs)
-        status._finished(success=True, done=True)
-    
-    if _timeout_s_ is not None:
-        t_expire = time.time() + _timeout_s_
-
-    # FIXME: how to keep this from running during summarize_plan()?
-    _internal(blocker, *args, **kwargs)
-
-    while not status.done:
-        if _timeout_s_ is not None:
-            if time.time() > t_expire:
-                status._finished(success=False, done=True)
-                break
-        yield from bps.sleep(_poll_s_)
-    return status
 
 
 def lineup(
