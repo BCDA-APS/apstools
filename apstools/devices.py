@@ -1207,8 +1207,6 @@ class EpicsMotorLimitsMixin(DeviceMixinBase):
         Similar with SPEC command
         """
         if not self.moving:
-            lo = min(low, high)
-            hi = max(low, high)
             # update EPICS
             yield from bps.mv(
                 self.soft_limit_lo, min(low, high),
