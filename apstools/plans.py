@@ -229,12 +229,12 @@ def lineup(
         count time per step (if counter is ScalerChannel object)
     
     peak_factor : float (default: 4)
-        maximum must be greater than 'peak_factor'*minimum
+        maximum must be greater than ``peak_factor*minimum``
     
     width_factor : float (default: 0.8)
-        fwhm must be less than 'width_factor'*plot_range
+        fwhm must be less than ``width_factor*plot_range``
     
-    EXAMPLE:
+    EXAMPLE::
 
         RE(lineup(diode, foemirror.theta, -30, 30, 30, 1.0))
     """
