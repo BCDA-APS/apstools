@@ -73,7 +73,7 @@ class DiffractometerMixin(Device):
             self._set_constraints(self._constraints_stack[0])
             self._constraints_stack = []
 
-    def showConstraints(self, fmt=None):
+    def showConstraints(self, fmt="simple"):
         """print the current constraints in a table"""
         tbl = pyRestTable.Table()
         tbl.labels = "axis low_limit high_limit value fit".split()
