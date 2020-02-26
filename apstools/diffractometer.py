@@ -4,7 +4,7 @@ add to capabilities of any diffractometer
 
 .. autosummary::
    
-    ~Constraints
+    ~Constraint
     ~DiffractometerMixin
 
 """
@@ -20,7 +20,7 @@ add to capabilities of any diffractometer
 #-----------------------------------------------------------------------------
 
 __all__ = [
-    'Constraints',
+    'Constraint',
     'DiffractometerMixin',
 ]
 
@@ -31,8 +31,8 @@ import pyRestTable
 
 logger = logging.getLogger(__file__)
 
-Constraints = collections.namedtuple(
-    "Constraints", 
+Constraint = collections.namedtuple(
+    "Constraint", 
     ("low_limit", "high_limit", "value", "fit"))
 
 
