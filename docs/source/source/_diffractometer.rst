@@ -12,7 +12,7 @@ Example : Constraints
 Create a custom diffractometer class, adding the 
 mixin class as first argument::
 
-    from apstools.diffractometer import AxisConstraints, DiffractometerMixin
+    from apstools.diffractometer import Constraints, DiffractometerMixin
 
     class CustomE4CV(DiffractometerMixin, E4CV):
         h = Component(PseudoSingle, '', labels=("hkl", "fourc"))
@@ -42,11 +42,11 @@ A set of constraints is defined as a dictionary with the
 motor names as keys::
 
     diffractometer_constraints = {
-        # axis: AxisConstraints(lo_limit, hi_limit, value, fit)
-        "omega": AxisConstraints(-120, 150, 0, True),
-        "chi": AxisConstraints(-150, 120, 0, True),
-        # "phi": AxisConstraints(0, 0, 0, False),
-        "tth": AxisConstraints(-10, 142, 0, True),
+        # axis: Constraints(lo_limit, hi_limit, value, fit)
+        "omega": Constraints(-120, 150, 0, True),
+        "chi": Constraints(-150, 120, 0, True),
+        # "phi": Constraints(0, 0, 0, False),
+        "tth": Constraints(-10, 142, 0, True),
     }
 
 These constraints can be applied with command
@@ -108,7 +108,7 @@ For the (0 0 3/2) reflection, there is only one solution.
 If we further restrict *omega* to non-negative values, we'll 
 only get one solution for all three reflections in the list::
 
-    e4cv.applyConstraints({"omega": AxisConstraints(-0, 150, 0, True)})
+    e4cv.applyConstraints({"omega": Constraints(-0, 150, 0, True)})
     print(e4cv.forwardSolutionsTable(
         (
             (0, 0, 0.5),

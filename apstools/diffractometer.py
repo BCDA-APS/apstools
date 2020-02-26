@@ -4,7 +4,7 @@ add to capabilities of any diffractometer
 
 .. autosummary::
    
-    ~AxisConstraints
+    ~Constraints
     ~DiffractometerMixin
 
 """
@@ -20,7 +20,7 @@ add to capabilities of any diffractometer
 #-----------------------------------------------------------------------------
 
 __all__ = [
-    'AxisConstraints',
+    'Constraints',
     'DiffractometerMixin',
 ]
 
@@ -31,8 +31,8 @@ import pyRestTable
 
 logger = logging.getLogger(__file__)
 
-AxisConstraints = collections.namedtuple(
-    "AxisConstraints", 
+Constraints = collections.namedtuple(
+    "Constraints", 
     ("low_limit", "high_limit", "value", "fit"))
 
 
@@ -93,7 +93,7 @@ class DiffractometerMixin(Device):
     def _push_current_constraints(self):
         """push current constraints onto the stack"""
         constraints = {
-            m: AxisConstraints(
+            m: Constraints(
                 *self.calc[m].limits,
                 self.calc[m].value,
                 self.calc[m].fit)
