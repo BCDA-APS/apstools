@@ -93,7 +93,7 @@ class DiffractometerMixin(Device):
     def _push_current_constraints(self):
         """push current constraints onto the stack"""
         constraints = {
-            m: Constraints(
+            m: Constraint(
                 *self.calc[m].limits,
                 self.calc[m].value,
                 self.calc[m].fit)
