@@ -632,12 +632,12 @@ def listobjects(show_pv=True, printing=True, verbose=False, symbols=None):
     return table
 
 
-def show_ophyd_objects(show_pv=True, 
+def show_ophyd_symbols(show_pv=True, 
                        printing=True, 
                        verbose=False, 
                        symbols=None):
     warnings.warn(
-        "DEPRECATED: show_ophyd_objects() will be removed" 
+        "DEPRECATED: show_ophyd_symbols() will be removed" 
         " in a future release.  Use listobjects() instead."
         )
     listobjects(

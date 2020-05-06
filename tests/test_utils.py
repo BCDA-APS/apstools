@@ -8,6 +8,7 @@ import os
 import sys
 import time
 import unittest
+import warnings
 
 _path = os.path.join(os.path.dirname(__file__), '..')
 if _path not in sys.path:
@@ -167,13 +168,13 @@ class Test_Utils(unittest.TestCase):
         expected = source[:APS_utils.MAX_EPICS_STRINGOUT_LENGTH-1]
         self.assertEqual(received, expected)
     
-    def test_show_ophyd_symbols(self):
+    def test_listobjects(self):
         sims = ophyd.sim.hw().__dict__
         wont_show = ("flyer1", "flyer2", "new_trivial_flyer", "trivial_flyer")
         num = len(sims) - len(wont_show)
         kk = sorted(sims.keys())
         # sims hardware not found by show_ophyd_symbols() in globals!
-        table = APS_utils.show_ophyd_symbols(symbols=sims, printing=False)
+        table = APS_utils.listobjects(symbols=sims, printing=False)
         self.assertEqual(4, len(table.labels))
         rr = [r[0] for r in table.rows]
         for k in kk:
@@ -181,6 +182,19 @@ class Test_Utils(unittest.TestCase):
             if k not in wont_show:
                 self.assertTrue(k in rr, msg)
         self.assertEqual(num, len(table.rows))
+
+    def test_show_ophyd_symbols(self):
+        sims = ophyd.sim.hw().__dict__
+        wont_show = ("flyer1", "flyer2", "new_trivial_flyer", "trivial_flyer")
+        num = len(sims) - len(wont_show)
+        kk = sorted(sims.keys())
+        # sims hardware not found by show_ophyd_symbols() in globals!
+        with warnings.catch_warnings(record=True) as w:
+            # Cause all warnings to always be triggered.
+            warnings.simplefilter("always")
+            table = APS_utils.show_ophyd_symbols(symbols=sims, printing=False)
+            assert len(w) == 1
+            assert "DEPRECATED" in str(w[-1].message)
 
     def test_unix(self):
         cmd = 'echo "hello"'
