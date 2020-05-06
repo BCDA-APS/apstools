@@ -17,6 +17,7 @@ Various utilities
    ~itemizer
    ~json_export
    ~json_import
+   ~listobjects
    ~listruns
    ~object_explorer
    ~pairwise
@@ -65,6 +66,7 @@ import subprocess
 import sys
 import threading
 import time
+import warnings
 import xlrd
 import zipfile
 
@@ -545,7 +547,7 @@ def run_in_thread(func):
     return wrapper
 
 
-def show_ophyd_symbols(show_pv=True, printing=True, verbose=False, symbols=None):
+def listobjects(show_pv=True, printing=True, verbose=False, symbols=None):
     """
     show all the ophyd Signal and Device objects defined as globals
     
@@ -572,7 +574,7 @@ def show_ophyd_symbols(show_pv=True, printing=True, verbose=False, symbols=None)
 
     EXAMPLE::
     
-        In [1]: show_ophyd_symbols()                                                                                                                                                                           
+        In [1]: listobjects()                                                                                                                                                                           
         ======== ================================ =============
         name     ophyd structure                  EPICS PV     
         ======== ================================ =============
@@ -628,6 +630,21 @@ def show_ophyd_symbols(show_pv=True, printing=True, verbose=False, symbols=None)
     if printing:
         print(table)
     return table
+
+
+def show_ophyd_objects(show_pv=True, 
+                       printing=True, 
+                       verbose=False, 
+                       symbols=None):
+    warnings.warn(
+        "DEPRECATED: show_ophyd_objects() will be removed" 
+        " in a future release.  Use listobjects() instead."
+        )
+    listobjects(
+        show_pv=show_pv, 
+        printing=printing, 
+        verbose=verbose, 
+        symbols=symbols)
 
 
 def split_quoted_line(line):
