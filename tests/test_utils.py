@@ -186,16 +186,12 @@ class Test_Utils(unittest.TestCase):
     def test_show_ophyd_symbols(self):
         sims = ophyd.sim.hw().__dict__
         wont_show = ("flyer1", "flyer2", "new_trivial_flyer", "trivial_flyer")
-        num = len(sims) - len(wont_show)
-        kk = sorted(sims.keys())
-        # sims hardware not found by show_ophyd_symbols() in globals!
-        with warnings.catch_warnings(record=True) as w:
-            # Cause all warnings to always be triggered.
-            warnings.simplefilter("always")
-            table = APS_utils.show_ophyd_symbols(symbols=sims, printing=False)
-            assert len(w) == 1
-            assert "DEPRECATED" in str(w[-1].message)
-
+        self.assertWarns(
+            UserWarning,
+            APS_utils.show_ophyd_symbols,
+            symbols=sims,
+            printing=False      # kwargs
+        )
     def test_unix(self):
         cmd = 'echo "hello"'
         out, err = APS_utils.unix(cmd)
