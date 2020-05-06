@@ -24,10 +24,8 @@ TEST_ZIP_FILE = os.path.join(_test_path, "bluesky_data.zip")
 
 
 def get_db():
-    from databroker import Broker, temp_config
-    conf = temp_config()
-    conf["metadatastore"]["config"]["timezone"] = "US/Central"
-    db = Broker.from_config(conf)
+    import databroker
+    db = databroker.temp()
     datasets = json_import(TEST_JSON_FILE, TEST_ZIP_FILE)
     insert_docs(db, datasets)
     return db
