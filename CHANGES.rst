@@ -6,7 +6,7 @@ Change History
 
 :1.2.4:  release *tba*
 
-:1.2.3:  release *tba*
+:1.2.3:  released *2020-05-07*
 
     * `#314 <https://github.com/BCDA-APS/apstools/issues/314>`_
        fix ImportError about SignalRO
