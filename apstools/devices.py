@@ -131,7 +131,7 @@ from ophyd import Component, Device, DeviceStatus, FormattedComponent
 from ophyd import Signal, EpicsMotor, EpicsSignal, EpicsSignalRO
 from ophyd.mca import EpicsMCARecord
 from ophyd.scaler import EpicsScaler, ScalerCH
-from ophyd.sim import SignalRO
+from ophyd.sim import SynSignalRO
 
 from ophyd.areadetector.filestore_mixins import FileStoreBase
 from ophyd.areadetector.filestore_mixins import FileStorePluginBase
@@ -177,7 +177,7 @@ def use_EPICS_scaler_channels(scaler):
         scaler.channels.configuration_attrs = configuration_attrs
 
 
-class ApsCycleComputedRO(SignalRO):
+class ApsCycleComputedRO(SynSignalRO):
     """
     compute the APS cycle name based on the calendar and the usual practice
 
