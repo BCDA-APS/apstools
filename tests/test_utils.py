@@ -158,6 +158,7 @@ class Test_Utils(unittest.TestCase):
             ["#!bang", "__bang"],
             ["0 is not a good name", "_0_is_not_a_good_name"],
             ["! is even worse!", "__is_even_worse_"],
+            ["double.dotted.name", "double_dotted_name"],
         ]
         for given, expected in items:
             received = APS_utils.safe_ophyd_name(given)
