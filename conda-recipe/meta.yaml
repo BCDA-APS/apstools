@@ -36,16 +36,13 @@ requirements:
     - pip
   run:
     - python
-    - bluesky
-    - databroker
-    - epics-base
-    - event-model>=1.8
-    - historydict
-    - ophyd=1.4.0rc3
+    - bluesky>=1.6
+    - databroker>=1.0.2
+    - ophyd>=1.4
     - pandas
     - pyEpics>=3.4.1
     - pyRestTable
-    - spec2nexus
+    - spec2nexus>=2021.1.7
     - xlrd
 
 test:
