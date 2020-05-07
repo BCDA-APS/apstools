@@ -1,10 +1,9 @@
-bluesky
-databroker
+bluesky>=1.6
+databroker>=1.0.2
 numpy
-ophyd
+ophyd>=1.4
 pandas
-pyepics
-pymongo
+pyepics>=3.4.1
 pyRestTable
-spec2nexus
+spec2nexus>=2021.1.7
 xlrd
