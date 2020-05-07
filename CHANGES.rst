@@ -15,6 +15,10 @@ Change History
 
 :1.2.2:  released *2020-05-06*
 
+    * `DEPRECATION <https://github.com/BCDA-APS/apstools/issues/306>`_
+	   `apstools.plans.show_ophyd_symbols()` will be removed by 2020-07-01.
+	   Use `apstools.plans.listobjects()` instead.
+
     * `#311 <https://github.com/BCDA-APS/apstools/issues/311>`_
        adapt to databroker v1
     * `#310 <https://github.com/BCDA-APS/apstools/issues/310>`_
