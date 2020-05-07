@@ -25,7 +25,7 @@ TEST_ZIP_FILE = os.path.join(_test_path, "bluesky_data.zip")
 
 def get_db():
     import databroker
-    db = databroker.temp()
+    db = databroker.temp().v1   # TODO: does not work with v2
     datasets = json_import(TEST_JSON_FILE, TEST_ZIP_FILE)
     insert_docs(db, datasets)
     return db
