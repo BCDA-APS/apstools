@@ -1,8 +1,5 @@
 bluesky
 databroker
-email
-getpass
-idlelib
 numpy
 ophyd
 pandas
@@ -10,6 +7,4 @@ pyepics
 pymongo
 pyRestTable
 spec2nexus
-tkinter
 xlrd
-zipfile
