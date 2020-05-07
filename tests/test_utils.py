@@ -146,6 +146,23 @@ class Test_Utils(unittest.TestCase):
         expected = [(1.0, 1.1), (1.01, 1.001), (1.0001, 1.00001)]
         self.assertEqual(received, expected)
 
+    def test_safe_ophyd_name(self):
+        items = [
+            ["simple", "simple"],
+            ["sim_ple", "sim_ple"],
+            ["hy-phen", "hy_phen"],
+            ["white space", "white_space"],
+            ["1world", "_1world"],
+            ["end9", "end9"],
+            ["$tree", "_tree"],
+            ["#!bang", "__bang"],
+            ["0 is not a good name", "_0_is_not_a_good_name"],
+            ["! is even worse!", "__is_even_worse_"],
+        ]
+        for given, expected in items:
+            received = APS_utils.safe_ophyd_name(given)
+            self.assertEqual(received, expected, given)
+
     def test_split_quoted_line(self):
         source = 'FlyScan 5   2   0   "empty container"'
         received = APS_utils.split_quoted_line(source)

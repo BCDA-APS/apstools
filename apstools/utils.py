@@ -27,6 +27,7 @@ Various utilities
    ~redefine_motor_position
    ~replay
    ~run_in_thread
+   ~safe_ophyd_name
    ~show_ophyd_symbols
    ~split_quoted_line
    ~text_encode
@@ -39,7 +40,7 @@ Various utilities
 #-----------------------------------------------------------------------------
 # :author:    Pete R. Jemian
 # :email:     jemian@anl.gov
-# :copyright: (c) 2017-2019, UChicago Argonne, LLC
+# :copyright: (c) 2017-2020, UChicago Argonne, LLC
 #
 # Distributed under the terms of the Creative Commons Attribution 4.0 International Public License.
 #
@@ -547,6 +548,32 @@ def run_in_thread(func):
         thread.start()
         return thread
     return wrapper
+
+
+def safe_ophyd_name(text):
+    """
+    make text safe to be used as an ophyd object name
+
+    Given some input text string, return a clean version.
+    Remove troublesome characters, perhaps other cleanup as well.
+    This is best done with regular expression pattern matching.
+    
+    The "sanitized" name fits this regular expression::
+    
+        [A-Za-z_][\w_]*
+
+    Also can be used for safe HDF5 and NeXus names.
+    """
+    replacement = '_'
+    noncompliance = '[^\w_]'
+    
+    # replace ALL non-compliances with '_'
+    safer = replacement.join(re.split(noncompliance, text))
+
+    # can't start with a digit
+    if safer[0].isdigit():
+        safer = replacement + safer
+    return safer
 
 
 def listobjects(show_pv=True, printing=True, verbose=False, symbols=None):
