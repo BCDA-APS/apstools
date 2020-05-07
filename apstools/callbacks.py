@@ -50,7 +50,7 @@ class DocumentCollectorCallback(object):
     
     EXAMPLE::
     
-        from apstools.callbacks import DocumentCollector
+        from apstools.callbacks import DocumentCollectorCallback
         doc_collector = DocumentCollectorCallback()
         RE.subscribe(doc_collector.receiver)
         ...
