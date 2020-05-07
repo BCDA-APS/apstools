@@ -4,7 +4,24 @@
 Change History
 ##############
 
-:1.2.2:  release expected -tba-
+:1.2.3:  release *tba*
+
+:1.2.2:  released *2020-05-06*
+
+    * `#311 <https://github.com/BCDA-APS/apstools/issues/311>`_
+       adapt to databroker v1
+    * `#310 <https://github.com/BCDA-APS/apstools/issues/310>`_
+       enhance listruns() search capabilities
+    * `#308 <https://github.com/BCDA-APS/apstools/issues/308>`_
+       manage diffractometer constraints 
+    * `#307 <https://github.com/BCDA-APS/apstools/issues/307>`_
+       add diffractometer emhancements 
+    * `#306 <https://github.com/BCDA-APS/apstools/issues/306>`_
+       rename show_ophyd_objects() as listobjects()
+    * `#305 <https://github.com/BCDA-APS/apstools/issues/305>`_
+       add utils.safe_ophyd_name()
+    * `#299 <https://github.com/BCDA-APS/apstools/issues/299>`_
+       set_lim() does not set low limit
 
 :1.2.1: released *2020-02-18* - bug fix
 
