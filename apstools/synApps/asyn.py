@@ -40,9 +40,9 @@ class AsynRecord(EpicsRecordDeviceCommonAll):
     """
     ascii_output = Component(EpicsSignal, ".AOUT")
     binary_output = Component(EpicsSignal, ".BOUT")
-    binary_output_maxlength = Component(EpicsSignal, ".BMAX")
     end_of_message_reason = Component(EpicsSignalRO, ".EOMR")
     input_format = Component(EpicsSignalRO, ".IFMT")
+    input_maxlength = Component(EpicsSignal, ".IMAX")
     interface = Component(EpicsSignal, ".IFACE")
     number_bytes_actually_read = Component(EpicsSignalRO, ".NRRD")
     number_bytes_actually_written = Component(EpicsSignalRO, ".NAWT")
@@ -50,8 +50,11 @@ class AsynRecord(EpicsRecordDeviceCommonAll):
     number_bytes_to_write = Component(EpicsSignal, ".NOWT")
     octet_is_valid = Component(EpicsSignalRO, ".OCTETIV")
     output_format = Component(EpicsSignalRO, ".OFMT")
+    output_maxlength = Component(EpicsSignal, ".OMAX")
     terminator_input = Component(EpicsSignal, ".IEOS")
     terminator_output = Component(EpicsSignal, ".OEOS")
     timeout = Component(EpicsSignal, ".TMOT")
     transaction_mode = Component(EpicsSignal, ".TMOD")
     translated_input = Component(EpicsSignal, ".TINP")
+
+    binary_output_maxlength = output_maxlength     # TODO: deprecated name
