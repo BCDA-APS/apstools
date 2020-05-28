@@ -57,15 +57,18 @@ def plan_catalog(db):
         plan_catalog(db)
     
     """
+    import warnings
+    warnings.warn("DEPRECATED: use apstools.utils.listruns()")
     import pyRestTable
     t = pyRestTable.Table()
     t.labels = "date/time short_uid id plan args".split()
-    for h in db.hs.find_run_starts():
+    for h in db.v1():
+        doc = h.start
         row = []
-        dt = datetime.datetime.fromtimestamp(h["time"])
+        dt = datetime.datetime.fromtimestamp(doc["time"])
         row.append(str(dt).split(".")[0])
-        row.append(h['uid'][:8])
-        command = _rebuild_scan_command(h)
+        row.append(doc['uid'][:8])
+        command = _rebuild_scan_command(doc)
         scan_id = command.split()[0]
         command = command[len(scan_id):].strip()
         plan = command.split("(")[0]
