@@ -50,7 +50,8 @@ from ophyd.scaler import ScalerCH, ScalerChannel
 from . import utils as APS_utils
 
 
-logger = logging.getLogger(__name__).addHandler(logging.NullHandler())
+logger = logging.getLogger(__name__)
+logger.info(__file__)
 
 
 class CommandFileReadError(IOError): ...
@@ -229,7 +230,7 @@ def lineup(
         count time per step (if counter is ScalerChannel object)
     
     peak_factor : float (default: 4)
-        maximum must be greater than ``peak_factor*minimum``
+        peak maximum must be greater than ``peak_factor*minimum``
     
     width_factor : float (default: 0.8)
         fwhm must be less than ``width_factor*plot_range``
@@ -874,6 +875,43 @@ def sscan_1D(
     return sscan_status
 
 
+class TuneResults(Device):
+    """because bps.read() needs a Device or a Signal)"""
+    tune_ok = Component(Signal)
+    initial_position = Component(Signal)
+    final_position = Component(Signal)
+    center = Component(Signal)
+    # - - - - -
+    x = Component(Signal)
+    y = Component(Signal)
+    cen = Component(Signal)
+    com = Component(Signal)
+    fwhm = Component(Signal)
+    min = Component(Signal)
+    max = Component(Signal)
+    crossings = Component(Signal)
+    peakstats_attrs = "x y cen com fwhm min max crossings".split()
+    
+    def report(self, title=None):
+        keys = self.peakstats_attrs + "tune_ok center initial_position final_position".split()
+        t = pyRestTable.Table()
+        t.addLabel("key")
+        t.addLabel("result")
+        for key in keys:
+            v = getattr(self, key).get()
+            t.addRow((key, str(v)))
+        if title is not None:
+            print(title)
+        print(t)
+
+    def set_stats(self, peaks):
+        for key in self.peakstats_attrs:
+            v = getattr(peaks, key)
+            if key in ("crossings", "min", "max"):
+                v = np.array(v)
+            getattr(self, key).put(v)
+
+
 class TuneAxis(object):
     """
     tune an axis with a signal
@@ -922,7 +960,6 @@ class TuneAxis(object):
         self.signals = signals
         self.signal_name = signal_name or signals[0].name
         self.axis = axis
-        self.stats = {}
         self.tune_ok = False
         self.peaks = None
         self.peak_choice = self._peak_choices_[0]
@@ -933,12 +970,13 @@ class TuneAxis(object):
         self.width = 1
         self.num = 10
         self.step_factor = 4
-        self.pass_max = 6
+        self.peak_factor = 4
+        self.pass_max = 4
         self.snake = True
 
-    def tune(self, width=None, num=None, md=None):
+    def tune(self, width=None, num=None, peak_factor=None, md=None):
         """
-        BlueSky plan to execute one pass through the current scan range
+        Bluesky plan to execute one pass through the current scan range
         
         Scan self.axis centered about current position from
         ``-width/2`` to ``+width/2`` with ``num`` observations.
@@ -958,6 +996,7 @@ class TuneAxis(object):
         """
         width = width or self.width
         num = num or self.num
+        peak_factor = peak_factor or self.peak_factor
         
         if self.peak_choice not in self._peak_choices_:
             msg = "peak_choice must be one of {}, geave {}"
@@ -999,35 +1038,6 @@ class TuneAxis(object):
             self.stats = []
         self.peaks = PeakStats(x=self.axis.name, y=self.signal_name)
         
-        class Results(Device):
-            """because bps.read() needs a Device or a Signal)"""
-            tune_ok = Component(Signal)
-            initial_position = Component(Signal)
-            final_position = Component(Signal)
-            center = Component(Signal)
-            # - - - - -
-            x = Component(Signal)
-            y = Component(Signal)
-            cen = Component(Signal)
-            com = Component(Signal)
-            fwhm = Component(Signal)
-            min = Component(Signal)
-            max = Component(Signal)
-            crossings = Component(Signal)
-            peakstats_attrs = "x y cen com fwhm min max crossings".split()
-            
-            def report(self, title=None):
-                keys = self.peakstats_attrs + "tune_ok center initial_position final_position".split()
-                t = pyRestTable.Table()
-                t.addLabel("key")
-                t.addLabel("result")
-                for key in keys:
-                    v = getattr(self, key).get()
-                    t.addRow((key, str(v)))
-                if title is not None:
-                    print(title)
-                print(t)
-
         @bpp.subs_decorator(self.peaks)
         def _scan(md=None):
             yield from bps.open_run(md)
@@ -1040,7 +1050,7 @@ class TuneAxis(object):
                 yield from bps.trigger_and_read(signal_list)
             
             final_position = initial_position
-            if self.peak_detected():
+            if self.peak_detected(peak_factor=peak_factor):
                 self.tune_ok = True
                 if self.peak_choice == "cen":
                     final_position = self.peaks.cen
@@ -1053,17 +1063,14 @@ class TuneAxis(object):
             # add stream with results
             # yield from add_results_stream()
             stream_name = "PeakStats"
-            results = Results(name=stream_name)
+            results = TuneResults(name=stream_name)
 
             results.tune_ok.put(self.tune_ok)
             results.center.put(self.center)
             results.final_position.put(final_position)
             results.initial_position.put(initial_position)
-            for key in results.peakstats_attrs:
-                v = getattr(self.peaks, key)
-                if key in ("crossings", "min", "max"):
-                    v = np.array(v)
-                getattr(results, key).put(v)
+            results.set_stats(self.peaks)
+            self.stats.append(results)
 
             if results.tune_ok.get():
                 yield from bps.create(name=stream_name)
@@ -1077,7 +1084,6 @@ class TuneAxis(object):
                 yield from bps.save()
             
             yield from bps.mv(self.axis, final_position)
-            self.stats.append(self.peaks)
             yield from bps.close_run()
 
             results.report(stream_name)
@@ -1086,7 +1092,9 @@ class TuneAxis(object):
         
     
     def multi_pass_tune(self, width=None, step_factor=None, 
-                        num=None, pass_max=None, snake=None, md=None):
+                        num=None, pass_max=None, 
+                        peak_factor=None,
+                        snake=None, md=None):
         """
         BlueSky plan for tuning this axis with this signal
         
@@ -1109,7 +1117,9 @@ class TuneAxis(object):
         pass_max : int
             Maximum number of passes to be executed (avoids runaway
             scans when a centroid is not found).
-            Default value in ``self.pass_max`` (initially 10)
+            Default value in ``self.pass_max`` (initially 4)
+        peak_factor : float (default: 4)
+            peak maximum must be greater than ``peak_factor*minimum``
         snake : bool
             If ``True``, reverse scan direction on next pass.
             Default value in ``self.snake`` (initially True)
@@ -1121,30 +1131,49 @@ class TuneAxis(object):
         step_factor = step_factor or self.step_factor
         snake = snake or self.snake
         pass_max = pass_max or self.pass_max
+        peak_factor = peak_factor or self.peak_factor
         
         self.stats = []
 
         def _scan(width=1, step_factor=10, num=10, snake=True):
             for _pass_number in range(pass_max):
+                logger.info("Multipass tune %d of %d", _pass_number+1, pass_max)
                 _md = {'pass': _pass_number+1,
                        'pass_max': pass_max,
                        'plan_name': self.__class__.__name__ + '.multi_pass_tune',
                        }
                 _md.update(md or {})
             
-                yield from self.tune(width=width, num=num, md=_md)
+                yield from self.tune(width=width, num=num, peak_factor=peak_factor, md=_md)
 
                 if not self.tune_ok:
                     return
-                width /= step_factor
+                if width > 0:
+                    sign = 1
+                else:
+                    sign = -1
+                width = sign * 2 * self.stats[-1].fwhm.get()
                 if snake:
                     width *= -1
-        
+
         return (
             yield from _scan(
                 width=width, step_factor=step_factor, num=num, snake=snake))
-    
-    def peak_detected(self):
+
+    def multi_pass_tune_summary(self):
+        t = pyRestTable.Table()
+        t.labels = "pass Ok? center width max.X max.Y".split()
+        for i, stat in enumerate(self.stats):
+            row = [i+1,]
+            row.append(stat.tune_ok.get())
+            row.append(stat.cen.get())
+            row.append(stat.fwhm.get())
+            x, y = stat.max.get()
+            row += [x, y]
+            t.addRow(row)
+        return t
+
+    def peak_detected(self, peak_factor=None):
         """
         returns True if a peak was detected, otherwise False
         
@@ -1152,6 +1181,8 @@ class TuneAxis(object):
         value is four times the minimum value.  Change this routine
         by subclassing :class:`TuneAxis` and override :meth:`peak_detected`.
         """
+        peak_factor = peak_factor or self.peak_factor
+
         if self.peaks is None:
             return False
         self.peaks.compute()
@@ -1160,7 +1191,10 @@ class TuneAxis(object):
         
         ymax = self.peaks.max[-1]
         ymin = self.peaks.min[-1]
-        return ymax > 4*ymin        # this works for USAXS@APS
+        ok = ymax >= peak_factor*ymin        # this works for USAXS@APS
+        if not ok:
+            logger.info("ymax < ymin * %f: is it a peak?", peak_factor)
+        return ok
 
 
 def tune_axes(axes):
