@@ -963,7 +963,7 @@ class AxisTunerException(ValueError):
     """Exception during execution of `AxisTunerBase` subclass"""
 
 
-class AxisTunerMixin(EpicsMotor):
+class AxisTunerMixin(DeviceMixinBase):
     """
     Mixin class to provide tuning capabilities for an axis
     
