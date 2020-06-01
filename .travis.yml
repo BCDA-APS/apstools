@@ -6,11 +6,12 @@
 #  https://docs.travis-ci.com/user/customizing-the-build#The-Build-Lifecycle
 #  https://docs.travis-ci.com/user/languages/python
 
-dist: xenial   # required for Python >= 3.7
+dist: bionic   # required for Python >= 3.7
 language: python
 python:
   - "3.6"
   - "3.7"
+  - "3.8"
   # - "nightly"
 
 # see https://github.com/BCDA-APS/apstools/issues/137#ref-commit-5c7baa2
