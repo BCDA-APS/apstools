@@ -4,7 +4,22 @@
 Change History
 ##############
 
-:1.2.4:  release *tba*
+:1.2.5:  release *tba*
+
+:1.2.4:  release by *2020-06-05*
+
+    * `#322 <https://github.com/BCDA-APS/apstools/issues/322>`_
+       begin testing with python 3.8
+    * `#320 <https://github.com/BCDA-APS/apstools/issues/320>`_
+       multi-pass tune uses FWHM for next scan
+    * `#318 <https://github.com/BCDA-APS/apstools/issues/318>`_
+       AxisTunerMixin should use more generic parent
+    * `#317 <https://github.com/BCDA-APS/apstools/issues/317>`_
+       USAXS can't tune motors bug
+    * `#316 <https://github.com/BCDA-APS/apstools/issues/316>`_
+       fix error in asyn object definition
+    * `#315 <https://github.com/BCDA-APS/apstools/issues/315>`_
+       AttributeError from db.hs
 
 :1.2.3:  released *2020-05-07*
 
