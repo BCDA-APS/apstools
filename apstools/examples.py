@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 """
-demonstrate BlueSky callbacks
+demonstrate Bluesky callbacks
 
 .. autosummary::
    

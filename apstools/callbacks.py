@@ -1,6 +1,6 @@
 
 """
-Callbacks that might be useful at the APS using BlueSky
+Callbacks that might be useful at the APS using Bluesky
 
 .. autosummary::
    
@@ -44,7 +44,7 @@ def document_contents_callback(key, doc):
 
 class DocumentCollectorCallback(object):
     """
-    BlueSky callback to collect *all* documents from most-recent plan
+    Bluesky callback to collect *all* documents from most-recent plan
     
     Will reset when it receives a *start* document.
     

@@ -1,5 +1,5 @@
 """
-Plans that might be useful at the APS when using BlueSky
+Plans that might be useful at the APS when using Bluesky
 
 .. autosummary::
    
@@ -1096,7 +1096,7 @@ class TuneAxis(object):
                         peak_factor=None,
                         snake=None, md=None):
         """
-        BlueSky plan for tuning this axis with this signal
+        Bluesky plan for tuning this axis with this signal
         
         Execute multiple passes to refine the centroid determination.
         Each subsequent pass will reduce the width of scan by ``step_factor``.
@@ -1199,7 +1199,7 @@ class TuneAxis(object):
 
 def tune_axes(axes):
     """
-    BlueSky plan to tune a list of axes in sequence
+    Bluesky plan to tune a list of axes in sequence
     
     EXAMPLE
     

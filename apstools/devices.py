@@ -1,6 +1,6 @@
 
 """
-(ophyd) Devices that might be useful at the APS using BlueSky
+(ophyd) Devices that might be useful at the APS using Bluesky
 
 APS GENERAL SUPPORT
 
@@ -1799,7 +1799,7 @@ class AD_EpicsHdf5FileName(FileStorePluginBase):    # lgtm [py/missing-call-to-i
         write_path = self.file_path.get()
         
         # this is where the DataBroker will find the image, 
-        # on a filesystem accessible to BlueSky
+        # on a filesystem accessible to Bluesky
         read_path = write_path
 
         return filename, read_path, write_path

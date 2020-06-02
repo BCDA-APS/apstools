@@ -1,6 +1,6 @@
 
 """
-BlueSky callback that writes SPEC data files
+Bluesky callback that writes SPEC data files
 
 .. autosummary::
    
@@ -9,7 +9,7 @@ BlueSky callback that writes SPEC data files
 
 EXAMPLE : the :ref:`specfile_example() <example_specfile>` writes one or more scans to a SPEC data file using a jupyter notebook.
 
-EXAMPLE : use as BlueSky callback::
+EXAMPLE : use as Bluesky callback::
 
     from apstools.filewriters import SpecWriterCallback
     specwriter = SpecWriterCallback()
@@ -134,7 +134,7 @@ def _rebuild_scan_command(doc):
 
 class SpecWriterCallback(object):
     """
-    collect data from BlueSky RunEngine documents to write as SPEC data
+    collect data from Bluesky RunEngine documents to write as SPEC data
     
     This gathers data from all documents and appends scan to the file 
     when the *stop* document is received.
@@ -254,7 +254,7 @@ class SpecWriterCallback(object):
 
 
     def receiver(self, key, document):
-        """BlueSky callback: receive all documents for handling"""
+        """Bluesky callback: receive all documents for handling"""
         xref = dict(
             start = self.start,
             descriptor = self.descriptor,
@@ -493,7 +493,7 @@ class SpecWriterCallback(object):
         lines.append(f"#F {self.spec_filename}")
         lines.append(f"#E {self.spec_epoch}")
         lines.append(f"#D {datetime.strftime(dt, SPEC_TIME_FORMAT)}")
-        lines.append(f"#C BlueSky  user = {self.spec_user}  host = {self.spec_host}")
+        lines.append(f"#C Bluesky  user = {self.spec_user}  host = {self.spec_host}")
         lines.append(f"#O0 ")
         lines.append(f"#o0 ")
         lines.append("")
@@ -554,7 +554,7 @@ class SpecWriterCallback(object):
         self.spec_filename = filename
         self.spec_epoch = int(time.time())  # ! no roundup here!!!
         self.spec_host = socket.gethostname() or 'localhost'
-        self.spec_user = getpass.getuser() or 'BlueSkyUser' 
+        self.spec_user = getpass.getuser() or 'BlueskyUser' 
         self.write_file_header = True       # don't write the file yet
         
         # backwards-compatibility
@@ -597,7 +597,7 @@ class SpecWriterCallback(object):
             if not line.startswith(key+" "):
                 raise ValueError("first line does not start with "+key)
             p = line.split()
-            username = "BlueSkyUser"
+            username = "BlueskyUser"
             if len(p) > 4 and p[2] == "user":
                 username = p[4]
             

@@ -9,7 +9,7 @@
 #-----------------------------------------------------------------------------
 
 __project__     = u'apstools'
-__description__ = u"Various Python tools for use with BlueSky at the APS"
+__description__ = u"Various Python tools for use with the Bluesky Framework at the APS"
 __copyright__   = u'2017-2019, UChicago Argonne, LLC'
 __authors__     = [u'Pete Jemian', ]
 __author__      = ', '.join(__authors__)

@@ -1,6 +1,6 @@
 # apstools
 
-Various Python tools for use with BlueSky at the APS
+Various Python tools for use with the Bluesky framework at the APS
 
 [![Python version](https://img.shields.io/pypi/pyversions/apstools.svg)](https://pypi.python.org/pypi/apstools)
 [![unit test](https://travis-ci.org/BCDA-APS/apstools.svg?branch=master)](https://travis-ci.org/BCDA-APS/apstools)
