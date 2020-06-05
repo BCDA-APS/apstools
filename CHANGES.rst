@@ -4,22 +4,22 @@
 Change History
 ##############
 
-:1.2.5:  release *tba*
+:1.2.6:  release *tba*
 
-:1.2.4:  release by *2020-06-05*
+:1.2.5:  released *2020-06-05*
 
     * `#322 <https://github.com/BCDA-APS/apstools/issues/322>`_
-       begin testing with python 3.8
+       add py38 to travis config
     * `#320 <https://github.com/BCDA-APS/apstools/issues/320>`_
-       multi-pass tune uses FWHM for next scan
+       multi-pass tune should use FWHM for next scan
     * `#318 <https://github.com/BCDA-APS/apstools/issues/318>`_
-       AxisTunerMixin should use more generic parent
+       AxisTunerMixin is now subclass of DeviceMixinBase
     * `#317 <https://github.com/BCDA-APS/apstools/issues/317>`_
-       USAXS can't tune motors bug
+       BUG: USAXS can't tune motors
     * `#316 <https://github.com/BCDA-APS/apstools/issues/316>`_
-       fix error in asyn object definition
+       BUG: Error in asyn object definition
     * `#315 <https://github.com/BCDA-APS/apstools/issues/315>`_
-       AttributeError from db.hs
+       BUG: AttributeError from db.hs
 
 :1.2.3:  released *2020-05-07*
 
