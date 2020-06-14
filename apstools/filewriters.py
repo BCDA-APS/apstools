@@ -252,7 +252,6 @@ class SpecWriterCallback(object):
             dest = self.buffered_comments
         dest[key].append(f"{ts}.  {text}")
 
-
     def receiver(self, key, document):
         """Bluesky callback: receive all documents for handling"""
         xref = dict(
