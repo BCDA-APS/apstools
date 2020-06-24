@@ -4,7 +4,20 @@
 Change History
 ##############
 
-:1.2.6:  release *tba*
+:1.2.7:  release *tba*
+
+:1.2.6:  release expected by 2020-06-26
+
+    * `#328 <https://github.com/BCDA-APS/apstools/pull/328>`_
+       epid: add final_value (.VAL field)
+    * `#327 <https://github.com/BCDA-APS/apstools/pull/327>`_
+       epid: remove clock_ticks (.CT field)
+    * `#326 <https://github.com/BCDA-APS/apstools/issues/326>`_
+       BUG: epid failed to connect to .CT field
+    * `#325 <https://github.com/BCDA-APS/apstools/issues/325>`_
+       BUG: epid final_value signal not found
+    * `#324 <https://github.com/BCDA-APS/apstools/issues/324>`_
+       BUG: epid controlled_value signal name
 
 :1.2.5:  released *2020-06-05*
 
