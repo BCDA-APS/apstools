@@ -55,6 +55,7 @@ class EpidRecord(EpicsRecordFloatFields, EpicsRecordDeviceCommonAll):
 
     following_error = Component(EpicsSignalRO, ".ERR")
     output_value = Component(EpicsSignalRO, ".OVAL")
+    final_value = Component(EpicsSignalRO, ".VAL")
 
     calculated_P = Component(EpicsSignalRO, ".P")
     calculated_I = Component(EpicsSignal, ".I")
