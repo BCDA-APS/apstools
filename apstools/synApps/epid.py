@@ -60,7 +60,6 @@ class EpidRecord(EpicsRecordFloatFields, EpicsRecordDeviceCommonAll):
     calculated_I = Component(EpicsSignal, ".I")
     calculated_D = Component(EpicsSignalRO, ".D")
 
-    clock_ticks = Component(EpicsSignalRO, ".CT")
     time_difference = Component(EpicsSignal, ".DT")
     minimum_delta_time = Component(EpicsSignal, ".MDT")
 
