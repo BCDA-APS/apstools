@@ -40,7 +40,7 @@ __all__ = [
 
 class EpicsRecordDeviceCommonAll(Device):
     """
-    Many of the field common to all EPICS records
+    Many of the fields common to all EPICS records
     
     Some fields are not included because they are not interesting to
     an EPICS client or are already provided in other support.
