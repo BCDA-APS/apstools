@@ -8,6 +8,8 @@ Change History
 
 :1.2.6:  release expected by 2020-06-26
 
+    * `#330 <https://github.com/BCDA-APS/apstools/pull/330>`_
+       listruns: less than 20 runs in catalog
     * `#328 <https://github.com/BCDA-APS/apstools/pull/328>`_
        epid: add final_value (.VAL field)
     * `#327 <https://github.com/BCDA-APS/apstools/pull/327>`_
