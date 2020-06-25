@@ -321,7 +321,7 @@ def listruns(
         # TODO: Can this be more efficient to extract `num` runs?
         runs = list(db(**db_search_terms))[-abs(num):]
     else:
-        runs = db[-min(abs(num), len(db.v2.items())):]
+        runs = db[-min(abs(num), len(list(db.v2.keys()))):]
     for h in runs:
         if (
                 exit_status is not None 
