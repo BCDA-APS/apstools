@@ -317,11 +317,13 @@ def listruns(
     table = pyRestTable.Table()
     table.labels = "short_uid   date/time  exit".split() + labels
 
+    num_runs_requested = min(abs(num), db.v2.__len__())
+    # itertools.islice(db.v2.items()) may be useful here.
+    # see: https://docs.python.org/3/library/itertools.html#itertools.islice
     if len(db_search_terms) > 0:
-        # TODO: Can this be more efficient to extract `num` runs?
-        runs = list(db(**db_search_terms))[-abs(num):]
+        runs = list(db(**db_search_terms))[-num_runs_requested:]
     else:
-        runs = db[-min(abs(num), len(list(db.v2.keys()))):]
+        runs = db.v1[-num_runs_requested:]
     for h in runs:
         if (
                 exit_status is not None 
