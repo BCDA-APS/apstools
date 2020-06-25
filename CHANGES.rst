@@ -11,7 +11,7 @@ Change History
     * `#331 <https://github.com/BCDA-APS/apstools/pull/331>`_
        listruns succeeds even when number of existing runs is less than requested
     * `#330 <https://github.com/BCDA-APS/apstools/issues/330>`_
-       listruns: less than 20 runs in catalog
+       BUG: listruns: less than 20 runs in catalog
     * `#328 <https://github.com/BCDA-APS/apstools/pull/328>`_
        epid: add final_value (.VAL field)
     * `#327 <https://github.com/BCDA-APS/apstools/pull/327>`_
