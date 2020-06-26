@@ -4,9 +4,9 @@
 Change History
 ##############
 
-:1.2.7:  release *tba*
+:1.2.7:  release expected by 2020-07-31
 
-:1.2.6:  release expected by 2020-06-26
+:1.2.6:  released *2020-06-26*
 
     * `#331 <https://github.com/BCDA-APS/apstools/pull/331>`_
        listruns succeeds even when number of existing runs is less than requested
