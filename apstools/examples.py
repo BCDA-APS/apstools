@@ -48,6 +48,7 @@ def specfile_example(headers, filename=DEMO_SPEC_FILE):
 
 
 if __name__ == "__main__":
+    pass
 
     # load config from ~/.config/databroker/mongodb_config.yml
     # db = Broker.named("mongodb_config")
