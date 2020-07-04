@@ -172,7 +172,7 @@ class Test_NXWriterBase(unittest.TestCase):
 
     def test_receiver_battery(self):
         def str_tool(text):
-            """make string comparisons consistent"""
+            """Make string comparisons consistent."""
             if isinstance(text, bytes):
                 text = text.decode()
             return text
@@ -204,7 +204,9 @@ class Test_NXWriterBase(unittest.TestCase):
                 self.assertEqual(
                     nxroot.attrs["NeXus_version"],
                     apstools.filewriters.NEXUS_RELEASE)
-                self.assertEqual(nxroot.attrs["creator"], "NXWriterBase")
+                self.assertEqual(
+                    nxroot.attrs["creator"],
+                    callback.__class__.__name__)
 
                 self.assertIn("/entry", nxroot)
                 nxentry = nxroot["/entry"]
@@ -217,6 +219,8 @@ class Test_NXWriterBase(unittest.TestCase):
 
                 self.assertIn("instrument", nxentry)
                 nxinstrument = nxentry["instrument"]
+                # TODO: /entry/instrument/bluesky/metadata
+                # TODO: /entry/instrument/bluesky/streams
                 self.assertIn("bluesky_metadata", nxinstrument)
                 self.assertIn("bluesky_streams", nxinstrument)
                 self.assertEqual(

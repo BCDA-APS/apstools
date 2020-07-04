@@ -1329,7 +1329,8 @@ class NXWriterBase(FileWriterCallbackBase):
             self.write_detector(nxinstrument)
         except KeyError as exc:
             logger.warn(exc)
-        self.write_undulator(nxinstrument)
+
+        self.write_undulator(nxinstrument)      # TODO: move to APS subclass
         self.write_monochromator(nxinstrument)
         try:
             self.write_positioner(nxinstrument)
