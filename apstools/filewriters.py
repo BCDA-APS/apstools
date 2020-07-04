@@ -716,7 +716,7 @@ class FileWriterCallbackBase:
     Almost all metadata keys (additional attributes added to the run's
     ``start`` document) are completely optional.  Certain keys are
     specified by the RunEngine, some keys are specified by the plan
-    (or plan support methods), and other keys are supplied by the 
+    (or plan support methods), and other keys are supplied by the
     user or the instrument team.
     
     These are the keys used by this callback to help guide how
@@ -769,6 +769,7 @@ class FileWriterCallbackBase:
     # convention: methods written in alphabetical order
 
     def __init__(self, *args, **kwargs):
+        """ -tba- """
         self.clear()
         self.xref = dict(
             bulk_events = self.bulk_events,
@@ -816,7 +817,7 @@ class FileWriterCallbackBase:
         generate a file name to be used as default
 
         default format: {ymd}-{hms}-S{scan_id}-{short_uid}.{ext}
-        where the time (the run start time): 
+        where the time (the run start time):
         
         * ymd = {year:4d}{month:02d}{day:02d}
         * hms = {hour:02d}{minute:02d}{second:02d}
@@ -836,7 +837,6 @@ class FileWriterCallbackBase:
 
         override this method in subclass to write a file
         """
-        import yaml
         # logger.debug("acquisitions: %s", yaml.dump(self.acquisitions))
 
         fname = self.file_name or self.make_file_name()
@@ -889,7 +889,7 @@ class FileWriterCallbackBase:
     # - - - - - - - - - - - - - - -
     
     def bulk_events(self, doc):
-        "-tba-"
+        """ -tba- """
         if not self.scanning:
             return
         logger.info("not handled yet")
@@ -902,11 +902,11 @@ class FileWriterCallbackBase:
 
         Datum
         =====
-        datum_id        : 621caa0f-70f1-4e3d-8718-b5123d434502/0  
+        datum_id        : 621caa0f-70f1-4e3d-8718-b5123d434502/0
         datum_kwargs    :
           HDF5_file_name  : /mnt/usaxscontrol/USAXS_data/2020-06/06_10_Minjee_waxs/AGIX3N1_0699.hdf
-          point_number    : 0                                       
-        resource        : 621caa0f-70f1-4e3d-8718-b5123d434502    
+          point_number    : 0
+        resource        : 621caa0f-70f1-4e3d-8718-b5123d434502
         """
         if not self.scanning:
             return
@@ -1148,7 +1148,7 @@ class NXWriterBase(FileWriterCallbackBase):
         if resource["spec"] not in ('AD_HDF5',):
             # HDF5-specific implementation for now
             raise ValueError(
-                f'{k}: spec {resource["spec"]} not handled'
+                f'{resource_id}: spec {resource["spec"]} not handled'
             )
 
         # logger.debug(yaml.dump(resource))
@@ -1184,7 +1184,7 @@ class NXWriterBase(FileWriterCallbackBase):
         return self.root[h5_addr]
 
     def h5string(self, text):
-        "format string for h5py interface"
+        """format string for h5py interface"""
         if isinstance(text, (tuple, list)):
             return [self.h5string(t) for t in text]
         text = text or ""
@@ -1237,13 +1237,13 @@ class NXWriterBase(FileWriterCallbackBase):
                         axes.append(ax)
                     else:
                         logger.warning(
-                            "Cannot set %s as axes attribute, no such dataset", 
+                            "Cannot set %s as axes attribute, no such dataset",
                             ax)
                 if axes_attribute is not None:
                     nxdata.attrs["axes"] = axes_attribute
             else:
                 logger.warning(
-                    "Cannot set %s as signal attribute, no such dataset", 
+                    "Cannot set %s as signal attribute, no such dataset",
                     signal_attribute)
         
         return nxdata
@@ -1277,10 +1277,10 @@ class NXWriterBase(FileWriterCallbackBase):
         ds.attrs["long_name"] = "bluesky run uid"
 
         nxentry.create_dataset(
-            "start_time", 
+            "start_time",
             data=datetime.datetime.fromtimestamp(self.start_time).isoformat())
         nxentry.create_dataset(
-            "end_time", 
+            "end_time",
             data=datetime.datetime.fromtimestamp(self.stop_time).isoformat())
         ds = nxentry.create_dataset("duration", data=self.stop_time-self.start_time)
         ds.attrs["units"] = "s"
@@ -1526,8 +1526,8 @@ class NXWriterBase(FileWriterCallbackBase):
                     with h5py.File(fname, "r") as hdf_image_file_root:
                         h5_obj = hdf_image_file_root["/entry/data/data"]
                         ds = subgroup.create_dataset(
-                            "value", 
-                            data=h5_obj[()], 
+                            "value",
+                            data=h5_obj[()],
                             compression="lzf")
                         ds.attrs["target"] = ds.name
                         ds.attrs["source_file"] = fname
@@ -1619,7 +1619,6 @@ class NXWriterBase(FileWriterCallbackBase):
         """
         group: /entry/contact:NXuser
         """
-        pre = "aps"
         keymap = dict(
             name = "bss_user_info_contact",
             affiliation = "bss_user_info_institution",
