@@ -23,3 +23,19 @@ class Capture_stdout(list):     # lgtm [py/missing-equals]
         self.extend(self._stringio.getvalue().splitlines())
         del self._stringio    # free up some memory
         sys.stdout = self._stdout
+
+
+class Capture_stderr(list):     # lgtm [py/missing-equals]
+    '''
+    capture stderr into list
+    '''
+    def __enter__(self):
+        sys.stderr.flush()
+        self._stderr = sys.stderr
+        sys.stderr = self._stringio = StringIO()
+        return self
+
+    def __exit__(self, *args):
+        self.extend(self._stringio.getvalue().splitlines())
+        del self._stringio    # free up some memory
+        sys.stderr = self._stderr

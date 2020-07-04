@@ -3,6 +3,7 @@
 unit tests for the filewriters
 """
 
+import h5py
 import json
 import os
 import shutil
@@ -17,9 +18,10 @@ _path = os.path.join(_test_path, '..')
 if _path not in sys.path:
     sys.path.insert(0, _path)
 
-from tests.common import Capture_stdout
+from tests.common import Capture_stdout, Capture_stderr
 
 import apstools.filewriters
+import apstools.utils
 
 ZIP_FILE = os.path.join(_test_path, "usaxs_docs.json.zip")
 JSON_FILE = "usaxs_docs.json.txt"
@@ -124,7 +126,57 @@ class Test_NXWriterBase(unittest.TestCase):
         if os.path.exists(self.tempdir):
             shutil.rmtree(self.tempdir, ignore_errors=True)
     
+    def test_make_file_name(self):
+        callback = apstools.filewriters.NXWriterBase()
+
+        self.assertIsNone(callback.file_path)
+        self.assertIsNone(callback.scan_id)
+        self.assertIsNone(callback.start_time)
+        self.assertIsNone(callback.uid)
+
+        with self.assertRaises(TypeError) as context:
+            callback.make_file_name()
+        self.assertEqual(
+            'an integer is required (got type NoneType)',
+            str(context.exception)
+        )
+        callback.start_time = 1000      # 1969-12-31T18:16:40
+
+        with self.assertRaises(TypeError) as context:
+            callback.make_file_name()
+        self.assertEqual(
+            'unsupported format string passed to NoneType.__format__',
+            str(context.exception)
+        )
+        callback.scan_id = 9876
+
+        with self.assertRaises(TypeError) as context:
+            callback.make_file_name()
+        self.assertEqual(
+            "'NoneType' object is not subscriptable",
+            str(context.exception)
+        )
+        callback.uid = "012345678901234567890123456789"
+
+        fname = callback.make_file_name()
+        expected = "19691231-181640"
+        expected += f"-S{9876:05d}"
+        expected += "-0123456"
+        expected += f".{apstools.filewriters.NEXUS_FILE_EXTENSION}"
+        self.assertEqual(os.path.split(fname)[-1], expected)
+        self.assertEqual(os.path.dirname(fname), os.getcwd())
+
+        callback.file_path = self.tempdir
+        fname = callback.make_file_name()
+        self.assertEqual(os.path.dirname(fname), self.tempdir)
+
     def test_receiver_battery(self):
+        def str_tool(text):
+            """make string comparisons consistent"""
+            if isinstance(text, bytes):
+                text = text.decode()
+            return text
+
         callback = apstools.filewriters.NXWriterBase()
         self.assertEqual(
             callback.nexus_release,
@@ -133,18 +185,40 @@ class Test_NXWriterBase(unittest.TestCase):
             callback.file_extension,
             apstools.filewriters.NEXUS_FILE_EXTENSION)
 
-        # FIXME: output file name & location?
-        # by default, they are output to pwd (the test source dir)
         for plan_name, document_set in self.db.items():
             callback.clear()
+            callback.file_path = self.tempdir
             self.assertIsNone(callback.uid)
             self.assertFalse(callback.scanning)
 
             for idx, document in enumerate(document_set):
                 tag, doc = document
-                # FIXME: capture any output from logger
                 with Capture_stdout() as printed:
-                    callback.receiver(tag, doc)
+                    # capture any logging messages, too
+                    with Capture_stderr() as printed_error:
+                        callback.receiver(tag, doc)
+
+            fname = callback.make_file_name()
+            self.assertTrue(os.path.exists(fname))
+            with h5py.File(fname, "r") as nxroot:
+                self.assertEqual(
+                    nxroot.attrs["NeXus_version"],
+                    apstools.filewriters.NEXUS_RELEASE)
+                self.assertEqual(nxroot.attrs["creator"], "NXWriterBase")
+                self.assertIn("/entry/instrument", nxroot)
+                self.assertEqual(
+                    str_tool(nxroot["/entry/entry_identifier"][()]),
+                    str_tool(callback.uid))
+                self.assertEqual(
+                    str_tool(nxroot["/entry/plan_name"][()]),
+                    str_tool(callback.plan_name))
+                nxinstrument = nxroot["/entry/instrument"]
+                self.assertIn("bluesky_metadata", nxinstrument)
+                self.assertIn("bluesky_streams", nxinstrument)
+                self.assertEqual(
+                    len(nxinstrument["bluesky_streams"]),
+                    len(callback.streams))
+                # TODO: more tests for NeXus content
 
 
 class Test_SpecWriterCallback(unittest.TestCase):
