@@ -1,6 +1,6 @@
 
 """
-unit tests for the SPEC filewriter
+unit tests for the filewriters
 """
 
 import json
@@ -17,8 +17,12 @@ _path = os.path.join(_test_path, '..')
 if _path not in sys.path:
     sys.path.insert(0, _path)
 
-from apstools.filewriters import SpecWriterCallback
+from tests.common import Capture_stdout
 
+from apstools.filewriters import FileWriterCallbackBase
+from apstools.filewriters import NXWriterAps
+from apstools.filewriters import NXWriterBase
+from apstools.filewriters import SpecWriterCallback
 
 ZIP_FILE = os.path.join(_test_path, "usaxs_docs.json.zip")
 JSON_FILE = "usaxs_docs.json.txt"
@@ -70,6 +74,47 @@ class Test_Data_is_Readable(unittest.TestCase):
                 census[k], 
                 v, 
                 f"expected {v} '{k}' document(s)")
+
+
+class Test_FileWriterCallbackBase(unittest.TestCase):
+
+    def setUp(self):
+        self.tempdir = tempfile.mkdtemp()
+        self.db = get_test_data()
+
+    def tearDown(self):
+        if os.path.exists(self.tempdir):
+            shutil.rmtree(self.tempdir, ignore_errors=True)
+    
+    def test_receiver_battery(self):
+        callback = FileWriterCallbackBase()
+        for plan_name, document_set in self.db.items():
+            callback.clear()
+            self.assertIsNone(callback.uid)
+            self.assertFalse(callback.scanning)
+
+            for idx, document in enumerate(document_set):
+                tag, doc = document
+                with Capture_stdout() as printed:
+                    callback.receiver(tag, doc)
+                if tag == "start":
+                    self.assertTrue(callback.scanning)
+                elif tag == "stop":
+                    # callback.writer called after stop document
+                    self.assertGreater(len(str(printed)), 0)
+                    self.assertEqual(printed[0], "print to console")
+                    self.assertTrue(printed[1].startswith("suggested file name: "))
+
+            self.assertEqual(callback.plan_name, plan_name)
+            self.assertFalse(callback.scanning)
+            self.assertIsNotNone(callback.uid)
+            self.assertIsNotNone(callback.exit_status)
+            self.assertIsNotNone(callback.start_time)
+            self.assertIsNotNone(callback.stop_time)
+            self.assertIsNotNone(callback.stop_reason)
+            self.assertGreater(callback.stop_time, callback.start_time)
+            self.assertEqual(len(callback.acquisitions), len(callback.streams))
+            self.assertGreater(callback.scan_id, 0)
 
 
 class Test_SpecWriterCallback(unittest.TestCase):
@@ -294,6 +339,9 @@ def suite(*args, **kw):
     test_list = [
         Test_Data_is_Readable,
         Test_SpecWriterCallback,
+        Test_FileWriterCallbackBase,
+        # Test_NXWriterBase,
+        # Test_NXWriterAps,
         ]
     test_suite = unittest.TestSuite()
     for test_case in test_list:
