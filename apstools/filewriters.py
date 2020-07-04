@@ -86,6 +86,8 @@ logger = logging.getLogger(__name__)
 #    CallbackBase | RE.subscribe(specwriter)
 
 
+NEXUS_FILE_EXTENSION = "hdf"      # use this file extension for the output
+NEXUS_RELEASE = 'v2020.1'   # NeXus release to which this file is written
 SPEC_TIME_FORMAT = "%a %b %d %H:%M:%S %Y"
 SCAN_ID_RESET_VALUE = 0
 
@@ -1074,9 +1076,9 @@ class NXWriterBase(FileWriterCallbackBase):
        ~write_undulator
        ~write_user
     """
-    file_extension = "hdf"      # use this file extension for the output
+    file_extension = NEXUS_FILE_EXTENSION
     instrument_name = None      # name of this instrument
-    nexus_release = 'v2020.1'   # NeXus release to which this file is written
+    nexus_release = NEXUS_RELEASE  # # NeXus release to which this file is written
     nxdata_signal = None        # name of dataset for Y axis on plot
     nxdata_signal_axes = None   # name of dataset for X axis on plot
     root = None                 # instance of h5py.File

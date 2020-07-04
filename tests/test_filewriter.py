@@ -19,10 +19,7 @@ if _path not in sys.path:
 
 from tests.common import Capture_stdout
 
-from apstools.filewriters import FileWriterCallbackBase
-from apstools.filewriters import NXWriterAps
-from apstools.filewriters import NXWriterBase
-from apstools.filewriters import SpecWriterCallback
+import apstools.filewriters
 
 ZIP_FILE = os.path.join(_test_path, "usaxs_docs.json.zip")
 JSON_FILE = "usaxs_docs.json.txt"
@@ -87,7 +84,7 @@ class Test_FileWriterCallbackBase(unittest.TestCase):
             shutil.rmtree(self.tempdir, ignore_errors=True)
     
     def test_receiver_battery(self):
-        callback = FileWriterCallbackBase()
+        callback = apstools.filewriters.FileWriterCallbackBase()
         for plan_name, document_set in self.db.items():
             callback.clear()
             self.assertIsNone(callback.uid)
@@ -117,6 +114,39 @@ class Test_FileWriterCallbackBase(unittest.TestCase):
             self.assertGreater(callback.scan_id, 0)
 
 
+class Test_NXWriterBase(unittest.TestCase):
+
+    def setUp(self):
+        self.tempdir = tempfile.mkdtemp()
+        self.db = get_test_data()
+
+    def tearDown(self):
+        if os.path.exists(self.tempdir):
+            shutil.rmtree(self.tempdir, ignore_errors=True)
+    
+    def test_receiver_battery(self):
+        callback = apstools.filewriters.NXWriterBase()
+        self.assertEqual(
+            callback.nexus_release,
+            apstools.filewriters.NEXUS_RELEASE)
+        self.assertEqual(
+            callback.file_extension,
+            apstools.filewriters.NEXUS_FILE_EXTENSION)
+
+        # FIXME: output file name & location?
+        # by default, they are output to pwd (the test source dir)
+        for plan_name, document_set in self.db.items():
+            callback.clear()
+            self.assertIsNone(callback.uid)
+            self.assertFalse(callback.scanning)
+
+            for idx, document in enumerate(document_set):
+                tag, doc = document
+                # FIXME: capture any output from logger
+                with Capture_stdout() as printed:
+                    callback.receiver(tag, doc)
+
+
 class Test_SpecWriterCallback(unittest.TestCase):
 
     def setUp(self):
@@ -128,7 +158,7 @@ class Test_SpecWriterCallback(unittest.TestCase):
             shutil.rmtree(self.tempdir, ignore_errors=True)
     
     def test_writer_default_name(self):
-        specwriter = SpecWriterCallback()
+        specwriter = apstools.filewriters.SpecWriterCallback()
         path = os.path.abspath(
             os.path.dirname(
                 specwriter.spec_filename))
@@ -183,10 +213,10 @@ class Test_SpecWriterCallback(unittest.TestCase):
         testfile = os.path.join(self.tempdir, "tune_mr.dat")
         if os.path.exists(testfile):
             os.remove(testfile)
-        specwriter = SpecWriterCallback(filename=testfile)
+        specwriter = apstools.filewriters.SpecWriterCallback(filename=testfile)
 
         self.assertIsInstance(
-            specwriter, SpecWriterCallback, 
+            specwriter, apstools.filewriters.SpecWriterCallback, 
             "specwriter object")
         self.assertEqual(
             specwriter.spec_filename, 
@@ -203,7 +233,7 @@ class Test_SpecWriterCallback(unittest.TestCase):
         testfile = os.path.join(self.tempdir, "tune_mr.dat")
         if os.path.exists(testfile):
             os.remove(testfile)
-        specwriter = SpecWriterCallback(filename=testfile)
+        specwriter = apstools.filewriters.SpecWriterCallback(filename=testfile)
 
         from apstools.filewriters import SCAN_ID_RESET_VALUE
         self.assertEqual(SCAN_ID_RESET_VALUE, 0, "default reset scan id")
@@ -274,7 +304,7 @@ class Test_SpecWriterCallback(unittest.TestCase):
         testfile = os.path.join(self.tempdir, "spec_comment.dat")
         if os.path.exists(testfile):
             os.remove(testfile)
-        specwriter = SpecWriterCallback(filename=testfile)
+        specwriter = apstools.filewriters.SpecWriterCallback(filename=testfile)
 
         for category in "buffered_comments comments".split():
             for k in "start stop descriptor event".split():
@@ -340,7 +370,7 @@ def suite(*args, **kw):
         Test_Data_is_Readable,
         Test_SpecWriterCallback,
         Test_FileWriterCallbackBase,
-        # Test_NXWriterBase,
+        Test_NXWriterBase,
         # Test_NXWriterAps,
         ]
     test_suite = unittest.TestSuite()
