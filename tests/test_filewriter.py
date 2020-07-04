@@ -205,19 +205,24 @@ class Test_NXWriterBase(unittest.TestCase):
                     nxroot.attrs["NeXus_version"],
                     apstools.filewriters.NEXUS_RELEASE)
                 self.assertEqual(nxroot.attrs["creator"], "NXWriterBase")
-                self.assertIn("/entry/instrument", nxroot)
+
+                self.assertIn("/entry", nxroot)
+                nxentry = nxroot["/entry"]
                 self.assertEqual(
-                    str_tool(nxroot["/entry/entry_identifier"][()]),
+                    str_tool(nxentry["entry_identifier"][()]),
                     str_tool(callback.uid))
                 self.assertEqual(
-                    str_tool(nxroot["/entry/plan_name"][()]),
+                    str_tool(nxentry["plan_name"][()]),
                     str_tool(callback.plan_name))
-                nxinstrument = nxroot["/entry/instrument"]
+
+                self.assertIn("instrument", nxentry)
+                nxinstrument = nxentry["instrument"]
                 self.assertIn("bluesky_metadata", nxinstrument)
                 self.assertIn("bluesky_streams", nxinstrument)
                 self.assertEqual(
                     len(nxinstrument["bluesky_streams"]),
                     len(callback.streams))
+
                 # TODO: more tests for NeXus content
 
 
