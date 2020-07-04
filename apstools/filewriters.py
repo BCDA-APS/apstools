@@ -769,7 +769,7 @@ class FileWriterCallbackBase:
     # convention: methods written in alphabetical order
 
     def __init__(self, *args, **kwargs):
-        """ -tba- """
+        """-tba-"""
         self.clear()
         self.xref = dict(
             bulk_events = self.bulk_events,
@@ -889,7 +889,7 @@ class FileWriterCallbackBase:
     # - - - - - - - - - - - - - - -
     
     def bulk_events(self, doc):
-        """ -tba- """
+        """-tba-"""
         if not self.scanning:
             return
         logger.info("not handled yet")
@@ -1022,7 +1022,7 @@ class NXWriterBase(FileWriterCallbackBase):
     Almost all metadata keys (additional attributes added to the run's
     ``start`` document) are completely optional.  Certain keys are
     specified by the RunEngine, some keys are specified by the plan
-    (or plan support methods), and other keys are supplied by the 
+    (or plan support methods), and other keys are supplied by the
     user or the instrument team.
     
     These are the keys used by this callback to help guide how
@@ -1184,7 +1184,7 @@ class NXWriterBase(FileWriterCallbackBase):
         return self.root[h5_addr]
 
     def h5string(self, text):
-        """format string for h5py interface"""
+        """Format string for h5py interface."""
         if isinstance(text, (tuple, list)):
             return [self.h5string(t) for t in text]
         text = text or ""
@@ -1490,6 +1490,7 @@ class NXWriterBase(FileWriterCallbackBase):
 
         data from all the bluesky streams
         """
+        # TODO: reduce complexity of this method
         bluesky = self.create_NX_group(parent, "bluesky_streams:NXnote")
         for stream_name, uids in self.streams.items():
             if len(uids) != 1:
