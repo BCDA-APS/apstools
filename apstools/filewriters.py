@@ -769,7 +769,7 @@ class FileWriterCallbackBase:
     # convention: methods written in alphabetical order
 
     def __init__(self, *args, **kwargs):
-        """-tba-"""
+        """TODO: docstring"""
         self.clear()
         self.xref = dict(
             bulk_events = self.bulk_events,
@@ -889,7 +889,7 @@ class FileWriterCallbackBase:
     # - - - - - - - - - - - - - - -
     
     def bulk_events(self, doc):
-        """-tba-"""
+        """TODO: docstring"""
         if not self.scanning:
             return
         logger.info("not handled yet")
