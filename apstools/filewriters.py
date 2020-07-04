@@ -59,7 +59,7 @@ EXAMPLE : use as writer from Databroker with customizations::
 
 
 from collections import OrderedDict
-from datetime import datetime
+import datetime
 import getpass
 import h5py
 import logging
@@ -256,8 +256,8 @@ class SpecWriterCallback(object):
 
     def _cmt(self, key, text):
         """enter a comment"""
-        dt = self._datetime or datetime.now()
-        ts = datetime.strftime(dt, SPEC_TIME_FORMAT)
+        dt = self._datetime or datetime.datetime.now()
+        ts = datetime.datetime.strftime(dt, SPEC_TIME_FORMAT)
         if self.scanning:
             dest = self.comments
         else:
@@ -281,9 +281,9 @@ class SpecWriterCallback(object):
             logger.debug("%s document, uid=%s", key, str(uid))
             ts = document.get("time")
             if ts is None:
-                ts = datetime.now()
+                ts = datetime.datetime.now()
             else:
-                ts = datetime.fromtimestamp(document["time"])
+                ts = datetime.datetime.fromtimestamp(document["time"])
             self._datetime = ts
             xref[key](document)
         else:
@@ -336,7 +336,7 @@ class SpecWriterCallback(object):
                     obj[key] = None
         
         cmt = "plan_type = " + doc["plan_type"]
-        ts = datetime.strftime(self._datetime, SPEC_TIME_FORMAT)
+        ts = datetime.datetime.strftime(self._datetime, SPEC_TIME_FORMAT)
         self.comments["start"].insert(0, f"{ts}.  {cmt}")
         self.scan_command = _rebuild_scan_command(doc)
     
@@ -436,11 +436,11 @@ class SpecWriterCallback(object):
         
         :returns: [str] a list of lines to append to the data file
         """
-        dt = datetime.fromtimestamp(self.scan_epoch)
+        dt = datetime.datetime.fromtimestamp(self.scan_epoch)
         lines = []
         lines.append("")
         lines.append("#S " + self.scan_command)
-        lines.append("#D " + datetime.strftime(dt, SPEC_TIME_FORMAT))
+        lines.append("#D " + datetime.datetime.strftime(dt, SPEC_TIME_FORMAT))
         if self.T_or_M is not None:
             lines.append(f"#{self.T_or_M} {self.T_or_M_value}")
 
@@ -499,11 +499,11 @@ class SpecWriterCallback(object):
     
     def write_header(self):
         """write the header section of a SPEC data file"""
-        dt = datetime.fromtimestamp(self.spec_epoch)
+        dt = datetime.datetime.fromtimestamp(self.spec_epoch)
         lines = []
         lines.append(f"#F {self.spec_filename}")
         lines.append(f"#E {self.spec_epoch}")
-        lines.append(f"#D {datetime.strftime(dt, SPEC_TIME_FORMAT)}")
+        lines.append(f"#D {datetime.datetime.strftime(dt, SPEC_TIME_FORMAT)}")
         lines.append(f"#C Bluesky  user = {self.spec_user}  host = {self.spec_host}")
         lines.append(f"#O0 ")
         lines.append(f"#o0 ")
@@ -543,8 +543,8 @@ class SpecWriterCallback(object):
 
     def make_default_filename(self):
         """generate a file name to be used as default"""
-        now = datetime.now()
-        return datetime.strftime(now, "%Y%m%d-%H%M%S")+".dat"
+        now = datetime.datetime.now()
+        return datetime.datetime.strftime(now, "%Y%m%d-%H%M%S")+".dat"
 
     def newfile(self, filename=None, scan_id=None, RE=None):
         """
@@ -1006,7 +1006,7 @@ class FileWriterCallbackBase:
         if not self.scanning:
             return
         self.exit_status = doc["exit_status"]
-        self.stop_reason  = doc["reason"]
+        self.stop_reason  = doc.get("reason", "not available")
         self.stop_time = doc["time"]
         self.scanning = False
 
