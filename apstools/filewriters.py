@@ -1675,7 +1675,7 @@ class NXWriterAps(NXWriterBase):
         ds.attrs["units"] = "GeV"
 
         try:
-            nxsource["cycle"] = self.get_stream_link("aps_cycle")
+            nxsource["cycle"] = self.get_stream_link("aps_aps_cycle")
         except KeyError:
             pass        #  Should we compute the cycle?
 
