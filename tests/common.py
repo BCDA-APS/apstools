@@ -6,7 +6,6 @@ Common methods for unit tests.
    
    ~Capture_stderr
    ~Capture_stdout
-
 """
 
 from io import StringIO
@@ -14,12 +13,14 @@ import sys
 
 
 class Capture_stdout(list):     # lgtm [py/missing-equals]
+
     """
     Capture all printed output (to stdout) into list.
     
     # https://stackoverflow.com/questions/16571150
     # how-to-capture-stdout-output-from-a-python-function-call
     """
+
     def __enter__(self):
         sys.stdout.flush()
         self._stdout = sys.stdout
@@ -33,7 +34,9 @@ class Capture_stdout(list):     # lgtm [py/missing-equals]
 
 
 class Capture_stderr(list):     # lgtm [py/missing-equals]
+
     """Capture stderr into list."""
+
     def __enter__(self):
         sys.stderr.flush()
         self._stderr = sys.stderr

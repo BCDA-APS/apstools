@@ -191,7 +191,7 @@ class Test_NXWriterBase(unittest.TestCase):
             self.assertIsNone(callback.uid, plan_name)
             self.assertFalse(callback.scanning, plan_name)
 
-            for idx, document in enumerate(document_set):
+            for document in document_set:
                 tag, doc = document
                 with Capture_stdout():
                     # capture any logging messages, too
