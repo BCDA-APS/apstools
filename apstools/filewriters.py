@@ -4,6 +4,7 @@ Bluesky callbacks for writing files (such as for SPEC or NeXus)
 
 .. autosummary::
    
+   ~create_NX_group
    ~FileWriterCallbackBase
    ~NXWriterAps
    ~NXWriterBase
@@ -771,7 +772,7 @@ class FileWriterCallbackBase:
     # convention: methods written in alphabetical order
 
     def __init__(self, *args, **kwargs):
-        """TODO: docstring"""
+        """TODO: docstring."""
         self.clear()
         self.xref = dict(
             bulk_events = self.bulk_events,
@@ -1015,6 +1016,19 @@ class FileWriterCallbackBase:
         self.writer()
 
 
+def create_NX_group(parent, specification):
+    """
+    create an h5 group with named NeXus class (specification)
+    """
+    local_address, nx_class = specification.split(":")
+    if not nx_class.startswith("NX"):
+        raise ValueError(f"NeXus base class must start with 'NX', received {nx_class}")
+    group = parent.create_group(local_address)
+    group.attrs["NX_class"] = nx_class
+    group.attrs["target"] = group.name      # for use as NeXus link
+    return group
+
+
 class NXWriterBase(FileWriterCallbackBase):
     """
     base class for writing HDF5/NeXus file (using only NeXus base classes)
@@ -1058,7 +1072,6 @@ class NXWriterBase(FileWriterCallbackBase):
        ~h5string
        ~add_dataset_attributes
        ~assign_signal_type
-       ~create_NX_group
        ~get_sample_title
        ~get_stream_link
        ~write_data
@@ -1125,18 +1138,6 @@ class NXWriterBase(FileWriterCallbackBase):
                 v["value"].attrs["signal_type"] = signal_type   # dataset
             except KeyError:
                 logger.warning("Could not assign %s as signal type %s", k, signal_type)
-
-    def create_NX_group(self, parent, specification):
-        """
-        create an h5 group with named NeXus class (specification)
-        """
-        local_address, nx_class = specification.split(":")
-        if not nx_class.startswith("NX"):
-            raise ValueError(f"NeXus base class must start with 'NX', received {nx_class}")
-        group = parent.create_group(local_address)
-        group.attrs["NX_class"] = nx_class
-        group.attrs["target"] = group.name      # for use as NeXus link
-        return group
 
     def getResourceFile(self, resource_id):
         """
@@ -1207,7 +1208,7 @@ class NXWriterBase(FileWriterCallbackBase):
         """
         group: /entry/data:NXdata
         """
-        nxdata = self.create_NX_group(parent, "data:NXdata")
+        nxdata = create_NX_group(parent, "data:NXdata")
 
         primary = parent["instrument/bluesky/streams/primary"]
         for k in primary.keys():
@@ -1259,11 +1260,11 @@ class NXWriterBase(FileWriterCallbackBase):
 
         primary = parent["/entry/instrument/bluesky/streams/primary"]
 
-        group = self.create_NX_group(parent, f"detectors:NXnote")
+        group = create_NX_group(parent, f"detectors:NXnote")
         for k, v in primary.items():
             if v.attrs.get("signal_type") != "detector":
                 continue
-            nxdetector = self.create_NX_group(group, f"{k}:NXdetector")
+            nxdetector = create_NX_group(group, f"{k}:NXdetector")
             nxdetector["data"] = v
 
         return group
@@ -1272,7 +1273,7 @@ class NXWriterBase(FileWriterCallbackBase):
         """
         group: /entry/data:NXentry
         """
-        nxentry = self.create_NX_group(self.root, self.root.attrs["default"]+":NXentry")
+        nxentry = create_NX_group(self.root, self.root.attrs["default"]+":NXentry")
 
         nxentry.create_dataset(
             "start_time",
@@ -1314,8 +1315,8 @@ class NXWriterBase(FileWriterCallbackBase):
         """
         group: /entry/instrument:NXinstrument
         """
-        nxinstrument = self.create_NX_group(parent, "instrument:NXinstrument")
-        bluesky_group = self.create_NX_group(nxinstrument, "bluesky:NXnote")
+        nxinstrument = create_NX_group(parent, "instrument:NXinstrument")
+        bluesky_group = create_NX_group(nxinstrument, "bluesky:NXnote")
 
         md_group = self.write_metadata(bluesky_group)
         self.write_streams(bluesky_group)
@@ -1351,7 +1352,7 @@ class NXWriterBase(FileWriterCallbackBase):
         
         metadata from the bluesky start document
         """
-        bluesky = self.create_NX_group(parent, "metadata:NXnote")
+        bluesky = create_NX_group(parent, "metadata:NXnote")
         for k, v in self.metadata.items():
             is_yaml = False
             if isinstance(v, (dict, tuple, list)):
@@ -1390,7 +1391,7 @@ class NXWriterBase(FileWriterCallbackBase):
         except KeyError as exc:
             logger.warning("%s -- feedback signal not found", str(exc))
 
-        nxmonochromator = self.create_NX_group(parent, "monochromator:NXmonochromator")
+        nxmonochromator = create_NX_group(parent, "monochromator:NXmonochromator")
         for k, v in links.items():
             nxmonochromator[k] = v
         return nxmonochromator
@@ -1405,11 +1406,11 @@ class NXWriterBase(FileWriterCallbackBase):
 
         primary = parent["/entry/instrument/bluesky/streams/primary"]
 
-        group = self.create_NX_group(parent, f"positioners:NXnote")
+        group = create_NX_group(parent, f"positioners:NXnote")
         for k, v in primary.items():
             if v.attrs.get("signal_type") != "positioner":
                 continue
-            nxpositioner = self.create_NX_group(group, f"{k}:NXpositioner")
+            nxpositioner = create_NX_group(group, f"{k}:NXpositioner")
             nxpositioner["value"] = v
 
         return group
@@ -1459,7 +1460,7 @@ class NXWriterBase(FileWriterCallbackBase):
             logger.warning("no sample data found, not creating sample group")
             return
 
-        nxsample = self.create_NX_group(parent, "sample:NXsample")
+        nxsample = create_NX_group(parent, "sample:NXsample")
         for k, v in links.items():
             nxsample[k] = v
 
@@ -1476,7 +1477,7 @@ class NXWriterBase(FileWriterCallbackBase):
         override in subclass to store content, name patterns
         vary with each instrument
         """
-        # group = self.create_NX_group(parent, f"slits:NXnote")
+        # group = create_NX_group(parent, f"slits:NXnote")
 
     def write_source(self, parent):
         """
@@ -1484,7 +1485,7 @@ class NXWriterBase(FileWriterCallbackBase):
 
         Note: this is (somewhat) generic, override for a different source
         """
-        nxsource = self.create_NX_group(parent, "source:NXsource")
+        nxsource = create_NX_group(parent, "source:NXsource")
 
         ds = nxsource.create_dataset("name", data="Bluesky framework")
         ds.attrs["short_name"] = "bluesky"
@@ -1563,20 +1564,20 @@ class NXWriterBase(FileWriterCallbackBase):
 
         data from all the bluesky streams
         """
-        bluesky = self.create_NX_group(parent, "streams:NXnote")
+        bluesky = create_NX_group(parent, "streams:NXnote")
         for stream_name, uids in self.streams.items():
             if len(uids) != 1:
                 raise ValueError(
                     f"stream {len(uids)} has descriptors, expecting only 1"
                 )
-            group = self.create_NX_group(bluesky, stream_name+":NXnote")
+            group = create_NX_group(bluesky, stream_name+":NXnote")
             uid0 = uids[0]      # just get the one descriptor uid
             group.attrs["uid"] = uid0
             acquisition = self.acquisitions[uid0]    # just get the one descriptor
             for k, v in acquisition["data"].items():
                 d = v["data"]
                 # NXlog is for time series data but NXdata makes an automatic plot
-                subgroup = self.create_NX_group(group, k+":NXdata")
+                subgroup = create_NX_group(group, k+":NXdata")
 
                 if v["external"]:
                     self.write_stream_external(parent, d, subgroup, stream_name, k, v)
@@ -1624,7 +1625,7 @@ class NXWriterBase(FileWriterCallbackBase):
             logger.warning("%s -- not creating source group", str(exc))
             return
 
-        nxuser = self.create_NX_group(parent, "contact:NXuser")
+        nxuser = create_NX_group(parent, "contact:NXuser")
         nxuser.create_dataset("role", data="contact")
         for k, v in links.items():
             nxuser[k] = v
@@ -1665,7 +1666,7 @@ class NXWriterAps(NXWriterBase):
         links["cycle"] = links["aps_cycle"]
         del links["aps_cycle"]
 
-        nxsource = self.create_NX_group(parent, "source:NXsource")
+        nxsource = create_NX_group(parent, "source:NXsource")
         for k, v in links.items():
             nxsource[k] = v
 
@@ -1703,7 +1704,7 @@ class NXWriterAps(NXWriterBase):
             logger.warning("%s -- not creating undulator group", str(exc))
             return
 
-        undulator = self.create_NX_group(parent, "undulator:NXinsertion_device")
+        undulator = create_NX_group(parent, "undulator:NXinsertion_device")
         undulator.create_dataset("type", data="undulator")
         for k, v in links.items():
             undulator[k] = v

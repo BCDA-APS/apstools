@@ -92,7 +92,7 @@ class Test_FileWriterCallbackBase(unittest.TestCase):
             self.assertIsNone(callback.uid)
             self.assertFalse(callback.scanning)
 
-            for idx, document in enumerate(document_set):
+            for document in document_set:
                 tag, doc = document
                 with Capture_stdout() as printed:
                     callback.receiver(tag, doc)
@@ -188,14 +188,14 @@ class Test_NXWriterBase(unittest.TestCase):
         for plan_name, document_set in self.db.items():
             callback.clear()
             callback.file_path = self.tempdir
-            self.assertIsNone(callback.uid)
-            self.assertFalse(callback.scanning)
+            self.assertIsNone(callback.uid, plan_name)
+            self.assertFalse(callback.scanning, plan_name)
 
             for idx, document in enumerate(document_set):
                 tag, doc = document
-                with Capture_stdout() as printed:
+                with Capture_stdout():
                     # capture any logging messages, too
-                    with Capture_stderr() as printed_error:
+                    with Capture_stderr():
                         callback.receiver(tag, doc)
 
             fname = callback.make_file_name()
@@ -203,10 +203,12 @@ class Test_NXWriterBase(unittest.TestCase):
             with h5py.File(fname, "r") as nxroot:
                 self.assertEqual(
                     nxroot.attrs["NeXus_version"],
-                    apstools.filewriters.NEXUS_RELEASE)
+                    apstools.filewriters.NEXUS_RELEASE,
+                    plan_name)
                 self.assertEqual(
                     nxroot.attrs["creator"],
-                    callback.__class__.__name__)
+                    callback.__class__.__name__,
+                    plan_name)
 
                 self.assertIn("/entry", nxroot)
                 nxentry = nxroot["/entry"]
@@ -297,7 +299,7 @@ class Test_SpecWriterCallback(unittest.TestCase):
         specwriter = apstools.filewriters.SpecWriterCallback(filename=testfile)
 
         self.assertIsInstance(
-            specwriter, apstools.filewriters.SpecWriterCallback, 
+            specwriter, apstools.filewriters.SpecWriterCallback,
             "specwriter object")
         self.assertEqual(
             specwriter.spec_filename, 
