@@ -1106,7 +1106,7 @@ class NXWriterBase(FileWriterCallbackBase):
         decide if a signal in the primary stream is a detector or a positioner
         """
         try:
-            primary = self.root["/entry/instrument/bluesky_streams/primary"]
+            primary = self.root["/entry/instrument/bluesky/streams/primary"]
         except KeyError:
             raise KeyError(
                 f"no primary data stream in "
@@ -1179,7 +1179,7 @@ class NXWriterBase(FileWriterCallbackBase):
         """
         stream = stream or "baseline"
         ref = ref or "value_start"
-        h5_addr = f"/entry/instrument/bluesky_streams/{stream}/{signal}/{ref}"
+        h5_addr = f"/entry/instrument/bluesky/streams/{stream}/{signal}/{ref}"
         if h5_addr not in self.root:
             raise KeyError(f"HDF5 address {h5_addr} not found.")
         # return the h5 object, to make a link
@@ -1210,7 +1210,7 @@ class NXWriterBase(FileWriterCallbackBase):
         """
         nxdata = self.create_NX_group(parent, "data:NXdata")
 
-        primary = parent["instrument/bluesky_streams/primary"]
+        primary = parent["instrument/bluesky/streams/primary"]
         for k in primary.keys():
             nxdata[k] = primary[k+"/value"]
         
@@ -1258,7 +1258,7 @@ class NXWriterBase(FileWriterCallbackBase):
             logger.info("No detectors identified.")
             return
 
-        primary = parent["/entry/instrument/bluesky_streams/primary"]
+        primary = parent["/entry/instrument/bluesky/streams/primary"]
 
         group = self.create_NX_group(parent, f"detectors:NXnote")
         for k, v in primary.items():
@@ -1274,9 +1274,6 @@ class NXWriterBase(FileWriterCallbackBase):
         group: /entry/data:NXentry
         """
         nxentry = self.create_NX_group(self.root, self.root.attrs["default"]+":NXentry")
-
-        ds = nxentry.create_dataset("entry_identifier", data=self.uid)
-        ds.attrs["long_name"] = "bluesky run uid"
 
         nxentry.create_dataset(
             "start_time",
@@ -1308,7 +1305,9 @@ class NXWriterBase(FileWriterCallbackBase):
         
         nxentry["title"] = self.get_sample_title()
         nxentry["plan_name"] = self.root[
-            "/entry/instrument/bluesky_metadata/plan_name"]
+            "/entry/instrument/bluesky/metadata/plan_name"]
+        nxentry["entry_identifier"] = self.root[
+            "/entry/instrument/bluesky/run_start_uid"]
 
         return nxentry
 
@@ -1317,8 +1316,17 @@ class NXWriterBase(FileWriterCallbackBase):
         group: /entry/instrument:NXinstrument
         """
         nxinstrument = self.create_NX_group(parent, "instrument:NXinstrument")
-        self.write_metadata(nxinstrument)
-        self.write_streams(nxinstrument)
+        bluesky_group = self.create_NX_group(nxinstrument, "bluesky:NXnote")
+
+        md_group = self.write_metadata(bluesky_group)
+        self.write_streams(bluesky_group)
+
+        ds = bluesky_group.create_dataset("run_start_uid", data=self.uid)
+        ds.attrs["long_name"] = "bluesky run uid"
+        ds.attrs["target"] = ds.name
+        md_group["uid"] = ds
+        bluesky_group["plan_name"] = md_group["plan_name"]
+
         try:
             self.assign_signal_type()
         except KeyError as exc:
@@ -1341,11 +1349,11 @@ class NXWriterBase(FileWriterCallbackBase):
 
     def write_metadata(self, parent):
         """
-        group: /entry/instrument/bluesky_metadata:NXnote
+        group: /entry/instrument/bluesky/metadata:NXnote
         
         metadata from the bluesky start document
         """
-        bluesky = self.create_NX_group(parent, "bluesky_metadata:NXnote")
+        bluesky = self.create_NX_group(parent, "metadata:NXnote")
         for k, v in self.metadata.items():
             is_yaml = False
             if isinstance(v, (dict, tuple, list)):
@@ -1397,7 +1405,7 @@ class NXWriterBase(FileWriterCallbackBase):
             logger.info("No positioners identified.")
             return
 
-        primary = parent["/entry/instrument/bluesky_streams/primary"]
+        primary = parent["/entry/instrument/bluesky/streams/primary"]
 
         group = self.create_NX_group(parent, f"positioners:NXnote")
         for k, v in primary.items():
@@ -1489,12 +1497,12 @@ class NXWriterBase(FileWriterCallbackBase):
 
     def write_streams(self, parent):
         """
-        group: /entry/instrument/bluesky_streams:NXnote
+        group: /entry/instrument/bluesky/streams:NXnote
 
         data from all the bluesky streams
         """
         # TODO: reduce complexity of this method
-        bluesky = self.create_NX_group(parent, "bluesky_streams:NXnote")
+        bluesky = self.create_NX_group(parent, "streams:NXnote")
         for stream_name, uids in self.streams.items():
             if len(uids) != 1:
                 raise ValueError(
@@ -1532,7 +1540,12 @@ class NXWriterBase(FileWriterCallbackBase):
                         ds = subgroup.create_dataset(
                             "value",
                             data=h5_obj[()],
-                            compression="lzf")
+                            compression="lzf",
+                            # compression="gzip",
+                            # compression_opts=9,
+                            shuffle=True,
+                            fletcher32=True,
+                            )
                         ds.attrs["target"] = ds.name
                         ds.attrs["source_file"] = fname
                         ds.attrs["source_address"] = h5_obj.name

@@ -217,14 +217,12 @@ class Test_NXWriterBase(unittest.TestCase):
                     str_tool(nxentry["plan_name"][()]),
                     str_tool(callback.plan_name))
 
-                self.assertIn("instrument", nxentry)
-                nxinstrument = nxentry["instrument"]
-                # TODO: /entry/instrument/bluesky/metadata
-                # TODO: /entry/instrument/bluesky/streams
-                self.assertIn("bluesky_metadata", nxinstrument)
-                self.assertIn("bluesky_streams", nxinstrument)
+                self.assertIn("instrument/bluesky", nxentry)
+                bluesky_group = nxentry["instrument/bluesky"]
+                self.assertIn("metadata", bluesky_group)
+                self.assertIn("streams", bluesky_group)
                 self.assertEqual(
-                    len(nxinstrument["bluesky_streams"]),
+                    len(bluesky_group["streams"]),
                     len(callback.streams))
 
                 # TODO: more tests for NeXus content
