@@ -22,8 +22,7 @@ demonstrate Bluesky callbacks
 
 
 import databroker
-import datetime
-from .filewriters import SpecWriterCallback, _rebuild_scan_command
+from .filewriters import SpecWriterCallback
 import logging
 
 

@@ -1,8 +1,9 @@
 
 """
-unit tests for the SPEC filewriter
+unit tests for the filewriters
 """
 
+import h5py
 import json
 import os
 import shutil
@@ -17,11 +18,20 @@ _path = os.path.join(_test_path, '..')
 if _path not in sys.path:
     sys.path.insert(0, _path)
 
-from apstools.filewriters import SpecWriterCallback
+from tests.common import Capture_stdout, Capture_stderr
 
+import apstools.filewriters
+import apstools.utils
 
 ZIP_FILE = os.path.join(_test_path, "usaxs_docs.json.zip")
 JSON_FILE = "usaxs_docs.json.txt"
+
+
+def to_string(text):
+    """Make string comparisons consistent."""
+    if isinstance(text, bytes):
+        text = text.decode()
+    return text
 
 
 def write_stream(specwriter, stream):
@@ -36,6 +46,25 @@ def get_test_data():
     with zipfile.ZipFile(ZIP_FILE, "r") as fp:
         buf = fp.read(JSON_FILE).decode("utf-8")
         return json.loads(buf)
+
+
+class MyTestBase(unittest.TestCase):
+
+    def setUp(self):
+        self.tempdir = tempfile.mkdtemp()
+        self.db = get_test_data()
+
+    def tearDown(self):
+        if os.path.exists(self.tempdir):
+            shutil.rmtree(self.tempdir, ignore_errors=True)
+
+    def replay(self, key, callback):
+        for document in self.db[key]:
+            tag, doc = document
+            with Capture_stdout():
+                # capture any logging messages, too
+                with Capture_stderr():
+                    callback.receiver(tag, doc)
 
 
 class Test_Data_is_Readable(unittest.TestCase):
@@ -72,18 +101,191 @@ class Test_Data_is_Readable(unittest.TestCase):
                 f"expected {v} '{k}' document(s)")
 
 
-class Test_SpecWriterCallback(unittest.TestCase):
+class Test_FileWriterCallbackBase(MyTestBase):
 
-    def setUp(self):
-        self.tempdir = tempfile.mkdtemp()
-        self.db = get_test_data()
+    def test_receiver_battery(self):
+        callback = apstools.filewriters.FileWriterCallbackBase()
+        for plan_name, document_set in self.db.items():
+            callback.clear()
+            self.assertIsNone(callback.uid)
+            self.assertFalse(callback.scanning)
 
-    def tearDown(self):
-        if os.path.exists(self.tempdir):
-            shutil.rmtree(self.tempdir, ignore_errors=True)
-    
+            for document in document_set:
+                tag, doc = document
+                with Capture_stdout() as printed:
+                    callback.receiver(tag, doc)
+                if tag == "start":
+                    self.assertTrue(callback.scanning)
+                elif tag == "stop":
+                    # callback.writer called after stop document
+                    self.assertGreater(len(str(printed)), 0)
+                    self.assertEqual(printed[0], "print to console")
+                    self.assertTrue(printed[1].startswith("suggested file name: "))
+
+            self.assertEqual(callback.plan_name, plan_name)
+            self.assertFalse(callback.scanning)
+            self.assertIsNotNone(callback.uid)
+            self.assertIsNotNone(callback.exit_status)
+            self.assertIsNotNone(callback.start_time)
+            self.assertIsNotNone(callback.stop_time)
+            self.assertIsNotNone(callback.stop_reason)
+            self.assertGreater(callback.stop_time, callback.start_time)
+            self.assertEqual(len(callback.acquisitions), len(callback.streams))
+            self.assertGreater(callback.scan_id, 0)
+
+
+class Test_NXWriterAps(MyTestBase):
+
+    def test_receiver_battery(self):
+        callback = apstools.filewriters.NXWriterAps()
+        callback.file_path = self.tempdir
+
+        self.replay("tune_mr", callback)
+
+        fname = callback.make_file_name()
+        self.assertTrue(os.path.exists(fname))
+        with h5py.File(fname, "r") as nxroot:
+            self.assertIn("/entry/instrument/source", nxroot)
+            nxsource = nxroot["/entry/instrument/source"]
+            self.assertEqual(
+                to_string(nxsource["name"][()]),
+                "Advanced Photon Source")
+            self.assertEqual(
+                nxsource["name"].attrs["short_name"],
+                "APS")
+            self.assertEqual(
+                to_string(nxsource["type"][()]),
+                "Synchrotron X-ray Source")
+            self.assertEqual(
+                to_string(nxsource["probe"][()]),
+                "x-ray")
+            self.assertEqual(nxsource["energy"][()], 6)
+            self.assertEqual(
+                nxsource["energy"].attrs["units"],
+                "GeV")
+            self.assertIn("/entry/instrument/undulator", nxroot)
+
+
+class Test_NXWriterBase(MyTestBase):
+
+    def test_default_plot(self):
+        callback = apstools.filewriters.NXWriterBase()
+        callback.file_path = self.tempdir
+
+        self.replay("tune_mr", callback)
+
+        fname = callback.make_file_name()
+        self.assertTrue(os.path.exists(fname))
+        with h5py.File(fname, "r") as nxroot:
+            self.assertEqual(nxroot.attrs["default"], "entry")
+            self.assertEqual(nxroot["/entry"].attrs["default"], "data")
+            nxdata = nxroot["/entry/data"]
+            signal = nxdata.attrs.get("signal")
+            self.assertIsNotNone(signal)
+            self.assertIn(signal, nxdata)
+            axes = nxdata.attrs.get("axes")
+            self.assertIsNotNone(axes)
+            self.assertEqual(len(axes), 1)
+            self.assertIn(axes[0], nxdata)
+            self.assertNotEqual(axes[0], signal)
+
+    def test_make_file_name(self):
+        callback = apstools.filewriters.NXWriterBase()
+
+        self.assertIsNone(callback.file_path)
+        self.assertIsNone(callback.scan_id)
+        self.assertIsNone(callback.start_time)
+        self.assertIsNone(callback.uid)
+
+        with self.assertRaises(TypeError) as context:
+            callback.make_file_name()
+        self.assertEqual(
+            'an integer is required (got type NoneType)',
+            str(context.exception)
+        )
+        callback.start_time = 1000      # 1969-12-31T18:16:40
+
+        with self.assertRaises(TypeError) as context:
+            callback.make_file_name()
+        self.assertEqual(
+            'unsupported format string passed to NoneType.__format__',
+            str(context.exception)
+        )
+        callback.scan_id = 9876
+
+        with self.assertRaises(TypeError) as context:
+            callback.make_file_name()
+        self.assertEqual(
+            "'NoneType' object is not subscriptable",
+            str(context.exception)
+        )
+        callback.uid = "012345678901234567890123456789"
+
+        fname = callback.make_file_name()
+        expected = "19691231-181640"
+        expected += f"-S{9876:05d}"
+        expected += "-0123456"
+        expected += f".{apstools.filewriters.NEXUS_FILE_EXTENSION}"
+        self.assertEqual(os.path.split(fname)[-1], expected)
+        self.assertEqual(os.path.dirname(fname), os.getcwd())
+
+        callback.file_path = self.tempdir
+        fname = callback.make_file_name()
+        self.assertEqual(os.path.dirname(fname), self.tempdir)
+
+    def test_receiver_battery(self):
+        callback = apstools.filewriters.NXWriterBase()
+        self.assertEqual(
+            callback.nexus_release,
+            apstools.filewriters.NEXUS_RELEASE)
+        self.assertEqual(
+            callback.file_extension,
+            apstools.filewriters.NEXUS_FILE_EXTENSION)
+
+        for plan_name, document_set in self.db.items():
+            callback.clear()
+            callback.file_path = self.tempdir
+            self.assertIsNone(callback.uid, plan_name)
+            self.assertFalse(callback.scanning, plan_name)
+
+            self.replay(plan_name, callback)
+
+            fname = callback.make_file_name()
+            self.assertTrue(os.path.exists(fname))
+            with h5py.File(fname, "r") as nxroot:
+                self.assertEqual(
+                    nxroot.attrs["NeXus_version"],
+                    apstools.filewriters.NEXUS_RELEASE,
+                    plan_name)
+                self.assertEqual(
+                    nxroot.attrs["creator"],
+                    callback.__class__.__name__,
+                    plan_name)
+
+                self.assertIn("/entry", nxroot)
+                nxentry = nxroot["/entry"]
+                self.assertEqual(
+                    to_string(nxentry["entry_identifier"][()]),
+                    to_string(callback.uid))
+                self.assertEqual(
+                    to_string(nxentry["plan_name"][()]),
+                    to_string(callback.plan_name))
+
+                self.assertIn("instrument/bluesky", nxentry)
+                bluesky_group = nxentry["instrument/bluesky"]
+                self.assertIn("metadata", bluesky_group)
+                self.assertIn("streams", bluesky_group)
+                self.assertEqual(
+                    len(bluesky_group["streams"]),
+                    len(callback.streams))
+
+                self.assertNotIn("/entry/instrument/undulator", nxroot)
+
+
+class Test_SpecWriterCallback(MyTestBase):
+
     def test_writer_default_name(self):
-        specwriter = SpecWriterCallback()
+        specwriter = apstools.filewriters.SpecWriterCallback()
         path = os.path.abspath(
             os.path.dirname(
                 specwriter.spec_filename))
@@ -138,10 +340,10 @@ class Test_SpecWriterCallback(unittest.TestCase):
         testfile = os.path.join(self.tempdir, "tune_mr.dat")
         if os.path.exists(testfile):
             os.remove(testfile)
-        specwriter = SpecWriterCallback(filename=testfile)
+        specwriter = apstools.filewriters.SpecWriterCallback(filename=testfile)
 
         self.assertIsInstance(
-            specwriter, SpecWriterCallback, 
+            specwriter, apstools.filewriters.SpecWriterCallback,
             "specwriter object")
         self.assertEqual(
             specwriter.spec_filename, 
@@ -158,7 +360,7 @@ class Test_SpecWriterCallback(unittest.TestCase):
         testfile = os.path.join(self.tempdir, "tune_mr.dat")
         if os.path.exists(testfile):
             os.remove(testfile)
-        specwriter = SpecWriterCallback(filename=testfile)
+        specwriter = apstools.filewriters.SpecWriterCallback(filename=testfile)
 
         from apstools.filewriters import SCAN_ID_RESET_VALUE
         self.assertEqual(SCAN_ID_RESET_VALUE, 0, "default reset scan id")
@@ -229,7 +431,7 @@ class Test_SpecWriterCallback(unittest.TestCase):
         testfile = os.path.join(self.tempdir, "spec_comment.dat")
         if os.path.exists(testfile):
             os.remove(testfile)
-        specwriter = SpecWriterCallback(filename=testfile)
+        specwriter = apstools.filewriters.SpecWriterCallback(filename=testfile)
 
         for category in "buffered_comments comments".split():
             for k in "start stop descriptor event".split():
@@ -294,6 +496,9 @@ def suite(*args, **kw):
     test_list = [
         Test_Data_is_Readable,
         Test_SpecWriterCallback,
+        Test_FileWriterCallbackBase,
+        Test_NXWriterBase,
+        Test_NXWriterAps,
         ]
     test_suite = unittest.TestSuite()
     for test_case in test_list:
