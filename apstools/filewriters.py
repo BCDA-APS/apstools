@@ -1495,13 +1495,76 @@ class NXWriterBase(FileWriterCallbackBase):
 
         return nxsource
 
+    def write_stream_external(self, parent, d, subgroup, stream_name, k, v):
+        # FIXME: rabbit-hole alert! simplify
+        # lots of variations possible
+        
+        # count number of unique resources (expect only 1)
+        resource_id_list = []
+        for datum_id in d:
+            resource_id = self.externals[datum_id]["resource"]
+            if resource_id not in resource_id_list:
+                resource_id_list.append(resource_id)
+        if len(resource_id_list) != 1:
+            raise ValueError(
+                f"{len(resource_id_list)}"
+                f" unique resource UIDs: {resource_id_list}"
+            )
+
+        fname = self.getResourceFile(resource_id)
+        logger.info("reading %s from EPICS AD data file: %s", k, fname)
+        with h5py.File(fname, "r") as hdf_image_file_root:
+            h5_obj = hdf_image_file_root["/entry/data/data"]
+            ds = subgroup.create_dataset(
+                "value",
+                data=h5_obj[()],
+                compression="lzf",
+                # compression="gzip",
+                # compression_opts=9,
+                shuffle=True,
+                fletcher32=True,
+                )
+            ds.attrs["target"] = ds.name
+            ds.attrs["source_file"] = fname
+            ds.attrs["source_address"] = h5_obj.name
+            ds.attrs["resource_id"] = resource_id
+            ds.attrs["units"] = ""
+
+        subgroup.attrs["signal"] = "value"
+
+    def write_stream_internal(self, parent, d, subgroup, stream_name, k, v):
+        subgroup.attrs["signal"] = "value"
+        subgroup.attrs["axes"] = ["time",]
+        if isinstance(d, list) and len(d) > 0:
+            if v["dtype"] in ("string",):
+                d = self.h5string(d)
+            elif v["dtype"] in ("integer", "number"):
+                d = np.array(d)
+        try:
+            ds = subgroup.create_dataset("value", data=d)
+            ds.attrs["target"] = ds.name
+            try:
+                self.add_dataset_attributes(ds, v, k)
+            except Exception as exc:
+                logger.error("%s %s %s %s", v["dtype"], type(d), k, exc)
+        except TypeError as exc:
+            logger.error("%s %s %s %s", v["dtype"], k, f"TypeError({exc})", v["data"])
+        if stream_name == "baseline":
+            # make it easier to pick single values
+            # identify start/end of acquisition
+            ds = subgroup.create_dataset("value_start", data=d[0])
+            self.add_dataset_attributes(ds, v, k)
+            ds.attrs["target"] = ds.name
+            ds = subgroup.create_dataset("value_end", data=d[-1])
+            self.add_dataset_attributes(ds, v, k)
+            ds.attrs["target"] = ds.name
+
     def write_streams(self, parent):
         """
         group: /entry/instrument/bluesky/streams:NXnote
 
         data from all the bluesky streams
         """
-        # TODO: reduce complexity of this method
         bluesky = self.create_NX_group(parent, "streams:NXnote")
         for stream_name, uids in self.streams.items():
             if len(uids) != 1:
@@ -1518,67 +1581,9 @@ class NXWriterBase(FileWriterCallbackBase):
                 subgroup = self.create_NX_group(group, k+":NXdata")
 
                 if v["external"]:
-                    # FIXME: rabbit-hole alert! simplify
-                    # lots of variations possible
-                    
-                    # count number of unique resources (expect only 1)
-                    resource_id_list = []
-                    for datum_id in d:
-                        resource_id = self.externals[datum_id]["resource"]
-                        if resource_id not in resource_id_list:
-                            resource_id_list.append(resource_id)
-                    if len(resource_id_list) != 1:
-                        raise ValueError(
-                            f"{len(resource_id_list)}"
-                            f" unique resource UIDs: {resource_id_list}"
-                        )
-
-                    fname = self.getResourceFile(resource_id)
-                    logger.info("reading %s from EPICS AD data file: %s", k, fname)
-                    with h5py.File(fname, "r") as hdf_image_file_root:
-                        h5_obj = hdf_image_file_root["/entry/data/data"]
-                        ds = subgroup.create_dataset(
-                            "value",
-                            data=h5_obj[()],
-                            compression="lzf",
-                            # compression="gzip",
-                            # compression_opts=9,
-                            shuffle=True,
-                            fletcher32=True,
-                            )
-                        ds.attrs["target"] = ds.name
-                        ds.attrs["source_file"] = fname
-                        ds.attrs["source_address"] = h5_obj.name
-                        ds.attrs["resource_id"] = resource_id
-                        ds.attrs["units"] = ""
-
-                    subgroup.attrs["signal"] = "value"
+                    self.write_stream_external(parent, d, subgroup, stream_name, k, v)
                 else:
-                    subgroup.attrs["signal"] = "value"
-                    subgroup.attrs["axes"] = ["time",]
-                    if isinstance(d, list) and len(d) > 0:
-                        if v["dtype"] in ("string",):
-                            d = self.h5string(d)
-                        elif v["dtype"] in ("integer", "number"):
-                            d = np.array(d)
-                    try:
-                        ds = subgroup.create_dataset("value", data=d)
-                        ds.attrs["target"] = ds.name
-                        try:
-                            self.add_dataset_attributes(ds, v, k)
-                        except Exception as exc:
-                            logger.error("%s %s %s %s", v["dtype"], type(d), k, exc)
-                    except TypeError as exc:
-                        logger.error("%s %s %s %s", v["dtype"], k, f"TypeError({exc})", v["data"])
-                    if stream_name == "baseline":
-                        # make it easier to pick single values
-                        # identify start/end of acquisition
-                        ds = subgroup.create_dataset("value_start", data=d[0])
-                        self.add_dataset_attributes(ds, v, k)
-                        ds.attrs["target"] = ds.name
-                        ds = subgroup.create_dataset("value_end", data=d[-1])
-                        self.add_dataset_attributes(ds, v, k)
-                        ds.attrs["target"] = ds.name
+                    self.write_stream_internal(parent, d, subgroup, stream_name, k, v)
 
                 t = np.array(v["time"])
                 ds = subgroup.create_dataset("EPOCH", data=t)
