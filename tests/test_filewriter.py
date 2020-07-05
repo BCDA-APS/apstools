@@ -27,6 +27,13 @@ ZIP_FILE = os.path.join(_test_path, "usaxs_docs.json.zip")
 JSON_FILE = "usaxs_docs.json.txt"
 
 
+def to_string(text):
+    """Make string comparisons consistent."""
+    if isinstance(text, bytes):
+        text = text.decode()
+    return text
+
+
 def write_stream(specwriter, stream):
     """write the doc stream to the file"""
     for document in stream:
@@ -39,6 +46,25 @@ def get_test_data():
     with zipfile.ZipFile(ZIP_FILE, "r") as fp:
         buf = fp.read(JSON_FILE).decode("utf-8")
         return json.loads(buf)
+
+
+class MyTestBase(unittest.TestCase):
+
+    def setUp(self):
+        self.tempdir = tempfile.mkdtemp()
+        self.db = get_test_data()
+
+    def tearDown(self):
+        if os.path.exists(self.tempdir):
+            shutil.rmtree(self.tempdir, ignore_errors=True)
+
+    def replay(self, key, callback):
+        for document in self.db[key]:
+            tag, doc = document
+            with Capture_stdout():
+                # capture any logging messages, too
+                with Capture_stderr():
+                    callback.receiver(tag, doc)
 
 
 class Test_Data_is_Readable(unittest.TestCase):
@@ -75,16 +101,8 @@ class Test_Data_is_Readable(unittest.TestCase):
                 f"expected {v} '{k}' document(s)")
 
 
-class Test_FileWriterCallbackBase(unittest.TestCase):
+class Test_FileWriterCallbackBase(MyTestBase):
 
-    def setUp(self):
-        self.tempdir = tempfile.mkdtemp()
-        self.db = get_test_data()
-
-    def tearDown(self):
-        if os.path.exists(self.tempdir):
-            shutil.rmtree(self.tempdir, ignore_errors=True)
-    
     def test_receiver_battery(self):
         callback = apstools.filewriters.FileWriterCallbackBase()
         for plan_name, document_set in self.db.items():
@@ -116,35 +134,13 @@ class Test_FileWriterCallbackBase(unittest.TestCase):
             self.assertGreater(callback.scan_id, 0)
 
 
-class Test_NXWriterAps(unittest.TestCase):
-
-    def setUp(self):
-        self.tempdir = tempfile.mkdtemp()
-        self.db = get_test_data()
-
-    def tearDown(self):
-        if os.path.exists(self.tempdir):
-            shutil.rmtree(self.tempdir, ignore_errors=True)
+class Test_NXWriterAps(MyTestBase):
 
     def test_receiver_battery(self):
-        def to_string(text):
-            """Make string comparisons consistent."""
-            if isinstance(text, bytes):
-                text = text.decode()
-            return text
-
         callback = apstools.filewriters.NXWriterAps()
         callback.file_path = self.tempdir
 
-        plan_name = "tune_mr"
-        document_set = self.db[plan_name]
-
-        for document in document_set:
-            tag, doc = document
-            with Capture_stdout():
-                # capture any logging messages, too
-                with Capture_stderr():
-                    callback.receiver(tag, doc)
+        self.replay("tune_mr", callback)
 
         fname = callback.make_file_name()
         self.assertTrue(os.path.exists(fname))
@@ -167,19 +163,32 @@ class Test_NXWriterAps(unittest.TestCase):
             self.assertEqual(
                 nxsource["energy"].attrs["units"],
                 "GeV")
-            # TODO: more tests for APS-specific content
+            self.assertIn("/entry/instrument/undulator", nxroot)
 
 
-class Test_NXWriterBase(unittest.TestCase):
+class Test_NXWriterBase(MyTestBase):
 
-    def setUp(self):
-        self.tempdir = tempfile.mkdtemp()
-        self.db = get_test_data()
+    def test_default_plot(self):
+        callback = apstools.filewriters.NXWriterBase()
+        callback.file_path = self.tempdir
 
-    def tearDown(self):
-        if os.path.exists(self.tempdir):
-            shutil.rmtree(self.tempdir, ignore_errors=True)
-    
+        self.replay("tune_mr", callback)
+
+        fname = callback.make_file_name()
+        self.assertTrue(os.path.exists(fname))
+        with h5py.File(fname, "r") as nxroot:
+            self.assertEqual(nxroot.attrs["default"], "entry")
+            self.assertEqual(nxroot["/entry"].attrs["default"], "data")
+            nxdata = nxroot["/entry/data"]
+            signal = nxdata.attrs.get("signal")
+            self.assertIsNotNone(signal)
+            self.assertIn(signal, nxdata)
+            axes = nxdata.attrs.get("axes")
+            self.assertIsNotNone(axes)
+            self.assertEqual(len(axes), 1)
+            self.assertIn(axes[0], nxdata)
+            self.assertNotEqual(axes[0], signal)
+
     def test_make_file_name(self):
         callback = apstools.filewriters.NXWriterBase()
 
@@ -225,12 +234,6 @@ class Test_NXWriterBase(unittest.TestCase):
         self.assertEqual(os.path.dirname(fname), self.tempdir)
 
     def test_receiver_battery(self):
-        def to_string(text):
-            """Make string comparisons consistent."""
-            if isinstance(text, bytes):
-                text = text.decode()
-            return text
-
         callback = apstools.filewriters.NXWriterBase()
         self.assertEqual(
             callback.nexus_release,
@@ -245,12 +248,7 @@ class Test_NXWriterBase(unittest.TestCase):
             self.assertIsNone(callback.uid, plan_name)
             self.assertFalse(callback.scanning, plan_name)
 
-            for document in document_set:
-                tag, doc = document
-                with Capture_stdout():
-                    # capture any logging messages, too
-                    with Capture_stderr():
-                        callback.receiver(tag, doc)
+            self.replay(plan_name, callback)
 
             fname = callback.make_file_name()
             self.assertTrue(os.path.exists(fname))
@@ -281,19 +279,12 @@ class Test_NXWriterBase(unittest.TestCase):
                     len(bluesky_group["streams"]),
                     len(callback.streams))
 
+                self.assertNotIn("/entry/instrument/undulator", nxroot)
                 # TODO: more tests for NeXus content
 
 
-class Test_SpecWriterCallback(unittest.TestCase):
+class Test_SpecWriterCallback(MyTestBase):
 
-    def setUp(self):
-        self.tempdir = tempfile.mkdtemp()
-        self.db = get_test_data()
-
-    def tearDown(self):
-        if os.path.exists(self.tempdir):
-            shutil.rmtree(self.tempdir, ignore_errors=True)
-    
     def test_writer_default_name(self):
         specwriter = apstools.filewriters.SpecWriterCallback()
         path = os.path.abspath(
