@@ -1652,7 +1652,7 @@ class NXWriterAps(NXWriterBase):
         Note: this is specific to the APS, override for a different source
         """
         pre = "aps"
-        keys = "current aps_cycle fill_number".split()
+        keys = "current fill_number".split()
 
         try:
             links = {
@@ -1662,8 +1662,6 @@ class NXWriterAps(NXWriterBase):
         except KeyError as exc:
             logger.warning("%s -- not creating source group", str(exc))
             return
-        links["cycle"] = links["aps_cycle"]
-        del links["aps_cycle"]
 
         nxsource = self.create_NX_group(parent, "source:NXsource")
         for k, v in links.items():
@@ -1675,6 +1673,11 @@ class NXWriterAps(NXWriterBase):
         nxsource.create_dataset("probe", data="x-ray")
         ds = nxsource.create_dataset("energy", data=6)
         ds.attrs["units"] = "GeV"
+
+        try:
+            nxsource["cycle"] = self.get_stream_link("aps_cycle")
+        except KeyError:
+            pass        #  Should we compute the cycle?
 
         return nxsource
 

@@ -116,6 +116,60 @@ class Test_FileWriterCallbackBase(unittest.TestCase):
             self.assertGreater(callback.scan_id, 0)
 
 
+class Test_NXWriterAps(unittest.TestCase):
+
+    def setUp(self):
+        self.tempdir = tempfile.mkdtemp()
+        self.db = get_test_data()
+
+    def tearDown(self):
+        if os.path.exists(self.tempdir):
+            shutil.rmtree(self.tempdir, ignore_errors=True)
+
+    def test_receiver_battery(self):
+        def to_string(text):
+            """Make string comparisons consistent."""
+            if isinstance(text, bytes):
+                text = text.decode()
+            return text
+
+        callback = apstools.filewriters.NXWriterAps()
+        callback.file_path = self.tempdir
+
+        plan_name = "tune_mr"
+        document_set = self.db[plan_name]
+
+        for document in document_set:
+            tag, doc = document
+            with Capture_stdout():
+                # capture any logging messages, too
+                with Capture_stderr():
+                    callback.receiver(tag, doc)
+
+        fname = callback.make_file_name()
+        self.assertTrue(os.path.exists(fname))
+        with h5py.File(fname, "r") as nxroot:
+            self.assertIn("/entry/instrument/source", nxroot)
+            nxsource = nxroot["/entry/instrument/source"]
+            self.assertEqual(
+                to_string(nxsource["name"][()]),
+                "Advanced Photon Source")
+            self.assertEqual(
+                nxsource["name"].attrs["short_name"],
+                "APS")
+            self.assertEqual(
+                to_string(nxsource["type"][()]),
+                "Synchrotron X-ray Source")
+            self.assertEqual(
+                to_string(nxsource["probe"][()]),
+                "x-ray")
+            self.assertEqual(nxsource["energy"][()], 6)
+            self.assertEqual(
+                nxsource["energy"].attrs["units"],
+                "GeV")
+            # TODO: more tests for APS-specific content
+
+
 class Test_NXWriterBase(unittest.TestCase):
 
     def setUp(self):
@@ -171,7 +225,7 @@ class Test_NXWriterBase(unittest.TestCase):
         self.assertEqual(os.path.dirname(fname), self.tempdir)
 
     def test_receiver_battery(self):
-        def str_tool(text):
+        def to_string(text):
             """Make string comparisons consistent."""
             if isinstance(text, bytes):
                 text = text.decode()
@@ -213,11 +267,11 @@ class Test_NXWriterBase(unittest.TestCase):
                 self.assertIn("/entry", nxroot)
                 nxentry = nxroot["/entry"]
                 self.assertEqual(
-                    str_tool(nxentry["entry_identifier"][()]),
-                    str_tool(callback.uid))
+                    to_string(nxentry["entry_identifier"][()]),
+                    to_string(callback.uid))
                 self.assertEqual(
-                    str_tool(nxentry["plan_name"][()]),
-                    str_tool(callback.plan_name))
+                    to_string(nxentry["plan_name"][()]),
+                    to_string(callback.plan_name))
 
                 self.assertIn("instrument/bluesky", nxentry)
                 bluesky_group = nxentry["instrument/bluesky"]
@@ -454,7 +508,7 @@ def suite(*args, **kw):
         Test_SpecWriterCallback,
         Test_FileWriterCallbackBase,
         Test_NXWriterBase,
-        # Test_NXWriterAps,
+        Test_NXWriterAps,
         ]
     test_suite = unittest.TestSuite()
     for test_case in test_list:
