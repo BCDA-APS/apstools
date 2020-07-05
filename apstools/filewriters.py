@@ -764,6 +764,9 @@ class FileWriterCallbackBase:
        ~resource
        ~start
        ~stop
+    
+    For more information about Bluesky *events* and document types, see
+    https://blueskyproject.io/event-model/data-model.html.
     """
 
     file_extension = "dat"
@@ -894,7 +897,6 @@ class FileWriterCallbackBase:
     
     def bulk_events(self, doc):
         """Deprecated. Use EventPage instead."""
-        # https://github.com/bluesky/event-model/blob/b452a81f20be31aa4a11c2fce022c0e8a64bd4b1/docs/source/data-model.rst
         if not self.scanning:
             return
         logger.info("not handled yet")
