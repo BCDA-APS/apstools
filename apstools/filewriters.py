@@ -707,7 +707,9 @@ def spec_comment(comment, doc=None, writer=None):
 
 class FileWriterCallbackBase:
     """
-    applications should subclass and rewrite the ``writer()`` method
+    Base class for filewriter callbacks.
+
+    Applications should subclass and rewrite the ``writer()`` method.
 
     The local buffers are cleared when a start document is received.
     Content is collected here from each document until the stop document.
@@ -771,7 +773,7 @@ class FileWriterCallbackBase:
     # convention: methods written in alphabetical order
 
     def __init__(self, *args, **kwargs):
-        """TODO: docstring."""
+        """Initialize: clear and reset."""
         self.clear()
         self.xref = dict(
             bulk_events = self.bulk_events,
@@ -891,7 +893,8 @@ class FileWriterCallbackBase:
     # - - - - - - - - - - - - - - -
     
     def bulk_events(self, doc):
-        """TODO: docstring."""
+        """Deprecated. Use EventPage instead."""
+        # https://github.com/bluesky/event-model/blob/b452a81f20be31aa4a11c2fce022c0e8a64bd4b1/docs/source/data-model.rst
         if not self.scanning:
             return
         logger.info("not handled yet")

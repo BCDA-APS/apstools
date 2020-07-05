@@ -280,7 +280,6 @@ class Test_NXWriterBase(MyTestBase):
                     len(callback.streams))
 
                 self.assertNotIn("/entry/instrument/undulator", nxroot)
-                # TODO: more tests for NeXus content
 
 
 class Test_SpecWriterCallback(MyTestBase):
