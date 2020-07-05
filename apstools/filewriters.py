@@ -1073,7 +1073,6 @@ class NXWriterBase(FileWriterCallbackBase):
        ~write_slits
        ~write_source
        ~write_streams
-       ~write_undulator
        ~write_user
     """
     file_extension = NEXUS_FILE_EXTENSION
@@ -1338,7 +1337,6 @@ class NXWriterBase(FileWriterCallbackBase):
         except KeyError as exc:
             logger.warn(exc)
 
-        self.write_undulator(nxinstrument)      # TODO: move to APS subclass
         self.write_monochromator(nxinstrument)
         try:
             self.write_positioner(nxinstrument)
@@ -1606,37 +1604,6 @@ class NXWriterBase(FileWriterCallbackBase):
 
         return bluesky
 
-    def write_undulator(self, parent):
-        """
-        group: /entry/instrument/undulator:NXinsertion_device
-        """
-        pre = "undulator_downstream"
-        keys = """
-            device location
-            energy
-            energy_taper 
-            gap
-            gap_taper 
-            harmonic_value 
-            total_power
-            version
-        """.split()
-
-        try:
-            links = {
-                key:self.get_stream_link(f"{pre}_{key}")
-                for key in keys
-            }
-        except KeyError as exc:
-            logger.warning("%s -- not creating undulator group", str(exc))
-            return
-
-        undulator = self.create_NX_group(parent, "undulator:NXinsertion_device")
-        undulator.create_dataset("type", data="undulator")
-        for k, v in links.items():
-            undulator[k] = v
-        return undulator
-
     def write_user(self, parent):
         """
         group: /entry/contact:NXuser
@@ -1671,6 +1638,13 @@ class NXWriterAps(NXWriterBase):
 
     # convention: methods written in alphabetical order
 
+    def write_instrument(self, parent):
+        """
+        group: /entry/instrument:NXinstrument
+        """
+        nxinstrument = super().write_instrument(parent)
+        self.write_undulator(nxinstrument)
+
     def write_source(self, parent):
         """
         group: /entry/instrument/source:NXsource
@@ -1703,3 +1677,34 @@ class NXWriterAps(NXWriterBase):
         ds.attrs["units"] = "GeV"
 
         return nxsource
+
+    def write_undulator(self, parent):
+        """
+        group: /entry/instrument/undulator:NXinsertion_device
+        """
+        pre = "undulator_downstream"
+        keys = """
+            device location
+            energy
+            energy_taper 
+            gap
+            gap_taper 
+            harmonic_value 
+            total_power
+            version
+        """.split()
+
+        try:
+            links = {
+                key:self.get_stream_link(f"{pre}_{key}")
+                for key in keys
+            }
+        except KeyError as exc:
+            logger.warning("%s -- not creating undulator group", str(exc))
+            return
+
+        undulator = self.create_NX_group(parent, "undulator:NXinsertion_device")
+        undulator.create_dataset("type", data="undulator")
+        for k, v in links.items():
+            undulator[k] = v
+        return undulator
