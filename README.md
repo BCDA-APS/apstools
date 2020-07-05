@@ -7,6 +7,7 @@ Various Python tools for use with the Bluesky framework at the APS
 [![Documentation Status](https://readthedocs.org/projects/apstools/badge/?version=latest)](http://apstools.readthedocs.io/en/latest/?badge=latest)
 [![Coverage Status](https://coveralls.io/repos/github/BCDA-APS/apstools/badge.svg?branch=master)](https://coveralls.io/github/BCDA-APS/apstools?branch=master)
 
+[![Codacy Badge](https://app.codacy.com/project/badge/Grade/91e9a4781f99470c807ae2f3263e0c2d)](https://www.codacy.com/gh/BCDA-APS/apstools?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=BCDA-APS/apstools&amp;utm_campaign=Badge_Grade)
 [![Language grade: Python](https://img.shields.io/lgtm/grade/python/g/BCDA-APS/apstools.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/BCDA-APS/apstools/context:python)
 [![Total alerts](https://img.shields.io/lgtm/alerts/g/BCDA-APS/apstools.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/BCDA-APS/apstools/alerts/)
 
