@@ -17,7 +17,8 @@ class Capture_stdout(list):     # lgtm [py/missing-equals]
     """
     Capture all printed output (to stdout) into list.
     
-    # http://stackoverflow.com/questions/16571150/how-to-capture-stdout-output-from-a-python-function-call
+    # https://stackoverflow.com/questions/16571150
+    # how-to-capture-stdout-output-from-a-python-function-call
     """
     def __enter__(self):
         sys.stdout.flush()
