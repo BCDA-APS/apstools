@@ -3,5 +3,4 @@ Devices
 -------
 
 .. automodule:: apstools.devices
-    :members: 
- 
+    :members:

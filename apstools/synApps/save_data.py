@@ -13,7 +13,7 @@ EXAMPLE
 Public Structures
 
 .. autosummary::
-   
+
     ~SaveData
 
 """
@@ -37,16 +37,16 @@ __all__ = ["SaveData", ]
 class SaveData(Device):
     """
     EPICS synApps saveData support
-    
+
     usage::
 
         from apstools.synApps import SaveData
         save_data = SaveData("xxx:saveData_", name="save_data")
 
     .. autosummary::
-       
+
         ~reset
-    
+
     """
 
     file_system = Component(EpicsSignal, "fileSystem")
@@ -66,7 +66,7 @@ class SaveData(Device):
     write_count_current = Component(EpicsSignalRO, "currRetries")
     write_count_total = Component(EpicsSignalRO, "totalRetries")
     write_count_abandoned = Component(EpicsSignalRO, "abandonedWrites")
-    
+
     def reset(self):
         self.file_system.put("")
         self.subdirectory.put("")

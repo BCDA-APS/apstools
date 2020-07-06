@@ -6,7 +6,7 @@ Ophyd support for the EPICS busy record
 Public Structures
 
 .. autosummary::
-   
+
     ~BusyRecord
 
 """

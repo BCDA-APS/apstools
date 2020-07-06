@@ -68,36 +68,36 @@ class MyTestBase(unittest.TestCase):
 
 
 class Test_Data_is_Readable(unittest.TestCase):
-    
+
     def test_00_testdata_exist(self):
         self.assertTrue(
-            os.path.exists(ZIP_FILE), 
+            os.path.exists(ZIP_FILE),
             "zip file with test data")
         with zipfile.ZipFile(ZIP_FILE, "r") as fp:
             self.assertIn(JSON_FILE, fp.namelist(), "JSON test data")
-        
+
     def test_testfile_content(self):
         # get our test document stream
         datasets = get_test_data()
-        
+
         census = {}
         for document in datasets["tune_mr"]:
             tag, _doc = document
             if tag not in census:
                 census[tag] = 0
             census[tag] += 1
-        
+
         # test that tune_mr content arrived intact
         keys = dict(start=1, descriptor=2, event=33, stop=1)
         self.assertEqual(
-            len(census.keys()), 
-            len(keys), 
+            len(census.keys()),
+            len(keys),
             "four document types")
         for k, v in keys.items():
             self.assertIn(k, census, f"{k} document exists")
             self.assertEqual(
-                census[k], 
-                v, 
+                census[k],
+                v,
                 f"expected {v} '{k}' document(s)")
 
 
@@ -290,25 +290,25 @@ class Test_SpecWriterCallback(MyTestBase):
             os.path.dirname(
                 specwriter.spec_filename))
         self.assertNotEqual(
-            path, 
-            self.tempdir, 
+            path,
+            self.tempdir,
             "default file not in tempdir")
         self.assertEqual(
-            path, 
-            os.path.abspath(os.getcwd()), 
+            path,
+            os.path.abspath(os.getcwd()),
             "default file to go in pwd")
 
         # change the directory
         specwriter.spec_filename = os.path.join(
-            self.tempdir, 
+            self.tempdir,
             specwriter.spec_filename)
 
         self.assertFalse(
-            os.path.exists(specwriter.spec_filename), 
+            os.path.exists(specwriter.spec_filename),
             "data file not created yet")
         write_stream(specwriter, self.db["tune_mr"])
         self.assertTrue(
-            os.path.exists(specwriter.spec_filename), 
+            os.path.exists(specwriter.spec_filename),
             "data file created")
 
         sdf = spec2nexus.spec.SpecDataFile(specwriter.spec_filename)
@@ -321,7 +321,7 @@ class Test_SpecWriterCallback(MyTestBase):
         self.assertIn("108", scans)
         scan = sdf.getScan(108)
         self.assertEqual(scan.N[0], len(scan.L))
-        
+
         self.assertGreater(scan.header.raw.find("\n#O0 \n"), 0)
         self.assertGreater(scan.header.raw.find("\n#o0 \n"), 0)
         self.assertEqual(len(scan.header.O), 1)
@@ -346,12 +346,12 @@ class Test_SpecWriterCallback(MyTestBase):
             specwriter, apstools.filewriters.SpecWriterCallback,
             "specwriter object")
         self.assertEqual(
-            specwriter.spec_filename, 
-            testfile, 
+            specwriter.spec_filename,
+            testfile,
             "output data file")
 
         self.assertFalse(
-            os.path.exists(testfile), 
+            os.path.exists(testfile),
             "data file not created yet")
         write_stream(specwriter, self.db["tune_mr"])
         self.assertTrue(os.path.exists(testfile), "data file created")
@@ -367,7 +367,7 @@ class Test_SpecWriterCallback(MyTestBase):
 
         write_stream(specwriter, self.db["tune_mr"])
         self.assertTrue(os.path.exists(testfile), "data file created")
-        
+
         raised = False
         try:
             specwriter.newfile(filename=testfile)
@@ -376,12 +376,12 @@ class Test_SpecWriterCallback(MyTestBase):
         finally:
             self.assertFalse(raised, "file exists")
         self.assertEqual(specwriter.reset_scan_id, 0, "check scan id")
-        
+
         class my_RunEngine:
             # dick type for testing _here_
             md = dict(scan_id=SCAN_ID_RESET_VALUE)
         RE = my_RunEngine()
-        
+
         specwriter.scan_id = -5  # an unusual value for testing only
         RE.md["scan_id"] = -10   # an unusual value for testing only
         specwriter.newfile(filename=testfile, scan_id=None, RE=RE)
@@ -406,7 +406,7 @@ class Test_SpecWriterCallback(MyTestBase):
             specwriter.newfile(filename=testfile, scan_id=int(n), RE=RE)
             self.assertEqual(specwriter.scan_id, s, f"scan_id set to {n}, actually {s}")
             self.assertEqual(RE.md["scan_id"], s, f"RE.md['scan_id'] set to {n}, actually {s}")
-    
+
     def test__rebuild_scan_command(self):
         from apstools.filewriters import _rebuild_scan_command
 
@@ -423,10 +423,10 @@ class Test_SpecWriterCallback(MyTestBase):
         expected = "108  tune_mr()"
         result = _rebuild_scan_command(doc)
         self.assertEqual(result, expected, "rebuilt #S line")
-    
+
     def test_spec_comment(self):
         from apstools.filewriters import spec_comment
-        
+
         # spec_comment(comment, doc=None, writer=None)
         testfile = os.path.join(self.tempdir, "spec_comment.dat")
         if os.path.exists(testfile):
@@ -437,47 +437,47 @@ class Test_SpecWriterCallback(MyTestBase):
             for k in "start stop descriptor event".split():
                 o = getattr(specwriter, category)
                 self.assertEqual(len(o[k]), 0, f"no '{k}' {category}")
-        
+
         # insert comments with every document
         spec_comment(
-            "TESTING: Should appear within start doc", 
-            doc=None, 
+            "TESTING: Should appear within start doc",
+            doc=None,
             writer=specwriter)
 
         for idx, document in enumerate(self.db["tune_mr"]):
             tag, doc = document
             msg = f"TESTING: document {idx+1}: '{tag}' %s specwriter.receiver"
             spec_comment(
-                msg % "before", 
-                doc=tag, 
+                msg % "before",
+                doc=tag,
                 writer=specwriter)
             specwriter.receiver(tag, doc)
             if tag == "stop":
                 # since stop doc was received, this appears in the next scan
                 spec_comment(
-                    str(msg % "before") + " (appears at END of next scan)", 
-                    doc=tag, 
+                    str(msg % "before") + " (appears at END of next scan)",
+                    doc=tag,
                     writer=specwriter)
             else:
                 spec_comment(
-                    msg % "after", 
-                    doc=tag, 
+                    msg % "after",
+                    doc=tag,
                     writer=specwriter)
 
         self.assertEqual(
-            len(specwriter.buffered_comments['stop']), 
-            1, 
+            len(specwriter.buffered_comments['stop']),
+            1,
             "last 'stop' comment buffered")
-        
+
         # since stop doc was received, this appears in the next scan
         spec_comment(
-            "TESTING: Appears at END of next scan", 
-            doc="stop", 
+            "TESTING: Appears at END of next scan",
+            doc="stop",
             writer=specwriter)
 
         self.assertEqual(
-            len(specwriter.buffered_comments['stop']), 
-            2, 
+            len(specwriter.buffered_comments['stop']),
+            2,
             "last end of scan comment buffered")
         write_stream(specwriter, self.db["tune_ar"])
 
@@ -487,8 +487,8 @@ class Test_SpecWriterCallback(MyTestBase):
         expected = dict(start=2, stop=5, event=0, descriptor=0)
         for k, v in expected.items():
             self.assertEqual(
-                len(specwriter.comments[k]), 
-                v, 
+                len(specwriter.comments[k]),
+                v,
                 f"'{k}' comments")
 
 

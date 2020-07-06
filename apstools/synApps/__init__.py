@@ -2,7 +2,7 @@
 """
 Ophyd support for synApps configuration of EPICS records
 
-Support the default structures as provided by the 
+Support the default structures as provided by the
 synApps template XXX IOC.
 
 EXAMPLES:;
@@ -15,7 +15,7 @@ EXAMPLES:;
     apstools.synApps.swait_setup_random_number(calc1)
 
     apstools.synApps.swait_setup_incrementer(calcs.calc2)
-    
+
     calc1.reset()
 
 Compare this effort with a similar project:
@@ -50,7 +50,7 @@ __all__ = """
     CalcoutRecordChannel
     EpidRecord
     SaveData
-    SscanRecord  
+    SscanRecord
     SscanDevice
     SwaitRecord
     SwaitRecordChannel
@@ -63,6 +63,6 @@ __all__ = """
     setup_incrementer_calcout
     setup_incrementer_swait
     setup_lorentzian_calcout
-    setup_lorentzian_swait 
-    setup_random_number_swait 
+    setup_lorentzian_swait
+    setup_random_number_swait
     """.split()

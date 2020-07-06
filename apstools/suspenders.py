@@ -4,7 +4,7 @@
 (bluesky) custom support for pausing a running plan
 
 .. autosummary::
-   
+
     ~SuspendWhenChanged
 
 """
@@ -25,11 +25,11 @@ from bluesky.suspenders import SuspenderBase
 class SuspendWhenChanged(SuspenderBase):
     """
     Bluesky suspender
-    
+
     Suspend when the monitored value deviates from the expected.
     Only resume if allowed AND when monitored equals expected.
     Default expected value is current value when object is created.
-    
+
     USAGE::
 
         # pause if this value changes in our session
@@ -39,19 +39,19 @@ class SuspendWhenChanged(SuspenderBase):
 
     """
     # see: http://nsls-ii.github.io/bluesky/_modules/bluesky/suspenders.html#SuspendCeil
-    
-    def __init__(self, signal, *, 
+
+    def __init__(self, signal, *,
                 expected_value=None,
                 allow_resume=False,
                 sleep=0, pre_plan=None, post_plan=None, tripped_message='',
                 **kwargs):
-        
+
         self.expected_value = expected_value or signal.get()
         self.allow_resume = allow_resume
-        super().__init__(signal, 
-            sleep=sleep, 
-            pre_plan=pre_plan, 
-            post_plan=post_plan, 
+        super().__init__(signal,
+            sleep=sleep,
+            pre_plan=pre_plan,
+            post_plan=post_plan,
             tripped_message=tripped_message,
             **kwargs)
 

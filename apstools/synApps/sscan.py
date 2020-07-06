@@ -14,14 +14,14 @@ EXAMPLE
 Public Structures
 
 .. autosummary::
-   
+
     ~SscanRecord
     ~SscanDevice
 
 Private Structures
 
 .. autosummary::
-   
+
     ~sscanPositioner
     ~sscanDetector
     ~sscanTrigger
@@ -53,7 +53,7 @@ from .. import utils as APS_utils
 
 
 __all__ = """
-    SscanRecord  
+    SscanRecord
     SscanDevice
     """.split()
 
@@ -63,12 +63,12 @@ class sscanPositioner(Device):
     positioner of an EPICS sscan record
 
     .. autosummary::
-       
+
         ~defined_in_EPICS
         ~reset
 
     """
-    
+
     readback_pv = FC(EpicsSignal, '{self.prefix}.R{self._ch_num}PV', kind=Kind.config)
     readback_value = FC(EpicsSignalRO, '{self.prefix}.R{self._ch_num}CV')
     array = FC(EpicsSignalRO, '{self.prefix}.P{self._ch_num}CA', kind=Kind.omitted)
@@ -86,7 +86,7 @@ class sscanPositioner(Device):
     def __init__(self, prefix, num, **kwargs):
         self._ch_num = num
         super().__init__(prefix, **kwargs)
-    
+
     def reset(self):
         """set all fields to default values"""
         self.readback_pv.put("")
@@ -98,7 +98,7 @@ class sscanPositioner(Device):
         self.width.put(0)
         self.abs_rel.put("ABSOLUTE")
         self.mode.put("LINEAR")
-    
+
     @property
     def defined_in_EPICS(self):
         """True if defined in EPICS"""
@@ -110,24 +110,24 @@ class sscanDetector(Device):
     detector of an EPICS sscan record
 
     .. autosummary::
-       
+
         ~defined_in_EPICS
         ~reset
 
     """
-    
+
     input_pv = FC(EpicsSignal, '{self.prefix}.D{self._ch_num}PV', kind=Kind.config)
     current_value = FC(EpicsSignal, '{self.prefix}.D{self._ch_num}CV')
     array = FC(EpicsSignal, '{self.prefix}.D{self._ch_num}CA', kind=Kind.omitted)
-    
+
     def __init__(self, prefix, num, **kwargs):
         self._ch_num = num
         super().__init__(prefix, **kwargs)
-    
+
     def reset(self):
         """set all fields to default values"""
         self.input_pv.put("")
-    
+
     @property
     def defined_in_EPICS(self):
         """True if defined in EPICS"""
@@ -139,22 +139,22 @@ class sscanTrigger(Device):
     detector trigger of an EPICS sscan record
 
     .. autosummary::
-       
+
         ~reset
     """
-    
+
     trigger_pv = FC(EpicsSignal, '{self.prefix}.T{self._ch_num}PV', kind=Kind.config)
     trigger_value = FC(EpicsSignal, '{self.prefix}.T{self._ch_num}CD')
 
     def __init__(self, prefix, num, **kwargs):
         self._ch_num = num
         super().__init__(prefix, **kwargs)
-    
+
     def reset(self):
         """set all fields to default values"""
         self.trigger_pv.put("")
         self.trigger_value.put(1)
-    
+
     @property
     def defined_in_EPICS(self):
         """True if defined in EPICS"""
@@ -190,13 +190,13 @@ class SscanRecord(Device):
     EPICS synApps sscan record: used as $(P):scan(N)
 
     .. autosummary::
-       
+
         ~defined_in_EPICS
         ~reset
         ~select_channels
 
     """
-    
+
     desc = Cpt(EpicsSignal, '.DESC', kind=Kind.config)
     scan_phase = Cpt(EpicsSignalRO, '.FAZE')
     data_state = Cpt(EpicsSignalRO, '.DSTATE')
@@ -257,12 +257,12 @@ class SscanRecord(Device):
             value = int(value)
             if started and value == 0:
                 working_status._finished()
-        
+
         self.execute_scan.subscribe(execute_scan_cb)
         self.execute_scan.set(1)
         started = True
         return working_status
-    
+
     def reset(self):
         """set all fields to default values"""
         self.desc.put(self.desc.pvname.split(".")[0])
@@ -292,7 +292,7 @@ class SscanRecord(Device):
         self.positioner_delay.put(0)
         while self.wcnt.get() > 0:
             self.wait.put(0)
-    
+
     def select_channels(self):
         """
         Select channels that are configured in EPICS
@@ -304,7 +304,7 @@ class SscanRecord(Device):
             part.configuration_attrs = channel_names
             part.read_attrs = channel_names
             part.kind = Kind.normal
-    
+
     @property
     def defined_in_EPICS(self):
         """True if will be used in EPICS"""
@@ -320,7 +320,7 @@ class SscanDevice(Device):
     synApps XXX IOC setup of sscan records: $(P):scan$(N)
 
     .. autosummary::
-       
+
         ~reset
         ~select_channels
 
@@ -340,7 +340,7 @@ class SscanDevice(Device):
         """set all fields to default values"""
         for chnum in "1 2 3 4 H".split():
             getattr(self, "scan" + chnum).reset()
-    
+
     def select_channels(self):
         """
         Select only the scans that are configured in EPICS

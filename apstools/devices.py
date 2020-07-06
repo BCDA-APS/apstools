@@ -5,7 +5,7 @@
 APS GENERAL SUPPORT
 
 .. autosummary::
-   
+
     ~ApsCycleComputedRO
     ~ApsMachineParametersDevice
     ~ApsPssShutter
@@ -15,7 +15,7 @@ APS GENERAL SUPPORT
 AREA DETECTOR SUPPORT
 
 .. autosummary::
-   
+
     ~AD_setup_FrameType
     ~AD_warmed_up
     ~AD_EpicsHdf5FileName
@@ -23,14 +23,14 @@ AREA DETECTOR SUPPORT
 DETECTOR / SCALER SUPPORT
 
 .. autosummary::
-   
+
     ~Struck3820
     ~use_EPICS_scaler_channels
 
 MOTORS, POSITIONERS, AXES, ...
 
 .. autosummary::
-   
+
     ~AxisTunerException
     ~AxisTunerMixin
     ~EpicsDescriptionMixin
@@ -46,7 +46,7 @@ MOTORS, POSITIONERS, AXES, ...
 SHUTTERS
 
 .. autosummary::
-   
+
     ~ApsPssShutter
     ~ApsPssShutterWithStatus
     ~EpicsMotorShutter
@@ -58,14 +58,14 @@ SHUTTERS
 synApps (and EPICS base) records
 
 .. autosummary::
-   
+
     ~BusyRecord
     ~BusyStatus
     ~CalcoutRecord
     ~CalcoutRecordChannel
     ~EpidRecord
     ~SaveData
-    ~SscanRecord  
+    ~SscanRecord
     ~SscanDevice
     ~SwaitRecord
     ~SwaitRecordChannel
@@ -77,19 +77,19 @@ synApps (and EPICS base) records
 synApps support
 
 .. autosummary::
-   
+
     ~setup_gaussian_calcout
     ~setup_gaussian_swait
     ~setup_incrementer_calcout
     ~setup_incrementer_swait
     ~setup_lorentzian_calcout
-    ~setup_lorentzian_swait 
-    ~setup_random_number_swait 
+    ~setup_lorentzian_swait
+    ~setup_random_number_swait
 
 OTHER SUPPORT
 
 .. autosummary::
-   
+
     ~DualPf4FilterBox
     ~EpicsDescriptionMixin
     ~KohzuSeqCtl_Monochromator
@@ -149,7 +149,7 @@ SCALER_AUTOCOUNT_MODE = 1
 def use_EPICS_scaler_channels(scaler):
     """
     configure scaler for only the channels with names assigned in EPICS
-    
+
     Note: For `ScalerCH`, use `scaler.select_channels(None)` instead of this code.
     (Applies only to `ophyd.scaler.ScalerCH` in releases after 2019-02-27.)
     """
@@ -181,8 +181,8 @@ class ApsCycleComputedRO(SynSignalRO):
     """
     compute the APS cycle name based on the calendar and the usual practice
 
-    Absent any facility PV that provides the name of the current operating 
-    cycle, this can be approximated by python computation (as long as the 
+    Absent any facility PV that provides the name of the current operating
+    cycle, this can be approximated by python computation (as long as the
     present scheduling pattern is maintained)
 
     This signal is read-only.
@@ -210,7 +210,7 @@ class ApsOperatorMessagesDevice(Device):
 class ApsMachineParametersDevice(Device):
     """
     common operational parameters of the APS of general interest
-    
+
     EXAMPLE::
 
         import apstools.devices as APS_devices
@@ -231,9 +231,9 @@ class ApsMachineParametersDevice(Device):
         RE.preprocessors.append(sd)
 
     .. autosummary::
-    
+
         ~inUserOperations
-   
+
 
     """
     current = Component(EpicsSignalRO, "S:SRcurrentAI")
@@ -241,7 +241,7 @@ class ApsMachineParametersDevice(Device):
     aps_cycle = Component(ApsCycleComputedRO)
     machine_status = Component(EpicsSignalRO, "S:DesiredMode", string=True)
     # In [3]: APS.machine_status.enum_strs
-    # Out[3]: 
+    # Out[3]:
     # ('State Unknown',
     #  'USER OPERATIONS',
     #  'Bm Ln Studies',
@@ -251,7 +251,7 @@ class ApsMachineParametersDevice(Device):
     #  'MAINTENANCE')
     operating_mode = Component(EpicsSignalRO, "S:ActualMode", string=True)
     # In [4]: APS.operating_mode.enum_strs
-    # Out[4]: 
+    # Out[4]:
     # ('State Unknown',
     # 'NO BEAM',
     # 'Injecting',
@@ -265,19 +265,19 @@ class ApsMachineParametersDevice(Device):
     global_feedback_h = Component(EpicsSignalRO, "SRFB:GBL:HLoopStatusBI", string=True)
     global_feedback_v = Component(EpicsSignalRO, "SRFB:GBL:VLoopStatusBI", string=True)
     operator_messages = Component(ApsOperatorMessagesDevice)
-    
+
     @property
     def inUserOperations(self):
         """
         determine if APS is in User Operations mode (boolean)
-        
+
         Use this property to configure ophyd Devices for direct or simulated hardware.
         See issue #49 (https://github.com/BCDA-APS/apstools/issues/49) for details.
-        
+
         EXAMPLE::
-        
+
             APS = apstools.devices.ApsMachineParametersDevice(name="APS")
-            
+
             if APS.inUserOperations:
                 suspend_APS_current = bluesky.suspenders.SuspendFloor(APS.current, 2, resume_thresh=10)
                 RE.install_suspender(suspend_APS_current)
@@ -295,14 +295,14 @@ class ApsMachineParametersDevice(Device):
 class ShutterBase(Device):
     """
     base class for all shutter Devices
-    
+
     PARAMETERS
-    
+
     value : str
         any from ``self.choices`` (typically "open" or "close")
 
     valid_open_values : [str]
-        A list of lower-case text values that are acceptable 
+        A list of lower-case text values that are acceptable
         for use with the ``set()`` command to open the shutter.
 
     valid_close_values : [str]
@@ -318,7 +318,7 @@ class ShutterBase(Device):
         (default = 0)
 
     delay_s : float
-        time to wait (s) after move is complete, 
+        time to wait (s) after move is complete,
         does not wait if shutter already in position
         (default = 0)
 
@@ -344,9 +344,9 @@ class ShutterBase(Device):
     def open(self):
         """
         BLOCKING: request shutter to open, called by set()
-        
+
         Must implement in subclass of ShutterBase()
-        
+
         EXAMPLE::
 
             if not self.isOpen:
@@ -360,9 +360,9 @@ class ShutterBase(Device):
     def close(self):
         """
         BLOCKING: request shutter to close, called by set()
-        
+
         Must implement in subclass of ShutterBase()
-        
+
         EXAMPLE::
 
             if not self.isClosed:
@@ -377,9 +377,9 @@ class ShutterBase(Device):
     def state(self):
         """
         returns 'open', 'close', or 'unknown'
-        
+
         Must implement in subclass of ShutterBase()
-        
+
         EXAMPLE::
 
             if self.signal.get() == self.open_value:
@@ -392,19 +392,19 @@ class ShutterBase(Device):
 
         """
         raise NotImplementedError("must implement in subclass")
-    
+
     # - - - - - - possible to override in subclass - - - - - -
-    
+
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.valid_open_values = list(map(self.lowerCaseString, self.valid_open_values))
         self.valid_close_values = list(map(self.lowerCaseString, self.valid_close_values))
-    
+
     @property
     def isOpen(self):
         """is the shutter open?"""
         return str(self.state) == self.valid_open_values[0]
-    
+
     @property
     def isClosed(self):
         """is the shutter closed?"""
@@ -425,22 +425,22 @@ class ShutterBase(Device):
         plan: request the shutter to open or close
 
         PARAMETERS
-        
+
         value : str
             any from ``self.choices`` (typically "open" or "close")
-        
+
         kwargs : dict
             ignored at this time
 
         """
         if self.busy.get():
             raise RuntimeError("shutter is operating")
-        
+
         __value__ = self.lowerCaseString(value)
         self.validTarget(__value__)
 
         status = DeviceStatus(self)
-        
+
         if self.inPosition(__value__):
             # no need to move, cut straight to the end
             status._finished(success=True)
@@ -457,14 +457,14 @@ class ShutterBase(Device):
             # get it moving
             threading.Thread(target=move_it, daemon=True).start()
         return status
-    
+
     # - - - - - - not likely to override in subclass - - - - - -
 
     def addCloseValue(self, text):
         """a synonym to close the shutter, use with set()"""
         self.valid_close_values.append(self.lowerCaseString(text))
         return self.choices     # return the list of acceptable values
-    
+
     def addOpenValue(self, text):
         """a synonym to open the shutter, use with set()"""
         self.valid_open_values.append(self.lowerCaseString(text))
@@ -474,7 +474,7 @@ class ShutterBase(Device):
     def choices(self):
         """return list of acceptable choices for set()"""
         return self.valid_open_values + self.valid_close_values
-    
+
     def lowerCaseString(self, value):
         """ensure any given value is a lower-case string"""
         return str(value).lower()
@@ -482,7 +482,7 @@ class ShutterBase(Device):
     def validTarget(self, target, should_raise=True):
         """
         return whether (or not) target value is acceptable for self.set()
-        
+
         raise ValueError if not acceptable (default)
         """
         acceptable_values = self.choices
@@ -498,7 +498,7 @@ class ShutterBase(Device):
 class OneSignalShutter(ShutterBase):
     """
     shutter Device using one Signal for open and close
-    
+
     PARAMETERS
 
     signal : EpicsSignal or Signal
@@ -507,7 +507,7 @@ class OneSignalShutter(ShutterBase):
         In a subclass, the hardware may have more than
         one communication channel to use.  See the
         ``ApsPssShutter`` as an example.
-    
+
     See ``ShutterBase`` for more parameters.
 
     EXAMPLE
@@ -539,22 +539,22 @@ class OneSignalShutter(ShutterBase):
             print("Shutter state: " + shutter.state, time.time()-t0)
             yield from bps.mv(shutter, "close")    # ALWAYS waits for completion
             print("Shutter state: " + shutter.state, time.time()-t0)
-        
+
         RE(in_a_plan(shutter))
-    
+
     which gives this output:
 
         Shutter state: close 1.7642974853515625e-05
         Shutter state: open 1.0032124519348145
         Shutter state: open 1.0057861804962158
         Shutter state: close 2.009695529937744
-        
+
     The strings accepted by `set()` are defined in two lists:
     `valid_open_values` and `valid_close_values`.  These lists
     are treated (internally to `set()`) as lower case strings.
-    
+
     Example, add "o" & "x" as aliases for "open" & "close":
-    
+
         shutter.addOpenValue("o")
         shutter.addCloseValue("x")
         shutter.set("o")
@@ -592,51 +592,51 @@ class OneSignalShutter(ShutterBase):
 class ApsPssShutter(ShutterBase):
     """
     APS PSS shutter
-    
+
     * APS PSS shutters have separate bit PVs for open and close
     * set either bit, the shutter moves, and the bit resets a short time later
     * no indication that the shutter has actually moved from the bits
       (see :func:`ApsPssShutterWithStatus()` for alternative)
-    
+
     Since there is no direct indication that a shutter has moved, the
     ``state`` property will always return *unknown* and the
     ``isOpen`` and ``isClosed`` properties will always return *False*.
-    
+
     A consequence of the unknown state is that the shutter will always
-    be commanded to move (and wait the ``delay_s`` time), 
-    even if it is already at that position.  This device could keep 
+    be commanded to move (and wait the ``delay_s`` time),
+    even if it is already at that position.  This device could keep
     track of the last commanded position, but that is not guaranteed
     to be true since the shutter could be moved from other software.
-    
-    The default ``delay_s`` has been set at *1.2 s* to allow for 
-    shutter motion.  Change this as desired.  Advise if this 
+
+    The default ``delay_s`` has been set at *1.2 s* to allow for
+    shutter motion.  Change this as desired.  Advise if this
     default should be changed.
-    
+
     EXAMPLE::
-    
+
         shutter_a = ApsPssShutter("2bma:A_shutter:", name="shutter")
-        
+
         shutter_a.open()
         shutter_a.close()
-        
+
         shutter_a.set("open")
         shutter_a.set("close")
-        
+
     When using the shutter in a plan, be sure to use ``yield from``, such as::
 
         def in_a_plan(shutter):
             yield from abs_set(shutter, "open", wait=True)
             # do something
             yield from abs_set(shutter, "close", wait=True)
-        
+
         RE(in_a_plan(shutter_a))
-        
+
     The strings accepted by `set()` are defined in two lists:
     `valid_open_values` and `valid_close_values`.  These lists
     are treated (internally to `set()`) as lower case strings.
-    
+
     Example, add "o" & "x" as aliases for "open" & "close":
-    
+
         shutter_a.addOpenValue("o")
         shutter_a.addCloseValue("x")
         shutter_a.set("o")
@@ -658,11 +658,11 @@ class ApsPssShutter(ShutterBase):
         """request the shutter to open (timeout is ignored)"""
         if not self.isOpen:
             self.open_signal.put(1)
-            
+
             # wait for the shutter to move
             if self.delay_s > 0:
                 time.sleep(self.delay_s)    # blocking call OK here
-            
+
             # reset that signal (if not done by EPICS)
             if self.open_signal.get() == 1:
                 self.open_signal.put(0)
@@ -671,11 +671,11 @@ class ApsPssShutter(ShutterBase):
         """request the shutter to close (timeout is ignored)"""
         if not self.isClosed:
             self.close_signal.put(1)
-            
+
             # wait for the shutter to move
             if self.delay_s > 0:
                 time.sleep(self.delay_s)    # blocking call OK here
-            
+
             # reset that signal (if not done by EPICS)
             if self.close_signal.get() == 1:
                 self.close_signal.put(0)
@@ -684,40 +684,40 @@ class ApsPssShutter(ShutterBase):
 class ApsPssShutterWithStatus(ApsPssShutter):
     """
     APS PSS shutter with separate status PV
-    
+
     * APS PSS shutters have separate bit PVs for open and close
     * set either bit, the shutter moves, and the bit resets a short time later
     * a separate status PV tells if the shutter is open or closed
       (see :func:`ApsPssShutter()` for alternative)
-    
+
     EXAMPLE::
-    
+
         A_shutter = ApsPssShutterWithStatus(
-            "2bma:A_shutter:", 
-            "PA:02BM:STA_A_FES_OPEN_PL", 
+            "2bma:A_shutter:",
+            "PA:02BM:STA_A_FES_OPEN_PL",
             name="A_shutter")
         B_shutter = ApsPssShutterWithStatus(
-            "2bma:B_shutter:", 
-            "PA:02BM:STA_B_SBS_OPEN_PL", 
+            "2bma:B_shutter:",
+            "PA:02BM:STA_B_SBS_OPEN_PL",
             name="B_shutter")
-        
+
         A_shutter.open()
         A_shutter.close()
-        
+
         or
-        
+
         A_shutter.set("open")
         A_shutter.set("close")
-        
+
     When using the shutter in a plan, be sure to use `yield from`.
 
         def in_a_plan(shutter):
             yield from abs_set(shutter, "open", wait=True)
             # do something
             yield from abs_set(shutter, "close", wait=True)
-        
+
         RE(in_a_plan(A_shutter))
-        
+
     """
     # bi record ZNAM=OFF, ONAM=ON
     pss_state = FormattedComponent(EpicsSignalRO, "{self.state_pv}")
@@ -725,7 +725,7 @@ class ApsPssShutterWithStatus(ApsPssShutter):
     pss_state_closed_values = [0]
 
     delay_s = 0       # let caller add time after the move
-    
+
     _poll_factor_ = 1.5
     _poll_s_min_ = 0.002
     _poll_s_max_ = 0.15
@@ -756,15 +756,15 @@ class ApsPssShutterWithStatus(ApsPssShutter):
     def wait_for_state(self, target, timeout=10, poll_s=0.01):
         """
         wait for the PSS state to reach a desired target
-        
+
         PARAMETERS
-        
+
         target : [str]
             list of strings containing acceptable values
-        
+
         timeout : non-negative number
             maximum amount of time (seconds) to wait for PSS state to reach target
-        
+
         poll_s : non-negative number
             Time to wait (seconds) in first polling cycle.
             After first poll, this will be increased by ``_poll_factor_``
@@ -774,7 +774,7 @@ class ApsPssShutterWithStatus(ApsPssShutter):
             expiration = time.time() + max(timeout, 0)  # ensure non-negative timeout
         else:
             expiration = None
-        
+
         # ensure the poll delay is reasonable
         if poll_s > self._poll_s_max_:
             poll_s = self._poll_s_max_
@@ -794,16 +794,16 @@ class ApsPssShutterWithStatus(ApsPssShutter):
         """request the shutter to open"""
         if not self.isOpen:
             self.open_signal.put(1)
-            
+
             # wait for the shutter to move
             self.wait_for_state(
-                self.pss_state_open_values, 
+                self.pss_state_open_values,
                 timeout=timeout)
-            
+
             # wait as caller specified
             if self.delay_s > 0:
                 time.sleep(self.delay_s)    # blocking call OK here
-            
+
             # reset that signal (if not done by EPICS)
             if self.open_signal.get() == 1:
                 self.open_signal.put(0)
@@ -812,16 +812,16 @@ class ApsPssShutterWithStatus(ApsPssShutter):
         """request the shutter to close"""
         if not self.isClosed:
             self.close_signal.put(1)
-            
+
             # wait for the shutter to move
             self.wait_for_state(
-                self.pss_state_closed_values, 
+                self.pss_state_closed_values,
                 timeout=timeout)
-            
+
             # wait as caller specified
             if self.delay_s > 0:
                 time.sleep(self.delay_s)    # blocking call OK here
-            
+
             # reset that signal (if not done by EPICS)
             if self.close_signal.get() == 1:
                 self.close_signal.put(0)
@@ -830,11 +830,11 @@ class ApsPssShutterWithStatus(ApsPssShutter):
 class SimulatedApsPssShutterWithStatus(ApsPssShutterWithStatus):
     """
     Simulated APS PSS shutter
-    
+
     EXAMPLE::
-    
+
         sim = SimulatedApsPssShutterWithStatus(name="sim")
-    
+
     """
     open_signal = Component(Signal, value=0)
     close_signal = Component(Signal, value=0)
@@ -849,15 +849,15 @@ class SimulatedApsPssShutterWithStatus(ApsPssShutterWithStatus):
     def wait_for_state(self, target, timeout=10, poll_s=0.01):
         """
         wait for the PSS state to reach a desired target
-        
+
         PARAMETERS
-        
+
         target : [str]
             list of strings containing acceptable values
-        
+
         timeout : non-negative number
             Ignored in the simulation.
-        
+
         poll_s : non-negative number
             Ignored in the simulation.
         """
@@ -880,9 +880,9 @@ class SimulatedApsPssShutterWithStatus(ApsPssShutterWithStatus):
 class ApsUndulator(Device):
     """
     APS Undulator
-    
+
     EXAMPLE::
-    
+
         undulator = ApsUndulator("ID09ds:", name="undulator")
     """
     energy = Component(EpicsSignal, "Energy", write_pv="EnergySet")
@@ -911,11 +911,11 @@ class ApsUndulator(Device):
 class ApsUndulatorDual(Device):
     """
     APS Undulator with upstream *and* downstream controls
-    
+
     EXAMPLE::
-    
+
         undulator = ApsUndulatorDual("ID09", name="undulator")
-    
+
     note:: the trailing ``:`` in the PV prefix should be omitted
     """
     upstream = Component(ApsUndulator, "us:")
@@ -925,7 +925,7 @@ class ApsUndulatorDual(Device):
 class ApsBssUserInfoDevice(Device):
     """
     provide current experiment info from the APS BSS
-    
+
     BSS: Beamtime Scheduling System
 
     EXAMPLE::
@@ -959,39 +959,39 @@ class DeviceMixinBase(Device):
     """Base class for apstools Device mixin classes"""
 
 
-class AxisTunerException(ValueError): 
+class AxisTunerException(ValueError):
     """Exception during execution of `AxisTunerBase` subclass"""
 
 
 class AxisTunerMixin(DeviceMixinBase):
     """
     Mixin class to provide tuning capabilities for an axis
-    
-    See the `TuneAxis()` example in this jupyter notebook: 
+
+    See the `TuneAxis()` example in this jupyter notebook:
     https://github.com/BCDA-APS/apstools/blob/master/docs/source/resources/demo_tuneaxis.ipynb
-    
+
     HOOK METHODS
-    
+
     There are two hook methods (`pre_tune_method()`, and `post_tune_method()`)
-    for callers to add additional plan parts, such as opening or closing shutters, 
+    for callers to add additional plan parts, such as opening or closing shutters,
     setting detector parameters, or other actions.
-    
-    Each hook method must accept a single argument: 
+
+    Each hook method must accept a single argument:
     an axis object such as `EpicsMotor` or `SynAxis`,
     such as::
-    
+
         def my_pre_tune_hook(axis):
             yield from bps.mv(shutter, "open")
         def my_post_tune_hook(axis):
             yield from bps.mv(shutter, "close")
-        
+
         class TunableSynAxis(AxisTunerMixin, SynAxis): pass
         myaxis = TunableSynAxis(name="myaxis")
         mydet = SynGauss('mydet', myaxis, 'myaxis', center=0.21, Imax=0.98e5, sigma=0.127)
         myaxis.tuner = TuneAxis([mydet], myaxis)
         myaxis.pre_tune_method = my_pre_tune_hook
         myaxis.post_tune_method = my_post_tune_hook
-        
+
         RE(myaxis.tune())
     """
 
@@ -1042,85 +1042,85 @@ class AxisTunerMixin(DeviceMixinBase):
 class EpicsDescriptionMixin(DeviceMixinBase):
     """
     add a record's description field to a Device, such as EpicsMotor
-    
+
     EXAMPLE::
-    
+
         from ophyd import EpicsMotor
         from apstools.devices import EpicsDescriptionMixin
-    
+
         class myEpicsMotor(EpicsDescriptionMixin, EpicsMotor): pass
         m1 = myEpicsMotor('xxx:m1', name='m1')
         print(m1.desc.get())
-    
+
     more ideas::
-        
+
         class TunableSynAxis(AxisTunerMixin, SynAxis):
             '''synthetic axis that can be tuned'''
         class TunableEpicsMotor(AxisTunerMixin, EpicsMotor):
             '''EpicsMotor that can be tuned'''
         class EpicsMotorWithDescription(EpicsDescriptionMixin, EpicsMotor):
             '''EpicsMotor with description field'''
-        
+
         class EpicsMotorWithMore(
-            EpicsDescriptionMixin, 
-            EpicsMotorLimitsMixin, 
+            EpicsDescriptionMixin,
+            EpicsMotorLimitsMixin,
             EpicsMotorDialMixin,
-            EpicsMotorRawMixin, 
-            EpicsMotor): 
+            EpicsMotorRawMixin,
+            EpicsMotor):
             '''
             EpicsMotor with more fields
-             
+
             * description (``desc``)
             * soft motor limits (``soft_limit_hi``, ``soft_limit_lo``)
             * dial coordinates (``dial``)
             * raw coordinates (``raw``)
             '''
     """
-    
+
     desc = Component(EpicsSignal, ".DESC")
 
 
 class EpicsMotorDialMixin(DeviceMixinBase):
     """
     add motor record's dial coordinate fields to Device
-    
+
     EXAMPLE::
-    
+
         from ophyd import EpicsMotor
         from apstools.devices import EpicsMotorDialMixin
 
         class myEpicsMotor(EpicsMotorDialMixin, EpicsMotor): pass
         m1 = myEpicsMotor('xxx:m1', name='m1')
         print(m1.dial.read())
-    
+
     """
-    
+
     dial = Component(EpicsSignal, ".DRBV", write_pv=".DVAL")
 
-      
+
 class EpicsMotorEnableMixin(DeviceMixinBase):
     """
     mixin providing access to motor enable/disable
-    
+
     EXAMPLE::
-    
+
         from ophyd import EpicsMotor
         from apstools.devices import EpicsMotorEnableMixin
-    
+
         class MyEpicsMotor(EpicsMotorEnableMixin, EpicsMotor): ...
-        
+
         m1 = MyEpicsMotor('xxx:m1', name='m1')
         print(m1.enabled)
-    
+
     In a bluesky plan::
-    
+
         yield from bps.mv(m1.enable_disable, m1.MOTOR_DISABLE)
         # ... other activities
         yield from bps.mv(m1.enable_disable, m1.MOTOR_ENABLE)
-    
+
     """
     enable_disable = Component(EpicsSignal, "_able", kind='omitted')
-   
+
     # constants for internal use
     MOTOR_ENABLE = 0
     MOTOR_DISABLE = 1
@@ -1128,11 +1128,11 @@ class EpicsMotorEnableMixin(DeviceMixinBase):
     @property
     def enabled(self):
         return self.enable_disable.get() in (self.MOTOR_ENABLE, "Enabled")
-    
+
     def enable_motor(self):
         """BLOCKING call to enable motor axis"""
         self.enable_disable.put(self.MOTOR_ENABLE)
-    
+
     def disable_motor(self):
         """BLOCKING call to disable motor axis"""
         self.enable_disable.put(self.MOTOR_DISABLE)
@@ -1141,9 +1141,9 @@ class EpicsMotorEnableMixin(DeviceMixinBase):
 class EpicsMotorLimitsMixin(DeviceMixinBase):
     """
     add motor record HLM & LLM fields & compatibility get_lim() and set_lim()
-    
+
     EXAMPLE::
-    
+
         from ophyd import EpicsMotor
         from apstools.devices import EpicsMotorLimitsMixin
 
@@ -1155,10 +1155,10 @@ class EpicsMotorLimitsMixin(DeviceMixinBase):
         print(m1.get_lim(-1), m1.get_lim(1))
         m1.set_lim(lo, hi)
     """
-    
+
     soft_limit_lo = Component(EpicsSignal, ".LLM", kind="omitted")
     soft_limit_hi = Component(EpicsSignal, ".HLM", kind="omitted")
-    
+
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
 
@@ -1167,8 +1167,8 @@ class EpicsMotorLimitsMixin(DeviceMixinBase):
             update EpicsSignal object when a limit CA monitor received
             """
             if (
-                self.connected 
-                and old_value is not None 
+                self.connected
+                and old_value is not None
                 and value != old_value
             ):
                 self.user_setpoint._metadata_changed(
@@ -1184,26 +1184,26 @@ class EpicsMotorLimitsMixin(DeviceMixinBase):
     def get_lim(self, flag):
         """
         Returns the user limit of motor
-        
+
         * flag > 0: returns high limit
         * flag < 0: returns low limit
         * flag == 0: returns None
-        
+
         Similar with SPEC command
         """
         if flag > 0:
             return self.soft_limit_hi.get()
         elif flag < 0:
             return self.soft_limit_lo.get()
-    
+
     def set_lim(self, low, high):
         """
         Sets the low and high limits of motor
-        
+
         * No action taken if motor is moving.
         * Low limit is set to lesser of (low, high)
         * High limit is set to greater of (low, high)
-        
+
         Similar with SPEC command
         """
         if not self.moving:
@@ -1218,9 +1218,9 @@ class EpicsMotorLimitsMixin(DeviceMixinBase):
 class EpicsMotorServoMixin(DeviceMixinBase):
     """
     add motor record's servo loop controls to Device
-    
+
     EXAMPLE::
-    
+
         from ophyd import EpicsMotor
         from apstools.devices import EpicsMotorServoMixin
 
@@ -1228,7 +1228,7 @@ class EpicsMotorServoMixin(DeviceMixinBase):
         m1 = myEpicsMotor('xxx:m1', name='m1')
         print(m1.servo.read())
     """
-    
+
     # values: "Enable" or "Disable"
     servo = Component(EpicsSignal, ".CNEN", string=True)
 
@@ -1236,17 +1236,17 @@ class EpicsMotorServoMixin(DeviceMixinBase):
 class EpicsMotorRawMixin(DeviceMixinBase):
     """
     add motor record's raw coordinate fields to Device
-    
+
     EXAMPLE::
-    
+
         from ophyd import EpicsMotor
         from apstools.devices import EpicsMotorRawMixin
-    
+
         class myEpicsMotor(EpicsMotorRawMixin, EpicsMotor): pass
         m1 = myEpicsMotor('xxx:m1', name='m1')
         print(m1.raw.read())
     """
-    
+
     raw = Component(EpicsSignal, ".RRBV", write_pv=".RVAL")
 
 
@@ -1258,22 +1258,22 @@ class EpicsMotorResolutionMixin(DeviceMixinBase):
     access to calibration parameters since these are
     associated with fixed parameters of hardware.
     For simulators, it is convenient to provide access
-    so that default settings (typically low-resolution) 
-    from the IOC can be changed as part of the device 
+    so that default settings (typically low-resolution)
+    from the IOC can be changed as part of the device
     setup in bluesky.
-    
+
     EXAMPLE::
-    
+
         from ophyd import EpicsMotor
         from apstools.devices import EpicsMotorResolutionMixin
-    
+
         class myEpicsMotor(EpicsMotorResolutionMixin, EpicsMotor): pass
         m1 = myEpicsMotor('xxx:m1', name='m1')
         print(f"resolution={m1.resolution.read()}")
         print(f"steps_per_rev={m1.steps_per_rev.read()}")
         print(f"units_per_rev={m1.units_per_rev.read()}")
     """
-    
+
     resolution = Component(EpicsSignal, ".MRES", kind="omitted")
     steps_per_rev = Component(EpicsSignal, ".SREV", kind="omitted")
     units_per_rev = Component(EpicsSignal, ".UREV", kind="omitted")
@@ -1282,7 +1282,7 @@ class EpicsMotorResolutionMixin(DeviceMixinBase):
 class EpicsMotorShutter(OneSignalShutter):
     """
     a shutter, implemented with an EPICS motor moved between two positions
-    
+
     EXAMPLE::
 
         tomo_shutter = EpicsMotorShutter("2bma:m23", name="tomo_shutter")
@@ -1291,7 +1291,7 @@ class EpicsMotorShutter(OneSignalShutter):
         tomo_shutter.tolerance = 0.01       # default
         tomo_shutter.open()
         tomo_shutter.close()
-        
+
         # or, when used in a plan
         def planA():
             yield from abs_set(tomo_shutter, "open", group="O")
@@ -1319,14 +1319,14 @@ class EpicsMotorShutter(OneSignalShutter):
         else:
             result = self.unknown_state
         return result
-    
+
     def open(self):
         """move motor to BEAM NOT BLOCKED position, interactive use"""
         if not self.isOpen:
             self.signal.move(self.open_value)
             if self.delay_s > 0:
                 time.sleep(self.delay_s)    # blocking call OK here
-    
+
     def close(self):
         """move motor to BEAM BLOCKED position, interactive use"""
         self.signal.move(self.close_value)
@@ -1339,12 +1339,12 @@ class EpicsMotorShutter(OneSignalShutter):
 class EpicsOnOffShutter(OneSignalShutter):
     """
     a shutter using a single EPICS PV moved between two positions
-    
-    Use for a shutter controlled by a single PV which takes a 
+
+    Use for a shutter controlled by a single PV which takes a
     value for the close command and a different value for the open command.
     The current position is determined by comparing the value of the control
     with the expected open and close values.
-    
+
     EXAMPLE::
 
         bit_shutter = EpicsOnOffShutter("2bma:bit1", name="bit_shutter")
@@ -1352,7 +1352,7 @@ class EpicsOnOffShutter(OneSignalShutter):
         bit_shutter.open_value = 1       # default
         bit_shutter.open()
         bit_shutter.close()
-        
+
         # or, when used in a plan
         def planA():
             yield from mv(bit_shutter, "open")
@@ -1365,12 +1365,12 @@ class EpicsOnOffShutter(OneSignalShutter):
 class DualPf4FilterBox(Device):
     """
     Dual Xia PF4 filter boxes using support from synApps (using Al, Ti foils)
-    
+
     EXAMPLE::
-    
+
         pf4 = DualPf4FilterBox("2bmb:pf4:", name="pf4")
         pf4_AlTi = DualPf4FilterBox("9idcRIO:pf4:", name="pf4_AlTi")
-    
+
     """
     fPosA = Component(EpicsSignal, "fPosA")
     fPosB = Component(EpicsSignal, "fPosB")
@@ -1418,43 +1418,43 @@ class KohzuSeqCtl_Monochromator(Device):
 class ProcessController(Device):
     """
     common parts of a process controller support
-    
-    A process controller keeps a signal (a readback value such as 
-    temperature, vacuum, himdity, etc.) as close as possible 
-    to a target (set point) value.  It has additional fields 
-    that describe parameters specific to the controller such 
+
+    A process controller keeps a signal (a readback value such as
+    temperature, vacuum, himdity, etc.) as close as possible
+    to a target (set point) value.  It has additional fields
+    that describe parameters specific to the controller such
     as PID loop, on/off, applied controller power, and other
     details.
-    
+
     This is a base class to standardize the few common terms
     used to command and record the target and readback values
     of a process controller.
-    
-    Subclasses should redefine (override) `controller_name`, 
+
+    Subclasses should redefine (override) `controller_name`,
     ``signal``, ``target``, and ``units`` such as the example below.
-    Also set values for ``tolerance``, ``report_interval_s``, and 
+    Also set values for ``tolerance``, ``report_interval_s``, and
     ``poll_s`` suitable for the specific controller used.
-    
-    *Floats*: ``signal``, ``target``, and ``tolerance`` will be 
+
+    *Floats*: ``signal``, ``target``, and ``tolerance`` will be
     considered as floating point numbers in the code.
-    
+
     It is assumed in :meth:`settled()` that: ``|signal - target| <= tolerance``.
     Override this *property* method if a different decision is needed.
-    
+
     EXAMPLE::
-    
+
         class MyLinkam(ProcessController):
             controller_name = "MyLinkam Controller"
             signal = Component(EpicsSignalRO, "temp")
             target = Component(EpicsSignal, "setLimit", kind="omitted")
             units = Component(Signal, kind="omitted", value="C")
-        
+
         controller = MyLinkam("my:linkam:", name="controller")
         RE(controller.wait_until_settled(timeout=10))
-    
+
         controller.record_signal()
         print(f"{controller.controller_name} settled? {controller.settled}")
-    
+
         def rampUp_rampDown():
             '''ramp temperature up, then back down'''
             yield from controller.set_target(25, timeout=180)
@@ -1463,11 +1463,11 @@ class ProcessController(Device):
                 print(f"hold at {self.get():.2f}{self.units.get()}, time remaining: {i}s")
                 yield from bps.sleep(1)
             yield from controller.set_target(0, timeout=180)
-        
+
         RE(test_plan())
 
     """
-    
+
     controller_name = "ProcessController"
     signal = Component(Signal)                              # override in subclass
     target = Component(Signal, kind="omitted")              # override in subclass
@@ -1489,12 +1489,12 @@ class ProcessController(Device):
 
         msg = f"Set {self.controller_name} target to {target:.2f}{self.units.get()}"
         print(msg)
-        
+
         if wait:
             yield from self.wait_until_settled(
-                timeout=timeout, 
+                timeout=timeout,
                 timeout_fail=timeout_fail)
-    
+
     @property
     def value(self):
         """shortcut to self.signal.value"""
@@ -1519,11 +1519,11 @@ class ProcessController(Device):
             _st._finished(success=True)
         else:
             started = False
-    
+
             def changing_cb(*args, **kwargs):
                 if started and self.settled:
                     _st._finished(success=True)
-    
+
             token = self.signal.subscribe(changing_cb)
             started = True
             report = 0
@@ -1612,29 +1612,29 @@ AD_FrameType_schemes = {
 def AD_setup_FrameType(prefix, scheme="NeXus"):
     """
     configure so frames are identified & handled by type (dark, white, or image)
-    
+
     PARAMETERS
 
         prefix (str) : EPICS PV prefix of area detector, such as "13SIM1:"
         scheme (str) : any key in the `AD_FrameType_schemes` dictionary
-    
+
     This routine prepares the EPICS Area Detector to identify frames
     by image type for handling by clients, such as the HDF5 file writing plugin.
     With the HDF5 plugin, the `FrameType` PV is added to the NDattributes
     and then used in the layout file to direct the acquired frame to
     the chosen dataset.  The `FrameType` PV value provides the HDF5 address
     to be used.
-    
+
     To use a different scheme than the defaults, add a new key to
     the `AD_FrameType_schemes` dictionary, defining storage values for the
     fields of the EPICS `mbbo` record that you will be using.
-    
+
     see: https://github.com/BCDA-APS/use_bluesky/blob/master/notebooks/images_darks_flats.ipynb
-    
+
     EXAMPLE::
-    
+
         AD_setup_FrameType("2bmbPG3:", scheme="DataExchange")
-    
+
     * Call this function *before* creating the ophyd area detector object
     * use lower-level PyEpics interface
     """
@@ -1649,7 +1649,7 @@ def AD_setup_FrameType(prefix, scheme="NeXus"):
         epics.caput(template.format(prefix, "", field), value)
         epics.caput(template.format(prefix, "_RBV", field), value)
 
-         
+
 def AD_warmed_up(detector):
     """
     Has area detector pushed an NDarray to the HDF5 plugin?  True or False
@@ -1666,7 +1666,7 @@ def AD_warmed_up(detector):
     old_file_write_mode = detector.hdf1.file_write_mode.get()
     if old_capture == 1:
         return True
-    
+
     detector.hdf1.file_write_mode.put(1)
     detector.hdf1.capture.put(1)
     verdict = detector.hdf1.capture.get() == 1
@@ -1678,18 +1678,18 @@ def AD_warmed_up(detector):
 class AD_EpicsHdf5FileName(FileStorePluginBase):    # lgtm [py/missing-call-to-init]
     """
     custom class to define image file name from EPICS
-    
+
     .. caution:: *Caveat emptor* applies here.  You assume expertise!
-    
+
     Replace standard Bluesky algorithm where file names
-    are defined as UUID strings, virtually guaranteeing that 
+    are defined as UUID strings, virtually guaranteeing that
     no existing images files will ever be overwritten.
-    
+
     Also, this method decouples the data files from the databroker,
     which needs the files to be named by UUID.
-    
+
     .. autosummary::
-       
+
         ~make_filename
         ~generate_datum
         ~get_frames_per_point
@@ -1704,20 +1704,20 @@ class AD_EpicsHdf5FileName(FileStorePluginBase):    # lgtm [py/missing-call-to-i
     and triple-comment out that line, and bring in
     sections from the methods we are replacing here.
 
-    The image file name is set in `FileStoreBase.make_filename()` 
-    from `ophyd.areadetector.filestore_mixins`.  This is called 
+    The image file name is set in `FileStoreBase.make_filename()`
+    from `ophyd.areadetector.filestore_mixins`.  This is called
     (during device staging) from `FileStoreBase.stage()`
-    
+
     EXAMPLE:
 
     To use this custom class, we need to connect it to some
     intervening structure.  Here are the steps:
-    
+
     #. override default file naming
     #. use to make your custom iterative writer
     #. use to make your custom HDF5 plugin
     #. use to make your custom AD support
-    
+
     imports::
 
         from bluesky import RunEngine, plans as bp
@@ -1725,56 +1725,56 @@ class AD_EpicsHdf5FileName(FileStorePluginBase):    # lgtm [py/missing-call-to-i
         from ophyd.areadetector import ADComponent, ImagePlugin, SimDetectorCam
         from ophyd.areadetector import HDF5Plugin
         from ophyd.areadetector.filestore_mixins import FileStoreIterativeWrite
-    
+
     override default file naming::
-        
+
         from apstools.devices import AD_EpicsHdf5FileName
-    
+
     make a custom iterative writer::
-        
+
         class myHdf5EpicsIterativeWriter(AD_EpicsHdf5FileName, FileStoreIterativeWrite): pass
-    
+
     make a custom HDF5 plugin::
-        
+
         class myHDF5FileNames(HDF5Plugin, myHdf5EpicsIterativeWriter): pass
-    
+
     define support for the detector (simulated detector here)::
-        
+
         class MySimDetector(SingleTrigger, SimDetector):
             '''SimDetector with HDF5 file names specified by EPICS'''
-            
+
             cam = ADComponent(SimDetectorCam, "cam1:")
             image = ADComponent(ImagePlugin, "image1:")
-            
+
             hdf1 = ADComponent(
-                myHDF5FileNames, 
-                suffix = "HDF1:", 
+                myHDF5FileNames,
+                suffix = "HDF1:",
                 root = "/",
                 write_path_template = "/",
                 )
-    
+
     create an instance of the detector::
-        
+
         simdet = MySimDetector("13SIM1:", name="simdet")
         if hasattr(simdet.hdf1.stage_sigs, "array_counter"):
             # remove this so array counter is not set to zero each staging
             del simdet.hdf1.stage_sigs["array_counter"]
         simdet.hdf1.stage_sigs["file_template"] = '%s%s_%3.3d.h5'
-    
+
     setup the file names using the EPICS HDF5 plugin::
-        
+
         simdet.hdf1.file_path.put("/tmp/simdet_demo/")    # ! ALWAYS end with a "/" !
         simdet.hdf1.file_name.put("test")
         simdet.hdf1.array_counter.put(0)
-    
+
     If you have not already, create a bluesky RunEngine::
-        
+
         RE = RunEngine({})
-    
+
     take an image::
 
         RE(bp.count([simdet]))
-    
+
     INTERNAL METHODS
     """
 
@@ -1793,12 +1793,12 @@ class AD_EpicsHdf5FileName(FileStorePluginBase):    # lgtm [py/missing-call-to-i
         """
         # start of the file name, file number will be appended per template
         filename = self.file_name.get()
-        
-        # this is where the HDF5 plugin will write the image, 
+
+        # this is where the HDF5 plugin will write the image,
         # relative to the IOC's filesystem
         write_path = self.file_path.get()
-        
-        # this is where the DataBroker will find the image, 
+
+        # this is where the DataBroker will find the image,
         # on a filesystem accessible to Bluesky
         read_path = write_path
 
@@ -1813,7 +1813,7 @@ class AD_EpicsHdf5FileName(FileStorePluginBase):    # lgtm [py/missing-call-to-i
 
         # inject the actual name of the HDF5 file here into datum_kwargs
         datum_kwargs["HDF5_file_name"] = hdf5_file_name
-        
+
         logger.debug("make_filename:", hdf5_file_name)
         return super().generate_datum(key, timestamp, datum_kwargs)
 
@@ -1824,8 +1824,8 @@ class AD_EpicsHdf5FileName(FileStorePluginBase):    # lgtm [py/missing-call-to-i
     def stage(self):
         """
         overrides default behavior
-        
-        Set EPICS items before device is staged, then copy EPICS 
+
+        Set EPICS items before device is staged, then copy EPICS
         naming template (and other items) to ophyd after staging.
         """
         # Make a filename.
@@ -1839,7 +1839,7 @@ class AD_EpicsHdf5FileName(FileStorePluginBase):    # lgtm [py/missing-call-to-i
         set_and_wait(self.file_path, write_path)
         set_and_wait(self.file_name, filename)
         ### set_and_wait(self.file_number, 0)
-        
+
         # get file number now since it is incremented during stage()
         file_number = self.file_number.get()
         # Must avoid parent's stage() since it sets file_number to 0
@@ -1860,7 +1860,7 @@ class AD_EpicsHdf5FileName(FileStorePluginBase):    # lgtm [py/missing-call-to-i
 
         # from FileStoreIterativeWrite.stage()
         self._point_counter = itertools.count()
-        
+
         # from FileStoreHDF5.stage()
         res_kwargs = {'frame_per_point': self.get_frames_per_point()}
         self._generate_resource(res_kwargs)

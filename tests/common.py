@@ -3,7 +3,7 @@
 Common methods for unit tests.
 
 .. autosummary::
-   
+
    ~Capture_stderr
    ~Capture_stdout
 """
@@ -16,7 +16,7 @@ class Capture_stdout(list):     # lgtm [py/missing-equals]
 
     """
     Capture all printed output (to stdout) into list.
-    
+
     # https://stackoverflow.com/questions/16571150
     # how-to-capture-stdout-output-from-a-python-function-call
     """

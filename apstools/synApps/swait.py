@@ -11,18 +11,18 @@ EXAMPLES::
     apstools.synApps.setup_random_number_swait(calc1)
 
     apstools.synApps.setup_incrementer_swait(calcs.calc2)
-    
+
     calc1.reset()
 
 
 .. autosummary::
-   
+
     ~UserCalcsDevice
     ~SwaitRecord
     ~SwaitRecordChannel
-    ~setup_random_number_swait 
+    ~setup_random_number_swait
     ~setup_gaussian_swait
-    ~setup_lorentzian_swait 
+    ~setup_lorentzian_swait
     ~setup_incrementer_swait
 
 :see: https://htmlpreview.github.io/?https://raw.githubusercontent.com/epics-modules/calc/R3-6-1/documentation/swaitRecord.html
@@ -55,9 +55,9 @@ __all__ = """
     SwaitRecord
     SwaitRecordChannel
     UserCalcsDevice
-    setup_random_number_swait 
+    setup_random_number_swait
     setup_gaussian_swait
-    setup_lorentzian_swait 
+    setup_lorentzian_swait
     setup_incrementer_swait
 	""".split()
 
@@ -72,7 +72,7 @@ class SwaitRecordChannel(Device):
     input_trigger = FC(EpicsSignal, '{self.prefix}.IN{self._ch_letter}P')
     read_attrs = ['input_value', ]
     hints = {'fields': read_attrs}
-    
+
     def __init__(self, prefix, letter, **kwargs):
         self._ch_letter = letter
         super().__init__(prefix, **kwargs)
@@ -96,7 +96,7 @@ class SwaitRecord(EpicsRecordDeviceCommonAll):
     synApps swait record: used as $(P):userCalc$(N)
 
     .. autosummary::
-       
+
         ~reset
 
     """
@@ -118,13 +118,13 @@ class SwaitRecord(EpicsRecordDeviceCommonAll):
 
     read_attrs = APS_utils.itemizer("channels.%s", CHANNEL_LETTERS_LIST)
     hints = {'fields': read_attrs}
-    
+
     channels = DDC(_swait_channels(CHANNEL_LETTERS_LIST))
 
     @property
     def value(self):
         return self.calculated_value.value
-    
+
     def reset(self):
         """set all fields to default values"""
         pvname = self.description.pvname.split(".")[0]
@@ -155,7 +155,7 @@ class UserCalcsDevice(Device):
     synApps XXX IOC setup of userCalcs: $(P):userCalc$(N)
 
     .. autosummary::
-       
+
         ~reset
 
     """
@@ -202,7 +202,7 @@ def setup_random_number_swait(swait, **kw):
 def _setup_peak_swait_(calc, desc, swait, ref_signal, center=0, width=1, scale=1, noise=0.05):
     """
     internal: setup that is common to both Gaussian and Lorentzian swaits
-    
+
     PARAMETERS
 
     swait : object
@@ -212,7 +212,7 @@ def _setup_peak_swait_(calc, desc, swait, ref_signal, center=0, width=1, scale=1
         instance of :class:`EpicsSignal` used as $A$
 
     center : float
-        $B$, 
+        $B$,
         default = 0
 
     width : float
@@ -250,9 +250,9 @@ def _setup_peak_swait_(calc, desc, swait, ref_signal, center=0, width=1, scale=1
 def setup_gaussian_swait(swait, ref_signal, center=0, width=1, scale=1, noise=0.05):
     """
     setup swait for noisy Gaussian
-    
+
     calculation: $D*(0.95+E*RNDM)/exp(((A-B)/C)^2)$
-    
+
     PARAMETERS
 
     swait : object
@@ -262,7 +262,7 @@ def setup_gaussian_swait(swait, ref_signal, center=0, width=1, scale=1, noise=0.
         instance of :class:`EpicsSignal` used as $A$
 
     center : float
-        $B$, 
+        $B$,
         default = 0
 
     width : float
@@ -279,21 +279,21 @@ def setup_gaussian_swait(swait, ref_signal, center=0, width=1, scale=1, noise=0.
     """
     _setup_peak_swait_(
         "D*(0.95+E*RNDM)/exp(((A-b)/c)^2)",
-        "noisy Gaussian curve", 
-        swait, 
-        ref_signal, 
-        center=center, 
-        width=width, 
-        scale=scale, 
+        "noisy Gaussian curve",
+        swait,
+        ref_signal,
+        center=center,
+        width=width,
+        scale=scale,
         noise=noise)
 
 
 def setup_lorentzian_swait(swait, ref_signal, center=0, width=1, scale=1, noise=0.05):
     """
     setup swait record for noisy Lorentzian
-    
+
     calculation: $D*(0.95+E*RNDM)/(1+((A-B)/C)^2)$
-    
+
     PARAMETERS
 
     swait : object
@@ -303,7 +303,7 @@ def setup_lorentzian_swait(swait, ref_signal, center=0, width=1, scale=1, noise=
         instance of :class:`EpicsSignal` used as $A$
 
     center : float
-        $B$, 
+        $B$,
         default = 0
 
     width : float
@@ -319,13 +319,13 @@ def setup_lorentzian_swait(swait, ref_signal, center=0, width=1, scale=1, noise=
         default = 0.05
     """
     _setup_peak_swait_(
-        "D*(0.95+E*RNDM)/(1+((A-b)/c)^2)", 
-        "noisy Lorentzian curve", 
-        swait, 
-        ref_signal, 
-        center=center, 
-        width=width, 
-        scale=scale, 
+        "D*(0.95+E*RNDM)/(1+((A-b)/c)^2)",
+        "noisy Lorentzian curve",
+        swait,
+        ref_signal,
+        center=center,
+        width=width,
+        scale=scale,
         noise=noise)
 
 
@@ -339,13 +339,13 @@ def setup_incrementer_swait(swait, scan=None, limit=100000):
         instance of :class:`SwaitRecord`
 
     scan : text or int or None
-        any of the EPICS record `.SCAN` values, 
+        any of the EPICS record `.SCAN` values,
         or the index number of the value,
         set to default if `None`,
         default: `.1 second`
 
     limit : int or None
-        set the incrementer back to zero 
+        set the incrementer back to zero
         when this number is reached (or passed),
         default: 100000
 

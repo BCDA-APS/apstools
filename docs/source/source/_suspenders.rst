@@ -3,5 +3,4 @@ Suspenders
 ----------
 
 .. automodule:: apstools.suspenders
-    :members: 
- 
+    :members:

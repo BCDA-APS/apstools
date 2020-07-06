@@ -4,7 +4,7 @@
 demonstrate Bluesky callbacks
 
 .. autosummary::
-   
+
    ~specfile_example
 
 """

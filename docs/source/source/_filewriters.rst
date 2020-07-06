@@ -43,7 +43,7 @@ Programmer's Note
 ^^^^^^^^^^^^^^^^^
 
 Subclassing from ``object`` (or no superclass)
-avoids the need to import ``bluesky.callbacks.core.CallbackBase``.  
+avoids the need to import ``bluesky.callbacks.core.CallbackBase``.
 One less import when only accessing the Databroker.
 The *only* advantage to subclassing from ``CallbackBase``
 seems to be a simpler setup call to ``RE.subscribe()``.
@@ -89,7 +89,7 @@ The directory will be
 ``self.file_path`` (or the current working directory
 if ``self.file_path`` is ``None`` which is the default).
 
-Either specify ``self.file_name`` or override 
+Either specify ``self.file_name`` or override
 :meth:`~apstools.filewriters.FileWriterCallbackBase.make_file_name()`
 in a subclass to change the procedure for default output file names.
 
@@ -148,7 +148,7 @@ The directory will be
 ``self.file_path`` (or the current working directory
 if ``self.file_path`` is ``None`` which is the default).
 
-Either specify ``self.file_name`` of override 
+Either specify ``self.file_name`` of override
 :meth:`~apstools.filewriters.FileWriterCallbackBase.make_file_name()`
 in a subclass
 to change the procedure for default output file names.
@@ -253,7 +253,7 @@ Baseline
 In Bluesky, *baseline* streams record the value (and timestamp) of a
 signal at the start and end of the run.  Similar to the handling for
 streams (above), a subgroup is created for each baseline stream.
-The datasets include ``value``, ``EPOCH``, ``time`` (as above) and 
+The datasets include ``value``, ``EPOCH``, ``time`` (as above) and
 ``value_start`` and ``value_end``.  Here's an example:
 
 .. literalinclude:: ../../../examples/demo_nxwriter_baseline.txt
@@ -302,12 +302,12 @@ EXAMPLE : use as writer from Databroker::
 EXAMPLE : use as writer from Databroker with customizations::
 
     from apstools.filewriters import SpecWriterCallback
-    
+
     # write into file: /tmp/cerium.spec
     specwriter = SpecWriterCallback(filename="/tmp/cerium.spec")
     for key, doc in db.get_documents(db["abcd123"]):
         specwriter.receiver(key, doc)
-    
+
     # write into file: /tmp/barium.dat
     specwriter.newfile("/tmp/barium.dat")
     for key, doc in db.get_documents(db["b46b63d4"]):
@@ -323,4 +323,4 @@ Source Code Documentation
 +++++++++++++++++++++++++
 
 .. automodule:: apstools.filewriters
-    :members: 
+    :members:

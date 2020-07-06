@@ -26,16 +26,16 @@ class Test_Utils(unittest.TestCase):
 
     # def setUp(self):
     #     pass
-    # 
+    #
     # def tearDown(self):
     #     pass
-    
+
     def test_cleanupText(self):
         original = "1. Some text to cleanup #25"
         received = APS_utils.cleanupText(original)
         expected = "1__Some_text_to_cleanup__25"
         self.assertEqual(received, expected)
-    
+
     def test_device_read2table(self):
         motor1 = ophyd.sim.hw().motor1
         with Capture_stdout():
@@ -52,7 +52,7 @@ class Test_Utils(unittest.TestCase):
             )
         # TODO: figure out how to compare with timestamps
         received = "\n".join([
-            v[:21] 
+            v[:21]
             for v in str(table).strip().splitlines()])
         self.assertEqual(received, expected)    # fails since timestamps do not match
 
@@ -61,7 +61,7 @@ class Test_Utils(unittest.TestCase):
                 motor1, show_ancient=True, use_datetime=False)
         # expected = """ """.strip()
         received = "\n".join(
-            [v[:21] 
+            [v[:21]
              for v in str(table).strip().splitlines()])
         self.assertEqual(received, expected)    # fails since timestamps do not match
 
@@ -70,21 +70,21 @@ class Test_Utils(unittest.TestCase):
                 motor1, show_ancient=False, use_datetime=False)
         # expected = """ """.strip()
         received = "\n".join([
-            v[:21] 
+            v[:21]
             for v in str(table).strip().splitlines()])
         self.assertEqual(received, expected)    # fails since timestamps do not match
 
     def test_dictionary_table(self):
         md = {
-            'login_id': 'jemian:wow.aps.anl.gov', 
-            'beamline_id': 'developer', 
-            'proposal_id': None, 
-            'pid': 19072, 
-            'scan_id': 10, 
+            'login_id': 'jemian:wow.aps.anl.gov',
+            'beamline_id': 'developer',
+            'proposal_id': None,
+            'pid': 19072,
+            'scan_id': 10,
             'version': {
-                'bluesky': '1.5.2', 
-                'ophyd': '1.3.3', 
-                'apstools': '1.1.5', 
+                'bluesky': '1.5.2',
+                'ophyd': '1.3.3',
+                'apstools': '1.1.5',
                 'epics': '3.3.3'
                 }
               }
@@ -139,7 +139,7 @@ class Test_Utils(unittest.TestCase):
         self.assertEqual(received[4].strip(), expected[4].strip())
         self.assertEqual(received[5].strip(), expected[5].strip())
         self.assertEqual(
-            received[9].strip(), 
+            received[9].strip(),
             expected[9].strip()
             )
 
@@ -188,7 +188,7 @@ class Test_Utils(unittest.TestCase):
         self.assertGreater(len(source), len(received))
         expected = source[:APS_utils.MAX_EPICS_STRINGOUT_LENGTH-1]
         self.assertEqual(received, expected)
-    
+
     def test_listobjects(self):
         sims = ophyd.sim.hw().__dict__
         wont_show = ("flyer1", "flyer2", "new_trivial_flyer", "trivial_flyer")
@@ -218,7 +218,7 @@ class Test_Utils(unittest.TestCase):
         out, err = APS_utils.unix(cmd)
         self.assertEqual(out, b'hello\n')
         self.assertEqual(err, b"")
-        
+
         cmd = "sleep 0.8 | echo hello"
         t0 = time.time()
         out, err = APS_utils.unix(cmd)
@@ -249,16 +249,16 @@ class Test_With_Database(unittest.TestCase):
             )
         self.assertIsNotNone(table)
         self.assertEqual(
-            len(table.labels), 
-            3+2, 
+            len(table.labels),
+            3+2,
             "asked for 2 extra columns (total 5)")
         self.assertEqual(
-            len(table.rows), 
-            10, 
+            len(table.rows),
+            10,
             "asked for 10 rows")
         self.assertLessEqual(
-            len(table.rows[1][4]), 
-            40, 
+            len(table.rows[1][4]),
+            40,
             "command row should be 40 char or less")
 
     def test_replay(self):

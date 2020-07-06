@@ -47,7 +47,7 @@ class Test_JsonExport(unittest.TestCase):
     def tearDown(self):
         if os.path.exists(self.tempdir):
             shutil.rmtree(self.tempdir, ignore_errors=True)
-    
+
     def test_export_import(self):
         db = get_db()
         headers = db(plan_name="count")
@@ -70,18 +70,18 @@ class Test_JsonExport(unittest.TestCase):
             headers[0].start["uid"],
             "found matching start document"
             )
-    
+
     def test_export_import_zip(self):
         db = get_db()
         headers = db(plan_name="count")
         headers = list(headers)[0:1]
-        
+
         filename = "export2.txt"
         zipfilename = os.path.join(self.tempdir, "export2.zip")
         json_export(headers, filename, zipfilename=zipfilename)
         self.assertFalse(os.path.exists(filename), f"did not write to {filename}")
         self.assertTrue(
-            os.path.exists(zipfilename), 
+            os.path.exists(zipfilename),
             f"wrote to requested ZIP {zipfilename}")
         with zipfile.ZipFile(zipfilename, "r") as fp:
             self.assertIn(filename, fp.namelist(), "found JSON test data")

@@ -15,16 +15,16 @@ if _path not in sys.path:
 import apstools.utils
 
 class Test_ExcelTable(unittest.TestCase):
-    
+
     xl_file = os.path.join(PATH, "demo3.xlsx")
-    
+
     def test_ExcelTable_normal_read(self):
         xl = apstools.utils.ExcelDatabaseFileGeneric(self.xl_file)
         self.assertEqual(len(xl.db), 9)             # rows
         self.assertEqual(len(xl.db["0"]), 7)        # columns
         self.assertIn("Unnamed: 7", xl.db["0"])
         self.assertEqual(xl.db["0"]["Unnamed: 7"], 8.0)
-    
+
     def test_ExcelTable_ignore_extra_false(self):
         xl = apstools.utils.ExcelDatabaseFileGeneric(self.xl_file, ignore_extra=False)
         self.assertEqual(len(xl.db), 16)            # rows

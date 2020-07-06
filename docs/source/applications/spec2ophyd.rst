@@ -10,8 +10,8 @@ spec2ophyd
 Read SPEC config file and convert to ophyd setup commands.
 
 This is a tool to help migration from SPEC to bluesky.  It reads
-a SPEC configuration file named `config` 
-*in the present working directory* 
+a SPEC configuration file named `config`
+*in the present working directory*
 and converts the lines it recognizes into ophyd
 commands which create ophyd objects.  These commands are printed
 to `sys.stdout`.  The output can be copied into a setup file for ophyd.
@@ -112,8 +112,8 @@ Cautions
 * *spec2ophyd* is a work-in-progress.
 * *spec2ophyd* does not rely on any libraries of *apstools*
 * It is not necessarily robust
-* There is no command line help for this utility.  
-* It is not packaged or installed with the apstools.  
+* There is no command line help for this utility.
+* It is not packaged or installed with the apstools.
 * It is only available from the source code repository.
 * It may be refactored or removed at any time.
 * Check the *apstools* Change History for more updates (https://github.com/BCDA-APS/apstools/blob/master/CHANGES.rst)

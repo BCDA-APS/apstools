@@ -16,7 +16,7 @@ let the developer test the snapshot tool in the source directory
 
 import sys
 sys.path.insert(0, "..")
- 
+
 import apstools.snapshot
 from pymongo.errors import ServerSelectionTimeoutError
 

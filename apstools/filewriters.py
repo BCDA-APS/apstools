@@ -7,7 +7,7 @@ cache information while collecting data and preserve information
 about the state of the document sequence.
 
 .. autosummary::
-   
+
    ~FileWriterCallbackBase
    ~NXWriterAPS
    ~NXWriter
@@ -52,23 +52,23 @@ def _rebuild_scan_command(doc):
     reconstruct the scan command for SPEC data file #S line
 
     PARAMETERS
-    
+
     doc : object
         instance of a bluesky ``start`` document
 
     RETURNS
-    
+
     str:
         "scan_number reconstructed_scan_command"
     """
-    
+
     def get_name(src):
         """
         get name field from object representation
-        
-        given: EpicsMotor(prefix='xxx:m1', name='m1', settle_time=0.0, 
-                    timeout=None, read_attrs=['user_readback', 'user_setpoint'], 
-                    configuration_attrs=['motor_egu', 'velocity', 'acceleration', 
+
+        given: EpicsMotor(prefix='xxx:m1', name='m1', settle_time=0.0,
+                    timeout=None, read_attrs=['user_readback', 'user_setpoint'],
+                    configuration_attrs=['motor_egu', 'velocity', 'acceleration',
                     'user_offset', 'user_offset_dir'])
         return: "m1"
         """
@@ -95,7 +95,7 @@ def _rebuild_scan_command(doc):
             elif _k == "args":
                 _v = "[" +  ", ".join(map(get_name, _v)) + "]"
             s.append(f"{_k}={_v}")
-    
+
     cmd = "{}({})".format(doc.get("plan_name", ""), ", ".join(s))
     scan_id = doc.get("scan_id") or 1
     return f"{scan_id}  {cmd}"
@@ -105,7 +105,7 @@ def _rebuild_scan_command(doc):
 class SpecWriterCallback(object):
     """
     Collect data from Bluesky RunEngine documents to write as SPEC data.
-    
+
     This gathers data from all documents in a scan and appends scan to the file
     when the ``stop`` document is received.  One or more scans can be written to
     the same file.  The file format is text.
@@ -121,7 +121,7 @@ class SpecWriterCallback(object):
         derived from the current system time.
 
     auto_write : boolean, optional
-        If True (default), ``write_scan()`` is called when *stop* document 
+        If True (default), ``write_scan()`` is called when *stop* document
         is received.
         If False, the caller is responsible for calling ``write_scan()``
         before the next ``start`` document is received.
@@ -137,7 +137,7 @@ class SpecWriterCallback(object):
     User Interface methods
 
     .. autosummary::
-       
+
        ~receiver
        ~newfile
        ~usefile
@@ -149,7 +149,7 @@ class SpecWriterCallback(object):
     Internal methods
 
     .. autosummary::
-       
+
        ~write_header
        ~start
        ~descriptor
@@ -163,7 +163,7 @@ class SpecWriterCallback(object):
     # EXAMPLE : the :ref:`specfile_example() <example_specfile>`
     # writes one or more scans to a SPEC data file using a jupyter notebook.
 
-    
+
     def __init__(self, filename=None, auto_write=True, RE=None, reset_scan_id=False):
         self.clear()
         self.buffered_comments = self._empty_comments_dict()
@@ -177,7 +177,7 @@ class SpecWriterCallback(object):
         self._datetime = None       # most recent document time as datetime object
         self._streams = {}          # descriptor documents, keyed by uid
         self.RE = RE
-        
+
         if reset_scan_id == True:
             reset_scan_id = SCAN_ID_RESET_VALUE
         self.reset_scan_id = reset_scan_id
@@ -213,11 +213,11 @@ class SpecWriterCallback(object):
 
     def _empty_comments_dict(self):
         return dict(
-            start=[], 
-            event=[], 
-            descriptor=[], 
-            resource=[], 
-            datum=[], 
+            start=[],
+            event=[],
+            descriptor=[],
+            resource=[],
+            datum=[],
             stop=[])
 
     def _cmt(self, key, text):
@@ -259,7 +259,7 @@ class SpecWriterCallback(object):
 
     def start(self, doc):
         """handle *start* documents"""
-        
+
         known_properties = """
             uid time project sample scan_id group owner
             hints
@@ -286,12 +286,12 @@ class SpecWriterCallback(object):
         # self.T_or_M = "T"           # TODO: how to get this from the document stream?
         # self.T_or_M_value = 1
         # self._cmt("start", "!!! #T line not correct yet !!!")
-        
+
         # metadata
         for key in sorted(doc.keys()):
             if key not in known_properties:
                 self.metadata[key] = doc[key]
-        
+
         self.start_hints = doc.get("hints", {})
 
         # various dicts
@@ -300,26 +300,26 @@ class SpecWriterCallback(object):
                 obj = self.__getattribute__(item)
                 for key in doc.get(item):
                     obj[key] = None
-        
+
         cmt = "plan_type = " + doc["plan_type"]
         ts = datetime.datetime.strftime(self._datetime, SPEC_TIME_FORMAT)
         self.comments["start"].insert(0, f"{ts}.  {cmt}")
         self.scan_command = _rebuild_scan_command(doc)
-    
+
     def descriptor(self, doc):
         """
         handle *descriptor* documents
-        
+
         prepare for primary scan data, ignore any other data stream
         """
         if doc["uid"] in self._streams:
             fmt = "duplicate descriptor UID {} found"
             raise KeyError(fmt.format(doc["uid"]))
-        
+
         # log descriptor documents by uid
         # referenced by event and bulk_events documents
         self._streams[doc["uid"]] = doc
-        
+
         if doc["name"] != "primary":
             return
 
@@ -328,21 +328,21 @@ class SpecWriterCallback(object):
         for k, d in doc["hints"].items():
             doc_hints_names.append(k)
             doc_hints_names += d["fields"]
-        
-        # independent variable(s) first 
+
+        # independent variable(s) first
         # assumes start["motors"] was defined
         first_keys = [k for k in self.motors if k in keyset]
         # TODO: if len(first_keys) == 0: look at self.start_hints
-        
+
         # dependent variable(s) last
         # assumes start["detectors"] was defined
         last_keys = [d for d in self.detectors if d in doc_hints_names]
         # TODO: if len(last_keys) == 0: look at doc["hints"]
-        
+
         # get remaining keys from keyset, they go in the middle
         middle_keys = [k for k in keyset if k not in first_keys + last_keys]
         epoch_keys = "Epoch_float Epoch".split()
-        
+
         self.data.update({k: [] for k in first_keys+epoch_keys+middle_keys+last_keys})
 
     def event(self, doc):
@@ -368,15 +368,15 @@ class SpecWriterCallback(object):
                     v = doc["data"].get(k, 0)   # like SPEC, default to 0 if not found by name
                 self.data[k].append(v)
             self.num_primary_data += 1
-    
+
     def bulk_events(self, doc):
         """handle *bulk_events* documents"""
         pass
-    
+
     def datum(self, doc):
         """handle *datum* documents"""
         self._cmt("datum", "datum " + str(doc))
-    
+
     def resource(self, doc):
         """handle *resource* documents"""
         self._cmt("resource", "resource " + str(doc))
@@ -399,7 +399,7 @@ class SpecWriterCallback(object):
     def prepare_scan_contents(self):
         """
         format the scan for a SPEC data file
-        
+
         :returns: [str] a list of lines to append to the data file
         """
         dt = datetime.datetime.fromtimestamp(self.scan_epoch)
@@ -432,7 +432,7 @@ class SpecWriterCallback(object):
                     datum = self.data[k][i]
                     if isinstance(datum, str):
                         # SPEC scan data is expected to be numbers
-                        # this is text, substitute the row number 
+                        # this is text, substitute the row number
                         # and report after this line in a #U line
                         str_data[k] = datum
                         datum = i
@@ -455,14 +455,14 @@ class SpecWriterCallback(object):
 
         for v in self.comments["stop"]:
             lines.append("#C " + v)
-        
+
         return lines
-    
+
     def _write_lines_(self, lines, mode="a"):
         """write (more) lines to the file"""
         with open(self.spec_filename, mode) as f:
             f.write("\n".join(lines))
-    
+
     def write_header(self):
         """write the header section of a SPEC data file"""
         dt = datetime.datetime.fromtimestamp(self.spec_epoch)
@@ -479,15 +479,15 @@ class SpecWriterCallback(object):
             lines.insert(0, "")
         self._write_lines_(lines, mode="a+")
         self.write_file_header = False
-    
+
     def write_scan(self):
         """
         write the most recent (completed) scan to the file
-        
+
         * creates file if not existing
         * writes header if needed
         * appends scan data
-        
+
         note:  does nothing if there are no lines to be written
         """
         if os.path.exists(self.spec_filename):
@@ -515,7 +515,7 @@ class SpecWriterCallback(object):
     def newfile(self, filename=None, scan_id=None, RE=None):
         """
         prepare to use a new SPEC data file
-        
+
         but don't create it until we have data
         """
         self.clear()
@@ -531,9 +531,9 @@ class SpecWriterCallback(object):
         self.spec_filename = filename
         self.spec_epoch = int(time.time())  # ! no roundup here!!!
         self.spec_host = socket.gethostname() or 'localhost'
-        self.spec_user = getpass.getuser() or 'BlueskyUser' 
+        self.spec_user = getpass.getuser() or 'BlueskyUser'
         self.write_file_header = True       # don't write the file yet
-        
+
         # backwards-compatibility
         if isinstance(scan_id, bool):
             # True means reset the scan ID to default
@@ -545,7 +545,7 @@ class SpecWriterCallback(object):
             RE.md["scan_id"] = scan_id
             self.scan_id = scan_id
         return self.spec_filename
-    
+
     def usefile(self, filename):
         """read from existing SPEC data file"""
         if not os.path.exists(self.spec_filename):
@@ -577,7 +577,7 @@ class SpecWriterCallback(object):
             username = "BlueskyUser"
             if len(p) > 4 and p[2] == "user":
                 username = p[4]
-            
+
             # find the highest scan number used
             key = "#S"
             scan_ids = []
@@ -596,7 +596,7 @@ class SpecWriterCallback(object):
 def spec_comment(comment, doc=None, writer=None):
     """
     make it easy to add spec-style comments in a custom plan
-    
+
     These comments *only* go into the SPEC data file.
 
     Parameters
@@ -609,11 +609,11 @@ def spec_comment(comment, doc=None, writer=None):
         One of: ``start descriptor event resource datum stop``
 
     writer : obj, optional
-        Instance of ``SpecWriterCallback()``, 
+        Instance of ``SpecWriterCallback()``,
         typically: ``specwriter = SpecWriterCallback()``
-    
+
     EXAMPLE:
-    
+
     Execution of this plan (with ``RE(myPlan())``)::
 
         def myPlan():
@@ -683,13 +683,13 @@ class FileWriterCallbackBase:
     User Interface methods
 
     .. autosummary::
-       
+
        ~receiver
 
     Internal methods
 
     .. autosummary::
-       
+
        ~clear
        ~make_file_name
        ~writer
@@ -697,7 +697,7 @@ class FileWriterCallbackBase:
     Document Handler methods
 
     .. autosummary::
-       
+
        ~bulk_events
        ~datum
        ~descriptor
@@ -737,7 +737,7 @@ class FileWriterCallbackBase:
             handler(doc)
 
         # - - - - - - - - - - - - - - -
- 
+
     def clear(self):
         """
         delete any saved data from the cache and reinitialize
@@ -763,7 +763,7 @@ class FileWriterCallbackBase:
 
         default format: {ymd}-{hms}-S{scan_id}-{short_uid}.{ext}
         where the time (the run start time):
-        
+
         * ymd = {year:4d}{month:02d}{day:02d}
         * hms = {hour:02d}{minute:02d}{second:02d}
 
@@ -832,7 +832,7 @@ class FileWriterCallbackBase:
         print(f"elapsed scan time: {self.stop_time-self.start_time:.3f}s")
 
     # - - - - - - - - - - - - - - -
-    
+
     def bulk_events(self, doc):
         """Deprecated. Use EventPage instead."""
         if not self.scanning:
@@ -905,7 +905,7 @@ class FileWriterCallbackBase:
         # uid = doc["uid"]
         descriptor_uid = doc["descriptor"]
         # seq_num = doc["seq_num"]
-        
+
         # gather the data by streams
         descriptor = self.acquisitions.get(descriptor_uid)
         if descriptor is not None:
@@ -969,7 +969,7 @@ class NXWriter(FileWriterCallbackBase):
     METHODS
 
     .. autosummary::
-       
+
        ~writer
        ~h5string
        ~add_dataset_attributes
@@ -1015,7 +1015,7 @@ class NXWriter(FileWriterCallbackBase):
                     ds.attrs[key] = v[key]
             cautious_set("lower_ctrl_limit")
             cautious_set("upper_ctrl_limit")
- 
+
     def assign_signal_type(self):
         """
         decide if a signal in the primary stream is a detector or a positioner
@@ -1128,7 +1128,7 @@ class NXWriter(FileWriterCallbackBase):
         primary = parent["instrument/bluesky/streams/primary"]
         for k in primary.keys():
             nxdata[k] = primary[k+"/value"]
-        
+
         # pick the timestamps from one of the datasets (the last one)
         nxdata["EPOCH"] = primary[k+"/time"]
 
@@ -1147,7 +1147,7 @@ class NXWriter(FileWriterCallbackBase):
         if signal_attribute is not None:
             if signal_attribute in nxdata:
                 nxdata.attrs["signal"] = signal_attribute
-                
+
                 axes = []
                 for ax in axes_attribute or []:
                     if ax in nxdata:
@@ -1162,7 +1162,7 @@ class NXWriter(FileWriterCallbackBase):
                 logger.warning(
                     "Cannot set %s as signal attribute, no such dataset",
                     signal_attribute)
-        
+
         return nxdata
 
     def write_detector(self, parent):
@@ -1207,7 +1207,7 @@ class NXWriter(FileWriterCallbackBase):
             nxentry.attrs["default"] = nxdata.name.split("/")[-1]
         except KeyError as exc:
             logger.warn(exc)
-        
+
         self.write_sample(nxentry)
         self.write_user(nxentry)
 
@@ -1217,7 +1217,7 @@ class NXWriter(FileWriterCallbackBase):
             nxentry["run_cycle"] = self.root[h5_addr]
         else:
             logger.warning("No data for /entry/run_cycle")
-        
+
         nxentry["title"] = self.get_sample_title()
         nxentry["plan_name"] = self.root[
             "/entry/instrument/bluesky/metadata/plan_name"]
@@ -1261,7 +1261,7 @@ class NXWriter(FileWriterCallbackBase):
     def write_metadata(self, parent):
         """
         group: /entry/instrument/bluesky/metadata:NXnote
-        
+
         metadata from the bluesky start document
         """
         group = self.create_NX_group(parent, "metadata:NXnote")
@@ -1414,7 +1414,7 @@ class NXWriter(FileWriterCallbackBase):
     def write_stream_external(self, parent, d, subgroup, stream_name, k, v):
         # TODO: rabbit-hole alert! simplify
         # lots of variations possible
-        
+
         # count number of unique resources (expect only 1)
         resource_id_list = []
         for datum_id in d:
@@ -1557,7 +1557,7 @@ class NXWriterAPS(NXWriter):
     * Adds APS information to `/entry/instrument/source` group.
 
     .. autosummary::
-   
+
        ~write_instrument
        ~write_source
        ~write_undulator
@@ -1616,10 +1616,10 @@ class NXWriterAPS(NXWriter):
         keys = """
             device location
             energy
-            energy_taper 
+            energy_taper
             gap
-            gap_taper 
-            harmonic_value 
+            gap_taper
+            harmonic_value
             total_power
             version
         """.split()

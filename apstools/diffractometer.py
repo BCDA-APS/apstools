@@ -3,7 +3,7 @@
 add to capabilities of any diffractometer
 
 .. autosummary::
-   
+
     ~Constraint
     ~DiffractometerMixin
 
@@ -32,7 +32,7 @@ import pyRestTable
 logger = logging.getLogger(__file__)
 
 Constraint = collections.namedtuple(
-    "Constraint", 
+    "Constraint",
     ("low_limit", "high_limit", "value", "fit"))
 
 
@@ -41,7 +41,7 @@ class DiffractometerMixin(Device):
     add to capabilities of any diffractometer
 
     .. autosummary::
-    
+
         ~applyConstraints
         ~forwardSolutionsTable
         ~resetConstraints
@@ -60,7 +60,7 @@ class DiffractometerMixin(Device):
     def applyConstraints(self, constraints):
         """
         constrain the diffractometer's motions
-        
+
         This action will first the current constraints onto
         a stack, enabling both *undo* and *reset* features.
         """
@@ -98,7 +98,7 @@ class DiffractometerMixin(Device):
                 self.calc[m].value,
                 self.calc[m].fit)
             for m in self.real_positioners._fields
-            # TODO: any other positioner constraints 
+            # TODO: any other positioner constraints
         }
         self._constraints_stack.append(constraints)
 
