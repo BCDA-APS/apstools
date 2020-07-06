@@ -44,7 +44,7 @@ from ophyd.device import (
     Component as Cpt,
     DynamicDeviceComponent as DDC,
     FormattedComponent as FC)
-from ophyd import EpicsSignal, Signal
+from ophyd import EpicsSignal
 from ophyd.signal import EpicsSignalBase
 
 from ._common import EpicsRecordDeviceCommonAll, EpicsRecordFloatFields
@@ -226,11 +226,21 @@ def _setup_peak_swait_(calc, desc, swait, ref_signal, center=0, width=1, scale=1
         $E$,
         default = 0.05
     """
+
     # consider a noisy background, as well (needs a couple calcs)
-    assert(isinstance(swait, SwaitRecord))
-    assert(isinstance(ref_signal, EpicsSignalBase))
-    assert(width > 0)
-    assert(0.0 <= noise <= 1.0)
+    if not isinstance(swait, SwaitRecord):
+        raise TypeError(
+            "expected SwaitRecord instance,"
+            f" received {type(swait)}")
+    if not isinstance(ref_signal, EpicsSignalBase):
+        raise TypeError(
+            "expected EpicsSignalBase instance,"
+            f" received {type(ref_signal)}")
+    if width <= 0:
+        raise ValueError(f"width must be positive, received {width}")
+    if not (0.0 <= noise <= 1.0):
+        raise ValueError(f"noise must be between 0 and 1, received {noise}")
+
     swait.reset()
     swait.scanning_rate.put("Passive")
     swait.description.put(desc)

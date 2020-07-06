@@ -457,7 +457,8 @@ def parse_Excel_command_file(filename):
     *new in apstools release 1.1.7*
     """
     full_filename = os.path.abspath(filename)
-    assert os.path.exists(full_filename)
+    if not os.path.exists(full_filename):
+        raise FileNotFoundError(full_filename)
     xl = APS_utils.ExcelDatabaseFileGeneric(full_filename)
 
     commands = []
@@ -538,7 +539,8 @@ def parse_text_command_file(filename):
     *new in apstools release 1.1.7*
     """
     full_filename = os.path.abspath(filename)
-    assert os.path.exists(full_filename)
+    if not os.path.exists(full_filename):
+        raise FileNotFoundError(full_filename)
     with open(full_filename, "r") as fp:
         buf = fp.readlines()
 
@@ -793,8 +795,10 @@ def sscan_1D(
     """
     global new_data, inactive_deadline
 
-    msg = f"poll_delay_s must be a number between 0 and 0.1, received {poll_delay_s}"
-    assert 0 <= poll_delay_s <= 0.1, msg
+    if not (0 <= poll_delay_s <= 0.1):
+        raise ValueError(
+            "poll_delay_s must be a number between 0 and 0.1,"
+            f" received {poll_delay_s}")
 
     t0 = time.time()
     sscan_status = DeviceStatus(sscan.execute_scan)
