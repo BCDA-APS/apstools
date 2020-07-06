@@ -1,0 +1,5 @@
+  bluesky:NXnote
+    @NX_class = NXnote
+    @target = /entry/instrument/bluesky
+    plan_name --> /entry/instrument/bluesky/metadata/plan_name
+    uid --> /entry/instrument/bluesky/metadata/run_start_uid

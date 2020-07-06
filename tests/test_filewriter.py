@@ -134,10 +134,10 @@ class Test_FileWriterCallbackBase(MyTestBase):
             self.assertGreater(callback.scan_id, 0)
 
 
-class Test_NXWriterAps(MyTestBase):
+class Test_NXWriterAPS(MyTestBase):
 
     def test_receiver_battery(self):
-        callback = apstools.filewriters.NXWriterAps()
+        callback = apstools.filewriters.NXWriterAPS()
         callback.file_path = self.tempdir
 
         self.replay("tune_mr", callback)
@@ -166,10 +166,10 @@ class Test_NXWriterAps(MyTestBase):
             self.assertIn("/entry/instrument/undulator", nxroot)
 
 
-class Test_NXWriterBase(MyTestBase):
+class Test_NXWriter(MyTestBase):
 
     def test_default_plot(self):
-        callback = apstools.filewriters.NXWriterBase()
+        callback = apstools.filewriters.NXWriter()
         callback.file_path = self.tempdir
 
         self.replay("tune_mr", callback)
@@ -190,7 +190,7 @@ class Test_NXWriterBase(MyTestBase):
             self.assertNotEqual(axes[0], signal)
 
     def test_make_file_name(self):
-        callback = apstools.filewriters.NXWriterBase()
+        callback = apstools.filewriters.NXWriter()
 
         self.assertIsNone(callback.file_path)
         self.assertIsNone(callback.scan_id)
@@ -234,7 +234,7 @@ class Test_NXWriterBase(MyTestBase):
         self.assertEqual(os.path.dirname(fname), self.tempdir)
 
     def test_receiver_battery(self):
-        callback = apstools.filewriters.NXWriterBase()
+        callback = apstools.filewriters.NXWriter()
         self.assertEqual(
             callback.nexus_release,
             apstools.filewriters.NEXUS_RELEASE)
@@ -497,8 +497,8 @@ def suite(*args, **kw):
         Test_Data_is_Readable,
         Test_SpecWriterCallback,
         Test_FileWriterCallbackBase,
-        Test_NXWriterBase,
-        Test_NXWriterAps,
+        Test_NXWriter,
+        Test_NXWriterAPS,
         ]
     test_suite = unittest.TestSuite()
     for test_case in test_list:

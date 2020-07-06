@@ -1,56 +1,24 @@
 
 """
-Bluesky callbacks for writing files (such as for SPEC or NeXus)
+Bluesky callbacks for writing files (such as for SPEC or NeXus).
+
+The filewriter callbacks here are written as classes since they
+cache information while collecting data and preserve information
+about the state of the document sequence.
 
 .. autosummary::
    
    ~FileWriterCallbackBase
-   ~NXWriterAps
-   ~NXWriterBase
+   ~NXWriterAPS
+   ~NXWriter
    ~SpecWriterCallback
    ~spec_comment
-
-# TODO: need documentation for FileWriterCallbackBase
-# TODO: need documentation for NXWriterAps
-# TODO: need documentation for NXWriterBase
-
-EXAMPLE : the :ref:`specfile_example() <example_specfile>` writes one or more scans to a SPEC data file using a jupyter notebook.
-
-EXAMPLE : use as Bluesky callback::
-
-    from apstools.filewriters import SpecWriterCallback
-    specwriter = SpecWriterCallback()
-    RE.subscribe(specwriter.receiver)
-
-EXAMPLE : use as writer from Databroker::
-
-    from apstools.filewriters import SpecWriterCallback
-    specwriter = SpecWriterCallback()
-    for key, doc in db.get_documents(db[-1]):
-        specwriter.receiver(key, doc)
-    print("Look at SPEC data file: "+specwriter.spec_filename)
-
-EXAMPLE : use as writer from Databroker with customizations::
-
-    from apstools.filewriters import SpecWriterCallback
-    
-    # write into file: /tmp/cerium.spec
-    specwriter = SpecWriterCallback(filename="/tmp/cerium.spec")
-    for key, doc in db.get_documents(db[-1]):
-        specwriter.receiver(key, doc)
-    
-    # write into file: /tmp/barium.dat
-    specwriter.newfile("/tmp/barium.dat")
-    for key, doc in db.get_documents(db["b46b63d4"]):
-        specwriter.receiver(key, doc)
-
-
 """
 
 #-----------------------------------------------------------------------------
 # :author:    Pete R. Jemian
 # :email:     jemian@anl.gov
-# :copyright: (c) 2017-2019, UChicago Argonne, LLC
+# :copyright: (c) 2017-2020, UChicago Argonne, LLC
 #
 # Distributed under the terms of the Creative Commons Attribution 4.0 International Public License.
 #
@@ -72,18 +40,6 @@ import yaml
 
 
 logger = logging.getLogger(__name__)
-
-
-#    Programmer's Note: subclassing from `object` avoids the need 
-#    to import `bluesky.callbacks.core.CallbackBase`.  
-#    One less import when only accessing the Databroker.
-#    The *only* advantage to subclassing from CallbackBase
-#    seems to be a simpler setup call to RE.subscribe().
-#
-#    superclass   | subscription code
-#    ------------ | -------------------------------
-#    object       | RE.subscribe(specwriter.receiver)
-#    CallbackBase | RE.subscribe(specwriter)
 
 
 NEXUS_FILE_EXTENSION = "hdf"      # use this file extension for the output
@@ -148,11 +104,15 @@ def _rebuild_scan_command(doc):
 # TODO: consider refactor to use FileWriterCallbackBase()
 class SpecWriterCallback(object):
     """
-    collect data from Bluesky RunEngine documents to write as SPEC data
+    Collect data from Bluesky RunEngine documents to write as SPEC data.
     
-    This gathers data from all documents and appends scan to the file 
-    when the *stop* document is received.
-    
+    This gathers data from all documents in a scan and appends scan to the file 
+    when the *stop* document is received.  One or more scans can be written to 
+    the same file.  The file format is text.
+
+    .. note:: ``SpecWriterCallback()`` does **not** inherit 
+       from ``FileWriterCallbackBase()``.
+
     Parameters
 
     filename : string, optional
@@ -197,8 +157,11 @@ class SpecWriterCallback(object):
        ~datum
        ~resource
        ~stop
-
     """
+
+    # EXAMPLE : the :ref:`specfile_example() <example_specfile>`
+    # writes one or more scans to a SPEC data file using a jupyter notebook.
+
     
     def __init__(self, filename=None, auto_write=True, RE=None, reset_scan_id=False):
         self.clear()
@@ -714,30 +677,7 @@ class FileWriterCallbackBase:
     The local buffers are cleared when a start document is received.
     Content is collected here from each document until the stop document.
     The content is written once the stop document is received.
-    
-    Metadata
-    
-    Almost all metadata keys (additional attributes added to the run's
-    ``start`` document) are completely optional.  Certain keys are
-    specified by the RunEngine, some keys are specified by the plan
-    (or plan support methods), and other keys are supplied by the
-    user or the instrument team.
-    
-    These are the keys used by this callback to help guide how
-    information is stored in a NeXus HDF5 file structure.
-    
-    =========== ============= ===================================================
-    key         creator       how is it used
-    =========== ============= ===================================================
-    detectors   inconsistent  name(s) of the signals used as detectors
-    motors      inconsistent  synonym for ``positioners``
-    plan_args   inconsistent  parameters (arguments) given
-    plan_name   inconsistent  name of the plan used to collect data
-    positioners inconsistent  name(s) of the signals used as positioners
-    scan_id     RunEngine     incrementing number of the run, user can reset
-    uid         RunEngine     unique identifier of the run
-    versions    instrument    documents the software versions used to collect data
-    =========== ============= ===================================================
+
 
     User Interface methods
 
@@ -764,9 +704,6 @@ class FileWriterCallbackBase:
        ~resource
        ~start
        ~stop
-    
-    For more information about Bluesky *events* and document types, see
-    https://blueskyproject.io/event-model/data-model.html.
     """
 
     file_extension = "dat"
@@ -905,15 +842,17 @@ class FileWriterCallbackBase:
 
     def datum(self, doc):
         """
-        like an event, but for data recorded outside of bluesky
+        Like an event, but for data recorded outside of bluesky.
 
-        Datum
-        =====
-        datum_id        : 621caa0f-70f1-4e3d-8718-b5123d434502/0
-        datum_kwargs    :
-          HDF5_file_name  : /mnt/usaxscontrol/USAXS_data/2020-06/06_10_Minjee_waxs/AGIX3N1_0699.hdf
-          point_number    : 0
-        resource        : 621caa0f-70f1-4e3d-8718-b5123d434502
+        Example::
+
+            Datum
+            =====
+            datum_id        : 621caa0f-70f1-4e3d-8718-b5123d434502/0
+            datum_kwargs    :
+            HDF5_file_name  : /mnt/usaxscontrol/USAXS_data/2020-06/06_10_Minjee_waxs/AGIX3N1_0699.hdf
+            point_number    : 0
+            resource        : 621caa0f-70f1-4e3d-8718-b5123d434502
         """
         if not self.scanning:
             return
@@ -1020,40 +959,11 @@ class FileWriterCallbackBase:
         self.writer()
 
 
-class NXWriterBase(FileWriterCallbackBase):
+class NXWriter(FileWriterCallbackBase):
     """
-    base class for writing HDF5/NeXus file (using only NeXus base classes)
-    
-    Metadata
-    
-    Almost all metadata keys (additional attributes added to the run's
-    ``start`` document) are completely optional.  Certain keys are
-    specified by the RunEngine, some keys are specified by the plan
-    (or plan support methods), and other keys are supplied by the
-    user or the instrument team.
-    
-    These are the keys used by this callback to help guide how
-    information is stored in a NeXus HDF5 file structure.
-    
-    =========== ============= ===================================================
-    key         creator       how is it used
-    =========== ============= ===================================================
-    detectors   inconsistent  name(s) of the signals used as plottable values
-    motors      inconsistent  synonym for ``positioners``
-    plan_args   inconsistent  parameters (arguments) given
-    plan_name   inconsistent  name of the plan used to collect data
-    positioners inconsistent  name(s) of the positioners used for plotting
-    scan_id     RunEngine     incrementing number of the run, user can reset
-    subtitle    user          -tba-
-    title       user          /entry/title
-    uid         RunEngine     unique identifier of the run
-    versions    instrument    documents the software versions used to collect data
-    =========== ============= ===================================================
-    
-    Notes:
-    
-    1. ``detectors[0]`` will be used as the ``/entry/data@signal`` attribute
-    2. the *complete* list in ``positioners`` will be used as the ``/entry/data@axes`` attribute
+    General class for writing HDF5/NeXus file (using only NeXus base classes).
+
+    One scan is written to one HDF5/NeXus file.
 
     METHODS
 
@@ -1311,7 +1221,7 @@ class NXWriterBase(FileWriterCallbackBase):
         nxentry["plan_name"] = self.root[
             "/entry/instrument/bluesky/metadata/plan_name"]
         nxentry["entry_identifier"] = self.root[
-            "/entry/instrument/bluesky/run_start_uid"]
+            "/entry/instrument/bluesky/uid"]
 
         return nxentry
 
@@ -1325,10 +1235,7 @@ class NXWriterBase(FileWriterCallbackBase):
         md_group = self.write_metadata(bluesky_group)
         self.write_streams(bluesky_group)
 
-        ds = bluesky_group.create_dataset("run_start_uid", data=self.uid)
-        ds.attrs["long_name"] = "bluesky run uid"
-        ds.attrs["target"] = ds.name
-        md_group["uid"] = ds
+        bluesky_group["uid"] = md_group["run_start_uid"]
         bluesky_group["plan_name"] = md_group["plan_name"]
 
         try:
@@ -1356,7 +1263,12 @@ class NXWriterBase(FileWriterCallbackBase):
         
         metadata from the bluesky start document
         """
-        bluesky = self.create_NX_group(parent, "metadata:NXnote")
+        group = self.create_NX_group(parent, "metadata:NXnote")
+
+        ds = group.create_dataset("run_start_uid", data=self.uid)
+        ds.attrs["long_name"] = "bluesky run uid"
+        ds.attrs["target"] = ds.name
+
         for k, v in self.metadata.items():
             is_yaml = False
             if isinstance(v, (dict, tuple, list)):
@@ -1365,12 +1277,12 @@ class NXWriterBase(FileWriterCallbackBase):
                 is_yaml = True
             if isinstance(v, str):
                 v = self.h5string(v)
-            ds = bluesky.create_dataset(k, data=v)
+            ds = group.create_dataset(k, data=v)
             ds.attrs["target"] = ds.name
             if is_yaml:
                 ds.attrs["text_format"] = "yaml"
 
-        return bluesky
+        return group
 
     def write_monochromator(self, parent):
         """
@@ -1499,7 +1411,7 @@ class NXWriterBase(FileWriterCallbackBase):
         return nxsource
 
     def write_stream_external(self, parent, d, subgroup, stream_name, k, v):
-        # FIXME: rabbit-hole alert! simplify
+        # TODO: rabbit-hole alert! simplify
         # lots of variations possible
         
         # count number of unique resources (expect only 1)
@@ -1636,9 +1548,18 @@ class NXWriterBase(FileWriterCallbackBase):
         return nxuser
 
 
-class NXWriterAps(NXWriterBase):
+class NXWriterAPS(NXWriter):
     """
-    includes APS-specific content
+    Customize :class:`~NXWriter` with APS-specific content.
+
+    * Adds `/entry/instrument/undulator` group if metadata exists.
+    * Adds APS information to `/entry/instrument/source` group.
+
+    .. autosummary::
+   
+       ~write_instrument
+       ~write_source
+       ~write_undulator
     """
 
     # convention: methods written in alphabetical order

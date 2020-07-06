@@ -5,7 +5,6 @@ demonstrate Bluesky callbacks
 
 .. autosummary::
    
-   ~plan_catalog
    ~specfile_example
 
 """
