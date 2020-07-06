@@ -1,7 +1,7 @@
 #-----------------------------------------------------------------------------
 # :author:    Pete R. Jemian
 # :email:     jemian@anl.gov
-# :copyright: (c) 2017-2019, UChicago Argonne, LLC
+# :copyright: (c) 2017-2020, UChicago Argonne, LLC
 #
 # Distributed under the terms of the Creative Commons Attribution 4.0 International Public License.
 #
@@ -10,7 +10,7 @@
 
 __project__     = u'apstools'
 __description__ = u"Various Python tools for use with the Bluesky Framework at the APS"
-__copyright__   = u'2017-2019, UChicago Argonne, LLC'
+__copyright__   = u'2017-2020, UChicago Argonne, LLC'
 __authors__     = [u'Pete Jemian', ]
 __author__      = ', '.join(__authors__)
 __institution__ = u"Advanced Photon Source, Argonne National Laboratory"
