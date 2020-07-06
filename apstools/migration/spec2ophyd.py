@@ -39,7 +39,7 @@ class Spec2ophydBase(object):
                 v = self.__getattribute__(k)
                 items.append(f"{k}='{v}'")
         return items
-    
+
     def __str__(self):
         items = self.obj_keys_to_list()
         return f"{self.__class__.__name__}({', '.join(items)})"
@@ -48,10 +48,10 @@ class Spec2ophydBase(object):
 class SpecDevice(Spec2ophydBase):
     """
     SPEC configuration of a device, such as a multi-channel motor controller
-    
+
     SPEC "devices" are components which counters or motors to controllers
     """
-    
+
     def __init__(self, config_text):
         """parse the line from the SPEC config file"""
         self.raw = config_text
@@ -68,14 +68,14 @@ class SpecDevice(Spec2ophydBase):
 
 
 class ItemNameBase(Spec2ophydBase):
-    
+
     ignore = False
     str_keys = "mne config_line name"
 
     def item_name_value(self, item):
         if hasattr(self, item):
             return f"{item}={self.__getattribute__(item)}"
-    
+
     def ophyd_config(self):
         return f"{self.mne} = {self} # FIXME: not valid ophyd"
 
@@ -84,7 +84,7 @@ class SpecSignal(ItemNameBase):
     """
     SPEC configuration of a single EPICS PV
     """
-    
+
     def __init__(self, mne, nm, pvname, config_text):
         """data provided by caller"""
         self.raw = config_text
@@ -102,7 +102,7 @@ class SpecSignal(ItemNameBase):
             if int_result:
                 l = int(l)
             return l, r
-        
+
         self.ctrl, r = pop_word(lr[1])
         self.unit, r = pop_word(r, True)
         self.chan, r = pop_word(r, True)
@@ -111,7 +111,7 @@ class SpecSignal(ItemNameBase):
 
         self.str_keys = "mne config_line name pvname signal_name".split()
         self.cntpar = {}
-    
+
     def setDevice(self, devices):
         if self.ctrl.startswith("EPICS_PV"):
             device_list = devices.get("VM_EPICS_PV")
@@ -143,7 +143,7 @@ class SpecMotor(ItemNameBase):
     """
     SPEC configuration of a motor channel
     """
-    
+
     def __init__(self, config_text):
         """parse the line from the SPEC config file"""
         self.raw = config_text
@@ -151,7 +151,7 @@ class SpecMotor(ItemNameBase):
         # MOT002 = EPICS_M2:0/3   2000  1  2000  200   50  125    0 0x003       my  my
         lr = config_text.split(sep="=", maxsplit=1)
         self.config_line = int(lr[0].strip("MOT"))
-        
+
         def pop_word(line, int_result=False):
             line = line.strip()
             pos = line.find(" ")
@@ -159,7 +159,7 @@ class SpecMotor(ItemNameBase):
             if int_result:
                 l = int(l)
             return l, r
-        
+
         self.ctrl, r = pop_word(lr[1])
         self.steps, r = pop_word(r, True)
         self.sign, r = pop_word(r, True)
@@ -182,7 +182,7 @@ class SpecMotor(ItemNameBase):
         if not txt.endswith("=None"):
             items.append(txt)
         return f"{self.__class__.__name__}({', '.join(items)})"
-    
+
     def setDevice(self, devices):
         if self.ctrl.startswith("EPICS_M2"):
             device_list = devices.get("VM_EPICS_M1")
@@ -201,7 +201,7 @@ class SpecMotor(ItemNameBase):
                 # TODO: what else?
         elif self.ctrl.startswith("NONE"):
             self.ignore = True
-    
+
     def ophyd_config(self):
         s = f"{self.mne} = EpicsMotor('{self.pvname}', name='{self.mne}', labels=('motor',))"
         suffix = None
@@ -226,11 +226,11 @@ class SpecMotor(ItemNameBase):
 class SpecCounter(ItemNameBase):
     """
     SPEC configuration of a counter channel
-    
+
     In SPEC's config file, a single PV signal is described as a counter,
     attached to an EPICS_PV (as described by a VM_EPICS_PV device).
     """
-    
+
     def __init__(self, config_text):
         """parse the line from the SPEC config file"""
         self.raw = config_text
@@ -268,7 +268,7 @@ class SpecCounter(ItemNameBase):
         else:
             items.append(self.item_name_value("ctrl"))
         return f"{self.__class__.__name__}({', '.join(items)})"
-    
+
     def setDevice(self, devices):
         if self.ctrl.startswith("EPICS_SC"):
             device_list = devices.get("VM_EPICS_SC")
@@ -284,7 +284,7 @@ class SpecCounter(ItemNameBase):
                 self.ophyd_device = "EpicsSignal"
         elif self.ctrl.startswith("NONE"):
             self.ignore = True
-    
+
     def ophyd_config(self):
         s = f"# counter: {self.mne} = {self}"
         suffix = None
@@ -304,14 +304,14 @@ class SpecConfig(object):
     """
     SPEC configuration
     """
-    
+
     def __init__(self, config_file):
         self.config_file = config_file or CONFIG_FILE
         self.devices = OrderedDict()
         self.scalers = []
         self.collection = []
         self.unhandled = []
-    
+
     def read_config(self, config_file=None):
         self.config_file = config_file or self.config_file
         motor = None
@@ -357,7 +357,7 @@ class SpecConfig(object):
                                 scaler.signal_name = "ScalerCH"
                                 self.scalers.append(pvname)
                                 self.collection.append(scaler)
-                        
+
                         self.collection.append(counter)
                 elif re.match("MOT\d*", line) is not None:
                     motor = SpecMotor(line)

@@ -4,8 +4,7 @@
 demonstrate Bluesky callbacks
 
 .. autosummary::
-   
-   ~plan_catalog
+
    ~specfile_example
 
 """
@@ -13,7 +12,7 @@ demonstrate Bluesky callbacks
 #-----------------------------------------------------------------------------
 # :author:    Pete R. Jemian
 # :email:     jemian@anl.gov
-# :copyright: (c) 2017-2019, UChicago Argonne, LLC
+# :copyright: (c) 2017-2020, UChicago Argonne, LLC
 #
 # Distributed under the terms of the Creative Commons Attribution 4.0 International Public License.
 #
@@ -22,8 +21,7 @@ demonstrate Bluesky callbacks
 
 
 import databroker
-import datetime
-from .filewriters import SpecWriterCallback, _rebuild_scan_command
+from .filewriters import SpecWriterCallback
 import logging
 
 

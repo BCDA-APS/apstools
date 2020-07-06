@@ -29,7 +29,7 @@ Package Information
 ============= ========================================
 version       |version|
 published     |today|
-copyright     2017-2019, UChicago Argonne, LLC
+copyright     2017-2020, UChicago Argonne, LLC
 license       ANL OPEN SOURCE LICENSE (see LICENSE.txt file)
 author        Pete R. Jemian <jemian@anl.gov>
 ============= ========================================

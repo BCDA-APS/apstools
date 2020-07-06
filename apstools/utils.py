@@ -2,7 +2,7 @@
 Various utilities
 
 .. autosummary::
-   
+
    ~cleanupText
    ~command_list_as_table
    ~connect_pvlist
@@ -122,10 +122,10 @@ def command_list_as_table(commands, show_raw=False):
 def device_read2table(device, show_ancient=True, use_datetime=True, printing=True):
     """
     read an ophyd device and return a pyRestTable Table
-    
+
     Include an option to suppress ancient values identified
-    by timestamp from 1989.  These are values only defined in 
-    the original .db file.
+    by timestamp from 1989.  These are values only defined in
+    the original ``.db`` file.
     """
     table = pyRestTable.Table()
     table.labels = "name value timestamp".split()
@@ -148,36 +148,36 @@ def device_read2table(device, show_ancient=True, use_datetime=True, printing=Tru
 def dictionary_table(dictionary, **kwargs):
     """
     return a text table from ``dictionary``
-    
+
     PARAMETERS
-    
+
     dictionary : dict
         Python dictionary
 
-    Note:  Keyword arguments parameters 
+    Note:  Keyword arguments parameters
     are kept for compatibility with previous
     versions of apstools.  They are ignored now.
-    
+
     RETURNS
 
     table : object or `None`
-        ``pyRestTable.Table()`` object (multiline text table) 
+        ``pyRestTable.Table()`` object (multiline text table)
         or ``None`` if dictionary has no contents
-    
+
     EXAMPLE::
 
-        In [8]: RE.md                                                                                                               
+        In [8]: RE.md
         Out[8]: {'login_id': 'jemian:wow.aps.anl.gov', 'beamline_id': 'developer', 'proposal_id': None, 'pid': 19072, 'scan_id': 10, 'version': {'bluesky': '1.5.2', 'ophyd': '1.3.3', 'apstools': '1.1.5', 'epics': '3.3.3'}}
 
-        In [9]: print(dictionary_table(RE.md))                                                                                      
+        In [9]: print(dictionary_table(RE.md))
         =========== =============================================================================
-        key         value                                                                        
+        key         value
         =========== =============================================================================
-        beamline_id developer                                                                    
-        login_id    jemian:wow.aps.anl.gov                                                       
-        pid         19072                                                                        
-        proposal_id None                                                                         
-        scan_id     10                                                                           
+        beamline_id developer
+        login_id    jemian:wow.aps.anl.gov
+        pid         19072
+        proposal_id None
+        scan_id     10
         version     {'bluesky': '1.5.2', 'ophyd': '1.3.3', 'apstools': '1.1.5', 'epics': '3.3.3'}
         =========== =============================================================================
 
@@ -196,7 +196,7 @@ def full_dotted_name(obj):
     """
     Return the full dotted name
 
-    The ``.dotted_name`` property does not include the 
+    The ``.dotted_name`` property does not include the
     name of the root object.  This routine adds that.
 
     see: https://github.com/bluesky/ophyd/pull/797
@@ -232,7 +232,7 @@ def _get_pv(obj):
 
 
 def itemizer(fmt, items):
-    """format a list of items"""
+    """Format a list of items."""
     return [fmt % k for k in items]
 
 
@@ -326,8 +326,8 @@ def listruns(
         runs = db.v1[-num_runs_requested:]
     for h in runs:
         if (
-                exit_status is not None 
-                and 
+                exit_status is not None
+                and
                 h.stop.get("exit_status") != exit_status):
             continue
         row = [
@@ -409,36 +409,36 @@ def object_explorer(obj, sortby=None, fmt='simple', printing=True):
 def print_RE_md(dictionary=None, fmt="simple", printing=True):
     """
     custom print the RunEngine metadata in a table
-    
+
     PARAMETERS
-    
+
     dictionary : dict
         Python dictionary
 
     EXAMPLE::
 
-        In [4]: print_RE_md()                                                                                                       
+        In [4]: print_RE_md()
         RunEngine metadata dictionary:
         ======================== ===================================
-        key                      value                              
+        key                      value
         ======================== ===================================
-        EPICS_CA_MAX_ARRAY_BYTES 1280000                            
-        EPICS_HOST_ARCH          linux-x86_64                       
-        beamline_id              APS USAXS 9-ID-C                   
+        EPICS_CA_MAX_ARRAY_BYTES 1280000
+        EPICS_HOST_ARCH          linux-x86_64
+        beamline_id              APS USAXS 9-ID-C
         login_id                 usaxs:usaxscontrol.xray.aps.anl.gov
-        pid                      67933                              
-        proposal_id              testing Bluesky installation       
-        scan_id                  0                                  
-        versions                 ======== =====                     
-                                 key      value                     
-                                 ======== =====                     
-                                 apstools 1.1.3                     
-                                 bluesky  1.5.2                     
-                                 epics    3.3.1                     
-                                 ophyd    1.3.3                     
-                                 ======== =====                     
+        pid                      67933
+        proposal_id              testing Bluesky installation
+        scan_id                  0
+        versions                 ======== =====
+                                 key      value
+                                 ======== =====
+                                 apstools 1.1.3
+                                 bluesky  1.5.2
+                                 epics    3.3.1
+                                 ophyd    1.3.3
+                                 ======== =====
         ======================== ===================================
-    
+
     """
     # override noting that fmt="markdown" will not display correctly
     fmt="simple"
@@ -457,18 +457,18 @@ def print_RE_md(dictionary=None, fmt="simple", printing=True):
 def pairwise(iterable):
     """
     break a list (or other iterable) into pairs
-    
+
     ::
-    
+
 		s -> (s0, s1), (s2, s3), (s4, s5), ...
-		
-		In [71]: for item in pairwise("a b c d e fg".split()): 
-			...:     print(item) 
-			...:                                                                                                                         
+
+		In [71]: for item in pairwise("a b c d e fg".split()):
+			...:     print(item)
+			...:
 		('a', 'b')
 		('c', 'd')
 		('e', 'fg')
-  
+
     """
     a = iter(iterable)
     return zip(a, a)
@@ -477,19 +477,19 @@ def pairwise(iterable):
 def replay(headers, callback=None, sort=True):
     """
     replay the document stream from one (or more) scans (headers)
-    
+
     PARAMETERS
-    
+
     headers: scan or [scan]
         Scan(s) to be replayed through callback.
         A *scan* is an instance of a Bluesky `databroker.Header`.
         see: https://nsls-ii.github.io/databroker/api.html?highlight=header#header-api
-    
+
     callback: scan or [scan]
         The Bluesky callback to handle the stream of documents from a scan.
         If `None`, then use the `bec` (BestEffortCallback) from the IPython shell.
         (default:``None``)
-    
+
     sort: bool
         Sort the headers chronologically if True.
         (default:``True``)
@@ -508,11 +508,11 @@ def replay(headers, callback=None, sort=True):
         return run.start["time"]
 
     def decreasing_time_sorter(run):
-        "default for databroker v0 results"
+        """Default for databroker v0 results."""
         return -run.start["time"]
 
     sorter = {
-        True: increasing_time_sorter, 
+        True: increasing_time_sorter,
         False: decreasing_time_sorter
         }[sort]
 
@@ -523,7 +523,7 @@ def replay(headers, callback=None, sort=True):
             )
         cmd = _rebuild_scan_command(h.start)
         logger.debug(f"{cmd}")
-        
+
         # at last, this is where the real action happens
         for k, doc in h.documents():    # get the stream
             callback(k, doc)            # play it through the callback
@@ -532,14 +532,14 @@ def replay(headers, callback=None, sort=True):
 def run_in_thread(func):
     """
     (decorator) run ``func`` in thread
-    
+
     USAGE::
 
        @run_in_thread
        def progress_reporting():
            logger.debug("progress_reporting is starting")
            # ...
-       
+
        #...
        progress_reporting()   # runs in separate thread
        #...
@@ -559,16 +559,16 @@ def safe_ophyd_name(text):
     Given some input text string, return a clean version.
     Remove troublesome characters, perhaps other cleanup as well.
     This is best done with regular expression pattern matching.
-    
+
     The "sanitized" name fits this regular expression::
-    
+
         [A-Za-z_][\w_]*
 
     Also can be used for safe HDF5 and NeXus names.
     """
     replacement = '_'
     noncompliance = '[^\w_]'
-    
+
     # replace ALL non-compliances with '_'
     safer = replacement.join(re.split(noncompliance, text))
 
@@ -581,9 +581,9 @@ def safe_ophyd_name(text):
 def listobjects(show_pv=True, printing=True, verbose=False, symbols=None):
     """
     show all the ophyd Signal and Device objects defined as globals
-    
+
     PARAMETERS
-    
+
     show_pv: bool
         If True, also show relevant EPICS PV, if available.
         (default: True)
@@ -595,37 +595,37 @@ def listobjects(show_pv=True, printing=True, verbose=False, symbols=None):
         (default: False)
     symbols: dict
         If None, use global symbol table.
-        If not None, use provided dictionary. 
+        If not None, use provided dictionary.
         (default: `globals()`)
-    
+
     RETURNS
-    
+
     object:
         Instance of `pyRestTable.Table()``
 
     EXAMPLE::
-    
-        In [1]: listobjects()                                                                                                                                                                           
+
+        In [1]: listobjects()
         ======== ================================ =============
-        name     ophyd structure                  EPICS PV     
+        name     ophyd structure                  EPICS PV
         ======== ================================ =============
-        adsimdet MySingleTriggerSimDetector       vm7SIM1:     
-        m1       EpicsMotor                       vm7:m1       
-        m2       EpicsMotor                       vm7:m2       
-        m3       EpicsMotor                       vm7:m3       
-        m4       EpicsMotor                       vm7:m4       
-        m5       EpicsMotor                       vm7:m5       
-        m6       EpicsMotor                       vm7:m6       
-        m7       EpicsMotor                       vm7:m7       
-        m8       EpicsMotor                       vm7:m8       
+        adsimdet MySingleTriggerSimDetector       vm7SIM1:
+        m1       EpicsMotor                       vm7:m1
+        m2       EpicsMotor                       vm7:m2
+        m3       EpicsMotor                       vm7:m3
+        m4       EpicsMotor                       vm7:m4
+        m5       EpicsMotor                       vm7:m5
+        m6       EpicsMotor                       vm7:m6
+        m7       EpicsMotor                       vm7:m7
+        m8       EpicsMotor                       vm7:m8
         noisy    EpicsSignalRO                    vm7:userCalc1
-        scaler   ScalerCH                         vm7:scaler1  
-        shutter  SimulatedApsPssShutterWithStatus              
+        scaler   ScalerCH                         vm7:scaler1
+        shutter  SimulatedApsPssShutterWithStatus
         ======== ================================ =============
-        
+
         Out[1]: <pyRestTable.rest_table.Table at 0x7fa4398c7cf8>
-        
-        In [2]:    
+
+        In [2]:
 
     *new in apstools release 1.1.8*
     """
@@ -663,18 +663,18 @@ def listobjects(show_pv=True, printing=True, verbose=False, symbols=None):
     return table
 
 
-def show_ophyd_symbols(show_pv=True, 
-                       printing=True, 
-                       verbose=False, 
+def show_ophyd_symbols(show_pv=True,
+                       printing=True,
+                       verbose=False,
                        symbols=None):
     warnings.warn(
-        "DEPRECATED: show_ophyd_symbols() will be removed" 
+        "DEPRECATED: show_ophyd_symbols() will be removed"
         " in a future release.  Use listobjects() instead."
         )
     listobjects(
-        show_pv=show_pv, 
-        printing=printing, 
-        verbose=verbose, 
+        show_pv=show_pv,
+        printing=printing,
+        verbose=verbose,
         symbols=symbols)
 
 
@@ -727,12 +727,12 @@ def split_quoted_line(line):
 
 
 def text_encode(source):
-    """encode ``source`` using the default codepoint"""
+    """Encode ``source`` using the default codepoint."""
     return source.encode(errors='ignore')
 
 
 def to_unicode_or_bust(obj, encoding='utf-8'):
-    """from: http://farmdev.com/talks/unicode/"""
+    """from: http://farmdev.com/talks/unicode/  ."""
     if isinstance(obj, str):
         if not isinstance(obj, str):
             obj = str(obj, encoding)
@@ -740,7 +740,7 @@ def to_unicode_or_bust(obj, encoding='utf-8'):
 
 
 def trim_string_for_EPICS(msg):
-    """string must not be too long for EPICS PV"""
+    """String must not exceed EPICS PV length."""
     if len(msg) > MAX_EPICS_STRINGOUT_LENGTH:
         msg = msg[:MAX_EPICS_STRINGOUT_LENGTH-1]
     return msg
@@ -748,10 +748,10 @@ def trim_string_for_EPICS(msg):
 
 def unix(command, raises=True):
     """
-    run a UNIX command, returns (stdout, stderr)
+    Run a UNIX command, returns (stdout, stderr).
 
     PARAMETERS
-    
+
     command: str
         UNIX command to be executed
     raises: bool
@@ -763,7 +763,7 @@ def unix(command, raises=True):
         raise RuntimeError(emsg)
 
     process = subprocess.Popen(
-        command, 
+        command,
         shell=True,
         stdin = subprocess.PIPE,
         stdout = subprocess.PIPE,
@@ -829,16 +829,16 @@ def connect_pvlist(pvlist, wait=True, timeout=2, poll_interval=0.1):
 class EmailNotifications(object):
     """
     send email notifications when requested
-    
+
     use default OS mail utility (so no credentials needed)
     """
-    
+
     def __init__(self, sender=None):
         self.addresses = []
         self.notify_on_feedback = True
         self.sender = sender or "nobody@localhost"
         self.smtp_host = "localhost"
-    
+
     def add_addresses(self, *args):
         for address in args:
             self.addresses.append(address)
@@ -858,15 +858,15 @@ class EmailNotifications(object):
 class ExcelDatabaseFileBase(object):
     """
     base class: read-only support for Excel files, treat them like databases
-    
+
     Use this class when creating new, specific spreadsheet support.
-    
+
     EXAMPLE
-    
+
     Show how to read an Excel file where one of the columns
     contains a unique key.  This allows for random access to
     each row of data by use of the *key*.
-    
+
     ::
 
         class ExhibitorsDB(ExcelDatabaseFileBase):
@@ -875,18 +875,18 @@ class ExcelDatabaseFileBase(object):
             '''
             EXCEL_FILE = os.path.join("resources", "exhibitors.xlsx")
             LABELS_ROW = 2
-        
+
             def handle_single_entry(self, entry):
                 '''any special handling for a row from the Excel file'''
                 pass
-        
+
             def handleExcelRowEntry(self, entry):
                 '''identify the unique key for this entry (row of the Excel file)'''
                 key = entry["Name"]
                 self.db[key] = entry
 
     """
-    
+
     EXCEL_FILE = None       # subclass MUST define
     # EXCEL_FILE = os.path.join("abstracts", "index of abstracts.xlsx")
     LABELS_ROW = 3          # labels are on line LABELS_ROW+1 in the Excel file
@@ -897,11 +897,11 @@ class ExcelDatabaseFileBase(object):
         if self.EXCEL_FILE is None:
             raise ValueError("subclass must define EXCEL_FILE")
         self.fname = os.path.join(os.getcwd(), self.EXCEL_FILE)
-        
+
         self.sheet_name = 0
 
         self.parse(ignore_extra=ignore_extra)
-        
+
     def handle_single_entry(self, entry):       # subclass MUST override
         raise NotImplementedError("subclass must override handle_single_entry() method")
 
@@ -915,16 +915,16 @@ class ExcelDatabaseFileBase(object):
                 # ignore data outside of table in spreadsheet file
                 nrows, ncols = self.getTableBoundaries(labels_row_num)
                 xl = pandas.read_excel(
-                    self.fname, 
-                    sheet_name=self.sheet_name, 
+                    self.fname,
+                    sheet_name=self.sheet_name,
                     skiprows=labels_row_num,
                     usecols=range(ncols),
                     nrows=nrows,
                     )
             else:
                 xl = pandas.read_excel(
-                    self.fname, 
-                    sheet_name=self.sheet_name, 
+                    self.fname,
+                    sheet_name=self.sheet_name,
                     header=None,
                     )
         except xlrd.XLRDError as exc:
@@ -947,7 +947,7 @@ class ExcelDatabaseFileBase(object):
             if isinstance(v, str):
                 v = v.strip()
         return v
-    
+
     def _isExcel_nan(self, value):
         if not isinstance(value, float):
             return False
@@ -959,35 +959,35 @@ class ExcelDatabaseFileBase(object):
         """
         labels_row_num = labels_row_num or self.LABELS_ROW
         xl = pandas.read_excel(self.fname, sheet_name=self.sheet_name, skiprows=labels_row_num)
-    
+
         ncols = len(xl.columns)
         for i, k in enumerate(xl.columns):
             if k.startswith(f"Unnamed: {i}"):
                 # TODO: verify all values under this label are NaN
                 ncols = i
                 break
-    
+
         nrows = len(xl.values)
         for j, r in enumerate(xl.values):
             r = r[:ncols]
             if False not in [self._isExcel_nan(value) for value in r]:
                 nrows = j
                 break
-        
+
         return nrows, ncols
 
 
 class ExcelDatabaseFileGeneric(ExcelDatabaseFileBase):
     """
     Generic (read-only) handling of Excel spreadsheet-as-database
-    
+
     .. index:: Excel scan, scan; Excel
-    
+
     .. note:: This is the class to use when reading Excel spreadsheets.
 
     In the spreadsheet, the first sheet should contain the table to be used.
     By default (see keyword parameter `labels_row`), the table should start
-    in cell A4.  The column labels are given in row 4.  A blank column 
+    in cell A4.  The column labels are given in row 4.  A blank column
     should appear to the right of the table (see keyword parameter `ignore_extra`).
     The column labels will describe the action and its parameters.  Additional
     columns may be added for metadata or other purposes.
@@ -996,17 +996,17 @@ class ExcelDatabaseFileGeneric(ExcelDatabaseFileBase):
     To make a comment, place a `#` in the action column.  A comment
     should be ignored by the bluesky plan that reads this table.
     The table will end with a row of empty cells.
-    
+
     While it's a good idea to put the `action` column first, that is not necessary.
     It is not even necessary to name the column `action`.
-    You can re-arrange the order of the columns and change their names 
+    You can re-arrange the order of the columns and change their names
     **as long as** the column names match
     what text strings your Python code expects to find.
-    
+
     A future upgrade [#]_ will allow the table boundaries to be named by Excel when
     using Excel's `Format as Table` [#]_ feature.
     For now, leave a blank row and column at the bottom and right edges of the table.
-    
+
     .. [#] https://github.com/BCDA-APS/apstools/issues/122
     .. [#] Excel's `Format as Table`: https://support.office.com/en-us/article/Format-an-Excel-table-6789619F-C889-495C-99C2-2F971C0E2370
 
@@ -1020,22 +1020,22 @@ class ExcelDatabaseFileGeneric(ExcelDatabaseFileBase):
     ignore_extra : bool
         When True, ignore any cells outside of the table,
         default: `True`
-        
+
         Note that when True, a row of cells *within* the table will
         be recognized as the end of the table, even if there are
         actions in following rows.  To force an empty row, use
         a comment symbol `#` (actually, any non-empty content will work).
-        
+
         When False, cells with other information (in Sheet 1) will be made available,
         sometimes with unpredictable results.
-    
+
     EXAMPLE
-    
+
     See section :ref:`example_run_command_file` for more examples.
 
     (See also :ref:`example screen shot <excel_plan_spreadsheet_screen>`.)
     Table (on Sheet 1) begins on row 4 in first column::
-    
+
         1  |  some text here, maybe a title
         2  |  (could have content here)
         3  |  (or even more content here)
@@ -1047,16 +1047,16 @@ class ExcelDatabaseFileGeneric(ExcelDatabaseFileBase):
         9  |  image   | 5.1  | -3.2 | 4140 steel | heat 9172634      |  |
         10 |  scan    | 5.1  | -3.2 | 4140 steel | heat 9172634      |  |
         11 |  scan    | 0    | 0    | blank      |                   |  |
-        12 |  
+        12 |
         13 |  ^^^ leave empty row ^^^
         14 | (could have content here)
 
 
-    
+
     Example python code to read this spreadsheet::
-    
+
         from apstools.utils import ExcelDatabaseFileGeneric, cleanupText
-        
+
         def myExcelPlan(xl_file, md={}):
             excel_file = os.path.abspath(xl_file)
             xl = ExcelDatabaseFileGeneric(excel_file)
@@ -1081,12 +1081,12 @@ class ExcelDatabaseFileGeneric(ExcelDatabaseFileBase):
                     yield from my_scan(**row, md=_md)
                 else:
                     print(f"no handling for row {i+1}: action={action}")
-    
+
         # execute this plan through the RunEngine
         RE(myExcelPlan("spreadsheet.xlsx", md=dict(purpose="apstools demo"))
-        
+
     """
-    
+
     def __init__(self, filename, labels_row=3, ignore_extra=True):
         self._index_ = 0
         self.EXCEL_FILE = self.EXCEL_FILE or filename
@@ -1106,7 +1106,7 @@ class ExcelDatabaseFileGeneric(ExcelDatabaseFileBase):
 def ipython_profile_name():
     """
     return the name of the current ipython profile or `None`
-    
+
     Example (add to default RunEngine metadata)::
 
         RE.md['ipython_profile'] = str(ipython_profile_name())
@@ -1124,7 +1124,7 @@ def ipython_shell_namespace():
     try:
         from IPython import get_ipython
         ns = get_ipython().user_ns
-    except AttributeError as _exc:
+    except AttributeError:
         ns = {}
     return ns
 
@@ -1140,22 +1140,27 @@ def plot_prune_fifo(bec, n, y, x):
         plot_prune_fifo(bec, 1, noisy, m1)
 
     PARAMETERS
-    
+
     bec : object
         instance of BestEffortCallback
-    
+
     n : int
         number of plots to keep
-    
+
     y : object
-        instance of ophyd.Signal (or subclass), 
+        instance of ophyd.Signal (or subclass),
         dependent (y) axis
-    
+
     x : object
-        instance of ophyd.Signal (or subclass), 
+        instance of ophyd.Signal (or subclass),
         independent (x) axis
     """
-    assert n >= 0, "n must be 0 or greater"
+
+    if n < 0:
+        raise ValueError(
+            "must be zero or greater",
+            f" received {n}")
+
     for liveplot in bec._live_plots.values():
         lp = liveplot.get(y.name)
         if lp is None:
@@ -1170,8 +1175,8 @@ def plot_prune_fifo(bec, n, y, x):
         lines = [
             tr
             for tr in lp.ax.lines
-            if len(tr._x) != 2 
-                or len(tr._y) != 2 
+            if len(tr._x) != 2
+                or len(tr._y) != 2
                 or (len(tr._x) == 2 and tr._x[0] != tr._x[1])
         ]
         if len(lines) > n:
@@ -1186,33 +1191,33 @@ def plot_prune_fifo(bec, n, y, x):
 def print_snapshot_list(db, printing=True, **search_criteria):
     """
     print (stdout) a list of all snapshots in the databroker
-    
+
     USAGE::
-    
+
         print_snapshot_list(db, )
         print_snapshot_list(db, purpose="this is an example")
         print_snapshot_list(db, since="2018-12-21", until="2019")
-    
+
     EXAMPLE::
-    
+
         In [16]: from apstools.utils import print_snapshot_list
-            ...: from apstools.callbacks import SnapshotReport 
-            ...: print_snapshot_list(db, since="2018-12-21", until="2019") 
-            ...:                                                                                                                            
+            ...: from apstools.callbacks import SnapshotReport
+            ...: print_snapshot_list(db, since="2018-12-21", until="2019")
+            ...:
         = ======== ========================== ==================
-        # uid      date/time                  purpose           
+        # uid      date/time                  purpose
         = ======== ========================== ==================
         0 d7831dae 2018-12-21 11:39:52.956904 this is an example
         1 5049029d 2018-12-21 11:39:30.062463 this is an example
         2 588e0149 2018-12-21 11:38:43.153055 this is an example
         = ======== ========================== ==================
-        
+
         In [17]: SnapshotReport().print_report(db["5049029d"])
-        
+
         ========================================
         snapshot: 2018-12-21 11:39:30.062463
         ========================================
-        
+
         example: example 2
         hints: {}
         iso8601: 2018-12-21 11:39:30.062463
@@ -1224,38 +1229,38 @@ def print_snapshot_list(db, printing=True, **search_criteria):
         purpose: this is an example
         scan_id: 1
         software_versions: {
-            'python': 
+            'python':
                 '''3.6.2 |Continuum Analytics, Inc.| (default, Jul 20 2017, 13:51:32)
-                [GCC 4.4.7 20120313 (Red Hat 4.4.7-1)]''', 
-            'PyEpics': '3.3.1', 
-            'bluesky': '1.4.1', 
-            'ophyd': '1.3.0', 
-            'databroker': '0.11.3', 
+                [GCC 4.4.7 20120313 (Red Hat 4.4.7-1)]''',
+            'PyEpics': '3.3.1',
+            'bluesky': '1.4.1',
+            'ophyd': '1.3.0',
+            'databroker': '0.11.3',
             'apstools': '0.0.38'
             }
         time: 1545413970.063167
         uid: 5049029d-075c-453c-96d2-55431273852b
-        
+
         ========================== ====== ================ ===================
-        timestamp                  source name             value              
+        timestamp                  source name             value
         ========================== ====== ================ ===================
-        2018-12-20 18:24:34.220028 PV     compress         [0.1, 0.2, 0.3]    
-        2018-12-13 14:49:53.121188 PV     gov:HOSTNAME     otz.aps.anl.gov    
+        2018-12-20 18:24:34.220028 PV     compress         [0.1, 0.2, 0.3]
+        2018-12-13 14:49:53.121188 PV     gov:HOSTNAME     otz.aps.anl.gov
         2018-12-21 11:39:24.268148 PV     gov:IOC_CPU_LOAD 0.22522317161410768
-        2018-12-21 11:39:24.268151 PV     gov:SYS_CPU_LOAD 9.109026666525944  
+        2018-12-21 11:39:24.268151 PV     gov:SYS_CPU_LOAD 9.109026666525944
         2018-12-21 11:39:30.017643 PV     gov:iso8601      2018-12-21T11:39:30
-        2018-12-13 14:49:53.135016 PV     otz:HOSTNAME     otz.aps.anl.gov    
-        2018-12-21 11:39:27.705304 PV     otz:IOC_CPU_LOAD 0.1251210270549924 
-        2018-12-21 11:39:27.705301 PV     otz:SYS_CPU_LOAD 11.611234438304471 
+        2018-12-13 14:49:53.135016 PV     otz:HOSTNAME     otz.aps.anl.gov
+        2018-12-21 11:39:27.705304 PV     otz:IOC_CPU_LOAD 0.1251210270549924
+        2018-12-21 11:39:27.705301 PV     otz:SYS_CPU_LOAD 11.611234438304471
         2018-12-21 11:39:30.030321 PV     otz:iso8601      2018-12-21T11:39:30
         ========================== ====== ================ ===================
-        
+
         exit_status: success
         num_events: {'primary': 1}
         run_start: 5049029d-075c-453c-96d2-55431273852b
         time: 1545413970.102147
         uid: 6c1b2100-1ef6-404d-943e-405da9ada882
-       
+
     """
     t = pyRestTable.Table()
     t.addLabel("#")
@@ -1284,12 +1289,12 @@ def json_export(headers, filename, zipfilename=None):
     filename : str
         name of file into which to write JSON
     zipfilename : str or None
-        name of ZIP file container of `filename` 
+        name of ZIP file container of `filename`
         (if None, do not ZIP `filename`)
-        
+
         .. note::  If writing to a ZIP file, the data file is
            *only* written into the ZIP file.
-    
+
     EXAMPLE::
 
         from databroker import Broker
@@ -1297,18 +1302,18 @@ def json_export(headers, filename, zipfilename=None):
         headers = db(plan_name="count", since="2019-04-01")
 
         json_export(
-            headers, 
-            "data.json", 
+            headers,
+            "data.json",
             zipfilename="bluesky_data.zip")
-    
+
     EXAMPLE: READ THE ZIP FILE:
-    
+
      using :meth:`~json_import`::
 
         datasets = json_import("data.json", zipfilename="bluesky_data.zip")
-    
+
     EXAMPLE: READ THE JSON TEXT FILE
-    
+
     using :meth:`~json_import`::
 
         datasets = json_import("data.json)
@@ -1323,33 +1328,33 @@ def json_export(headers, filename, zipfilename=None):
     else:
         with zipfile.ZipFile(zipfilename, "w", allowZip64=True) as fp:
             fp.writestr(filename, buf, compress_type=zipfile.ZIP_LZMA)
-                
+
 
 def json_import(filename, zipfilename=None):
     """
     read the file exported by :meth:`~json_export()`
-    
+
     RETURNS
 
     datasets : list of documents
-        list of 
+        list of
         `documents <https://blueskyproject.io/bluesky/documents.html/>`_,
         such as returned by
         `[list(h.documents()) for h in db]`
-        
+
         See:
         https://blueskyproject.io/databroker/generated/databroker.Header.documents.html
-    
+
     EXAMPLE
-    
+
     Insert the datasets into the databroker ``db``::
-    
+
         def insert_docs(db, datasets):
             for i, h in enumerate(datasets):
                 print(f"{i+1}/{len(datasets)} : {len(h)} documents")
                 for k, doc in h:
                     db.insert(k, doc)
-    
+
     """
     if zipfilename is None:
         with open(filename, "r") as fp:
@@ -1359,7 +1364,7 @@ def json_import(filename, zipfilename=None):
         with zipfile.ZipFile(zipfilename, "r") as fp:
             buf = fp.read(filename).decode("utf-8")
             datasets = json.loads(buf)
-    
+
     return datasets
 
 

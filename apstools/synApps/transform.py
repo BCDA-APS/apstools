@@ -1,4 +1,3 @@
-
 """
 Ophyd support for the EPICS transform record
 
@@ -6,7 +5,7 @@ Ophyd support for the EPICS transform record
 Public Structures
 
 .. autosummary::
-   
+
     ~UserTransformsDevice
     ~TransformRecord
 """
@@ -14,7 +13,7 @@ Public Structures
 #-----------------------------------------------------------------------------
 # :author:    Pete R. Jemian
 # :email:     jemian@anl.gov
-# :copyright: (c) 2017-2019, UChicago Argonne, LLC
+# :copyright: (c) 2017-2020, UChicago Argonne, LLC
 #
 # Distributed under the terms of the Creative Commons Attribution 4.0 International Public License.
 #
@@ -47,7 +46,7 @@ class transformRecordChannel(Device):
     channel of a synApps transform record: A-P
 
 	.. autosummary::
-	   
+
 		~reset
     """
     current_value = FC(EpicsSignal,         '{self.prefix}.{self._ch_letter}')
@@ -59,9 +58,9 @@ class transformRecordChannel(Device):
     expression = FC(EpicsSignal,            '{self.prefix}.CLC{self._ch_letter}')
     output_pv = FC(EpicsSignal,             '{self.prefix}.OUT{self._ch_letter}')
     output_pv_valid = FC(EpicsSignalRO,     '{self.prefix}.O{self._ch_letter}V')
-    
+
     read_attrs = ["current_value"]
-    
+
     def __init__(self, prefix, letter, **kwargs):
         self._ch_letter = letter
         super().__init__(prefix, **kwargs)
@@ -87,9 +86,9 @@ class TransformRecord(EpicsRecordDeviceCommonAll):
     EPICS transform record support in ophyd
 
 	.. autosummary::
-	   
+
 		~reset
-    
+
     :see: https://htmlpreview.github.io/?https://raw.githubusercontent.com/epics-modules/calc/R3-6-1/documentation/TransformRecord.html#Fields
     """
     units = Cpt(EpicsSignal, ".EGU")
@@ -104,7 +103,7 @@ class TransformRecord(EpicsRecordDeviceCommonAll):
     hints = {'fields': read_attrs}
 
     channels = DDC(_channels(CHANNEL_LETTERS_LIST))
-    
+
     def reset(self):
         """set all fields to default values"""
         self.scanning_rate.put("Passive")
@@ -126,7 +125,7 @@ class UserTransformsDevice(Device):
     synApps XXX IOC setup of userTransforms: $(P):userTran$(N)
 
     .. autosummary::
-       
+
         ~reset
 
     """

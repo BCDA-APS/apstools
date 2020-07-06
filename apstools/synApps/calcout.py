@@ -1,4 +1,3 @@
-
 """
 Ophyd support for the EPICS calcout record
 
@@ -7,7 +6,7 @@ https://wiki-ext.aps.anl.gov/epics/index.php/RRM_3-14_Calcout
 Public Structures
 
 .. autosummary::
-   
+
     ~UserCalcoutDevice
     ~CalcoutRecord
     ~CalcoutRecordChannel
@@ -19,7 +18,7 @@ Public Structures
 #-----------------------------------------------------------------------------
 # :author:    Pete R. Jemian
 # :email:     jemian@anl.gov
-# :copyright: (c) 2017-2019, UChicago Argonne, LLC
+# :copyright: (c) 2017-2020, UChicago Argonne, LLC
 #
 # Distributed under the terms of the Creative Commons Attribution 4.0 International Public License.
 #
@@ -56,14 +55,14 @@ class CalcoutRecordChannel(Device):
     channel of a calcout record: A-L
 
 	.. autosummary::
-	   
+
 		~reset
     """
     input_value = FC(EpicsSignal,       '{self.prefix}.{self._ch_letter}')
     last_value = FC(EpicsSignalRO,      '{self.prefix}.L{self._ch_letter}')
     input_pv = FC(EpicsSignal,          '{self.prefix}.INP{self._ch_letter}')
     input_pv_valid = FC(EpicsSignalRO,  '{self.prefix}.IN{self._ch_letter}V')
-    
+
     read_attrs = ['input_value',]
     hints = {"fields": read_attrs}
 
@@ -89,9 +88,9 @@ class CalcoutRecord(EpicsRecordFloatFields, EpicsRecordDeviceCommonAll):
     EPICS calcout record support in ophyd
 
 	.. autosummary::
-	   
+
 		~reset
-    
+
     :see: https://wiki-ext.aps.anl.gov/epics/index.php/RRM_3-14_Calcout
     """
     units = Cpt(EpicsSignal, ".EGU")
@@ -123,7 +122,7 @@ class CalcoutRecord(EpicsRecordFloatFields, EpicsRecordDeviceCommonAll):
     @property
     def value(self):
         return self.calculated_value.value
-    
+
     def reset(self):
         """set all fields to default values"""
         pvname = self.description.pvname.split(".")[0]
@@ -159,7 +158,7 @@ class UserCalcoutDevice(Device):
     synApps XXX IOC setup of user calcouts: $(P):userCalcOut$(N)
 
     .. autosummary::
-       
+
         ~reset
 
     """
@@ -176,7 +175,7 @@ class UserCalcoutDevice(Device):
     calcout9 = Cpt(CalcoutRecord, 'userCalcOut9')
     calcout10 = Cpt(CalcoutRecord, 'userCalcOut10')
 
-    def reset(self):                            # lgtm [py/similar-function] 
+    def reset(self):                            # lgtm [py/similar-function]
         """set all fields to default values"""
         self.calcout1.reset()
         self.calcout2.reset()
@@ -195,7 +194,7 @@ class UserCalcoutDevice(Device):
 def _setup_peak_calcout_(calc, desc, calcout, ref_signal, center=0, width=1, scale=1, noise=0.05):
     """
     internal: setup that is common to both Gaussian and Lorentzian calcouts
-    
+
     PARAMETERS
 
     calcout : object
@@ -205,7 +204,7 @@ def _setup_peak_calcout_(calc, desc, calcout, ref_signal, center=0, width=1, sca
         instance of :class:`EpicsSignal` used as $A$
 
     center : float
-        $B$, 
+        $B$,
         default = 0
 
     width : float
@@ -220,11 +219,21 @@ def _setup_peak_calcout_(calc, desc, calcout, ref_signal, center=0, width=1, sca
         $E$,
         default = 0.05
     """
+
     # to add a noisy background will need another calc
-    assert isinstance(calcout, CalcoutRecord)
-    assert isinstance(ref_signal, Signal)
-    assert width > 0
-    assert 0.0 <= noise <= 1.0
+    if not isinstance(calcout, CalcoutRecord):
+        raise TypeError(
+            "expected CalcoutRecord instance,"
+            f" received {type(calcout)}")
+    if not isinstance(ref_signal, Signal):
+        raise TypeError(
+            "expected Signal instance,"
+            f" received {type(ref_signal)}")
+    if width <= 0:
+        raise ValueError(f"width must be positive, received {width}")
+    if not (0.0 <= noise <= 1.0):
+        raise ValueError(f"noise must be between 0 and 1, received {noise}")
+
     calcout.reset()
     calcout.scanning_rate.put("Passive")
     calcout.description.put(desc)
@@ -243,9 +252,9 @@ def _setup_peak_calcout_(calc, desc, calcout, ref_signal, center=0, width=1, sca
 def setup_gaussian_calcout(calcout, ref_signal, center=0, width=1, scale=1, noise=0.05):
     """
     setup calcout for noisy Gaussian
-    
+
     calculation: $D*(0.95+E*RNDM)/exp(((A-B)/C)^2)$
-    
+
     PARAMETERS
 
     calcout : object
@@ -255,7 +264,7 @@ def setup_gaussian_calcout(calcout, ref_signal, center=0, width=1, scale=1, nois
         instance of :class:`EpicsSignal` used as $A$
 
     center : float
-        $B$, 
+        $B$,
         default = 0
 
     width : float
@@ -272,23 +281,23 @@ def setup_gaussian_calcout(calcout, ref_signal, center=0, width=1, scale=1, nois
     """
     _setup_peak_calcout_(
         "D*(0.95+E*RNDM)/exp(((A-b)/c)^2)",
-        "noisy Gaussian curve", 
-        calcout, 
-        ref_signal, 
-        center=center, 
-        width=width, 
-        scale=scale, 
+        "noisy Gaussian curve",
+        calcout,
+        ref_signal,
+        center=center,
+        width=width,
+        scale=scale,
         noise=noise)
 
 
 def setup_lorentzian_calcout(calcout, ref_signal,
-                             center=0, width=1, 
+                             center=0, width=1,
 			     scale=1, noise=0.05):     # lgtm [py/similar-function]
     """
     setup calcout record for noisy Lorentzian
-    
+
     calculation: $D*(0.95+E*RNDM)/(1+((A-B)/C)^2)$
-    
+
     PARAMETERS
 
     calcout : object
@@ -298,7 +307,7 @@ def setup_lorentzian_calcout(calcout, ref_signal,
         instance of :class:`EpicsSignal` used as $A$
 
     center : float
-        $B$, 
+        $B$,
         default = 0
 
     width : float
@@ -314,13 +323,13 @@ def setup_lorentzian_calcout(calcout, ref_signal,
         default = 0.05
     """
     _setup_peak_calcout_(
-        "D*(0.95+E*RNDM)/(1+((A-B)/C)^2)", 
-        "noisy Lorentzian curve", 
-        calcout, 
-        ref_signal, 
-        center=center, 
-        width=width, 
-        scale=scale, 
+        "D*(0.95+E*RNDM)/(1+((A-B)/C)^2)",
+        "noisy Lorentzian curve",
+        calcout,
+        ref_signal,
+        center=center,
+        width=width,
+        scale=scale,
         noise=noise)
 
 
@@ -334,13 +343,13 @@ def setup_incrementer_calcout(calcout, scan=None, limit=100000):
         instance of :class:`CalcoutRecord`
 
     scan : text or int or None
-        any of the EPICS record `.SCAN` values, 
+        any of the EPICS record `.SCAN` values,
         or the index number of the value,
         set to default if `None`,
         default: `.1 second`
 
     limit : int or None
-        set the incrementer back to zero 
+        set the incrementer back to zero
         when this number is reached (or passed),
         default: 100000
 

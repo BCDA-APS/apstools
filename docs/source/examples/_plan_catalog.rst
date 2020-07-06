@@ -3,8 +3,8 @@
 Example: the ``plan_catalog`` application
 ==================================================
 
-The *apstools* package provides an executable that can be 
-used to display a summary of all the scans in the database.  
+The *apstools* package provides an executable that can be
+used to display a summary of all the scans in the database.
 The executable wraps the demo function: :func:`~apstools.examples.plan_catalog()`.
 It is for demonstration purposes only (since it does not filter
 the output to any specific subset of scans).
@@ -21,7 +21,7 @@ The output is a table, formatted as restructured text, with these columns:
 
 :id:
 
-   The scan number.  
+   The scan number.
    (User has control of this and could reset the counter for the next scan.)
 
 :plan:

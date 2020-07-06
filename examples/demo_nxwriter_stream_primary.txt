@@ -1,0 +1,29 @@
+  primary:NXnote
+    @NX_class = NXnote
+    @target = /entry/instrument/bluesky/streams/primary
+    @uid = 90489e9b-d66e-4753-8c4f-849e7a809aeb
+    I0_USAXS:NXdata
+      @NX_class = NXdata
+      @axes = time
+      @signal = value
+      @signal_type = detector
+      @target = /entry/instrument/bluesky/streams/primary/I0_USAXS
+      EPOCH:NX_FLOAT64[31] = [1556837134.972796, 1556837135.589462, 1556837135.989462, '...', 1556837147.656129]
+        @long_name = epoch time (s)
+        @target = /entry/instrument/bluesky/streams/primary/I0_USAXS/EPOCH
+        @units = s
+      time:NX_FLOAT64[31] = [0.0, 0.6166660785675049, 1.0166659355163574, '...', 12.683332920074463]
+        @long_name = time since first data (s)
+        @start_time = 1556837134.972796
+        @start_time_iso = 2019-05-02T17:45:34.972796
+        @target = /entry/instrument/bluesky/streams/primary/I0_USAXS/time
+        @units = s
+      value:NX_FLOAT64[31] = [127.0, 126.0, 127.0, '...', 127.0]
+        @long_name = I0_USAXS
+        @lower_ctrl_limit = 0.0
+        @precision = 0
+        @signal_type = detector
+        @source = PV:9idcLAX:vsc:c0.S2
+        @target = /entry/instrument/bluesky/streams/primary/I0_USAXS/value
+        @units = 
+        @upper_ctrl_limit = 0.0

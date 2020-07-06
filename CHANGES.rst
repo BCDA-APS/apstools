@@ -4,7 +4,7 @@
 Change History
 ##############
 
-:1.2.7:  release expected by 2020-07-31
+:1.3.0:  release expected by 2020-07-31
 
 :1.2.6:  released *2020-06-26*
 

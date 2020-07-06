@@ -1,4 +1,3 @@
-
 """
 a read-only TkTkinter.Text widget
 """

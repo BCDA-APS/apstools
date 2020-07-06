@@ -1,14 +1,3 @@
-
-#-----------------------------------------------------------------------------
-# :author:    Pete R. Jemian
-# :email:     jemian@anl.gov
-# :copyright: (c) 2017-2019, UChicago Argonne, LLC
-#
-# Distributed under the terms of the Creative Commons Attribution 4.0 International Public License.
-#
-# The full license is in the file LICENSE.txt, distributed with this software.
-#-----------------------------------------------------------------------------
-
 """
 Ophyd support for fields common to all EPICS records
 
@@ -16,7 +5,7 @@ Ophyd support for fields common to all EPICS records
 Public Structures
 
 .. autosummary::
-   
+
     ~EpicsRecordDeviceCommonAll
     ~EpicsRecordInputFields
     ~EpicsRecordOutputFields
@@ -26,12 +15,22 @@ Public Structures
 :see: https://wiki-ext.aps.anl.gov/epics/index.php/RRM_3-14_Common
 """
 
+#-----------------------------------------------------------------------------
+# :author:    Pete R. Jemian
+# :email:     jemian@anl.gov
+# :copyright: (c) 2017-2020, UChicago Argonne, LLC
+#
+# Distributed under the terms of the Creative Commons Attribution 4.0 International Public License.
+#
+# The full license is in the file LICENSE.txt, distributed with this software.
+#-----------------------------------------------------------------------------
+
 from ophyd.device import Device, Component
 from ophyd import EpicsSignal, EpicsSignalRO
 
 
 __all__ = [
-    "EpicsRecordDeviceCommonAll", 
+    "EpicsRecordDeviceCommonAll",
     "EpicsRecordInputFields",
     "EpicsRecordOutputFields",
     "EpicsRecordFloatFields",
@@ -41,7 +40,7 @@ __all__ = [
 class EpicsRecordDeviceCommonAll(Device):
     """
     Many of the fields common to all EPICS records
-    
+
     Some fields are not included because they are not interesting to
     an EPICS client or are already provided in other support.
     """
@@ -70,9 +69,9 @@ class EpicsRecordInputFields(Device):
     input_link = Component(EpicsSignal, ".INP")
     raw_value = Component(EpicsSignal, ".RVAL")
     final_value = Component(EpicsSignal, ".VAL")
-    
+
     # will ignore simulation mode fields
-    
+
     @property
     def value(self):
         return self.final_value.value
@@ -89,9 +88,9 @@ class EpicsRecordOutputFields(Device):
     desired_output_location = Component(EpicsSignal, ".DOL")
     output_mode_select = Component(EpicsSignal, ".OMSL")
     desired_value = Component(EpicsSignal, ".VAL")
-    
+
     # will ignore simulation mode fields
-    
+
     @property
     def value(self):
         return self.desired_value.value
@@ -109,7 +108,7 @@ class EpicsRecordFloatFields(Device):
     # upper and lower display limits for the VAL, CVAL, HIHI, HIGH, LOW, and LOLO fields
     high_operating_range = Component(EpicsSignal, ".HOPR")
     low_operating_range = Component(EpicsSignal, ".LOPR")
-    
+
     hihi_alarm_limit = Component(EpicsSignal, ".HIHI")
     high_alarm_limit = Component(EpicsSignal, ".HIGH")
     low_alarm_limit = Component(EpicsSignal, ".LOW")

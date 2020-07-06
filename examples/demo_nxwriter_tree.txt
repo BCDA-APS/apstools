@@ -1,0 +1,116 @@
+20190502-174533-S00108-2ffe4d8.hdf : NeXus data file
+  entry:NXentry
+    duration:NX_FLOAT64[] = [ ... ]
+    end_time:NX_CHAR = 2019-05-02T17:45:48.078618
+    entry_identifier --> /entry/instrument/bluesky/uid
+    plan_name --> /entry/instrument/bluesky/metadata/plan_name
+    program_name:NX_CHAR = bluesky
+    start_time:NX_CHAR = 2019-05-02T17:45:33.937294
+    title:NX_CHAR = tune_mr-S0108-2ffe4d8
+    contact:NXuser
+      affiliation --> /entry/instrument/bluesky/streams/baseline/bss_user_info_institution/value_start
+      email --> /entry/instrument/bluesky/streams/baseline/bss_user_info_email/value_start
+      facility_user_id --> /entry/instrument/bluesky/streams/baseline/bss_user_info_badge/value_start
+      name --> /entry/instrument/bluesky/streams/baseline/bss_user_info_contact/value_start
+      role:NX_CHAR = contact
+    data:NXdata
+      EPOCH --> /entry/instrument/bluesky/streams/primary/scaler0_time/time
+      I0_USAXS --> /entry/instrument/bluesky/streams/primary/I0_USAXS/value
+      m_stage_r --> /entry/instrument/bluesky/streams/primary/m_stage_r/value
+      m_stage_r_soft_limit_hi --> /entry/instrument/bluesky/streams/primary/m_stage_r_soft_limit_hi/value
+      m_stage_r_soft_limit_lo --> /entry/instrument/bluesky/streams/primary/m_stage_r_soft_limit_lo/value
+      m_stage_r_user_setpoint --> /entry/instrument/bluesky/streams/primary/m_stage_r_user_setpoint/value
+      scaler0_display_rate --> /entry/instrument/bluesky/streams/primary/scaler0_display_rate/value
+      scaler0_time --> /entry/instrument/bluesky/streams/primary/scaler0_time/value
+    instrument:NXinstrument
+      bluesky:NXnote
+        plan_name --> /entry/instrument/bluesky/metadata/plan_name
+        uid --> /entry/instrument/bluesky/metadata/run_start_uid
+        metadata:NXnote
+          APSTOOLS_VERSION:NX_CHAR = b'1.1.0'
+          BLUESKY_VERSION:NX_CHAR = b'1.5.2'
+          EPICS_CA_MAX_ARRAY_BYTES:NX_CHAR = b'1280000'
+          EPICS_HOST_ARCH:NX_CHAR = b'linux-x86_64'
+          OPHYD_VERSION:NX_CHAR = b'1.3.3'
+          beamline_id:NX_CHAR = b'APS USAXS 9-ID-C'
+          datetime:NX_CHAR = b'2019-05-02 17:45:33.904824'
+          detectors:NX_CHAR = b'- I0_USAXS\n'
+          hints:NX_CHAR = b'dimensions:\n- - - m_stage_r\n  - primary\n'
+          login_id:NX_CHAR = b'usaxs@usaxscontrol.xray.aps.anl.gov'
+          motors:NX_CHAR = b'- m_stage_r\n'
+          pid:NX_INT64[] = [ ... ]
+          plan_name:NX_CHAR = b'tune_mr'
+          plan_type:NX_CHAR = b'generator'
+          proposal_id:NX_CHAR = b'testing Bluesky installation'
+          purpose:NX_CHAR = b'tuner'
+          run_start_uid:NX_CHAR = 2ffe4d87-9f0c-464a-9d14-213ec71afaf7
+          tune_md:NX_CHAR = b"initial_position: 8.824977\ntime_iso8601: '2019-05-02 17:45:33.923544'\nwidth: -0.004\n"
+          tune_parameters:NX_CHAR = b'initial_position: 8.824977\nnum: 31\npeak_choice: com\nwidth: -0.004\nx_axis: m_stage_r\ny_axis: I0_USAXS\n'
+          uid --> /entry/instrument/bluesky/run_start_uid
+        streams:NXnote
+          baseline:NXnote
+            aps_current:NXdata
+              EPOCH:NX_FLOAT64[2] = [ ... ]
+              time:NX_FLOAT64[2] = [ ... ]
+              value:NX_FLOAT64[2] = [ ... ]
+              value_end:NX_FLOAT64[] = [ ... ]
+              value_start:NX_FLOAT64[] = [ ... ]
+            aps_fill_number:NXdata
+              EPOCH:NX_FLOAT64[2] = [ ... ]
+              time:NX_FLOAT64[2] = [ ... ]
+              value:NX_FLOAT64[2] = [ ... ]
+              value_end:NX_FLOAT64[] = [ ... ]
+              value_start:NX_FLOAT64[] = [ ... ]
+            aps_global_feedback:NXdata
+              EPOCH:NX_FLOAT64[2] = [ ... ]
+              time:NX_FLOAT64[2] = [ ... ]
+              value:NX_CHAR[3,3] = ["Off", "Off"]
+              value_end:NX_CHAR = b'Off'
+              value_start:NX_CHAR = b'Off'
+            # many baseline groups omitted for brevity
+          primary:NXnote
+            I0_USAXS:NXdata
+              EPOCH:NX_FLOAT64[31] = [ ... ]
+              time:NX_FLOAT64[31] = [ ... ]
+              value:NX_FLOAT64[31] = [ ... ]
+            m_stage_r:NXdata
+              EPOCH:NX_FLOAT64[31] = [ ... ]
+              time:NX_FLOAT64[31] = [ ... ]
+              value:NX_FLOAT64[31] = [ ... ]
+            m_stage_r_soft_limit_hi:NXdata
+              EPOCH:NX_FLOAT64[31] = [ ... ]
+              time:NX_FLOAT64[31] = [ ... ]
+              value:NX_FLOAT64[31] = [ ... ]
+            m_stage_r_soft_limit_lo:NXdata
+              EPOCH:NX_FLOAT64[31] = [ ... ]
+              time:NX_FLOAT64[31] = [ ... ]
+              value:NX_FLOAT64[31] = [ ... ]
+            m_stage_r_user_setpoint:NXdata
+              EPOCH:NX_FLOAT64[31] = [ ... ]
+              time:NX_FLOAT64[31] = [ ... ]
+              value:NX_FLOAT64[31] = [ ... ]
+            scaler0_display_rate:NXdata
+              EPOCH:NX_FLOAT64[31] = [ ... ]
+              time:NX_FLOAT64[31] = [ ... ]
+              value:NX_FLOAT64[31] = [ ... ]
+            scaler0_time:NXdata
+              EPOCH:NX_FLOAT64[31] = [ ... ]
+              time:NX_FLOAT64[31] = [ ... ]
+              value:NX_FLOAT64[31] = [ ... ]
+      detectors:NXnote
+        I0_USAXS:NXdetector
+          data --> /entry/instrument/bluesky/streams/primary/I0_USAXS
+      monochromator:NXmonochromator
+        energy --> /entry/instrument/bluesky/streams/baseline/monochromator_dcm_energy/value_start
+        feedback_on --> /entry/instrument/bluesky/streams/baseline/monochromator_feedback_on/value_start
+        mode --> /entry/instrument/bluesky/streams/baseline/monochromator_dcm_mode/value_start
+        theta --> /entry/instrument/bluesky/streams/baseline/monochromator_dcm_theta/value_start
+        wavelength --> /entry/instrument/bluesky/streams/baseline/monochromator_dcm_wavelength/value_start
+        y_offset --> /entry/instrument/bluesky/streams/baseline/monochromator_dcm_y_offset/value_start
+      positioners:NXnote
+        m_stage_r:NXpositioner
+          value --> /entry/instrument/bluesky/streams/primary/m_stage_r
+      source:NXsource
+        name:NX_CHAR = Bluesky framework
+        probe:NX_CHAR = x-ray
+        type:NX_CHAR = Synchrotron X-ray Source

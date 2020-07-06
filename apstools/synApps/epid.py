@@ -1,4 +1,3 @@
-
 """
 Ophyd support for the EPICS epid record
 
@@ -6,7 +5,7 @@ Ophyd support for the EPICS epid record
 Public Structures
 
 .. autosummary::
-   
+
     ~EpidRecord
 
 :see: https://epics.anl.gov/bcda/synApps/std/epidRecord.html
@@ -15,7 +14,7 @@ Public Structures
 #-----------------------------------------------------------------------------
 # :author:    Pete R. Jemian
 # :email:     jemian@anl.gov
-# :copyright: (c) 2017-2019, UChicago Argonne, LLC
+# :copyright: (c) 2017-2020, UChicago Argonne, LLC
 #
 # Distributed under the terms of the Creative Commons Attribution 4.0 International Public License.
 #
@@ -34,7 +33,7 @@ __all__ = ["EpidRecord", ]
 class EpidRecord(EpicsRecordFloatFields, EpicsRecordDeviceCommonAll):
     """
     EPICS epid record support in ophyd
-    
+
     :see: https://epics.anl.gov/bcda/synApps/std/epidRecord.html
     """
     controlled_value_link = Component(EpicsSignal, ".INP")

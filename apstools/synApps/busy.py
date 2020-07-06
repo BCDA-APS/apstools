@@ -1,4 +1,3 @@
-
 """
 Ophyd support for the EPICS busy record
 
@@ -6,7 +5,7 @@ Ophyd support for the EPICS busy record
 Public Structures
 
 .. autosummary::
-   
+
     ~BusyRecord
 
 """
@@ -14,7 +13,7 @@ Public Structures
 #-----------------------------------------------------------------------------
 # :author:    Pete R. Jemian
 # :email:     jemian@anl.gov
-# :copyright: (c) 2017-2019, UChicago Argonne, LLC
+# :copyright: (c) 2017-2020, UChicago Argonne, LLC
 #
 # Distributed under the terms of the Creative Commons Attribution 4.0 International Public License.
 #

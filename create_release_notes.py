@@ -4,14 +4,14 @@
 Create release notes for a new release of this GitHub repository.
 """
 
-# Requires: 
+# Requires:
 #
 # * assumes current directory is within a repository clone
 # * pyGithub (conda or pip install) - https://pygithub.readthedocs.io/
 # * Github personal access token (https://github.com/settings/tokens)
 #
-# Github token access is needed or the GitHub API limit 
-# will likely interfere with making a complete report 
+# Github token access is needed or the GitHub API limit
+# will likely interfere with making a complete report
 # of the release.
 
 import argparse
@@ -28,12 +28,12 @@ logger = logging.getLogger('create_release_notes')
 def findGitConfigFile():
     """
     return full path to .git/config file
-    
+
     must be in current working directory or some parent directory
-    
-    This is a simplistic search that could be improved by using 
+
+    This is a simplistic search that could be improved by using
     an open source package.
-    
+
     Needs testing for when things are wrong.
     """
     path = os.getcwd()
@@ -41,7 +41,7 @@ def findGitConfigFile():
         config_file = os.path.join(path, ".git", "config")
         if os.path.exists(config_file):
             return config_file      # found it!
-        
+
         # next, look in the parent directory
         path = os.path.abspath(os.path.join(path, ".."))
 
@@ -61,14 +61,14 @@ def parse_git_url(url):
 def getRepositoryInfo():
     """
     return (organization, repository) tuple from .git/config file
-    
-    This is a simplistic search that could be improved by using 
+
+    This is a simplistic search that could be improved by using
     an open source package.
-    
+
     Needs testing for when things are wrong.
     """
     config_file = findGitConfigFile()
-        
+
     with open(config_file, "r") as f:
         for line in f.readlines():
             line = line.strip()
@@ -156,8 +156,8 @@ def parse_command_line():
     parser.add_argument('milestone', action='store', help=help_text)
 
     parser.add_argument(
-        'token', 
-        action='store', 
+        'token',
+        action='store',
         help=(
             "personal access token "
             "(see: https://github.com/settings/tokens)"))
@@ -165,11 +165,11 @@ def parse_command_line():
     help_text = "name of tag, branch, SHA to end the range"
     help_text += ' (default="master")'
     parser.add_argument(
-        "--head", 
-        action='store', 
+        "--head",
+        action='store',
         dest='head',
-        nargs='?', 
-        help = help_text, 
+        nargs='?',
+        help = help_text,
         default="master")
 
     return parser.parse_args()
@@ -177,7 +177,7 @@ def parse_command_line():
 
 def str2time(time_string):
     """convert date/time string to datetime object
-    
+
     input string example: ``Tue, 20 Dec 2016 17:35:40 GMT``
     """
     if time_string is None:
@@ -185,7 +185,7 @@ def str2time(time_string):
         logger.error(msg)
         raise ValueError(msg)
     return datetime.datetime.strptime(
-        time_string, 
+        time_string,
         "%a, %d %b %Y %H:%M:%S %Z")
 
 
@@ -279,9 +279,9 @@ if __name__ == '__main__':
 
 
 # NeXus - Neutron and X-ray Common Data Format
-# 
+#
 # Copyright (C) 2008-2020 NeXus International Advisory Committee (NIAC)
-# 
+#
 # This library is free software; you can redistribute it and/or
 # modify it under the terms of the GNU Lesser General Public
 # License as published by the Free Software Foundation; either

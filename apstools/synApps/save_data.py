@@ -1,4 +1,3 @@
-
 """
 Ophyd support for the EPICS synApps saveData support
 
@@ -13,7 +12,7 @@ EXAMPLE
 Public Structures
 
 .. autosummary::
-   
+
     ~SaveData
 
 """
@@ -21,7 +20,7 @@ Public Structures
 #-----------------------------------------------------------------------------
 # :author:    Pete R. Jemian
 # :email:     jemian@anl.gov
-# :copyright: (c) 2017-2019, UChicago Argonne, LLC
+# :copyright: (c) 2017-2020, UChicago Argonne, LLC
 #
 # Distributed under the terms of the Creative Commons Attribution 4.0 International Public License.
 #
@@ -37,16 +36,16 @@ __all__ = ["SaveData", ]
 class SaveData(Device):
     """
     EPICS synApps saveData support
-    
+
     usage::
 
         from apstools.synApps import SaveData
         save_data = SaveData("xxx:saveData_", name="save_data")
 
     .. autosummary::
-       
+
         ~reset
-    
+
     """
 
     file_system = Component(EpicsSignal, "fileSystem")
@@ -66,7 +65,7 @@ class SaveData(Device):
     write_count_current = Component(EpicsSignalRO, "currRetries")
     write_count_total = Component(EpicsSignalRO, "totalRetries")
     write_count_abandoned = Component(EpicsSignalRO, "abandonedWrites")
-    
+
     def reset(self):
         self.file_system.put("")
         self.subdirectory.put("")

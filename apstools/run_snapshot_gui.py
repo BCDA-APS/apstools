@@ -7,7 +7,7 @@ let the developer test the snapshot tool in the source directory
 #-----------------------------------------------------------------------------
 # :author:    Pete R. Jemian
 # :email:     jemian@anl.gov
-# :copyright: (c) 2017-2019, UChicago Argonne, LLC
+# :copyright: (c) 2017-2020, UChicago Argonne, LLC
 #
 # Distributed under the terms of the Creative Commons Attribution 4.0 International Public License.
 #
@@ -16,7 +16,7 @@ let the developer test the snapshot tool in the source directory
 
 import sys
 sys.path.insert(0, "..")
- 
+
 import apstools.snapshot
 from pymongo.errors import ServerSelectionTimeoutError
 

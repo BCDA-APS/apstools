@@ -3,5 +3,4 @@ Utilities
 ---------
 
 .. automodule:: apstools.utils
-    :members: 
- 
+    :members:

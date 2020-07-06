@@ -22,7 +22,7 @@ class Test_Something(unittest.TestCase):
 
     def tearDown(self):
         pass
-    
+
     def test_the_ALL_attribute(self):
         self.assertEqual(apstools.__project__, u'apstools')
 

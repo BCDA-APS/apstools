@@ -1,0 +1,24 @@
+  source:NXsource
+    @NX_class = NXsource
+    @target = /entry/instrument/source
+    current --> /entry/instrument/bluesky/streams/baseline/aps_current/value_start
+    energy:NX_INT64[] = 
+      @units = GeV
+    fill_number --> /entry/instrument/bluesky/streams/baseline/aps_fill_number/value_start
+    name:NX_CHAR = Advanced Photon Source
+      @short_name = APS
+    probe:NX_CHAR = x-ray
+    type:NX_CHAR = Synchrotron X-ray Source
+  undulator:NXinsertion_device
+    @NX_class = NXinsertion_device
+    @target = /entry/instrument/undulator
+    device --> /entry/instrument/bluesky/streams/baseline/undulator_downstream_device/value_start
+    energy --> /entry/instrument/bluesky/streams/baseline/undulator_downstream_energy/value_start
+    energy_taper --> /entry/instrument/bluesky/streams/baseline/undulator_downstream_energy_taper/value_start
+    gap --> /entry/instrument/bluesky/streams/baseline/undulator_downstream_gap/value_start
+    gap_taper --> /entry/instrument/bluesky/streams/baseline/undulator_downstream_gap_taper/value_start
+    harmonic_value --> /entry/instrument/bluesky/streams/baseline/undulator_downstream_harmonic_value/value_start
+    location --> /entry/instrument/bluesky/streams/baseline/undulator_downstream_location/value_start
+    total_power --> /entry/instrument/bluesky/streams/baseline/undulator_downstream_total_power/value_start
+    type:NX_CHAR = undulator
+    version --> /entry/instrument/bluesky/streams/baseline/undulator_downstream_version/value_start

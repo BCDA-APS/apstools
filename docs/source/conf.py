@@ -137,10 +137,10 @@ latex_elements = {
 # (source start file, target name, title,
 #  author, documentclass [howto, manual, or own class]).
 latex_documents = [
-    (master_doc, 
-     'apstools.tex', 
+    (master_doc,
+     'apstools.tex',
      u'apstools Documentation',
-     u'Pete R. Jemian', 
+     u'Pete R. Jemian',
      'manual'),
 ]
 
@@ -162,8 +162,8 @@ man_pages = [
 #  dir menu entry, description, category)
 texinfo_documents = [
     (master_doc, 'apstools', u'apstools Documentation',
-     author, 
-     apstools.__package_name__, 
+     author,
+     apstools.__package_name__,
      apstools.__description__,
      'Miscellaneous'),
 ]

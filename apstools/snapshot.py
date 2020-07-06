@@ -8,13 +8,13 @@ USAGE::
     (base) user@hostname .../pwd $ bluesky_snapshot -h
     usage: bluesky_snapshot [-h] [-b BROKER_CONFIG] [-m METADATA_SPEC] [-r] [-v]
                             EPICS_PV [EPICS_PV ...]
-    
+
     record a snapshot of some PVs using Bluesky, ophyd, and databroker
     version=0.0.40+26.g323cd35
-    
+
     positional arguments:
       EPICS_PV              EPICS PV name
-    
+
     optional arguments:
       -h, --help            show this help message and exit
       -b BROKER_CONFIG      YAML configuration for databroker, default:
@@ -30,7 +30,7 @@ USAGE::
 #-----------------------------------------------------------------------------
 # :author:    Pete R. Jemian
 # :email:     jemian@anl.gov
-# :copyright: (c) 2017-2019, UChicago Argonne, LLC
+# :copyright: (c) 2017-2020, UChicago Argonne, LLC
 #
 # Distributed under the terms of the Creative Commons Attribution 4.0 International Public License.
 #
@@ -74,22 +74,22 @@ def get_args():
     text = "YAML configuration for databroker"
     text += f", default: {BROKER_CONFIG}"
     parser.add_argument('-b', action='store', dest='broker_config',
-                        help=text, 
+                        help=text,
                         default=BROKER_CONFIG)
 
     text = """
     additional metadata, enclose in quotes,
     such as -m "purpose=just tuned, situation=routine"
     """
-    parser.add_argument('-m', '--metadata', action='store', 
+    parser.add_argument('-m', '--metadata', action='store',
                         dest='metadata_spec', help=text, default="")
 
-    parser.add_argument('-r', '--report', action='store_false', 
-                        dest='report', 
-                        help="suppress snapshot report", 
+    parser.add_argument('-r', '--report', action='store_false',
+                        dest='report',
+                        help="suppress snapshot report",
                         default=True)
 
-    parser.add_argument('-v', '--version', 
+    parser.add_argument('-v', '--version',
                         action='version', version=__version__)
 
     return parser.parse_args()
@@ -112,9 +112,9 @@ def parse_metadata(args):
 def snapshot_cli():
     """
     given a list of PVs on the command line, snapshot and print report
-    
+
     EXAMPLES::
-    
+
         snapshot.py pv1 [more pvs ...]
         snapshot.py `cat pvlist.txt`
 
@@ -127,19 +127,19 @@ def snapshot_cli():
     from bluesky import RunEngine
 
     args = get_args()
-    
+
     md = OrderedDict(purpose="archive a set of EPICS PVs")
     md.update(parse_metadata(args))
 
     obj_dict = APS_utils.connect_pvlist(args.EPICS_PV, wait=False)
     time.sleep(2)   # FIXME: allow time to connect
-    
+
     db = Broker.named(args.broker_config)
     RE = RunEngine({})
     RE.subscribe(db.insert)
 
     uuid_list = RE(APS_plans.snapshot(obj_dict.values(), md=md))
-    
+
     if args.report:
         snap = list(db(uuid_list[0]))[0]
         APS_callbacks.SnapshotReport().print_report(snap)
@@ -148,7 +148,7 @@ def snapshot_cli():
 class Capturing(list):      # LGTM
     """
     capture stdout output from a Python function call
-    
+
     https://stackoverflow.com/a/16571630/1046449
     """
     def __enter__(self):
@@ -169,35 +169,35 @@ def snapshot_gui(config=None):
 class SnapshotGui(object):
     """
     Browse and display snapshots in a Tkinter GUI
-    
+
     USAGE (from command line)::
-    
+
         bluesky_snapshot_viewer
-    
+
     """
-    
+
     search_criteria = dict(plan_name = "snapshot")
-    
+
     def __init__(self, config=None):
         config = config or BROKER_CONFIG
         self.db = Broker.named(config)
         self.uids = []
-        
+
         self._build_gui_()
         self.tree.bind('<<TreeviewSelect>>', self.receiver)
         self.load_data()
         tk.mainloop()
-    
+
     def _build_gui_(self):
         self.main_window = tk.Tk()
         self.main_window.winfo_toplevel().title("Bluesky snapshot viewer")
-        
+
         m = tk.PanedWindow(self.main_window, orient=tk.HORIZONTAL)
         m.pack(fill=tk.BOTH, expand=True)
-        
+
         lpane = tk.Label(m, text="left pane")
         m.add(lpane)
-        
+
         rpane = tk.Label(m, text="right pane")
         m.add(rpane)
 
@@ -205,18 +205,18 @@ class SnapshotGui(object):
 
         fr = ttk.Frame(lpane)
         fr.pack(side=tk.TOP, fill=tk.BOTH, expand=True)
-    
+
         xsb = ttk.Scrollbar(fr, orient=tk.HORIZONTAL)
         ysb = ttk.Scrollbar(fr, orient=tk.VERTICAL)
         xsb.pack(side=tk.BOTTOM, fill=tk.X)
         ysb.pack(side=tk.RIGHT, fill=tk.Y)
-    
+
         column_keys = []
         column_keys.append("iso8601")
         self.tree = ttk.Treeview(fr, columns=column_keys)
         self.tree['xscroll'] = xsb.set
         self.tree['yscroll'] = ysb.set
-    
+
         self.tree.column("#0", width=90, stretch=tk.NO)
         self.tree.column("iso8601", width=70, stretch=tk.NO)
         self.tree.heading("#0", text="date")
@@ -228,10 +228,10 @@ class SnapshotGui(object):
             xscrollcommand=xsb.set,
             yscrollcommand=ysb.set)
         self.tree.pack(fill=tk.Y, expand=True)
-        
+
         self.refresh_button = ttk.Button(
-            lpane, 
-            text="refresh list", 
+            lpane,
+            text="refresh list",
             command=self.refresh)
         self.refresh_button.pack(fill=tk.X)
 
@@ -239,12 +239,12 @@ class SnapshotGui(object):
 
         fr = ttk.Frame(rpane)
         fr.pack(side=tk.TOP, fill=tk.BOTH, expand=True)
-    
+
         xsb = ttk.Scrollbar(fr, orient=tk.HORIZONTAL)
         ysb = ttk.Scrollbar(fr, orient=tk.VERTICAL)
         xsb.pack(side=tk.BOTTOM, fill=tk.X)
         ysb.pack(side=tk.RIGHT, fill=tk.Y)
-        
+
         self.snapview = textreadonly.TextReadOnly(fr)
         xsb.configure(command=self.snapview.xview)
         ysb.configure(command=self.snapview.yview)
@@ -252,11 +252,11 @@ class SnapshotGui(object):
             xscrollcommand=xsb.set,
             yscrollcommand=ysb.set)
         self.snapview.pack(expand=True, fill=tk.BOTH)
-        
+
     @property
     def get_snapshots(self):
         return self.db(**self.search_criteria)
-        
+
     def receiver(self, event):
         from . import callbacks
         item_index = event.widget.focus()
@@ -270,7 +270,7 @@ class SnapshotGui(object):
     def show_contents(self, text):
         self.snapview.delete("1.0", tk.END)
         self.snapview.insert(tk.END, text)
-    
+
     def refresh(self):
         kids = self.tree.get_children()
         for item in kids:

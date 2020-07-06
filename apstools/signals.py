@@ -1,9 +1,8 @@
-
 """
 (ophyd) Signals that might be useful at the APS using Bluesky
 
 .. autosummary::
-   
+
    ~SynPseudoVoigt
 
 """
@@ -11,7 +10,7 @@
 #-----------------------------------------------------------------------------
 # :author:    Pete R. Jemian
 # :email:     jemian@anl.gov
-# :copyright: (c) 2017-2019, UChicago Argonne, LLC
+# :copyright: (c) 2017-2020, UChicago Argonne, LLC
 #
 # Distributed under the terms of the Creative Commons Attribution 4.0 International Public License.
 #
@@ -29,14 +28,14 @@ logger = logging.getLogger(__name__).addHandler(logging.NullHandler())
 class SynPseudoVoigt(ophyd.sim.SynSignal):    # lgtm [py/missing-call-to-init]
     """
     Evaluate a point on a pseudo-Voigt based on the value of a motor.
-    
+
     Provides a signal to be measured.
     Acts like a detector.
-    
+
     :see: https://en.wikipedia.org/wiki/Voigt_profile
 
     PARAMETERS
-    
+
     name : str
         name of detector signal
     motor : `Mover`
@@ -60,25 +59,25 @@ class SynPseudoVoigt(ophyd.sim.SynSignal):    # lgtm [py/missing-call-to-init]
         noise by 'noise_multiplier'
 
     EXAMPLE
-    
+
     ::
 
         from apstools.signals import SynPseudoVoigt
         motor = Mover('motor', {'motor': lambda x: x}, {'x': 0})
-        det = SynPseudoVoigt('det', motor, 'motor', 
+        det = SynPseudoVoigt('det', motor, 'motor',
             center=0, eta=0.5, scale=1, sigma=1, bkg=0)
 
     EXAMPLE
-    
+
     ::
 
         import numpy as np
         from apstools.signals import SynPseudoVoigt
         synthetic_pseudovoigt = SynPseudoVoigt(
-            'synthetic_pseudovoigt', m1, 'm1', 
-            center=-1.5 + 0.5*np.random.uniform(), 
-            eta=0.2 + 0.5*np.random.uniform(), 
-            sigma=0.001 + 0.05*np.random.uniform(), 
+            'synthetic_pseudovoigt', m1, 'm1',
+            center=-1.5 + 0.5*np.random.uniform(),
+            eta=0.2 + 0.5*np.random.uniform(),
+            sigma=0.001 + 0.05*np.random.uniform(),
             scale=1e5,
             bkg=0.01*np.random.uniform())
 
@@ -86,8 +85,8 @@ class SynPseudoVoigt(ophyd.sim.SynSignal):    # lgtm [py/missing-call-to-init]
 
     """
 
-    def __init__(self, name, motor, motor_field, center=0, 
-                eta=0.5, scale=1, sigma=1, bkg=0, 
+    def __init__(self, name, motor, motor_field, center=0,
+                eta=0.5, scale=1, sigma=1, bkg=0,
                 noise=None, noise_multiplier=1,
                 **kwargs):
         if eta < 0.0 or eta > 1.0:
@@ -98,7 +97,7 @@ class SynPseudoVoigt(ophyd.sim.SynSignal):    # lgtm [py/missing-call-to-init]
             raise ValueError("sigma must be > 0")
         if bkg < 0.0:
             raise ValueError("bkg must be >= 0")
-        
+
         # remember these terms for later access by user
         self.name = name
         self.motor = motor
