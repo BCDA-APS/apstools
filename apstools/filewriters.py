@@ -126,7 +126,8 @@ class SpecWriterCallback(object):
         If False, the caller is responsible for calling `write_scan()`
         before the next *start* document is received.
 
-    RE : instance of bluesky.RunEngine or None
+    RE : object
+        Instance of ``bluesky.RunEngine`` or ``None``.
 
     reset_scan_id : boolean, optional
         If True, and filename exists, then sets RE.md.scan_id to
