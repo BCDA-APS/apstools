@@ -2,7 +2,7 @@
 Callbacks that might be useful at the APS using Bluesky
 
 .. autosummary::
-   
+
    ~document_contents_callback
    ~DocumentCollectorCallback
    ~SnapshotReport
@@ -44,11 +44,11 @@ def document_contents_callback(key, doc):
 class DocumentCollectorCallback(object):
     """
     Bluesky callback to collect *all* documents from most-recent plan
-    
+
     Will reset when it receives a *start* document.
-    
+
     EXAMPLE::
-    
+
         from apstools.callbacks import DocumentCollectorCallback
         doc_collector = DocumentCollectorCallback()
         RE.subscribe(doc_collector.receiver)
@@ -56,10 +56,10 @@ class DocumentCollectorCallback(object):
         RE(some_plan())
         print(doc_collector.uids)
         print(doc_collector.documents["stop"])
-    
+
     """
     data_event_names = "descriptor event resource datum bulk_events".split()
-    
+
     def __init__(self):
         self.documents = {}     # key: name, value: document
         self.uids = []          # chronological list of UIDs as-received
@@ -84,7 +84,7 @@ class DocumentCollectorCallback(object):
             for item in self.data_event_names:
                 if item in self.documents:
                     print(
-                        "# {}(s):".format(item), 
+                        "# {}(s):".format(item),
                         len(self.documents[item])
                     )
         else:
@@ -99,33 +99,33 @@ class DocumentCollectorCallback(object):
 class SnapshotReport(CallbackBase):
     """
     show the data from a ``apstools.plans.snapshot()``
-    
+
     Find most recent snapshot between certain dates::
-    
+
         headers = db(plan_name="snapshot", since="2018-12-15", until="2018-12-21")
         h = list(headers)[0]        # pick the first one, it's the most recent
         apstools.callbacks.SnapshotReport().print_report(h)
-    
+
     Use as callback to a snapshot plan::
-    
+
         RE(
             apstools.plans.snapshot(ophyd_objects_list),
             apstools.callbacks.SnapshotReport()
         )
-    
+
     """
-    
+
     xref = None
-    
+
     def start(self, doc):
         if doc.get("plan_name", "nope") == "snapshot":
             self.xref = {}    # key=source, value=dict(value, iso8601 timestamp)
         else:
             self.xref = None
-    
+
     def descriptor(self, doc):
         """
-        special case:  
+        special case:
            the data is both in the descriptor AND the event docs
            due to the way our plan created it
         """
@@ -142,7 +142,7 @@ class SnapshotReport(CallbackBase):
                 pvname = v["data_keys"][k]["source"]
                 value = v["data"][k]
                 self.xref[pvname] = dict(value=value, timestamp=dt)
-    
+
     def stop(self, doc):
         if self.xref is None:       # not from a snapshot plan
             return
@@ -158,11 +158,11 @@ class SnapshotReport(CallbackBase):
         print(t)
         for k, v in sorted(doc.items()):
             print(f"{k}: {v}")
-    
+
     def print_report(self, header):
         """
         simplify the job of writing our custom data table
-        
+
         method: play the entire document stream through this callback
         """
         print()
@@ -174,5 +174,5 @@ class SnapshotReport(CallbackBase):
             print(f"{k}: {v}")
         print()
         for key, doc in header.documents():
-            self(key, doc)        
+            self(key, doc)
         print()

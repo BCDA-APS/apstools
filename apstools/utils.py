@@ -1124,7 +1124,7 @@ def ipython_shell_namespace():
     try:
         from IPython import get_ipython
         ns = get_ipython().user_ns
-    except AttributeError as _exc:
+    except AttributeError:
         ns = {}
     return ns
 

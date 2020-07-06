@@ -53,6 +53,9 @@ from . import utils as APS_utils
 logger = logging.getLogger(__name__)
 logger.info(__file__)
 
+new_data = False        # sscan has new data, boolean
+inactive_deadline = 0   # sscan is deemed timeout after this absolute time.time()
+
 
 class CommandFileReadError(IOError): ...
 

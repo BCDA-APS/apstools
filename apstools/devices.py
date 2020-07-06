@@ -1855,7 +1855,7 @@ class AD_EpicsHdf5FileName(FileStorePluginBase):    # lgtm [py/missing-call-to-i
         # inject the actual name of the HDF5 file here into datum_kwargs
         datum_kwargs["HDF5_file_name"] = hdf5_file_name
 
-        logger.debug("make_filename:", hdf5_file_name)
+        logger.debug("make_filename: %s", hdf5_file_name)
         return super().generate_datum(key, timestamp, datum_kwargs)
 
     def get_frames_per_point(self):

@@ -8,7 +8,6 @@ import os
 import sys
 import time
 import unittest
-import warnings
 
 _path = os.path.join(os.path.dirname(__file__), '..')
 if _path not in sys.path:
@@ -206,13 +205,14 @@ class Test_Utils(unittest.TestCase):
 
     def test_show_ophyd_symbols(self):
         sims = ophyd.sim.hw().__dict__
-        wont_show = ("flyer1", "flyer2", "new_trivial_flyer", "trivial_flyer")
+        # wont_show = ("flyer1", "flyer2", "new_trivial_flyer", "trivial_flyer")
         self.assertWarns(
             UserWarning,
             APS_utils.show_ophyd_symbols,
             symbols=sims,
             printing=False      # kwargs
         )
+
     def test_unix(self):
         cmd = 'echo "hello"'
         out, err = APS_utils.unix(cmd)
