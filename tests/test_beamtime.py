@@ -22,6 +22,60 @@ def using_APS_workstation():
     return hostname.lower().endswith(".aps.anl.gov")
 
 
+class Test_Beamtime(unittest.TestCase):
+
+    def test_command_options(self):
+        self.assertTrue(True)   # test something
+        # TODO:
+
+    def test_general(self):
+        self.assertEqual(bss_info.CONNECT_TIMEOUT, 5)
+        self.assertEqual(bss_info.POLL_INTERVAL, 0.01)
+        self.assertEqual(
+            bss_info.DM_APS_DB_WEB_SERVICE_URL,
+            "https://xraydtn01.xray.aps.anl.gov:11236")
+        self.assertIsNotNone(bss_info.api_bss)
+        self.assertIsNotNone(bss_info.api_esaf)
+
+    def test_iso2datetime(self):
+        self.assertEqual(
+            bss_info.iso2datetime("2020-06-30 12:31:45.067890"),
+            datetime.datetime(2020, 6, 30, 12, 31, 45, 67890)
+        )
+
+    def test_not_at_aps(self):
+        self.assertTrue(True)   # test something
+        if using_APS_workstation():
+            return
+
+        # do not try to test for fails using dm package, it has no timeout
+
+    def test_only_at_aps(self):
+        self.assertTrue(True)   # test something
+        if not using_APS_workstation():
+            return
+
+        runs = bss_info.listAllRuns()
+        self.assertGreater(len(runs), 1)
+        self.assertEqual(bss_info.getCurrentCycle(), runs[-1])
+        self.assertEqual(bss_info.listRecentRuns()[0], runs[-1])
+
+        self.assertGreater(len(bss_info.listAllBeamlines()), 1)
+
+    def test_printColumns(self):
+        from tests.common import Capture_stdout
+        with Capture_stdout() as received:
+            bss_info.printColumns("1 2 3 4 5 6".split(), numColumns=3, width=3)
+        self.assertEqual(len(received), 2)
+        self.assertEqual(received[0], "1  3  5  ")
+        self.assertEqual(received[1], "2  4  6  ")
+
+        source = "0123456789"
+        self.assertEqual(bss_info.trim(source), source)
+        self.assertNotEqual(bss_info.trim(source, length=8), source)
+        self.assertEqual(bss_info.trim(source, length=8), "01234...")
+
+
 class Test_ProgramCommands(unittest.TestCase):
 
     def setUp(self):
@@ -103,60 +157,6 @@ class Test_ProgramCommands(unittest.TestCase):
         self.assertIsNotNone(args)
         self.assertEqual(args.subcommand, "update")
         self.assertEqual(args.prefix, "bss:")
-
-
-class Test_Beamtime(unittest.TestCase):
-
-    def test_command_options(self):
-        self.assertTrue(True)   # test something
-        # TODO:
-
-    def test_general(self):
-        self.assertEqual(bss_info.CONNECT_TIMEOUT, 5)
-        self.assertEqual(bss_info.POLL_INTERVAL, 0.01)
-        self.assertEqual(
-            bss_info.DM_APS_DB_WEB_SERVICE_URL,
-            "https://xraydtn01.xray.aps.anl.gov:11236")
-        self.assertIsNotNone(bss_info.api_bss)
-        self.assertIsNotNone(bss_info.api_esaf)
-
-    def test_iso2datetime(self):
-        self.assertEqual(
-            bss_info.iso2datetime("2020-06-30 12:31:45.067890"),
-            datetime.datetime(2020, 6, 30, 12, 31, 45, 67890)
-        )
-
-    def test_not_at_aps(self):
-        self.assertTrue(True)   # test something
-        if using_APS_workstation():
-            return
-
-        # do not try to test for fails using dm package, it has no timeout
-
-    def test_only_at_aps(self):
-        self.assertTrue(True)   # test something
-        if not using_APS_workstation():
-            return
-
-        runs = bss_info.listAllRuns()
-        self.assertGreater(len(runs), 1)
-        self.assertEqual(bss_info.getCurrentCycle(), runs[-1])
-        self.assertEqual(bss_info.listRecentRuns()[0], runs[-1])
-
-        self.assertGreater(len(bss_info.listAllBeamlines()), 1)
-
-    def test_printColumns(self):
-        from tests.common import Capture_stdout
-        with Capture_stdout() as received:
-            bss_info.printColumns("1 2 3 4 5 6".split(), numColumns=3, width=3)
-        self.assertEqual(len(received), 2)
-        self.assertEqual(received[0], "1  3  5  ")
-        self.assertEqual(received[1], "2  4  6  ")
-
-        source = "0123456789"
-        self.assertEqual(bss_info.trim(source), source)
-        self.assertNotEqual(bss_info.trim(source, length=8), source)
-        self.assertEqual(bss_info.trim(source, length=8), "01234...")
 
 
 def suite(*args, **kw):
