@@ -1,3 +1,4 @@
+aps-dm-api
 bluesky>=1.6.2
 databroker>=1.0.6
 h5py

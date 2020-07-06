@@ -36,8 +36,10 @@ requirements:
     - pip
   run:
     - python
+    - aps-dm-api
     - bluesky>=1.6.2
     - databroker>=1.0.6
+    - h5py
     - ophyd>=1.5.1
     - pandas
     - pyEpics>=3.4.2
