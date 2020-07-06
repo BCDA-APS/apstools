@@ -242,7 +242,7 @@ class Test_NXWriter(MyTestBase):
             callback.file_extension,
             apstools.filewriters.NEXUS_FILE_EXTENSION)
 
-        for plan_name, document_set in self.db.items():
+        for plan_name in self.db:
             callback.clear()
             callback.file_path = self.tempdir
             self.assertIsNone(callback.uid, plan_name)

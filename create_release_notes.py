@@ -37,7 +37,7 @@ def findGitConfigFile():
     Needs testing for when things are wrong.
     """
     path = os.getcwd()
-    for i in range(99):
+    for _ in range(99):
         config_file = os.path.join(path, ".git", "config")
         if os.path.exists(config_file):
             return config_file      # found it!

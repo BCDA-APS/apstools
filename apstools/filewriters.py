@@ -46,6 +46,7 @@ NEXUS_RELEASE = 'v2020.1'   # NeXus release to which this file is written
 SPEC_TIME_FORMAT = "%a %b %d %H:%M:%S %Y"
 SCAN_ID_RESET_VALUE = 0
 
+
 def _rebuild_scan_command(doc):
     """
     reconstruct the scan command for SPEC data file #S line
@@ -657,7 +658,7 @@ def spec_comment(comment, doc=None, writer=None):
         #C Mon Jan 28 12:48:14 2019.  exit_status = success
 
     """
-    # global specwriter       # such as: specwriter = SpecWriterCallback()
+    global specwriter       # such as: specwriter = SpecWriterCallback()
     writer = writer or specwriter
     if doc is None:
         if writer.scanning:

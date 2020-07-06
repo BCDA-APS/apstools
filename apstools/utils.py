@@ -237,7 +237,7 @@ def itemizer(fmt, items):
 
 
 def listruns(
-        num=20, keys=[], printing=True,
+        num=20, keys=None, printing=True,
         show_command=True, db=None,
         exit_status=None,
         **db_search_terms):
@@ -308,6 +308,7 @@ def listruns(
     *new in apstools release 1.1.10*
     """
     db = db or ipython_shell_namespace()["db"]
+    keys = keys or []
 
     if show_command:
         labels = "scan_id  command".split() + keys
