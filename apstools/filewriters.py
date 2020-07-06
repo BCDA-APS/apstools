@@ -107,7 +107,7 @@ class SpecWriterCallback(object):
     Collect data from Bluesky RunEngine documents to write as SPEC data.
     
     This gathers data from all documents in a scan and appends scan to the file
-    when the *stop* document is received.  One or more scans can be written to
+    when the ``stop`` document is received.  One or more scans can be written to
     the same file.  The file format is text.
 
     .. note:: ``SpecWriterCallback()`` does **not** inherit
@@ -117,20 +117,20 @@ class SpecWriterCallback(object):
 
     filename : string, optional
         Local, relative or absolute name of SPEC data file to be used.
-        If `filename=None`, defaults to format of YYYmmdd-HHMMSS.dat
+        If ``filename=None``, defaults to format of ``YYYmmdd-HHMMSS.dat``
         derived from the current system time.
 
     auto_write : boolean, optional
-        If True (default), `write_scan()` is called when *stop* document 
+        If True (default), ``write_scan()`` is called when *stop* document 
         is received.
-        If False, the caller is responsible for calling `write_scan()`
-        before the next *start* document is received.
+        If False, the caller is responsible for calling ``write_scan()``
+        before the next ``start`` document is received.
 
     RE : object
         Instance of ``bluesky.RunEngine`` or ``None``.
 
     reset_scan_id : boolean, optional
-        If True, and filename exists, then sets RE.md.scan_id to
+        If True, and filename exists, then sets ``RE.md.scan_id`` to
         highest scan number in existing SPEC data file.
         default: False
 
