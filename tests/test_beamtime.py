@@ -22,7 +22,94 @@ def using_APS_workstation():
     return hostname.lower().endswith(".aps.anl.gov")
 
 
+class Test_ProgramCommands(unittest.TestCase):
+
+    def setUp(self):
+        self.sys_argv0 = sys.argv[0]
+        sys.argv = [self.sys_argv0,]
+
+    def tearDown(self):
+        sys.argv = [self.sys_argv0,]
+
+    def test_no_options(self):
+        args = bss_info.get_options()
+        self.assertIsNotNone(args)
+        self.assertIsNone(args.subcommand)
+
+    def test_beamlines(self):
+        sys.argv.append("beamlines")
+        args = bss_info.get_options()
+        self.assertIsNotNone(args)
+        self.assertEqual(args.subcommand, "beamlines")
+
+    def test_current(self):
+        sys.argv.append("current")
+        sys.argv.append("9-ID-B,C")
+        args = bss_info.get_options()
+        self.assertIsNotNone(args)
+        self.assertEqual(args.subcommand, "current")
+        self.assertEqual(args.beamlineName, "9-ID-B,C")
+
+    def test_cycles(self):
+        sys.argv.append("cycles")
+        args = bss_info.get_options()
+        self.assertIsNotNone(args)
+        self.assertEqual(args.subcommand, "cycles")
+
+    def test_esaf(self):
+        sys.argv.append("esaf")
+        sys.argv.append("12345")
+        args = bss_info.get_options()
+        self.assertIsNotNone(args)
+        self.assertEqual(args.subcommand, "esaf")
+        self.assertEqual(args.esafId, 12345)
+
+    def test_proposal(self):
+        sys.argv.append("proposal")
+        sys.argv.append("proposal_number_here")
+        sys.argv.append("1995-1")
+        sys.argv.append("my_beamline")
+        args = bss_info.get_options()
+        self.assertIsNotNone(args)
+        self.assertEqual(args.subcommand, "proposal")
+        self.assertEqual(args.proposalId, "proposal_number_here")
+        self.assertEqual(args.cycle, "1995-1")
+        self.assertEqual(args.beamlineName, "my_beamline")
+
+    def test_EPICS_clear(self):
+        sys.argv.append("clear")
+        sys.argv.append("bss:")
+        args = bss_info.get_options()
+        self.assertIsNotNone(args)
+        self.assertEqual(args.subcommand, "clear")
+        self.assertEqual(args.prefix, "bss:")
+
+    def test_EPICS_setup(self):
+        sys.argv.append("setup")
+        sys.argv.append("bss:")
+        sys.argv.append("my_beamline")
+        sys.argv.append("1995-1")
+        args = bss_info.get_options()
+        self.assertIsNotNone(args)
+        self.assertEqual(args.subcommand, "setup")
+        self.assertEqual(args.prefix, "bss:")
+        self.assertEqual(args.beamlineName, "my_beamline")
+        self.assertEqual(args.cycle, "1995-1")
+
+    def test_EPICS_update(self):
+        sys.argv.append("update")
+        sys.argv.append("bss:")
+        args = bss_info.get_options()
+        self.assertIsNotNone(args)
+        self.assertEqual(args.subcommand, "update")
+        self.assertEqual(args.prefix, "bss:")
+
+
 class Test_Beamtime(unittest.TestCase):
+
+    def test_command_options(self):
+        self.assertTrue(True)   # test something
+        # TODO:
 
     def test_general(self):
         self.assertEqual(bss_info.CONNECT_TIMEOUT, 5)
@@ -50,7 +137,13 @@ class Test_Beamtime(unittest.TestCase):
         self.assertTrue(True)   # test something
         if not using_APS_workstation():
             return
-        runs = bss_info.api_bss.listRuns()
+
+        runs = bss_info.listAllRuns()
+        self.assertGreater(len(runs), 1)
+        self.assertEqual(bss_info.getCurrentCycle(), runs[-1])
+        self.assertEqual(bss_info.listRecentRuns()[0], runs[-1])
+
+        self.assertGreater(len(bss_info.listAllBeamlines()), 1)
 
     def test_printColumns(self):
         from tests.common import Capture_stdout
@@ -69,6 +162,7 @@ class Test_Beamtime(unittest.TestCase):
 def suite(*args, **kw):
     test_list = [
         Test_Beamtime,
+        Test_ProgramCommands,
         ]
     test_suite = unittest.TestSuite()
     for test_case in test_list:
