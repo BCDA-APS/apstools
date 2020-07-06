@@ -1,4 +1,3 @@
-
 """
 Callbacks that might be useful at the APS using Bluesky
 

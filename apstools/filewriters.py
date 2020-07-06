@@ -1,4 +1,3 @@
-
 """
 Bluesky callbacks for writing files (such as for SPEC or NeXus).
 

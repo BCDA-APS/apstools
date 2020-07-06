@@ -232,7 +232,7 @@ def _get_pv(obj):
 
 
 def itemizer(fmt, items):
-    """format a list of items"""
+    """Format a list of items."""
     return [fmt % k for k in items]
 
 
@@ -508,7 +508,7 @@ def replay(headers, callback=None, sort=True):
         return run.start["time"]
 
     def decreasing_time_sorter(run):
-        "default for databroker v0 results"
+        """Default for databroker v0 results."""
         return -run.start["time"]
 
     sorter = {
@@ -727,12 +727,12 @@ def split_quoted_line(line):
 
 
 def text_encode(source):
-    """encode ``source`` using the default codepoint"""
+    """Encode ``source`` using the default codepoint."""
     return source.encode(errors='ignore')
 
 
 def to_unicode_or_bust(obj, encoding='utf-8'):
-    """from: http://farmdev.com/talks/unicode/"""
+    """from: http://farmdev.com/talks/unicode/  ."""
     if isinstance(obj, str):
         if not isinstance(obj, str):
             obj = str(obj, encoding)
@@ -740,7 +740,7 @@ def to_unicode_or_bust(obj, encoding='utf-8'):
 
 
 def trim_string_for_EPICS(msg):
-    """string must not be too long for EPICS PV"""
+    """String must not exceed EPICS PV length."""
     if len(msg) > MAX_EPICS_STRINGOUT_LENGTH:
         msg = msg[:MAX_EPICS_STRINGOUT_LENGTH-1]
     return msg
@@ -748,7 +748,7 @@ def trim_string_for_EPICS(msg):
 
 def unix(command, raises=True):
     """
-    run a UNIX command, returns (stdout, stderr)
+    Run a UNIX command, returns (stdout, stderr).
 
     PARAMETERS
 

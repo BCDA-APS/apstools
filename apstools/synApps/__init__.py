@@ -1,4 +1,3 @@
-
 """
 Ophyd support for synApps configuration of EPICS records
 

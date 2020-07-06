@@ -1,4 +1,3 @@
-
 """
 add to capabilities of any diffractometer
 

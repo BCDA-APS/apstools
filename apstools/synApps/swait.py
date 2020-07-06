@@ -1,4 +1,3 @@
-
 """
 Ophyd support for the EPICS synApps swait record
 

@@ -50,8 +50,8 @@ class Test_CommandList(unittest.TestCase):
         e_lines = expected.strip().splitlines()
         r_lines = received.strip().splitlines()
         self.assertEqual(len(e_lines), len(r_lines))
-        for i in range(len(e_lines)):
-            self.assertEqual(e_lines[i].strip(), r_lines[i].strip())
+        for expect, got in zip(e_lines, r_lines):
+            self.assertEqual(expect.strip(), got.strip())
 
     def test_ExcelCommandList(self):
         commands = APS_plans.get_command_list(self.xl_command_file)

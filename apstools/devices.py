@@ -1,4 +1,3 @@
-
 """
 (ophyd) Devices that might be useful at the APS using Bluesky
 
@@ -178,14 +177,17 @@ def use_EPICS_scaler_channels(scaler):
 
 
 class ApsCycleComputedRO(SynSignalRO):
+
     """
-    compute the APS cycle name based on the calendar and the usual practice
+    Compute the APS cycle name based on the calendar and the usual practice.
 
     Absent any facility PV that provides the name of the current operating
     cycle, this can be approximated by python computation (as long as the
     present scheduling pattern is maintained)
 
     This signal is read-only.
+
+    NOTE: There is info provided by the APS proposal & ESAF systems.
     """
 
     def get(self):
@@ -195,7 +197,9 @@ class ApsCycleComputedRO(SynSignalRO):
 
 
 class ApsOperatorMessagesDevice(Device):
-    """general messages from the APS main control room"""
+
+    """General messages from the APS main control room."""
+
     operators = Component(EpicsSignalRO, "OPS:message1", string=True)
     floor_coordinator = Component(EpicsSignalRO, "OPS:message2", string=True)
     fill_pattern = Component(EpicsSignalRO, "OPS:message3", string=True)
@@ -208,8 +212,9 @@ class ApsOperatorMessagesDevice(Device):
 
 
 class ApsMachineParametersDevice(Device):
+
     """
-    common operational parameters of the APS of general interest
+    Common operational parameters of the APS of general interest.
 
     EXAMPLE::
 
@@ -293,8 +298,9 @@ class ApsMachineParametersDevice(Device):
 
 
 class ShutterBase(Device):
+
     """
-    base class for all shutter Devices
+    Base class for all shutter Devices.
 
     PARAMETERS
 
@@ -343,7 +349,7 @@ class ShutterBase(Device):
 
     def open(self):
         """
-        BLOCKING: request shutter to open, called by set()
+        BLOCKING: request shutter to open, called by ``set()``.
 
         Must implement in subclass of ShutterBase()
 
@@ -359,7 +365,7 @@ class ShutterBase(Device):
 
     def close(self):
         """
-        BLOCKING: request shutter to close, called by set()
+        BLOCKING: request shutter to close, called by ``set()``.
 
         Must implement in subclass of ShutterBase()
 
@@ -376,7 +382,7 @@ class ShutterBase(Device):
     @property
     def state(self):
         """
-        returns 'open', 'close', or 'unknown'
+        returns ``open``, ``close``, or ``unknown``
 
         Must implement in subclass of ShutterBase()
 
@@ -496,8 +502,9 @@ class ShutterBase(Device):
 
 
 class OneSignalShutter(ShutterBase):
+
     """
-    shutter Device using one Signal for open and close
+    Shutter Device using one Signal for open and close.
 
     PARAMETERS
 
@@ -590,6 +597,7 @@ class OneSignalShutter(ShutterBase):
 
 
 class ApsPssShutter(ShutterBase):
+
     """
     APS PSS shutter
 
@@ -642,6 +650,7 @@ class ApsPssShutter(ShutterBase):
         shutter_a.set("o")
         shutter_a.set("x")
     """
+
     # bo records that reset after a short time, set to 1 to move
     # note: upper-case first characters here (unique to 9-ID)?
     open_signal = Component(EpicsSignal, "Open")
@@ -682,6 +691,7 @@ class ApsPssShutter(ShutterBase):
 
 
 class ApsPssShutterWithStatus(ApsPssShutter):
+
     """
     APS PSS shutter with separate status PV
 
@@ -719,6 +729,7 @@ class ApsPssShutterWithStatus(ApsPssShutter):
         RE(in_a_plan(A_shutter))
 
     """
+
     # bi record ZNAM=OFF, ONAM=ON
     pss_state = FormattedComponent(EpicsSignalRO, "{self.state_pv}")
     pss_state_open_values = [1]
@@ -828,6 +839,7 @@ class ApsPssShutterWithStatus(ApsPssShutter):
 
 
 class SimulatedApsPssShutterWithStatus(ApsPssShutterWithStatus):
+
     """
     Simulated APS PSS shutter
 
@@ -836,6 +848,7 @@ class SimulatedApsPssShutterWithStatus(ApsPssShutterWithStatus):
         sim = SimulatedApsPssShutterWithStatus(name="sim")
 
     """
+
     open_signal = Component(Signal, value=0)
     close_signal = Component(Signal, value=0)
     pss_state = FormattedComponent(Signal, value='close')
@@ -878,6 +891,7 @@ class SimulatedApsPssShutterWithStatus(ApsPssShutterWithStatus):
 
 
 class ApsUndulator(Device):
+
     """
     APS Undulator
 
@@ -885,6 +899,7 @@ class ApsUndulator(Device):
 
         undulator = ApsUndulator("ID09ds:", name="undulator")
     """
+
     energy = Component(EpicsSignal, "Energy", write_pv="EnergySet")
     energy_taper = Component(EpicsSignal, "TaperEnergy", write_pv="TaperEnergySet")
     gap = Component(EpicsSignal, "Gap", write_pv="GapSet")
@@ -909,6 +924,7 @@ class ApsUndulator(Device):
 
 
 class ApsUndulatorDual(Device):
+
     """
     APS Undulator with upstream *and* downstream controls
 
@@ -918,13 +934,15 @@ class ApsUndulatorDual(Device):
 
     note:: the trailing ``:`` in the PV prefix should be omitted
     """
+
     upstream = Component(ApsUndulator, "us:")
     downstream = Component(ApsUndulator, "ds:")
 
 
 class ApsBssUserInfoDevice(Device):
+
     """
-    provide current experiment info from the APS BSS
+    Provide current experiment info from the APS BSS.
 
     BSS: Beamtime Scheduling System
 
@@ -935,7 +953,9 @@ class ApsBssUserInfoDevice(Device):
                             name="bss_user_info")
         sd.baseline.append(bss_user_info)
 
+    NOTE: There is info provided by the APS proposal & ESAF systems.
     """
+
     proposal_number =   Component(EpicsSignal, "proposal_number")
     activity =          Component(EpicsSignal, "activity",      string=True)
     badge =             Component(EpicsSignal, "badge",         string=True)
@@ -964,6 +984,7 @@ class AxisTunerException(ValueError):
 
 
 class AxisTunerMixin(DeviceMixinBase):
+
     """
     Mixin class to provide tuning capabilities for an axis
 
@@ -1040,6 +1061,7 @@ class AxisTunerMixin(DeviceMixinBase):
 
 
 class EpicsDescriptionMixin(DeviceMixinBase):
+
     """
     add a record's description field to a Device, such as EpicsMotor
 
@@ -1081,6 +1103,7 @@ class EpicsDescriptionMixin(DeviceMixinBase):
 
 
 class EpicsMotorDialMixin(DeviceMixinBase):
+
     """
     add motor record's dial coordinate fields to Device
 
@@ -1099,6 +1122,7 @@ class EpicsMotorDialMixin(DeviceMixinBase):
 
 
 class EpicsMotorEnableMixin(DeviceMixinBase):
+
     """
     mixin providing access to motor enable/disable
 
@@ -1119,6 +1143,7 @@ class EpicsMotorEnableMixin(DeviceMixinBase):
         yield from bps.mv(m1.enable_disable, m1.MOTOR_ENABLE)
 
     """
+
     enable_disable = Component(EpicsSignal, "_able", kind='omitted')
 
     # constants for internal use
@@ -1139,6 +1164,7 @@ class EpicsMotorEnableMixin(DeviceMixinBase):
 
 
 class EpicsMotorLimitsMixin(DeviceMixinBase):
+
     """
     add motor record HLM & LLM fields & compatibility get_lim() and set_lim()
 
@@ -1216,6 +1242,7 @@ class EpicsMotorLimitsMixin(DeviceMixinBase):
 
 
 class EpicsMotorServoMixin(DeviceMixinBase):
+
     """
     add motor record's servo loop controls to Device
 
@@ -1234,6 +1261,7 @@ class EpicsMotorServoMixin(DeviceMixinBase):
 
 
 class EpicsMotorRawMixin(DeviceMixinBase):
+
     """
     add motor record's raw coordinate fields to Device
 
@@ -1251,6 +1279,7 @@ class EpicsMotorRawMixin(DeviceMixinBase):
 
 
 class EpicsMotorResolutionMixin(DeviceMixinBase):
+
     """
     Add motor record's resolution fields to motor.
 
@@ -1280,6 +1309,7 @@ class EpicsMotorResolutionMixin(DeviceMixinBase):
 
 
 class EpicsMotorShutter(OneSignalShutter):
+
     """
     a shutter, implemented with an EPICS motor moved between two positions
 
@@ -1306,6 +1336,7 @@ class EpicsMotorShutter(OneSignalShutter):
             yield from mv(tomo_shutter, "close")
 
     """
+
     signal = Component(EpicsMotor, "")
     tolerance = 0.01        # how close is considered in-position?
 
@@ -1337,6 +1368,7 @@ class EpicsMotorShutter(OneSignalShutter):
 
 
 class EpicsOnOffShutter(OneSignalShutter):
+
     """
     a shutter using a single EPICS PV moved between two positions
 
@@ -1359,10 +1391,12 @@ class EpicsOnOffShutter(OneSignalShutter):
             yield from mv(bit_shutter, "close")
 
     """
+
     signal = Component(EpicsSignal, "")
 
 
 class DualPf4FilterBox(Device):
+
     """
     Dual Xia PF4 filter boxes using support from synApps (using Al, Ti foils)
 
@@ -1372,6 +1406,7 @@ class DualPf4FilterBox(Device):
         pf4_AlTi = DualPf4FilterBox("9idcRIO:pf4:", name="pf4_AlTi")
 
     """
+
     fPosA = Component(EpicsSignal, "fPosA")
     fPosB = Component(EpicsSignal, "fPosB")
     bankA = Component(EpicsSignalRO, "bankA")
@@ -1391,9 +1426,11 @@ class DualPf4FilterBox(Device):
 
 
 class KohzuSeqCtl_Monochromator(Device):
+
     """
     synApps Kohzu double-crystal monochromator sequence control program
     """
+
     # lambda is reserved word in Python, can't use it
     wavelength = Component(EpicsSignal, "BraggLambdaRdbkAO", write_pv="BraggLambdaAO")
     energy = Component(EpicsSignal, "BraggERdbkAO", write_pv="BraggEAO")
@@ -1416,6 +1453,7 @@ class KohzuSeqCtl_Monochromator(Device):
 
 
 class ProcessController(Device):
+
     """
     common parts of a process controller support
 
@@ -1554,7 +1592,9 @@ class ProcessController(Device):
 
 
 class Struck3820(Device):
+
     """Struck/SIS 3820 Multi-Channel Scaler (as used by USAXS)"""
+
     start_all = Component(EpicsSignal, "StartAll")
     stop_all = Component(EpicsSignal, "StopAll")
     erase_start = Component(EpicsSignal, "EraseStart")
@@ -1676,6 +1716,7 @@ def AD_warmed_up(detector):
 
 
 class AD_EpicsHdf5FileName(FileStorePluginBase):    # lgtm [py/missing-call-to-init]
+
     """
     custom class to define image file name from EPICS
 

@@ -1,14 +1,3 @@
-
-#-----------------------------------------------------------------------------
-# :author:    Pete R. Jemian
-# :email:     jemian@anl.gov
-# :copyright: (c) 2017-2019, UChicago Argonne, LLC
-#
-# Distributed under the terms of the Creative Commons Attribution 4.0 International Public License.
-#
-# The full license is in the file LICENSE.txt, distributed with this software.
-#-----------------------------------------------------------------------------
-
 """
 Ophyd support for fields common to all EPICS records
 
@@ -25,6 +14,16 @@ Public Structures
 :see: https://wiki-ext.aps.anl.gov/epics/index.php/RRM_3-14_dbCommon
 :see: https://wiki-ext.aps.anl.gov/epics/index.php/RRM_3-14_Common
 """
+
+#-----------------------------------------------------------------------------
+# :author:    Pete R. Jemian
+# :email:     jemian@anl.gov
+# :copyright: (c) 2017-2019, UChicago Argonne, LLC
+#
+# Distributed under the terms of the Creative Commons Attribution 4.0 International Public License.
+#
+# The full license is in the file LICENSE.txt, distributed with this software.
+#-----------------------------------------------------------------------------
 
 from ophyd.device import Device, Component
 from ophyd import EpicsSignal, EpicsSignalRO
