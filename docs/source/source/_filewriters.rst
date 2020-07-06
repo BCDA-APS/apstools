@@ -76,20 +76,22 @@ The output file will be written to the file named in
 ``self.file_name``.  (Include the output directory if
 different from the current working directory.)
 
-When ``self.file_name`` is ``None`` (the default),
-the :meth:`~make_file_name()` method will construct
+When ``self.file_name`` is ``None`` (the default), the
+:meth:`~apstools.filewriters.FileWriterCallbackBase.make_file_name()`
+method will construct
 the file name using a combination of the date and time
 (from the ``start`` document), the ``start`` document
 ``uid``, and the ``scan_id``.
-The default file extension (given in ``NEXUS_FILE_EXTENSION``) is
-used in :meth:`~make_file_name()`.
+The default file extension (given in ``NEXUS_FILE_EXTENSION``)
+is used in
+:meth:`~apstools.filewriters.FileWriterCallbackBase.make_file_name()`.
 The directory will be
 ``self.file_path`` (or the current working directory
 if ``self.file_path`` is ``None`` which is the default).
 
-Either specify ``self.file_name`` of override 
-:meth:`~make_file_name()` in a subclass
-to change the procedure for default output file names.
+Either specify ``self.file_name`` or override 
+:meth:`~apstools.filewriters.FileWriterCallbackBase.make_file_name()`
+in a subclass to change the procedure for default output file names.
 
 Metadata
 ~~~~~~~~
@@ -133,19 +135,22 @@ The output file will be written to the file named in
 ``self.file_name``.  (Include the output directory if
 different from the current working directory.)
 
-When ``self.file_name`` is ``None`` (the default),
-the :meth:`~make_file_name()` method will construct
+When ``self.file_name`` is ``None`` (the default), the
+:meth:`~apstools.filewriters.FileWriterCallbackBase.make_file_name()`
+method will construct
 the file name using a combination of the date and time
 (from the `start` document), the ``start`` document
 ``uid``, and the ``scan_id``.
 The default file extension (given in ``NEXUS_FILE_EXTENSION``) is
-used in :meth:`~make_file_name()`.
+used in
+:meth:`~apstools.filewriters.FileWriterCallbackBase.make_file_name()`.
 The directory will be
 ``self.file_path`` (or the current working directory
 if ``self.file_path`` is ``None`` which is the default).
 
 Either specify ``self.file_name`` of override 
-:meth:`~make_file_name()` in a subclass
+:meth:`~apstools.filewriters.FileWriterCallbackBase.make_file_name()`
+in a subclass
 to change the procedure for default output file names.
 
 Metadata

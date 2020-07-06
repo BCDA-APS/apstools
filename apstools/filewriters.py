@@ -106,11 +106,11 @@ class SpecWriterCallback(object):
     """
     Collect data from Bluesky RunEngine documents to write as SPEC data.
     
-    This gathers data from all documents in a scan and appends scan to the file 
-    when the *stop* document is received.  One or more scans can be written to 
+    This gathers data from all documents in a scan and appends scan to the file
+    when the *stop* document is received.  One or more scans can be written to
     the same file.  The file format is text.
 
-    .. note:: ``SpecWriterCallback()`` does **not** inherit 
+    .. note:: ``SpecWriterCallback()`` does **not** inherit
        from ``FileWriterCallbackBase()``.
 
     Parameters
