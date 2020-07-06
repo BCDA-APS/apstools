@@ -219,11 +219,21 @@ def _setup_peak_calcout_(calc, desc, calcout, ref_signal, center=0, width=1, sca
         $E$,
         default = 0.05
     """
+
     # to add a noisy background will need another calc
-    assert isinstance(calcout, CalcoutRecord)
-    assert isinstance(ref_signal, Signal)
-    assert width > 0
-    assert 0.0 <= noise <= 1.0
+    if not isinstance(calcout, CalcoutRecord):
+        raise TypeError(
+            "expected CalcoutRecord instance,"
+            f" received {type(calcout)}")
+    if not isinstance(ref_signal, Signal):
+        raise TypeError(
+            "expected Signal instance,"
+            f" received {type(ref_signal)}")
+    if width <= 0:
+        raise ValueError(f"width must be positive, received {width}")
+    if not (0.0 <= noise <= 1.0):
+        raise ValueError(f"noise must be between 0 and 1, received {noise}")
+
     calcout.reset()
     calcout.scanning_rate.put("Passive")
     calcout.description.put(desc)

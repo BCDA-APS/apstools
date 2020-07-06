@@ -1155,7 +1155,12 @@ def plot_prune_fifo(bec, n, y, x):
         instance of ophyd.Signal (or subclass),
         independent (x) axis
     """
-    assert n >= 0, "n must be 0 or greater"
+
+    if n < 0:
+        raise ValueError(
+            "must be zero or greater",
+            f" received {n}")
+
     for liveplot in bec._live_plots.values():
         lp = liveplot.get(y.name)
         if lp is None:
