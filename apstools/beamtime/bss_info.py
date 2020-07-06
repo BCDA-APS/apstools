@@ -73,7 +73,7 @@ def epicsUpdate(prefix):
     bss.clear()
     cycle = bss.esaf.aps_cycle.get()
     beamline = bss.proposal.beamline_name.get()
-    sector = bss.esaf.sector.get()
+    # sector = bss.esaf.sector.get()
     esaf_id = bss.esaf.esaf_id.get()
     proposal_id = bss.proposal.proposal_id.get()
 
@@ -188,10 +188,9 @@ def getCurrentInfo(beamline):
         print(f"ESAF {esaf['esafId']}: {esaf['esafTitle']}")
         esaf_badges = [user["badge"] for user in esaf["experimentUsers"]]
         for run in listRecentRuns():
-            for proposal in api_bss.listProposals(beamlineName=beamline, runName=run):
+            for proposal in api_bss.listProposals(beamlineName=beamline,
+                                                  runName=run):
                 print(f"proposal {proposal['id']}: {proposal['title']}")
-                proposal["experimenters"]
-                user["badge"]
                 count = 0
                 for user in proposal["experimenters"]:
                     if user["badge"] in esaf_badges:
@@ -199,11 +198,11 @@ def getCurrentInfo(beamline):
                 if count > 0:
                     matches.append(
                         dict(
-                            esaf=esaf, 
-                            proposal=proposal, 
-                            num_true=count, 
-                            num_esaf_badges=len(esaf_badges), 
-                            num_proposal_badges=len(findings),
+                            esaf=esaf,
+                            proposal=proposal,
+                            num_true=count,
+                            num_esaf_badges=len(esaf_badges),
+                            num_proposal_badges=len(proposal["experimenters"]),
                         )
                     )
     return matches
@@ -287,7 +286,7 @@ def printColumns(items, numColumns=5, width=10):
     for base in range(0, rows):
         row = [
             items[base+k*rows]
-            for k in range(numColumns) 
+            for k in range(numColumns)
             if base+k*rows < n]
         print("".join([f"{s:{width}s}" for s in row]))
 
@@ -304,7 +303,7 @@ class ProposalNotFound(DmRecordNotFound): ...
 
 
 class EsafInfo:
-    
+
     def __init__(self, esaf):
         self.title = esaf["esafTitle"]
         self.id = esaf["esafId"]
@@ -317,7 +316,7 @@ class EsafInfo:
 
 
 class ScheduleInfo:
-    
+
     def __init__(self, proposal):
         self.others = []
         self.contact = None
@@ -336,7 +335,7 @@ class ScheduleInfo:
 
 def get_options():
     parser = argparse.ArgumentParser(
-        prog=os.path.split(sys.argv[0])[-1], 
+        prog=os.path.split(sys.argv[0])[-1],
         description=__doc__.strip().splitlines()[0],
         )
 
@@ -371,6 +370,75 @@ def get_options():
     return parser.parse_args()
 
 
+def cmd_current(args):
+    records = getCurrentProposals(args.beamlineName)
+    if len(records) == 0:
+        print(f"No current proposals for {args.beamlineName}")
+    else:
+        table = pyRestTable.Table()
+        table.labels = "id cycle date user(s) title".split()
+        for item in records:
+            users = trim(",".join([
+                user["lastName"]
+                for user in item["experimenters"]
+            ]), 20)
+            table.addRow((
+                item["id"],
+                item["cycle"],
+                item["submittedDate"],
+                users,
+                trim(item["title"]),))
+        print(f"Current Proposal(s) on {args.beamlineName}")
+        print()
+        print(table)
+
+    sector = args.beamlineName.split("-")[0]
+    records = getCurrentEsafs(sector)
+    if len(records) == 0:
+        print(f"No current ESAFs for sector {sector}")
+    else:
+        table = pyRestTable.Table()
+        table.labels = "id status start end user(s) title".split()
+        for item in records:
+            users = trim(
+                    ",".join([
+                    user["lastName"]
+                    for user in item["experimentUsers"]
+                ]),
+                20)
+            table.addRow((
+                item["esafId"],
+                item["esafStatus"],
+                item["experimentStartDate"].split()[0],
+                item["experimentEndDate"].split()[0],
+                users,
+                trim(item["esafTitle"], 40),
+                ))
+        print(f"Current ESAF(s) on sector {sector}")
+        print()
+        print(table)
+
+
+def cmd_esaf(args):
+    try:
+        esaf = getEsaf(args.esafId)
+        print(yaml.dump(esaf))
+    except DmRecordNotFound as exc:
+        print(exc)
+    except dm.DmException as exc:
+        print(f"dm reported: {exc}")
+
+
+def cmd_proposal(args):
+    try:
+        proposal = getProposal(args.proposalId, args.cycle, args.beamlineName)
+        print(yaml.dump(proposal))
+    except DmRecordNotFound as exc:
+        print(exc)
+    except dm.DmException as exc:
+        print(f"dm reported: {exc}")
+
+
 def main():
     args = get_options()
     if args.subcommand == "beamlines":
@@ -380,73 +448,16 @@ def main():
         epicsClear(args.prefix)
 
     elif args.subcommand == "current":
-        records = getCurrentProposals(args.beamlineName)
-        if len(records) == 0:
-            print(f"No current proposals for {args.beamlineName}")
-        else:
-            table = pyRestTable.Table()
-            table.labels = "id cycle date user(s) title".split()
-            for item in records:
-                users = trim(",".join([
-                    user["lastName"]
-                    for user in item["experimenters"]
-                ]), 20)
-                table.addRow((
-                    item["id"], 
-                    item["cycle"], 
-                    item["submittedDate"], 
-                    users, 
-                    trim(item["title"]),))
-            print(f"Current Proposal(s) on {args.beamlineName}")
-            print()
-            print(table)
-
-        sector = args.beamlineName.split("-")[0]
-        records = getCurrentEsafs(sector)
-        if len(records) == 0:
-            print(f"No current ESAFs for sector {sector}")
-        else:
-            table = pyRestTable.Table()
-            table.labels = "id status start end user(s) title".split()
-            for item in records:
-                users = trim(
-                        ",".join([
-                        user["lastName"]
-                        for user in item["experimentUsers"]
-                    ]),
-                    20)
-                table.addRow((
-                    item["esafId"], 
-                    item["esafStatus"], 
-                    item["experimentStartDate"].split()[0],
-                    item["experimentEndDate"].split()[0],
-                    users, 
-                    trim(item["esafTitle"], 40),
-                    ))
-            print(f"Current ESAF(s) on sector {sector}")
-            print()
-            print(table)
+        cmd_current(args)
 
     elif args.subcommand == "cycles":
         printColumns(listAllRuns())
 
     elif args.subcommand == "esaf":
-        try:
-            esaf = getEsaf(args.esafId)
-            print(yaml.dump(esaf))
-        except DmRecordNotFound as exc:
-            print(exc)
-        except dm.DmException as exc:
-            print(f"dm reported: {exc}")
+        cmd_esaf(args)
 
     elif args.subcommand == "proposal":
-        try:
-            proposal = getProposal(args.proposalId, args.cycle, args.beamlineName)
-            print(yaml.dump(proposal))
-        except DmRecordNotFound as exc:
-            print(exc)
-        except dm.DmException as exc:
-            print(f"dm reported: {exc}")
+        cmd_proposal(args)
 
     elif args.subcommand == "setup":
         epicsSetup(args.prefix, args.beamlineName, args.cycle)

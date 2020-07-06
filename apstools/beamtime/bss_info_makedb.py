@@ -4,9 +4,6 @@
 Create the EPICS database
 """
 
-import os
-import sys
-
 #name	RTYP	length
 
 raw_data = """
