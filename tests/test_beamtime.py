@@ -14,8 +14,6 @@ _path = os.path.join(_test_path, '..')
 if _path not in sys.path:
     sys.path.insert(0, _path)
 
-from tests.common import Capture_stdout, Capture_stderr
-
 from apstools.beamtime import bss_info
 
 
@@ -55,6 +53,7 @@ class Test_Beamtime(unittest.TestCase):
         runs = bss_info.api_bss.listRuns()
 
     def test_printColumns(self):
+        from tests.common import Capture_stdout
         with Capture_stdout() as received:
             bss_info.printColumns("1 2 3 4 5 6".split(), numColumns=3, width=3)
         self.assertEqual(len(received), 2)
