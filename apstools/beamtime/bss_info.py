@@ -15,17 +15,20 @@ EXAMPLES::
 import argparse
 import datetime
 import dm               # APS data management library
-from bss_info_ophyd import EpicsBssDevice
 import os
 import pyRestTable
 import sys
 import time
 import yaml
 
+from .bss_info_ophyd import EpicsBssDevice
+
+
 DM_APS_DB_WEB_SERVICE_URL = "https://xraydtn01.xray.aps.anl.gov:11236"
 CONNECT_TIMEOUT = 5
 POLL_INTERVAL = 0.01
 
+# TODO: set to None and provide singleton initializers, not at global
 api_bss = dm.BssApsDbApi(DM_APS_DB_WEB_SERVICE_URL)
 api_esaf = dm.EsafApsDbApi(DM_APS_DB_WEB_SERVICE_URL)
 
