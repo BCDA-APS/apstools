@@ -343,12 +343,12 @@ def get_options():
 
     subcommand = parser.add_subparsers(dest='subcommand', title='subcommand')
 
-    p_sub = subcommand.add_parser('beamlines', help="print list of beamlines")
+    subcommand.add_parser('beamlines', help="print list of beamlines")
 
     p_sub = subcommand.add_parser('current', help="print current ESAF(s) and proposal(s)")
     p_sub.add_argument('beamlineName', type=str, help="Beamline name")
 
-    p_sub = subcommand.add_parser('cycles', help="print APS cycle names")
+    subcommand.add_parser('cycles', help="print APS cycle names")
 
     p_sub = subcommand.add_parser('esaf', help="print specific ESAF")
     p_sub.add_argument('esafId', type=int, help="ESAF ID number")
