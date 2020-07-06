@@ -672,6 +672,8 @@ class FileWriterCallbackBase:
     """
     Base class for filewriter callbacks.
 
+    New with apstools release 1.3.0.
+
     Applications should subclass and rewrite the ``writer()`` method.
 
     The local buffers are cleared when a start document is received.
@@ -962,6 +964,8 @@ class FileWriterCallbackBase:
 class NXWriter(FileWriterCallbackBase):
     """
     General class for writing HDF5/NeXus file (using only NeXus base classes).
+
+    New with apstools release 1.3.0.
 
     One scan is written to one HDF5/NeXus file.
 
@@ -1551,6 +1555,8 @@ class NXWriter(FileWriterCallbackBase):
 class NXWriterAPS(NXWriter):
     """
     Customize :class:`~NXWriter` with APS-specific content.
+
+    New with apstools release 1.3.0.
 
     * Adds `/entry/instrument/undulator` group if metadata exists.
     * Adds APS information to `/entry/instrument/source` group.
