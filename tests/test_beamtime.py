@@ -6,6 +6,7 @@ unit tests for beamtime info
 import datetime
 import os
 import socket
+import subprocess
 import sys
 import unittest
 
@@ -14,7 +15,10 @@ _path = os.path.join(_test_path, '..')
 if _path not in sys.path:
     sys.path.insert(0, _path)
 
-from apstools.beamtime import bss_info
+from apstools.beamtime import bss_info, bss_info_makedb
+
+
+BSS_TEST_IOC_PREFIX = "ioc:bss:"
 
 
 def using_APS_workstation():
@@ -22,11 +26,16 @@ def using_APS_workstation():
     return hostname.lower().endswith(".aps.anl.gov")
 
 
-class Test_Beamtime(unittest.TestCase):
+def bss_IOC_available():
+    import epics
+    # try connecting with one of the PVs in the database
+    cycle = epics.PV(f"{BSS_TEST_IOC_PREFIX}esaf:cycle")
+    cycle.wait_for_connection(timeout=2)
+    conn = cycle.connected
+    return cycle.connected
 
-    def test_command_options(self):
-        self.assertTrue(True)   # test something
-        # TODO:
+
+class Test_Beamtime(unittest.TestCase):
 
     def test_general(self):
         self.assertEqual(bss_info.CONNECT_TIMEOUT, 5)
@@ -62,6 +71,18 @@ class Test_Beamtime(unittest.TestCase):
 
         self.assertGreater(len(bss_info.listAllBeamlines()), 1)
 
+        # TODO: test the other functions
+        # getCurrentEsafs
+        # getCurrentInfo
+        # getCurrentProposals
+        # getEsaf
+        # getProposal
+        # class DmRecordNotFound(Exception): ...
+        # class EsafNotFound(DmRecordNotFound): ...
+        # class ProposalNotFound(DmRecordNotFound): ...
+        # EsafInfo
+        # ScheduleInfo
+
     def test_printColumns(self):
         from tests.common import Capture_stdout
         with Capture_stdout() as received:
@@ -74,6 +95,130 @@ class Test_Beamtime(unittest.TestCase):
         self.assertEqual(bss_info.trim(source), source)
         self.assertNotEqual(bss_info.trim(source, length=8), source)
         self.assertEqual(bss_info.trim(source, length=8), "01234...")
+
+
+class Test_EPICS(unittest.TestCase):
+
+    def start_ioc_subprocess(self, db_file):
+        softIoc = os.path.abspath(os.path.join(
+            os.environ.get("CONDA_PREFIX"),
+            "epics",
+            "bin",
+            os.environ.get("EPICS_HOST_ARCH", "linux-x86_64"),
+            "softIoc"
+        ))
+        if not os.path.exists(softIoc):
+            return
+        db_file = os.path.abspath(os.path.join(
+            os.path.dirname(bss_info.__file__),
+            db_file
+        ))
+        if not os.path.exists(db_file):
+            return
+        cmd = f"{softIoc} -m P={BSS_TEST_IOC_PREFIX} -d {db_file}".split()
+        return subprocess.Popen(
+            cmd,
+            stdin=subprocess.PIPE,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE,
+            shell=False)
+
+    def setUp(self):
+        self.bss = None
+        self.ioc_process = self.start_ioc_subprocess("bss_info.db")
+
+    def tearDown(self):
+        if self.bss is not None:
+            self.bss.destroy()
+            self.bss = None
+        if self.ioc_process is not None:
+            self.ioc_process.communicate('exit\n'.encode())
+            self.ioc_process = None
+
+    def test_ioc(self):
+        if not bss_IOC_available():
+            return
+
+        from apstools.beamtime import bss_info_ophyd as bio
+        self.bss = bio.EpicsBssDevice(BSS_TEST_IOC_PREFIX, name="bss")
+        self.bss.wait_for_connection(timeout=2)
+        self.assertTrue(self.bss.connected)
+
+        self.assertEqual(self.bss.esaf.aps_cycle.get(), "")
+
+    def test_EPICS(self):
+        from tests.common import Capture_stdout
+
+        if not bss_IOC_available():
+            return
+
+        with Capture_stdout():
+            self.bss = bss_info.connect_epics(BSS_TEST_IOC_PREFIX)
+        self.assertTrue(self.bss.connected)
+        self.assertEqual(self.bss.esaf.aps_cycle.get(), "")
+
+        self.bss.esaf.aps_cycle.put(bss_info.getCurrentCycle())
+        self.assertNotEqual(self.bss.esaf.aps_cycle.get(), "")
+
+        beamline = "9-ID-B,C"
+        cycle = "2019-3"
+        with Capture_stdout():
+            bss_info.epicsSetup(BSS_TEST_IOC_PREFIX, beamline, cycle)
+        self.assertNotEqual(self.bss.proposal.beamline_name.get(), "harpo")
+        self.assertEqual(self.bss.proposal.beamline_name.get(), beamline)
+        self.assertEqual(self.bss.esaf.aps_cycle.get(), cycle)
+        self.assertEqual(self.bss.esaf.sector.get(), beamline.split("-")[0])
+
+        # epicsUpdate
+        """
+        Example ESAF on sector 9
+
+        ====== ======== ========== ========== ==================== =================================
+        id     status   start      end        user(s)              title
+        ====== ======== ========== ========== ==================== =================================
+        226319 Approved 2020-05-26 2020-09-28 Ilavsky,Maxey,Kuz... Commission 9ID and USAXS
+        ====== ======== ========== ========== ==================== =================================
+
+        ===== ====== =================== ==================== ========================================
+        id    cycle  date                user(s)              title
+        ===== ====== =================== ==================== ========================================
+        64629 2019-2 2019-03-01 18:35:02 Ilavsky,Okasinski    2019 National School on Neutron & X-r...
+        ===== ====== =================== ==================== ========================================
+        """
+        esaf_id = "226319"
+        proposal_id = "64629"
+        self.bss.esaf.aps_cycle.put("2019-2")
+        self.bss.esaf.esaf_id.put(esaf_id)
+        self.bss.proposal.proposal_id.put(proposal_id)
+        with Capture_stdout():
+            bss_info.epicsUpdate(BSS_TEST_IOC_PREFIX)
+        self.assertEqual(
+            self.bss.esaf.title.get(),
+            "Commission 9ID and USAXS")
+        self.assertTrue(
+            self.bss.proposal.title.get().startswith(
+            "2019 National School on Neutron & X-r"))
+
+        with Capture_stdout():
+            bss_info.epicsClear(BSS_TEST_IOC_PREFIX)
+        self.assertNotEqual(self.bss.esaf.aps_cycle.get(), "")
+        self.assertEqual(self.bss.esaf.title.get(), "")
+        self.assertEqual(self.bss.proposal.title.get(), "")
+
+
+class Test_MakeDatabase(unittest.TestCase):
+
+    def test_general(self):
+        from tests.common import Capture_stdout
+        with Capture_stdout() as db:
+            bss_info_makedb.main()
+        self.assertEqual(len(db), 345)
+        self.assertEqual(db[0], "#")
+        self.assertEqual(db[1], "# file: bss_info.db")
+        # randomly-selected spot checks
+        self.assertEqual(db[22], 'record(stringout, "$(P)esaf:id")')
+        self.assertEqual(db[128], '    field(ONAM, "ON")')
+        self.assertEqual(db[265], '    field(FTVL, "CHAR")')
 
 
 class Test_ProgramCommands(unittest.TestCase):
@@ -162,6 +307,8 @@ class Test_ProgramCommands(unittest.TestCase):
 def suite(*args, **kw):
     test_list = [
         Test_Beamtime,
+        Test_EPICS,
+        Test_MakeDatabase,
         Test_ProgramCommands,
         ]
     test_suite = unittest.TestSuite()
