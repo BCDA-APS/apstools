@@ -9,6 +9,7 @@ import socket
 import subprocess
 import sys
 import unittest
+import uuid
 
 _test_path = os.path.dirname(__file__)
 _path = os.path.join(_test_path, '..')
@@ -17,8 +18,7 @@ if _path not in sys.path:
 
 from apstools.beamtime import bss_info, bss_info_makedb
 
-
-BSS_TEST_IOC_PREFIX = "ioc:bss:"
+BSS_TEST_IOC_PREFIX = f"tst{uuid.uuid4().hex[:7]}:bss:"
 
 
 def using_APS_workstation():
