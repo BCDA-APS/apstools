@@ -151,16 +151,21 @@ class Test_EPICS(unittest.TestCase):
         if not bss_IOC_available():
             return
 
+        beamline = "9-ID-B,C"
+        cycle = "2019-3"
+
         with Capture_stdout():
             self.bss = bss_info.connect_epics(BSS_TEST_IOC_PREFIX)
         self.assertTrue(self.bss.connected)
         self.assertEqual(self.bss.esaf.aps_cycle.get(), "")
 
-        self.bss.esaf.aps_cycle.put(bss_info.getCurrentCycle())
+        self.bss.esaf.aps_cycle.put(cycle)
         self.assertNotEqual(self.bss.esaf.aps_cycle.get(), "")
 
-        beamline = "9-ID-B,C"
-        cycle = "2019-3"
+        if not using_APS_workstation():
+            return
+
+        # setup
         with Capture_stdout():
             bss_info.epicsSetup(BSS_TEST_IOC_PREFIX, beamline, cycle)
         self.assertNotEqual(self.bss.proposal.beamline_name.get(), "harpo")
