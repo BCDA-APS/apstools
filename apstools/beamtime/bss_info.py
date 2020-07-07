@@ -304,37 +304,6 @@ class EsafNotFound(DmRecordNotFound): ...
 class ProposalNotFound(DmRecordNotFound): ...
 
 
-class EsafInfo:
-
-    def __init__(self, esaf):
-        self.title = esaf["esafTitle"]
-        self.id = esaf["esafId"]
-        self.status = esaf["esafStatus"]
-        self.startDate = esaf["experimentStartDate"]
-        self.endDate = esaf["experimentEndDate"]
-        self.sector = esaf["sector"]
-        users = [u["lastName"] for u in esaf["experimentUsers"]]
-        self.users = ",".join(sorted(users))
-
-
-class ScheduleInfo:
-
-    def __init__(self, proposal):
-        self.others = []
-        self.contact = None
-        self.title = proposal["title"]
-        self.id = proposal["id"]
-        for exp in proposal["experimenters"]:
-            if exp.get("piFlag", "N") == "Y":
-                self.badge = exp["badge"]
-                self.email = exp["email"]
-                self.institution = exp["institution"]
-                self.contact = f'{exp["firstName"]} {exp["lastName"]}'
-            else:
-                self.others.append(exp["lastName"])
-        self.others = ",".join(sorted(self.others))
-
-
 def get_options():
     parser = argparse.ArgumentParser(
         prog=os.path.split(sys.argv[0])[-1],
