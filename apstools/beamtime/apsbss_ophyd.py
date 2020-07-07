@@ -1,11 +1,11 @@
 #!/usr/bin/env python
 
 """
-ophyd support for bss_info
+ophyd support for apsbss
 
 EXAMPLE::
 
-    bss_info = EpicsBssDevice("ioc:bss:", name="bss_info")
+    apsbss = EpicsBssDevice("ioc:bss:", name="apsbss")
 """
 
 __all__ = ["EpicsBssDevice",]

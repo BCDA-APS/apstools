@@ -16,7 +16,7 @@ _path = os.path.join(_test_path, '..')
 if _path not in sys.path:
     sys.path.insert(0, _path)
 
-from apstools.beamtime import bss_info, bss_info_makedb
+from apstools.beamtime import apsbss, apsbss_makedb
 
 BSS_TEST_IOC_PREFIX = f"tst{uuid.uuid4().hex[:7]}:bss:"
 
@@ -37,17 +37,17 @@ def bss_IOC_available():
 class Test_Beamtime(unittest.TestCase):
 
     def test_general(self):
-        self.assertEqual(bss_info.CONNECT_TIMEOUT, 5)
-        self.assertEqual(bss_info.POLL_INTERVAL, 0.01)
+        self.assertEqual(apsbss.CONNECT_TIMEOUT, 5)
+        self.assertEqual(apsbss.POLL_INTERVAL, 0.01)
         self.assertEqual(
-            bss_info.DM_APS_DB_WEB_SERVICE_URL,
+            apsbss.DM_APS_DB_WEB_SERVICE_URL,
             "https://xraydtn01.xray.aps.anl.gov:11236")
-        self.assertIsNotNone(bss_info.api_bss)
-        self.assertIsNotNone(bss_info.api_esaf)
+        self.assertIsNotNone(apsbss.api_bss)
+        self.assertIsNotNone(apsbss.api_esaf)
 
     def test_iso2datetime(self):
         self.assertEqual(
-            bss_info.iso2datetime("2020-06-30 12:31:45.067890"),
+            apsbss.iso2datetime("2020-06-30 12:31:45.067890"),
             datetime.datetime(2020, 6, 30, 12, 31, 45, 67890)
         )
 
@@ -63,12 +63,12 @@ class Test_Beamtime(unittest.TestCase):
         if not using_APS_workstation():
             return
 
-        runs = bss_info.listAllRuns()
+        runs = apsbss.listAllRuns()
         self.assertGreater(len(runs), 1)
-        self.assertEqual(bss_info.getCurrentCycle(), runs[-1])
-        self.assertEqual(bss_info.listRecentRuns()[0], runs[-1])
+        self.assertEqual(apsbss.getCurrentCycle(), runs[-1])
+        self.assertEqual(apsbss.listRecentRuns()[0], runs[-1])
 
-        self.assertGreater(len(bss_info.listAllBeamlines()), 1)
+        self.assertGreater(len(apsbss.listAllBeamlines()), 1)
 
         # TODO: test the other functions
         # getCurrentEsafs
@@ -83,15 +83,15 @@ class Test_Beamtime(unittest.TestCase):
     def test_printColumns(self):
         from tests.common import Capture_stdout
         with Capture_stdout() as received:
-            bss_info.printColumns("1 2 3 4 5 6".split(), numColumns=3, width=3)
+            apsbss.printColumns("1 2 3 4 5 6".split(), numColumns=3, width=3)
         self.assertEqual(len(received), 2)
         self.assertEqual(received[0], "1  3  5  ")
         self.assertEqual(received[1], "2  4  6  ")
 
         source = "0123456789"
-        self.assertEqual(bss_info.trim(source), source)
-        self.assertNotEqual(bss_info.trim(source, length=8), source)
-        self.assertEqual(bss_info.trim(source, length=8), "01234...")
+        self.assertEqual(apsbss.trim(source), source)
+        self.assertNotEqual(apsbss.trim(source, length=8), source)
+        self.assertEqual(apsbss.trim(source, length=8), "01234...")
 
 
 class Test_EPICS(unittest.TestCase):
@@ -107,7 +107,7 @@ class Test_EPICS(unittest.TestCase):
         if not os.path.exists(softIoc):
             return
         db_file = os.path.abspath(os.path.join(
-            os.path.dirname(bss_info.__file__),
+            os.path.dirname(apsbss.__file__),
             db_file
         ))
         if not os.path.exists(db_file):
@@ -122,7 +122,7 @@ class Test_EPICS(unittest.TestCase):
 
     def setUp(self):
         self.bss = None
-        self.ioc_process = self.start_ioc_subprocess("bss_info.db")
+        self.ioc_process = self.start_ioc_subprocess("apsbss.db")
 
     def tearDown(self):
         if self.bss is not None:
@@ -136,7 +136,7 @@ class Test_EPICS(unittest.TestCase):
         if not bss_IOC_available():
             return
 
-        from apstools.beamtime import bss_info_ophyd as bio
+        from apstools.beamtime import apsbss_ophyd as bio
         self.bss = bio.EpicsBssDevice(BSS_TEST_IOC_PREFIX, name="bss")
         self.bss.wait_for_connection(timeout=2)
         self.assertTrue(self.bss.connected)
@@ -153,7 +153,7 @@ class Test_EPICS(unittest.TestCase):
         cycle = "2019-3"
 
         with Capture_stdout():
-            self.bss = bss_info.connect_epics(BSS_TEST_IOC_PREFIX)
+            self.bss = apsbss.connect_epics(BSS_TEST_IOC_PREFIX)
         self.assertTrue(self.bss.connected)
         self.assertEqual(self.bss.esaf.aps_cycle.get(), "")
 
@@ -165,7 +165,7 @@ class Test_EPICS(unittest.TestCase):
 
         # setup
         with Capture_stdout():
-            bss_info.epicsSetup(BSS_TEST_IOC_PREFIX, beamline, cycle)
+            apsbss.epicsSetup(BSS_TEST_IOC_PREFIX, beamline, cycle)
         self.assertNotEqual(self.bss.proposal.beamline_name.get(), "harpo")
         self.assertEqual(self.bss.proposal.beamline_name.get(), beamline)
         self.assertEqual(self.bss.esaf.aps_cycle.get(), cycle)
@@ -191,7 +191,7 @@ class Test_EPICS(unittest.TestCase):
         self.bss.esaf.esaf_id.put(esaf_id)
         self.bss.proposal.proposal_id.put(proposal_id)
         with Capture_stdout():
-            bss_info.epicsUpdate(BSS_TEST_IOC_PREFIX)
+            apsbss.epicsUpdate(BSS_TEST_IOC_PREFIX)
         self.assertEqual(
             self.bss.esaf.title.get(),
             "Commission 9ID and USAXS")
@@ -200,7 +200,7 @@ class Test_EPICS(unittest.TestCase):
             "2019 National School on Neutron & X-r"))
 
         with Capture_stdout():
-            bss_info.epicsClear(BSS_TEST_IOC_PREFIX)
+            apsbss.epicsClear(BSS_TEST_IOC_PREFIX)
         self.assertNotEqual(self.bss.esaf.aps_cycle.get(), "")
         self.assertEqual(self.bss.esaf.title.get(), "")
         self.assertEqual(self.bss.proposal.title.get(), "")
@@ -211,10 +211,10 @@ class Test_MakeDatabase(unittest.TestCase):
     def test_general(self):
         from tests.common import Capture_stdout
         with Capture_stdout() as db:
-            bss_info_makedb.main()
+            apsbss_makedb.main()
         self.assertEqual(len(db), 345)
         self.assertEqual(db[0], "#")
-        self.assertEqual(db[1], "# file: bss_info.db")
+        self.assertEqual(db[1], "# file: apsbss.db")
         # randomly-selected spot checks
         self.assertEqual(db[22], 'record(stringout, "$(P)esaf:id")')
         self.assertEqual(db[128], '    field(ONAM, "ON")')
@@ -231,34 +231,34 @@ class Test_ProgramCommands(unittest.TestCase):
         sys.argv = [self.sys_argv0,]
 
     def test_no_options(self):
-        args = bss_info.get_options()
+        args = apsbss.get_options()
         self.assertIsNotNone(args)
         self.assertIsNone(args.subcommand)
 
     def test_beamlines(self):
         sys.argv.append("beamlines")
-        args = bss_info.get_options()
+        args = apsbss.get_options()
         self.assertIsNotNone(args)
         self.assertEqual(args.subcommand, "beamlines")
 
     def test_current(self):
         sys.argv.append("current")
         sys.argv.append("9-ID-B,C")
-        args = bss_info.get_options()
+        args = apsbss.get_options()
         self.assertIsNotNone(args)
         self.assertEqual(args.subcommand, "current")
         self.assertEqual(args.beamlineName, "9-ID-B,C")
 
     def test_cycles(self):
         sys.argv.append("cycles")
-        args = bss_info.get_options()
+        args = apsbss.get_options()
         self.assertIsNotNone(args)
         self.assertEqual(args.subcommand, "cycles")
 
     def test_esaf(self):
         sys.argv.append("esaf")
         sys.argv.append("12345")
-        args = bss_info.get_options()
+        args = apsbss.get_options()
         self.assertIsNotNone(args)
         self.assertEqual(args.subcommand, "esaf")
         self.assertEqual(args.esafId, 12345)
@@ -268,7 +268,7 @@ class Test_ProgramCommands(unittest.TestCase):
         sys.argv.append("proposal_number_here")
         sys.argv.append("1995-1")
         sys.argv.append("my_beamline")
-        args = bss_info.get_options()
+        args = apsbss.get_options()
         self.assertIsNotNone(args)
         self.assertEqual(args.subcommand, "proposal")
         self.assertEqual(args.proposalId, "proposal_number_here")
@@ -278,7 +278,7 @@ class Test_ProgramCommands(unittest.TestCase):
     def test_EPICS_clear(self):
         sys.argv.append("clear")
         sys.argv.append("bss:")
-        args = bss_info.get_options()
+        args = apsbss.get_options()
         self.assertIsNotNone(args)
         self.assertEqual(args.subcommand, "clear")
         self.assertEqual(args.prefix, "bss:")
@@ -288,7 +288,7 @@ class Test_ProgramCommands(unittest.TestCase):
         sys.argv.append("bss:")
         sys.argv.append("my_beamline")
         sys.argv.append("1995-1")
-        args = bss_info.get_options()
+        args = apsbss.get_options()
         self.assertIsNotNone(args)
         self.assertEqual(args.subcommand, "setup")
         self.assertEqual(args.prefix, "bss:")
@@ -298,7 +298,7 @@ class Test_ProgramCommands(unittest.TestCase):
     def test_EPICS_update(self):
         sys.argv.append("update")
         sys.argv.append("bss:")
-        args = bss_info.get_options()
+        args = apsbss.get_options()
         self.assertIsNotNone(args)
         self.assertEqual(args.subcommand, "update")
         self.assertEqual(args.prefix, "bss:")

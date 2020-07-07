@@ -7,9 +7,9 @@ BSS: Beamline Scheduling System
 
 EXAMPLES::
 
-    bss_info current
-    bss_info esaf 226319
-    bss_info proposal 66083 2020-2 9-ID-B,C
+    apsbss current
+    apsbss esaf 226319
+    apsbss proposal 66083 2020-2 9-ID-B,C
 """
 
 import argparse
@@ -21,7 +21,7 @@ import sys
 import time
 import yaml
 
-from .bss_info_ophyd import EpicsBssDevice
+from .apsbss_ophyd import EpicsBssDevice
 
 
 DM_APS_DB_WEB_SERVICE_URL = "https://xraydtn01.xray.aps.anl.gov:11236"

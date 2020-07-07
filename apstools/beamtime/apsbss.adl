@@ -1,6 +1,6 @@
 
 file {
-	name="bss_info.adl"
+	name="apsbss.adl"
 	version=030111
 }
 display {
