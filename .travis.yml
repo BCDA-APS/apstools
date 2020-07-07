@@ -25,7 +25,7 @@ before_script:
   - export PATH=$HOME/miniconda/bin:$PATH
   - export PY_ENV=travis-$TRAVIS_PYTHON_VERSION
   - export MY_CONDA_CHANNELS="-c apsu -c conda-forge -c nsls2forge -c defaults -c aps-anl-tag"
-  - export MY_CONDA_PACKAGES="aps-dm-api bluesky coverage databroker docopt epics-base numpy ophyd>=1.4.0rc3 pyepics>=3.4.1 pandas requests xlrd"
+  - export MY_CONDA_PACKAGES="aps-dm-api bluesky>=1.6.2 coverage databroker docopt epics-base numpy ophyd>=1.5.1 pyepics>=3.4.2 pandas requests xlrd"
   - conda create -y -n $PY_ENV $MY_CONDA_CHANNELS python=$TRAVIS_PYTHON_VERSION $MY_CONDA_PACKAGES
   - source activate $PY_ENV
   - which pip
