@@ -31,7 +31,6 @@ def bss_IOC_available():
     # try connecting with one of the PVs in the database
     cycle = epics.PV(f"{BSS_TEST_IOC_PREFIX}esaf:cycle")
     cycle.wait_for_connection(timeout=2)
-    conn = cycle.connected
     return cycle.connected
 
 
@@ -170,21 +169,19 @@ class Test_EPICS(unittest.TestCase):
         self.assertEqual(self.bss.esaf.sector.get(), beamline.split("-")[0])
 
         # epicsUpdate
-        """
-        Example ESAF on sector 9
+        # Example ESAF on sector 9
 
-        ====== ======== ========== ========== ==================== =================================
-        id     status   start      end        user(s)              title
-        ====== ======== ========== ========== ==================== =================================
-        226319 Approved 2020-05-26 2020-09-28 Ilavsky,Maxey,Kuz... Commission 9ID and USAXS
-        ====== ======== ========== ========== ==================== =================================
+        # ====== ======== ========== ========== ==================== =================================
+        # id     status   start      end        user(s)              title
+        # ====== ======== ========== ========== ==================== =================================
+        # 226319 Approved 2020-05-26 2020-09-28 Ilavsky,Maxey,Kuz... Commission 9ID and USAXS
+        # ====== ======== ========== ========== ==================== =================================
 
-        ===== ====== =================== ==================== ========================================
-        id    cycle  date                user(s)              title
-        ===== ====== =================== ==================== ========================================
-        64629 2019-2 2019-03-01 18:35:02 Ilavsky,Okasinski    2019 National School on Neutron & X-r...
-        ===== ====== =================== ==================== ========================================
-        """
+        # ===== ====== =================== ==================== ========================================
+        # id    cycle  date                user(s)              title
+        # ===== ====== =================== ==================== ========================================
+        # 64629 2019-2 2019-03-01 18:35:02 Ilavsky,Okasinski    2019 National School on Neutron & X-r...
+        # ===== ====== =================== ==================== ========================================
         esaf_id = "226319"
         proposal_id = "64629"
         self.bss.esaf.aps_cycle.put("2019-2")

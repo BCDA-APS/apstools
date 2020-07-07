@@ -166,7 +166,6 @@ def main():
             fields.append(f'field(ZNAM, "OFF")')
             fields.append(f'field(ONAM, "ON")')
         record = head
-        newline = "\n"
         if len(fields) > 0:
             field_specs = "\n".join([f"    {field}" for field in fields])
             record += " {\n" + f"{field_specs}" + "\n}"
