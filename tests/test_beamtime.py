@@ -91,8 +91,11 @@ class Test_Beamtime(unittest.TestCase):
 
         source = "0123456789"
         self.assertEqual(apsbss.trim(source), source)
-        self.assertNotEqual(apsbss.trim(source, length=8), source)
-        self.assertEqual(apsbss.trim(source, length=8), "01234...")
+        got = apsbss.trim(source, length=8)
+        self.assertNotEqual(got, source)
+        self.assertTrue(got.endswith("..."))
+        self.assertEqual(len(got), 8)
+        self.assertEqual(got, "01234...")
 
 
 class Test_EPICS(unittest.TestCase):
