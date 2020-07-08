@@ -146,7 +146,7 @@ function stop() {
 }
 
 function usage() {
-    echo "Usage: $(basename ${SHELL_SCRIPT_NAME}) {start|stop|restart|status|console|run} [NAME [PREFIX]]"
+    echo "Usage: $(basename "${SHELL_SCRIPT_NAME}") {start|stop|restart|status|console|run} [NAME [PREFIX]]"
     echo ""
     echo "    COMMANDS"
     echo "        console   attach to IOC console if IOC is running in screen"
