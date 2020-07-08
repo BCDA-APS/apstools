@@ -8,4 +8,5 @@ API Documentation
    :glob:
 
    _*
+   beamtime/index
    synApps/index
