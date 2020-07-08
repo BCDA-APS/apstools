@@ -120,7 +120,7 @@ class Test_EPICS(unittest.TestCase):
         if self.ioc_process is not None:
             self.ioc_process = None
             cmd = f"{self.manager} stop {self.ioc_name} {BSS_TEST_IOC_PREFIX}"
-            session = subprocess.Popen(
+            subprocess.Popen(
                 cmd.encode().split(),
                 stdin=subprocess.PIPE,
                 stdout=subprocess.PIPE,
@@ -134,7 +134,6 @@ class Test_EPICS(unittest.TestCase):
             return
 
         from apstools.beamtime import apsbss_ophyd as bio
-        from ophyd import EpicsSignal
 
         self.bss = bio.EpicsBssDevice(BSS_TEST_IOC_PREFIX, name="bss")
         self.bss.wait_for_connection(timeout=2)
