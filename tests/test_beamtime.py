@@ -8,6 +8,7 @@ import os
 import socket
 import subprocess
 import sys
+import time
 import unittest
 import uuid
 
@@ -96,52 +97,51 @@ class Test_Beamtime(unittest.TestCase):
 
 class Test_EPICS(unittest.TestCase):
 
-    def start_ioc_subprocess(self, db_file):
-        softIoc = os.path.abspath(os.path.join(
-            os.environ.get("CONDA_PREFIX"),
-            "epics",
-            "bin",
-            os.environ.get("EPICS_HOST_ARCH", "linux-x86_64"),
-            "softIoc"
-        ))
-        if not os.path.exists(softIoc):
-            return
-        db_file = os.path.abspath(os.path.join(
+    def setUp(self):
+        self.bss = None
+        self.manager = os.path.abspath(os.path.join(
             os.path.dirname(apsbss.__file__),
-            db_file
+            "manage_ioc.sh"
         ))
-        if not os.path.exists(db_file):
-            return
-        cmd = f"{softIoc} -m P={BSS_TEST_IOC_PREFIX} -d {db_file}".split()
-        return subprocess.Popen(
-            cmd,
+        self.ioc_name = "test_apsbss"
+        cmd = f"{self.manager} restart {self.ioc_name} {BSS_TEST_IOC_PREFIX}"
+        self.ioc_process = subprocess.Popen(
+            cmd.encode().split(),
             stdin=subprocess.PIPE,
             stdout=subprocess.PIPE,
             stderr=subprocess.PIPE,
             shell=False)
-
-    def setUp(self):
-        self.bss = None
-        self.ioc_process = self.start_ioc_subprocess("apsbss.db")
+        time.sleep(.5)   # allow the IOC to start
 
     def tearDown(self):
         if self.bss is not None:
             self.bss.destroy()
             self.bss = None
         if self.ioc_process is not None:
-            self.ioc_process.communicate('exit\n'.encode())
             self.ioc_process = None
+            cmd = f"{self.manager} stop {self.ioc_name} {BSS_TEST_IOC_PREFIX}"
+            session = subprocess.Popen(
+                cmd.encode().split(),
+                stdin=subprocess.PIPE,
+                stdout=subprocess.PIPE,
+                stderr=subprocess.PIPE,
+                shell=False)
+            # self.ioc_process.communicate(cmd.encode().split())
+            self.manager = None
 
     def test_ioc(self):
         if not bss_IOC_available():
             return
 
         from apstools.beamtime import apsbss_ophyd as bio
+        from ophyd import EpicsSignal
+
         self.bss = bio.EpicsBssDevice(BSS_TEST_IOC_PREFIX, name="bss")
         self.bss.wait_for_connection(timeout=2)
         self.assertTrue(self.bss.connected)
-
-        self.assertEqual(self.bss.esaf.aps_cycle.get(), "")
+        self.assertEqual(self.bss.esaf.title.get(), "")
+        self.assertEqual(self.bss.esaf.description.get(), "")
+        # self.assertEqual(self.bss.esaf.aps_cycle.get(), "")
 
     def test_EPICS(self):
         from tests.common import Capture_stdout
