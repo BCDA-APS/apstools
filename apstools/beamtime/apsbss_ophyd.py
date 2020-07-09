@@ -14,6 +14,7 @@ EXAMPLE::
     ~EpicsEsafExperimenterDevice
     ~EpicsProposalDevice
     ~EpicsProposalExperimenterDevice
+
 """
 
 __all__ = ["EpicsBssDevice",]
@@ -24,6 +25,10 @@ from ophyd import Component, Device, EpicsSignal
 class EpicsEsafExperimenterDevice(Device):
     """
     Ophyd device for experimenter info from APS ESAF.
+
+    .. autosummary::
+
+        ~clear
     """
     badge_number = Component(EpicsSignal, "badgeNumber", string=True)
     email = Component(EpicsSignal, "email", string=True)
@@ -31,6 +36,7 @@ class EpicsEsafExperimenterDevice(Device):
     last_name = Component(EpicsSignal, "lastName", string=True)
 
     def clear(self):
+        """Clear the fields for this user."""
         self.badge_number.put("")
         self.email.put("")
         self.first_name.put("")
@@ -40,6 +46,11 @@ class EpicsEsafExperimenterDevice(Device):
 class EpicsEsafDevice(Device):
     """
     Ophyd device for info from APS ESAF.
+
+    .. autosummary::
+
+        ~clear
+        ~clear_users
     """
 
     aps_cycle = Component(EpicsSignal, "cycle", string=True)
@@ -65,6 +76,15 @@ class EpicsEsafDevice(Device):
     user9 = Component(EpicsEsafExperimenterDevice, "user9:")
 
     def clear(self):
+        """
+        Clear the most of the ESAF info.
+
+        Do not clear these items:
+
+        * ``aps_cycle``
+        * ``esaf_id``
+        * ``sector``
+        """
         # self.aps_cycle.put("")    # user controls this
         self.description.put("")
         self.end_date.put("")
@@ -79,6 +99,7 @@ class EpicsEsafDevice(Device):
         self.clear_users()
 
     def clear_users(self):
+        """Clear the info for all users."""
         self.user1.clear()
         self.user2.clear()
         self.user3.clear()
@@ -93,6 +114,10 @@ class EpicsEsafDevice(Device):
 class EpicsProposalExperimenterDevice(Device):
     """
     Ophyd device for experimenter info from APS Proposal.
+
+    .. autosummary::
+
+        ~clear
     """
     badge_number = Component(EpicsSignal, "badgeNumber", string=True)
     email = Component(EpicsSignal, "email", string=True)
@@ -104,6 +129,7 @@ class EpicsProposalExperimenterDevice(Device):
     user_id = Component(EpicsSignal, "userId", string=True)
 
     def clear(self):
+        """Clear the info for this user."""
         self.badge_number.put("")
         self.email.put("")
         self.first_name.put("")
@@ -117,6 +143,11 @@ class EpicsProposalExperimenterDevice(Device):
 class EpicsProposalDevice(Device):
     """
     Ophyd device for info from APS Proposal.
+
+    .. autosummary::
+
+        ~clear
+        ~clear_users
     """
 
     beamline_name = Component(EpicsSignal, "beamline", string=True)
@@ -141,6 +172,14 @@ class EpicsProposalDevice(Device):
     user9 = Component(EpicsProposalExperimenterDevice, "user9:")
 
     def clear(self):
+        """
+        Clear the most of the proposal info.
+
+        Do not clear these items:
+
+        * ``beamline_name``
+        * ``proposal_id``
+        """
         # self.beamline_name.put("")    # user controls this
         self.mail_in_flag.put(0)
         # self.proposal_id.put(-1)      # user controls this
@@ -153,6 +192,7 @@ class EpicsProposalDevice(Device):
         self.clear_users()
 
     def clear_users(self):
+        """Clear the info for all users."""
         self.user1.clear()
         self.user2.clear()
         self.user3.clear()
@@ -167,11 +207,16 @@ class EpicsProposalDevice(Device):
 class EpicsBssDevice(Device):
     """
     Ophyd device for info from APS Proposal and ESAF databases.
+
+    .. autosummary::
+
+        ~clear
     """
 
     esaf = Component(EpicsEsafDevice, "esaf:")
     proposal = Component(EpicsProposalDevice, "proposal:")
 
     def clear(self):
+        """Clear the proposal and ESAF info."""
         self.esaf.clear()
         self.proposal.clear()

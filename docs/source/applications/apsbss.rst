@@ -70,6 +70,7 @@ the *apsbss* application expects::
 		setup               EPICS PVs: setup
 		update              EPICS PVs: update from BSS
 
+.. TODO: describe each of these subcommands
 
 .. _apsbss_ioc_management:
 
