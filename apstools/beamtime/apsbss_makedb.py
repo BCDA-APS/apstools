@@ -2,6 +2,12 @@
 
 """
 Create the EPICS database
+
+This is just a service program to make the ``.db`` file.
+
+.. autosummary::
+
+    ~main
 """
 
 #name	RTYP	length
@@ -137,6 +143,7 @@ proposal:user9:userId	stringout
 
 
 def main():
+    """Make an EPICS ``.db`` file from the PVs listed above."""
     header = """\
     #
     # file: apsbss.db

@@ -1,15 +1,53 @@
 #!/usr/bin/env python
 
 """
-Retrieve specific records from the APS Proposal and ESAF databases
+Retrieve specific records from the APS Proposal and ESAF databases.
 
-BSS: Beamline Scheduling System
+This code provides the command-line application: ``apsbss``
+
+.. note:: BSS: APS Beamline Scheduling System
 
 EXAMPLES::
 
     apsbss current
     apsbss esaf 226319
     apsbss proposal 66083 2020-2 9-ID-B,C
+
+EPICS SUPPORT
+
+.. autosummary::
+
+    ~connect_epics
+    ~epicsClear
+    ~epicsSetup
+    ~epicsUpdate
+
+APS ESAF & PROPOSAL ACCESS
+
+.. autosummary::
+
+    ~getCurrentCycle
+    ~getCurrentEsafs
+    ~getCurrentInfo
+    ~getCurrentProposals
+    ~getEsaf
+    ~getProposal
+    ~iso2datetime
+    ~listAllBeamlines
+    ~listAllRuns
+    ~listRecentRuns
+    ~printColumns
+    ~trim
+
+APPLICATION
+
+.. autosummary::
+
+    ~cmd_current
+    ~cmd_esaf
+    ~cmd_proposal
+    ~get_options
+    ~main
 """
 
 import argparse
@@ -36,8 +74,20 @@ _cache_ = {}
 
 class EpicsNotConnected(Exception): ...
 
+class DmRecordNotFound(Exception): ...
+class EsafNotFound(DmRecordNotFound): ...
+class ProposalNotFound(DmRecordNotFound): ...
+
 
 def connect_epics(prefix):
+    """
+    Connect with the EPICS database instance.
+
+    PARAMETERS
+
+    prefix (str):
+        EPICS PV prefix
+    """
     t0 = time.time()
     t_timeout = t0 + CONNECT_TIMEOUT
     bss = EpicsBssDevice(prefix, name="bss")
@@ -54,7 +104,13 @@ def connect_epics(prefix):
 
 def epicsClear(prefix):
     """
-    clear the EPICS database
+    Clear the EPICS database.
+    Connect with the EPICS database instance.
+
+    PARAMETERS
+
+    prefix (str):
+        EPICS PV prefix
     """
     print(f"clear EPICS {prefix}")
     bss = connect_epics(prefix)
@@ -67,7 +123,13 @@ def epicsClear(prefix):
 
 def epicsUpdate(prefix):
     """
-    update an EPICS database with current ESAF & proposal information
+    Update EPICS database instance with current ESAF & proposal info.
+    Connect with the EPICS database instance.
+
+    PARAMETERS
+
+    prefix (str):
+        EPICS PV prefix
     """
     print(f"update EPICS {prefix}")
     bss = connect_epics(prefix)
@@ -143,9 +205,23 @@ def epicsUpdate(prefix):
 
 
 def epicsSetup(prefix, beamline, cycle=None):
+    """
+    Define the beamline name and APS cycle in the EPICS database.
+    Connect with the EPICS database instance.
+
+    PARAMETERS
+
+    prefix (str):
+        EPICS PV prefix
+    beamline (str):
+        Name of beam line (as defined by the BSS)
+    cycle (str):
+        Name of APS run cycle (as defined by the BSS).
+        optional: default is current APS run cycle name.
+    """
     if beamline not in listAllBeamlines():
         raise ValueError(f"{beamline} is not known")
-    if cycle not in listAllRuns():
+    if cycle is not None and cycle not in listAllRuns():
         raise ValueError(f"{cycle} is not known")
 
     bss = connect_epics(prefix)
@@ -161,10 +237,19 @@ def epicsSetup(prefix, beamline, cycle=None):
 
 
 def getCurrentCycle():
+    """Return the name of the current APS run cycle."""
     return api_bss.getCurrentRun()["name"]
 
 
 def getCurrentEsafs(sector):
+    """
+    Return list of ESAFs for the current year.
+
+    PARAMETERS
+
+    sector (str or int):
+        Name of sector.  If ``str``, must be in ``%02d`` format (``02``, not ``2``).
+    """
     if isinstance(sector, int):
         sector = f"{sector:02d}"
     if len(sector) == 1:
@@ -182,6 +267,14 @@ def getCurrentEsafs(sector):
 
 
 def getCurrentInfo(beamline):
+    """
+    From current year ESAFS, return list of ESAFs & proposals with same people.
+
+    PARAMETERS
+
+    beamline (str):
+        Name of beam line (as defined by the BSS).
+    """
     sector = beamline.split("-")[0]
     tNow = datetime.datetime.now()
 
@@ -211,6 +304,14 @@ def getCurrentInfo(beamline):
 
 
 def getCurrentProposals(beamline):
+    """
+    Return a list of proposal ID numbers that are current.
+
+    PARAMETERS
+
+    beamline (str):
+        Name of beam line (as defined by the BSS).
+    """
     proposals = []
     for cycle in listRecentRuns():
         for prop in api_bss.listProposals(beamlineName=beamline, runName=cycle):
@@ -221,6 +322,14 @@ def getCurrentProposals(beamline):
 
 
 def getEsaf(esafId):
+    """
+    Return ESAF as a dictionary.
+
+    PARAMETERS
+
+    esafId (int):
+        ESAF number
+    """
     try:
         record = api_esaf.getEsaf(int(esafId))
     except dm.ObjectNotFound:
@@ -228,30 +337,51 @@ def getEsaf(esafId):
     return dict(record.data)
 
 
-def getProposal(proposalId, runName, beamlineName):
-    # avoid possible dm.DmException
-    if runName not in listAllRuns():
-        raise DmRecordNotFound(f"run '{runName}' not found")
+def getProposal(proposalId, cycle, beamline):
+    """
+    Return proposal as a dictionary.
 
-    if beamlineName not in listAllBeamlines():
-        raise DmRecordNotFound(f"beamline '{beamlineName}' not found")
+    PARAMETERS
+
+    proposalId (str):
+        Proposal identification number
+    cycle (str):
+        Name of APS run cycle (as defined by the BSS)
+    beamline (str):
+        Name of beam line (as defined by the BSS)
+    """
+    # avoid possible dm.DmException
+    if cycle not in listAllRuns():
+        raise DmRecordNotFound(f"cycle '{cycle}' not found")
+
+    if beamline not in listAllBeamlines():
+        raise DmRecordNotFound(f"beamline '{beamline}' not found")
 
     try:
-        record = api_bss.getProposal(str(proposalId), runName, beamlineName)
+        record = api_bss.getProposal(str(proposalId), cycle, beamline)
     except dm.ObjectNotFound:
         raise ProposalNotFound(
             f"id={proposalId}"
-            f" run={runName}"
-            f" beamline={beamlineName}"
+            f" cycle={cycle}"
+            f" beamline={beamline}"
             )
     return dict(record.data)
 
 
 def iso2datetime(isodate):
+    """
+    Convert a text ISO8601 date into a ``datetime`` object.
+
+    PARAMETERS
+
+    isodate (str):
+        Date and time in ISO8601 format. (e.g.: ``2020-07-01T12:34:56.789012``)
+    """
     return datetime.datetime.fromisoformat(isodate)
 
 
 def listAllBeamlines():
+    """Return list (from ``dm``) of known beam line names."""
     if "beamlines" not in _cache_:
         _cache_["beamlines"] = [
             entry["name"]
@@ -261,6 +391,7 @@ def listAllBeamlines():
 
 
 def listAllRuns():
+    """Return a list of all known cycles.  Cache for repeated use."""
     if "cycles" not in _cache_:
         _cache_["cycles"] = sorted([
             entry["name"]
@@ -270,6 +401,14 @@ def listAllRuns():
 
 
 def listRecentRuns(quantity=6):
+    """
+    Return a list of the 6 most recent runs (2-year period).
+
+    PARAMETERS
+
+    quantity (int):
+        number of APS run cycles to include, optional (default: 6)
+    """
     # 6 runs is the duration of a user proposal
     tNow = datetime.datetime.now()
     runs = [
@@ -281,6 +420,18 @@ def listRecentRuns(quantity=6):
 
 
 def printColumns(items, numColumns=5, width=10):
+    """
+    Print a list of ``items`` in column order.
+
+    PARAMETERS
+
+    items (list(str)):
+        List of items to report
+    numColumns (int):
+        number of columns, optional (default: 5)
+    width (int):
+        width of each column, optional (default: 10)
+    """
     n = len(items)
     rows = n // numColumns
     if n % numColumns > 0:
@@ -294,17 +445,32 @@ def printColumns(items, numColumns=5, width=10):
 
 
 def trim(text, length=40):
-    if len(text) > length:
+    """
+    Return a string that is no longer than ``length``.
+
+    If a string is longer than ``length``, it is shortened
+    to the ``length-3`` characters, then, ``...`` is appended.
+    For very short length, the string is shortened to ``length``
+    (and no ``...`` is appended).
+
+    PARAMETERS
+
+    text (str):
+        String, potentially longer than ``length``
+    length (int):
+        maximum length, optional (default: 40)
+    """
+    if length < 1:
+        raise ValueError(f"length must be positive, received {length}")
+    if length < 5:
+        text = text[:length]
+    elif len(text) > length:
         text = text[:length-3] + "..."
     return text
 
 
-class DmRecordNotFound(Exception): ...
-class EsafNotFound(DmRecordNotFound): ...
-class ProposalNotFound(DmRecordNotFound): ...
-
-
 def get_options():
+    """Handle command line arguments."""
     parser = argparse.ArgumentParser(
         prog=os.path.split(sys.argv[0])[-1],
         description=__doc__.strip().splitlines()[0],
@@ -342,6 +508,14 @@ def get_options():
 
 
 def cmd_current(args):
+    """
+    Handle ``current`` command.
+
+    PARAMETERS
+
+    args (obj):
+        Object returned by ``argparse``
+    """
     records = getCurrentProposals(args.beamlineName)
     if len(records) == 0:
         print(f"No current proposals for {args.beamlineName}")
@@ -391,6 +565,14 @@ def cmd_current(args):
 
 
 def cmd_esaf(args):
+    """
+    Handle ``esaf`` command.
+
+    PARAMETERS
+
+    args (obj):
+        Object returned by ``argparse``
+    """
     try:
         esaf = getEsaf(args.esafId)
         print(yaml.dump(esaf))
@@ -401,6 +583,14 @@ def cmd_esaf(args):
 
 
 def cmd_proposal(args):
+    """
+    Handle ``proposal`` command.
+
+    PARAMETERS
+
+    args (obj):
+        Object returned by ``argparse``
+    """
     try:
         proposal = getProposal(args.proposalId, args.cycle, args.beamlineName)
         print(yaml.dump(proposal))
@@ -411,6 +601,7 @@ def cmd_proposal(args):
 
 
 def main():
+    """Command-line interface for ``apsbss`` program."""
     args = get_options()
     if args.subcommand == "beamlines":
         printColumns(listAllBeamlines(), numColumns=4, width=15)

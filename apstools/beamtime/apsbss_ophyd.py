@@ -6,6 +6,14 @@ ophyd support for apsbss
 EXAMPLE::
 
     apsbss = EpicsBssDevice("ioc:bss:", name="apsbss")
+
+.. autosummary::
+
+    ~EpicsBssDevice
+    ~EpicsEsafDevice
+    ~EpicsEsafExperimenterDevice
+    ~EpicsProposalDevice
+    ~EpicsProposalExperimenterDevice
 """
 
 __all__ = ["EpicsBssDevice",]
@@ -15,11 +23,7 @@ from ophyd import Component, Device, EpicsSignal
 
 class EpicsEsafExperimenterDevice(Device):
     """
-    - badge: '64065'
-        badgeNumber: '64065'
-        email: kuzmenko@aps.anl.gov
-        firstName: Ivan
-        lastName: Kuzmenko
+    Ophyd device for experimenter info from APS ESAF.
     """
     badge_number = Component(EpicsSignal, "badgeNumber", string=True)
     email = Component(EpicsSignal, "email", string=True)
@@ -35,32 +39,7 @@ class EpicsEsafExperimenterDevice(Device):
 
 class EpicsEsafDevice(Device):
     """
-    description: We will commission beamline and  USAXS instrument. We will perform experiments
-        with safe beamline standards and test samples (all located at beamline and used
-        for this purpose routinely) to evaluate performance of beamline and instrument.
-        We will perform hardware and software development as needed.
-    esafId: 226319
-    esafStatus: Approved
-    esafTitle: Commission 9ID and USAXS
-    experimentEndDate: '2020-09-28 08:00:00'
-    experimentStartDate: '2020-05-26 08:00:00'
-    experimentUsers:
-    - badge: '86312'
-        badgeNumber: '86312'
-        email: ilavsky@aps.anl.gov
-        firstName: Jan
-        lastName: Ilavsky
-    - badge: '53748'
-        badgeNumber: '53748'
-        email: emaxey@aps.anl.gov
-        firstName: Evan
-        lastName: Maxey
-    - badge: '64065'
-        badgeNumber: '64065'
-        email: kuzmenko@aps.anl.gov
-        firstName: Ivan
-        lastName: Kuzmenko
-    sector: 09
+    Ophyd device for info from APS ESAF.
     """
 
     aps_cycle = Component(EpicsSignal, "cycle", string=True)
@@ -74,6 +53,7 @@ class EpicsEsafDevice(Device):
     user_last_names = Component(EpicsSignal, "users", string=True)
     user_badges = Component(EpicsSignal, "userBadges", string=True)
 
+    _max_users = 9    # 9 users at most?
     user1 = Component(EpicsEsafExperimenterDevice, "user1:")
     user2 = Component(EpicsEsafExperimenterDevice, "user2:")
     user3 = Component(EpicsEsafExperimenterDevice, "user3:")
@@ -112,14 +92,7 @@ class EpicsEsafDevice(Device):
 
 class EpicsProposalExperimenterDevice(Device):
     """
-    badge: '300679'
-    email: yilianglin@uchicago.edu
-    firstName: Yiliang
-    id: 433796
-    instId: 3435
-    institution: The University of Chicago
-    lastName: Lin
-    piFlag: Y
+    Ophyd device for experimenter info from APS Proposal.
     """
     badge_number = Component(EpicsSignal, "badgeNumber", string=True)
     email = Component(EpicsSignal, "email", string=True)
@@ -143,36 +116,7 @@ class EpicsProposalExperimenterDevice(Device):
 
 class EpicsProposalDevice(Device):
     """
-    experimenters:
-    - badge: '292588'
-        email: fangyin123@uchicago.edu
-        firstName: Yin
-        id: 433774
-        instId: 3435
-        institution: The University of Chicago
-        lastName: Fang
-    - badge: '304975'
-        email: sjiuyun@uchicago.edu
-        firstName: Jiuyun
-        id: 433775
-        instId: 3435
-        institution: The University of Chicago
-        lastName: Shi
-    - badge: '300679'
-        email: yilianglin@uchicago.edu
-        firstName: Yiliang
-        id: 433796
-        instId: 3435
-        institution: The University of Chicago
-        lastName: Lin
-        piFlag: Y
-    id: 66083
-    mailInFlag: N
-    proprietaryFlag: N
-    submittedDate: '2019-07-04 13:42:32'
-    title: Mapping the mechanical-responsive conductive network in bioinspired composite
-        materials with 3D correlative x-ray fluorescence and ptychographic tomography
-    totalShiftsRequested: 27
+    Ophyd device for info from APS Proposal.
     """
 
     beamline_name = Component(EpicsSignal, "beamline", string=True)
@@ -185,6 +129,7 @@ class EpicsProposalDevice(Device):
     user_last_names = Component(EpicsSignal, "users", string=True)
     user_badges = Component(EpicsSignal, "userBadges", string=True)
 
+    _max_users = 9    # 9 users at most?
     user1 = Component(EpicsProposalExperimenterDevice, "user1:")
     user2 = Component(EpicsProposalExperimenterDevice, "user2:")
     user3 = Component(EpicsProposalExperimenterDevice, "user3:")
@@ -220,6 +165,10 @@ class EpicsProposalDevice(Device):
 
 
 class EpicsBssDevice(Device):
+    """
+    Ophyd device for info from APS Proposal and ESAF databases.
+    """
+
     esaf = Component(EpicsEsafDevice, "esaf:")
     proposal = Component(EpicsProposalDevice, "proposal:")
 

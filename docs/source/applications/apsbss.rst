@@ -1,8 +1,8 @@
 
 
-.. index:: apsbss_application
+.. index:: apsbss
 
-.. _apsbss:
+.. _apsbss_application:
 
 apsbss
 ------
