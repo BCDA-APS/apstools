@@ -30,6 +30,7 @@ Various utilities
    ~safe_ophyd_name
    ~show_ophyd_symbols
    ~split_quoted_line
+   ~summarize_runs
    ~text_encode
    ~to_unicode_or_bust
    ~trim_string_for_EPICS
@@ -49,8 +50,9 @@ Various utilities
 
 from bluesky.callbacks.best_effort import BestEffortCallback
 from bluesky import plan_stubs as bps
-from collections import OrderedDict
+from collections import defaultdict, OrderedDict
 import databroker
+import databroker.queries
 import datetime
 from email.mime.text import MIMEText
 from event_model import NumpyEncoder
@@ -725,6 +727,60 @@ def split_quoted_line(line):
                 parts.append(p)
 
     return parts
+
+
+def summarize_runs(since=None):
+    """
+    Report bluesky run metrics from the databroker.
+
+    * How many different plans?
+    * How many runs?
+    * How many times each run was used?
+    * How frequently?  (TODO:)
+
+    PARAMETERS
+
+    since (str) :
+        Report all runs since this ISO8601 date & time (default: ``1995``)
+    """
+    since = since or "1995"
+    cat = db.v2.search(databroker.queries.TimeRange(since=since))
+    plans = defaultdict(list)
+    t0 = time.time()
+    for n, uid in enumerate(cat):
+        t1 = time.time()
+        run = cat[uid]      # this step is very slow (0.01 - 0.5 seconds each!)
+        t2 = time.time()
+        plan_name = run.metadata["start"].get("plan_name", "unknown")
+        dt = datetime.datetime.fromtimestamp(run.metadata["start"]["time"]).isoformat()
+        scan_id = run.metadata["start"].get("scan_id", "unknown")
+        plans[plan_name].append(
+            dict(
+                plan_name=plan_name,
+                dt=dt,
+                time_start=dt,
+                uid=uid,
+                scan_id=scan_id,
+            )
+        )
+        # print(
+        #     f"{scan_id}"
+        #     f" {dt}"
+        #     f"  dt1={(t1-t0)*1e6:4.01f}us"
+        #     f"  dt2={(t2-t1)*1e3:5.01f}ms"
+        #     f" {plan_name}"
+        #     )
+        t0 = time.time()
+
+    def sorter(plan_name):
+        return len(plans[plan_name])
+
+    table = pyRestTable.Table()
+    table.labels = "plan quantity".split()
+    for k in sorted(plans.keys(), key=sorter, reverse=True):
+        table.addRow((k, sorter(k)))
+    table.addRow(("TOTAL", n+1))
+    print(table)
 
 
 def text_encode(source):
