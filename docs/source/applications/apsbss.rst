@@ -298,6 +298,18 @@ To clear the information from the PVs, use this command::
     cleared in 0.011s
 
 
+Report information in the EPICS PVs
++++++++++++++++++++++++++++++++++++
+
+To view all the information in the PVs, use this command::
+
+    $ apsbss report 9id:bss:
+    clear EPICS 9id:bss:
+
+Since this content is rather large, it is available
+for download: :download:`apsbss report <../resources/apsbss_report.txt>`
+
+
 Example - ``apsbss`` command line
 +++++++++++++++++++++++++++++++++
 
@@ -324,6 +336,7 @@ the *apsbss* application expects::
 		clear               EPICS PVs: clear
 		setup               EPICS PVs: setup
 		update              EPICS PVs: update from BSS
+    report              EPICS PVs: report what is in the PVs
 
 See :ref:`beamtime_source_docs` for the source code documentation
 of each of these subcommands.
