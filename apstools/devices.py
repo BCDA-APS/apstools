@@ -984,7 +984,6 @@ class AxisTunerException(ValueError):
 
 
 class AxisTunerMixin(DeviceMixinBase):
-
     """
     Mixin class to provide tuning capabilities for an axis
 
