@@ -747,7 +747,7 @@ def summarize_runs(since=None, db=None):
         (default: ``db`` from the IPython shell)
     """
     db = db or ipython_shell_namespace()["db"]
-    since = since or "1995"
+    since = since or "1995"     # no APS X-ray experiment data before 1995!
     cat = db.v2.search(databroker.queries.TimeRange(since=since))
     plans = defaultdict(list)
     t0 = time.time()
@@ -768,7 +768,7 @@ def summarize_runs(since=None, db=None):
             )
         )
         logger.debug(
-            "%s %s dt1=%4.01fus dt2=%5.01fms",
+            "%s %s dt1=%4.01fus dt2=%5.01fms %s",
             scan_id,
             dt,
             (t1-t0)*1e6,
