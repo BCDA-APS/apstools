@@ -729,7 +729,7 @@ def split_quoted_line(line):
     return parts
 
 
-def summarize_runs(since=None):
+def summarize_runs(since=None, db=None):
     """
     Report bluesky run metrics from the databroker.
 
@@ -742,7 +742,11 @@ def summarize_runs(since=None):
 
     since (str) :
         Report all runs since this ISO8601 date & time (default: ``1995``)
+    db (object) :
+        Instance of ``databroker.Broker()``
+        (default: ``db`` from the IPython shell)
     """
+    db = db or ipython_shell_namespace()["db"]
     since = since or "1995"
     cat = db.v2.search(databroker.queries.TimeRange(since=since))
     plans = defaultdict(list)
@@ -763,13 +767,14 @@ def summarize_runs(since=None):
                 scan_id=scan_id,
             )
         )
-        # print(
-        #     f"{scan_id}"
-        #     f" {dt}"
-        #     f"  dt1={(t1-t0)*1e6:4.01f}us"
-        #     f"  dt2={(t2-t1)*1e3:5.01f}ms"
-        #     f" {plan_name}"
-        #     )
+        logger.debug(
+            "%s %s dt1=%4.01fus dt2=%5.01fms",
+            scan_id,
+            dt,
+            (t1-t0)*1e6,
+            (t2-t1)*1e3,
+            plan_name,
+            )
         t0 = time.time()
 
     def sorter(plan_name):
