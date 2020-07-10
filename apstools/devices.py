@@ -1006,13 +1006,17 @@ class AxisTunerMixin(DeviceMixinBase):
             yield from bps.mv(shutter, "close")
 
         class TunableSynAxis(AxisTunerMixin, SynAxis): pass
+
         myaxis = TunableSynAxis(name="myaxis")
         mydet = SynGauss('mydet', myaxis, 'myaxis', center=0.21, Imax=0.98e5, sigma=0.127)
         myaxis.tuner = TuneAxis([mydet], myaxis)
         myaxis.pre_tune_method = my_pre_tune_hook
         myaxis.post_tune_method = my_post_tune_hook
 
-        RE(myaxis.tune())
+        def tune_myaxis():
+            yield from myaxis.tune()
+
+        RE(tune_myaxis(md={"plan_name": "tune_myaxis"}))
     """
 
     def __init__(self, *args, **kwargs):
