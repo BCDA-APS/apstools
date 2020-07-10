@@ -504,6 +504,9 @@ def get_options():
     p_sub = subcommand.add_parser('update', help="EPICS PVs: update from BSS")
     p_sub.add_argument('prefix', type=str, help="EPICS PV prefix")
 
+    p_sub = subcommand.add_parser('report', help="EPICS PVs: report what is in the PVs")
+    p_sub.add_argument('prefix', type=str, help="EPICS PV prefix")
+
     return parser.parse_args()
 
 
@@ -600,6 +603,21 @@ def cmd_proposal(args):
         print(f"dm reported: {exc}")
 
 
+def cmd_report(args):
+    """
+    Handle ``report`` command.
+
+    PARAMETERS
+
+    args (obj):
+        Object returned by ``argparse``
+    """
+    from ..utils import object_explorer
+
+    bss = connect_epics(args.prefix)
+    object_explorer(bss)
+
+
 def main():
     """Command-line interface for ``apsbss`` program."""
     args = get_options()
@@ -626,6 +644,9 @@ def main():
 
     elif args.subcommand == "update":
         epicsUpdate(args.prefix)
+
+    elif args.subcommand == "report":
+        cmd_report(args)
 
     else:
         print("subcommand not recognized.  Use -h for usage information.")
