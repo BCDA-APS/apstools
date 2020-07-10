@@ -9,6 +9,7 @@ Applications
    :glob:
 
    apsbss
+   apsbss_ioc
    snapshot
    spec2ophyd
 

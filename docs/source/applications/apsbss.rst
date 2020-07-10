@@ -13,7 +13,8 @@ form) databases as PVs at each beam line so that this information
 (``dm`` for short) package [#]_
 is used to access the APS databases as read-only.
 
-*No information is written back to the APS databases.*
+*No information is written back to the APS
+databases from this software.*
 
 .. [#] ``dm``: https://anaconda.org/search?q=aps-dm-api
 
@@ -40,8 +41,8 @@ the typical information obtained includes:
 * is experiment mail-in?
 
 These PVs are loaded on demand by the local instrument team at the beam line.
-
-.. TODO: describe how this is done
+See the :ref:`apsbss_startup` section for details about
+managing the EPICS PVs.
 
 Example - command line
 ++++++++++++++++++++++
@@ -70,35 +71,22 @@ the *apsbss* application expects::
 		setup               EPICS PVs: setup
 		update              EPICS PVs: update from BSS
 
-.. TODO: describe each of these subcommands
-
-.. _apsbss_ioc_management:
+See :ref:`beamtime_source_docs` for the source code documentation
+of each of these subcommands.
 
 IOC Management
 ++++++++++++++
 
 The EPICS PVs are provided by running an instance of ``apsbss.db``
 either in an existing EPICS IOC or using the ``softIoc`` application
-from EPICS base.  A shell script (``manage_ioc.sh``) is included
-for management of the IOC::
+from EPICS base.  A shell script (``apsbss_ioc.sh``) is included
+for loading Proposal and ESAF information from the
+APS databases into the IOC.
 
-	$ ./manage_ioc.sh
-	Usage: manage_ioc.sh {start|stop|restart|status|console|run} [NAME [PREFIX]]
+* :download:`apsbss.db <../../../apstools/beamtime/apsbss.db>`
 
-		COMMANDS
-			console   attach to IOC console if IOC is running in screen
-			restart   restart IOC
-			run       run IOC in console (not screen)
-			start     start IOC
-			status    report if IOC is running
-			stop      stop IOC
-
-		OPTIONAL TERMS
-			NAME      name of IOC session (default: apsbss)
-			PREFIX    IOC prefix (default: ioc:bss:)
-
-.. TODO: download for ``apsbss.db``
-
+See the section titled ":ref:`apsbss_startup`"
+for the management of the EPICS IOC.
 
 .. _apsbss_epics_gui_screens:
 
@@ -108,8 +96,18 @@ Displays for MEDM & caQtDM
 Display screen files are provided for viewing the EPICS PVs
 using either MEDM (``apsbss.adl``) or caQtDM (``apsbss.ui``).
 
-.. TODO: downloads for each screen file
+* MEDM screen: :download:`apsbss.adl <../../../apstools/beamtime/apsbss.adl>`
+* caQtDM screen: :download:`apsbss.ui <../../../apstools/beamtime/apsbss.ui>`
+
 .. TODO: screen images here
+
+Downloads
++++++++++
+
+* EPICS database: :download:`apsbss.db <../../../apstools/beamtime/apsbss.db>`
+* EPICS IOC shell script :download:`apsbss_ioc.sh <../../../apstools/beamtime/apsbss_ioc.sh>`
+* MEDM screen: :download:`apsbss.adl <../../../apstools/beamtime/apsbss.adl>`
+* caQtDM screen: :download:`apsbss.ui <../../../apstools/beamtime/apsbss.ui>`
 
 Source code documentation
 +++++++++++++++++++++++++

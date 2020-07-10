@@ -2,8 +2,11 @@
 
 # manage the IOC for apsbss
 
+#--------------------
+# change the program defaults here
 DEFAULT_SESSION_NAME=apsbss
 DEFAULT_IOC_PREFIX=ioc:bss:
+#--------------------
 
 SHELL_SCRIPT_NAME=${BASH_SOURCE:-${0}}
 SELECTION=${1:-usage}
@@ -120,10 +123,11 @@ function start() {
         echo -n "${SCREEN_SESSION} is already running (pid=${IOC_PID})"
         screenpid
     else
-        echo "Starting ${SESSION_NAME}"
+        echo "Starting ${SESSION_NAME} with IOC prefix ${IOC_PREFIX}"
         cd "${IOC_STARTUP_DIR}"
         # Run SESSION_NAME inside a screen session
-        screen -dm -S "${SESSION_NAME}" -h 5000 "${START_IOC_COMMAND}"
+        CMD="screen -dm -S ${SESSION_NAME} -h 5000 ${START_IOC_COMMAND}"
+        $CMD
     fi
 }
 

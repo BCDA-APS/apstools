@@ -483,13 +483,13 @@ def get_options():
     p_sub = subcommand.add_parser('current', help="print current ESAF(s) and proposal(s)")
     p_sub.add_argument('beamlineName', type=str, help="Beamline name")
 
-    subcommand.add_parser('cycles', help="print APS cycle names")
+    subcommand.add_parser('cycles', help="print APS run cycle names")
 
     p_sub = subcommand.add_parser('esaf', help="print specific ESAF")
     p_sub.add_argument('esafId', type=int, help="ESAF ID number")
 
     p_sub = subcommand.add_parser('proposal', help="print specific proposal")
-    p_sub.add_argument('proposalId', type=str, help="ESAF ID number")
+    p_sub.add_argument('proposalId', type=str, help="proposal ID number")
     p_sub.add_argument('cycle', type=str, help="APS run (cycle) name")
     p_sub.add_argument('beamlineName', type=str, help="Beamline name")
 
@@ -626,6 +626,9 @@ def main():
 
     elif args.subcommand == "update":
         epicsUpdate(args.prefix)
+
+    else:
+        print("subcommand not recognized.  Use -h for usage information.")
 
 
 if __name__ == "__main__":

@@ -104,7 +104,7 @@ class Test_EPICS(unittest.TestCase):
         self.bss = None
         self.manager = os.path.abspath(os.path.join(
             os.path.dirname(apsbss.__file__),
-            "manage_ioc.sh"
+            "apsbss_ioc.sh"
         ))
         self.ioc_name = "test_apsbss"
         cmd = f"{self.manager} restart {self.ioc_name} {BSS_TEST_IOC_PREFIX}"
