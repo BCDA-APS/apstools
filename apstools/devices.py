@@ -1014,9 +1014,9 @@ class AxisTunerMixin(DeviceMixinBase):
         myaxis.post_tune_method = my_post_tune_hook
 
         def tune_myaxis():
-            yield from myaxis.tune()
+            yield from myaxis.tune(md={"plan_name": "tune_myaxis"})
 
-        RE(tune_myaxis(md={"plan_name": "tune_myaxis"}))
+        RE(tune_myaxis())
     """
 
     def __init__(self, *args, **kwargs):
