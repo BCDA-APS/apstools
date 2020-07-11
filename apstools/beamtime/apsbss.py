@@ -480,10 +480,23 @@ def get_options():
 
     subcommand.add_parser('beamlines', help="print list of beamlines")
 
-    p_sub = subcommand.add_parser('current', help="print current ESAF(s) and proposal(s)")
-    p_sub.add_argument('beamlineName', type=str, help="Beamline name")
+    p_sub = subcommand.add_parser(
+        'current',
+        help="print current ESAF(s) and proposal(s)")
+    p_sub.add_argument(
+        'beamlineName',
+        type=str,
+        help="Beamline name")
 
-    subcommand.add_parser('cycles', help="print APS run cycle names")
+    p_sub = subcommand.add_parser('cycles', help="print APS run cycle names")
+    p_sub.add_argument(
+        '-f', '--full', action="store_true",
+        default=False,
+        help="full report including dates (default is compact)")
+    p_sub.add_argument(
+        '-a', '--ascending', action="store_false",
+        default=True,
+        help="full report by ascending names (default is descending)")
 
     p_sub = subcommand.add_parser('esaf', help="print specific ESAF")
     p_sub.add_argument('esafId', type=int, help="ESAF ID number")
@@ -504,11 +517,39 @@ def get_options():
     p_sub = subcommand.add_parser('update', help="EPICS PVs: update from BSS")
     p_sub.add_argument('prefix', type=str, help="EPICS PV prefix")
 
-    p_sub = subcommand.add_parser('report', help="EPICS PVs: report what is in the PVs")
+    p_sub = subcommand.add_parser(
+        'report',
+        help="EPICS PVs: report what is in the PVs")
     p_sub.add_argument('prefix', type=str, help="EPICS PV prefix")
 
     return parser.parse_args()
 
+def cmd_cycles(args):
+    """
+    Handle ``cycles`` command.
+
+    PARAMETERS
+
+    args (obj):
+        Object returned by ``argparse``
+    """
+    if args.full:
+        table = pyRestTable.Table()
+        table.labels = "cycle start end".split()
+
+        def sorter(entry):
+            return entry["startTime"]
+
+        for entry in sorted(api_bss.listRuns(),
+                            key=sorter,
+                            reverse=args.ascending):
+            table.addRow((
+                entry["name"],
+                entry["startTime"],
+                entry["endTime"], ))
+        print(table)
+    else:
+        printColumns(listAllRuns())
 
 def cmd_current(args):
     """
@@ -631,7 +672,7 @@ def main():
         cmd_current(args)
 
     elif args.subcommand == "cycles":
-        printColumns(listAllRuns())
+        cmd_cycles(args)
 
     elif args.subcommand == "esaf":
         cmd_esaf(args)

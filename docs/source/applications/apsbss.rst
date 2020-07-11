@@ -18,7 +18,7 @@ databases from this software.*
 
 .. [#] ``dm``: https://anaconda.org/search?q=aps-dm-api
 
-.. sidebar:: Info written to local PVs
+.. sidebar:: PVs for experiment metadata
 
 	This information retreived from the APS databases is stored in PVs
 	on the beam line subnet.  These PVs are available to *any* EPICS
@@ -26,11 +26,14 @@ databases from this software.*
 	This design allows the local instrument team to override
 	any values read from the APS databases, if that is needed.
 
-Given a beam line name (such as ``9-ID-B,C``),
-APS run cycle name (such as ``2020-2``),
-proposal ID number (such as ``66083``), and
-ESAF ID number (such as ``226319``),
-the typical information obtained includes:
+Given:
+
+* a beam line name (such as ``9-ID-B,C``)
+* APS run cycle name (such as ``2019-2``) to locate a specific proposal ID
+* proposal ID number (such as ``66083``)
+* ESAF ID number (such as ``226319``)
+
+The typical information obtained includes:
 
 * ESAF & proposal titles
 * user names
@@ -48,6 +51,9 @@ managing the EPICS PVs.
 Overview
 ++++++++
 
+We'll demonstrate ``apsbss`` with information for APS beam
+line 9-ID, using PV prefix ``9id:bss:``.
+
 #. Create the PVs in an EPICS IOC
 #. Initialize PVs with beam line name and APS run cycle number
 #. Set PVs with the Proposal and ESAF ID numbers
@@ -59,12 +65,16 @@ Overview
    :width: 95%
 
    Image of ``apsbss.ui`` screen GUI in caQtDM showing PV prefix
-   (``9id:bss:``), APS run cycle ``2020-2`` and beam line ``9-ID-B,C``.
+   (``9id:bss:``), APS run cycle ``2019-2`` and beam line ``9-ID-B,C``.
+
+   * beam line name PV: ``9id:bss:proposal:beamline``
+   * APS run cycle PV: ``9id:bss:esaf:cycle``
 
 
 **Enter Proposal and ESAF ID numbers**
 
-Note that for this ESAF ID, we had to change the cycle to `2019-2`.
+Note we had to use the APS run cycle of `2019-2`
+to match what is in the proposal's information.
 
 .. figure:: ../resources/ui_id_entered.png
    :width: 95%
@@ -72,19 +82,28 @@ Note that for this ESAF ID, we had to change the cycle to `2019-2`.
    Image of ``apsbss.ui`` screen GUI in caQtDM with Proposal
    and ESAF ID numbers added.
 
+   * proposal ID number PV: ``9id:bss:proposal:id``
+   * ESAF ID number PV: ``9id:bss:esaf:id``
+
 **Update PVs from APS databases**
 
-Command: ``apsbss update 9id:bss:``
+In the GUI, press the button labeled ``get Proposal and ESAF info``.
+This button executes the command line: ``apsbss update 9id:bss:``
 
 Here's a view of the GUI after running the update.  The
 information shown in the GUI is only part of the PVs,
-presented in a compact format.
+presented in a compact format. A full report of the
+information received, including PV names, is available for
+:download:`download <../resources/apsbss_report.txt>`.
 
 .. figure:: ../resources/ui_updated.png
    :width: 95%
 
    Image of ``apsbss.ui`` screen GUI in caQtDM showing Proposal
    and ESAF information.
+
+To clear the PVs, in the GUI, press the button labeled ``clear PVs``.
+This button executes the command line: ``apsbss clear 9id:bss:``
 
 
 Initialize PVs for beam line and APC run cycle
@@ -104,7 +123,8 @@ is ``9id:bss:``.
 What beam line name to use?
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-To learn the beam line names accepted by the system, use this command::
+To learn the beam line names accepted by the system, use this command
+(showing names defined on 2020-07-10)::
 
     $ apsbss beamlines
     1-BM-B,C       8-ID-I         15-ID-B,C,D    23-BM-B
@@ -132,7 +152,8 @@ For either station at 9-ID, use ``9-ID-B,C``.
 What APS run cycle to use?
 ^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-To learn the APS run cycle names accepted by the system, use this command::
+To learn the APS run cycle names accepted by the system, use this command
+(showing APS run cycle names defined on 2020-07-10)::
 
     $ apsbss cycles
     2008-3    2011-2    2014-1    2016-3    2019-2
@@ -145,6 +166,50 @@ To learn the APS run cycle names accepted by the system, use this command::
     2011-1    2013-3    2016-2    2019-1
 
 Pick the cycle of interest.  Here, we pick ``2020-2``.
+
+To print the full report (including start and end of each cycle)::
+
+    $ apsbss cycles --full
+    ====== =================== ===================
+    cycle  start               end                
+    ====== =================== ===================
+    2020-2 2020-06-09 07:00:00 2020-10-01 07:00:00
+    2020-1 2020-01-28 08:00:00 2020-06-09 07:00:00
+    2019-3 2019-09-24 07:00:00 2020-01-28 08:00:00
+    2019-2 2019-05-21 07:00:00 2019-09-24 07:00:00
+    2019-1 2019-01-22 08:00:00 2019-05-21 07:00:00
+    2018-3 2018-09-25 07:00:00 2019-01-22 08:00:00
+    2018-2 2018-05-22 07:00:00 2018-09-25 07:00:00
+    2018-1 2018-01-23 08:00:00 2018-05-22 07:00:00
+    2017-3 2017-09-26 07:00:00 2018-01-23 08:00:00
+    2017-2 2017-05-23 07:00:00 2017-09-26 07:00:00
+    2017-1 2017-01-24 08:00:00 2017-05-23 07:00:00
+    2016-3 2016-09-27 07:00:00 2017-01-24 08:00:00
+    2016-2 2016-05-24 07:00:00 2016-09-27 07:00:00
+    2016-1 2016-01-26 08:00:00 2016-05-24 07:00:00
+    2015-3 2015-09-29 07:00:00 2016-01-26 08:00:00
+    2015-2 2015-05-26 07:00:00 2015-09-29 07:00:00
+    2015-1 2015-01-27 08:00:00 2015-05-26 07:00:00
+    2014-3 2014-09-25 07:00:00 2015-01-27 08:00:00
+    2014-2 2014-05-20 07:00:00 2014-09-25 07:00:00
+    2014-1 2014-01-21 08:00:00 2014-05-20 07:00:00
+    2013-3 2013-09-24 07:00:00 2014-01-21 08:00:00
+    2013-2 2013-05-22 07:00:00 2013-09-24 07:00:00
+    2013-1 2013-01-22 08:00:00 2013-05-22 07:00:00
+    2012-3 2012-09-25 07:00:00 2013-01-22 08:00:00
+    2012-2 2012-05-23 07:00:00 2012-09-25 07:00:00
+    2012-1 2012-01-24 08:00:00 2012-05-23 07:00:00
+    2011-3 2011-09-27 07:00:00 2012-01-24 08:00:00
+    2011-2 2011-05-25 07:00:00 2011-09-27 07:00:00
+    2011-1 2011-01-25 08:00:00 2011-05-25 07:00:00
+    2010-3 2010-09-27 23:00:00 2011-01-25 08:00:00
+    2010-2 2010-05-26 07:00:00 2010-09-28 07:00:00
+    2010-1 2010-01-26 08:00:00 2010-05-26 07:00:00
+    2009-3 2009-09-29 07:00:00 2010-01-26 08:00:00
+    2009-2 2009-05-20 07:00:00 2009-09-29 07:00:00
+    2009-1 2009-01-21 08:00:00 2009-05-20 07:00:00
+    2008-3 2008-09-24 07:00:00 2009-01-21 08:00:00
+    ====== =================== ===================
 
 
 Write the beam line name and cycle to the PVs
@@ -341,6 +406,21 @@ the *apsbss* application expects::
 See :ref:`beamtime_source_docs` for the source code documentation
 of each of these subcommands.
 
+.. _apsbss_epics_gui_screens:
+
+Displays for MEDM & caQtDM
+++++++++++++++++++++++++++
+
+Display screen files are provided for viewing some of the EPICS PVs
+using either MEDM (``apsbss.adl``) or caQtDM (``apsbss.ui``).
+
+* caQtDM screen: :download:`apsbss.ui <../../../apstools/beamtime/apsbss.ui>`
+* MEDM screen: :download:`apsbss.adl <../../../apstools/beamtime/apsbss.adl>`
+
+Start caQtDM with this command: ``caQtDM -macro "P=9id:bss:" apsbss.ui &``
+
+Start MEDM with this command: ``MEDM -x -macro "P=9id:bss:" apsbss.ui &``
+
 IOC Management
 ++++++++++++++
 
@@ -354,17 +434,6 @@ APS databases into the IOC.
 
 See the section titled ":ref:`apsbss_startup`"
 for the management of the EPICS IOC.
-
-.. _apsbss_epics_gui_screens:
-
-Displays for MEDM & caQtDM
-++++++++++++++++++++++++++
-
-Display screen files are provided for viewing some of the EPICS PVs
-using either MEDM (``apsbss.adl``) or caQtDM (``apsbss.ui``).
-
-* MEDM screen: :download:`apsbss.adl <../../../apstools/beamtime/apsbss.adl>`
-* caQtDM screen: :download:`apsbss.ui <../../../apstools/beamtime/apsbss.ui>`
 
 Downloads
 +++++++++
