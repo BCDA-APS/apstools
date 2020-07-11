@@ -68,6 +68,8 @@ POLL_INTERVAL = 0.01
 api_bss = dm.BssApsDbApi(DM_APS_DB_WEB_SERVICE_URL)
 api_esaf = dm.EsafApsDbApi(DM_APS_DB_WEB_SERVICE_URL)
 
+parser = None
+
 _cache_ = {}
 
 
@@ -470,8 +472,10 @@ def trim(text, length=40):
 
 def get_options():
     """Handle command line arguments."""
+    global parser
     import argparse
     from apstools._version import get_versions
+
     version = get_versions()['version']
 
     parser = argparse.ArgumentParser(
@@ -699,7 +703,7 @@ def main():
         cmd_report(args)
 
     else:
-        print("subcommand not recognized.  Use -h for usage information.")
+        parser.print_usage()
 
 
 if __name__ == "__main__":

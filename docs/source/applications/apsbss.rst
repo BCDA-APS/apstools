@@ -381,27 +381,28 @@ Example - ``apsbss`` command line
 Before using the command-line interface, find out what
 the *apsbss* application expects::
 
-	$ apsbss  -h
-	usage: apsbss.py [-h]
-					{beamlines,current,cycles,esaf,proposal,clear,setup,update}
-					...
+    $ apsbss  -h
+    usage: apsbss [-h] [-v]
+                  {beamlines,current,cycles,esaf,proposal,clear,setup,update,report}
+                  ...
 
-	Retrieve specific records from the APS Proposal and ESAF databases
+    Retrieve specific records from the APS Proposal and ESAF databases.
 
-	optional arguments:
-	-h, --help            show this help message and exit
+    optional arguments:
+      -h, --help            show this help message and exit
+      -v, --version         print version number and exit
 
-	subcommand:
-	{beamlines,current,cycles,esaf,proposal,clear,setup,update}
-		beamlines           print list of beamlines
-		current             print current ESAF(s) and proposal(s)
-		cycles              print APS cycle names
-		esaf                print specific ESAF
-		proposal            print specific proposal
-		clear               EPICS PVs: clear
-		setup               EPICS PVs: setup
-		update              EPICS PVs: update from BSS
-    report              EPICS PVs: report what is in the PVs
+    subcommand:
+      {beamlines,current,cycles,esaf,proposal,clear,setup,update,report}
+        beamlines           print list of beamlines
+        current             print current ESAF(s) and proposal(s)
+        cycles              print APS run cycle names
+        esaf                print specific ESAF
+        proposal            print specific proposal
+        clear               EPICS PVs: clear
+        setup               EPICS PVs: setup
+        update              EPICS PVs: update from BSS
+        report              EPICS PVs: report what is in the PVs
 
 See :ref:`beamtime_source_docs` for the source code documentation
 of each of these subcommands.
@@ -419,7 +420,7 @@ using either MEDM (``apsbss.adl``) or caQtDM (``apsbss.ui``).
 
 Start caQtDM with this command: ``caQtDM -macro "P=9id:bss:" apsbss.ui &``
 
-Start MEDM with this command: ``MEDM -x -macro "P=9id:bss:" apsbss.ui &``
+Start MEDM with this command: ``medm -x -macro "P=9id:bss:" apsbss.ui &``
 
 IOC Management
 ++++++++++++++
