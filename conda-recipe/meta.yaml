@@ -26,6 +26,7 @@ build:
   script: python -m pip install --no-deps --ignore-installed .
   noarch: python
   entry_points:
+    - apsbss = apstools.beamtime.apsbss:main
     - apstools_plan_catalog = apstools.examples:main
     - bluesky_snapshot = apstools.snapshot:snapshot_cli
     - bluesky_snapshot_viewer = apstools.snapshot:snapshot_gui
@@ -35,7 +36,7 @@ requirements:
     - python
     - pip
   run:
-    - python
+    - python>=3.6.0
     - aps-dm-api
     - bluesky>=1.6.2
     - databroker>=1.0.6
