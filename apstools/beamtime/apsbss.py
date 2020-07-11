@@ -50,7 +50,6 @@ APPLICATION
     ~main
 """
 
-import argparse
 import datetime
 import dm               # APS data management library
 import os
@@ -471,10 +470,20 @@ def trim(text, length=40):
 
 def get_options():
     """Handle command line arguments."""
+    import argparse
+    from apstools._version import get_versions
+    version = get_versions()['version']
+
     parser = argparse.ArgumentParser(
         prog=os.path.split(sys.argv[0])[-1],
         description=__doc__.strip().splitlines()[0],
         )
+
+    parser.add_argument('-v',
+                        '--version', 
+                        action='version',
+                        help='print version number and exit',
+                        version=version)
 
     subcommand = parser.add_subparsers(dest='subcommand', title='subcommand')
 
