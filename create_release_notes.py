@@ -37,13 +37,16 @@ def findGitConfigFile():
     Needs testing for when things are wrong.
     """
     path = os.getcwd()
-    for i in range(99):
+    while len(path.split(os.path.sep)):
         config_file = os.path.join(path, ".git", "config")
         if os.path.exists(config_file):
             return config_file      # found it!
 
         # next, look in the parent directory
-        path = os.path.abspath(os.path.join(path, ".."))
+        parent = os.path.dirname(path)
+        if parent == path:
+            break
+        path = parent
 
     msg = "Could not find .git/config file in any parent directory."
     logger.error(msg)

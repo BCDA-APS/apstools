@@ -20,3 +20,7 @@ build_log.txt
 .logs/
 .vscode/
 20*.dat
+
+# bird droppings from IT
+.log
+.loglogin

@@ -87,7 +87,7 @@ def addDeviceDataAsStream(devices, label):
     yield from bps.save()
 
 
-def execute_command_list(filename, commands, md={}):
+def execute_command_list(filename, commands, md=None):
     """
     plan: execute the command list
 
@@ -206,7 +206,7 @@ def get_command_list(filename):
 def lineup(
     counter, axis, minus, plus, npts,
     time_s=0.1, peak_factor=4, width_factor=0.8,
-    _md={}):
+    md=None):
     """
     lineup and center a given axis, relative to current position
 
@@ -312,16 +312,16 @@ def lineup(
         bec.peaks.aligned = aligned
         bec.peaks.ATTRS =  ('com', 'cen', 'max', 'min', 'fwhm')
 
-    md = dict(_md)
-    md["purpose"] = "alignment"
-    yield from bp.rel_scan([counter], axis, minus, plus, npts, md=md)
+    _md = dict(purpose="alignment")
+    _md.update(md or {})
+    yield from bp.rel_scan([counter], axis, minus, plus, npts, md=_md)
     yield from peak_analysis()
 
     if bec.peaks.aligned:
         # again, tweak axis to maximize
-        md["purpose"] = "alignment - fine"
+        _md["purpose"] = "alignment - fine"
         fwhm = bec.peaks["fwhm"][counter.name]
-        yield from bp.rel_scan([counter], axis, -fwhm, fwhm, npts, md=md)
+        yield from bp.rel_scan([counter], axis, -fwhm, fwhm, npts, md=_md)
         yield from peak_analysis()
 
     if scaler is not None:
@@ -594,7 +594,7 @@ def register_command_handler(handler=None):
     _COMMAND_HANDLER_ = handler or execute_command_list
 
 
-def run_command_file(filename, md={}):
+def run_command_file(filename, md=None):
     """
     plan: execute a list of commands from a text or Excel file
 
@@ -614,8 +614,10 @@ def run_command_file(filename, md={}):
 
     *new in apstools release 1.1.7*
     """
+    _md = dict(command_file=filename)
+    _md.update(md or {})
     commands = get_command_list(filename)
-    yield from _COMMAND_HANDLER_(filename, commands)
+    yield from _COMMAND_HANDLER_(filename, commands, md=_md)
 
 
 def snapshot(obj_list, stream="primary", md=None):
@@ -738,7 +740,7 @@ def sscan_1D(
         running_stream="primary",
         final_array_stream=None,
         device_settings_stream="settings",
-        md={}):
+        md=None):
     """
     simple 1-D scan using EPICS synApps sscan record
 
@@ -836,9 +838,10 @@ def sscan_1D(
     # watch for new data to be read out
     sscan.scan_phase.subscribe(phase_cb)
 
-    md["plan_name"] = "sscan_1D"
+    _md = dict(plan_name="sscan_1D")
+    _md.update(md or {})
 
-    yield from bps.open_run(md)               # start data collection
+    yield from bps.open_run(_md)               # start data collection
     yield from bps.mv(sscan.execute_scan, 1)   # start sscan
     started = True
 

@@ -14,6 +14,7 @@ python:
   - "3.8"
   # - "nightly"
 
+
 # see https://github.com/BCDA-APS/apstools/issues/137#ref-commit-5c7baa2
 # install:
 #   - pip install -r requirements.txt
@@ -24,7 +25,9 @@ before_script:
   - bash miniconda.sh -b -p $HOME/miniconda
   - export PATH=$HOME/miniconda/bin:$PATH
   - export PY_ENV=travis-$TRAVIS_PYTHON_VERSION
-  - conda create -y -n $PY_ENV -c apsu -c conda-forge -c nsls2forge -c defaults python=$TRAVIS_PYTHON_VERSION bluesky coverage databroker docopt epics-base numpy "ophyd>=1.4.0rc3" "pyepics>=3.4.1" pandas requests xlrd
+  - export MY_CONDA_CHANNELS="-c apsu -c conda-forge -c nsls2forge -c defaults -c aps-anl-tag"
+  - export MY_CONDA_PACKAGES="aps-dm-api bluesky>=1.6.2 coverage databroker>=1.0.6 docopt epics-base numpy ophyd>=1.5.1 pyepics>=3.4.2 pandas requests xlrd"
+  - conda create -y -n $PY_ENV $MY_CONDA_CHANNELS python=$TRAVIS_PYTHON_VERSION $MY_CONDA_PACKAGES
   - source activate $PY_ENV
   - which pip
   - which python
