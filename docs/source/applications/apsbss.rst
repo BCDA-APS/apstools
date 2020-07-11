@@ -171,7 +171,7 @@ To print the full report (including start and end of each cycle)::
 
     $ apsbss cycles --full
     ====== =================== ===================
-    cycle  start               end                
+    cycle  start               end
     ====== =================== ===================
     2020-2 2020-06-09 07:00:00 2020-10-01 07:00:00
     2020-1 2020-01-28 08:00:00 2020-06-09 07:00:00

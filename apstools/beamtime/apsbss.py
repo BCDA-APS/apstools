@@ -484,7 +484,7 @@ def get_options():
         )
 
     parser.add_argument('-v',
-                        '--version', 
+                        '--version',
                         action='version',
                         help='print version number and exit',
                         version=version)
