@@ -3,3 +3,6 @@ include CHANGES*
 include LICENSE.txt
 include versioneer.py
 include apstools/_version.py
+include apstools/beamtime/apsbss.adl
+include apstools/beamtime/apsbss.db
+include apstools/beamtime/apsbss.ui
