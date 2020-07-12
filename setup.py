@@ -37,6 +37,7 @@ setup(
     name             = package.__project__,
     #platforms        = package.__platforms__,
     packages         = find_packages(exclude=package.__exclude_project_dirs__),
+    include_package_data=True,
     url              = package.__url__,
     version          = versioneer.get_version(),
     cmdclass         = versioneer.get_cmdclass(),
