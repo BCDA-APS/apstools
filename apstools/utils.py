@@ -336,17 +336,15 @@ def listruns(
 
     table = pyRestTable.Table()
     table.labels = "short_uid   date/time  exit".split() + labels
-    for n, uid in enumerate(cat):
+    for uid in cat:
         if len(table.rows) == num_runs_requested:
             break
         run = cat[uid]
         start = run.metadata["start"]
         stop = run.metadata["stop"]
 
-        if (
-                exit_status is not None
-                and
-                stop.get("exit_status") != exit_status):
+        if (exit_status is not None
+            and stop.get("exit_status") != exit_status):
             continue
 
         row = [
