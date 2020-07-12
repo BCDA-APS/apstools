@@ -57,7 +57,7 @@ echo "# ($(date)) - - - - - - - - - - - - - - - - - - - - - - upload conda"
 
 BUILD_DIR=${CONDA_BLD_PATH}/noarch
 _package_=$(echo "${PACKAGE}" | tr '[:upper:]' '[:lower:]')
-BUNDLE="${BUILD_DIR}/${_package_}-${RELEASE}-*_0.tar.bz2"
+BUNDLE="${BUILD_DIR}/${_package_}-${RELEASE}-py_0.tar.bz2"
 echo "# ($(date)) uploading to anaconda"
 echo "# ($(date)) CHANNEL: ${CHANNEL}"
 anaconda upload -u "${CHANNEL}" "${BUNDLE}"
