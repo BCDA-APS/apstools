@@ -239,12 +239,16 @@ def itemizer(fmt, items):
 
 
 def listruns(
-        num=20, keys=None, printing=True,
-        show_command=True, db=None,
+        num=20,
+        keys=None,
+        printing=True,
+        show_command=True,
+        db=None,
+        catalog_name=None,
         exit_status=None,
         **db_search_terms):
     """
-    make a table of the most recent runs (scans)
+    make a table of the most recent runs (scans), databroker v1 API
 
     PARAMETERS
 
@@ -264,8 +268,12 @@ def listruns(
         document so it will not be exactly as the user typed.)
         (default: ``True``)
     db : object
-        Instance of ``databroker.Broker()``
-        (default: ``db`` from the IPython shell)
+        Instance of databroker v1 ``Broker`` or v2 ``catalog``
+        (default: see ``catalog_name`` keyword argument)
+    catalog_name : str
+        Name of databroker v2 catalog, used when supplied ``db`` is ``None``.
+        (default: ``mongodb_config``)
+        (new in release 1.3.0)
     db_search_terms : dict
         Any additional keyword arguments will be passed to
         the databroker to refine the search for matching runs.
@@ -309,38 +317,48 @@ def listruns(
 
     *new in apstools release 1.1.10*
     """
-    db = db or ipython_shell_namespace()["db"]
+    catalog_name = catalog_name or "mongodb_config"
+    db = (db or databroker.catalog[catalog_name]).v2
     keys = keys or []
+    num_runs_requested = min(abs(num), len(db))
 
     if show_command:
         labels = "scan_id  command".split() + keys
     else:
         labels = "scan_id  plan_name".split() + keys
 
+    cat = db.search(
+        databroker.queries.TimeRange(
+            since=db_search_terms.pop("since", "1995-01-01"),
+            until=db_search_terms.pop("until", "2100-12-31"),
+        )
+    ).search(db_search_terms)
+
     table = pyRestTable.Table()
     table.labels = "short_uid   date/time  exit".split() + labels
+    for n, uid in enumerate(cat):
+        if len(table.rows) == num_runs_requested:
+            break
+        run = cat[uid]
+        start = run.metadata["start"]
+        stop = run.metadata["stop"]
 
-    num_runs_requested = min(abs(num), db.v2.__len__())
-    # itertools.islice(db.v2.items()) may be useful here.
-    # see: https://docs.python.org/3/library/itertools.html#itertools.islice
-    if len(db_search_terms) > 0:
-        runs = list(db(**db_search_terms))[-num_runs_requested:]
-    else:
-        runs = db.v1[-num_runs_requested:]
-    for h in runs:
         if (
                 exit_status is not None
                 and
-                h.stop.get("exit_status") != exit_status):
+                stop.get("exit_status") != exit_status):
             continue
+
         row = [
-            h.start["uid"][:7],
-            datetime.datetime.fromtimestamp(h.start['time']),
-            h.stop.get("exit_status", "")
+            start["uid"][:7],
+            datetime.datetime.fromtimestamp(
+                start['time']),
+            stop.get("exit_status", "")
             ]
+
         for k in labels:
             if k == "command":
-                command = _rebuild_scan_command(h.start)
+                command = _rebuild_scan_command(start)
                 command = command[command.find(" "):].strip()
                 maxlen = 40
                 if len(command) > maxlen:
@@ -348,7 +366,7 @@ def listruns(
                     command = command[:maxlen-len(suffix)] + suffix
                 row.append(command)
             else:
-                row.append(h.start.get(k, ""))
+                row.append(start.get(k, ""))
         table.addRow(row)
 
     if printing:
