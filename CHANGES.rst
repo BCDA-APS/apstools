@@ -4,7 +4,38 @@
 Change History
 ##############
 
-:1.3.0:  release expected by 2020-07-31
+:1.3.1:  release expected -tba-
+
+:1.3.0:  release expected by 2020-07-15
+
+    * `#344 <https://github.com/BCDA-APS/apstools/pull/344>`_
+       listruns() uses databroker v2 API
+    * `#343 <https://github.com/BCDA-APS/apstools/issues/343>`_
+       review and update requirements
+    * `#342 <https://github.com/BCDA-APS/apstools/pull/342>`_
+       summarize runs in databroker by plan_name and frequency
+    * `#341 <https://github.com/BCDA-APS/apstools/issues/341>`_
+       tools to summarize activity
+    * `#340 <https://github.com/BCDA-APS/apstools/issues/340>`_
+       update copyright year to 2020
+    * `#339 <https://github.com/BCDA-APS/apstools/issues/339>`_
+       resolve Codacy code review issues
+    * `#338 <https://github.com/BCDA-APS/apstools/issues/338>`_
+       unit tests are leaving directories undeleted
+    * `#337 <https://github.com/BCDA-APS/apstools/issues/337>`_
+       Document new filewriter callbacks
+    * `#336 <https://github.com/BCDA-APS/apstools/pull/336>`_
+       add NeXus file writer from USAXS
+    * `#335 <https://github.com/BCDA-APS/apstools/issues/335>`_
+       update requirements
+    * `#334 <https://github.com/BCDA-APS/apstools/pull/334>`_
+       support APS proposal & ESAF systems to provide useful metadata
+    * `#333 <https://github.com/BCDA-APS/apstools/issues/333>`_
+       access APS proposal and ESAF information
+    * `#332 <https://github.com/BCDA-APS/apstools/issues/332>`_
+       listruns(): use databroker v2 API
+    * `#329 <https://github.com/BCDA-APS/apstools/issues/329>`_
+       add NeXus writer base class from USAXS
 
 :1.2.6:  released *2020-06-26*
 
