@@ -8,6 +8,8 @@ Change History
 
 :1.3.0:  release expected by 2020-07-15
 
+    * `#346 <https://github.com/BCDA-APS/apstools/pull/346>`_
+       publish fails to push conda packages
     * `#344 <https://github.com/BCDA-APS/apstools/pull/344>`_
        listruns() uses databroker v2 API
     * `#343 <https://github.com/BCDA-APS/apstools/issues/343>`_
@@ -87,9 +89,9 @@ Change History
     * `#310 <https://github.com/BCDA-APS/apstools/issues/310>`_
        enhance listruns() search capabilities
     * `#308 <https://github.com/BCDA-APS/apstools/issues/308>`_
-       manage diffractometer constraints 
+       manage diffractometer constraints
     * `#307 <https://github.com/BCDA-APS/apstools/issues/307>`_
-       add diffractometer emhancements 
+       add diffractometer emhancements
     * `#306 <https://github.com/BCDA-APS/apstools/issues/306>`_
        rename show_ophyd_objects() as listobjects()
     * `#305 <https://github.com/BCDA-APS/apstools/issues/305>`_
@@ -130,7 +132,7 @@ Change History
 :1.1.17:  released *2020-02-09* - hot fixes
 
     * `#277 <https://github.com/BCDA-APS/apstools/issues/277>`_
-       replace .value with .get() 
+       replace .value with .get()
     * `#276 <https://github.com/BCDA-APS/apstools/issues/276>`_
        update ophyd metadata after motor set_lim()
     * `#274 <https://github.com/BCDA-APS/apstools/issues/274>`_
@@ -212,7 +214,7 @@ Change History
     * `#214 <https://github.com/BCDA-APS/apstools/issues/214>`_
        new: ``apstools.utils.APS_utils.replay()``
     * `#213 <https://github.com/BCDA-APS/apstools/issues/213>`_
-       ``list_recent_scans`` show ``exit_status`` 
+       ``list_recent_scans`` show ``exit_status``
     * `#212 <https://github.com/BCDA-APS/apstools/issues/212>`_
        ``list_recent_scans`` show reconstructed scan command
 
@@ -317,7 +319,7 @@ Change History
     * `#130 <https://github.com/BCDA-APS/apstools/issues/130>`_
        fix conda recipe and pip dependencies (thanks to Maksim Rakitin!)
     * `#128 <https://github.com/BCDA-APS/apstools/issues/128>`_
-       SpecWriterCallback.newfile() problem with scan_id = 0 
+       SpecWriterCallback.newfile() problem with scan_id = 0
     * `#127 <https://github.com/BCDA-APS/apstools/issues/127>`_
        fixed: KeyError from SPEC filewriter
     * `#126 <https://github.com/BCDA-APS/apstools/issues/126>`_
