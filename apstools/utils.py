@@ -248,7 +248,7 @@ def listruns(
         exit_status=None,
         **db_search_terms):
     """
-    make a table of the most recent runs (scans), databroker v1 API
+    make a table of the most recent runs (scans)
 
     PARAMETERS
 
