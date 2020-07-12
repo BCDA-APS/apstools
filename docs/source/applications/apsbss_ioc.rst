@@ -126,8 +126,11 @@ without using a screen session.  This is the command::
     iocRun: All initialization complete
     epics>
 
-You should see the IOC shell prompt (``epics> ``).  If you type ``exit``
-or otherwise close the session, the IOC will exit.
+You should see the IOC shell prompt::
+
+    ``epics> ``
+
+If you type ``exit`` or otherwise close the session, the IOC will exit.
 
 
 Shell Script to manage softIoc
