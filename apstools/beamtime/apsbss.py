@@ -577,20 +577,28 @@ def cmd_current(args):
     if len(records) == 0:
         print(f"No current proposals for {args.beamlineName}")
     else:
+        def prop_sorter(prop):
+            return prop["startTime"]
+
+        now = datetime.datetime.now().isoformat(sep=" ")
         table = pyRestTable.Table()
-        table.labels = "id cycle date user(s) title".split()
-        for item in records:
+        table.labels = "id cycle start end user(s) title".split()
+        for item in sorted(records, key=prop_sorter, reverse=True):
             users = trim(",".join([
                 user["lastName"]
                 for user in item["experimenters"]
             ]), 20)
-            table.addRow((
-                item["id"],
-                item["cycle"],
-                item["submittedDate"],
-                users,
-                trim(item["title"]),))
-        print(f"Current Proposal(s) on {args.beamlineName}")
+            # print(item["startTime"], now, item["endTime"])
+            if now <= item["endTime"]:
+                table.addRow((
+                    item["id"],
+                    item["cycle"],
+                    # item["submittedDate"],
+                    item["startTime"],
+                    item["endTime"],
+                    users,
+                    trim(item["title"]),))
+        print(f"Current (and Future) Proposal(s) on {args.beamlineName}")
         print()
         print(table)
 
@@ -599,9 +607,12 @@ def cmd_current(args):
     if len(records) == 0:
         print(f"No current ESAFs for sector {sector}")
     else:
+        def esaf_sorter(prop):
+            return prop["experimentStartDate"]
+
         table = pyRestTable.Table()
         table.labels = "id status start end user(s) title".split()
-        for item in records:
+        for item in sorted(records, key=esaf_sorter, reverse=True):
             users = trim(
                     ",".join([
                     user["lastName"]
