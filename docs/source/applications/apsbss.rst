@@ -44,7 +44,7 @@ The typical information obtained includes:
 * is experiment mail-in?
 
 These PVs are loaded on demand by the local instrument team at the beam line.
-See the :ref:`apsbss_startup` section for details about
+See the :ref:`apsbss_ioc` section for details about
 managing the EPICS PVs.
 
 
@@ -54,7 +54,7 @@ Overview
 We'll demonstrate ``apsbss`` with information for APS beam
 line 9-ID, using PV prefix ``9id:bss:``.
 
-#. Create the PVs in an EPICS IOC
+#. Create the PVs in an EPICS IOC (see section :ref:`apsbss_ioc`)
 #. Initialize PVs with beam line name and APS run cycle number
 #. Set PVs with the Proposal and ESAF ID numbers
 #. Retrieve (& update PVs) information from APS databases
@@ -232,15 +232,14 @@ What Proposal and ESAF ID numbers to use?
 Proposals are usually valid for two years.  To learn what
 proposals are valid for your beam line, use this command
 with your own beam line's name.  The report will provide
-two tables, one for ESAFs for the current cycle and the
-other for proposals
-within the last two years (6 APS cycles)::
+two tables, one for Proposals and the other for ESAFs,
+both filtered for those that end after the current date & time::
 
     $ apsbss current 9id:bss: 9-ID-B,C
     Current (and Future) Proposal(s) on 9-ID-B,C: 2020-07-13 11:03:27.228382
 
     ===== ====== =================== =================== ==================== ========================================
-    id    cycle  start               end                 user(s)              title                                   
+    id    cycle  start               end                 user(s)              title
     ===== ====== =================== =================== ==================== ========================================
     65959 2020-2 2020-07-17 07:00:00 2020-07-20 07:00:00 Chen,Balough,Garw... Investigation of metal ion flux durin...
     66083 2020-2 2020-07-14 07:00:00 2020-07-20 07:00:00 Fang,Shi,Lin         Mapping the mechanical-responsive con...
@@ -249,12 +248,12 @@ within the last two years (6 APS cycles)::
     Current ESAF(s) on sector 9: 2020-07-13 11:03:27.228382
 
     ====== ======== ========== ========== ==================== =================================
-    id     status   start      end        user(s)              title                            
+    id     status   start      end        user(s)              title
     ====== ======== ========== ========== ==================== =================================
     226572 Approved 2020-06-10 2020-09-28 Sterbinsky,Heald,... 9BM Beamline Commissioning 2020-2
-    226612 Approved 2020-06-10 2020-09-28 Chen,Deng,Yao,Jia... Bionanoprobe commissioning       
-    226319 Approved 2020-05-26 2020-09-28 Ilavsky,Maxey,Kuz... Commission 9ID and USAXS         
-    221805 Approved 2020-02-18 2020-12-25 Chen,Deng,Yao,Jia... Bionanoprobe commissioning       
+    226612 Approved 2020-06-10 2020-09-28 Chen,Deng,Yao,Jia... Bionanoprobe commissioning
+    226319 Approved 2020-05-26 2020-09-28 Ilavsky,Maxey,Kuz... Commission 9ID and USAXS
+    221805 Approved 2020-02-18 2020-12-25 Chen,Deng,Yao,Jia... Bionanoprobe commissioning
     ====== ======== ========== ========== ==================== =================================
 
 
@@ -294,6 +293,11 @@ the APS run cycle name.
     title: 2019 National School on Neutron & X-ray Scattering Beamline Practicals - CMS
     totalShiftsRequested: 12
 
+The report is formatted in *YAML* (https://yaml.org)
+which is easy to read and easily converted into a Python
+data structure using ``yaml.load(report_text)``.
+See section :ref:`reading_yaml`.
+
 
 Get ESAF Information
 ++++++++++++++++++++
@@ -314,22 +318,27 @@ must be able to provide the ESAF ID number.
     experimentEndDate: '2020-09-28 08:00:00'
     experimentStartDate: '2020-05-26 08:00:00'
     experimentUsers:
-    - badge: 'text_number_here'
-      badgeNumber: 'text_number_here'
-      email: uuuuuuuuuu@email.fqdn
+    - badge: '86312'
+      badgeNumber: '86312'
+      email: ilavsky@aps.anl.gov
       firstName: Jan
       lastName: Ilavsky
-    - badge: 'text_number_here'
-      badgeNumber: 'text_number_here'
-      email: uuuuuuuuuu@email.fqdn
+    - badge: '53748'
+      badgeNumber: '53748'
+      email: emaxey@aps.anl.gov
       firstName: Evan
       lastName: Maxey
-    - badge: 'text_number_here'
-      badgeNumber: 'text_number_here'
-      email: uuuuuuuuuu@email.fqdn
+    - badge: '64065'
+      badgeNumber: '64065'
+      email: kuzmenko@aps.anl.gov
       firstName: Ivan
       lastName: Kuzmenko
     sector: 09
+
+The report is formatted in *YAML* (https://yaml.org)
+which is easy to read and easily converted into a Python
+data structure using ``yaml.load(report_text)``.
+See section :ref:`reading_yaml`.
 
 
 Update EPICS PVs with Proposal and ESAF
@@ -346,6 +355,15 @@ the PVs::
     $ apsbss update 9id:bss:
     update EPICS 9id:bss:
     connected in 0.105s
+
+If there is a problem with the update process, it should be
+reported in the `status` PV (such as `9id:bss:status`).
+
+.. figure:: ../resources/ui_error_status.png
+   :width: 95%
+
+   Image of ``apsbss.ui`` screen GUI in caQtDM showing
+   `update` command error due to missing beam line name.
 
 
 Clear the EPICS PVs
@@ -429,8 +447,61 @@ APS databases into the IOC.
 
 * :download:`apsbss.db <../../../apstools/beamtime/apsbss.db>`
 
-See the section titled ":ref:`apsbss_startup`"
+See the section titled ":ref:`apsbss_ioc`"
 for the management of the EPICS IOC.
+
+.. _reading_yaml:
+
+Reading YAML in Python
+++++++++++++++++++++++
+
+It's easy to read a YAML string and convert it into a
+Python structure.  Take the example ESAF information shown
+above.  It is available in EPICS PV ``9id:bss:esaf:raw`` which
+is a waveform record containing up to 8kB of text.  This IPython
+session uses PyEpics and YAML to show how to read the text
+from EPICS and convert it back into a Python structure.
+
+.. code-block:: python
+
+    In [1]: import epics, yaml
+
+    In [2]: msg = epics.caget("9id:bss:esaf:raw", as_string=True)
+
+    In [3]: msg
+    Out[3]: "description: We will commission beamline and  USAXS instrument. We will perform experiments\n  with safe beamline standards and test samples (all located at beamline and used\n  for this purpose routinely) to evaluate performance of beamline and instrument.\n  We will perform hardware and software development as needed.\nesafId: 226319\nesafStatus: Approved\nesafTitle: Commission 9ID and USAXS\nexperimentEndDate: '2020-09-28 08:00:00'\nexperimentStartDate: '2020-05-26 08:00:00'\nexperimentUsers:\n- badge: '86312'\n  badgeNumber: '86312'\n  email: ilavsky@aps.anl.gov\n  firstName: Jan\n  lastName: Ilavsky\n- badge: '53748'\n  badgeNumber: '53748'\n  email: emaxey@aps.anl.gov\n  firstName: Evan\n  lastName: Maxey\n- badge: '64065'\n  badgeNumber: '64065'\n  email: kuzmenko@aps.anl.gov\n  firstName: Ivan\n  lastName: Kuzmenko\nsector: 09"
+
+    In [4]: ymsg = yaml.load(msg)
+    /home/beams/JEMIAN/.conda/envs/bluesky_2020_5/bin/ipython:1: YAMLLoadWarning: calling yaml.load() without Loader=... is deprecated, as the default Loader is unsafe. Please read https://msg.pyyaml.org/load for full details.
+      #!/home/beams/JEMIAN/.conda/envs/bluesky_2020_5/bin/python
+
+    In [5]: ymsg
+    Out[5]:
+    {'description': 'We will commission beamline and  USAXS instrument. We will perform experiments with safe beamline standards and test samples (all located at beamline and used for this purpose routinely) to evaluate performance of beamline and instrument. We will perform hardware and software development as needed.',
+    'esafId': 226319,
+    'esafStatus': 'Approved',
+    'esafTitle': 'Commission 9ID and USAXS',
+    'experimentEndDate': '2020-09-28 08:00:00',
+    'experimentStartDate': '2020-05-26 08:00:00',
+    'experimentUsers': [{'badge': '86312',
+      'badgeNumber': '86312',
+      'email': 'ilavsky@aps.anl.gov',
+      'firstName': 'Jan',
+      'lastName': 'Ilavsky'},
+      {'badge': '53748',
+      'badgeNumber': '53748',
+      'email': 'emaxey@aps.anl.gov',
+      'firstName': 'Evan',
+      'lastName': 'Maxey'},
+      {'badge': '64065',
+      'badgeNumber': '64065',
+      'email': 'kuzmenko@aps.anl.gov',
+      'firstName': 'Ivan',
+      'lastName': 'Kuzmenko'}],
+    'sector': '09'}
+
+    In [6]:
+
 
 Downloads
 +++++++++

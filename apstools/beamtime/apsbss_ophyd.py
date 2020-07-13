@@ -58,6 +58,7 @@ class EpicsEsafDevice(Device):
     end_date = Component(EpicsSignal, "endDate", string=True)
     esaf_id = Component(EpicsSignal, "id", string=True)
     esaf_status = Component(EpicsSignal, "status", string=True)
+    raw = Component(EpicsSignal, "raw", string=True)
     sector = Component(EpicsSignal, "sector", string=True)
     start_date = Component(EpicsSignal, "startDate", string=True)
     title = Component(EpicsSignal, "title", string=True)
@@ -152,9 +153,12 @@ class EpicsProposalDevice(Device):
 
     beamline_name = Component(EpicsSignal, "beamline", string=True)
 
+    end_date = Component(EpicsSignal, "endDate", string=True)
     mail_in_flag = Component(EpicsSignal, "mailInFlag", string=True)
     proposal_id = Component(EpicsSignal, "id", string=True)
     proprietary_flag = Component(EpicsSignal, "proprietaryFlag", string=True)
+    raw = Component(EpicsSignal, "raw", string=True)
+    start_date = Component(EpicsSignal, "startDate", string=True)
     submitted_date = Component(EpicsSignal, "submittedDate", string=True)
     title = Component(EpicsSignal, "title", string=True)
     user_last_names = Component(EpicsSignal, "users", string=True)
@@ -181,9 +185,11 @@ class EpicsProposalDevice(Device):
         * ``proposal_id``
         """
         # self.beamline_name.put("")    # user controls this
+        self.end_date.put("")
         self.mail_in_flag.put(0)
         # self.proposal_id.put(-1)      # user controls this
         self.proprietary_flag.put(0)
+        self.start_date.put("")
         self.submitted_date.put("")
         self.title.put("")
         self.user_last_names.put("")
@@ -215,8 +221,10 @@ class EpicsBssDevice(Device):
 
     esaf = Component(EpicsEsafDevice, "esaf:")
     proposal = Component(EpicsProposalDevice, "proposal:")
+    status_msg = Component(EpicsSignal, "status", string=True)
 
     def clear(self):
         """Clear the proposal and ESAF info."""
         self.esaf.clear()
         self.proposal.clear()
+        self.status_msg.put("Cleared")

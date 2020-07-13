@@ -11,6 +11,8 @@
 #    softIoc -m P=ioc:bss: -d apsbss.db
 
 
+record(stringout, "$(P)status")
+
 record(stringout, "$(P)esaf:cycle")
 
 record(waveform, "$(P)esaf:description") {
@@ -21,6 +23,11 @@ record(waveform, "$(P)esaf:description") {
 record(stringout, "$(P)esaf:endDate")
 
 record(stringout, "$(P)esaf:id")
+
+record(waveform, "$(P)esaf:raw") {
+    field(FTVL, "CHAR")
+    field(NELM, 8192)
+}
 
 record(stringout, "$(P)esaf:status")
 
@@ -117,9 +124,12 @@ record(stringout, "$(P)esaf:user9:lastName")
 
 record(stringout, "$(P)proposal:beamline")
 
+record(stringout, "$(P)proposal:endDate")
+
 record(bo, "$(P)proposal:mailInFlag") {
     field(ZNAM, "OFF")
     field(ONAM, "ON")
+    field(VAL, 0)
 }
 
 record(stringout, "$(P)proposal:id")
@@ -127,7 +137,15 @@ record(stringout, "$(P)proposal:id")
 record(bo, "$(P)proposal:proprietaryFlag") {
     field(ZNAM, "OFF")
     field(ONAM, "ON")
+    field(VAL, 0)
 }
+
+record(waveform, "$(P)proposal:raw") {
+    field(FTVL, "CHAR")
+    field(NELM, 8192)
+}
+
+record(stringout, "$(P)proposal:startDate")
 
 record(stringout, "$(P)proposal:submittedDate")
 
@@ -164,6 +182,7 @@ record(stringout, "$(P)proposal:user1:lastName")
 record(bo, "$(P)proposal:user1:piFlag") {
     field(ZNAM, "OFF")
     field(ONAM, "ON")
+    field(VAL, 0)
 }
 
 record(stringout, "$(P)proposal:user1:userId")
@@ -186,6 +205,7 @@ record(stringout, "$(P)proposal:user2:lastName")
 record(bo, "$(P)proposal:user2:piFlag") {
     field(ZNAM, "OFF")
     field(ONAM, "ON")
+    field(VAL, 0)
 }
 
 record(stringout, "$(P)proposal:user2:userId")
@@ -208,6 +228,7 @@ record(stringout, "$(P)proposal:user3:lastName")
 record(bo, "$(P)proposal:user3:piFlag") {
     field(ZNAM, "OFF")
     field(ONAM, "ON")
+    field(VAL, 0)
 }
 
 record(stringout, "$(P)proposal:user3:userId")
@@ -230,6 +251,7 @@ record(stringout, "$(P)proposal:user4:lastName")
 record(bo, "$(P)proposal:user4:piFlag") {
     field(ZNAM, "OFF")
     field(ONAM, "ON")
+    field(VAL, 0)
 }
 
 record(stringout, "$(P)proposal:user4:userId")
@@ -252,6 +274,7 @@ record(stringout, "$(P)proposal:user5:lastName")
 record(bo, "$(P)proposal:user5:piFlag") {
     field(ZNAM, "OFF")
     field(ONAM, "ON")
+    field(VAL, 0)
 }
 
 record(stringout, "$(P)proposal:user5:userId")
@@ -274,6 +297,7 @@ record(stringout, "$(P)proposal:user6:lastName")
 record(bo, "$(P)proposal:user6:piFlag") {
     field(ZNAM, "OFF")
     field(ONAM, "ON")
+    field(VAL, 0)
 }
 
 record(stringout, "$(P)proposal:user6:userId")
@@ -296,6 +320,7 @@ record(stringout, "$(P)proposal:user7:lastName")
 record(bo, "$(P)proposal:user7:piFlag") {
     field(ZNAM, "OFF")
     field(ONAM, "ON")
+    field(VAL, 0)
 }
 
 record(stringout, "$(P)proposal:user7:userId")
@@ -318,6 +343,7 @@ record(stringout, "$(P)proposal:user8:lastName")
 record(bo, "$(P)proposal:user8:piFlag") {
     field(ZNAM, "OFF")
     field(ONAM, "ON")
+    field(VAL, 0)
 }
 
 record(stringout, "$(P)proposal:user8:userId")
@@ -340,6 +366,7 @@ record(stringout, "$(P)proposal:user9:lastName")
 record(bo, "$(P)proposal:user9:piFlag") {
     field(ZNAM, "OFF")
     field(ONAM, "ON")
+    field(VAL, 0)
 }
 
 record(stringout, "$(P)proposal:user9:userId")

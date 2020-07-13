@@ -1,4 +1,4 @@
-.. _apsbss_startup:
+.. _apsbss_ioc:
 
 apsbss: IOC Startup and Management
 ==================================

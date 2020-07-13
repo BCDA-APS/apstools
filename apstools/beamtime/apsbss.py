@@ -116,10 +116,12 @@ def epicsClear(prefix):
     print(f"clear EPICS {prefix}")
     bss = connect_epics(prefix)
 
+    bss.status_msg.put("clear PVs ...")
     t0 = time.time()
     bss.clear()
     t_clear = time.time() - t0
     print(f"cleared in {t_clear:.03f}s")
+    bss.status_msg.put("Done")
 
 
 def epicsUpdate(prefix):
@@ -135,33 +137,42 @@ def epicsUpdate(prefix):
     print(f"update EPICS {prefix}")
     bss = connect_epics(prefix)
 
+    bss.status_msg.put("clearing PVs ...")
     bss.clear()
+
     cycle = bss.esaf.aps_cycle.get()
+
     beamline = bss.proposal.beamline_name.get()
     # sector = bss.esaf.sector.get()
-    esaf_id = bss.esaf.esaf_id.get()
-    proposal_id = bss.proposal.proposal_id.get()
+    esaf_id = bss.esaf.esaf_id.get().strip()
+    proposal_id = bss.proposal.proposal_id.get().strip()
 
     if len(beamline) == 0:
+        bss.status_msg.put(f"undefined: {bss.proposal.beamline_name.pvname}")
         raise ValueError(
             f"must set beamline name in {bss.proposal.beamline_name.pvname}")
     elif beamline not in listAllBeamlines():
-        raise ValueError(f"{beamline} is not known")
+        bss.status_msg.put(f"unrecognized: {beamline}")
+        raise ValueError(f"{beamline} is not recognized")
     if len(cycle) == 0:
+        bss.status_msg.put(f"undefined: {bss.esaf.aps_cycle.pvname}")
         raise ValueError(
             f"must set APS cycle name in {bss.esaf.aps_cycle.pvname}")
     elif cycle not in listAllRuns():
-        raise ValueError(f"{cycle} is not known")
-
-    bss.clear()
+        bss.status_msg.put(f"unrecognized: {cycle}")
+        raise ValueError(f"{cycle} is not recognized")
 
     if len(esaf_id) > 0:
+        bss.status_msg.put(f"get ESAF {esaf_id} from APS ...")
         esaf = getEsaf(esaf_id)
+
+        bss.status_msg.put(f"set ESAF PVs ...")
         bss.esaf.description.put(esaf["description"])
-        bss.esaf.title.put(esaf["esafTitle"])
-        bss.esaf.esaf_status.put(esaf["esafStatus"])
         bss.esaf.end_date.put(esaf["experimentEndDate"])
+        bss.esaf.esaf_status.put(esaf["esafStatus"])
+        bss.esaf.raw.put(yaml.dump(esaf))
         bss.esaf.start_date.put(esaf["experimentStartDate"])
+        bss.esaf.title.put(esaf["esafTitle"])
 
         bss.esaf.user_last_names.put(
             ",".join([user["lastName"] for user in esaf["experimentUsers"]])
@@ -179,9 +190,15 @@ def epicsUpdate(prefix):
                 break
 
     if len(proposal_id) > 0:
+        bss.status_msg.put(f"get Proposal {proposal_id} from APS ...")
         proposal = getProposal(proposal_id, cycle, beamline)
+
+        bss.status_msg.put(f"set Proposal PVs ...")
+        bss.proposal.end_date.put(proposal["endTime"])
         bss.proposal.mail_in_flag.put(proposal["mailInFlag"] in ("Y", "y"))
         bss.proposal.proprietary_flag.put(proposal["proprietaryFlag"] in ("Y", "y"))
+        bss.proposal.raw.put(yaml.dump(proposal))
+        bss.proposal.start_date.put(proposal["startTime"])
         bss.proposal.submitted_date.put(proposal["submittedDate"])
         bss.proposal.title.put(proposal["title"])
 
@@ -203,6 +220,8 @@ def epicsUpdate(prefix):
             obj.pi_flag.put(user.get("piFlag") in ("Y", "y"))
             if i == 9:
                 break
+
+    bss.status_msg.put(f"Done")
 
 
 def epicsSetup(prefix, beamline, cycle=None):
@@ -231,10 +250,14 @@ def epicsSetup(prefix, beamline, cycle=None):
     sector = int(beamline.split("-")[0])
     print(f"setup EPICS {prefix} {beamline} cycle={cycle} sector={sector}")
 
+    bss.status_msg.put("clear PVs ...")
     bss.clear()
+
+    bss.status_msg.put("write PVs ...")
     bss.esaf.aps_cycle.put(cycle)
     bss.proposal.beamline_name.put(beamline)
     bss.esaf.sector.put(str(sector))
+    bss.status_msg.put("Done")
 
 
 def getCurrentCycle():
@@ -593,7 +616,6 @@ def cmd_current(args):
                 table.addRow((
                     item["id"],
                     item["cycle"],
-                    # item["submittedDate"],
                     item["startTime"],
                     item["endTime"],
                     users,

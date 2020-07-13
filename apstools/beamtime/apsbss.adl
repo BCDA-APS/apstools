@@ -8,7 +8,7 @@ display {
 		x=122
 		y=83
 		width=400
-		height=366
+		height=390
 	}
 	clr=14
 	bclr=4
@@ -166,503 +166,732 @@ composite {
 		}
 	}
 }
-"shell command" {
-	object {
-		x=19
-		y=80
-		width=200
-		height=16
-	}
-	command[0] {
-		label="update"
-		name="apsbss"
-		args="update $(P)"
-	}
-	clr=14
-	bclr=51
-	label=" get Proposal and ESAF info"
-}
-"shell command" {
-	object {
-		x=259
-		y=80
-		width=100
-		height=16
-	}
-	command[0] {
-		label="clear"
-		name="apsbss"
-		args="clear $(P)"
-	}
-	clr=14
-	bclr=51
-	label=" clear PVs"
-}
 composite {
 	object {
 		x=10
-		y=101
+		y=120
 		width=380
-		height=120
+		height=259
 	}
 	"composite name"=""
 	children {
-		text {
-			object {
-				x=17
-				y=106
-				width=120
-				height=16
-			}
-			"basic attribute" {
-				clr=14
-			}
-			textix="Proposal"
-		}
-		rectangle {
+		composite {
 			object {
 				x=10
-				y=101
+				y=120
 				width=380
-				height=120
+				height=122
 			}
-			"basic attribute" {
-				clr=14
-				fill="outline"
-				width=2
+			"composite name"=""
+			children {
+				text {
+					object {
+						x=17
+						y=125
+						width=120
+						height=16
+					}
+					"basic attribute" {
+						clr=14
+					}
+					textix="Proposal"
+				}
+				rectangle {
+					object {
+						x=10
+						y=120
+						width=380
+						height=122
+					}
+					"basic attribute" {
+						clr=14
+						fill="outline"
+						width=2
+					}
+				}
+				composite {
+					object {
+						x=39
+						y=150
+						width=344
+						height=16
+					}
+					"composite name"=""
+					children {
+						composite {
+							object {
+								x=179
+								y=150
+								width=71
+								height=16
+							}
+							"composite name"=""
+							children {
+								text {
+									object {
+										x=200
+										y=152
+										width=50
+										height=12
+									}
+									"basic attribute" {
+										clr=14
+									}
+									textix="mail in"
+								}
+								composite {
+									object {
+										x=179
+										y=150
+										width=16
+										height=16
+									}
+									"composite name"=""
+									children {
+										rectangle {
+											object {
+												x=179
+												y=150
+												width=16
+												height=16
+											}
+											"basic attribute" {
+												clr=14
+												fill="outline"
+											}
+											"dynamic attribute" {
+												chan="$(P)proposal:mailInFlag"
+											}
+										}
+										rectangle {
+											object {
+												x=183
+												y=154
+												width=8
+												height=8
+											}
+											"basic attribute" {
+												clr=14
+											}
+											"dynamic attribute" {
+												vis="if not zero"
+												chan="$(P)proposal:mailInFlag"
+											}
+										}
+									}
+								}
+							}
+						}
+						composite {
+							object {
+								x=262
+								y=150
+								width=121
+								height=16
+							}
+							"composite name"=""
+							children {
+								composite {
+									object {
+										x=262
+										y=150
+										width=16
+										height=16
+									}
+									"composite name"=""
+									children {
+										rectangle {
+											object {
+												x=262
+												y=150
+												width=16
+												height=16
+											}
+											"basic attribute" {
+												clr=14
+												fill="outline"
+											}
+											"dynamic attribute" {
+												chan="$(P)proposal:mailInFlag"
+											}
+										}
+										rectangle {
+											object {
+												x=266
+												y=154
+												width=8
+												height=8
+											}
+											"basic attribute" {
+												clr=14
+											}
+											"dynamic attribute" {
+												vis="if not zero"
+												chan="$(P)proposal:proprietaryFlag"
+											}
+										}
+									}
+								}
+								text {
+									object {
+										x=283
+										y=152
+										width=100
+										height=12
+									}
+									"basic attribute" {
+										clr=14
+									}
+									textix="proprietary"
+								}
+							}
+						}
+						composite {
+							object {
+								x=39
+								y=151
+								width=135
+								height=14
+							}
+							"composite name"=""
+							children {
+								text {
+									object {
+										x=39
+										y=151
+										width=30
+										height=14
+									}
+									"basic attribute" {
+										clr=14
+									}
+									textix="ID"
+									align="horiz. right"
+								}
+								"text entry" {
+									object {
+										x=74
+										y=151
+										width=100
+										height=14
+									}
+									control {
+										chan="$(P)proposal:id"
+										clr=14
+										bclr=50
+									}
+									limits {
+									}
+								}
+							}
+						}
+					}
+				}
+				composite {
+					object {
+						x=20
+						y=171
+						width=358
+						height=12
+					}
+					"composite name"=""
+					children {
+						text {
+							object {
+								x=20
+								y=171
+								width=50
+								height=12
+							}
+							"basic attribute" {
+								clr=14
+							}
+							textix="dates"
+							align="horiz. right"
+						}
+						"text entry" {
+							object {
+								x=75
+								y=171
+								width=135
+								height=12
+							}
+							control {
+								chan="$(P)proposal:startDate"
+								clr=14
+								bclr=55
+							}
+							limits {
+							}
+						}
+						text {
+							object {
+								x=215
+								y=171
+								width=22
+								height=12
+							}
+							"basic attribute" {
+								clr=14
+							}
+							textix="to"
+							align="horiz. right"
+						}
+						"text entry" {
+							object {
+								x=243
+								y=171
+								width=135
+								height=12
+							}
+							control {
+								chan="$(P)proposal:endDate"
+								clr=14
+								bclr=55
+							}
+							limits {
+							}
+						}
+					}
+				}
+				composite {
+					object {
+						x=20
+						y=188
+						width=360
+						height=12
+					}
+					"composite name"=""
+					children {
+						text {
+							object {
+								x=20
+								y=188
+								width=50
+								height=12
+							}
+							"basic attribute" {
+								clr=14
+							}
+							textix="title"
+							align="horiz. right"
+						}
+						"text update" {
+							object {
+								x=77
+								y=188
+								width=303
+								height=12
+							}
+							monitor {
+								chan="$(P)proposal:title"
+								clr=14
+								bclr=55
+							}
+							format="string"
+							limits {
+							}
+						}
+					}
+				}
+				composite {
+					object {
+						x=20
+						y=205
+						width=360
+						height=12
+					}
+					"composite name"=""
+					children {
+						text {
+							object {
+								x=20
+								y=205
+								width=50
+								height=12
+							}
+							"basic attribute" {
+								clr=14
+							}
+							textix="users"
+							align="horiz. right"
+						}
+						"text update" {
+							object {
+								x=77
+								y=205
+								width=303
+								height=12
+							}
+							monitor {
+								chan="$(P)proposal:users"
+								clr=14
+								bclr=55
+							}
+							format="string"
+							limits {
+							}
+						}
+					}
+				}
+				composite {
+					object {
+						x=20
+						y=222
+						width=360
+						height=12
+					}
+					"composite name"=""
+					children {
+						"text update" {
+							object {
+								x=77
+								y=222
+								width=303
+								height=12
+							}
+							monitor {
+								chan="$(P)proposal:userBadges"
+								clr=14
+								bclr=55
+							}
+							format="string"
+							limits {
+							}
+						}
+						text {
+							object {
+								x=20
+								y=222
+								width=50
+								height=12
+							}
+							"basic attribute" {
+								clr=14
+							}
+							textix="badges"
+							align="horiz. right"
+						}
+					}
+				}
 			}
 		}
-		text {
-			object {
-				x=20
-				y=150
-				width=50
-				height=12
-			}
-			"basic attribute" {
-				clr=14
-			}
-			textix="mail in"
-			align="horiz. right"
-		}
-		text {
-			object {
-				x=20
-				y=167
-				width=50
-				height=12
-			}
-			"basic attribute" {
-				clr=14
-			}
-			textix="title"
-			align="horiz. right"
-		}
-		"text update" {
-			object {
-				x=77
-				y=167
-				width=303
-				height=12
-			}
-			monitor {
-				chan="$(P)proposal:title"
-				clr=14
-				bclr=55
-			}
-			format="string"
-			limits {
-			}
-		}
-		text {
-			object {
-				x=20
-				y=184
-				width=50
-				height=12
-			}
-			"basic attribute" {
-				clr=14
-			}
-			textix="users"
-			align="horiz. right"
-		}
-		"text update" {
-			object {
-				x=77
-				y=184
-				width=303
-				height=12
-			}
-			monitor {
-				chan="$(P)proposal:users"
-				clr=14
-				bclr=55
-			}
-			format="string"
-			limits {
-			}
-		}
-		"text update" {
-			object {
-				x=77
-				y=201
-				width=303
-				height=12
-			}
-			monitor {
-				chan="$(P)proposal:userBadges"
-				clr=14
-				bclr=55
-			}
-			format="string"
-			limits {
-			}
-		}
-		text {
-			object {
-				x=20
-				y=201
-				width=50
-				height=12
-			}
-			"basic attribute" {
-				clr=14
-			}
-			textix="badges"
-			align="horiz. right"
-		}
-		"choice button" {
-			object {
-				x=75
-				y=151
-				width=80
-				height=12
-			}
-			control {
-				chan="$(P)proposal:mailInFlag"
-				clr=14
-				bclr=55
-			}
-			stacking="column"
-		}
-		text {
-			object {
-				x=160
-				y=151
-				width=100
-				height=12
-			}
-			"basic attribute" {
-				clr=14
-			}
-			textix="proprietary"
-			align="horiz. right"
-		}
-		"choice button" {
-			object {
-				x=265
-				y=152
-				width=80
-				height=12
-			}
-			control {
-				chan="$(P)proposal:proprietaryFlag"
-				clr=14
-				bclr=55
-			}
-			stacking="column"
-		}
-		text {
-			object {
-				x=39
-				y=131
-				width=30
-				height=14
-			}
-			"basic attribute" {
-				clr=14
-			}
-			textix="ID"
-			align="horiz. right"
-		}
-		"text entry" {
-			object {
-				x=74
-				y=131
-				width=100
-				height=14
-			}
-			control {
-				chan="$(P)proposal:id"
-				clr=14
-				bclr=50
-			}
-			limits {
-			}
-		}
-		text {
-			object {
-				x=192
-				y=132
-				width=80
-				height=12
-			}
-			"basic attribute" {
-				clr=14
-			}
-			textix="submitted"
-			align="horiz. right"
-		}
-		"text entry" {
-			object {
-				x=277
-				y=132
-				width=100
-				height=12
-			}
-			control {
-				chan="$(P)proposal:submittedDate"
-				clr=14
-				bclr=55
-			}
-			limits {
-			}
-		}
-	}
-}
-composite {
-	object {
-		x=10
-		y=226
-		width=380
-		height=130
-	}
-	"composite name"=""
-	children {
-		text {
-			object {
-				x=17
-				y=231
-				width=120
-				height=16
-			}
-			"basic attribute" {
-				clr=14
-			}
-			textix="ESAF"
-		}
-		rectangle {
+		composite {
 			object {
 				x=10
-				y=226
+				y=249
 				width=380
 				height=130
 			}
-			"basic attribute" {
-				clr=14
-				fill="outline"
-				width=2
+			"composite name"=""
+			children {
+				text {
+					object {
+						x=17
+						y=254
+						width=120
+						height=16
+					}
+					"basic attribute" {
+						clr=14
+					}
+					textix="ESAF"
+				}
+				rectangle {
+					object {
+						x=10
+						y=249
+						width=380
+						height=130
+					}
+					"basic attribute" {
+						clr=14
+						fill="outline"
+						width=2
+					}
+				}
+				"text entry" {
+					object {
+						x=75
+						y=281
+						width=100
+						height=14
+					}
+					control {
+						chan="$(P)esaf:id"
+						clr=14
+						bclr=50
+					}
+					limits {
+					}
+				}
+				text {
+					object {
+						x=40
+						y=281
+						width=30
+						height=14
+					}
+					"basic attribute" {
+						clr=14
+					}
+					textix="ID"
+					align="horiz. right"
+				}
+				"text entry" {
+					object {
+						x=247
+						y=281
+						width=100
+						height=12
+					}
+					control {
+						chan="$(P)esaf:status"
+						clr=14
+						bclr=55
+					}
+					limits {
+					}
+				}
+				text {
+					object {
+						x=180
+						y=281
+						width=61
+						height=12
+					}
+					"basic attribute" {
+						clr=14
+					}
+					textix="status"
+					align="horiz. right"
+				}
+				text {
+					object {
+						x=20
+						y=317
+						width=50
+						height=12
+					}
+					"basic attribute" {
+						clr=14
+					}
+					textix="title"
+					align="horiz. right"
+				}
+				"text update" {
+					object {
+						x=77
+						y=317
+						width=303
+						height=12
+					}
+					monitor {
+						chan="$(P)esaf:title"
+						clr=14
+						bclr=55
+					}
+					format="string"
+					limits {
+					}
+				}
+				text {
+					object {
+						x=20
+						y=334
+						width=50
+						height=12
+					}
+					"basic attribute" {
+						clr=14
+					}
+					textix="users"
+					align="horiz. right"
+				}
+				"text update" {
+					object {
+						x=77
+						y=334
+						width=303
+						height=12
+					}
+					monitor {
+						chan="$(P)esaf:users"
+						clr=14
+						bclr=55
+					}
+					format="string"
+					limits {
+					}
+				}
+				"text update" {
+					object {
+						x=77
+						y=351
+						width=303
+						height=12
+					}
+					monitor {
+						chan="$(P)esaf:userBadges"
+						clr=14
+						bclr=55
+					}
+					format="string"
+					limits {
+					}
+				}
+				text {
+					object {
+						x=20
+						y=351
+						width=50
+						height=12
+					}
+					"basic attribute" {
+						clr=14
+					}
+					textix="badges"
+					align="horiz. right"
+				}
+				composite {
+					object {
+						x=20
+						y=300
+						width=358
+						height=12
+					}
+					"composite name"=""
+					children {
+						text {
+							object {
+								x=20
+								y=300
+								width=50
+								height=12
+							}
+							"basic attribute" {
+								clr=14
+							}
+							textix="dates"
+							align="horiz. right"
+						}
+						"text entry" {
+							object {
+								x=75
+								y=300
+								width=135
+								height=12
+							}
+							control {
+								chan="$(P)esaf:startDate"
+								clr=14
+								bclr=55
+							}
+							limits {
+							}
+						}
+						text {
+							object {
+								x=215
+								y=300
+								width=22
+								height=12
+							}
+							"basic attribute" {
+								clr=14
+							}
+							textix="to"
+							align="horiz. right"
+						}
+						"text entry" {
+							object {
+								x=243
+								y=300
+								width=135
+								height=12
+							}
+							control {
+								chan="$(P)esaf:endDate"
+								clr=14
+								bclr=55
+							}
+							limits {
+							}
+						}
+					}
+				}
 			}
 		}
-		"text entry" {
+	}
+}
+text {
+	object {
+		x=20
+		y=102
+		width=50
+		height=12
+	}
+	"basic attribute" {
+		clr=14
+	}
+	textix="status"
+	align="horiz. right"
+}
+"text update" {
+	object {
+		x=75
+		y=101
+		width=300
+		height=14
+	}
+	monitor {
+		chan="$(P)status"
+		clr=14
+		bclr=2
+	}
+	limits {
+	}
+}
+composite {
+	object {
+		x=19
+		y=80
+		width=340
+		height=16
+	}
+	"composite name"=""
+	children {
+		"shell command" {
 			object {
-				x=75
-				y=258
+				x=19
+				y=80
+				width=200
+				height=16
+			}
+			command[0] {
+				label="update"
+				name="apsbss"
+				args="update $(P)"
+			}
+			clr=14
+			bclr=51
+			label=" get Proposal and ESAF info"
+		}
+		"shell command" {
+			object {
+				x=259
+				y=80
 				width=100
-				height=14
+				height=16
 			}
-			control {
-				chan="$(P)esaf:id"
-				clr=14
-				bclr=50
+			command[0] {
+				label="clear"
+				name="apsbss"
+				args="clear $(P)"
 			}
-			limits {
-			}
-		}
-		text {
-			object {
-				x=40
-				y=258
-				width=30
-				height=14
-			}
-			"basic attribute" {
-				clr=14
-			}
-			textix="ID"
-			align="horiz. right"
-		}
-		"text entry" {
-			object {
-				x=247
-				y=258
-				width=100
-				height=12
-			}
-			control {
-				chan="$(P)esaf:status"
-				clr=14
-				bclr=55
-			}
-			limits {
-			}
-		}
-		text {
-			object {
-				x=180
-				y=258
-				width=61
-				height=12
-			}
-			"basic attribute" {
-				clr=14
-			}
-			textix="status"
-			align="horiz. right"
-		}
-		text {
-			object {
-				x=20
-				y=277
-				width=50
-				height=12
-			}
-			"basic attribute" {
-				clr=14
-			}
-			textix="dates"
-			align="horiz. right"
-		}
-		"text entry" {
-			object {
-				x=75
-				y=277
-				width=101
-				height=12
-			}
-			control {
-				chan="$(P)esaf:startDate"
-				clr=14
-				bclr=55
-			}
-			limits {
-			}
-		}
-		text {
-			object {
-				x=181
-				y=277
-				width=20
-				height=12
-			}
-			"basic attribute" {
-				clr=14
-			}
-			textix="to"
-			align="horiz. right"
-		}
-		"text entry" {
-			object {
-				x=206
-				y=277
-				width=101
-				height=12
-			}
-			control {
-				chan="$(P)esaf:endDate"
-				clr=14
-				bclr=55
-			}
-			limits {
-			}
-		}
-		text {
-			object {
-				x=20
-				y=294
-				width=50
-				height=12
-			}
-			"basic attribute" {
-				clr=14
-			}
-			textix="title"
-			align="horiz. right"
-		}
-		"text update" {
-			object {
-				x=77
-				y=294
-				width=303
-				height=12
-			}
-			monitor {
-				chan="$(P)esaf:title"
-				clr=14
-				bclr=55
-			}
-			format="string"
-			limits {
-			}
-		}
-		text {
-			object {
-				x=20
-				y=311
-				width=50
-				height=12
-			}
-			"basic attribute" {
-				clr=14
-			}
-			textix="users"
-			align="horiz. right"
-		}
-		"text update" {
-			object {
-				x=77
-				y=311
-				width=303
-				height=12
-			}
-			monitor {
-				chan="$(P)esaf:users"
-				clr=14
-				bclr=55
-			}
-			format="string"
-			limits {
-			}
-		}
-		"text update" {
-			object {
-				x=77
-				y=328
-				width=303
-				height=12
-			}
-			monitor {
-				chan="$(P)esaf:userBadges"
-				clr=14
-				bclr=55
-			}
-			format="string"
-			limits {
-			}
-		}
-		text {
-			object {
-				x=20
-				y=328
-				width=50
-				height=12
-			}
-			"basic attribute" {
-				clr=14
-			}
-			textix="badges"
-			align="horiz. right"
+			clr=14
+			bclr=51
+			label=" clear PVs"
 		}
 	}
 }
