@@ -171,7 +171,6 @@ def main():
         head = f'record({rtyp}, "$(P){pvname}")'
         fields = []
         if rtyp == "waveform" and len(parts) == 3:
-            length = parts[-1]
             fields.append('field(FTVL, "CHAR")')
             fields.append('field(NELM, {length})')
             # fields.append('field(VAL, 0)')

@@ -420,7 +420,7 @@ class SpecWriterCallback(object):
             # "#MD" is our ad hoc SPEC data tag
             lines.append(f"#MD {k} = {v}")
 
-        lines.append(f"#P0 ")
+        lines.append("#P0 ")
 
         lines.append("#N " + str(len(self.data.keys())))
         if len(self.data.keys()) > 0:
@@ -471,8 +471,8 @@ class SpecWriterCallback(object):
         lines.append(f"#E {self.spec_epoch}")
         lines.append(f"#D {datetime.datetime.strftime(dt, SPEC_TIME_FORMAT)}")
         lines.append(f"#C Bluesky  user = {self.spec_user}  host = {self.spec_host}")
-        lines.append(f"#O0 ")
-        lines.append(f"#o0 ")
+        lines.append("#O0 ")
+        lines.append("#o0 ")
         lines.append("")
 
         if os.path.exists(self.spec_filename):
@@ -1179,7 +1179,7 @@ class NXWriter(FileWriterCallbackBase):
 
         primary = parent["/entry/instrument/bluesky/streams/primary"]
 
-        group = self.create_NX_group(parent, f"detectors:NXnote")
+        group = self.create_NX_group(parent, "detectors:NXnote")
         for k, v in primary.items():
             if v.attrs.get("signal_type") != "detector":
                 continue
@@ -1327,7 +1327,7 @@ class NXWriter(FileWriterCallbackBase):
 
         primary = parent["/entry/instrument/bluesky/streams/primary"]
 
-        group = self.create_NX_group(parent, f"positioners:NXnote")
+        group = self.create_NX_group(parent, "positioners:NXnote")
         for k, v in primary.items():
             if v.attrs.get("signal_type") != "positioner":
                 continue
