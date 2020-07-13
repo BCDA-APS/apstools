@@ -237,29 +237,25 @@ other for proposals
 within the last two years (6 APS cycles)::
 
     $ apsbss current 9id:bss: 9-ID-B,C
-    Current Proposal(s) on 9-ID-B,C
+    Current (and Future) Proposal(s) on 9-ID-B,C: 2020-07-13 11:03:27.228382
 
-    ===== ====== =================== ==================== ========================================
-    id    cycle  date                user(s)              title
-    ===== ====== =================== ==================== ========================================
-    57504 2019-3 2017-10-27 15:31:46 Zhang,Levine,Long... Towards USAXS/SAXS/WAXS Characterizat...
-    55236 2019-2 2017-07-07 12:32:39 Du,Vacek,Syed,Hon... Developing 3D cryo ptychography at th...
-    64629 2019-2 2019-03-01 18:35:02 Ilavsky,Okasinski    2019 National School on Neutron & X-r...
-    62490 2019-1 2018-10-25 11:10:49 Ilavsky,Frith,Sun    Dissolution of nano-precipitates in m...
-    ===== ====== =================== ==================== ========================================
+    ===== ====== =================== =================== ==================== ========================================
+    id    cycle  start               end                 user(s)              title                                   
+    ===== ====== =================== =================== ==================== ========================================
+    65959 2020-2 2020-07-17 07:00:00 2020-07-20 07:00:00 Chen,Balough,Garw... Investigation of metal ion flux durin...
+    66083 2020-2 2020-07-14 07:00:00 2020-07-20 07:00:00 Fang,Shi,Lin         Mapping the mechanical-responsive con...
+    ===== ====== =================== =================== ==================== ========================================
 
-    Current ESAF(s) on sector 9
+    Current ESAF(s) on sector 9: 2020-07-13 11:03:27.228382
 
-    ====== ======== ========== ========== ==================== ========================================
-    id     status   start      end        user(s)              title
-    ====== ======== ========== ========== ==================== ========================================
-    221805 Approved 2020-02-18 2020-12-25 Chen,Deng,Yao,Jia... Bionanoprobe commissioning
-    226319 Approved 2020-05-26 2020-09-28 Ilavsky,Maxey,Kuz... Commission 9ID and USAXS
+    ====== ======== ========== ========== ==================== =================================
+    id     status   start      end        user(s)              title                            
+    ====== ======== ========== ========== ==================== =================================
     226572 Approved 2020-06-10 2020-09-28 Sterbinsky,Heald,... 9BM Beamline Commissioning 2020-2
-    226612 Approved 2020-06-10 2020-09-28 Chen,Deng,Yao,Jia... Bionanoprobe commissioning
-    ====== ======== ========== ========== ==================== ========================================
-
-Note that some of the information in the tables above has been removed for brevity.
+    226612 Approved 2020-06-10 2020-09-28 Chen,Deng,Yao,Jia... Bionanoprobe commissioning       
+    226319 Approved 2020-05-26 2020-09-28 Ilavsky,Maxey,Kuz... Commission 9ID and USAXS         
+    221805 Approved 2020-02-18 2020-12-25 Chen,Deng,Yao,Jia... Bionanoprobe commissioning       
+    ====== ======== ========== ========== ==================== =================================
 
 
 View Proposal Information

@@ -598,7 +598,7 @@ def cmd_current(args):
                     item["endTime"],
                     users,
                     trim(item["title"]),))
-        print(f"Current (and Future) Proposal(s) on {args.beamlineName}")
+        print(f"Current (and Future) Proposal(s) on {args.beamlineName}: {now}")
         print()
         print(table)
 
@@ -627,7 +627,7 @@ def cmd_current(args):
                 users,
                 trim(item["esafTitle"], 40),
                 ))
-        print(f"Current ESAF(s) on sector {sector}")
+        print(f"Current ESAF(s) on sector {sector}: {now}")
         print()
         print(table)
 
