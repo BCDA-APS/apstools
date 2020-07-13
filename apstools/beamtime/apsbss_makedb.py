@@ -172,13 +172,13 @@ def main():
         fields = []
         if rtyp == "waveform" and len(parts) == 3:
             length = parts[-1]
-            fields.append(f'field(FTVL, "CHAR")')
-            fields.append(f'field(NELM, {length})')
-            # fields.append(f'field(VAL, 0)')
+            fields.append('field(FTVL, "CHAR")')
+            fields.append('field(NELM, {length})')
+            # fields.append('field(VAL, 0)')
         elif rtyp == "bo":
-            fields.append(f'field(ZNAM, "OFF")')
-            fields.append(f'field(ONAM, "ON")')
-            fields.append(f'field(VAL, 0)')
+            fields.append('field(ZNAM, "OFF")')
+            fields.append('field(ONAM, "ON")')
+            fields.append('field(VAL, 0)')
         record = head
         if len(fields) > 0:
             field_specs = "\n".join([f"    {field}" for field in fields])

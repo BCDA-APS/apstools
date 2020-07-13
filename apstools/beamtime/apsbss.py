@@ -166,7 +166,7 @@ def epicsUpdate(prefix):
         bss.status_msg.put(f"get ESAF {esaf_id} from APS ...")
         esaf = getEsaf(esaf_id)
 
-        bss.status_msg.put(f"set ESAF PVs ...")
+        bss.status_msg.put("set ESAF PVs ...")
         bss.esaf.description.put(esaf["description"])
         bss.esaf.end_date.put(esaf["experimentEndDate"])
         bss.esaf.esaf_status.put(esaf["esafStatus"])
@@ -193,7 +193,7 @@ def epicsUpdate(prefix):
         bss.status_msg.put(f"get Proposal {proposal_id} from APS ...")
         proposal = getProposal(proposal_id, cycle, beamline)
 
-        bss.status_msg.put(f"set Proposal PVs ...")
+        bss.status_msg.put("set Proposal PVs ...")
         bss.proposal.end_date.put(proposal["endTime"])
         bss.proposal.mail_in_flag.put(proposal["mailInFlag"] in ("Y", "y"))
         bss.proposal.proprietary_flag.put(proposal["proprietaryFlag"] in ("Y", "y"))
@@ -221,7 +221,7 @@ def epicsUpdate(prefix):
             if i == 9:
                 break
 
-    bss.status_msg.put(f"Done")
+    bss.status_msg.put("Done")
 
 
 def epicsSetup(prefix, beamline, cycle=None):
