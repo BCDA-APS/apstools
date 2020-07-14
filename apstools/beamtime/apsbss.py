@@ -597,13 +597,13 @@ def cmd_current(args):
         Object returned by ``argparse``
     """
     records = getCurrentProposals(args.beamlineName)
+    now = datetime.datetime.now().isoformat(sep=" ")
     if len(records) == 0:
         print(f"No current proposals for {args.beamlineName}")
     else:
         def prop_sorter(prop):
             return prop["startTime"]
 
-        now = datetime.datetime.now().isoformat(sep=" ")
         table = pyRestTable.Table()
         table.labels = "id cycle start end user(s) title".split()
         for item in sorted(records, key=prop_sorter, reverse=True):
