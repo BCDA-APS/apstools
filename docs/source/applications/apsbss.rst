@@ -270,17 +270,17 @@ the APS run cycle name.
     duration: 36000
     endTime: '2019-06-25 17:00:00'
     experimenters:
-    - badge: 'text_number_here'
-      email: uuuuuuuuuu@email.fqdn
+    - badge: '86312'
+      email: ilavsky@aps.anl.gov
       firstName: Jan
-      id: number_here
+      id: 424292
       instId: 3927
       institution: Argonne National Laboratory
       lastName: Ilavsky
-    - badge: 'text_number_here'
-      email: uuuuuuuuuu@email.fqdn
+    - badge: '85283'
+      email: okasinski@aps.anl.gov
       firstName: John
-      id: number_here
+      id: 424308
       instId: 3927
       institution: Argonne National Laboratory
       lastName: Okasinski
