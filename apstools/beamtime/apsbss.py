@@ -597,7 +597,7 @@ def cmd_current(args):
         Object returned by ``argparse``
     """
     records = getCurrentProposals(args.beamlineName)
-    now = datetime.datetime.now().isoformat(sep=" ")
+    tNow = datetime.datetime.now().isoformat(sep=" ")
     if len(records) == 0:
         print(f"No current proposals for {args.beamlineName}")
     else:
@@ -611,8 +611,8 @@ def cmd_current(args):
                 user["lastName"]
                 for user in item["experimenters"]
             ]), 20)
-            # print(item["startTime"], now, item["endTime"])
-            if now <= item["endTime"]:
+            # print(item["startTime"], tNow, item["endTime"])
+            if tNow <= item["endTime"]:
                 table.addRow((
                     item["id"],
                     item["cycle"],
@@ -620,7 +620,7 @@ def cmd_current(args):
                     item["endTime"],
                     users,
                     trim(item["title"]),))
-        print(f"Current (and Future) Proposal(s) on {args.beamlineName}: {now}")
+        print(f"Current (and Future) Proposal(s) on {args.beamlineName}: {tNow}")
         print()
         print(table)
 
@@ -649,7 +649,7 @@ def cmd_current(args):
                 users,
                 trim(item["esafTitle"], 40),
                 ))
-        print(f"Current ESAF(s) on sector {sector}: {now}")
+        print(f"Current ESAF(s) on sector {sector}: {tNow}")
         print()
         print(table)
 
