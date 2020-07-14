@@ -58,7 +58,7 @@ class EpicsEsafDevice(Device):
     end_date = Component(EpicsSignal, "endDate", string=True)
     esaf_id = Component(EpicsSignal, "id", string=True)
     esaf_status = Component(EpicsSignal, "status", string=True)
-    raw = Component(EpicsSignal, "raw", string=True)
+    raw = Component(EpicsSignal, "raw", string=True, kind="omitted")
     sector = Component(EpicsSignal, "sector", string=True)
     start_date = Component(EpicsSignal, "startDate", string=True)
     title = Component(EpicsSignal, "title", string=True)
@@ -157,7 +157,7 @@ class EpicsProposalDevice(Device):
     mail_in_flag = Component(EpicsSignal, "mailInFlag", string=True)
     proposal_id = Component(EpicsSignal, "id", string=True)
     proprietary_flag = Component(EpicsSignal, "proprietaryFlag", string=True)
-    raw = Component(EpicsSignal, "raw", string=True)
+    raw = Component(EpicsSignal, "raw", string=True, kind="omitted")
     start_date = Component(EpicsSignal, "startDate", string=True)
     submitted_date = Component(EpicsSignal, "submittedDate", string=True)
     title = Component(EpicsSignal, "title", string=True)
@@ -221,7 +221,7 @@ class EpicsBssDevice(Device):
 
     esaf = Component(EpicsEsafDevice, "esaf:")
     proposal = Component(EpicsProposalDevice, "proposal:")
-    status_msg = Component(EpicsSignal, "status", string=True)
+    status_msg = Component(EpicsSignal, "status", string=True, kind="omitted")
 
     def clear(self):
         """Clear the proposal and ESAF info."""
