@@ -8,6 +8,14 @@ Change History
 
 :1.3.0:  release expected by 2020-07-15
 
+    * `#351 <https://github.com/BCDA-APS/apstools/issues/351>`_
+       apsbss: put raw info into PV
+    * `#350 <https://github.com/BCDA-APS/apstools/issues/350>`_
+       apsbss: clarify meaning of reported dates
+    * `#349 <https://github.com/BCDA-APS/apstools/issues/349>`_
+       apsbss: add "next" subcommand
+    * `#347 <https://github.com/BCDA-APS/apstools/issues/347>`_
+       some apbss files not published
     * `#346 <https://github.com/BCDA-APS/apstools/pull/346>`_
        publish fails to push conda packages
     * `#344 <https://github.com/BCDA-APS/apstools/pull/344>`_
