@@ -52,6 +52,7 @@ APPLICATION
 
 import datetime
 import dm               # APS data management library
+import logging
 import os
 import pyRestTable
 import sys
@@ -60,6 +61,8 @@ import yaml
 
 from .apsbss_ophyd import EpicsBssDevice
 
+#logger = logging.getLogger(__name__).addHandler(logging.NullHandler())
+logger = logging.getLogger(__name__)
 
 DM_APS_DB_WEB_SERVICE_URL = "https://xraydtn01.xray.aps.anl.gov:11236"
 CONNECT_TIMEOUT = 5
@@ -94,12 +97,11 @@ def connect_epics(prefix):
     bss = EpicsBssDevice(prefix, name="bss")
     while not bss.connected and time.time() < t_timeout:
         time.sleep(POLL_INTERVAL)
-    # printColumns(bss.read_attrs, width=40, numColumns=2)
     if not bss.connected:
         raise EpicsNotConnected(
             f"Did not connect with EPICS {prefix} in {CONNECT_TIMEOUT}s")
     t_connect = time.time() - t0
-    print(f"connected in {t_connect:.03f}s")
+    logger.debug("connected in %.03fs", t_connect)
     return bss
 
 
@@ -113,14 +115,14 @@ def epicsClear(prefix):
     prefix (str):
         EPICS PV prefix
     """
-    print(f"clear EPICS {prefix}")
+    logger.debug("clear EPICS %s", prefix)
     bss = connect_epics(prefix)
 
     bss.status_msg.put("clear PVs ...")
     t0 = time.time()
     bss.clear()
     t_clear = time.time() - t0
-    print(f"cleared in {t_clear:.03f}s")
+    logger.debug("cleared in %.03fs", t_clear)
     bss.status_msg.put("Done")
 
 
@@ -134,7 +136,7 @@ def epicsUpdate(prefix):
     prefix (str):
         EPICS PV prefix
     """
-    print(f"update EPICS {prefix}")
+    logger.debug("update EPICS %s", prefix)
     bss = connect_epics(prefix)
 
     bss.status_msg.put("clearing PVs ...")
@@ -248,7 +250,9 @@ def epicsSetup(prefix, beamline, cycle=None):
 
     cycle = cycle or getCurrentCycle()
     sector = int(beamline.split("-")[0])
-    print(f"setup EPICS {prefix} {beamline} cycle={cycle} sector={sector}")
+    logger.debug(
+        "setup EPICS %s %s cycle=%s sector=%s",
+        prefix, beamline, cycle, sector)
 
     bss.status_msg.put("clear PVs ...")
     bss.clear()
@@ -304,12 +308,12 @@ def getCurrentInfo(beamline):
 
     matches = []
     for esaf in api_esaf.listEsafs(sector=sector, year=tNow.year):
-        print(f"ESAF {esaf['esafId']}: {esaf['esafTitle']}")
+        logger.debug("ESAF %s: %s", esaf['esafId'], esaf['esafTitle'])
         esaf_badges = [user["badge"] for user in esaf["experimentUsers"]]
         for run in listRecentRuns():
             for proposal in api_bss.listProposals(beamlineName=beamline,
                                                   runName=run):
-                print(f"proposal {proposal['id']}: {proposal['title']}")
+                logger.debug("proposal %s: %s", proposal['id'], proposal['title'])
                 count = 0
                 for user in proposal["experimenters"]:
                     if user["badge"] in esaf_badges:
@@ -583,7 +587,7 @@ def cmd_cycles(args):
                 entry["name"],
                 entry["startTime"],
                 entry["endTime"], ))
-        print(table)
+        logger.debug("%s", str(table))
     else:
         printColumns(listAllRuns())
 
@@ -599,7 +603,7 @@ def cmd_current(args):
     records = getCurrentProposals(args.beamlineName)
     tNow = datetime.datetime.now().isoformat(sep=" ")
     if len(records) == 0:
-        print(f"No current proposals for {args.beamlineName}")
+        logger.debug("No current proposals for %s", args.beamlineName)
     else:
         def prop_sorter(prop):
             return prop["startTime"]
@@ -611,7 +615,7 @@ def cmd_current(args):
                 user["lastName"]
                 for user in item["experimenters"]
             ]), 20)
-            # print(item["startTime"], tNow, item["endTime"])
+            # logger.debug("%s %s %s", item["startTime"], tNow, item["endTime"])
             if tNow <= item["endTime"]:
                 table.addRow((
                     item["id"],
@@ -620,14 +624,14 @@ def cmd_current(args):
                     item["endTime"],
                     users,
                     trim(item["title"]),))
-        print(f"Current (and Future) Proposal(s) on {args.beamlineName}: {tNow}")
-        print()
-        print(table)
+        logger.debug(
+            "Current (and Future) Proposal(s) on %s: %s\n\n%s",
+            args.beamlineName, tNow, str(table))
 
     sector = args.beamlineName.split("-")[0]
     records = getCurrentEsafs(sector)
     if len(records) == 0:
-        print(f"No current ESAFs for sector {sector}")
+        logger.debug("No current ESAFs for sector %s", sector)
     else:
         def esaf_sorter(prop):
             return prop["experimentStartDate"]
@@ -649,9 +653,9 @@ def cmd_current(args):
                 users,
                 trim(item["esafTitle"], 40),
                 ))
-        print(f"Current ESAF(s) on sector {sector}: {tNow}")
-        print()
-        print(table)
+        logger.debug(
+            "Current (and Future) ESAF(s) on sector %s: %s\n\n%s",
+            sector, tNow, str(table))
 
 
 def cmd_esaf(args):
@@ -665,11 +669,11 @@ def cmd_esaf(args):
     """
     try:
         esaf = getEsaf(args.esafId)
-        print(yaml.dump(esaf))
+        logger.debug("%s", yaml.dump(esaf))
     except DmRecordNotFound as exc:
-        print(exc)
+        logger.debug("%s", exc)
     except dm.DmException as exc:
-        print(f"dm reported: {exc}")
+        logger.debug("dm reported: %s", exc)
 
 
 def cmd_proposal(args):
@@ -683,11 +687,11 @@ def cmd_proposal(args):
     """
     try:
         proposal = getProposal(args.proposalId, args.cycle, args.beamlineName)
-        print(yaml.dump(proposal))
+        logger.debug("%s", yaml.dump(proposal))
     except DmRecordNotFound as exc:
-        print(exc)
+        logger.debug("%s", exc)
     except dm.DmException as exc:
-        print(f"dm reported: {exc}")
+        logger.debug("dm reported: %s", exc)
 
 
 def cmd_report(args):
