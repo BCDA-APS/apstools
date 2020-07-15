@@ -251,7 +251,7 @@ def epicsSetup(prefix, beamline, cycle=None):
     cycle = cycle or getCurrentCycle()
     sector = int(beamline.split("-")[0])
     logger.debug(
-        "setup EPICS %s %s cycle=%s sector=%s", 
+        "setup EPICS %s %s cycle=%s sector=%s",
         prefix, beamline, cycle, sector)
 
     bss.status_msg.put("clear PVs ...")
@@ -625,7 +625,7 @@ def cmd_current(args):
                     users,
                     trim(item["title"]),))
         logger.debug(
-            "Current (and Future) Proposal(s) on %s: %s\n\n%s", 
+            "Current (and Future) Proposal(s) on %s: %s\n\n%s",
             args.beamlineName, tNow, str(table))
 
     sector = args.beamlineName.split("-")[0]
@@ -654,7 +654,7 @@ def cmd_current(args):
                 trim(item["esafTitle"], 40),
                 ))
         logger.debug(
-            "Current (and Future) ESAF(s) on sector %s: %s\n\n%s", 
+            "Current (and Future) ESAF(s) on sector %s: %s\n\n%s",
             sector, tNow, str(table))
 
 
