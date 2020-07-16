@@ -1672,7 +1672,7 @@ def AD_setup_FrameType(prefix, scheme="NeXus"):
     the `AD_FrameType_schemes` dictionary, defining storage values for the
     fields of the EPICS `mbbo` record that you will be using.
 
-    see: https://github.com/BCDA-APS/use_bluesky/blob/master/notebooks/images_darks_flats.ipynb
+    see: https://github.com/BCDA-APS/use_bluesky/blob/master/lessons/sandbox/images_darks_flats.ipynb
 
     EXAMPLE::
 
