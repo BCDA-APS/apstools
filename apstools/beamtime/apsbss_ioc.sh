@@ -14,6 +14,7 @@ SESSION_NAME=${2:-"${DEFAULT_SESSION_NAME}"}
 IOC_PREFIX=${3:-"${DEFAULT_IOC_PREFIX}"}
 
 IOC_BINARY=softIoc
+CAPUT=caput
 EPICS_DATABASE=apsbss.db
 START_IOC_COMMAND="${IOC_BINARY} -m P=${IOC_PREFIX} -d ${EPICS_DATABASE}"
 
@@ -106,7 +107,11 @@ function restart() {
 }
 
 function run_ioc() {
+    # only use this for diagnostic purposes
     exit_if_running
+    echo "After IOC starts, need to execute these two commands from linux command line:"
+    echo "   ${CAPUT} ${IOC_PREFIX}ioc_host ${HOSTNAME}"
+    echo "   ${CAPUT} ${IOC_PREFIX}ioc_user ${USER}"
     ${START_IOC_COMMAND}
 }
 
@@ -127,7 +132,10 @@ function start() {
         cd "${IOC_STARTUP_DIR}"
         # Run SESSION_NAME inside a screen session
         CMD="screen -dm -S ${SESSION_NAME} -h 5000 ${START_IOC_COMMAND}"
-        $CMD
+        ${CMD}
+        sleep 1
+        "${CAPUT}" "${IOC_PREFIX}ioc_host" "${HOSTNAME}"
+        "${CAPUT}" "${IOC_PREFIX}ioc_user" "${USER}"
     fi
 }
 

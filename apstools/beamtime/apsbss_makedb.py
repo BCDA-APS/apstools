@@ -14,6 +14,8 @@ This is just a service program to make the ``.db`` file.
 
 raw_data = """
 status	stringout
+ioc_host	stringout
+ioc_user	stringout
 esaf:cycle	stringout
 esaf:description	waveform	4096
 esaf:endDate	stringout
@@ -172,7 +174,7 @@ def main():
         fields = []
         if rtyp == "waveform" and len(parts) == 3:
             fields.append('field(FTVL, "CHAR")')
-            fields.append('field(NELM, {length})')
+            fields.append(f'field(NELM, {parts[2]})')
             # fields.append('field(VAL, 0)')
         elif rtyp == "bo":
             fields.append('field(ZNAM, "OFF")')

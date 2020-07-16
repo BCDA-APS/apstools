@@ -214,14 +214,14 @@ class Test_MakeDatabase(unittest.TestCase):
         from tests.common import Capture_stdout
         with Capture_stdout() as db:
             apsbss_makedb.main()
-        self.assertEqual(len(db), 372)
+        self.assertEqual(len(db), 376)
         self.assertEqual(db[0], "#")
         self.assertEqual(db[1], "# file: apsbss.db")
         # randomly-selected spot checks
         self.assertEqual(db[13], 'record(stringout, "$(P)status")')
-        self.assertEqual(db[24], 'record(stringout, "$(P)esaf:id")')
-        self.assertEqual(db[130], '    field(ONAM, "ON")')
-        self.assertEqual(db[273], 'record(bo, "$(P)proposal:user5:piFlag") {')
+        self.assertEqual(db[28], 'record(stringout, "$(P)esaf:id")')
+        self.assertEqual(db[134], '    field(ONAM, "ON")')
+        self.assertEqual(db[277], 'record(bo, "$(P)proposal:user5:piFlag") {')
 
 
 class Test_ProgramCommands(unittest.TestCase):
