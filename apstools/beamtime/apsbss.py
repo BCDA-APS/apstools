@@ -197,8 +197,8 @@ def epicsUpdate(prefix):
 
         bss.status_msg.put("set Proposal PVs ...")
         bss.proposal.end_date.put(proposal["endTime"])
-        bss.proposal.mail_in_flag.put(proposal["mailInFlag"] in ("Y", "y"))
-        bss.proposal.proprietary_flag.put(proposal["proprietaryFlag"] in ("Y", "y"))
+        bss.proposal.mail_in_flag.put(proposal.get("mailInFlag") in ("Y", "y"))
+        bss.proposal.proprietary_flag.put(proposal.get("proprietaryFlag") in ("Y", "y"))
         bss.proposal.raw.put(yaml.dump(proposal))
         bss.proposal.start_date.put(proposal["startTime"])
         bss.proposal.submitted_date.put(proposal["submittedDate"])
