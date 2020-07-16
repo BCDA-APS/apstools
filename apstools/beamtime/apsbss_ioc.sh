@@ -134,8 +134,8 @@ function start() {
         CMD="screen -dm -S ${SESSION_NAME} -h 5000 ${START_IOC_COMMAND}"
         ${CMD}
         sleep 1
-        ${CAPUT} ${IOC_PREFIX}ioc_host ${HOSTNAME}
-        ${CAPUT} ${IOC_PREFIX}ioc_user ${USER}
+        "${CAPUT}" "${IOC_PREFIX}ioc_host" "${HOSTNAME}"
+        "${CAPUT}" "${IOC_PREFIX}ioc_user" "${USER}"
     fi
 }
 
