@@ -12,7 +12,7 @@ if _path not in sys.path:
 
 def suite(*args, **kw):
 
-    from tests import test_beamtime
+    from tests import test_apsbss
     from tests import test_simple
     from tests import test_filewriter
     from tests import test_export_json
@@ -26,7 +26,7 @@ def suite(*args, **kw):
         test_exceltable,
         test_commandlist,
         test_utils,
-        test_beamtime,
+        test_apsbss,
         ]
 
     test_suite = unittest.TestSuite()
