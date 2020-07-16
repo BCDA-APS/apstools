@@ -221,6 +221,9 @@ class EpicsBssDevice(Device):
 
     esaf = Component(EpicsEsafDevice, "esaf:")
     proposal = Component(EpicsProposalDevice, "proposal:")
+
+    ioc_host = Component(EpicsSignal, "ioc_host", string=True, kind="omitted")
+    ioc_user = Component(EpicsSignal, "ioc_user", string=True, kind="omitted")
     status_msg = Component(EpicsSignal, "status", string=True, kind="omitted")
 
     def clear(self):
