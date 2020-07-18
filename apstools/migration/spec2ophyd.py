@@ -308,8 +308,14 @@ class SpecCounter(ItemNameBase):
         suffix = None
         if "misc_par_1" in self.cntpar:
             suffix = self.cntpar.pop("misc_par_1")
-            pvname = f"{self.device.prefix}{suffix}"
-            s = f"{self.mne} = EpicsSignal('{pvname}', name='{self.mne}', labels=('detectors',))"
+            if self.device is None:
+                self.ignore = True
+            else:
+                prefix = self.device.prefix
+                pvname = f"{prefix}{suffix}"
+                s = f"{self.mne} = EpicsSignal("
+                s += f"'{pvname}', name='{self.mne}', labels=('detectors',)"
+                s += ")"
         if self.ignore:
             s = f"# {self.config_line}: {self.raw}"
         if len(self.cntpar) > 0:
