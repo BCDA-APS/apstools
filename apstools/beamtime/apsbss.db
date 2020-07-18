@@ -54,6 +54,10 @@ record(waveform, "$(P)esaf:users") {
     field(NELM, 1024)
 }
 
+record(longout, "$(P)esaf:users_in_pvs")
+
+record(longout, "$(P)esaf:users_total")
+
 record(stringout, "$(P)esaf:user1:badgeNumber")
 
 record(stringout, "$(P)esaf:user1:email")
@@ -167,6 +171,10 @@ record(waveform, "$(P)proposal:users") {
     field(FTVL, "CHAR")
     field(NELM, 1024)
 }
+
+record(longout, "$(P)proposal:users_in_pvs")
+
+record(longout, "$(P)proposal:users_total")
 
 record(stringout, "$(P)proposal:user1:badgeNumber")
 

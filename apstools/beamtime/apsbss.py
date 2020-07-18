@@ -188,8 +188,10 @@ def epicsUpdate(prefix):
             obj.email.put(user["email"])
             obj.first_name.put(user["firstName"])
             obj.last_name.put(user["lastName"])
-            if i == 9:
+            obj.number_users_in_pvs.put(i+1)
+            if i == 8:
                 break
+        obj.number_users_total.put(len(esaf["experimentUsers"]))
 
     if len(proposal_id) > 0:
         bss.status_msg.put(f"get Proposal {proposal_id} from APS ...")
@@ -220,8 +222,10 @@ def epicsUpdate(prefix):
             obj.institution_id.put(str(user["instId"]))
             obj.user_id.put(str(user["id"]))
             obj.pi_flag.put(user.get("piFlag") in ("Y", "y"))
-            if i == 9:
+            obj.number_users_in_pvs.put(i+1)
+            if i == 8:
                 break
+        obj.number_users_total.put(len(proposal["experimenters"]))
 
     bss.status_msg.put("Done")
 

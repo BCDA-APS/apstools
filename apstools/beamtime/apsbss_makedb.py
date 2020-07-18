@@ -27,6 +27,8 @@ esaf:startDate	stringout
 esaf:title	waveform	1024
 esaf:userBadges	waveform	1024
 esaf:users	waveform	1024
+esaf:users_in_pvs	longout
+esaf:users_total	longout
 esaf:user1:badgeNumber	stringout
 esaf:user1:email	stringout
 esaf:user1:firstName	stringout
@@ -74,6 +76,8 @@ proposal:submittedDate	stringout
 proposal:title	waveform	1024
 proposal:userBadges	waveform	1024
 proposal:users	waveform	1024
+proposal:users_in_pvs	longout
+proposal:users_total	longout
 proposal:user1:badgeNumber	stringout
 proposal:user1:email	stringout
 proposal:user1:firstName	stringout
