@@ -19,6 +19,7 @@ EXAMPLE::
 
 __all__ = ["EpicsBssDevice",]
 
+from ..plans import addDeviceDataAsStream
 from ophyd import Component, Device, EpicsSignal
 
 
@@ -231,3 +232,8 @@ class EpicsBssDevice(Device):
         self.esaf.clear()
         self.proposal.clear()
         self.status_msg.put("Cleared")
+
+    def addDeviceDataAsStream(self, stream_name=None):
+        """write the data as streams"""
+        stream_name = stream_name or "apsbss"
+        yield from addDeviceDataAsStream(self, stream_name)
