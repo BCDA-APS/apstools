@@ -19,24 +19,46 @@ python:
 # install:
 #   - pip install -r requirements.txt
 
-before_script:
+install:
+  # see: https://docs.conda.io/projects/conda/en/latest/user-guide/tasks/use-conda-with-travis-ci.html
   - wget http://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh -O miniconda.sh
-  - chmod +x miniconda.sh
   - bash miniconda.sh -b -p $HOME/miniconda
-  - export PATH=$HOME/miniconda/bin:$PATH
+  - hash -r
+  - conda config --set always_yes yes --set changeps1 no
+  - conda update -q conda
+  # Useful for debugging any issues with conda
+  - conda info -a
+
+  # edit the python version into the YAML file
   - export PY_ENV=travis-$TRAVIS_PYTHON_VERSION
-  - export MY_CONDA_CHANNELS="-c apsu -c conda-forge -c nsls2forge -c defaults -c aps-anl-tag"
-  - export MY_CONDA_PACKAGES="aps-dm-api bluesky>=1.6.2 coverage databroker>=1.0.6 docopt epics-base numpy ophyd>=1.5.1 pyepics>=3.4.2 pandas requests xlrd"
-  - conda create -y -n $PY_ENV $MY_CONDA_CHANNELS python=$TRAVIS_PYTHON_VERSION $MY_CONDA_PACKAGES
-  - source activate $PY_ENV
-  - which pip
-  - which python
-  - which conda
-  - pip install -r requirements.txt
-  - pip install -r requirements-dev.txt
+  - sed -i s:python\>=3.6.0:python=${TRAVIS_PYTHON_VERSION}:g environment.yml
+
+  # - conda create -q -n test-environment python=$TRAVIS_PYTHON_VERSION dep1 dep2 ...
+  - conda env create -n ${PY_ENV} -f environment.yml
+  - conda activate ${PY_ENV}
+  - python setup.py install
   - conda list
   - python --version
   - which coveralls
+
+  # before_script:
+  # - wget http://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh -O miniconda.sh
+  # - chmod +x miniconda.sh
+  # - bash miniconda.sh -b -p $HOME/miniconda
+  # - export PATH=$HOME/miniconda/bin:$PATH
+  # - export PY_ENV=travis-$TRAVIS_PYTHON_VERSION
+  # - export MY_CONDA_CHANNELS="-c apsu -c conda-forge -c nsls2forge -c defaults -c aps-anl-tag"
+  # - export MY_CONDA_PACKAGES="aps-dm-api bluesky>=1.6.2 coverage databroker>=1.0.6 docopt epics-base numpy ophyd>=1.5.1 pyepics>=3.4.2 pandas requests xlrd"
+  # - conda create -y -n $PY_ENV $MY_CONDA_CHANNELS python=$TRAVIS_PYTHON_VERSION $MY_CONDA_PACKAGES
+  # - source activate $PY_ENV
+  # - which pip
+  # - which python
+  # - which conda
+  # - pip install -r requirements.txt
+  # - pip install -r requirements-dev.txt
+  # - conda list
+  # - python --version
+  # - which coveralls
 
 # command to run tests
 script:
