@@ -8,6 +8,8 @@ Change History
 
 :1.3.1:  release expected 2020-07-19
 
+    * `#378 <https://github.com/BCDA-APS/apstools/pull/378>`_
+      apsbss_ioc.sh: add checkup (keep-alive feature for the IOC)
     * `#376 <https://github.com/BCDA-APS/apstools/pull/376>`_
       apsbss: example beam line-specific shell scripts
     * `#375 <https://github.com/BCDA-APS/apstools/pull/375`_
