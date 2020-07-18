@@ -436,6 +436,21 @@ Start caQtDM with this command: ``caQtDM -macro "P=9id:bss:" apsbss.ui &``
 
 Start MEDM with this command: ``medm -x -macro "P=9id:bss:" apsbss.ui &``
 
+Here's an example starter script for caQtDM from APS 9-ID-C (USAXS):
+
+.. code-block:: bash
+
+    #!/bin/bash
+
+    BLUESKY_ROOT=/APSshare/anaconda3/Bluesky
+    APSTOOLS_PKG=${BLUESKY_ROOT}/lib/python3.7/site-packages/apstools
+    GUI_SCREEN=${APSTOOLS_PKG}/beamtime/apsbss.ui
+    CAQTDM=/APSshare/bin/caQtDM
+
+    source ${BLUESKY_ROOT}/bin/activate
+    ${CAQTDM} -macro P=9idc:bss: ${GUI_SCREEN} &
+
+
 IOC Management
 ++++++++++++++
 

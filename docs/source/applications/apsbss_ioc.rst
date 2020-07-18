@@ -166,3 +166,25 @@ from EPICS base, use the supplied IOC management shell script
     session so that it remains running even if you close the
     console session.  Confirm that you have the ``screen`` application
     first before trying to start the IOC.
+
+
+Here's an example starter script for the IOC from APS 9-ID-C (USAXS):
+
+.. code-block:: bash
+
+    #!/bin/bash
+
+    PROCESS_NAME=ioc9idcbss
+    IOC_PREFIX=9idc:bss:
+
+    # need shell script and EPICS database file
+    BLUESKY=/APSshare/anaconda3/Bluesky
+    APSTOOLS=${BLUESKY}/lib/python3.7/site-packages/apstools
+
+    source ${BLUESKY}/bin/activate base
+
+    # need EPICS base/bin/softIoc from this path
+    export PATH=${PATH}:/APSshare/epics/base-7.0.3/bin/${EPICS_HOST_ARCH}
+
+    cd "${APSTOOLS}"/beamtime
+    ./apsbss_ioc.sh  "${@}"  "${PROCESS_NAME}" "${IOC_PREFIX}"
