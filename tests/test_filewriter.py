@@ -190,6 +190,7 @@ class Test_NXWriter(MyTestBase):
             self.assertNotEqual(axes[0], signal)
 
     def test_make_file_name(self):
+        import datetime, dateutil.tz
         callback = apstools.filewriters.NXWriter()
 
         self.assertIsNone(callback.file_path)
@@ -222,7 +223,15 @@ class Test_NXWriter(MyTestBase):
         callback.uid = "012345678901234567890123456789"
 
         fname = callback.make_file_name()
-        expected = "19691231-181640"
+        # https://github.com/BCDA-APS/apstools/issues/345
+        tz_aps = dateutil.tz.gettz("America/Chicago")
+        tz_local = dateutil.tz.tzlocal()
+        # datetime at the APS: 1969-12-31-18:16:40"
+        dt = datetime.datetime.fromtimestamp(callback.start_time, tz_aps)
+        # datetime on the local python test workstation
+        dt_local = dt.astimezone(tz_local)
+        # render `expected` in local time zone
+        expected = dt_local.strftime("%Y%m%d-%H%M%S")
         expected += f"-S{9876:05d}"
         expected += "-0123456"
         expected += f".{apstools.filewriters.NEXUS_FILE_EXTENSION}"
