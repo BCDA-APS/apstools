@@ -182,7 +182,7 @@ def epicsUpdate(prefix):
         bss.esaf.user_badges.put(
             ",".join([user["badge"] for user in esaf["experimentUsers"]])
         )
-        obj.number_users_in_pvs.put(0)
+        bss.esaf.number_users_in_pvs.put(0)
         for i, user in enumerate(esaf["experimentUsers"]):
             obj = getattr(bss.esaf, f"user{i+1}")
             obj.badge_number.put(user["badge"])
@@ -213,7 +213,7 @@ def epicsUpdate(prefix):
         bss.proposal.user_badges.put(
             ",".join([user["badge"] for user in proposal["experimenters"]])
         )
-        obj.number_users_in_pvs.put(0)
+        bss.proposal.number_users_in_pvs.put(0)
         for i, user in enumerate(proposal["experimenters"]):
             obj = getattr(bss.proposal, f"user{i+1}")
             obj.badge_number.put(user["badge"])
