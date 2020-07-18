@@ -6,6 +6,27 @@ read SPEC config file and convert to ophyd setup commands
 output of ophyd configuration to stdout
 
 *new in apstools release 1.1.7*
+
+**USAGE**
+
+.. code-block:: bash
+
+    user@host ~ $ ./spec2ophyd.py
+    usage: spec2ophyd.py [-h] [-v] configFileName
+    spec2ophyd.py: error: the following arguments are required: configFileName
+    
+    user@host ~ $ ./spec2ophyd.py -h
+    usage: spec2ophyd.py [-h] [-v] configFileName
+
+    read SPEC config file and convert to ophyd setup commands
+
+    positional arguments:
+    configFileName  SPEC config file name
+
+    optional arguments:
+    -h, --help      show this help message and exit
+    -v, --version   print version number and exit
+
 """
 
 
@@ -222,7 +243,6 @@ class SpecMotor(ItemNameBase):
         return s
 
 
-
 class SpecCounter(ItemNameBase):
     """
     SPEC configuration of a counter channel
@@ -372,8 +392,39 @@ def create_ophyd_setup(spec_config):
         print(f"{device.ophyd_config()}")
 
 
+def get_options():
+    """Handle command line arguments."""
+    global parser
+    import argparse
+    import os
+    import sys
+    from apstools._version import get_versions
+
+    version = get_versions()['version']
+
+    parser = argparse.ArgumentParser(
+        prog=os.path.split(sys.argv[0])[-1],
+        description=__doc__.strip().splitlines()[0],
+        )
+
+    parser.add_argument('-v',
+                        '--version',
+                        action='version',
+                        help='print version number and exit',
+                        version=version)
+
+    parser.add_argument(
+        'configFileName',
+        type=str,
+        help="SPEC config file name")
+
+    return parser.parse_args()
+
+
 def main():
-    spec_cfg = SpecConfig(CONFIG_FILE)
+    args = get_options()
+    config_file = args.configFileName
+    spec_cfg = SpecConfig(config_file)
     spec_cfg.read_config()
     create_ophyd_setup(spec_cfg)
 
