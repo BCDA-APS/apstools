@@ -59,8 +59,6 @@ import sys
 import time
 import yaml
 
-from .apsbss_ophyd import EpicsBssDevice
-
 #logger = logging.getLogger(__name__).addHandler(logging.NullHandler())
 logger = logging.getLogger(__name__)
 
@@ -92,6 +90,8 @@ def connect_epics(prefix):
     prefix (str):
         EPICS PV prefix
     """
+    from .apsbss_ophyd import EpicsBssDevice
+
     t0 = time.time()
     t_timeout = t0 + CONNECT_TIMEOUT
     bss = EpicsBssDevice(prefix, name="bss")
