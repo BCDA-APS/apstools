@@ -78,6 +78,12 @@ function checkpid() {
     return ${IOC_DOWN}
 }
 
+function checkup () {
+    if ! checkpid; then
+        restart
+    fi
+}
+
 function console () {
     if checkpid; then
         echo "Connecting to ${SCREEN_SESSION}'s screen session"
@@ -158,7 +164,7 @@ function stop() {
 }
 
 function usage() {
-    echo "Usage: $(basename "${SHELL_SCRIPT_NAME}") {start|stop|restart|status|console|run} [NAME [PREFIX]]"
+    echo "Usage: $(basename "${SHELL_SCRIPT_NAME}") {start|stop|restart|status|checkup|console|run} [NAME [PREFIX]]"
     echo ""
     echo "    COMMANDS"
     echo "        console   attach to IOC console if IOC is running in screen"
@@ -180,6 +186,7 @@ case ${SELECTION} in
     stop | kill) stop ;;
     restart) restart ;;
     status) status ;;
+    checkup) checkup ;;
     console) console ;;
     run) run_ioc ;;
     *) usage ;;

@@ -168,7 +168,9 @@ from EPICS base, use the supplied IOC management shell script
     first before trying to start the IOC.
 
 
-Here's an example starter script for the IOC from APS 9-ID-C (USAXS):
+Here's an example starter script for the IOC from APS 9-ID-C (USAXS).  
+This shell script is stored as file `~/bin/ioc9idcbss.sh` with
+executable permissions:
 
 .. code-block:: bash
 
@@ -188,3 +190,12 @@ Here's an example starter script for the IOC from APS 9-ID-C (USAXS):
 
     cd "${APSTOOLS}"/beamtime
     ./apsbss_ioc.sh  "${@}"  "${PROCESS_NAME}" "${IOC_PREFIX}"
+
+
+
+Here's an example cron task for the IOC from APS 9-ID-C (USAXS)
+to keep the softIoc running (and start the IOC after system reboot):
+
+.. code-block:: text
+
+     */2 * * * * /home/beams/USAXS/bin/ioc9idcbss.sh checkup 2>&1 > /dev/null
