@@ -59,6 +59,8 @@ class EpicsEsafDevice(Device):
     end_date = Component(EpicsSignal, "endDate", string=True)
     esaf_id = Component(EpicsSignal, "id", string=True)
     esaf_status = Component(EpicsSignal, "status", string=True)
+    number_users_in_pvs = Component(EpicsSignal, "users_in_pvs")
+    number_users_total = Component(EpicsSignal, "users_total")
     raw = Component(EpicsSignal, "raw", string=True, kind="omitted")
     sector = Component(EpicsSignal, "sector", string=True)
     start_date = Component(EpicsSignal, "startDate", string=True)
@@ -156,14 +158,16 @@ class EpicsProposalDevice(Device):
 
     end_date = Component(EpicsSignal, "endDate", string=True)
     mail_in_flag = Component(EpicsSignal, "mailInFlag", string=True)
+    number_users_in_pvs = Component(EpicsSignal, "users_in_pvs")
+    number_users_total = Component(EpicsSignal, "users_total")
     proposal_id = Component(EpicsSignal, "id", string=True)
     proprietary_flag = Component(EpicsSignal, "proprietaryFlag", string=True)
     raw = Component(EpicsSignal, "raw", string=True, kind="omitted")
     start_date = Component(EpicsSignal, "startDate", string=True)
     submitted_date = Component(EpicsSignal, "submittedDate", string=True)
     title = Component(EpicsSignal, "title", string=True)
-    user_last_names = Component(EpicsSignal, "users", string=True)
     user_badges = Component(EpicsSignal, "userBadges", string=True)
+    user_last_names = Component(EpicsSignal, "users", string=True)
 
     _max_users = 9    # 9 users at most?
     user1 = Component(EpicsProposalExperimenterDevice, "user1:")
