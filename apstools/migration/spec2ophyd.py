@@ -330,7 +330,7 @@ class SpecConfig(object):
     """
 
     def __init__(self, config_file):
-        self.config_file = config_file or CONFIG_FILE
+        self.config_file = config_file
         self.devices = OrderedDict()
         self.scalers = []
         self.collection = []
