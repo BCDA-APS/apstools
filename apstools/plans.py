@@ -288,16 +288,16 @@ def lineup(
             x_range = abs(max(ps.x_data) - min(ps.x_data))
 
             if final is None:
-                logger.error(f"centroid is None")
+                logger.error("centroid is None")
                 final = old_position
             elif fwhm is None:
-                logger.error(f"FWHM is None")
+                logger.error("FWHM is None")
                 final = old_position
             elif hi < peak_factor*lo:
-                logger.error(f"no clear peak: {hi} < {peak_factor}*{lo}")
+                logger.error("no clear peak: %f < %f*%f", hi, peak_factor, lo)
                 final = old_position
             elif fwhm > width_factor*x_range:
-                logger.error(f"FWHM too large: {fwhm} > {width_factor}*{x_range}")
+                logger.error("FWHM too large: %f > %f*%f", fwhm, width_factor, x_range)
                 final = old_position
             else:
                 aligned = True

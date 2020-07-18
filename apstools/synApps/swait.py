@@ -47,7 +47,7 @@ from ophyd.device import (
 from ophyd import EpicsSignal
 from ophyd.signal import EpicsSignalBase
 
-from ._common import EpicsRecordDeviceCommonAll, EpicsRecordFloatFields
+from ._common import EpicsRecordDeviceCommonAll
 from .. import utils as APS_utils
 
 __all__ = """
