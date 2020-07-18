@@ -37,6 +37,7 @@ install:
   - python setup.py install
 
   - conda list
+  - pip list
   - python --version
   - which coveralls
 
