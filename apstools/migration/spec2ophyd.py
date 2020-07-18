@@ -422,8 +422,7 @@ def get_options():
 
 def main():
     args = get_options()
-    config_file = args.configFileName
-    spec_cfg = SpecConfig(config_file)
+    spec_cfg = SpecConfig(args.configFileName)
     spec_cfg.read_config()
     create_ophyd_setup(spec_cfg)
 
