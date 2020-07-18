@@ -14,7 +14,7 @@ output of ophyd configuration to stdout
     user@host ~ $ ./spec2ophyd.py
     usage: spec2ophyd.py [-h] [-v] configFileName
     spec2ophyd.py: error: the following arguments are required: configFileName
-    
+
     user@host ~ $ ./spec2ophyd.py -h
     usage: spec2ophyd.py [-h] [-v] configFileName
 
@@ -394,7 +394,6 @@ def create_ophyd_setup(spec_config):
 
 def get_options():
     """Handle command line arguments."""
-    global parser
     import argparse
     import os
     import sys
