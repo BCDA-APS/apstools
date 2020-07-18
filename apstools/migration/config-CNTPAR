@@ -129,3 +129,5 @@ CNTPAR:misc_par_1 = .S13
 CNT028 = EPICS_PV  0 12      1 0x000    fla13  fla13
 CNTPAR:misc_par_1 = .S14
 CNT029 = EPICS_PV  2  0      1 0x000      TC1  TC1
+CNT030 =     NONE  5  0      1 0x000  Filters  Filter
+CNTPAR:misc_par_1 = 0
