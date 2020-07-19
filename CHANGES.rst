@@ -6,7 +6,7 @@ Change History
 
 :1.3.2:  release expected -tba-
 
-:1.3.1:  release expected 2020-07-19
+:1.3.1:  released 2020-07-18
 
     * `#378 <https://github.com/BCDA-APS/apstools/pull/378>`_
       apsbss_ioc.sh: add checkup (keep-alive feature for the IOC)
