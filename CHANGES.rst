@@ -36,7 +36,7 @@ Change History
 :1.3.0:  release expected by 2020-07-15
 
     * add NeXus writer callback
-    * add ``apsbss` : APS experiment metadata support
+    * add ``apsbss`` : APS experiment metadata support
     * `#351 <https://github.com/BCDA-APS/apstools/issues/351>`_
        apsbss: put raw info into PV
     * `#350 <https://github.com/BCDA-APS/apstools/issues/350>`_
