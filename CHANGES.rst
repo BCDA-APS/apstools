@@ -9,29 +9,29 @@ Change History
 :1.3.1:  released 2020-07-18
 
     * `#378 <https://github.com/BCDA-APS/apstools/pull/378>`_
-      apsbss_ioc.sh: add checkup (keep-alive feature for the IOC)
+       apsbss_ioc.sh: add checkup (keep-alive feature for the IOC)
     * `#376 <https://github.com/BCDA-APS/apstools/pull/376>`_
-      apsbss: example beam line-specific shell scripts
+       apsbss: example beam line-specific shell scripts
     * `#375 <https://github.com/BCDA-APS/apstools/pull/375>`_
-      apsbss: add PVs for numbers of users
+       apsbss: add PVs for numbers of users
     * `#374 <https://github.com/BCDA-APS/apstools/pull/374>`_
-      apsbss_ophyd: addDeviceDataAsStream() from USAXS
+       apsbss_ophyd: addDeviceDataAsStream() from USAXS
     * `#373 <https://github.com/BCDA-APS/apstools/pull/373>`_
-      account for time zone when testing datetime-based file name
+       account for time zone when testing datetime-based file name
     * `#371 <https://github.com/BCDA-APS/apstools/pull/371>`_
-      update & simplify the travis-ci setup
+       update & simplify the travis-ci setup
     * `#369 <https://github.com/BCDA-APS/apstools/pull/369>`_
-      spec2ophyd: handle NONE in SPEC counters
+       spec2ophyd: handle NONE in SPEC counters
     * `#368 <https://github.com/BCDA-APS/apstools/pull/368>`_
-      spec2ophyd: config file as command-line argument
+       spec2ophyd: config file as command-line argument
     * `#367 <https://github.com/BCDA-APS/apstools/pull/367>`_
-      apsbss: move ophyd import from main
+       apsbss: move ophyd import from main
     * `#364 <https://github.com/BCDA-APS/apstools/pull/364>`_
-      apsbss: add PVs for ioc_host and ioc_user
+       apsbss: add PVs for ioc_host and ioc_user
     * `#363 <https://github.com/BCDA-APS/apstools/pull/363>`_
-      Handle when mailInFlag not provided
+       Handle when mailInFlag not provided
     * `#360 <https://github.com/BCDA-APS/apstools/pull/360>`_
-      prefer logging to print
+       prefer logging to print
 
 :1.3.0:  release expected by 2020-07-15
 
