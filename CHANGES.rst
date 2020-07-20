@@ -6,7 +6,7 @@ Change History
 
 :1.3.2:  release expected -tba-
 
-:1.3.2:  release expected 2020-07-20
+:1.3.2:  released 2020-07-20
 
     * `#380 <https://github.com/BCDA-APS/apstools/pull/380>`_
        apsbss: fix object references
