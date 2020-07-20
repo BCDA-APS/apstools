@@ -141,10 +141,11 @@ from EPICS base, use the supplied IOC management shell script
 ``apsbss_ioc.sh``::
 
 	$ apsbss_ioc.sh
-	Usage: apsbss_ioc.sh {start|stop|restart|status|console|run} [NAME [PREFIX]]
+	Usage: apsbss_ioc.sh {start|stop|restart|status|checkup|console|run} [NAME [PREFIX]]
 
 		COMMANDS
 			console   attach to IOC console if IOC is running in screen
+			checkup   check that IOC is running, restart if not
 			restart   restart IOC
 			run       run IOC in console (not screen)
 			start     start IOC

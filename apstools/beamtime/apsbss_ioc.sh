@@ -168,6 +168,7 @@ function usage() {
     echo ""
     echo "    COMMANDS"
     echo "        console   attach to IOC console if IOC is running in screen"
+    echo "        checkup   check that IOC is running, restart if not"
     echo "        restart   restart IOC"
     echo "        run       run IOC in console (not screen)"
     echo "        start     start IOC"
