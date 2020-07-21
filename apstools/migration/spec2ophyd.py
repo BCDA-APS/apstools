@@ -335,6 +335,11 @@ class SpecConfig(object):
         self.scalers = []
         self.collection = []
         self.unhandled = []
+    
+    def find_pv_in_collection(self, pv):
+        for obj in self.collection:
+            if pv == obj.pvname:
+                return obj
 
     def read_config(self, config_file=None):
         self.config_file = config_file or self.config_file
@@ -382,6 +387,19 @@ class SpecConfig(object):
                                 self.scalers.append(pvname)
                                 self.collection.append(scaler)
 
+                        if counter.pvname is None:
+                            scaler = None
+                        else:
+                            scaler = self.find_pv_in_collection(
+                                counter.pvname.split(".")[0])
+                        if scaler is not None:
+                            # clock = scaler.channels.chan01.s
+                            fmt = "%s = %s.channels.chan%02d.s"
+                            reassignment = fmt % (
+                                counter.mne, 
+                                scaler.name, 
+                                counter.chan+1)
+                            counter = reassignment
                         self.collection.append(counter)
                 elif re.match("MOT\d*", line) is not None:
                     motor = SpecMotor(line)
@@ -392,8 +410,28 @@ class SpecConfig(object):
 
 
 def create_ophyd_setup(spec_config):
+    print('"""')
+    print("ophyd commands from SPEC config file")
+    print()
+    print(f"file: {spec_config.config_file}")
+    print()
+    print("CAUTION: Review the object names below before using them!")
+    print("    Some names may not be valid python identifiers")
+    print("    or may be reserved (such as ``time`` or ``del``)")
+    print("    or may be vulnerable to re-definition because")
+    print("    they are short or common.")
+    print('"""')
+    print()
+    print("from ophyd import EpicsMotor, EpicsSignal")
+    print("from ophyd.scaler import ScalerCH")
+    print()
     for device in spec_config.collection:
-        print(f"{device.ophyd_config()}")
+        if hasattr(device, "ophyd_config"):
+            print(f"{device.ophyd_config()}")
+            if hasattr(device, "signal_name") and device.signal_name == "ScalerCH":
+                print(f"{device.name}.select_channels(None)")
+        else:
+            print(device)
 
 
 def get_options():
