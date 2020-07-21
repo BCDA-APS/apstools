@@ -335,7 +335,7 @@ class SpecConfig(object):
         self.scalers = []
         self.collection = []
         self.unhandled = []
-    
+
     def find_pv_in_collection(self, pv):
         for obj in self.collection:
             if pv == obj.pvname:
@@ -396,8 +396,8 @@ class SpecConfig(object):
                             # clock = scaler.channels.chan01.s
                             fmt = "%s = %s.channels.chan%02d.s"
                             reassignment = fmt % (
-                                counter.mne, 
-                                scaler.name, 
+                                counter.mne,
+                                scaler.name,
                                 counter.chan+1)
                             counter = reassignment
                         self.collection.append(counter)
