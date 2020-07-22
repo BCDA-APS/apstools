@@ -570,6 +570,7 @@ def get_options():
 
     return parser.parse_args()
 
+
 def cmd_cycles(args):
     """
     Handle ``cycles`` command.
@@ -593,9 +594,10 @@ def cmd_cycles(args):
                 entry["name"],
                 entry["startTime"],
                 entry["endTime"], ))
-        logger.debug("%s", str(table))
+        print(str(table))
     else:
         printColumns(listAllRuns())
+
 
 def cmd_current(args):
     """
@@ -609,7 +611,7 @@ def cmd_current(args):
     records = getCurrentProposals(args.beamlineName)
     tNow = datetime.datetime.now().isoformat(sep=" ")
     if len(records) == 0:
-        logger.debug("No current proposals for %s", args.beamlineName)
+        print(f"No current proposals for {args.beamlineName}")
     else:
         def prop_sorter(prop):
             return prop["startTime"]
@@ -630,14 +632,14 @@ def cmd_current(args):
                     item["endTime"],
                     users,
                     trim(item["title"]),))
-        logger.debug(
-            "Current (and Future) Proposal(s) on %s: %s\n\n%s",
-            args.beamlineName, tNow, str(table))
+        print(
+            "Current (and Future) Proposal(s) on"
+            f" {args.beamlineName}: {tNow}\n\n{table}")
 
     sector = args.beamlineName.split("-")[0]
     records = getCurrentEsafs(sector)
     if len(records) == 0:
-        logger.debug("No current ESAFs for sector %s", sector)
+        print(f"No current ESAFs for sector {sector}")
     else:
         def esaf_sorter(prop):
             return prop["experimentStartDate"]
@@ -659,9 +661,9 @@ def cmd_current(args):
                 users,
                 trim(item["esafTitle"], 40),
                 ))
-        logger.debug(
-            "Current (and Future) ESAF(s) on sector %s: %s\n\n%s",
-            sector, tNow, str(table))
+        print(
+            "Current (and Future) ESAF(s) on sector"
+            f" {sector}: {tNow}\n\n{table}")
 
 
 def cmd_esaf(args):
@@ -675,11 +677,11 @@ def cmd_esaf(args):
     """
     try:
         esaf = getEsaf(args.esafId)
-        logger.debug("%s", yaml.dump(esaf))
+        print(yaml.dump(esaf))
     except DmRecordNotFound as exc:
-        logger.debug("%s", exc)
+        print(exc)
     except dm.DmException as exc:
-        logger.debug("dm reported: %s", exc)
+        print("dm reported: {exc}")
 
 
 def cmd_proposal(args):
@@ -693,11 +695,11 @@ def cmd_proposal(args):
     """
     try:
         proposal = getProposal(args.proposalId, args.cycle, args.beamlineName)
-        logger.debug("%s", yaml.dump(proposal))
+        print(yaml.dump(proposal))
     except DmRecordNotFound as exc:
-        logger.debug("%s", exc)
+        print(exc)
     except dm.DmException as exc:
-        logger.debug("dm reported: %s", exc)
+        print("dm reported: {exc}")
 
 
 def cmd_report(args):
