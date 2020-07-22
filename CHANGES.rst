@@ -4,7 +4,12 @@
 Change History
 ##############
 
-:1.3.2:  release expected -tba-
+:1.3.4:  release expected -tba-
+
+:1.3.3:  released 2020-07-22
+
+    * `#384 <https://github.com/BCDA-APS/apstools/pull/384>`_
+       apsbss: print, not log from commands
 
 :1.3.2:  released 2020-07-20
 
