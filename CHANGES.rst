@@ -10,6 +10,8 @@ Change History
 
     * `#384 <https://github.com/BCDA-APS/apstools/pull/384>`_
        apsbss: print, not log from commands
+    * `#382 <https://github.com/BCDA-APS/apstools/pull/382>`_
+       spec2ophyd analyses
 
 :1.3.2:  released 2020-07-20
 
