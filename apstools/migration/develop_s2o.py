@@ -1,15 +1,16 @@
 #!/usr/bin/env python
 
 """
-test spec2ophyd
+develop spec2ophyd
 """
 
+import os
 import spec2ophyd
 import sys
 
 
 def main():
-    cf = "config-CNTPAR"
+    cf = os.path.join(os.path.dirname(__file__), "config-MOTPAR")
     sys.argv.append(cf)
     spec2ophyd.main()
 
