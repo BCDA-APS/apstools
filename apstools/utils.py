@@ -1461,7 +1461,7 @@ def redefine_motor_position(motor, new_position):
     yield from bps.mv(motor.set_use_switch, 0)
 
 
-def quantify_md_key_use(key=None, db=None, catalog_name=None, since=None, until=None, query={}):
+def quantify_md_key_use(key=None, db=None, catalog_name=None, since=None, until=None, query=None):
     """
     print table of different ``key`` values and how many times each appears
 
@@ -1493,9 +1493,9 @@ def quantify_md_key_use(key=None, db=None, catalog_name=None, since=None, until=
         quantify_md_key_use(key="proposal_id")
         quantify_md_key_use(key="plan_name", catalog_name="9idc", since="2020-07")
         quantify_md_key_use(key="beamline_id", catalog_name="9idc")
-        quantify_md_key_use(key="beamline_id", 
-                            catalog_name="9idc", 
-                            query={'plan_name': 'Flyscan'}, 
+        quantify_md_key_use(key="beamline_id",
+                            catalog_name="9idc",
+                            query={'plan_name': 'Flyscan'},
                             since="2020",
                             until="2020-06-21 21:51")
         quantify_md_key_use(catalog_name="8id", since="2020-01", until="2020-03")
@@ -1510,13 +1510,13 @@ def quantify_md_key_use(key=None, db=None, catalog_name=None, since=None, until=
         databroker.queries.TimeRange(since=since, until=until)
     ).search(query)
 
-    ids = []
+    items = []
     while True:
-        runs = cat.search({key:{'$exists': True, '$nin': ids}})
+        runs = cat.search({key:{'$exists': True, '$nin': items}})
         if len(runs) == 0:
             break
         else:
-            ids.append(runs.v1[-1].start.get(key))
+            items.append(runs.v1[-1].start.get(key))
 
     def sorter(key):
         if key is None:
@@ -1525,6 +1525,6 @@ def quantify_md_key_use(key=None, db=None, catalog_name=None, since=None, until=
 
     table = pyRestTable.Table()
     table.labels = f"{key} #runs".split()
-    for id in sorted(ids, key=sorter):
-        table.addRow((id, len(cat.search({key: id}))))
+    for item in sorted(items, key=sorter):
+        table.addRow((item, len(cat.search({key: item}))))
     print(table)
