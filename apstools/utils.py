@@ -1467,22 +1467,28 @@ def quantify_md_key_use(key=None, db=None, catalog_name=None, since=None, until=
 
     PARAMETERS
 
-    key : str
+    key
+        *str* :
         one of the metadata keys in a run's start document
         (default: ``plan_name``)
-    db : object
+    db
+        *object* :
         Instance of databroker v1 ``Broker`` or v2 ``catalog``
         (default: see ``catalog_name`` keyword argument)
-    catalog_name : str
+    catalog_name
+        *str* :
         Name of databroker v2 catalog, used when supplied ``db`` is ``None``.
         (default: ``mongodb_config``)
-    since : str
+    since
+        *str* :
         include runs that started on or after this ISO8601 time
         (default: ``1995-01-01``)
-    until : str
+    until
+        *str* :
         include runs that started before this ISO8601 time
         (default: ``2100-12-31``)
-    query : dict
+    query
+        *dict* :
         mongo query dictionary, used to filter the results
         (default: ``{}``)
 
