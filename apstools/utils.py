@@ -1461,7 +1461,7 @@ def redefine_motor_position(motor, new_position):
     yield from bps.mv(motor.set_use_switch, 0)
 
 
-def quantify_md_key_use(key=None, dbname=None, since=None, until=None, query={}):
+def quantify_md_key_use(key=None, db=None, catalog_name=None, since=None, until=None, query={}):
     """
     print table of different ``key`` values and how many times each appears
 
@@ -1470,8 +1470,12 @@ def quantify_md_key_use(key=None, dbname=None, since=None, until=None, query={})
     key : str
         one of the metadata keys in a run's start document
         (default: ``plan_name``)
-    dbname : str
-        name of the databroker catalog (default: ``mongodb_config``)
+    db : object
+        Instance of databroker v1 ``Broker`` or v2 ``catalog``
+        (default: see ``catalog_name`` keyword argument)
+    catalog_name : str
+        Name of databroker v2 catalog, used when supplied ``db`` is ``None``.
+        (default: ``mongodb_config``)
     since : str
         include runs that started on or after this ISO8601 time
         (default: ``1995-01-01``)
@@ -1487,22 +1491,22 @@ def quantify_md_key_use(key=None, dbname=None, since=None, until=None, query={})
     EXAMPLES
 
         quantify_md_key_use(key="proposal_id")
-        quantify_md_key_use(key="plan_name", dbname="9idc", since="2020-07")
-        quantify_md_key_use(key="beamline_id", dbname="9idc")
+        quantify_md_key_use(key="plan_name", catalog_name="9idc", since="2020-07")
+        quantify_md_key_use(key="beamline_id", catalog_name="9idc")
         quantify_md_key_use(key="beamline_id", 
-                            dbname="9idc", 
+                            catalog_name="9idc", 
                             query={'plan_name': 'Flyscan'}, 
                             since="2020",
                             until="2020-06-21 21:51")
-        quantify_md_key_use(dbname="8id", since="2020-01", until="2020-03")
+        quantify_md_key_use(catalog_name="8id", since="2020-01", until="2020-03")
     """
     key = key or 'plan_name'
-    dbname = dbname or 'mongodb_config'
+    catalog_name = catalog_name or 'mongodb_config'
     query = query or {}
     since = since or "1995-01-01"
     until = until or "2100-12-31"
 
-    cat = databroker.catalog[dbname].search(
+    cat = (db or databroker.catalog[catalog_name]).v2.search(
         databroker.queries.TimeRange(since=since, until=until)
     ).search(query)
 
