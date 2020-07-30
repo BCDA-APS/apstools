@@ -1488,7 +1488,7 @@ def quantify_md_key_use(key=None, db=None, catalog_name=None, since=None, until=
 
         see: https://docs.mongodb.com/manual/reference/operator/query/
 
-    EXAMPLES
+    EXAMPLES::
 
         quantify_md_key_use(key="proposal_id")
         quantify_md_key_use(key="plan_name", catalog_name="9idc", since="2020-07")
@@ -1499,6 +1499,7 @@ def quantify_md_key_use(key=None, db=None, catalog_name=None, since=None, until=
                             since="2020",
                             until="2020-06-21 21:51")
         quantify_md_key_use(catalog_name="8id", since="2020-01", until="2020-03")
+
     """
     key = key or 'plan_name'
     catalog_name = catalog_name or 'mongodb_config'
