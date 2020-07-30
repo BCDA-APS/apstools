@@ -24,6 +24,7 @@ Various utilities
    ~plot_prune_fifo
    ~print_snapshot_list
    ~print_RE_md
+   ~quantify_md_key_use
    ~redefine_motor_position
    ~replay
    ~run_in_thread
@@ -246,6 +247,8 @@ def listruns(
         db=None,
         catalog_name=None,
         exit_status=None,
+        since=None,
+        until=None,
         **db_search_terms):
     """
     make a table of the most recent runs (scans)
@@ -274,6 +277,12 @@ def listruns(
         Name of databroker v2 catalog, used when supplied ``db`` is ``None``.
         (default: ``mongodb_config``)
         (new in release 1.3.0)
+    since : str
+        include runs that started on or after this ISO8601 time
+        (default: ``1995-01-01``)
+    until : str
+        include runs that started before this ISO8601 time
+        (default: ``2100-12-31``)
     db_search_terms : dict
         Any additional keyword arguments will be passed to
         the databroker to refine the search for matching runs.
@@ -321,6 +330,8 @@ def listruns(
     db = (db or databroker.catalog[catalog_name]).v2
     keys = keys or []
     num_runs_requested = min(abs(num), len(db))
+    since = since or "1995-01-01"
+    until = until or "2100-12-31"
 
     if show_command:
         labels = "scan_id  command".split() + keys
@@ -328,10 +339,7 @@ def listruns(
         labels = "scan_id  plan_name".split() + keys
 
     cat = db.search(
-        databroker.queries.TimeRange(
-            since=db_search_terms.pop("since", "1995-01-01"),
-            until=db_search_terms.pop("until", "2100-12-31"),
-        )
+        databroker.queries.TimeRange(since=since, until=until)
     ).search(db_search_terms)
 
     table = pyRestTable.Table()
@@ -1451,3 +1459,68 @@ def redefine_motor_position(motor, new_position):
     yield from bps.mv(motor.set_use_switch, 1)
     yield from bps.mv(motor.user_setpoint, new_position)
     yield from bps.mv(motor.set_use_switch, 0)
+
+
+def quantify_md_key_use(key=None, dbname=None, since=None, until=None, query={}):
+    """
+    print table of different ``key`` values and how many times each appears
+
+    PARAMETERS
+
+    key : str
+        one of the metadata keys in a run's start document
+        (default: ``plan_name``)
+    dbname : str
+        name of the databroker catalog (default: ``mongodb_config``)
+    since : str
+        include runs that started on or after this ISO8601 time
+        (default: ``1995-01-01``)
+    until : str
+        include runs that started before this ISO8601 time
+        (default: ``2100-12-31``)
+    query : dict
+        mongo query dictionary, used to filter the results
+        (default: ``{}``)
+
+        see: https://docs.mongodb.com/manual/reference/operator/query/
+
+    EXAMPLES
+
+        quantify_md_key_use(key="proposal_id")
+        quantify_md_key_use(key="plan_name", dbname="9idc", since="2020-07")
+        quantify_md_key_use(key="beamline_id", dbname="9idc")
+        quantify_md_key_use(key="beamline_id", 
+                            dbname="9idc", 
+                            query={'plan_name': 'Flyscan'}, 
+                            since="2020",
+                            until="2020-06-21 21:51")
+        quantify_md_key_use(dbname="8id", since="2020-01", until="2020-03")
+    """
+    key = key or 'plan_name'
+    dbname = dbname or 'mongodb_config'
+    query = query or {}
+    since = since or "1995-01-01"
+    until = until or "2100-12-31"
+
+    cat = databroker.catalog[dbname].search(
+        databroker.queries.TimeRange(since=since, until=until)
+    ).search(query)
+
+    ids = []
+    while True:
+        runs = cat.search({key:{'$exists': True, '$nin': ids}})
+        if len(runs) == 0:
+            break
+        else:
+            ids.append(runs.v1[-1].start.get(key))
+
+    def sorter(key):
+        if key is None:
+            key = " None"
+        return str(key)
+
+    table = pyRestTable.Table()
+    table.labels = f"{key} #runs".split()
+    for id in sorted(ids, key=sorter):
+        table.addRow((id, len(cat.search({key: id}))))
+    print(table)
