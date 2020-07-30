@@ -1422,7 +1422,8 @@ def json_import(filename, zipfilename=None):
 
     RETURNS
 
-    datasets : list of documents
+    datasets : 
+        *list of documents* :
         list of
         `documents <https://blueskyproject.io/bluesky/documents.html/>`_,
         such as returned by
