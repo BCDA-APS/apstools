@@ -197,26 +197,32 @@ def _setup_peak_calcout_(calc, desc, calcout, ref_signal, center=0, width=1, sca
 
     PARAMETERS
 
-    calcout : object
+    calcout
+        *object* :
         instance of :class:`CalcoutRecord`
 
-    ref_signal : object
+    ref_signal
+        *object* :
         instance of :class:`EpicsSignal` used as $A$
 
-    center : float
-        $B$,
+    center
+        *float* :
+        EPICS record field $B$,
         default = 0
 
-    width : float
-        $C$,
+    width
+        *float* :
+        EPICS record field $C$,
         default = 1
 
-    scale : float
-        $D$,
+    scale
+        *float* :
+        EPICS record field $D$,
         default = 1
 
-    noise : float
-        $E$,
+    noise
+        *float* :
+        EPICS record field $E$,
         default = 0.05
     """
 
@@ -257,26 +263,32 @@ def setup_gaussian_calcout(calcout, ref_signal, center=0, width=1, scale=1, nois
 
     PARAMETERS
 
-    calcout : object
+    calcout
+        *object * :
         instance of :class:`CalcoutRecord`
 
-    ref_signal : object
+    ref_signal
+        *object * :
         instance of :class:`EpicsSignal` used as $A$
 
-    center : float
-        $B$,
+    center
+        *float* :
+        EPICS record field $B$,
         default = 0
 
-    width : float
-        $C$,
+    width
+        *float* :
+        EPICS record field $C$,
         default = 1
 
-    scale : float
-        $D$,
+    scale
+        *float* :
+        EPICS record field $D$,
         default = 1
 
-    noise : float
-        $E$,
+    noise
+        *float* :
+        EPICS record field $E$,
         default = 0.05
     """
     _setup_peak_calcout_(
@@ -300,26 +312,32 @@ def setup_lorentzian_calcout(calcout, ref_signal,
 
     PARAMETERS
 
-    calcout : object
+    calcout
+        *object* :
         instance of :class:`CalcoutRecord`
 
-    ref_signal : object
+    ref_signal
+        *object* :
         instance of :class:`EpicsSignal` used as $A$
 
-    center : float
-        $B$,
+    center
+        *float* :
+        EPICS record field $B$,
         default = 0
 
-    width : float
-        $C$,
+    width
+        *float* :
+        EPICS record field $C$,
         default = 1
 
-    scale : float
-        $D$,
+    scale
+        *float* :
+        EPICS record field $D$,
         default = 1
 
-    noise : float
-        $E$,
+    noise
+        *float* :
+        EPICS record field $E$,
         default = 0.05
     """
     _setup_peak_calcout_(
@@ -339,16 +357,19 @@ def setup_incrementer_calcout(calcout, scan=None, limit=100000):
 
     PARAMETERS
 
-    calcout : object
+    calcout
+        *object* :
         instance of :class:`CalcoutRecord`
 
-    scan : text or int or None
-        any of the EPICS record `.SCAN` values,
+    scan
+        *text* or *int* or ``None`` :
+        any of the EPICS record ``.SCAN`` values,
         or the index number of the value,
-        set to default if `None`,
-        default: `.1 second`
+        set to default if ``None``,
+        default: ``.1 second``
 
-    limit : int or None
+    limit
+        *int* or ``None`` :
         set the incrementer back to zero
         when this number is reached (or passed),
         default: 100000

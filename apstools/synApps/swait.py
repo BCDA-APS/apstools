@@ -204,26 +204,32 @@ def _setup_peak_swait_(calc, desc, swait, ref_signal, center=0, width=1, scale=1
 
     PARAMETERS
 
-    swait : object
+    swait
+        *object* :
         instance of :class:`SwaitRecord`
 
-    ref_signal : object
+    ref_signal
+        *object* :
         instance of :class:`EpicsSignal` used as $A$
 
-    center : float
-        $B$,
+    center
+        *float* :
+        EPICS record field $B$,
         default = 0
 
-    width : float
-        $C$,
+    width
+        *float* :
+        EPICS record field $C$,
         default = 1
 
-    scale : float
-        $D$,
+    scale
+        *float* :
+        EPICS record field $D$,
         default = 1
 
-    noise : float
-        $E$,
+    noise
+        *float* :
+        EPICS record field $E$,
         default = 0.05
     """
 
@@ -264,26 +270,32 @@ def setup_gaussian_swait(swait, ref_signal, center=0, width=1, scale=1, noise=0.
 
     PARAMETERS
 
-    swait : object
+    swait
+        *object* :
         instance of :class:`SwaitRecord`
 
-    ref_signal : object
+    ref_signal
+        *object* :
         instance of :class:`EpicsSignal` used as $A$
 
-    center : float
-        $B$,
+    center
+        *float* :
+        instance of :class:`EpicsSignal` used as $B$,
         default = 0
 
-    width : float
-        $C$,
+    width
+        *float* :
+        instance of :class:`EpicsSignal` used as $C$,
         default = 1
 
-    scale : float
-        $D$,
+    scale
+        *float* :
+        instance of :class:`EpicsSignal` used as $D$,
         default = 1
 
-    noise : float
-        $E$,
+    noise
+        *float* :
+        instance of :class:`EpicsSignal` used as $E$,
         default = 0.05
     """
     _setup_peak_swait_(
@@ -305,26 +317,32 @@ def setup_lorentzian_swait(swait, ref_signal, center=0, width=1, scale=1, noise=
 
     PARAMETERS
 
-    swait : object
+    swait
+        *object* :
         instance of :class:`SwaitRecord`
 
-    ref_signal : object
+    ref_signal
+        *object* :
         instance of :class:`EpicsSignal` used as $A$
 
-    center : float
-        $B$,
+    center
+        *float* :
+        instance of :class:`EpicsSignal` used as $B$,
         default = 0
 
-    width : float
-        $C$,
+    width
+        *float* :
+        instance of :class:`EpicsSignal` used as $C$,
         default = 1
 
-    scale : float
-        $D$,
+    scale
+        *float* :
+        instance of :class:`EpicsSignal` used as $D$,
         default = 1
 
-    noise : float
-        $E$,
+    noise
+        *float* :
+        instance of :class:`EpicsSignal` used as $E$,
         default = 0.05
     """
     _setup_peak_swait_(
@@ -344,16 +362,19 @@ def setup_incrementer_swait(swait, scan=None, limit=100000):
 
     PARAMETERS
 
-    swait : object
+    swait
+        *object* :
         instance of :class:`SwaitRecord`
 
-    scan : text or int or None
-        any of the EPICS record `.SCAN` values,
+    scan
+        *text* or *int* or ``None``
+        any of the EPICS record ``.SCAN`` values,
         or the index number of the value,
-        set to default if `None`,
-        default: `.1 second`
+        set to default if ``None``,
+        default: ``.1 second``
 
-    limit : int or None
+    limit
+        *int* or ``None``
         set the incrementer back to zero
         when this number is reached (or passed),
         default: 100000

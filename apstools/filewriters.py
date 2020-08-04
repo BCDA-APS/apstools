@@ -53,12 +53,13 @@ def _rebuild_scan_command(doc):
 
     PARAMETERS
 
-    doc : object
+    doc
+        *object* :
         instance of a bluesky ``start`` document
 
     RETURNS
 
-    str:
+    *str* :
         "scan_number reconstructed_scan_command"
     """
 
@@ -113,23 +114,30 @@ class SpecWriterCallback(object):
     .. note:: ``SpecWriterCallback()`` does **not** inherit
        from ``FileWriterCallbackBase()``.
 
-    Parameters
+    PARAMETERS
 
-    filename : string, optional
+    filename
+        *string* :
+        (optional)
         Local, relative or absolute name of SPEC data file to be used.
         If ``filename=None``, defaults to format of ``YYYmmdd-HHMMSS.dat``
         derived from the current system time.
 
-    auto_write : boolean, optional
-        If True (default), ``write_scan()`` is called when *stop* document
+    auto_write
+        *boolean* :
+        (optional)
+        If ``True`` (default), ``write_scan()`` is called when *stop* document
         is received.
-        If False, the caller is responsible for calling ``write_scan()``
+        If ``False``, the caller is responsible for calling ``write_scan()``
         before the next ``start`` document is received.
 
-    RE : object
+    RE
+        *object* :
         Instance of ``bluesky.RunEngine`` or ``None``.
 
-    reset_scan_id : boolean, optional
+    reset_scan_id
+        *boolean* :
+        (optional)
         If True, and filename exists, then sets ``RE.md.scan_id`` to
         highest scan number in existing SPEC data file.
         default: False
@@ -599,16 +607,23 @@ def spec_comment(comment, doc=None, writer=None):
 
     These comments *only* go into the SPEC data file.
 
-    Parameters
+    PARAMETERS
 
-    comment : string, optional
+    comment
+        *string* :
+        (optional)
         Comment text to be written.  SPEC expects it to be only one line!
 
-    doc : string, optional (default: ``event``)
+    doc
+        *string* :
+        (optional)
         Bluesky RunEngine document type.
         One of: ``start descriptor event resource datum stop``
+        (default: ``event``)
 
-    writer : obj, optional
+    writer
+        *obj* :
+        (optional)
         Instance of ``SpecWriterCallback()``,
         typically: ``specwriter = SpecWriterCallback()``
 

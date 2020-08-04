@@ -101,25 +101,32 @@ def execute_command_list(filename, commands, md=None):
 
     PARAMETERS
 
-    filename : str
+    filename
+        *str* :
         Name of input text file.  Can be relative or absolute path,
         such as "actions.txt", "../sample.txt", or
         "/path/to/overnight.txt".
-    commands : list[command]
+    commands
+        *[command]* :
         List of command tuples for use in ``execute_command_list()``
 
     where
 
-    command : tuple
+    command
+        *tuple* :
         (action, OrderedDict, line_number, raw_command)
-    action: str
+    action
+        *str* :
         names a known action to be handled
-    parameters: list
+    parameters
+        *list* :
         List of parameters for the action.
         The list is empty of there are no values
-    line_number: int
+    line_number
+        *int* :
         line number (1-based) from the input text file
-    raw_command: obj (str or list(str)
+    raw_command
+        *str* or *[str]* :
         contents from input file, such as:
         ``SAXS 0 0 0 blank``
 
@@ -212,31 +219,42 @@ def lineup(
 
     PARAMETERS
 
-    counter : object
+    counter
+        *object* :
         instance of ophyd.Signal (or subclass such as ophyd.scaler.ScalerChannel)
         dependent measurement to be maximized
 
-    axis : movable object
+    axis
+        movable *object* :
         instance of ophyd.Signal (or subclass such as EpicsMotor)
         independent axis to use for alignment
 
-    minus : float
+    minus
+        *float* :
         first point of scan at this offset from starting position
 
-    plus : float
+    plus
+        *float* :
         last point of scan at this offset from starting position
 
-    npts : int
+    npts
+        *int* :
         number of data points in the scan
 
-    time_s : float (default: 0.1)
+    time_s
+        *float* :
         count time per step (if counter is ScalerChannel object)
+        (default: 0.1)
 
-    peak_factor : float (default: 4)
+    peak_factor
+        *float* :
         peak maximum must be greater than ``peak_factor*minimum``
+        (default: 4)
 
-    width_factor : float (default: 0.8)
+    width_factor
+        *float* :
         fwhm must be less than ``width_factor*plot_range``
+        (default: 0.8)
 
     EXAMPLE::
 
@@ -335,22 +353,32 @@ def nscan(detectors, *motor_sets, num=11, per_step=None, md=None):
 
     PARAMETERS
 
-    detectors : list
+    detectors
+        *list* :
         list of 'readable' objects
-    motor_sets : list
+    motor_sets
+        *list* :
         sequence of one or more groups of: motor, start, finish
-    motor : object
+    motor
+        *object* :
         any 'settable' object (motor, temp controller, etc.)
-    start : float
+    start
+        *float* :
         starting position of motor
-    finish : float
+    finish
+        *float* :
         ending position of motor
-    num : int
+    num
+        *int* :
         number of steps (default = 11)
-    per_step : callable, optional
+    per_step
+        *callable* :
+        (optional)
         hook for customizing action of inner loop (messages per step)
         Expected signature: ``f(detectors, step_cache, pos_cache)``
-    md : dict, optional
+    md
+        *dict*
+        (optional)
         metadata
 
     See the `nscan()` example in a Jupyter notebook:
@@ -432,14 +460,16 @@ def parse_Excel_command_file(filename):
 
     PARAMETERS
 
-    filename : str
+    filename
+        *str* :
         Name of input Excel spreadsheet file.  Can be relative or absolute path,
         such as "actions.xslx", "../sample.xslx", or
         "/path/to/overnight.xslx".
 
     RETURNS
 
-    list of commands : list[command]
+    list of commands
+        *[command]* :
         List of command tuples for use in ``execute_command_list()``
 
     RAISES
@@ -513,14 +543,16 @@ def parse_text_command_file(filename):
 
     PARAMETERS
 
-    filename : str
+    filename
+        *str* :
         Name of input text file.  Can be relative or absolute path,
         such as "actions.txt", "../sample.txt", or
         "/path/to/overnight.txt".
 
     RETURNS
 
-    list of commands : list[command]
+    list of commands
+        *[command]* :
         List of command tuples for use in ``execute_command_list()``
 
     RAISES
@@ -570,7 +602,8 @@ def register_command_handler(handler=None):
 
     PARAMETERS
 
-    handler : obj
+    handler
+        *obj* :
         Reference of the ``execute_command_list`` function
         to be used from :func:`~apstools.plans.run_command_file()`.
         If ``None`` or not provided,
@@ -626,11 +659,14 @@ def snapshot(obj_list, stream="primary", md=None):
 
     PARAMETERS
 
-    obj_list : list
+    obj_list
+        *list* :
         list of ophyd Signal or EpicsSignal objects
-    stream : str
+    stream
+        *str* :
         document stream, default: "primary"
-    md : dict
+    md
+        *dict* :
         metadata
     """
     from .__init__ import __version__
@@ -718,7 +754,8 @@ def _get_sscan_data_objects(sscan):
 
     PARAMETERS
 
-    sscan : Device
+    sscan
+        *Device* :
         one EPICS sscan record (instance of `apstools.synApps.sscanRecord`)
 
     """
@@ -748,36 +785,42 @@ def sscan_1D(
 
     PARAMETERS
 
-    sscan : Device
+    sscan
+        *Device* :
         one EPICS sscan record (instance of `apstools.synApps.sscanRecord`)
-    running_stream : str or `None`
+    running_stream
+        *str* : or `None`
         (default: ``"primary"``)
         Name of document stream to write positioners and detectors data
         made available while the sscan is running.  This is typically
         the scan data, row by row.
         If set to `None`, this stream will not be written.
-    final_array_stream : str or `None`
-        (default: ``None``)
+    final_array_stream
+        *str*  or ``None`` :
         Name of document stream to write positioners and detectors data
         posted *after* the sscan has ended.
         If set to `None`, this stream will not be written.
-    device_settings_stream : str or `None`
-        (default: ``"settings"``)
+        (default: ``None``)
+    device_settings_stream
+        *str*  or ``None`` :
         Name of document stream to write *settings* of the sscan device.
         This is all the information returned by ``sscan.read()``.
         If set to `None`, this stream will not be written.
-    poll_delay_s : float
-        (default: 0.001 seconds)
+        (default: ``"settings"``)
+    poll_delay_s
+        *float* :
         How long to sleep during each polling loop while collecting
         interim data values and waiting for sscan to complete.
         Must be a number between zero and 0.1 seconds.
-    phase_timeout_s : float
-        (default: 60 seconds)
+        (default: 0.001 seconds)
+    phase_timeout_s
+        *float* :
         How long to wait after last update of the ``sscan.FAZE``.
         When scanning, we expect the scan phase to update regularly
         as positioners move and detectors are triggered.  If the scan
         hangs for some reason, this is a way to end the plan early.
         To cancel this feature, set it to ``None``.
+        (default: 60 seconds)
 
     NOTE about the document stream names
 
@@ -995,13 +1038,17 @@ class TuneAxis(object):
 
         PARAMETERS
 
-        width : float
+        width
+            *float* :
             width of the tuning scan in the units of ``self.axis``
             Default value in ``self.width`` (initially 1)
-        num : int
+        num
+            *int* :
             number of steps
             Default value in ``self.num`` (initially 10)
-        md : dict, optional
+        md
+            *dict* :
+            (optional)
             metadata
         """
         width = width or self.width
@@ -1115,25 +1162,34 @@ class TuneAxis(object):
 
         PARAMETERS
 
-        width : float
+        width
+            *float* :
             width of the tuning scan in the units of ``self.axis``
             Default value in ``self.width`` (initially 1)
-        num : int
+        num
+            *int* :
             number of steps
             Default value in ``self.num`` (initially 10)
-        step_factor : float
+        step_factor
+            *float* :
             This reduces the width of the next tuning scan by the given factor.
             Default value in ``self.step_factor`` (initially 4)
-        pass_max : int
+        pass_max
+            *int* :
             Maximum number of passes to be executed (avoids runaway
             scans when a centroid is not found).
             Default value in ``self.pass_max`` (initially 4)
-        peak_factor : float (default: 4)
+        peak_factor
+            *float* :
             peak maximum must be greater than ``peak_factor*minimum``
-        snake : bool
+            (default: 4)
+        snake
+            *bool* :
             If ``True``, reverse scan direction on next pass.
             Default value in ``self.snake`` (initially True)
-        md : dict, optional
+        md
+            *dict* :
+            (optional)
             metadata
         """
         width = width or self.width
