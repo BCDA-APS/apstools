@@ -6,6 +6,7 @@ Various utilities
    ~cleanupText
    ~command_list_as_table
    ~connect_pvlist
+   ~copy_filtered_catalog
    ~device_read2table
    ~dictionary_table
    ~EmailNotifications
@@ -1535,3 +1536,37 @@ def quantify_md_key_use(key=None, db=None, catalog_name=None, since=None, until=
     for item in sorted(items, key=sorter):
         table.addRow((item, len(cat.search({key: item}))))
     print(table)
+
+
+def copy_filtered_catalog(source_cat, target_cat, query=None):
+    """
+    copy filtered runs from source_cat to target_cat
+
+    PARAMETERS
+
+    source_cat
+        *obj* :
+        instance of `databroker.Broker` or `databroker.catalog[name]`
+    target_cat
+        *obj* :
+        instance of `databroker.Broker` or `databroker.catalog[name]`
+    query
+        *dict* :
+        mongo query dictionary, used to filter the results
+        (default: ``{}``)
+
+        see: https://docs.mongodb.com/manual/reference/operator/query/
+
+    example::
+    
+        copy_filtered_catalog(
+            databroker.Broker.named("mongodb_config"), 
+            databroker.catalog["test1"], 
+            {'plan_name': 'snapshot'})
+    """
+    query = query or {}
+    for i, uid in enumerate(source_cat.v2.search(query)):
+        run = source_cat.v1[uid]
+        print(f"{i+1}  {uid}  #docs={len(list(run.documents()))}")
+        for key, doc in run.documents():
+            target_cat.v1.insert(key, doc)
