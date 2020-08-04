@@ -407,7 +407,7 @@ def nscan(detectors, *motor_sets, num=11, per_step=None, md=None):
            'motors': [m for m in motors.keys()],
            'num_points': num,
            'num_intervals': num - 1,
-          'plan_args': {'detectors': list(map(repr, detectors)),
+           'plan_args': {'detectors': list(map(repr, detectors)),
                          'num': num,
                          'motors': repr(motor_sets),
                          'per_step': repr(per_step)},
