@@ -407,8 +407,7 @@ def nscan(detectors, *motor_sets, num=11, per_step=None, md=None):
            'motors': [m for m in motors.keys()],
            'num_points': num,
            'num_intervals': num - 1,
-           'plan_args': {'detectors'
-        *list* :(map(repr, detectors)),
+          'plan_args': {'detectors': list(map(repr, detectors)),
                          'num': num,
                          'motors': repr(motor_sets),
                          'per_step': repr(per_step)},
@@ -786,7 +785,7 @@ def sscan_1D(
 
     PARAMETERS
 
-    sscan 
+    sscan
         *Device* :
         one EPICS sscan record (instance of `apstools.synApps.sscanRecord`)
     running_stream
@@ -1183,10 +1182,10 @@ class TuneAxis(object):
             scans when a centroid is not found).
             Default value in ``self.pass_max`` (initially 4)
         peak_factor
-            *float* : 
+            *float* :
             peak maximum must be greater than ``peak_factor*minimum``
             (default: 4)
-        snake 
+        snake
             *bool* :
             If ``True``, reverse scan direction on next pass.
             Default value in ``self.snake`` (initially True)
