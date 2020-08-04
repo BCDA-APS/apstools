@@ -550,7 +550,7 @@ def replay(headers, callback=None, sort=True):
                 f"Must be a databroker Header: received: {type(h)}: |{h}|"
             )
         cmd = _rebuild_scan_command(h.start)
-        logger.debug(f"{cmd}")
+        logger.debug("%s", cmd)
 
         # at last, this is where the real action happens
         for k, doc in h.documents():    # get the stream
