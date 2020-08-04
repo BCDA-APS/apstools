@@ -1073,8 +1073,7 @@ class TuneAxis(object):
             )
         _md = {'tune_md': tune_md,
                'plan_name': self.__class__.__name__ + '.tune',
-               'tune_parameters'
-        *dict* :(
+               'tune_parameters': dict(
                     num = num,
                     width = width,
                     initial_position = self.axis.position,
@@ -1084,8 +1083,7 @@ class TuneAxis(object):
                    ),
                'motors': (self.axis.name,),
                'detectors': (self.signal_name,),
-               'hints'
-        *dict* :(
+               'hints': dict(
                    dimensions = [
                        (
                            [self.axis.name],
