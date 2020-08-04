@@ -52,5 +52,5 @@ after_success:
   - coverage report -m
   - which coveralls
   - coveralls
-  - source deactivate
+  - conda deactivate
   - conda env remove -y -n $PY_ENV
