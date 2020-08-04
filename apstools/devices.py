@@ -239,7 +239,6 @@ class ApsMachineParametersDevice(Device):
 
         ~inUserOperations
 
-
     """
     current = Component(EpicsSignalRO, "S:SRcurrentAI")
     lifetime = Component(EpicsSignalRO, "S:SRlifeTimeHrsCC")
@@ -304,34 +303,42 @@ class ShutterBase(Device):
 
     PARAMETERS
 
-    value : str
+    value
+        *str* :
         any from ``self.choices`` (typically "open" or "close")
 
-    valid_open_values : [str]
+    valid_open_values
+        *[str]* :
         A list of lower-case text values that are acceptable
         for use with the ``set()`` command to open the shutter.
 
-    valid_close_values : [str]
+    valid_close_values
+        *[str]* :
         A list of lower-case text values that are acceptable
         for use with the ``set()`` command to close the shutter.
 
-    open_value : number
+    open_value
+        *number* :
         The actual value to send to open ``signal`` to open the shutter.
         (default = 1)
 
-    close_value : number
+    close_value
+        *number* :
         The actual value to send to close ``signal`` to close the shutter.
         (default = 0)
 
-    delay_s : float
+    delay_s
+        *float* :
         time to wait (s) after move is complete,
         does not wait if shutter already in position
         (default = 0)
 
-    busy : Signal
+    busy
+        *Signal* :
         (internal) tells if a move is in progress
 
-    unknown_state : str
+    unknown_state
+        *str* :
         (constant) Text reported by ``state`` when not open or closed.
         cannot move to this position
         (default = "unknown")
@@ -432,10 +439,12 @@ class ShutterBase(Device):
 
         PARAMETERS
 
-        value : str
+        value
+            *str* :
             any from ``self.choices`` (typically "open" or "close")
 
-        kwargs : dict
+        kwargs
+            *dict* :
             ignored at this time
 
         """
@@ -508,7 +517,8 @@ class OneSignalShutter(ShutterBase):
 
     PARAMETERS
 
-    signal : EpicsSignal or Signal
+    signal
+        ``EpicsSignal`` or ``Signal`` :
         (override in subclass)
         The ``signal`` is the comunication to the hardware.
         In a subclass, the hardware may have more than
@@ -770,13 +780,16 @@ class ApsPssShutterWithStatus(ApsPssShutter):
 
         PARAMETERS
 
-        target : [str]
+        target
+            *[str]* :
             list of strings containing acceptable values
 
-        timeout : non-negative number
+        timeout
+            *non-negative number* :
             maximum amount of time (seconds) to wait for PSS state to reach target
 
-        poll_s : non-negative number
+        poll_s
+            *non-negative number* :
             Time to wait (seconds) in first polling cycle.
             After first poll, this will be increased by ``_poll_factor_``
             up to a maximum time of ``_poll_s_max_``.
@@ -865,13 +878,16 @@ class SimulatedApsPssShutterWithStatus(ApsPssShutterWithStatus):
 
         PARAMETERS
 
-        target : [str]
+        target
+            *[str]* :
             list of strings containing acceptable values
 
-        timeout : non-negative number
+        timeout
+            *non-negative number* :
             Ignored in the simulation.
 
-        poll_s : non-negative number
+        poll_s
+            *non-negative number* :
             Ignored in the simulation.
         """
         simulated_response_time_s = np.random.uniform(0.1, 0.9)
@@ -1658,19 +1674,23 @@ def AD_setup_FrameType(prefix, scheme="NeXus"):
 
     PARAMETERS
 
-        prefix (str) : EPICS PV prefix of area detector, such as "13SIM1:"
-        scheme (str) : any key in the `AD_FrameType_schemes` dictionary
+        prefix
+            *str* :
+            EPICS PV prefix of area detector, such as ``13SIM1:``
+        scheme
+            *str* :
+            any key in the ``AD_FrameType_schemes`` dictionary
 
     This routine prepares the EPICS Area Detector to identify frames
     by image type for handling by clients, such as the HDF5 file writing plugin.
-    With the HDF5 plugin, the `FrameType` PV is added to the NDattributes
+    With the HDF5 plugin, the ``FrameType`` PV is added to the NDattributes
     and then used in the layout file to direct the acquired frame to
-    the chosen dataset.  The `FrameType` PV value provides the HDF5 address
+    the chosen dataset.  The ``FrameType`` PV value provides the HDF5 address
     to be used.
 
     To use a different scheme than the defaults, add a new key to
-    the `AD_FrameType_schemes` dictionary, defining storage values for the
-    fields of the EPICS `mbbo` record that you will be using.
+    the ``AD_FrameType_schemes`` dictionary, defining storage values for the
+    fields of the EPICS ``mbbo`` record that you will be using.
 
     see: https://github.com/BCDA-APS/use_bluesky/blob/master/lessons/sandbox/images_darks_flats.ipynb
 

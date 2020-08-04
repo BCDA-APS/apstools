@@ -87,7 +87,8 @@ def connect_epics(prefix):
 
     PARAMETERS
 
-    prefix (str):
+    prefix
+        *str* :
         EPICS PV prefix
     """
     from .apsbss_ophyd import EpicsBssDevice
@@ -112,7 +113,8 @@ def epicsClear(prefix):
 
     PARAMETERS
 
-    prefix (str):
+    prefix
+        *str* :
         EPICS PV prefix
     """
     logger.debug("clear EPICS %s", prefix)
@@ -133,7 +135,8 @@ def epicsUpdate(prefix):
 
     PARAMETERS
 
-    prefix (str):
+    prefix
+        *str* :
         EPICS PV prefix
     """
     logger.debug("update EPICS %s", prefix)
@@ -239,11 +242,14 @@ def epicsSetup(prefix, beamline, cycle=None):
 
     PARAMETERS
 
-    prefix (str):
+    prefix
+        *str* :
         EPICS PV prefix
-    beamline (str):
+    beamline
+        *str* :
         Name of beam line (as defined by the BSS)
-    cycle (str):
+    cycle
+        *str* :
         Name of APS run cycle (as defined by the BSS).
         optional: default is current APS run cycle name.
     """
@@ -281,7 +287,8 @@ def getCurrentEsafs(sector):
 
     PARAMETERS
 
-    sector (str or int):
+    sector
+        *str* or *int* :
         Name of sector.  If ``str``, must be in ``%02d`` format (``02``, not ``2``).
     """
     if isinstance(sector, int):
@@ -306,7 +313,8 @@ def getCurrentInfo(beamline):
 
     PARAMETERS
 
-    beamline (str):
+    beamline
+        *str* :
         Name of beam line (as defined by the BSS).
     """
     sector = beamline.split("-")[0]
@@ -343,7 +351,8 @@ def getCurrentProposals(beamline):
 
     PARAMETERS
 
-    beamline (str):
+    beamline
+        *str* :
         Name of beam line (as defined by the BSS).
     """
     proposals = []
@@ -361,7 +370,8 @@ def getEsaf(esafId):
 
     PARAMETERS
 
-    esafId (int):
+    esafId
+        *int* :
         ESAF number
     """
     try:
@@ -377,11 +387,14 @@ def getProposal(proposalId, cycle, beamline):
 
     PARAMETERS
 
-    proposalId (str):
+    proposalId
+        *str* :
         Proposal identification number
-    cycle (str):
+    cycle
+        *str* :
         Name of APS run cycle (as defined by the BSS)
-    beamline (str):
+    beamline
+        *str* :
         Name of beam line (as defined by the BSS)
     """
     # avoid possible dm.DmException
@@ -408,10 +421,11 @@ def iso2datetime(isodate):
 
     PARAMETERS
 
-    isodate (str):
+    isodate
+        *str* :
         Date and time in ISO8601 format. (e.g.: ``2020-07-01T12:34:56.789012``)
     """
-    return datetime.datetime.fromisoformat(isodate)
+    return datetime.datetime.fromisoformat(isodate) # FIXME: not in py36
 
 
 def listAllBeamlines():
@@ -440,7 +454,8 @@ def listRecentRuns(quantity=6):
 
     PARAMETERS
 
-    quantity (int):
+    quantity
+        *int* :
         number of APS run cycles to include, optional (default: 6)
     """
     # 6 runs is the duration of a user proposal
@@ -459,11 +474,14 @@ def printColumns(items, numColumns=5, width=10):
 
     PARAMETERS
 
-    items (list(str)):
+    items
+        *[str]* :
         List of items to report
-    numColumns (int):
+    numColumns
+        *int* :
         number of columns, optional (default: 5)
-    width (int):
+    width
+        *int* :
         width of each column, optional (default: 10)
     """
     n = len(items)
@@ -489,9 +507,11 @@ def trim(text, length=40):
 
     PARAMETERS
 
-    text (str):
+    text
+        *str* :
         String, potentially longer than ``length``
-    length (int):
+    length
+        *int* :
         maximum length, optional (default: 40)
     """
     if length < 1:
@@ -577,7 +597,8 @@ def cmd_cycles(args):
 
     PARAMETERS
 
-    args (obj):
+    args
+        *obj* :
         Object returned by ``argparse``
     """
     if args.full:
@@ -605,7 +626,8 @@ def cmd_current(args):
 
     PARAMETERS
 
-    args (obj):
+    args
+        *obj* :
         Object returned by ``argparse``
     """
     records = getCurrentProposals(args.beamlineName)
@@ -672,7 +694,8 @@ def cmd_esaf(args):
 
     PARAMETERS
 
-    args (obj):
+    args
+        *obj* :
         Object returned by ``argparse``
     """
     try:
@@ -690,7 +713,8 @@ def cmd_proposal(args):
 
     PARAMETERS
 
-    args (obj):
+    args
+        *obj* :
         Object returned by ``argparse``
     """
     try:
@@ -708,7 +732,8 @@ def cmd_report(args):
 
     PARAMETERS
 
-    args (obj):
+    args
+        *obj* :
         Object returned by ``argparse``
     """
     from ..utils import object_explorer
