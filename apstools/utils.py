@@ -154,7 +154,8 @@ def dictionary_table(dictionary, **kwargs):
 
     PARAMETERS
 
-    dictionary : dict
+    dictionary
+        *dict* :
         Python dictionary
 
     Note:  Keyword arguments parameters
@@ -163,7 +164,8 @@ def dictionary_table(dictionary, **kwargs):
 
     RETURNS
 
-    table : object or `None`
+    table
+        *object* or ``None`` :
         ``pyRestTable.Table()`` object (multiline text table)
         or ``None`` if dictionary has no contents
 
@@ -255,35 +257,44 @@ def listruns(
 
     PARAMETERS
 
-    num : int
+    num
+        *int* :
         Make the table include the ``num`` most recent runs.
         (default: ``20``)
-    keys : [str]
+    keys
+        *[str]* :
         Include these additional keys from the start document.
         (default: ``[]``)
-    printing : bool
-        If True, print the table to stdout
+    printing
+        *bool* :
+        If ``True``, print the table to stdout
         (default: ``True``)
-    show_command : bool
-        If True, show the (reconstructed) full command,
+    show_command
+        *bool* :
+        If ``True``, show the (reconstructed) full command,
         but truncate it to no more than 40 characters)
         (note: This command is reconstructed from keys in the start
         document so it will not be exactly as the user typed.)
         (default: ``True``)
-    db : object
+    db
+        *object* :
         Instance of databroker v1 ``Broker`` or v2 ``catalog``
         (default: see ``catalog_name`` keyword argument)
-    catalog_name : str
+    catalog_name
+        *str* :
         Name of databroker v2 catalog, used when supplied ``db`` is ``None``.
         (default: ``mongodb_config``)
         (new in release 1.3.0)
-    since : str
+    since
+        *str* :
         include runs that started on or after this ISO8601 time
         (default: ``1995-01-01``)
-    until : str
+    until
+        *str* :
         include runs that started before this ISO8601 time
         (default: ``2100-12-31``)
-    db_search_terms : dict
+    db_search_terms
+        *dict* :
         Any additional keyword arguments will be passed to
         the databroker to refine the search for matching runs.
 
@@ -439,7 +450,8 @@ def print_RE_md(dictionary=None, fmt="simple", printing=True):
 
     PARAMETERS
 
-    dictionary : dict
+    dictionary
+        *dict* :
         Python dictionary
 
     EXAMPLE::
@@ -507,17 +519,20 @@ def replay(headers, callback=None, sort=True):
 
     PARAMETERS
 
-    headers: scan or [scan]
+    headers
+        *scan* or *[scan]* :
         Scan(s) to be replayed through callback.
-        A *scan* is an instance of a Bluesky `databroker.Header`.
+        A *scan* is an instance of a Bluesky ``databroker.Header``.
         see: https://nsls-ii.github.io/databroker/api.html?highlight=header#header-api
 
-    callback: scan or [scan]
+    callback
+        *scan* or *[scan]* :
         The Bluesky callback to handle the stream of documents from a scan.
-        If `None`, then use the `bec` (BestEffortCallback) from the IPython shell.
+        If ``None``, then use the `bec` (BestEffortCallback) from the IPython shell.
         (default:``None``)
 
-    sort: bool
+    sort
+        *bool* :
         Sort the headers chronologically if True.
         (default:``True``)
 
@@ -611,24 +626,28 @@ def listobjects(show_pv=True, printing=True, verbose=False, symbols=None):
 
     PARAMETERS
 
-    show_pv: bool
+    show_pv
+        *bool* :
         If True, also show relevant EPICS PV, if available.
         (default: True)
-    printing: bool
+    printing
+        *bool* :
         If True, print table to stdout.
         (default: True)
-    verbose: bool
+    verbose
+        *bool* :
         If True, also show ``str(obj``.
         (default: False)
-    symbols: dict
+    symbols
+        *dict* :
         If None, use global symbol table.
         If not None, use provided dictionary.
-        (default: `globals()`)
+        (default: ``globals()``)
 
     RETURNS
 
     object:
-        Instance of `pyRestTable.Table()``
+        Instance of ``pyRestTable.Table()``
 
     EXAMPLE::
 
@@ -764,9 +783,11 @@ def summarize_runs(since=None, db=None):
 
     PARAMETERS
 
-    since (str) :
+    since
+        *str* :
         Report all runs since this ISO8601 date & time (default: ``1995``)
-    db (object) :
+    db
+        *object* :
         Instance of ``databroker.Broker()``
         (default: ``db`` from the IPython shell)
     """
@@ -838,11 +859,13 @@ def unix(command, raises=True):
 
     PARAMETERS
 
-    command: str
+    command
+        *str* :
         UNIX command to be executed
-    raises: bool
-        If `True`, will raise exceptions as needed,
-        default: `True`
+    raises
+        *bool* :
+        If ``True``, will raise exceptions as needed,
+        default: ``True``
     """
     if sys.platform not in ("linux", "linux2"):
         emsg = f"Cannot call unix() when OS={sys.platform}"
@@ -873,13 +896,17 @@ def connect_pvlist(pvlist, wait=True, timeout=2, poll_interval=0.1):
 
     PARAMETERS
 
-    pvlist : list(str)
+    pvlist
+        *[str]* :
         list of EPICS PV names
-    wait : bool
-        should wait for EpicsSignal objects to connect, default: True
-    timeout : float
+    wait
+        *bool* :
+        should wait for EpicsSignal objects to connect, default: ``True``
+    timeout
+        *float* :
         maximum time to wait for PV connections, seconds, default: 2.0
-    poll_interval : float
+    poll_interval
+        *float* :
         time to sleep between checks for PV connections, seconds, default: 0.1
     """
     obj_dict = OrderedDict()
@@ -1072,48 +1099,52 @@ class ExcelDatabaseFileGeneric(ExcelDatabaseFileBase):
     .. note:: This is the class to use when reading Excel spreadsheets.
 
     In the spreadsheet, the first sheet should contain the table to be used.
-    By default (see keyword parameter `labels_row`), the table should start
+    By default (see keyword parameter ``labels_row``), the table should start
     in cell A4.  The column labels are given in row 4.  A blank column
-    should appear to the right of the table (see keyword parameter `ignore_extra`).
+    should appear to the right of the table (see keyword parameter ``ignore_extra``).
     The column labels will describe the action and its parameters.  Additional
     columns may be added for metadata or other purposes.
     The rows below the column labels should contain actions and parameters
     for those actions, one action per row.
-    To make a comment, place a `#` in the action column.  A comment
+    To make a comment, place a ``#`` in the action column.  A comment
     should be ignored by the bluesky plan that reads this table.
     The table will end with a row of empty cells.
 
-    While it's a good idea to put the `action` column first, that is not necessary.
-    It is not even necessary to name the column `action`.
+    While it's a good idea to put the ``action`` column first, that is not necessary.
+    It is not even necessary to name the column ``action``.
     You can re-arrange the order of the columns and change their names
     **as long as** the column names match
     what text strings your Python code expects to find.
 
-    A future upgrade [#]_ will allow the table boundaries to be named by Excel when
-    using Excel's `Format as Table` [#]_ feature.
-    For now, leave a blank row and column at the bottom and right edges of the table.
+    A future upgrade [#]_ will allow the table boundaries to be
+    named by Excel when using Excel's ``Format as Table`` [#]_ feature.
+    For now, leave a blank row and column at the bottom and right
+    edges of the table.
 
     .. [#] https://github.com/BCDA-APS/apstools/issues/122
-    .. [#] Excel's `Format as Table`: https://support.office.com/en-us/article/Format-an-Excel-table-6789619F-C889-495C-99C2-2F971C0E2370
+    .. [#] Excel's ``Format as Table``: https://support.office.com/en-us/article/Format-an-Excel-table-6789619F-C889-495C-99C2-2F971C0E2370
 
     PARAMETERS
 
-    filename : str
+    filename
+        *str* :
         name (absolute or relative) of Excel spreadsheet file
-    labels_row : int
+    labels_row
+        *int* :
         Row (zero-based numbering) of Excel file with column labels,
-        default: `3` (Excel row 4)
-    ignore_extra : bool
-        When True, ignore any cells outside of the table,
-        default: `True`
+        default: ``3`` (Excel row 4)
+    ignore_extra
+        *bool* :
+        When ``True``, ignore any cells outside of the table,
+        default: ``True``
 
-        Note that when True, a row of cells *within* the table will
+        Note that when ``True``, a row of cells *within* the table will
         be recognized as the end of the table, even if there are
         actions in following rows.  To force an empty row, use
-        a comment symbol `#` (actually, any non-empty content will work).
+        a comment symbol ``#`` (actually, any non-empty content will work).
 
-        When False, cells with other information (in Sheet 1) will be made available,
-        sometimes with unpredictable results.
+        When ``False``, cells with other information (in Sheet 1) will
+        be made available, sometimes with unpredictable results.
 
     EXAMPLE
 
@@ -1191,7 +1222,7 @@ class ExcelDatabaseFileGeneric(ExcelDatabaseFileBase):
 
 def ipython_profile_name():
     """
-    return the name of the current ipython profile or `None`
+    return the name of the current ipython profile or ``None``
 
     Example (add to default RunEngine metadata)::
 
@@ -1227,17 +1258,21 @@ def plot_prune_fifo(bec, n, y, x):
 
     PARAMETERS
 
-    bec : object
+    bec
+        *object* :
         instance of BestEffortCallback
 
-    n : int
+    n
+        *int* :
         number of plots to keep
 
-    y : object
+    y
+        *object* :
         instance of ophyd.Signal (or subclass),
         dependent (y) axis
 
-    x : object
+    x
+        *object* :
         instance of ophyd.Signal (or subclass),
         independent (x) axis
     """
@@ -1370,13 +1405,16 @@ def json_export(headers, filename, zipfilename=None):
 
     PARAMETERS
 
-    headers : list(headers) or `databroker._core.Results` object
-        list of databroker headers as returned from `db(...search criteria...)`
-    filename : str
+    headers
+        *[headers]* or ``databroker._core.Results`` object :
+        list of databroker headers as returned from ``db(...search criteria...)``
+    filename
+        *str* :
         name of file into which to write JSON
-    zipfilename : str or None
-        name of ZIP file container of `filename`
-        (if None, do not ZIP `filename`)
+    zipfilename
+        *str* or ``None`` :
+        name of ZIP file container of ``filename``
+        (if ``None``, do not ZIP ``filename``)
 
         .. note::  If writing to a ZIP file, the data file is
            *only* written into the ZIP file.
@@ -1422,12 +1460,12 @@ def json_import(filename, zipfilename=None):
 
     RETURNS
 
-    datasets : 
+    datasets :
         *list of documents* :
         list of
         `documents <https://blueskyproject.io/bluesky/documents.html/>`_,
         such as returned by
-        `[list(h.documents()) for h in db]`
+        ``[list(h.documents()) for h in db]``
 
         See:
         https://blueskyproject.io/databroker/generated/databroker.Header.documents.html
@@ -1456,7 +1494,7 @@ def json_import(filename, zipfilename=None):
 
 
 def redefine_motor_position(motor, new_position):
-    """set EPICS motor record's user coordinate to `new_position`"""
+    """set EPICS motor record's user coordinate to ``new_position``"""
     yield from bps.mv(motor.set_use_switch, 1)
     yield from bps.mv(motor.user_setpoint, new_position)
     yield from bps.mv(motor.set_use_switch, 0)
