@@ -425,7 +425,7 @@ def iso2datetime(isodate):
         *str* :
         Date and time in ISO8601 format. (e.g.: ``2020-07-01T12:34:56.789012``)
     """
-    return datetime.datetime.fromisoformat(isodate) # FIXME: not in py36
+    return datetime.datetime.strptime(isodate, "%Y-%m-%dT%H:%M:%S.%f")
 
 
 def listAllBeamlines():
