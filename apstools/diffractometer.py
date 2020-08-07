@@ -153,17 +153,16 @@ class DiffractometerMixin(Device):
         table = pyRestTable.Table()
         table.labels = "term value".split()
         table.addRow(("diffractometer", self.name))
+        table.addRow(("mode", self.calc.engine.mode))
         table.addRow(("wavelength (angstrom)", self.calc.wavelength))
-        # TODO: Alpha   angle of incidence with sample surface
-        # TODO: Beta    angle of reflection with sample surface
-        # TODO: Azimuth ??
-        # TODO: Omega   ??
 
-        for item in "h k l".split():
-            table.addRow((item, getattr(self, item).position))
+        for k, v in self.calc.pseudo_axes.items():
+            table.addRow((k, v))
 
         for item in self.real_positioners:
             table.addRow((item.attr_name, item.position))
+
+        # TODO: show constraints?
 
         if printing:
             print(table)
