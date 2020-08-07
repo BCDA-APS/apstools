@@ -136,7 +136,7 @@ class DiffractometerMixin(Device):
                         break   # only show the first (default) solution
         return _table
 
-    def wh(self):
+    def wh(self, printing=True):
         """
         report the diffractometer settings
 
@@ -164,4 +164,8 @@ class DiffractometerMixin(Device):
 
         for item in self.real_positioners:
             table.addRow((item.attr_name, item.position))
-        print(table)
+
+        if printing:
+            print(table)
+
+        return table
