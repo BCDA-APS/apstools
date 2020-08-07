@@ -46,6 +46,7 @@ class DiffractometerMixin(Device):
         ~resetConstraints
         ~showConstraints
         ~undoLastConstraints
+        ~wh
 """
 
     h = Component(PseudoSingle, '', labels=("hkl",), kind="hinted")
@@ -134,3 +135,33 @@ class DiffractometerMixin(Device):
                     if not full:
                         break   # only show the first (default) solution
         return _table
+
+    def wh(self):
+        """
+        report the diffractometer settings
+
+        SPEC compatibility::
+
+            1117.KAPPA> wh
+            H K L =  0  0  1.7345
+            Alpha = 20  Beta = 20  Azimuth = 90
+            Omega = 32.952  Lambda = 1.54
+            Two Theta       Theta         Chi         Phi     K_Theta       Kappa       K_Phi
+            40.000000   20.000000   90.000000   57.048500   77.044988  134.755995  114.093455
+
+        """
+        table = pyRestTable.Table()
+        table.labels = "term value".split()
+        table.addRow(("diffractometer", self.name))
+        table.addRow(("wavelength (angstrom)", self.calc.wavelength))
+        # TODO: Alpha   angle of incidence with sample surface
+        # TODO: Beta    angle of reflection with sample surface
+        # TODO: Azimuth ??
+        # TODO: Omega   ??
+
+        for item in "h k l".split():
+            table.addRow((item, getattr(self, item).position))
+
+        for item in self.real_positioners:
+            table.addRow((item.attr_name, item.position))
+        print(table)
