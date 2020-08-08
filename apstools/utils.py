@@ -1597,10 +1597,10 @@ def copy_filtered_catalog(source_cat, target_cat, query=None):
         see: https://docs.mongodb.com/manual/reference/operator/query/
 
     example::
-    
+
         copy_filtered_catalog(
-            databroker.Broker.named("mongodb_config"), 
-            databroker.catalog["test1"], 
+            databroker.Broker.named("mongodb_config"),
+            databroker.catalog["test1"],
             {'plan_name': 'snapshot'})
     """
     query = query or {}
