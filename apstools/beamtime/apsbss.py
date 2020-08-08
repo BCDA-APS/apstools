@@ -423,7 +423,7 @@ def iso2datetime(isodate):
 
     isodate
         *str* :
-        Date and time in ISO8601 format. (e.g.: ``2020-07-01T12:34:56.789012``)
+        Date and time in modified ISO8601 format. (e.g.: ``2020-07-01 12:34:56.789012``)
     """
     return datetime.datetime.strptime(isodate, "%Y-%m-%d %H:%M:%S.%f")
 
