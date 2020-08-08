@@ -6,6 +6,27 @@ Change History
 
 :1.3.4:  release expected -tba-
 
+:1.3.4:  release expected 2020-08-08
+
+    * `#400 <https://github.com/BCDA-APS/apstools/pull/400>`_
+       resolve warnings and example documentation inconsistency
+    * `#399 <https://github.com/BCDA-APS/apstools/pull/399>`_
+       parse iso8601 date for py36
+    * `#398 <https://github.com/BCDA-APS/apstools/pull/398>`_
+       DiffractometerMixin: add wh() method
+    * `#396 <https://github.com/BCDA-APS/apstools/pull/396>`_
+       provide spec2ophyd application
+    * `#394 <https://github.com/BCDA-APS/apstools/pull/394>`_
+       add utils.copy_filtered_catalog()
+    * `#392 <https://github.com/BCDA-APS/apstools/pull/392>`_
+       RTD make parameter lists clearer
+    * `#390 <https://github.com/BCDA-APS/apstools/pull/390>`_
+       improve formatting of parameter list in RTD
+    * `#388 <https://github.com/BCDA-APS/apstools/pull/388>`_
+       add utils.quantify_md_key_use()
+    * `#385 <https://github.com/BCDA-APS/apstools/issues/385>`_
+       spec2ophyd: make entry point
+
 :1.3.3:  released 2020-07-22
 
     * `#384 <https://github.com/BCDA-APS/apstools/pull/384>`_
