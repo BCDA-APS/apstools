@@ -235,7 +235,7 @@ with your own beam line's name.  The report will provide
 two tables, one for Proposals and the other for ESAFs,
 both filtered for those that end after the current date & time::
 
-    $ apsbss current 9id:bss: 9-ID-B,C
+    $ apsbss current 9-ID-B,C
     Current (and Future) Proposal(s) on 9-ID-B,C: 2020-07-13 11:03:27.228382
 
     ===== ====== =================== =================== ==================== ========================================
