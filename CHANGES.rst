@@ -4,9 +4,9 @@
 Change History
 ##############
 
-:1.3.4:  release expected -tba-
+:1.3.5:  release expected -tba-
 
-:1.3.4:  release expected 2020-08-08
+:1.3.4:  released 2020-08-14
 
     * `#400 <https://github.com/BCDA-APS/apstools/pull/400>`_
        resolve warnings and example documentation inconsistency
