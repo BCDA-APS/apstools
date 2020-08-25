@@ -37,7 +37,7 @@ Various utilities
    ~summarize_runs
    ~text_encode
    ~to_unicode_or_bust
-   ~trim_plot
+   ~trim_plot_lines
    ~trim_string_for_EPICS
    ~unix
 
@@ -1281,13 +1281,13 @@ def plot_prune_fifo(bec, n, y, x):
         independent (x) axis
 
     DEPRECATED: Will be removed by end of 2020-12.
-    Use :meth:`trim_plot` instead.
-    Note the order of parameters is different in :meth:`trim_plot`.
+    Use :meth:`trim_plot_lines` instead.
+    Note the order of parameters is different in :meth:`trim_plot_lines`.
     """
     warnings.warn(
         "DEPRECATED: plot_prune_fifo() will be removed"
-        " in a future release.  Use trim_plot() instead."
-        "  Note the order of parameters is different in trim_plot()."
+        " in a future release.  Use trim_plot_lines() instead."
+        "  Note the order of parameters is different in trim_plot_lines()."
         )
 
     if n < 0:
@@ -1371,7 +1371,7 @@ def select_live_plot(bec, signal):
             return live_plot
 
 
-def trim_plot(bec, n, x, y):
+def trim_plot_lines(bec, n, x, y):
     """
     find the plot with axes x and y and replot with at most the last *n* lines
 
@@ -1379,7 +1379,7 @@ def trim_plot(bec, n, x, y):
 
     EXAMPLE::
 
-        trim_plot(bec, 1, m1, noisy)
+        trim_plot_lines(bec, 1, m1, noisy)
 
     PARAMETERS
 
@@ -1403,10 +1403,10 @@ def trim_plot(bec, n, x, y):
 
     (new in release 1.3.5, replaces :meth:`plot_prune_fifo`)
     """
-    # liveplot = select_live_plot(bec, y)
-    # if liveplot is None:
-    #     logger.debug("no live plot found with signal '%s'", y.name)
-    #     return
+    liveplot = select_live_plot(bec, y)
+    if liveplot is None:
+        logger.debug("no live plot found with signal '%s'", y.name)
+        return
 
     fig = select_mpl_figure(x, y)
     if fig is None:
@@ -1426,12 +1426,7 @@ def trim_plot(bec, n, x, y):
                     "%s vs %s: mpl remove() error: %s",
                     y.name, x.name, str(exc))
     ax.legend()
-    # liveplot.update_plot()
-    # Rescale and redraw.
-    #  (from bluesky.callbacks.mpl_plotting.update_plot)
-    ax.relim(visible_only=True)
-    ax.autoscale_view(tight=True)
-    ax.figure.canvas.draw_idle()
+    liveplot.update_plot()
     logger.debug("trim complete")
 
 
