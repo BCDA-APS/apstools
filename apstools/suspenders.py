@@ -19,6 +19,7 @@
 #-----------------------------------------------------------------------------
 
 from bluesky.suspenders import SuspenderBase
+import warnings
 
 
 class SuspendWhenChanged(SuspenderBase):
@@ -44,6 +45,13 @@ class SuspendWhenChanged(SuspenderBase):
                 allow_resume=False,
                 sleep=0, pre_plan=None, post_plan=None, tripped_message='',
                 **kwargs):
+
+        warnings.warn(
+            "DEPRECATED:"
+            "  Use `bluesky.suspenders.SuspendWhenChanged()` now."
+            "  `apstools.suspenders.SuspendWhenChanged()`"
+            " will be removed in a future release (by end of 2020-12)."
+            )
 
         self.expected_value = expected_value or signal.get()
         self.allow_resume = allow_resume
