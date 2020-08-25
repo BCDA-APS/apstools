@@ -1427,7 +1427,7 @@ def trim_plot(bec, n, x, y):
                     y.name, x.name, str(exc))
     ax.legend()
     # liveplot.update_plot()
-    # Rescale and redraw.  
+    # Rescale and redraw.
     #  (from bluesky.callbacks.mpl_plotting.update_plot)
     ax.relim(visible_only=True)
     ax.autoscale_view(tight=True)
