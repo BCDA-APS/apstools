@@ -1454,12 +1454,14 @@ class KohzuSeqCtl_Monochromator(Device):
     wavelength = Component(EpicsSignal, "BraggLambdaRdbkAO", write_pv="BraggLambdaAO")
     energy = Component(EpicsSignal, "BraggERdbkAO", write_pv="BraggEAO")
     theta = Component(EpicsSignal, "BraggThetaRdbkAO", write_pv="BraggThetaAO")
-    message1 = Component(EpicsSignalRO, "KohzuSeqMsg1SI")
+    y1 = Component(EpicsSignalRO, "KohzuYRdbkAI")
+    z2 = Component(EpicsSignalRO, "KohzuZRdbkAI")
     message2 = Component(EpicsSignalRO, "KohzuSeqMsg2SI")
     operator_acknowledge = Component(EpicsSignal, "KohzuOperAckBO")
     use_set = Component(EpicsSignal, "KohzuUseSetBO")
     mode = Component(EpicsSignal, "KohzuModeBO")
     move_button = Component(EpicsSignal, "KohzuPutBO")
+    moving = Component(EpicsSignal, "KohzuMoving")
     y_offset = Component(EpicsSignal, "Kohzu_yOffsetAO")
 
     crystal_mode = Component(EpicsSignal, "KohzuMode2MO")
@@ -1469,6 +1471,11 @@ class KohzuSeqCtl_Monochromator(Device):
     crystal_lattice_constant = Component(EpicsSignal, "BraggAAO")
     crystal_2d_spacing = Component(EpicsSignal, "Bragg2dSpacingAO")
     crystal_type = Component(EpicsSignal, "BraggTypeMO")
+
+    def move_energy(self, energy):
+        """for command-line use:  ``kohzu_mono.energy_move(8.2)``"""
+        self.energy.put(energy)
+        self.move_button.put(1)
 
 
 class ProcessController(Device):
