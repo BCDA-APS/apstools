@@ -1437,7 +1437,7 @@ def trim_plot_by_name(n=3, plots=None):
 
     Note: this is not a bluesky plan.  Call it as normal Python function.
 
-    Note: :func:`trim_plot_by_name` is being tested as an alternative to 
+    Note: :func:`trim_plot_by_name` is being tested as an alternative to
     :func:`trim_plot_lines` and is not guaranteed
     to remain in apstools in its present implementation, if kept at all.
 
