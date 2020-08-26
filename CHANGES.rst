@@ -4,7 +4,16 @@
 Change History
 ##############
 
-:1.3.5:  release expected -tba-
+:1.3.6:  release expected -tba-
+
+:1.3.5:  released 2020-08-25
+
+    * `#403 <https://github.com/BCDA-APS/apstools/pull/403>`_
+       deprecate SuspendWhenChanged
+    * `#405 <https://github.com/BCDA-APS/apstools/pull/405>`_
+       add Y1 & Z2 read-only signal to Kohzu Monochromator device
+    * `#406 <https://github.com/BCDA-APS/apstools/pull/406>`_
+       replace plot_prune_fifo() with trim_plot()
 
 :1.3.4:  released 2020-08-14
 
