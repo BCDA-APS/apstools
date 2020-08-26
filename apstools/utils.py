@@ -1474,11 +1474,18 @@ def trim_plot_by_name(n=3, plots=None):
         def the_scans():
             yield from bp.scan([noisy_det], motor, -1, 1, 5)
             yield from bp.scan([noisy_det, det], motor, -2, 1, motor2, 3, 1, 6)
-            trim_plot_by_name(3)
             yield from bps.sleep(snooze)
+            trim_plot_by_name(3)
         # repeat the_scans 15 times
         uids = RE(bps.repeat(the_scans, 15))
         trim_plot_by_name()
+
+        def the_scans():
+            yield from bp.scan([noisy_det], motor, -1, 1, 5)
+            yield from bp.scan([noisy_det], motor2, 3, 1, 4)
+            yield from bps.sleep(1)
+            trim_plot_by_name(3, "noisy_det vs motor")
+            trim_plot_by_name(5, "noisy_det vs motor2")
 
     (new in release 1.3.5)
     """
