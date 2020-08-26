@@ -8,12 +8,13 @@ Change History
 
 :1.3.5:  released 2020-08-25
 
-    * `#403 <https://github.com/BCDA-APS/apstools/pull/403>`_
-       deprecate SuspendWhenChanged
+    * `#406 <https://github.com/BCDA-APS/apstools/pull/406>`_
+       replace ``plot_prune_fifo()`` with ``trim_plot()``
+       and ``trim_plot_by_name()``
     * `#405 <https://github.com/BCDA-APS/apstools/pull/405>`_
        add Y1 & Z2 read-only signal to Kohzu Monochromator device
-    * `#406 <https://github.com/BCDA-APS/apstools/pull/406>`_
-       replace plot_prune_fifo() with trim_plot()
+    * `#403 <https://github.com/BCDA-APS/apstools/pull/403>`_
+       deprecate ``SuspendWhenChanged()``
 
 :1.3.4:  released 2020-08-14
 
@@ -416,43 +417,3 @@ Change History
     * batch scans using Excel spreadsheets
     * bluesky_snapshot_viewer and bluesky_snapshot
     * conda package available
-
-:2019.0321.1:
-
-    * tag only: #103
-
-:2019.0321.0:
-
-    * tag only: #103
-
-:2019.0301.0:
-
-    * `release notes <https://github.com/BCDA-APS/apstools/wiki/release-notes-2019.0301.0>`_
-
-:2019.0227.0:
-
-    * tag only: #100, #101, #102
-
-:2019.0225.0:
-
-    * tag only: #99
-
-:2019.0223.0:
-
-    * tag only: #97, #98, additions from USAXS, add specfile comments any time, example databroker -> SPEC file
-
-:2019.0220.0:
-
-    * tag only, add a simple Tkinter-based snapshot viewer
-
-:2019.0219.3:
-
-    * tag only, bring code from USAXS, standardize shutter support
-
-:2019.0128.0:
-
-    * rename to *apstools*
-
-:2019.0103.0:
-
-    * first production release (as *APS_BlueSky_tools*)
