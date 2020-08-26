@@ -37,6 +37,7 @@ Various utilities
    ~summarize_runs
    ~text_encode
    ~to_unicode_or_bust
+   ~trim_plot_by_name
    ~trim_plot_lines
    ~trim_string_for_EPICS
    ~unix
@@ -1281,8 +1282,8 @@ def plot_prune_fifo(bec, n, y, x):
         independent (x) axis
 
     DEPRECATED: Will be removed by end of 2020-12.
-    Use :meth:`trim_plot_lines` instead.
-    Note the order of parameters is different in :meth:`trim_plot_lines`.
+    Use :func:`trim_plot_lines` instead.
+    Note the order of parameters is different in :func:`trim_plot_lines`.
     """
     warnings.warn(
         "DEPRECATED: plot_prune_fifo() will be removed"
@@ -1375,7 +1376,7 @@ def trim_plot_lines(bec, n, x, y):
     """
     find the plot with axes x and y and replot with at most the last *n* lines
 
-    Note: this is not a bluesky plan.  Call it as normal Python function.
+    Note: :func:`trim_plot_lines` is not a bluesky plan.  Call it as normal Python function.
 
     EXAMPLE::
 
@@ -1401,7 +1402,7 @@ def trim_plot_lines(bec, n, x, y):
         instance of ophyd.Signal (or subclass),
         dependent (y) axis
 
-    (new in release 1.3.5, replaces :meth:`plot_prune_fifo`)
+    (new in release 1.3.5, replaces :func:`plot_prune_fifo`)
     """
     liveplot = select_live_plot(bec, y)
     if liveplot is None:
@@ -1428,6 +1429,72 @@ def trim_plot_lines(bec, n, x, y):
     ax.legend()
     liveplot.update_plot()
     logger.debug("trim complete")
+
+
+def trim_plot_by_name(n=3, plots=None):
+    """
+    find the plot(s) by name and replot with at most the last *n* lines
+
+    Note: this is not a bluesky plan.  Call it as normal Python function.
+
+    Note: :func:`trim_plot_by_name` is being tested as an alternative to 
+    :func:`trim_plot_lines` and is not guaranteed
+    to remain in apstools in its present implementation, if kept at all.
+
+    This function may not appear to trim all lines properly
+    when run from a plan (such as the linger example below).
+    This is because the plots are generated from a RunEngine callback.
+    That callback executes, scheduling the plots for drawing
+    *after* ``bp.scan()`` completes and likely after
+     :func:`trim_plot_by_name` is run.
+
+     Q: How to block the RunEngine until the plots are drawn by the callback?
+
+    PARAMETERS
+
+    n
+        *int* :
+        number of plots to keep
+
+    plots
+        *str*, [*str*], or *None* :
+        name(s) of plot windows to trim
+        (default: all plot windows)
+
+    EXAMPLES::
+
+        trim_plot_by_name()
+        trim_plot_by_name(5)
+        trim_plot_by_name(5, "noisy_det vs motor")
+        trim_plot_by_name(5, ["noisy_det vs motor", "det noisy_det vs motor"]])
+
+        # longer example (with simulators from ophyd)
+        from ophyd.sim import *
+        snooze = 0.25
+        def the_scans():
+            yield from bp.scan([noisy_det], motor, -1, 1, 5)
+            yield from bp.scan([noisy_det, det], motor, -2, 1, motor2, 3, 1, 6)
+            trim_plot_by_name(3)
+            yield from bps.sleep(snooze)
+        # repeat the_scans 15 times
+        uids = RE(bps.repeat(the_scans, 15))
+        trim_plot_by_name()
+
+    (new in release 1.3.5)
+    """
+    import matplotlib.pyplot as plt
+
+    if isinstance(plots, str):
+        plots = [plots]
+
+    for fig_name in plt.get_figlabels():
+        if plots is None or fig_name in plots:
+            fig = plt.figure(fig_name)
+            for ax in fig.axes:
+                while len(ax.lines) > n:
+                    ax.lines[0].remove()
+                # update the plot legend
+                ax.legend()
 
 
 def print_snapshot_list(db, printing=True, **search_criteria):
@@ -1553,13 +1620,13 @@ def json_export(headers, filename, zipfilename=None):
 
     EXAMPLE: READ THE ZIP FILE:
 
-     using :meth:`~json_import`::
+     using :func:`~json_import`::
 
         datasets = json_import("data.json", zipfilename="bluesky_data.zip")
 
     EXAMPLE: READ THE JSON TEXT FILE
 
-    using :meth:`~json_import`::
+    using :func:`~json_import`::
 
         datasets = json_import("data.json)
 
@@ -1577,7 +1644,7 @@ def json_export(headers, filename, zipfilename=None):
 
 def json_import(filename, zipfilename=None):
     """
-    read the file exported by :meth:`~json_export()`
+    read the file exported by :func:`~json_export()`
 
     RETURNS
 
