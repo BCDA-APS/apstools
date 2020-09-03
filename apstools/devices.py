@@ -177,7 +177,6 @@ def use_EPICS_scaler_channels(scaler):
 
 
 class ApsCycleComputedRO(SynSignalRO):
-
     """
     Compute the APS cycle name based on the calendar and the usual practice.
 
@@ -197,7 +196,6 @@ class ApsCycleComputedRO(SynSignalRO):
 
 
 class ApsOperatorMessagesDevice(Device):
-
     """General messages from the APS main control room."""
 
     operators = Component(EpicsSignalRO, "OPS:message1", string=True)
@@ -212,7 +210,6 @@ class ApsOperatorMessagesDevice(Device):
 
 
 class ApsMachineParametersDevice(Device):
-
     """
     Common operational parameters of the APS of general interest.
 
@@ -297,7 +294,6 @@ class ApsMachineParametersDevice(Device):
 
 
 class ShutterBase(Device):
-
     """
     Base class for all shutter Devices.
 
@@ -511,7 +507,6 @@ class ShutterBase(Device):
 
 
 class OneSignalShutter(ShutterBase):
-
     """
     Shutter Device using one Signal for open and close.
 
@@ -607,7 +602,6 @@ class OneSignalShutter(ShutterBase):
 
 
 class ApsPssShutter(ShutterBase):
-
     """
     APS PSS shutter
 
@@ -701,7 +695,6 @@ class ApsPssShutter(ShutterBase):
 
 
 class ApsPssShutterWithStatus(ApsPssShutter):
-
     """
     APS PSS shutter with separate status PV
 
@@ -852,7 +845,6 @@ class ApsPssShutterWithStatus(ApsPssShutter):
 
 
 class SimulatedApsPssShutterWithStatus(ApsPssShutterWithStatus):
-
     """
     Simulated APS PSS shutter
 
@@ -907,7 +899,6 @@ class SimulatedApsPssShutterWithStatus(ApsPssShutterWithStatus):
 
 
 class ApsUndulator(Device):
-
     """
     APS Undulator
 
@@ -940,7 +931,6 @@ class ApsUndulator(Device):
 
 
 class ApsUndulatorDual(Device):
-
     """
     APS Undulator with upstream *and* downstream controls
 
@@ -956,7 +946,6 @@ class ApsUndulatorDual(Device):
 
 
 class ApsBssUserInfoDevice(Device):
-
     """
     Provide current experiment info from the APS BSS.
 
@@ -1080,7 +1069,6 @@ class AxisTunerMixin(DeviceMixinBase):
 
 
 class EpicsDescriptionMixin(DeviceMixinBase):
-
     """
     add a record's description field to a Device, such as EpicsMotor
 
@@ -1122,7 +1110,6 @@ class EpicsDescriptionMixin(DeviceMixinBase):
 
 
 class EpicsMotorDialMixin(DeviceMixinBase):
-
     """
     add motor record's dial coordinate fields to Device
 
@@ -1141,7 +1128,6 @@ class EpicsMotorDialMixin(DeviceMixinBase):
 
 
 class EpicsMotorEnableMixin(DeviceMixinBase):
-
     """
     mixin providing access to motor enable/disable
 
@@ -1183,7 +1169,6 @@ class EpicsMotorEnableMixin(DeviceMixinBase):
 
 
 class EpicsMotorLimitsMixin(DeviceMixinBase):
-
     """
     add motor record HLM & LLM fields & compatibility get_lim() and set_lim()
 
@@ -1261,7 +1246,6 @@ class EpicsMotorLimitsMixin(DeviceMixinBase):
 
 
 class EpicsMotorServoMixin(DeviceMixinBase):
-
     """
     add motor record's servo loop controls to Device
 
@@ -1280,7 +1264,6 @@ class EpicsMotorServoMixin(DeviceMixinBase):
 
 
 class EpicsMotorRawMixin(DeviceMixinBase):
-
     """
     add motor record's raw coordinate fields to Device
 
@@ -1298,7 +1281,6 @@ class EpicsMotorRawMixin(DeviceMixinBase):
 
 
 class EpicsMotorResolutionMixin(DeviceMixinBase):
-
     """
     Add motor record's resolution fields to motor.
 
@@ -1328,7 +1310,6 @@ class EpicsMotorResolutionMixin(DeviceMixinBase):
 
 
 class EpicsMotorShutter(OneSignalShutter):
-
     """
     a shutter, implemented with an EPICS motor moved between two positions
 
@@ -1387,7 +1368,6 @@ class EpicsMotorShutter(OneSignalShutter):
 
 
 class EpicsOnOffShutter(OneSignalShutter):
-
     """
     a shutter using a single EPICS PV moved between two positions
 
@@ -1415,7 +1395,6 @@ class EpicsOnOffShutter(OneSignalShutter):
 
 
 class DualPf4FilterBox(Device):
-
     """
     Dual Xia PF4 filter boxes using support from synApps (using Al, Ti foils)
 
@@ -1445,7 +1424,6 @@ class DualPf4FilterBox(Device):
 
 
 class KohzuSeqCtl_Monochromator(Device):
-
     """
     synApps Kohzu double-crystal monochromator sequence control program
     """
@@ -1479,7 +1457,6 @@ class KohzuSeqCtl_Monochromator(Device):
 
 
 class ProcessController(Device):
-
     """
     common parts of a process controller support
 
@@ -1618,7 +1595,6 @@ class ProcessController(Device):
 
 
 class Struck3820(Device):
-
     """Struck/SIS 3820 Multi-Channel Scaler (as used by USAXS)"""
 
     start_all = Component(EpicsSignal, "StartAll")
@@ -1746,7 +1722,6 @@ def AD_warmed_up(detector):
 
 
 class AD_EpicsHdf5FileName(FileStorePluginBase):    # lgtm [py/missing-call-to-init]
-
     """
     custom class to define image file name from EPICS
 
