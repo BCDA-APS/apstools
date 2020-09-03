@@ -155,7 +155,7 @@ class CalcoutRecord(EpicsRecordFloatFields, EpicsRecordDeviceCommonAll):
 
 class UserCalcoutDevice(Device):
     """
-    synApps XXX IOC setup of user calcouts: $(P):userCalcOut$(N)
+    synApps XXX IOC setup of user calcouts: ``$(P):userCalcOut$(N)``
 
     .. autosummary::
 
@@ -203,26 +203,26 @@ def _setup_peak_calcout_(calc, desc, calcout, ref_signal, center=0, width=1, sca
 
     ref_signal
         *object* :
-        instance of :class:`EpicsSignal` used as $A$
+        instance of :class:`EpicsSignal` used as ``A``
 
     center
         *float* :
-        EPICS record field $B$,
+        EPICS record field ``B``,
         default = 0
 
     width
         *float* :
-        EPICS record field $C$,
+        EPICS record field ``C``,
         default = 1
 
     scale
         *float* :
-        EPICS record field $D$,
+        EPICS record field ``D``,
         default = 1
 
     noise
         *float* :
-        EPICS record field $E$,
+        EPICS record field ``E``,
         default = 0.05
     """
 
@@ -259,7 +259,7 @@ def setup_gaussian_calcout(calcout, ref_signal, center=0, width=1, scale=1, nois
     """
     setup calcout for noisy Gaussian
 
-    calculation: $D*(0.95+E*RNDM)/exp(((A-B)/C)^2)$
+    calculation: ``D*(0.95+E*RNDM)/exp(((A-B)/C)^2)``
 
     PARAMETERS
 
@@ -269,26 +269,26 @@ def setup_gaussian_calcout(calcout, ref_signal, center=0, width=1, scale=1, nois
 
     ref_signal
         *object * :
-        instance of :class:`EpicsSignal` used as $A$
+        instance of :class:`EpicsSignal` used as ``A``
 
     center
         *float* :
-        EPICS record field $B$,
+        EPICS record field ``B``,
         default = 0
 
     width
         *float* :
-        EPICS record field $C$,
+        EPICS record field ``C``,
         default = 1
 
     scale
         *float* :
-        EPICS record field $D$,
+        EPICS record field ``D``,
         default = 1
 
     noise
         *float* :
-        EPICS record field $E$,
+        EPICS record field ``E``,
         default = 0.05
     """
     _setup_peak_calcout_(
@@ -308,7 +308,7 @@ def setup_lorentzian_calcout(calcout, ref_signal,
     """
     setup calcout record for noisy Lorentzian
 
-    calculation: $D*(0.95+E*RNDM)/(1+((A-B)/C)^2)$
+    calculation: ``D*(0.95+E*RNDM)/(1+((A-B)/C)^2)``
 
     PARAMETERS
 
@@ -318,26 +318,26 @@ def setup_lorentzian_calcout(calcout, ref_signal,
 
     ref_signal
         *object* :
-        instance of :class:`EpicsSignal` used as $A$
+        instance of :class:`EpicsSignal` used as ``A``
 
     center
         *float* :
-        EPICS record field $B$,
+        EPICS record field ``B``,
         default = 0
 
     width
         *float* :
-        EPICS record field $C$,
+        EPICS record field ``C``,
         default = 1
 
     scale
         *float* :
-        EPICS record field $D$,
+        EPICS record field ``D``,
         default = 1
 
     noise
         *float* :
-        EPICS record field $E$,
+        EPICS record field ``E``,
         default = 0.05
     """
     _setup_peak_calcout_(

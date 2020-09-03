@@ -1446,9 +1446,9 @@ def trim_plot_by_name(n=3, plots=None):
     This is because the plots are generated from a RunEngine callback.
     That callback executes, scheduling the plots for drawing
     *after* ``bp.scan()`` completes and likely after
-     :func:`trim_plot_by_name` is run.
+    :func:`trim_plot_by_name` is run.
 
-     Q: How to block the RunEngine until the plots are drawn by the callback?
+    **Q**: How to block the RunEngine until the plots are drawn by the callback?
 
     PARAMETERS
 
