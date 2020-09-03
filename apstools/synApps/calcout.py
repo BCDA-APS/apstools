@@ -259,16 +259,18 @@ def setup_gaussian_calcout(calcout, ref_signal, center=0, width=1, scale=1, nois
     """
     setup calcout for noisy Gaussian
 
-    calculation: ``D*(0.95+E*RNDM)/exp(((A-B)/C)^2)``
+    calculation::
+
+        D*(0.95+E*RNDM)/exp(((A-B)/C)^2)
 
     PARAMETERS
 
     calcout
-        *object * :
+        *object* :
         instance of :class:`CalcoutRecord`
 
     ref_signal
-        *object * :
+        *object* :
         instance of :class:`EpicsSignal` used as ``A``
 
     center
@@ -308,7 +310,9 @@ def setup_lorentzian_calcout(calcout, ref_signal,
     """
     setup calcout record for noisy Lorentzian
 
-    calculation: ``D*(0.95+E*RNDM)/(1+((A-B)/C)^2)``
+    calculation::
+
+        D*(0.95+E*RNDM)/(1+((A-B)/C)^2)
 
     PARAMETERS
 
