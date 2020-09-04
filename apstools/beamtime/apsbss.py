@@ -424,8 +424,12 @@ def iso2datetime(isodate):
     isodate
         *str* :
         Date and time in modified ISO8601 format. (e.g.: ``2020-07-01 12:34:56.789012``)
+        Fractional seconds are optional.
     """
-    return datetime.datetime.strptime(isodate, "%Y-%m-%d %H:%M:%S.%f")
+    isoformat = "%Y-%m-%d %H:%M:%S"
+    if isodate.find(".") > 0:   # fractional seconds, too?
+        isoformat += ".%f"
+    return datetime.datetime.strptime(isodate, isoformat)
 
 
 def listAllBeamlines():
