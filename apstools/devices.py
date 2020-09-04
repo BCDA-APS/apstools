@@ -6,6 +6,7 @@ APS GENERAL SUPPORT
 .. autosummary::
 
     ~ApsCycleComputedRO
+    ~ApsCycleDM
     ~ApsMachineParametersDevice
     ~ApsPssShutter
     ~ApsPssShutterWithStatus
@@ -176,6 +177,27 @@ def use_EPICS_scaler_channels(scaler):
         scaler.channels.configuration_attrs = configuration_attrs
 
 
+class ApsCycleDM(SynSignalRO):
+    """
+    Get the APS cycle name from the APS Data Management system
+
+    This signal is read-only.
+    """
+
+    _time_last_updated = -1
+    _update_period_s = 60*60*24     # update from dm no more than daily
+    _cycle_name = "unknown"
+
+    def get(self):
+        from .beamtime.apsbss import getCurrentCycle
+        if time.time() > self._time_last_updated + self._update_period_s:
+            # only update from data management once per day
+            self._cycle_name = getCurrentCycle()
+            self._time_updated = time.time()
+            # TODO: could get the end time for current cycle and use that instead
+        return self._cycle_name
+
+
 class ApsCycleComputedRO(SynSignalRO):
     """
     Compute the APS cycle name based on the calendar and the usual practice.
@@ -186,7 +208,8 @@ class ApsCycleComputedRO(SynSignalRO):
 
     This signal is read-only.
 
-    NOTE: There is info provided by the APS proposal & ESAF systems.
+    NOTE: There is info provided by the APS proposal & ESAF systems.  See
+    :class:`~ApsCycleDM`.
     """
 
     def get(self):
@@ -239,7 +262,7 @@ class ApsMachineParametersDevice(Device):
     """
     current = Component(EpicsSignalRO, "S:SRcurrentAI")
     lifetime = Component(EpicsSignalRO, "S:SRlifeTimeHrsCC")
-    aps_cycle = Component(ApsCycleComputedRO)
+    aps_cycle = Component(ApsCycleDM)
     machine_status = Component(EpicsSignalRO, "S:DesiredMode", string=True)
     # In [3]: APS.machine_status.enum_strs
     # Out[3]:
