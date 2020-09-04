@@ -184,11 +184,18 @@ class ApsCycleDM(SynSignalRO):
     This signal is read-only.
     """
 
-    # TODO: cache the current cycle name
+    _time_last_updated = -1
+    _update_period_s = 60*60*24     # update from dm no more than daily
+    _cycle_name = "unknown"
 
     def get(self):
         from .beamtime.apsbss import getCurrentCycle
-        return getCurrentCycle()
+        if time.time() > self._time_last_updated + self._update_period_s:
+            # only update from data management once per day
+            self._cycle_name = getCurrentCycle()
+            self._time_updated = time.time()
+            # TODO: could get the end time for current cycle and use that instead
+        return self._cycle_name
 
 
 class ApsCycleComputedRO(SynSignalRO):
