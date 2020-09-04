@@ -4,7 +4,14 @@
 Change History
 ##############
 
-:1.3.6:  release expected -tba-
+:1.3.7:  release expected -tba-
+
+:1.3.6:  released 2020-09-04
+
+    * `#416 <https://github.com/BCDA-APS/apstools/pull/416>`_
+       apsbss: allow iso8601 time strings to have *option* for fractional seconds
+    * `#415 <https://github.com/BCDA-APS/apstools/pull/415>`_
+       Get APS cycle name from official source
 
 :1.3.5:  released 2020-08-25
 
