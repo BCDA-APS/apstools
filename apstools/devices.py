@@ -193,7 +193,7 @@ class ApsCycleDM(SynSignalRO):
         if time.time() > self._time_last_updated + self._update_period_s:
             # only update from data management once per day
             self._cycle_name = getCurrentCycle()
-            self._time_updated = time.time()
+            self._time_last_updated = time.time()
             # TODO: could get the end time for current cycle and use that instead
         return self._cycle_name
 
