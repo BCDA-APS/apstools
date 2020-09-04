@@ -6,6 +6,7 @@ APS GENERAL SUPPORT
 .. autosummary::
 
     ~ApsCycleComputedRO
+    ~ApsCycleDM
     ~ApsMachineParametersDevice
     ~ApsPssShutter
     ~ApsPssShutterWithStatus
@@ -176,6 +177,20 @@ def use_EPICS_scaler_channels(scaler):
         scaler.channels.configuration_attrs = configuration_attrs
 
 
+class ApsCycleDM(SynSignalRO):
+    """
+    Get the APS cycle name from the APS Data Management system
+
+    This signal is read-only.
+    """
+
+    # TODO: cache the current cycle name
+
+    def get(self):
+        from .beamtime.apsbss import getCurrentCycle
+        return getCurrentCycle()
+
+
 class ApsCycleComputedRO(SynSignalRO):
     """
     Compute the APS cycle name based on the calendar and the usual practice.
@@ -239,7 +254,7 @@ class ApsMachineParametersDevice(Device):
     """
     current = Component(EpicsSignalRO, "S:SRcurrentAI")
     lifetime = Component(EpicsSignalRO, "S:SRlifeTimeHrsCC")
-    aps_cycle = Component(ApsCycleComputedRO)
+    aps_cycle = Component(ApsCycleDM)
     machine_status = Component(EpicsSignalRO, "S:DesiredMode", string=True)
     # In [3]: APS.machine_status.enum_strs
     # Out[3]:
