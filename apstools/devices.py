@@ -208,7 +208,8 @@ class ApsCycleComputedRO(SynSignalRO):
 
     This signal is read-only.
 
-    NOTE: There is info provided by the APS proposal & ESAF systems.
+    NOTE: There is info provided by the APS proposal & ESAF systems.  See
+    :class:`~ApsCycleDM`.
     """
 
     def get(self):
