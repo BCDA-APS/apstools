@@ -184,17 +184,16 @@ class ApsCycleDM(SynSignalRO):
     This signal is read-only.
     """
 
-    _time_last_updated = -1
-    _update_period_s = 60*60*24     # update from dm no more than daily
+    _cycle_ends = "1980"       # force a read from DM on first get()
     _cycle_name = "unknown"
 
     def get(self):
-        from .beamtime.apsbss import getCurrentCycle
-        if time.time() > self._time_last_updated + self._update_period_s:
-            # only update from data management once per day
-            self._cycle_name = getCurrentCycle()
-            self._time_last_updated = time.time()
-            # TODO: could get the end time for current cycle and use that instead
+        if datetime.now().isoformat(sep=" ") >= self._cycle_ends:
+            from .beamtime.apsbss import api_bss
+            # only update from data management after the end of the run
+            cycle = api_bss.getCurrentRun()
+            self._cycle_name = cycle["name"]
+            self._cycle_ends = cycle["endTime"]
         return self._cycle_name
 
 
