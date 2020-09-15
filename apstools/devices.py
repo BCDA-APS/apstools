@@ -184,11 +184,11 @@ class ApsCycleDM(SynSignalRO):
     This signal is read-only.
     """
 
-    _cycle_ends = "0"       # force a read from DM on first get()
+    _cycle_ends = "1980"       # force a read from DM on first get()
     _cycle_name = "unknown"
 
     def get(self):
-        if datetime.now().isoformat() >= self._cycle_ends:
+        if datetime.now().isoformat(sep=" ") >= self._cycle_ends:
             from .beamtime.apsbss import api_bss
             # only update from data management after the end of the run
             cycle = api_bss.getCurrentRun()
