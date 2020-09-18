@@ -933,7 +933,7 @@ class ApsUndulator(Device):
     energy_taper = Component(EpicsSignal, "TaperEnergy", write_pv="TaperEnergySet")
     gap = Component(EpicsSignal, "Gap", write_pv="GapSet")
     gap_taper = Component(EpicsSignal, "TaperGap", write_pv="TaperGapSet")
-    start_button = Component(EpicsSignal, "Start")
+    start_button = Component(EpicsSignal, "Start", put_complete=True)
     stop_button = Component(EpicsSignal, "Stop")
     harmonic_value = Component(EpicsSignal, "HarmonicValue")
     gap_deadband = Component(EpicsSignal, "DeadbandGap")
