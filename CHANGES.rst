@@ -4,7 +4,16 @@
 Change History
 ##############
 
-:1.3.7:  release expected -tba-
+:1.3.8:  release expected -tba-
+
+:1.3.7:  released: 2020-09-18
+
+    * `#422 <https://github.com/BCDA-APS/apstools/pull/422>`_
+       additional AD support from APS USAXS
+    * `#421 <https://github.com/BCDA-APS/apstools/pull/421>`_
+       wait for undulator when start_button pushed
+    * `#418 <https://github.com/BCDA-APS/apstools/pull/418>`_
+       apsbss: only update APS run cycle name after current cycle ends
 
 :1.3.6:  released 2020-09-04
 
