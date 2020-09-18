@@ -1725,18 +1725,34 @@ def AD_setup_FrameType(prefix, scheme="NeXus"):
 def AD_plugin_primed(detector_plugin):
     """
     Has area detector pushed an NDarray to the file writer plugin?  True or False
+
     PARAMETERS
+
     detector_plugin
         *obj* :
         area detector plugin to be *primed* (such as ``detector.hdf1``)
+
     EXAMPLE::
+
         AD_plugin_primed(detector.hdf1)
+
     Works around an observed issue: #598
     https://github.com/NSLS-II/ophyd/issues/598#issuecomment-414311372
+
     If detector IOC has just been started and has not yet taken an image
     with the file writer plugin, then a TimeoutError will occur as the
     file writer plugin "Capture" is set to 1 (Start).  In such case,
     first acquire at least one image with the file writer plugin enabled.
+
+    PARAMETERS
+
+    Since Area Detector release 2.1 (2014-10-14).
+
+    The *prime* process is not needed if you select the 
+    *LazyOpen* feature with *Stream* mode for the file plugin.
+    *LazyOpen* defers file creation until the first frame arrives 
+    in the plugin. This removes the need to initialize the plugin 
+    with a dummy frame before starting capture.
     """
     old_capture = detector_plugin.capture.get()
     old_file_write_mode = detector_plugin.file_write_mode.get()
