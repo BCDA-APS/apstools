@@ -180,11 +180,12 @@ executable permissions:
     PROCESS_NAME=ioc9idcbss
     IOC_PREFIX=9idc:bss:
 
-    # need shell script and EPICS database file
+    # activate the bluesky environment
     BLUESKY=/APSshare/anaconda3/Bluesky
-    APSTOOLS=${BLUESKY}/lib/python3.7/site-packages/apstools
-
     source ${BLUESKY}/bin/activate base
+
+    # need shell script and EPICS database file
+    APSTOOLS=$(dirname $(python -c "import apstools; print(apstools.__file__)"))
 
     # need EPICS base/bin/softIoc from this path
     export PATH=${PATH}:/APSshare/epics/base-7.0.3/bin/${EPICS_HOST_ARCH}
