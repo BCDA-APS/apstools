@@ -366,16 +366,18 @@ def listruns(
         run = cat[uid]
         start = run.metadata["start"]
         stop = run.metadata["stop"]
+        reported_exit_status = "unknown"
+        if stop is not None:
+            reported_exit_status = stop.get("exit_status", "")
 
         if (exit_status is not None
-            and stop.get("exit_status") != exit_status):
+            and reported_exit_status != exit_status):
             continue
 
         row = [
             start["uid"][:7],
-            datetime.datetime.fromtimestamp(
-                start['time']),
-            stop.get("exit_status", "")
+            datetime.datetime.fromtimestamp(start['time']),
+            reported_exit_status,
             ]
 
         for k in labels:
