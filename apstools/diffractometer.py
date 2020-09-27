@@ -165,6 +165,7 @@ class DiffractometerMixin(Device):
         table.labels = "term value".split()
         table.addRow(("diffractometer", self.name))
         table.addRow(("mode", self.calc.engine.mode))
+        table.addRow(("sample name", self.calc.sample.name))
         table.addRow(("wavelength (angstrom)", self.calc.wavelength))
 
         for k, v in self.calc.pseudo_axes.items():
