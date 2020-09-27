@@ -191,20 +191,20 @@ class SoftE4CV(DiffractometerMixin, hkl.diffract.E4CV):
     """
 
     h = Component(PseudoSingle, '',
-        labels=("hkl", "fourc"), kind="hinted")
+        labels=("hkl", "sim4c"), kind="hinted")
     k = Component(PseudoSingle, '',
-        labels=("hkl", "fourc"), kind="hinted")
+        labels=("hkl", "sim4c"), kind="hinted")
     l = Component(PseudoSingle, '',
-        labels=("hkl", "fourc"), kind="hinted")
+        labels=("hkl", "sim4c"), kind="hinted")
 
     omega = Component(SoftPositioner,
-        labels=("motor", "fourc"), kind="hinted")
+        labels=("motor", "sim4c"), kind="hinted")
     chi =   Component(SoftPositioner,
-        labels=("motor", "fourc"), kind="hinted")
+        labels=("motor", "sim4c"), kind="hinted")
     phi =   Component(SoftPositioner,
-        labels=("motor", "fourc"), kind="hinted")
+        labels=("motor", "sim4c"), kind="hinted")
     tth =   Component(SoftPositioner,
-        labels=("motor", "fourc"), kind="hinted")
+        labels=("motor", "sim4c"), kind="hinted")
 
     def __init__(self, *args, **kwargs):
         """
@@ -231,24 +231,24 @@ class SoftE6C(DiffractometerMixin, hkl.diffract.E6C):
     """
 
     h = Component(PseudoSingle, '',
-        labels=("hkl", "sixc"), kind="hinted")
+        labels=("hkl", "sim6c"), kind="hinted")
     k = Component(PseudoSingle, '',
-        labels=("hkl", "sixc"), kind="hinted")
+        labels=("hkl", "sim6c"), kind="hinted")
     l = Component(PseudoSingle, '',
-        labels=("hkl", "sixc"), kind="hinted")
+        labels=("hkl", "sim6c"), kind="hinted")
 
     mu = Component(SoftPositioner,
-        labels=("motor", "sixc"), kind="hinted")
+        labels=("motor", "sim6c"), kind="hinted")
     omega = Component(SoftPositioner,
-        labels=("motor", "sixc"), kind="hinted")
+        labels=("motor", "sim6c"), kind="hinted")
     chi =   Component(SoftPositioner,
-        labels=("motor", "sixc"), kind="hinted")
+        labels=("motor", "sim6c"), kind="hinted")
     phi =   Component(SoftPositioner,
-        labels=("motor", "sixc"), kind="hinted")
+        labels=("motor", "sim6c"), kind="hinted")
     gamma = Component(SoftPositioner,
-        labels=("motor", "sixc"), kind="hinted")
+        labels=("motor", "sim6c"), kind="hinted")
     delta =   Component(SoftPositioner,
-        labels=("motor", "sixc"), kind="hinted")
+        labels=("motor", "sim6c"), kind="hinted")
 
     def __init__(self, *args, **kwargs):
         """
@@ -289,6 +289,50 @@ class SoftK4CV(DiffractometerMixin, hkl.diffract.K4CV):
         labels=("motor", "simk4c"), kind="hinted")
     tth =   Component(SoftPositioner,
         labels=("motor", "simk4c"), kind="hinted")
+
+    def __init__(self, *args, **kwargs):
+        """
+        start the SoftPositioner objects with initial values
+
+        Since this diffractometer uses simulated motors,
+        prime the SoftPositioners (motors) with initial values.
+        Otherwise, with position == None, then describe(), and
+        other functions get borked.
+        """
+        super().__init__(*args, **kwargs)
+
+        for axis in self.real_positioners:
+            axis.move(0)
+
+
+class SoftK6C(DiffractometerMixin, hkl.diffract.K6C):
+    """
+    K6C: Simulated (soft) kappa 6-circle diffractometer
+
+    EXAMPLE::
+
+        simk6c = SoftK6C('', name='simk6c')
+    """
+
+    h = Component(PseudoSingle, '',
+        labels=("hkl", "simk6c"), kind="hinted")
+    k = Component(PseudoSingle, '',
+        labels=("hkl", "simk6c"), kind="hinted")
+    l = Component(PseudoSingle, '',
+        labels=("hkl", "simk6c"), kind="hinted")
+
+    mu = Component(SoftPositioner,
+        labels=("motor", "simk6c"), kind="hinted")
+    komega = Component(SoftPositioner,
+        labels=("motor", "simk6c"), kind="hinted")
+    kappa =   Component(SoftPositioner,
+        labels=("motor", "simk6c"), kind="hinted")
+    kphi =   Component(SoftPositioner,
+        labels=("motor", "simk6c"), kind="hinted")
+    gamma = Component(SoftPositioner,
+        labels=("motor", "simk6c"), kind="hinted")
+    delta =   Component(SoftPositioner,
+        labels=("motor", "simk6c"), kind="hinted")
 
     def __init__(self, *args, **kwargs):
         """
