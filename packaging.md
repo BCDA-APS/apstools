@@ -22,5 +22,7 @@ Build and upload::
 
 Builds of this package are uploaded to these conda channels:
 
-*    `aps-anl-tag`  production releases
-*    `aps-anl-dev`  anything else, such as: pre-release, release candidates, or testing purposes
+* `aps-anl-tag` :
+  production releases
+* `aps-anl-dev` :
+  anything else, such as: pre-release, release candidates, or testing purposes

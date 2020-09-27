@@ -1748,10 +1748,10 @@ def AD_plugin_primed(detector_plugin):
 
     Since Area Detector release 2.1 (2014-10-14).
 
-    The *prime* process is not needed if you select the 
+    The *prime* process is not needed if you select the
     *LazyOpen* feature with *Stream* mode for the file plugin.
-    *LazyOpen* defers file creation until the first frame arrives 
-    in the plugin. This removes the need to initialize the plugin 
+    *LazyOpen* defers file creation until the first frame arrives
+    in the plugin. This removes the need to initialize the plugin
     with a dummy frame before starting capture.
     """
     old_capture = detector_plugin.capture.get()
