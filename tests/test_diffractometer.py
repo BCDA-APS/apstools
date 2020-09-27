@@ -159,6 +159,40 @@ class Test_Cases(unittest.TestCase):
         for r, e in zip(received, expected):
             self.assertEqual(r, e)
 
+    def test_simk4c(self):
+        simk4c = APS_diffractometer.SoftK4CV('', name='simk4c')
+        self.assertIsNotNone(simk4c)
+        self.assertEqual(simk4c.komega.position, 0)
+        self.assertEqual(simk4c.h.position, 0)
+        self.assertEqual(simk4c.k.position, 0)
+        self.assertEqual(simk4c.l.position, 0)
+        self.assertEqual(
+            simk4c.calc.physical_axis_names,
+            ['komega', 'kappa', 'kphi', 'tth'])
+
+    def test_simk4c_wh(self):
+        simk4c = APS_diffractometer.SoftK4CV('', name='simk4c')
+        tbl = simk4c.wh(printing=False)
+        received = str(tbl).splitlines()
+        expected = [
+            "===================== =========",
+            "term                  value    ",
+            "===================== =========",
+            "diffractometer        simk4c   ",
+            "mode                  bissector",
+            "wavelength (angstrom) 1.54     ",
+            "h                     0.0      ",
+            "k                     0.0      ",
+            "l                     0.0      ",
+            "komega                0        ",
+            "kappa                 0        ",
+            "kphi                  0        ",
+            "tth                   0        ",
+            "===================== =========",
+            ]
+        for r, e in zip(received, expected):
+            self.assertEqual(r, e)
+
 
 def suite(*args, **kw):
     test_list = [

@@ -7,6 +7,7 @@ add to capabilities of any diffractometer
     ~DiffractometerMixin
     ~SoftE4CV
     ~SoftE6C
+    ~SoftK4CV
 
 """
 
@@ -25,6 +26,7 @@ __all__ = [
     'DiffractometerMixin',
     'SoftE4CV',
     'SoftE6C',
+    'SoftK4CV',
 ]
 
 from ophyd import Component, Device, PseudoSingle, SoftPositioner
@@ -247,6 +249,46 @@ class SoftE6C(DiffractometerMixin, hkl.diffract.E6C):
         labels=("motor", "sixc"), kind="hinted")
     delta =   Component(SoftPositioner,
         labels=("motor", "sixc"), kind="hinted")
+
+    def __init__(self, *args, **kwargs):
+        """
+        start the SoftPositioner objects with initial values
+
+        Since this diffractometer uses simulated motors,
+        prime the SoftPositioners (motors) with initial values.
+        Otherwise, with position == None, then describe(), and
+        other functions get borked.
+        """
+        super().__init__(*args, **kwargs)
+
+        for axis in self.real_positioners:
+            axis.move(0)
+
+
+class SoftK4CV(DiffractometerMixin, hkl.diffract.K4CV):
+    """
+    K4CV: Simulated (soft) kappa as 4-circle diffractometer
+
+    EXAMPLE::
+
+        simk4c = SoftK4CV('', name='simk4c')
+    """
+
+    h = Component(PseudoSingle, '',
+        labels=("hkl", "simk4c"), kind="hinted")
+    k = Component(PseudoSingle, '',
+        labels=("hkl", "simk4c"), kind="hinted")
+    l = Component(PseudoSingle, '',
+        labels=("hkl", "simk4c"), kind="hinted")
+
+    komega = Component(SoftPositioner,
+        labels=("motor", "simk4c"), kind="hinted")
+    kappa = Component(SoftPositioner,
+        labels=("motor", "simk4c"), kind="hinted")
+    kphi =   Component(SoftPositioner,
+        labels=("motor", "simk4c"), kind="hinted")
+    tth =   Component(SoftPositioner,
+        labels=("motor", "simk4c"), kind="hinted")
 
     def __init__(self, *args, **kwargs):
         """
