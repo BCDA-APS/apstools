@@ -47,6 +47,7 @@ Constraint = collections.namedtuple(
     "Constraint",
     ("low_limit", "high_limit", "value", "fit"))
 
+
 class DiffractometerMixin(Device):
     """
     add to capabilities of any diffractometer
@@ -192,13 +193,6 @@ class SoftE4CV(DiffractometerMixin, hkl.diffract.E4CV):
         sim4c = SoftE4CV('', name='sim4c')
     """
 
-    h = Component(PseudoSingle, '',
-        labels=("hkl", "sim4c"), kind="hinted")
-    k = Component(PseudoSingle, '',
-        labels=("hkl", "sim4c"), kind="hinted")
-    l = Component(PseudoSingle, '',
-        labels=("hkl", "sim4c"), kind="hinted")
-
     omega = Component(SoftPositioner,
         labels=("motor", "sim4c"), kind="hinted")
     chi =   Component(SoftPositioner,
@@ -231,13 +225,6 @@ class SoftE6C(DiffractometerMixin, hkl.diffract.E6C):
 
         sim6c = SoftE6C('', name='sim6c')
     """
-
-    h = Component(PseudoSingle, '',
-        labels=("hkl", "sim6c"), kind="hinted")
-    k = Component(PseudoSingle, '',
-        labels=("hkl", "sim6c"), kind="hinted")
-    l = Component(PseudoSingle, '',
-        labels=("hkl", "sim6c"), kind="hinted")
 
     mu = Component(SoftPositioner,
         labels=("motor", "sim6c"), kind="hinted")
@@ -276,13 +263,6 @@ class SoftK4CV(DiffractometerMixin, hkl.diffract.K4CV):
         simk4c = SoftK4CV('', name='simk4c')
     """
 
-    h = Component(PseudoSingle, '',
-        labels=("hkl", "simk4c"), kind="hinted")
-    k = Component(PseudoSingle, '',
-        labels=("hkl", "simk4c"), kind="hinted")
-    l = Component(PseudoSingle, '',
-        labels=("hkl", "simk4c"), kind="hinted")
-
     komega = Component(SoftPositioner,
         labels=("motor", "simk4c"), kind="hinted")
     kappa = Component(SoftPositioner,
@@ -315,13 +295,6 @@ class SoftK6C(DiffractometerMixin, hkl.diffract.K6C):
 
         simk6c = SoftK6C('', name='simk6c')
     """
-
-    h = Component(PseudoSingle, '',
-        labels=("hkl", "simk6c"), kind="hinted")
-    k = Component(PseudoSingle, '',
-        labels=("hkl", "simk6c"), kind="hinted")
-    l = Component(PseudoSingle, '',
-        labels=("hkl", "simk6c"), kind="hinted")
 
     mu = Component(SoftPositioner,
         labels=("motor", "simk6c"), kind="hinted")
