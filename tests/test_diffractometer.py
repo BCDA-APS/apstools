@@ -161,7 +161,7 @@ class Test_Cases(unittest.TestCase):
         for r, e in zip(received, expected):
             self.assertEqual(r, e)
 
-    def test_sime6c_forward(self):
+    def test_sim6c_forward(self):
         sim6c = APS_diffractometer.SoftE6C('', name='sim6c')
         sol = sim6c.forward(1,0,0)
         self.assertAlmostEquals(sol.mu, 0, places=5)
