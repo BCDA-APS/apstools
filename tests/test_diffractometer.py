@@ -40,6 +40,8 @@ class Test_Cases(unittest.TestCase):
         self.assertEqual(sim4c.calc.sample.name, "main")
         self.assertEqual(sim4c.calc.sample.lattice.a, 1.54)
 
+    def test_sim4c_wh(self):
+        sim4c = APS_diffractometer.SoftE4CV('', name='sim4c')
         tbl = sim4c.wh(printing=False)
         received = str(tbl).splitlines()
         expected = [
@@ -61,6 +63,8 @@ class Test_Cases(unittest.TestCase):
         for r, e in zip(received, expected):
             self.assertEqual(r, e)
 
+    def test_sim4c_showConstraints(self):
+        sim4c = APS_diffractometer.SoftE4CV('', name='sim4c')
         with Capture_stdout() as received:
             sim4c.showConstraints()
         expected = [
@@ -76,28 +80,39 @@ class Test_Cases(unittest.TestCase):
         for r, e in zip(received, expected):
             self.assertEqual(r, e)
 
+    def test_sim4c_forwardSolutionsTable(self):
+        sim4c = APS_diffractometer.SoftE4CV('', name='sim4c')
+
+        # (100) has chi ~ 0 which poses occasional roundoff errors
+        # (sometimes -0.00000, sometimes 0.00000)
+        sol = sim4c.forward(1,0,0)
+        self.assertAlmostEquals(sol.omega, -30)
+        self.assertAlmostEquals(sol.chi, 0)
+        self.assertAlmostEquals(sol.phi, -90)
+        self.assertAlmostEquals(sol.tth, -60)
+
         tbl = sim4c.forwardSolutionsTable(
             [
-                [1,0,0],
                 [1,1,0],
                 [1,1,1],
-                [100,1,1],
+                [100,1,1],  # no solutions
                 ]
             )
         received = str(tbl).splitlines()
         expected = [
-            "=========== ======== ========= ======== ========= =========",
-            "(hkl)       solution omega     chi      phi       tth      ",
-            "=========== ======== ========= ======== ========= =========",
-            "[1, 0, 0]   0        -30.00000 0.00000  -90.00000 -60.00000",
-            "[1, 1, 0]   0        45.00000  45.00000 90.00000  90.00000 ",
-            "[1, 1, 1]   0        60.00000  35.26439 45.00000  120.00000",
-            "[100, 1, 1] none                                           ",
-            "=========== ======== ========= ======== ========= =========",
+            "=========== ======== ======== ======== ======== =========",
+            "(hkl)       solution omega    chi      phi      tth      ",
+            "=========== ======== ======== ======== ======== =========",
+            "[1, 1, 0]   0        45.00000 45.00000 90.00000 90.00000 ",
+            "[1, 1, 1]   0        60.00000 35.26439 45.00000 120.00000",
+            "[100, 1, 1] none                                         ",
+            "=========== ======== ======== ======== ======== =========",
             ]
         for r, e in zip(received, expected):
             self.assertEqual(r, e)
 
+    def test_sim4c_applyConstraints(self):
+        sim4c = APS_diffractometer.SoftE4CV('', name='sim4c')
         sim4c.applyConstraints({
             "tth" : APS_diffractometer.Constraint(0, 180, 0, True),
             "chi" : APS_diffractometer.Constraint(0, 180, 0, True),
