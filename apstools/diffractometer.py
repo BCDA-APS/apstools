@@ -34,7 +34,7 @@ import pyRestTable
 logger = logging.getLogger(__file__)
 
 gi.require_version('Hkl', '5.0')    # MUST come before `import hkl`
-import hkl
+import hkl.diffract
 
 
 Constraint = collections.namedtuple(
