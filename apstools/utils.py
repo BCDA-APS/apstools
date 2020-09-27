@@ -951,6 +951,32 @@ class EmailNotifications(object):
     send email notifications when requested
 
     use default OS mail utility (so no credentials needed)
+
+    EXAMPLE
+
+    Send email(s) when `feedback_limits_approached`
+    (a hypothetical boolean) is `True`::
+
+        # setup
+        from apstools.utils import EmailNotifications
+
+        SENDER_EMAIL = "instrument_user@email.host.tld"
+
+        email_notices = EmailNotifications(SENDER_EMAIL)
+        email_notices.add_addresses(
+            # This list receives email when send() is called.
+            "joe.user@goodmail.com",
+            "instrument_team@email.host.tld",
+            # others?
+        )
+
+        # ... later
+
+        if feedback_limits_approached:
+            # send emails to list
+            subject = "Feedback problem"
+            message = "Feedback is very close to its limits."
+            email_notices.send(subject, message)
     """
 
     def __init__(self, sender=None):
