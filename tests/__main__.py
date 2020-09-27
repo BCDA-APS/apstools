@@ -13,11 +13,12 @@ if _path not in sys.path:
 def suite(*args, **kw):
 
     from tests import test_apsbss
-    from tests import test_simple
-    from tests import test_filewriter
-    from tests import test_export_json
-    from tests import test_exceltable
     from tests import test_commandlist
+    from tests import test_diffractometer
+    from tests import test_exceltable
+    from tests import test_export_json
+    from tests import test_filewriter
+    from tests import test_simple
     from tests import test_utils
     test_list = [
         test_simple,
@@ -27,6 +28,7 @@ def suite(*args, **kw):
         test_commandlist,
         test_utils,
         test_apsbss,
+        test_diffractometer,
         ]
 
     test_suite = unittest.TestSuite()

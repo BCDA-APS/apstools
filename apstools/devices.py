@@ -1748,10 +1748,10 @@ def AD_plugin_primed(detector_plugin):
 
     Since Area Detector release 2.1 (2014-10-14).
 
-    The *prime* process is not needed if you select the 
+    The *prime* process is not needed if you select the
     *LazyOpen* feature with *Stream* mode for the file plugin.
-    *LazyOpen* defers file creation until the first frame arrives 
-    in the plugin. This removes the need to initialize the plugin 
+    *LazyOpen* defers file creation until the first frame arrives
+    in the plugin. This removes the need to initialize the plugin
     with a dummy frame before starting capture.
     """
     old_capture = detector_plugin.capture.get()
@@ -1772,15 +1772,20 @@ def AD_prime_plugin(detector, detector_plugin):
     Prime this area detector's file writer plugin.
     Collect and push an NDarray to the file writer plugin.
     Works with HDF and JPEG file writers, maybe others.
+
     PARAMETERS
+
     detector
         *obj* :
         area detector (such as ``detector``)
     detector_plugin
         *obj* :
         area detector plugin to be *primed* (such as ``detector.hdf1``)
+
     EXAMPLE::
+
         AD_prime_plugin(detector, detector.hdf1)
+
     """
     old_enable = detector_plugin.enable.get()
     old_mode = detector_plugin.file_write_mode.get()

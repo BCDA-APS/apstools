@@ -706,9 +706,9 @@ def cmd_esaf(args):
         esaf = getEsaf(args.esafId)
         print(yaml.dump(esaf))
     except DmRecordNotFound as exc:
-        print(exc)
+        print(f"DmRecordNotFound reported: {exc}")
     except dm.DmException as exc:
-        print("dm reported: {exc}")
+        print(f"dm reported: {exc}")
 
 
 def cmd_proposal(args):
