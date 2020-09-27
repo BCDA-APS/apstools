@@ -123,6 +123,42 @@ class Test_Cases(unittest.TestCase):
         self.assertAlmostEquals(sol.phi, 90)
         self.assertAlmostEquals(sol.tth, 60)
 
+    def test_sim6c(self):
+        sim6c = APS_diffractometer.SoftE6C('', name='sim6c')
+        self.assertIsNotNone(sim6c)
+        self.assertEqual(sim6c.omega.position, 0)
+        self.assertEqual(sim6c.h.position, 0)
+        self.assertEqual(sim6c.k.position, 0)
+        self.assertEqual(sim6c.l.position, 0)
+        self.assertEqual(
+            sim6c.calc.physical_axis_names,
+            ['mu', 'omega', 'chi', 'phi', 'gamma', 'delta'])
+
+    def test_sim6c_wh(self):
+        sim6c = APS_diffractometer.SoftE6C('', name='sim6c')
+        tbl = sim6c.wh(printing=False)
+        received = str(tbl).splitlines()
+        expected = [
+            "===================== ==================",
+            "term                  value             ",
+            "===================== ==================",
+            "diffractometer        sim6c             ",
+            "mode                  bissector_vertical",
+            "wavelength (angstrom) 1.54              ",
+            "h                     0.0               ",
+            "k                     0.0               ",
+            "l                     0.0               ",
+            "mu                    0                 ",
+            "omega                 0                 ",
+            "chi                   0                 ",
+            "phi                   0                 ",
+            "gamma                 0                 ",
+            "delta                 0                 ",
+            "===================== ==================",
+            ]
+        for r, e in zip(received, expected):
+            self.assertEqual(r, e)
+
 
 def suite(*args, **kw):
     test_list = [
