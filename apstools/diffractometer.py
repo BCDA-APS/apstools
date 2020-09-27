@@ -5,6 +5,7 @@ add to capabilities of any diffractometer
 
     ~Constraint
     ~DiffractometerMixin
+    ~SoftE4CV
 
 """
 
@@ -21,14 +22,20 @@ add to capabilities of any diffractometer
 __all__ = [
     'Constraint',
     'DiffractometerMixin',
+    'SoftE4CV',
 ]
 
+from ophyd import Component, Device, PseudoSingle, SoftPositioner
 import collections
+import gi
 import logging
-from ophyd import Component, Device, PseudoSingle
 import pyRestTable
 
 logger = logging.getLogger(__file__)
+
+gi.require_version('Hkl', '5.0')    # MUST come before `import hkl`
+import hkl
+
 
 Constraint = collections.namedtuple(
     "Constraint",
@@ -168,3 +175,45 @@ class DiffractometerMixin(Device):
             print(table)
 
         return table
+
+
+class SoftE4CV(DiffractometerMixin, hkl.diffract.E4CV):
+    """
+    E4CV: Simulated (soft) 4-circle diffractometer, vertical scattering
+
+    EXAMPLE
+
+    ::
+
+        sim4c = SoftE4CV('', name='sim4c')
+    """
+
+    h = Component(PseudoSingle, '',
+        labels=("hkl", "fourc"), kind="hinted")
+    k = Component(PseudoSingle, '',
+        labels=("hkl", "fourc"), kind="hinted")
+    l = Component(PseudoSingle, '',
+        labels=("hkl", "fourc"), kind="hinted")
+
+    omega = Component(SoftPositioner,
+        labels=("motor", "fourc"), kind="hinted")
+    chi =   Component(SoftPositioner,
+        labels=("motor", "fourc"), kind="hinted")
+    phi =   Component(SoftPositioner,
+        labels=("motor", "fourc"), kind="hinted")
+    tth =   Component(SoftPositioner,
+        labels=("motor", "fourc"), kind="hinted")
+
+    def __init__(self, *args, **kwargs):
+        """
+        start the SoftPositioner objects with initial values
+
+        Since this diffractometer uses simulated motors,
+        prime the SoftPositioners (motors) with initial values.
+        Otherwise, with position == None, then describe(), and
+        other functions get borked.
+        """
+        super().__init__(*args, **kwargs)
+
+        for axis in self.real_positioners:
+            axis.move(0)
