@@ -1772,15 +1772,20 @@ def AD_prime_plugin(detector, detector_plugin):
     Prime this area detector's file writer plugin.
     Collect and push an NDarray to the file writer plugin.
     Works with HDF and JPEG file writers, maybe others.
+
     PARAMETERS
+
     detector
         *obj* :
         area detector (such as ``detector``)
     detector_plugin
         *obj* :
         area detector plugin to be *primed* (such as ``detector.hdf1``)
+
     EXAMPLE::
+
         AD_prime_plugin(detector, detector.hdf1)
+
     """
     old_enable = detector_plugin.enable.get()
     old_mode = detector_plugin.file_write_mode.get()

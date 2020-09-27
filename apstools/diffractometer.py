@@ -1,5 +1,5 @@
 """
-add to capabilities of any diffractometer
+diffractometer support
 
 .. autosummary::
 
@@ -8,6 +8,7 @@ add to capabilities of any diffractometer
     ~SoftE4CV
     ~SoftE6C
     ~SoftK4CV
+    ~SoftK6C
 
 """
 
@@ -27,6 +28,7 @@ __all__ = [
     'SoftE4CV',
     'SoftE6C',
     'SoftK4CV',
+    'SoftK6C',
 ]
 
 from ophyd import Component, Device, PseudoSingle, SoftPositioner
@@ -45,7 +47,6 @@ Constraint = collections.namedtuple(
     "Constraint",
     ("low_limit", "high_limit", "value", "fit"))
 
-
 class DiffractometerMixin(Device):
     """
     add to capabilities of any diffractometer
@@ -58,7 +59,7 @@ class DiffractometerMixin(Device):
         ~showConstraints
         ~undoLastConstraints
         ~wh
-"""
+    """
 
     h = Component(PseudoSingle, '', labels=("hkl",), kind="hinted")
     k = Component(PseudoSingle, '', labels=("hkl",), kind="hinted")
