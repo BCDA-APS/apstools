@@ -58,36 +58,9 @@ SHUTTERS
     ~ShutterBase
     ~SimulatedApsPssShutterWithStatus
 
-synApps (and EPICS base) records
+synApps Support
 
-.. autosummary::
-
-    ~BusyRecord
-    ~BusyStatus
-    ~CalcoutRecord
-    ~CalcoutRecordChannel
-    ~EpidRecord
-    ~SaveData
-    ~SscanRecord
-    ~SscanDevice
-    ~SwaitRecord
-    ~SwaitRecordChannel
-    ~TransformRecord
-    ~UserCalcoutDevice
-    ~UserCalcsDevice
-    ~UserTransformsDevice
-
-synApps support
-
-.. autosummary::
-
-    ~setup_gaussian_calcout
-    ~setup_gaussian_swait
-    ~setup_incrementer_calcout
-    ~setup_incrementer_swait
-    ~setup_lorentzian_calcout
-    ~setup_lorentzian_swait
-    ~setup_random_number_swait
+    See separate :ref:`synApps` section.
 
 OTHER SUPPORT
 
