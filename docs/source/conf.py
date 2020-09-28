@@ -174,14 +174,11 @@ texinfo_documents = [
 
 # http://www.sphinx-doc.org/en/master/usage/extensions/autodoc.html#confval-autodoc_mock_imports
 autodoc_mock_imports = [
-    # 'bluesky',
-    'databroker',
     'h5py',
     'matplotlib',
     'networkx',
-    # 'numpy',
-    'ophyd.sim.SynSignalRO',
     'pandas',
     'pyRestTable',
     'snapshot',
+    'xarray',
     ]
