@@ -153,7 +153,34 @@ class DiffractometerMixin(Device):
         """
         report the diffractometer settings
 
-        SPEC compatibility::
+        EXAMPLE::
+
+            In [1]: from apstools import diffractometer as APS_diffractometer
+
+            In [2]: sim4c = APS_diffractometer.SoftE4CV('', name='sim4c')
+
+            In [3]: sim4c.wh()
+            ===================== =========
+            term                  value
+            ===================== =========
+            diffractometer        sim4c
+            sample name           main
+            energy (keV)          0.80509
+            wavelength (angstrom) 1.54000
+            calc engine           hkl
+            mode                  bissector
+            h                     0.0
+            k                     0.0
+            l                     0.0
+            omega                 0
+            chi                   0
+            phi                   0
+            tth                   0
+            ===================== =========
+
+            Out[3]: <pyRestTable.rest_table.Table at 0x7f55c4775cd0>
+
+        compare with similar function in SPEC::
 
             1117.KAPPA> wh
             H K L =  0  0  1.7345
@@ -166,9 +193,11 @@ class DiffractometerMixin(Device):
         table = pyRestTable.Table()
         table.labels = "term value".split()
         table.addRow(("diffractometer", self.name))
-        table.addRow(("mode", self.calc.engine.mode))
         table.addRow(("sample name", self.calc.sample.name))
-        table.addRow(("wavelength (angstrom)", self.calc.wavelength))
+        table.addRow(("energy (keV)", f"{self.calc.energy:.5f}"))
+        table.addRow(("wavelength (angstrom)", f"{self.calc.wavelength:.5f}"))
+        table.addRow(("calc engine", self.calc.engine.name))
+        table.addRow(("mode", self.calc.engine.mode))
 
         for k, v in self.calc.pseudo_axes.items():
             table.addRow((k, v))
