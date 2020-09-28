@@ -58,36 +58,9 @@ SHUTTERS
     ~ShutterBase
     ~SimulatedApsPssShutterWithStatus
 
-synApps (and EPICS base) records
+synApps Support
 
-.. autosummary::
-
-    ~BusyRecord
-    ~BusyStatus
-    ~CalcoutRecord
-    ~CalcoutRecordChannel
-    ~EpidRecord
-    ~SaveData
-    ~SscanRecord
-    ~SscanDevice
-    ~SwaitRecord
-    ~SwaitRecordChannel
-    ~TransformRecord
-    ~UserCalcoutDevice
-    ~UserCalcsDevice
-    ~UserTransformsDevice
-
-synApps support
-
-.. autosummary::
-
-    ~setup_gaussian_calcout
-    ~setup_gaussian_swait
-    ~setup_incrementer_calcout
-    ~setup_incrementer_swait
-    ~setup_lorentzian_calcout
-    ~setup_lorentzian_swait
-    ~setup_random_number_swait
+    See separate :ref:`synApps` section.
 
 OTHER SUPPORT
 
@@ -2031,17 +2004,21 @@ class AD_EpicsJpegFileName(FileStorePluginBase):    # lgtm [py/missing-call-to-i
 
     """
     custom class to define image file name from EPICS
+
     .. caution:: *Caveat emptor* applies here.  You assume expertise!
+
     Replace standard Bluesky algorithm where file names
     are defined as UUID strings, virtually guaranteeing that
     no existing images files will ever be overwritten.
     Also, this method decouples the data files from the databroker,
     which needs the files to be named by UUID.
+
     .. autosummary::
         ~make_filename
         ~generate_datum
         ~get_frames_per_point
         ~stage
+
     Patterned on ``apstools.devices.AD_EpicsHdf5FileName()``.
     (Follow that documentation from this point.)
     """

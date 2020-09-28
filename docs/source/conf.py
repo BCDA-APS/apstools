@@ -168,18 +168,15 @@ texinfo_documents = [
      'Miscellaneous'),
 ]
 
-
-
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
 # http://www.sphinx-doc.org/en/master/usage/extensions/autodoc.html#confval-autodoc_mock_imports
-autodoc_mock_imports = """
-    bluesky
-    databroker
-    h5py
-    matplotlib
-    numpy
-    ophyd
-    pandas
-    pyRestTable
-    """.split()
+autodoc_mock_imports = [
+    'h5py',
+    'matplotlib',
+    'networkx',
+    'pandas',
+    'pyRestTable',
+    'snapshot',
+    'xarray',
+    ]

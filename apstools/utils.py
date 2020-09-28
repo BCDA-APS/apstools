@@ -720,6 +720,9 @@ def show_ophyd_symbols(show_pv=True,
                        printing=True,
                        verbose=False,
                        symbols=None):
+    """
+    DEPRECATED: Use listobjects() instead.
+    """
     warnings.warn(
         "DEPRECATED: show_ophyd_symbols() will be removed"
         " in a future release.  Use listobjects() instead."
