@@ -123,11 +123,6 @@ class TransformRecord(EpicsRecordDeviceCommonAll):
 class UserTransformsDevice(Device):
     """
     synApps XXX IOC setup of userTransforms: $(P):userTran$(N)
-
-    .. autosummary::
-
-        ~reset
-
     """
 
     enable = Cpt(EpicsSignal, 'userTranEnable')
