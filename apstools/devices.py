@@ -2004,17 +2004,21 @@ class AD_EpicsJpegFileName(FileStorePluginBase):    # lgtm [py/missing-call-to-i
 
     """
     custom class to define image file name from EPICS
+
     .. caution:: *Caveat emptor* applies here.  You assume expertise!
+
     Replace standard Bluesky algorithm where file names
     are defined as UUID strings, virtually guaranteeing that
     no existing images files will ever be overwritten.
     Also, this method decouples the data files from the databroker,
     which needs the files to be named by UUID.
+
     .. autosummary::
         ~make_filename
         ~generate_datum
         ~get_frames_per_point
         ~stage
+
     Patterned on ``apstools.devices.AD_EpicsHdf5FileName()``.
     (Follow that documentation from this point.)
     """
