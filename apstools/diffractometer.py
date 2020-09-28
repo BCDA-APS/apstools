@@ -149,9 +149,91 @@ class DiffractometerMixin(Device):
                         break   # only show the first (default) solution
         return _table
 
-    def wh(self, printing=True):
+    def pa(self, all_samples=False, printing=True):
         """
         report the diffractometer settings
+
+        EXAMPLE::
+
+            In [1]: from apstools import diffractometer as APS_diffractometer
+
+            In [2]: sim4c = APS_diffractometer.SoftE4CV('', name='sim4c')
+
+            In [3]: sim4c.pa()
+            ======
+            tba...
+            ======
+
+            Out[3]: <pyRestTable.rest_table.Table at 0x7f55c4775cd0>
+        """
+        table = pyRestTable.Table()
+        table.labels = "term value".split()
+
+        table.addRow(("diffractometer", self.name))
+        table.addRow(("geometry", self.calc._geometry.name_get()))
+        table.addRow(("class", self.__class__.__name__))
+        table.addRow(("energy (keV)", f"{self.calc.energy:.5f}"))
+        table.addRow(("wavelength (angstrom)", f"{self.calc.wavelength:.5f}"))
+        table.addRow(("calc engine", self.calc.engine.name))
+        table.addRow(("mode", self.calc.engine.mode))
+
+        for item in self.real_positioners:
+            table.addRow((item.attr_name, f"{item.position:.5f}"))
+        # TODO: motor renames (if any)
+        # In [17]: sim4c.calc._axis_name_to_renamed                                                                                                                        
+        # Out[17]: {}
+
+        # In [18]: sim4c.calc.physical_axis_names??                                                                                                                        
+
+        # In [19]: sim4c.calc._axis_name_to_renamed.values()                                                                                                               
+        # Out[19]: dict_values([])
+
+        # In [20]: sim4c.calc.physical_axis_names??                                                                                                                        
+
+        # In [21]: sim4c.calc._geometry.axis_names_get()                                                                                                                   
+        # Out[21]: ['omega', 'chi', 'phi', 'tth']
+        # sim4c.calc.physical_axis_names = dict(
+        #       omega = "able",
+        #       chi = "baker",
+        #       phi = "charlie",
+        #       tth = "ttheta")
+
+        if all_samples:
+            samples = self.calc._samples.values()
+        else:
+            samples = [self.calc._sample]
+        for sample in samples:
+            t = pyRestTable.Table()
+            t.labels = "term value".split()
+            nm = sample.name
+            if all_samples and sample == self.calc.sample:
+                nm += " (*)"
+
+            unit_cell = ""
+            for k in "a b c alpha beta gamma".split():
+                unit_cell += f"{k} {getattr(sample.lattice, k)}\n"
+            t.addRow(("unit cell", str(unit_cell).strip()))
+
+            for i, ref in enumerate(sample.reflections):
+                rt = (
+                    f"h {ref.h}\n"
+                    f"k {ref.k}\n"
+                    f"l {ref.l}\n")
+                t.addRow((f"reflection {i+1}", str(rt).strip()))
+
+            t.addRow(("[U]", sample.U))
+            t.addRow(("[UB]", sample.UB))
+
+            table.addRow((f"sample: {nm}", str(t).strip()))
+
+        if printing:
+            print(table)
+
+        return table
+
+    def wh(self, printing=True):
+        """
+        report where is the diffractometer
 
         EXAMPLE::
 
@@ -204,8 +286,6 @@ class DiffractometerMixin(Device):
 
         for item in self.real_positioners:
             table.addRow((item.attr_name, item.position))
-
-        # TODO: show constraints?
 
         if printing:
             print(table)
