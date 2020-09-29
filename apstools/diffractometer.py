@@ -86,7 +86,7 @@ class DiffractometerMixin(Device):
             self._set_constraints(self._constraints_stack[0])
             self._constraints_stack = []
 
-    def showConstraints(self, fmt="simple"):
+    def showConstraints(self, fmt="simple", printing=True):
         """print the current constraints in a table"""
         tbl = pyRestTable.Table()
         tbl.labels = "axis low_limit high_limit value fit".split()
@@ -96,7 +96,11 @@ class DiffractometerMixin(Device):
                 *self.calc[m].limits,
                 self.calc[m].value,
                 self.calc[m].fit))
-        print(tbl.reST(fmt=fmt))
+
+        if printing:
+            print(tbl.reST(fmt=fmt))
+
+        return tbl
 
     def undoLastConstraints(self):
         """remove the current additional constraints, restoring previous constraints"""
@@ -193,6 +197,9 @@ class DiffractometerMixin(Device):
                 row.append(k)
             pt.addRow(row)
         table.addRow(("positions", addTable(pt)))
+
+        t = self.showConstraints(printing=False)
+        table.addRow(("constraints", addTable(t)))
 
         if all_samples:
             samples = self.calc._samples.values()
