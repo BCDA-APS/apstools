@@ -17,7 +17,7 @@ gi.require_version('Hkl', '5.0')    # MUST come before `import hkl`
 
 from .common import Capture_stdout
 from apstools import diffractometer as APS_diffractometer
-from ophyd import Component, PseudoSingle, SoftPositioner
+from ophyd import Component, SoftPositioner
 import hkl.diffract
 
 
