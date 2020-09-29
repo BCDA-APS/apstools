@@ -12,8 +12,31 @@ _path = os.path.join(_test_path, '..')
 if _path not in sys.path:
     sys.path.insert(0, _path)
 
-from apstools import diffractometer as APS_diffractometer
+import gi
+gi.require_version('Hkl', '5.0')    # MUST come before `import hkl`
+
 from .common import Capture_stdout
+from apstools import diffractometer as APS_diffractometer
+from ophyd import Component, Device, PseudoSingle, SoftPositioner
+import hkl.diffract
+
+
+class MyE4CV(APS_diffractometer.DiffractometerMixin, hkl.diffract.E4CV):
+    """example with custom positioner names"""
+
+    able = Component(SoftPositioner,
+        labels=("motor"), kind="hinted")
+    baker =   Component(SoftPositioner,
+        labels=("motor",), kind="hinted")
+    charlie =   Component(SoftPositioner,
+        labels=("motor",), kind="hinted")
+    arm =   Component(SoftPositioner,
+        labels=("motor",), kind="hinted")
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        for axis in self.real_positioners:
+            axis.move(0)
 
 
 class Test_Cases(unittest.TestCase):
@@ -39,6 +62,60 @@ class Test_Cases(unittest.TestCase):
         self.assertEqual(len(sim4c.calc._samples), 1)
         self.assertEqual(sim4c.calc.sample.name, "main")
         self.assertEqual(sim4c.calc.sample.lattice.a, 1.54)
+
+    def test_sim4c_pa(self):
+        sim4c = MyE4CV('', name='sim4c')
+        sim4c.calc.physical_axis_names = dict(
+            omega = "able",
+            chi = "baker",
+            phi = "charlie",
+            tth = "arm")
+        p1 = sim4c.calc.Position(able=45, baker=45, charlie=90.0, arm=90)
+        p2 = sim4c.calc.Position(able=30, baker=90, charlie=90.0, arm=60)
+        r1 = sim4c.calc.sample.add_reflection(1, 1, 0, position=p1)
+        r2 = sim4c.calc.sample.add_reflection(0, 1, 0, position=p2)
+        sim4c.calc.sample.compute_UB(r1, r2)
+        tbl = sim4c.pa(printing=False)
+        received = str(tbl).splitlines()
+        expected = [
+            "===================== ===============================================================================",
+            "term                  value                                                                          ",
+            "===================== ===============================================================================",
+            "diffractometer        sim4c                                                                          ",
+            "geometry              E4CV                                                                           ",
+            "class                 MyE4CV                                                                         ",
+            "energy (keV)          0.80509                                                                        ",
+            "wavelength (angstrom) 1.54000                                                                        ",
+            "calc engine           hkl                                                                            ",
+            "mode                  bissector                                                                      ",
+            "positions             ======= ======= =============                                                  ",
+            "                      name    value   original name                                                  ",
+            "                      ======= ======= =============                                                  ",
+            "                      able    0.00000 omega                                                          ",
+            "                      baker   0.00000 chi                                                            ",
+            "                      charlie 0.00000 phi                                                            ",
+            "                      arm     0.00000 tth                                                            ",
+            "                      ======= ======= =============                                                  ",
+            "sample: main          ================= =============================================================",
+            "                      term              value                                                        ",
+            "                      ================= =============================================================",
+            "                      unit cell edges   a=1.54, b=1.54, c=1.54                                       ",
+            "                      unit cell angles  alpha=90.0, beta=90.0, gamma=90.0                            ",
+            "                      ref 1 (hkl)       h=1.0, k=1.0, l=0.0                                          ",
+            "                      ref 1 positioners able=45.00000, baker=45.00000, charlie=90.00000, arm=90.00000",
+            "                      ref 2 (hkl)       h=0.0, k=1.0, l=0.0                                          ",
+            "                      ref 2 positioners able=30.00000, baker=90.00000, charlie=90.00000, arm=60.00000",
+            "                      [U]               [[ 1.00000000e+00 -1.11022302e-16  1.08845649e-16]           ",
+            "                                         [ 1.11022302e-16  1.00000000e+00 -1.08845649e-16]           ",
+            "                                         [-1.08845649e-16  1.08845649e-16  1.00000000e+00]]          ",
+            "                      [UB]              [[ 4.07999046e+00 -7.02797298e-16  1.94261847e-16]           ",
+            "                                         [ 4.52969935e-16  4.07999046e+00 -6.93916573e-16]           ",
+            "                                         [-4.44089210e-16  4.44089210e-16  4.07999046e+00]]          ",
+            "                      ================= =============================================================",
+            "===================== ===============================================================================",
+            ]
+        for r, e in zip(received, expected):
+            self.assertEqual(r, e)
 
     def test_sim4c_wh(self):
         sim4c = APS_diffractometer.SoftE4CV('', name='sim4c')

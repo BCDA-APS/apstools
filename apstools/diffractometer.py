@@ -166,6 +166,11 @@ class DiffractometerMixin(Device):
 
             Out[3]: <pyRestTable.rest_table.Table at 0x7f55c4775cd0>
         """
+        def addTable(tbl):
+            return str(tbl).strip()
+        def Package(**kwargs):
+            return ", ".join([f"{k}={v}" for k, v in kwargs.items()])
+
         table = pyRestTable.Table()
         table.labels = "term value".split()
 
@@ -177,26 +182,17 @@ class DiffractometerMixin(Device):
         table.addRow(("calc engine", self.calc.engine.name))
         table.addRow(("mode", self.calc.engine.mode))
 
+        pt = pyRestTable.Table()
+        pt.labels = "name value".split()
+        if self.calc._axis_name_to_original:
+            pt.addLabel("original name")
         for item in self.real_positioners:
-            table.addRow((item.attr_name, f"{item.position:.5f}"))
-        # TODO: motor renames (if any)
-        # In [17]: sim4c.calc._axis_name_to_renamed                                                                                                                        
-        # Out[17]: {}
-
-        # In [18]: sim4c.calc.physical_axis_names??                                                                                                                        
-
-        # In [19]: sim4c.calc._axis_name_to_renamed.values()                                                                                                               
-        # Out[19]: dict_values([])
-
-        # In [20]: sim4c.calc.physical_axis_names??                                                                                                                        
-
-        # In [21]: sim4c.calc._geometry.axis_names_get()                                                                                                                   
-        # Out[21]: ['omega', 'chi', 'phi', 'tth']
-        # sim4c.calc.physical_axis_names = dict(
-        #       omega = "able",
-        #       chi = "baker",
-        #       phi = "charlie",
-        #       tth = "ttheta")
+            row = [item.attr_name, f"{item.position:.5f}"]
+            k = self.calc._axis_name_to_original.get(item.attr_name)
+            if k is not None:
+                row.append(k)
+            pt.addRow(row)
+        table.addRow(("positions", addTable(pt)))
 
         if all_samples:
             samples = self.calc._samples.values()
@@ -209,22 +205,41 @@ class DiffractometerMixin(Device):
             if all_samples and sample == self.calc.sample:
                 nm += " (*)"
 
-            unit_cell = ""
-            for k in "a b c alpha beta gamma".split():
-                unit_cell += f"{k} {getattr(sample.lattice, k)}\n"
-            t.addRow(("unit cell", str(unit_cell).strip()))
+            t.addRow((
+                "unit cell edges",
+                Package(**{
+                    k: getattr(sample.lattice, k)
+                    for k in "a b c".split()
+                    })
+                ))
+            t.addRow((
+                "unit cell angles",
+                Package(**{
+                    k: getattr(sample.lattice, k)
+                    for k in "alpha beta gamma".split()
+                    })
+                ))
 
-            for i, ref in enumerate(sample.reflections):
-                rt = (
-                    f"h {ref.h}\n"
-                    f"k {ref.k}\n"
-                    f"l {ref.l}\n")
-                t.addRow((f"reflection {i+1}", str(rt).strip()))
+
+            for i, ref in enumerate(sample._sample.reflections_get()):
+                h, k, l = ref.hkl_get()
+                pos_arr = ref.geometry_get().axis_values_get(self.calc._units)
+                t.addRow((
+                    f"ref {i+1} (hkl)",
+                    Package(**dict(h=h, k=k, l=l))
+                ))
+                t.addRow((
+                    f"ref {i+1} positioners",
+                    Package(**{
+                        k: f"{v:.5f}"
+                        for k, v in zip(self.calc.physical_axis_names, pos_arr)
+                    })
+                ))
 
             t.addRow(("[U]", sample.U))
             t.addRow(("[UB]", sample.UB))
 
-            table.addRow((f"sample: {nm}", str(t).strip()))
+            table.addRow((f"sample: {nm}", addTable(t)))
 
         if printing:
             print(table)
