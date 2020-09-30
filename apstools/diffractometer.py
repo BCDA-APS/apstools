@@ -86,7 +86,7 @@ class DiffractometerMixin(Device):
             self._set_constraints(self._constraints_stack[0])
             self._constraints_stack = []
 
-    def showConstraints(self, fmt="simple"):
+    def showConstraints(self, fmt="simple", printing=True):
         """print the current constraints in a table"""
         tbl = pyRestTable.Table()
         tbl.labels = "axis low_limit high_limit value fit".split()
@@ -96,7 +96,11 @@ class DiffractometerMixin(Device):
                 *self.calc[m].limits,
                 self.calc[m].value,
                 self.calc[m].fit))
-        print(tbl.reST(fmt=fmt))
+
+        if printing:
+            print(tbl.reST(fmt=fmt))
+
+        return tbl
 
     def undoLastConstraints(self):
         """remove the current additional constraints, restoring previous constraints"""
@@ -149,9 +153,109 @@ class DiffractometerMixin(Device):
                         break   # only show the first (default) solution
         return _table
 
-    def wh(self, printing=True):
+    def pa(self, all_samples=False, printing=True):
         """
         report the diffractometer settings
+
+        EXAMPLE::
+
+            In [1]: from apstools import diffractometer as APS_diffractometer
+
+            In [2]: sim4c = APS_diffractometer.SoftE4CV('', name='sim4c')
+
+            In [3]: sim4c.pa()
+            ======
+            tba...
+            ======
+
+            Out[3]: <pyRestTable.rest_table.Table at 0x7f55c4775cd0>
+        """
+        def addTable(tbl):
+            return str(tbl).strip()
+        def Package(**kwargs):
+            return ", ".join([f"{k}={v}" for k, v in kwargs.items()])
+
+        table = pyRestTable.Table()
+        table.labels = "term value".split()
+
+        table.addRow(("diffractometer", self.name))
+        table.addRow(("geometry", self.calc._geometry.name_get()))
+        table.addRow(("class", self.__class__.__name__))
+        table.addRow(("energy (keV)", f"{self.calc.energy:.5f}"))
+        table.addRow(("wavelength (angstrom)", f"{self.calc.wavelength:.5f}"))
+        table.addRow(("calc engine", self.calc.engine.name))
+        table.addRow(("mode", self.calc.engine.mode))
+
+        pt = pyRestTable.Table()
+        pt.labels = "name value".split()
+        if self.calc._axis_name_to_original:
+            pt.addLabel("original name")
+        for item in self.real_positioners:
+            row = [item.attr_name, f"{item.position:.5f}"]
+            k = self.calc._axis_name_to_original.get(item.attr_name)
+            if k is not None:
+                row.append(k)
+            pt.addRow(row)
+        table.addRow(("positions", addTable(pt)))
+
+        t = self.showConstraints(printing=False)
+        table.addRow(("constraints", addTable(t)))
+
+        if all_samples:
+            samples = self.calc._samples.values()
+        else:
+            samples = [self.calc._sample]
+        for sample in samples:
+            t = pyRestTable.Table()
+            t.labels = "term value".split()
+            nm = sample.name
+            if all_samples and sample == self.calc.sample:
+                nm += " (*)"
+
+            t.addRow((
+                "unit cell edges",
+                Package(**{
+                    k: getattr(sample.lattice, k)
+                    for k in "a b c".split()
+                    })
+                ))
+            t.addRow((
+                "unit cell angles",
+                Package(**{
+                    k: getattr(sample.lattice, k)
+                    for k in "alpha beta gamma".split()
+                    })
+                ))
+
+
+            for i, ref in enumerate(sample._sample.reflections_get()):
+                h, k, l = ref.hkl_get()
+                pos_arr = ref.geometry_get().axis_values_get(self.calc._units)
+                t.addRow((
+                    f"ref {i+1} (hkl)",
+                    Package(**dict(h=h, k=k, l=l))
+                ))
+                t.addRow((
+                    f"ref {i+1} positioners",
+                    Package(**{
+                        k: f"{v:.5f}"
+                        for k, v in zip(self.calc.physical_axis_names, pos_arr)
+                    })
+                ))
+
+            t.addRow(("[U]", sample.U))
+            t.addRow(("[UB]", sample.UB))
+
+            table.addRow((f"sample: {nm}", addTable(t)))
+
+        if printing:
+            print(table)
+
+        return table
+
+    def wh(self, printing=True):
+        """
+        report where is the diffractometer
 
         EXAMPLE::
 
@@ -204,8 +308,6 @@ class DiffractometerMixin(Device):
 
         for item in self.real_positioners:
             table.addRow((item.attr_name, item.position))
-
-        # TODO: show constraints?
 
         if printing:
             print(table)
