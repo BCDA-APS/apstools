@@ -36,3 +36,4 @@ developer releases | [![conda](https://anaconda.org/aps-anl-dev/apstools/badges/
 * https://github.com/bluesky/bluesky
 * https://github.com/bluesky/ophyd
 * https://github.com/bluesky/databroker
+* https://github.com/bluesky/hklpy
