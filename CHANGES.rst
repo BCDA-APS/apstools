@@ -6,7 +6,7 @@ Change History
 
 :1.3.9:  release expected -tba-
 
-:1.3.8:  release expected 2020-10-23
+:1.3.8:  released: 2020-10-23
 
     * `#449 <https://github.com/BCDA-APS/apstools/pull/449>`_
        diffractometer wh() shows extra positioners
