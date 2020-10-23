@@ -35,10 +35,10 @@ class Test_Utils(unittest.TestCase):
         expected = "1__Some_text_to_cleanup__25"
         self.assertEqual(received, expected)
 
-    def test_device_read2table(self):
+    def test_listdevice(self):
         motor1 = ophyd.sim.hw().motor1
         with Capture_stdout():
-            table = APS_utils.device_read2table(
+            table = APS_utils.listdevice(
                 motor1, show_ancient=True, use_datetime=True)
         # print(table)
         expected = (
@@ -56,7 +56,7 @@ class Test_Utils(unittest.TestCase):
         self.assertEqual(received, expected)    # fails since timestamps do not match
 
         with Capture_stdout():
-            table = APS_utils.device_read2table(
+            table = APS_utils.listdevice(
                 motor1, show_ancient=True, use_datetime=False)
         # expected = """ """.strip()
         received = "\n".join(
@@ -65,7 +65,7 @@ class Test_Utils(unittest.TestCase):
         self.assertEqual(received, expected)    # fails since timestamps do not match
 
         with Capture_stdout():
-            table = APS_utils.device_read2table(
+            table = APS_utils.listdevice(
                 motor1, show_ancient=False, use_datetime=False)
         # expected = """ """.strip()
         received = "\n".join([

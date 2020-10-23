@@ -18,6 +18,7 @@ Various utilities
    ~itemizer
    ~json_export
    ~json_import
+   ~listdevice
    ~listobjects
    ~listruns
    ~object_explorer
@@ -128,6 +129,17 @@ def command_list_as_table(commands, show_raw=False):
 
 
 def device_read2table(device, show_ancient=True, use_datetime=True, printing=True):
+    """
+    DEPRECATED: Use listdevice() instead.
+    """
+    warnings.warn(
+        "DEPRECATED: device_read2table() will be removed"
+        " in a future release.  Use listdevice() instead."
+        )
+    listdevice(device, show_ancient=show_ancient, use_datetime=use_datetime, printing=printing)
+
+
+def listdevice(device, show_ancient=True, use_datetime=True, printing=True):
     """
     read an ophyd device and return a pyRestTable Table
 
