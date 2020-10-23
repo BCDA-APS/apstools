@@ -4,11 +4,12 @@ Ophyd support for synApps configuration of EPICS records
 Support the default structures as provided by the
 synApps template XXX IOC.
 
-EXAMPLES:;
+EXAMPLES::
 
     import apstools.synApps
-    scans = apstools.synApps.SscanDevice("xxx:", name="scans")
     calcs = apstools.synApps.userCalcsDevice("xxx:", name="calcs")
+    scans = apstools.synApps.SscanDevice("xxx:", name="scans")
+    xxxstats = apstools.synApps.IocStatsDevice("xxx:", name="xxxstats")
 
     calc1 = calcs.calc1
     apstools.synApps.swait_setup_random_number(calc1)
@@ -36,6 +37,7 @@ from .asyn import *
 from .busy import *
 from .calcout import *
 from .epid import *
+from .iocstats import *
 from .save_data import *
 from .sscan import *
 from .swait import *
