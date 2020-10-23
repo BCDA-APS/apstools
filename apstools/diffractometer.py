@@ -31,7 +31,8 @@ __all__ = [
     'SoftK6C',
 ]
 
-from ophyd import Component, Device, PseudoSingle, SoftPositioner
+from ophyd import Component, Device
+from ophyd import PositionerBase, PseudoSingle, SoftPositioner
 import collections
 import gi
 import logging
@@ -295,19 +296,27 @@ class DiffractometerMixin(Device):
 
         """
         table = pyRestTable.Table()
-        table.labels = "term value".split()
-        table.addRow(("diffractometer", self.name))
-        table.addRow(("sample name", self.calc.sample.name))
-        table.addRow(("energy (keV)", f"{self.calc.energy:.5f}"))
-        table.addRow(("wavelength (angstrom)", f"{self.calc.wavelength:.5f}"))
-        table.addRow(("calc engine", self.calc.engine.name))
-        table.addRow(("mode", self.calc.engine.mode))
+        table.labels = "term value axis_type".split()
+        table.addRow(("diffractometer", self.name, ""))
+        table.addRow(("sample name", self.calc.sample.name, ""))
+        table.addRow(("energy (keV)", f"{self.calc.energy:.5f}", ""))
+        table.addRow(("wavelength (angstrom)", f"{self.calc.wavelength:.5f}", ""))
+        table.addRow(("calc engine", self.calc.engine.name, ""))
+        table.addRow(("mode", self.calc.engine.mode, ""))
 
-        for k, v in self.calc.pseudo_axes.items():
-            table.addRow((k, v))
-
-        for item in self.real_positioners:
-            table.addRow((item.attr_name, item.position))
+        pseudo_axes = [v.attr_name for v in self._pseudo]
+        real_axes = [v.attr_name for v in self._real]
+        for k in self._sig_attrs.keys():
+            v = getattr(self, k)
+            if not issubclass(v.__class__, PositionerBase):
+                continue
+            if k in real_axes:
+                label = "real"
+            elif k in pseudo_axes:
+                label = "pseudo"
+            else:
+                label = "additional"
+            table.addRow((k, v.position, label))
 
         if printing:
             print(table)
