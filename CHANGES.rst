@@ -4,7 +4,24 @@
 Change History
 ##############
 
-:1.3.8:  release expected -tba-
+:1.3.9:  release expected -tba-
+
+:1.3.8:  release expected 2020-10-23
+
+    * `#449 <https://github.com/BCDA-APS/apstools/pull/449>`_
+       diffractometer wh() shows extra positioners
+    * `#446 <https://github.com/BCDA-APS/apstools/pull/446>`_
+       utils: device_read2table() renamed to listdevice()
+    * `#445 <https://github.com/BCDA-APS/apstools/pull/445>`_
+       synApps: add Device for iocStats
+    * `#437 <https://github.com/BCDA-APS/apstools/pull/437>`_
+       diffractometer add pa() report
+    * `#426 <https://github.com/BCDA-APS/apstools/pull/426>`_
+       diffractometer add simulated diffractometers
+    * `#425 <https://github.com/BCDA-APS/apstools/pull/425>`_
+       BUG fixed: listruns() when no stop document
+    * `#423 <https://github.com/BCDA-APS/apstools/pull/423>`_
+       BUG fixed: apsbss IOC starter script
 
 :1.3.7:  released: 2020-09-18
 
