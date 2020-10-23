@@ -10,7 +10,7 @@ Public Structures
 
 """
 
-#-----------------------------------------------------------------------------
+# -----------------------------------------------------------------------------
 # :author:    Pete R. Jemian
 # :email:     jemian@anl.gov
 # :copyright: (c) 2017-2020, UChicago Argonne, LLC
@@ -18,7 +18,7 @@ Public Structures
 # Distributed under the terms of the Creative Commons Attribution 4.0 International Public License.
 #
 # The full license is in the file LICENSE.txt, distributed with this software.
-#-----------------------------------------------------------------------------
+# -----------------------------------------------------------------------------
 
 from ophyd import Component, Device, EpicsSignalRO, Signal
 
@@ -27,8 +27,12 @@ class IocStatsDevice(Device):
 
     _app_dir1 = Component(EpicsSignalRO, "APP_DIR1", kind="omitted")
     _app_dir2 = Component(EpicsSignalRO, "APP_DIR2", kind="omitted")
-    _startup_script1 = Component(EpicsSignalRO, "ST_SCRIPT1", kind="omitted")
-    _startup_script2 = Component(EpicsSignalRO, "ST_SCRIPT2", kind="omitted")
+    _startup_script1 = Component(
+        EpicsSignalRO, "ST_SCRIPT1", kind="omitted"
+    )
+    _startup_script2 = Component(
+        EpicsSignalRO, "ST_SCRIPT2", kind="omitted"
+    )
     access = Component(EpicsSignalRO, "ACCESS", string=True)
     ca_client_count = Component(EpicsSignalRO, "CA_CLNT_CNT")
     ca_connection_count = Component(EpicsSignalRO, "CA_CONN_CNT")
@@ -71,8 +75,9 @@ class IocStatsDevice(Device):
             so it will be recorded with a Device.read()
             """
             self.application_directory.put(
-                self._app_dir1.get()+self._app_dir2.get()
+                self._app_dir1.get() + self._app_dir2.get()
             )
+
         self._app_dir1.subscribe(ad_update)
         self._app_dir2.subscribe(ad_update)
 
@@ -84,8 +89,9 @@ class IocStatsDevice(Device):
             so it will be recorded with a Device.read()
             """
             self.startup_script.put(
-                self._startup_script1.get()+self._startup_script2.get()
+                self._startup_script1.get() + self._startup_script2.get()
             )
+
         self._startup_script1.subscribe(ss_update)
         self._startup_script2.subscribe(ss_update)
 
@@ -99,4 +105,5 @@ class IocStatsDevice(Device):
             self.memory_used_percentage.put(
                 100 * self.memory_used.get() / self.memory_max.get()
             )
+
         self.memory_used.subscribe(mem_used_update)
