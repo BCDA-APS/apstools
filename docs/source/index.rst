@@ -39,6 +39,7 @@ author        Pete R. Jemian <jemian@anl.gov>
    :caption: Contents:
    :glob:
 
+   install
    applications/index
    examples/index
    source/index
