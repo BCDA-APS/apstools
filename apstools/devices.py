@@ -979,7 +979,7 @@ class ApsUndulator(Device):
                     break
                 except ValueError:
                     if _offset == '':
-                        msg = 'Using offset = {} keV'
+                        msg = 'Using offset = {:0.3f} keV'
                         print(msg.format(self.offset.get()))
                         break
                     else:
