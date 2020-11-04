@@ -1767,7 +1767,7 @@ def AD_prime_plugin(detector, detector_plugin):
     # next step is important:
     # SET the write mode to "Single" (0) or plugin's Capture=1 won't stay
     detector_plugin.file_write_mode.put(0)
-    detector_plugin.jpeg1.capture.put(1)
+    detector_plugin.capture.put(1)
     detector.cam.acquire.put(1)
 
     # reset things
