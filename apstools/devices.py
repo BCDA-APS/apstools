@@ -985,20 +985,6 @@ class ApsUndulator(Device):
                     else:
                         print("The undulator offset has to be a number.")
 
-        while True:
-            msg = "Undulator taper (keV) ({:0.3f}): "
-            _taper = input(msg.format(self.energy_taper.get()))
-            try:
-                self.energy_taper.put(float(_taper))
-                break
-            except ValueError:
-                if _offset == '':
-                    msg = 'Using offset = {} keV'
-                    print(msg.format(self.energy_taper.get()))
-                    break
-                else:
-                    print("The undulator taper has to be a number.")
-
 
 class ApsUndulatorDual(Device):
     """
