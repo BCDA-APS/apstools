@@ -897,6 +897,25 @@ class SimulatedApsPssShutterWithStatus(ApsPssShutterWithStatus):
         return result
 
 
+class TrackingSignal(Signal):
+    """
+    Signal to decide if undulator will be tracked while changing the
+    monochromator energy.
+    """
+
+    def check_value(self, value):
+        """
+        Check if the value is a boolean.
+
+        Raises
+        ------
+        ValueError
+        """
+        if type(value) != bool:
+            msg = 'tracking is boolean, it can only be True or False.'
+            raise ValueError(msg)
+
+
 class ApsUndulator(Device):
     """
     APS Undulator
@@ -906,27 +925,79 @@ class ApsUndulator(Device):
         undulator = ApsUndulator("ID09ds:", name="undulator")
     """
 
-    energy = Component(EpicsSignal, "Energy", write_pv="EnergySet")
-    energy_taper = Component(EpicsSignal, "TaperEnergy", write_pv="TaperEnergySet")
+    energy = Component(EpicsSignal, "Energy", write_pv="EnergySet",
+                       put_complete=True, kind='hinted')
+    energy_taper = Component(EpicsSignal, "TaperEnergy",
+                             write_pv="TaperEnergySet", kind='config')
     gap = Component(EpicsSignal, "Gap", write_pv="GapSet")
-    gap_taper = Component(EpicsSignal, "TaperGap", write_pv="TaperGapSet")
-    start_button = Component(EpicsSignal, "Start", put_complete=True)
-    stop_button = Component(EpicsSignal, "Stop")
-    harmonic_value = Component(EpicsSignal, "HarmonicValue")
-    gap_deadband = Component(EpicsSignal, "DeadbandGap")
-    device_limit = Component(EpicsSignal, "DeviceLimit")
+    gap_taper = Component(EpicsSignal, "TaperGap", write_pv="TaperGapSet",
+                          kind='config')
+    start_button = Component(EpicsSignal, "Start", put_complete=True,
+                             kind='omitted')
+    stop_button = Component(EpicsSignal, "Stop", kind='omitted')
+    harmonic_value = Component(EpicsSignal, "HarmonicValue", kind='config')
+    gap_deadband = Component(EpicsSignal, "DeadbandGap", kind='config')
+    device_limit = Component(EpicsSignal, "DeviceLimit", kind='config')
 
-    access_mode = Component(EpicsSignalRO, "AccessSecurity")
-    device_status = Component(EpicsSignalRO, "Busy")
-    total_power = Component(EpicsSignalRO, "TotalPower")
-    message1 = Component(EpicsSignalRO, "Message1")
-    message2 = Component(EpicsSignalRO, "Message2")
-    message3 = Component(EpicsSignalRO, "Message3")
-    time_left = Component(EpicsSignalRO, "ShClosedTime")
+    access_mode = Component(EpicsSignalRO, "AccessSecurity", kind='omitted')
+    device_status = Component(EpicsSignalRO, "Busy", kind='omitted')
+    total_power = Component(EpicsSignalRO, "TotalPower", kind='config')
+    message1 = Component(EpicsSignalRO, "Message1", kind='omitted')
+    message2 = Component(EpicsSignalRO, "Message2", kind='omitted')
+    message3 = Component(EpicsSignalRO, "Message3", kind='omitted')
+    time_left = Component(EpicsSignalRO, "ShClosedTime", kind='omitted')
 
-    device = Component(EpicsSignalRO, "Device")
-    location = Component(EpicsSignalRO, "Location")
-    version = Component(EpicsSignalRO, "Version")
+    device = Component(EpicsSignalRO, "Device", kind='config')
+    location = Component(EpicsSignalRO, "Location", kind='config')
+    version = Component(EpicsSignalRO, "Version", kind='config')
+
+    # Useful undulator parameters that are not EPICS PVs.
+    energy_deadband = Component(Signal, value=0.002, kind='config')
+    energy_backlash = Component(Signal, value=0.25, kind='config')
+    energy_offset = Component(Signal, value=0, kind='config')
+    tracking = Component(TrackingSignal, value=False, kind='config')
+
+    def undulator_setup(self):
+        """Interactive setup of usual undulator parameters."""
+        while True:
+            msg = "Do you want to track the undulator energy? (yes/no): "
+            _tracking = input(msg)
+            if _tracking == 'yes':
+                self.tracking.put(True)
+                break
+            elif _tracking == 'no':
+                self.tracking.put(False)
+            else:
+                print("Only yes or no are valid answers.")
+
+        if _tracking == 'yes':
+            while True:
+                msg = "Undulator offset (keV) ({:0.3f}): "
+                _offset = input(msg.format(self.offset.get()))
+                try:
+                    self.offset.put(float(_offset))
+                    break
+                except ValueError:
+                    if _offset == '':
+                        msg = 'Using offset = {} keV'
+                        print(msg.format(self.offset.get()))
+                        break
+                    else:
+                        print("The undulator offset has to be a number.")
+
+        while True:
+            msg = "Undulator taper (keV) ({:0.3f}): "
+            _taper = input(msg.format(self.energy_taper.get()))
+            try:
+                self.energy_taper.put(float(_taper))
+                break
+            except ValueError:
+                if _offset == '':
+                    msg = 'Using offset = {} keV'
+                    print(msg.format(self.energy_taper.get()))
+                    break
+                else:
+                    print("The undulator taper has to be a number.")
 
 
 class ApsUndulatorDual(Device):
