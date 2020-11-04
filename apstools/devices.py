@@ -952,8 +952,8 @@ class ApsUndulator(Device):
     version = Component(EpicsSignalRO, "Version", kind='config')
 
     # Useful undulator parameters that are not EPICS PVs.
-    energy_deadband = Component(Signal, value=0.002, kind='config')
-    energy_backlash = Component(Signal, value=0.25, kind='config')
+    energy_deadband = Component(Signal, value=0.0, kind='config')
+    energy_backlash = Component(Signal, value=0.0, kind='config')
     energy_offset = Component(Signal, value=0, kind='config')
     tracking = Component(TrackingSignal, value=False, kind='config')
 
@@ -1510,6 +1510,18 @@ class KohzuSeqCtl_Monochromator(Device):
         """for command-line use:  ``kohzu_mono.energy_move(8.2)``"""
         self.energy.put(energy)
         self.move_button.put(1)
+
+    def calibrate_energy(self, value):
+        """Calibrate the mono energy.
+
+        Parameters
+        ----------
+        value: float
+            New energy for the current monochromator position.
+        """
+        self.use_set.put('Set')
+        self.energy.put(value)
+        self.use_set.put('Use')
 
 
 class ProcessController(Device):
