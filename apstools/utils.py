@@ -29,6 +29,7 @@ Various utilities
    ~quantify_md_key_use
    ~redefine_motor_position
    ~replay
+   ~rss_mem
    ~run_in_thread
    ~safe_ophyd_name
    ~select_live_plot
@@ -69,6 +70,7 @@ import math
 import ophyd
 import os
 import pandas
+import psutil
 import pyRestTable
 import re
 import smtplib
@@ -588,6 +590,11 @@ def replay(headers, callback=None, sort=True):
         # at last, this is where the real action happens
         for k, doc in h.documents():    # get the stream
             callback(k, doc)            # play it through the callback
+
+
+def rss_mem():
+    """return memory used by this process"""
+    return psutil.Process(os.getpid()).memory_info()
 
 
 def run_in_thread(func):
