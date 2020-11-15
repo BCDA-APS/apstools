@@ -1225,7 +1225,7 @@ class NXWriter(FileWriterCallbackBase):
             nxdata = self.write_data(nxentry)
             nxentry.attrs["default"] = nxdata.name.split("/")[-1]
         except KeyError as exc:
-            logger.warn(exc)
+            logger.warning(exc)
 
         self.write_sample(nxentry)
         self.write_user(nxentry)
@@ -1261,19 +1261,19 @@ class NXWriter(FileWriterCallbackBase):
         try:
             self.assign_signal_type()
         except KeyError as exc:
-            logger.warn(exc)
+            logger.warning(exc)
 
         self.write_slits(nxinstrument)
         try:
             self.write_detector(nxinstrument)
         except KeyError as exc:
-            logger.warn(exc)
+            logger.warning(exc)
 
         self.write_monochromator(nxinstrument)
         try:
             self.write_positioner(nxinstrument)
         except KeyError as exc:
-            logger.warn(exc)
+            logger.warning(exc)
         self.write_source(nxinstrument)
         return nxinstrument
 

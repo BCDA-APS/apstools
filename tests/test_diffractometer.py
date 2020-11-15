@@ -174,10 +174,10 @@ class Test_Cases(unittest.TestCase):
         # (100) has chi ~ 0 which poses occasional roundoff errors
         # (sometimes -0.00000, sometimes 0.00000)
         sol = sim4c.forward(1,0,0)
-        self.assertAlmostEquals(sol.omega, -30, places=5)
-        self.assertAlmostEquals(sol.chi, 0, places=5)
-        self.assertAlmostEquals(sol.phi, -90, places=5)
-        self.assertAlmostEquals(sol.tth, -60, places=5)
+        self.assertAlmostEqual(sol.omega, -30, places=5)
+        self.assertAlmostEqual(sol.chi, 0, places=5)
+        self.assertAlmostEqual(sol.phi, -90, places=5)
+        self.assertAlmostEqual(sol.tth, -60, places=5)
 
         tbl = sim4c.forwardSolutionsTable(
             [
@@ -206,10 +206,10 @@ class Test_Cases(unittest.TestCase):
             "chi" : APS_diffractometer.Constraint(0, 180, 0, True),
             })
         sol = sim4c.forward(1,0,0)
-        self.assertAlmostEquals(sol.omega, 30, places=5)
-        self.assertAlmostEquals(sol.chi, 0, places=5)
-        self.assertAlmostEquals(sol.phi, 90, places=5)
-        self.assertAlmostEquals(sol.tth, 60, places=5)
+        self.assertAlmostEqual(sol.omega, 30, places=5)
+        self.assertAlmostEqual(sol.chi, 0, places=5)
+        self.assertAlmostEqual(sol.phi, 90, places=5)
+        self.assertAlmostEqual(sol.tth, 60, places=5)
 
     def test_sim6c(self):
         sim6c = APS_diffractometer.SoftE6C('', name='sim6c')
@@ -253,12 +253,12 @@ class Test_Cases(unittest.TestCase):
     def test_sim6c_forward(self):
         sim6c = APS_diffractometer.SoftE6C('', name='sim6c')
         sol = sim6c.forward(1,0,0)
-        self.assertAlmostEquals(sol.mu, 0, places=5)
-        self.assertAlmostEquals(sol.omega, 30, places=5)
-        self.assertAlmostEquals(sol.chi, 0, places=5)
-        self.assertAlmostEquals(sol.phi, 90, places=5)
-        self.assertAlmostEquals(sol.gamma, 0, places=5)
-        self.assertAlmostEquals(sol.delta, 60, places=5)
+        self.assertAlmostEqual(sol.mu, 0, places=5)
+        self.assertAlmostEqual(sol.omega, 30, places=5)
+        self.assertAlmostEqual(sol.chi, 0, places=5)
+        self.assertAlmostEqual(sol.phi, 90, places=5)
+        self.assertAlmostEqual(sol.gamma, 0, places=5)
+        self.assertAlmostEqual(sol.delta, 60, places=5)
 
     def test_simk4c(self):
         simk4c = APS_diffractometer.SoftK4CV('', name='simk4c')
@@ -300,10 +300,10 @@ class Test_Cases(unittest.TestCase):
     def test_simk4c_forward(self):
         simk4c = APS_diffractometer.SoftK4CV('', name='simk4c')
         sol = simk4c.forward(1,0,0)
-        self.assertAlmostEquals(sol.komega, 120, places=5)
-        self.assertAlmostEquals(sol.kappa, 0, places=5)
-        self.assertAlmostEquals(sol.kphi, 0, places=5)
-        self.assertAlmostEquals(sol.tth, 60, places=5)
+        self.assertAlmostEqual(sol.komega, 120, places=5)
+        self.assertAlmostEqual(sol.kappa, 0, places=5)
+        self.assertAlmostEqual(sol.kphi, 0, places=5)
+        self.assertAlmostEqual(sol.tth, 60, places=5)
 
     def test_simk6c(self):
         simk6c = APS_diffractometer.SoftK6C('', name='simk6c')
@@ -347,12 +347,12 @@ class Test_Cases(unittest.TestCase):
     def test_simk6c_forward(self):
         simk6c = APS_diffractometer.SoftK6C('', name='simk6c')
         sol = simk6c.forward(1,0,0)
-        self.assertAlmostEquals(sol.mu, 0, places=5)
-        self.assertAlmostEquals(sol.komega, -120, places=5)
-        self.assertAlmostEquals(sol.kappa, 0, places=5)
-        self.assertAlmostEquals(sol.kphi, 0, places=5)
-        self.assertAlmostEquals(sol.gamma, 0, places=5)
-        self.assertAlmostEquals(sol.delta, -60, places=5)
+        self.assertAlmostEqual(sol.mu, 0, places=5)
+        self.assertAlmostEqual(sol.komega, -120, places=5)
+        self.assertAlmostEqual(sol.kappa, 0, places=5)
+        self.assertAlmostEqual(sol.kphi, 0, places=5)
+        self.assertAlmostEqual(sol.gamma, 0, places=5)
+        self.assertAlmostEqual(sol.delta, -60, places=5)
 
 
 def suite(*args, **kw):
