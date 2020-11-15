@@ -44,7 +44,6 @@ class Test_Plans(unittest.TestCase):
                     "test-device-list"))
 
         expected = [
-            "  Read ['motor2']",        # TODO: <-- Why?
             "  Read ['motor2', 'motor3']",
             ]
         self.assertEqual(str(received), str(expected))
