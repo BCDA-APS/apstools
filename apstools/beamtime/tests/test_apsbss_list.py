@@ -79,17 +79,18 @@ def test_cycle_blank(capsys):
 
 
 def test_cycle_by_name(capsys):
-    sys.argv = [
-        sys.argv[0],
-        "list",
-            "9-ID-B,C",
-        "--cycle",
-        "2020-2",
-    ]
-    main()
-    out, err = capsys.readouterr()
-    assert "2020-2" in str(out)
-    assert err.strip() == ""
+    if is_aps_workstation():
+        sys.argv = [
+            sys.argv[0],
+            "list",
+                "9-ID-B,C",
+            "--cycle",
+            "2020-2",
+        ]
+        main()
+        out, err = capsys.readouterr()
+        assert "2020-2" in str(out)
+        assert err.strip() == ""
 
 
 def test_cycle_now(capsys):
