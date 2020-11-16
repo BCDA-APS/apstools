@@ -51,7 +51,7 @@ jobs:
       run: |
         source $CONDA/bin/activate $ENV_NAME
         pytest tests
-        # pytest apstools/beamtime/tests
+        pytest apstools/beamtime/tests
       env:
         PY_VER: ${{ matrix.python-version }}
         ENV_NAME: anaconda-test-env-py-${{ matrix.python-version }}

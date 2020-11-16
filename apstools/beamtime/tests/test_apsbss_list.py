@@ -2,7 +2,12 @@
 
 from ..apsbss import main
 from ..apsbss import getCurrentCycle
+import socket
 import sys
+
+
+def is_aps_workstation():
+    return socket.getfqdn().endswith(".aps.anl.gov")
 
 
 def test_myoutput(capsys): # or use "capfd" for fd-level
@@ -19,66 +24,71 @@ def test_myoutput(capsys): # or use "capfd" for fd-level
 
 
 def test_no_cycle_given(capsys):
-    sys.argv = [
-        sys.argv[0],
-        "list",
-    ]
-    main()
-    out, err = capsys.readouterr()
-    assert getCurrentCycle() in str(out)
-    assert err.strip() == ""
+    if is_aps_workstation():
+        sys.argv = [
+            sys.argv[0],
+            "list",
+        ]
+        main()
+        out, err = capsys.readouterr()
+        assert getCurrentCycle() in str(out)
+        assert err.strip() == ""
 
 
 def test_cycle_blank(capsys):
-    sys.argv = [
-        sys.argv[0],
-        "list",
-        "--cycle",
-        "",
-    ]
-    main()
-    out, err = capsys.readouterr()
-    assert getCurrentCycle() in str(out)
-    assert err.strip() == ""
+    if is_aps_workstation():
+        sys.argv = [
+            sys.argv[0],
+            "list",
+            "--cycle",
+            "",
+        ]
+        main()
+        out, err = capsys.readouterr()
+        assert getCurrentCycle() in str(out)
+        assert err.strip() == ""
 
 
 def test_cycle_now(capsys):
-    sys.argv = [
-        sys.argv[0],
-        "list",
-        "--cycle",
-        "now",
-    ]
-    main()
-    out, err = capsys.readouterr()
-    assert getCurrentCycle() in str(out)
-    assert err.strip() == ""
+    if is_aps_workstation():
+        sys.argv = [
+            sys.argv[0],
+            "list",
+            "--cycle",
+            "now",
+        ]
+        main()
+        out, err = capsys.readouterr()
+        assert getCurrentCycle() in str(out)
+        assert err.strip() == ""
 
 
 def test_cycle_all(capsys):
-    sys.argv = [
-        sys.argv[0],
-        "list",
-        "--cycle",
-        "all",
-    ]
-    main()
-    out, err = capsys.readouterr()
-    assert "tba" in str(out)
-    assert err.strip() == ""
+    if is_aps_workstation():
+        sys.argv = [
+            sys.argv[0],
+            "list",
+            "--cycle",
+            "all",
+        ]
+        main()
+        out, err = capsys.readouterr()
+        assert "tba" in str(out)
+        assert err.strip() == ""
 
 
 def test_cycle_future(capsys):
-    sys.argv = [
-        sys.argv[0],
-        "list",
-        "--cycle",
-        "future",
-    ]
-    main()
-    out, err = capsys.readouterr()
-    assert "tba" in str(out)
-    assert err.strip() == ""
+    if is_aps_workstation():
+        sys.argv = [
+            sys.argv[0],
+            "list",
+            "--cycle",
+            "future",
+        ]
+        main()
+        out, err = capsys.readouterr()
+        assert "tba" in str(out)
+        assert err.strip() == ""
 
 
 def test_cycle_by_name(capsys):
@@ -95,13 +105,14 @@ def test_cycle_by_name(capsys):
 
 
 def test_cycle_previous(capsys):
-    sys.argv = [
-        sys.argv[0],
-        "list",
-        "--cycle",
-        "previous",
-    ]
-    main()
-    out, err = capsys.readouterr()
-    assert "tba" in str(out)
-    assert err.strip() == ""
+    if is_aps_workstation():
+        sys.argv = [
+            sys.argv[0],
+            "list",
+            "--cycle",
+            "previous",
+        ]
+        main()
+        out, err = capsys.readouterr()
+        assert "tba" in str(out)
+        assert err.strip() == ""
