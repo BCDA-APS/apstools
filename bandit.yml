@@ -1,0 +1,12 @@
+# for use by Codacy when reviewing this code
+
+# turns off the test for use of "assert"
+# The test generates false positives on PyTest code.  This message:
+# Use of assert detected. The enclosed code will be removed
+# when compiling to optimised byte code.
+
+# see https://github.com/fossasia/query-server/issues/332#issuecomment-357734986
+
+# NOTE: This is brutal since it turns off the test for the entire project.
+
+skips: ['B101']
