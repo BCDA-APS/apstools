@@ -66,8 +66,8 @@ class Test_Beamtime(unittest.TestCase):
 
         runs = apsbss.listAllRuns()
         self.assertGreater(len(runs), 1)
-        self.assertEqual(apsbss.getCurrentCycle(), runs[-1])
-        self.assertEqual(apsbss.listRecentRuns()[0], runs[-1])
+        self.assertIn(apsbss.getCurrentCycle(), runs)
+        self.assertIn(apsbss.listRecentRuns()[0], runs)
 
         self.assertGreater(len(apsbss.listAllBeamlines()), 1)
 
