@@ -55,12 +55,12 @@ def test_cycle_now(capsys):
     assert err.strip() == ""
 
 
-def test_cycle_previous(capsys):
+def test_cycle_all(capsys):
     sys.argv = [
         sys.argv[0],
         "list",
         "--cycle",
-        "previous",
+        "all",
     ]
     main()
     out, err = capsys.readouterr()
@@ -91,4 +91,17 @@ def test_cycle_by_name(capsys):
     main()
     out, err = capsys.readouterr()
     assert "2020-2" in str(out)
+    assert err.strip() == ""
+
+
+def test_cycle_previous(capsys):
+    sys.argv = [
+        sys.argv[0],
+        "list",
+        "--cycle",
+        "previous",
+    ]
+    main()
+    out, err = capsys.readouterr()
+    assert "tba" in str(out)
     assert err.strip() == ""

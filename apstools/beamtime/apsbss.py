@@ -732,9 +732,11 @@ def cmd_list(args):
     cycle = args.cycle.strip()
     if not len(cycle) or cycle == "now":
         cycle = getCurrentCycle()
-    elif cycle == "previous":
+    elif cycle == "all":
         cycle = "tba"   # TODO:
     elif cycle == "future":
+        cycle = "tba"   # TODO:
+    elif cycle == "previous":
         cycle = "tba"   # TODO:
     # TODO: finish this
     print(cycle)
