@@ -1,4 +1,4 @@
-name: Python Package using Conda
+name: Unit Tests using PyTest
 
 on: [push]
 
@@ -50,7 +50,14 @@ jobs:
     - name: Run tests with pytest
       run: |
         source $CONDA/bin/activate $ENV_NAME
-        pytest tests
+        pytest -vvv ./tests ./apstools/beamtime/tests
       env:
         PY_VER: ${{ matrix.python-version }}
         ENV_NAME: anaconda-test-env-py-${{ matrix.python-version }}
+
+
+# These actions were done by travis after success of previous steps
+# TODO: coverage
+# https://github.com/marketplace/actions/codecov
+# TODO: coveralls
+# https://github.com/marketplace/actions/coveralls-github-action
