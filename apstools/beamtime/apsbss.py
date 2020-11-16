@@ -45,6 +45,7 @@ APPLICATION
 
     ~cmd_current
     ~cmd_esaf
+    ~cmd_list
     ~cmd_proposal
     ~get_options
     ~main
@@ -571,6 +572,13 @@ def get_options():
     p_sub = subcommand.add_parser('esaf', help="print specific ESAF")
     p_sub.add_argument('esafId', type=int, help="ESAF ID number")
 
+    p_sub = subcommand.add_parser('list', help="list by cycle")
+    p_sub.add_argument(
+        '--cycle',
+        type=str,
+        default="",
+        help="APS run (cycle) name")
+
     p_sub = subcommand.add_parser('proposal', help="print specific proposal")
     p_sub.add_argument('proposalId', type=str, help="proposal ID number")
     p_sub.add_argument('cycle', type=str, help="APS run (cycle) name")
@@ -711,6 +719,27 @@ def cmd_esaf(args):
         print(f"dm reported: {exc}")
 
 
+def cmd_list(args):
+    """
+    Handle ``list`` command.
+
+    PARAMETERS
+
+    args
+        *obj* :
+        Object returned by ``argparse``
+    """
+    cycle = args.cycle.strip()
+    if not len(cycle) or cycle == "now":
+        cycle = getCurrentCycle()
+    elif cycle == "previous":
+        cycle = "tba"   # TODO:
+    elif cycle == "future":
+        cycle = "tba"   # TODO:
+    # TODO: finish this
+    print(cycle)
+
+
 def cmd_proposal(args):
     """
     Handle ``proposal`` command.
@@ -763,6 +792,9 @@ def main():
 
     elif args.subcommand == "esaf":
         cmd_esaf(args)
+
+    elif args.subcommand == "list":
+        cmd_list(args)
 
     elif args.subcommand == "proposal":
         cmd_proposal(args)
