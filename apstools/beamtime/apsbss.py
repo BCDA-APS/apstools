@@ -58,6 +58,7 @@ import os
 import pyRestTable
 import sys
 import time
+import warnings
 import yaml
 
 #logger = logging.getLogger(__name__).addHandler(logging.NullHandler())
@@ -290,22 +291,10 @@ def getCurrentEsafs(sector):
 
     sector
         *str* or *int* :
-        Name of sector.  If ``str``, must be in ``%02d`` format (``02``, not ``2``).
+        Name of sector.  If ``str``, must be in
+        ``%02d`` format (``02``, not ``2``).
     """
-    if isinstance(sector, int):
-        sector = f"{sector:02d}"
-    if len(sector) == 1:
-        sector = "0" + sector
-    tNow = datetime.datetime.now()
-    esafs = api_esaf.listEsafs(sector=sector, year=tNow.year)
-    results = []
-    for esaf in esafs:
-        if tNow < iso2datetime(esaf["experimentStartDate"]):
-            continue
-        if tNow > iso2datetime(esaf["experimentEndDate"]):
-            continue
-        results.append(esaf)
-    return results
+    return listESAFs(getCurrentCycle(), sector)
 
 
 def getCurrentInfo(beamline):
@@ -356,13 +345,7 @@ def getCurrentProposals(beamline):
         *str* :
         Name of beam line (as defined by the BSS).
     """
-    proposals = []
-    for cycle in listRecentRuns():
-        for prop in api_bss.listProposals(beamlineName=beamline, runName=cycle):
-            prop = dict(prop)
-            prop["cycle"] = cycle
-            proposals.append(prop)
-    return proposals
+    return listProposals(getCurrentCycle(), beamline)
 
 
 def getEsaf(esafId):
@@ -414,6 +397,75 @@ def getProposal(proposalId, cycle, beamline):
             f" beamline={beamline}"
             )
     return dict(record.data)
+
+
+def listESAFs(cycles, sector):
+    """
+    Return list of ESAFs for the given cycles & sector.
+
+    PARAMETERS
+
+    sector
+        *str* or *int* :
+        Name of sector.  If ``str``, must be in ``%02d``
+        format (``02``, not ``2``).
+    cycles
+        *[str]* :
+        List of APS run cycles (as defined by the BSS)
+    """
+    if not isinstance(cycles, (list, tuple)):
+        cycles = (cycles,)
+    if isinstance(sector, int):
+        sector = f"{sector:02d}"
+    if len(sector) == 1:
+        sector = "0" + sector
+
+    runs = {
+        r["name"]: r
+        for r in api_bss.listRuns()
+    }
+
+    results = []
+
+    for cycle in cycles:
+        if cycle not in listAllRuns():
+            raise KeyError(f"APS cycle '{cycle}' not found.")
+        year = int(cycle.split("-")[0])
+        run = runs[cycle]
+        esafs = api_esaf.listEsafs(sector=sector, year=year)
+        for esaf in esafs:
+            esaf_starts = str(iso2datetime(esaf["experimentStartDate"]))
+            if run["startTime"] <= esaf_starts <= run["endTime"]:
+                results.append(esaf)
+
+    return results
+
+
+def listProposals(cycles, beamline):
+    """
+    Return list of proposals for the given cycles & beamline.
+
+    PARAMETERS
+
+    beamline
+        *str* :
+        Name of beam line (as defined by the BSS)
+    cycles
+        *[str]* :
+        List of APS run cycles (as defined by the BSS)
+    """
+    if not isinstance(cycles, (list, tuple)):
+        cycles = (cycles,)
+
+    proposals = []
+    for cycle in cycles:
+        for prop in api_bss.listProposals(
+                beamlineName=beamline,
+                runName=cycle):
+            prop = dict(prop)
+            prop["cycle"] = cycle
+            proposals.append(prop)
+    return proposals
 
 
 def iso2datetime(isodate):
@@ -502,6 +554,76 @@ def printColumns(items, numColumns=5, width=10):
         print("".join([f"{s:{width}s}" for s in row]))
 
 
+def printEsafTable(records, title=""):
+    """
+    Print the list of ESAFs as a table.
+
+    PARAMETERS
+
+    records
+        *[obj]* :
+        List of ESAF dictionaries.
+    title
+        *str* :
+        Text to print before the table.
+    """
+    def esaf_sorter(prop):
+        return prop["experimentStartDate"]
+
+    table = pyRestTable.Table()
+    table.labels = "id status start end user(s) title".split()
+    for item in sorted(records, key=esaf_sorter, reverse=True):
+        users = trim(
+                ",".join([
+                user["lastName"]
+                for user in item["experimentUsers"]
+            ]),
+            20)
+        table.addRow((
+            item["esafId"],
+            item["esafStatus"],
+            item["experimentStartDate"].split()[0],
+            item["experimentEndDate"].split()[0],
+            users,
+            trim(item["esafTitle"], 40),
+            ))
+    print(f"{title}\n\n{table}")
+
+
+def printProposalTable(records, title=""):
+    """
+    Print the list of proposals as a table.
+
+    PARAMETERS
+
+    records
+        *[obj]* :
+        List of proposal dictionaries.
+    title
+        *str* :
+        Text to print before the table.
+    """
+    def prop_sorter(prop):
+        return prop["startTime"]
+
+    table = pyRestTable.Table()
+    table.labels = "id cycle start end user(s) title".split()
+    for item in sorted(records, key=prop_sorter, reverse=True):
+        users = trim(",".join([
+            user["lastName"]
+            for user in item["experimenters"]
+        ]), 20)
+        # logger.debug("%s %s %s", item["startTime"], tNow, item["endTime"])
+        table.addRow((
+            item["id"],
+            item["cycle"],
+            item["startTime"],
+            item["endTime"],
+            users,
+            trim(item["title"]),))
+    print(f"{title}\n\n{table}")
+
+
 def trim(text, length=40):
     """
     Return a string that is no longer than ``length``.
@@ -552,9 +674,11 @@ def get_options():
 
     subcommand.add_parser('beamlines', help="print list of beamlines")
 
-    p_sub = subcommand.add_parser(
-        'current',
-        help="print current ESAF(s) and proposal(s)")
+    msg = (
+        "print current ESAF(s) and proposal(s)"
+        ",  DEPRECATED: use 'list' instead"
+    )
+    p_sub = subcommand.add_parser('current', help=msg)
     p_sub.add_argument(
         'beamlineName',
         type=str,
@@ -574,11 +698,21 @@ def get_options():
     p_sub.add_argument('esafId', type=int, help="ESAF ID number")
 
     p_sub = subcommand.add_parser('list', help="list by cycle")
+    msg = (
+        "APS run (cycle) name."
+        "  One of the names returned by ``apsbss cycles``"
+        " or one of these (``past``,  ``prior``, ``previous``)"
+        " for the previous cycle, (``current`` or ``now``)"
+        " for the current cycle, (``future`` or ``next``)"
+        " for the next cycle or ``recent`` for the past two years."
+    )
     p_sub.add_argument(
-        '--cycle',
+        '-c', '--cycle',
         type=str,
-        default="",
-        help="APS run (cycle) name")
+        default="now",
+        # TODO: nargs="?",
+        help=msg)
+    p_sub.add_argument('beamlineName', type=str, help="Beamline name")
 
     p_sub = subcommand.add_parser('proposal', help="print specific proposal")
     p_sub.add_argument('proposalId', type=str, help="proposal ID number")
@@ -637,6 +771,8 @@ def cmd_current(args):
     """
     Handle ``current`` command.
 
+    DEPRECATED: use ``list`` instead
+
     PARAMETERS
 
     args
@@ -648,57 +784,20 @@ def cmd_current(args):
     if len(records) == 0:
         print(f"No current proposals for {args.beamlineName}")
     else:
-        def prop_sorter(prop):
-            return prop["startTime"]
-
-        table = pyRestTable.Table()
-        table.labels = "id cycle start end user(s) title".split()
-        for item in sorted(records, key=prop_sorter, reverse=True):
-            users = trim(",".join([
-                user["lastName"]
-                for user in item["experimenters"]
-            ]), 20)
-            # logger.debug("%s %s %s", item["startTime"], tNow, item["endTime"])
-            if tNow <= item["endTime"]:
-                table.addRow((
-                    item["id"],
-                    item["cycle"],
-                    item["startTime"],
-                    item["endTime"],
-                    users,
-                    trim(item["title"]),))
-        print(
-            "Current (and Future) Proposal(s) on"
-            f" {args.beamlineName}: {tNow}\n\n{table}")
+        printProposalTable(
+            records,
+            f"Current Proposal(s): {args.beamlineName} at {tNow}"
+        )
 
     sector = args.beamlineName.split("-")[0]
     records = getCurrentEsafs(sector)
     if len(records) == 0:
         print(f"No current ESAFs for sector {sector}")
     else:
-        def esaf_sorter(prop):
-            return prop["experimentStartDate"]
-
-        table = pyRestTable.Table()
-        table.labels = "id status start end user(s) title".split()
-        for item in sorted(records, key=esaf_sorter, reverse=True):
-            users = trim(
-                    ",".join([
-                    user["lastName"]
-                    for user in item["experimentUsers"]
-                ]),
-                20)
-            table.addRow((
-                item["esafId"],
-                item["esafStatus"],
-                item["experimentStartDate"].split()[0],
-                item["experimentEndDate"].split()[0],
-                users,
-                trim(item["esafTitle"], 40),
-                ))
-        print(
-            "Current (and Future) ESAF(s) on sector"
-            f" {sector}: {tNow}\n\n{table}")
+        printEsafTable(
+            records,
+            f"Current ESAF(s): sector {sector} at {tNow}"
+        )
 
 
 def cmd_esaf(args):
@@ -730,17 +829,57 @@ def cmd_list(args):
         *obj* :
         Object returned by ``argparse``
     """
-    cycle = args.cycle.strip()
-    if not len(cycle) or cycle == "now":
+    cycle = str(args.cycle).strip().lower()
+    sector = int(args.beamlineName.split("-")[0])
+
+    if not len(cycle) or cycle in "now current".split():
         cycle = getCurrentCycle()
     elif cycle == "all":
-        cycle = "tba"   # TODO:
-    elif cycle == "future":
-        cycle = "tba"   # TODO:
-    elif cycle == "previous":
-        cycle = "tba"   # TODO:
-    # TODO: finish this
-    print(cycle)
+        cycle = listAllRuns()
+    elif cycle in "future next".split():
+        runs = listAllRuns()
+        item = runs.index(getCurrentCycle()) + 1
+        if item >= len(runs):
+            print("No future cycle information available at this time.")
+            return
+        cycle = runs[item]
+    elif cycle in "past previous prior".split():
+        runs = listAllRuns()
+        item = runs.index(getCurrentCycle()) - 1
+        if item < 0:
+            print("No previous cycle information available.")
+            return
+        cycle = runs[item]
+    elif cycle == "recent":
+        cycle = listRecentRuns()
+
+    if not isinstance(cycle, (list, tuple)):
+        cycle = [cycle,]
+    trouble = [
+        c
+        for c in cycle
+        if c not in listAllRuns()
+    ]
+    if trouble:
+        raise KeyError(
+            "Could not find APS run cycle(s):"
+            f" {', '.join(trouble)}"
+        )
+
+    logger.debug("cycle(s): %s", cycle)
+
+    printProposalTable(
+        listProposals(cycle, args.beamlineName),
+        "Proposal(s): "
+        f" beam line {args.beamlineName}"
+        f",  cycle(s) {args.cycle}"
+    )
+    printEsafTable(
+        listESAFs(cycle, sector),
+        "ESAF(s): "
+        f" sector {sector}"
+        f",  cycle(s) {args.cycle}"
+    )
 
 
 def cmd_proposal(args):

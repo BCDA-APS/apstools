@@ -1,13 +1,10 @@
 #!/usr/bin/env pytest
 
-from ..apsbss import main
 from ..apsbss import getCurrentCycle
-import socket
+from ..apsbss import main
+from .utils import is_aps_workstation
+import pytest
 import sys
-
-
-def is_aps_workstation():
-    return socket.getfqdn().endswith(".aps.anl.gov")
 
 
 def test_myoutput(capsys): # or use "capfd" for fd-level
@@ -28,34 +25,7 @@ def test_no_cycle_given(capsys):
         sys.argv = [
             sys.argv[0],
             "list",
-        ]
-        main()
-        out, err = capsys.readouterr()
-        assert getCurrentCycle() in str(out)
-        assert err.strip() == ""
-
-
-def test_cycle_blank(capsys):
-    if is_aps_workstation():
-        sys.argv = [
-            sys.argv[0],
-            "list",
-            "--cycle",
-            "",
-        ]
-        main()
-        out, err = capsys.readouterr()
-        assert getCurrentCycle() in str(out)
-        assert err.strip() == ""
-
-
-def test_cycle_now(capsys):
-    if is_aps_workstation():
-        sys.argv = [
-            sys.argv[0],
-            "list",
-            "--cycle",
-            "now",
+            "9-ID-B,C",
         ]
         main()
         out, err = capsys.readouterr()
@@ -68,12 +38,13 @@ def test_cycle_all(capsys):
         sys.argv = [
             sys.argv[0],
             "list",
+            "9-ID-B,C",
             "--cycle",
             "all",
         ]
         main()
         out, err = capsys.readouterr()
-        assert "tba" in str(out)
+        assert "2020-1" in str(out)
         assert err.strip() == ""
 
 
@@ -82,12 +53,28 @@ def test_cycle_future(capsys):
         sys.argv = [
             sys.argv[0],
             "list",
+            "9-ID-B,C",
             "--cycle",
             "future",
         ]
         main()
         out, err = capsys.readouterr()
-        assert "tba" in str(out)
+        assert "status" in str(out)
+        assert err.strip() == ""
+
+
+def test_cycle_blank(capsys):
+    if is_aps_workstation():
+        sys.argv = [
+            sys.argv[0],
+            "list",
+            "9-ID-B,C",
+            "--cycle",
+            "",
+        ]
+        main()
+        out, err = capsys.readouterr()
+        assert getCurrentCycle() in str(out)
         assert err.strip() == ""
 
 
@@ -95,6 +82,7 @@ def test_cycle_by_name(capsys):
     sys.argv = [
         sys.argv[0],
         "list",
+            "9-ID-B,C",
         "--cycle",
         "2020-2",
     ]
@@ -104,15 +92,61 @@ def test_cycle_by_name(capsys):
     assert err.strip() == ""
 
 
-def test_cycle_previous(capsys):
+def test_cycle_now(capsys):
     if is_aps_workstation():
         sys.argv = [
             sys.argv[0],
             "list",
+            "9-ID-B,C",
             "--cycle",
-            "previous",
+            "now",
         ]
         main()
         out, err = capsys.readouterr()
-        assert "tba" in str(out)
+        assert getCurrentCycle() in str(out)
+        assert err.strip() == ""
+
+
+def test_cycle_not_found():
+    if is_aps_workstation():
+        sys.argv = [
+            sys.argv[0],
+            "list",
+            "9-ID-B,C",
+            "--cycle",
+            "not-a-cycle"
+        ]
+        with pytest.raises(KeyError) as exc:
+            main()
+        assert "Could not find APS run cycle" in str(exc.value)
+
+
+def test_cycle_previous(capsys):
+    if is_aps_workstation():
+        for when in "past previous prior".split():
+            sys.argv = [
+                sys.argv[0],
+                "list",
+                "9-ID-B,C",
+                "--cycle",
+                when,
+            ]
+            main()
+            out, err = capsys.readouterr()
+            assert "Approved" in str(out)
+            assert err.strip() == ""
+
+
+def test_cycle_recent(capsys):
+    if is_aps_workstation():
+        sys.argv = [
+            sys.argv[0],
+            "list",
+            "9-ID-B,C",
+            "--cycle",
+            "recent",
+        ]
+        main()
+        out, err = capsys.readouterr()
+        assert "status" in str(out)
         assert err.strip() == ""
