@@ -23,6 +23,9 @@ Public Structures
 from ophyd import Component, Device, EpicsSignalRO, Signal
 
 
+__all__ = ["IocStatsDevice", ]
+
+
 class IocStatsDevice(Device):
 
     _app_dir1 = Component(EpicsSignalRO, "APP_DIR1", kind="omitted")
