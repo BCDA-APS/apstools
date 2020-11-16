@@ -779,6 +779,7 @@ def cmd_current(args):
         *obj* :
         Object returned by ``argparse``
     """
+    warnings.warn("Command 'current' is deprecated, use 'list' instead.")
     records = getCurrentProposals(args.beamlineName)
     tNow = datetime.datetime.now().isoformat(sep=" ")
     if len(records) == 0:

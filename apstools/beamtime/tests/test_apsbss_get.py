@@ -3,19 +3,18 @@
 from .utils import is_aps_workstation
 from .. import apsbss
 import pytest
-import sys
 
 
 def test_cycle_not_found():
     if is_aps_workstation():
         cycle = "sdfsdjfyg"
         with pytest.raises(KeyError) as exc:
-            apsbss.listESAFs(cycle, 9)()
+            apsbss.listESAFs(cycle, 9)
         assert f"APS cycle '{cycle}' not found." in str(exc.value)
 
         cycle = "not-a-cycle"
         with pytest.raises(KeyError) as exc:
-            apsbss.listESAFs(cycle, 9)()
+            apsbss.listESAFs(cycle, 9)
         assert f"APS cycle '{cycle}' not found." in str(exc.value)
 
 
