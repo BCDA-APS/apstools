@@ -829,7 +829,7 @@ def cmd_list(args):
     args
         *obj* :
         Object returned by ``argparse``
-    
+
     New in release 1.3.9
     """
     cycle = str(args.cycle).strip().lower()
