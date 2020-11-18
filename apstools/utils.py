@@ -1483,22 +1483,13 @@ def trim_plot_lines(bec, n, x, y):
 
 def trim_plot_by_name(n=3, plots=None):
     """
-    find the plot(s) by name and replot with at most the last *n* lines
+    Find the plot(s) by name and replot with at most the last *n* lines.
 
     Note: this is not a bluesky plan.  Call it as normal Python function.
 
-    Note: :func:`trim_plot_by_name` is being tested as an alternative to
-    :func:`trim_plot_lines` and is not guaranteed
-    to remain in apstools in its present implementation, if kept at all.
-
-    This function may not appear to trim all lines properly
-    when run from a plan (such as the linger example below).
-    This is because the plots are generated from a RunEngine callback.
-    That callback executes, scheduling the plots for drawing
-    *after* ``bp.scan()`` completes and likely after
-    :func:`trim_plot_by_name` is run.
-
-    **Q**: How to block the RunEngine until the plots are drawn by the callback?
+    It is recommended to call :func:`~trim_plot_by_name()` *before* the
+    scan(s) that generate plots.  Plots are generated from a RunEngine
+    callback, executed *after* the scan completes.
 
     PARAMETERS
 
@@ -1513,29 +1504,31 @@ def trim_plot_by_name(n=3, plots=None):
 
     EXAMPLES::
 
-        trim_plot_by_name()
-        trim_plot_by_name(5)
-        trim_plot_by_name(5, "noisy_det vs motor")
-        trim_plot_by_name(5, ["noisy_det vs motor", "det noisy_det vs motor"]])
+        trim_plot_by_name()   # default of n=3, apply to all plots
+        trim_plot_by_name(5)  # change from default of n=3
+        trim_plot_by_name(5, "noisy_det vs motor")  # just this plot
+        trim_plot_by_name(
+            5,
+            ["noisy_det vs motor", "det noisy_det vs motor"]]
+        )
 
-        # longer example (with simulators from ophyd)
+    EXAMPLE::
+
+        # use simulators from ophyd
+        from bluesky import plans as bp
+        from bluesky import plan_stubs as bps
         from ophyd.sim import *
+
         snooze = 0.25
-        def the_scans():
+
+        def scan_set():
+            trim_plot_by_name()
             yield from bp.scan([noisy_det], motor, -1, 1, 5)
             yield from bp.scan([noisy_det, det], motor, -2, 1, motor2, 3, 1, 6)
             yield from bps.sleep(snooze)
-            trim_plot_by_name(3)
-        # repeat the_scans 15 times
-        uids = RE(bps.repeat(the_scans, 15))
-        trim_plot_by_name()
 
-        def the_scans():
-            yield from bp.scan([noisy_det], motor, -1, 1, 5)
-            yield from bp.scan([noisy_det], motor2, 3, 1, 4)
-            yield from bps.sleep(1)
-            trim_plot_by_name(3, "noisy_det vs motor")
-            trim_plot_by_name(5, "noisy_det vs motor2")
+        # repeat the_scans 15 times
+        uids = RE(bps.repeat(scan_set, 15))
 
     (new in release 1.3.5)
     """
