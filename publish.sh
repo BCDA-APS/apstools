@@ -1,6 +1,7 @@
 #!/bin/bash
 
 # publish this package
+# Run this from the package's root directory.
 
 ## Define the release
 
@@ -25,7 +26,11 @@ echo "# ($(date)) Built for PyPI"
 
 echo "# ($(date)) - - - - - - - - - - - - - - - - - - - - - - upload to PyPI"
 
-twine upload "dist/${PACKAGE}-${RELEASE}*"
+find "dist" -name "${PACKAGE}-${RELEASE}*" | while read file
+do
+    echo "# ($(date)) upload: dist/${file}"
+    twine upload "${file}"
+done
 echo "# ($(date)) Uploaded to PyPI"
 
 echo "# ($(date)) - - - - - - - - - - - - - - - - - - - - - - conda build"
@@ -57,13 +62,17 @@ echo "# ($(date)) - - - - - - - - - - - - - - - - - - - - - - upload conda"
 
 BUILD_DIR=${CONDA_BLD_PATH}/noarch
 _package_=$(echo "${PACKAGE}" | tr '[:upper:]' '[:lower:]')
-BUNDLE="${BUILD_DIR}/${_package_}-${RELEASE}-py_0.tar.bz2"
+
 echo "# ($(date)) uploading to anaconda"
 echo "# ($(date)) CHANNEL: ${CHANNEL}"
-anaconda upload -u "${CHANNEL}" "${BUNDLE}"
-
-# also post to my personal channel
-anaconda upload "${BUNDLE}"
+find "${BUILD_DIR}" -name "${_package_}-${RELEASE}*.tar.bz2" | while read file
+do
+    echo "# ($(date)) upload: ${BUILD_DIR}/${file}"
+    # to public channel
+    anaconda upload -u "${CHANNEL}" "${file}"
+    # to personal channel
+    anaconda upload "${file}"
+done
 echo "# ($(date)) Uploaded to anaconda"
 
 echo "# (${STARTED}) started publishing script"
