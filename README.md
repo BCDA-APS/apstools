@@ -3,7 +3,7 @@
 Various Python tools for use with the Bluesky framework at the APS
 
 [![Python version](https://img.shields.io/pypi/pyversions/apstools.svg)](https://pypi.python.org/pypi/apstools)
-![Unit Tests using PyTest](https://github.com/BCDA-APS/apstools/workflows/Unit%20Tests%20using%20PyTest/badge.svg)
+![Unit Tests](https://github.com/BCDA-APS/apstools/workflows/Unit%20Tests/badge.svg)
 [![Documentation Status](https://readthedocs.org/projects/apstools/badge/?version=latest)](http://apstools.readthedocs.io/en/latest/?badge=latest)
 [![Coverage Status](https://coveralls.io/repos/github/BCDA-APS/apstools/badge.svg?branch=master)](https://coveralls.io/github/BCDA-APS/apstools?branch=master)
 
