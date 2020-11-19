@@ -4,7 +4,14 @@
 Change History
 ##############
 
-:1.3.9:  release expected -tba-
+:1.3.10:  release expected 2021-01-01
+
+:1.3.9:  release expected 2020-11-30
+
+    * `#459 <https://github.com/BCDA-APS/apstools/pull/459>`_
+       apsbss: list ESAFs & proposals from other cycles
+    * `#457 <https://github.com/BCDA-APS/apstools/pull/457>`_
+       utils.rss_mem(): show memory used by this process
 
 :1.3.8:  released: 2020-10-23
 
