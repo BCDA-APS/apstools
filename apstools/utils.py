@@ -23,7 +23,6 @@ Various utilities
    ~listruns
    ~object_explorer
    ~pairwise
-   ~plot_prune_fifo
    ~print_snapshot_list
    ~print_RE_md
    ~quantify_md_key_use
@@ -34,7 +33,6 @@ Various utilities
    ~safe_ophyd_name
    ~select_live_plot
    ~select_mpl_figure
-   ~show_ophyd_symbols
    ~split_quoted_line
    ~summarize_runs
    ~text_encode
@@ -735,24 +733,6 @@ def listobjects(show_pv=True, printing=True, verbose=False, symbols=None):
     return table
 
 
-def show_ophyd_symbols(show_pv=True,
-                       printing=True,
-                       verbose=False,
-                       symbols=None):
-    """
-    DEPRECATED: Use listobjects() instead.
-    """
-    warnings.warn(
-        "DEPRECATED: show_ophyd_symbols() will be removed"
-        " in a future release.  Use listobjects() instead."
-        )
-    listobjects(
-        show_pv=show_pv,
-        printing=printing,
-        verbose=verbose,
-        symbols=symbols)
-
-
 def split_quoted_line(line):
     """
     splits a line into words some of which might be quoted
@@ -1301,78 +1281,6 @@ def ipython_shell_namespace():
     return ns
 
 
-def plot_prune_fifo(bec, n, y, x):
-    """
-    find the plot with axes x and y and replot with only the last *n* lines
-
-    Note: this is not a bluesky plan.  Call it as normal Python function.
-
-    EXAMPLE::
-
-        plot_prune_fifo(bec, 1, noisy, m1)
-
-    PARAMETERS
-
-    bec
-        *object* :
-        instance of BestEffortCallback
-
-    n
-        *int* :
-        number of plots to keep
-
-    y
-        *object* :
-        instance of ophyd.Signal (or subclass),
-        dependent (y) axis
-
-    x
-        *object* :
-        instance of ophyd.Signal (or subclass),
-        independent (x) axis
-
-    DEPRECATED: Will be removed by end of 2020-12.
-    Use :func:`trim_plot_lines` instead.
-    Note the order of parameters is different in :func:`trim_plot_lines`.
-    """
-    warnings.warn(
-        "DEPRECATED: plot_prune_fifo() will be removed"
-        " in a future release.  Use trim_plot_lines() instead."
-        "  Note the order of parameters is different in trim_plot_lines()."
-        )
-
-    if n < 0:
-        raise ValueError(
-            "must be zero or greater",
-            f" received {n}")
-
-    for liveplot in bec._live_plots.values():
-        lp = liveplot.get(y.name)
-        if lp is None:
-            logger.debug(f"no LivePlot with name {y.name}")
-            continue
-        if lp.x != x.name or lp.y != y.name:
-            logger.debug(f"no LivePlot with axes ('{x.name}', '{y.name}')")
-            continue
-
-        # pick out only the traces that contain plot data
-        # skipping the lines that show peak centers
-        lines = [
-            tr
-            for tr in lp.ax.lines
-            if len(tr._x) != 2
-                or len(tr._y) != 2
-                or (len(tr._x) == 2 and tr._x[0] != tr._x[1])
-        ]
-        if len(lines) > n:
-            logger.debug(f"limiting LivePlot({y.name}) to {n} traces")
-            lp.ax.lines = lines[-n:]
-            lp.ax.legend()
-            if n > 0:
-                lp.update_plot()
-        return lp
-
-
 def select_mpl_figure(x, y):
     """
     get the MatPlotLib Figure window for y vs x
@@ -1452,7 +1360,7 @@ def trim_plot_lines(bec, n, x, y):
         instance of ophyd.Signal (or subclass),
         dependent (y) axis
 
-    (new in release 1.3.5, replaces :func:`plot_prune_fifo`)
+    (new in release 1.3.5)
     """
     liveplot = select_live_plot(bec, y)
     if liveplot is None:

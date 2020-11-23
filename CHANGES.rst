@@ -4,7 +4,17 @@
 Change History
 ##############
 
-:1.3.10:  release expected 2021-01-01
+:1.4.1:  release expected 2021-01-31
+
+:1.4.0:  release expected 2021-01-01
+
+    * `#463 <https://github.com/BCDA-APS/apstools/pull/463>`_
+       Remove deprecated features.
+
+       * `apstools.suspenders.SuspendWhenChanged()`
+       * `apstools.utils.plot_prune_fifo()`
+       * `apstools.utils.show_ophyd_symbols()`
+       * `apstools.synapps.asyn.AsynRecord.binary_output_maxlength()`
 
 :1.3.9:  released 2020-11-30
 
