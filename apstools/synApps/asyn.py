@@ -55,5 +55,3 @@ class AsynRecord(EpicsRecordDeviceCommonAll):
     timeout = Component(EpicsSignal, ".TMOT")
     transaction_mode = Component(EpicsSignal, ".TMOD")
     translated_input = Component(EpicsSignal, ".TINP")
-
-    binary_output_maxlength = output_maxlength     # TODO: deprecated name
