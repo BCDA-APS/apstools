@@ -11,10 +11,10 @@ Change History
     * `#463 <https://github.com/BCDA-APS/apstools/pull/463>`_
        Remove deprecated features.
 
-       * `apstools.suspenders.SuspendWhenChanged()`
-       * `apstools.utils.plot_prune_fifo()`
-       * `apstools.utils.show_ophyd_symbols()`
-       * `apstools.synapps.asyn.AsynRecord.binary_output_maxlength()`
+       * ``apstools.suspenders.SuspendWhenChanged()``
+       * ``apstools.utils.plot_prune_fifo()``
+       * ``apstools.utils.show_ophyd_symbols()``
+       * ``apstools.synapps.asyn.AsynRecord.binary_output_maxlength()``
 
 :1.3.9:  released 2020-11-30
 
