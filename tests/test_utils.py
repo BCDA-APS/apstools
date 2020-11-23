@@ -193,7 +193,7 @@ class Test_Utils(unittest.TestCase):
         wont_show = ("flyer1", "flyer2", "new_trivial_flyer", "trivial_flyer")
         num = len(sims) - len(wont_show)
         kk = sorted(sims.keys())
-        # sims hardware not found by show_ophyd_symbols() in globals!
+
         table = APS_utils.listobjects(symbols=sims, printing=False)
         self.assertEqual(4, len(table.labels))
         rr = [r[0] for r in table.rows]
@@ -202,16 +202,6 @@ class Test_Utils(unittest.TestCase):
             if k not in wont_show:
                 self.assertTrue(k in rr, msg)
         self.assertEqual(num, len(table.rows))
-
-    def test_show_ophyd_symbols(self):
-        sims = ophyd.sim.hw().__dict__
-        # wont_show = ("flyer1", "flyer2", "new_trivial_flyer", "trivial_flyer")
-        self.assertWarns(
-            UserWarning,
-            APS_utils.show_ophyd_symbols,
-            symbols=sims,
-            printing=False      # kwargs
-        )
 
     def test_unix(self):
         cmd = 'echo "hello"'

@@ -33,7 +33,6 @@ Various utilities
    ~safe_ophyd_name
    ~select_live_plot
    ~select_mpl_figure
-   ~show_ophyd_symbols
    ~split_quoted_line
    ~summarize_runs
    ~text_encode
@@ -732,24 +731,6 @@ def listobjects(show_pv=True, printing=True, verbose=False, symbols=None):
     if printing:
         print(table)
     return table
-
-
-def show_ophyd_symbols(show_pv=True,
-                       printing=True,
-                       verbose=False,
-                       symbols=None):
-    """
-    DEPRECATED: Use listobjects() instead.
-    """
-    warnings.warn(
-        "DEPRECATED: show_ophyd_symbols() will be removed"
-        " in a future release.  Use listobjects() instead."
-        )
-    listobjects(
-        show_pv=show_pv,
-        printing=printing,
-        verbose=verbose,
-        symbols=symbols)
 
 
 def split_quoted_line(line):
