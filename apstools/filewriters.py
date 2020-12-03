@@ -1122,7 +1122,7 @@ class NXWriter(FileWriterCallbackBase):
     def h5string(self, text):
         """Format string for h5py interface."""
         if isinstance(text, (tuple, list)):
-            return [self.h5string(t) for t in text]
+            return [self.h5string(str(t)) for t in text]
         text = text or ""
         return text.encode("utf8")
 
