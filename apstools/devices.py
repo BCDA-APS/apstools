@@ -1695,13 +1695,13 @@ def AD_setup_FrameType(prefix, scheme="NeXus"):
         epics.caput(template.format(prefix, "_RBV", field), value)
 
 
-def AD_plugin_primed(detector_plugin):
+def AD_plugin_primed(plugin):
     """
     Has area detector pushed an NDarray to the file writer plugin?  True or False
 
     PARAMETERS
 
-    detector_plugin
+    plugin
         *obj* :
         area detector plugin to be *primed* (such as ``detector.hdf1``)
 
@@ -1717,7 +1717,8 @@ def AD_plugin_primed(detector_plugin):
     file writer plugin "Capture" is set to 1 (Start).  In such case,
     first acquire at least one image with the file writer plugin enabled.
 
-    PARAMETERS
+    Also issue in apstools (needs a robust method to detect if primed):
+    https://github.com/BCDA-APS/apstools/issues/464
 
     Since Area Detector release 2.1 (2014-10-14).
 
@@ -1727,17 +1728,29 @@ def AD_plugin_primed(detector_plugin):
     in the plugin. This removes the need to initialize the plugin
     with a dummy frame before starting capture.
     """
-    old_capture = detector_plugin.capture.get()
-    old_file_write_mode = detector_plugin.file_write_mode.get()
-    if old_capture == 1:
-        return True
+    cam = plugin.parent.cam
+    tests = []
 
-    detector_plugin.file_write_mode.put(1)
-    detector_plugin.capture.put(1)
-    verdict = detector_plugin.capture.get() == 1
-    detector_plugin.capture.put(old_capture)
-    detector_plugin.file_write_mode.put(old_file_write_mode)
-    return verdict
+    for obj in (cam, plugin):
+        test = np.array(obj.array_size.get()).sum() != 0
+        tests.append(test)
+        if not test:
+            logger.debug("'%s' image size is zero", obj.name)
+
+    checks = dict(
+        array_size = False,
+        color_mode = True,
+        data_type = True,
+    )
+    for key, as_string in checks.items():
+        c = getattr(cam, key).get(as_string=as_string)
+        p = getattr(plugin, key).get(as_string=as_string)
+        test = c == p
+        tests.append(test)
+        if not test:
+            logger.debug("%s does not match", key)
+
+    return False not in tests
 
 
 def AD_prime_plugin(detector, detector_plugin):
