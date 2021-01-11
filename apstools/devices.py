@@ -1753,39 +1753,76 @@ def AD_plugin_primed(plugin):
     return False not in tests
 
 
-def AD_prime_plugin(detector, detector_plugin):
+def AD_prime_plugin(detector, plugin):
     """
     Prime this area detector's file writer plugin.
-    Collect and push an NDarray to the file writer plugin.
-    Works with HDF and JPEG file writers, maybe others.
 
     PARAMETERS
 
     detector
         *obj* :
         area detector (such as ``detector``)
-    detector_plugin
+    plugin
         *obj* :
         area detector plugin to be *primed* (such as ``detector.hdf1``)
 
     EXAMPLE::
 
         AD_prime_plugin(detector, detector.hdf1)
+    """
+    nm = f"{plugin.parent.name}.{plugin.attr_name}"
+    warnings.warn(f"Use AD_prime_plugin2({nm}) instead.")
+    AD_prime_plugin2(plugin)
+
+
+def AD_prime_plugin2(plugin):
+    """
+    Prime this area detector's file writer plugin.
+
+    Collect and push an NDarray to the file writer plugin.
+    Works with all file writer plugins.
+
+    Based on ``ophyd.areadetector.plugins.HDF5Plugin.warmup()``.
+
+    PARAMETERS
+
+    plugin
+        *obj* :
+        area detector plugin to be *primed* (such as ``detector.hdf1``)
+
+    EXAMPLE::
+
+        AD_prime_plugin2(detector.hdf1)
 
     """
-    old_enable = detector_plugin.enable.get()
-    old_mode = detector_plugin.file_write_mode.get()
+    if AD_plugin_primed(plugin):
+        logger.debug("'%s' plugin is already primed", plugin.name)
+        return
 
-    detector_plugin.enable.put(1)
-    # next step is important:
-    # SET the write mode to "Single" (0) or plugin's Capture=1 won't stay
-    detector_plugin.file_write_mode.put(0)
-    detector_plugin.capture.put(1)
-    detector.cam.acquire.put(1)
+    sigs = OrderedDict(
+        [
+            (plugin.enable, 1),
+            (plugin.parent.cam.array_callbacks, 1),  # set by number
+            (plugin.parent.cam.image_mode, "Single"),
+            (plugin.parent.cam.trigger_mode, "Internal"),
+            # just in case the acquisition time is set very long...
+            (plugin.parent.cam.acquire_time, 1),
+            (plugin.parent.cam.acquire_period, 1),
+            (plugin.parent.cam.acquire, 1),  # set by number
+        ]
+    )
 
-    # reset things
-    detector_plugin.file_write_mode.put(old_mode)
-    detector_plugin.enable.put(old_enable)
+    original_vals = {sig: sig.get() for sig in sigs}
+
+    for sig, val in sigs.items():
+        time.sleep(0.1)  # abundance of caution
+        set_and_wait(sig, val)
+
+    time.sleep(2)  # wait for acquisition
+
+    for sig, val in reversed(list(original_vals.items())):
+        time.sleep(0.1)
+        set_and_wait(sig, val)
 
 
 class AD_EpicsHdf5FileName(FileStorePluginBase):    # lgtm [py/missing-call-to-init]

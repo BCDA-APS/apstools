@@ -11,6 +11,7 @@ Change History
 
        * ``AD_plugin_primed()`` re-written completely
        * ``AD_warmed_up()`` removed (previously deprecated)
+       * ``AD_prime_plugin()`` replaced by ``AD_prime_plugin2()``
 
 :1.4.0:  release expected 2021-01-01
 
