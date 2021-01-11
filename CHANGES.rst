@@ -6,6 +6,12 @@ Change History
 
 :1.4.1:  release expected 2021-01-31
 
+    * `# <https://github.com/BCDA-APS/apstools/pull/>`_
+       Area Detector plugin preparation & detection.
+
+       * ``AD_plugin_primed()`` re-written completely
+       * ``AD_warmed_up()`` removed (previously deprecated)
+
 :1.4.0:  release expected 2021-01-01
 
     * `#463 <https://github.com/BCDA-APS/apstools/pull/463>`_

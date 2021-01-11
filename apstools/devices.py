@@ -1788,40 +1788,6 @@ def AD_prime_plugin(detector, detector_plugin):
     detector_plugin.enable.put(old_enable)
 
 
-def AD_warmed_up(detector):
-    """
-    Has area detector pushed an NDarray to the HDF5 plugin?  True or False
-
-    **DEPRECATED**:
-
-        :func:`AD_warmed_up` is now superceded by
-        :func:`AD_plugin_primed`.  To be removed by 2021.
-
-    Works around an observed issue: #598
-    https://github.com/NSLS-II/ophyd/issues/598#issuecomment-414311372
-
-    If detector IOC has just been started and has not yet taken an image
-    with the HDF5 plugin, then a TimeoutError will occur as the
-    HDF5 plugin "Capture" is set to 1 (Start).  In such case,
-    first acquire at least one image with the HDF5 plugin enabled.
-    """
-    warnings.warn(
-        "Deprecated: ``AD_warmed_up()`` superceded by ``AD_plugin_primed()``."
-        " Will be removed in 2021."
-        )
-    old_capture = detector.hdf1.capture.get()
-    old_file_write_mode = detector.hdf1.file_write_mode.get()
-    if old_capture == 1:
-        return True
-
-    detector.hdf1.file_write_mode.put(1)
-    detector.hdf1.capture.put(1)
-    verdict = detector.hdf1.capture.get() == 1
-    detector.hdf1.capture.put(old_capture)
-    detector.hdf1.file_write_mode.put(old_file_write_mode)
-    return verdict
-
-
 class AD_EpicsHdf5FileName(FileStorePluginBase):    # lgtm [py/missing-call-to-init]
     """
     custom class to define image file name from EPICS
