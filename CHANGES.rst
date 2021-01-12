@@ -4,16 +4,15 @@
 Change History
 ##############
 
-:1.4.1:  release expected 2021-01-31
+:1.4.1:  release expected 2021-03-31
 
-    * `# <https://github.com/BCDA-APS/apstools/pull/>`_
+:1.4.0:  release expected 2021-01-31
+
+    * `#470 <https://github.com/BCDA-APS/apstools/pull/470>`_
        Area Detector plugin preparation & detection.
 
        * ``AD_plugin_primed()`` re-written completely
-       * ``AD_warmed_up()`` removed (previously deprecated)
        * ``AD_prime_plugin()`` replaced by ``AD_prime_plugin2()``
-
-:1.4.0:  release expected 2021-01-01
 
     * `#463 <https://github.com/BCDA-APS/apstools/pull/463>`_
        Remove deprecated features.
@@ -22,6 +21,7 @@ Change History
        * ``apstools.utils.plot_prune_fifo()``
        * ``apstools.utils.show_ophyd_symbols()``
        * ``apstools.synapps.asyn.AsynRecord.binary_output_maxlength()``
+       * ``AD_warmed_up()``
 
 :1.3.9:  released 2020-11-30
 
