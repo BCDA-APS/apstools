@@ -21,7 +21,6 @@ AREA DETECTOR SUPPORT
     ~AD_plugin_primed
     ~AD_prime_plugin
     ~AD_setup_FrameType
-    ~AD_warmed_up
 
 DETECTOR / SCALER SUPPORT
 
@@ -1695,13 +1694,13 @@ def AD_setup_FrameType(prefix, scheme="NeXus"):
         epics.caput(template.format(prefix, "_RBV", field), value)
 
 
-def AD_plugin_primed(detector_plugin):
+def AD_plugin_primed(plugin):
     """
     Has area detector pushed an NDarray to the file writer plugin?  True or False
 
     PARAMETERS
 
-    detector_plugin
+    plugin
         *obj* :
         area detector plugin to be *primed* (such as ``detector.hdf1``)
 
@@ -1717,7 +1716,8 @@ def AD_plugin_primed(detector_plugin):
     file writer plugin "Capture" is set to 1 (Start).  In such case,
     first acquire at least one image with the file writer plugin enabled.
 
-    PARAMETERS
+    Also issue in apstools (needs a robust method to detect if primed):
+    https://github.com/BCDA-APS/apstools/issues/464
 
     Since Area Detector release 2.1 (2014-10-14).
 
@@ -1727,86 +1727,101 @@ def AD_plugin_primed(detector_plugin):
     in the plugin. This removes the need to initialize the plugin
     with a dummy frame before starting capture.
     """
-    old_capture = detector_plugin.capture.get()
-    old_file_write_mode = detector_plugin.file_write_mode.get()
-    if old_capture == 1:
-        return True
+    cam = plugin.parent.cam
+    tests = []
 
-    detector_plugin.file_write_mode.put(1)
-    detector_plugin.capture.put(1)
-    verdict = detector_plugin.capture.get() == 1
-    detector_plugin.capture.put(old_capture)
-    detector_plugin.file_write_mode.put(old_file_write_mode)
-    return verdict
+    for obj in (cam, plugin):
+        test = np.array(obj.array_size.get()).sum() != 0
+        tests.append(test)
+        if not test:
+            logger.debug("'%s' image size is zero", obj.name)
+
+    checks = dict(
+        array_size = False,
+        color_mode = True,
+        data_type = True,
+    )
+    for key, as_string in checks.items():
+        c = getattr(cam, key).get(as_string=as_string)
+        p = getattr(plugin, key).get(as_string=as_string)
+        test = c == p
+        tests.append(test)
+        if not test:
+            logger.debug("%s does not match", key)
+
+    return False not in tests
 
 
-def AD_prime_plugin(detector, detector_plugin):
+def AD_prime_plugin(detector, plugin):
     """
     Prime this area detector's file writer plugin.
-    Collect and push an NDarray to the file writer plugin.
-    Works with HDF and JPEG file writers, maybe others.
 
     PARAMETERS
 
     detector
         *obj* :
         area detector (such as ``detector``)
-    detector_plugin
+    plugin
         *obj* :
         area detector plugin to be *primed* (such as ``detector.hdf1``)
 
     EXAMPLE::
 
         AD_prime_plugin(detector, detector.hdf1)
+    """
+    nm = f"{plugin.parent.name}.{plugin.attr_name}"
+    warnings.warn(f"Use AD_prime_plugin2({nm}) instead.")
+    AD_prime_plugin2(plugin)
+
+
+def AD_prime_plugin2(plugin):
+    """
+    Prime this area detector's file writer plugin.
+
+    Collect and push an NDarray to the file writer plugin.
+    Works with all file writer plugins.
+
+    Based on ``ophyd.areadetector.plugins.HDF5Plugin.warmup()``.
+
+    PARAMETERS
+
+    plugin
+        *obj* :
+        area detector plugin to be *primed* (such as ``detector.hdf1``)
+
+    EXAMPLE::
+
+        AD_prime_plugin2(detector.hdf1)
 
     """
-    old_enable = detector_plugin.enable.get()
-    old_mode = detector_plugin.file_write_mode.get()
+    if AD_plugin_primed(plugin):
+        logger.debug("'%s' plugin is already primed", plugin.name)
+        return
 
-    detector_plugin.enable.put(1)
-    # next step is important:
-    # SET the write mode to "Single" (0) or plugin's Capture=1 won't stay
-    detector_plugin.file_write_mode.put(0)
-    detector_plugin.capture.put(1)
-    detector.cam.acquire.put(1)
+    sigs = OrderedDict(
+        [
+            (plugin.enable, 1),
+            (plugin.parent.cam.array_callbacks, 1),  # set by number
+            (plugin.parent.cam.image_mode, "Single"),
+            (plugin.parent.cam.trigger_mode, "Internal"),
+            # just in case the acquisition time is set very long...
+            (plugin.parent.cam.acquire_time, 1),
+            (plugin.parent.cam.acquire_period, 1),
+            (plugin.parent.cam.acquire, 1),  # set by number
+        ]
+    )
 
-    # reset things
-    detector_plugin.file_write_mode.put(old_mode)
-    detector_plugin.enable.put(old_enable)
+    original_vals = {sig: sig.get() for sig in sigs}
 
+    for sig, val in sigs.items():
+        time.sleep(0.1)  # abundance of caution
+        set_and_wait(sig, val)
 
-def AD_warmed_up(detector):
-    """
-    Has area detector pushed an NDarray to the HDF5 plugin?  True or False
+    time.sleep(2)  # wait for acquisition
 
-    **DEPRECATED**:
-
-        :func:`AD_warmed_up` is now superceded by
-        :func:`AD_plugin_primed`.  To be removed by 2021.
-
-    Works around an observed issue: #598
-    https://github.com/NSLS-II/ophyd/issues/598#issuecomment-414311372
-
-    If detector IOC has just been started and has not yet taken an image
-    with the HDF5 plugin, then a TimeoutError will occur as the
-    HDF5 plugin "Capture" is set to 1 (Start).  In such case,
-    first acquire at least one image with the HDF5 plugin enabled.
-    """
-    warnings.warn(
-        "Deprecated: ``AD_warmed_up()`` superceded by ``AD_plugin_primed()``."
-        " Will be removed in 2021."
-        )
-    old_capture = detector.hdf1.capture.get()
-    old_file_write_mode = detector.hdf1.file_write_mode.get()
-    if old_capture == 1:
-        return True
-
-    detector.hdf1.file_write_mode.put(1)
-    detector.hdf1.capture.put(1)
-    verdict = detector.hdf1.capture.get() == 1
-    detector.hdf1.capture.put(old_capture)
-    detector.hdf1.file_write_mode.put(old_file_write_mode)
-    return verdict
+    for sig, val in reversed(list(original_vals.items())):
+        time.sleep(0.1)
+        set_and_wait(sig, val)
 
 
 class AD_EpicsHdf5FileName(FileStorePluginBase):    # lgtm [py/missing-call-to-init]

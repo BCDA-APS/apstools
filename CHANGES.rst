@@ -15,6 +15,12 @@ Change History
        * auto-detection of command list format (Excel or text)
        * use *openpyxl* instead of *xlrd* and *pandas* to read Excel
 
+    * `#470 <https://github.com/BCDA-APS/apstools/pull/470>`_
+       Area Detector plugin preparation & detection.
+
+       * ``AD_plugin_primed()`` re-written completely
+       * ``AD_prime_plugin()`` replaced by ``AD_prime_plugin2()``
+
     * `#463 <https://github.com/BCDA-APS/apstools/pull/463>`_
        Remove deprecated features.
 
@@ -22,6 +28,7 @@ Change History
        * ``apstools.utils.plot_prune_fifo()``
        * ``apstools.utils.show_ophyd_symbols()``
        * ``apstools.synapps.asyn.AsynRecord.binary_output_maxlength()``
+       * ``AD_warmed_up()``
 
 :1.3.9:  released 2020-11-30
 
