@@ -21,7 +21,6 @@ AREA DETECTOR SUPPORT
     ~AD_plugin_primed
     ~AD_prime_plugin
     ~AD_setup_FrameType
-    ~AD_warmed_up
 
 DETECTOR / SCALER SUPPORT
 
