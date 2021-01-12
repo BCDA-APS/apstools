@@ -33,15 +33,15 @@ class Test_CommandList(unittest.TestCase):
         ====== ====== =========================================
         line # action parameters
         ====== ====== =========================================
-        1      row1   91, 26.0, 85.0, None, blank, 8.0
-        2      row2   9, 39.0, 29.0, 85.0, sample, 60.0
-        3      row3   54, None, 38.0, 3.0, blank, 76.0
-        4      row4   71, 36.0, 95.0, 83.0, foil, 12.0
-        5      row5   55, 75.0, 59.0, 84.0, DNA, 34.0
-        6      row6   18, 49.0, 31.0, 34.0, lecithin, 47.0
+        1      row1   91, 26, 85, None, blank, 8
+        2      row2   9, 39, 29, 85, sample, 60
+        3      row3   54, None, 38, 3, blank, 76
+        4      row4   71, 36, 95, 83, foil, 12
+        5      row5   55, 75, 59, 84, DNA, 34
+        6      row6   18, 49, 31, 34, lecithin, 47
         7      row7   37, None, None, None, a big mix  of stuff
-        8      row8   37, 80.0, 79.0, 45.0, salt water, 36.0
-        9      row9   72, 98.0, 67.0, 89.0, surprises, 49.0
+        8      row8   37, 80, 79, 45, salt water, 36
+        9      row9   72, 98, 67, 89, surprises, 49
         ====== ====== =========================================
         """.strip()
         self.compare_tables_as_str(expected, received)
@@ -59,17 +59,17 @@ class Test_CommandList(unittest.TestCase):
         table = APS_utils.command_list_as_table(commands, show_raw=False)
         received = str(table).strip()
         expected = """
-        ====== ============ =============================
+        ====== ============ ===========================
         line # action       parameters
-        ====== ============ =============================
+        ====== ============ ===========================
         1      mono_shutter open
-        2      USAXSscan    45.07, 98.3, 0.0, Water Blank
-        3      saxsExp      45.07, 98.3, 0.0, Water Blank
-        4      waxwsExp     45.07, 98.3, 0.0, Water Blank
-        5      USAXSscan    12, 12.0, 1.2, plastic
-        6      USAXSscan    12, 37.0, 0.1, Al foil
+        2      USAXSscan    45.07, 98.3, 0, Water Blank
+        3      saxsExp      45.07, 98.3, 0, Water Blank
+        4      waxwsExp     45.07, 98.3, 0, Water Blank
+        5      USAXSscan    12, 12, 1.2, plastic
+        6      USAXSscan    12, 37, 0.1, Al foil
         7      mono_shutter close
-        ====== ============ =============================
+        ====== ============ ===========================
         """.strip()
         self.compare_tables_as_str(expected, received)
 
