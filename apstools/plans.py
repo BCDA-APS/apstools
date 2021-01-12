@@ -201,12 +201,13 @@ def get_command_list(filename):
         raise IOError(f"file not found: {filename}")
     try:
         commands = parse_Excel_command_file(filename)
-    except APS_utils.ExcelReadError:
+    except (ValueError, APS_utils.ExcelReadError):
         try:
             commands = parse_text_command_file(filename)
         except ValueError as exc:
-            emsg = f"could not read {filename} as command list file: {exc}"
-            raise CommandFileReadError(emsg)
+            raise CommandFileReadError(
+                f"could not read {filename} as command list file: {exc}"
+            )
     return commands
 
 

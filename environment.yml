@@ -5,22 +5,23 @@ channels:
   - aps-anl-tag
   - nsls2forge
 dependencies:
-  - python>=3.6.0
+  - python >=3.6.0
   - aps-dm-api
-  - bluesky>=1.6.2
-  - databroker>=1.0.6
+  - bluesky >=1.6.2
+  - databroker >=1.0.6
   - h5py
   - hklpy
-  - ophyd>=1.5.1
+  - openpyxl
+  - ophyd >=1.5.1
   - pip
-  - pyEpics>=3.4.2
-  - pyqt=5
+  - pyEpics >=3.4.2
+  - pyqt =5
   - pyRestTable
-  - qt=5
-  - spec2nexus>=2021.1.7
+  - qt =5
+  - spec2nexus >=2021.1.7
   - sphinx
-  - xlrd
   - pip:
+    - bluesky_live
     - ipython-genutils==0.2.0
     - prompt-toolkit==1.0.15
     - sphinx-rtd-theme
