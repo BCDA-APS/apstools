@@ -63,93 +63,93 @@ class Test_Cases(unittest.TestCase):
         self.assertEqual(sim4c.calc.sample.name, "main")
         self.assertEqual(sim4c.calc.sample.lattice.a, 1.54)
 
-    def test_sim4c_pa(self):
-        sim4c = MyE4CV('', name='sim4c')
-        sim4c.calc.physical_axis_names = dict(
-            omega = "able",
-            chi = "baker",
-            phi = "charlie",
-            tth = "arm")
-        p1 = sim4c.calc.Position(able=45, baker=45, charlie=90.0, arm=90)
-        p2 = sim4c.calc.Position(able=30, baker=90, charlie=90.0, arm=60)
-        r1 = sim4c.calc.sample.add_reflection(1, 1, 0, position=p1)
-        r2 = sim4c.calc.sample.add_reflection(0, 1, 0, position=p2)
-        sim4c.calc.sample.compute_UB(r1, r2)
-        tbl = sim4c.pa(printing=False)
-        received = str(tbl).splitlines()
-        expected = [
-            "===================== ===============================================================================",
-            "term                  value                                                                          ",
-            "===================== ===============================================================================",
-            "diffractometer        sim4c                                                                          ",
-            "geometry              E4CV                                                                           ",
-            "class                 MyE4CV                                                                         ",
-            "energy (keV)          0.80509                                                                        ",
-            "wavelength (angstrom) 1.54000                                                                        ",
-            "calc engine           hkl                                                                            ",
-            "mode                  bissector                                                                      ",
-            "positions             ======= ======= =============                                                  ",
-            "                      name    value   original name                                                  ",
-            "                      ======= ======= =============                                                  ",
-            "                      able    0.00000 omega                                                          ",
-            "                      baker   0.00000 chi                                                            ",
-            "                      charlie 0.00000 phi                                                            ",
-            "                      arm     0.00000 tth                                                            ",
-            "                      ======= ======= =============                                                  ",
-            "constraints           ======= ========= ========== ===== ====                                        ",
-            "                      axis    low_limit high_limit value fit                                         ",
-            "                      ======= ========= ========== ===== ====                                        ",
-            "                      able    -180.0    180.0      0.0   True                                        ",
-            "                      baker   -180.0    180.0      0.0   True                                        ",
-            "                      charlie -180.0    180.0      0.0   True                                        ",
-            "                      arm     -180.0    180.0      0.0   True                                        ",
-            "                      ======= ========= ========== ===== ====                                        ",
-            "sample: main          ================= =============================================================",
-            "                      term              value                                                        ",
-            "                      ================= =============================================================",
-            "                      unit cell edges   a=1.54, b=1.54, c=1.54                                       ",
-            "                      unit cell angles  alpha=90.0, beta=90.0, gamma=90.0                            ",
-            "                      ref 1 (hkl)       h=1.0, k=1.0, l=0.0                                          ",
-            "                      ref 1 positioners able=45.00000, baker=45.00000, charlie=90.00000, arm=90.00000",
-            "                      ref 2 (hkl)       h=0.0, k=1.0, l=0.0                                          ",
-            "                      ref 2 positioners able=30.00000, baker=90.00000, charlie=90.00000, arm=60.00000",
-            "                      [U]               [[ 1.00000000e+00 -1.11022302e-16  1.08845649e-16]           ",
-            "                                         [ 1.11022302e-16  1.00000000e+00 -1.08845649e-16]           ",
-            "                                         [-1.08845649e-16  1.08845649e-16  1.00000000e+00]]          ",
-            "                      [UB]              [[ 4.07999046e+00 -7.02797298e-16  1.94261847e-16]           ",
-            "                                         [ 4.52969935e-16  4.07999046e+00 -6.93916573e-16]           ",
-            "                                         [-4.44089210e-16  4.44089210e-16  4.07999046e+00]]          ",
-            "                      ================= =============================================================",
-            "===================== ===============================================================================",
-            ]
-        for r, e in zip(received, expected):
-            self.assertEqual(r, e)
+    # def test_sim4c_pa(self):
+    #     sim4c = MyE4CV('', name='sim4c')
+    #     sim4c.calc.physical_axis_names = dict(
+    #         omega = "able",
+    #         chi = "baker",
+    #         phi = "charlie",
+    #         tth = "arm")
+    #     p1 = sim4c.calc.Position(able=45, baker=45, charlie=90.0, arm=90)
+    #     p2 = sim4c.calc.Position(able=30, baker=90, charlie=90.0, arm=60)
+    #     r1 = sim4c.calc.sample.add_reflection(1, 1, 0, position=p1)
+    #     r2 = sim4c.calc.sample.add_reflection(0, 1, 0, position=p2)
+    #     sim4c.calc.sample.compute_UB(r1, r2)
+    #     tbl = sim4c.pa(printing=False)
+    #     received = str(tbl).splitlines()
+    #     expected = [
+    #         "===================== ===============================================================================",
+    #         "term                  value                                                                          ",
+    #         "===================== ===============================================================================",
+    #         "diffractometer        sim4c                                                                          ",
+    #         "geometry              E4CV                                                                           ",
+    #         "class                 MyE4CV                                                                         ",
+    #         "energy (keV)          0.80509                                                                        ",
+    #         "wavelength (angstrom) 1.54000                                                                        ",
+    #         "calc engine           hkl                                                                            ",
+    #         "mode                  bissector                                                                      ",
+    #         "positions             ======= ======= =============                                                  ",
+    #         "                      name    value   original name                                                  ",
+    #         "                      ======= ======= =============                                                  ",
+    #         "                      able    0.00000 omega                                                          ",
+    #         "                      baker   0.00000 chi                                                            ",
+    #         "                      charlie 0.00000 phi                                                            ",
+    #         "                      arm     0.00000 tth                                                            ",
+    #         "                      ======= ======= =============                                                  ",
+    #         "constraints           ======= ========= ========== ===== ====                                        ",
+    #         "                      axis    low_limit high_limit value fit                                         ",
+    #         "                      ======= ========= ========== ===== ====                                        ",
+    #         "                      able    -180.0    180.0      0.0   True                                        ",
+    #         "                      baker   -180.0    180.0      0.0   True                                        ",
+    #         "                      charlie -180.0    180.0      0.0   True                                        ",
+    #         "                      arm     -180.0    180.0      0.0   True                                        ",
+    #         "                      ======= ========= ========== ===== ====                                        ",
+    #         "sample: main          ================= =============================================================",
+    #         "                      term              value                                                        ",
+    #         "                      ================= =============================================================",
+    #         "                      unit cell edges   a=1.54, b=1.54, c=1.54                                       ",
+    #         "                      unit cell angles  alpha=90.0, beta=90.0, gamma=90.0                            ",
+    #         "                      ref 1 (hkl)       h=1.0, k=1.0, l=0.0                                          ",
+    #         "                      ref 1 positioners able=45.00000, baker=45.00000, charlie=90.00000, arm=90.00000",
+    #         "                      ref 2 (hkl)       h=0.0, k=1.0, l=0.0                                          ",
+    #         "                      ref 2 positioners able=30.00000, baker=90.00000, charlie=90.00000, arm=60.00000",
+    #         "                      [U]               [[ 1.00000000e+00 -1.11022302e-16  1.08845649e-16]           ",
+    #         "                                         [ 1.11022302e-16  1.00000000e+00 -1.08845649e-16]           ",
+    #         "                                         [-1.08845649e-16  1.08845649e-16  1.00000000e+00]]          ",
+    #         "                      [UB]              [[ 4.07999046e+00 -7.02797298e-16  1.94261847e-16]           ",
+    #         "                                         [ 4.52969935e-16  4.07999046e+00 -6.93916573e-16]           ",
+    #         "                                         [-4.44089210e-16  4.44089210e-16  4.07999046e+00]]          ",
+    #         "                      ================= =============================================================",
+    #         "===================== ===============================================================================",
+    #         ]
+    #     for r, e in zip(received, expected):
+    #         self.assertEqual(r, e)
 
-    def test_sim4c_wh(self):
-        sim4c = APS_diffractometer.SoftE4CV('', name='sim4c')
-        tbl = sim4c.wh(printing=False)
-        received = str(tbl).splitlines()
-        expected = [
-            "===================== ========= =========",
-            "term                  value     axis_type",
-            "===================== ========= =========",
-            "diffractometer        sim4c              ",
-            "sample name           main               ",
-            "energy (keV)          0.80509            ",
-            "wavelength (angstrom) 1.54000            ",
-            "calc engine           hkl                ",
-            "mode                  bissector          ",
-            "h                     0.0       pseudo   ",
-            "k                     0.0       pseudo   ",
-            "l                     0.0       pseudo   ",
-            "omega                 0         real     ",
-            "chi                   0         real     ",
-            "phi                   0         real     ",
-            "tth                   0         real     ",
-            "===================== ========= =========",
-            ]
-        for r, e in zip(received, expected):
-            self.assertEqual(r, e)
+    # def test_sim4c_wh(self):
+    #     sim4c = APS_diffractometer.SoftE4CV('', name='sim4c')
+    #     tbl = sim4c.wh(printing=False)
+    #     received = str(tbl).splitlines()
+    #     expected = [
+    #         "===================== ========= =========",
+    #         "term                  value     axis_type",
+    #         "===================== ========= =========",
+    #         "diffractometer        sim4c              ",
+    #         "sample name           main               ",
+    #         "energy (keV)          0.80509            ",
+    #         "wavelength (angstrom) 1.54000            ",
+    #         "calc engine           hkl                ",
+    #         "mode                  bissector          ",
+    #         "h                     0.0       pseudo   ",
+    #         "k                     0.0       pseudo   ",
+    #         "l                     0.0       pseudo   ",
+    #         "omega                 0         real     ",
+    #         "chi                   0         real     ",
+    #         "phi                   0         real     ",
+    #         "tth                   0         real     ",
+    #         "===================== ========= =========",
+    #         ]
+    #     for r, e in zip(received, expected):
+    #         self.assertEqual(r, e)
 
     def test_sim4c_showConstraints(self):
         sim4c = APS_diffractometer.SoftE4CV('', name='sim4c')
@@ -222,33 +222,33 @@ class Test_Cases(unittest.TestCase):
             sim6c.calc.physical_axis_names,
             ['mu', 'omega', 'chi', 'phi', 'gamma', 'delta'])
 
-    def test_sim6c_wh(self):
-        sim6c = APS_diffractometer.SoftE6C('', name='sim6c')
-        tbl = sim6c.wh(printing=False)
-        received = str(tbl).splitlines()
-        expected = [
-            "===================== ================== =========",
-            "term                  value              axis_type",
-            "===================== ================== =========",
-            "diffractometer        sim6c                       ",
-            "sample name           main                        ",
-            "energy (keV)          0.80509                     ",
-            "wavelength (angstrom) 1.54000                     ",
-            "calc engine           hkl                         ",
-            "mode                  bissector_vertical          ",
-            "h                     0.0                pseudo   ",
-            "k                     0.0                pseudo   ",
-            "l                     0.0                pseudo   ",
-            "mu                    0                  real     ",
-            "omega                 0                  real     ",
-            "chi                   0                  real     ",
-            "phi                   0                  real     ",
-            "gamma                 0                  real     ",
-            "delta                 0                  real     ",
-            "===================== ================== =========",
-            ]
-        for r, e in zip(received, expected):
-            self.assertEqual(r, e)
+    # def test_sim6c_wh(self):
+    #     sim6c = APS_diffractometer.SoftE6C('', name='sim6c')
+    #     tbl = sim6c.wh(printing=False)
+    #     received = str(tbl).splitlines()
+    #     expected = [
+    #         "===================== ================== =========",
+    #         "term                  value              axis_type",
+    #         "===================== ================== =========",
+    #         "diffractometer        sim6c                       ",
+    #         "sample name           main                        ",
+    #         "energy (keV)          0.80509                     ",
+    #         "wavelength (angstrom) 1.54000                     ",
+    #         "calc engine           hkl                         ",
+    #         "mode                  bissector_vertical          ",
+    #         "h                     0.0                pseudo   ",
+    #         "k                     0.0                pseudo   ",
+    #         "l                     0.0                pseudo   ",
+    #         "mu                    0                  real     ",
+    #         "omega                 0                  real     ",
+    #         "chi                   0                  real     ",
+    #         "phi                   0                  real     ",
+    #         "gamma                 0                  real     ",
+    #         "delta                 0                  real     ",
+    #         "===================== ================== =========",
+    #         ]
+    #     for r, e in zip(received, expected):
+    #         self.assertEqual(r, e)
 
     def test_sim6c_forward(self):
         sim6c = APS_diffractometer.SoftE6C('', name='sim6c')
@@ -271,31 +271,31 @@ class Test_Cases(unittest.TestCase):
             simk4c.calc.physical_axis_names,
             ['komega', 'kappa', 'kphi', 'tth'])
 
-    def test_simk4c_wh(self):
-        simk4c = APS_diffractometer.SoftK4CV('', name='simk4c')
-        tbl = simk4c.wh(printing=False)
-        received = str(tbl).splitlines()
-        expected = [
-            "===================== ========= =========",
-            "term                  value     axis_type",
-            "===================== ========= =========",
-            "diffractometer        simk4c             ",
-            "sample name           main               ",
-            "energy (keV)          0.80509            ",
-            "wavelength (angstrom) 1.54000            ",
-            "calc engine           hkl                ",
-            "mode                  bissector          ",
-            "h                     0.0       pseudo   ",
-            "k                     0.0       pseudo   ",
-            "l                     0.0       pseudo   ",
-            "komega                0         real     ",
-            "kappa                 0         real     ",
-            "kphi                  0         real     ",
-            "tth                   0         real     ",
-            "===================== ========= =========",
-            ]
-        for r, e in zip(received, expected):
-            self.assertEqual(r, e)
+    # def test_simk4c_wh(self):
+    #     simk4c = APS_diffractometer.SoftK4CV('', name='simk4c')
+    #     tbl = simk4c.wh(printing=False)
+    #     received = str(tbl).splitlines()
+    #     expected = [
+    #         "===================== ========= =========",
+    #         "term                  value     axis_type",
+    #         "===================== ========= =========",
+    #         "diffractometer        simk4c             ",
+    #         "sample name           main               ",
+    #         "energy (keV)          0.80509            ",
+    #         "wavelength (angstrom) 1.54000            ",
+    #         "calc engine           hkl                ",
+    #         "mode                  bissector          ",
+    #         "h                     0.0       pseudo   ",
+    #         "k                     0.0       pseudo   ",
+    #         "l                     0.0       pseudo   ",
+    #         "komega                0         real     ",
+    #         "kappa                 0         real     ",
+    #         "kphi                  0         real     ",
+    #         "tth                   0         real     ",
+    #         "===================== ========= =========",
+    #         ]
+    #     for r, e in zip(received, expected):
+    #         self.assertEqual(r, e)
 
     def test_simk4c_forward(self):
         simk4c = APS_diffractometer.SoftK4CV('', name='simk4c')
@@ -316,33 +316,33 @@ class Test_Cases(unittest.TestCase):
             simk6c.calc.physical_axis_names,
             ['mu', 'komega', 'kappa', 'kphi', 'gamma', 'delta'])
 
-    def test_simk6c_wh(self):
-        simk6c = APS_diffractometer.SoftK6C('', name='simk6c')
-        tbl = simk6c.wh(printing=False)
-        received = str(tbl).splitlines()
-        expected = [
-            "===================== ================== =========",
-            "term                  value              axis_type",
-            "===================== ================== =========",
-            "diffractometer        simk6c                      ",
-            "sample name           main                        ",
-            "energy (keV)          0.80509                     ",
-            "wavelength (angstrom) 1.54000                     ",
-            "calc engine           hkl                         ",
-            "mode                  bissector_vertical          ",
-            "h                     0.0                pseudo   ",
-            "k                     0.0                pseudo   ",
-            "l                     0.0                pseudo   ",
-            "mu                    0                  real     ",
-            "komega                0                  real     ",
-            "kappa                 0                  real     ",
-            "kphi                  0                  real     ",
-            "gamma                 0                  real     ",
-            "delta                 0                  real     ",
-            "===================== ================== =========",
-            ]
-        for r, e in zip(received, expected):
-            self.assertEqual(r, e)
+    # def test_simk6c_wh(self):
+    #     simk6c = APS_diffractometer.SoftK6C('', name='simk6c')
+    #     tbl = simk6c.wh(printing=False)
+    #     received = str(tbl).splitlines()
+    #     expected = [
+    #         "===================== ================== =========",
+    #         "term                  value              axis_type",
+    #         "===================== ================== =========",
+    #         "diffractometer        simk6c                      ",
+    #         "sample name           main                        ",
+    #         "energy (keV)          0.80509                     ",
+    #         "wavelength (angstrom) 1.54000                     ",
+    #         "calc engine           hkl                         ",
+    #         "mode                  bissector_vertical          ",
+    #         "h                     0.0                pseudo   ",
+    #         "k                     0.0                pseudo   ",
+    #         "l                     0.0                pseudo   ",
+    #         "mu                    0                  real     ",
+    #         "komega                0                  real     ",
+    #         "kappa                 0                  real     ",
+    #         "kphi                  0                  real     ",
+    #         "gamma                 0                  real     ",
+    #         "delta                 0                  real     ",
+    #         "===================== ================== =========",
+    #         ]
+    #     for r, e in zip(received, expected):
+    #         self.assertEqual(r, e)
 
     def test_simk6c_forward(self):
         simk6c = APS_diffractometer.SoftK6C('', name='simk6c')

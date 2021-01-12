@@ -8,6 +8,13 @@ Change History
 
 :1.4.0:  release expected 2021-01-31
 
+    * `#472 <https://github.com/BCDA-APS/apstools/pull/472>`_
+       Respond to changes in upstream packages.
+
+       * package requirements
+       * auto-detection of command list format (Excel or text)
+       * use *openpyxl* instead of *xlrd* and *pandas* to read Excel
+
     * `#470 <https://github.com/BCDA-APS/apstools/pull/470>`_
        Area Detector plugin preparation & detection.
 

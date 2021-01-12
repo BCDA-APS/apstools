@@ -92,7 +92,8 @@ class Test_Plans(unittest.TestCase):
             'file line 12: SAXS 0 0 0 blank',
             'no handling for line 12: SAXS 0 0 0 blank',
             ]
-        self.assertEqual(str(received), str(expected))
+        for r, e in zip(received, expected):
+            self.assertEqual(str(r), str(e))
 
         filename = os.path.join(_test_path, "actions.xlsx")
         with Capture_stdout() as received:
@@ -102,34 +103,35 @@ class Test_Plans(unittest.TestCase):
         # print(f"|{received}|")
         expected = [
             f'Command file: {filename}',
-            '====== ============ =============================',
-            'line # action       parameters                   ',
-            '====== ============ =============================',
-            '1      mono_shutter open                         ',
-            '2      USAXSscan    45.07, 98.3, 0.0, Water Blank',
-            '3      saxsExp      45.07, 98.3, 0.0, Water Blank',
-            '4      waxwsExp     45.07, 98.3, 0.0, Water Blank',
-            '5      USAXSscan    12, 12.0, 1.2, plastic       ',
-            '6      USAXSscan    12, 37.0, 0.1, Al foil       ',
-            '7      mono_shutter close                        ',
-            '====== ============ =============================',
+            '====== ============ ===========================',
+            'line # action       parameters                 ',
+            '====== ============ ===========================',
+            '1      mono_shutter open                       ',
+            '2      USAXSscan    45.07, 98.3, 0, Water Blank',
+            '3      saxsExp      45.07, 98.3, 0, Water Blank',
+            '4      waxwsExp     45.07, 98.3, 0, Water Blank',
+            '5      USAXSscan    12, 12, 1.2, plastic       ',
+            '6      USAXSscan    12, 37, 0.1, Al foil       ',
+            '7      mono_shutter close                      ',
+            '====== ============ ===========================',
             '',
             "file line 1: ['mono_shutter', 'open', None, None, None]",
             "no handling for line 1: ['mono_shutter', 'open', None, None, None]",
-            "file line 2: ['USAXSscan', 45.07, 98.3, 0.0, 'Water Blank']",
-            "no handling for line 2: ['USAXSscan', 45.07, 98.3, 0.0, 'Water Blank']",
-            "file line 3: ['saxsExp', 45.07, 98.3, 0.0, 'Water Blank']",
-            "no handling for line 3: ['saxsExp', 45.07, 98.3, 0.0, 'Water Blank']",
-            "file line 4: ['waxwsExp', 45.07, 98.3, 0.0, 'Water Blank']",
-            "no handling for line 4: ['waxwsExp', 45.07, 98.3, 0.0, 'Water Blank']",
-            "file line 5: ['USAXSscan', 12, 12.0, 1.2, 'plastic']",
-            "no handling for line 5: ['USAXSscan', 12, 12.0, 1.2, 'plastic']",
-            "file line 6: ['USAXSscan', 12, 37.0, 0.1, 'Al foil']",
-            "no handling for line 6: ['USAXSscan', 12, 37.0, 0.1, 'Al foil']",
+            "file line 2: ['USAXSscan', 45.07, 98.3, 0, 'Water Blank']",
+            "no handling for line 2: ['USAXSscan', 45.07, 98.3, 0, 'Water Blank']",
+            "file line 3: ['saxsExp', 45.07, 98.3, 0, 'Water Blank']",
+            "no handling for line 3: ['saxsExp', 45.07, 98.3, 0, 'Water Blank']",
+            "file line 4: ['waxwsExp', 45.07, 98.3, 0, 'Water Blank']",
+            "no handling for line 4: ['waxwsExp', 45.07, 98.3, 0, 'Water Blank']",
+            "file line 5: ['USAXSscan', 12, 12, 1.2, 'plastic']",
+            "no handling for line 5: ['USAXSscan', 12, 12, 1.2, 'plastic']",
+            "file line 6: ['USAXSscan', 12, 37, 0.1, 'Al foil']",
+            "no handling for line 6: ['USAXSscan', 12, 37, 0.1, 'Al foil']",
             "file line 7: ['mono_shutter', 'close', None, None, None]",
             "no handling for line 7: ['mono_shutter', 'close', None, None, None]"
             ]
-        self.assertEqual(str(received), str(expected))
+        for r, e in zip(received, expected):
+            self.assertEqual(str(r), str(e))
 
 
 def suite(*args, **kw):

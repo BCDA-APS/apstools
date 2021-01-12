@@ -65,9 +65,10 @@ from event_model import NumpyEncoder
 import json
 import logging
 import math
+import openpyxl
+import openpyxl.utils.exceptions
 import ophyd
 import os
-import pandas
 import psutil
 import pyRestTable
 import re
@@ -77,7 +78,6 @@ import sys
 import threading
 import time
 import warnings
-import xlrd
 import zipfile
 
 from .filewriters import _rebuild_scan_command
@@ -88,7 +88,7 @@ logger = logging.getLogger(__name__)
 MAX_EPICS_STRINGOUT_LENGTH = 40
 
 
-class ExcelReadError(xlrd.XLRDError): ...
+class ExcelReadError(openpyxl.utils.exceptions.InvalidFileException): ...
 
 
 def cleanupText(text):
@@ -1059,30 +1059,36 @@ class ExcelDatabaseFileBase(object):
     def parse(self, labels_row_num=None, data_start_row_num=None, ignore_extra=True):
         labels_row_num = labels_row_num or self.LABELS_ROW
         try:
+            wb = openpyxl.load_workbook(self.fname)
+            ws = wb.worksheets[self.sheet_name]
             if ignore_extra:
                 # ignore data outside of table in spreadsheet file
-                nrows, ncols = self.getTableBoundaries(labels_row_num)
-                xl = pandas.read_excel(
-                    self.fname,
-                    sheet_name=self.sheet_name,
-                    skiprows=labels_row_num,
-                    usecols=range(ncols),
-                    nrows=nrows,
-                    )
+                data = list(ws.rows)[labels_row_num:]
+                self.data_labels = []
+                for c in data[0]:
+                    if c.value is None:
+                        break
+                    self.data_labels.append(c.value)
+                rows = []
+                for r in data[1:]:
+                    if r[0].value is None:
+                        break
+                    rows.append(r[:len(self.data_labels)])
             else:
-                xl = pandas.read_excel(
-                    self.fname,
-                    sheet_name=self.sheet_name,
-                    header=None,
-                    )
-        except xlrd.XLRDError as exc:
+                # use the whole sheet
+                rows = list(ws.rows)
+                # create the column titles
+                self.data_labels = [
+                    f"Column_{i+1}"
+                    for i in range(len(rows[0]))
+                ]
+        except openpyxl.utils.exceptions.InvalidFileException as exc:
             raise ExcelReadError(exc)
-        self.data_labels = list(map(str, xl.columns.values))
         # unused: data_start_row_num = data_start_row_num or labels_row_num+1
-        for row_data in xl.values:
+        for row in rows:
             entry = OrderedDict()
             for _col, label in enumerate(self.data_labels):
-                entry[label] = self._getExcelColumnValue(row_data, _col)
+                entry[label] = row[_col].value
                 self.handle_single_entry(entry)
             self.handleExcelRowEntry(entry)
 
@@ -1100,29 +1106,6 @@ class ExcelDatabaseFileBase(object):
         if not isinstance(value, float):
             return False
         return math.isnan(value)
-
-    def getTableBoundaries(self, labels_row_num=None):
-        """
-        identify how many rows and columns are in the Excel spreadsheet table
-        """
-        labels_row_num = labels_row_num or self.LABELS_ROW
-        xl = pandas.read_excel(self.fname, sheet_name=self.sheet_name, skiprows=labels_row_num)
-
-        ncols = len(xl.columns)
-        for i, k in enumerate(xl.columns):
-            if k.startswith(f"Unnamed: {i}"):
-                # TODO: verify all values under this label are NaN
-                ncols = i
-                break
-
-        nrows = len(xl.values)
-        for j, r in enumerate(xl.values):
-            r = r[:ncols]
-            if False not in [self._isExcel_nan(value) for value in r]:
-                nrows = j
-                break
-
-        return nrows, ncols
 
 
 class ExcelDatabaseFileGeneric(ExcelDatabaseFileBase):
