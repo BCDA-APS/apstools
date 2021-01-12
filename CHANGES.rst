@@ -4,9 +4,15 @@
 Change History
 ##############
 
-:1.4.1:  release expected 2021-01-31
+:1.4.1:  release expected 2021-03-31
 
-:1.4.0:  release expected 2021-01-01
+:1.4.0:  release expected 2021-01-31
+
+    * `#472 <https://github.com/BCDA-APS/apstools/pull/472>`_
+       Respond to changes in upstream packages.
+
+       * package requirements
+       * auto-detection of command list format (Excel or text)
 
     * `#463 <https://github.com/BCDA-APS/apstools/pull/463>`_
        Remove deprecated features.
