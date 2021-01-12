@@ -11,6 +11,7 @@ dependencies:
   - databroker>=1.0.6
   - h5py
   - hklpy
+  - openpyxl
   - ophyd>=1.5.1
   - pip
   - pyEpics>=3.4.2
@@ -21,6 +22,7 @@ dependencies:
   - sphinx
   - xlrd
   - pip:
+    - bluesky_live
     - ipython-genutils==0.2.0
     - prompt-toolkit==1.0.15
     - sphinx-rtd-theme
