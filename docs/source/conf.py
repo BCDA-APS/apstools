@@ -175,7 +175,7 @@ autodoc_mock_imports = [
     'h5py',
     'matplotlib',
     'networkx',
-    'pandas',
+    'openpyxl',
     'pyRestTable',
     'snapshot',
     'xarray',

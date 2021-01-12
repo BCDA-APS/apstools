@@ -13,6 +13,7 @@ Change History
 
        * package requirements
        * auto-detection of command list format (Excel or text)
+       * use *openpyxl* instead of *xlrd* and *pandas* to read Excel
 
     * `#463 <https://github.com/BCDA-APS/apstools/pull/463>`_
        Remove deprecated features.

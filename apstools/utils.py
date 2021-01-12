@@ -69,7 +69,6 @@ import openpyxl
 import openpyxl.utils.exceptions
 import ophyd
 import os
-import pandas
 import psutil
 import pyRestTable
 import re
