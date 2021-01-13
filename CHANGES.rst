@@ -47,6 +47,14 @@ Change History
        * ``apstools.synapps.asyn.AsynRecord.binary_output_maxlength()``
        * ``apstools.devices.AD_warmed_up()``
 
+    * `#451 <https://github.com/BCDA-APS/apstools/pull/451>`_
+       Undulator and Kohzu monochromator functionalities
+
+       * :class:`apstools.devices.ApsUndulator()`
+
+         Adds some ``Signal`` components (such as setting `kind` kwarg)
+         that are helpful in moving the undulator
+
 :1.3.9:  released 2020-11-30
 
     * `#459 <https://github.com/BCDA-APS/apstools/pull/459>`_
