@@ -1,3 +1,4 @@
+.. _apsbss:
 
 apsbss: Command line application
 --------------------------------

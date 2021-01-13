@@ -43,6 +43,7 @@ author        Pete R. Jemian <jemian@anl.gov>
    applications/index
    examples/index
    source/index
+   changes
    license
 
 Indices and tables
