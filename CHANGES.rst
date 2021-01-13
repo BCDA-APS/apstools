@@ -4,12 +4,13 @@
 Change History
 ##############
 
-:1.4.1:  release expected 2021-03-31
+:1.4.1:  release expected by 2021-03-31
 
-:1.4.0:  release expected 2021-01-31
+:1.4.0:  release expected by 2021-01-31
 
     * `#474 <https://github.com/BCDA-APS/apstools/pull/474>`_
-       ``listruns()`` now defaults to the current catalog in use.
+       :func:`apstools.utils.listruns()` now defaults to the
+       current catalog in use.
 
        New functions:
 
@@ -21,15 +22,21 @@ Change History
 
        * package requirements
        * auto-detection of command list format (Excel or text)
-       * use *openpyxl* instead of *xlrd* and *pandas* to read Excel
+       * use *openpyxl* [#]_ instead of *xlrd* [#]_ and
+         *pandas* [#]_ to read Microsoft Excel `.xlsx` spreadsheet
+         files
+
+       .. [#] https://openpyxl.readthedocs.io
+       .. [#] https://xlrd.readthedocs.io
+       .. [#] https://pandas.pydata.org
 
     * `#470 <https://github.com/BCDA-APS/apstools/pull/470>`_
        Area Detector plugin preparation & detection.
 
-       * :ref:`~apstools.devices.AD_plugin_primed()`
+       * :func:`apstools.devices.AD_plugin_primed()`
           re-written completely
-       * :ref:`~apstools.devices.AD_prime_plugin()`
-          replaced by :ref:`~apstools.devices.AD_prime_plugin2()`
+       * :func:`apstools.devices.AD_prime_plugin()`
+          replaced by :func:`apstools.devices.AD_prime_plugin2()`
 
     * `#463 <https://github.com/BCDA-APS/apstools/pull/463>`_
        Remove deprecated features.
@@ -38,14 +45,14 @@ Change History
        * ``apstools.utils.plot_prune_fifo()``
        * ``apstools.utils.show_ophyd_symbols()``
        * ``apstools.synapps.asyn.AsynRecord.binary_output_maxlength()``
-       * ``AD_warmed_up()``
+       * ``apstools.devices.AD_warmed_up()``
 
 :1.3.9:  released 2020-11-30
 
     * `#459 <https://github.com/BCDA-APS/apstools/pull/459>`_
-       apsbss: list ESAFs & proposals from other cycles
+       :ref:`apsbss`: list ESAFs & proposals from other cycles
     * `#457 <https://github.com/BCDA-APS/apstools/pull/457>`_
-       utils.rss_mem(): show memory used by this process
+       :func:`apstools.utils.rss_mem()`: show memory used by this process
 
 :1.3.8:  released: 2020-10-23
 
@@ -234,7 +241,7 @@ Change History
 
 :1.2.2:  released *2020-05-06*
 
-    * `DEPRECATION <https://github.com/BCDA-APS/apstools/issues/306>`_
+    * DEPRECATION `#306 <https://github.com/BCDA-APS/apstools/issues/306>`_
 	   `apstools.plans.show_ophyd_symbols()` will be removed by 2020-07-01.
 	   Use `apstools.plans.listobjects()` instead.
 
@@ -399,7 +406,7 @@ Change History
     * `#196 <https://github.com/BCDA-APS/apstools/issues/196>`_
        `spec2ophyd` handle MOTPAR:read_misc_1
     * `#194 <https://github.com/BCDA-APS/apstools/issues/194>`_
-       new ``show_ophyd_symbols`` shows table of global ophyd `Signal`s and `Device`s
+       new ``show_ophyd_symbols`` shows table of global ophyd ``Signal`` and ``Device`` instances
     * `#193 <https://github.com/BCDA-APS/apstools/issues/193>`_
        `spec2ophyd` ignore None items in SPEC config file
     * `#192 <https://github.com/BCDA-APS/apstools/issues/192>`_
@@ -455,7 +462,7 @@ Change History
     * `#140 <https://github.com/BCDA-APS/apstools/issues/140>`_
        `event-model` needs at least v1.8.0
     * `#139 <https://github.com/BCDA-APS/apstools/issues/139>`_
-       `ValueError` in `plans.TuneAxis.tune._scan `
+       ``ValueError`` in :func:`~apstools.plans.TuneAxis.tune._scan`
 
 :1.1.3:  released *2019-05-10*
 
