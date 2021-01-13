@@ -730,7 +730,7 @@ def run_in_thread(func):
 
 
 def safe_ophyd_name(text):
-    """
+    r"""
     make text safe to be used as an ophyd object name
 
     Given some input text string, return a clean version.
