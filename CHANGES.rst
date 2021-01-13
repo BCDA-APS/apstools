@@ -8,6 +8,14 @@ Change History
 
 :1.4.0:  release expected 2021-01-31
 
+    * `#474 <https://github.com/BCDA-APS/apstools/pull/474>`_
+       ``listruns()`` now defaults to the current catalog in use.
+
+       New functions:
+
+       * :func:`apstools.utils.getDatabase`
+       * :func:`apstools.utils.getDefaultDatabase`
+
     * `#472 <https://github.com/BCDA-APS/apstools/pull/472>`_
        Respond to changes in upstream packages.
 
@@ -18,8 +26,10 @@ Change History
     * `#470 <https://github.com/BCDA-APS/apstools/pull/470>`_
        Area Detector plugin preparation & detection.
 
-       * ``AD_plugin_primed()`` re-written completely
-       * ``AD_prime_plugin()`` replaced by ``AD_prime_plugin2()``
+       * :ref:`~apstools.devices.AD_plugin_primed()`
+          re-written completely
+       * :ref:`~apstools.devices.AD_prime_plugin()`
+          replaced by :ref:`~apstools.devices.AD_prime_plugin2()`
 
     * `#463 <https://github.com/BCDA-APS/apstools/pull/463>`_
        Remove deprecated features.

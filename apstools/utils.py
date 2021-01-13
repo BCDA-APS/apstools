@@ -14,6 +14,8 @@ Various utilities
    ~ExcelDatabaseFileGeneric
    ~ExcelReadError
    ~full_dotted_name
+   ~getDatabase
+   ~getDefaultDatabase
    ~ipython_profile_name
    ~itemizer
    ~json_export
@@ -253,6 +255,114 @@ def _get_pv(obj):
         return obj.prefix
 
 
+def getDatabase(db=None, catalog_name=None):
+    """
+    Return Bluesky database using keyword guides or default choice.
+
+    PARAMETERS
+
+    db
+        *object* :
+        Instance of databroker v1 ``Broker`` or
+        v2 ``BlueskyMongoCatalog``.
+        (default: see ``catalog_name`` keyword argument)
+    catalog_name
+        *str* :
+        Name of databroker v2 catalog, used when supplied
+        ``db`` is ``None``.
+        (default: catalog with most recent run timestamp)
+
+    RETURNS
+
+    object or ``None``:
+        Bluesky database, an instance of ``databroker.catalog``
+
+    (new in release 1.4.0)
+    """
+    if not hasattr(db, "v2"):
+        if (
+            hasattr(catalog_name, "name")
+            and
+            catalog_name in databroker.catalog
+        ):
+            # in case a catalog was passed as catalog_name
+            db = catalog_name
+            catalog_name = db.name
+        elif catalog_name is None:
+            db = getDefaultDatabase()
+            catalog_name = db.name
+        else:
+            db = databroker.catalog[catalog_name]
+    return db.v2
+
+
+def getDefaultDatabase():
+    """
+    Find the "default" database (has the most recent run).
+
+    Note that here, *database* and *catalog* mean the same.
+
+    This routine looks at all the database instances defined in the
+    current session (console or notebook).  If there is only one or no
+    database instances defined as objects in the current session, the
+    choice is simple.  When there is more than one database instance in
+    the current session, then the one with the most recent run timestamp
+    is selected.  In the case (as happens when starting with a new
+    database) that the current database has **no** runs *and* another
+    database instance is defined in the session *and* that additional
+    database has runs in it (such as the previous database), then the
+    database with the newest run timestamp (and not the newer empty
+    database) will be chosen.
+
+    RETURNS
+
+    object or ``None``:
+        Bluesky database, an instance of ``databroker.catalog``
+
+    (new in release 1.4.0)
+    """
+    # look through the console namespace
+    g = ipython_shell_namespace()
+    if len(g) == 0:
+        # ultimate fallback
+        g = globals()
+
+    # note all database instances in memory
+    db_list = []
+    for k, v in g.items():
+        if hasattr(v, "__class__") and not k.startswith("_"):
+            end = v.__class__.__name__.split(".")[-1]
+            if end in ("Broker", "BlueskyMongoCatalog"):
+                db_list.append(v)
+
+    # easy decisions first
+    if len(db_list) == 0:
+        return None
+    if len(db_list) == 1:
+        return db_list[0]
+
+    # get the most recent run from each
+    time_ref = {}
+    for cat_name in list(databroker.catalog):
+        cat = databroker.catalog[cat_name]
+        if cat in db_list:
+            print(cat_name, cat.name)
+            if len(cat) > 0:
+                run = cat.v2[-1]
+                t = run.metadata["start"]["time"]
+            else:
+                t = 0
+            time_ref[cat_name] = t, cat
+
+    # pick the highest number for time
+    highest = max([v[0] for v in time_ref.values()])
+    choices = [v[1] for v in time_ref.values() if v[0] == highest]
+    if len(choices) == 0:
+        return None
+    # return the catalog with the most recent timestamp
+    return sorted(choices)[-1]
+
+
 def itemizer(fmt, items):
     """Format a list of items."""
     return [fmt % k for k in items]
@@ -295,12 +405,14 @@ def listruns(
         (default: ``True``)
     db
         *object* :
-        Instance of databroker v1 ``Broker`` or v2 ``catalog``
+        Instance of databroker v1 ``Broker`` or
+        v2 ``BlueskyMongoCatalog``.
         (default: see ``catalog_name`` keyword argument)
     catalog_name
         *str* :
-        Name of databroker v2 catalog, used when supplied ``db`` is ``None``.
-        (default: ``mongodb_config``)
+        Name of databroker v2 catalog, used when the supplied
+        ``db`` is ``None``.
+        (default: catalog with most recent run timestamp)
         (new in release 1.3.0)
     since
         *str* :
@@ -354,8 +466,7 @@ def listruns(
 
     *new in apstools release 1.1.10*
     """
-    catalog_name = catalog_name or "mongodb_config"
-    db = (db or databroker.catalog[catalog_name]).v2
+    db = getDatabase(db=db, catalog_name=catalog_name)
     keys = keys or []
     num_runs_requested = min(abs(num), len(db))
     since = since or "1995-01-01"
@@ -406,6 +517,8 @@ def listruns(
         table.addRow(row)
 
     if printing:
+        if db.name is not None:
+            print(f"catalog name: {db.name}")
         print(table)
     return table
 
