@@ -406,6 +406,8 @@ def listruns(
         table.addRow(row)
 
     if printing:
+        if db.name is not None:
+            print(f"catalog name: {db.name}")
         print(table)
     return table
 
