@@ -287,10 +287,8 @@ def getDatabase(db=None, catalog_name=None):
         ):
             # in case a catalog was passed as catalog_name
             db = catalog_name
-            catalog_name = db.name
         elif catalog_name is None:
             db = getDefaultDatabase()
-            catalog_name = db.name
         else:
             db = databroker.catalog[catalog_name]
     return db.v2
