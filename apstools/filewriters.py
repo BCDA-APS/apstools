@@ -86,6 +86,38 @@ def _rebuild_scan_command(doc):
                     break
         return s
 
+    def struct_to_str(struct):
+        """Convert given structure into string representation."""
+        if isinstance(struct, list):
+            return (
+                "["
+                + ", ".join(
+                    [
+                        struct_to_str(v)
+                        for v in struct
+                    ]
+                )
+                + "]"
+            )
+        elif isinstance(struct, dict):
+            return (
+                "{"
+                + ", ".join(
+                    [
+                        f"{k}={struct_to_str(v)}"
+                        for k, v in struct.items()
+                    ]
+                )
+                + "}"
+            )
+        elif isinstance(struct, np.ndarray):
+            return struct_to_str(list(struct))
+        elif isinstance(struct, str):
+            # escape embedded characters, such as single quote
+            return f"'{struct}'".encode("unicode_escape").decode("utf8")
+        else:
+            return str(struct)
+
     s = []
     if "plan_args" in doc:
         for _k, _v in doc['plan_args'].items():
@@ -95,7 +127,7 @@ def _rebuild_scan_command(doc):
                 _v = doc["motors"]
             elif _k == "args":
                 _v = "[" +  ", ".join(map(get_name, _v)) + "]"
-            s.append(f"{_k}={_v}")
+            s.append(f"{_k}={struct_to_str(_v)}")
 
     cmd = "{}({})".format(doc.get("plan_name", ""), ", ".join(s))
     scan_id = doc.get("scan_id") or 1
