@@ -73,7 +73,7 @@ def test_specwriter():
     # So we must replay the document stream and modify the right
     # structure as it passes by.
     # This structure is in the start document, which is first.
-    # Note: we don't have to write the whole SPEC file again, 
+    # Note: we don't have to write the whole SPEC file again,
     # just test if _rebuild_scan_command(start_doc) is one line.
 
     hh = db.get_documents(h)
