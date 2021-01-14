@@ -8,6 +8,10 @@ Change History
 
 :1.4.0:  release expected by 2021-01-31
 
+    * `#482 <https://github.com/BCDA-APS/apstools/pull/482>`_
+       specwriter: Fix bug when plan_args structure includes a numpy
+       ndarray.
+
     * `#474 <https://github.com/BCDA-APS/apstools/pull/474>`_
        :func:`apstools.utils.listruns()` now defaults to the
        current catalog in use.
