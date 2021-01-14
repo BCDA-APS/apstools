@@ -46,7 +46,7 @@ Various utilities
 
 """
 
-#-----------------------------------------------------------------------------
+# -----------------------------------------------------------------------------
 # :author:    Pete R. Jemian
 # :email:     jemian@anl.gov
 # :copyright: (c) 2017-2020, UChicago Argonne, LLC
@@ -54,16 +54,17 @@ Various utilities
 # Distributed under the terms of the Creative Commons Attribution 4.0 International Public License.
 #
 # The full license is in the file LICENSE.txt, distributed with this software.
-#-----------------------------------------------------------------------------
+# -----------------------------------------------------------------------------
 
-from bluesky.callbacks.best_effort import BestEffortCallback
 from bluesky import plan_stubs as bps
-from collections import defaultdict, OrderedDict
+from bluesky.callbacks.best_effort import BestEffortCallback
+from collections import defaultdict
+from collections import OrderedDict
+from email.mime.text import MIMEText
+from event_model import NumpyEncoder
 import databroker
 import databroker.queries
 import datetime
-from email.mime.text import MIMEText
-from event_model import NumpyEncoder
 import json
 import logging
 import math
@@ -130,7 +131,11 @@ def command_list_as_table(commands, show_raw=False):
     return tbl
 
 
-def device_read2table(device, show_ancient=True, use_datetime=True, printing=True):
+def device_read2table(
+    # fmt:off
+    device, show_ancient=True, use_datetime=True, printing=True
+    # fmt:on
+    ):
     """
     DEPRECATED: Use listdevice() instead.
     """
@@ -138,12 +143,21 @@ def device_read2table(device, show_ancient=True, use_datetime=True, printing=Tru
         "DEPRECATED: device_read2table() will be removed"
         " in a future release.  Use listdevice() instead."
         )
-    listdevice(device, show_ancient=show_ancient, use_datetime=use_datetime, printing=printing)
+    listdevice(
+        device,
+        show_ancient=show_ancient,
+        use_datetime=use_datetime,
+        printing=printing
+    )
 
 
-def listdevice(device, show_ancient=True, use_datetime=True, printing=True):
+def listdevice(
+    # fmt:off
+    device, show_ancient=True, use_datetime=True, printing=True
+    # fmt:on
+    ):
     """
-    read an ophyd device and return a pyRestTable Table
+    Read an ophyd device and return a pyRestTable Table.
 
     Include an option to suppress ancient values identified
     by timestamp from 1989.  These are values only defined in
@@ -657,8 +671,9 @@ def replay(headers, callback=None, sort=True):
 
     callback
         *scan* or *[scan]* :
-        The Bluesky callback to handle the stream of documents from a scan.
-        If ``None``, then use the `bec` (BestEffortCallback) from the IPython shell.
+        The Bluesky callback to handle the stream of documents from a
+        scan. If ``None``, then use the `bec` (BestEffortCallback) from
+        the IPython shell.
         (default:``None``)
 
     sort
@@ -691,7 +706,8 @@ def replay(headers, callback=None, sort=True):
     for h in sorted(_headers, key=sorter):
         if not isinstance(h, databroker.Header):
             raise TypeError(
-                f"Must be a databroker Header: received: {type(h)}: |{h}|"
+                "Must be a databroker Header:"
+                f" received: {type(h)}: |{h}|"
             )
         cmd = _rebuild_scan_command(h.start)
         logger.debug("%s", cmd)
@@ -905,23 +921,30 @@ def summarize_runs(since=None, db=None):
 
     since
         *str* :
-        Report all runs since this ISO8601 date & time (default: ``1995``)
+        Report all runs since this ISO8601 date & time
+        (default: ``1995``)
     db
         *object* :
         Instance of ``databroker.Broker()``
         (default: ``db`` from the IPython shell)
     """
     db = db or ipython_shell_namespace()["db"]
-    since = since or "1995"     # no APS X-ray experiment data before 1995!
+    # no APS X-ray experiment data before 1995!
+    since = since or "1995"
     cat = db.v2.search(databroker.queries.TimeRange(since=since))
     plans = defaultdict(list)
     t0 = time.time()
     for n, uid in enumerate(cat):
         t1 = time.time()
-        run = cat[uid]      # this step is very slow (0.01 - 0.5 seconds each!)
+        # next step is very slow (0.01 - 0.5 seconds each!)
+        run = cat[uid]
         t2 = time.time()
         plan_name = run.metadata["start"].get("plan_name", "unknown")
-        dt = datetime.datetime.fromtimestamp(run.metadata["start"]["time"]).isoformat()
+        # fmt:off
+        dt = datetime.datetime.fromtimestamp(
+            run.metadata["start"]["time"]
+        ).isoformat()
+        # fmt:on
         scan_id = run.metadata["start"].get("scan_id", "unknown")
         plans[plan_name].append(
             dict(
@@ -1012,7 +1035,7 @@ def unix(command, raises=True):
 
 def connect_pvlist(pvlist, wait=True, timeout=2, poll_interval=0.1):
     """
-    given a list of EPICS PV names, return a dictionary of EpicsSignal objects
+    Given list of EPICS PV names, return dict of EpicsSignal objects.
 
     PARAMETERS
 
@@ -1021,13 +1044,16 @@ def connect_pvlist(pvlist, wait=True, timeout=2, poll_interval=0.1):
         list of EPICS PV names
     wait
         *bool* :
-        should wait for EpicsSignal objects to connect, default: ``True``
+        should wait for EpicsSignal objects to connect
+        (default: ``True``)
     timeout
         *float* :
-        maximum time to wait for PV connections, seconds, default: 2.0
+        maximum time to wait for PV connections, seconds
+        (default: 2.0)
     poll_interval
         *float* :
-        time to sleep between checks for PV connections, seconds, default: 0.1
+        time to sleep between checks for PV connections, seconds
+        (default: 0.1)
     """
     obj_dict = OrderedDict()
     for item in pvlist:
@@ -1053,7 +1079,9 @@ def connect_pvlist(pvlist, wait=True, timeout=2, poll_interval=0.1):
                 else:
                     print(f"Could not connect {v.pvname}")
             if len(n) == 0:
-                raise RuntimeError("Could not connect any PVs in the list")
+                raise RuntimeError(
+            "Could not connect any PVs in the list"
+            )
             obj_dict = n
 
     return obj_dict
@@ -1130,7 +1158,7 @@ class ExcelDatabaseFileBase(object):
 
         class ExhibitorsDB(ExcelDatabaseFileBase):
             '''
-            content for Exhibitors, vendors, and Sponsors from the Excel file
+            content for exhibitors from the Excel file
             '''
             EXCEL_FILE = os.path.join("resources", "exhibitors.xlsx")
             LABELS_ROW = 2
@@ -1140,7 +1168,7 @@ class ExcelDatabaseFileBase(object):
                 pass
 
             def handleExcelRowEntry(self, entry):
-                '''identify the unique key for this entry (row of the Excel file)'''
+                '''identify unique key (row of the Excel file)'''
                 key = entry["Name"]
                 self.db[key] = entry
 
@@ -1162,10 +1190,14 @@ class ExcelDatabaseFileBase(object):
         self.parse(ignore_extra=ignore_extra)
 
     def handle_single_entry(self, entry):       # subclass MUST override
-        raise NotImplementedError("subclass must override handle_single_entry() method")
+        raise NotImplementedError(
+            "subclass must override handle_single_entry() method"
+        )
 
     def handleExcelRowEntry(self, entry):       # subclass MUST override
-        raise NotImplementedError("subclass must override handleExcelRowEntry() method")
+        raise NotImplementedError(
+            "subclass must override handleExcelRowEntry() method"
+        )
 
     def parse(self, labels_row_num=None, data_start_row_num=None, ignore_extra=True):
         labels_row_num = labels_row_num or self.LABELS_ROW
@@ -1195,7 +1227,6 @@ class ExcelDatabaseFileBase(object):
                 ]
         except openpyxl.utils.exceptions.InvalidFileException as exc:
             raise ExcelReadError(exc)
-        # unused: data_start_row_num = data_start_row_num or labels_row_num+1
         for row in rows:
             entry = OrderedDict()
             for _col, label in enumerate(self.data_labels):
@@ -1227,28 +1258,31 @@ class ExcelDatabaseFileGeneric(ExcelDatabaseFileBase):
 
     .. note:: This is the class to use when reading Excel spreadsheets.
 
-    In the spreadsheet, the first sheet should contain the table to be used.
-    By default (see keyword parameter ``labels_row``), the table should start
-    in cell A4.  The column labels are given in row 4.  A blank column
-    should appear to the right of the table (see keyword parameter ``ignore_extra``).
-    The column labels will describe the action and its parameters.  Additional
-    columns may be added for metadata or other purposes.
-    The rows below the column labels should contain actions and parameters
-    for those actions, one action per row.
+    In the spreadsheet, the first sheet should contain the table to be
+    used. By default (see keyword parameter ``labels_row``), the table
+    should start in cell A4.  The column labels are given in row 4.  A
+    blank column should appear to the right of the table (see keyword
+    parameter ``ignore_extra``). The column labels will describe the
+    action and its parameters.  Additional columns may be added for
+    metadata or other purposes.
+
+    The rows below the column labels should contain actions and
+    parameters for those actions, one action per row.
+
     To make a comment, place a ``#`` in the action column.  A comment
-    should be ignored by the bluesky plan that reads this table.
-    The table will end with a row of empty cells.
+    should be ignored by the bluesky plan that reads this table. The
+    table will end with a row of empty cells.
 
-    While it's a good idea to put the ``action`` column first, that is not necessary.
-    It is not even necessary to name the column ``action``.
-    You can re-arrange the order of the columns and change their names
-    **as long as** the column names match
-    what text strings your Python code expects to find.
+    While it's a good idea to put the ``action`` column first, that is
+    not necessary. It is not even necessary to name the column
+    ``action``. You can re-arrange the order of the columns and change
+    their names **as long as** the column names match what text strings
+    your Python code expects to find.
 
-    A future upgrade [#]_ will allow the table boundaries to be
-    named by Excel when using Excel's ``Format as Table`` [#]_ feature.
-    For now, leave a blank row and column at the bottom and right
-    edges of the table.
+    A future upgrade [#]_ will allow the table boundaries to be named by
+    Excel when using Excel's ``Format as Table`` [#]_ feature. For now,
+    leave a blank row and column at the bottom and right edges of the
+    table.
 
     .. [#] https://github.com/BCDA-APS/apstools/issues/122
     .. [#] Excel's ``Format as Table``: https://support.office.com/en-us/article/Format-an-Excel-table-6789619F-C889-495C-99C2-2F971C0E2370
@@ -1264,8 +1298,8 @@ class ExcelDatabaseFileGeneric(ExcelDatabaseFileBase):
         default: ``3`` (Excel row 4)
     ignore_extra
         *bool* :
-        When ``True``, ignore any cells outside of the table,
-        default: ``True``
+        When ``True``, ignore any cells outside of the table, default:
+        ``True``.
 
         Note that when ``True``, a row of cells *within* the table will
         be recognized as the end of the table, even if there are
@@ -1279,8 +1313,9 @@ class ExcelDatabaseFileGeneric(ExcelDatabaseFileBase):
 
     See section :ref:`example_run_command_file` for more examples.
 
-    (See also :ref:`example screen shot <excel_plan_spreadsheet_screen>`.)
-    Table (on Sheet 1) begins on row 4 in first column::
+    (See also :ref:`example screen shot
+    <excel_plan_spreadsheet_screen>`.) Table (on Sheet 1) begins on row
+    4 in first column::
 
         1  |  some text here, maybe a title
         2  |  (could have content here)
@@ -1428,7 +1463,8 @@ def trim_plot_lines(bec, n, x, y):
     """
     find the plot with axes x and y and replot with at most the last *n* lines
 
-    Note: :func:`trim_plot_lines` is not a bluesky plan.  Call it as normal Python function.
+    Note: :func:`trim_plot_lines` is not a bluesky plan.  Call it as
+    normal Python function.
 
     EXAMPLE::
 
@@ -1647,7 +1683,8 @@ def json_export(headers, filename, zipfilename=None):
 
     headers
         *[headers]* or ``databroker._core.Results`` object :
-        list of databroker headers as returned from ``db(...search criteria...)``
+        list of databroker headers as returned from
+        ``db(...search criteria...)``
     filename
         *str* :
         name of file into which to write JSON
@@ -1845,6 +1882,8 @@ def copy_filtered_catalog(source_cat, target_cat, query=None):
     query = query or {}
     for i, uid in enumerate(source_cat.v2.search(query)):
         run = source_cat.v1[uid]
-        logger.debug("%d  %s  #docs=%d", i+1, uid, len(list(run.documents())))
+        logger.debug(
+            "%d  %s  #docs=%d", i+1, uid, len(list(run.documents()))
+        )
         for key, doc in run.documents():
             target_cat.v1.insert(key, doc)
