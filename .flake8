@@ -1,0 +1,12 @@
+[flake8]
+exclude =
+    .git,
+    __pycache__,
+    build,
+    dist,
+    versioneer.py,
+    docs/source,
+    apstools/_version.py,
+    ideas
+max-line-length = 115
+ignore: E226,E402,E741,W503,W504
