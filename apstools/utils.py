@@ -91,7 +91,8 @@ logger = logging.getLogger(__name__)
 MAX_EPICS_STRINGOUT_LENGTH = 40
 
 
-class ExcelReadError(openpyxl.utils.exceptions.InvalidFileException): ...
+class ExcelReadError(openpyxl.utils.exceptions.InvalidFileException):
+    ...
 
 
 def cleanupText(text):
@@ -120,7 +121,7 @@ def command_list_as_table(commands, show_raw=False):
     tbl.addLabel("line #")
     tbl.addLabel("action")
     tbl.addLabel("parameters")
-    if show_raw:        # only the developer might use this
+    if show_raw:  # only the developer might use this
         tbl.addLabel("raw input")
     for command in commands:
         action, args, line_number, raw_command = command
@@ -135,19 +136,19 @@ def device_read2table(
     # fmt:off
     device, show_ancient=True, use_datetime=True, printing=True
     # fmt:on
-    ):
+):
     """
     DEPRECATED: Use listdevice() instead.
     """
     warnings.warn(
         "DEPRECATED: device_read2table() will be removed"
         " in a future release.  Use listdevice() instead."
-        )
+    )
     listdevice(
         device,
         show_ancient=show_ancient,
         use_datetime=use_datetime,
-        printing=printing
+        printing=printing,
     )
 
 
@@ -155,7 +156,7 @@ def listdevice(
     # fmt:off
     device, show_ancient=True, use_datetime=True, printing=True
     # fmt:on
-    ):
+):
     """
     Read an ophyd device and return a pyRestTable Table.
 
@@ -244,7 +245,7 @@ def full_dotted_name(obj):
         names.append(obj.attr_name)
         obj = obj.parent
     names.append(obj.name)
-    return '.'.join(names[::-1])
+    return ".".join(names[::-1])
 
 
 def _get_named_child(obj, nm):
@@ -296,8 +297,7 @@ def getDatabase(db=None, catalog_name=None):
     if not hasattr(db, "v2"):
         if (
             hasattr(catalog_name, "name")
-            and
-            catalog_name in databroker.catalog
+            and catalog_name in databroker.catalog
         ):
             # in case a catalog was passed as catalog_name
             db = catalog_name
@@ -381,16 +381,17 @@ def itemizer(fmt, items):
 
 
 def listruns(
-        num=20,
-        keys=None,
-        printing=True,
-        show_command=True,
-        db=None,
-        catalog_name=None,
-        exit_status=None,
-        since=None,
-        until=None,
-        **db_search_terms):
+    num=20,
+    keys=None,
+    printing=True,
+    show_command=True,
+    db=None,
+    catalog_name=None,
+    exit_status=None,
+    since=None,
+    until=None,
+    **db_search_terms,
+):
     """
     make a table of the most recent runs (scans)
 
@@ -505,15 +506,14 @@ def listruns(
         if stop is not None:
             reported_exit_status = stop.get("exit_status", "")
 
-        if (exit_status is not None
-            and reported_exit_status != exit_status):
+        if exit_status is not None and reported_exit_status != exit_status:
             continue
 
         row = [
             start["uid"][:7],
-            datetime.datetime.fromtimestamp(start['time']),
+            datetime.datetime.fromtimestamp(start["time"]),
             reported_exit_status,
-            ]
+        ]
 
         for k in labels:
             if k == "command":
@@ -522,7 +522,7 @@ def listruns(
                 maxlen = 40
                 if len(command) > maxlen:
                     suffix = " ..."
-                    command = command[:maxlen-len(suffix)] + suffix
+                    command = command[: maxlen - len(suffix)] + suffix
                 row.append(command)
             else:
                 row.append(start.get(k, ""))
@@ -558,7 +558,7 @@ def _ophyd_structure_walker(obj):
         return items
 
 
-def object_explorer(obj, sortby=None, fmt='simple', printing=True):
+def object_explorer(obj, sortby=None, fmt="simple", printing=True):
     """
     print the contents of obj
     """
@@ -576,9 +576,8 @@ def object_explorer(obj, sortby=None, fmt='simple', printing=True):
             key = _get_pv(obj) or "--"
         else:
             raise ValueError(
-                "sortby should be None or 'PV'"
-                f" found sortby='{sortby}'"
-                )
+                f"sortby should be None or 'PV', found sortby='{sortby}'"
+            )
         return key
 
     for item in sorted(items, key=sorter):
@@ -624,11 +623,11 @@ def print_RE_md(dictionary=None, fmt="simple", printing=True):
 
     """
     # override noting that fmt="markdown" will not display correctly
-    fmt="simple"
+    fmt = "simple"
 
     dictionary = dictionary or ipython_shell_namespace()["RE"].md
-    md = dict(dictionary)   # copy of input for editing
-    v = dictionary_table(md["versions"])   # sub-table
+    md = dict(dictionary)  # copy of input for editing
+    v = dictionary_table(md["versions"])  # sub-table
     md["versions"] = v.reST(fmt=fmt).rstrip()
     table = dictionary_table(md)
     if printing:
@@ -643,14 +642,14 @@ def pairwise(iterable):
 
     ::
 
-		s -> (s0, s1), (s2, s3), (s4, s5), ...
+        s -> (s0, s1), (s2, s3), (s4, s5), ...
 
-		In [71]: for item in pairwise("a b c d e fg".split()):
-			...:     print(item)
-			...:
-		('a', 'b')
-		('c', 'd')
-		('e', 'fg')
+        In [71]: for item in pairwise("a b c d e fg".split()):
+            ...:     print(item)
+            ...:
+        ('a', 'b')
+        ('c', 'd')
+        ('e', 'fg')
 
     """
     a = iter(iterable)
@@ -684,10 +683,10 @@ def replay(headers, callback=None, sort=True):
     *new in apstools release 1.1.11*
     """
     callback = callback or ipython_shell_namespace().get(
-        "bec",                  # get from IPython shell
-        BestEffortCallback(),   # make one, if we must
-        )
-    _headers = headers   # do not mutate the input arg
+        "bec",  # get from IPython shell
+        BestEffortCallback(),  # make one, if we must
+    )
+    _headers = headers  # do not mutate the input arg
     if isinstance(_headers, databroker.Header):
         _headers = [_headers]
 
@@ -698,10 +697,12 @@ def replay(headers, callback=None, sort=True):
         """Default for databroker v0 results."""
         return -run.start["time"]
 
+    # fmt: off
     sorter = {
         True: increasing_time_sorter,
-        False: decreasing_time_sorter
-        }[sort]
+        False: decreasing_time_sorter,
+    }[sort]
+    # fmt: on
 
     for h in sorted(_headers, key=sorter):
         if not isinstance(h, databroker.Header):
@@ -713,8 +714,8 @@ def replay(headers, callback=None, sort=True):
         logger.debug("%s", cmd)
 
         # at last, this is where the real action happens
-        for k, doc in h.documents():    # get the stream
-            callback(k, doc)            # play it through the callback
+        for k, doc in h.documents():  # get the stream
+            callback(k, doc)  # play it through the callback
 
 
 def rss_mem():
@@ -738,10 +739,12 @@ def run_in_thread(func):
        #...
 
     """
+
     def wrapper(*args, **kwargs):
         thread = threading.Thread(target=func, args=args, kwargs=kwargs)
         thread.start()
         return thread
+
     return wrapper
 
 
@@ -759,8 +762,8 @@ def safe_ophyd_name(text):
 
     Also can be used for safe HDF5 and NeXus names.
     """
-    replacement = '_'
-    noncompliance = '[^\w_]'
+    replacement = "_"
+    noncompliance = r"[^\w_]"
 
     # replace ALL non-compliances with '_'
     safer = replacement.join(re.split(noncompliance, text))
@@ -853,7 +856,7 @@ def listobjects(show_pv=True, printing=True, verbose=False, symbols=None):
                     row.append("")
             if verbose:
                 row.append(str(v))
-            row.append(' '.join(v._ophyd_labels_))
+            row.append(" ".join(v._ophyd_labels_))
             table.addRow(row)
     if printing:
         print(table)
@@ -887,7 +890,7 @@ def split_quoted_line(line):
     quoted = False
     multi = None
     for p in line.split():
-        if not quoted and p.startswith('"'):   # begin quoted text
+        if not quoted and p.startswith('"'):  # begin quoted text
             quoted = True
             multi = ""
 
@@ -895,12 +898,12 @@ def split_quoted_line(line):
             if len(multi) > 0:
                 multi += " "
             multi += p
-            if p.endswith('"'):     # end quoted text
+            if p.endswith('"'):  # end quoted text
                 quoted = False
 
         if not quoted:
             if multi is not None:
-                parts.append(multi[1:-1])   # remove enclosing quotes
+                parts.append(multi[1:-1])  # remove enclosing quotes
                 multi = None
             else:
                 parts.append(p)
@@ -959,10 +962,10 @@ def summarize_runs(since=None, db=None):
             "%s %s dt1=%4.01fus dt2=%5.01fms %s",
             scan_id,
             dt,
-            (t1-t0)*1e6,
-            (t2-t1)*1e3,
+            (t1 - t0) * 1e6,
+            (t2 - t1) * 1e3,
             plan_name,
-            )
+        )
         t0 = time.time()
 
     def sorter(plan_name):
@@ -972,16 +975,16 @@ def summarize_runs(since=None, db=None):
     table.labels = "plan quantity".split()
     for k in sorted(plans.keys(), key=sorter, reverse=True):
         table.addRow((k, sorter(k)))
-    table.addRow(("TOTAL", n+1))
+    table.addRow(("TOTAL", n + 1))
     print(table)
 
 
 def text_encode(source):
     """Encode ``source`` using the default codepoint."""
-    return source.encode(errors='ignore')
+    return source.encode(errors="ignore")
 
 
-def to_unicode_or_bust(obj, encoding='utf-8'):
+def to_unicode_or_bust(obj, encoding="utf-8"):
     """from: http://farmdev.com/talks/unicode/  ."""
     if isinstance(obj, str):
         if not isinstance(obj, str):
@@ -992,7 +995,7 @@ def to_unicode_or_bust(obj, encoding='utf-8'):
 def trim_string_for_EPICS(msg):
     """String must not exceed EPICS PV length."""
     if len(msg) > MAX_EPICS_STRINGOUT_LENGTH:
-        msg = msg[:MAX_EPICS_STRINGOUT_LENGTH-1]
+        msg = msg[: MAX_EPICS_STRINGOUT_LENGTH - 1]
     return msg
 
 
@@ -1017,10 +1020,10 @@ def unix(command, raises=True):
     process = subprocess.Popen(
         command,
         shell=True,
-        stdin = subprocess.PIPE,
-        stdout = subprocess.PIPE,
-        stderr = subprocess.PIPE,
-        )
+        stdin=subprocess.PIPE,
+        stdout=subprocess.PIPE,
+        stderr=subprocess.PIPE,
+    )
 
     stdout, stderr = process.communicate()
 
@@ -1079,9 +1082,7 @@ def connect_pvlist(pvlist, wait=True, timeout=2, poll_interval=0.1):
                 else:
                     print(f"Could not connect {v.pvname}")
             if len(n) == 0:
-                raise RuntimeError(
-            "Could not connect any PVs in the list"
-            )
+                raise RuntimeError("Could not connect any PVs in the list")
             obj_dict = n
 
     return obj_dict
@@ -1134,9 +1135,9 @@ class EmailNotifications(object):
     def send(self, subject, message):
         """send ``message`` to all addresses"""
         msg = MIMEText(message)
-        msg['Subject'] = subject
-        msg['From'] = self.sender
-        msg['To'] = ",".join(self.addresses)
+        msg["Subject"] = subject
+        msg["From"] = self.sender
+        msg["To"] = ",".join(self.addresses)
         s = smtplib.SMTP(self.smtp_host)
         s.sendmail(self.sender, self.addresses, msg.as_string())
         s.quit()
@@ -1174,9 +1175,9 @@ class ExcelDatabaseFileBase(object):
 
     """
 
-    EXCEL_FILE = None       # subclass MUST define
+    EXCEL_FILE = None  # subclass MUST define
     # EXCEL_FILE = os.path.join("abstracts", "index of abstracts.xlsx")
-    LABELS_ROW = 3          # labels are on line LABELS_ROW+1 in the Excel file
+    LABELS_ROW = 3  # labels are on line LABELS_ROW+1 in the Excel file
 
     def __init__(self, ignore_extra=True):
         self.db = OrderedDict()
@@ -1189,17 +1190,22 @@ class ExcelDatabaseFileBase(object):
 
         self.parse(ignore_extra=ignore_extra)
 
-    def handle_single_entry(self, entry):       # subclass MUST override
+    def handle_single_entry(self, entry):  # subclass MUST override
         raise NotImplementedError(
             "subclass must override handle_single_entry() method"
         )
 
-    def handleExcelRowEntry(self, entry):       # subclass MUST override
+    def handleExcelRowEntry(self, entry):  # subclass MUST override
         raise NotImplementedError(
             "subclass must override handleExcelRowEntry() method"
         )
 
-    def parse(self, labels_row_num=None, data_start_row_num=None, ignore_extra=True):
+    def parse(
+        self,
+        labels_row_num=None,
+        data_start_row_num=None,
+        ignore_extra=True,
+    ):
         labels_row_num = labels_row_num or self.LABELS_ROW
         try:
             wb = openpyxl.load_workbook(self.fname)
@@ -1216,14 +1222,13 @@ class ExcelDatabaseFileBase(object):
                 for r in data[1:]:
                     if r[0].value is None:
                         break
-                    rows.append(r[:len(self.data_labels)])
+                    rows.append(r[: len(self.data_labels)])
             else:
                 # use the whole sheet
                 rows = list(ws.rows)
                 # create the column titles
                 self.data_labels = [
-                    f"Column_{i+1}"
-                    for i in range(len(rows[0]))
+                    f"Column_{i+1}" for i in range(len(rows[0]))
                 ]
         except openpyxl.utils.exceptions.InvalidFileException as exc:
             raise ExcelReadError(exc)
@@ -1395,6 +1400,7 @@ def ipython_profile_name():
 
     """
     from IPython import get_ipython
+
     return get_ipython().profile
 
 
@@ -1404,6 +1410,7 @@ def ipython_shell_namespace():
     """
     try:
         from IPython import get_ipython
+
         ns = get_ipython().user_ns
     except AttributeError:
         ns = {}
@@ -1429,6 +1436,7 @@ def select_mpl_figure(x, y):
         Instance of ``matplotlib.pyplot.Figure()``
     """
     import matplotlib.pyplot as plt
+
     figure_name = f"{y.name} vs {x.name}"
     if figure_name in plt.get_figlabels():
         return plt.figure(figure_name)
@@ -1513,7 +1521,10 @@ def trim_plot_lines(bec, n, x, y):
             if not str(exc).endswith("x not in list"):
                 logger.warning(
                     "%s vs %s: mpl remove() error: %s",
-                    y.name, x.name, str(exc))
+                    y.name,
+                    x.name,
+                    str(exc),
+                )
     ax.legend()
     liveplot.update_plot()
     logger.debug("trim complete")
@@ -1777,7 +1788,14 @@ def redefine_motor_position(motor, new_position):
     yield from bps.mv(motor.set_use_switch, 0)
 
 
-def quantify_md_key_use(key=None, db=None, catalog_name=None, since=None, until=None, query=None):
+def quantify_md_key_use(
+    key=None,
+    db=None,
+    catalog_name=None,
+    since=None,
+    until=None,
+    query=None,
+):
     """
     print table of different ``key`` values and how many times each appears
 
@@ -1823,19 +1841,21 @@ def quantify_md_key_use(key=None, db=None, catalog_name=None, since=None, until=
         quantify_md_key_use(catalog_name="8id", since="2020-01", until="2020-03")
 
     """
-    key = key or 'plan_name'
-    catalog_name = catalog_name or 'mongodb_config'
+    key = key or "plan_name"
+    catalog_name = catalog_name or "mongodb_config"
     query = query or {}
     since = since or "1995-01-01"
     until = until or "2100-12-31"
 
-    cat = (db or databroker.catalog[catalog_name]).v2.search(
-        databroker.queries.TimeRange(since=since, until=until)
-    ).search(query)
+    cat = (
+        (db or databroker.catalog[catalog_name])
+        .v2.search(databroker.queries.TimeRange(since=since, until=until))
+        .search(query)
+    )
 
     items = []
     while True:
-        runs = cat.search({key:{'$exists': True, '$nin': items}})
+        runs = cat.search({key: {"$exists": True, "$nin": items}})
         if len(runs) == 0:
             break
         else:
@@ -1883,7 +1903,7 @@ def copy_filtered_catalog(source_cat, target_cat, query=None):
     for i, uid in enumerate(source_cat.v2.search(query)):
         run = source_cat.v1[uid]
         logger.debug(
-            "%d  %s  #docs=%d", i+1, uid, len(list(run.documents()))
+            "%d  %s  #docs=%d", i + 1, uid, len(list(run.documents()))
         )
         for key, doc in run.documents():
             target_cat.v1.insert(key, doc)
