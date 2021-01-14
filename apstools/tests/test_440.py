@@ -85,6 +85,7 @@ def test_specwriter():
     cmd = _rebuild_scan_command(doc)
     assert len(cmd.strip().splitlines()) == 1
 
+    # Now, make it a numpy array and test again.
     arr = np.array(arr)
     assert isinstance(arr, np.ndarray)
     # modify the start doc
