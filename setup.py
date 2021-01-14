@@ -25,7 +25,7 @@ __entry_points__ = {
         "bluesky_snapshot_viewer = apstools.snapshot:snapshot_gui",
         "spec2ophyd = apstools.migration.spec2ophyd:main",
     ],
-    #'gui_scripts': [],
+    # 'gui_scripts': [],
 }
 
 
