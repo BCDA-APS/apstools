@@ -8,5 +8,11 @@ exclude =
     docs/source,
     apstools/_version.py,
     ideas
+
+# E501 line too long
+# many long lines in python code
+# most in documentation
+# some in test cases
 max-line-length = 115
-ignore: E226,E402,E741,F401,F403,W503,W504
+# TODO: re-enable E501 error
+ignore: E226,E402,E501,E741,F401,F403,W503,W504
