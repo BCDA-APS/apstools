@@ -80,7 +80,7 @@ Internal routines
 
 """
 
-#-----------------------------------------------------------------------------
+# -----------------------------------------------------------------------------
 # :author:    Pete R. Jemian
 # :email:     jemian@anl.gov
 # :copyright: (c) 2017-2020, UChicago Argonne, LLC
@@ -88,7 +88,7 @@ Internal routines
 # Distributed under the terms of the Creative Commons Attribution 4.0 International Public License.
 #
 # The full license is in the file LICENSE.txt, distributed with this software.
-#-----------------------------------------------------------------------------
+# -----------------------------------------------------------------------------
 
 
 from collections import OrderedDict
@@ -118,8 +118,9 @@ from bluesky import plan_stubs as bps
 
 logger = logging.getLogger(__name__)
 
-"""for convenience"""        # TODO: contribute to ophyd?
-SCALER_AUTOCOUNT_MODE = 1
+
+# for convenience
+SCALER_AUTOCOUNT_MODE = 1  # TODO: contribute to ophyd?
 
 
 def use_EPICS_scaler_channels(scaler):
@@ -132,7 +133,7 @@ def use_EPICS_scaler_channels(scaler):
     if isinstance(scaler, EpicsScaler):
         read_attrs = []
         for ch in scaler.channels.component_names:
-            _nam = epics.caget("{}.NM{}".format(scaler.prefix, int(ch[4:])))
+            _nam = epics.caget(f"{scaler.prefix}.NM{int(ch[4:])}")
             if len(_nam.strip()) > 0:
                 read_attrs.append(ch)
         scaler.channels.read_attrs = read_attrs
@@ -146,9 +147,9 @@ def use_EPICS_scaler_channels(scaler):
             if nm_pv is not None and len(nm_pv.chname.get().strip()) > 0:
                 read_attrs.append(ch)
                 configuration_attrs.append(ch)
-                configuration_attrs.append(ch+".chname")
-                configuration_attrs.append(ch+".preset")
-                configuration_attrs.append(ch+".gate")
+                configuration_attrs.append(ch + ".chname")
+                configuration_attrs.append(ch + ".preset")
+                configuration_attrs.append(ch + ".gate")
         scaler.channels.read_attrs = read_attrs
         scaler.channels.configuration_attrs = configuration_attrs
 
@@ -160,12 +161,13 @@ class ApsCycleDM(SynSignalRO):
     This signal is read-only.
     """
 
-    _cycle_ends = "1980"       # force a read from DM on first get()
+    _cycle_ends = "1980"  # force a read from DM on first get()
     _cycle_name = "unknown"
 
     def get(self):
         if datetime.now().isoformat(sep=" ") >= self._cycle_ends:
             from .beamtime.apsbss import api_bss
+
             # only update from data management after the end of the run
             cycle = api_bss.getCurrentRun()
             self._cycle_name = cycle["name"]
@@ -197,10 +199,16 @@ class ApsOperatorMessagesDevice(Device):
     """General messages from the APS main control room."""
 
     operators = Component(EpicsSignalRO, "OPS:message1", string=True)
-    floor_coordinator = Component(EpicsSignalRO, "OPS:message2", string=True)
+    floor_coordinator = Component(
+        EpicsSignalRO, "OPS:message2", string=True
+    )
     fill_pattern = Component(EpicsSignalRO, "OPS:message3", string=True)
-    last_problem_message = Component(EpicsSignalRO, "OPS:message4", string=True)
-    last_trip_message = Component(EpicsSignalRO, "OPS:message5", string=True)
+    last_problem_message = Component(
+        EpicsSignalRO, "OPS:message4", string=True
+    )
+    last_trip_message = Component(
+        EpicsSignalRO, "OPS:message5", string=True
+    )
     # messages 6-8: meaning?
     message6 = Component(EpicsSignalRO, "OPS:message6", string=True)
     message7 = Component(EpicsSignalRO, "OPS:message7", string=True)
@@ -235,6 +243,7 @@ class ApsMachineParametersDevice(Device):
         ~inUserOperations
 
     """
+
     current = Component(EpicsSignalRO, "S:SRcurrentAI")
     lifetime = Component(EpicsSignalRO, "S:SRlifeTimeHrsCC")
     aps_cycle = Component(ApsCycleDM)
@@ -257,12 +266,20 @@ class ApsMachineParametersDevice(Device):
     # 'Stored Beam',
     # 'Delivered Beam',
     # 'MAINTENANCE')
-    shutter_permit = Component(EpicsSignalRO, "ACIS:ShutterPermit", string=True)
+    shutter_permit = Component(
+        EpicsSignalRO, "ACIS:ShutterPermit", string=True
+    )
     fill_number = Component(EpicsSignalRO, "S:FillNumber")
     orbit_correction = Component(EpicsSignalRO, "S:OrbitCorrection:CC")
-    global_feedback = Component(EpicsSignalRO, "SRFB:GBL:LoopStatusBI", string=True)
-    global_feedback_h = Component(EpicsSignalRO, "SRFB:GBL:HLoopStatusBI", string=True)
-    global_feedback_v = Component(EpicsSignalRO, "SRFB:GBL:VLoopStatusBI", string=True)
+    global_feedback = Component(
+        EpicsSignalRO, "SRFB:GBL:LoopStatusBI", string=True
+    )
+    global_feedback_h = Component(
+        EpicsSignalRO, "SRFB:GBL:HLoopStatusBI", string=True
+    )
+    global_feedback_v = Component(
+        EpicsSignalRO, "SRFB:GBL:VLoopStatusBI", string=True
+    )
     operator_messages = Component(ApsOperatorMessagesDevice)
 
     @property
@@ -285,10 +302,12 @@ class ApsMachineParametersDevice(Device):
                 pass
 
         """
+        # fmt: off
         return self.machine_status.get() in (
-           1, "USER OPERATIONS",
-           2, "Bm Ln Studies"
+            1, "USER OPERATIONS",
+            2, "Bm Ln Studies",
         )
+        # fmt: on
 
 
 class ShutterBase(Device):
@@ -338,13 +357,15 @@ class ShutterBase(Device):
         (default = "unknown")
     """
 
-    valid_open_values = ["open", "opened",]   # lower-case strings ONLY
-    valid_close_values = ["close", "closed",]
-    open_value = 1      # value of "open"
-    close_value = 0     # value of "close"
-    delay_s = 0.0       # time to wait (s) after move is complete
+    # fmt: off
+    valid_open_values = ["open", "opened"]  # lower-case strings ONLY
+    valid_close_values = ["close", "closed"]
+    # fmt: on
+    open_value = 1  # value of "open"
+    close_value = 0  # value of "close"
+    delay_s = 0.0  # time to wait (s) after move is complete
     busy = Component(Signal, value=False)
-    unknown_state = "unknown"       # cannot move to this position
+    unknown_state = "unknown"  # cannot move to this position
 
     # - - - - likely to override these methods in subclass - - - -
 
@@ -404,8 +425,12 @@ class ShutterBase(Device):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.valid_open_values = list(map(self.lowerCaseString, self.valid_open_values))
-        self.valid_close_values = list(map(self.lowerCaseString, self.valid_close_values))
+        self.valid_open_values = list(
+            map(self.lowerCaseString, self.valid_open_values)
+        )
+        self.valid_close_values = list(
+            map(self.lowerCaseString, self.valid_close_values)
+        )
 
     @property
     def isOpen(self):
@@ -454,6 +479,7 @@ class ShutterBase(Device):
             # no need to move, cut straight to the end
             status._finished(success=True)
         else:
+
             def move_it():
                 # runs in a thread, no need to "yield from"
                 self.busy.put(True)
@@ -463,6 +489,7 @@ class ShutterBase(Device):
                     self.close()
                 self.busy.put(False)
                 status._finished(success=True)
+
             # get it moving
             threading.Thread(target=move_it, daemon=True).start()
         return status
@@ -472,12 +499,12 @@ class ShutterBase(Device):
     def addCloseValue(self, text):
         """a synonym to close the shutter, use with set()"""
         self.valid_close_values.append(self.lowerCaseString(text))
-        return self.choices     # return the list of acceptable values
+        return self.choices  # return the list of acceptable values
 
     def addOpenValue(self, text):
         """a synonym to open the shutter, use with set()"""
         self.valid_open_values.append(self.lowerCaseString(text))
-        return self.choices     # return the list of acceptable values
+        return self.choices  # return the list of acceptable values
 
     @property
     def choices(self):
@@ -589,14 +616,14 @@ class OneSignalShutter(ShutterBase):
         if not self.isOpen:
             self.signal.put(self.open_value)
             if self.delay_s > 0:
-                time.sleep(self.delay_s)    # blocking call OK here
+                time.sleep(self.delay_s)  # blocking call OK here
 
     def close(self):
         """BLOCKING: request shutter to close, called by set()"""
         if not self.isClosed:
             self.signal.put(self.close_value)
             if self.delay_s > 0:
-                time.sleep(self.delay_s)    # blocking call OK here
+                time.sleep(self.delay_s)  # blocking call OK here
 
 
 class ApsPssShutter(ShutterBase):
@@ -658,12 +685,12 @@ class ApsPssShutter(ShutterBase):
     open_signal = Component(EpicsSignal, "Open")
     close_signal = Component(EpicsSignal, "Close")
 
-    delay_s = 1.2       # allow time for shutter to move
+    delay_s = 1.2  # allow time for shutter to move
 
     @property
     def state(self):
         """is shutter "open", "close", or "unknown"?"""
-        return self.unknown_state   # no state info available
+        return self.unknown_state  # no state info available
 
     def open(self, timeout=10):
         """request the shutter to open (timeout is ignored)"""
@@ -672,7 +699,7 @@ class ApsPssShutter(ShutterBase):
 
             # wait for the shutter to move
             if self.delay_s > 0:
-                time.sleep(self.delay_s)    # blocking call OK here
+                time.sleep(self.delay_s)  # blocking call OK here
 
             # reset that signal (if not done by EPICS)
             if self.open_signal.get() == 1:
@@ -685,7 +712,7 @@ class ApsPssShutter(ShutterBase):
 
             # wait for the shutter to move
             if self.delay_s > 0:
-                time.sleep(self.delay_s)    # blocking call OK here
+                time.sleep(self.delay_s)  # blocking call OK here
 
             # reset that signal (if not done by EPICS)
             if self.close_signal.get() == 1:
@@ -736,7 +763,7 @@ class ApsPssShutterWithStatus(ApsPssShutter):
     pss_state_open_values = [1]
     pss_state_closed_values = [0]
 
-    delay_s = 0       # let caller add time after the move
+    delay_s = 0  # let caller add time after the move
 
     _poll_factor_ = 1.5
     _poll_s_min_ = 0.002
@@ -786,7 +813,9 @@ class ApsPssShutterWithStatus(ApsPssShutter):
             up to a maximum time of ``_poll_s_max_``.
         """
         if timeout is not None:
-            expiration = time.time() + max(timeout, 0)  # ensure non-negative timeout
+            expiration = time.time() + max(
+                timeout, 0
+            )  # ensure non-negative timeout
         else:
             expiration = None
 
@@ -799,7 +828,7 @@ class ApsPssShutterWithStatus(ApsPssShutter):
         while self.pss_state.get() not in target:
             time.sleep(poll_s)
             if poll_s < self._poll_s_max_:
-                poll_s *= self._poll_factor_   # progressively longer
+                poll_s *= self._poll_factor_  # progressively longer
             if expiration is not None and time.time() > expiration:
                 msg = f"Timeout ({timeout} s) waiting for shutter state"
                 msg += f" to reach a value in {target}"
@@ -812,12 +841,12 @@ class ApsPssShutterWithStatus(ApsPssShutter):
 
             # wait for the shutter to move
             self.wait_for_state(
-                self.pss_state_open_values,
-                timeout=timeout)
+                self.pss_state_open_values, timeout=timeout
+            )
 
             # wait as caller specified
             if self.delay_s > 0:
-                time.sleep(self.delay_s)    # blocking call OK here
+                time.sleep(self.delay_s)  # blocking call OK here
 
             # reset that signal (if not done by EPICS)
             if self.open_signal.get() == 1:
@@ -830,12 +859,12 @@ class ApsPssShutterWithStatus(ApsPssShutter):
 
             # wait for the shutter to move
             self.wait_for_state(
-                self.pss_state_closed_values,
-                timeout=timeout)
+                self.pss_state_closed_values, timeout=timeout
+            )
 
             # wait as caller specified
             if self.delay_s > 0:
-                time.sleep(self.delay_s)    # blocking call OK here
+                time.sleep(self.delay_s)  # blocking call OK here
 
             # reset that signal (if not done by EPICS)
             if self.close_signal.get() == 1:
@@ -854,11 +883,13 @@ class SimulatedApsPssShutterWithStatus(ApsPssShutterWithStatus):
 
     open_signal = Component(Signal, value=0)
     close_signal = Component(Signal, value=0)
-    pss_state = FormattedComponent(Signal, value='close')
+    pss_state = FormattedComponent(Signal, value="close")
 
     def __init__(self, *args, **kwargs):
         # was: super(ApsPssShutter, self).__init__("", *args, **kwargs)
-        super(SimulatedApsPssShutterWithStatus, self).__init__("", "", *args, **kwargs)
+        super(SimulatedApsPssShutterWithStatus, self).__init__(
+            "", "", *args, **kwargs
+        )
         self.pss_state_open_values += self.valid_open_values
         self.pss_state_closed_values += self.valid_close_values
 
@@ -912,7 +943,8 @@ class TrackingSignal(Signal):
         """
         if not isinstance(value, bool):
             raise ValueError(
-                'tracking is boolean, it can only be True or False.')
+                "tracking is boolean, it can only be True or False."
+            )
 
 
 class ApsUndulator(Device):
@@ -924,37 +956,50 @@ class ApsUndulator(Device):
         undulator = ApsUndulator("ID09ds:", name="undulator")
     """
 
-    energy = Component(EpicsSignal, "Energy", write_pv="EnergySet",
-                       put_complete=True, kind='hinted')
-    energy_taper = Component(EpicsSignal, "TaperEnergy",
-                             write_pv="TaperEnergySet", kind='config')
+    energy = Component(
+        EpicsSignal,
+        "Energy",
+        write_pv="EnergySet",
+        put_complete=True,
+        kind="hinted",
+    )
+    energy_taper = Component(
+        EpicsSignal,
+        "TaperEnergy",
+        write_pv="TaperEnergySet",
+        kind="config",
+    )
     gap = Component(EpicsSignal, "Gap", write_pv="GapSet")
-    gap_taper = Component(EpicsSignal, "TaperGap", write_pv="TaperGapSet",
-                          kind='config')
-    start_button = Component(EpicsSignal, "Start", put_complete=True,
-                             kind='omitted')
-    stop_button = Component(EpicsSignal, "Stop", kind='omitted')
-    harmonic_value = Component(EpicsSignal, "HarmonicValue", kind='config')
-    gap_deadband = Component(EpicsSignal, "DeadbandGap", kind='config')
-    device_limit = Component(EpicsSignal, "DeviceLimit", kind='config')
+    gap_taper = Component(
+        EpicsSignal, "TaperGap", write_pv="TaperGapSet", kind="config"
+    )
+    start_button = Component(
+        EpicsSignal, "Start", put_complete=True, kind="omitted"
+    )
+    stop_button = Component(EpicsSignal, "Stop", kind="omitted")
+    harmonic_value = Component(EpicsSignal, "HarmonicValue", kind="config")
+    gap_deadband = Component(EpicsSignal, "DeadbandGap", kind="config")
+    device_limit = Component(EpicsSignal, "DeviceLimit", kind="config")
 
-    access_mode = Component(EpicsSignalRO, "AccessSecurity", kind='omitted')
-    device_status = Component(EpicsSignalRO, "Busy", kind='omitted')
-    total_power = Component(EpicsSignalRO, "TotalPower", kind='config')
-    message1 = Component(EpicsSignalRO, "Message1", kind='omitted')
-    message2 = Component(EpicsSignalRO, "Message2", kind='omitted')
-    message3 = Component(EpicsSignalRO, "Message3", kind='omitted')
-    time_left = Component(EpicsSignalRO, "ShClosedTime", kind='omitted')
+    access_mode = Component(
+        EpicsSignalRO, "AccessSecurity", kind="omitted"
+    )
+    device_status = Component(EpicsSignalRO, "Busy", kind="omitted")
+    total_power = Component(EpicsSignalRO, "TotalPower", kind="config")
+    message1 = Component(EpicsSignalRO, "Message1", kind="omitted")
+    message2 = Component(EpicsSignalRO, "Message2", kind="omitted")
+    message3 = Component(EpicsSignalRO, "Message3", kind="omitted")
+    time_left = Component(EpicsSignalRO, "ShClosedTime", kind="omitted")
 
-    device = Component(EpicsSignalRO, "Device", kind='config')
-    location = Component(EpicsSignalRO, "Location", kind='config')
-    version = Component(EpicsSignalRO, "Version", kind='config')
+    device = Component(EpicsSignalRO, "Device", kind="config")
+    location = Component(EpicsSignalRO, "Location", kind="config")
+    version = Component(EpicsSignalRO, "Version", kind="config")
 
     # Useful undulator parameters that are not EPICS PVs.
-    energy_deadband = Component(Signal, value=0.0, kind='config')
-    energy_backlash = Component(Signal, value=0.0, kind='config')
-    energy_offset = Component(Signal, value=0, kind='config')
-    tracking = Component(TrackingSignal, value=False, kind='config')
+    energy_deadband = Component(Signal, value=0.0, kind="config")
+    energy_backlash = Component(Signal, value=0.0, kind="config")
+    energy_offset = Component(Signal, value=0, kind="config")
+    tracking = Component(TrackingSignal, value=False, kind="config")
 
 
 class ApsUndulatorDual(Device):
@@ -988,23 +1033,23 @@ class ApsBssUserInfoDevice(Device):
     NOTE: There is info provided by the APS proposal & ESAF systems.
     """
 
-    proposal_number =   Component(EpicsSignal, "proposal_number")
-    activity =          Component(EpicsSignal, "activity",      string=True)
-    badge =             Component(EpicsSignal, "badge",         string=True)
-    bss_name =          Component(EpicsSignal, "bss_name",      string=True)
-    contact =           Component(EpicsSignal, "contact",       string=True)
-    email =             Component(EpicsSignal, "email",         string=True)
-    institution =       Component(EpicsSignal, "institution",   string=True)
-    station =           Component(EpicsSignal, "station",       string=True)
-    team_others =       Component(EpicsSignal, "team_others",   string=True)
-    time_begin =        Component(EpicsSignal, "time_begin",    string=True)
-    time_end =          Component(EpicsSignal, "time_end",      string=True)
-    timestamp =         Component(EpicsSignal, "timestamp",     string=True)
-    title =             Component(EpicsSignal, "title",         string=True)
+    proposal_number = Component(EpicsSignal, "proposal_number")
+    activity = Component(EpicsSignal, "activity", string=True)
+    badge = Component(EpicsSignal, "badge", string=True)
+    bss_name = Component(EpicsSignal, "bss_name", string=True)
+    contact = Component(EpicsSignal, "contact", string=True)
+    email = Component(EpicsSignal, "email", string=True)
+    institution = Component(EpicsSignal, "institution", string=True)
+    station = Component(EpicsSignal, "station", string=True)
+    team_others = Component(EpicsSignal, "team_others", string=True)
+    time_begin = Component(EpicsSignal, "time_begin", string=True)
+    time_end = Component(EpicsSignal, "time_end", string=True)
+    timestamp = Component(EpicsSignal, "timestamp", string=True)
+    title = Component(EpicsSignal, "title", string=True)
     # not yet updated, see: https://git.aps.anl.gov/jemian/aps_bss_user_info/issues/10
-    esaf =              Component(EpicsSignal, "esaf",          string=True)
-    esaf_contact =      Component(EpicsSignal, "esaf_contact",  string=True)
-    esaf_team =         Component(EpicsSignal, "esaf_team",     string=True)
+    esaf = Component(EpicsSignal, "esaf", string=True)
+    esaf_contact = Component(EpicsSignal, "esaf_contact", string=True)
+    esaf_team = Component(EpicsSignal, "esaf_team", string=True)
 
 
 class DeviceMixinBase(Device):
@@ -1053,7 +1098,7 @@ class AxisTunerMixin(DeviceMixinBase):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.tuner = None   # such as: apstools.plans.TuneAxis
+        self.tuner = None  # such as: apstools.plans.TuneAxis
 
         # Hook functions for callers to add additional plan parts
         # Each must accept one argument: axis object such as `EpicsMotor` or `SynAxis`
@@ -1062,12 +1107,18 @@ class AxisTunerMixin(DeviceMixinBase):
 
     def _default_pre_tune_method(self):
         """called before `tune()`"""
-        logger.info("{} position before tuning: {}".format(self.name, self.position))
+        logger.info(
+            "{} position before tuning: {}".format(
+                self.name, self.position
+            )
+        )
         yield from bps.null()
 
     def _default_post_tune_method(self):
         """called after `tune()`"""
-        logger.info("{} position after tuning: {}".format(self.name, self.position))
+        logger.info(
+            "{} position after tuning: {}".format(self.name, self.position)
+        )
         yield from bps.null()
 
     def tune(self, md=None, **kwargs):
@@ -1176,7 +1227,7 @@ class EpicsMotorEnableMixin(DeviceMixinBase):
 
     """
 
-    enable_disable = Component(EpicsSignal, "_able", kind='omitted')
+    enable_disable = Component(EpicsSignal, "_able", kind="omitted")
 
     # constants for internal use
     MOTOR_ENABLE = 0
@@ -1233,7 +1284,7 @@ class EpicsMotorLimitsMixin(DeviceMixinBase):
                     self.user_setpoint._read_pv.get_ctrlvars(),
                     from_monitor=True,
                     update=True,
-                    )
+                )
 
         self.soft_limit_lo.subscribe(cb_limit_changed)
         self.soft_limit_hi.subscribe(cb_limit_changed)
@@ -1265,10 +1316,12 @@ class EpicsMotorLimitsMixin(DeviceMixinBase):
         """
         if not self.moving:
             # update EPICS
+            # fmt: off
             yield from bps.mv(
                 self.soft_limit_lo, min(low, high),
                 self.soft_limit_hi, max(low, high),
             )
+            # fmt: on
             # ophyd metadata dictionary will update via CA monitor
 
 
@@ -1365,14 +1418,20 @@ class EpicsMotorShutter(OneSignalShutter):
     """
 
     signal = Component(EpicsMotor, "")
-    tolerance = 0.01        # how close is considered in-position?
+    tolerance = 0.01  # how close is considered in-position?
 
     @property
     def state(self):
         """is shutter "open", "close", or "unknown"?"""
-        if abs(self.signal.user_readback.get() - self.open_value) <= self.tolerance:
+        if (
+            abs(self.signal.user_readback.get() - self.open_value)
+            <= self.tolerance
+        ):
             result = self.valid_open_values[0]
-        elif abs(self.signal.user_readback.get() - self.close_value) <= self.tolerance:
+        elif (
+            abs(self.signal.user_readback.get() - self.close_value)
+            <= self.tolerance
+        ):
             result = self.valid_close_values[0]
         else:
             result = self.unknown_state
@@ -1383,7 +1442,7 @@ class EpicsMotorShutter(OneSignalShutter):
         if not self.isOpen:
             self.signal.move(self.open_value)
             if self.delay_s > 0:
-                time.sleep(self.delay_s)    # blocking call OK here
+                time.sleep(self.delay_s)  # blocking call OK here
 
     def close(self):
         """move motor to BEAM BLOCKED position, interactive use"""
@@ -1391,7 +1450,7 @@ class EpicsMotorShutter(OneSignalShutter):
         if not self.isClosed:
             self.signal.move(self.close_value)
             if self.delay_s > 0:
-                time.sleep(self.delay_s)    # blocking call OK here
+                time.sleep(self.delay_s)  # blocking call OK here
 
 
 class EpicsOnOffShutter(OneSignalShutter):
@@ -1456,9 +1515,13 @@ class KohzuSeqCtl_Monochromator(Device):
     """
 
     # lambda is reserved word in Python, can't use it
-    wavelength = Component(EpicsSignal, "BraggLambdaRdbkAO", write_pv="BraggLambdaAO")
+    wavelength = Component(
+        EpicsSignal, "BraggLambdaRdbkAO", write_pv="BraggLambdaAO"
+    )
     energy = Component(EpicsSignal, "BraggERdbkAO", write_pv="BraggEAO")
-    theta = Component(EpicsSignal, "BraggThetaRdbkAO", write_pv="BraggThetaAO")
+    theta = Component(
+        EpicsSignal, "BraggThetaRdbkAO", write_pv="BraggThetaAO"
+    )
     y1 = Component(EpicsSignalRO, "KohzuYRdbkAI")
     z2 = Component(EpicsSignalRO, "KohzuZRdbkAI")
     message2 = Component(EpicsSignalRO, "KohzuSeqMsg2SI")
@@ -1490,9 +1553,9 @@ class KohzuSeqCtl_Monochromator(Device):
         value: float
             New energy for the current monochromator position.
         """
-        self.use_set.put('Set')
+        self.use_set.put("Set")
         self.energy.put(value)
-        self.use_set.put('Use')
+        self.use_set.put("Use")
 
 
 class ProcessController(Device):
@@ -1549,13 +1612,17 @@ class ProcessController(Device):
     """
 
     controller_name = "ProcessController"
-    signal = Component(Signal)                              # override in subclass
-    target = Component(Signal, kind="omitted")              # override in subclass
-    tolerance = Component(Signal, kind="omitted", value=1)  # override in subclass
-    units = Component(Signal, kind="omitted", value="")     # override in subclass
+    signal = Component(Signal)  # override in subclass
+    target = Component(Signal, kind="omitted")  # override in subclass
+    tolerance = Component(
+        Signal, kind="omitted", value=1
+    )  # override in subclass
+    units = Component(
+        Signal, kind="omitted", value=""
+    )  # override in subclass
 
-    report_interval_s  = 5  # time between reports during loop, s
-    poll_s = 0.02           # time to wait during polling loop, s
+    report_interval_s = 5  # time between reports during loop, s
+    poll_s = 0.02  # time to wait during polling loop, s
 
     def record_signal(self):
         """write signal to the console"""
@@ -1563,7 +1630,9 @@ class ProcessController(Device):
         print(msg)
         return msg
 
-    def set_target(self, target, wait=True, timeout=None, timeout_fail=False):
+    def set_target(
+        self, target, wait=True, timeout=None, timeout_fail=False
+    ):
         """plan: change controller to new signal set point"""
         yield from bps.mv(self.target, target)
 
@@ -1572,8 +1641,8 @@ class ProcessController(Device):
 
         if wait:
             yield from self.wait_until_settled(
-                timeout=timeout,
-                timeout_fail=timeout_fail)
+                timeout=timeout, timeout_fail=timeout_fail
+            )
 
     @property
     def value(self):
@@ -1611,18 +1680,22 @@ class ProcessController(Device):
                 elapsed = time.time() - t0
                 if timeout is not None and elapsed > timeout:
                     _st._finished(success=self.settled)
-                    msg = f"{self.controller_name} Timeout after {elapsed:.2f}s"
-                    msg += f", target {self.target.get():.2f}{self.units.get()}"
-                    msg += f", now {self.signal.get():.2f}{self.units.get()}"
+                    msg = (
+                        f"{self.controller_name} Timeout after {elapsed:.2f}s"
+                        f", target {self.target.get():.2f}{self.units.get()}"
+                        f", now {self.signal.get():.2f}{self.units.get()}"
+                    )
                     print(msg)
                     if timeout_fail:
                         raise TimeoutError(msg)
                     continue
                 if elapsed >= report:
                     report += self.report_interval_s
-                    msg = f"Waiting {elapsed:.1f}s"
-                    msg += f" to reach {self.target.get():.2f}{self.units.get()}"
-                    msg += f", now {self.signal.get():.2f}{self.units.get()}"
+                    msg = (
+                        f"Waiting {elapsed:.1f}s"
+                        f" to reach {self.target.get():.2f}{self.units.get()}"
+                        f", now {self.signal.get():.2f}{self.units.get()}"
+                    )
                     print(msg)
                 yield from bps.sleep(self.poll_s)
 
@@ -1658,7 +1731,9 @@ class Struck3820(Device):
     firmware = Component(EpicsSignalRO, "Firmware")
     channel_advance = Component(EpicsSignal, "ChannelAdvance")
     count_on_start = Component(EpicsSignal, "CountOnStart")
-    software_channel_advance = Component(EpicsSignal, "SoftwareChannelAdvance")
+    software_channel_advance = Component(
+        EpicsSignal, "SoftwareChannelAdvance"
+    )
     channel1_source = Component(EpicsSignal, "Channel1Source")
     user_led = Component(EpicsSignal, "UserLED")
     mux_output = Component(EpicsSignal, "MUXOutput")
@@ -1672,21 +1747,19 @@ class Struck3820(Device):
 # AreaDetector support
 
 AD_FrameType_schemes = {
-    "reset" : dict(             # default names from Area Detector code
-        ZRST = "Normal",
-        ONST = "Background",
-        TWST = "FlatField",
-        ),
-    "NeXus" : dict(             # NeXus (typical locations)
-        ZRST = "/entry/data/data",
-        ONST = "/entry/data/dark",
-        TWST = "/entry/data/white",
-        ),
-    "DataExchange" : dict(      # APS Data Exchange
-        ZRST = "/exchange/data",
-        ONST = "/exchange/data_dark",
-        TWST = "/exchange/data_white",
-        ),
+    "reset": dict(  # default names from Area Detector code
+        ZRST="Normal", ONST="Background", TWST="FlatField",
+    ),
+    "NeXus": dict(  # NeXus (typical locations)
+        ZRST="/entry/data/data",
+        ONST="/entry/data/dark",
+        TWST="/entry/data/white",
+    ),
+    "DataExchange": dict(  # APS Data Exchange
+        ZRST="/exchange/data",
+        ONST="/exchange/data_dark",
+        TWST="/exchange/data_white",
+    ),
 }
 
 
@@ -1725,9 +1798,12 @@ def AD_setup_FrameType(prefix, scheme="NeXus"):
     """
     db = AD_FrameType_schemes.get(scheme)
     if db is None:
-        msg = "unknown AD_FrameType_schemes scheme: {}".format(scheme)
-        msg += "\n Should be one of: " + ", ".join(AD_FrameType_schemes.keys())
-        raise ValueError(msg)
+        raise ValueError(
+            f"unknown AD_FrameType_schemes scheme: {scheme}"
+            "\n Should be one of: " + ", ".join(
+                AD_FrameType_schemes.keys()
+            )
+        )
 
     template = "{}cam1:FrameType{}.{}"
     for field, value in db.items():
@@ -1777,11 +1853,7 @@ def AD_plugin_primed(plugin):
         if not test:
             logger.debug("'%s' image size is zero", obj.name)
 
-    checks = dict(
-        array_size = False,
-        color_mode = True,
-        data_type = True,
-    )
+    checks = dict(array_size=False, color_mode=True, data_type=True,)
     for key, as_string in checks.items():
         c = getattr(cam, key).get(as_string=as_string)
         p = getattr(plugin, key).get(as_string=as_string)
@@ -1865,7 +1937,9 @@ def AD_prime_plugin2(plugin):
         set_and_wait(sig, val)
 
 
-class AD_EpicsHdf5FileName(FileStorePluginBase):    # lgtm [py/missing-call-to-init]
+class AD_EpicsHdf5FileName(
+    FileStorePluginBase
+):  # lgtm [py/missing-call-to-init]
     """
     custom class to define image file name from EPICS
 
@@ -1970,12 +2044,14 @@ class AD_EpicsHdf5FileName(FileStorePluginBase):    # lgtm [py/missing-call-to-i
 
     def __init__(self, *args, **kwargs):
         FileStorePluginBase.__init__(self, *args, **kwargs)
-        self.filestore_spec = 'AD_HDF5'  # spec name stored in resource doc
-        self.stage_sigs.update([
-            ('file_template', '%s%s_%4.4d.h5'),
-            ('file_write_mode', 'Stream'),
-            ('capture', 1)
-        ])
+        self.filestore_spec = "AD_HDF5"  # spec name stored in resource doc
+        self.stage_sigs.update(
+            [
+                ("file_template", "%s%s_%4.4d.h5"),
+                ("file_write_mode", "Stream"),
+                ("capture", 1),
+            ]
+        )
 
     def make_filename(self):
         """
@@ -2029,13 +2105,13 @@ class AD_EpicsHdf5FileName(FileStorePluginBase):    # lgtm [py/missing-call-to-i
         # on 'unstage' anyway.
         set_and_wait(self.file_path, write_path)
         set_and_wait(self.file_name, filename)
-        ### set_and_wait(self.file_number, 0)
+        # set_and_wait(self.file_number, 0)
 
         # get file number now since it is incremented during stage()
         file_number = self.file_number.get()
         # Must avoid parent's stage() since it sets file_number to 0
         # Want to call grandparent's stage()
-        #super().stage()     # avoid this - sets `file_number` to zero
+        # super().stage()     # avoid this - sets `file_number` to zero
         # call grandparent.stage()
         FileStoreBase.stage(self)
 
@@ -2046,17 +2122,20 @@ class AD_EpicsHdf5FileName(FileStorePluginBase):    # lgtm [py/missing-call-to-i
         self._fn = template % (read_path, filename, file_number)
         self._fp = read_path
         if not self.file_path_exists.get():
-            raise IOError("Path {} does not exist on IOC.".format(
-                          self.file_path.get()))
+            raise IOError(
+                f"Path {self.file_path.get()} does not exist on IOC."
+            )
 
         self._point_counter = itertools.count()
 
         # from FileStoreHDF5.stage()
-        res_kwargs = {'frame_per_point': self.get_frames_per_point()}
+        res_kwargs = {"frame_per_point": self.get_frames_per_point()}
         self._generate_resource(res_kwargs)
 
 
-class AD_EpicsJpegFileName(FileStorePluginBase):    # lgtm [py/missing-call-to-init]
+class AD_EpicsJpegFileName(
+    FileStorePluginBase
+):  # lgtm [py/missing-call-to-init]
 
     """
     custom class to define image file name from EPICS
@@ -2085,12 +2164,14 @@ class AD_EpicsJpegFileName(FileStorePluginBase):    # lgtm [py/missing-call-to-i
         # If we get this wrong, we have to update any existing runs before
         # databroker can read them into memory.  If there is not such symbol
         # defined, it's up to somone who wants to read these images with databroker.
-        self.filestore_spec = 'AD_JPEG'  # spec name stored in resource doc
-        self.stage_sigs.update([
-            ('file_template', '%s%s_%4.4d.jpg'),
-            ('file_write_mode', 'Stream'),
-            ('capture', 1)
-        ])
+        self.filestore_spec = "AD_JPEG"  # spec name stored in resource doc
+        self.stage_sigs.update(
+            [
+                ("file_template", "%s%s_%4.4d.jpg"),
+                ("file_write_mode", "Stream"),
+                ("capture", 1),
+            ]
+        )
 
     def make_filename(self):
         """
@@ -2143,13 +2224,13 @@ class AD_EpicsJpegFileName(FileStorePluginBase):    # lgtm [py/missing-call-to-i
         # on 'unstage' anyway.
         set_and_wait(self.file_path, write_path)
         set_and_wait(self.file_name, filename)
-        ### set_and_wait(self.file_number, 0)
+        # set_and_wait(self.file_number, 0)
 
         # get file number now since it is incremented during stage()
         file_number = self.file_number.get()
         # Must avoid parent's stage() since it sets file_number to 0
         # Want to call grandparent's stage()
-        #super().stage()     # avoid this - sets `file_number` to zero
+        # super().stage()     # avoid this - sets `file_number` to zero
         # call grandparent.stage()
         FileStoreBase.stage(self)
 
@@ -2160,11 +2241,14 @@ class AD_EpicsJpegFileName(FileStorePluginBase):    # lgtm [py/missing-call-to-i
         self._fn = template % (read_path, filename, file_number)
         self._fp = read_path
         if not self.file_path_exists.get():
-            raise IOError("Path {} does not exist on IOC.".format(
-                          self.file_path.get()))
+            raise IOError(
+                "Path {} does not exist on IOC.".format(
+                    self.file_path.get()
+                )
+            )
 
         self._point_counter = itertools.count()
 
         # from FileStoreHDF5.stage()
-        res_kwargs = {'frame_per_point': self.get_frames_per_point()}
+        res_kwargs = {"frame_per_point": self.get_frames_per_point()}
         self._generate_resource(res_kwargs)

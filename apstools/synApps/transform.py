@@ -10,7 +10,7 @@ Public Structures
     ~TransformRecord
 """
 
-#-----------------------------------------------------------------------------
+# -----------------------------------------------------------------------------
 # :author:    Pete R. Jemian
 # :email:     jemian@anl.gov
 # :copyright: (c) 2017-2020, UChicago Argonne, LLC
@@ -18,14 +18,15 @@ Public Structures
 # Distributed under the terms of the Creative Commons Attribution 4.0 International Public License.
 #
 # The full license is in the file LICENSE.txt, distributed with this software.
-#-----------------------------------------------------------------------------
+# -----------------------------------------------------------------------------
 
 from collections import OrderedDict
 from ophyd.device import (
     Device,
     Component as Cpt,
     DynamicDeviceComponent as DDC,
-    FormattedComponent as FC)
+    FormattedComponent as FC,
+)
 from ophyd import EpicsSignal, EpicsSignalRO
 
 from ._common import EpicsRecordDeviceCommonAll
@@ -45,19 +46,24 @@ class transformRecordChannel(Device):
     """
     channel of a synApps transform record: A-P
 
-	.. autosummary::
+    .. autosummary::
 
-		~reset
+        ~reset
     """
-    current_value = FC(EpicsSignal,         '{self.prefix}.{self._ch_letter}')
-    last_value = FC(EpicsSignalRO,          '{self.prefix}.L{self._ch_letter}')
-    input_pv = FC(EpicsSignal,              '{self.prefix}.INP{self._ch_letter}')
-    input_pv_valid = FC(EpicsSignalRO,      '{self.prefix}.I{self._ch_letter}V')
-    expression_invalid = FC(EpicsSignalRO,  '{self.prefix}.C{self._ch_letter}V')
-    comment = FC(EpicsSignal,               '{self.prefix}.CMT{self._ch_letter}')
-    expression = FC(EpicsSignal,            '{self.prefix}.CLC{self._ch_letter}')
-    output_pv = FC(EpicsSignal,             '{self.prefix}.OUT{self._ch_letter}')
-    output_pv_valid = FC(EpicsSignalRO,     '{self.prefix}.O{self._ch_letter}V')
+
+    current_value = FC(EpicsSignal, "{self.prefix}.{self._ch_letter}")
+    last_value = FC(EpicsSignalRO, "{self.prefix}.L{self._ch_letter}")
+    input_pv = FC(EpicsSignal, "{self.prefix}.INP{self._ch_letter}")
+    input_pv_valid = FC(EpicsSignalRO, "{self.prefix}.I{self._ch_letter}V")
+    expression_invalid = FC(
+        EpicsSignalRO, "{self.prefix}.C{self._ch_letter}V"
+    )
+    comment = FC(EpicsSignal, "{self.prefix}.CMT{self._ch_letter}")
+    expression = FC(EpicsSignal, "{self.prefix}.CLC{self._ch_letter}")
+    output_pv = FC(EpicsSignal, "{self.prefix}.OUT{self._ch_letter}")
+    output_pv_valid = FC(
+        EpicsSignalRO, "{self.prefix}.O{self._ch_letter}V"
+    )
 
     read_attrs = ["current_value"]
 
@@ -77,7 +83,7 @@ class transformRecordChannel(Device):
 def _channels(channel_list):
     defn = OrderedDict()
     for chan in channel_list:
-        defn[chan] = (transformRecordChannel, '', {'letter': chan})
+        defn[chan] = (transformRecordChannel, "", {"letter": chan})
     return defn
 
 
@@ -85,12 +91,13 @@ class TransformRecord(EpicsRecordDeviceCommonAll):
     """
     EPICS transform record support in ophyd
 
-	.. autosummary::
+    .. autosummary::
 
-		~reset
+        ~reset
 
     :see: https://htmlpreview.github.io/?https://raw.githubusercontent.com/epics-modules/calc/R3-6-1/documentation/TransformRecord.html#Fields
     """
+
     units = Cpt(EpicsSignal, ".EGU")
     precision = Cpt(EpicsSignal, ".PREC")
     version = Cpt(EpicsSignalRO, ".VERS")
@@ -100,7 +107,7 @@ class TransformRecord(EpicsRecordDeviceCommonAll):
     input_bitmap = Cpt(EpicsSignalRO, ".MAP")
 
     read_attrs = APS_utils.itemizer("channels.%s", CHANNEL_LETTERS_LIST)
-    hints = {'fields': read_attrs}
+    hints = {"fields": read_attrs}
 
     channels = DDC(_channels(CHANNEL_LETTERS_LIST))
 
@@ -116,7 +123,9 @@ class TransformRecord(EpicsRecordDeviceCommonAll):
             channel = getattr(self.channels, letter)
             if isinstance(channel, transformRecordChannel):
                 channel.reset()
-        self.hints = {'fields': ["channels.%s" % c for c in CHANNEL_LETTERS_LIST]}
+        self.hints = {
+            "fields": ["channels.%s" % c for c in CHANNEL_LETTERS_LIST]
+        }
         self.read_attrs = ["channels.%s" % c for c in CHANNEL_LETTERS_LIST]
 
 
@@ -125,19 +134,19 @@ class UserTransformsDevice(Device):
     synApps XXX IOC setup of userTransforms: $(P):userTran$(N)
     """
 
-    enable = Cpt(EpicsSignal, 'userTranEnable')
-    transform1 = Cpt(TransformRecord, 'userTran1')
-    transform2 = Cpt(TransformRecord, 'userTran2')
-    transform3 = Cpt(TransformRecord, 'userTran3')
-    transform4 = Cpt(TransformRecord, 'userTran4')
-    transform5 = Cpt(TransformRecord, 'userTran5')
-    transform6 = Cpt(TransformRecord, 'userTran6')
-    transform7 = Cpt(TransformRecord, 'userTran7')
-    transform8 = Cpt(TransformRecord, 'userTran8')
-    transform9 = Cpt(TransformRecord, 'userTran9')
-    transform10 = Cpt(TransformRecord, 'userTran10')
+    enable = Cpt(EpicsSignal, "userTranEnable")
+    transform1 = Cpt(TransformRecord, "userTran1")
+    transform2 = Cpt(TransformRecord, "userTran2")
+    transform3 = Cpt(TransformRecord, "userTran3")
+    transform4 = Cpt(TransformRecord, "userTran4")
+    transform5 = Cpt(TransformRecord, "userTran5")
+    transform6 = Cpt(TransformRecord, "userTran6")
+    transform7 = Cpt(TransformRecord, "userTran7")
+    transform8 = Cpt(TransformRecord, "userTran8")
+    transform9 = Cpt(TransformRecord, "userTran9")
+    transform10 = Cpt(TransformRecord, "userTran10")
 
-    def reset(self):              # lgtm [py/similar-function]
+    def reset(self):  # lgtm [py/similar-function]
         """set all fields to default values"""
         self.transform1.reset()
         self.transform2.reset()
@@ -149,5 +158,5 @@ class UserTransformsDevice(Device):
         self.transform8.reset()
         self.transform9.reset()
         self.transform10.reset()
-        self.read_attrs = ["transform%d" % (c+1) for c in range(10)]
+        self.read_attrs = ["transform%d" % (c + 1) for c in range(10)]
         self.read_attrs.insert(0, "enable")

@@ -7,7 +7,7 @@
 
 """
 
-#-----------------------------------------------------------------------------
+# -----------------------------------------------------------------------------
 # :author:    Pete R. Jemian
 # :email:     jemian@anl.gov
 # :copyright: (c) 2017-2020, UChicago Argonne, LLC
@@ -15,7 +15,7 @@
 # Distributed under the terms of the Creative Commons Attribution 4.0 International Public License.
 #
 # The full license is in the file LICENSE.txt, distributed with this software.
-#-----------------------------------------------------------------------------
+# -----------------------------------------------------------------------------
 
 import logging
 import ophyd.sim
@@ -25,7 +25,9 @@ import numpy as np
 logger = logging.getLogger(__name__).addHandler(logging.NullHandler())
 
 
-class SynPseudoVoigt(ophyd.sim.SynSignal):    # lgtm [py/missing-call-to-init]
+class SynPseudoVoigt(
+    ophyd.sim.SynSignal
+):  # lgtm [py/missing-call-to-init]
     """
     Evaluate a point on a pseudo-Voigt based on the value of a motor.
 
@@ -100,10 +102,15 @@ class SynPseudoVoigt(ophyd.sim.SynSignal):    # lgtm [py/missing-call-to-init]
 
     """
 
-    def __init__(self, name, motor, motor_field, center=0,
-                eta=0.5, scale=1, sigma=1, bkg=0,
-                noise=None, noise_multiplier=1,
-                **kwargs):
+    def __init__(
+        # fmt: off
+        self,
+        name, motor, motor_field,
+        center=0, eta=0.5, scale=1, sigma=1, bkg=0,
+        noise=None, noise_multiplier=1,
+        **kwargs
+        # fmt: on
+    ):
         if eta < 0.0 or eta > 1.0:
             raise ValueError("eta={} must be between 0 and 1".format(eta))
         if scale < 1.0:
@@ -125,8 +132,8 @@ class SynPseudoVoigt(ophyd.sim.SynSignal):    # lgtm [py/missing-call-to-init]
         self.noise_multiplier = noise_multiplier
 
         def f_lorentzian(x, gamma):
-            #return gamma / np.pi / (x**2 + gamma**2)
-            return 1 / np.pi / gamma / (1 + (x/gamma)**2)
+            # return gamma / np.pi / (x**2 + gamma**2)
+            return 1 / np.pi / gamma / (1 + (x / gamma) ** 2)
 
         def f_gaussian(x, sigma):
             numerator = np.exp(-0.5 * (x / sigma) ** 2)
@@ -134,19 +141,21 @@ class SynPseudoVoigt(ophyd.sim.SynSignal):    # lgtm [py/missing-call-to-init]
             return numerator / denominator
 
         def pvoigt():
-            m = motor.read()[motor_field]['value']
-            g_max = f_gaussian(0, sigma)    # peak normalization
+            m = motor.read()[motor_field]["value"]
+            g_max = f_gaussian(0, sigma)  # peak normalization
             l_max = f_lorentzian(0, sigma)
             v = bkg
             if eta > 0:
                 v += eta * f_lorentzian(m - center, sigma) / l_max
             if eta < 1:
-                v += (1-eta) * f_gaussian(m - center, sigma) / g_max
+                v += (1 - eta) * f_gaussian(m - center, sigma) / g_max
             v *= scale
-            if noise == 'poisson':
+            if noise == "poisson":
                 v = int(np.random.poisson(np.round(v), 1))
-            elif noise == 'uniform':
+            elif noise == "uniform":
                 v += np.random.uniform(-1, 1) * noise_multiplier
             return v
 
-        ophyd.sim.SynSignal.__init__(self, name=name, func=pvoigt, **kwargs)
+        ophyd.sim.SynSignal.__init__(
+            self, name=name, func=pvoigt, **kwargs
+        )

@@ -518,7 +518,9 @@ def listruns(
         for k in labels:
             if k == "command":
                 command = _rebuild_scan_command(start)
+                # fmt: off
                 command = command[command.find(" "):].strip()
+                # fmt: on
                 maxlen = 40
                 if len(command) > maxlen:
                     suffix = " ..."

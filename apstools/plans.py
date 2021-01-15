@@ -20,7 +20,7 @@ Plans that might be useful at the APS when using Bluesky
 
 """
 
-#-----------------------------------------------------------------------------
+# -----------------------------------------------------------------------------
 # :author:    Pete R. Jemian
 # :email:     jemian@anl.gov
 # :copyright: (c) 2017-2020, UChicago Argonne, LLC
@@ -28,7 +28,7 @@ Plans that might be useful at the APS when using Bluesky
 # Distributed under the terms of the Creative Commons Attribution 4.0 International Public License.
 #
 # The full license is in the file LICENSE.txt, distributed with this software.
-#-----------------------------------------------------------------------------
+# -----------------------------------------------------------------------------
 
 from collections import OrderedDict
 import datetime
@@ -53,11 +53,12 @@ from . import utils as APS_utils
 logger = logging.getLogger(__name__)
 logger.info(__file__)
 
-new_data = False        # sscan has new data, boolean
-inactive_deadline = 0   # sscan is deemed timeout after this absolute time.time()
+new_data = False  # sscan has new data, boolean
+inactive_deadline = 0  # sscan timeout, absolute time.time()
 
 
-class CommandFileReadError(IOError): ...
+class CommandFileReadError(IOError):
+    ...
 
 
 def addDeviceDataAsStream(devices, label):
@@ -80,7 +81,7 @@ def addDeviceDataAsStream(devices, label):
 
     """
     yield from bps.create(name=label)
-    if not isinstance(devices, list):     # just in case...
+    if not isinstance(devices, list):  # just in case...
         devices = [devices]
     for d in devices:
         yield from bps.read(d)
@@ -162,15 +163,18 @@ def execute_command_list(filename, commands, md=None):
         _md["filename"] = filename
         _md["line_number"] = i
         _md["action"] = action
-        _md["parameters"] = args    # args is shorter than parameters, means the same thing here
+        # note: args is shorter than parameters, means the same thing here
+        _md["parameters"] = args
 
-        _md.update(md or {})      # overlay with user-supplied metadata
+        _md.update(md or {})  # overlay with user-supplied metadata
 
         action = action.lower()
         if action == "tune_optics":
             # example: yield from tune_optics(md=_md)
-            emsg = "This is an example.  action={raw_command}."
-            emsg += "  Must define your own execute_command_list() function"
+            emsg = (
+                f"This is an example.  action={raw_command}."
+                "  Must define your own execute_command_list() function"
+            )
             logger.warn(emsg)
             yield from bps.null()
 
@@ -212,9 +216,12 @@ def get_command_list(filename):
 
 
 def lineup(
+    # fmt: off
     counter, axis, minus, plus, npts,
     time_s=0.1, peak_factor=4, width_factor=0.8,
-    md=None):
+    md=None,
+    # fmt: on
+):
     """
     lineup and center a given axis, relative to current position
 
@@ -302,7 +309,8 @@ def lineup(
             fwhm = bec.peaks["fwhm"][counter.name]
             final = bec.peaks["cen"][counter.name]
 
-            ps = list(bec._peak_stats.values())[0][counter.name]    # PeakStats object
+            # local PeakStats object of our plot of counter .v x
+            ps = list(bec._peak_stats.values())[0][counter.name]
             # get the X data range as received by PeakStats
             x_range = abs(max(ps.x_data) - min(ps.x_data))
 
@@ -312,16 +320,28 @@ def lineup(
             elif fwhm is None:
                 logger.error("FWHM is None")
                 final = old_position
-            elif hi < peak_factor*lo:
-                logger.error("no clear peak: %f < %f*%f", hi, peak_factor, lo)
+            elif hi < peak_factor * lo:
+                logger.error(
+                    "no clear peak: %f < %f*%f", hi, peak_factor, lo
+                )
                 final = old_position
-            elif fwhm > width_factor*x_range:
-                logger.error("FWHM too large: %f > %f*%f", fwhm, width_factor, x_range)
+            elif fwhm > width_factor * x_range:
+                logger.error(
+                    "FWHM too large: %f > %f*%f",
+                    fwhm,
+                    width_factor,
+                    x_range,
+                )
                 final = old_position
             else:
                 aligned = True
 
-            logger.info(f"moving {axis.name} to {final}  (aligned: {aligned})")
+            logger.info(
+                "moving %s to %f  (aligned: %s)",
+                axis.name,
+                final,
+                str(aligned),
+            )
             yield from bps.mv(axis, final)
         else:
             logger.error("no statistical analysis of scan peak!")
@@ -329,7 +349,7 @@ def lineup(
 
         # too sneaky?  We're modifying this structure locally
         bec.peaks.aligned = aligned
-        bec.peaks.ATTRS =  ('com', 'cen', 'max', 'min', 'fwhm')
+        bec.peaks.ATTRS = ("com", "cen", "max", "min", "fwhm")
 
     _md = dict(purpose="alignment")
     _md.update(md or {})
@@ -385,8 +405,9 @@ def nscan(detectors, *motor_sets, num=11, per_step=None, md=None):
     See the `nscan()` example in a Jupyter notebook:
     https://github.com/BCDA-APS/apstools/blob/master/docs/source/resources/demo_nscan.ipynb
     """
+
     def take_n_at_a_time(args, n=2):
-        yield from zip(*[iter(args)]*n)
+        yield from zip(*[iter(args)] * n)
 
     if len(motor_sets) < 3:
         raise ValueError("must provide at least one movable")
@@ -401,37 +422,45 @@ def nscan(detectors, *motor_sets, num=11, per_step=None, md=None):
         if not isinstance(f, (int, float)):
             msg = "finish={} ({}): is not a number".format(f, type(f))
             raise ValueError(msg)
-        motors[m.name] = dict(motor=m, start=s, finish=f,
-                              steps=np.linspace(start=s, stop=f, num=num))
+        motors[m.name] = dict(
+            motor=m,
+            start=s,
+            finish=f,
+            steps=np.linspace(start=s, stop=f, num=num),
+        )
 
-    _md = {'detectors': [det.name for det in detectors],
-           'motors': [m for m in motors.keys()],
-           'num_points': num,
-           'num_intervals': num - 1,
-           'plan_args': {'detectors': list(map(repr, detectors)),
-                         'num': num,
-                         'motors': repr(motor_sets),
-                         'per_step': repr(per_step)},
-           'plan_name': 'nscan',
-           'plan_pattern': 'linspace',
-           'hints': {},
-           'iso8601': datetime.datetime.now(),
-           }
+    _md = {
+        "detectors": [det.name for det in detectors],
+        "motors": [m for m in motors.keys()],
+        "num_points": num,
+        "num_intervals": num - 1,
+        "plan_args": {
+            "detectors": list(map(repr, detectors)),
+            "num": num,
+            "motors": repr(motor_sets),
+            "per_step": repr(per_step),
+        },
+        "plan_name": "nscan",
+        "plan_pattern": "linspace",
+        "hints": {},
+        "iso8601": datetime.datetime.now(),
+    }
     _md.update(md or {})
 
     try:
         m = list(motors.keys())[0]
-        dimensions = [(motors[m]["motor"].hints['fields'], 'primary')]
+        dimensions = [(motors[m]["motor"].hints["fields"], "primary")]
     except (AttributeError, KeyError):
         pass
     else:
-        _md['hints'].setdefault('dimensions', dimensions)
+        _md["hints"].setdefault("dimensions", dimensions)
 
     if per_step is None:
         per_step = bps.one_nd_step
 
-    @bpp.stage_decorator(list(detectors)
-                         + [m["motor"] for m in motors.values()])
+    @bpp.stage_decorator(
+        list(detectors) + [m["motor"] for m in motors.values()]
+    )
     @bpp.run_decorator(md=_md)
     def inner_scan():
         for step in range(num):
@@ -507,7 +536,7 @@ def parse_Excel_command_file(filename):
                     break
                 values = values[:-1]
 
-            commands.append((action, values, i+1, list(row.values())))
+            commands.append((action, values, i + 1, list(row.values())))
 
     return commands
 
@@ -584,11 +613,10 @@ def parse_text_command_file(filename):
     for i, raw_command in enumerate(buf):
         row = raw_command.strip()
         if row == "" or row.startswith("#"):
-            continue                    # comment or blank
-
-        else:                           # command line
+            continue  # comment or blank
+        else:  # command line
             action, *values = APS_utils.split_quoted_line(row)
-            commands.append((action, values, i+1, raw_command.rstrip()))
+            commands.append((action, values, i + 1, raw_command.rstrip()))
 
     return commands
 
@@ -693,26 +721,29 @@ def snapshot(obj_list, stream="primary", md=None):
         if len(objects) == 0:
             raise ValueError("No signals to log.")
 
-    hostname = socket.gethostname() or 'localhost'
-    username = getpass.getuser() or 'bluesky_user'
+    hostname = socket.gethostname() or "localhost"
+    username = getpass.getuser() or "bluesky_user"
 
     # we want this metadata to appear
     _md = dict(
-        plan_name = "snapshot",
-        plan_description = "archive snapshot of ophyd Signals (usually EPICS PVs)",
-        iso8601 = str(datetime.datetime.now()),     # human-readable
-        hints = {},
-        software_versions = dict(
-            python = sys.version,
-            PyEpics = pyepics_version,
-            bluesky = bluesky_version,
-            ophyd = ophyd_version,
-            databroker = databroker_version,
-            apstools = __version__,),
-        hostname = hostname,
-        username = username,
-        login_id = f"{username}@{hostname}",
-        )
+        plan_name="snapshot",
+        plan_description=(
+            "archive snapshot of ophyd Signals (usually EPICS PVs)",
+        ),
+        iso8601=str(datetime.datetime.now()),  # human-readable
+        hints={},
+        software_versions=dict(
+            python=sys.version,
+            PyEpics=pyepics_version,
+            bluesky=bluesky_version,
+            ophyd=ophyd_version,
+            databroker=databroker_version,
+            apstools=__version__,
+        ),
+        hostname=hostname,
+        username=username,
+        login_id=f"{username}@{hostname}",
+    )
     # caller may have given us additional metadata
     _md.update(md or {})
 
@@ -772,13 +803,14 @@ def _get_sscan_data_objects(sscan):
 
 
 def sscan_1D(
-        sscan,
-        poll_delay_s=0.001,
-        phase_timeout_s = 60.0,
-        running_stream="primary",
-        final_array_stream=None,
-        device_settings_stream="settings",
-        md=None):
+    sscan,
+    poll_delay_s=0.001,
+    phase_timeout_s=60.0,
+    running_stream="primary",
+    final_array_stream=None,
+    device_settings_stream="settings",
+    md=None,
+):
     """
     simple 1-D scan using EPICS synApps sscan record
 
@@ -847,7 +879,8 @@ def sscan_1D(
     if not (0 <= poll_delay_s <= 0.1):
         raise ValueError(
             "poll_delay_s must be a number between 0 and 0.1,"
-            f" received {poll_delay_s}")
+            f" received {poll_delay_s}"
+        )
 
     t0 = time.time()
     sscan_status = DeviceStatus(sscan.execute_scan)
@@ -870,7 +903,7 @@ def sscan_1D(
         if phase_timeout_s is not None:
             inactive_deadline = time.time() + phase_timeout_s
         if value in (15, "RECORD SCALAR DATA"):
-            new_data = True            # set flag for main plan
+            new_data = True  # set flag for main plan
 
     # acquire only the channels with non-empty configuration in EPICS
     sscan.select_channels()
@@ -885,8 +918,8 @@ def sscan_1D(
     _md = dict(plan_name="sscan_1D")
     _md.update(md or {})
 
-    yield from bps.open_run(_md)               # start data collection
-    yield from bps.mv(sscan.execute_scan, 1)   # start sscan
+    yield from bps.open_run(_md)  # start data collection
+    yield from bps.mv(sscan.execute_scan, 1)  # start sscan
     started = True
 
     # collect and emit data, wait for sscan to end
@@ -898,7 +931,9 @@ def sscan_1D(
             yield from bps.save()
         new_data = False
         if phase_timeout_s is not None and time.time() > inactive_deadline:
-            print(f"No change in sscan record for {phase_timeout_s} seconds.")
+            print(
+                f"No change in sscan record for {phase_timeout_s} seconds."
+            )
             print("ending plan early as unsuccessful")
             sscan_status._finished(success=False)
         yield from bps.sleep(poll_delay_s)
@@ -931,6 +966,7 @@ def sscan_1D(
 
 class TuneResults(Device):
     """because bps.read() needs a Device or a Signal)"""
+
     tune_ok = Component(Signal)
     initial_position = Component(Signal)
     final_position = Component(Signal)
@@ -947,7 +983,10 @@ class TuneResults(Device):
     peakstats_attrs = "x y cen com fwhm min max crossings".split()
 
     def report(self, title=None):
-        keys = self.peakstats_attrs + "tune_ok center initial_position final_position".split()
+        keys = (
+            self.peakstats_attrs
+            + "tune_ok center initial_position final_position".split()
+        )
         t = pyRestTable.Table()
         t.addLabel("key")
         t.addLabel("result")
@@ -1063,34 +1102,30 @@ class TuneAxis(object):
 
         initial_position = self.axis.position
         # final_position = initial_position       # unless tuned
-        start = initial_position - width/2
-        finish = initial_position + width/2
+        start = initial_position - width / 2
+        finish = initial_position + width / 2
         self.tune_ok = False
 
         tune_md = dict(
-            width = width,
-            initial_position = self.axis.position,
-            time_iso8601 = str(datetime.datetime.now()),
-            )
-        _md = {'tune_md': tune_md,
-               'plan_name': self.__class__.__name__ + '.tune',
-               'tune_parameters': dict(
-                    num = num,
-                    width = width,
-                    initial_position = self.axis.position,
-                    peak_choice = self.peak_choice,
-                    x_axis = self.axis.name,
-                    y_axis = self.signal_name,
-                   ),
-               'motors': (self.axis.name,),
-               'detectors': (self.signal_name,),
-               'hints': dict(
-                   dimensions = [
-                       (
-                           [self.axis.name],
-                           'primary')]
-                   )
-               }
+            width=width,
+            initial_position=self.axis.position,
+            time_iso8601=str(datetime.datetime.now()),
+        )
+        _md = {
+            "tune_md": tune_md,
+            "plan_name": self.__class__.__name__ + ".tune",
+            "tune_parameters": dict(
+                num=num,
+                width=width,
+                initial_position=self.axis.position,
+                peak_choice=self.peak_choice,
+                x_axis=self.axis.name,
+                y_axis=self.signal_name,
+            ),
+            "motors": (self.axis.name,),
+            "detectors": (self.signal_name,),
+            "hints": dict(dimensions=[([self.axis.name], "primary")]),
+        }
         _md.update(md or {})
         if "pass_max" not in _md:
             self.stats = []
@@ -1101,8 +1136,10 @@ class TuneAxis(object):
             yield from bps.open_run(md)
 
             position_list = np.linspace(start, finish, num)
+            # fmt: off
             signal_list = list(self.signals)
-            signal_list += [self.axis,]
+            signal_list += [self.axis]
+            # fmt: on
             for pos in position_list:
                 yield from bps.mv(self.axis, pos)
                 yield from bps.trigger_and_read(signal_list)
@@ -1135,7 +1172,7 @@ class TuneAxis(object):
                 try:
                     yield from bps.read(results)
                 except ValueError as ex:
-                    separator = " "*8 + "-"*12
+                    separator = " " * 8 + "-" * 12
                     print(separator)
                     print(f"Error saving stream {stream_name}:\n{ex}")
                     print(separator)
@@ -1148,11 +1185,16 @@ class TuneAxis(object):
 
         return (yield from _scan(md=_md))
 
-
-    def multi_pass_tune(self, width=None, step_factor=None,
-                        num=None, pass_max=None,
-                        peak_factor=None,
-                        snake=None, md=None):
+    def multi_pass_tune(
+        self,
+        width=None,
+        step_factor=None,
+        num=None,
+        pass_max=None,
+        peak_factor=None,
+        snake=None,
+        md=None,
+    ):
         """
         Bluesky plan for tuning this axis with this signal
 
@@ -1204,14 +1246,20 @@ class TuneAxis(object):
 
         def _scan(width=1, step_factor=10, num=10, snake=True):
             for _pass_number in range(pass_max):
-                logger.info("Multipass tune %d of %d", _pass_number+1, pass_max)
-                _md = {'pass': _pass_number+1,
-                       'pass_max': pass_max,
-                       'plan_name': self.__class__.__name__ + '.multi_pass_tune',
-                       }
+                logger.info(
+                    "Multipass tune %d of %d", _pass_number + 1, pass_max
+                )
+                _md = {
+                    "pass": _pass_number + 1,
+                    "pass_max": pass_max,
+                    "plan_name": self.__class__.__name__
+                    + ".multi_pass_tune",
+                }
                 _md.update(md or {})
 
-                yield from self.tune(width=width, num=num, peak_factor=peak_factor, md=_md)
+                yield from self.tune(
+                    width=width, num=num, peak_factor=peak_factor, md=_md
+                )
 
                 if not self.tune_ok:
                     return
@@ -1225,13 +1273,17 @@ class TuneAxis(object):
 
         return (
             yield from _scan(
-                width=width, step_factor=step_factor, num=num, snake=snake))
+                width=width, step_factor=step_factor, num=num, snake=snake
+            )
+        )
 
     def multi_pass_tune_summary(self):
         t = pyRestTable.Table()
         t.labels = "pass Ok? center width max.X max.Y".split()
         for i, stat in enumerate(self.stats):
-            row = [i+1,]
+            row = [
+                i + 1,
+            ]
             row.append(stat.tune_ok.get())
             row.append(stat.cen.get())
             row.append(stat.fwhm.get())
@@ -1258,7 +1310,7 @@ class TuneAxis(object):
 
         ymax = self.peaks.max[-1]
         ymin = self.peaks.min[-1]
-        ok = ymax >= peak_factor*ymin        # this works for USAXS@APS
+        ok = ymax >= peak_factor * ymin  # this works for USAXS@APS
         if not ok:
             logger.info("ymax < ymin * %f: is it a peak?", peak_factor)
         return ok

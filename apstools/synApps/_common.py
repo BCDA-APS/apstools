@@ -15,7 +15,7 @@ Public Structures
 :see: https://wiki-ext.aps.anl.gov/epics/index.php/RRM_3-14_Common
 """
 
-#-----------------------------------------------------------------------------
+# -----------------------------------------------------------------------------
 # :author:    Pete R. Jemian
 # :email:     jemian@anl.gov
 # :copyright: (c) 2017-2020, UChicago Argonne, LLC
@@ -23,7 +23,7 @@ Public Structures
 # Distributed under the terms of the Creative Commons Attribution 4.0 International Public License.
 #
 # The full license is in the file LICENSE.txt, distributed with this software.
-#-----------------------------------------------------------------------------
+# -----------------------------------------------------------------------------
 
 from ophyd.device import Device, Component
 from ophyd import EpicsSignal, EpicsSignalRO
@@ -34,7 +34,7 @@ __all__ = [
     "EpicsRecordInputFields",
     "EpicsRecordOutputFields",
     "EpicsRecordFloatFields",
-    ]
+]
 
 
 class EpicsRecordDeviceCommonAll(Device):
@@ -44,6 +44,7 @@ class EpicsRecordDeviceCommonAll(Device):
     Some fields are not included because they are not interesting to
     an EPICS client or are already provided in other support.
     """
+
     description = Component(EpicsSignal, ".DESC")
     processing_active = Component(EpicsSignalRO, ".PACT")
     scanning_rate = Component(EpicsSignal, ".SCAN")
@@ -66,6 +67,7 @@ class EpicsRecordInputFields(Device):
     """
     some fields common to EPICS input records
     """
+
     input_link = Component(EpicsSignal, ".INP")
     raw_value = Component(EpicsSignal, ".RVAL")
     final_value = Component(EpicsSignal, ".VAL")
@@ -81,6 +83,7 @@ class EpicsRecordOutputFields(Device):
     """
     some fields common to EPICS output records
     """
+
     output_link = Component(EpicsSignal, ".OUT")
     raw_value = Component(EpicsSignal, ".RVAL")
     output_value = Component(EpicsSignal, ".OVAL")
@@ -100,6 +103,7 @@ class EpicsRecordFloatFields(Device):
     """
     some fields common to EPICS records supporting floating point values
     """
+
     units = Component(EpicsSignal, ".EGU")
     precision = Component(EpicsSignal, ".PREC")
 

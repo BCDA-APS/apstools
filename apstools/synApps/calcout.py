@@ -15,7 +15,7 @@ Public Structures
     ~setup_lorentzian_calcout
 """
 
-#-----------------------------------------------------------------------------
+# -----------------------------------------------------------------------------
 # :author:    Pete R. Jemian
 # :email:     jemian@anl.gov
 # :copyright: (c) 2017-2020, UChicago Argonne, LLC
@@ -23,7 +23,7 @@ Public Structures
 # Distributed under the terms of the Creative Commons Attribution 4.0 International Public License.
 #
 # The full license is in the file LICENSE.txt, distributed with this software.
-#-----------------------------------------------------------------------------
+# -----------------------------------------------------------------------------
 
 from collections import OrderedDict
 from ophyd.device import (
@@ -31,7 +31,7 @@ from ophyd.device import (
     Component as Cpt,
     DynamicDeviceComponent as DDC,
     FormattedComponent as FC,
-    )
+)
 from ophyd import EpicsSignal, EpicsSignalRO, Signal
 
 from ._common import EpicsRecordDeviceCommonAll, EpicsRecordFloatFields
@@ -39,13 +39,13 @@ from .. import utils as APS_utils
 
 
 __all__ = """
-	UserCalcoutDevice
-	CalcoutRecord
-	CalcoutRecordChannel
+    UserCalcoutDevice
+    CalcoutRecord
+    CalcoutRecordChannel
     setup_gaussian_calcout
     setup_lorentzian_calcout
     setup_incrementer_calcout
-	""".split()
+""".split()
 
 CHANNEL_LETTERS_LIST = "A B C D E F G H I J K L".split()
 
@@ -54,16 +54,21 @@ class CalcoutRecordChannel(Device):
     """
     channel of a calcout record: A-L
 
-	.. autosummary::
+    .. autosummary::
 
-		~reset
+        ~reset
     """
-    input_value = FC(EpicsSignal,       '{self.prefix}.{self._ch_letter}')
-    last_value = FC(EpicsSignalRO,      '{self.prefix}.L{self._ch_letter}')
-    input_pv = FC(EpicsSignal,          '{self.prefix}.INP{self._ch_letter}')
-    input_pv_valid = FC(EpicsSignalRO,  '{self.prefix}.IN{self._ch_letter}V')
 
-    read_attrs = ['input_value',]
+    input_value = FC(EpicsSignal, "{self.prefix}.{self._ch_letter}")
+    last_value = FC(EpicsSignalRO, "{self.prefix}.L{self._ch_letter}")
+    input_pv = FC(EpicsSignal, "{self.prefix}.INP{self._ch_letter}")
+    input_pv_valid = FC(
+        EpicsSignalRO, "{self.prefix}.IN{self._ch_letter}V"
+    )
+
+    read_attrs = [
+        "input_value",
+    ]
     hints = {"fields": read_attrs}
 
     def __init__(self, prefix, letter, **kwargs):
@@ -79,7 +84,7 @@ class CalcoutRecordChannel(Device):
 def _channels(channel_list):
     defn = OrderedDict()
     for chan in channel_list:
-        defn[chan] = (CalcoutRecordChannel, '', {'letter': chan})
+        defn[chan] = (CalcoutRecordChannel, "", {"letter": chan})
     return defn
 
 
@@ -87,12 +92,13 @@ class CalcoutRecord(EpicsRecordFloatFields, EpicsRecordDeviceCommonAll):
     """
     EPICS calcout record support in ophyd
 
-	.. autosummary::
+    .. autosummary::
 
-		~reset
+        ~reset
 
     :see: https://wiki-ext.aps.anl.gov/epics/index.php/RRM_3-14_Calcout
     """
+
     units = Cpt(EpicsSignal, ".EGU")
     precision = Cpt(EpicsSignal, ".PREC")
 
@@ -117,7 +123,7 @@ class CalcoutRecord(EpicsRecordFloatFields, EpicsRecordDeviceCommonAll):
     channels = DDC(_channels(CHANNEL_LETTERS_LIST))
 
     read_attrs = APS_utils.itemizer("channels.%s", CHANNEL_LETTERS_LIST)
-    hints = {'fields': read_attrs}
+    hints = {"fields": read_attrs}
 
     @property
     def value(self):
@@ -149,7 +155,9 @@ class CalcoutRecord(EpicsRecordFloatFields, EpicsRecordDeviceCommonAll):
             channel = getattr(self.channels, letter)
             if isinstance(channel, CalcoutRecordChannel):
                 channel.reset()
-        self.hints = {'fields': ["channels.%s" % c for c in CHANNEL_LETTERS_LIST]}
+        self.hints = {
+            "fields": ["channels.%s" % c for c in CHANNEL_LETTERS_LIST]
+        }
         self.read_attrs = ["channels.%s" % c for c in CHANNEL_LETTERS_LIST]
 
 
@@ -163,19 +171,19 @@ class UserCalcoutDevice(Device):
 
     """
 
-    enable = Cpt(EpicsSignal, 'userCalcOutEnable')
-    calcout1 = Cpt(CalcoutRecord, 'userCalcOut1')
-    calcout2 = Cpt(CalcoutRecord, 'userCalcOut2')
-    calcout3 = Cpt(CalcoutRecord, 'userCalcOut3')
-    calcout4 = Cpt(CalcoutRecord, 'userCalcOut4')
-    calcout5 = Cpt(CalcoutRecord, 'userCalcOut5')
-    calcout6 = Cpt(CalcoutRecord, 'userCalcOut6')
-    calcout7 = Cpt(CalcoutRecord, 'userCalcOut7')
-    calcout8 = Cpt(CalcoutRecord, 'userCalcOut8')
-    calcout9 = Cpt(CalcoutRecord, 'userCalcOut9')
-    calcout10 = Cpt(CalcoutRecord, 'userCalcOut10')
+    enable = Cpt(EpicsSignal, "userCalcOutEnable")
+    calcout1 = Cpt(CalcoutRecord, "userCalcOut1")
+    calcout2 = Cpt(CalcoutRecord, "userCalcOut2")
+    calcout3 = Cpt(CalcoutRecord, "userCalcOut3")
+    calcout4 = Cpt(CalcoutRecord, "userCalcOut4")
+    calcout5 = Cpt(CalcoutRecord, "userCalcOut5")
+    calcout6 = Cpt(CalcoutRecord, "userCalcOut6")
+    calcout7 = Cpt(CalcoutRecord, "userCalcOut7")
+    calcout8 = Cpt(CalcoutRecord, "userCalcOut8")
+    calcout9 = Cpt(CalcoutRecord, "userCalcOut9")
+    calcout10 = Cpt(CalcoutRecord, "userCalcOut10")
 
-    def reset(self):                            # lgtm [py/similar-function]
+    def reset(self):  # lgtm [py/similar-function]
         """set all fields to default values"""
         self.calcout1.reset()
         self.calcout2.reset()
@@ -187,11 +195,16 @@ class UserCalcoutDevice(Device):
         self.calcout8.reset()
         self.calcout9.reset()
         self.calcout10.reset()
-        self.read_attrs = ["calcout%d" % (c+1) for c in range(10)]
+        self.read_attrs = ["calcout%d" % (c + 1) for c in range(10)]
         self.read_attrs.insert(0, "enable")
 
 
-def _setup_peak_calcout_(calc, desc, calcout, ref_signal, center=0, width=1, scale=1, noise=0.05):
+def _setup_peak_calcout_(
+    # fmt: off
+    calc, desc, calcout, ref_signal,
+    center=0, width=1, scale=1, noise=0.05
+    # fmt: on
+):
     """
     internal: setup that is common to both Gaussian and Lorentzian calcouts
 
@@ -229,16 +242,18 @@ def _setup_peak_calcout_(calc, desc, calcout, ref_signal, center=0, width=1, sca
     # to add a noisy background will need another calc
     if not isinstance(calcout, CalcoutRecord):
         raise TypeError(
-            "expected CalcoutRecord instance,"
-            f" received {type(calcout)}")
+            f"expected CalcoutRecord instance, received {type(calcout)}"
+        )
     if not isinstance(ref_signal, Signal):
         raise TypeError(
-            "expected Signal instance,"
-            f" received {type(ref_signal)}")
+            f"expected Signal instance, received {type(ref_signal)}"
+        )
     if width <= 0:
         raise ValueError(f"width must be positive, received {width}")
     if not (0.0 <= noise <= 1.0):
-        raise ValueError(f"noise must be between 0 and 1, received {noise}")
+        raise ValueError(
+            f"noise must be between 0 and 1, received {noise}"
+        )
 
     calcout.reset()
     calcout.scanning_rate.put("Passive")
@@ -251,11 +266,15 @@ def _setup_peak_calcout_(calc, desc, calcout, ref_signal, center=0, width=1, sca
     calcout.calculation.put(calc)
     calcout.scanning_rate.put(".1 second")
 
-    calcout.read_attrs = ['input_value',]
+    calcout.read_attrs = [
+        "input_value",
+    ]
     calcout.hints = {"fields": calcout.read_attrs}
 
 
-def setup_gaussian_calcout(calcout, ref_signal, center=0, width=1, scale=1, noise=0.05):
+def setup_gaussian_calcout(
+    calcout, ref_signal, center=0, width=1, scale=1, noise=0.05
+):
     """
     setup calcout for noisy Gaussian
 
@@ -301,12 +320,13 @@ def setup_gaussian_calcout(calcout, ref_signal, center=0, width=1, scale=1, nois
         center=center,
         width=width,
         scale=scale,
-        noise=noise)
+        noise=noise,
+    )
 
 
-def setup_lorentzian_calcout(calcout, ref_signal,
-                             center=0, width=1,
-			     scale=1, noise=0.05):     # lgtm [py/similar-function]
+def setup_lorentzian_calcout(
+    calcout, ref_signal, center=0, width=1, scale=1, noise=0.05
+):  # lgtm [py/similar-function]
     """
     setup calcout record for noisy Lorentzian
 
@@ -352,7 +372,8 @@ def setup_lorentzian_calcout(calcout, ref_signal,
         center=center,
         width=width,
         scale=scale,
-        noise=noise)
+        noise=noise,
+    )
 
 
 def setup_incrementer_calcout(calcout, scan=None, limit=100000):
@@ -390,5 +411,7 @@ def setup_incrementer_calcout(calcout, scan=None, limit=100000):
     calcout.calculation.put("(A+1) % B")
     calcout.scanning_rate.put(scan)
 
-    calcout.hints = {"fields": ['input_value',]}
-    calcout.read_attrs = ['input_value',]
+    calcout.hints = {"fields": ["input_value", ]}
+    calcout.read_attrs = [
+        "input_value",
+    ]

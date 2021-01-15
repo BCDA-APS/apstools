@@ -27,7 +27,7 @@ USAGE::
 
 """
 
-#-----------------------------------------------------------------------------
+# -----------------------------------------------------------------------------
 # :author:    Pete R. Jemian
 # :email:     jemian@anl.gov
 # :copyright: (c) 2017-2020, UChicago Argonne, LLC
@@ -35,7 +35,7 @@ USAGE::
 # Distributed under the terms of the Creative Commons Attribution 4.0 International Public License.
 #
 # The full license is in the file LICENSE.txt, distributed with this software.
-#-----------------------------------------------------------------------------
+# -----------------------------------------------------------------------------
 
 
 import argparse
@@ -62,35 +62,56 @@ def get_args():
     get command line arguments
     """
     from .__init__ import __version__
+
     doc = __doc__.strip().splitlines()[0].strip()
     doc += f" version={__version__}"
 
     parser = argparse.ArgumentParser(description=doc)
 
-    parser.add_argument('EPICS_PV', action='store', nargs='+',
-                        help="EPICS PV name", default="")
+    parser.add_argument(
+        "EPICS_PV",
+        action="store",
+        nargs="+",
+        help="EPICS PV name",
+        default="",
+    )
 
     # optional arguments
     text = "YAML configuration for databroker"
     text += f", default: {BROKER_CONFIG}"
-    parser.add_argument('-b', action='store', dest='broker_config',
-                        help=text,
-                        default=BROKER_CONFIG)
+    parser.add_argument(
+        "-b",
+        action="store",
+        dest="broker_config",
+        help=text,
+        default=BROKER_CONFIG,
+    )
 
     text = """
     additional metadata, enclose in quotes,
     such as -m "purpose=just tuned, situation=routine"
     """
-    parser.add_argument('-m', '--metadata', action='store',
-                        dest='metadata_spec', help=text, default="")
+    parser.add_argument(
+        "-m",
+        "--metadata",
+        action="store",
+        dest="metadata_spec",
+        help=text,
+        default="",
+    )
 
-    parser.add_argument('-r', '--report', action='store_false',
-                        dest='report',
-                        help="suppress snapshot report",
-                        default=True)
+    parser.add_argument(
+        "-r",
+        "--report",
+        action="store_false",
+        dest="report",
+        help="suppress snapshot report",
+        default=True,
+    )
 
-    parser.add_argument('-v', '--version',
-                        action='version', version=__version__)
+    parser.add_argument(
+        "-v", "--version", action="version", version=__version__
+    )
 
     return parser.parse_args()
 
@@ -132,7 +153,7 @@ def snapshot_cli():
     md.update(parse_metadata(args))
 
     obj_dict = APS_utils.connect_pvlist(args.EPICS_PV, wait=False)
-    time.sleep(2)   # FIXME: allow time to connect
+    time.sleep(2)  # FIXME: allow time to connect
 
     db = Broker.named(args.broker_config)
     RE = RunEngine({})
@@ -145,19 +166,21 @@ def snapshot_cli():
         APS_callbacks.SnapshotReport().print_report(snap)
 
 
-class Capturing(list):      # LGTM
+class Capturing(list):  # LGTM
     """
     capture stdout output from a Python function call
 
     https://stackoverflow.com/a/16571630/1046449
     """
+
     def __enter__(self):
         self._stdout = sys.stdout
         sys.stdout = self._stringio = StringIO()
         return self
+
     def __exit__(self, *args):
         self.extend(self._stringio.getvalue().splitlines())
-        del self._stringio    # free up some memory
+        del self._stringio  # free up some memory
         sys.stdout = self._stdout
 
 
@@ -176,7 +199,7 @@ class SnapshotGui(object):
 
     """
 
-    search_criteria = dict(plan_name = "snapshot")
+    search_criteria = dict(plan_name="snapshot")
 
     def __init__(self, config=None):
         config = config or BROKER_CONFIG
@@ -184,7 +207,7 @@ class SnapshotGui(object):
         self.uids = []
 
         self._build_gui_()
-        self.tree.bind('<<TreeviewSelect>>', self.receiver)
+        self.tree.bind("<<TreeviewSelect>>", self.receiver)
         self.load_data()
         tk.mainloop()
 
@@ -214,8 +237,8 @@ class SnapshotGui(object):
         column_keys = []
         column_keys.append("iso8601")
         self.tree = ttk.Treeview(fr, columns=column_keys)
-        self.tree['xscroll'] = xsb.set
-        self.tree['yscroll'] = ysb.set
+        self.tree["xscroll"] = xsb.set
+        self.tree["yscroll"] = ysb.set
 
         self.tree.column("#0", width=90, stretch=tk.NO)
         self.tree.column("iso8601", width=70, stretch=tk.NO)
@@ -224,15 +247,12 @@ class SnapshotGui(object):
 
         xsb.configure(command=self.tree.xview)
         ysb.configure(command=self.tree.yview)
-        self.tree.configure(
-            xscrollcommand=xsb.set,
-            yscrollcommand=ysb.set)
+        self.tree.configure(xscrollcommand=xsb.set, yscrollcommand=ysb.set)
         self.tree.pack(fill=tk.Y, expand=True)
 
         self.refresh_button = ttk.Button(
-            lpane,
-            text="refresh list",
-            command=self.refresh)
+            lpane, text="refresh list", command=self.refresh
+        )
         self.refresh_button.pack(fill=tk.X)
 
         # -- right pane, content of selected snapshot
@@ -249,8 +269,8 @@ class SnapshotGui(object):
         xsb.configure(command=self.snapview.xview)
         ysb.configure(command=self.snapview.yview)
         self.snapview.configure(
-            xscrollcommand=xsb.set,
-            yscrollcommand=ysb.set)
+            xscrollcommand=xsb.set, yscrollcommand=ysb.set
+        )
         self.snapview.pack(expand=True, fill=tk.BOTH)
 
     @property
@@ -259,9 +279,10 @@ class SnapshotGui(object):
 
     def receiver(self, event):
         from . import callbacks
+
         item_index = event.widget.focus()
         if item_index in self.uids:
-            hh = self.db(plan_name = "snapshot", uid=item_index)
+            hh = self.db(plan_name="snapshot", uid=item_index)
             header = list(hh)[0]
             with Capturing() as lines:
                 callbacks.SnapshotReport().print_report(header)

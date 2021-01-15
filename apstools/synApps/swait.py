@@ -27,7 +27,7 @@ EXAMPLES::
 :see: https://htmlpreview.github.io/?https://raw.githubusercontent.com/epics-modules/calc/R3-6-1/documentation/swaitRecord.html
 """
 
-#-----------------------------------------------------------------------------
+# -----------------------------------------------------------------------------
 # :author:    Pete R. Jemian
 # :email:     jemian@anl.gov
 # :copyright: (c) 2017-2020, UChicago Argonne, LLC
@@ -35,7 +35,7 @@ EXAMPLES::
 # Distributed under the terms of the Creative Commons Attribution 4.0 International Public License.
 #
 # The full license is in the file LICENSE.txt, distributed with this software.
-#-----------------------------------------------------------------------------
+# -----------------------------------------------------------------------------
 
 
 from collections import OrderedDict
@@ -43,7 +43,8 @@ from ophyd.device import (
     Device,
     Component as Cpt,
     DynamicDeviceComponent as DDC,
-    FormattedComponent as FC)
+    FormattedComponent as FC,
+)
 from ophyd import EpicsSignal
 from ophyd.signal import EpicsSignalBase
 
@@ -58,7 +59,7 @@ __all__ = """
     setup_gaussian_swait
     setup_lorentzian_swait
     setup_incrementer_swait
-	""".split()
+""".split()
 
 CHANNEL_LETTERS_LIST = "A B C D E F G H I J K L".split()
 
@@ -66,11 +67,13 @@ CHANNEL_LETTERS_LIST = "A B C D E F G H I J K L".split()
 class SwaitRecordChannel(Device):
     """channel of a synApps swait record: A-L"""
 
-    input_value = FC(EpicsSignal, '{self.prefix}.{self._ch_letter}')
-    input_pv = FC(EpicsSignal, '{self.prefix}.IN{self._ch_letter}N')
-    input_trigger = FC(EpicsSignal, '{self.prefix}.IN{self._ch_letter}P')
-    read_attrs = ['input_value', ]
-    hints = {'fields': read_attrs}
+    input_value = FC(EpicsSignal, "{self.prefix}.{self._ch_letter}")
+    input_pv = FC(EpicsSignal, "{self.prefix}.IN{self._ch_letter}N")
+    input_trigger = FC(EpicsSignal, "{self.prefix}.IN{self._ch_letter}P")
+    read_attrs = [
+        "input_value",
+    ]
+    hints = {"fields": read_attrs}
 
     def __init__(self, prefix, letter, **kwargs):
         self._ch_letter = letter
@@ -86,7 +89,7 @@ class SwaitRecordChannel(Device):
 def _swait_channels(channel_list):
     defn = OrderedDict()
     for chan in channel_list:
-        defn[chan] = (SwaitRecordChannel, '', {'letter': chan})
+        defn[chan] = (SwaitRecordChannel, "", {"letter": chan})
     return defn
 
 
@@ -99,6 +102,7 @@ class SwaitRecord(EpicsRecordDeviceCommonAll):
         ~reset
 
     """
+
     precision = Cpt(EpicsSignal, ".PREC")
     high_operating_range = Cpt(EpicsSignal, ".HOPR")
     low_operating_range = Cpt(EpicsSignal, ".LOPR")
@@ -106,9 +110,9 @@ class SwaitRecord(EpicsRecordDeviceCommonAll):
     calculated_value = Cpt(EpicsSignal, ".VAL")
     calculation = Cpt(EpicsSignal, ".CALC")
 
-    output_link_pv = Cpt(EpicsSignal, '.OUTN')
-    output_location_name = Cpt(EpicsSignal, '.DOLN')
-    output_location_data = Cpt(EpicsSignal, '.DOLD')
+    output_link_pv = Cpt(EpicsSignal, ".OUTN")
+    output_location_name = Cpt(EpicsSignal, ".DOLN")
+    output_location_data = Cpt(EpicsSignal, ".DOLD")
     output_data_option = Cpt(EpicsSignal, ".DOPT")
 
     output_execute_option = Cpt(EpicsSignal, ".OOPT")
@@ -116,7 +120,7 @@ class SwaitRecord(EpicsRecordDeviceCommonAll):
     event_to_issue = Cpt(EpicsSignal, ".OEVT")
 
     read_attrs = APS_utils.itemizer("channels.%s", CHANNEL_LETTERS_LIST)
-    hints = {'fields': read_attrs}
+    hints = {"fields": read_attrs}
 
     channels = DDC(_swait_channels(CHANNEL_LETTERS_LIST))
 
@@ -144,9 +148,9 @@ class SwaitRecord(EpicsRecordDeviceCommonAll):
                 channel.reset()
 
         self.read_attrs = ["channels.%s" % c for c in CHANNEL_LETTERS_LIST]
-        self.hints = {'fields': self.read_attrs}
+        self.hints = {"fields": self.read_attrs}
 
-        self.read_attrs.append('calculated_value')
+        self.read_attrs.append("calculated_value")
 
 
 class UserCalcsDevice(Device):
@@ -159,19 +163,19 @@ class UserCalcsDevice(Device):
 
     """
 
-    enable = Cpt(EpicsSignal, 'userCalcEnable')
-    calc1 = Cpt(SwaitRecord, 'userCalc1')
-    calc2 = Cpt(SwaitRecord, 'userCalc2')
-    calc3 = Cpt(SwaitRecord, 'userCalc3')
-    calc4 = Cpt(SwaitRecord, 'userCalc4')
-    calc5 = Cpt(SwaitRecord, 'userCalc5')
-    calc6 = Cpt(SwaitRecord, 'userCalc6')
-    calc7 = Cpt(SwaitRecord, 'userCalc7')
-    calc8 = Cpt(SwaitRecord, 'userCalc8')
-    calc9 = Cpt(SwaitRecord, 'userCalc9')
-    calc10 = Cpt(SwaitRecord, 'userCalc10')
+    enable = Cpt(EpicsSignal, "userCalcEnable")
+    calc1 = Cpt(SwaitRecord, "userCalc1")
+    calc2 = Cpt(SwaitRecord, "userCalc2")
+    calc3 = Cpt(SwaitRecord, "userCalc3")
+    calc4 = Cpt(SwaitRecord, "userCalc4")
+    calc5 = Cpt(SwaitRecord, "userCalc5")
+    calc6 = Cpt(SwaitRecord, "userCalc6")
+    calc7 = Cpt(SwaitRecord, "userCalc7")
+    calc8 = Cpt(SwaitRecord, "userCalc8")
+    calc9 = Cpt(SwaitRecord, "userCalc9")
+    calc10 = Cpt(SwaitRecord, "userCalc10")
 
-    def reset(self):             # lgtm [py/similar-function]
+    def reset(self):  # lgtm [py/similar-function]
         """set all fields to default values"""
         self.calc1.reset()
         self.calc2.reset()
@@ -183,7 +187,7 @@ class UserCalcsDevice(Device):
         self.calc8.reset()
         self.calc9.reset()
         self.calc10.reset()
-        self.read_attrs = ["calc%d" % (c+1) for c in range(10)]
+        self.read_attrs = ["calc%d" % (c + 1) for c in range(10)]
 
 
 def setup_random_number_swait(swait, **kw):
@@ -194,11 +198,15 @@ def setup_random_number_swait(swait, **kw):
     swait.calculation.put("RNDM")
     swait.scanning_rate.put(".1 second")
 
-    swait.read_attrs = ['calculated_value',]
+    swait.read_attrs = [
+        "calculated_value",
+    ]
     swait.hints = {"fields": swait.read_attrs}
 
 
-def _setup_peak_swait_(calc, desc, swait, ref_signal, center=0, width=1, scale=1, noise=0.05):
+def _setup_peak_swait_(
+    calc, desc, swait, ref_signal, center=0, width=1, scale=1, noise=0.05
+):
     """
     internal: setup that is common to both Gaussian and Lorentzian swaits
 
@@ -236,16 +244,19 @@ def _setup_peak_swait_(calc, desc, swait, ref_signal, center=0, width=1, scale=1
     # consider a noisy background, as well (needs a couple calcs)
     if not isinstance(swait, SwaitRecord):
         raise TypeError(
-            "expected SwaitRecord instance,"
-            f" received {type(swait)}")
+            "expected SwaitRecord instance," f" received {type(swait)}"
+        )
     if not isinstance(ref_signal, EpicsSignalBase):
         raise TypeError(
             "expected EpicsSignalBase instance,"
-            f" received {type(ref_signal)}")
+            f" received {type(ref_signal)}"
+        )
     if width <= 0:
         raise ValueError(f"width must be positive, received {width}")
     if not (0.0 <= noise <= 1.0):
-        raise ValueError(f"noise must be between 0 and 1, received {noise}")
+        raise ValueError(
+            f"noise must be between 0 and 1, received {noise}"
+        )
 
     swait.reset()
     swait.scanning_rate.put("Passive")
@@ -258,11 +269,15 @@ def _setup_peak_swait_(calc, desc, swait, ref_signal, center=0, width=1, scale=1
     swait.calculation.put(calc)
     swait.scanning_rate.put("I/O Intr")
 
-    swait.read_attrs = ['calculated_value',]
+    swait.read_attrs = [
+        "calculated_value",
+    ]
     swait.hints = {"fields": swait.read_attrs}
 
 
-def setup_gaussian_swait(swait, ref_signal, center=0, width=1, scale=1, noise=0.05):
+def setup_gaussian_swait(
+    swait, ref_signal, center=0, width=1, scale=1, noise=0.05
+):
     """
     setup swait for noisy Gaussian
 
@@ -306,10 +321,13 @@ def setup_gaussian_swait(swait, ref_signal, center=0, width=1, scale=1, noise=0.
         center=center,
         width=width,
         scale=scale,
-        noise=noise)
+        noise=noise,
+    )
 
 
-def setup_lorentzian_swait(swait, ref_signal, center=0, width=1, scale=1, noise=0.05):
+def setup_lorentzian_swait(
+    swait, ref_signal, center=0, width=1, scale=1, noise=0.05
+):
     """
     setup swait record for noisy Lorentzian
 
@@ -353,7 +371,8 @@ def setup_lorentzian_swait(swait, ref_signal, center=0, width=1, scale=1, noise=
         center=center,
         width=width,
         scale=scale,
-        noise=noise)
+        noise=noise,
+    )
 
 
 def setup_incrementer_swait(swait, scan=None, limit=100000):
@@ -392,5 +411,7 @@ def setup_incrementer_swait(swait, scan=None, limit=100000):
     swait.precision.put(0)
     swait.scanning_rate.put(scan)
 
-    swait.read_attrs = ['calculated_value',]
+    swait.read_attrs = [
+        "calculated_value",
+    ]
     swait.hints = {"fields": swait.read_attrs}

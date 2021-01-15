@@ -52,7 +52,7 @@ APPLICATION
 """
 
 import datetime
-import dm               # APS data management library
+import dm  # APS data management library
 import logging
 import os
 import pyRestTable
@@ -61,7 +61,7 @@ import time
 import warnings
 import yaml
 
-#logger = logging.getLogger(__name__).addHandler(logging.NullHandler())
+# logger = logging.getLogger(__name__).addHandler(logging.NullHandler())
 logger = logging.getLogger(__name__)
 
 DM_APS_DB_WEB_SERVICE_URL = "https://xraydtn01.xray.aps.anl.gov:11236"
@@ -76,11 +76,20 @@ parser = None
 _cache_ = {}
 
 
-class EpicsNotConnected(Exception): ...
+class EpicsNotConnected(Exception):
+    ...
 
-class DmRecordNotFound(Exception): ...
-class EsafNotFound(DmRecordNotFound): ...
-class ProposalNotFound(DmRecordNotFound): ...
+
+class DmRecordNotFound(Exception):
+    ...
+
+
+class EsafNotFound(DmRecordNotFound):
+    ...
+
+
+class ProposalNotFound(DmRecordNotFound):
+    ...
 
 
 def connect_epics(prefix):
@@ -102,7 +111,8 @@ def connect_epics(prefix):
         time.sleep(POLL_INTERVAL)
     if not bss.connected:
         raise EpicsNotConnected(
-            f"Did not connect with EPICS {prefix} in {CONNECT_TIMEOUT}s")
+            f"Did not connect with EPICS {prefix} in {CONNECT_TIMEOUT}s"
+        )
     t_connect = time.time() - t0
     logger.debug("connected in %.03fs", t_connect)
     return bss
@@ -155,16 +165,21 @@ def epicsUpdate(prefix):
     proposal_id = bss.proposal.proposal_id.get().strip()
 
     if len(beamline) == 0:
-        bss.status_msg.put(f"undefined: {bss.proposal.beamline_name.pvname}")
+        bss.status_msg.put(
+            f"undefined: {bss.proposal.beamline_name.pvname}"
+        )
         raise ValueError(
-            f"must set beamline name in {bss.proposal.beamline_name.pvname}")
+            "must set beamline name in "
+            f"{bss.proposal.beamline_name.pvname}"
+        )
     elif beamline not in listAllBeamlines():
         bss.status_msg.put(f"unrecognized: {beamline}")
         raise ValueError(f"{beamline} is not recognized")
     if len(cycle) == 0:
         bss.status_msg.put(f"undefined: {bss.esaf.aps_cycle.pvname}")
         raise ValueError(
-            f"must set APS cycle name in {bss.esaf.aps_cycle.pvname}")
+            f"must set APS cycle name in {bss.esaf.aps_cycle.pvname}"
+        )
     elif cycle not in listAllRuns():
         bss.status_msg.put(f"unrecognized: {cycle}")
         raise ValueError(f"{cycle} is not recognized")
@@ -182,7 +197,9 @@ def epicsUpdate(prefix):
         bss.esaf.title.put(esaf["esafTitle"])
 
         bss.esaf.user_last_names.put(
-            ",".join([user["lastName"] for user in esaf["experimentUsers"]])
+            ",".join(
+                [user["lastName"] for user in esaf["experimentUsers"]]
+            )
         )
         bss.esaf.user_badges.put(
             ",".join([user["badge"] for user in esaf["experimentUsers"]])
@@ -194,7 +211,7 @@ def epicsUpdate(prefix):
             obj.email.put(user["email"])
             obj.first_name.put(user["firstName"])
             obj.last_name.put(user["lastName"])
-            bss.esaf.number_users_in_pvs.put(i+1)
+            bss.esaf.number_users_in_pvs.put(i + 1)
             if i == 8:
                 break
         bss.esaf.number_users_total.put(len(esaf["experimentUsers"]))
@@ -205,15 +222,21 @@ def epicsUpdate(prefix):
 
         bss.status_msg.put("set Proposal PVs ...")
         bss.proposal.end_date.put(proposal["endTime"])
-        bss.proposal.mail_in_flag.put(proposal.get("mailInFlag") in ("Y", "y"))
-        bss.proposal.proprietary_flag.put(proposal.get("proprietaryFlag") in ("Y", "y"))
+        bss.proposal.mail_in_flag.put(
+            proposal.get("mailInFlag") in ("Y", "y")
+        )
+        bss.proposal.proprietary_flag.put(
+            proposal.get("proprietaryFlag") in ("Y", "y")
+        )
         bss.proposal.raw.put(yaml.dump(proposal))
         bss.proposal.start_date.put(proposal["startTime"])
         bss.proposal.submitted_date.put(proposal["submittedDate"])
         bss.proposal.title.put(proposal["title"])
 
         bss.proposal.user_last_names.put(
-            ",".join([user["lastName"] for user in proposal["experimenters"]])
+            ",".join(
+                [user["lastName"] for user in proposal["experimenters"]]
+            )
         )
         bss.proposal.user_badges.put(
             ",".join([user["badge"] for user in proposal["experimenters"]])
@@ -229,7 +252,7 @@ def epicsUpdate(prefix):
             obj.institution_id.put(str(user["instId"]))
             obj.user_id.put(str(user["id"]))
             obj.pi_flag.put(user.get("piFlag") in ("Y", "y"))
-            bss.proposal.number_users_in_pvs.put(i+1)
+            bss.proposal.number_users_in_pvs.put(i + 1)
             if i == 8:
                 break
         bss.proposal.number_users_total.put(len(proposal["experimenters"]))
@@ -266,7 +289,11 @@ def epicsSetup(prefix, beamline, cycle=None):
     sector = int(beamline.split("-")[0])
     logger.debug(
         "setup EPICS %s %s cycle=%s sector=%s",
-        prefix, beamline, cycle, sector)
+        prefix,
+        beamline,
+        cycle,
+        sector,
+    )
 
     bss.status_msg.put("clear PVs ...")
     bss.clear()
@@ -312,12 +339,15 @@ def getCurrentInfo(beamline):
 
     matches = []
     for esaf in api_esaf.listEsafs(sector=sector, year=tNow.year):
-        logger.debug("ESAF %s: %s", esaf['esafId'], esaf['esafTitle'])
+        logger.debug("ESAF %s: %s", esaf["esafId"], esaf["esafTitle"])
         esaf_badges = [user["badge"] for user in esaf["experimentUsers"]]
         for run in listRecentRuns():
-            for proposal in api_bss.listProposals(beamlineName=beamline,
-                                                  runName=run):
-                logger.debug("proposal %s: %s", proposal['id'], proposal['title'])
+            for proposal in api_bss.listProposals(
+                beamlineName=beamline, runName=run
+            ):
+                logger.debug(
+                    "proposal %s: %s", proposal["id"], proposal["title"]
+                )
                 count = 0
                 for user in proposal["experimenters"]:
                     if user["badge"] in esaf_badges:
@@ -329,7 +359,9 @@ def getCurrentInfo(beamline):
                             proposal=proposal,
                             num_true=count,
                             num_esaf_badges=len(esaf_badges),
-                            num_proposal_badges=len(proposal["experimenters"]),
+                            num_proposal_badges=len(
+                                proposal["experimenters"]
+                            ),
                         )
                     )
     return matches
@@ -391,11 +423,13 @@ def getProposal(proposalId, cycle, beamline):
     try:
         record = api_bss.getProposal(str(proposalId), cycle, beamline)
     except dm.ObjectNotFound:
+        # fmt: off
         raise ProposalNotFound(
             f"id={proposalId}"
             f" cycle={cycle}"
             f" beamline={beamline}"
-            )
+        )
+        # fmt: on
     return dict(record.data)
 
 
@@ -420,10 +454,7 @@ def listESAFs(cycles, sector):
     if len(sector) == 1:
         sector = "0" + sector
 
-    runs = {
-        r["name"]: r
-        for r in api_bss.listRuns()
-    }
+    runs = {r["name"]: r for r in api_bss.listRuns()}
 
     results = []
 
@@ -460,8 +491,8 @@ def listProposals(cycles, beamline):
     proposals = []
     for cycle in cycles:
         for prop in api_bss.listProposals(
-                beamlineName=beamline,
-                runName=cycle):
+            beamlineName=beamline, runName=cycle
+        ):
             prop = dict(prop)
             prop["cycle"] = cycle
             proposals.append(prop)
@@ -480,18 +511,16 @@ def iso2datetime(isodate):
         Fractional seconds are optional.
     """
     isoformat = "%Y-%m-%d %H:%M:%S"
-    if isodate.find(".") > 0:   # fractional seconds, too?
+    if isodate.find(".") > 0:  # fractional seconds, too?
         isoformat += ".%f"
     return datetime.datetime.strptime(isodate, isoformat)
-    #return datetime.datetime.fromisoformat("2020-07-01 12:34:56.789012")
 
 
 def listAllBeamlines():
     """Return list (from ``dm``) of known beam line names."""
     if "beamlines" not in _cache_:
         _cache_["beamlines"] = [
-            entry["name"]
-            for entry in api_bss.listBeamlines()
+            entry["name"] for entry in api_bss.listBeamlines()
         ]
     return _cache_["beamlines"]
 
@@ -499,10 +528,9 @@ def listAllBeamlines():
 def listAllRuns():
     """Return a list of all known cycles.  Cache for repeated use."""
     if "cycles" not in _cache_:
-        _cache_["cycles"] = sorted([
-            entry["name"]
-            for entry in api_bss.listRuns()
-        ])
+        _cache_["cycles"] = sorted(
+            [entry["name"] for entry in api_bss.listRuns()]
+        )
     return _cache_["cycles"]
 
 
@@ -548,9 +576,10 @@ def printColumns(items, numColumns=5, width=10):
         rows += 1
     for base in range(0, rows):
         row = [
-            items[base+k*rows]
+            items[base + k * rows]
             for k in range(numColumns)
-            if base+k*rows < n]
+            if base + k * rows < n
+        ]
         print("".join([f"{s:{width}s}" for s in row]))
 
 
@@ -567,6 +596,7 @@ def printEsafTable(records, title=""):
         *str* :
         Text to print before the table.
     """
+
     def esaf_sorter(prop):
         return prop["experimentStartDate"]
 
@@ -574,19 +604,21 @@ def printEsafTable(records, title=""):
     table.labels = "id status start end user(s) title".split()
     for item in sorted(records, key=esaf_sorter, reverse=True):
         users = trim(
-                ",".join([
-                user["lastName"]
-                for user in item["experimentUsers"]
-            ]),
-            20)
-        table.addRow((
-            item["esafId"],
-            item["esafStatus"],
-            item["experimentStartDate"].split()[0],
-            item["experimentEndDate"].split()[0],
-            users,
-            trim(item["esafTitle"], 40),
-            ))
+            ",".join(
+                [user["lastName"] for user in item["experimentUsers"]]
+            ),
+            20,
+        )
+        table.addRow(
+            (
+                item["esafId"],
+                item["esafStatus"],
+                item["experimentStartDate"].split()[0],
+                item["experimentEndDate"].split()[0],
+                users,
+                trim(item["esafTitle"], 40),
+            )
+        )
     print(f"{title}\n\n{table}")
 
 
@@ -603,24 +635,28 @@ def printProposalTable(records, title=""):
         *str* :
         Text to print before the table.
     """
+
     def prop_sorter(prop):
         return prop["startTime"]
 
     table = pyRestTable.Table()
     table.labels = "id cycle start end user(s) title".split()
     for item in sorted(records, key=prop_sorter, reverse=True):
-        users = trim(",".join([
-            user["lastName"]
-            for user in item["experimenters"]
-        ]), 20)
+        users = trim(
+            ",".join([user["lastName"] for user in item["experimenters"]]),
+            20,
+        )
         # logger.debug("%s %s %s", item["startTime"], tNow, item["endTime"])
-        table.addRow((
-            item["id"],
-            item["cycle"],
-            item["startTime"],
-            item["endTime"],
-            users,
-            trim(item["title"]),))
+        table.addRow(
+            (
+                item["id"],
+                item["cycle"],
+                item["startTime"],
+                item["endTime"],
+                users,
+                trim(item["title"]),
+            )
+        )
     print(f"{title}\n\n{table}")
 
 
@@ -647,7 +683,7 @@ def trim(text, length=40):
     if length < 5:
         text = text[:length]
     elif len(text) > length:
-        text = text[:length-3] + "..."
+        text = text[: length - 3] + "..."
     return text
 
 
@@ -657,47 +693,56 @@ def get_options():
     import argparse
     from apstools._version import get_versions
 
-    version = get_versions()['version']
+    version = get_versions()["version"]
 
     parser = argparse.ArgumentParser(
         prog=os.path.split(sys.argv[0])[-1],
         description=__doc__.strip().splitlines()[0],
-        )
+    )
 
-    parser.add_argument('-v',
-                        '--version',
-                        action='version',
-                        help='print version number and exit',
-                        version=version)
+    parser.add_argument(
+        "-v",
+        "--version",
+        action="version",
+        help="print version number and exit",
+        version=version,
+    )
 
-    subcommand = parser.add_subparsers(dest='subcommand', title='subcommand')
+    subcommand = parser.add_subparsers(
+        dest="subcommand", title="subcommand"
+    )
 
-    subcommand.add_parser('beamlines', help="print list of beamlines")
+    subcommand.add_parser("beamlines", help="print list of beamlines")
 
     msg = (
         "print current ESAF(s) and proposal(s)"
         ",  DEPRECATED: use 'list' instead"
     )
-    p_sub = subcommand.add_parser('current', help=msg)
-    p_sub.add_argument(
-        'beamlineName',
-        type=str,
-        help="Beamline name")
+    p_sub = subcommand.add_parser("current", help=msg)
+    p_sub.add_argument("beamlineName", type=str, help="Beamline name")
 
-    p_sub = subcommand.add_parser('cycles', help="print APS run cycle names")
+    p_sub = subcommand.add_parser(
+        "cycles", help="print APS run cycle names"
+    )
     p_sub.add_argument(
-        '-f', '--full', action="store_true",
+        "-f",
+        "--full",
+        action="store_true",
         default=False,
-        help="full report including dates (default is compact)")
+        help="full report including dates (default is compact)",
+    )
     p_sub.add_argument(
-        '-a', '--ascending', action="store_false",
+        "-a",
+        "--ascending",
+        action="store_false",
         default=True,
-        help="full report by ascending names (default is descending)")
+        help="full report by ascending names (default is descending)",
+    )
 
-    p_sub = subcommand.add_parser('esaf', help="print specific ESAF")
-    p_sub.add_argument('esafId', type=int, help="ESAF ID number")
+    p_sub = subcommand.add_parser("esaf", help="print specific ESAF")
+    p_sub.add_argument("esafId", type=int, help="ESAF ID number")
 
-    p_sub = subcommand.add_parser('list', help="list by cycle")
+    p_sub = subcommand.add_parser("list", help="list by cycle")
     msg = (
         "APS run (cycle) name."
         "  One of the names returned by ``apsbss cycles``"
@@ -707,33 +752,39 @@ def get_options():
         " for the next cycle or ``recent`` for the past two years."
     )
     p_sub.add_argument(
-        '-c', '--cycle',
+        "-c",
+        "--cycle",
         type=str,
         default="now",
         # TODO: nargs="?",
-        help=msg)
-    p_sub.add_argument('beamlineName', type=str, help="Beamline name")
-
-    p_sub = subcommand.add_parser('proposal', help="print specific proposal")
-    p_sub.add_argument('proposalId', type=str, help="proposal ID number")
-    p_sub.add_argument('cycle', type=str, help="APS run (cycle) name")
-    p_sub.add_argument('beamlineName', type=str, help="Beamline name")
-
-    p_sub = subcommand.add_parser('clear', help="EPICS PVs: clear")
-    p_sub.add_argument('prefix', type=str, help="EPICS PV prefix")
-
-    p_sub = subcommand.add_parser('setup', help="EPICS PVs: setup")
-    p_sub.add_argument('prefix', type=str, help="EPICS PV prefix")
-    p_sub.add_argument('beamlineName', type=str, help="Beamline name")
-    p_sub.add_argument('cycle', type=str, help="APS run (cycle) name")
-
-    p_sub = subcommand.add_parser('update', help="EPICS PVs: update from BSS")
-    p_sub.add_argument('prefix', type=str, help="EPICS PV prefix")
+        help=msg,
+    )
+    p_sub.add_argument("beamlineName", type=str, help="Beamline name")
 
     p_sub = subcommand.add_parser(
-        'report',
-        help="EPICS PVs: report what is in the PVs")
-    p_sub.add_argument('prefix', type=str, help="EPICS PV prefix")
+        "proposal", help="print specific proposal"
+    )
+    p_sub.add_argument("proposalId", type=str, help="proposal ID number")
+    p_sub.add_argument("cycle", type=str, help="APS run (cycle) name")
+    p_sub.add_argument("beamlineName", type=str, help="Beamline name")
+
+    p_sub = subcommand.add_parser("clear", help="EPICS PVs: clear")
+    p_sub.add_argument("prefix", type=str, help="EPICS PV prefix")
+
+    p_sub = subcommand.add_parser("setup", help="EPICS PVs: setup")
+    p_sub.add_argument("prefix", type=str, help="EPICS PV prefix")
+    p_sub.add_argument("beamlineName", type=str, help="Beamline name")
+    p_sub.add_argument("cycle", type=str, help="APS run (cycle) name")
+
+    p_sub = subcommand.add_parser(
+        "update", help="EPICS PVs: update from BSS"
+    )
+    p_sub.add_argument("prefix", type=str, help="EPICS PV prefix")
+
+    p_sub = subcommand.add_parser(
+        "report", help="EPICS PVs: report what is in the PVs"
+    )
+    p_sub.add_argument("prefix", type=str, help="EPICS PV prefix")
 
     return parser.parse_args()
 
@@ -755,13 +806,12 @@ def cmd_cycles(args):
         def sorter(entry):
             return entry["startTime"]
 
-        for entry in sorted(api_bss.listRuns(),
-                            key=sorter,
-                            reverse=args.ascending):
-            table.addRow((
-                entry["name"],
-                entry["startTime"],
-                entry["endTime"], ))
+        for entry in sorted(
+            api_bss.listRuns(), key=sorter, reverse=args.ascending
+        ):
+            table.addRow(
+                (entry["name"], entry["startTime"], entry["endTime"],)
+            )
         print(str(table))
     else:
         printColumns(listAllRuns())
@@ -786,8 +836,7 @@ def cmd_current(args):
         print(f"No current proposals for {args.beamlineName}")
     else:
         printProposalTable(
-            records,
-            f"Current Proposal(s): {args.beamlineName} at {tNow}"
+            records, f"Current Proposal(s): {args.beamlineName} at {tNow}"
         )
 
     sector = args.beamlineName.split("-")[0]
@@ -796,8 +845,7 @@ def cmd_current(args):
         print(f"No current ESAFs for sector {sector}")
     else:
         printEsafTable(
-            records,
-            f"Current ESAF(s): sector {sector} at {tNow}"
+            records, f"Current ESAF(s): sector {sector} at {tNow}"
         )
 
 
@@ -857,16 +905,13 @@ def cmd_list(args):
         cycle = listRecentRuns()
 
     if not isinstance(cycle, (list, tuple)):
-        cycle = [cycle,]
-    trouble = [
-        c
-        for c in cycle
-        if c not in listAllRuns()
-    ]
+        cycle = [
+            cycle,
+        ]
+    trouble = [c for c in cycle if c not in listAllRuns()]
     if trouble:
         raise KeyError(
-            "Could not find APS run cycle(s):"
-            f" {', '.join(trouble)}"
+            f"Could not find APS run cycle(s): {', '.join(trouble)}"
         )
 
     logger.debug("cycle(s): %s", cycle)
@@ -875,13 +920,11 @@ def cmd_list(args):
         listProposals(cycle, args.beamlineName),
         "Proposal(s): "
         f" beam line {args.beamlineName}"
-        f",  cycle(s) {args.cycle}"
+        f",  cycle(s) {args.cycle}",
     )
     printEsafTable(
         listESAFs(cycle, sector),
-        "ESAF(s): "
-        f" sector {sector}"
-        f",  cycle(s) {args.cycle}"
+        f"ESAF(s):  sector {sector},  cycle(s) {args.cycle}",
     )
 
 
@@ -896,12 +939,14 @@ def cmd_proposal(args):
         Object returned by ``argparse``
     """
     try:
-        proposal = getProposal(args.proposalId, args.cycle, args.beamlineName)
+        proposal = getProposal(
+            args.proposalId, args.cycle, args.beamlineName
+        )
         print(yaml.dump(proposal))
     except DmRecordNotFound as exc:
         print(exc)
     except dm.DmException as exc:
-        print("dm reported: {exc}")
+        print(f"dm reported: {exc}")
 
 
 def cmd_report(args):

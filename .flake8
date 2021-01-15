@@ -9,4 +9,4 @@ exclude =
     apstools/_version.py,
     ideas
 max-line-length = 115
-ignore: E226,E402,E741,W503,W504
+ignore: E226,E402,E741,F401,F403,W503,W504

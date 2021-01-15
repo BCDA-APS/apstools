@@ -9,7 +9,7 @@ demonstrate Bluesky callbacks
 
 """
 
-#-----------------------------------------------------------------------------
+# -----------------------------------------------------------------------------
 # :author:    Pete R. Jemian
 # :email:     jemian@anl.gov
 # :copyright: (c) 2017-2020, UChicago Argonne, LLC
@@ -17,7 +17,7 @@ demonstrate Bluesky callbacks
 # Distributed under the terms of the Creative Commons Attribution 4.0 International Public License.
 #
 # The full license is in the file LICENSE.txt, distributed with this software.
-#-----------------------------------------------------------------------------
+# -----------------------------------------------------------------------------
 
 
 import databroker
@@ -41,8 +41,8 @@ def specfile_example(headers, filename=DEMO_SPEC_FILE):
         lines = specwriter.prepare_scan_contents()
         if lines is not None:
             logger.info("\n".join(lines))
-        logger.info("#"*60)
-    logger.info("Look at SPEC data file: "+specwriter.spec_filename)
+        logger.info("#" * 60)
+    logger.info("Look at SPEC data file: " + specwriter.spec_filename)
 
 
 if __name__ == "__main__":

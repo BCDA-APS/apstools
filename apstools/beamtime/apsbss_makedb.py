@@ -10,7 +10,7 @@ This is just a service program to make the ``.db`` file.
     ~main
 """
 
-#name	RTYP	length
+# name	RTYP	length
 
 raw_data = """
 status	stringout
@@ -178,12 +178,12 @@ def main():
         fields = []
         if rtyp == "waveform" and len(parts) == 3:
             fields.append('field(FTVL, "CHAR")')
-            fields.append(f'field(NELM, {parts[2]})')
+            fields.append(f"field(NELM, {parts[2]})")
             # fields.append('field(VAL, 0)')
         elif rtyp == "bo":
             fields.append('field(ZNAM, "OFF")')
             fields.append('field(ONAM, "ON")')
-            fields.append('field(VAL, 0)')
+            fields.append("field(VAL, 0)")
         record = head
         if len(fields) > 0:
             field_specs = "\n".join([f"    {field}" for field in fields])

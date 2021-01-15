@@ -23,7 +23,9 @@ Public Structures
 from ophyd import Component, Device, EpicsSignalRO, Signal
 
 
-__all__ = ["IocStatsDevice", ]
+__all__ = [
+    "IocStatsDevice",
+]
 
 
 class IocStatsDevice(Device):

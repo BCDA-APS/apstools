@@ -11,7 +11,7 @@ Public Structures
 :see: https://epics.anl.gov/bcda/synApps/std/epidRecord.html
 """
 
-#-----------------------------------------------------------------------------
+# -----------------------------------------------------------------------------
 # :author:    Pete R. Jemian
 # :email:     jemian@anl.gov
 # :copyright: (c) 2017-2020, UChicago Argonne, LLC
@@ -19,7 +19,7 @@ Public Structures
 # Distributed under the terms of the Creative Commons Attribution 4.0 International Public License.
 #
 # The full license is in the file LICENSE.txt, distributed with this software.
-#-----------------------------------------------------------------------------
+# -----------------------------------------------------------------------------
 
 from ophyd.device import Component
 from ophyd import EpicsSignal, EpicsSignalRO
@@ -27,7 +27,9 @@ from ._common import EpicsRecordDeviceCommonAll
 from ._common import EpicsRecordFloatFields
 
 
-__all__ = ["EpidRecord", ]
+__all__ = [
+    "EpidRecord",
+]
 
 
 class EpidRecord(EpicsRecordFloatFields, EpicsRecordDeviceCommonAll):
@@ -36,6 +38,7 @@ class EpidRecord(EpicsRecordFloatFields, EpicsRecordDeviceCommonAll):
 
     :see: https://epics.anl.gov/bcda/synApps/std/epidRecord.html
     """
+
     controlled_value_link = Component(EpicsSignal, ".INP")
     controlled_value = Component(EpicsSignalRO, ".CVAL")
 
