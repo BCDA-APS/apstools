@@ -937,8 +937,8 @@ class TrackingSignal(Signal):
         """
         Check if the value is a boolean.
 
-        Raises
-        ------
+        RAISES
+
         ValueError
         """
         if not isinstance(value, bool):
@@ -1548,8 +1548,8 @@ class KohzuSeqCtl_Monochromator(Device):
     def calibrate_energy(self, value):
         """Calibrate the mono energy.
 
-        Parameters
-        ----------
+        PARAMETERS
+
         value: float
             New energy for the current monochromator position.
         """
