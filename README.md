@@ -21,7 +21,7 @@ item              | description
 ------------------|--------------------------------
 **author**        | Pete R. Jemian
 **email**         | jemian@anl.gov
-**copyright**     | 2017-2020, UChicago Argonne, LLC
+**copyright**     | 2017-2021, UChicago Argonne, LLC
 [**license**](LICENSE.txt) | ANL OPEN SOURCE LICENSE
 [**documentation**](https://apstools.readthedocs.io) | https://apstools.readthedocs.io
 **source**        | https://github.com/BCDA-APS/apstools

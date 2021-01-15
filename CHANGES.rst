@@ -195,7 +195,7 @@ Change History
     * `#341 <https://github.com/BCDA-APS/apstools/issues/341>`_
        tools to summarize activity
     * `#340 <https://github.com/BCDA-APS/apstools/issues/340>`_
-       update copyright year to 2020
+       update copyright year
     * `#339 <https://github.com/BCDA-APS/apstools/issues/339>`_
        resolve Codacy code review issues
     * `#338 <https://github.com/BCDA-APS/apstools/issues/338>`_
