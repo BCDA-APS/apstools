@@ -177,9 +177,9 @@ class Test_Cases(unittest.TestCase):
         tbl = sim4c.forwardSolutionsTable(
             # fmt: off
             [
-                [1,1,0],
-                [1,1,1],
-                [100,1,1],  # no solutions
+                [1, 1, 0],
+                [1, 1, 1],
+                [100, 1, 1],  # no solutions
             ]
             # fmt: on
         )

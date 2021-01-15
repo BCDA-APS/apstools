@@ -180,7 +180,8 @@ class Test_NXWriter(MyTestBase):
             self.assertNotEqual(axes[0], signal)
 
     def test_make_file_name(self):
-        import datetime, dateutil.tz
+        import datetime
+        import dateutil.tz
 
         callback = apstools.filewriters.NXWriter()
 

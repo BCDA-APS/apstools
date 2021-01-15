@@ -1290,7 +1290,7 @@ class ExcelDatabaseFileGeneric(ExcelDatabaseFileBase):
     table.
 
     .. [#] https://github.com/BCDA-APS/apstools/issues/122
-    .. [#] Excel's ``Format as Table``: 
+    .. [#] Excel's ``Format as Table``:
         https://support.office.com/en-us/article/Format-an-Excel-table-6789619F-C889-495C-99C2-2F971C0E2370
 
     PARAMETERS
