@@ -6,7 +6,7 @@ Change History
 
 :1.4.1:  release expected by 2021-03-31
 
-:1.4.0:  release expected by 2021-01-31
+:1.4.0:  released: 2021-01-15
 
     * `#483 <https://github.com/BCDA-APS/apstools/pull/483>`_
        Python code style must pass ``flake8`` test.
