@@ -17,7 +17,7 @@ Public Structures
 
 """
 
-#-----------------------------------------------------------------------------
+# -----------------------------------------------------------------------------
 # :author:    Pete R. Jemian
 # :email:     jemian@anl.gov
 # :copyright: (c) 2017-2020, UChicago Argonne, LLC
@@ -25,12 +25,14 @@ Public Structures
 # Distributed under the terms of the Creative Commons Attribution 4.0 International Public License.
 #
 # The full license is in the file LICENSE.txt, distributed with this software.
-#-----------------------------------------------------------------------------
+# -----------------------------------------------------------------------------
 
 
 from ophyd import Device, Component, EpicsSignal, EpicsSignalRO
 
-__all__ = ["SaveData", ]
+__all__ = [
+    "SaveData",
+]
 
 
 class SaveData(Device):

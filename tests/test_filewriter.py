@@ -1,4 +1,3 @@
-
 """
 unit tests for the filewriters
 """
@@ -14,7 +13,7 @@ import unittest
 import zipfile
 
 _test_path = os.path.dirname(__file__)
-_path = os.path.join(_test_path, '..')
+_path = os.path.join(_test_path, "..")
 if _path not in sys.path:
     sys.path.insert(0, _path)
 
@@ -49,7 +48,6 @@ def get_test_data():
 
 
 class MyTestBase(unittest.TestCase):
-
     def setUp(self):
         self.tempdir = tempfile.mkdtemp()
         self.db = get_test_data()
@@ -68,11 +66,10 @@ class MyTestBase(unittest.TestCase):
 
 
 class Test_Data_is_Readable(unittest.TestCase):
-
     def test_00_testdata_exist(self):
         self.assertTrue(
-            os.path.exists(ZIP_FILE),
-            "zip file with test data")
+            os.path.exists(ZIP_FILE), "zip file with test data"
+        )
         with zipfile.ZipFile(ZIP_FILE, "r") as fp:
             self.assertIn(JSON_FILE, fp.namelist(), "JSON test data")
 
@@ -90,19 +87,16 @@ class Test_Data_is_Readable(unittest.TestCase):
         # test that tune_mr content arrived intact
         keys = dict(start=1, descriptor=2, event=33, stop=1)
         self.assertEqual(
-            len(census.keys()),
-            len(keys),
-            "four document types")
+            len(census.keys()), len(keys), "four document types"
+        )
         for k, v in keys.items():
             self.assertIn(k, census, f"{k} document exists")
             self.assertEqual(
-                census[k],
-                v,
-                f"expected {v} '{k}' document(s)")
+                census[k], v, f"expected {v} '{k}' document(s)"
+            )
 
 
 class Test_FileWriterCallbackBase(MyTestBase):
-
     def test_receiver_battery(self):
         callback = apstools.filewriters.FileWriterCallbackBase()
         for plan_name, document_set in self.db.items():
@@ -120,7 +114,9 @@ class Test_FileWriterCallbackBase(MyTestBase):
                     # callback.writer called after stop document
                     self.assertGreater(len(str(printed)), 0)
                     self.assertEqual(printed[0], "print to console")
-                    self.assertTrue(printed[1].startswith("suggested file name: "))
+                    self.assertTrue(
+                        printed[1].startswith("suggested file name: ")
+                    )
 
             self.assertEqual(callback.plan_name, plan_name)
             self.assertFalse(callback.scanning)
@@ -130,12 +126,13 @@ class Test_FileWriterCallbackBase(MyTestBase):
             self.assertIsNotNone(callback.stop_time)
             self.assertIsNotNone(callback.stop_reason)
             self.assertGreater(callback.stop_time, callback.start_time)
-            self.assertEqual(len(callback.acquisitions), len(callback.streams))
+            self.assertEqual(
+                len(callback.acquisitions), len(callback.streams)
+            )
             self.assertGreater(callback.scan_id, 0)
 
 
 class Test_NXWriterAPS(MyTestBase):
-
     def test_receiver_battery(self):
         callback = apstools.filewriters.NXWriterAPS()
         callback.file_path = self.tempdir
@@ -148,26 +145,19 @@ class Test_NXWriterAPS(MyTestBase):
             self.assertIn("/entry/instrument/source", nxroot)
             nxsource = nxroot["/entry/instrument/source"]
             self.assertEqual(
-                to_string(nxsource["name"][()]),
-                "Advanced Photon Source")
+                to_string(nxsource["name"][()]), "Advanced Photon Source"
+            )
+            self.assertEqual(nxsource["name"].attrs["short_name"], "APS")
             self.assertEqual(
-                nxsource["name"].attrs["short_name"],
-                "APS")
-            self.assertEqual(
-                to_string(nxsource["type"][()]),
-                "Synchrotron X-ray Source")
-            self.assertEqual(
-                to_string(nxsource["probe"][()]),
-                "x-ray")
+                to_string(nxsource["type"][()]), "Synchrotron X-ray Source"
+            )
+            self.assertEqual(to_string(nxsource["probe"][()]), "x-ray")
             self.assertEqual(nxsource["energy"][()], 6)
-            self.assertEqual(
-                nxsource["energy"].attrs["units"],
-                "GeV")
+            self.assertEqual(nxsource["energy"].attrs["units"], "GeV")
             self.assertIn("/entry/instrument/undulator", nxroot)
 
 
 class Test_NXWriter(MyTestBase):
-
     def test_default_plot(self):
         callback = apstools.filewriters.NXWriter()
         callback.file_path = self.tempdir
@@ -190,7 +180,9 @@ class Test_NXWriter(MyTestBase):
             self.assertNotEqual(axes[0], signal)
 
     def test_make_file_name(self):
-        import datetime, dateutil.tz
+        import datetime
+        import dateutil.tz
+
         callback = apstools.filewriters.NXWriter()
 
         self.assertIsNone(callback.file_path)
@@ -201,16 +193,16 @@ class Test_NXWriter(MyTestBase):
         with self.assertRaises(TypeError) as context:
             callback.make_file_name()
         self.assertEqual(
-            'an integer is required (got type NoneType)',
-            str(context.exception)
+            "an integer is required (got type NoneType)",
+            str(context.exception),
         )
-        callback.start_time = 1000      # 1969-12-31T18:16:40
+        callback.start_time = 1000  # 1969-12-31T18:16:40
 
         with self.assertRaises(TypeError) as context:
             callback.make_file_name()
         self.assertEqual(
-            'unsupported format string passed to NoneType.__format__',
-            str(context.exception)
+            "unsupported format string passed to NoneType.__format__",
+            str(context.exception),
         )
         callback.scan_id = 9876
 
@@ -218,7 +210,7 @@ class Test_NXWriter(MyTestBase):
             callback.make_file_name()
         self.assertEqual(
             "'NoneType' object is not subscriptable",
-            str(context.exception)
+            str(context.exception),
         )
         callback.uid = "012345678901234567890123456789"
 
@@ -245,11 +237,12 @@ class Test_NXWriter(MyTestBase):
     def test_receiver_battery(self):
         callback = apstools.filewriters.NXWriter()
         self.assertEqual(
-            callback.nexus_release,
-            apstools.filewriters.NEXUS_RELEASE)
+            callback.nexus_release, apstools.filewriters.NEXUS_RELEASE
+        )
         self.assertEqual(
             callback.file_extension,
-            apstools.filewriters.NEXUS_FILE_EXTENSION)
+            apstools.filewriters.NEXUS_FILE_EXTENSION,
+        )
 
         for plan_name in self.db:
             callback.clear()
@@ -265,60 +258,60 @@ class Test_NXWriter(MyTestBase):
                 self.assertEqual(
                     nxroot.attrs["NeXus_version"],
                     apstools.filewriters.NEXUS_RELEASE,
-                    plan_name)
+                    plan_name,
+                )
                 self.assertEqual(
                     nxroot.attrs["creator"],
                     callback.__class__.__name__,
-                    plan_name)
+                    plan_name,
+                )
 
                 self.assertIn("/entry", nxroot)
                 nxentry = nxroot["/entry"]
                 self.assertEqual(
                     to_string(nxentry["entry_identifier"][()]),
-                    to_string(callback.uid))
+                    to_string(callback.uid),
+                )
                 self.assertEqual(
                     to_string(nxentry["plan_name"][()]),
-                    to_string(callback.plan_name))
+                    to_string(callback.plan_name),
+                )
 
                 self.assertIn("instrument/bluesky", nxentry)
                 bluesky_group = nxentry["instrument/bluesky"]
                 self.assertIn("metadata", bluesky_group)
                 self.assertIn("streams", bluesky_group)
                 self.assertEqual(
-                    len(bluesky_group["streams"]),
-                    len(callback.streams))
+                    len(bluesky_group["streams"]), len(callback.streams)
+                )
 
                 self.assertNotIn("/entry/instrument/undulator", nxroot)
 
 
 class Test_SpecWriterCallback(MyTestBase):
-
     def test_writer_default_name(self):
         specwriter = apstools.filewriters.SpecWriterCallback()
-        path = os.path.abspath(
-            os.path.dirname(
-                specwriter.spec_filename))
+        path = os.path.abspath(os.path.dirname(specwriter.spec_filename))
         self.assertNotEqual(
-            path,
-            self.tempdir,
-            "default file not in tempdir")
+            path, self.tempdir, "default file not in tempdir"
+        )
         self.assertEqual(
-            path,
-            os.path.abspath(os.getcwd()),
-            "default file to go in pwd")
+            path, os.path.abspath(os.getcwd()), "default file to go in pwd"
+        )
 
         # change the directory
         specwriter.spec_filename = os.path.join(
-            self.tempdir,
-            specwriter.spec_filename)
+            self.tempdir, specwriter.spec_filename
+        )
 
         self.assertFalse(
             os.path.exists(specwriter.spec_filename),
-            "data file not created yet")
+            "data file not created yet",
+        )
         write_stream(specwriter, self.db["tune_mr"])
         self.assertTrue(
-            os.path.exists(specwriter.spec_filename),
-            "data file created")
+            os.path.exists(specwriter.spec_filename), "data file created"
+        )
 
         sdf = spec2nexus.spec.SpecDataFile(specwriter.spec_filename)
         self.assertEqual(len(sdf.headers), 1)
@@ -349,19 +342,22 @@ class Test_SpecWriterCallback(MyTestBase):
         testfile = os.path.join(self.tempdir, "tune_mr.dat")
         if os.path.exists(testfile):
             os.remove(testfile)
-        specwriter = apstools.filewriters.SpecWriterCallback(filename=testfile)
+        specwriter = apstools.filewriters.SpecWriterCallback(
+            filename=testfile
+        )
 
         self.assertIsInstance(
-            specwriter, apstools.filewriters.SpecWriterCallback,
-            "specwriter object")
+            specwriter,
+            apstools.filewriters.SpecWriterCallback,
+            "specwriter object",
+        )
         self.assertEqual(
-            specwriter.spec_filename,
-            testfile,
-            "output data file")
+            specwriter.spec_filename, testfile, "output data file"
+        )
 
         self.assertFalse(
-            os.path.exists(testfile),
-            "data file not created yet")
+            os.path.exists(testfile), "data file not created yet"
+        )
         write_stream(specwriter, self.db["tune_mr"])
         self.assertTrue(os.path.exists(testfile), "data file created")
 
@@ -369,9 +365,12 @@ class Test_SpecWriterCallback(MyTestBase):
         testfile = os.path.join(self.tempdir, "tune_mr.dat")
         if os.path.exists(testfile):
             os.remove(testfile)
-        specwriter = apstools.filewriters.SpecWriterCallback(filename=testfile)
+        specwriter = apstools.filewriters.SpecWriterCallback(
+            filename=testfile
+        )
 
         from apstools.filewriters import SCAN_ID_RESET_VALUE
+
         self.assertEqual(SCAN_ID_RESET_VALUE, 0, "default reset scan id")
 
         write_stream(specwriter, self.db["tune_mr"])
@@ -389,32 +388,43 @@ class Test_SpecWriterCallback(MyTestBase):
         class my_RunEngine:
             # dick type for testing _here_
             md = dict(scan_id=SCAN_ID_RESET_VALUE)
+
         RE = my_RunEngine()
 
         specwriter.scan_id = -5  # an unusual value for testing only
-        RE.md["scan_id"] = -10   # an unusual value for testing only
+        RE.md["scan_id"] = -10  # an unusual value for testing only
         specwriter.newfile(filename=testfile, scan_id=None, RE=RE)
         self.assertEqual(specwriter.scan_id, 108, "scan_id unchanged")
-        self.assertEqual(RE.md["scan_id"], 108, "RE.md['scan_id'] unchanged")
+        self.assertEqual(
+            RE.md["scan_id"], 108, "RE.md['scan_id'] unchanged"
+        )
 
         specwriter.scan_id = -5  # an unusual value for testing only
-        RE.md["scan_id"] = -10   # an unusual value for testing only
+        RE.md["scan_id"] = -10  # an unusual value for testing only
         specwriter.newfile(filename=testfile, scan_id=False, RE=RE)
         self.assertEqual(specwriter.scan_id, 108, "scan_id unchanged")
-        self.assertEqual(RE.md["scan_id"], 108, "RE.md['scan_id'] unchanged")
+        self.assertEqual(
+            RE.md["scan_id"], 108, "RE.md['scan_id'] unchanged"
+        )
 
         specwriter.scan_id = -5  # an unusual value for testing only
-        RE.md["scan_id"] = -10   # an unusual value for testing only
+        RE.md["scan_id"] = -10  # an unusual value for testing only
         specwriter.newfile(filename=testfile, scan_id=True, RE=RE)
         self.assertEqual(specwriter.scan_id, 108, "scan_id reset")
         self.assertEqual(RE.md["scan_id"], 108, "RE.md['scan_id'] reset")
 
-        for n, s in {'0': 108, '108': 108, '110': 110}.items():
+        for n, s in {"0": 108, "108": 108, "110": 110}.items():
             specwriter.scan_id = -5  # an unusual value for testing only
-            RE.md["scan_id"] = -10   # an unusual value for testing only
+            RE.md["scan_id"] = -10  # an unusual value for testing only
             specwriter.newfile(filename=testfile, scan_id=int(n), RE=RE)
-            self.assertEqual(specwriter.scan_id, s, f"scan_id set to {n}, actually {s}")
-            self.assertEqual(RE.md["scan_id"], s, f"RE.md['scan_id'] set to {n}, actually {s}")
+            self.assertEqual(
+                specwriter.scan_id, s, f"scan_id set to {n}, actually {s}"
+            )
+            self.assertEqual(
+                RE.md["scan_id"],
+                s,
+                f"RE.md['scan_id'] set to {n}, actually {s}",
+            )
 
     def test__rebuild_scan_command(self):
         from apstools.filewriters import _rebuild_scan_command
@@ -440,7 +450,9 @@ class Test_SpecWriterCallback(MyTestBase):
         testfile = os.path.join(self.tempdir, "spec_comment.dat")
         if os.path.exists(testfile):
             os.remove(testfile)
-        specwriter = apstools.filewriters.SpecWriterCallback(filename=testfile)
+        specwriter = apstools.filewriters.SpecWriterCallback(
+            filename=testfile
+        )
 
         for category in "buffered_comments comments".split():
             for k in "start stop descriptor event".split():
@@ -451,43 +463,42 @@ class Test_SpecWriterCallback(MyTestBase):
         spec_comment(
             "TESTING: Should appear within start doc",
             doc=None,
-            writer=specwriter)
+            writer=specwriter,
+        )
 
         for idx, document in enumerate(self.db["tune_mr"]):
             tag, doc = document
             msg = f"TESTING: document {idx+1}: '{tag}' %s specwriter.receiver"
-            spec_comment(
-                msg % "before",
-                doc=tag,
-                writer=specwriter)
+            spec_comment(msg % "before", doc=tag, writer=specwriter)
             specwriter.receiver(tag, doc)
             if tag == "stop":
                 # since stop doc was received, this appears in the next scan
                 spec_comment(
                     str(msg % "before") + " (appears at END of next scan)",
                     doc=tag,
-                    writer=specwriter)
+                    writer=specwriter,
+                )
             else:
-                spec_comment(
-                    msg % "after",
-                    doc=tag,
-                    writer=specwriter)
+                spec_comment(msg % "after", doc=tag, writer=specwriter)
 
         self.assertEqual(
-            len(specwriter.buffered_comments['stop']),
+            len(specwriter.buffered_comments["stop"]),
             1,
-            "last 'stop' comment buffered")
+            "last 'stop' comment buffered",
+        )
 
         # since stop doc was received, this appears in the next scan
         spec_comment(
             "TESTING: Appears at END of next scan",
             doc="stop",
-            writer=specwriter)
+            writer=specwriter,
+        )
 
         self.assertEqual(
-            len(specwriter.buffered_comments['stop']),
+            len(specwriter.buffered_comments["stop"]),
             2,
-            "last end of scan comment buffered")
+            "last end of scan comment buffered",
+        )
         write_stream(specwriter, self.db["tune_ar"])
 
         for k in "start descriptor event".split():
@@ -496,9 +507,8 @@ class Test_SpecWriterCallback(MyTestBase):
         expected = dict(start=2, stop=5, event=0, descriptor=0)
         for k, v in expected.items():
             self.assertEqual(
-                len(specwriter.comments[k]),
-                v,
-                f"'{k}' comments")
+                len(specwriter.comments[k]), v, f"'{k}' comments"
+            )
 
 
 def suite(*args, **kw):
@@ -508,7 +518,7 @@ def suite(*args, **kw):
         Test_FileWriterCallbackBase,
         Test_NXWriter,
         Test_NXWriterAPS,
-        ]
+    ]
     test_suite = unittest.TestSuite()
     for test_case in test_list:
         test_suite.addTest(unittest.makeSuite(test_case))
@@ -516,5 +526,5 @@ def suite(*args, **kw):
 
 
 if __name__ == "__main__":
-    runner=unittest.TextTestRunner()
+    runner = unittest.TextTestRunner()
     runner.run(suite())

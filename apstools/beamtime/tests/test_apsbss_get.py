@@ -25,17 +25,19 @@ def test_listESAFs():
         assert len(apsbss.listESAFs([cycle], 9)) == 35
         assert len(apsbss.listESAFs((cycle), 9)) == 35
         assert len(apsbss.listESAFs("2020-1", 9)) == 41
-        assert len(apsbss.listESAFs(["2020-1", "2020-2"], 9)) == 41+35
+        assert len(apsbss.listESAFs(["2020-1", "2020-2"], 9)) == 41 + 35
         # TODO: other tests
 
 
 def test_listProposals():
     if is_aps_workstation():
         cycle = "2020-2"
-        bl= "9-ID-B,C"
+        bl = "9-ID-B,C"
         assert len(apsbss.listProposals(cycle, bl)) == 21
         assert len(apsbss.listProposals([cycle], bl)) == 21
         assert len(apsbss.listProposals((cycle), bl)) == 21
         assert len(apsbss.listProposals("2020-1", bl)) == 12
-        assert len(apsbss.listProposals(["2020-1", "2020-2"], bl)) == 12+21
+        assert (
+            len(apsbss.listProposals(["2020-1", "2020-2"], bl)) == 12 + 21
+        )
         # TODO: other tests

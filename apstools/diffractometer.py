@@ -12,7 +12,7 @@ diffractometer support
 
 """
 
-#-----------------------------------------------------------------------------
+# -----------------------------------------------------------------------------
 # :author:    Pete R. Jemian
 # :email:     jemian@anl.gov
 # :copyright: (c) 2017-2020, UChicago Argonne, LLC
@@ -20,15 +20,15 @@ diffractometer support
 # Distributed under the terms of the Creative Commons Attribution 4.0 International Public License.
 #
 # The full license is in the file LICENSE.txt, distributed with this software.
-#-----------------------------------------------------------------------------
+# -----------------------------------------------------------------------------
 
 __all__ = [
-    'Constraint',
-    'DiffractometerMixin',
-    'SoftE4CV',
-    'SoftE6C',
-    'SoftK4CV',
-    'SoftK6C',
+    "Constraint",
+    "DiffractometerMixin",
+    "SoftE4CV",
+    "SoftE6C",
+    "SoftK4CV",
+    "SoftK6C",
 ]
 
 from ophyd import Component, Device
@@ -40,13 +40,13 @@ import pyRestTable
 
 logger = logging.getLogger(__file__)
 
-gi.require_version('Hkl', '5.0')    # MUST come before `import hkl`
+gi.require_version("Hkl", "5.0")  # MUST come before `import hkl`
 import hkl.diffract
 
 
 Constraint = collections.namedtuple(
-    "Constraint",
-    ("low_limit", "high_limit", "value", "fit"))
+    "Constraint", ("low_limit", "high_limit", "value", "fit")
+)
 
 
 class DiffractometerMixin(Device):
@@ -63,9 +63,9 @@ class DiffractometerMixin(Device):
         ~wh
     """
 
-    h = Component(PseudoSingle, '', labels=("hkl",), kind="hinted")
-    k = Component(PseudoSingle, '', labels=("hkl",), kind="hinted")
-    l = Component(PseudoSingle, '', labels=("hkl",), kind="hinted")
+    h = Component(PseudoSingle, "", labels=("hkl",), kind="hinted")
+    k = Component(PseudoSingle, "", labels=("hkl",), kind="hinted")
+    l = Component(PseudoSingle, "", labels=("hkl",), kind="hinted")
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -92,11 +92,14 @@ class DiffractometerMixin(Device):
         tbl = pyRestTable.Table()
         tbl.labels = "axis low_limit high_limit value fit".split()
         for m in self.real_positioners._fields:
-            tbl.addRow((
-                m,
-                *self.calc[m].limits,
-                self.calc[m].value,
-                self.calc[m].fit))
+            tbl.addRow(
+                (
+                    m,
+                    *self.calc[m].limits,
+                    self.calc[m].value,
+                    self.calc[m].fit,
+                )
+            )
 
         if printing:
             print(tbl.reST(fmt=fmt))
@@ -112,9 +115,8 @@ class DiffractometerMixin(Device):
         """push current constraints onto the stack"""
         constraints = {
             m: Constraint(
-                *self.calc[m].limits,
-                self.calc[m].value,
-                self.calc[m].fit)
+                *self.calc[m].limits, self.calc[m].value, self.calc[m].fit
+            )
             for m in self.real_positioners._fields
             # TODO: any other positioner constraints
         }
@@ -123,7 +125,10 @@ class DiffractometerMixin(Device):
     def _set_constraints(self, constraints):
         """set diffractometer's constraints"""
         for axis, constraint in constraints.items():
-            self.calc[axis].limits = (constraint.low_limit, constraint.high_limit)
+            self.calc[axis].limits = (
+                constraint.low_limit,
+                constraint.high_limit,
+            )
             self.calc[axis].value = constraint.value
             self.calc[axis].fit = constraint.fit
 
@@ -151,7 +156,7 @@ class DiffractometerMixin(Device):
                     row += [f"{getattr(s, m):.5f}" for m in motors]
                     _table.addRow(row)
                     if not full:
-                        break   # only show the first (default) solution
+                        break  # only show the first (default) solution
         return _table
 
     def pa(self, all_samples=False, printing=True):
@@ -171,8 +176,10 @@ class DiffractometerMixin(Device):
 
             Out[3]: <pyRestTable.rest_table.Table at 0x7f55c4775cd0>
         """
+
         def addTable(tbl):
             return str(tbl).strip()
+
         def Package(**kwargs):
             return ", ".join([f"{k}={v}" for k, v in kwargs.items()])
 
@@ -183,7 +190,9 @@ class DiffractometerMixin(Device):
         table.addRow(("geometry", self.calc._geometry.name_get()))
         table.addRow(("class", self.__class__.__name__))
         table.addRow(("energy (keV)", f"{self.calc.energy:.5f}"))
-        table.addRow(("wavelength (angstrom)", f"{self.calc.wavelength:.5f}"))
+        table.addRow(
+            ("wavelength (angstrom)", f"{self.calc.wavelength:.5f}")
+        )
         table.addRow(("calc engine", self.calc.engine.name))
         table.addRow(("mode", self.calc.engine.mode))
 
@@ -213,36 +222,50 @@ class DiffractometerMixin(Device):
             if all_samples and sample == self.calc.sample:
                 nm += " (*)"
 
-            t.addRow((
-                "unit cell edges",
-                Package(**{
-                    k: getattr(sample.lattice, k)
-                    for k in "a b c".split()
-                    })
-                ))
-            t.addRow((
-                "unit cell angles",
-                Package(**{
-                    k: getattr(sample.lattice, k)
-                    for k in "alpha beta gamma".split()
-                    })
-                ))
-
+            t.addRow(
+                (
+                    "unit cell edges",
+                    Package(
+                        **{
+                            k: getattr(sample.lattice, k)
+                            for k in "a b c".split()
+                        }
+                    ),
+                )
+            )
+            t.addRow(
+                (
+                    "unit cell angles",
+                    Package(
+                        **{
+                            k: getattr(sample.lattice, k)
+                            for k in "alpha beta gamma".split()
+                        }
+                    ),
+                )
+            )
 
             for i, ref in enumerate(sample._sample.reflections_get()):
                 h, k, l = ref.hkl_get()
-                pos_arr = ref.geometry_get().axis_values_get(self.calc._units)
-                t.addRow((
-                    f"ref {i+1} (hkl)",
-                    Package(**dict(h=h, k=k, l=l))
-                ))
-                t.addRow((
-                    f"ref {i+1} positioners",
-                    Package(**{
-                        k: f"{v:.5f}"
-                        for k, v in zip(self.calc.physical_axis_names, pos_arr)
-                    })
-                ))
+                pos_arr = ref.geometry_get().axis_values_get(
+                    self.calc._units
+                )
+                t.addRow(
+                    (f"ref {i+1} (hkl)", Package(**dict(h=h, k=k, l=l)))
+                )
+                t.addRow(
+                    (
+                        f"ref {i+1} positioners",
+                        Package(
+                            **{
+                                k: f"{v:.5f}"
+                                for k, v in zip(
+                                    self.calc.physical_axis_names, pos_arr
+                                )
+                            }
+                        ),
+                    )
+                )
 
             t.addRow(("[U]", sample.U))
             t.addRow(("[UB]", sample.UB))
@@ -300,7 +323,9 @@ class DiffractometerMixin(Device):
         table.addRow(("diffractometer", self.name, ""))
         table.addRow(("sample name", self.calc.sample.name, ""))
         table.addRow(("energy (keV)", f"{self.calc.energy:.5f}", ""))
-        table.addRow(("wavelength (angstrom)", f"{self.calc.wavelength:.5f}", ""))
+        table.addRow(
+            ("wavelength (angstrom)", f"{self.calc.wavelength:.5f}", "")
+        )
         table.addRow(("calc engine", self.calc.engine.name, ""))
         table.addRow(("mode", self.calc.engine.mode, ""))
 
@@ -333,14 +358,18 @@ class SoftE4CV(DiffractometerMixin, hkl.diffract.E4CV):
         sim4c = SoftE4CV('', name='sim4c')
     """
 
-    omega = Component(SoftPositioner,
-        labels=("motor", "sim4c"), kind="hinted")
-    chi =   Component(SoftPositioner,
-        labels=("motor", "sim4c"), kind="hinted")
-    phi =   Component(SoftPositioner,
-        labels=("motor", "sim4c"), kind="hinted")
-    tth =   Component(SoftPositioner,
-        labels=("motor", "sim4c"), kind="hinted")
+    omega = Component(
+        SoftPositioner, labels=("motor", "sim4c"), kind="hinted"
+    )
+    chi = Component(
+        SoftPositioner, labels=("motor", "sim4c"), kind="hinted"
+    )
+    phi = Component(
+        SoftPositioner, labels=("motor", "sim4c"), kind="hinted"
+    )
+    tth = Component(
+        SoftPositioner, labels=("motor", "sim4c"), kind="hinted"
+    )
 
     def __init__(self, *args, **kwargs):
         """
@@ -366,18 +395,24 @@ class SoftE6C(DiffractometerMixin, hkl.diffract.E6C):
         sim6c = SoftE6C('', name='sim6c')
     """
 
-    mu = Component(SoftPositioner,
-        labels=("motor", "sim6c"), kind="hinted")
-    omega = Component(SoftPositioner,
-        labels=("motor", "sim6c"), kind="hinted")
-    chi =   Component(SoftPositioner,
-        labels=("motor", "sim6c"), kind="hinted")
-    phi =   Component(SoftPositioner,
-        labels=("motor", "sim6c"), kind="hinted")
-    gamma = Component(SoftPositioner,
-        labels=("motor", "sim6c"), kind="hinted")
-    delta =   Component(SoftPositioner,
-        labels=("motor", "sim6c"), kind="hinted")
+    mu = Component(
+        SoftPositioner, labels=("motor", "sim6c"), kind="hinted"
+    )
+    omega = Component(
+        SoftPositioner, labels=("motor", "sim6c"), kind="hinted"
+    )
+    chi = Component(
+        SoftPositioner, labels=("motor", "sim6c"), kind="hinted"
+    )
+    phi = Component(
+        SoftPositioner, labels=("motor", "sim6c"), kind="hinted"
+    )
+    gamma = Component(
+        SoftPositioner, labels=("motor", "sim6c"), kind="hinted"
+    )
+    delta = Component(
+        SoftPositioner, labels=("motor", "sim6c"), kind="hinted"
+    )
 
     def __init__(self, *args, **kwargs):
         """
@@ -403,14 +438,18 @@ class SoftK4CV(DiffractometerMixin, hkl.diffract.K4CV):
         simk4c = SoftK4CV('', name='simk4c')
     """
 
-    komega = Component(SoftPositioner,
-        labels=("motor", "simk4c"), kind="hinted")
-    kappa = Component(SoftPositioner,
-        labels=("motor", "simk4c"), kind="hinted")
-    kphi =   Component(SoftPositioner,
-        labels=("motor", "simk4c"), kind="hinted")
-    tth =   Component(SoftPositioner,
-        labels=("motor", "simk4c"), kind="hinted")
+    komega = Component(
+        SoftPositioner, labels=("motor", "simk4c"), kind="hinted"
+    )
+    kappa = Component(
+        SoftPositioner, labels=("motor", "simk4c"), kind="hinted"
+    )
+    kphi = Component(
+        SoftPositioner, labels=("motor", "simk4c"), kind="hinted"
+    )
+    tth = Component(
+        SoftPositioner, labels=("motor", "simk4c"), kind="hinted"
+    )
 
     def __init__(self, *args, **kwargs):
         """
@@ -436,18 +475,24 @@ class SoftK6C(DiffractometerMixin, hkl.diffract.K6C):
         simk6c = SoftK6C('', name='simk6c')
     """
 
-    mu = Component(SoftPositioner,
-        labels=("motor", "simk6c"), kind="hinted")
-    komega = Component(SoftPositioner,
-        labels=("motor", "simk6c"), kind="hinted")
-    kappa =   Component(SoftPositioner,
-        labels=("motor", "simk6c"), kind="hinted")
-    kphi =   Component(SoftPositioner,
-        labels=("motor", "simk6c"), kind="hinted")
-    gamma = Component(SoftPositioner,
-        labels=("motor", "simk6c"), kind="hinted")
-    delta =   Component(SoftPositioner,
-        labels=("motor", "simk6c"), kind="hinted")
+    mu = Component(
+        SoftPositioner, labels=("motor", "simk6c"), kind="hinted"
+    )
+    komega = Component(
+        SoftPositioner, labels=("motor", "simk6c"), kind="hinted"
+    )
+    kappa = Component(
+        SoftPositioner, labels=("motor", "simk6c"), kind="hinted"
+    )
+    kphi = Component(
+        SoftPositioner, labels=("motor", "simk6c"), kind="hinted"
+    )
+    gamma = Component(
+        SoftPositioner, labels=("motor", "simk6c"), kind="hinted"
+    )
+    delta = Component(
+        SoftPositioner, labels=("motor", "simk6c"), kind="hinted"
+    )
 
     def __init__(self, *args, **kwargs):
         """

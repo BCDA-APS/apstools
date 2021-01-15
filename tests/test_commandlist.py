@@ -1,4 +1,3 @@
-
 """
 simple unit tests for this package
 """
@@ -8,12 +7,13 @@ import sys
 import unittest
 
 PATH = os.path.dirname(__file__)
-_path = os.path.join(PATH, '..')
+_path = os.path.join(PATH, "..")
 if _path not in sys.path:
     sys.path.insert(0, _path)
 
 from apstools import utils as APS_utils
 from apstools import plans as APS_plans
+
 
 class Test_CommandList(unittest.TestCase):
 
@@ -26,7 +26,7 @@ class Test_CommandList(unittest.TestCase):
     def test_ExcelFile(self):
         # just a spreadsheet for testing (early version of a command file)
         commands = APS_plans.get_command_list(self.xl_file)
-        self.assertEqual(len(commands), 9)             # rows
+        self.assertEqual(len(commands), 9)  # rows
         table = APS_utils.command_list_as_table(commands, show_raw=False)
         received = str(table).strip()
         expected = """
@@ -127,7 +127,7 @@ class Test_CommandList(unittest.TestCase):
 def suite(*args, **kw):
     test_list = [
         Test_CommandList,
-        ]
+    ]
     test_suite = unittest.TestSuite()
     for test_case in test_list:
         test_suite.addTest(unittest.makeSuite(test_case))
@@ -135,5 +135,5 @@ def suite(*args, **kw):
 
 
 if __name__ == "__main__":
-    runner=unittest.TextTestRunner()
+    runner = unittest.TextTestRunner()
     runner.run(suite())

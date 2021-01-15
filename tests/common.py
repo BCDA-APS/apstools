@@ -1,4 +1,3 @@
-
 """
 Common methods for unit tests.
 
@@ -12,7 +11,7 @@ from io import StringIO
 import sys
 
 
-class Capture_stdout(list):     # lgtm [py/missing-equals]
+class Capture_stdout(list):  # lgtm [py/missing-equals]
 
     """
     Capture all printed output (to stdout) into list.
@@ -29,11 +28,11 @@ class Capture_stdout(list):     # lgtm [py/missing-equals]
 
     def __exit__(self, *args):
         self.extend(self._stringio.getvalue().splitlines())
-        del self._stringio    # free up some memory
+        del self._stringio  # free up some memory
         sys.stdout = self._stdout
 
 
-class Capture_stderr(list):     # lgtm [py/missing-equals]
+class Capture_stderr(list):  # lgtm [py/missing-equals]
 
     """Capture stderr into list."""
 
@@ -45,5 +44,5 @@ class Capture_stderr(list):     # lgtm [py/missing-equals]
 
     def __exit__(self, *args):
         self.extend(self._stringio.getvalue().splitlines())
-        del self._stringio    # free up some memory
+        del self._stringio  # free up some memory
         sys.stderr = self._stderr

@@ -14,7 +14,7 @@ about the state of the document sequence.
    ~spec_comment
 """
 
-#-----------------------------------------------------------------------------
+# -----------------------------------------------------------------------------
 # :author:    Pete R. Jemian
 # :email:     jemian@anl.gov
 # :copyright: (c) 2017-2020, UChicago Argonne, LLC
@@ -22,7 +22,7 @@ about the state of the document sequence.
 # Distributed under the terms of the Creative Commons Attribution 4.0 International Public License.
 #
 # The full license is in the file LICENSE.txt, distributed with this software.
-#-----------------------------------------------------------------------------
+# -----------------------------------------------------------------------------
 
 
 from collections import OrderedDict
@@ -41,8 +41,8 @@ import yaml
 logger = logging.getLogger(__name__)
 
 
-NEXUS_FILE_EXTENSION = "hdf"      # use this file extension for the output
-NEXUS_RELEASE = 'v2020.1'   # NeXus release to which this file is written
+NEXUS_FILE_EXTENSION = "hdf"  # use this file extension for the output
+NEXUS_RELEASE = "v2020.1"  # NeXus release to which this file is written
 SPEC_TIME_FORMAT = "%a %b %d %H:%M:%S %Y"
 SCAN_ID_RESET_VALUE = 0
 
@@ -75,14 +75,18 @@ def _rebuild_scan_command(doc):
         """
         s = str(src)
         p = s.find("(")
-        if p > 0:           # only if an open parenthesis is found
-            parts = s[p+1:].rstrip(")").split(",")
+        if p > 0:  # only if an open parenthesis is found
+            # fmt: offf
+            # fmt: on
+            parts = s[p + 1:].rstrip(")").split(",")
             for item in parts:
                 # should be key=value pairs
                 item = item.strip()
                 p = item.find("=")
                 if item[:p] == "name":
-                    s = item[p+1:]      # get the name value
+                    # fmt: off
+                    # fmt: on
+                    s = item[p + 1:]  # get the name value
                     break
         return s
 
@@ -90,23 +94,13 @@ def _rebuild_scan_command(doc):
         """Convert given structure into string representation."""
         if isinstance(struct, list):
             return (
-                "["
-                + ", ".join(
-                    [
-                        struct_to_str(v)
-                        for v in struct
-                    ]
-                )
-                + "]"
+                "[" + ", ".join([struct_to_str(v) for v in struct]) + "]"
             )
         elif isinstance(struct, dict):
             return (
                 "{"
                 + ", ".join(
-                    [
-                        f"{k}={struct_to_str(v)}"
-                        for k, v in struct.items()
-                    ]
+                    [f"{k}={struct_to_str(v)}" for k, v in struct.items()]
                 )
                 + "}"
             )
@@ -120,13 +114,13 @@ def _rebuild_scan_command(doc):
 
     s = []
     if "plan_args" in doc:
-        for _k, _v in doc['plan_args'].items():
+        for _k, _v in doc["plan_args"].items():
             if _k == "detectors":
                 _v = doc[_k]
             elif _k.startswith("motor"):
                 _v = doc["motors"]
             elif _k == "args":
-                _v = "[" +  ", ".join(map(get_name, _v)) + "]"
+                _v = "[" + ", ".join(map(get_name, _v)) + "]"
             s.append(f"{_k}={struct_to_str(_v)}")
 
     cmd = "{}({})".format(doc.get("plan_name", ""), ", ".join(s))
@@ -203,22 +197,23 @@ class SpecWriterCallback(object):
     # EXAMPLE : the :ref:`specfile_example() <example_specfile>`
     # writes one or more scans to a SPEC data file using a jupyter notebook.
 
-
-    def __init__(self, filename=None, auto_write=True, RE=None, reset_scan_id=False):
+    def __init__(
+        self, filename=None, auto_write=True, RE=None, reset_scan_id=False
+    ):
         self.clear()
         self.buffered_comments = self._empty_comments_dict()
         self.spec_filename = filename
         self.auto_write = auto_write
         self.uid_short_length = 8
         self.write_file_header = False
-        self.spec_epoch = None      # for both #E & #D line in header, also offset for all scans
+        self.spec_epoch = None  # for both #E & #D line in header, also offset for all scans
         self.spec_host = None
         self.spec_user = None
-        self._datetime = None       # most recent document time as datetime object
-        self._streams = {}          # descriptor documents, keyed by uid
+        self._datetime = None  # most recent document time
+        self._streams = {}  # descriptor documents, keyed by uid
         self.RE = RE
 
-        if reset_scan_id == True:
+        if reset_scan_id is True:
             reset_scan_id = SCAN_ID_RESET_VALUE
         self.reset_scan_id = reset_scan_id
 
@@ -232,23 +227,23 @@ class SpecWriterCallback(object):
     def clear(self):
         """reset all scan data defaults"""
         self.uid = None
-        self.scan_epoch = None      # absolute epoch to report in scan #D line
-        self.time = None            # full time from document
+        self.scan_epoch = None  # absolute epoch to report in scan #D line
+        self.time = None  # full time from document
         self.comments = self._empty_comments_dict()
-        self.data = OrderedDict()           # data in the scan
-        self.detectors = OrderedDict()      # names of detectors in the scan
-        self.hints = OrderedDict()          # why?
-        self.metadata = OrderedDict()       # #MD lines in header
-        self.motors = OrderedDict()         # names of motors in the scan
-        self.positioners = OrderedDict()    # names in #O, values in #P
+        self.data = OrderedDict()  # data in the scan
+        self.detectors = OrderedDict()  # names of detectors in the scan
+        self.hints = OrderedDict()  # why?
+        self.metadata = OrderedDict()  # #MD lines in header
+        self.motors = OrderedDict()  # names of motors in the scan
+        self.positioners = OrderedDict()  # names in #O, values in #P
         self.num_primary_data = 0
         #
         # note: for one scan, #O & #P information is not provided
         # unless collecting baseline data
         # wait for case with baseline data that needs #O/#P lines
         #
-        self.columns = OrderedDict()        # #L in scan
-        self.scan_command = None            # #S line
+        self.columns = OrderedDict()  # #L in scan
+        self.scan_command = None  # #S line
         self.scanning = False
 
     def _empty_comments_dict(self):
@@ -258,7 +253,8 @@ class SpecWriterCallback(object):
             descriptor=[],
             resource=[],
             datum=[],
-            stop=[])
+            stop=[],
+        )
 
     def _cmt(self, key, text):
         """enter a comment"""
@@ -273,13 +269,13 @@ class SpecWriterCallback(object):
     def receiver(self, key, document):
         """Bluesky callback: receive all documents for handling"""
         xref = dict(
-            start = self.start,
-            descriptor = self.descriptor,
-            event = self.event,
-            bulk_events = self.bulk_events,
-            datum = self.datum,
-            resource = self.resource,
-            stop = self.stop,
+            start=self.start,
+            descriptor=self.descriptor,
+            event=self.event,
+            bulk_events=self.bulk_events,
+            datum=self.datum,
+            resource=self.resource,
+            stop=self.stop,
         )
         logger = logging.getLogger(__name__)
         if key in xref:
@@ -322,7 +318,7 @@ class SpecWriterCallback(object):
         self.scan_id = doc["scan_id"] or 0
         # Which reference? fixed counting time or fixed monitor count?
         # Can this be omitted?
-        self.T_or_M = None          # for now
+        self.T_or_M = None  # for now
         # self.T_or_M = "T"           # TODO: how to get this from the document stream?
         # self.T_or_M_value = 1
         # self._cmt("start", "!!! #T line not correct yet !!!")
@@ -380,10 +376,17 @@ class SpecWriterCallback(object):
         # TODO: if len(last_keys) == 0: look at doc["hints"]
 
         # get remaining keys from keyset, they go in the middle
-        middle_keys = [k for k in keyset if k not in first_keys + last_keys]
+        middle_keys = [
+            k for k in keyset if k not in first_keys + last_keys
+        ]
         epoch_keys = "Epoch_float Epoch".split()
 
-        self.data.update({k: [] for k in first_keys+epoch_keys+middle_keys+last_keys})
+        self.data.update(
+            {
+                k: []
+                for k in first_keys + epoch_keys + middle_keys + last_keys
+            }
+        )
 
     def event(self, doc):
         """
@@ -398,14 +401,14 @@ class SpecWriterCallback(object):
                 if k not in self.data.keys():
                     msg = f"unexpected failure here, key {k} not found"
                     raise KeyError(msg)
-                    #return                  # not our expected event data
             for k in self.data.keys():
                 if k == "Epoch":
                     v = int(doc["time"] - self.time + 0.5)
                 elif k == "Epoch_float":
                     v = doc["time"] - self.time
                 else:
-                    v = doc["data"].get(k, 0)   # like SPEC, default to 0 if not found by name
+                    # like SPEC, default to 0 if not found by name
+                    v = doc["data"].get(k, 0)
                 self.data[k].append(v)
             self.num_primary_data += 1
 
@@ -446,13 +449,17 @@ class SpecWriterCallback(object):
         lines = []
         lines.append("")
         lines.append("#S " + self.scan_command)
-        lines.append("#D " + datetime.datetime.strftime(dt, SPEC_TIME_FORMAT))
+        lines.append(
+            "#D " + datetime.datetime.strftime(dt, SPEC_TIME_FORMAT)
+        )
         if self.T_or_M is not None:
             lines.append(f"#{self.T_or_M} {self.T_or_M_value}")
 
         for v in self.comments["start"]:
-            #C Wed Feb 03 16:51:38 2016.  do ./usaxs.mac.
-            lines.append("#C " + v)     # TODO: add time/date stamp as SPEC does
+            # C Wed Feb 03 16:51:38 2016.  do ./usaxs.mac.
+            lines.append(
+                "#C " + v
+            )  # TODO: add time/date stamp as SPEC does
         for v in self.comments["descriptor"]:
             lines.append("#C " + v)
 
@@ -509,8 +516,12 @@ class SpecWriterCallback(object):
         lines = []
         lines.append(f"#F {self.spec_filename}")
         lines.append(f"#E {self.spec_epoch}")
-        lines.append(f"#D {datetime.datetime.strftime(dt, SPEC_TIME_FORMAT)}")
-        lines.append(f"#C Bluesky  user = {self.spec_user}  host = {self.spec_host}")
+        lines.append(
+            f"#D {datetime.datetime.strftime(dt, SPEC_TIME_FORMAT)}"
+        )
+        lines.append(
+            f"#C Bluesky  user = {self.spec_user}  host = {self.spec_host}"
+        )
         lines.append("#O0 ")
         lines.append("#o0 ")
         lines.append("")
@@ -543,14 +554,20 @@ class SpecWriterCallback(object):
         if lines is not None:
             if self.write_file_header:
                 self.write_header()
-                logger.info("wrote header to SPEC file: %s", self.spec_filename)
+                logger.info(
+                    "wrote header to SPEC file: %s", self.spec_filename
+                )
             self._write_lines_(lines, mode="a")
-            logger.info("wrote scan %d to SPEC file: %s", self.scan_id, self.spec_filename)
+            logger.info(
+                "wrote scan %d to SPEC file: %s",
+                self.scan_id,
+                self.spec_filename,
+            )
 
     def make_default_filename(self):
         """generate a file name to be used as default"""
         now = datetime.datetime.now()
-        return datetime.datetime.strftime(now, "%Y%m%d-%H%M%S")+".dat"
+        return datetime.datetime.strftime(now, "%Y%m%d-%H%M%S") + ".dat"
 
     def newfile(self, filename=None, scan_id=None, RE=None):
         """
@@ -562,17 +579,18 @@ class SpecWriterCallback(object):
         filename = filename or self.make_default_filename()
         if os.path.exists(filename):
             from spec2nexus.spec import SpecDataFile
+
             sdf = SpecDataFile(filename)
             scan_list = sdf.getScanNumbers()
             l = len(scan_list)
             m = max(map(float, scan_list))
-            highest = int(max(l, m) + 0.9999)     # solves issue #128
+            highest = int(max(l, m) + 0.9999)  # solves issue #128
             scan_id = max(scan_id or 0, highest)
         self.spec_filename = filename
         self.spec_epoch = int(time.time())  # ! no roundup here!!!
-        self.spec_host = socket.gethostname() or 'localhost'
-        self.spec_user = getpass.getuser() or 'BlueskyUser'
-        self.write_file_header = True       # don't write the file yet
+        self.spec_host = socket.gethostname() or "localhost"
+        self.spec_user = getpass.getuser() or "BlueskyUser"
+        self.write_file_header = True  # don't write the file yet
 
         # backwards-compatibility
         if isinstance(scan_id, bool):
@@ -594,25 +612,25 @@ class SpecWriterCallback(object):
         with open(filename, "r") as f:
             key = "#F"
             line = f.readline().strip()
-            if not line.startswith(key+" "):
+            if not line.startswith(key + " "):
                 raise ValueError(f"first line does not start with {key}")
 
             key = "#E"
             line = f.readline().strip()
-            if not line.startswith(key+" "):
+            if not line.startswith(key + " "):
                 raise ValueError(f"first line does not start with {key}")
             epoch = int(line.split()[-1])
 
             key = "#D"
             line = f.readline().strip()
-            if not line.startswith(key+" "):
-                raise ValueError("first line does not start with "+key)
+            if not line.startswith(key + " "):
+                raise ValueError("first line does not start with " + key)
             # ignore content, it is derived from #E line
 
             key = "#C"
             line = f.readline().strip()
-            if not line.startswith(key+" "):
-                raise ValueError("first line does not start with "+key)
+            if not line.startswith(key + " "):
+                raise ValueError("first line does not start with " + key)
             p = line.split()
             username = "BlueskyUser"
             if len(p) > 4 and p[2] == "user":
@@ -622,7 +640,7 @@ class SpecWriterCallback(object):
             key = "#S"
             scan_ids = []
             for line in f.readlines():
-                if line.startswith(key+" ") and len(line.split())>1:
+                if line.startswith(key + " ") and len(line.split()) > 1:
                     scan_id = int(line.split()[1])
                     scan_ids.append(scan_id)
             scan_id = max(scan_ids)
@@ -705,7 +723,7 @@ def spec_comment(comment, doc=None, writer=None):
         #C Mon Jan 28 12:48:14 2019.  exit_status = success
 
     """
-    global specwriter       # such as: specwriter = SpecWriterCallback()
+    global specwriter  # such as: specwriter = SpecWriterCallback()
     writer = writer or specwriter
     if doc is None:
         if writer.scanning:
@@ -766,14 +784,14 @@ class FileWriterCallbackBase:
         """Initialize: clear and reset."""
         self.clear()
         self.xref = dict(
-            bulk_events = self.bulk_events,
-            datum = self.datum,
-            descriptor = self.descriptor,
-            event = self.event,
-            resource = self.resource,
-            start = self.start,
-            stop = self.stop,
-            )
+            bulk_events=self.bulk_events,
+            datum=self.datum,
+            descriptor=self.descriptor,
+            event=self.event,
+            resource=self.resource,
+            start=self.start,
+            stop=self.stop,
+        )
 
     def receiver(self, key, doc):
         """
@@ -847,7 +865,7 @@ class FileWriterCallbackBase:
         def trim(value, length=60):
             text = str(value)
             if len(text) > length:
-                text = text[:length-3] + "..."
+                text = text[: length - 3] + "..."
             return text
 
         tbl = pyRestTable.Table()
@@ -860,11 +878,15 @@ class FileWriterCallbackBase:
         tbl.labels = "stream num_vars num_values".split()
         for k, v in sorted(self.streams.items()):
             if len(v) != 1:
-                print("expecting only one descriptor in stream %s, found %s" % (k, len(v)))
+                print(
+                    f"expecting only one descriptor in stream {k},"
+                    f" found {len(v)}"
+                )
             else:
                 data = self.acquisitions[v[0]]["data"]
                 num_vars = len(data)
-                symbol = list(data.keys())[0]   # get the key (symbol) of first data object
+                # get the key (symbol) of first data object
+                symbol = list(data.keys())[0]
                 if num_vars == 0:
                     num_values = 0
                 else:
@@ -888,7 +910,7 @@ class FileWriterCallbackBase:
             return
         logger.info("not handled yet")
         logger.info(doc)
-        logger.info("-"*40)
+        logger.info("-" * 40)
 
     def datum(self, doc):
         """
@@ -924,24 +946,21 @@ class FileWriterCallbackBase:
         self.streams[stream].append(uid)
 
         if uid not in self.acquisitions:
-            self.acquisitions[uid] = dict(
-                stream = stream,
-                data = {}
-            )
+            self.acquisitions[uid] = dict(stream=stream, data={})
         data = self.acquisitions[uid]["data"]
         for k, entry in doc["data_keys"].items():
             # logger.debug("entry %s: %s", k, entry)
             dd = data[k] = {}
-            dd["source"] = entry.get("source", 'local')
-            dd["dtype"] = entry.get("dtype", '')
-            dd["shape"] = entry.get( "shape", [])
-            dd["units"] = entry.get("units", '')
-            dd["lower_ctrl_limit"] = entry.get("lower_ctrl_limit", '')
-            dd["upper_ctrl_limit"] = entry.get("upper_ctrl_limit", '')
+            dd["source"] = entry.get("source", "local")
+            dd["dtype"] = entry.get("dtype", "")
+            dd["shape"] = entry.get("shape", [])
+            dd["units"] = entry.get("units", "")
+            dd["lower_ctrl_limit"] = entry.get("lower_ctrl_limit", "")
+            dd["upper_ctrl_limit"] = entry.get("upper_ctrl_limit", "")
             dd["precision"] = entry.get("precision", 0)
             dd["object_name"] = entry.get("object_name", k)
-            dd["data"] = []    # entry data goes here
-            dd["time"] = []    # entry time stamps here
+            dd["data"] = []  # entry data goes here
+            dd["time"] = []  # entry time stamps here
             dd["external"] = entry.get("external") is not None
             # logger.debug("dd %s: %s", k, data[k])
 
@@ -961,7 +980,10 @@ class FileWriterCallbackBase:
             for k, v in doc["data"].items():
                 data = descriptor["data"].get(k)
                 if data is None:
-                    print("entry key %s not found in descriptor of %s" % (k, descriptor["stream"]))
+                    print(
+                        f"entry key {k} not found in"
+                        f" descriptor of {descriptor['stream']}"
+                    )
                 else:
                     data["data"].append(v)
                     data["time"].append(doc["timestamps"][k])
@@ -987,7 +1009,9 @@ class FileWriterCallbackBase:
         self.start_time = doc["time"]
         self.uid = doc["uid"]
         self.detectors = doc.get("detectors", [])
-        self.positioners = doc.get("positioners") or doc.get("motors") or []
+        self.positioners = (
+            doc.get("positioners") or doc.get("motors") or []
+        )
 
         # gather the metadata
         for k, v in doc.items():
@@ -1002,7 +1026,7 @@ class FileWriterCallbackBase:
         if not self.scanning:
             return
         self.exit_status = doc["exit_status"]
-        self.stop_reason  = doc.get("reason", "not available")
+        self.stop_reason = doc.get("reason", "not available")
         self.stop_time = doc["time"]
         self.scanning = False
 
@@ -1042,12 +1066,14 @@ class NXWriter(FileWriterCallbackBase):
        ~write_streams
        ~write_user
     """
+
     file_extension = NEXUS_FILE_EXTENSION
-    instrument_name = None      # name of this instrument
-    nexus_release = NEXUS_RELEASE  # # NeXus release to which this file is written
-    nxdata_signal = None        # name of dataset for Y axis on plot
-    nxdata_signal_axes = None   # name of dataset for X axis on plot
-    root = None                 # instance of h5py.File
+    instrument_name = None  # name of this instrument
+    # NeXus release to which this file is written
+    nexus_release = NEXUS_RELEASE
+    nxdata_signal = None  # name of dataset for Y axis on plot
+    nxdata_signal_axes = None  # name of dataset for X axis on plot
+    root = None  # instance of h5py.File
 
     # convention: methods written in alphabetical order
 
@@ -1061,9 +1087,11 @@ class NXWriter(FileWriterCallbackBase):
             ds.attrs["long_name"] = self.h5string(long_name)
         if v["dtype"] not in ("string",):
             ds.attrs["precision"] = v["precision"]
+
             def cautious_set(key):
                 if v[key] is not None:
                     ds.attrs[key] = v[key]
+
             cautious_set("lower_ctrl_limit")
             cautious_set("upper_ctrl_limit")
 
@@ -1072,12 +1100,14 @@ class NXWriter(FileWriterCallbackBase):
         decide if a signal in the primary stream is a detector or a positioner
         """
         try:
-            primary = self.root["/entry/instrument/bluesky/streams/primary"]
+            primary = self.root[
+                "/entry/instrument/bluesky/streams/primary"
+            ]
         except KeyError:
             raise KeyError(
                 f"no primary data stream in "
                 f"scan {self.scan_id} ({self.uid[:7]})"
-                )
+            )
         for k, v in primary.items():
             # logger.debug(v.name)
             # logger.debug(v.keys())
@@ -1087,11 +1117,13 @@ class NXWriter(FileWriterCallbackBase):
                 signal_type = "positioner"
             else:
                 signal_type = "other"
-            v.attrs["signal_type"] = signal_type            # group
+            v.attrs["signal_type"] = signal_type  # group
             try:
-                v["value"].attrs["signal_type"] = signal_type   # dataset
+                v["value"].attrs["signal_type"] = signal_type  # dataset
             except KeyError:
-                logger.warning("Could not assign %s as signal type %s", k, signal_type)
+                logger.warning(
+                    "Could not assign %s as signal type %s", k, signal_type
+                )
 
     def create_NX_group(self, parent, specification):
         """
@@ -1099,10 +1131,13 @@ class NXWriter(FileWriterCallbackBase):
         """
         local_address, nx_class = specification.split(":")
         if not nx_class.startswith("NX"):
-            raise ValueError(f"NeXus base class must start with 'NX', received {nx_class}")
+            raise ValueError(
+                "NeXus base class must start with 'NX',"
+                f" received {nx_class}"
+            )
         group = parent.create_group(local_address)
         group.attrs["NX_class"] = nx_class
-        group.attrs["target"] = group.name      # for use as NeXus link
+        group.attrs["target"] = group.name  # for use as NeXus link
         return group
 
     def getResourceFile(self, resource_id):
@@ -1113,17 +1148,14 @@ class NXWriter(FileWriterCallbackBase):
         """
         # reject unsupported specifications
         resource = self.externals[resource_id]
-        if resource["spec"] not in ('AD_HDF5',):
+        if resource["spec"] not in ("AD_HDF5",):
             # HDF5-specific implementation for now
             raise ValueError(
                 f'{resource_id}: spec {resource["spec"]} not handled'
             )
 
         # logger.debug(yaml.dump(resource))
-        fname = os.path.join(
-            resource["root"],
-            resource["resource_path"],
-        )
+        fname = os.path.join(resource["root"], resource["resource_path"],)
         return fname
 
     def get_sample_title(self):
@@ -1145,7 +1177,9 @@ class NXWriter(FileWriterCallbackBase):
         """
         stream = stream or "baseline"
         ref = ref or "value_start"
-        h5_addr = f"/entry/instrument/bluesky/streams/{stream}/{signal}/{ref}"
+        h5_addr = (
+            f"/entry/instrument/bluesky/streams/{stream}/{signal}/{ref}"
+        )
         if h5_addr not in self.root:
             raise KeyError(f"HDF5 address {h5_addr} not found.")
         # return the h5 object, to make a link
@@ -1178,23 +1212,26 @@ class NXWriter(FileWriterCallbackBase):
 
         primary = parent["instrument/bluesky/streams/primary"]
         for k in primary.keys():
-            nxdata[k] = primary[k+"/value"]
+            nxdata[k] = primary[k + "/value"]
 
         # pick the timestamps from one of the datasets (the last one)
-        nxdata["EPOCH"] = primary[k+"/time"]
+        nxdata["EPOCH"] = primary[k + "/time"]
 
         signal_attribute = self.nxdata_signal
         if signal_attribute is None:
             if len(self.detectors) > 0:
-                signal_attribute = self.detectors[0]     # arbitrary but consistent choice
+                # arbitrary but consistent choice
+                signal_attribute = self.detectors[0]
         axes_attribute = self.nxdata_signal_axes
         if axes_attribute is None:
             if len(self.positioners) > 0:
-                axes_attribute = self.positioners        # TODO: what if wrong shape here?
+                # TODO: what if wrong shape here?
+                axes_attribute = self.positioners
 
         # TODO: rabbit-hole alert!  simplify
         # this code is convoluted (like the selection logic)
         # Is there a library to help? databroker? event_model? area_detector_handlers?
+        fmt = "Cannot set %s as %s attribute, no such dataset"
         if signal_attribute is not None:
             if signal_attribute in nxdata:
                 nxdata.attrs["signal"] = signal_attribute
@@ -1204,15 +1241,11 @@ class NXWriter(FileWriterCallbackBase):
                     if ax in nxdata:
                         axes.append(ax)
                     else:
-                        logger.warning(
-                            "Cannot set %s as axes attribute, no such dataset",
-                            ax)
+                        logger.warning(fmt, ax, "axes")
                 if axes_attribute is not None:
                     nxdata.attrs["axes"] = axes_attribute
             else:
-                logger.warning(
-                    "Cannot set %s as signal attribute, no such dataset",
-                    signal_attribute)
+                logger.warning(fmt, signal_attribute, "signal")
 
         return nxdata
 
@@ -1239,20 +1272,30 @@ class NXWriter(FileWriterCallbackBase):
         """
         group: /entry/data:NXentry
         """
-        nxentry = self.create_NX_group(self.root, self.root.attrs["default"]+":NXentry")
+        nxentry = self.create_NX_group(
+            self.root, self.root.attrs["default"] + ":NXentry"
+        )
 
         nxentry.create_dataset(
             "start_time",
-            data=datetime.datetime.fromtimestamp(self.start_time).isoformat())
+            data=datetime.datetime.fromtimestamp(
+                self.start_time
+            ).isoformat(),
+        )
         nxentry.create_dataset(
             "end_time",
-            data=datetime.datetime.fromtimestamp(self.stop_time).isoformat())
-        ds = nxentry.create_dataset("duration", data=self.stop_time-self.start_time)
+            data=datetime.datetime.fromtimestamp(
+                self.stop_time
+            ).isoformat(),
+        )
+        ds = nxentry.create_dataset(
+            "duration", data=self.stop_time - self.start_time
+        )
         ds.attrs["units"] = "s"
 
         nxentry.create_dataset("program_name", data="bluesky")
 
-        self.write_instrument(nxentry)   # also writes streams and metadata
+        self.write_instrument(nxentry)  # also writes streams and metadata
         try:
             nxdata = self.write_data(nxentry)
             nxentry.attrs["default"] = nxdata.name.split("/")[-1]
@@ -1271,9 +1314,11 @@ class NXWriter(FileWriterCallbackBase):
 
         nxentry["title"] = self.get_sample_title()
         nxentry["plan_name"] = self.root[
-            "/entry/instrument/bluesky/metadata/plan_name"]
+            "/entry/instrument/bluesky/metadata/plan_name"
+        ]
         nxentry["entry_identifier"] = self.root[
-            "/entry/instrument/bluesky/uid"]
+            "/entry/instrument/bluesky/uid"
+        ]
 
         return nxentry
 
@@ -1281,8 +1326,12 @@ class NXWriter(FileWriterCallbackBase):
         """
         group: /entry/instrument:NXinstrument
         """
-        nxinstrument = self.create_NX_group(parent, "instrument:NXinstrument")
-        bluesky_group = self.create_NX_group(nxinstrument, "bluesky:NXnote")
+        nxinstrument = self.create_NX_group(
+            parent, "instrument:NXinstrument"
+        )
+        bluesky_group = self.create_NX_group(
+            nxinstrument, "bluesky:NXnote"
+        )
 
         md_group = self.write_metadata(bluesky_group)
         self.write_streams(bluesky_group)
@@ -1345,11 +1394,12 @@ class NXWriter(FileWriterCallbackBase):
 
         try:
             links = {
-                key: self.get_stream_link(f"{pre}_{key}")
-                for key in keys
+                key: self.get_stream_link(f"{pre}_{key}") for key in keys
             }
         except KeyError as exc:
-            logger.warning("%s -- not creating monochromator group", str(exc))
+            logger.warning(
+                "%s -- not creating monochromator group", str(exc)
+            )
             return
 
         pre = "monochromator"
@@ -1359,7 +1409,9 @@ class NXWriter(FileWriterCallbackBase):
         except KeyError as exc:
             logger.warning("%s -- feedback signal not found", str(exc))
 
-        nxmonochromator = self.create_NX_group(parent, "monochromator:NXmonochromator")
+        nxmonochromator = self.create_NX_group(
+            parent, "monochromator:NXmonochromator"
+        )
         for k, v in links.items():
             nxmonochromator[k] = v
         return nxmonochromator
@@ -1390,11 +1442,11 @@ class NXWriter(FileWriterCallbackBase):
         self.root.attrs["file_name"] = filename
         self.root.attrs["file_time"] = datetime.datetime.now().isoformat()
         if self.instrument_name is not None:
-            self.root.attrs[u'instrument'] = self.instrument_name
-        self.root.attrs[u'creator'] = self.__class__.__name__
-        self.root.attrs[u'NeXus_version'] = self.nexus_release
-        self.root.attrs[u'HDF5_Version'] = h5py.version.hdf5_version
-        self.root.attrs[u'h5py_version'] = h5py.version.version
+            self.root.attrs["instrument"] = self.instrument_name
+        self.root.attrs["creator"] = self.__class__.__name__
+        self.root.attrs["NeXus_version"] = self.nexus_release
+        self.root.attrs["HDF5_Version"] = h5py.version.hdf5_version
+        self.root.attrs["h5py_version"] = h5py.version.version
         self.root.attrs["default"] = "entry"
 
         self.write_entry()
@@ -1425,7 +1477,9 @@ class NXWriter(FileWriterCallbackBase):
             except KeyError as exc:
                 logger.warning("%s", str(exc))
         if len(links) == 0:
-            logger.warning("no sample data found, not creating sample group")
+            logger.warning(
+                "no sample data found, not creating sample group"
+            )
             return
 
         nxsample = self.create_NX_group(parent, "sample:NXsample")
@@ -1434,7 +1488,9 @@ class NXWriter(FileWriterCallbackBase):
 
         for key in "electric_field magnetic_field stress_field".split():
             ds = nxsample[key]
-            ds.attrs["direction"] = self.get_stream_link(f"{pre}_{key}_dir")[()].lower()
+            ds.attrs["direction"] = self.get_stream_link(
+                f"{pre}_{key}_dir"
+            )[()].lower()
 
         return nxsample
 
@@ -1462,7 +1518,9 @@ class NXWriter(FileWriterCallbackBase):
 
         return nxsource
 
-    def write_stream_external(self, parent, d, subgroup, stream_name, k, v):
+    def write_stream_external(
+        self, parent, d, subgroup, stream_name, k, v
+    ):
         # TODO: rabbit-hole alert! simplify
         # lots of variations possible
 
@@ -1490,7 +1548,7 @@ class NXWriter(FileWriterCallbackBase):
                 # compression_opts=9,
                 shuffle=True,
                 fletcher32=True,
-                )
+            )
             ds.attrs["target"] = ds.name
             ds.attrs["source_file"] = fname
             ds.attrs["source_address"] = h5_obj.name
@@ -1499,9 +1557,13 @@ class NXWriter(FileWriterCallbackBase):
 
         subgroup.attrs["signal"] = "value"
 
-    def write_stream_internal(self, parent, d, subgroup, stream_name, k, v):
+    def write_stream_internal(
+        self, parent, d, subgroup, stream_name, k, v
+    ):
+        # fmt: off
         subgroup.attrs["signal"] = "value"
-        subgroup.attrs["axes"] = ["time",]
+        subgroup.attrs["axes"] = ["time", ]
+        # fmt: on
         if isinstance(d, list) and len(d) > 0:
             if v["dtype"] in ("string",):
                 d = self.h5string(d)
@@ -1515,7 +1577,13 @@ class NXWriter(FileWriterCallbackBase):
             except Exception as exc:
                 logger.error("%s %s %s %s", v["dtype"], type(d), k, exc)
         except TypeError as exc:
-            logger.error("%s %s %s %s", v["dtype"], k, f"TypeError({exc})", v["data"])
+            logger.error(
+                "%s %s %s %s",
+                v["dtype"],
+                k,
+                f"TypeError({exc})",
+                v["data"],
+            )
         if stream_name == "baseline":
             # make it easier to pick single values
             # identify start/end of acquisition
@@ -1538,19 +1606,24 @@ class NXWriter(FileWriterCallbackBase):
                 raise ValueError(
                     f"stream {len(uids)} has descriptors, expecting only 1"
                 )
-            group = self.create_NX_group(bluesky, stream_name+":NXnote")
-            uid0 = uids[0]      # just get the one descriptor uid
+            group = self.create_NX_group(bluesky, stream_name + ":NXnote")
+            uid0 = uids[0]  # just get the one descriptor uid
             group.attrs["uid"] = uid0
-            acquisition = self.acquisitions[uid0]    # just get the one descriptor
+            # just get the one descriptor
+            acquisition = self.acquisitions[uid0]
             for k, v in acquisition["data"].items():
                 d = v["data"]
                 # NXlog is for time series data but NXdata makes an automatic plot
-                subgroup = self.create_NX_group(group, k+":NXdata")
+                subgroup = self.create_NX_group(group, k + ":NXdata")
 
                 if v["external"]:
-                    self.write_stream_external(parent, d, subgroup, stream_name, k, v)
+                    self.write_stream_external(
+                        parent, d, subgroup, stream_name, k, v
+                    )
                 else:
-                    self.write_stream_internal(parent, d, subgroup, stream_name, k, v)
+                    self.write_stream_internal(
+                        parent, d, subgroup, stream_name, k, v
+                    )
 
                 t = np.array(v["time"])
                 ds = subgroup.create_dataset("EPOCH", data=t)
@@ -1564,7 +1637,9 @@ class NXWriter(FileWriterCallbackBase):
                 ds.attrs["long_name"] = "time since first data (s)"
                 ds.attrs["target"] = ds.name
                 ds.attrs["start_time"] = t_start
-                ds.attrs["start_time_iso"] = datetime.datetime.fromtimestamp(t_start).isoformat()
+                ds.attrs[
+                    "start_time_iso"
+                ] = datetime.datetime.fromtimestamp(t_start).isoformat()
 
             # link images to parent names
             for k in group:
@@ -1578,17 +1653,14 @@ class NXWriter(FileWriterCallbackBase):
         group: /entry/contact:NXuser
         """
         keymap = dict(
-            name = "bss_user_info_contact",
-            affiliation = "bss_user_info_institution",
-            email = "bss_user_info_email",
-            facility_user_id = "bss_user_info_badge",
+            name="bss_user_info_contact",
+            affiliation="bss_user_info_institution",
+            email="bss_user_info_email",
+            facility_user_id="bss_user_info_badge",
         )
 
         try:
-            links = {
-                k: self.get_stream_link(v)
-                for k, v in keymap.items()
-            }
+            links = {k: self.get_stream_link(v) for k, v in keymap.items()}
         except KeyError as exc:
             logger.warning("%s -- not creating source group", str(exc))
             return
@@ -1635,10 +1707,12 @@ class NXWriterAPS(NXWriter):
         keys = "current fill_number".split()
 
         try:
+            # fmt: off
             links = {
-                key:self.get_stream_link(f"{pre}_{key}")
+                key: self.get_stream_link(f"{pre}_{key}")
                 for key in keys
             }
+            # fmt: on
         except KeyError as exc:
             logger.warning("%s -- not creating source group", str(exc))
             return
@@ -1657,7 +1731,7 @@ class NXWriterAPS(NXWriter):
         try:
             nxsource["cycle"] = self.get_stream_link("aps_aps_cycle")
         except KeyError:
-            pass        #  Should we compute the cycle?
+            pass  # Should we compute the cycle?
 
         return nxsource
 
@@ -1679,14 +1753,15 @@ class NXWriterAPS(NXWriter):
 
         try:
             links = {
-                key:self.get_stream_link(f"{pre}_{key}")
-                for key in keys
+                key: self.get_stream_link(f"{pre}_{key}") for key in keys
             }
         except KeyError as exc:
             logger.warning("%s -- not creating undulator group", str(exc))
             return
 
-        undulator = self.create_NX_group(parent, "undulator:NXinsertion_device")
+        undulator = self.create_NX_group(
+            parent, "undulator:NXinsertion_device"
+        )
         undulator.create_dataset("type", data="undulator")
         for k, v in links.items():
             undulator[k] = v

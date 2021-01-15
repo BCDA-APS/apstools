@@ -13,7 +13,7 @@ see :class:`SpecWriterCallback()`
 
 """
 
-#-----------------------------------------------------------------------------
+# -----------------------------------------------------------------------------
 # :author:    Pete R. Jemian
 # :email:     jemian@anl.gov
 # :copyright: (c) 2017-2020, UChicago Argonne, LLC
@@ -21,7 +21,7 @@ see :class:`SpecWriterCallback()`
 # Distributed under the terms of the Creative Commons Attribution 4.0 International Public License.
 #
 # The full license is in the file LICENSE.txt, distributed with this software.
-#-----------------------------------------------------------------------------
+# -----------------------------------------------------------------------------
 
 import datetime
 import logging
@@ -58,11 +58,14 @@ class DocumentCollectorCallback(object):
         print(doc_collector.documents["stop"])
 
     """
-    data_event_names = "descriptor event resource datum bulk_events".split()
+
+    data_event_names = (
+        "descriptor event resource datum bulk_events".split()
+    )
 
     def __init__(self):
-        self.documents = {}     # key: name, value: document
-        self.uids = []          # chronological list of UIDs as-received
+        self.documents = {}  # key: name, value: document
+        self.uids = []  # chronological list of UIDs as-received
 
     def receiver(self, key, document):
         """keep all documents from recent plan in memory"""
@@ -83,10 +86,7 @@ class DocumentCollectorCallback(object):
             print("exit status:", document["exit_status"])
             for item in self.data_event_names:
                 if item in self.documents:
-                    print(
-                        "# {}(s):".format(item),
-                        len(self.documents[item])
-                    )
+                    print(f"# {len(self.documents[item])}(s):")
         else:
             txt = "custom_callback encountered: %s\n%s"
             logger.warning(txt, key, document)
@@ -119,7 +119,8 @@ class SnapshotReport(CallbackBase):
 
     def start(self, doc):
         if doc.get("plan_name", "nope") == "snapshot":
-            self.xref = {}    # key=source, value=dict(value, iso8601 timestamp)
+            # key=source, value=dict(value, iso8601 timestamp)
+            self.xref = {}
         else:
             self.xref = None
 
@@ -129,7 +130,7 @@ class SnapshotReport(CallbackBase):
            the data is both in the descriptor AND the event docs
            due to the way our plan created it
         """
-        if self.xref is None:       # not from a snapshot plan
+        if self.xref is None:  # not from a snapshot plan
             return
 
         # The only way we have a stream that is not "primary"
@@ -138,13 +139,17 @@ class SnapshotReport(CallbackBase):
         if doc["name"] == "primary":
             for k, v in doc["configuration"].items():
                 ts = v["timestamps"][k]
-                dt = datetime.datetime.fromtimestamp(ts).isoformat().replace("T", " ")
+                dt = (
+                    datetime.datetime.fromtimestamp(ts)
+                    .isoformat()
+                    .replace("T", " ")
+                )
                 pvname = v["data_keys"][k]["source"]
                 value = v["data"][k]
                 self.xref[pvname] = dict(value=value, timestamp=dt)
 
     def stop(self, doc):
-        if self.xref is None:       # not from a snapshot plan
+        if self.xref is None:  # not from a snapshot plan
             return
 
         t = pyRestTable.Table()
@@ -154,7 +159,9 @@ class SnapshotReport(CallbackBase):
         t.addLabel("value")
         for k, v in sorted(self.xref.items()):
             p = k.find(":")
-            t.addRow((v["timestamp"], k[:p], k[p+1:], v["value"]))
+            # fmt: off
+            t.addRow((v["timestamp"], k[:p], k[p + 1:], v["value"]))
+            # fmt: on
         print(t)
         for k, v in sorted(doc.items()):
             print(f"{k}: {v}")
@@ -166,9 +173,9 @@ class SnapshotReport(CallbackBase):
         method: play the entire document stream through this callback
         """
         print()
-        print("="*40)
+        print("=" * 40)
         print("snapshot:", header.start["iso8601"])
-        print("="*40)
+        print("=" * 40)
         print()
         for k, v in sorted(header.start.items()):
             print(f"{k}: {v}")

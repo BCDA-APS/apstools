@@ -5,8 +5,10 @@ test issue #440: specwriter
 from apstools.filewriters import SpecWriterCallback
 from apstools.filewriters import _rebuild_scan_command
 import intake
+
 # import pytest
 import numpy as np
+
 # import numpy.testing
 import os
 import zipfile
@@ -25,7 +27,7 @@ TMP_CATALOG = os.path.join(
 def test_setup_comes_first():
     assert os.path.exists(FULL_ZIP_FILE)
 
-    with zipfile.ZipFile(FULL_ZIP_FILE, 'r') as zip_ref:
+    with zipfile.ZipFile(FULL_ZIP_FILE, "r") as zip_ref:
         zip_ref.extractall("/tmp")
 
     assert os.path.exists(TMP_CATALOG)
@@ -90,5 +92,5 @@ def test_specwriter():
     assert isinstance(arr, np.ndarray)
     # modify the start doc
     doc["plan_args"]["qx_setup"]["relative_energy"] = arr
-    cmd = _rebuild_scan_command(doc)    # FIXME: <-----
+    cmd = _rebuild_scan_command(doc)  # FIXME: <-----
     assert len(cmd.strip().splitlines()) == 1

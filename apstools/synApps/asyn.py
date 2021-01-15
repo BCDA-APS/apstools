@@ -11,7 +11,7 @@ Public Structures
 :see: https://github.com/epics-modules/asyn
 """
 
-#-----------------------------------------------------------------------------
+# -----------------------------------------------------------------------------
 # :author:    Pete R. Jemian
 # :email:     jemian@anl.gov
 # :copyright: (c) 2017-2020, UChicago Argonne, LLC
@@ -19,14 +19,16 @@ Public Structures
 # Distributed under the terms of the Creative Commons Attribution 4.0 International Public License.
 #
 # The full license is in the file LICENSE.txt, distributed with this software.
-#-----------------------------------------------------------------------------
+# -----------------------------------------------------------------------------
 
 from ophyd.device import Component
 from ophyd import EpicsSignal, EpicsSignalRO
 from ._common import EpicsRecordDeviceCommonAll
 
 
-__all__ = ["AsynRecord", ]
+__all__ = [
+    "AsynRecord",
+]
 
 
 class AsynRecord(EpicsRecordDeviceCommonAll):
@@ -37,6 +39,7 @@ class AsynRecord(EpicsRecordDeviceCommonAll):
     :see: https://github.com/epics-modules/asyn
     :see: https://epics.anl.gov/modules/soft/asyn/
     """
+
     ascii_output = Component(EpicsSignal, ".AOUT")
     binary_output = Component(EpicsSignal, ".BOUT")
     end_of_message_reason = Component(EpicsSignalRO, ".EOMR")

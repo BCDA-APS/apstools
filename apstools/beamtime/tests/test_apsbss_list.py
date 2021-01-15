@@ -7,7 +7,7 @@ import pytest
 import sys
 
 
-def test_myoutput(capsys): # or use "capfd" for fd-level
+def test_myoutput(capsys):  # or use "capfd" for fd-level
     """Example test capturing stdout and stderr for testing."""
     print("hello")
     sys.stderr.write("world\n")
@@ -83,7 +83,7 @@ def test_cycle_by_name(capsys):
         sys.argv = [
             sys.argv[0],
             "list",
-                "9-ID-B,C",
+            "9-ID-B,C",
             "--cycle",
             "2020-2",
         ]
@@ -115,7 +115,7 @@ def test_cycle_not_found():
             "list",
             "9-ID-B,C",
             "--cycle",
-            "not-a-cycle"
+            "not-a-cycle",
         ]
         with pytest.raises(KeyError) as exc:
             main()

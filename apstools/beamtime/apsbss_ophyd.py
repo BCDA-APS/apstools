@@ -17,7 +17,9 @@ EXAMPLE::
 
 """
 
-__all__ = ["EpicsBssDevice",]
+__all__ = [
+    "EpicsBssDevice",
+]
 
 from ..plans import addDeviceDataAsStream
 from ophyd import Component, Device, EpicsSignal
@@ -31,6 +33,7 @@ class EpicsEsafExperimenterDevice(Device):
 
         ~clear
     """
+
     badge_number = Component(EpicsSignal, "badgeNumber", string=True)
     email = Component(EpicsSignal, "email", string=True)
     first_name = Component(EpicsSignal, "firstName", string=True)
@@ -68,7 +71,7 @@ class EpicsEsafDevice(Device):
     user_last_names = Component(EpicsSignal, "users", string=True)
     user_badges = Component(EpicsSignal, "userBadges", string=True)
 
-    _max_users = 9    # 9 users at most?
+    _max_users = 9  # 9 users at most?
     user1 = Component(EpicsEsafExperimenterDevice, "user1:")
     user2 = Component(EpicsEsafExperimenterDevice, "user2:")
     user3 = Component(EpicsEsafExperimenterDevice, "user3:")
@@ -123,6 +126,7 @@ class EpicsProposalExperimenterDevice(Device):
 
         ~clear
     """
+
     badge_number = Component(EpicsSignal, "badgeNumber", string=True)
     email = Component(EpicsSignal, "email", string=True)
     first_name = Component(EpicsSignal, "firstName", string=True)
@@ -161,7 +165,9 @@ class EpicsProposalDevice(Device):
     number_users_in_pvs = Component(EpicsSignal, "users_in_pvs")
     number_users_total = Component(EpicsSignal, "users_total")
     proposal_id = Component(EpicsSignal, "id", string=True)
-    proprietary_flag = Component(EpicsSignal, "proprietaryFlag", string=True)
+    proprietary_flag = Component(
+        EpicsSignal, "proprietaryFlag", string=True
+    )
     raw = Component(EpicsSignal, "raw", string=True, kind="omitted")
     start_date = Component(EpicsSignal, "startDate", string=True)
     submitted_date = Component(EpicsSignal, "submittedDate", string=True)
@@ -169,7 +175,7 @@ class EpicsProposalDevice(Device):
     user_badges = Component(EpicsSignal, "userBadges", string=True)
     user_last_names = Component(EpicsSignal, "users", string=True)
 
-    _max_users = 9    # 9 users at most?
+    _max_users = 9  # 9 users at most?
     user1 = Component(EpicsProposalExperimenterDevice, "user1:")
     user2 = Component(EpicsProposalExperimenterDevice, "user2:")
     user3 = Component(EpicsProposalExperimenterDevice, "user3:")
@@ -227,9 +233,15 @@ class EpicsBssDevice(Device):
     esaf = Component(EpicsEsafDevice, "esaf:")
     proposal = Component(EpicsProposalDevice, "proposal:")
 
-    ioc_host = Component(EpicsSignal, "ioc_host", string=True, kind="omitted")
-    ioc_user = Component(EpicsSignal, "ioc_user", string=True, kind="omitted")
-    status_msg = Component(EpicsSignal, "status", string=True, kind="omitted")
+    ioc_host = Component(
+        EpicsSignal, "ioc_host", string=True, kind="omitted"
+    )
+    ioc_user = Component(
+        EpicsSignal, "ioc_user", string=True, kind="omitted"
+    )
+    status_msg = Component(
+        EpicsSignal, "status", string=True, kind="omitted"
+    )
 
     def clear(self):
         """Clear the proposal and ESAF info."""

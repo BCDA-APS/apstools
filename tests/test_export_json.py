@@ -1,4 +1,3 @@
-
 """
 unit tests for the SPEC filewriter
 """
@@ -12,7 +11,7 @@ import zipfile
 
 
 _test_path = os.path.dirname(__file__)
-_path = os.path.join(_test_path, '..')
+_path = os.path.join(_test_path, "..")
 if _path not in sys.path:
     sys.path.insert(0, _path)
 
@@ -25,7 +24,8 @@ TEST_ZIP_FILE = os.path.join(_test_path, "bluesky_data.zip")
 
 def get_db():
     import databroker
-    db = databroker.temp().v1   # TODO: does not work with v2
+
+    db = databroker.temp().v1  # TODO: does not work with v2
     datasets = json_import(TEST_JSON_FILE, TEST_ZIP_FILE)
     insert_docs(db, datasets)
     return db
@@ -40,7 +40,6 @@ def insert_docs(db, datasets, verbose=False):
 
 
 class Test_JsonExport(unittest.TestCase):
-
     def setUp(self):
         self.tempdir = tempfile.mkdtemp()
 
@@ -55,21 +54,29 @@ class Test_JsonExport(unittest.TestCase):
 
         filename = os.path.join(self.tempdir, "export1.txt")
         json_export(headers, filename=filename)
-        self.assertTrue(os.path.exists(filename), f"wrote to requested {filename}")
+        self.assertTrue(
+            os.path.exists(filename), f"wrote to requested {filename}"
+        )
 
         testdata = json_import(filename)
         self.assertEqual(len(testdata), 1, "file contains one dataset")
         dataset = testdata[0]
-        self.assertGreater(len(dataset), 1, "dataset contains more than one document")
+        self.assertGreater(
+            len(dataset), 1, "dataset contains more than one document"
+        )
         tag, doc = dataset[0]
         self.assertEqual(tag, "start", "found start document")
-        self.assertNotEqual(doc.get("plan_name"), None, "found a start document by duck type")
+        self.assertNotEqual(
+            doc.get("plan_name"),
+            None,
+            "found a start document by duck type",
+        )
         self.assertNotEqual(doc.get("uid"), None, "found a uid document")
         self.assertEqual(
             doc["uid"],
             headers[0].start["uid"],
-            "found matching start document"
-            )
+            "found matching start document",
+        )
 
     def test_export_import_zip(self):
         db = get_db()
@@ -79,32 +86,41 @@ class Test_JsonExport(unittest.TestCase):
         filename = "export2.txt"
         zipfilename = os.path.join(self.tempdir, "export2.zip")
         json_export(headers, filename, zipfilename=zipfilename)
-        self.assertFalse(os.path.exists(filename), f"did not write to {filename}")
+        self.assertFalse(
+            os.path.exists(filename), f"did not write to {filename}"
+        )
         self.assertTrue(
             os.path.exists(zipfilename),
-            f"wrote to requested ZIP {zipfilename}")
+            f"wrote to requested ZIP {zipfilename}",
+        )
         with zipfile.ZipFile(zipfilename, "r") as fp:
             self.assertIn(filename, fp.namelist(), "found JSON test data")
 
         testdata = json_import(filename, zipfilename)
         self.assertEqual(len(testdata), 1, "file contains one dataset")
         dataset = testdata[0]
-        self.assertGreater(len(dataset), 1, "dataset contains more than one document")
+        self.assertGreater(
+            len(dataset), 1, "dataset contains more than one document"
+        )
         tag, doc = dataset[0]
         self.assertEqual(tag, "start", "found start document")
-        self.assertNotEqual(doc.get("plan_name"), None, "found a start document by duck type")
+        self.assertNotEqual(
+            doc.get("plan_name"),
+            None,
+            "found a start document by duck type",
+        )
         self.assertNotEqual(doc.get("uid"), None, "found a uid document")
         self.assertEqual(
             doc["uid"],
             headers[0].start["uid"],
-            "found matching start document"
-            )
+            "found matching start document",
+        )
 
 
 def suite(*args, **kw):
     test_list = [
         Test_JsonExport,
-        ]
+    ]
 
     test_suite = unittest.TestSuite()
     for test_case in test_list:
@@ -113,5 +129,5 @@ def suite(*args, **kw):
 
 
 if __name__ == "__main__":
-    runner=unittest.TextTestRunner()
+    runner = unittest.TextTestRunner()
     runner.run(suite())
