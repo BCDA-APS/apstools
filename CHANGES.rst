@@ -8,6 +8,9 @@ Change History
 
 :1.4.0:  release expected by 2021-01-31
 
+    * `#483 <https://github.com/BCDA-APS/apstools/pull/483>`_
+       Python code style must pass ``flake8`` test.
+
     * `#482 <https://github.com/BCDA-APS/apstools/pull/482>`_
        specwriter: Fix bug when plan_args structure includes a numpy
        ndarray.
