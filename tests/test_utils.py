@@ -1,4 +1,3 @@
-
 """
 simple unit tests for this package
 """
@@ -9,7 +8,7 @@ import sys
 import time
 import unittest
 
-_path = os.path.join(os.path.dirname(__file__), '..')
+_path = os.path.join(os.path.dirname(__file__), "..")
 if _path not in sys.path:
     sys.path.insert(0, _path)
 
@@ -39,7 +38,8 @@ class Test_Utils(unittest.TestCase):
         motor1 = ophyd.sim.hw().motor1
         with Capture_stdout():
             table = APS_utils.listdevice(
-                motor1, show_ancient=True, use_datetime=True)
+                motor1, show_ancient=True, use_datetime=True
+            )
         # print(table)
         expected = (
             "=============== =====\n"
@@ -48,45 +48,53 @@ class Test_Utils(unittest.TestCase):
             "motor1          0    \n"
             "motor1_setpoint 0    \n"
             "=============== ====="
-            )
+        )
         # TODO: figure out how to compare with timestamps
-        received = "\n".join([
-            v[:21]
-            for v in str(table).strip().splitlines()])
-        self.assertEqual(received, expected)    # fails since timestamps do not match
+        received = "\n".join(
+            [v[:21] for v in str(table).strip().splitlines()]
+        )
+        self.assertEqual(
+            received, expected
+        )  # fails since timestamps do not match
 
         with Capture_stdout():
             table = APS_utils.listdevice(
-                motor1, show_ancient=True, use_datetime=False)
+                motor1, show_ancient=True, use_datetime=False
+            )
         # expected = """ """.strip()
         received = "\n".join(
-            [v[:21]
-             for v in str(table).strip().splitlines()])
-        self.assertEqual(received, expected)    # fails since timestamps do not match
+            [v[:21] for v in str(table).strip().splitlines()]
+        )
+        self.assertEqual(
+            received, expected
+        )  # fails since timestamps do not match
 
         with Capture_stdout():
             table = APS_utils.listdevice(
-                motor1, show_ancient=False, use_datetime=False)
+                motor1, show_ancient=False, use_datetime=False
+            )
         # expected = """ """.strip()
-        received = "\n".join([
-            v[:21]
-            for v in str(table).strip().splitlines()])
-        self.assertEqual(received, expected)    # fails since timestamps do not match
+        received = "\n".join(
+            [v[:21] for v in str(table).strip().splitlines()]
+        )
+        self.assertEqual(
+            received, expected
+        )  # fails since timestamps do not match
 
     def test_dictionary_table(self):
         md = {
-            'login_id': 'jemian:wow.aps.anl.gov',
-            'beamline_id': 'developer',
-            'proposal_id': None,
-            'pid': 19072,
-            'scan_id': 10,
-            'version': {
-                'bluesky': '1.5.2',
-                'ophyd': '1.3.3',
-                'apstools': '1.1.5',
-                'epics': '3.3.3'
-                }
-              }
+            "login_id": "jemian:wow.aps.anl.gov",
+            "beamline_id": "developer",
+            "proposal_id": None,
+            "pid": 19072,
+            "scan_id": 10,
+            "version": {
+                "bluesky": "1.5.2",
+                "ophyd": "1.3.3",
+                "apstools": "1.1.5",
+                "epics": "3.3.3",
+            },
+        }
         table = APS_utils.dictionary_table(md)
         received = str(table).strip()
         expected = (
@@ -120,27 +128,24 @@ class Test_Utils(unittest.TestCase):
             APS_utils.print_RE_md(md)
 
         expected = [
-            'RunEngine metadata dictionary:',
-            '========= ===============================',
-            'key       value                          ',
-            '========= ===============================',
-            'purpose   testing                        ',
-            'something else                           ',
-            'versions  ======== ======================',
-            '          key      value                 ',
-            '          ======== ======================',
-            f'          apstools {APS__version__}',
-            '          ======== ======================',
-            '========= ===============================',
-            ''
-            ]
+            "RunEngine metadata dictionary:",
+            "========= ===============================",
+            "key       value                          ",
+            "========= ===============================",
+            "purpose   testing                        ",
+            "something else                           ",
+            "versions  ======== ======================",
+            "          key      value                 ",
+            "          ======== ======================",
+            f"          apstools {APS__version__}",
+            "          ======== ======================",
+            "========= ===============================",
+            "",
+        ]
         self.assertEqual(len(received), len(expected))
         self.assertEqual(received[4].strip(), expected[4].strip())
         self.assertEqual(received[5].strip(), expected[5].strip())
-        self.assertEqual(
-            received[9].strip(),
-            expected[9].strip()
-            )
+        self.assertEqual(received[9].strip(), expected[9].strip())
 
     def test_pairwise(self):
         items = [1.0, 1.1, 1.01, 1.001, 1.0001, 1.00001, 2]
@@ -170,7 +175,7 @@ class Test_Utils(unittest.TestCase):
         source = 'FlyScan 5   2   0   "empty container"'
         received = APS_utils.split_quoted_line(source)
         self.assertEqual(len(received), 5)
-        expected = ['FlyScan', '5', '2', '0', 'empty container']
+        expected = ["FlyScan", "5", "2", "0", "empty container"]
         self.assertEqual(received, expected)
 
     def test_trim_string_for_EPICS(self):
@@ -181,16 +186,23 @@ class Test_Utils(unittest.TestCase):
         expected = source
         self.assertEqual(received, expected)
 
-        source = "0123456789"*10
-        self.assertGreater(len(source), APS_utils.MAX_EPICS_STRINGOUT_LENGTH)
+        source = "0123456789" * 10
+        self.assertGreater(
+            len(source), APS_utils.MAX_EPICS_STRINGOUT_LENGTH
+        )
         received = APS_utils.trim_string_for_EPICS(source)
         self.assertGreater(len(source), len(received))
-        expected = source[:APS_utils.MAX_EPICS_STRINGOUT_LENGTH-1]
+        expected = source[: APS_utils.MAX_EPICS_STRINGOUT_LENGTH - 1]
         self.assertEqual(received, expected)
 
     def test_listobjects(self):
         sims = ophyd.sim.hw().__dict__
-        wont_show = ("flyer1", "flyer2", "new_trivial_flyer", "trivial_flyer")
+        wont_show = (
+            "flyer1",
+            "flyer2",
+            "new_trivial_flyer",
+            "trivial_flyer",
+        )
         num = len(sims) - len(wont_show)
         kk = sorted(sims.keys())
 
@@ -206,7 +218,7 @@ class Test_Utils(unittest.TestCase):
     def test_unix(self):
         cmd = 'echo "hello"'
         out, err = APS_utils.unix(cmd)
-        self.assertEqual(out, b'hello\n')
+        self.assertEqual(out, b"hello\n")
         self.assertEqual(err, b"")
 
         cmd = "sleep 0.8 | echo hello"
@@ -214,14 +226,14 @@ class Test_Utils(unittest.TestCase):
         out, err = APS_utils.unix(cmd)
         dt = time.time() - t0
         self.assertGreaterEqual(dt, 0.8)
-        self.assertEqual(out, b'hello\n')
+        self.assertEqual(out, b"hello\n")
         self.assertEqual(err, b"")
 
 
 class Test_With_Database(unittest.TestCase):
-
     def setUp(self):
         from tests.test_export_json import get_db
+
         self.db = get_db()
 
     # def tearDown(self):
@@ -232,29 +244,25 @@ class Test_With_Database(unittest.TestCase):
         headers = list(headers)[0:1]
         self.assertEqual(len(headers), 1)
         table = APS_utils.listruns(
-            show_command=True,
-            printing=False,
-            num=10,
-            db=self.db,
-            )
+            show_command=True, printing=False, num=10, db=self.db,
+        )
         self.assertIsNotNone(table)
         self.assertEqual(
-            len(table.labels),
-            3+2,
-            "asked for 2 extra columns (total 5)")
-        self.assertEqual(
-            len(table.rows),
-            10,
-            "asked for 10 rows")
+            len(table.labels), 3 + 2, "asked for 2 extra columns (total 5)"
+        )
+        self.assertEqual(len(table.rows), 10, "asked for 10 rows")
         self.assertLessEqual(
             len(table.rows[1][4]),
             40,
-            "command row should be 40 char or less")
+            "command row should be 40 char or less",
+        )
 
     def test_replay(self):
         replies = []
+
         def cb1(key, doc):
             replies.append((key, len(doc)))
+
         APS_utils.replay(self.db(plan_name="count"), callback=cb1)
         self.assertGreater(len(replies), 0)
         keys = set([v[0] for v in replies])
@@ -283,8 +291,10 @@ class Test_With_Database(unittest.TestCase):
             previous = v
 
         replies = []
-        APS_utils.replay(self.db(plan_name="count"), callback=cb2, sort=False)
-        previous = replies[0]+1
+        APS_utils.replay(
+            self.db(plan_name="count"), callback=cb2, sort=False
+        )
+        previous = replies[0] + 1
         for i, v in enumerate(replies):
             msg = f"expect decreasing: #{i} : change={v-previous}"
             self.assertLess(v - previous, 0, msg)
@@ -295,7 +305,7 @@ def suite(*args, **kw):
     test_list = [
         Test_Utils,
         Test_With_Database,
-        ]
+    ]
     test_suite = unittest.TestSuite()
     for test_case in test_list:
         test_suite.addTest(unittest.makeSuite(test_case))
@@ -303,5 +313,5 @@ def suite(*args, **kw):
 
 
 if __name__ == "__main__":
-    runner=unittest.TextTestRunner()
+    runner = unittest.TextTestRunner()
     runner.run(suite())
