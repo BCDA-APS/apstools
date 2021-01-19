@@ -5,7 +5,7 @@ develop spec2ophyd
 """
 
 import os
-import spec2ophyd
+from . import spec2ophyd
 import sys
 
 
