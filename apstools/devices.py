@@ -1915,8 +1915,11 @@ def AD_prime_plugin2(plugin):
         [
             (plugin.enable, 1),
             (plugin.parent.cam.array_callbacks, 1),  # set by number
-            (plugin.parent.cam.image_mode, "Single"),
-            (plugin.parent.cam.trigger_mode, "Internal"),
+            (plugin.parent.cam.image_mode, 0),  # Single, set by number
+            # Trigger mode names are not identical for every camera.
+            # Assume here that the first item in the list is
+            # the best default choice to prime the plugin.
+            (plugin.parent.cam.trigger_mode, 0),  # set by number
             # just in case the acquisition time is set very long...
             (plugin.parent.cam.acquire_time, 1),
             (plugin.parent.cam.acquire_period, 1),

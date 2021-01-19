@@ -8,6 +8,9 @@ Change History
 
 :1.4.1:  release expected by 2021-01-22
 
+    * `#488 <https://github.com/BCDA-APS/apstools/pull/488>`_
+       use first trigger_mode when priming AD plugin
+
     * `#487 <https://github.com/BCDA-APS/apstools/pull/487>`_
        ensure spec2ophyd code is packaged
 
