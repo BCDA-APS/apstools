@@ -7,3 +7,4 @@ include apstools/beamtime/apsbss.adl
 include apstools/beamtime/apsbss.db
 include apstools/beamtime/apsbss.ui
 include apstools/beamtime/apsbss_ioc.sh
+include apstools/migration/config
