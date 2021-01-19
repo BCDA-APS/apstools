@@ -4,7 +4,12 @@
 Change History
 ##############
 
-:1.4.1:  release expected by 2021-03-31
+:1.4.2:  release expected by 2021-03-31
+
+:1.4.1:  release expected by 2021-01-31
+
+    * `#487 <https://github.com/BCDA-APS/apstools/pull/487>`_
+       ensure spec2ophyd code is packaged
 
 :1.4.0:  release expected by 2021-01-31
 
