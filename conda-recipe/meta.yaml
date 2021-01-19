@@ -54,6 +54,7 @@ test:
   commands:
     - python -c "import apstools;"
     - bluesky_snapshot --help
+    - spec2ophyd --help
 
 extra:
   recipe-maintainers:
