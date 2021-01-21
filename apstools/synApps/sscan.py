@@ -62,6 +62,8 @@ class sscanPositioner(Device):
     """
     positioner of an EPICS sscan record
 
+    .. index:: Ophyd Device; synApps sscanPositioner
+
     .. autosummary::
 
         ~defined_in_EPICS
@@ -131,6 +133,8 @@ class sscanDetector(Device):
     """
     detector of an EPICS sscan record
 
+    .. index:: Ophyd Device; synApps sscanDetector
+
     .. autosummary::
 
         ~defined_in_EPICS
@@ -163,6 +167,8 @@ class sscanDetector(Device):
 class sscanTrigger(Device):
     """
     detector trigger of an EPICS sscan record
+
+    .. index:: Ophyd Device; synApps sscanTrigger
 
     .. autosummary::
 
@@ -215,7 +221,9 @@ def _sscan_triggers(channel_list):
 
 class SscanRecord(Device):
     """
-    EPICS synApps sscan record: used as $(P):scan(N)
+    EPICS synApps sscan record: used as ``$(P):scan(N)``
+
+    .. index:: Ophyd Device; synApps SscanRecord
 
     .. autosummary::
 
@@ -339,7 +347,9 @@ class SscanRecord(Device):
 
 class SscanDevice(Device):
     """
-    synApps XXX IOC setup of sscan records: $(P):scan$(N)
+    synApps XXX IOC setup of sscan records: ``$(P):scan$(N)``
+
+    .. index:: Ophyd Device; synApps SscanDevice
 
     .. autosummary::
 

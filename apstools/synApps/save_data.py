@@ -39,6 +39,8 @@ class SaveData(Device):
     """
     EPICS synApps saveData support
 
+    .. index:: Ophyd Device; synApps SaveData
+
     usage::
 
         from apstools.synApps import SaveData

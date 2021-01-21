@@ -37,6 +37,11 @@ class BusyStatus(str, Enum):
 
 
 class BusyRecord(Device):
+    """
+    synApps busy record
+
+    .. index:: Ophyd Device; synApps BusyRecord
+    """
     state = Component(EpicsSignal, "")
     output_link = Component(EpicsSignal, ".OUT")
     forward_link = Component(EpicsSignal, ".FLNK")

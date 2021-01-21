@@ -58,12 +58,18 @@ inactive_deadline = 0  # sscan timeout, absolute time.time()
 
 
 class CommandFileReadError(IOError):
-    ...
+    """
+    Exception when reading a command file.
+
+    .. index:: Bluesky Exception; CommandFileReadError
+    """
 
 
 def addDeviceDataAsStream(devices, label):
     """
     plan: add an ophyd Device as an additional document stream
+
+    .. index:: Bluesky Plan; addDeviceDataAsStream
 
     Use this within a custom plan, such as this example::
 
@@ -91,6 +97,8 @@ def addDeviceDataAsStream(devices, label):
 def execute_command_list(filename, commands, md=None):
     """
     plan: execute the command list
+
+    .. index:: Bluesky Plan; execute_command_list
 
     The command list is a tuple described below.
 
@@ -224,6 +232,8 @@ def lineup(
 ):
     """
     lineup and center a given axis, relative to current position
+
+    .. index:: Bluesky Plan; lineup
 
     PARAMETERS
 
@@ -371,6 +381,8 @@ def lineup(
 def nscan(detectors, *motor_sets, num=11, per_step=None, md=None):
     """
     Scan over ``n`` variables moved together, each in equally spaced steps.
+
+    .. index:: Bluesky Plan; nscan
 
     PARAMETERS
 
@@ -660,6 +672,8 @@ def run_command_file(filename, md=None):
     """
     plan: execute a list of commands from a text or Excel file
 
+    .. index:: Bluesky Plan; run_command_file
+
     * Parse the file into a command list
     * yield the command list to the RunEngine (or other)
 
@@ -685,6 +699,8 @@ def run_command_file(filename, md=None):
 def snapshot(obj_list, stream="primary", md=None):
     """
     bluesky plan: record current values of list of ophyd signals
+
+    .. index:: Bluesky Plan; snapshot
 
     PARAMETERS
 
@@ -813,6 +829,8 @@ def sscan_1D(
 ):
     """
     simple 1-D scan using EPICS synApps sscan record
+
+    .. index:: Bluesky Plan; sscan_1D
 
     assumes the sscan record has already been setup properly for a scan
 
@@ -965,7 +983,11 @@ def sscan_1D(
 
 
 class TuneResults(Device):
-    """because bps.read() needs a Device or a Signal)"""
+    """
+    Provides bps.read() as a Device
+
+    .. index:: Bluesky Device; TuneResults
+    """
 
     tune_ok = Component(Signal)
     initial_position = Component(Signal)
@@ -1008,6 +1030,8 @@ class TuneResults(Device):
 class TuneAxis(object):
     """
     tune an axis with a signal
+
+    .. index:: Bluesky Device; TuneAxis
 
     This class provides a tuning object so that a Device or other entity
     may gain its own tuning process, keeping track of the particulars
@@ -1070,6 +1094,8 @@ class TuneAxis(object):
     def tune(self, width=None, num=None, peak_factor=None, md=None):
         """
         Bluesky plan to execute one pass through the current scan range
+
+        .. index:: Bluesky Plan; TuneAxis.tune
 
         Scan self.axis centered about current position from
         ``-width/2`` to ``+width/2`` with ``num`` observations.
@@ -1319,6 +1345,8 @@ class TuneAxis(object):
 def tune_axes(axes):
     """
     Bluesky plan to tune a list of axes in sequence
+
+    .. index:: Bluesky Plan; tune_axes
 
     EXAMPLE
 

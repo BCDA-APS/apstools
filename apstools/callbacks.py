@@ -45,6 +45,8 @@ class DocumentCollectorCallback(object):
     """
     Bluesky callback to collect *all* documents from most-recent plan
 
+    .. index:: Bluesky Callback; DocumentCollectorCallback
+
     Will reset when it receives a *start* document.
 
     EXAMPLE::

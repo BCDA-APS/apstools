@@ -133,6 +133,8 @@ class SpecWriterCallback(object):
     """
     Collect data from Bluesky RunEngine documents to write as SPEC data.
 
+    .. index:: Bluesky Callback; SpecWriterCallback
+
     This gathers data from all documents in a scan and appends scan to the file
     when the ``stop`` document is received.  One or more scans can be written to
     the same file.  The file format is text.
@@ -267,7 +269,11 @@ class SpecWriterCallback(object):
         dest[key].append(f"{ts}.  {text}")
 
     def receiver(self, key, document):
-        """Bluesky callback: receive all documents for handling"""
+        """
+        Bluesky callback: receive all documents for handling
+
+        .. index:: Bluesky Callback; SpecWriterCallback.receiver
+        """
         xref = dict(
             start=self.start,
             descriptor=self.descriptor,
@@ -738,6 +744,8 @@ class FileWriterCallbackBase:
     """
     Base class for filewriter callbacks.
 
+    .. index:: Bluesky Callback; FileWriterCallbackBase
+
     New with apstools release 1.3.0.
 
     Applications should subclass and rewrite the ``writer()`` method.
@@ -796,6 +804,8 @@ class FileWriterCallbackBase:
     def receiver(self, key, doc):
         """
         bluesky callback (handles a stream of documents)
+
+        .. index:: Bluesky Callback; FileWriterCallbackBase.receiver
         """
         handler = self.xref.get(key)
         if handler is None:
@@ -1036,6 +1046,8 @@ class FileWriterCallbackBase:
 class NXWriter(FileWriterCallbackBase):
     """
     General class for writing HDF5/NeXus file (using only NeXus base classes).
+
+    .. index:: Bluesky Callback; NXWriter
 
     New with apstools release 1.3.0.
 
@@ -1675,6 +1687,8 @@ class NXWriter(FileWriterCallbackBase):
 class NXWriterAPS(NXWriter):
     """
     Customize :class:`~NXWriter` with APS-specific content.
+
+    .. index:: Bluesky Callback; NXWriterAPS
 
     New with apstools release 1.3.0.
 

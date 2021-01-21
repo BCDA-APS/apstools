@@ -92,7 +92,11 @@ MAX_EPICS_STRINGOUT_LENGTH = 40
 
 
 class ExcelReadError(openpyxl.utils.exceptions.InvalidFileException):
-    ...
+    """
+    Exception when reading Excel spreadsheet.
+
+    .. index:: apstools Exception; ExcelReadError
+    """
 
 
 def cleanupText(text):
@@ -1094,6 +1098,8 @@ class EmailNotifications(object):
     """
     send email notifications when requested
 
+    .. index:: apstools Utility; EmailNotifications
+
     use default OS mail utility (so no credentials needed)
 
     EXAMPLE
@@ -1148,6 +1154,8 @@ class EmailNotifications(object):
 class ExcelDatabaseFileBase(object):
     """
     base class: read-only support for Excel files, treat them like databases
+
+    .. index:: apstools Utility; ExcelDatabaseFileBase
 
     Use this class when creating new, specific spreadsheet support.
 
@@ -1261,6 +1269,7 @@ class ExcelDatabaseFileGeneric(ExcelDatabaseFileBase):
     """
     Generic (read-only) handling of Excel spreadsheet-as-database
 
+    .. index:: apstools Utility; ExcelDatabaseFileGeneric
     .. index:: Excel scan, scan; Excel
 
     .. note:: This is the class to use when reading Excel spreadsheets.

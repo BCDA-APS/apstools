@@ -31,6 +31,8 @@ class SynPseudoVoigt(
     """
     Evaluate a point on a pseudo-Voigt based on the value of a motor.
 
+    .. index:: Ophyd Signal; SynPseudoVoigt
+
     Provides a signal to be measured.
     Acts like a detector.
 

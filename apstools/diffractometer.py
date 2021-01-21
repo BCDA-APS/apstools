@@ -41,7 +41,10 @@ import pyRestTable
 logger = logging.getLogger(__file__)
 
 gi.require_version("Hkl", "5.0")  # MUST come before `import hkl`
-import hkl.diffract
+try:
+    from hkl.geometries import E4CV, E6C, K4CV, K6C
+except AttributeError:
+    from hkl.diffract import E4CV, E6C, K4CV, K6C
 
 
 Constraint = collections.namedtuple(
@@ -349,7 +352,7 @@ class DiffractometerMixin(Device):
         return table
 
 
-class SoftE4CV(DiffractometerMixin, hkl.diffract.E4CV):
+class SoftE4CV(DiffractometerMixin, E4CV):
     """
     E4CV: Simulated (soft) 4-circle diffractometer, vertical scattering
 
@@ -386,7 +389,7 @@ class SoftE4CV(DiffractometerMixin, hkl.diffract.E4CV):
             axis.move(0)
 
 
-class SoftE6C(DiffractometerMixin, hkl.diffract.E6C):
+class SoftE6C(DiffractometerMixin, E6C):
     """
     E6C: Simulated (soft) 6-circle diffractometer
 
@@ -429,7 +432,7 @@ class SoftE6C(DiffractometerMixin, hkl.diffract.E6C):
             axis.move(0)
 
 
-class SoftK4CV(DiffractometerMixin, hkl.diffract.K4CV):
+class SoftK4CV(DiffractometerMixin, K4CV):
     """
     K4CV: Simulated (soft) kappa as 4-circle diffractometer
 
@@ -466,7 +469,7 @@ class SoftK4CV(DiffractometerMixin, hkl.diffract.K4CV):
             axis.move(0)
 
 
-class SoftK6C(DiffractometerMixin, hkl.diffract.K6C):
+class SoftK6C(DiffractometerMixin, K6C):
     """
     K6C: Simulated (soft) kappa 6-circle diffractometer
 

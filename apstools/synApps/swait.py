@@ -65,7 +65,11 @@ CHANNEL_LETTERS_LIST = "A B C D E F G H I J K L".split()
 
 
 class SwaitRecordChannel(Device):
-    """channel of a synApps swait record: A-L"""
+    """
+    channel of a synApps swait record: A-L
+
+    .. index:: Ophyd Device; synApps SwaitRecordChannel
+    """
 
     input_value = FC(EpicsSignal, "{self.prefix}.{self._ch_letter}")
     input_pv = FC(EpicsSignal, "{self.prefix}.IN{self._ch_letter}N")
@@ -95,7 +99,9 @@ def _swait_channels(channel_list):
 
 class SwaitRecord(EpicsRecordDeviceCommonAll):
     """
-    synApps swait record: used as $(P):userCalc$(N)
+    synApps swait record: used as ``$(P):userCalc$(N)``
+
+    .. index:: Ophyd Device; synApps SwaitRecord
 
     .. autosummary::
 
@@ -155,7 +161,9 @@ class SwaitRecord(EpicsRecordDeviceCommonAll):
 
 class UserCalcsDevice(Device):
     """
-    synApps XXX IOC setup of userCalcs: $(P):userCalc$(N)
+    synApps XXX IOC setup of userCalcs: ``$(P):userCalc$(N)``
+
+    .. index:: Ophyd Device; synApps UserCalcsDevice
 
     .. autosummary::
 

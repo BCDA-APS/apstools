@@ -29,6 +29,11 @@ __all__ = [
 
 
 class IocStatsDevice(Device):
+    """
+    synApps IOC stats
+
+    .. index:: Ophyd Device; synApps IocStatsDevice
+    """
 
     _app_dir1 = Component(EpicsSignalRO, "APP_DIR1", kind="omitted")
     _app_dir2 = Component(EpicsSignalRO, "APP_DIR2", kind="omitted")

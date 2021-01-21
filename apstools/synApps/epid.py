@@ -36,6 +36,8 @@ class EpidRecord(EpicsRecordFloatFields, EpicsRecordDeviceCommonAll):
     """
     EPICS epid record support in ophyd
 
+    .. index:: Ophyd Device; synApps EpidRecord
+
     :see: https://epics.anl.gov/bcda/synApps/std/epidRecord.html
     """
 

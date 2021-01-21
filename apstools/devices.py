@@ -156,7 +156,9 @@ def use_EPICS_scaler_channels(scaler):
 
 class ApsCycleDM(SynSignalRO):
     """
-    Get the APS cycle name from the APS Data Management system
+    Get the APS cycle name from the APS Data Management system.
+
+    .. index:: Ophyd Signal; ApsCycleDM
 
     This signal is read-only.
     """
@@ -179,6 +181,8 @@ class ApsCycleComputedRO(SynSignalRO):
     """
     Compute the APS cycle name based on the calendar and the usual practice.
 
+    .. index:: Ophyd Signal; ApsCycleComputedRO
+
     Absent any facility PV that provides the name of the current operating
     cycle, this can be approximated by python computation (as long as the
     present scheduling pattern is maintained)
@@ -196,7 +200,11 @@ class ApsCycleComputedRO(SynSignalRO):
 
 
 class ApsOperatorMessagesDevice(Device):
-    """General messages from the APS main control room."""
+    """
+    General messages from the APS main control room.
+
+    .. index:: Ophyd Device; ApsOperatorMessagesDevice
+    """
 
     operators = Component(EpicsSignalRO, "OPS:message1", string=True)
     floor_coordinator = Component(
@@ -218,6 +226,8 @@ class ApsOperatorMessagesDevice(Device):
 class ApsMachineParametersDevice(Device):
     """
     Common operational parameters of the APS of general interest.
+
+    .. index:: Ophyd Device; ApsMachineParametersDevice
 
     EXAMPLE::
 
@@ -313,6 +323,8 @@ class ApsMachineParametersDevice(Device):
 class ShutterBase(Device):
     """
     Base class for all shutter Devices.
+
+    .. index:: Ophyd Device; ShutterBase
 
     PARAMETERS
 
@@ -535,6 +547,8 @@ class OneSignalShutter(ShutterBase):
     """
     Shutter Device using one Signal for open and close.
 
+    .. index:: Ophyd Device; OneSignalShutter
+
     PARAMETERS
 
     signal
@@ -630,6 +644,8 @@ class ApsPssShutter(ShutterBase):
     """
     APS PSS shutter
 
+    .. index:: Ophyd Device; ApsPssShutter
+
     * APS PSS shutters have separate bit PVs for open and close
     * set either bit, the shutter moves, and the bit resets a short time later
     * no indication that the shutter has actually moved from the bits
@@ -722,6 +738,8 @@ class ApsPssShutter(ShutterBase):
 class ApsPssShutterWithStatus(ApsPssShutter):
     """
     APS PSS shutter with separate status PV
+
+    .. index:: Ophyd Device; ApsPssShutterWithStatus
 
     * APS PSS shutters have separate bit PVs for open and close
     * set either bit, the shutter moves, and the bit resets a short time later
@@ -875,6 +893,8 @@ class SimulatedApsPssShutterWithStatus(ApsPssShutterWithStatus):
     """
     Simulated APS PSS shutter
 
+    .. index:: Ophyd Device; SimulatedApsPssShutterWithStatus
+
     EXAMPLE::
 
         sim = SimulatedApsPssShutterWithStatus(name="sim")
@@ -929,6 +949,10 @@ class SimulatedApsPssShutterWithStatus(ApsPssShutterWithStatus):
 
 class TrackingSignal(Signal):
     """
+    Non-EPICS signal for use when coordinating Device actions.
+
+    .. index:: Ophyd Signal; TrackingSignal
+
     Signal to decide if undulator will be tracked while changing the
     monochromator energy.
     """
@@ -950,6 +974,8 @@ class TrackingSignal(Signal):
 class ApsUndulator(Device):
     """
     APS Undulator
+
+    .. index:: Ophyd Device; ApsUndulator
 
     EXAMPLE::
 
@@ -1006,6 +1032,8 @@ class ApsUndulatorDual(Device):
     """
     APS Undulator with upstream *and* downstream controls
 
+    .. index:: Ophyd Device; ApsUndulatorDual
+
     EXAMPLE::
 
         undulator = ApsUndulatorDual("ID09", name="undulator")
@@ -1020,6 +1048,8 @@ class ApsUndulatorDual(Device):
 class ApsBssUserInfoDevice(Device):
     """
     Provide current experiment info from the APS BSS.
+
+    .. index:: Ophyd Device; ApsBssUserInfoDevice
 
     BSS: Beamtime Scheduling System
 
@@ -1053,16 +1083,26 @@ class ApsBssUserInfoDevice(Device):
 
 
 class DeviceMixinBase(Device):
-    """Base class for apstools Device mixin classes"""
+    """
+    Base class for apstools Device mixin classes
+
+    .. index:: Ophyd Device Mixin; DeviceMixinBase
+    """
 
 
 class AxisTunerException(ValueError):
-    """Exception during execution of `AxisTunerBase` subclass"""
+    """
+    Exception during execution of `AxisTunerBase` subclass
+
+    .. index:: Ophyd Exception; AxisTunerException
+    """
 
 
 class AxisTunerMixin(DeviceMixinBase):
     """
     Mixin class to provide tuning capabilities for an axis
+
+    .. index:: Ophyd Device Mixin; AxisTunerMixin
 
     See the `TuneAxis()` example in this jupyter notebook:
     https://github.com/BCDA-APS/apstools/blob/master/docs/source/resources/demo_tuneaxis.ipynb
@@ -1150,6 +1190,8 @@ class EpicsDescriptionMixin(DeviceMixinBase):
     """
     add a record's description field to a Device, such as EpicsMotor
 
+    .. index:: Ophyd Device Mixin; EpicsDescriptionMixin
+
     EXAMPLE::
 
         from ophyd import EpicsMotor
@@ -1191,6 +1233,8 @@ class EpicsMotorDialMixin(DeviceMixinBase):
     """
     add motor record's dial coordinate fields to Device
 
+    .. index:: Ophyd Device Mixin; EpicsMotorDialMixin
+
     EXAMPLE::
 
         from ophyd import EpicsMotor
@@ -1208,6 +1252,8 @@ class EpicsMotorDialMixin(DeviceMixinBase):
 class EpicsMotorEnableMixin(DeviceMixinBase):
     """
     mixin providing access to motor enable/disable
+
+    .. index:: Ophyd Device Mixin; EpicsMotorEnableMixin
 
     EXAMPLE::
 
@@ -1249,6 +1295,8 @@ class EpicsMotorEnableMixin(DeviceMixinBase):
 class EpicsMotorLimitsMixin(DeviceMixinBase):
     """
     add motor record HLM & LLM fields & compatibility get_lim() and set_lim()
+
+    .. index:: Ophyd Device Mixin; EpicsMotorLimitsMixin
 
     EXAMPLE::
 
@@ -1329,6 +1377,8 @@ class EpicsMotorServoMixin(DeviceMixinBase):
     """
     add motor record's servo loop controls to Device
 
+    .. index:: Ophyd Device Mixin; EpicsMotorServoMixin
+
     EXAMPLE::
 
         from ophyd import EpicsMotor
@@ -1347,6 +1397,8 @@ class EpicsMotorRawMixin(DeviceMixinBase):
     """
     add motor record's raw coordinate fields to Device
 
+    .. index:: Ophyd Device Mixin; EpicsMotorRawMixin
+
     EXAMPLE::
 
         from ophyd import EpicsMotor
@@ -1363,6 +1415,8 @@ class EpicsMotorRawMixin(DeviceMixinBase):
 class EpicsMotorResolutionMixin(DeviceMixinBase):
     """
     Add motor record's resolution fields to motor.
+
+    .. index:: Ophyd Device Mixin; EpicsMotorResolutionMixin
 
     Usually, a facility will not provide such high-level
     access to calibration parameters since these are
@@ -1391,7 +1445,9 @@ class EpicsMotorResolutionMixin(DeviceMixinBase):
 
 class EpicsMotorShutter(OneSignalShutter):
     """
-    a shutter, implemented with an EPICS motor moved between two positions
+    Shutter, implemented with an EPICS motor moved between two positions
+
+    .. index:: Ophyd Device; EpicsMotorShutter
 
     EXAMPLE::
 
@@ -1455,7 +1511,9 @@ class EpicsMotorShutter(OneSignalShutter):
 
 class EpicsOnOffShutter(OneSignalShutter):
     """
-    a shutter using a single EPICS PV moved between two positions
+    Shutter using a single EPICS PV moved between two positions
+
+    .. index:: Ophyd Device; EpicsOnOffShutter
 
     Use for a shutter controlled by a single PV which takes a
     value for the close command and a different value for the open command.
@@ -1483,6 +1541,8 @@ class EpicsOnOffShutter(OneSignalShutter):
 class DualPf4FilterBox(Device):
     """
     Dual Xia PF4 filter boxes using support from synApps (using Al, Ti foils)
+
+    .. index:: Ophyd Device; DualPf4FilterBox
 
     EXAMPLE::
 
@@ -1512,6 +1572,8 @@ class DualPf4FilterBox(Device):
 class KohzuSeqCtl_Monochromator(Device):
     """
     synApps Kohzu double-crystal monochromator sequence control program
+
+    .. index:: Ophyd Device; KohzuSeqCtl_Monochromator
     """
 
     # lambda is reserved word in Python, can't use it
@@ -1561,6 +1623,8 @@ class KohzuSeqCtl_Monochromator(Device):
 class ProcessController(Device):
     """
     common parts of a process controller support
+
+    .. index:: Ophyd Device; ProcessController
 
     A process controller keeps a signal (a readback value such as
     temperature, vacuum, himdity, etc.) as close as possible
@@ -1707,7 +1771,11 @@ class ProcessController(Device):
 
 
 class Struck3820(Device):
-    """Struck/SIS 3820 Multi-Channel Scaler (as used by USAXS)"""
+    """
+    Struck/SIS 3820 Multi-Channel Scaler (as used by USAXS)
+
+    .. index:: Ophyd Device; Struck3820
+    """
 
     start_all = Component(EpicsSignal, "StartAll")
     stop_all = Component(EpicsSignal, "StopAll")
@@ -1946,6 +2014,8 @@ class AD_EpicsHdf5FileName(
     """
     custom class to define image file name from EPICS
 
+    .. index:: Ophyd Device Support; AD_EpicsHdf5FileName
+
     .. caution:: *Caveat emptor* applies here.  You assume expertise!
 
     Replace standard Bluesky algorithm where file names
@@ -2142,6 +2212,8 @@ class AD_EpicsJpegFileName(
 
     """
     custom class to define image file name from EPICS
+
+    .. index:: Ophyd Device Support; AD_EpicsJpegFileName
 
     .. caution:: *Caveat emptor* applies here.  You assume expertise!
 

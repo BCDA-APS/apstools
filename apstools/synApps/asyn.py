@@ -1,7 +1,6 @@
 """
 Ophyd support for the EPICS asyn record
 
-
 Public Structures
 
 .. autosummary::
@@ -34,6 +33,8 @@ __all__ = [
 class AsynRecord(EpicsRecordDeviceCommonAll):
     """
     EPICS asyn record support in ophyd
+
+    .. index:: Ophyd Device; synApps AsynRecord
 
     :see: https://epics.anl.gov/modules/soft/asyn/R4-36/asynRecord.html
     :see: https://github.com/epics-modules/asyn

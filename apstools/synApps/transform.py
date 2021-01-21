@@ -46,6 +46,8 @@ class transformRecordChannel(Device):
     """
     channel of a synApps transform record: A-P
 
+    .. index:: Ophyd Device; synApps transformRecordChannel
+
     .. autosummary::
 
         ~reset
@@ -91,6 +93,8 @@ class TransformRecord(EpicsRecordDeviceCommonAll):
     """
     EPICS transform record support in ophyd
 
+    .. index:: Ophyd Device; synApps TransformRecord
+
     .. autosummary::
 
         ~reset
@@ -131,7 +135,9 @@ class TransformRecord(EpicsRecordDeviceCommonAll):
 
 class UserTransformsDevice(Device):
     """
-    synApps XXX IOC setup of userTransforms: $(P):userTran$(N)
+    synApps XXX IOC setup of userTransforms: ``$(P):userTran$(N)``
+
+    .. index:: Ophyd Device; synApps UserTransformsDevice
     """
 
     enable = Cpt(EpicsSignal, "userTranEnable")

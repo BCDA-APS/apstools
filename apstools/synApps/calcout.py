@@ -54,6 +54,8 @@ class CalcoutRecordChannel(Device):
     """
     channel of a calcout record: A-L
 
+    .. index:: Ophyd Device; synApps CalcoutRecordChannel
+
     .. autosummary::
 
         ~reset
@@ -91,6 +93,8 @@ def _channels(channel_list):
 class CalcoutRecord(EpicsRecordFloatFields, EpicsRecordDeviceCommonAll):
     """
     EPICS calcout record support in ophyd
+
+    .. index:: Ophyd Device; synApps CalcoutRecord
 
     .. autosummary::
 
@@ -164,6 +168,8 @@ class CalcoutRecord(EpicsRecordFloatFields, EpicsRecordDeviceCommonAll):
 class UserCalcoutDevice(Device):
     """
     synApps XXX IOC setup of user calcouts: ``$(P):userCalcOut$(N)``
+
+    .. index:: Ophyd Device; synApps UserCalcoutDevice
 
     .. autosummary::
 
