@@ -43,7 +43,7 @@ logger = logging.getLogger(__file__)
 gi.require_version("Hkl", "5.0")  # MUST come before `import hkl`
 try:
     from hkl.geometries import E4CV, E6C, K4CV, K6C
-except AttributeError:
+except ModuleNotFoundError:
     from hkl.diffract import E4CV, E6C, K4CV, K6C
 
 
