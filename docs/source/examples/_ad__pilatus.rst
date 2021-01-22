@@ -1,4 +1,4 @@
-.. index:: Example; Area Detector
+.. index:: Example; Pilatus Area Detector
 
 .. _ad_pilatus:
 

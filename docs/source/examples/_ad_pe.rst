@@ -1,4 +1,4 @@
-.. index:: Example; Area Detector
+.. index:: Example; Perkin-Elmer Area Detector
 
 .. _ad_pe:
 
