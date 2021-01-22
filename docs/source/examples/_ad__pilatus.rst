@@ -1,9 +1,9 @@
-.. index:: Excel scan, scan; Excel, command list
+.. index:: Example; Area Detector
 
 .. _ad_pilatus:
 
-Example: EPICS Area Detector using Pilatus Camera
-=================================================
+Example: Pilatus EPICS Area Detector
+====================================
 
 In this example, we'll show how to create an ophyd object
 that operates our Pilatus camera as a detector.  We'll show
