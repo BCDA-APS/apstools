@@ -16,8 +16,15 @@ version of EPICS Area Detector (3.7) is used in this example.  We'll use
 a different object name, ``det_pe``, for this detector and different
 directories (where the write and read directories are the same).
 
-Here is
-the Perkin-Elmer support, derived from the Pilatus support
+Follow the :ref:`ad_pilatus.explanation` to learn more about the
+choices made below.  The process is similar.
+
+.. _ad_pe.summary:
+
+Perkin-Elmer Support Code
+-------------------------
+
+Here is the Perkin-Elmer support, derived from the Pilatus support
 (:ref:`ad_pilatus`).
 
 .. code-block:: python
