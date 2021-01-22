@@ -31,6 +31,7 @@ Here is the Perkin-Elmer support, derived from the Pilatus support
     :caption: Perkin-Elmer Area Detector support, writing HDF5 image files
     :linenos:
 
+    from ophyd import ADComponent
     from ophyd import ImagePlugin
     from ophyd import PerkinElmerDetector
     from ophyd import SingleTrigger
@@ -57,8 +58,12 @@ Here is the Perkin-Elmer support, derived from the Pilatus support
 
     det_pe = MyPilatusDetector("PE1:", name="det_pe")
     det_pe.hdf1.create_directory.put(-5)
-    det_pe.hdf1.stage_sigs["compression"] = "LZ4"
+    det_pe.cam.stage_sigs["image_mode"] = "Single"
+    det_pe.cam.stage_sigs["num_images"] = 1
+    det_pe.cam.stage_sigs["acquire_time"] = 0.1
+    det_pe.cam.stage_sigs["acquire_period"] = 0.105
     det_pe.hdf1.stage_sigs["lazy_open"] = 1
+    det_pe.hdf1.stage_sigs["compression"] = "LZ4"
     det_pe.hdf1.stage_sigs["file_template"] = "%s%s_%3.3d.h5"
-    det_pe det.hdf1.stage_sigs["capture"]
+    del det_pe.hdf1.stage_sigs["capture"]
     det_pe.hdf1.stage_sigs["capture"] = 1

@@ -35,6 +35,7 @@ Here is the complete support code:
     :caption: Pilatus Area Detector support, writing HDF5 image files
     :linenos:
 
+    from ophyd import ADComponent
     from ophyd import ImagePlugin
     from ophyd import PilatusDetector
     from ophyd import SingleTrigger
@@ -61,8 +62,12 @@ Here is the complete support code:
 
     det = MyPilatusDetector("Pilatus:", name="det")
     det.hdf1.create_directory.put(-5)
-    det.hdf1.stage_sigs["compression"] = "LZ4"
+    det.cam.stage_sigs["image_mode"] = "Single"
+    det.cam.stage_sigs["num_images"] = 1
+    det.cam.stage_sigs["acquire_time"] = 0.1
+    det.cam.stage_sigs["acquire_period"] = 0.105
     det.hdf1.stage_sigs["lazy_open"] = 1
+    det.hdf1.stage_sigs["compression"] = "LZ4"
     det.hdf1.stage_sigs["file_template"] = "%s%s_%3.3d.h5"
     del det.hdf1.stage_sigs["capture"]
     det.hdf1.stage_sigs["capture"] = 1
@@ -179,7 +184,9 @@ step        actions
 *unstage*   restore the previous device settings (as saved in the stage step)
 ==========  ==================
 
-We won't use the *read* step in this example:
+We won't use the *read* step in this example (but Python steps to
+read the image are shown below in the :ref:`ad_pilatus.read_image`
+section):
 
 * The EPICS IOC saves the image to a file
 * Area detector images, unlike most other data we might handle for data
@@ -430,10 +437,27 @@ To change the directory for new HDF5 files::
         det.hdf1.write_path_template.put(os.path.join(PILATUS_FILES_ROOT, path))
         det.hdf1.read_path_template.put(os.path.join(BLUESKY_FILES_ROOT, path))
 
+Staging the Camera Settings
++++++++++++++++++++++++++++
+
+We want to control the number of image frames to be acquired so we
+stage these ``cam`` features::
+
+    >>> det.cam.stage_sigs["image_mode"] = "Single"
+    >>> det.cam.stage_sigs["num_images"] = 1
+
+Also, we want to control the acquire time (actual the time the camera is
+collecting the image) and period (total time between image frames) for
+the image::
+
+    >>> det.cam.stage_sigs["acquire_time"] = 0.1
+    >>> det.cam.stage_sigs["acquire_period"] = 0.105
+
 Staging the HDF5Plugin
 ++++++++++++++++++++++
 
-We need to configure the HDF5 plugin for staging.  The defaults are::
+We need to configure ``hdf1`` (the HDF5 plugin) for staging.  The
+defaults are::
 
     >>> det.hdf1.stage_sigs
     OrderedDict([('enable', 1),
@@ -454,14 +478,14 @@ captured.  By default, ophyd will choose a file name based on a random
 ``uuid``. [#]_  It is possible to change this naming style but those
 steps are beyond this example.
 
-We want to add LZ4 compression::
-
-    >>> det.hdf1.stage_sigs["compression"] = "LZ4"
-
-and enable the ``LazyOpen`` feature [#]_  (so we do not have to acquire
+We want to enable the ``LazyOpen`` feature [#]_  (so we do not have to acquire
 an image into the HDF5 plugin before our first data acquisition)::
 
     >>> det.hdf1.stage_sigs["lazy_open"] = 1
+
+and we want to add LZ4 compression::
+
+    >>> det.hdf1.stage_sigs["compression"] = "LZ4"
 
 The ``LazyOpen`` setting *must* happen before the plugin is set to
 ``Capture``, so we must delete that and then add it as the last action::
@@ -485,9 +509,24 @@ Now that the ``det`` object is ready for data acquisition,
 let's acquire an image using the ophyd tools::
 
     >>> det.stage()
+
+Ack.  An upstream problem might appear in response to ``det.stage()``
+as a long exception report, starting with ``UnprimedPlugin`` and
+ending with::
+
+    UnprimedPlugin: The plugin hdf1 on the area detector with name det has not been primed.
+
+Until the upstream support in ophyd is corrected to watch for
+``LazyOpen=1``, you need to *warmup* the plugin (by acquiring an image and
+pushing it into the HDF plugin):
+
+    >>> det.warmup()
+
+Then, proceed to acquire an image and save it to a file.
+
     >>> st = det.trigger()
 
-The return result was a Status object.  If we check its value before 
+The return result was a Status object.  If we check its value before
 the image is saved to an HDF5 file, the result looks like this::
 
     >>> st
@@ -534,3 +573,61 @@ and we can get a local directory listing of the same file::
     -rw-r--r-- 1 root 2.2M Jan 22 00:41 /export/raid5/fileshare/data/test/pilatus/2021/01/22/4e26f601-df6d-4848-bf3f_000.h5
 
 Note: The file size might be different for your detector.
+
+.. _ad_pilatus.read_image:
+
+Read the Image into Python
+--------------------------
+
+Our long-term plan is to use ``det`` for data acquisition with Bluesky
+and the *databroker* package. [#]_ Since this example focusses on the
+ophyd configuration of an area detector, we'll show how to read the
+image from the HDF5 file.  ()
+
+.. note:: Keep in mind this is not the recommended way to get the image
+    with Bluesky but we show this procedure since we have not used
+    *bluesky* and *databroker* to record the image file details.
+
+Once you have taken an image with ``det`` and saved it to an HDF5 file,
+we can read that file and get the image.  By default, the EPICS area
+detector HDF5 File Writer stores the image (using the NeXus schema) at
+the address ``/entry/data/data`` in the file.
+
+First, we must get the name of the data file from the IOC::
+
+    >>> full_name_ioc = det.hdf1.full_file_name.get()
+    >>> print(f"IOC: {full_name_ioc}")
+    '/mnt/fileserver/data/test/pilatus/2021/01/22/4e26f601-df6d-4848-bf3f_000.h5'
+
+This is the full path as the IOC sees the file system.  We can simply
+remove the IOC path and replace it with the local path::
+
+    full_name_local = LOCAL_FILES_ROOT + full_name_ioc[len(IOC_FILES_ROOT):]
+
+Verify that we have such a file::
+
+    >>> print(f"local file: {full_name_local}")
+    '/export/raid5/fileshare/data/test/pilatus/2021/01/22/4e26f601-df6d-4848-bf3f_000.h5'
+    >>> print(f"exists:{os.path.exists(full_name_local)}")
+    exists:True
+
+Open the file using the *h5py* [#]_ package::
+
+    >>> import h5py
+    >>> root = h5py.File(full_name_local, "r")
+
+Read the image::
+
+    >>> image = root["/entry/data/data"]
+
+Show the *shape* of the image::
+
+    >>> image.shape
+    (1, 1024, 1024)
+
+Close the file::
+
+    >>> root.close()
+
+.. [#] https://blueskyproject.io/databroker/
+.. [#] https://www.h5py.org/
