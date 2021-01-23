@@ -6,7 +6,10 @@ Change History
 
 :1.4.2:  release expected by 2021-03-31
 
-:1.4.1:  release expected by 2021-01-22
+:1.4.1:  released: 2021-01-23
+
+    * add Area Detector configuration examples:
+      Pilatus & Perkin-Elmer, both writing image to HDF5 file
 
     * `#488 <https://github.com/BCDA-APS/apstools/pull/488>`_
        use first trigger_mode when priming AD plugin
