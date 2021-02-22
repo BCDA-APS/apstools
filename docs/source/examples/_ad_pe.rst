@@ -44,7 +44,7 @@ Here is the Perkin-Elmer support, derived from the Pilatus support
 
     class MyHDF5Plugin(FileStoreHDF5IterativeWrite, HDF5Plugin_V34): ...
 
-    class MyPilatusDetector(SingleTrigger, PerkinElmerDetector):
+    class MyPerkinElmerDetector(SingleTrigger, PerkinElmerDetector):
         """Perkin-Elmer detector"""
 
         image = ADComponent(ImagePlugin, "image1:")
@@ -56,7 +56,7 @@ Here is the Perkin-Elmer support, derived from the Pilatus support
             ),
         )
 
-    det_pe = MyPilatusDetector("PE1:", name="det_pe")
+    det_pe = MyPerkinElmerDetector("PE1:", name="det_pe")
     det_pe.hdf1.create_directory.put(-5)
     det_pe.cam.stage_sigs["image_mode"] = "Single"
     det_pe.cam.stage_sigs["num_images"] = 1
