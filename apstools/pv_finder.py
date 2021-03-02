@@ -34,7 +34,6 @@ def _build_registry(force_rebuild=False):
             # fallback
             g = globals()
         _ophyd_epicsobject_walker(g)
-        print(f"{len(_registry)} entries")
 
 
 def _ref_dict(parent, key):
