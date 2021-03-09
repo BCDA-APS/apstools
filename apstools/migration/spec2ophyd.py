@@ -236,7 +236,8 @@ class SpecMotor(ItemNameBase):
             device_list = devices.get("PSE_MAC_MOT")
             if device_list is not None:
                 uc_str = self.ctrl[len("MAC_MOT:"):]
-                unit, chan = list(map(int, uc_str.split("/")))
+                # FIXME: `1/0/0` is a new case from 17BM
+                unit, chan, = list(map(int, uc_str.split("/")))[:2]  # FIXME:
                 self.device = device_list[unit]
                 self.macro_prefix = self.device.prefix
                 # TODO: what else?
