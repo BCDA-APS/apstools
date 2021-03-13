@@ -499,6 +499,7 @@ def listruns(
     ).search(db_search_terms)
 
     sortKey = "time"
+
     def sorter(uid):
         return cat[uid].metadata["start"][sortKey]
 
