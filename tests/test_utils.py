@@ -2,7 +2,6 @@
 simple unit tests for this package
 """
 
-import datetime
 import ophyd.sim
 import os
 import sys
