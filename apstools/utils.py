@@ -1942,7 +1942,8 @@ class PVRegistry:
         """
         self._db = defaultdict(lambda: defaultdict(list))
         self._known_device_names = []
-        if (g := ipython_shell_namespace()) == 0:
+        g = ipython_shell_namespace()
+        if g == 0:
             # fallback
             g = globals()
         self._ophyd_epicsobject_walker(g)
@@ -1960,7 +1961,8 @@ class PVRegistry:
             keys = parent.component_names
             ref_func = self._ref_object_attribute
         for k in keys:
-            if (v := ref_func(parent, k)) is None:
+            v = ref_func(parent, k)
+            if v is None:
                 continue
             # print(k, type(v))
             if isinstance(v, EpicsSignalBase):
@@ -1981,7 +1983,8 @@ class PVRegistry:
 
     def _register_signal(self, signal, pv, mode):
         """Register a signal with the given mode."""
-        if (fdn := full_dotted_name(signal)) not in self._db[pv][mode]:
+        fdn = full_dotted_name(signal)
+        if fdn not in self._db[pv][mode]:
             self._db[pv][mode].append(fdn)
 
     def _signal_processor(self, signal):
