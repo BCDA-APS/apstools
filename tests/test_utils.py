@@ -6,6 +6,7 @@ simple unit tests for this package
 from apstools import __version__ as APS__version__
 from apstools import utils as APS_utils
 import databroker
+import numpy as np
 import ophyd.sim
 import os
 import pytest
@@ -225,7 +226,20 @@ def test_utils_unix():
 
 def test_utils_with_database_listruns(cat):
     assert len(list(cat.v1[COUNT].documents())[:1]) == 1
-    table = APS_utils.listruns(
+    df = APS_utils.listruns(cat=cat, printing=False, num=10)
+    assert df is not None
+    assert len(df.columns) == 4
+
+    assert "time" in df
+    assert df.columns[1] == "time"
+    ts = df["time"]
+    assert len(ts) == 10
+    assert (ts == np.sort(ts)[::-1]).all()
+
+
+def test_utils_with_database_listruns_v1_4(cat):
+    assert len(list(cat.v1[COUNT].documents())[:1]) == 1
+    table = APS_utils.listruns_v1_4(
         db=cat, show_command=True, printing=False, num=10,
     )
     assert table is not None

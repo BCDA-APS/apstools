@@ -13,20 +13,26 @@ Various utilities
    ~ExcelDatabaseFileBase
    ~ExcelDatabaseFileGeneric
    ~ExcelReadError
+   ~findCatalogsInNamespace
    ~full_dotted_name
+   ~getCatalog
    ~getDatabase
+   ~getDefaultCatalog
    ~getDefaultDatabase
+   ~getDefaultNamespace
    ~ipython_profile_name
    ~itemizer
    ~json_export
    ~json_import
    ~listdevice
    ~listobjects
+   ~ListRuns
    ~listruns
+   ~listruns_v1_4
    ~object_explorer
    ~pairwise
-   ~print_snapshot_list
    ~print_RE_md
+   ~print_snapshot_list
    ~quantify_md_key_use
    ~redefine_motor_position
    ~replay
@@ -60,6 +66,7 @@ from bluesky import plan_stubs as bps
 from bluesky.callbacks.best_effort import BestEffortCallback
 from collections import defaultdict
 from collections import OrderedDict
+from dataclasses import dataclass
 from email.mime.text import MIMEText
 from event_model import NumpyEncoder
 import databroker
@@ -72,6 +79,7 @@ import openpyxl
 import openpyxl.utils.exceptions
 import ophyd
 import os
+import pandas as pd
 import psutil
 import pyRestTable
 import re
@@ -146,7 +154,8 @@ def device_read2table(
     """
     warnings.warn(
         "DEPRECATED: device_read2table() will be removed"
-        " in a future release.  Use listdevice() instead."
+        " in a future release.  Use listdevice() instead.",
+        DeprecationWarning
     )
     listdevice(
         device,
@@ -384,7 +393,376 @@ def itemizer(fmt, items):
     return [fmt % k for k in items]
 
 
+def getCatalog(ref=None):
+    if isinstance(ref, str):  # and ref in databroker.catalog:
+        return databroker.catalog[ref]
+    if ref is not None and hasattr(ref, "v2"):
+        return ref.v2
+    cat = getDefaultCatalog()
+    if cat is None:
+        raise ValueError("Cannot identify default databroker catalog.")
+    return cat
+
+
+def findCatalogsInNamespace():
+    g = {}
+    g.update(getDefaultNamespace())
+    ns_cats = {}
+    for k, v in g.items():
+        if not k.startswith("_") and hasattr(v, "__class__"):
+            try:
+                if (hasattr(v.v2, "container") and hasattr(v.v2, "metadata")):
+                    ns_cats[k] = v
+            except (AttributeError, TypeError):
+                continue
+    return ns_cats
+
+
+def getDefaultCatalog():
+    cats = findCatalogsInNamespace()
+    if len(cats) == 1:
+        return cats[list(cats.keys())[0]]
+    if len(cats) > 1:
+        choices = '   '.join([
+            f"{k} ({v.name})"
+            for k, v in cats.items()
+        ])
+        raise ValueError(
+            "No catalog defined.  "
+            "Multiple catalog objects available."
+            "  Specify one of these:"
+            f" {choices}"
+        )
+
+    cats = list(databroker.catalog)
+    if len(cats) == 1:
+        return databroker.catalog[cats[0]]
+    if len(cats) > 1:
+        choices = '   '.join([f'databroker.catalog[\"{k}\"]' for k in cats])
+        raise ValueError(
+            "No catalog defined.  "
+            "Multiple catalog configurations available."
+            "  Create specific catalog object from one of these commands:"
+            f" {choices}"
+        )
+
+    raise ValueError("No catalogs available.")
+
+
+def getDefaultNamespace():
+    """
+    get the IPython shell's namespace dictionary (or globals() if not found)
+    """
+    try:
+        from IPython import get_ipython
+
+        ns = get_ipython().user_ns
+    except AttributeError:
+        ns = globals()
+    return ns
+
+
+@dataclass
+class ListRuns:
+    """
+    List the runs from the given catalog according to some options.
+
+    EXAMPLE::
+
+        ListRuns(cat).to_dataframe()
+
+    PUBLIC METHODS
+
+    .. autosummary::
+
+        ~to_dataframe
+        ~to_table
+        ~parse_runs
+
+    INTERNAL METHODS
+
+    .. autosummary::
+
+        ~_get_by_key
+        ~_check_cat
+        ~_apply_search_filters
+        ~_sorter
+        ~_check_keys
+
+    """
+
+    cat: object = None
+    query: dict = None
+    keys: str = None
+    missing: str = ""
+    num: int = 20
+    reverse: bool = True
+    since: str = None
+    sortby: str = "time"
+    timefmt: str = "%Y-%m-%d %H:%M:%S"
+    until: str = None
+
+    _default_keys = "scan_id time plan_name detectors"
+
+    def _get_by_key(self, md, key):
+        """
+        Get run's metadata value by key.
+
+        Look in ``start`` document first.
+        If not found, look in ``stop`` document.
+        If not found, report using ``self.missing``.
+
+        If ``key`` is found but value is None, report as ``self.missing``.
+
+        The ``time`` key will be formatted by the ``self.timefmt`` value.
+        See https://strftime.org/ for examples.  The special ``timefmt="raw"``
+        is used to report time as the raw value (floating point time as used in
+        python's ``time.time()``).
+
+        A special syntax of ``key`` allows reporting of keys in other
+        metadata subdictionaries.  The syntax is ``doc.key`` (such as
+        specifying the ``time`` key  from the ``stop`` document:
+        ``stop.time``) where a ``.`` is used to separate the
+        subdictionary name (``doc``) from the ``key``.
+        **Note**:
+        It is not possible to ``sortby`` the dotted-key syntax
+        at this time.
+        """
+        v = None
+        if key == "time":
+            v = md["start"][key]
+            if self.timefmt != "raw":
+                ts = datetime.datetime.fromtimestamp(v)
+                v = ts.strftime(self.timefmt)
+        elif key in md["start"]:
+            v = md["start"].get(key, self.missing)
+        elif md["stop"] and key in md["stop"]:
+            v = md["stop"].get(key, self.missing)
+        elif len(key.split(".")) == 2:
+            # dotted-key syntax
+            doc, key = key.split(".")
+            if md[doc] is not None:
+                v = md[doc].get(key, self.missing)
+                if key == "time" and self.timefmt != "raw":
+                    ts = datetime.datetime.fromtimestamp(v)
+                    v = ts.strftime(self.timefmt)
+        return v or self.missing
+
+    def _check_cat(self):
+        if self.cat is None:
+            self.cat = getCatalog()
+
+    def _apply_search_filters(self):
+        since = self.since or "1995-01-01"
+        until = self.until or "2100-12-31"
+        self._check_cat()
+        cat = self.cat.v2.search(
+            databroker.queries.TimeRange(since=since, until=until)
+        ).search(self.query or {})
+        return cat
+
+    def parse_runs(self):
+        """Parse the runs for the given metadata keys.  Return a dict."""
+        self._check_cat()
+        self._check_keys()
+        cat = self._apply_search_filters()
+        num_runs_requested = min(abs(self.num), len(cat))
+        dd = {
+            key: [
+                self._get_by_key(run.metadata, key)
+                for _, run in sorted(
+                    cat.items(), key=self._sorter, reverse=self.reverse
+                )[:num_runs_requested]
+            ]
+            for key in self.keys
+        }
+        return dd
+
+    def _sorter(self, args):
+        """Sort runs in desired order based on metadata key."""
+        # args : (uid, run)
+        md = args[1].metadata
+        for doc in "start stop".split():
+            if md[doc] and self.sortby in md[doc]:
+                return md[doc][self.sortby] or self.missing
+        return self.missing
+
+    def _check_keys(self):
+        """Check that self.keys is a list of strings."""
+        self.keys = self.keys or self._default_keys
+        if isinstance(self.keys, str) and self.keys.find(" ") >= 0:
+            # convert a space-delimited string of names
+            self.keys = self.keys.split()
+
+    def to_dataframe(self):
+        """Output as pandas DataFrame object"""
+        self._check_keys()
+        dd = self.parse_runs()
+        return pd.DataFrame(dd, columns=self.keys)
+
+    def to_table(self, fmt=None):
+        """Output as pyRestTable object."""
+        self._check_keys()
+        dd = self.parse_runs()
+
+        table = pyRestTable.Table()
+        rows = []
+        for label, values in dd.items():
+            table.addLabel(label)
+            rows.append(values)
+        table.rows = list(zip(*rows))
+
+        return table.reST(fmt=fmt or "simple")
+
+
 def listruns(
+    cat=None,
+    keys=None,
+    missing="",
+    num=20,
+    printing="smart",
+    reverse=True,
+    since=None,
+    sortby="time",
+    tablefmt="dataframe",
+    timefmt="%Y-%m-%d %H:%M:%S",
+    until=None,
+    **query
+):
+    """
+    List runs from catalog.
+
+    This function provides a thin interface to the highly-reconfigurable
+    ``ListRuns()`` class in this package.
+
+    For the old version of this function, see
+    ``listruns_v1_4()``.  That code was last
+    updated in apstools version 1.4.1.  It
+    will be removed some time in the future.
+
+    PARAMETERS
+
+    cat
+        *object* :
+        Instance of databroker v1 or v2 catalog.
+    keys
+        *str* or *[str]* or None:
+        Include these additional keys from the start document.
+        (default: ``None`` means ``"scan_id time plan_name detectors"``)
+    missing
+        *str*:
+        Test to report when a value is not available.
+        (default: ``""``)
+    num
+        *int* :
+        Make the table include the ``num`` most recent runs.
+        (default: ``20``)
+    printing
+        *bool* or ``"smart"``:
+        If ``True``, print the table to stdout.
+        If ``"smart"``, then act as shown below.
+        (default: ``True``)
+
+        ================  ===================
+        session           action(s)
+        ================  ===================
+        python session    print and return ``None``
+        Ipython console   return ``DataFrame`` object
+        Jupyter notebook  return ``DataFrame`` object
+        ================  ===================
+
+    reverse
+        *bool* :
+        If ``True``, sort in descending order by ``sortby``.
+        (default: ``True``)
+    since
+        *str* :
+        include runs that started on or after this ISO8601 time
+        (default: ``"1995-01-01"``)
+    sortby
+        *str* :
+        Sort columns by this key, found by exact match in either
+        the ``start`` or ``stop`` document.
+        (default: ``"time"``)
+    tablefmt
+        *str* :
+        When returning an object, specify which type
+        of object to return.
+        (default: ``"dataframe",``)
+
+        ========== ==============
+        value      object
+        ========== ==============
+        dataframe  ``pandas.DataFrame``
+        table      ``str(pyRestTable.Table)``
+        ========== ==============
+
+    timefmt
+        *str* :
+        The ``time`` key (also includes keys ``"start.time"`` and  ``"stop.time"``)
+        will be formatted by the ``self.timefmt`` value.
+        See https://strftime.org/ for examples.  The special ``timefmt="raw"``
+        is used to report time as the raw value (floating point time as used in
+        python's ``time.time()``).
+        (default: ``"%Y-%m-%d %H:%M:%S",``)
+    until
+        *str* :
+        include runs that started before this ISO8601 time
+        (default: ``2100-12-31``)
+    **query
+        *dict* :
+        Any additional keyword arguments will be passed to
+        the databroker to refine the search for matching runs
+        using the ``mongoquery`` package.
+
+    RETURNS
+
+    object:
+        ``None`` or ``str`` or ``pd.DataFrame()`` object
+
+    EXAMPLE::
+
+        TODO
+
+    (new in release 1.5.0)
+    """
+
+    lr = ListRuns(
+        cat=cat,
+        keys=keys,
+        missing=missing,
+        num=num,
+        reverse=reverse,
+        since=since,
+        sortby=sortby,
+        timefmt=timefmt,
+        until=until,
+    )
+
+    table_format_function = dict(
+        dataframe=lr.to_dataframe,
+        table=lr.to_table,
+    ).get(tablefmt or "dataframe", lr.to_table)
+    obj = table_format_function()
+
+    do_print = False
+    if printing:
+        if lr.cat is not None:
+            print(f"catalog: {lr.cat.name}")
+        if printing == "smart":
+            try:
+                get_ipython()  # console or notebook will handle
+            except NameError:
+                do_print = True  # we print it here
+        else:
+            do_print = True
+    if do_print:
+        print(obj)
+        return
+    return obj
+
+
+def listruns_v1_4(
     num=20,
     keys=None,
     printing=True,
@@ -397,6 +775,8 @@ def listruns(
     **db_search_terms,
 ):
     """
+    DEPRECATED: Use newer ``listruns()`` instead.
+
     make a table of the most recent runs (scans)
 
     PARAMETERS
@@ -483,6 +863,11 @@ def listruns(
 
     *new in apstools release 1.1.10*
     """
+    warnings.warn(
+        "DEPRECATED: listruns_v1_4() will be removed"
+        " in a future release.  Instead, use newer ``listruns()``.",
+        DeprecationWarning
+    )
     db = getDatabase(db=db, catalog_name=catalog_name)
     keys = keys or []
     num_runs_requested = min(abs(num), len(db))
@@ -1705,6 +2090,8 @@ def print_snapshot_list(db, printing=True, **search_criteria):
 
 def json_export(headers, filename, zipfilename=None):
     """
+    DEPRECATED: Use *databroker-pack* package instead.
+
     write a list of headers (from databroker) to a file
 
     PARAMETERS
@@ -1748,6 +2135,11 @@ def json_export(headers, filename, zipfilename=None):
         datasets = json_import("data.json)
 
     """
+    warnings.warn(
+        "DEPRECATED: json_import() will be removed"
+        " in a future release.  Instead, use *databroker-pack* package.",
+        DeprecationWarning
+    )
     datasets = [list(h.documents()) for h in headers]
     buf = json.dumps(datasets, cls=NumpyEncoder, indent=2)
 
@@ -1761,6 +2153,8 @@ def json_export(headers, filename, zipfilename=None):
 
 def json_import(filename, zipfilename=None):
     """
+    DEPRECATED: Use *databroker-pack* package instead.
+
     read the file exported by :func:`~json_export()`
 
     RETURNS
@@ -1786,6 +2180,11 @@ def json_import(filename, zipfilename=None):
                     db.insert(k, doc)
 
     """
+    warnings.warn(
+        "DEPRECATED: json_import() will be removed"
+        " in a future release.  Instead, use *databroker-pack* package.",
+        DeprecationWarning
+    )
     if zipfilename is None:
         with open(filename, "r") as fp:
             buf = fp.read()
