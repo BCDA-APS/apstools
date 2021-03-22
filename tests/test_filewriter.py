@@ -11,6 +11,7 @@ import spec2nexus.spec
 import tempfile
 
 CATALOG = "usaxs_test"
+COUNT = "555a604"  # <-- uid,  scan_id: 2
 TUNE_AR = 103  # <-- scan_id,  uid: "3554003"
 TUNE_MR = 108  # <-- scan_id,  uid: "2ffe4d8"
 
@@ -47,7 +48,7 @@ def test_catalog(cat):
 
 
 def test_replay(cat):
-    run = cat.v1["555a604"]
+    run = cat.v1[COUNT]
     assert len(list(run.documents())) == 7
     di = iter(run.documents())
     key, doc = next(di)
