@@ -47,6 +47,11 @@ jobs:
         PY_VER: ${{ matrix.python-version }}
         ENV_NAME: anaconda-test-env-py-${{ matrix.python-version }}
 
+    - name: install test data catalogs
+      shell: bash -l {0}
+      run: |
+        ./tests/unpack.sh
+
     - name: Run tests with pytest
       run: |
         source $CONDA/bin/activate $ENV_NAME
