@@ -498,9 +498,14 @@ def listruns(
         databroker.queries.TimeRange(since=since, until=until)
     ).search(db_search_terms)
 
+    sortKey = "time"
+
+    def sorter(uid):
+        return cat[uid].metadata["start"][sortKey]
+
     table = pyRestTable.Table()
     table.labels = "short_uid   date/time  exit".split() + labels
-    for uid in cat:
+    for uid in sorted(cat, key=sorter, reverse=True):
         if len(table.rows) == num_runs_requested:
             break
         run = cat[uid]

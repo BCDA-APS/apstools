@@ -257,6 +257,13 @@ class Test_With_Database(unittest.TestCase):
             "command row should be 40 char or less",
         )
 
+        # self.maxDiff = None
+        # self.assertEqual(str(table), "", "debugging")
+
+        self.assertEqual(table.labels[1], "date/time", "second column is ISO8601 date/time")
+        ts = [row[1] for row in table.rows]
+        self.assertEqual(ts, sorted(ts, reverse=True), "expect sorted by descending date/time")
+
     def test_replay(self):
         replies = []
 
