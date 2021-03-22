@@ -23,15 +23,11 @@ def suite(*args, **kw):
     from tests import test_commandlist
     from tests import test_diffractometer
     from tests import test_exceltable
-    from tests import test_export_json
-    from tests import test_filewriter
     from tests import test_simple
     from tests import test_utils
 
     test_list = [
         test_simple,
-        test_filewriter,
-        test_export_json,
         test_exceltable,
         test_commandlist,
         test_utils,
