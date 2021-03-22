@@ -13,3 +13,6 @@ for c in ${CAT}; do
     unzip -u ${SRC}/${c}.zip -d ${TMP}
     databroker-unpack inplace  ${TMP}/${c}   ${c}
 done
+
+# show all available catalogs
+databroker-pack --list

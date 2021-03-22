@@ -5,7 +5,7 @@ import pandas as pd
 import pytest
 
 
-TEST_CATALOG_NAME = "class_2021_03"
+TEST_CATALOG_NAME = "apstools_test"
 
 
 @pytest.fixture(scope="function")
