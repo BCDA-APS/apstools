@@ -398,6 +398,7 @@ def getCatalog(ref=None):
         return databroker.catalog[ref]
     if ref is not None and hasattr(ref, "v2"):
         return ref.v2
+    
     cat = getDefaultCatalog()
     if cat is None:
         raise ValueError("Cannot identify default databroker catalog.")
@@ -457,7 +458,7 @@ def getDefaultNamespace():
         from IPython import get_ipython
 
         ns = get_ipython().user_ns
-    except AttributeError:
+    except (ModuleNotFoundError, AttributeError):
         ns = globals()
     return ns
 
