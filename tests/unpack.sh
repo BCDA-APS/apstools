@@ -5,10 +5,9 @@
 
 CAT+=" apstools_test"
 CAT+=" usaxs_test"
-TMP=/tmp
+TMP=/tmp  # TODO: What about Windows?
 SRC=$(dirname $(readlink -f $0))
 
-# cd ${TMP}
 for c in ${CAT}; do
     echo ${SRC}/${c}.zip
     unzip -u ${SRC}/${c}.zip -d ${TMP}
