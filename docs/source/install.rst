@@ -63,7 +63,7 @@ https://PyPI.python.org.  Among the required packages:
 
   - python>=3.6.0
   - aps-dm-api
-  - bluesky, databroker, ophyd, hklpy
+  - bluesky, databroker, ophyd
   - h5py
   - pyEpics
   - pyqt=5
