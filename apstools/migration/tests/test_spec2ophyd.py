@@ -85,15 +85,26 @@ def test_SpecConfig_find_pv_in_collection():
     sc = spec2ophyd.SpecConfig(os.path.join(path, "config"))  # USAXS
     sc.read_config()
     assert isinstance(
-        sc.find_pv_in_collection("9idcLAX:aero:c1:m1"), 
+        sc.find_pv_in_collection("9idcLAX:aero:c1:m1"),
         spec2ophyd.SpecMotor
     )
     assert isinstance(
-        sc.find_pv_in_collection("9idcLAX:vsc:c0"), 
+        sc.find_pv_in_collection("9idcLAX:vsc:c0"),
         spec2ophyd.SpecSignal
     )
     # FIXME:
     # assert isinstance(
-    #     sc.find_pv_in_collection("9idcLAX:vsc:c0.S1"), 
+    #     sc.find_pv_in_collection("9idcLAX:vsc:c0.S1"),
     #     spec2ophyd.SpecCounter
     # )
+
+
+def test_create_ophyd_setup(capsys):
+    sc = spec2ophyd.SpecConfig(os.path.join(path, "config_fourc"))
+    sc.read_config()
+    spec2ophyd.create_ophyd_setup(sc)
+    out, err = capsys.readouterr()
+    lines = out.splitlines()
+    assert len(lines) == 22
+    assert len(err.splitlines()) == 0
+    # TODO:
