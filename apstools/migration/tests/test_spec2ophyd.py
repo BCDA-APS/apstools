@@ -8,7 +8,7 @@ path = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 
 # for config_spec
 # config_spec:MOT022 = MAC_MOT:1/0/0   2000  1  2000  200   50  125    0 0x003   suvgap  SlitUpVGap
-# parse error
+# parse error on line 240 of spec2ophyd.py
 # # FIXME: `1/0/0` is a new case from 17BM
 # unit, chan, = list(map(int, uc_str.split("/")))[:2]  # FIXME:
 
