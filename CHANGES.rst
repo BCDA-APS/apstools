@@ -6,6 +6,11 @@ Change History
 
 :1.4.2:  release expected by 2021-03-31
 
+    * `#495 <https://github.com/BCDA-APS/apstools/pull/495>`_
+       remove *hklpy* requirement since all diffractometer
+       support code will be moved to 
+       [*hklpy*](https://github.com/bluesky/hklpy) package.
+
 :1.4.1:  released: 2021-01-23
 
     * add Area Detector configuration examples:

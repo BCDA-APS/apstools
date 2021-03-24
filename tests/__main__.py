@@ -21,7 +21,6 @@ def suite(*args, **kw):
 
     from tests import test_apsbss
     from tests import test_commandlist
-    from tests import test_diffractometer
     from tests import test_exceltable
     from tests import test_simple
     from tests import test_utils
@@ -32,7 +31,6 @@ def suite(*args, **kw):
         test_commandlist,
         test_utils,
         test_apsbss,
-        test_diffractometer,
     ]
 
     test_suite = unittest.TestSuite()
