@@ -557,9 +557,10 @@ class ListRuns:
         since = self.since or "1995-01-01"
         until = self.until or "2100-12-31"
         self._check_cat()
-        cat = self.cat.v2.search(
-            databroker.queries.TimeRange(since=since, until=until)
-        ).search(self.query or {})
+        query = {}
+        query.update(databroker.queries.TimeRange(since=since, until=until))
+        query.update(self.query or {})
+        cat = self.cat.v2.search(query)
         return cat
 
     def parse_runs(self):
