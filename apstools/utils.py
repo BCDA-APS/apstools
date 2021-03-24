@@ -1930,20 +1930,21 @@ class PVRegistry:
     Cross-reference EPICS PVs with ophyd EpicsSignalBase objects.
     """
 
-    def __init__(self):
+    def __init__(self, ns=None):
         """
         Search ophyd objects for PV names.
 
         The rebuild starts with the IPython console namespace
         (and defaults to the global namespace if the former
         cannot be obtained).
+
+        PARAMETERS
+
+        ns *dict* or `None`: namespace dictionary
         """
         self._db = defaultdict(lambda: defaultdict(list))
         self._known_device_names = []
-        g = ipython_shell_namespace()
-        if g == 0:
-            # fallback
-            g = globals()
+        g = ns or ipython_shell_namespace() or globals()
         self._ophyd_epicsobject_walker(g)
 
     def _ophyd_epicsobject_walker(self, parent):
@@ -2007,7 +2008,7 @@ class PVRegistry:
         )
 
 
-def findpv(pvname, force_rebuild=False):
+def findpv(pvname, force_rebuild=False, ns=None):
     """
     Find all ophyd objects associated with the given EPICS PV.
 
@@ -2020,6 +2021,9 @@ def findpv(pvname, force_rebuild=False):
         *bool* :
         If ``True``, rebuild the internal registry that maps
         EPICS PV names to ophyd objects.
+    ns
+        *dict* or `None` :
+        Namespace dictionary of Python objects.
 
     RETURNS
 
@@ -2039,5 +2043,5 @@ def findpv(pvname, force_rebuild=False):
     """
     global _findpv_registry
     if _findpv_registry is None or force_rebuild:
-        _findpv_registry = PVRegistry()
+        _findpv_registry = PVRegistry(ns=ns)
     return _findpv_registry.search(pvname)
