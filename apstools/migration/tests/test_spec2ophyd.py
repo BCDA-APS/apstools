@@ -6,11 +6,6 @@ from collections import OrderedDict
 
 path = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 
-# for config_spec
-# config_spec:MOT022 = MAC_MOT:1/0/0   2000  1  2000  200   50  125    0 0x003   suvgap  SlitUpVGap
-# parse error on line 240 of spec2ophyd.py
-# # FIXME: `1/0/0` is a new case from 17BM
-# unit, chan, = list(map(int, uc_str.split("/")))[:2]  # FIXME:
 
 def test_SpecConfig():
     sc = spec2ophyd.SpecConfig(os.path.join(path, "config_fourc"))
@@ -108,3 +103,42 @@ def test_create_ophyd_setup(capsys):
     assert len(lines) == 22
     assert len(err.splitlines()) == 0
     # TODO:
+
+
+def test_issue499(capsys):
+    """
+    failed when parsing this SPEC config line
+
+        MOT022 = MAC_MOT:1/0/0   2000  1  2000  200   50  125    0 0x003   suvgap  SlitUpVGap
+
+    * Only expecting 2 arguments after `MAC_MOT:`  chan/ignore.
+    * This seems to be: chan/axis/num
+    * only chan is used
+    * assign the others into SpecMotor.ctrl_parms as [int]
+    """
+    sc = spec2ophyd.SpecConfig(os.path.join(path, "config_spec"))
+    sc.read_config()
+    spec2ophyd.create_ophyd_setup(sc)
+    out, err = capsys.readouterr()
+    lines = out.splitlines()
+    assert len(lines) == 137  # this may change if other items are processed
+    assert len(err.splitlines()) == 0
+
+    # assert out == "DEBUG"  # enable to show output from create_ophyd_setup(sc)
+
+    # verify the correct configuration line is selected
+    m = sc.collection[22]
+    assert isinstance(m, spec2ophyd.SpecMotor)
+    assert m.mne == "suvgap"
+    assert m.name == "SlitUpVGap"
+    assert m.motpar == dict(misc_par_1="19", misc_par_2="18")
+    assert m.mac_parms == [0, 0]
+    assert m.device.prefix == "slit"
+    assert m.device.num_channels == 8
+    assert m.device.config_line == 15
+
+    # test for the parameters that triggered the issue
+    assert sc.collection[22].mac_parms == [0, 0]
+    assert sc.collection[23].mac_parms == [0, 1]
+    assert sc.collection[24].mac_parms == [1, 0]
+    assert sc.collection[25].mac_parms == [1, 1]
