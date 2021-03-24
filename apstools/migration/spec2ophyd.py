@@ -50,6 +50,8 @@ KNOWN_DEVICES = "PSE_MAC_MOT VM_EPICS_M1 VM_EPICS_PV VM_EPICS_SC".split()
 class Spec2ophydBase(object):
 
     str_keys = []
+    mne = ""
+    name = ""
 
     def obj_keys_to_list(self):
         items = []
