@@ -63,8 +63,6 @@ from collections import defaultdict
 from collections import OrderedDict
 from email.mime.text import MIMEText
 from event_model import NumpyEncoder
-from ophyd import Device
-from ophyd.signal import EpicsSignalBase
 import databroker
 import databroker.queries
 import datetime
@@ -1965,9 +1963,9 @@ class PVRegistry:
             if v is None:
                 continue
             # print(k, type(v))
-            if isinstance(v, EpicsSignalBase):
+            if isinstance(v, ophyd.signal.EpicsSignalBase):
                 self._signal_processor(v)
-            elif isinstance(v, Device):
+            elif isinstance(v, ophyd.Device):
                 # print("Device", v.name)
                 if v.name not in self._known_device_names:
                     self._known_device_names.append(v.name)
