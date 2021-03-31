@@ -54,7 +54,7 @@ class MyDetector(ophyd.SimDetector):
 
 
 def main():
-    gpm1=ophyd.EpicsMotor("gp:m1", name="gpm1")
+    gpm1 = ophyd.EpicsMotor("gp:m1", name="gpm1")
     simdet = MyDetector("ad:", name="simdet")
     gpm1.wait_for_connection()
     simdet.wait_for_connection()
@@ -63,6 +63,13 @@ def main():
     print(f'{apstools.utils.findpv("ad:HDF1:FilePath_RBV", ns=ns) = }')
     print(f'{apstools.utils.findpv("ad:cam1:Acquire", ns=ns) = }')
     print(f'{apstools.utils.findpv("gp:m1.RBV", ns=ns) = }')
+
+    print(f'{apstools.utils.findname("gpm1_user_setpoint", ns=ns) = }')
+    print(f'{apstools.utils.findname("m1_user_setpoint", ns=ns) = }')
+    print(f'{apstools.utils.findname("simdet_cam_acquire", ns=ns) = }')
+    print(f'{apstools.utils.findname("simdet_hdf1_array_size", ns=ns) = }')
+    print(f'{apstools.utils.findname("simdet_image_dim1_sa", ns=ns) = }')
+    print(f'{apstools.utils.findname("simdet_cam_peak_width_peak_width_y", ns=ns) = }')
 
 
 if __name__ == "__main__":
