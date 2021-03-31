@@ -1965,7 +1965,14 @@ class PVRegistry:
                 continue
             # print(k, type(v))
             if isinstance(v, ophyd.signal.EpicsSignalBase):
-                self._signal_processor(v)
+                try:
+                    self._signal_processor(v)
+                except (KeyError, RuntimeError) as exc:
+                    # FIXME: see issue 509, need to learn how to reproduce
+                    logger.error(
+                        "Exception while examining key '%s': (%s)",
+                        k, exc
+                        )
             elif isinstance(v, ophyd.Device):
                 # print("Device", v.name)
                 if v.name not in self._known_device_names:
