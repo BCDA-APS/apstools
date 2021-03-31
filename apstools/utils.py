@@ -2034,6 +2034,27 @@ class PVRegistry:
         return self._odb.get(oname)
 
 
+def _get_pv_registry(force_rebuild, ns):
+    """
+    Check if need to build/rebuild the PV registry.
+
+    PARAMETERS
+
+    force_rebuild
+        *bool* :
+        If ``True``, rebuild the internal registry that maps
+        EPICS PV names to ophyd objects.
+    ns
+        *dict* or `None` :
+        Namespace dictionary of Python objects.
+
+    """
+    global _findpv_registry
+    if _findpv_registry is None or force_rebuild:
+        _findpv_registry = PVRegistry(ns=ns)
+    return _findpv_registry
+
+
 def findname(oname, force_rebuild=False, ns=None):
     """
     Find the ophyd (dotted name) object associated with the given ophyd name.
@@ -2063,10 +2084,7 @@ def findname(oname, force_rebuild=False, ns=None):
 
     (new in apstools 1.5.0)
     """
-    global _findpv_registry
-    if _findpv_registry is None or force_rebuild:
-        _findpv_registry = PVRegistry(ns=ns)
-    return _findpv_registry.ophyd_search(oname)
+    return _get_pv_registry(force_rebuild, ns).ophyd_search(oname)
 
 
 def findpv(pvname, force_rebuild=False, ns=None):
@@ -2102,7 +2120,4 @@ def findpv(pvname, force_rebuild=False, ns=None):
         Out[46]: {'read': ['adsimdet.cam.acquire'], 'write': []}
 
     """
-    global _findpv_registry
-    if _findpv_registry is None or force_rebuild:
-        _findpv_registry = PVRegistry(ns=ns)
-    return _findpv_registry.search(pvname)
+    return _get_pv_registry(force_rebuild, ns).search(pvname)
