@@ -13,6 +13,7 @@ Various utilities
    ~ExcelDatabaseFileBase
    ~ExcelDatabaseFileGeneric
    ~ExcelReadError
+   ~findname
    ~findpv
    ~full_dotted_name
    ~getDatabase
@@ -482,7 +483,7 @@ def listruns(
 
         Out[100]: <pyRestTable.rest_table.Table at 0x7f004e4d4898>
 
-    *new in apstools release 1.1.10*
+    (new in apstools release 1.1.10)
     """
     db = getDatabase(db=db, catalog_name=catalog_name)
     keys = keys or []
@@ -687,7 +688,7 @@ def replay(headers, callback=None, sort=True):
         Sort the headers chronologically if True.
         (default:``True``)
 
-    *new in apstools release 1.1.11*
+    (new in apstools release 1.1.11)
     """
     callback = callback or ipython_shell_namespace().get(
         "bec",  # get from IPython shell
@@ -834,7 +835,7 @@ def listobjects(show_pv=True, printing=True, verbose=False, symbols=None):
 
         In [2]:
 
-    *new in apstools release 1.1.8*
+    (new in apstools release 1.1.8)
     """
     table = pyRestTable.Table()
     table.labels = ["name", "ophyd structure"]
@@ -1932,7 +1933,7 @@ class PVRegistry:
 
     def __init__(self, ns=None):
         """
-        Search ophyd objects for PV names.
+        Search ophyd objects for PV or ophyd names.
 
         The rebuild starts with the IPython console namespace
         (and defaults to the global namespace if the former
@@ -1942,31 +1943,43 @@ class PVRegistry:
 
         ns *dict* or `None`: namespace dictionary
         """
-        self._db = defaultdict(lambda: defaultdict(list))
+        self._pvdb = defaultdict(lambda: defaultdict(list))
+        self._odb = {}
+        self._device_name = None
         self._known_device_names = []
         g = ns or ipython_shell_namespace() or globals()
+
+        # kickoff the registration process
+        logger.debug(
+            "Cross-referencing EPICS PVs with"
+            " Python objects and ophyd symbols"
+        )
         self._ophyd_epicsobject_walker(g)
 
     def _ophyd_epicsobject_walker(self, parent):
         """
         Walk through the parent object for ophyd Devices & EpicsSignals.
 
-        This function is used to rebuild the ``self._db`` object.
+        This function is used to rebuild the ``self._pvdb`` object.
         """
         if isinstance(parent, dict):
             keys = parent.keys()
-            ref_func = self._ref_dict
         else:
             keys = parent.component_names
-            ref_func = self._ref_object_attribute
+            _nm_base = self._device_name
         for k in keys:
-            v = ref_func(parent, k)
+            if isinstance(parent, dict):
+                _nm_base = []
+                v = self._ref_dict(parent, k)
+            else:
+                v = self._ref_object_attribute(parent, k)
             if v is None:
                 continue
             # print(k, type(v))
             if isinstance(v, ophyd.signal.EpicsSignalBase):
                 try:
                     self._signal_processor(v)
+                    self._odb[v.name] = ".".join(self._device_name + [k])
                 except (KeyError, RuntimeError) as exc:
                     # FIXME: see issue 509, need to learn how to reproduce
                     logger.error(
@@ -1975,7 +1988,9 @@ class PVRegistry:
                         )
             elif isinstance(v, ophyd.Device):
                 # print("Device", v.name)
+                self._device_name = _nm_base + [k]
                 if v.name not in self._known_device_names:
+                    self._odb[v.name] = ".".join(self._device_name)
                     self._known_device_names.append(v.name)
                     self._ophyd_epicsobject_walker(v)
 
@@ -1990,8 +2005,8 @@ class PVRegistry:
     def _register_signal(self, signal, pv, mode):
         """Register a signal with the given mode."""
         fdn = full_dotted_name(signal)
-        if fdn not in self._db[pv][mode]:
-            self._db[pv][mode].append(fdn)
+        if fdn not in self._pvdb[pv][mode]:
+            self._pvdb[pv][mode].append(fdn)
 
     def _signal_processor(self, signal):
         """Register a signal's read & write PVs."""
@@ -2005,7 +2020,7 @@ class PVRegistry:
             raise ValueError(
                 f"Incorrect mode given ({mode}." "  Must be either `R` or `W`."
             )
-        return self._db[pvname][mode]
+        return self._pvdb[pvname][mode]
 
     def search(self, pvname):
         """Search for PV in both read & write modes."""
@@ -2013,6 +2028,45 @@ class PVRegistry:
             read=self.search_by_mode(pvname, "R"),
             write=self.search_by_mode(pvname, "W"),
         )
+
+    def ophyd_search(self, oname):
+        """Search for ophyd object by ophyd name."""
+        return self._odb.get(oname)
+
+
+def findname(oname, force_rebuild=False, ns=None):
+    """
+    Find the ophyd (dotted name) object associated with the given ophyd name.
+
+    PARAMETERS
+
+    oname
+        *str* :
+        ophyd name to search
+    force_rebuild
+        *bool* :
+        If ``True``, rebuild the internal registry that maps
+        ophyd names to ophyd objects.
+    ns
+        *dict* or `None` :
+        Namespace dictionary of Python objects.
+
+    RETURNS
+
+    str or ``None``:
+        Name of the ophyd object.
+
+    EXAMPLE::
+
+        In [45]: findpv("adsimdet_cam_acquire")
+        Out[45]: 'adsimdet.cam.acquire'
+
+    (new in apstools 1.5.0)
+    """
+    global _findpv_registry
+    if _findpv_registry is None or force_rebuild:
+        _findpv_registry = PVRegistry(ns=ns)
+    return _findpv_registry.ophyd_search(oname)
 
 
 def findpv(pvname, force_rebuild=False, ns=None):
