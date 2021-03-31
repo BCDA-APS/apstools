@@ -1985,7 +1985,7 @@ class PVRegistry:
                     logger.error(
                         "Exception while examining key '%s': (%s)",
                         k, exc
-                        )
+                    )
             elif isinstance(v, ophyd.Device):
                 # print("Device", v.name)
                 self._device_name = _nm_base + [k]

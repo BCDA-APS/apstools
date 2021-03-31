@@ -30,8 +30,10 @@ BLUESKY_PATH = os.path.join(
     IOC_IMAGE_DIR.lstrip("/")
 )
 
+
 class MyCam(ophyd.SimDetectorCam):
     pool_max_buffers = None
+
 
 class MyHDF5Plugin(
     ophyd.areadetector.filestore_mixins.FileStoreHDF5IterativeWrite,
@@ -39,8 +41,10 @@ class MyHDF5Plugin(
 ):
     pass
 
+
 class MyFixedImagePlugin(ophyd.ImagePlugin):
     pool_max_buffers = None
+
 
 class MyDetector(ophyd.SimDetector):
     cam = ophyd.ADComponent(MyCam, "cam1:")
