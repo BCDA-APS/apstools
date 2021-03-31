@@ -8,7 +8,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        python-version: ['3.6', '3.7', '3.8']
+        python-version: ['3.7', '3.8']
       max-parallel: 5
 
     steps:
@@ -46,6 +46,11 @@ jobs:
       env:
         PY_VER: ${{ matrix.python-version }}
         ENV_NAME: anaconda-test-env-py-${{ matrix.python-version }}
+
+    - name: install test data catalogs
+      shell: bash -l {0}
+      run: |
+        ./tests/unpack.sh
 
     - name: Run tests with pytest
       run: |

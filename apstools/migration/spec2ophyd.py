@@ -50,6 +50,8 @@ KNOWN_DEVICES = "PSE_MAC_MOT VM_EPICS_M1 VM_EPICS_PV VM_EPICS_SC".split()
 class Spec2ophydBase(object):
 
     str_keys = []
+    mne = ""
+    name = ""
 
     def obj_keys_to_list(self):
         items = []
@@ -188,6 +190,7 @@ class SpecMotor(ItemNameBase):
         self.raw = config_text
         # Motor    ctrl steps sign slew base backl accel nada  flags   mne  name
         # MOT002 = EPICS_M2:0/3   2000  1  2000  200   50  125    0 0x003       my  my
+        # MOT022 = MAC_MOT:1/0/0   2000  1  2000  200   50  125    0 0x003   suvgap  SlitUpVGap
         lr = config_text.split(sep="=", maxsplit=1)
         self.config_line = int(lr[0].strip("MOT"))
 
@@ -212,8 +215,9 @@ class SpecMotor(ItemNameBase):
         self.device = None
         self.pvname = None
         self.motpar = {}
+        self.mac_parms = None
         self.macro_prefix = None
-        self.str_keys = "mne config_line name macro_prefix".split()
+        self.str_keys = "mne config_line name macro_prefix mac_parms".split()
 
     def __str__(self):
         items = self.obj_keys_to_list()
@@ -236,7 +240,7 @@ class SpecMotor(ItemNameBase):
             device_list = devices.get("PSE_MAC_MOT")
             if device_list is not None:
                 uc_str = self.ctrl[len("MAC_MOT:"):]
-                unit, chan = list(map(int, uc_str.split("/")))
+                unit, *self.mac_parms = list(map(int, uc_str.split("/")))
                 self.device = device_list[unit]
                 self.macro_prefix = self.device.prefix
                 # TODO: what else?
@@ -250,7 +254,8 @@ class SpecMotor(ItemNameBase):
         )
         suffix = None
         if "misc_par_1" in self.motpar:
-            suffix = self.motpar.pop("misc_par_1")
+            # suffix = self.motpar.pop("misc_par_1")
+            suffix = self.motpar["misc_par_1"]
             pvname = f"{self.device.prefix}{suffix}"
             s = (
                 f"{self.mne} = EpicsMotor"

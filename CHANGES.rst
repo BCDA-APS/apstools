@@ -4,7 +4,21 @@
 Change History
 ##############
 
-:1.4.2:  release expected by 2021-03-31
+:1.5.0:  release expected by 2021-03-31
+
+https://github.com/BCDA-APS/apstools/pull/504#issuecomment-804377418
+
+    * `Dropped support for python 3.6.  
+      <https://github.com/BCDA-APS/apstools/pull/504#issuecomment-804377418>`_
+
+    * `#504 <https://github.com/BCDA-APS/apstools/pull/504>`_
+       Overhaul of listruns() using pandas.  Previous code
+       renamed to listruns_v1_4().
+
+    * `#495 <https://github.com/BCDA-APS/apstools/pull/495>`_
+       remove *hklpy* requirement since all diffractometer
+       support code will be moved to 
+       [*hklpy*](https://github.com/bluesky/hklpy) package.
 
 :1.4.1:  released: 2021-01-23
 

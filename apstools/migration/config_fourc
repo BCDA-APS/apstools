@@ -1,0 +1,15 @@
+# ID @(#)getinfo.c	6.15  12/23/19 CSS
+# Device nodes
+SW_SFTWARE	 = 1 INTR
+# CAMAC Slot Assignments
+#  CA_name_unit = slot [crate_number]
+# Motor    cntrl steps sign slew base backl accel nada  flags   mne  name
+MOT000 =    NONE   2000  1  2000  200   50  125    0 0x003      tth  Two Theta
+MOT001 =    NONE   2000  1  2000  200   50  125    0 0x003       th  Theta
+MOT002 =    NONE   2000  1  2000  200   50  125    0 0x003      chi  Chi
+MOT003 =    NONE   2000  1  2000  200   50  125    0 0x003      phi  Phi
+# Counter   ctrl unit chan scale flags    mne  name
+CNT000 =  SFTWARE  0  0   1000 0x001      sec  Seconds
+CNT001 =     NONE  0  1      1 0x002      mon  Monitor
+CNT002 =     NONE  0  2      1 0x000      det  Detector
+
