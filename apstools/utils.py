@@ -2485,7 +2485,7 @@ def findname(oname, force_rebuild=False, ns=None):
 
     EXAMPLE::
 
-        In [45]: findpv("adsimdet_cam_acquire")
+        In [45]: findname("adsimdet_cam_acquire")
         Out[45]: 'adsimdet.cam.acquire'
 
     (new in apstools 1.5.0)
