@@ -758,6 +758,8 @@ def listruns(
                 get_ipython()  # console or notebook will handle
             except NameError:
                 do_print = True  # we print it here
+            if tablefmt == "table":
+                do_print = True
         else:
             do_print = True
     if do_print:
