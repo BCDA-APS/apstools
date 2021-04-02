@@ -2387,7 +2387,6 @@ class PVRegistry:
                     self._signal_processor(v)
                     self._odb[v.name] = ".".join(self._device_name + [k])
                 except (KeyError, RuntimeError) as exc:
-                    # FIXME: see issue 509, need to learn how to reproduce
                     logger.error(
                         "Exception while examining key '%s': (%s)",
                         k, exc
@@ -2406,7 +2405,14 @@ class PVRegistry:
 
     def _ref_object_attribute(self, parent, key):
         """Accessor used by ``_ophyd_epicsobject_walker()``"""
-        return getattr(parent, key)
+        try:
+            obj = getattr(parent, key, None)
+            return obj
+        except (KeyError, RuntimeError, TimeoutError) as exc:
+            logger.error(
+                "Exception while getting object '%s.%s': (%s)",
+                ".".join(self._device_name), key, exc
+            )
 
     def _register_signal(self, signal, pv, mode):
         """Register a signal with the given mode."""
