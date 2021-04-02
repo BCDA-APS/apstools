@@ -17,7 +17,8 @@ sys.path.append(
     )
 )
 
-AD_IOC_PREFIX = "ad:"
+AD_IOC_PREFIX = "adsky:"
+GP_IOC_PREFIX = "sky:"
 AD_IOC_FILES_ROOT = "/"
 BLUESKY_FILES_ROOT = "/tmp/docker_ioc/iocad"
 IOC_IMAGE_DIR = "/tmp/images/"
@@ -38,6 +39,7 @@ class MyCam(ophyd.SimDetectorCam):
 class MyHDF5Plugin(
     ophyd.areadetector.filestore_mixins.FileStoreHDF5IterativeWrite,
     ophyd.areadetector.plugins.HDF5Plugin_V34
+    # ophyd.HDF5Plugin
 ):
     pass
 
@@ -58,15 +60,17 @@ class MyDetector(ophyd.SimDetector):
 
 
 def main():
-    gpm1 = ophyd.EpicsMotor("gp:m1", name="gpm1")
-    simdet = MyDetector("ad:", name="simdet")
+    gpm1 = ophyd.EpicsMotor(f"{GP_IOC_PREFIX}m1", name="gpm1")
+    simdet = MyDetector(AD_IOC_PREFIX, name="simdet")
     gpm1.wait_for_connection()
     simdet.wait_for_connection()
+
     ns = dict(m1=gpm1, simdet=simdet)
-    print(f'{apstools.utils.findpv("ad:image1:ArrayData", ns=ns) = }')
-    print(f'{apstools.utils.findpv("ad:HDF1:FilePath_RBV", ns=ns) = }')
-    print(f'{apstools.utils.findpv("ad:cam1:Acquire", ns=ns) = }')
-    print(f'{apstools.utils.findpv("gp:m1.RBV", ns=ns) = }')
+
+    print(f'{apstools.utils.findpv(f"{AD_IOC_PREFIX}image1:ArrayData", ns=ns) = }')
+    print(f'{apstools.utils.findpv(f"{AD_IOC_PREFIX}HDF1:FilePath_RBV", ns=ns) = }')
+    print(f'{apstools.utils.findpv(f"{AD_IOC_PREFIX}cam1:Acquire", ns=ns) = }')
+    print(f'{apstools.utils.findpv(f"{GP_IOC_PREFIX}m1.RBV", ns=ns) = }')
 
     print(f'{apstools.utils.findname(gpm1.user_setpoint.name, ns=ns) = }')
     print(f'{apstools.utils.findname("m1_user_setpoint", ns=ns) = }')
