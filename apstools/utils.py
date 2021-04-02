@@ -13,8 +13,8 @@ Various utilities
    ~ExcelDatabaseFileBase
    ~ExcelDatabaseFileGeneric
    ~ExcelReadError
-   ~findname
-   ~findpv
+   ~findbyname
+   ~findbypv
    ~findCatalogsInNamespace
    ~full_dotted_name
    ~getCatalog
@@ -2467,7 +2467,7 @@ def _get_pv_registry(force_rebuild, ns):
     return _findpv_registry
 
 
-def findname(oname, force_rebuild=False, ns=None):
+def findbyname(oname, force_rebuild=False, ns=None):
     """
     Find the ophyd (dotted name) object associated with the given ophyd name.
 
@@ -2491,7 +2491,7 @@ def findname(oname, force_rebuild=False, ns=None):
 
     EXAMPLE::
 
-        In [45]: findname("adsimdet_cam_acquire")
+        In [45]: findbyname("adsimdet_cam_acquire")
         Out[45]: 'adsimdet.cam.acquire'
 
     (new in apstools 1.5.0)
@@ -2499,7 +2499,7 @@ def findname(oname, force_rebuild=False, ns=None):
     return _get_pv_registry(force_rebuild, ns).ophyd_search(oname)
 
 
-def findpv(pvname, force_rebuild=False, ns=None):
+def findbypv(pvname, force_rebuild=False, ns=None):
     """
     Find all ophyd objects associated with the given EPICS PV.
 
@@ -2525,10 +2525,10 @@ def findpv(pvname, force_rebuild=False, ns=None):
 
     EXAMPLE::
 
-        In [45]: findpv("ad:cam1:Acquire")
+        In [45]: findbypv("ad:cam1:Acquire")
         Out[45]: {'read': [], 'write': ['adsimdet.cam.acquire']}
 
-        In [46]: findpv("ad:cam1:Acquire_RBV")
+        In [46]: findbypv("ad:cam1:Acquire_RBV")
         Out[46]: {'read': ['adsimdet.cam.acquire'], 'write': []}
 
     """

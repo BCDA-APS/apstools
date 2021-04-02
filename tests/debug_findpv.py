@@ -1,5 +1,5 @@
 """
-examine the execution of utils.findpv()
+examine the execution of utils.findbypv()
 
 needs a connection to PVs, of course
 """
@@ -67,17 +67,17 @@ def main():
 
     ns = dict(m1=gpm1, simdet=simdet)
 
-    print(f'{apstools.utils.findpv(f"{AD_IOC_PREFIX}image1:ArrayData", ns=ns) = }')
-    print(f'{apstools.utils.findpv(f"{AD_IOC_PREFIX}HDF1:FilePath_RBV", ns=ns) = }')
-    print(f'{apstools.utils.findpv(f"{AD_IOC_PREFIX}cam1:Acquire", ns=ns) = }')
-    print(f'{apstools.utils.findpv(f"{GP_IOC_PREFIX}m1.RBV", ns=ns) = }')
+    print(f'{apstools.utils.findbypv(f"{AD_IOC_PREFIX}image1:ArrayData", ns=ns) = }')
+    print(f'{apstools.utils.findbypv(f"{AD_IOC_PREFIX}HDF1:FilePath_RBV", ns=ns) = }')
+    print(f'{apstools.utils.findbypv(f"{AD_IOC_PREFIX}cam1:Acquire", ns=ns) = }')
+    print(f'{apstools.utils.findbypv(f"{GP_IOC_PREFIX}m1.RBV", ns=ns) = }')
 
-    print(f'{apstools.utils.findname(gpm1.user_setpoint.name, ns=ns) = }')
-    print(f'{apstools.utils.findname("m1_user_setpoint", ns=ns) = }')
-    print(f'{apstools.utils.findname(simdet.cam.acquire.name, ns=ns) = }')
-    print(f'{apstools.utils.findname("simdet_hdf1_array_size", ns=ns) = }')
-    print(f'{apstools.utils.findname("simdet_image_dim1_sa", ns=ns) = }')
-    print(f'{apstools.utils.findname("simdet_cam_peak_width_peak_width_y", ns=ns) = }')
+    print(f'{apstools.utils.findbyname(gpm1.user_setpoint.name, ns=ns) = }')
+    print(f'{apstools.utils.findbyname("m1_user_setpoint", ns=ns) = }')
+    print(f'{apstools.utils.findbyname(simdet.cam.acquire.name, ns=ns) = }')
+    print(f'{apstools.utils.findbyname("simdet_hdf1_array_size", ns=ns) = }')
+    print(f'{apstools.utils.findbyname("simdet_image_dim1_sa", ns=ns) = }')
+    print(f'{apstools.utils.findbyname("simdet_cam_peak_width_peak_width_y", ns=ns) = }')
 
 
 if __name__ == "__main__":
