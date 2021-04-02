@@ -6,7 +6,7 @@ Change History
 
 :1.5.1:  release expected by 2021-04-30
 
-:1.5.0:  release expected by 2021-04-05
+:1.5.0:  released 2021-04-02
 
    * `Dropped support for python 3.6.  
       <https://github.com/BCDA-APS/apstools/pull/504#issuecomment-804377418>`_
