@@ -4,6 +4,8 @@
 Change History
 ##############
 
+:1.5.1:  release expected by 2021-04-30
+
 :1.5.0:  release expected by 2021-04-05
 
    * `Dropped support for python 3.6.  
