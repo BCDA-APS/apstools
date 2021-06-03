@@ -76,4 +76,4 @@ class EpidRecord(EpicsRecordFloatFields, EpicsRecordDeviceCommonAll):
 
     @property
     def value(self):
-        return self.output_value.value
+        return self.output_value.get()
