@@ -126,7 +126,7 @@ class sscanPositioner(Device):
     @property
     def defined_in_EPICS(self):
         """True if defined in EPICS"""
-        return len(self.setpoint_pv.value.strip()) > 0
+        return len(self.setpoint_pv.get().strip()) > 0
 
 
 class sscanDetector(Device):
@@ -161,7 +161,7 @@ class sscanDetector(Device):
     @property
     def defined_in_EPICS(self):
         """True if defined in EPICS"""
-        return len(self.input_pv.value.strip()) > 0
+        return len(self.input_pv.get().strip()) > 0
 
 
 class sscanTrigger(Device):
@@ -192,7 +192,7 @@ class sscanTrigger(Device):
     @property
     def defined_in_EPICS(self):
         """True if defined in EPICS"""
-        return len(self.trigger_pv.value.strip()) > 0
+        return len(self.trigger_pv.get().strip()) > 0
 
 
 def _sscan_positioners(channel_list):
