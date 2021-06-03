@@ -3,7 +3,7 @@ Ophyd support for the EPICS synApps sscan record
 
 see:  https://epics.anl.gov/bcda/synApps/sscan/SscanRecord.html
 
-EXAMPLE
+EXAMPLE::
 
     import apstools.synApps
     scans = apstools.synApps.SscanDevice("xxx:", name="scans")
