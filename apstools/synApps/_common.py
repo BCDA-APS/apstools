@@ -76,7 +76,7 @@ class EpicsRecordInputFields(Device):
 
     @property
     def value(self):
-        return self.final_value.value
+        return self.final_value.get()
 
 
 class EpicsRecordOutputFields(Device):
@@ -96,7 +96,7 @@ class EpicsRecordOutputFields(Device):
 
     @property
     def value(self):
-        return self.desired_value.value
+        return self.desired_value.get()
 
 
 class EpicsRecordFloatFields(Device):

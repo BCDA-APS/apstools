@@ -1710,8 +1710,8 @@ class ProcessController(Device):
 
     @property
     def value(self):
-        """shortcut to self.signal.value"""
-        return self.signal.value
+        """shortcut to self.signal.get()"""
+        return self.signal.get()
 
     @property
     def settled(self):

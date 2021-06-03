@@ -132,7 +132,7 @@ class SwaitRecord(EpicsRecordDeviceCommonAll):
 
     @property
     def value(self):
-        return self.calculated_value.value
+        return self.calculated_value.get()
 
     def reset(self):
         """set all fields to default values"""
