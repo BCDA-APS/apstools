@@ -157,10 +157,11 @@ def device_read2table(
     """
     DEPRECATED: Use listdevice() instead.
     """
+    # fmt: off
     warnings.warn(
         "DEPRECATED: device_read2table() will be removed"
         " in a future release.  Use listdevice() instead.",
-        DeprecationWarning
+        DeprecationWarning,
     )
     listdevice(
         device,
@@ -168,6 +169,7 @@ def device_read2table(
         use_datetime=use_datetime,
         printing=printing,
     )
+    # fmt: on
 
 
 def listdevice(
@@ -313,6 +315,7 @@ def getDatabase(db=None, catalog_name=None):
     (new in release 1.4.0)
     """
     if not hasattr(db, "v2"):
+        # fmt: off
         if (
             hasattr(catalog_name, "name")
             and catalog_name in databroker.catalog
@@ -323,6 +326,7 @@ def getDatabase(db=None, catalog_name=None):
             db = getDefaultDatabase()
         else:
             db = databroker.catalog[catalog_name]
+        # fmt: on
     return db.v2
 
 
@@ -484,7 +488,9 @@ def getRunDataValue(scan_id, key, db=None, stream="primary", query=None, idx=-1)
         _idx = str(idx).lower()
 
     if isinstance(_idx, str) and _idx != "mean":
-        raise KeyError(f"Did not understand 'idx={idx}', use integer, 'all', or 'mean'.")
+        raise KeyError(
+            f"Did not understand 'idx={idx}', use integer, 'all', or 'mean'."
+        )
 
     table = getRunData(scan_id, db=db, stream=stream, query=query)
 
@@ -498,10 +504,14 @@ def getRunDataValue(scan_id, key, db=None, stream="primary", query=None, idx=-1)
         return data.mean()
     elif (0 <= _idx < len(data)) or (_idx < 0):
         return data.values[_idx]
-    raise KeyError(f"Cannot reference {idx=} in scan {scan_id} stream'{stream}' {key=}.")
+    raise KeyError(
+        f"Cannot reference {idx=} in scan {scan_id} stream'{stream}' {key=}."
+    )
 
 
-def listRunKeys(scan_id, key_fragment="", db=None, stream="primary", query=None, strict=False):
+def listRunKeys(
+    scan_id, key_fragment="", db=None, stream="primary", query=None, strict=False
+):
     """
     Convenience function to list all keys (column names) in the scan's stream (default: primary).
 
@@ -547,18 +557,19 @@ def listRunKeys(scan_id, key_fragment="", db=None, stream="primary", query=None,
     """
     table = getRunData(scan_id, db=db, stream=stream, query=query)
 
+    # fmt: off
     if len(key_fragment):
         output = [
             col
             for col in table.columns
             if (
                 (strict and key_fragment in col)
-                or
-                (not strict and key_fragment.lower() in col.lower())
+                or (not strict and key_fragment.lower() in col.lower())
             )
         ]
     else:
         output = list(table.columns)
+    # fmt: on
     return output
 
 
@@ -586,7 +597,7 @@ def findCatalogsInNamespace():
     for k, v in g.items():
         if not k.startswith("_") and hasattr(v, "__class__"):
             try:
-                if (hasattr(v.v2, "container") and hasattr(v.v2, "metadata")):
+                if hasattr(v.v2, "container") and hasattr(v.v2, "metadata"):
                     ns_cats[k] = v
             except (AttributeError, TypeError):
                 continue
@@ -598,10 +609,12 @@ def getDefaultCatalog():
     if len(cats) == 1:
         return cats[list(cats.keys())[0]]
     if len(cats) > 1:
-        choices = '   '.join([
-            f"{k} ({v.name})"
-            for k, v in cats.items()
-        ])
+        # fmt: off
+        choices = "   ".join([
+                f"{k} ({v.name})"
+                for k, v in cats.items()
+            ])
+        # fmt: on
         raise ValueError(
             "No catalog defined.  "
             "Multiple catalog objects available."
@@ -613,7 +626,7 @@ def getDefaultCatalog():
     if len(cats) == 1:
         return databroker.catalog[cats[0]]
     if len(cats) > 1:
-        choices = '   '.join([f'databroker.catalog[\"{k}\"]' for k in cats])
+        choices = "   ".join([f'databroker.catalog["{k}"]' for k in cats])
         raise ValueError(
             "No catalog defined.  "
             "Multiple catalog configurations available."
@@ -803,7 +816,7 @@ def listruns(
     tablefmt="dataframe",
     timefmt="%Y-%m-%d %H:%M:%S",
     until=None,
-    **query
+    **query,
 ):
     """
     List runs from catalog.
@@ -915,10 +928,12 @@ def listruns(
         until=until,
     )
 
+    # fmt: off
     table_format_function = dict(
         dataframe=lr.to_dataframe,
         table=lr.to_table,
     ).get(tablefmt or "dataframe", lr.to_table)
+    # fmt: on
     obj = table_format_function()
 
     do_print = False
@@ -1044,7 +1059,7 @@ def listruns_v1_4(
     warnings.warn(
         "DEPRECATED: listruns_v1_4() will be removed"
         " in a future release.  Instead, use newer ``listruns()``.",
-        DeprecationWarning
+        DeprecationWarning,
     )
     db = getDatabase(db=db, catalog_name=catalog_name)
     keys = keys or []
@@ -1057,9 +1072,11 @@ def listruns_v1_4(
     else:
         labels = "scan_id  plan_name".split() + keys
 
+    # fmt: off
     cat = db.search(
         databroker.queries.TimeRange(since=since, until=until)
     ).search(db_search_terms)
+    # fmt: on
 
     sortKey = "time"
 
@@ -1149,9 +1166,11 @@ def object_explorer(obj, sortby=None, fmt="simple", printing=True):
         elif str(sortby).lower() == "pv":
             key = _get_pv(obj) or "--"
         else:
+            # fmt: off
             raise ValueError(
                 f"sortby should be None or 'PV', found sortby='{sortby}'"
             )
+            # fmt: on
         return key
 
     for item in sorted(items, key=sorter):
@@ -1256,10 +1275,12 @@ def replay(headers, callback=None, sort=True):
 
     (new in apstools release 1.1.11)
     """
+    # fmt: off
     callback = callback or ipython_shell_namespace().get(
         "bec",  # get from IPython shell
         BestEffortCallback(),  # make one, if we must
     )
+    # fmt: on
     _headers = headers  # do not mutate the input arg
     if isinstance(_headers, databroker.Header):
         _headers = [_headers]
@@ -1280,10 +1301,11 @@ def replay(headers, callback=None, sort=True):
 
     for h in sorted(_headers, key=sorter):
         if not isinstance(h, databroker.Header):
+            # fmt: off
             raise TypeError(
-                "Must be a databroker Header:"
-                f" received: {type(h)}: |{h}|"
+                f"Must be a databroker Header: received: {type(h)}: |{h}|"
             )
+            # fmt: on
         cmd = _rebuild_scan_command(h.start)
         logger.debug("%s", cmd)
 
@@ -1523,6 +1545,7 @@ def summarize_runs(since=None, db=None):
         ).isoformat()
         # fmt:on
         scan_id = run.metadata["start"].get("scan_id", "unknown")
+        # fmt: off
         plans[plan_name].append(
             dict(
                 plan_name=plan_name,
@@ -1532,6 +1555,7 @@ def summarize_runs(since=None, db=None):
                 scan_id=scan_id,
             )
         )
+        # fmt: on
         logger.debug(
             "%s %s dt1=%4.01fus dt2=%5.01fms %s",
             scan_id,
@@ -1769,20 +1793,21 @@ class ExcelDatabaseFileBase(object):
         self.parse(ignore_extra=ignore_extra)
 
     def handle_single_entry(self, entry):  # subclass MUST override
+        # fmt: off
         raise NotImplementedError(
             "subclass must override handle_single_entry() method"
         )
+        # fmt: on
 
     def handleExcelRowEntry(self, entry):  # subclass MUST override
+        # fmt: off
         raise NotImplementedError(
             "subclass must override handleExcelRowEntry() method"
         )
+        # fmt: on
 
     def parse(
-        self,
-        labels_row_num=None,
-        data_start_row_num=None,
-        ignore_extra=True,
+        self, labels_row_num=None, data_start_row_num=None, ignore_extra=True,
     ):
         labels_row_num = labels_row_num or self.LABELS_ROW
         try:
@@ -1805,9 +1830,11 @@ class ExcelDatabaseFileBase(object):
                 # use the whole sheet
                 rows = list(ws.rows)
                 # create the column titles
+                # fmt: off
                 self.data_labels = [
                     f"Column_{i+1}" for i in range(len(rows[0]))
                 ]
+                # fmt: on
         except openpyxl.utils.exceptions.InvalidFileException as exc:
             raise ExcelReadError(exc)
         for row in rows:
@@ -2099,12 +2126,12 @@ def trim_plot_lines(bec, n, x, y):
             ax.lines[0].remove()
         except ValueError as exc:
             if not str(exc).endswith("x not in list"):
+                # fmt: off
                 logger.warning(
                     "%s vs %s: mpl remove() error: %s",
-                    y.name,
-                    x.name,
-                    str(exc),
+                    y.name, x.name, str(exc),
                 )
+                # fmt: on
     ax.legend()
     liveplot.update_plot()
     logger.debug("trim complete")
@@ -2316,7 +2343,7 @@ def json_export(headers, filename, zipfilename=None):
     warnings.warn(
         "DEPRECATED: json_import() will be removed"
         " in a future release.  Instead, use *databroker-pack* package.",
-        DeprecationWarning
+        DeprecationWarning,
     )
     datasets = [list(h.documents()) for h in headers]
     buf = json.dumps(datasets, cls=NumpyEncoder, indent=2)
@@ -2361,7 +2388,7 @@ def json_import(filename, zipfilename=None):
     warnings.warn(
         "DEPRECATED: json_import() will be removed"
         " in a future release.  Instead, use *databroker-pack* package.",
-        DeprecationWarning
+        DeprecationWarning,
     )
     if zipfilename is None:
         with open(filename, "r") as fp:
@@ -2383,12 +2410,7 @@ def redefine_motor_position(motor, new_position):
 
 
 def quantify_md_key_use(
-    key=None,
-    db=None,
-    catalog_name=None,
-    since=None,
-    until=None,
-    query=None,
+    key=None, db=None, catalog_name=None, since=None, until=None, query=None,
 ):
     """
     print table of different ``key`` values and how many times each appears
@@ -2496,9 +2518,11 @@ def copy_filtered_catalog(source_cat, target_cat, query=None):
     query = query or {}
     for i, uid in enumerate(source_cat.v2.search(query)):
         run = source_cat.v1[uid]
+        # fmt: off
         logger.debug(
             "%d  %s  #docs=%d", i + 1, uid, len(list(run.documents()))
         )
+        # fmt: on
         for key, doc in run.documents():
             target_cat.v1.insert(key, doc)
 
@@ -2530,10 +2554,11 @@ class PVRegistry:
         g = ns or ipython_shell_namespace() or globals()
 
         # kickoff the registration process
+        # fmt: off
         logger.debug(
-            "Cross-referencing EPICS PVs with"
-            " Python objects and ophyd symbols"
+            "Cross-referencing EPICS PVs with Python objects & ophyd symbols"
         )
+        # fmt: on
         self._ophyd_epicsobject_walker(g)
 
     def _ophyd_epicsobject_walker(self, parent):
@@ -2561,10 +2586,11 @@ class PVRegistry:
                     self._signal_processor(v)
                     self._odb[v.name] = ".".join(self._device_name + [k])
                 except (KeyError, RuntimeError) as exc:
+                    # fmt: off
                     logger.error(
-                        "Exception while examining key '%s': (%s)",
-                        k, exc
+                        "Exception while examining key '%s': (%s)", k, exc
                     )
+                    # fmt: on
             elif isinstance(v, ophyd.Device):
                 # print("Device", v.name)
                 self._device_name = _nm_base + [k]
@@ -2583,10 +2609,12 @@ class PVRegistry:
             obj = getattr(parent, key, None)
             return obj
         except (KeyError, RuntimeError, TimeoutError) as exc:
+            # fmt: off
             logger.error(
                 "Exception while getting object '%s.%s': (%s)",
-                ".".join(self._device_name), key, exc
+                ".".join(self._device_name), key, exc,
             )
+            # fmt: on
 
     def _register_signal(self, signal, pv, mode):
         """Register a signal with the given mode."""
