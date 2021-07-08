@@ -22,12 +22,15 @@ Various utilities
    ~getDefaultCatalog
    ~getDefaultDatabase
    ~getDefaultNamespace
+   ~getRunData
+   ~getRunDataValue
    ~ipython_profile_name
    ~itemizer
    ~json_export
    ~json_import
    ~listdevice
    ~listobjects
+   ~listRunKeys
    ~ListRuns
    ~listruns
    ~listruns_v1_4
@@ -388,6 +391,175 @@ def getDefaultDatabase():
         return None
     # return the catalog with the most recent timestamp
     return sorted(choices)[-1]
+
+
+def getRunData(scan_id, db=None, stream="primary", query=None):
+    """
+    Convenience function to get the run's data.  Default is the ``primary`` stream.
+
+    PARAMETERS
+
+    scan_id
+        *int* or *str* :
+        Scan (run) identifier.
+        Positive integer value is ``scan_id`` from run's metadata.
+        Negative integer value is since most recent run in databroker.
+        String is run's ``uid`` unique identifier (can abbreviate to the first characters needed to assure it is unique).
+
+    db
+        *object* :
+        Instance of databroker v1 ``Broker`` or v2 ``BlueskyMongoCatalog``.
+        Default: will search existing session for instance.
+
+    stream
+        *str* :
+        Name of the bluesky data stream to obtain the data.
+        Default: 'primary'
+
+    query
+        *dict* :
+        mongo query dictionary, used to filter the results
+        Default: ``{}``
+
+        see: https://docs.mongodb.com/manual/reference/operator/query/
+
+    (new in apstools 1.5.1)
+    """
+    cat = getCatalog(db).v2.search(query or {})
+
+    run = cat[scan_id]
+    if not hasattr(run, stream):
+        raise AttributeError(f"No such stream '{stream}' in run '{scan_id}'.")
+
+    return getattr(run, stream).read().to_dataframe()
+
+
+def getRunDataValue(scan_id, key, db=None, stream="primary", query=None, idx=-1):
+    """
+    Convenience function to get value of key in run stream.
+
+    Defaults are last value of key in primary stream.
+
+    PARAMETERS
+
+    scan_id
+        *int* or *str* :
+        Scan (run) identifier.
+        Positive integer value is ``scan_id`` from run's metadata.
+        Negative integer value is since most recent run in databroker.
+        String is run's ``uid`` unique identifier (can abbreviate to the first characters needed to assure it is unique).
+
+    key
+        *str* :
+        Name of the key (data column) in the table of the stream's data.  Must match *identically*.
+
+    db
+        *object* :
+        Instance of databroker v1 ``Broker`` or v2 ``BlueskyMongoCatalog``.
+        Default: will search existing session for instance.
+
+    stream
+        *str* :
+        Name of the bluesky data stream to obtain the data.
+        Default: 'primary'
+
+    query
+        *dict* :
+        mongo query dictionary, used to filter the results
+        Default: ``{}``
+
+        see: https://docs.mongodb.com/manual/reference/operator/query/
+
+    idx
+        *int* or *str* :
+        List index of value to be returned from column of table.
+        Can be ``0`` for first value, ``-1`` for last value, ``"mean"`` for average value, or ``"all"`` for the full list of values.
+        Default: ``-1``
+
+    (new in apstools 1.5.1)
+    """
+    try:
+        _idx = int(idx)
+    except ValueError:
+        _idx = str(idx).lower()
+
+    if isinstance(_idx, str) and _idx != "mean":
+        raise KeyError(f"Did not understand 'idx={idx}', use integer, 'all', or 'mean'.")
+
+    table = getRunData(scan_id, db=db, stream=stream, query=query)
+
+    if key not in table:
+        raise KeyError(f"'{key}' not found in scan {scan_id} stream '{stream}'.")
+    data = table[key]
+
+    if _idx == "all":
+        return data.values
+    elif _idx == "mean":
+        return data.mean()
+    elif (0 <= _idx < len(data)) or (_idx < 0):
+        return data.values[_idx]
+    raise KeyError(f"Cannot reference {idx=} in scan {scan_id} stream'{stream}' {key=}.")
+
+
+def listRunKeys(scan_id, key_fragment="", db=None, stream="primary", query=None, strict=False):
+    """
+    Convenience function to list all keys (column names) in the scan's stream (default: primary).
+
+    PARAMETERS
+
+    scan_id
+        *int* or *str* :
+        Scan (run) identifier.
+        Positive integer value is ``scan_id`` from run's metadata.
+        Negative integer value is since most recent run in databroker.
+        String is run's ``uid`` unique identifier (can abbreviate to the first characters needed to assure it is unique).
+
+    key_fragment
+        *str* :
+        Part or all of key name to be found.
+        For instance, if you specify ``key_fragment="lakeshore"``,
+        it will return all the keys that include ``lakeshore``.
+
+    db
+        *object* :
+        Instance of databroker v1 ``Broker`` or v2 ``BlueskyMongoCatalog``.
+        Default: will search existing session for instance.
+
+    stream
+        *str* :
+        Name of the bluesky data stream to obtain the data.
+        Default: 'primary'
+
+    query
+        *dict* :
+        mongo query dictionary, used to filter the results
+        Default: ``{}``
+
+        see: https://docs.mongodb.com/manual/reference/operator/query/
+
+    strict
+        *bool* :
+        Should the ``key_fragment`` be matched identically (``strict=True``)
+        or matched by lower case comparison (``strict=False``)?
+        Default: ``False``
+
+    (new in apstools 1.5.1)
+    """
+    table = getRunData(scan_id, db=db, stream=stream, query=query)
+
+    if len(key_fragment):
+        output = [
+            col
+            for col in table.columns
+            if (
+                (strict and key_fragment in col)
+                or
+                (not strict and key_fragment.lower() in col.lower())
+            )
+        ]
+    else:
+        output = list(table.columns)
+    return output
 
 
 def itemizer(fmt, items):
