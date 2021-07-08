@@ -312,13 +312,20 @@ def test_utils_listRunKeys(
     assert len(result) == m_lower
 
 
+# fmt: off
 @pytest.mark.parametrize(
-    "scan_id, stream", [(110, None), (110, "primary"), (103, "mca"),],
+    "scan_id, stream",
+    [
+        (110, None),
+        (110, "primary"),
+        (103, "mca"),
+    ],
 )
 def test_utils_listRunKeys_no_such_stream(scan_id, stream, cat):
     with pytest.raises(AttributeError) as exc:
         APS_utils.listRunKeys(scan_id, db=cat, stream=stream)
     assert str(exc.value).startswith("No such stream ")
+# fmt: on
 
 
 @pytest.mark.parametrize(
@@ -356,8 +363,8 @@ def test_utils_getRunDataValue(scan_id, stream, key, idx, expected, prec, cat):
 @pytest.mark.parametrize(
     "scan_id, stream, key, idx, expected, prec",
     [
-        (2, None, "I0_USAXS", "all", [3729.0,], 0),
-        (2, "primary", "I0_USAXS", "all", [3729.0,], 0),
+        (2, None, "I0_USAXS", "all", [3729.0, ], 0),
+        (2, "primary", "I0_USAXS", "all", [3729.0, ], 0),
     ],
 )
 def test_utils_getRunDataValue_all(scan_id, stream, key, idx, expected, prec, cat):
