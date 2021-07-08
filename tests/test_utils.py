@@ -34,9 +34,7 @@ def test_utils_cleanupText():
 
 def test_utils_listdevice():
     motor1 = ophyd.sim.hw().motor1
-    table = APS_utils.listdevice(
-        motor1, show_ancient=True, use_datetime=True
-    )
+    table = APS_utils.listdevice(motor1, show_ancient=True, use_datetime=True)
     expected = (
         "=============== =====\n"
         "name            value\n"
@@ -45,27 +43,17 @@ def test_utils_listdevice():
         "motor1_setpoint 0    \n"
         "=============== ====="
     )
-    received = "\n".join(
-        [v[:21] for v in str(table).strip().splitlines()]
-    )
+    received = "\n".join([v[:21] for v in str(table).strip().splitlines()])
     assert received == expected
 
-    table = APS_utils.listdevice(
-        motor1, show_ancient=True, use_datetime=False
-    )
+    table = APS_utils.listdevice(motor1, show_ancient=True, use_datetime=False)
     # expected = """ """.strip()
-    received = "\n".join(
-        [v[:21] for v in str(table).strip().splitlines()]
-    )
+    received = "\n".join([v[:21] for v in str(table).strip().splitlines()])
     assert received == expected
 
-    table = APS_utils.listdevice(
-        motor1, show_ancient=False, use_datetime=False
-    )
+    table = APS_utils.listdevice(motor1, show_ancient=False, use_datetime=False)
     # expected = """ """.strip()
-    received = "\n".join(
-        [v[:21] for v in str(table).strip().splitlines()]
-    )
+    received = "\n".join([v[:21] for v in str(table).strip().splitlines()])
     assert received == expected
 
 
@@ -239,9 +227,7 @@ def test_utils_with_database_listruns(cat):
 
 def test_utils_with_database_listruns_v1_4(cat):
     assert len(list(cat.v1[COUNT].documents())[:1]) == 1
-    table = APS_utils.listruns_v1_4(
-        db=cat, show_command=True, printing=False, num=10,
-    )
+    table = APS_utils.listruns_v1_4(db=cat, show_command=True, printing=False, num=10,)
     assert table is not None
     assert len(table.labels) == 3 + 2  # requested 2 extra columns
     assert len(table.rows) == 10
@@ -291,3 +277,92 @@ def test_utils_with_database_replay(cat):
     for i, v in enumerate(replies):
         assert v - previous < 0
         previous = v
+
+
+@pytest.mark.parametrize(
+    "scan_id, stream, total_keys, key, m3, m_default, m_strict, m_lower",
+    [
+        (103, "primary", 7, "PD_USAXS", 1, 1, 1, 0),
+        (103, None, 7, "PD_USAXS", 1, 1, 1, 0),
+        (2, "primary", 5, "scaler0", 2, 2, 2, 2),
+        (2, None, 5, "scaler0", 2, 2, 2, 2),
+    ],
+)
+def test_utils_listRunKeys(
+    scan_id, stream, total_keys, key, m3, m_default, m_strict, m_lower, cat
+):
+    assert len(APS_utils.listRunKeys(scan_id, db=cat, stream=stream)) == total_keys
+
+    result = APS_utils.listRunKeys(
+        scan_id, key_fragment=key[0:3], db=cat, stream=stream
+    )
+    assert len(result) == m3
+
+    result = APS_utils.listRunKeys(scan_id, key_fragment=key, db=cat, stream=stream)
+    assert len(result) == m_default
+
+    result = APS_utils.listRunKeys(
+        scan_id, key_fragment=key, db=cat, stream=stream, strict=True
+    )
+    assert len(result) == m_strict
+
+    result = APS_utils.listRunKeys(
+        scan_id, key_fragment=key.lower(), db=cat, stream=stream, strict=True
+    )
+    assert len(result) == m_lower
+
+
+@pytest.mark.parametrize(
+    "scan_id, stream", [(110, None), (110, "primary"), (103, "mca"),],
+)
+def test_utils_listRunKeys_no_such_stream(scan_id, stream, cat):
+    with pytest.raises(AttributeError) as exc:
+        APS_utils.listRunKeys(scan_id, db=cat, stream=stream)
+    assert str(exc.value).startswith("No such stream ")
+
+
+@pytest.mark.parametrize(
+    "scan_id, stream, nkeys",
+    [
+        (2, None, 5),
+        (2, "primary", 5),
+        (103, "primary", 7),
+        # (103, "baseline", 268),  # very slow test!
+    ],
+)
+def test_utils_getRunData(scan_id, stream, nkeys, cat):
+    table = APS_utils.getRunData(scan_id, db=cat, stream=stream)
+    assert table is not None
+    assert len(table.keys()) == nkeys
+
+
+@pytest.mark.parametrize(
+    "scan_id, stream, key, idx, expected, prec",
+    [
+        (2, "primary", "I0_USAXS", None, 3729, 0),
+        (2, "primary", "I0_USAXS", -1, 3729, 0),
+        (2, "primary", "I0_USAXS", "-1", 3729, 0),
+        (103, "primary", "a_stage_r", None, 8.88197, 5),
+        (103, "primary", "a_stage_r", -1, 8.88197, 5),
+        (103, "primary", "a_stage_r", "mean", 8.88397, 5),
+        (103, "primary", "a_stage_r", 0, 8.88597, 5),
+    ],
+)
+def test_utils_getRunDataValue(scan_id, stream, key, idx, expected, prec, cat):
+    value = APS_utils.getRunDataValue(scan_id, key, db=cat, stream=stream, idx=idx)
+    assert round(value, prec) == expected
+
+
+@pytest.mark.parametrize(
+    "scan_id, stream, key, idx, expected, prec",
+    [
+        (2, None, "I0_USAXS", "all", [3729.0,], 0),
+        (2, "primary", "I0_USAXS", "all", [3729.0,], 0),
+    ],
+)
+def test_utils_getRunDataValue_all(scan_id, stream, key, idx, expected, prec, cat):
+    value = APS_utils.getRunDataValue(scan_id, key, db=cat, stream=stream, idx=idx)
+    assert isinstance(value, np.ndarray)
+    assert len(value) == len(expected)
+    for v, e in zip(value, expected):
+        assert round(v, prec) == e

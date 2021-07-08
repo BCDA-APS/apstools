@@ -430,6 +430,7 @@ def getRunData(scan_id, db=None, stream="primary", query=None):
     (new in apstools 1.5.1)
     """
     cat = getCatalog(db).v2.search(query or {})
+    stream = stream or "primary"
 
     run = cat[scan_id]
     if not hasattr(run, stream):
@@ -482,15 +483,19 @@ def getRunDataValue(scan_id, key, db=None, stream="primary", query=None, idx=-1)
 
     (new in apstools 1.5.1)
     """
+    if idx is None:
+        idx = -1
     try:
         _idx = int(idx)
     except ValueError:
         _idx = str(idx).lower()
 
-    if isinstance(_idx, str) and _idx != "mean":
+    if isinstance(_idx, str) and _idx not in "all mean".split():
         raise KeyError(
             f"Did not understand 'idx={idx}', use integer, 'all', or 'mean'."
         )
+
+    stream = stream or "primary"
 
     table = getRunData(scan_id, db=db, stream=stream, query=query)
 
@@ -611,9 +616,9 @@ def getDefaultCatalog():
     if len(cats) > 1:
         # fmt: off
         choices = "   ".join([
-                f"{k} ({v.name})"
-                for k, v in cats.items()
-            ])
+            f"{k} ({v.name})"
+            for k, v in cats.items()
+        ])
         # fmt: on
         raise ValueError(
             "No catalog defined.  "
