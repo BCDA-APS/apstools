@@ -4,6 +4,9 @@
 Change History
 ##############
 
+The project `milestones <https://github.com/BCDA-APS/apstools/milestones>`_
+describe the future plans.
+
 :1.5.2:  release expected by 2021-08-31
 
 :1.5.1:  release expected by 2021-07-31
