@@ -4,15 +4,29 @@
 Change History
 ##############
 
-:1.5.1:  release expected by 2021-04-30
+:1.5.2:  release expected by 2021-08-31
+
+:1.5.1:  release expected by 2021-07-31
+
+   * `#521 <https://github.com/BCDA-APS/apstools/issues/521>`_
+      Enhancement: new functions: getRunData(), getRunDataValue(), & listRunKeys()
+
+   * `#518 <https://github.com/BCDA-APS/apstools/issues/518>`_
+      Bug fixed: TypeError from summary() of CalcoutRecord
+
+   * `#517 <https://github.com/BCDA-APS/apstools/pull/517>`_
+      Added support for python 3.9.
+
+   * `#514 <https://github.com/BCDA-APS/apstools/pull/514>`_
+      Refactor 'SIGNAL.value' to 'SIGNAL.get()'
 
 :1.5.0:  released 2021-04-02
 
-   * `Dropped support for python 3.6.  
-      <https://github.com/BCDA-APS/apstools/pull/504#issuecomment-804377418>`_
+   * `#504 comment <https://github.com/BCDA-APS/apstools/pull/504#issuecomment-804377418>`_
+      Dropped support for python 3.6.
 
-   * `Dropped diffractometer support code.  
-      <https://github.com/BCDA-APS/apstools/pull/495>`_
+   * `#495 <https://github.com/BCDA-APS/apstools/pull/495>`_
+      Dropped diffractometer support code.
 
    * `#511 <https://github.com/BCDA-APS/apstools/pull/511>`_
       & `#497 <https://github.com/BCDA-APS/apstools/pull/497>`_
@@ -30,7 +44,7 @@ Change History
 
    * `#495 <https://github.com/BCDA-APS/apstools/pull/495>`_
       remove *hklpy* requirement since all diffractometer
-      support code will be moved to 
+      support code will be moved to
       [*hklpy*](https://github.com/bluesky/hklpy) package.
 
 :1.4.1:  released: 2021-01-23
