@@ -408,7 +408,8 @@ def getRunData(scan_id, db=None, stream="primary", query=None):
         Scan (run) identifier.
         Positive integer value is ``scan_id`` from run's metadata.
         Negative integer value is since most recent run in databroker.
-        String is run's ``uid`` unique identifier (can abbreviate to the first characters needed to assure it is unique).
+        String is run's ``uid`` unique identifier (can abbreviate to
+        the first characters needed to assure it is unique).
 
     db
         *object* :
@@ -452,11 +453,13 @@ def getRunDataValue(scan_id, key, db=None, stream="primary", query=None, idx=-1)
         Scan (run) identifier.
         Positive integer value is ``scan_id`` from run's metadata.
         Negative integer value is since most recent run in databroker.
-        String is run's ``uid`` unique identifier (can abbreviate to the first characters needed to assure it is unique).
+        String is run's ``uid`` unique identifier (can abbreviate to
+        the first characters needed to assure it is unique).
 
     key
         *str* :
-        Name of the key (data column) in the table of the stream's data.  Must match *identically*.
+        Name of the key (data column) in the table of the stream's data.
+        Must match *identically*.
 
     db
         *object* :
@@ -478,7 +481,8 @@ def getRunDataValue(scan_id, key, db=None, stream="primary", query=None, idx=-1)
     idx
         *int* or *str* :
         List index of value to be returned from column of table.
-        Can be ``0`` for first value, ``-1`` for last value, ``"mean"`` for average value, or ``"all"`` for the full list of values.
+        Can be ``0`` for first value, ``-1`` for last value, ``"mean"``
+        for average value, or ``"all"`` for the full list of values.
         Default: ``-1``
 
     (new in apstools 1.5.1)
@@ -527,7 +531,8 @@ def listRunKeys(
         Scan (run) identifier.
         Positive integer value is ``scan_id`` from run's metadata.
         Negative integer value is since most recent run in databroker.
-        String is run's ``uid`` unique identifier (can abbreviate to the first characters needed to assure it is unique).
+        String is run's ``uid`` unique identifier (can abbreviate to
+        the first characters needed to assure it is unique).
 
     key_fragment
         *str* :
