@@ -134,8 +134,9 @@ def test_utils_pairwise():
     assert received == expected
 
 
-def test_utils_safe_ophyd_name():
-    items = [
+@pytest.mark.parametrize(
+    "given, expected",
+    [
         ["simple", "simple"],
         ["sim_ple", "sim_ple"],
         ["hy-phen", "hy_phen"],
@@ -147,10 +148,11 @@ def test_utils_safe_ophyd_name():
         ["0 is not a good name", "_0_is_not_a_good_name"],
         ["! is even worse!", "__is_even_worse_"],
         ["double.dotted.name", "double_dotted_name"],
-    ]
-    for given, expected in items:
-        received = APS_utils.safe_ophyd_name(given)
-        assert received == expected
+    ],
+)
+def test_utils_safe_ophyd_name(given, expected):
+    received = APS_utils.safe_ophyd_name(given)
+    assert received == expected
 
 
 def test_utils_split_quoted_line():
@@ -334,7 +336,7 @@ def test_utils_listRunKeys_no_such_stream(scan_id, stream, cat):
         (2, None, 5),
         (2, "primary", 5),
         (103, "primary", 7),
-        # (103, "baseline", 268),  # very slow test!
+        (103, "baseline", 268),  # very slow test!
     ],
 )
 def test_utils_getRunData(scan_id, stream, nkeys, cat):
@@ -346,30 +348,47 @@ def test_utils_getRunData(scan_id, stream, nkeys, cat):
 @pytest.mark.parametrize(
     "scan_id, stream, key, idx, expected, prec",
     [
-        (2, "primary", "I0_USAXS", None, 3729, 0),
+        (2, "baseline", "undulator_downstream_version", None, "4.21", 0),
         (2, "primary", "I0_USAXS", -1, 3729, 0),
         (2, "primary", "I0_USAXS", "-1", 3729, 0),
-        (103, "primary", "a_stage_r", None, 8.88197, 5),
+        (2, "primary", "I0_USAXS", "all", [3729.0, ], 0),
+        (2, "primary", "I0_USAXS", None, 3729, 0),
+        (2, None, "I0_USAXS", "all", [3729.0, ], 0),
+        (103, "baseline", "undulator_downstream_version", None, "4.21", 0),
         (103, "primary", "a_stage_r", -1, 8.88197, 5),
         (103, "primary", "a_stage_r", "mean", 8.88397, 5),
         (103, "primary", "a_stage_r", 0, 8.88597, 5),
+        (103, "primary", "a_stage_r", None, 8.88197, 5),
+        (110, "baseline", "terms_SAXS_UsaxsSaxsMode", None, "blank", 0),
+        (110, "baseline", "user_data_sample_thickness", None, 0.0, 1),
+        (110, "baseline", "user_data_scan_macro", None, "FlyScan", 0),
     ],
 )
 def test_utils_getRunDataValue(scan_id, stream, key, idx, expected, prec, cat):
     value = APS_utils.getRunDataValue(scan_id, key, db=cat, stream=stream, idx=idx)
-    assert round(value, prec) == expected
+    if isinstance(value, str):
+        assert value == expected
+    elif isinstance(value, float):
+        assert round(value, prec) == expected
+    elif isinstance(value, np.ndarray):
+        assert len(value) == len(expected)
+        for v, e in zip(value, expected):
+            assert round(v, prec) == e
 
 
+# fmt: off
 @pytest.mark.parametrize(
     "scan_id, stream, key, idx, expected, prec",
     [
-        (2, None, "I0_USAXS", "all", [3729.0, ], 0),
-        (2, "primary", "I0_USAXS", "all", [3729.0, ], 0),
+        (110, "mca", "struck_mca3_elapsed_real_time", None, 93.72, 2),
     ],
 )
-def test_utils_getRunDataValue_all(scan_id, stream, key, idx, expected, prec, cat):
-    value = APS_utils.getRunDataValue(scan_id, key, db=cat, stream=stream, idx=idx)
-    assert isinstance(value, np.ndarray)
-    assert len(value) == len(expected)
-    for v, e in zip(value, expected):
-        assert round(v, prec) == e
+def test_utils_getRunDataValue_MemoryError(
+    scan_id, stream, key, idx, expected, prec, cat
+):
+    with pytest.raises(np.core._exceptions._ArrayMemoryError) as exc:
+        APS_utils.getRunDataValue(
+            scan_id, key, db=cat, stream=stream, idx=idx
+        )
+    assert str(exc.value).startswith("Unable to allocate ")
+# fmt: on
