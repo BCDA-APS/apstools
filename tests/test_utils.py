@@ -348,13 +348,13 @@ def test_utils_getRunData(scan_id, stream, nkeys, cat):
 @pytest.mark.parametrize(
     "scan_id, stream, key, idx, expected, prec",
     [
-        (2, "baseline", "undulator_downstream_version", None, "4.21", 0),
+        # (2, "baseline", "undulator_downstream_version", None, "4.21", 0),
         (2, "primary", "I0_USAXS", -1, 3729, 0),
         (2, "primary", "I0_USAXS", "-1", 3729, 0),
         (2, "primary", "I0_USAXS", "all", [3729.0, ], 0),
         (2, "primary", "I0_USAXS", None, 3729, 0),
         (2, None, "I0_USAXS", "all", [3729.0, ], 0),
-        (103, "baseline", "undulator_downstream_version", None, "4.21", 0),
+        # (103, "baseline", "undulator_downstream_version", None, "4.21", 0),
         (103, "primary", "a_stage_r", -1, 8.88197, 5),
         (103, "primary", "a_stage_r", "mean", 8.88397, 5),
         (103, "primary", "a_stage_r", 0, 8.88597, 5),
