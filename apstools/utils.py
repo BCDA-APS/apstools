@@ -510,7 +510,7 @@ def getRunDataValue(scan_id, key, db=None, stream="primary", query=None, idx=-1)
     elif (0 <= _idx < len(data)) or (_idx < 0):
         return data.values[_idx]
     raise KeyError(
-        f"Cannot reference {idx=} in scan {scan_id} stream'{stream}' {key=}."
+        f"Cannot reference idx={idx} in scan {scan_id} stream'{stream}' key={key}."
     )
 
 
