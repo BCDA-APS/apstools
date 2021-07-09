@@ -336,7 +336,7 @@ def test_utils_listRunKeys_no_such_stream(scan_id, stream, cat):
         (2, None, 5),
         (2, "primary", 5),
         (103, "primary", 7),
-        (103, "baseline", 268),  # very slow test!
+        # (103, "baseline", 268),  # very slow test!
     ],
 )
 def test_utils_getRunData(scan_id, stream, nkeys, cat):
@@ -359,9 +359,9 @@ def test_utils_getRunData(scan_id, stream, nkeys, cat):
         (103, "primary", "a_stage_r", "mean", 8.88397, 5),
         (103, "primary", "a_stage_r", 0, 8.88597, 5),
         (103, "primary", "a_stage_r", None, 8.88197, 5),
-        (110, "baseline", "terms_SAXS_UsaxsSaxsMode", None, "blank", 0),
-        (110, "baseline", "user_data_sample_thickness", None, 0.0, 1),
-        (110, "baseline", "user_data_scan_macro", None, "FlyScan", 0),
+        # (110, "baseline", "terms_SAXS_UsaxsSaxsMode", None, "blank", 0),
+        # (110, "baseline", "user_data_sample_thickness", None, 0.0, 1),
+        # (110, "baseline", "user_data_scan_macro", None, "FlyScan", 0),
     ],
 )
 def test_utils_getRunDataValue(scan_id, stream, key, idx, expected, prec, cat):
