@@ -25,6 +25,7 @@ Various utilities
    ~getDefaultNamespace
    ~getRunData
    ~getRunDataValue
+   ~getStreamValues
    ~ipython_profile_name
    ~itemizer
    ~json_export
@@ -490,7 +491,7 @@ def getRunData(scan_id, db=None, stream="primary", query=None, use_v1=True):
 
     (new in apstools 1.5.1)
     """
-    cat = getCatalog(db.v2)
+    cat = getCatalog(db)
     if query:
         cat = db_query(cat, query)
 
@@ -593,6 +594,90 @@ def getRunDataValue(
     )
 
 
+def getStreamValues(scan_id, db=None, key_fragment="", stream="baseline", query=None, use_v1=True):
+    """
+    Get values from a previous scan stream in a databroker catalog.
+
+    Optionally, select only those data with names including ``key_fragment``.
+
+    .. tip::
+
+        If the output is truncated, use
+        ``pd.set_option('display.max_rows', 300)``
+        to increase the number of rows displayed.
+
+    PARAMETERS
+
+    scan_id
+        *int* or *str* :
+        Scan (run) identifier.
+        Positive integer value is ``scan_id`` from run's metadata.
+        Negative integer value is since most recent run in databroker.
+        String is run's ``uid`` unique identifier (can abbreviate to
+        the first characters needed to assure it is unique).
+
+    db
+        *object* :
+        Bluesky database, an instance of ``databroker.catalog``.
+        Default: will search existing session for instance.
+
+    key_fragment
+        *str* :
+        Part or all of key name to be found in selected stream.
+        For instance, if you specify ``key_fragment="lakeshore"``,
+        it will return all the keys that include ``lakeshore``.
+
+    stream
+        *str* :
+        Name of the bluesky data stream to obtain the data.
+        Default: 'baseline'
+
+    query
+        *dict* :
+        mongo query dictionary, used to filter the results
+        Default: ``{}``
+
+        see: https://docs.mongodb.com/manual/reference/operator/query/
+
+    use_v1
+        *bool* :
+        Chooses databroker API version between 'v1' or 'v2'.
+        Default: ``True`` (meaning use the v1 API)
+
+    RETURNS
+
+    *object* :
+        pandas DataFrame with values from selected stream, search_string, and query
+
+        see: https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.html
+
+    (new in apstools 1.5.1)
+    """
+
+    db_range = db_query(db, query=query) if query else db
+
+    data = getRunData(scan_id, db=db, stream=stream, query=query, use_v1=use_v1)
+
+    indices = [1, 2] if len(data["time"]) == 2 else [1]
+    dd = {}
+
+    key = "time"
+#     date_format = "%m/%d/%y %H:%M:%S"  # common in US
+    date_format = "%y-%m-%d %H:%M:%S"  # modified ISO8601
+    # fmt: off
+    dd[key] = [
+        data[key][i].strftime(date_format)
+        for i in indices
+    ]
+    # fmt: on
+
+    for key in sorted(data.keys()):
+        if key_fragment in key:
+            dd[key] = [data[key][i] for i in indices]
+
+    return pd.DataFrame(dd).transpose()
+
+
 def listRunKeys(
     scan_id,
     key_fragment="",
@@ -617,7 +702,7 @@ def listRunKeys(
 
     key_fragment
         *str* :
-        Part or all of key name to be found.
+        Part or all of key name to be found in selected stream.
         For instance, if you specify ``key_fragment="lakeshore"``,
         it will return all the keys that include ``lakeshore``.
 
