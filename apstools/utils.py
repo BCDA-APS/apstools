@@ -7,6 +7,7 @@ Various utilities
    ~command_list_as_table
    ~connect_pvlist
    ~copy_filtered_catalog
+   ~db_query
    ~device_read2table
    ~dictionary_table
    ~EmailNotifications
@@ -102,6 +103,9 @@ from .filewriters import _rebuild_scan_command
 logger = logging.getLogger(__name__)
 
 MAX_EPICS_STRINGOUT_LENGTH = 40
+
+FIRST_DATA = "1995-01-01"
+LAST_DATA = "2100-12-31"
 
 
 class ExcelReadError(openpyxl.utils.exceptions.InvalidFileException):
@@ -298,9 +302,9 @@ def getDatabase(db=None, catalog_name=None):
 
     db
         *object* :
-        Instance of databroker v1 ``Broker`` or
-        v2 ``BlueskyMongoCatalog``.
+        Bluesky database, an instance of ``databroker.catalog``
         (default: see ``catalog_name`` keyword argument)
+
     catalog_name
         *str* :
         Name of databroker v2 catalog, used when supplied
@@ -397,7 +401,56 @@ def getDefaultDatabase():
     return sorted(choices)[-1]
 
 
-def getRunData(scan_id, db=None, stream="primary", query=None):
+def db_query(db, query):
+    """
+    Searches the databroker v2 database.
+
+    PARAMETERS
+
+    db
+        *object* :
+        Bluesky database, an instance of ``databroker.catalog``.
+
+    query
+        *dict* :
+        Search parameters.
+
+    RETURNS
+
+    *object* :
+        Bluesky database, an instance of ``databroker.catalog``
+        satisfying the ``query`` parameters.
+
+    See also
+    --------
+    :func:`databroker.catalog.search`
+    """
+
+    if query is None:
+        return db
+
+    since = query.pop("since", None)
+    until = query.pop("until", None)
+
+    if since or until:
+        if not since:
+            since = FIRST_DATA
+        if not until:
+            until = LAST_DATA
+
+        _db = db.v2.search(
+            databroker.queries.TimeRange(since=since, until=until)
+        )
+    else:
+        _db = db
+
+    if len(query) != 0:
+        _db = _db.v2.search(query)
+
+    return _db
+
+
+def getRunData(scan_id, db=None, stream="primary", query=None, use_v1=True):
     """
     Convenience function to get the run's data.  Default is the ``primary`` stream.
 
@@ -413,7 +466,7 @@ def getRunData(scan_id, db=None, stream="primary", query=None):
 
     db
         *object* :
-        Instance of databroker v1 ``Broker`` or v2 ``BlueskyMongoCatalog``.
+        Bluesky database, an instance of ``databroker.catalog``.
         Default: will search existing session for instance.
 
     stream
@@ -428,19 +481,32 @@ def getRunData(scan_id, db=None, stream="primary", query=None):
 
         see: https://docs.mongodb.com/manual/reference/operator/query/
 
+    use_v1
+        *bool* :
+        Chooses databroker API version between 'v1' or 'v2'.
+        Default: ``True`` (meaning use the v1 API)
+
     (new in apstools 1.5.1)
     """
-    cat = getCatalog(db).v2.search(query or {})
+    cat = getCatalog(db.v2)
+    if query:
+        cat = db_query(cat, query)
+
     stream = stream or "primary"
 
-    run = cat[scan_id]
-    if not hasattr(run, stream):
-        raise AttributeError(f"No such stream '{stream}' in run '{scan_id}'.")
+    if use_v1 is None or use_v1:
+        run = cat.v1[scan_id]
+        if stream in run.stream_names:
+            return run.table(stream_name=stream)
+    else:
+        run = cat.v2[scan_id]
+        if hasattr(run, stream):
+            return run[stream].read().to_dataframe()
 
-    return getattr(run, stream).read().to_dataframe()
+    raise AttributeError(f"No such stream '{stream}' in run '{scan_id}'.")
 
 
-def getRunDataValue(scan_id, key, db=None, stream="primary", query=None, idx=-1):
+def getRunDataValue(scan_id, key, db=None, stream="primary", query=None, idx=-1, use_v1=True):
     """
     Convenience function to get value of key in run stream.
 
@@ -463,7 +529,7 @@ def getRunDataValue(scan_id, key, db=None, stream="primary", query=None, idx=-1)
 
     db
         *object* :
-        Instance of databroker v1 ``Broker`` or v2 ``BlueskyMongoCatalog``.
+        Bluesky database, an instance of ``databroker.catalog``.
         Default: will search existing session for instance.
 
     stream
@@ -484,6 +550,11 @@ def getRunDataValue(scan_id, key, db=None, stream="primary", query=None, idx=-1)
         Can be ``0`` for first value, ``-1`` for last value, ``"mean"``
         for average value, or ``"all"`` for the full list of values.
         Default: ``-1``
+
+    use_v1
+        *bool* :
+        Chooses databroker API version between 'v1' or 'v2'.
+        Default: ``True`` (meaning use the v1 API)
 
     (new in apstools 1.5.1)
     """
@@ -519,7 +590,7 @@ def getRunDataValue(scan_id, key, db=None, stream="primary", query=None, idx=-1)
 
 
 def listRunKeys(
-    scan_id, key_fragment="", db=None, stream="primary", query=None, strict=False
+    scan_id, key_fragment="", db=None, stream="primary", query=None, strict=False, use_v1=True
 ):
     """
     Convenience function to list all keys (column names) in the scan's stream (default: primary).
@@ -542,7 +613,7 @@ def listRunKeys(
 
     db
         *object* :
-        Instance of databroker v1 ``Broker`` or v2 ``BlueskyMongoCatalog``.
+        Bluesky database, an instance of ``databroker.catalog``.
         Default: will search existing session for instance.
 
     stream
@@ -563,9 +634,14 @@ def listRunKeys(
         or matched by lower case comparison (``strict=False``)?
         Default: ``False``
 
+    use_v1
+        *bool* :
+        Chooses databroker API version between 'v1' or 'v2'.
+        Default: ``True`` (meaning use the v1 API)
+
     (new in apstools 1.5.1)
     """
-    table = getRunData(scan_id, db=db, stream=stream, query=query)
+    table = getRunData(scan_id, db=db, stream=stream, query=query, use_v1=use_v1)
 
     # fmt: off
     if len(key_fragment):
@@ -751,8 +827,8 @@ class ListRuns:
             self.cat = getCatalog()
 
     def _apply_search_filters(self):
-        since = self.since or "1995-01-01"
-        until = self.until or "2100-12-31"
+        since = self.since or FIRST_DATA
+        until = self.until or LAST_DATA
         self._check_cat()
         query = {}
         query.update(databroker.queries.TimeRange(since=since, until=until))
