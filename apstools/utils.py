@@ -594,7 +594,9 @@ def getRunDataValue(
     )
 
 
-def getStreamValues(scan_id, db=None, key_fragment="", stream="baseline", query=None, use_v1=True):
+def getStreamValues(
+    scan_id, db=None, key_fragment="", stream="baseline", query=None, use_v1=True
+):
     """
     Get values from a previous scan stream in a databroker catalog.
 
@@ -662,7 +664,7 @@ def getStreamValues(scan_id, db=None, key_fragment="", stream="baseline", query=
     dd = {}
 
     key = "time"
-#     date_format = "%m/%d/%y %H:%M:%S"  # common in US
+    #     date_format = "%m/%d/%y %H:%M:%S"  # common in US
     date_format = "%y-%m-%d %H:%M:%S"  # modified ISO8601
     # fmt: off
     dd[key] = [
