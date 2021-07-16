@@ -282,34 +282,39 @@ def test_utils_with_database_replay(cat):
 
 
 @pytest.mark.parametrize(
-    "scan_id, stream, total_keys, key, m3, m_default, m_strict, m_lower",
+    "scan_id, stream, total_keys, key, v1, m3, m_default, m_strict, m_lower",
     [
-        (103, "primary", 7, "PD_USAXS", 1, 1, 1, 0),
-        (103, None, 7, "PD_USAXS", 1, 1, 1, 0),
-        (2, "primary", 5, "scaler0", 2, 2, 2, 2),
-        (2, None, 5, "scaler0", 2, 2, 2, 2),
+        (103, "primary", 7, "PD_USAXS", False, 1, 1, 1, 0),
+        (103, None, 7, "PD_USAXS", False, 1, 1, 1, 0),
+        (2, "primary", 5, "scaler0", False, 2, 2, 2, 2),
+        (2, None, 5, "scaler0", False, 2, 2, 2, 2),
+        (103, "primary", 8, "PD_USAXS", True, 1, 1, 1, 0),
     ],
 )
 def test_utils_listRunKeys(
-    scan_id, stream, total_keys, key, m3, m_default, m_strict, m_lower, cat
+    scan_id, stream, total_keys, key, v1, m3, m_default, m_strict, m_lower, cat
 ):
-    assert len(APS_utils.listRunKeys(scan_id, db=cat, stream=stream)) == total_keys
+    assert len(
+        APS_utils.listRunKeys(scan_id, db=cat, stream=stream, use_v1=v1)
+    ) == total_keys
 
     result = APS_utils.listRunKeys(
-        scan_id, key_fragment=key[0:3], db=cat, stream=stream
+        scan_id, key_fragment=key[0:3], db=cat, stream=stream, use_v1=v1
     )
     assert len(result) == m3
 
-    result = APS_utils.listRunKeys(scan_id, key_fragment=key, db=cat, stream=stream)
+    result = APS_utils.listRunKeys(
+        scan_id, key_fragment=key, db=cat, stream=stream, use_v1=v1
+    )
     assert len(result) == m_default
 
     result = APS_utils.listRunKeys(
-        scan_id, key_fragment=key, db=cat, stream=stream, strict=True
+        scan_id, key_fragment=key, db=cat, stream=stream, strict=True, use_v1=v1
     )
     assert len(result) == m_strict
 
     result = APS_utils.listRunKeys(
-        scan_id, key_fragment=key.lower(), db=cat, stream=stream, strict=True
+        scan_id, key_fragment=key.lower(), db=cat, stream=stream, strict=True, use_v1=v1
     )
     assert len(result) == m_lower
 
@@ -331,41 +336,54 @@ def test_utils_listRunKeys_no_such_stream(scan_id, stream, cat):
 
 
 @pytest.mark.parametrize(
-    "scan_id, stream, nkeys",
+    "scan_id, stream, nkeys, v1",
     [
-        (2, None, 5),
-        (2, "primary", 5),
-        (103, "primary", 7),
-        # (103, "baseline", 268),  # very slow test!
+        (2, None, 5, False),
+        (2, "primary", 5, False),
+        (2, "primary", 6, True),
+        (103, "primary", 7, False),
+        (103, "baseline", 268, False),  # very slow test!
+        (103, "baseline", 269, True),  # faster test!
+        (103, "baseline", 269, None),  # faster test!
     ],
 )
-def test_utils_getRunData(scan_id, stream, nkeys, cat):
-    table = APS_utils.getRunData(scan_id, db=cat, stream=stream)
+def test_utils_getRunData(scan_id, stream, nkeys, v1, cat):
+    table = APS_utils.getRunData(scan_id, db=cat, stream=stream, use_v1=v1)
     assert table is not None
     assert len(table.keys()) == nkeys
 
 
 @pytest.mark.parametrize(
-    "scan_id, stream, key, idx, expected, prec",
+    "scan_id, stream, key, idx, v1, expected, prec",
     [
-        # (2, "baseline", "undulator_downstream_version", None, "4.21", 0),
-        (2, "primary", "I0_USAXS", -1, 3729, 0),
-        (2, "primary", "I0_USAXS", "-1", 3729, 0),
-        (2, "primary", "I0_USAXS", "all", [3729.0, ], 0),
-        (2, "primary", "I0_USAXS", None, 3729, 0),
-        (2, None, "I0_USAXS", "all", [3729.0, ], 0),
-        # (103, "baseline", "undulator_downstream_version", None, "4.21", 0),
-        (103, "primary", "a_stage_r", -1, 8.88197, 5),
-        (103, "primary", "a_stage_r", "mean", 8.88397, 5),
-        (103, "primary", "a_stage_r", 0, 8.88597, 5),
-        (103, "primary", "a_stage_r", None, 8.88197, 5),
-        # (110, "baseline", "terms_SAXS_UsaxsSaxsMode", None, "blank", 0),
-        # (110, "baseline", "user_data_sample_thickness", None, 0.0, 1),
-        # (110, "baseline", "user_data_scan_macro", None, "FlyScan", 0),
+        # (2, "baseline", "undulator_downstream_version", None, False, "4.21", 0),  # VERY slow
+        (2, "baseline", "undulator_downstream_version", None, True, "4.21", 0),
+        (2, "primary", "I0_USAXS", -1, False, 3729, 0),
+        (2, "primary", "I0_USAXS", "-1", False, 3729, 0),
+        (2, "primary", "I0_USAXS", "all", False, [3729.0, ], 0),
+        (2, "primary", "I0_USAXS", None, False, 3729, 0),
+        (2, None, "I0_USAXS", "all", False, [3729.0, ], 0),
+        # (103, "baseline", "undulator_downstream_version", None, False, "4.21", 0),  # VERY slow
+        (103, "baseline", "undulator_downstream_version", None, True, "4.21", 0),
+        (103, "primary", "a_stage_r", -1, False, 8.88197, 5),
+        (103, "primary", "a_stage_r", -1, True, 8.88197, 5),
+        (103, "primary", "a_stage_r", "mean", False, 8.88397, 5),
+        (103, "primary", "a_stage_r", 0, False, 8.88597, 5),
+        (103, "primary", "a_stage_r", None, False, 8.88197, 5),
+        # (110, "baseline", "terms_SAXS_UsaxsSaxsMode", None, False, "blank", 0),  # VERY slow
+        # (110, "baseline", "user_data_sample_thickness", None, False, 0.0, 1),  # VERY slow
+        # (110, "baseline", "user_data_scan_macro", None, False, "FlyScan", 0),  # VERY slow
+        (110, "baseline", "terms_SAXS_UsaxsSaxsMode", None, True, "blank", 0),
+        (110, "baseline", "user_data_sample_thickness", None, True, 0.0, 1),
+        (110, "baseline", "user_data_scan_macro", None, True, "FlyScan", 0),
     ],
 )
-def test_utils_getRunDataValue(scan_id, stream, key, idx, expected, prec, cat):
-    value = APS_utils.getRunDataValue(scan_id, key, db=cat, stream=stream, idx=idx)
+def test_utils_getRunDataValue(
+    scan_id, stream, key, idx, v1, expected, prec, cat
+):
+    value = APS_utils.getRunDataValue(
+        scan_id, key, db=cat, stream=stream, idx=idx, use_v1=v1
+    )
     if isinstance(value, str):
         assert value == expected
     elif isinstance(value, float):
@@ -376,19 +394,42 @@ def test_utils_getRunDataValue(scan_id, stream, key, idx, expected, prec, cat):
             assert round(v, prec) == e
 
 
+# # fmt: off
+# @pytest.mark.parametrize(
+#     "scan_id, stream, key, idx, expected, prec",
+#     [
+#         (110, "mca", "struck_mca3_elapsed_real_time", None, 93.72, 2),
+#     ],
+# )
+# def test_utils_getRunDataValue_MemoryError(
+#     scan_id, stream, key, idx, expected, prec, cat
+# ):
+#     with pytest.raises(np.core._exceptions._ArrayMemoryError) as exc:
+#         APS_utils.getRunDataValue(
+#             scan_id, key, db=cat, stream=stream, idx=idx
+#         )
+#     assert str(exc.value).startswith("Unable to allocate ")
+# # fmt: on
+
+
 # fmt: off
 @pytest.mark.parametrize(
-    "scan_id, stream, key, idx, expected, prec",
+    "query, n",
     [
-        (110, "mca", "struck_mca3_elapsed_real_time", None, 93.72, 2),
+        ({"since": "2019-05-01"}, 8),
+        ({"since": "2000-05-01"}, 10),
+        ({}, 10),
+        (None, 10),
+        ({"since": None}, 10),
+        ({"until": "2019-05-01"}, 2),
+        ({"scan_id": 2}, 2),
+        ({"scan_id": 2, "plan_name": "count"}, 1),
+        ({"scan_id": 110}, 1),
     ],
 )
-def test_utils_getRunDataValue_MemoryError(
-    scan_id, stream, key, idx, expected, prec, cat
+def test_utils_db_query(
+    query, n, cat
 ):
-    with pytest.raises(np.core._exceptions._ArrayMemoryError) as exc:
-        APS_utils.getRunDataValue(
-            scan_id, key, db=cat, stream=stream, idx=idx
-        )
-    assert str(exc.value).startswith("Unable to allocate ")
+    sub_cat = APS_utils.db_query(cat, query)
+    assert len(sub_cat) == n
 # fmt: on
