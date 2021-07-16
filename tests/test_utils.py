@@ -294,9 +294,10 @@ def test_utils_with_database_replay(cat):
 def test_utils_listRunKeys(
     scan_id, stream, total_keys, key, v1, m3, m_default, m_strict, m_lower, cat
 ):
-    assert len(
-        APS_utils.listRunKeys(scan_id, db=cat, stream=stream, use_v1=v1)
-    ) == total_keys
+    assert (
+        len(APS_utils.listRunKeys(scan_id, db=cat, stream=stream, use_v1=v1))
+        == total_keys
+    )
 
     result = APS_utils.listRunKeys(
         scan_id, key_fragment=key[0:3], db=cat, stream=stream, use_v1=v1
@@ -360,9 +361,9 @@ def test_utils_getRunData(scan_id, stream, nkeys, v1, cat):
         (2, "baseline", "undulator_downstream_version", None, True, "4.21", 0),
         (2, "primary", "I0_USAXS", -1, False, 3729, 0),
         (2, "primary", "I0_USAXS", "-1", False, 3729, 0),
-        (2, "primary", "I0_USAXS", "all", False, [3729.0, ], 0),
+        (2, "primary", "I0_USAXS", "all", False, [3729.0,], 0),
         (2, "primary", "I0_USAXS", None, False, 3729, 0),
-        (2, None, "I0_USAXS", "all", False, [3729.0, ], 0),
+        (2, None, "I0_USAXS", "all", False, [3729.0,], 0),
         # (103, "baseline", "undulator_downstream_version", None, False, "4.21", 0),  # VERY slow
         (103, "baseline", "undulator_downstream_version", None, True, "4.21", 0),
         (103, "primary", "a_stage_r", -1, False, 8.88197, 5),
@@ -378,9 +379,7 @@ def test_utils_getRunData(scan_id, stream, nkeys, v1, cat):
         (110, "baseline", "user_data_scan_macro", None, True, "FlyScan", 0),
     ],
 )
-def test_utils_getRunDataValue(
-    scan_id, stream, key, idx, v1, expected, prec, cat
-):
+def test_utils_getRunDataValue(scan_id, stream, key, idx, v1, expected, prec, cat):
     value = APS_utils.getRunDataValue(
         scan_id, key, db=cat, stream=stream, idx=idx, use_v1=v1
     )

@@ -438,9 +438,11 @@ def db_query(db, query):
         if not until:
             until = LAST_DATA
 
+        # fmt: off
         _db = db.v2.search(
             databroker.queries.TimeRange(since=since, until=until)
         )
+        # fmt: on
     else:
         _db = db
 
@@ -506,7 +508,9 @@ def getRunData(scan_id, db=None, stream="primary", query=None, use_v1=True):
     raise AttributeError(f"No such stream '{stream}' in run '{scan_id}'.")
 
 
-def getRunDataValue(scan_id, key, db=None, stream="primary", query=None, idx=-1, use_v1=True):
+def getRunDataValue(
+    scan_id, key, db=None, stream="primary", query=None, idx=-1, use_v1=True
+):
     """
     Convenience function to get value of key in run stream.
 
@@ -590,7 +594,13 @@ def getRunDataValue(scan_id, key, db=None, stream="primary", query=None, idx=-1,
 
 
 def listRunKeys(
-    scan_id, key_fragment="", db=None, stream="primary", query=None, strict=False, use_v1=True
+    scan_id,
+    key_fragment="",
+    db=None,
+    stream="primary",
+    query=None,
+    strict=False,
+    use_v1=True,
 ):
     """
     Convenience function to list all keys (column names) in the scan's stream (default: primary).
