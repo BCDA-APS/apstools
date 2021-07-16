@@ -656,8 +656,6 @@ def getStreamValues(
     (new in apstools 1.5.1)
     """
 
-    db_range = db_query(db, query=query) if query else db
-
     data = getRunData(scan_id, db=db, stream=stream, query=query, use_v1=use_v1)
 
     indices = [1, 2] if len(data["time"]) == 2 else [1]

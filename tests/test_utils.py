@@ -361,9 +361,9 @@ def test_utils_getRunData(scan_id, stream, nkeys, v1, cat):
         (2, "baseline", "undulator_downstream_version", None, True, "4.21", 0),
         (2, "primary", "I0_USAXS", -1, False, 3729, 0),
         (2, "primary", "I0_USAXS", "-1", False, 3729, 0),
-        (2, "primary", "I0_USAXS", "all", False, [3729.0,], 0),
+        (2, "primary", "I0_USAXS", "all", False, [3729.0, ], 0),
         (2, "primary", "I0_USAXS", None, False, 3729, 0),
-        (2, None, "I0_USAXS", "all", False, [3729.0,], 0),
+        (2, None, "I0_USAXS", "all", False, [3729.0, ], 0),
         # (103, "baseline", "undulator_downstream_version", None, False, "4.21", 0),  # VERY slow
         (103, "baseline", "undulator_downstream_version", None, True, "4.21", 0),
         (103, "primary", "a_stage_r", -1, False, 8.88197, 5),
