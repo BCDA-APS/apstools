@@ -1622,6 +1622,11 @@ class KohzuSeqCtl_Monochromator(Device):
 
 class ProcessController(Device):
     """
+    DEPRECATED (1.5.1): Use ``ophyd.PVPositioner`` instead.
+    
+    For the controlled signal (such as temperature), use ``ophyd.PVPositioner``.
+    Include this within an ``ophyd.Device`` as appropriate.
+
     Common parts of a process controller support.
 
     .. index:: Ophyd Device; ProcessController
