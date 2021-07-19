@@ -1622,7 +1622,7 @@ class KohzuSeqCtl_Monochromator(Device):
 
 class ProcessController(Device):
     """
-    common parts of a process controller support
+    Common parts of a process controller support.
 
     .. index:: Ophyd Device; ProcessController
 
