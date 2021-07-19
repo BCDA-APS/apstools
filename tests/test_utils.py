@@ -343,7 +343,7 @@ def test_utils_listRunKeys_no_such_stream(scan_id, stream, cat):
         (2, "primary", 5, False),
         (2, "primary", 6, True),
         (103, "primary", 7, False),
-        (103, "baseline", 268, False),  # very slow test!
+        # (103, "baseline", 268, False),  # very slow test!
         (103, "baseline", 269, True),  # faster test!
         (103, "baseline", 269, None),  # faster test!
     ],
