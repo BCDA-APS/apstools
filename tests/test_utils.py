@@ -12,11 +12,13 @@ import os
 import pytest
 import sys
 import time
+import uuid
 
 
 CATALOG = "usaxs_test"
 COUNT = "555a604"  # <-- uid,  scan_id: 2
 RE = None
+DEFAULT_CATALOG_ID = uuid.uuid4()  # a unique ID for testing purposes
 
 
 @pytest.fixture(scope="function")
@@ -431,4 +433,55 @@ def test_utils_db_query(
 ):
     sub_cat = APS_utils.db_query(cat, query)
     assert len(sub_cat) == n
+# fmt: on
+
+
+# fmt: off
+@pytest.mark.parametrize(
+    "scan_id, key, db, stream, query, v1, nrows, ncols",
+    [
+        (COUNT, None, DEFAULT_CATALOG_ID, None, None, None, 6, 1),
+        (COUNT, None, DEFAULT_CATALOG_ID, "baseline", None, None, 269, 2),
+        (COUNT, "will not be found", DEFAULT_CATALOG_ID, "baseline", None, None, 1, 2),
+        (COUNT, "aps", DEFAULT_CATALOG_ID, None, None, None, 1, 1),
+        (COUNT, None, DEFAULT_CATALOG_ID, "primary", None, None, 6, 1),
+        (COUNT, "aps", DEFAULT_CATALOG_ID, "primary", None, None, 1, 1),
+    ],
+)
+def test_utils_getStreamValues(scan_id, key, db, stream, cat, query, v1, nrows, ncols):
+    """These tests should not raise exceptions."""
+    if db == DEFAULT_CATALOG_ID:
+        db = cat
+    table = APS_utils.getStreamValues(
+        scan_id, db=db, key_fragment=key, stream=stream, query=query, use_v1=v1
+    )
+    assert table is not None
+    assert table.shape == (nrows, ncols)
+# fmt: on
+
+
+# fmt: off
+@pytest.mark.parametrize(
+    "scan_id, key, db, stream, query, v1, error, first_words",
+    [
+        (COUNT, None, DEFAULT_CATALOG_ID, "will not be found", None, None, AttributeError, "No such stream "),
+        (COUNT, None, None, None, None, None, ValueError, "No catalog defined.  Multiple catalog "),
+        (COUNT, None, None, "baseline", None, None, ValueError, "No catalog defined.  Multiple catalog "),
+        (COUNT, "will not be found", None, "baseline", None, None, ValueError, "No catalog defined.  Multiple catalog "),
+        (COUNT, "aps", None, None, None, None, ValueError, "No catalog defined.  Multiple catalog "),
+        (COUNT, None, None, "primary", None, None, ValueError, "No catalog defined.  Multiple catalog "),
+        (COUNT, "aps", None, "primary", None, None, ValueError, "No catalog defined.  Multiple catalog "),
+    ],
+)
+def test_utils_getStreamValues_Exceptionr(
+    scan_id, key, db, stream, cat, query, v1, error, first_words
+):
+    """Look for known errors from getStreamValues()."""
+    if db == DEFAULT_CATALOG_ID:
+        db = cat
+    with pytest.raises(error) as exc:
+        table = APS_utils.getStreamValues(
+            scan_id, db=db, key_fragment=key, stream=stream, query=query, use_v1=v1
+        )
+    assert str(exc.value).startswith(first_words)
 # fmt: on

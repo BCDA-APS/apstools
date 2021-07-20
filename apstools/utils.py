@@ -595,7 +595,7 @@ def getRunDataValue(
 
 
 def getStreamValues(
-    scan_id, db=None, key_fragment="", stream="baseline", query=None, use_v1=True
+    scan_id, key_fragment="", db=None, stream="baseline", query=None, use_v1=True
 ):
     """
     Get values from a previous scan stream in a databroker catalog.
@@ -618,16 +618,16 @@ def getStreamValues(
         String is run's ``uid`` unique identifier (can abbreviate to
         the first characters needed to assure it is unique).
 
-    db
-        *object* :
-        Bluesky database, an instance of ``databroker.catalog``.
-        Default: will search existing session for instance.
-
     key_fragment
         *str* :
         Part or all of key name to be found in selected stream.
         For instance, if you specify ``key_fragment="lakeshore"``,
         it will return all the keys that include ``lakeshore``.
+
+    db
+        *object* :
+        Bluesky database, an instance of ``databroker.catalog``.
+        Default: will search existing session for instance.
 
     stream
         *str* :
@@ -655,16 +655,21 @@ def getStreamValues(
 
     (new in apstools 1.5.1)
     """
+    if key_fragment is None:
+        key_fragment = ""
+    if use_v1 is None:
+        use_v1 = True
 
     data = getRunData(scan_id, db=db, stream=stream, query=query, use_v1=use_v1)
 
     indices = [1, 2] if len(data["time"]) == 2 else [1]
     dd = {}
 
-    key = "time"
-    #     date_format = "%m/%d/%y %H:%M:%S"  # common in US
+    # date_format = "%m/%d/%y %H:%M:%S"  # common in US
     date_format = "%y-%m-%d %H:%M:%S"  # modified ISO8601
+
     # fmt: off
+    key = "time"
     dd[key] = [
         data[key][i].strftime(date_format)
         for i in indices
