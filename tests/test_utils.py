@@ -480,7 +480,7 @@ def test_utils_getStreamValues_Exceptionr(
     if db == DEFAULT_CATALOG_ID:
         db = cat
     with pytest.raises(error) as exc:
-        table = APS_utils.getStreamValues(
+        APS_utils.getStreamValues(
             scan_id, db=db, key_fragment=key, stream=stream, query=query, use_v1=v1
         )
     assert str(exc.value).startswith(first_words)
