@@ -7,6 +7,7 @@ Various utilities
    ~command_list_as_table
    ~connect_pvlist
    ~copy_filtered_catalog
+   ~db_query
    ~device_read2table
    ~dictionary_table
    ~EmailNotifications
@@ -22,12 +23,16 @@ Various utilities
    ~getDefaultCatalog
    ~getDefaultDatabase
    ~getDefaultNamespace
+   ~getRunData
+   ~getRunDataValue
+   ~getStreamValues
    ~ipython_profile_name
    ~itemizer
    ~json_export
    ~json_import
    ~listdevice
    ~listobjects
+   ~listRunKeys
    ~ListRuns
    ~listruns
    ~listruns_v1_4
@@ -100,6 +105,9 @@ logger = logging.getLogger(__name__)
 
 MAX_EPICS_STRINGOUT_LENGTH = 40
 
+FIRST_DATA = "1995-01-01"
+LAST_DATA = "2100-12-31"
+
 
 class ExcelReadError(openpyxl.utils.exceptions.InvalidFileException):
     """
@@ -154,10 +162,11 @@ def device_read2table(
     """
     DEPRECATED: Use listdevice() instead.
     """
+    # fmt: off
     warnings.warn(
         "DEPRECATED: device_read2table() will be removed"
         " in a future release.  Use listdevice() instead.",
-        DeprecationWarning
+        DeprecationWarning,
     )
     listdevice(
         device,
@@ -165,6 +174,7 @@ def device_read2table(
         use_datetime=use_datetime,
         printing=printing,
     )
+    # fmt: on
 
 
 def listdevice(
@@ -293,9 +303,9 @@ def getDatabase(db=None, catalog_name=None):
 
     db
         *object* :
-        Instance of databroker v1 ``Broker`` or
-        v2 ``BlueskyMongoCatalog``.
+        Bluesky database, an instance of ``databroker.catalog``
         (default: see ``catalog_name`` keyword argument)
+
     catalog_name
         *str* :
         Name of databroker v2 catalog, used when supplied
@@ -310,6 +320,7 @@ def getDatabase(db=None, catalog_name=None):
     (new in release 1.4.0)
     """
     if not hasattr(db, "v2"):
+        # fmt: off
         if (
             hasattr(catalog_name, "name")
             and catalog_name in databroker.catalog
@@ -320,6 +331,7 @@ def getDatabase(db=None, catalog_name=None):
             db = getDefaultDatabase()
         else:
             db = databroker.catalog[catalog_name]
+        # fmt: on
     return db.v2
 
 
@@ -390,6 +402,363 @@ def getDefaultDatabase():
     return sorted(choices)[-1]
 
 
+def db_query(db, query):
+    """
+    Searches the databroker v2 database.
+
+    PARAMETERS
+
+    db
+        *object* :
+        Bluesky database, an instance of ``databroker.catalog``.
+
+    query
+        *dict* :
+        Search parameters.
+
+    RETURNS
+
+    *object* :
+        Bluesky database, an instance of ``databroker.catalog``
+        satisfying the ``query`` parameters.
+
+    See also
+    --------
+    :func:`databroker.catalog.search`
+    """
+
+    if query is None:
+        return db
+
+    since = query.pop("since", None)
+    until = query.pop("until", None)
+
+    if since or until:
+        if not since:
+            since = FIRST_DATA
+        if not until:
+            until = LAST_DATA
+
+        # fmt: off
+        _db = db.v2.search(
+            databroker.queries.TimeRange(since=since, until=until)
+        )
+        # fmt: on
+    else:
+        _db = db
+
+    if len(query) != 0:
+        _db = _db.v2.search(query)
+
+    return _db
+
+
+def getRunData(scan_id, db=None, stream="primary", query=None, use_v1=True):
+    """
+    Convenience function to get the run's data.  Default is the ``primary`` stream.
+
+    PARAMETERS
+
+    scan_id
+        *int* or *str* :
+        Scan (run) identifier.
+        Positive integer value is ``scan_id`` from run's metadata.
+        Negative integer value is since most recent run in databroker.
+        String is run's ``uid`` unique identifier (can abbreviate to
+        the first characters needed to assure it is unique).
+
+    db
+        *object* :
+        Bluesky database, an instance of ``databroker.catalog``.
+        Default: will search existing session for instance.
+
+    stream
+        *str* :
+        Name of the bluesky data stream to obtain the data.
+        Default: 'primary'
+
+    query
+        *dict* :
+        mongo query dictionary, used to filter the results
+        Default: ``{}``
+
+        see: https://docs.mongodb.com/manual/reference/operator/query/
+
+    use_v1
+        *bool* :
+        Chooses databroker API version between 'v1' or 'v2'.
+        Default: ``True`` (meaning use the v1 API)
+
+    (new in apstools 1.5.1)
+    """
+    cat = getCatalog(db)
+    if query:
+        cat = db_query(cat, query)
+
+    stream = stream or "primary"
+
+    if use_v1 is None or use_v1:
+        run = cat.v1[scan_id]
+        if stream in run.stream_names:
+            return run.table(stream_name=stream)
+    else:
+        run = cat.v2[scan_id]
+        if hasattr(run, stream):
+            return run[stream].read().to_dataframe()
+
+    raise AttributeError(f"No such stream '{stream}' in run '{scan_id}'.")
+
+
+def getRunDataValue(
+    scan_id, key, db=None, stream="primary", query=None, idx=-1, use_v1=True
+):
+    """
+    Convenience function to get value of key in run stream.
+
+    Defaults are last value of key in primary stream.
+
+    PARAMETERS
+
+    scan_id
+        *int* or *str* :
+        Scan (run) identifier.
+        Positive integer value is ``scan_id`` from run's metadata.
+        Negative integer value is since most recent run in databroker.
+        String is run's ``uid`` unique identifier (can abbreviate to
+        the first characters needed to assure it is unique).
+
+    key
+        *str* :
+        Name of the key (data column) in the table of the stream's data.
+        Must match *identically*.
+
+    db
+        *object* :
+        Bluesky database, an instance of ``databroker.catalog``.
+        Default: will search existing session for instance.
+
+    stream
+        *str* :
+        Name of the bluesky data stream to obtain the data.
+        Default: 'primary'
+
+    query
+        *dict* :
+        mongo query dictionary, used to filter the results
+        Default: ``{}``
+
+        see: https://docs.mongodb.com/manual/reference/operator/query/
+
+    idx
+        *int* or *str* :
+        List index of value to be returned from column of table.
+        Can be ``0`` for first value, ``-1`` for last value, ``"mean"``
+        for average value, or ``"all"`` for the full list of values.
+        Default: ``-1``
+
+    use_v1
+        *bool* :
+        Chooses databroker API version between 'v1' or 'v2'.
+        Default: ``True`` (meaning use the v1 API)
+
+    (new in apstools 1.5.1)
+    """
+    if idx is None:
+        idx = -1
+    try:
+        _idx = int(idx)
+    except ValueError:
+        _idx = str(idx).lower()
+
+    if isinstance(_idx, str) and _idx not in "all mean".split():
+        raise KeyError(
+            f"Did not understand 'idx={idx}', use integer, 'all', or 'mean'."
+        )
+
+    stream = stream or "primary"
+
+    table = getRunData(scan_id, db=db, stream=stream, query=query)
+
+    if key not in table:
+        raise KeyError(f"'{key}' not found in scan {scan_id} stream '{stream}'.")
+    data = table[key]
+
+    if _idx == "all":
+        return data.values
+    elif _idx == "mean":
+        return data.mean()
+    elif (0 <= _idx < len(data)) or (_idx < 0):
+        return data.values[_idx]
+    raise KeyError(
+        f"Cannot reference idx={idx} in scan {scan_id} stream'{stream}' key={key}."
+    )
+
+
+def getStreamValues(
+    scan_id, key_fragment="", db=None, stream="baseline", query=None, use_v1=True
+):
+    """
+    Get values from a previous scan stream in a databroker catalog.
+
+    Optionally, select only those data with names including ``key_fragment``.
+
+    .. tip::
+
+        If the output is truncated, use
+        ``pd.set_option('display.max_rows', 300)``
+        to increase the number of rows displayed.
+
+    PARAMETERS
+
+    scan_id
+        *int* or *str* :
+        Scan (run) identifier.
+        Positive integer value is ``scan_id`` from run's metadata.
+        Negative integer value is since most recent run in databroker.
+        String is run's ``uid`` unique identifier (can abbreviate to
+        the first characters needed to assure it is unique).
+
+    key_fragment
+        *str* :
+        Part or all of key name to be found in selected stream.
+        For instance, if you specify ``key_fragment="lakeshore"``,
+        it will return all the keys that include ``lakeshore``.
+
+    db
+        *object* :
+        Bluesky database, an instance of ``databroker.catalog``.
+        Default: will search existing session for instance.
+
+    stream
+        *str* :
+        Name of the bluesky data stream to obtain the data.
+        Default: 'baseline'
+
+    query
+        *dict* :
+        mongo query dictionary, used to filter the results
+        Default: ``{}``
+
+        see: https://docs.mongodb.com/manual/reference/operator/query/
+
+    use_v1
+        *bool* :
+        Chooses databroker API version between 'v1' or 'v2'.
+        Default: ``True`` (meaning use the v1 API)
+
+    RETURNS
+
+    *object* :
+        pandas DataFrame with values from selected stream, search_string, and query
+
+        see: https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.html
+
+    (new in apstools 1.5.1)
+    """
+    if key_fragment is None:
+        key_fragment = ""
+    if use_v1 is None:
+        use_v1 = True
+
+    data = getRunData(scan_id, db=db, stream=stream, query=query, use_v1=use_v1)
+
+    indices = [1, 2] if len(data["time"]) == 2 else [1]
+    dd = {}
+
+    # date_format = "%m/%d/%y %H:%M:%S"  # common in US
+    date_format = "%y-%m-%d %H:%M:%S"  # modified ISO8601
+
+    # fmt: off
+    key = "time"
+    dd[key] = [
+        data[key][i].strftime(date_format)
+        for i in indices
+    ]
+    # fmt: on
+
+    for key in sorted(data.keys()):
+        if key_fragment in key:
+            dd[key] = [data[key][i] for i in indices]
+
+    return pd.DataFrame(dd).transpose()
+
+
+def listRunKeys(
+    scan_id,
+    key_fragment="",
+    db=None,
+    stream="primary",
+    query=None,
+    strict=False,
+    use_v1=True,
+):
+    """
+    Convenience function to list all keys (column names) in the scan's stream (default: primary).
+
+    PARAMETERS
+
+    scan_id
+        *int* or *str* :
+        Scan (run) identifier.
+        Positive integer value is ``scan_id`` from run's metadata.
+        Negative integer value is since most recent run in databroker.
+        String is run's ``uid`` unique identifier (can abbreviate to
+        the first characters needed to assure it is unique).
+
+    key_fragment
+        *str* :
+        Part or all of key name to be found in selected stream.
+        For instance, if you specify ``key_fragment="lakeshore"``,
+        it will return all the keys that include ``lakeshore``.
+
+    db
+        *object* :
+        Bluesky database, an instance of ``databroker.catalog``.
+        Default: will search existing session for instance.
+
+    stream
+        *str* :
+        Name of the bluesky data stream to obtain the data.
+        Default: 'primary'
+
+    query
+        *dict* :
+        mongo query dictionary, used to filter the results
+        Default: ``{}``
+
+        see: https://docs.mongodb.com/manual/reference/operator/query/
+
+    strict
+        *bool* :
+        Should the ``key_fragment`` be matched identically (``strict=True``)
+        or matched by lower case comparison (``strict=False``)?
+        Default: ``False``
+
+    use_v1
+        *bool* :
+        Chooses databroker API version between 'v1' or 'v2'.
+        Default: ``True`` (meaning use the v1 API)
+
+    (new in apstools 1.5.1)
+    """
+    table = getRunData(scan_id, db=db, stream=stream, query=query, use_v1=use_v1)
+
+    # fmt: off
+    if len(key_fragment):
+        output = [
+            col
+            for col in table.columns
+            if (
+                (strict and key_fragment in col)
+                or (not strict and key_fragment.lower() in col.lower())
+            )
+        ]
+    else:
+        output = list(table.columns)
+    # fmt: on
+    return output
+
+
 def itemizer(fmt, items):
     """Format a list of items."""
     return [fmt % k for k in items]
@@ -414,7 +783,7 @@ def findCatalogsInNamespace():
     for k, v in g.items():
         if not k.startswith("_") and hasattr(v, "__class__"):
             try:
-                if (hasattr(v.v2, "container") and hasattr(v.v2, "metadata")):
+                if hasattr(v.v2, "container") and hasattr(v.v2, "metadata"):
                     ns_cats[k] = v
             except (AttributeError, TypeError):
                 continue
@@ -426,10 +795,12 @@ def getDefaultCatalog():
     if len(cats) == 1:
         return cats[list(cats.keys())[0]]
     if len(cats) > 1:
-        choices = '   '.join([
+        # fmt: off
+        choices = "   ".join([
             f"{k} ({v.name})"
             for k, v in cats.items()
         ])
+        # fmt: on
         raise ValueError(
             "No catalog defined.  "
             "Multiple catalog objects available."
@@ -441,7 +812,7 @@ def getDefaultCatalog():
     if len(cats) == 1:
         return databroker.catalog[cats[0]]
     if len(cats) > 1:
-        choices = '   '.join([f'databroker.catalog[\"{k}\"]' for k in cats])
+        choices = "   ".join([f'databroker.catalog["{k}"]' for k in cats])
         raise ValueError(
             "No catalog defined.  "
             "Multiple catalog configurations available."
@@ -556,8 +927,8 @@ class ListRuns:
             self.cat = getCatalog()
 
     def _apply_search_filters(self):
-        since = self.since or "1995-01-01"
-        until = self.until or "2100-12-31"
+        since = self.since or FIRST_DATA
+        until = self.until or LAST_DATA
         self._check_cat()
         query = {}
         query.update(databroker.queries.TimeRange(since=since, until=until))
@@ -631,7 +1002,7 @@ def listruns(
     tablefmt="dataframe",
     timefmt="%Y-%m-%d %H:%M:%S",
     until=None,
-    **query
+    **query,
 ):
     """
     List runs from catalog.
@@ -743,10 +1114,12 @@ def listruns(
         until=until,
     )
 
+    # fmt: off
     table_format_function = dict(
         dataframe=lr.to_dataframe,
         table=lr.to_table,
     ).get(tablefmt or "dataframe", lr.to_table)
+    # fmt: on
     obj = table_format_function()
 
     do_print = False
@@ -872,7 +1245,7 @@ def listruns_v1_4(
     warnings.warn(
         "DEPRECATED: listruns_v1_4() will be removed"
         " in a future release.  Instead, use newer ``listruns()``.",
-        DeprecationWarning
+        DeprecationWarning,
     )
     db = getDatabase(db=db, catalog_name=catalog_name)
     keys = keys or []
@@ -885,9 +1258,11 @@ def listruns_v1_4(
     else:
         labels = "scan_id  plan_name".split() + keys
 
+    # fmt: off
     cat = db.search(
         databroker.queries.TimeRange(since=since, until=until)
     ).search(db_search_terms)
+    # fmt: on
 
     sortKey = "time"
 
@@ -977,9 +1352,11 @@ def object_explorer(obj, sortby=None, fmt="simple", printing=True):
         elif str(sortby).lower() == "pv":
             key = _get_pv(obj) or "--"
         else:
+            # fmt: off
             raise ValueError(
                 f"sortby should be None or 'PV', found sortby='{sortby}'"
             )
+            # fmt: on
         return key
 
     for item in sorted(items, key=sorter):
@@ -1084,10 +1461,12 @@ def replay(headers, callback=None, sort=True):
 
     (new in apstools release 1.1.11)
     """
+    # fmt: off
     callback = callback or ipython_shell_namespace().get(
         "bec",  # get from IPython shell
         BestEffortCallback(),  # make one, if we must
     )
+    # fmt: on
     _headers = headers  # do not mutate the input arg
     if isinstance(_headers, databroker.Header):
         _headers = [_headers]
@@ -1108,10 +1487,11 @@ def replay(headers, callback=None, sort=True):
 
     for h in sorted(_headers, key=sorter):
         if not isinstance(h, databroker.Header):
+            # fmt: off
             raise TypeError(
-                "Must be a databroker Header:"
-                f" received: {type(h)}: |{h}|"
+                f"Must be a databroker Header: received: {type(h)}: |{h}|"
             )
+            # fmt: on
         cmd = _rebuild_scan_command(h.start)
         logger.debug("%s", cmd)
 
@@ -1351,6 +1731,7 @@ def summarize_runs(since=None, db=None):
         ).isoformat()
         # fmt:on
         scan_id = run.metadata["start"].get("scan_id", "unknown")
+        # fmt: off
         plans[plan_name].append(
             dict(
                 plan_name=plan_name,
@@ -1360,6 +1741,7 @@ def summarize_runs(since=None, db=None):
                 scan_id=scan_id,
             )
         )
+        # fmt: on
         logger.debug(
             "%s %s dt1=%4.01fus dt2=%5.01fms %s",
             scan_id,
@@ -1597,20 +1979,21 @@ class ExcelDatabaseFileBase(object):
         self.parse(ignore_extra=ignore_extra)
 
     def handle_single_entry(self, entry):  # subclass MUST override
+        # fmt: off
         raise NotImplementedError(
             "subclass must override handle_single_entry() method"
         )
+        # fmt: on
 
     def handleExcelRowEntry(self, entry):  # subclass MUST override
+        # fmt: off
         raise NotImplementedError(
             "subclass must override handleExcelRowEntry() method"
         )
+        # fmt: on
 
     def parse(
-        self,
-        labels_row_num=None,
-        data_start_row_num=None,
-        ignore_extra=True,
+        self, labels_row_num=None, data_start_row_num=None, ignore_extra=True,
     ):
         labels_row_num = labels_row_num or self.LABELS_ROW
         try:
@@ -1633,9 +2016,11 @@ class ExcelDatabaseFileBase(object):
                 # use the whole sheet
                 rows = list(ws.rows)
                 # create the column titles
+                # fmt: off
                 self.data_labels = [
                     f"Column_{i+1}" for i in range(len(rows[0]))
                 ]
+                # fmt: on
         except openpyxl.utils.exceptions.InvalidFileException as exc:
             raise ExcelReadError(exc)
         for row in rows:
@@ -1927,12 +2312,12 @@ def trim_plot_lines(bec, n, x, y):
             ax.lines[0].remove()
         except ValueError as exc:
             if not str(exc).endswith("x not in list"):
+                # fmt: off
                 logger.warning(
                     "%s vs %s: mpl remove() error: %s",
-                    y.name,
-                    x.name,
-                    str(exc),
+                    y.name, x.name, str(exc),
                 )
+                # fmt: on
     ax.legend()
     liveplot.update_plot()
     logger.debug("trim complete")
@@ -2144,7 +2529,7 @@ def json_export(headers, filename, zipfilename=None):
     warnings.warn(
         "DEPRECATED: json_import() will be removed"
         " in a future release.  Instead, use *databroker-pack* package.",
-        DeprecationWarning
+        DeprecationWarning,
     )
     datasets = [list(h.documents()) for h in headers]
     buf = json.dumps(datasets, cls=NumpyEncoder, indent=2)
@@ -2189,7 +2574,7 @@ def json_import(filename, zipfilename=None):
     warnings.warn(
         "DEPRECATED: json_import() will be removed"
         " in a future release.  Instead, use *databroker-pack* package.",
-        DeprecationWarning
+        DeprecationWarning,
     )
     if zipfilename is None:
         with open(filename, "r") as fp:
@@ -2211,12 +2596,7 @@ def redefine_motor_position(motor, new_position):
 
 
 def quantify_md_key_use(
-    key=None,
-    db=None,
-    catalog_name=None,
-    since=None,
-    until=None,
-    query=None,
+    key=None, db=None, catalog_name=None, since=None, until=None, query=None,
 ):
     """
     print table of different ``key`` values and how many times each appears
@@ -2324,9 +2704,11 @@ def copy_filtered_catalog(source_cat, target_cat, query=None):
     query = query or {}
     for i, uid in enumerate(source_cat.v2.search(query)):
         run = source_cat.v1[uid]
+        # fmt: off
         logger.debug(
             "%d  %s  #docs=%d", i + 1, uid, len(list(run.documents()))
         )
+        # fmt: on
         for key, doc in run.documents():
             target_cat.v1.insert(key, doc)
 
@@ -2358,10 +2740,11 @@ class PVRegistry:
         g = ns or ipython_shell_namespace() or globals()
 
         # kickoff the registration process
+        # fmt: off
         logger.debug(
-            "Cross-referencing EPICS PVs with"
-            " Python objects and ophyd symbols"
+            "Cross-referencing EPICS PVs with Python objects & ophyd symbols"
         )
+        # fmt: on
         self._ophyd_epicsobject_walker(g)
 
     def _ophyd_epicsobject_walker(self, parent):
@@ -2389,10 +2772,11 @@ class PVRegistry:
                     self._signal_processor(v)
                     self._odb[v.name] = ".".join(self._device_name + [k])
                 except (KeyError, RuntimeError) as exc:
+                    # fmt: off
                     logger.error(
-                        "Exception while examining key '%s': (%s)",
-                        k, exc
+                        "Exception while examining key '%s': (%s)", k, exc
                     )
+                    # fmt: on
             elif isinstance(v, ophyd.Device):
                 # print("Device", v.name)
                 self._device_name = _nm_base + [k]
@@ -2411,10 +2795,12 @@ class PVRegistry:
             obj = getattr(parent, key, None)
             return obj
         except (KeyError, RuntimeError, TimeoutError) as exc:
+            # fmt: off
             logger.error(
                 "Exception while getting object '%s.%s': (%s)",
-                ".".join(self._device_name), key, exc
+                ".".join(self._device_name), key, exc,
             )
+            # fmt: on
 
     def _register_signal(self, signal, pv, mode):
         """Register a signal with the given mode."""
