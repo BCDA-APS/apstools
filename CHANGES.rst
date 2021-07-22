@@ -12,10 +12,12 @@ describe the future plans.
 :1.5.1:  release expected by 2021-07-31
 
    * `#522 <https://github.com/BCDA-APS/apstools/issues/522>`_
-      Deprecate apstools.devices.ProcessController.  Suggest ophyd.PVPositioner instead.
+      Deprecate `apstools.devices.ProcessController`.
+      Suggest `ophyd.PVPositioner` instead.
 
    * `#521 <https://github.com/BCDA-APS/apstools/issues/521>`_
-      Enhancement: new functions: getRunData(), getRunDataValue(), & listRunKeys()
+      Enhancement: new functions: getRunData(), getRunDataValue(),
+      getStreamValues() & listRunKeys()
 
    * `#518 <https://github.com/BCDA-APS/apstools/issues/518>`_
       Bug fixed: TypeError from summary() of CalcoutRecord
