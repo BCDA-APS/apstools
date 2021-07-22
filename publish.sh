@@ -3,6 +3,9 @@
 # publish this package
 # Run this from the package's root directory.
 
+# conda create -n build anaconda conda-build twine
+conda activate build
+
 ## Define the release
 
 STARTED=$(date)
@@ -55,7 +58,13 @@ echo "# ($(date)) Building for upload to conda"
 export CONDA_BLD_PATH=/tmp/conda-bld
 /bin/mkdir -p ${CONDA_BLD_PATH}
 
-conda build ./conda-recipe/
+export CONDA_BUILD_OPTIONS=
+export CONDA_BUILD_OPTIONS+=" -c defaults"
+export CONDA_BUILD_OPTIONS+=" -c conda-forge"
+export CONDA_BUILD_OPTIONS+=" -c nsls2forge"
+export CONDA_BUILD_OPTIONS+=" -c aps-anl-tag"
+
+conda build ${CONDA_BUILD_OPTIONS} ./conda-recipe/
 echo "# ($(date)) Built for conda"
 
 echo "# ($(date)) - - - - - - - - - - - - - - - - - - - - - - upload conda"
