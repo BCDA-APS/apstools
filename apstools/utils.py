@@ -1084,7 +1084,7 @@ def listruns(
         *str* :
         include runs that started before this ISO8601 time
         (default: ``2100-12-31``)
-    **query
+    ``**query``
         *dict* :
         Any additional keyword arguments will be passed to
         the databroker to refine the search for matching runs
