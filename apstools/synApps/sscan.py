@@ -47,7 +47,6 @@ from ophyd.device import (
 )
 from ophyd import EpicsSignal, EpicsSignalRO
 from ophyd.status import DeviceStatus
-from ophyd.ophydobj import Kind
 
 from .. import utils as APS_utils
 
@@ -72,39 +71,41 @@ class sscanPositioner(Device):
     """
 
     readback_pv = FC(
-        EpicsSignal, "{self.prefix}.R{self._ch_num}PV", kind=Kind.config
+        EpicsSignal, "{self.prefix}.R{self._ch_num}PV", kind="config"
     )
-    readback_value = FC(EpicsSignalRO, "{self.prefix}.R{self._ch_num}CV")
+    readback_value = FC(EpicsSignalRO, "{self.prefix}.R{self._ch_num}CV", kind="hinted")
     array = FC(
-        EpicsSignalRO, "{self.prefix}.P{self._ch_num}CA", kind=Kind.omitted
+        EpicsSignalRO, 
+        "{self.prefix}.P{self._ch_num}CA", 
+        kind="normal" # TODO: which kind here?
     )
     setpoint_pv = FC(
-        EpicsSignal, "{self.prefix}.P{self._ch_num}PV", kind=Kind.config
+        EpicsSignal, "{self.prefix}.P{self._ch_num}PV", kind="config"
     )
-    setpoint_value = FC(EpicsSignalRO, "{self.prefix}.P{self._ch_num}DV")
+    setpoint_value = FC(EpicsSignalRO, "{self.prefix}.P{self._ch_num}DV", kind="normal")
     start = FC(
-        EpicsSignal, "{self.prefix}.P{self._ch_num}SP", kind=Kind.config
+        EpicsSignal, "{self.prefix}.P{self._ch_num}SP", kind="config"
     )
     center = FC(
-        EpicsSignal, "{self.prefix}.P{self._ch_num}CP", kind=Kind.config
+        EpicsSignal, "{self.prefix}.P{self._ch_num}CP", kind="config"
     )
     end = FC(
-        EpicsSignal, "{self.prefix}.P{self._ch_num}EP", kind=Kind.config
+        EpicsSignal, "{self.prefix}.P{self._ch_num}EP", kind="config"
     )
     step_size = FC(
-        EpicsSignal, "{self.prefix}.P{self._ch_num}SI", kind=Kind.config
+        EpicsSignal, "{self.prefix}.P{self._ch_num}SI", kind="config"
     )
     width = FC(
-        EpicsSignal, "{self.prefix}.P{self._ch_num}WD", kind=Kind.config
+        EpicsSignal, "{self.prefix}.P{self._ch_num}WD", kind="config"
     )
     abs_rel = FC(
-        EpicsSignal, "{self.prefix}.P{self._ch_num}AR", kind=Kind.config
+        EpicsSignal, "{self.prefix}.P{self._ch_num}AR", kind="config"
     )
     mode = FC(
-        EpicsSignal, "{self.prefix}.P{self._ch_num}SM", kind=Kind.config
+        EpicsSignal, "{self.prefix}.P{self._ch_num}SM", kind="config"
     )
     units = FC(
-        EpicsSignalRO, "{self.prefix}.P{self._ch_num}EU", kind=Kind.config
+        EpicsSignalRO, "{self.prefix}.P{self._ch_num}EU", kind="config"
     )
 
     def __init__(self, prefix, num, **kwargs):
@@ -143,11 +144,11 @@ class sscanDetector(Device):
     """
 
     input_pv = FC(
-        EpicsSignal, "{self.prefix}.D{self._ch_num}PV", kind=Kind.config
+        EpicsSignal, "{self.prefix}.D{self._ch_num}PV", kind="config"
     )
-    current_value = FC(EpicsSignal, "{self.prefix}.D{self._ch_num}CV")
+    current_value = FC(EpicsSignal, "{self.prefix}.D{self._ch_num}CV", kind="hinted")
     array = FC(
-        EpicsSignal, "{self.prefix}.D{self._ch_num}CA", kind=Kind.omitted
+        EpicsSignal, "{self.prefix}.D{self._ch_num}CA", kind="omitted"
     )
 
     def __init__(self, prefix, num, **kwargs):
@@ -176,9 +177,9 @@ class sscanTrigger(Device):
     """
 
     trigger_pv = FC(
-        EpicsSignal, "{self.prefix}.T{self._ch_num}PV", kind=Kind.config
+        EpicsSignal, "{self.prefix}.T{self._ch_num}PV", kind="config"
     )
-    trigger_value = FC(EpicsSignal, "{self.prefix}.T{self._ch_num}CD")
+    trigger_value = FC(EpicsSignal, "{self.prefix}.T{self._ch_num}CD", kind="config")
 
     def __init__(self, prefix, num, **kwargs):
         self._ch_num = num
@@ -233,37 +234,37 @@ class SscanRecord(Device):
 
     """
 
-    desc = Cpt(EpicsSignal, ".DESC", kind=Kind.config)
-    scan_phase = Cpt(EpicsSignalRO, ".FAZE")
-    data_state = Cpt(EpicsSignalRO, ".DSTATE")
-    data_ready = Cpt(EpicsSignalRO, ".DATA")
-    scan_busy = Cpt(EpicsSignalRO, ".BUSY")
-    alert_flag = Cpt(EpicsSignalRO, ".ALRT")
-    alert_message = Cpt(EpicsSignalRO, ".SMSG")
-    number_points = Cpt(EpicsSignal, ".NPTS", kind=Kind.config)
-    maximum_number_points = Cpt(EpicsSignal, ".MPTS", kind=Kind.config)
-    current_point = Cpt(EpicsSignalRO, ".CPT")
-    pasm = Cpt(EpicsSignal, ".PASM")
-    execute_scan = Cpt(EpicsSignal, ".EXSC")
-    bspv = Cpt(EpicsSignal, ".BSPV", kind=Kind.config)
-    bscd = Cpt(EpicsSignal, ".BSCD")
-    bswait = Cpt(EpicsSignal, ".BSWAIT")
-    cmnd = Cpt(EpicsSignal, ".CMND")
-    detector_delay = Cpt(EpicsSignal, ".DDLY")
-    positioner_delay = Cpt(EpicsSignal, ".PDLY")
-    reference_detector = Cpt(EpicsSignal, ".REFD", kind=Kind.config)
-    wait = Cpt(EpicsSignal, ".WAIT")
-    wcnt = Cpt(EpicsSignalRO, ".WCNT")
-    awct = Cpt(EpicsSignal, ".AWCT")
-    acqt = Cpt(EpicsSignal, ".ACQT")
-    acqm = Cpt(EpicsSignal, ".ACQM")
-    atime = Cpt(EpicsSignal, ".ATIME")
-    copyto = Cpt(EpicsSignal, ".COPYTO")
-    a1pv = Cpt(EpicsSignal, ".A1PV", kind=Kind.config)
-    a1nv = Cpt(EpicsSignal, ".A1NV", kind=Kind.config)
-    a1cd = Cpt(EpicsSignal, ".A1CD")
-    aspv = Cpt(EpicsSignal, ".ASPV", kind=Kind.config)
-    ascd = Cpt(EpicsSignal, ".ASCD")
+    desc = Cpt(EpicsSignal, ".DESC", kind="config")
+    scan_phase = Cpt(EpicsSignalRO, ".FAZE", kind="config")
+    data_state = Cpt(EpicsSignalRO, ".DSTATE", kind="config")
+    data_ready = Cpt(EpicsSignalRO, ".DATA", kind="config")
+    scan_busy = Cpt(EpicsSignalRO, ".BUSY", kind="config")
+    alert_flag = Cpt(EpicsSignalRO, ".ALRT", kind="config")
+    alert_message = Cpt(EpicsSignalRO, ".SMSG", kind="config")
+    number_points = Cpt(EpicsSignal, ".NPTS", kind="config")
+    maximum_number_points = Cpt(EpicsSignal, ".MPTS", kind="config")
+    current_point = Cpt(EpicsSignalRO, ".CPT", kind="normal")
+    pasm = Cpt(EpicsSignal, ".PASM", kind="omitted")
+    execute_scan = Cpt(EpicsSignal, ".EXSC", kind="omitted")
+    bspv = Cpt(EpicsSignal, ".BSPV", kind="config")
+    bscd = Cpt(EpicsSignal, ".BSCD", kind="omitted")
+    bswait = Cpt(EpicsSignal, ".BSWAIT", kind="omitted")
+    cmnd = Cpt(EpicsSignal, ".CMND", kind="omitted")
+    detector_delay = Cpt(EpicsSignal, ".DDLY", kind="config")
+    positioner_delay = Cpt(EpicsSignal, ".PDLY", kind="config")
+    reference_detector = Cpt(EpicsSignal, ".REFD", kind="config")
+    wait = Cpt(EpicsSignal, ".WAIT", kind="config")
+    wcnt = Cpt(EpicsSignalRO, ".WCNT", kind="config")
+    awct = Cpt(EpicsSignal, ".AWCT", kind="config")
+    acqt = Cpt(EpicsSignal, ".ACQT", kind="config")
+    acqm = Cpt(EpicsSignal, ".ACQM", kind="config")
+    atime = Cpt(EpicsSignal, ".ATIME", kind="config")
+    copyto = Cpt(EpicsSignal, ".COPYTO", kind="config")
+    a1pv = Cpt(EpicsSignal, ".A1PV", kind="config")
+    a1nv = Cpt(EpicsSignal, ".A1NV", kind="config")
+    a1cd = Cpt(EpicsSignal, ".A1CD", kind="config")
+    aspv = Cpt(EpicsSignal, ".ASPV", kind="config")
+    ascd = Cpt(EpicsSignal, ".ASCD", kind="config")
 
     positioners = DDC(_sscan_positioners("1 2 3 4".split()))
     detectors = DDC(
@@ -333,7 +334,7 @@ class SscanRecord(Device):
 
             part.configuration_attrs = channel_names
             part.read_attrs = channel_names
-            part.kind = Kind.normal
+            part.kind = "normal"
 
     @property
     def defined_in_EPICS(self):
@@ -358,15 +359,15 @@ class SscanDevice(Device):
 
     """
 
-    scan_dimension = Cpt(EpicsSignalRO, "ScanDim")
-    scan_pause = Cpt(EpicsSignal, "scanPause")
-    abort_scans = Cpt(EpicsSignal, "AbortScans")
+    scan_dimension = Cpt(EpicsSignalRO, "ScanDim", kind="config")
+    scan_pause = Cpt(EpicsSignal, "scanPause", kind="omitted")
+    abort_scans = Cpt(EpicsSignal, "AbortScans", kind="omitted")
     scan1 = Cpt(SscanRecord, "scan1")
     scan2 = Cpt(SscanRecord, "scan2")
     scan3 = Cpt(SscanRecord, "scan3")
     scan4 = Cpt(SscanRecord, "scan4")
     scanH = Cpt(SscanRecord, "scanH")
-    resume_delay = Cpt(EpicsSignal, "scanResumeSEQ.DLY1")
+    resume_delay = Cpt(EpicsSignal, "scanResumeSEQ.DLY1", kind="config")
 
     def reset(self):
         """set all fields to default values"""
