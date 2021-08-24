@@ -45,22 +45,22 @@ class EpicsRecordDeviceCommonAll(Device):
     an EPICS client or are already provided in other support.
     """
 
-    description = Component(EpicsSignal, ".DESC")
-    processing_active = Component(EpicsSignalRO, ".PACT")
-    scanning_rate = Component(EpicsSignal, ".SCAN")
-    disable_value = Component(EpicsSignal, ".DISV")
-    scan_disable_input_link_value = Component(EpicsSignal, ".DISA")
-    scan_disable_value_input_link = Component(EpicsSignal, ".SDIS")
-    process_record = Component(EpicsSignal, ".PROC")
-    forward_link = Component(EpicsSignal, ".FLNK")
-    trace_processing = Component(EpicsSignal, ".TPRO")
-    device_type = Component(EpicsSignalRO, ".DTYP")
+    description = Component(EpicsSignal, ".DESC", kind="config")
+    processing_active = Component(EpicsSignalRO, ".PACT", kind="omitted")
+    scanning_rate = Component(EpicsSignal, ".SCAN", kind="config")
+    disable_value = Component(EpicsSignal, ".DISV", kind="config")
+    scan_disable_input_link_value = Component(EpicsSignal, ".DISA", kind="config")
+    scan_disable_value_input_link = Component(EpicsSignal, ".SDIS", kind="config")
+    process_record = Component(EpicsSignal, ".PROC", kind="omitted")
+    forward_link = Component(EpicsSignal, ".FLNK", kind="config")
+    trace_processing = Component(EpicsSignal, ".TPRO", kind="omitted")
+    device_type = Component(EpicsSignalRO, ".DTYP", kind="config")
 
-    alarm_status = Component(EpicsSignalRO, ".STAT")
-    alarm_severity = Component(EpicsSignalRO, ".SEVR")
-    new_alarm_status = Component(EpicsSignalRO, ".NSTA")
-    new_alarm_severity = Component(EpicsSignalRO, ".NSEV")
-    disable_alarm_severity = Component(EpicsSignal, ".DISS")
+    alarm_status = Component(EpicsSignalRO, ".STAT", kind="config")
+    alarm_severity = Component(EpicsSignalRO, ".SEVR", kind="config")
+    new_alarm_status = Component(EpicsSignalRO, ".NSTA", kind="config")
+    new_alarm_severity = Component(EpicsSignalRO, ".NSEV", kind="config")
+    disable_alarm_severity = Component(EpicsSignal, ".DISS", kind="config")
 
 
 class EpicsRecordInputFields(Device):
@@ -68,9 +68,9 @@ class EpicsRecordInputFields(Device):
     some fields common to EPICS input records
     """
 
-    input_link = Component(EpicsSignal, ".INP")
-    raw_value = Component(EpicsSignal, ".RVAL")
-    final_value = Component(EpicsSignal, ".VAL")
+    input_link = Component(EpicsSignal, ".INP", kind="config")
+    raw_value = Component(EpicsSignal, ".RVAL", kind="config")
+    final_value = Component(EpicsSignal, ".VAL", kind="normal")
 
     # will ignore simulation mode fields
 
@@ -84,13 +84,13 @@ class EpicsRecordOutputFields(Device):
     some fields common to EPICS output records
     """
 
-    output_link = Component(EpicsSignal, ".OUT")
-    raw_value = Component(EpicsSignal, ".RVAL")
-    output_value = Component(EpicsSignal, ".OVAL")
-    readback_value = Component(EpicsSignalRO, ".RBV")
-    desired_output_location = Component(EpicsSignal, ".DOL")
-    output_mode_select = Component(EpicsSignal, ".OMSL")
-    desired_value = Component(EpicsSignal, ".VAL")
+    output_link = Component(EpicsSignal, ".OUT", kind="config")
+    raw_value = Component(EpicsSignal, ".RVAL", kind="config")
+    output_value = Component(EpicsSignal, ".OVAL", kind="normal")
+    readback_value = Component(EpicsSignalRO, ".RBV", kind="hinted")
+    desired_output_location = Component(EpicsSignal, ".DOL", kind="config")
+    output_mode_select = Component(EpicsSignal, ".OMSL", kind="config")
+    desired_value = Component(EpicsSignal, ".VAL", kind="normal")
 
     # will ignore simulation mode fields
 
@@ -104,21 +104,21 @@ class EpicsRecordFloatFields(Device):
     some fields common to EPICS records supporting floating point values
     """
 
-    units = Component(EpicsSignal, ".EGU")
-    precision = Component(EpicsSignal, ".PREC")
+    units = Component(EpicsSignal, ".EGU", kind="config")
+    precision = Component(EpicsSignal, ".PREC", kind="config")
 
-    monitor_deadband = Component(EpicsSignal, ".MDEL")
+    monitor_deadband = Component(EpicsSignal, ".MDEL", kind="config")
 
     # upper and lower display limits for the VAL, CVAL, HIHI, HIGH, LOW, and LOLO fields
-    high_operating_range = Component(EpicsSignal, ".HOPR")
-    low_operating_range = Component(EpicsSignal, ".LOPR")
+    high_operating_range = Component(EpicsSignal, ".HOPR", kind="config")
+    low_operating_range = Component(EpicsSignal, ".LOPR", kind="config")
 
-    hihi_alarm_limit = Component(EpicsSignal, ".HIHI")
-    high_alarm_limit = Component(EpicsSignal, ".HIGH")
-    low_alarm_limit = Component(EpicsSignal, ".LOW")
-    lolo_alarm_limit = Component(EpicsSignal, ".LOLO")
-    hihi_alarm_severity = Component(EpicsSignal, ".HHSV")
-    high_alarm_severity = Component(EpicsSignal, ".HSV")
-    low_alarm_severity = Component(EpicsSignal, ".LSV")
-    lolo_alarm_severity = Component(EpicsSignal, ".LLSV")
-    alarm_hysteresis = Component(EpicsSignal, ".HYST")
+    hihi_alarm_limit = Component(EpicsSignal, ".HIHI", kind="config")
+    high_alarm_limit = Component(EpicsSignal, ".HIGH", kind="config")
+    low_alarm_limit = Component(EpicsSignal, ".LOW", kind="config")
+    lolo_alarm_limit = Component(EpicsSignal, ".LOLO", kind="config")
+    hihi_alarm_severity = Component(EpicsSignal, ".HHSV", kind="config")
+    high_alarm_severity = Component(EpicsSignal, ".HSV", kind="config")
+    low_alarm_severity = Component(EpicsSignal, ".LSV", kind="config")
+    lolo_alarm_severity = Component(EpicsSignal, ".LLSV", kind="config")
+    alarm_hysteresis = Component(EpicsSignal, ".HYST", kind="config")
