@@ -42,6 +42,7 @@ class BusyRecord(Device):
 
     .. index:: Ophyd Device; synApps BusyRecord
     """
-    state = Component(EpicsSignal, "", , kind="hinted")
+
+    state = Component(EpicsSignal, "", kind="hinted")
     output_link = Component(EpicsSignal, ".OUT", kind="config")
     forward_link = Component(EpicsSignal, ".FLNK", kind="config")

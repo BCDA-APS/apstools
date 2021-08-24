@@ -56,7 +56,9 @@ class transformRecordChannel(Device):
     current_value = FC(EpicsSignal, "{self.prefix}.{self._ch_letter}", kind="hinted")
     last_value = FC(EpicsSignalRO, "{self.prefix}.L{self._ch_letter}", kind="config")
     input_pv = FC(EpicsSignal, "{self.prefix}.INP{self._ch_letter}", kind="config")
-    input_pv_valid = FC(EpicsSignalRO, "{self.prefix}.I{self._ch_letter}V", kind="config")
+    input_pv_valid = FC(
+        EpicsSignalRO, "{self.prefix}.I{self._ch_letter}V", kind="config"
+    )
     expression_invalid = FC(
         EpicsSignalRO, "{self.prefix}.C{self._ch_letter}V", kind="config"
     )
@@ -127,9 +129,7 @@ class TransformRecord(EpicsRecordDeviceCommonAll):
             channel = getattr(self.channels, letter)
             if isinstance(channel, transformRecordChannel):
                 channel.reset()
-        self.hints = {
-            "fields": ["channels.%s" % c for c in CHANNEL_LETTERS_LIST]
-        }
+        self.hints = {"fields": ["channels.%s" % c for c in CHANNEL_LETTERS_LIST]}
         self.read_attrs = ["channels.%s" % c for c in CHANNEL_LETTERS_LIST]
 
 

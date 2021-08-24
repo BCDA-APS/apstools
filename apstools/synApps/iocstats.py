@@ -37,12 +37,8 @@ class IocStatsDevice(Device):
 
     _app_dir1 = Component(EpicsSignalRO, "APP_DIR1", kind="omitted")
     _app_dir2 = Component(EpicsSignalRO, "APP_DIR2", kind="omitted")
-    _startup_script1 = Component(
-        EpicsSignalRO, "ST_SCRIPT1", kind="omitted"
-    )
-    _startup_script2 = Component(
-        EpicsSignalRO, "ST_SCRIPT2", kind="omitted"
-    )
+    _startup_script1 = Component(EpicsSignalRO, "ST_SCRIPT1", kind="omitted")
+    _startup_script2 = Component(EpicsSignalRO, "ST_SCRIPT2", kind="omitted")
     access = Component(EpicsSignalRO, "ACCESS", string=True, kind="config")
     ca_client_count = Component(EpicsSignalRO, "CA_CLNT_CNT")
     ca_connection_count = Component(EpicsSignalRO, "CA_CONN_CNT")
@@ -84,9 +80,7 @@ class IocStatsDevice(Device):
             Instead of a @property, keep a Signal updated
             so it will be recorded with a Device.read()
             """
-            self.application_directory.put(
-                self._app_dir1.get() + self._app_dir2.get()
-            )
+            self.application_directory.put(self._app_dir1.get() + self._app_dir2.get())
 
         self._app_dir1.subscribe(ad_update)
         self._app_dir2.subscribe(ad_update)

@@ -58,11 +58,15 @@ class SaveData(Device):
     next_scan_number = Component(EpicsSignal, "scanNumber", kind="config")
     comment1 = Component(EpicsSignal, "comment1", string=True, kind="config")
     comment2 = Component(EpicsSignal, "comment2", string=True, kind="config")
-    write_1D_each_point = Component(EpicsSignal, "realTime1D", string=True, kind="config")
+    write_1D_each_point = Component(
+        EpicsSignal, "realTime1D", string=True, kind="config"
+    )
     max_retries = Component(EpicsSignal, "maxAllowedRetries", kind="config")
     retry_wait_s = Component(EpicsSignal, "retryWaitinSecs", kind="config")
 
-    full_path_name = Component(EpicsSignalRO, "fullPathName", string=True, kind="config")
+    full_path_name = Component(
+        EpicsSignalRO, "fullPathName", string=True, kind="config"
+    )
     full_name = Component(EpicsSignalRO, "fileName", string=True, kind="normal")
     message = Component(EpicsSignalRO, "message", string=True, kind="config")
     status = Component(EpicsSignalRO, "status", string=True, kind="config")

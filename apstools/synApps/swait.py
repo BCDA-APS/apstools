@@ -251,20 +251,15 @@ def _setup_peak_swait_(
 
     # consider a noisy background, as well (needs a couple calcs)
     if not isinstance(swait, SwaitRecord):
-        raise TypeError(
-            "expected SwaitRecord instance," f" received {type(swait)}"
-        )
+        raise TypeError("expected SwaitRecord instance," f" received {type(swait)}")
     if not isinstance(ref_signal, EpicsSignalBase):
         raise TypeError(
-            "expected EpicsSignalBase instance,"
-            f" received {type(ref_signal)}"
+            "expected EpicsSignalBase instance," f" received {type(ref_signal)}"
         )
     if width <= 0:
         raise ValueError(f"width must be positive, received {width}")
     if not (0.0 <= noise <= 1.0):
-        raise ValueError(
-            f"noise must be between 0 and 1, received {noise}"
-        )
+        raise ValueError(f"noise must be between 0 and 1, received {noise}")
 
     swait.reset()
     swait.scanning_rate.put("Passive")
@@ -283,9 +278,7 @@ def _setup_peak_swait_(
     swait.hints = {"fields": swait.read_attrs}
 
 
-def setup_gaussian_swait(
-    swait, ref_signal, center=0, width=1, scale=1, noise=0.05
-):
+def setup_gaussian_swait(swait, ref_signal, center=0, width=1, scale=1, noise=0.05):
     """
     setup swait for noisy Gaussian
 
@@ -333,9 +326,7 @@ def setup_gaussian_swait(
     )
 
 
-def setup_lorentzian_swait(
-    swait, ref_signal, center=0, width=1, scale=1, noise=0.05
-):
+def setup_lorentzian_swait(swait, ref_signal, center=0, width=1, scale=1, noise=0.05):
     """
     setup swait record for noisy Lorentzian
 

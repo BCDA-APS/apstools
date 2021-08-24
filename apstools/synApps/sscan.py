@@ -70,43 +70,23 @@ class sscanPositioner(Device):
 
     """
 
-    readback_pv = FC(
-        EpicsSignal, "{self.prefix}.R{self._ch_num}PV", kind="config"
-    )
+    readback_pv = FC(EpicsSignal, "{self.prefix}.R{self._ch_num}PV", kind="config")
     readback_value = FC(EpicsSignalRO, "{self.prefix}.R{self._ch_num}CV", kind="hinted")
     array = FC(
-        EpicsSignalRO, 
-        "{self.prefix}.P{self._ch_num}CA", 
-        kind="normal" # TODO: which kind here?
+        EpicsSignalRO,
+        "{self.prefix}.P{self._ch_num}CA",
+        kind="normal",  # TODO: which kind here?
     )
-    setpoint_pv = FC(
-        EpicsSignal, "{self.prefix}.P{self._ch_num}PV", kind="config"
-    )
+    setpoint_pv = FC(EpicsSignal, "{self.prefix}.P{self._ch_num}PV", kind="config")
     setpoint_value = FC(EpicsSignalRO, "{self.prefix}.P{self._ch_num}DV", kind="normal")
-    start = FC(
-        EpicsSignal, "{self.prefix}.P{self._ch_num}SP", kind="config"
-    )
-    center = FC(
-        EpicsSignal, "{self.prefix}.P{self._ch_num}CP", kind="config"
-    )
-    end = FC(
-        EpicsSignal, "{self.prefix}.P{self._ch_num}EP", kind="config"
-    )
-    step_size = FC(
-        EpicsSignal, "{self.prefix}.P{self._ch_num}SI", kind="config"
-    )
-    width = FC(
-        EpicsSignal, "{self.prefix}.P{self._ch_num}WD", kind="config"
-    )
-    abs_rel = FC(
-        EpicsSignal, "{self.prefix}.P{self._ch_num}AR", kind="config"
-    )
-    mode = FC(
-        EpicsSignal, "{self.prefix}.P{self._ch_num}SM", kind="config"
-    )
-    units = FC(
-        EpicsSignalRO, "{self.prefix}.P{self._ch_num}EU", kind="config"
-    )
+    start = FC(EpicsSignal, "{self.prefix}.P{self._ch_num}SP", kind="config")
+    center = FC(EpicsSignal, "{self.prefix}.P{self._ch_num}CP", kind="config")
+    end = FC(EpicsSignal, "{self.prefix}.P{self._ch_num}EP", kind="config")
+    step_size = FC(EpicsSignal, "{self.prefix}.P{self._ch_num}SI", kind="config")
+    width = FC(EpicsSignal, "{self.prefix}.P{self._ch_num}WD", kind="config")
+    abs_rel = FC(EpicsSignal, "{self.prefix}.P{self._ch_num}AR", kind="config")
+    mode = FC(EpicsSignal, "{self.prefix}.P{self._ch_num}SM", kind="config")
+    units = FC(EpicsSignalRO, "{self.prefix}.P{self._ch_num}EU", kind="config")
 
     def __init__(self, prefix, num, **kwargs):
         self._ch_num = num
@@ -143,13 +123,9 @@ class sscanDetector(Device):
 
     """
 
-    input_pv = FC(
-        EpicsSignal, "{self.prefix}.D{self._ch_num}PV", kind="config"
-    )
+    input_pv = FC(EpicsSignal, "{self.prefix}.D{self._ch_num}PV", kind="config")
     current_value = FC(EpicsSignal, "{self.prefix}.D{self._ch_num}CV", kind="hinted")
-    array = FC(
-        EpicsSignal, "{self.prefix}.D{self._ch_num}CA", kind="omitted"
-    )
+    array = FC(EpicsSignal, "{self.prefix}.D{self._ch_num}CA", kind="omitted")
 
     def __init__(self, prefix, num, **kwargs):
         self._ch_num = num
@@ -176,9 +152,7 @@ class sscanTrigger(Device):
         ~reset
     """
 
-    trigger_pv = FC(
-        EpicsSignal, "{self.prefix}.T{self._ch_num}PV", kind="config"
-    )
+    trigger_pv = FC(EpicsSignal, "{self.prefix}.T{self._ch_num}PV", kind="config")
     trigger_value = FC(EpicsSignal, "{self.prefix}.T{self._ch_num}CD", kind="config")
 
     def __init__(self, prefix, num, **kwargs):
@@ -267,9 +241,7 @@ class SscanRecord(Device):
     ascd = Cpt(EpicsSignal, ".ASCD", kind="config")
 
     positioners = DDC(_sscan_positioners("1 2 3 4".split()))
-    detectors = DDC(
-        _sscan_detectors(APS_utils.itemizer("%02d", range(1, 71)))
-    )
+    detectors = DDC(_sscan_detectors(APS_utils.itemizer("%02d", range(1, 71))))
     triggers = DDC(_sscan_triggers("1 2 3 4".split()))
 
     def set(self, value, **kwargs):
@@ -326,11 +298,13 @@ class SscanRecord(Device):
         """
         for part in (self.positioners, self.detectors, self.triggers):
             channel_names = []  # part.get_configured_channels()
+            # fmt: off
             channel_names = [
                 ch
                 for ch in part.component_names
                 if getattr(part, ch).defined_in_EPICS
             ]
+            # fmt: on
 
             part.configuration_attrs = channel_names
             part.read_attrs = channel_names
