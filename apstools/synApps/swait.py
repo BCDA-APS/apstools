@@ -71,9 +71,9 @@ class SwaitRecordChannel(Device):
     .. index:: Ophyd Device; synApps SwaitRecordChannel
     """
 
-    input_value = FC(EpicsSignal, "{self.prefix}.{self._ch_letter}")
-    input_pv = FC(EpicsSignal, "{self.prefix}.IN{self._ch_letter}N")
-    input_trigger = FC(EpicsSignal, "{self.prefix}.IN{self._ch_letter}P")
+    input_value = FC(EpicsSignal, "{self.prefix}.{self._ch_letter}", kind="normal")
+    input_pv = FC(EpicsSignal, "{self.prefix}.IN{self._ch_letter}N", kind="config")
+    input_trigger = FC(EpicsSignal, "{self.prefix}.IN{self._ch_letter}P", kind="config")
     read_attrs = [
         "input_value",
     ]
@@ -109,21 +109,21 @@ class SwaitRecord(EpicsRecordDeviceCommonAll):
 
     """
 
-    precision = Cpt(EpicsSignal, ".PREC")
-    high_operating_range = Cpt(EpicsSignal, ".HOPR")
-    low_operating_range = Cpt(EpicsSignal, ".LOPR")
+    precision = Cpt(EpicsSignal, ".PREC", kind="config")
+    high_operating_range = Cpt(EpicsSignal, ".HOPR", kind="config")
+    low_operating_range = Cpt(EpicsSignal, ".LOPR", kind="config")
 
-    calculated_value = Cpt(EpicsSignal, ".VAL")
-    calculation = Cpt(EpicsSignal, ".CALC")
+    calculated_value = Cpt(EpicsSignal, ".VAL", kind="hinted")
+    calculation = Cpt(EpicsSignal, ".CALC", kind="config")
 
-    output_link_pv = Cpt(EpicsSignal, ".OUTN")
-    output_location_name = Cpt(EpicsSignal, ".DOLN")
-    output_location_data = Cpt(EpicsSignal, ".DOLD")
-    output_data_option = Cpt(EpicsSignal, ".DOPT")
+    output_link_pv = Cpt(EpicsSignal, ".OUTN", kind="config")
+    output_location_name = Cpt(EpicsSignal, ".DOLN", kind="config")
+    output_location_data = Cpt(EpicsSignal, ".DOLD", kind="config")
+    output_data_option = Cpt(EpicsSignal, ".DOPT", kind="config")
 
-    output_execute_option = Cpt(EpicsSignal, ".OOPT")
-    output_execution_delay = Cpt(EpicsSignal, ".ODLY")
-    event_to_issue = Cpt(EpicsSignal, ".OEVT")
+    output_execute_option = Cpt(EpicsSignal, ".OOPT", kind="config")
+    output_execution_delay = Cpt(EpicsSignal, ".ODLY", kind="config")
+    event_to_issue = Cpt(EpicsSignal, ".OEVT", kind="config")
 
     read_attrs = APS_utils.itemizer("channels.%s", CHANNEL_LETTERS_LIST)
     hints = {"fields": read_attrs}
@@ -171,7 +171,7 @@ class UserCalcsDevice(Device):
 
     """
 
-    enable = Cpt(EpicsSignal, "userCalcEnable")
+    enable = Cpt(EpicsSignal, "userCalcEnable", kind="config")
     calc1 = Cpt(SwaitRecord, "userCalc1")
     calc2 = Cpt(SwaitRecord, "userCalc2")
     calc3 = Cpt(SwaitRecord, "userCalc3")
