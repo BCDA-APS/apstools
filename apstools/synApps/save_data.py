@@ -52,23 +52,27 @@ class SaveData(Device):
 
     """
 
-    file_system = Component(EpicsSignal, "fileSystem")
-    subdirectory = Component(EpicsSignal, "subDir")
-    base_name = Component(EpicsSignal, "baseName")
-    next_scan_number = Component(EpicsSignal, "scanNumber")
-    comment1 = Component(EpicsSignal, "comment1", string=True)
-    comment2 = Component(EpicsSignal, "comment2", string=True)
-    write_1D_each_point = Component(EpicsSignal, "realTime1D", string=True)
-    max_retries = Component(EpicsSignal, "maxAllowedRetries")
-    retry_wait_s = Component(EpicsSignal, "retryWaitinSecs")
+    file_system = Component(EpicsSignal, "fileSystem", kind="config")
+    subdirectory = Component(EpicsSignal, "subDir", kind="config")
+    base_name = Component(EpicsSignal, "baseName", kind="config")
+    next_scan_number = Component(EpicsSignal, "scanNumber", kind="config")
+    comment1 = Component(EpicsSignal, "comment1", string=True, kind="config")
+    comment2 = Component(EpicsSignal, "comment2", string=True, kind="config")
+    write_1D_each_point = Component(
+        EpicsSignal, "realTime1D", string=True, kind="config"
+    )
+    max_retries = Component(EpicsSignal, "maxAllowedRetries", kind="config")
+    retry_wait_s = Component(EpicsSignal, "retryWaitinSecs", kind="config")
 
-    full_path_name = Component(EpicsSignalRO, "fullPathName", string=True)
-    full_name = Component(EpicsSignalRO, "fileName", string=True)
-    message = Component(EpicsSignalRO, "message", string=True)
-    status = Component(EpicsSignalRO, "status", string=True)
-    write_count_current = Component(EpicsSignalRO, "currRetries")
-    write_count_total = Component(EpicsSignalRO, "totalRetries")
-    write_count_abandoned = Component(EpicsSignalRO, "abandonedWrites")
+    full_path_name = Component(
+        EpicsSignalRO, "fullPathName", string=True, kind="config"
+    )
+    full_name = Component(EpicsSignalRO, "fileName", string=True, kind="normal")
+    message = Component(EpicsSignalRO, "message", string=True, kind="config")
+    status = Component(EpicsSignalRO, "status", string=True, kind="config")
+    write_count_current = Component(EpicsSignalRO, "currRetries", kind="config")
+    write_count_total = Component(EpicsSignalRO, "totalRetries", kind="config")
+    write_count_abandoned = Component(EpicsSignalRO, "abandonedWrites", kind="config")
 
     def reset(self):
         self.file_system.put("")

@@ -37,40 +37,36 @@ class IocStatsDevice(Device):
 
     _app_dir1 = Component(EpicsSignalRO, "APP_DIR1", kind="omitted")
     _app_dir2 = Component(EpicsSignalRO, "APP_DIR2", kind="omitted")
-    _startup_script1 = Component(
-        EpicsSignalRO, "ST_SCRIPT1", kind="omitted"
-    )
-    _startup_script2 = Component(
-        EpicsSignalRO, "ST_SCRIPT2", kind="omitted"
-    )
-    access = Component(EpicsSignalRO, "ACCESS", string=True)
+    _startup_script1 = Component(EpicsSignalRO, "ST_SCRIPT1", kind="omitted")
+    _startup_script2 = Component(EpicsSignalRO, "ST_SCRIPT2", kind="omitted")
+    access = Component(EpicsSignalRO, "ACCESS", string=True, kind="config")
     ca_client_count = Component(EpicsSignalRO, "CA_CLNT_CNT")
     ca_connection_count = Component(EpicsSignalRO, "CA_CONN_CNT")
-    cpu_count = Component(EpicsSignalRO, "CPU_CNT")
-    engineer = Component(EpicsSignalRO, "ENGINEER")
-    epics_version = Component(EpicsSignalRO, "EPICS_VERS")
+    cpu_count = Component(EpicsSignalRO, "CPU_CNT", kind="config")
+    engineer = Component(EpicsSignalRO, "ENGINEER", kind="config")
+    epics_version = Component(EpicsSignalRO, "EPICS_VERS", kind="config")
     file_descriptors_free = Component(EpicsSignalRO, "FD_FREE")
     file_descriptors_max_ = Component(EpicsSignalRO, "FD_MAX")
-    heartbeat = Component(EpicsSignalRO, "HEARTBEAT")
+    heartbeat = Component(EpicsSignalRO, "HEARTBEAT", kind="omitted")
     host_name = Component(EpicsSignalRO, "HOSTNAME")
     ioc_cpu_load = Component(EpicsSignalRO, "IOC_CPU_LOAD")
     iso8601 = Component(EpicsSignalRO, "iso8601")
-    kernel_version = Component(EpicsSignalRO, "KERNEL_VERS")
+    kernel_version = Component(EpicsSignalRO, "KERNEL_VERS", kind="config")
     location = Component(EpicsSignalRO, "LOCATION")
     max_array_bytes = Component(EpicsSignalRO, "CA_MAX_ARRAY")
     memory_free = Component(EpicsSignalRO, "MEM_FREE")
     memory_max = Component(EpicsSignalRO, "MEM_MAX")
     memory_used = Component(EpicsSignalRO, "MEM_USED")
     records_count = Component(EpicsSignalRO, "RECORD_CNT")
-    startup_time = Component(EpicsSignalRO, "STARTTOD")
+    startup_time = Component(EpicsSignalRO, "STARTTOD", kind="config")
     suspended_task_count = Component(EpicsSignalRO, "SUSP_TASK_CNT")
     system_cpu_load = Component(EpicsSignalRO, "SYS_CPU_LOAD")
     time_of_day = Component(EpicsSignalRO, "TOD")
-    timezone = Component(EpicsSignalRO, "TIMEZONE")
+    timezone = Component(EpicsSignalRO, "TIMEZONE", kind="config")
     uptime = Component(EpicsSignalRO, ":UPTIME")
 
     # components updated from EpicsSignals
-    application_directory = Component(Signal, value="")
+    application_directory = Component(Signal, value="", kind="config")
     memory_used_percentage = Component(Signal, value=0)
     startup_script = Component(Signal, value="")
 
@@ -84,9 +80,7 @@ class IocStatsDevice(Device):
             Instead of a @property, keep a Signal updated
             so it will be recorded with a Device.read()
             """
-            self.application_directory.put(
-                self._app_dir1.get() + self._app_dir2.get()
-            )
+            self.application_directory.put(self._app_dir1.get() + self._app_dir2.get())
 
         self._app_dir1.subscribe(ad_update)
         self._app_dir2.subscribe(ad_update)

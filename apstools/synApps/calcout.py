@@ -64,9 +64,7 @@ class CalcoutRecordChannel(Device):
     input_value = FC(EpicsSignal, "{self.prefix}.{self._ch_letter}")
     last_value = FC(EpicsSignalRO, "{self.prefix}.L{self._ch_letter}")
     input_pv = FC(EpicsSignal, "{self.prefix}.INP{self._ch_letter}")
-    input_pv_valid = FC(
-        EpicsSignalRO, "{self.prefix}.IN{self._ch_letter}V"
-    )
+    input_pv_valid = FC(EpicsSignalRO, "{self.prefix}.IN{self._ch_letter}V")
 
     read_attrs = [
         "input_value",
@@ -103,26 +101,26 @@ class CalcoutRecord(EpicsRecordFloatFields, EpicsRecordDeviceCommonAll):
     :see: https://wiki-ext.aps.anl.gov/epics/index.php/RRM_3-14_Calcout
     """
 
-    units = Cpt(EpicsSignal, ".EGU")
-    precision = Cpt(EpicsSignal, ".PREC")
+    units = Cpt(EpicsSignal, ".EGU", kind="config")
+    precision = Cpt(EpicsSignal, ".PREC", kind="config")
 
-    calculated_value = Cpt(EpicsSignal, ".VAL")
-    calculation = Cpt(EpicsSignal, ".CALC")
+    calculated_value = Cpt(EpicsSignal, ".VAL", kind="normal")
+    calculation = Cpt(EpicsSignal, ".CALC", kind="config")
 
-    output_pv = Cpt(EpicsSignal, ".OUT")
-    output_execute_option = Cpt(EpicsSignal, ".OOPT")
-    output_execution_delay = Cpt(EpicsSignal, ".ODLY")
-    output_data_option = Cpt(EpicsSignal, ".DOPT")
-    output_calculation = Cpt(EpicsSignal, ".OCAL")
-    output_value = Cpt(EpicsSignal, ".OVAL")
-    invalid_output_action = Cpt(EpicsSignal, ".IVOA")
-    invalid_output_value = Cpt(EpicsSignal, ".IVOV")
-    event_to_issue = Cpt(EpicsSignal, ".OEVT")
+    output_pv = Cpt(EpicsSignal, ".OUT", kind="config")
+    output_execute_option = Cpt(EpicsSignal, ".OOPT", kind="config")
+    output_execution_delay = Cpt(EpicsSignal, ".ODLY", kind="config")
+    output_data_option = Cpt(EpicsSignal, ".DOPT", kind="config")
+    output_calculation = Cpt(EpicsSignal, ".OCAL", kind="config")
+    output_value = Cpt(EpicsSignal, ".OVAL", kind="hinted")
+    invalid_output_action = Cpt(EpicsSignal, ".IVOA", kind="config")
+    invalid_output_value = Cpt(EpicsSignal, ".IVOV", kind="config")
+    event_to_issue = Cpt(EpicsSignal, ".OEVT", kind="config")
 
-    output_pv_status = Cpt(EpicsSignal, ".OUTV")
-    calculation_valid = Cpt(EpicsSignal, ".CLCV")
-    output_calculation_valid = Cpt(EpicsSignal, ".OCLV")
-    output_delay_active = Cpt(EpicsSignal, ".DLYA")
+    output_pv_status = Cpt(EpicsSignal, ".OUTV", kind="config")
+    calculation_valid = Cpt(EpicsSignal, ".CLCV", kind="config")
+    output_calculation_valid = Cpt(EpicsSignal, ".OCLV", kind="config")
+    output_delay_active = Cpt(EpicsSignal, ".DLYA", kind="config")
 
     channels = DDC(_channels(CHANNEL_LETTERS_LIST))
 
@@ -159,9 +157,7 @@ class CalcoutRecord(EpicsRecordFloatFields, EpicsRecordDeviceCommonAll):
             channel = getattr(self.channels, letter)
             if isinstance(channel, CalcoutRecordChannel):
                 channel.reset()
-        self.hints = {
-            "fields": ["channels.%s" % c for c in CHANNEL_LETTERS_LIST]
-        }
+        self.hints = {"fields": ["channels.%s" % c for c in CHANNEL_LETTERS_LIST]}
         self.read_attrs = ["channels.%s" % c for c in CHANNEL_LETTERS_LIST]
 
 
@@ -177,7 +173,7 @@ class UserCalcoutDevice(Device):
 
     """
 
-    enable = Cpt(EpicsSignal, "userCalcOutEnable")
+    enable = Cpt(EpicsSignal, "userCalcOutEnable", kind="omitted")
     calcout1 = Cpt(CalcoutRecord, "userCalcOut1")
     calcout2 = Cpt(CalcoutRecord, "userCalcOut2")
     calcout3 = Cpt(CalcoutRecord, "userCalcOut3")
@@ -247,19 +243,13 @@ def _setup_peak_calcout_(
 
     # to add a noisy background will need another calc
     if not isinstance(calcout, CalcoutRecord):
-        raise TypeError(
-            f"expected CalcoutRecord instance, received {type(calcout)}"
-        )
+        raise TypeError(f"expected CalcoutRecord instance, received {type(calcout)}")
     if not isinstance(ref_signal, Signal):
-        raise TypeError(
-            f"expected Signal instance, received {type(ref_signal)}"
-        )
+        raise TypeError(f"expected Signal instance, received {type(ref_signal)}")
     if width <= 0:
         raise ValueError(f"width must be positive, received {width}")
     if not (0.0 <= noise <= 1.0):
-        raise ValueError(
-            f"noise must be between 0 and 1, received {noise}"
-        )
+        raise ValueError(f"noise must be between 0 and 1, received {noise}")
 
     calcout.reset()
     calcout.scanning_rate.put("Passive")
@@ -278,9 +268,7 @@ def _setup_peak_calcout_(
     calcout.hints = {"fields": calcout.read_attrs}
 
 
-def setup_gaussian_calcout(
-    calcout, ref_signal, center=0, width=1, scale=1, noise=0.05
-):
+def setup_gaussian_calcout(calcout, ref_signal, center=0, width=1, scale=1, noise=0.05):
     """
     setup calcout for noisy Gaussian
 
