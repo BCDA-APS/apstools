@@ -405,7 +405,7 @@ def setup_incrementer_calcout(calcout, scan=None, limit=100000):
     calcout.calculation.put("(A+1) % B")
     calcout.scanning_rate.put(scan)
 
-    calcout.hints = {"fields": ["input_value",]}
+    calcout.hints = {"fields": ["input_value", ]}
     calcout.read_attrs = [
         "input_value",
     ]
