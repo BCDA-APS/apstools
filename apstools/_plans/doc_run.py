@@ -1,13 +1,46 @@
 """
-Save text as a bluesky run.
+----
+
+.. autosummary::
+
+   ~addDeviceDataAsStream
+   ~documentation_run
 """
 
-__all__ = ["documentation_run", ]
+__all__ = "addDeviceDataAsStream documentation_run".split()
 
-from .. plans import addDeviceDataAsStream
 from .. utils import ipython_shell_namespace
 from bluesky import plan_stubs as bps
 from ophyd import Signal
+
+
+def addDeviceDataAsStream(devices, label):
+    """
+    add an ophyd Device as an additional document stream
+
+    .. index:: Bluesky Plan; addDeviceDataAsStream
+
+    Use this within a custom plan, such as this example::
+
+        from apstools.plans import addDeviceStream
+        ...
+        yield from bps.open_run()
+        # ...
+        yield from addDeviceDataAsStream(prescanDeviceList, "metadata_prescan")
+        # ...
+        yield from custom_scan_procedure()
+        # ...
+        yield from addDeviceDataAsStream(postscanDeviceList, "metadata_postscan")
+        # ...
+        yield from bps.close_run()
+
+    """
+    yield from bps.create(name=label)
+    if not isinstance(devices, list):  # just in case...
+        devices = [devices]
+    for d in devices:
+        yield from bps.read(d)
+    yield from bps.save()
 
 
 def documentation_run(text, stream=None, bec=None, md=None):
