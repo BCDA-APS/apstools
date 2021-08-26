@@ -48,6 +48,7 @@ from ophyd import Device, Component, Signal, DeviceStatus, EpicsSignal
 from ophyd.scaler import ScalerCH, ScalerChannel
 
 from . import utils as APS_utils
+from ._plans import *
 
 
 logger = logging.getLogger(__name__)
