@@ -218,7 +218,7 @@ class SscanRecord(Device):
     number_points = Cpt(EpicsSignal, ".NPTS", kind="config")
     maximum_number_points = Cpt(EpicsSignal, ".MPTS", kind="config")
     current_point = Cpt(EpicsSignalRO, ".CPT", kind="normal")
-    pasm = Cpt(EpicsSignal, ".PASM", kind="omitted")
+    pasm = Cpt(EpicsSignal, ".PASM", kind="config")
     execute_scan = Cpt(EpicsSignal, ".EXSC", kind="omitted")
     bspv = Cpt(EpicsSignal, ".BSPV", kind="config")
     bscd = Cpt(EpicsSignal, ".BSCD", kind="omitted")
