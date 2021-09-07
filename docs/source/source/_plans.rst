@@ -8,3 +8,6 @@ here.
 
 .. automodule:: apstools.plans
     :members:
+
+.. automodule:: apstools._plans.doc_run
+    :members:
