@@ -4,6 +4,7 @@ test override_parameters module
 
 from apstools.utils import OverrideParameters
 import numpy as np
+import pandas as pd
 import pytest
 
 
@@ -73,10 +74,14 @@ def test_reset_all(overrides):
     assert overrides.pick(parm, "undefined") == "undefined"
 
 
+def test_summary_type(overrides):
+    assert type(overrides.summary()) == type(pd.DataFrame({}))
+
+
 def test_summary(overrides):
     parm = "test_parameter"
     assert len(overrides.summary()) == 0
- 
+
     overrides.register(parm)
     summary = overrides.summary()
     assert len(summary) != 0
@@ -86,7 +91,6 @@ def test_summary(overrides):
 
     expected = np.array([[parm, overrides.undefined]])
     assert not (expected == summary.values).all()
-    
+
     expected = np.array([[parm, "--undefined--"]])
     assert (expected == summary.values).all()
-    
