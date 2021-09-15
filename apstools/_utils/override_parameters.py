@@ -89,20 +89,22 @@ class OverrideParameters:
         if parameter_name not in self._parameters:
             self._parameters[parameter_name] = self.undefined
 
+    def _check_known(self, parameter_name):
+        if parameter_name not in self._parameters:
+            raise KeyError(f"Unknown parameter {parameter_name}.  First call register().")
+
     def set(self, parameter_name, value):
         """
         Define an override value for a known parameter.
         """
-        if parameter_name not in self._parameters:
-            raise KeyError(f"Unknown {parameter_name = }.  First call register().")
+        self._check_known(parameter_name)
         self._parameters[parameter_name] = value
 
     def reset(self, parameter_name):
         """
         Remove an override value for a known parameter.  (sets it to undefined)
         """
-        if parameter_name not in self._parameters:
-            raise KeyError(f"Unknown {parameter_name = }.  First call register().")
+        self._check_known(parameter_name)
         self._parameters[parameter_name] = self.undefined
 
     def reset_all(self):
