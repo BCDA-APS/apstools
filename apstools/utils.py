@@ -100,7 +100,7 @@ import warnings
 import zipfile
 
 from .filewriters import _rebuild_scan_command
-from ._utils import *
+from ._utils import *  # noqa
 
 
 logger = logging.getLogger(__name__)
