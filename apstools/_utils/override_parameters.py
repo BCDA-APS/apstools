@@ -1,4 +1,49 @@
 """
+**OverrideParameters** : Define parameters that can be overridden from a user configuration file.
+
+EXAMPLE:
+
+Create an ``overrides`` object in a new file ``override_params.py``::
+
+    import apstools.utils
+    overrides = apstools.utils.OverrideParameters()
+
+When code supports a parameter for which a user can provide
+a local override, the code should import the ``overrides``
+object (from the ``override_params`` module),
+and then register the parameter name, such as this example::
+
+    from override_params import overrides
+    overrides.register("minimum_step")
+
+Then later::
+
+    minstep = overrides.pick("minimum_step", 45e-6)
+
+In the user's configuration file that will override
+the value of ``45e-6`` (such as can be loaded via
+``%run -i user.py``), import the `overrides``
+object (from the ``override_params`` module)::
+
+    from override_params import overrides
+
+and then override the attribute(s) as desired::
+
+    overrides.set("minimum_step", 1.0e-5)
+
+With this override in place, the ``minstep`` value
+(from :meth:`~apstools.utils.OverrideParameters.pick()`)
+will be ``1e-5``.
+
+Get a pandas DataFrame object with all the overrides::
+
+    overrides.summary()
+
+which returns this table::
+
+        parameter    value
+    0  minimum_step  0.00001
+
 ----
 
 .. autosummary::
@@ -13,59 +58,23 @@ __all__ = [
 
 import pandas as pd
 
-# TODO: needs documentation file
-# TODO: needs unit testing
-
 
 class OverrideParameters:
     """
-    Define parameters that can be overriden from a user configuration file.
+    Define parameters that can be overridden from a user configuration file.
 
     NOTE: This is a pure Python object, not using ophyd.
 
-    TODO: Move this to a documentation source file.
+    .. autosummary::
 
-    =============== ============================
-    method          usage
-    =============== ============================
-    ``register()``  First, register a new parameter name to be supported by user overrides.
-    ``set()``       Define an override value for a known parameter.
-    ``pick()``      Choose value for a known parameter, picking between override and default value.
-    ``summary()``   Print a table of all known parameters and values.
-    ``reset()``     Remove an override value for a known parameter.  (sets it to undefined)
-    ``reset_all()`` Remove override values for all known parameters.
-    =============== ============================
+       ~register
+       ~set
+       ~pick
+       ~summary
+       ~reset
+       ~reset_all
 
-    USAGE:
-
-    Create a ``overrides`` object::
-
-        overrides = apstools.utils.OverrideParameters()
-
-    When code supports a parameter for which a user can provide
-    a local override, the code should import the ``overrides``
-    object (from the module where it has been created),
-    and then register the parameter name, such as this example::
-
-        overrides.register("minimum_step")
-
-    Refer to ``plans.axis_tuning`` for example back-end
-    handling.  Such as::
-
-        overrides.register("usaxs_minstep")
-
-    Then later::
-
-        minstep = overrides.pick("usaxs_minstep", 0.000045)
-
-    In the user's configuration file (loaded via ``%run -i user.py``),
-    import the `overrides`` object::
-
-        from instrument.devices import overrides
-
-    and then override the attribute(s) as desired::
-
-        overrides.set("usaxs_minstep", 1.0e-5)
+    (new in apstools 1.5.2)
     """
 
     def __init__(self):
@@ -75,14 +84,14 @@ class OverrideParameters:
 
     def register(self, parameter_name):
         """
-        Register a new parameter name.
+        Register a new parameter name to be supported by user overrides.
         """
         if parameter_name not in self._parameters:
             self._parameters[parameter_name] = self.undefined
 
     def set(self, parameter_name, value):
         """
-        Set value of a known parameter.
+        Define an override value for a known parameter.
         """
         if parameter_name not in self._parameters:
             raise KeyError(f"Unknown {parameter_name = }.  First call register().")
@@ -90,7 +99,7 @@ class OverrideParameters:
 
     def reset(self, parameter_name):
         """
-        Remove the override of a known parameter.
+        Remove an override value for a known parameter.  (sets it to undefined)
         """
         if parameter_name not in self._parameters:
             raise KeyError(f"Unknown {parameter_name = }.  First call register().")
@@ -98,14 +107,14 @@ class OverrideParameters:
 
     def reset_all(self):
         """
-        Change all override values back to undefined.
+        Remove override values for all known parameters. (sets all to undefined)
         """
         for parm in self._parameters.keys():
             self.reset(parm)
 
     def pick(self, parameter, default):
         """
-        Either pick the override parameter value if defined, or the default.
+        Return either the override parameter value if defined, or the default.
         """
         value = self._parameters.get(parameter, default)
         if value == self.undefined:
