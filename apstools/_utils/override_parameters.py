@@ -67,12 +67,12 @@ class OverrideParameters:
 
     .. autosummary::
 
-       ~register
-       ~set
        ~pick
-       ~summary
+       ~register
        ~reset
        ~reset_all
+       ~set
+       ~summary
 
     (new in apstools 1.5.2)
     """
