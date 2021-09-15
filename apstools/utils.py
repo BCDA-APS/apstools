@@ -425,7 +425,7 @@ def db_query(db, query):
         satisfying the ``query`` parameters.
 
     See also:
-    
+
     * :func:`databroker.catalog.search`
     """
 
@@ -1130,6 +1130,8 @@ def listruns(
             print(f"catalog: {lr.cat.name}")
         if printing == "smart":
             try:
+                from IPython import get_ipython
+
                 get_ipython()  # console or notebook will handle
             except NameError:
                 do_print = True  # we print it here

@@ -75,7 +75,7 @@ def test_reset_all(overrides):
 
 
 def test_summary_type(overrides):
-    assert type(overrides.summary()) == type(pd.DataFrame({}))
+    assert isinstance(overrides.summary(), pd.DataFrame)
 
 
 def test_summary(overrides):
