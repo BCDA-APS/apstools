@@ -1627,24 +1627,24 @@ class PVPositionerSoftDone(PVPositioner):
     PARAMETERS
 
     prefix : str, optional
-        The device prefix used for all sub-positioners. 
+        The device prefix used for all sub-positioners.
         This is optional as it
         may be desirable to specify full PV names for PVPositioners.
     readback_pv : str, optional
-        PV prefix of the readback signal. 
+        PV prefix of the readback signal.
         Disregarded if readback attribute is created.
     setpoint_pv : str, optional
-        PV prefix of the setpoint signal. 
+        PV prefix of the setpoint signal.
         Disregarded if setpoint attribute is created.
     tolerance : float, optional
         Motion tolerance. The motion is considered *done* when::
-        
+
             abs(readback-setpoint) <= tolerance
-        
+
         Defaults to ``10^(-1*precision)``,
         where ``precision = setpoint.precision``.
     target_attr : str, optional
-        Used if the setpoint is controlled incrementally by EPICS 
+        Used if the setpoint is controlled incrementally by EPICS
         (like with a ramp). Then a target attribute signal must be
         defined, and its name passed in this variable.
     kwargs :
