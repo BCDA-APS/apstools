@@ -64,10 +64,12 @@ class PVPositionerSoftDone(PVPositioner):
     """
 
     # positioner
-    readback = FormattedComponent(EpicsSignalRO, "{prefix}{_readback_pv}",
-                                  kind="hinted", auto_monitor=True)
-    setpoint = FormattedComponent(EpicsSignal, "{prefix}{_setpoint_pv}",
-                                  kind="normal", put_complete=True)
+    readback = FormattedComponent(
+        EpicsSignalRO, "{prefix}{_readback_pv}", kind="hinted", auto_monitor=True
+    )
+    setpoint = FormattedComponent(
+        EpicsSignal, "{prefix}{_setpoint_pv}", kind="normal", put_complete=True
+    )
     done = Component(Signal, value=True, kind="config")
     done_value = True
 
@@ -83,8 +85,11 @@ class PVPositionerSoftDone(PVPositioner):
         Called when readback changes (EPICS CA monitor event).
         """
         diff = self.readback.get() - self._target.get()
-        _tolerance = (self.tolerance.get() if self.tolerance.get() >= 0 else
-                      10**(-1*self.precision))
+        _tolerance = (
+            self.tolerance.get()
+            if self.tolerance.get() >= 0
+            else 10 ** (-1 * self.precision)
+        )
         dmov = abs(diff) <= _tolerance
         if self.report_dmov_changes.get() and dmov != self.done.get():
             logger.debug(f"{self.name} reached: {dmov}")
@@ -100,8 +105,16 @@ class PVPositionerSoftDone(PVPositioner):
         """
         self.done.put(not self.done_value)
 
-    def __init__(self, prefix="", *, readback_pv="", setpoint_pv="",
-                 tolerance=None, target_attr="setpoint", **kwargs):
+    def __init__(
+        self,
+        prefix="",
+        *,
+        readback_pv="",
+        setpoint_pv="",
+        tolerance=None,
+        target_attr="setpoint",
+        **kwargs,
+    ):
 
         self._setpoint_pv = setpoint_pv
         self._readback_pv = readback_pv
@@ -120,12 +133,12 @@ class PVPositionerSoftDone(PVPositioner):
             self.tolerance.put(tolerance)
 
     def _setup_move(self, position):
-        '''Move and do not wait until motion is complete (asynchronous)'''
-        self.log.debug('%s.setpoint = %s', self.name, position)
+        """Move and do not wait until motion is complete (asynchronous)"""
+        self.log.debug("%s.setpoint = %s", self.name, position)
         self._target.put(position, wait=True)
         if self._target != self.setpoint:
             self.setpoint.put(position, wait=True)
         if self.actuate is not None:
-            self.log.debug('%s.actuate = %s', self.name, self.actuate_value)
+            self.log.debug("%s.actuate = %s", self.name, self.actuate_value)
             self.actuate.put(self.actuate_value, wait=False)
         self.cb_readback()  # This is needed to force the first check.
