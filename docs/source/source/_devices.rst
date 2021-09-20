@@ -8,3 +8,6 @@ items described here.
 
 .. automodule:: apstools.devices
     :members:
+
+.. automodule:: apstools._devices.positioner_soft_done
+    :members:
