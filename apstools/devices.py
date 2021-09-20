@@ -44,7 +44,7 @@ MOTORS, POSITIONERS, AXES, ...
     ~EpicsMotorServoMixin
     ~EpicsMotorShutter
     ~EpicsOnOffShutter
-    ~PVPositionerSoftDone
+    ~apstools._devices.positioner_soft_done.PVPositionerSoftDone
 
 SHUTTERS
 
