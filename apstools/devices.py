@@ -1622,32 +1622,36 @@ class KohzuSeqCtl_Monochromator(Device):
 
 class PVPositionerSoftDone(PVPositioner):
     """
-    PVPositioner that uses an internal "done" signal.
+    PVPositioner that computes ``done`` as a soft signal.
 
-    Parameters
-    ----------
+    PARAMETERS
+
     prefix : str, optional
-        The device prefix used for all sub-positioners. This is optional as it
+        The device prefix used for all sub-positioners. 
+        This is optional as it
         may be desirable to specify full PV names for PVPositioners.
     readback_pv : str, optional
-        PV prefix of the readback signal. Disregarded if readback attribute is
-        created.
+        PV prefix of the readback signal. 
+        Disregarded if readback attribute is created.
     setpoint_pv : str, optional
-        PV prefix of the setpoint signal. Disregarded if setpoint attribute is
-        created.
+        PV prefix of the setpoint signal. 
+        Disregarded if setpoint attribute is created.
     tolerance : float, optional
-        Motion tolerance. The motion is considered done if
-        `abs(readback-setpoint) <= tolerance`. Defaults to `10^(-1*precision)`,
-        where `precision = setpoint.precision`
+        Motion tolerance. The motion is considered *done* when::
+        
+            abs(readback-setpoint) <= tolerance
+        
+        Defaults to ``10^(-1*precision)``,
+        where ``precision = setpoint.precision``.
     target_attr : str, optional
-        Used if the setpoint if incrementally controlled by EPICS (like with a
-        ramp). Then a target attribute signal must be defined, and its name
-        passed in this variable.
+        Used if the setpoint is controlled incrementally by EPICS 
+        (like with a ramp). Then a target attribute signal must be
+        defined, and its name passed in this variable.
     kwargs :
         Passed to `ophyd.PVPositioner`
 
-    Attributes
-    ----------
+    ATTRIBUTES
+
     setpoint : Signal
         The setpoint (request) signal
     readback : Signal or None
