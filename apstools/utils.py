@@ -37,7 +37,7 @@ Various utilities
    ~listruns
    ~listruns_v1_4
    ~object_explorer
-   ~OverrideParameters
+   ~apstools._utils.override_parameters.OverrideParameters
    ~pairwise
    ~print_RE_md
    ~print_snapshot_list

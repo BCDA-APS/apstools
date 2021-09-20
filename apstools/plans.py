@@ -4,7 +4,7 @@ Plans that might be useful at the APS when using Bluesky
 .. autosummary::
 
    ~addDeviceDataAsStream
-   ~documentation_run
+   ~apstools._plans.doc_run.documentation_run
    ~execute_command_list
    ~get_command_list
    ~lineup
