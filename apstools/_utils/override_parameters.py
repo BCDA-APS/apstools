@@ -51,10 +51,6 @@ which returns this table::
    ~OverrideParameters
 """
 
-__all__ = [
-    "OverrideParameters",
-]
-
 
 import pandas as pd
 

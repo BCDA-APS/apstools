@@ -1,1 +1,1 @@
-from .override_parameters import *  # noqa
+from .override_parameters import OverrideParameters

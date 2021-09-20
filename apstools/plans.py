@@ -3,7 +3,7 @@ Plans that might be useful at the APS when using Bluesky
 
 .. autosummary::
 
-   ~addDeviceDataAsStream
+   ~apstools._plans.doc_run.addDeviceDataAsStream
    ~apstools._plans.doc_run.documentation_run
    ~execute_command_list
    ~get_command_list
@@ -48,8 +48,8 @@ from ophyd import Device, Component, Signal, DeviceStatus, EpicsSignal
 from ophyd.scaler import ScalerCH, ScalerChannel
 
 from . import utils as APS_utils
-from ._plans import *  # noqa
-
+from ._plans import addDeviceDataAsStream
+from ._plans import documentation_run
 
 logger = logging.getLogger(__name__)
 logger.info(__file__)
