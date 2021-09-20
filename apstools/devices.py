@@ -44,6 +44,7 @@ MOTORS, POSITIONERS, AXES, ...
     ~EpicsMotorServoMixin
     ~EpicsMotorShutter
     ~EpicsOnOffShutter
+    ~PVPositionerSoftDone
 
 SHUTTERS
 
@@ -1665,6 +1666,8 @@ class PVPositionerSoftDone(PVPositioner):
         The stop PV to set when motion should be stopped
     stop_value : any, optional
         The value sent to stop_signal when a stop is requested
+
+    (new in apstools 1.5.2)
     """
 
     # positioner
