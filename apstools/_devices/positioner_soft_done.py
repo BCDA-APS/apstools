@@ -59,6 +59,8 @@ class PVPositionerSoftDone(PVPositioner):
     target : Signal
         The target value of a move request.
 
+        Override (in subclass) with `EpicsSignal` to connect with a PV.
+
         In some controllers (such as temperature controllers),
         the setpoint may be changed incrementally
         towards this target value (such as a ramp or controlled trajectory).
