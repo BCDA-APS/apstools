@@ -8,6 +8,7 @@ from ophyd import PVPositioner
 from ophyd import Signal
 from ophyd import EpicsSignal
 from ophyd import EpicsSignalRO
+from ophyd.signal import EpicsSignalBase
 import logging
 
 
@@ -37,10 +38,6 @@ class PVPositionerSoftDone(PVPositioner):
 
         Defaults to ``10^(-1*precision)``,
         where ``precision = setpoint.precision``.
-    target_attr : str, optional
-        Used if the setpoint is controlled incrementally by EPICS
-        (like with a ramp). Then a target attribute signal must be
-        defined, and its name passed in this variable.
     kwargs :
         Passed to `ophyd.PVPositioner`
 
@@ -59,6 +56,16 @@ class PVPositionerSoftDone(PVPositioner):
         The stop PV to set when motion should be stopped
     stop_value : any, optional
         The value sent to stop_signal when a stop is requested
+    target : Signal
+        The target value of a move request.
+
+        In some controllers (such as temperature controllers),
+        the setpoint may be changed incrementally
+        towards this target value (such as a ramp or controlled trajectory).
+        In such cases, the ``target`` will be final value while ``setpoint``
+        will be the current desired position.
+
+        Otherwise, both ``setpoint`` and ``target`` will be set to the same value.
 
     (new in apstools 1.5.2)
     """
@@ -76,6 +83,8 @@ class PVPositionerSoftDone(PVPositioner):
     tolerance = Component(Signal, value=-1, kind="config")
     report_dmov_changes = Component(Signal, value=False, kind="omitted")
 
+    target = Component(Signal, value=None, kind="config")
+
     @property
     def precision(self):
         return self.setpoint.precision
@@ -84,7 +93,7 @@ class PVPositionerSoftDone(PVPositioner):
         """
         Called when readback changes (EPICS CA monitor event).
         """
-        diff = self.readback.get() - self._target.get()
+        diff = self.readback.get() - self.setpoint.get()
         _tolerance = (
             self.tolerance.get()
             if self.tolerance.get() >= 0
@@ -112,7 +121,6 @@ class PVPositionerSoftDone(PVPositioner):
         readback_pv="",
         setpoint_pv="",
         tolerance=None,
-        target_attr="setpoint",
         **kwargs,
     ):
 
@@ -120,8 +128,6 @@ class PVPositionerSoftDone(PVPositioner):
         self._readback_pv = readback_pv
 
         super().__init__(prefix=prefix, **kwargs)
-
-        self._target = getattr(self, target_attr)
 
         # Make the default alias for the readback the name of the
         # positioner itself as in EpicsMotor.
@@ -135,9 +141,11 @@ class PVPositionerSoftDone(PVPositioner):
     def _setup_move(self, position):
         """Move and do not wait until motion is complete (asynchronous)"""
         self.log.debug("%s.setpoint = %s", self.name, position)
-        self._target.put(position, wait=True)
-        if self._target != self.setpoint:
-            self.setpoint.put(position, wait=True)
+        kwargs = {}
+        if issubclass(self.target.__class__, EpicsSignalBase):
+            kwargs["wait"] = True  # Signal.put() warns if kwargs are given
+        self.target.put(position, **kwargs)
+        self.setpoint.put(position, wait=True)
         if self.actuate is not None:
             self.log.debug("%s.actuate = %s", self.name, self.actuate_value)
             self.actuate.put(self.actuate_value, wait=False)
