@@ -1114,13 +1114,11 @@ def listruns(
         until=until,
     )
 
-    # fmt: off
-    table_format_function = dict(
-        dataframe=lr.to_dataframe,
-        table=lr.to_table,
-    ).get(tablefmt or "dataframe", lr.to_table)
-    # fmt: on
-    obj = table_format_function()
+    tablefmt = tablefmt or "dataframe"
+    if tablefmt == "dataframe":
+        obj = lr.to_dataframe()
+    else:
+        obj = lr.to_table()
 
     do_print = False
     if printing:
@@ -1128,6 +1126,8 @@ def listruns(
             print(f"catalog: {lr.cat.name}")
         if printing == "smart":
             try:
+                from IPython import get_ipython
+
                 get_ipython()  # console or notebook will handle
             except NameError:
                 do_print = True  # we print it here
