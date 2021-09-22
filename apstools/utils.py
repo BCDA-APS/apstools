@@ -1120,22 +1120,9 @@ def listruns(
     else:
         obj = lr.to_table()
 
-    do_print = False
     if printing:
         if lr.cat is not None:
             print(f"catalog: {lr.cat.name}")
-        if printing == "smart":
-            try:
-                from IPython import get_ipython
-
-                get_ipython()  # console or notebook will handle
-            except NameError:
-                do_print = True  # we print it here
-            if tablefmt == "table":
-                do_print = True
-        else:
-            do_print = True
-    if do_print:
         print(obj)
         return
     return obj
