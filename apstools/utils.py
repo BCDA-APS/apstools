@@ -875,6 +875,7 @@ class ListRuns:
     sortby: str = "time"
     timefmt: str = "%Y-%m-%d %H:%M:%S"
     until: str = None
+    ids: "typing.Any" = None
 
     _default_keys = "scan_id time plan_name detectors"
 
@@ -954,16 +955,28 @@ class ListRuns:
         results = {k: [] for k in self.keys}
         sequence = ()  # iterable of run uids
 
-        if isinstance(cat, BlueskyMongoCatalog) and self.sortby == "time":
-            if self.reverse:
-                # the default rendering: from MongoDB in reverse time order
-                sequence = iter(cat)
-            else:
-                # by increasing time order
-                sequence = [uid for uid in cat][::-1]
+        if self.ids is not None:
+            sequence = [k for k in self.ids if k in cat]
+            sequence = []
+            for k in self.ids:
+                if k in cat:
+                    sequence.append(k)
+                else:
+                    logger.warning(
+                        "Could not find run %s in catalog %s with given search terms",
+                        k, self.cat.name
+                    )
         else:
-            # full search in Python
-            sequence = sorted(cat.keys(), key=_sort, reverse=self.reverse)
+            if isinstance(cat, BlueskyMongoCatalog) and self.sortby == "time":
+                if self.reverse:
+                    # the default rendering: from MongoDB in reverse time order
+                    sequence = iter(cat)
+                else:
+                    # by increasing time order
+                    sequence = [uid for uid in cat][::-1]
+            else:
+                # full search in Python
+                sequence = sorted(cat.keys(), key=_sort, reverse=self.reverse)
 
         count = 0
         for uid in sequence:
@@ -1013,6 +1026,7 @@ def listruns(
     tablefmt="dataframe",
     timefmt="%Y-%m-%d %H:%M:%S",
     until=None,
+    ids=None,
     **query,
 ):
     """
@@ -1039,6 +1053,10 @@ def listruns(
         *str*:
         Test to report when a value is not available.
         (default: ``""``)
+    ids
+        *int* or *str* or *[int]* or *[str]*:
+        Single (or list of) `uid` or `scan_id` value(s).
+        (default: ``None``)
     num
         *int* :
         Make the table include the ``num`` most recent runs.
@@ -1123,6 +1141,7 @@ def listruns(
         sortby=sortby,
         timefmt=timefmt,
         until=until,
+        ids=ids,
     )
 
     tablefmt = tablefmt or "dataframe"
