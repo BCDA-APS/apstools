@@ -73,6 +73,7 @@ from bluesky import plan_stubs as bps
 from bluesky.callbacks.best_effort import BestEffortCallback
 from collections import defaultdict
 from collections import OrderedDict
+from databroker._drivers.mongo_normalized import BlueskyMongoCatalog
 from dataclasses import dataclass
 from email.mime.text import MIMEText
 from event_model import NumpyEncoder
@@ -941,18 +942,39 @@ class ListRuns:
         """Parse the runs for the given metadata keys.  Return a dict."""
         self._check_keys()
         cat = self._apply_search_filters()
+
+        def _sort(uid):
+            """Sort runs in desired order based on metadata key."""
+            md = self.cat[uid].metadata
+            for doc in "start stop".split():
+                if md[doc] and self.sortby in md[doc]:
+                    return md[doc][self.sortby] or self.missing
+            return self.missing
+
         num_runs_requested = min(abs(self.num), len(cat))
-        # TODO: simplify
-        dd = {
-            key: [
-                self._get_by_key(run.metadata, key)
-                for _, run in sorted(
-                    cat.items(), key=self._sorter, reverse=self.reverse
-                )[:num_runs_requested]
-            ]
-            for key in self.keys
-        }
-        return dd
+        results = {k: [] for k in self.keys}
+        sequence = ()  # iterable of run uids
+
+        if isinstance(cat, BlueskyMongoCatalog) and self.sortby == "time":
+            if self.reverse:
+                # the default rendering: from MongoDB in reverse time order
+                sequence = iter(cat)
+            else:
+                # by increasing time order
+                sequence = [uid for uid in cat][::-1]
+        else:
+            # full search in Python
+            sequence = sorted(cat.keys(), key=_sort, reverse=self.reverse)
+
+        count = 0
+        for uid in sequence:
+            run = cat[uid]
+            for k in self.keys:
+                results[k].append(self._get_by_key(run.metadata, k))
+            count += 1
+            if count >= num_runs_requested:
+                break
+        return results
 
     def _sorter(self, args):
         """Sort runs in desired order based on metadata key."""
