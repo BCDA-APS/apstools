@@ -942,6 +942,7 @@ class ListRuns:
         self._check_keys()
         cat = self._apply_search_filters()
         num_runs_requested = min(abs(self.num), len(cat))
+        # TODO: simplify
         dd = {
             key: [
                 self._get_by_key(run.metadata, key)
@@ -971,13 +972,11 @@ class ListRuns:
 
     def to_dataframe(self):
         """Output as pandas DataFrame object"""
-        self._check_keys()
         dd = self.parse_runs()
         return pd.DataFrame(dd, columns=self.keys)
 
     def to_table(self, fmt=None):
         """Output as pyRestTable object."""
-        self._check_keys()
         dd = self.parse_runs()
 
         table = pyRestTable.Table()
