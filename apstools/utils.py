@@ -96,6 +96,7 @@ import subprocess
 import sys
 import threading
 import time
+import typing
 import warnings
 import zipfile
 
@@ -964,7 +965,8 @@ class ListRuns:
                 else:
                     logger.warning(
                         "Could not find run %s in catalog %s with given search terms",
-                        k, self.cat.name
+                        k,
+                        self.cat.name,
                     )
         else:
             if isinstance(cat, BlueskyMongoCatalog) and self.sortby == "time":
