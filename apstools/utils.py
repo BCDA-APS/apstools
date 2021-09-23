@@ -938,7 +938,6 @@ class ListRuns:
 
     def parse_runs(self):
         """Parse the runs for the given metadata keys.  Return a dict."""
-        self._check_cat()
         self._check_keys()
         cat = self._apply_search_filters()
         num_runs_requested = min(abs(self.num), len(cat))
