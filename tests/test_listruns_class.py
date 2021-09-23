@@ -192,15 +192,20 @@ def test_ListRuns_query(lr):
     # TODO: more?
 
 
-def test_ListRuns_reverse(lr):
+# fmt: off
+@pytest.mark.parametrize(
+    "reverse",
+    [
+        (True),
+        (False),
+    ],
+)
+def test_ListRuns_reverse(reverse, lr):
     # include with some data missing or None
-    # default
+    lr.reverse = reverse
     dd = lr.parse_runs()
-    assert dd["time"] == sorted(dd["time"], reverse=True)
-
-    lr.reverse = False
-    dd = lr.parse_runs()
-    assert dd["time"] == sorted(dd["time"], reverse=False)
+    assert dd["time"] == sorted(dd["time"], reverse=reverse)
+# fmt: on
 
 
 def test_ListRuns_since(lr):
