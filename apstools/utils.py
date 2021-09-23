@@ -1056,8 +1056,13 @@ def listruns(
         Test to report when a value is not available.
         (default: ``""``)
     ids
-        *int* or *str* or *[int]* or *[str]*:
-        Single (or list of) `uid` or `scan_id` value(s).
+        *[int]* or *[str]*:
+        List of ``uid`` or ``scan_id`` value(s).
+        Can mix different kinds in the same list.
+        Also can specify offsets (e.g., ``-1``).
+        According to the rules for ``databroker`` catalogs,
+        a string is a ``uid`` (partial representations allowed),
+        an int is ``scan_id`` if positive or an offset if negative.
         (default: ``None``)
     num
         *int* :
