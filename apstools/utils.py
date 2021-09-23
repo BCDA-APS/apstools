@@ -861,7 +861,6 @@ class ListRuns:
         ~_get_by_key
         ~_check_cat
         ~_apply_search_filters
-        ~_sorter
         ~_check_keys
 
     """
@@ -975,15 +974,6 @@ class ListRuns:
             if count >= num_runs_requested:
                 break
         return results
-
-    def _sorter(self, args):
-        """Sort runs in desired order based on metadata key."""
-        # args : (uid, run)
-        md = args[1].metadata
-        for doc in "start stop".split():
-            if md[doc] and self.sortby in md[doc]:
-                return md[doc][self.sortby] or self.missing
-        return self.missing
 
     def _check_keys(self):
         """Check that self.keys is a list of strings."""
