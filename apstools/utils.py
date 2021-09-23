@@ -927,6 +927,7 @@ class ListRuns:
             self.cat = getCatalog()
 
     def _apply_search_filters(self):
+        """Search for runs from the catalog."""
         since = self.since or FIRST_DATA
         until = self.until or LAST_DATA
         self._check_cat()
