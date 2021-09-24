@@ -7,7 +7,9 @@ Change History
 The project `milestones <https://github.com/BCDA-APS/apstools/milestones>`_
 describe the future plans.
 
-:1.5.2:  release expected by 2021-08-31
+:1.5.2:  release expected by 2021-09-30
+
+   * drop Codacy (https://app.codacy.com/gh/BCDA-APS/apstools) as no longer needed
 
 :1.5.1:  release expected by 2021-07-31
 
