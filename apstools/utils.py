@@ -964,7 +964,7 @@ class ListRuns:
                     sequence.append(k)
                 except Exception as exc:
                     logger.warning(
-                        "Could not find run %s in catalog %s with given search terms: %s",
+                        "Could not find run %s in search of catalog %s: %s",
                         k,
                         self.cat.name,
                         exc,
