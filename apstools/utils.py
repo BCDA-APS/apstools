@@ -959,13 +959,15 @@ class ListRuns:
         if self.ids is not None:
             sequence = []
             for k in self.ids:
-                if k in cat:
+                try:
+                    run = cat[k]
                     sequence.append(k)
-                else:
+                except Exception as exc:
                     logger.warning(
-                        "Could not find run %s in catalog %s with given search terms",
+                        "Could not find run %s in catalog %s with given search terms: %s",
                         k,
                         self.cat.name,
+                        exc
                     )
         else:
             if isinstance(cat, BlueskyMongoCatalog) and self.sortby == "time":
