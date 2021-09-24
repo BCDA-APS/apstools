@@ -957,7 +957,6 @@ class ListRuns:
         sequence = ()  # iterable of run uids
 
         if self.ids is not None:
-            sequence = [k for k in self.ids if k in cat]
             sequence = []
             for k in self.ids:
                 if k in cat:
