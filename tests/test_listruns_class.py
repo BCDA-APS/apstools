@@ -25,9 +25,7 @@ def lr():
 def test_getDefaultCatalog_none_found():
     with pytest.raises(ValueError) as exinfo:
         APS_utils.getDefaultCatalog()
-    assert "Multiple catalog configurations available." in str(
-        exinfo.value
-    )
+    assert "Multiple catalog configurations available." in str(exinfo.value)
 
 
 def test_getDefaultCatalog(cat):
@@ -44,9 +42,7 @@ def test_getDefaultCatalog_many_found(cat):
 
     with pytest.raises(ValueError) as exinfo:
         APS_utils.getDefaultCatalog()
-    assert "Multiple catalog objects available." in str(
-        exinfo.value
-    )
+    assert "Multiple catalog objects available." in str(exinfo.value)
 
 
 def test_getCatalog():
@@ -183,13 +179,31 @@ def test_ListRuns_to_num(lr):
     assert 0 <= len(dd["time"]) <= lr.num
 
 
-def test_ListRuns_query(lr):
+def test_ListRuns_query_count(lr):
     lr.query = dict(plan_name="count")
     dd = lr.parse_runs()
     assert 0 <= len(dd["time"]) <= lr.num
     for v in dd["plan_name"]:
         assert v == "count"
-    # TODO: more?
+
+
+# fmt: off
+@pytest.mark.parametrize(
+    "nruns, query",
+    [
+        (27, dict(scan_id={"$lt": 20})),
+        (26, dict(plan_name="count")),
+        (0, dict(scan_id={"$lt": 20}, plan_name="count")),
+        (19, dict(scan_id={"$gte": 100})),
+        (19, dict(scan_id={"$gte": 100}, plan_name="count")),
+    ],
+)
+def test_ListRuns_query_parametrize(nruns, query, lr):
+    lr.num = 100
+    lr.query = query
+    dd = lr.parse_runs()
+    assert len(dd["time"]) == nruns
+# fmt: on
 
 
 # fmt: off
@@ -255,9 +269,7 @@ def test_ListRuns_timefmt(lr):
     lr.timefmt = None
     with pytest.raises(TypeError) as exinfo:
         lr.parse_runs()
-    assert "strftime() argument 1 must be str, not None" in str(
-        exinfo.value
-    )
+    assert "strftime() argument 1 must be str, not None" in str(exinfo.value)
 
     # wrong format
     lr.timefmt = "no such format"
@@ -316,22 +328,38 @@ def test_ListRuns_until(lr):
         assert v < lr.until
 
 
-def test_listruns(cat):
-    lr = APS_utils.listruns(cat=cat, printing=False)
+# fmt: off
+@pytest.mark.parametrize(
+    "tablefmt, structure",
+    [
+        (None, pd.DataFrame),
+        ("dataframe", pd.DataFrame),
+        ("table", str),
+        ("no such format", str),
+    ],
+)
+def test_listruns_tablefmt(tablefmt, structure, cat):
+    lr = APS_utils.listruns(cat=cat, tablefmt=tablefmt, printing=False)
     assert lr is not None
-    assert isinstance(lr, pd.DataFrame)
+    assert isinstance(lr, structure)
+# fmt: on
 
-    lr = APS_utils.listruns(
-        cat=cat, tablefmt="dataframe", printing=False)
-    assert lr is not None
-    assert isinstance(lr, pd.DataFrame)
 
-    lr = APS_utils.listruns(
-        cat=cat, tablefmt="table", printing=False)
-    assert lr is not None
-    assert isinstance(lr, str)
-
-    lr = APS_utils.listruns(
-        cat=cat, tablefmt="no such format", printing=False)
-    assert lr is not None
-    assert isinstance(lr, str)
+# fmt: off
+@pytest.mark.parametrize(
+    "ids, nresults",
+    [
+        ([130, 131, 132], 3),
+        ([1234], 0),
+        (["bb7e0", ], 1),
+        ([-2, -4, -10, -8], 4),
+        ([], 0),
+        ([-2, 131, "3e89a", 1234567, "1234567"], 3),
+    ],
+)
+def test_ListRuns_ids(ids, nresults, lr):
+    # include with some data missing or None
+    lr.ids = ids
+    dd = lr.parse_runs()
+    assert len(dd["time"]) == nresults
+# fmt: on
