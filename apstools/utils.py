@@ -37,6 +37,7 @@ Various utilities
    ~listruns
    ~listruns_v1_4
    ~object_explorer
+   ~apstools._utils.override_parameters.OverrideParameters
    ~pairwise
    ~print_RE_md
    ~print_snapshot_list
@@ -101,6 +102,7 @@ import warnings
 import zipfile
 
 from .filewriters import _rebuild_scan_command
+from ._utils import OverrideParameters
 
 
 logger = logging.getLogger(__name__)
@@ -424,9 +426,9 @@ def db_query(db, query):
         Bluesky database, an instance of ``databroker.catalog``
         satisfying the ``query`` parameters.
 
-    See also
-    --------
-    :func:`databroker.catalog.search`
+    See also:
+
+    * :func:`databroker.catalog.search`
     """
 
     if query is None:

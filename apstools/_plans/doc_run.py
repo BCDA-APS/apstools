@@ -7,8 +7,6 @@
    ~documentation_run
 """
 
-__all__ = "addDeviceDataAsStream documentation_run".split()
-
 from .. utils import ipython_shell_namespace
 from bluesky import plan_stubs as bps
 from ophyd import Signal

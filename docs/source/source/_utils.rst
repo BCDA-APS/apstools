@@ -8,3 +8,8 @@ here.
 
 .. automodule:: apstools.utils
     :members:
+
+----
+
+.. automodule:: apstools._utils.override_parameters
+    :members:
