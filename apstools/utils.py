@@ -960,7 +960,7 @@ class ListRuns:
             sequence = []
             for k in self.ids:
                 try:
-                    run = cat[k]
+                    cat[k]  # try to access the run using `k`
                     sequence.append(k)
                 except Exception as exc:
                     logger.warning(
