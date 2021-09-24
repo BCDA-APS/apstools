@@ -967,7 +967,7 @@ class ListRuns:
                         "Could not find run %s in catalog %s with given search terms: %s",
                         k,
                         self.cat.name,
-                        exc
+                        exc,
                     )
         else:
             if isinstance(cat, BlueskyMongoCatalog) and self.sortby == "time":
