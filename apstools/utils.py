@@ -73,6 +73,7 @@ from bluesky import plan_stubs as bps
 from bluesky.callbacks.best_effort import BestEffortCallback
 from collections import defaultdict
 from collections import OrderedDict
+from databroker._drivers.mongo_normalized import BlueskyMongoCatalog
 from dataclasses import dataclass
 from email.mime.text import MIMEText
 from event_model import NumpyEncoder
@@ -95,6 +96,7 @@ import subprocess
 import sys
 import threading
 import time
+import typing
 import warnings
 import zipfile
 
@@ -860,7 +862,6 @@ class ListRuns:
         ~_get_by_key
         ~_check_cat
         ~_apply_search_filters
-        ~_sorter
         ~_check_keys
 
     """
@@ -875,6 +876,7 @@ class ListRuns:
     sortby: str = "time"
     timefmt: str = "%Y-%m-%d %H:%M:%S"
     until: str = None
+    ids: "typing.Any" = None
 
     _default_keys = "scan_id time plan_name detectors"
 
@@ -927,6 +929,7 @@ class ListRuns:
             self.cat = getCatalog()
 
     def _apply_search_filters(self):
+        """Search for runs from the catalog."""
         since = self.since or FIRST_DATA
         until = self.until or LAST_DATA
         self._check_cat()
@@ -938,29 +941,55 @@ class ListRuns:
 
     def parse_runs(self):
         """Parse the runs for the given metadata keys.  Return a dict."""
-        self._check_cat()
         self._check_keys()
         cat = self._apply_search_filters()
-        num_runs_requested = min(abs(self.num), len(cat))
-        dd = {
-            key: [
-                self._get_by_key(run.metadata, key)
-                for _, run in sorted(
-                    cat.items(), key=self._sorter, reverse=self.reverse
-                )[:num_runs_requested]
-            ]
-            for key in self.keys
-        }
-        return dd
 
-    def _sorter(self, args):
-        """Sort runs in desired order based on metadata key."""
-        # args : (uid, run)
-        md = args[1].metadata
-        for doc in "start stop".split():
-            if md[doc] and self.sortby in md[doc]:
-                return md[doc][self.sortby] or self.missing
-        return self.missing
+        def _sort(uid):
+            """Sort runs in desired order based on metadata key."""
+            md = self.cat[uid].metadata
+            for doc in "start stop".split():
+                if md[doc] and self.sortby in md[doc]:
+                    return md[doc][self.sortby] or self.missing
+            return self.missing
+
+        num_runs_requested = min(abs(self.num), len(cat))
+        results = {k: [] for k in self.keys}
+        sequence = ()  # iterable of run uids
+
+        if self.ids is not None:
+            sequence = []
+            for k in self.ids:
+                try:
+                    run = cat[k]
+                    sequence.append(k)
+                except Exception as exc:
+                    logger.warning(
+                        "Could not find run %s in search of catalog %s: %s",
+                        k,
+                        self.cat.name,
+                        exc,
+                    )
+        else:
+            if isinstance(cat, BlueskyMongoCatalog) and self.sortby == "time":
+                if self.reverse:
+                    # the default rendering: from MongoDB in reverse time order
+                    sequence = iter(cat)
+                else:
+                    # by increasing time order
+                    sequence = [uid for uid in cat][::-1]
+            else:
+                # full search in Python
+                sequence = sorted(cat.keys(), key=_sort, reverse=self.reverse)
+
+        count = 0
+        for uid in sequence:
+            run = cat[uid]
+            for k in self.keys:
+                results[k].append(self._get_by_key(run.metadata, k))
+            count += 1
+            if count >= num_runs_requested:
+                break
+        return results
 
     def _check_keys(self):
         """Check that self.keys is a list of strings."""
@@ -971,13 +1000,11 @@ class ListRuns:
 
     def to_dataframe(self):
         """Output as pandas DataFrame object"""
-        self._check_keys()
         dd = self.parse_runs()
         return pd.DataFrame(dd, columns=self.keys)
 
     def to_table(self, fmt=None):
         """Output as pyRestTable object."""
-        self._check_keys()
         dd = self.parse_runs()
 
         table = pyRestTable.Table()
@@ -1002,6 +1029,7 @@ def listruns(
     tablefmt="dataframe",
     timefmt="%Y-%m-%d %H:%M:%S",
     until=None,
+    ids=None,
     **query,
 ):
     """
@@ -1028,6 +1056,15 @@ def listruns(
         *str*:
         Test to report when a value is not available.
         (default: ``""``)
+    ids
+        *[int]* or *[str]*:
+        List of ``uid`` or ``scan_id`` value(s).
+        Can mix different kinds in the same list.
+        Also can specify offsets (e.g., ``-1``).
+        According to the rules for ``databroker`` catalogs,
+        a string is a ``uid`` (partial representations allowed),
+        an int is ``scan_id`` if positive or an offset if negative.
+        (default: ``None``)
     num
         *int* :
         Make the table include the ``num`` most recent runs.
@@ -1112,30 +1149,18 @@ def listruns(
         sortby=sortby,
         timefmt=timefmt,
         until=until,
+        ids=ids,
     )
 
-    # fmt: off
-    table_format_function = dict(
-        dataframe=lr.to_dataframe,
-        table=lr.to_table,
-    ).get(tablefmt or "dataframe", lr.to_table)
-    # fmt: on
-    obj = table_format_function()
+    tablefmt = tablefmt or "dataframe"
+    if tablefmt == "dataframe":
+        obj = lr.to_dataframe()
+    else:
+        obj = lr.to_table()
 
-    do_print = False
     if printing:
         if lr.cat is not None:
             print(f"catalog: {lr.cat.name}")
-        if printing == "smart":
-            try:
-                get_ipython()  # console or notebook will handle
-            except NameError:
-                do_print = True  # we print it here
-            if tablefmt == "table":
-                do_print = True
-        else:
-            do_print = True
-    if do_print:
         print(obj)
         return
     return obj
