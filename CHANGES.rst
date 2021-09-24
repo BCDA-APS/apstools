@@ -11,21 +11,21 @@ describe the future plans.
 
    * Drop Codacy (https://app.codacy.com/gh/BCDA-APS/apstools) as no longer needed.
 
-   * `#534 <https://github.com/BCDA-APS/apstools/issues/534>`_
+   * `#534 <https://github.com/BCDA-APS/apstools/pull/534>`_
       Add ``apstools.utils.OverrideParameters`` class.
       Hoisted from APS USAXS instrument.
 
-   * `#537 <https://github.com/BCDA-APS/apstools/issues/537>`_
+   * `#537 <https://github.com/BCDA-APS/apstools/pull/537>`_
       Enhancements to ``apstools.utils.listruns()``:
 
       * Add search by list of ``scan_id`` or ``uid`` values.
       * Optimize search speed.
 
-   * `#534 <https://github.com/BCDA-APS/apstools/issues/534>`_
+   * `#534 <https://github.com/BCDA-APS/apstools/pull/534>`_
       Add ``apstools.plans.documentation_run()`` plan.
       Hoisted from APS USAXS instrument.
 
-   * `#528 <https://github.com/BCDA-APS/apstools/issues/528>`_
+   * `#528 <https://github.com/BCDA-APS/apstools/pull/528>`_
       Add ``kind=`` kwarg to synApps Devices.
 
 :1.5.1:  release expected by 2021-07-31
