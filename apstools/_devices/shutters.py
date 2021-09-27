@@ -144,9 +144,7 @@ class ShutterBase(Device):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.valid_open_values = list(
-            map(self.lowerCaseString, self.valid_open_values)
-        )
+        self.valid_open_values = list(map(self.lowerCaseString, self.valid_open_values))
         self.valid_close_values = list(
             map(self.lowerCaseString, self.valid_close_values)
         )
@@ -538,9 +536,7 @@ class ApsPssShutterWithStatus(ApsPssShutter):
             up to a maximum time of ``_poll_s_max_``.
         """
         if timeout is not None:
-            expiration = time.time() + max(
-                timeout, 0
-            )  # ensure non-negative timeout
+            expiration = time.time() + max(timeout, 0)  # ensure non-negative timeout
         else:
             expiration = None
 
@@ -565,9 +561,7 @@ class ApsPssShutterWithStatus(ApsPssShutter):
             self.open_signal.put(1)
 
             # wait for the shutter to move
-            self.wait_for_state(
-                self.pss_state_open_values, timeout=timeout
-            )
+            self.wait_for_state(self.pss_state_open_values, timeout=timeout)
 
             # wait as caller specified
             if self.delay_s > 0:
@@ -583,9 +577,7 @@ class ApsPssShutterWithStatus(ApsPssShutter):
             self.close_signal.put(1)
 
             # wait for the shutter to move
-            self.wait_for_state(
-                self.pss_state_closed_values, timeout=timeout
-            )
+            self.wait_for_state(self.pss_state_closed_values, timeout=timeout)
 
             # wait as caller specified
             if self.delay_s > 0:
@@ -614,9 +606,7 @@ class SimulatedApsPssShutterWithStatus(ApsPssShutterWithStatus):
 
     def __init__(self, *args, **kwargs):
         # was: super(ApsPssShutter, self).__init__("", *args, **kwargs)
-        super(SimulatedApsPssShutterWithStatus, self).__init__(
-            "", "", *args, **kwargs
-        )
+        super(SimulatedApsPssShutterWithStatus, self).__init__("", "", *args, **kwargs)
         self.pss_state_open_values += self.valid_open_values
         self.pss_state_closed_values += self.valid_close_values
 
@@ -690,15 +680,9 @@ class EpicsMotorShutter(OneSignalShutter):
     @property
     def state(self):
         """is shutter "open", "close", or "unknown"?"""
-        if (
-            abs(self.signal.user_readback.get() - self.open_value)
-            <= self.tolerance
-        ):
+        if abs(self.signal.user_readback.get() - self.open_value) <= self.tolerance:
             result = self.valid_open_values[0]
-        elif (
-            abs(self.signal.user_readback.get() - self.close_value)
-            <= self.tolerance
-        ):
+        elif abs(self.signal.user_readback.get() - self.close_value) <= self.tolerance:
             result = self.valid_close_values[0]
         else:
             result = self.unknown_state
