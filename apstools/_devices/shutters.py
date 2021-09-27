@@ -22,6 +22,7 @@ from ophyd import EpicsSignalRO
 from ophyd import FormattedComponent
 from ophyd import Signal
 
+import numpy as np
 import threading
 import time
 
