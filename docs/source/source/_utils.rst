@@ -9,7 +9,8 @@ here.
 .. automodule:: apstools.utils
     :members:
 
-----
+Submodules
+++++++++++
 
 .. automodule:: apstools._utils.override_parameters
     :members:
