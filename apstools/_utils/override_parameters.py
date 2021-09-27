@@ -1,5 +1,8 @@
 """
-**OverrideParameters** : Define parameters that can be overridden from a user configuration file.
+OverrideParameters
++++++++++++++++++++++++++++++++++++++++
+
+Define parameters that can be overridden from a user configuration file.
 
 EXAMPLE:
 

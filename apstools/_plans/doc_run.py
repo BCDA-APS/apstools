@@ -1,5 +1,6 @@
 """
-----
+Documentation of batch runs
++++++++++++++++++++++++++++++++++++++++
 
 .. autosummary::
 
