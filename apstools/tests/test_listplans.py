@@ -4,7 +4,40 @@ test issue listplans() command
 
 from ..devices import SimulatedApsPssShutterWithStatus
 from ..utils import listplans
+from bluesky import Msg
+from bluesky import plans as bp
 import pandas as pd
+import pytest
+
+
+@pytest.fixture(scope="function")
+def ns():
+    try:
+        from IPython import get_ipython
+
+        ns = get_ipython().user_ns
+    except (ModuleNotFoundError, AttributeError):
+        ns = globals()
+    return ns
+
+
+def my_generator_function():
+    yield 1
+
+
+class MyClass:
+    def a_generator_function_method(self):
+        yield 1
+
+    def regular_method(self):
+        pass
+
+    def undecorated_plan(self):
+        yield Msg("testing")
+
+
+my_class = MyClass()
+shutter = SimulatedApsPssShutterWithStatus(name="shutter")
 
 
 def test_basic():
@@ -14,22 +47,83 @@ def test_basic():
     assert len(result) == 0
 
 
-def test_in_class():
-    def f1():
-        yield 1
+@pytest.mark.parametrize(
+    "item, exists",
+    [
+        ["test_globals", True],
+        ["my_generator_function", True],
+        ["MyClass", True],
+        ["my_class", True],
+        ["my_class.a_generator_function_method", False],
+        ["my_class.regular_method", False],
+        ["hollerin_down_the_hall", False],
+    ],
+)
+def test_globals(item, exists, ns):
+    assert (item in ns) == exists, f"{item=}  {exists=}"
 
-    class C1:
-        def f2(self):
-            yield 1
-    c1 = C1()
 
-    result = listplans(c1)
-    assert len(result) == 1
+@pytest.mark.parametrize(
+    "item, exists",
+    [
+        ["test_globals", False],
+        ["my_generator_function", False],
+        ["MyClass", False],
+        ["my_class", False],
+        ["my_class.a_generator_function_method", False],
+        ["my_class.regular_method", False],
+        ["a_generator_function_method", True],
+        ["regular_method", False],
+        ["undecorated_plan", True],
+        ["hollerin_down_the_hall", False],
+    ],
+)
+def test_in_class(item, exists):
+    result = listplans(my_class)
+    generators = result["plan"].to_list()
+    assert (item in generators) == exists, f"{item=}  {exists=} {generators=}"
 
 
-def test_shutter():
-    shutter = SimulatedApsPssShutterWithStatus(name="shutter")
+@pytest.mark.parametrize(
+    "item, plan_name",
+    [
+        [0, "shutter.get_instantiated_signals"],
+        [2, "shutter.walk_signals"],
+        [4, "shutter.walk_subdevices"],
+    ],
+)
+def test_shutter(item, plan_name):
     result = listplans(shutter)
-    assert len(result) == 5
-    assert result["plan"][0] == "shutter.get_instantiated_signals"
-    assert result["plan"][4] == "shutter.walk_subdevices"
+    assert result["plan"][item] == plan_name
+
+
+@pytest.mark.parametrize(
+    "item, plan_name",
+    [
+        [0, "bluesky.plans.adaptive_scan"],
+        [4, "bluesky.plans.inner_product_scan"],
+        [34, "bluesky.plans.x2x_scan"],
+    ],
+)
+def test_bluesky_plans(item, plan_name):
+    result = listplans(bp)
+    assert result["plan"][item] == plan_name
+
+
+@pytest.mark.parametrize(
+    "library, length",
+    [
+        [None, 0],
+        [bp, 35],
+        [pytest, 0],
+        [shutter, 5],
+        [globals(), 0],
+        [my_class, 2],
+        ["ns", 0],
+    ],
+)
+def test_number(library, length, ns):
+    if library == "ns":
+        library = ns
+    result = listplans(library)
+    assert len(result) == length

@@ -8,8 +8,11 @@ Documentation of batch runs
 """
 
 import inspect
+import logging
 from ophyd.ophydobj import OphydObject
 import pandas as pd
+
+logger = logging.getLogger(__name__)
 
 
 def listplans(base=None, trunc=40):
@@ -33,15 +36,32 @@ def listplans(base=None, trunc=40):
         Truncate long docstrings to no more than ``trunc`` characters.
         (default: 40)
     """
-    prefix = ""
     if base is None:
-        _gg = {k: v for k, v in globals().items() if not k.startswith("_")}
+        try:
+            from IPython import get_ipython
+
+            base = get_ipython().user_global_ns
+            # logger.debug("IPython user global namespace: %s", base.keys())
+        except (ModuleNotFoundError, AttributeError):
+            base = globals()
+            # logger.debug("globals() namespace: %s", base.keys())
+        _gg = {k: v for k, v in base.items() if not k.startswith("_")}
     else:
-        _gg = {k: getattr(base, k) for k in dir(base) if not k.startswith("_")}
-        if inspect.ismodule(base):
-            prefix = base.__name__ + "."
-        if isinstance(base, OphydObject):
-            prefix = base.name + "."
+        # fmt: off
+        _gg = {
+            k: getattr(base, k)
+            for k in dir(base)
+            if not k.startswith("_")  # not interested in these
+            if k not in ("signal_names", )  # names to avoid
+        }
+        # fmt: on
+
+    if inspect.ismodule(base):
+        prefix = base.__name__ + "."
+    elif isinstance(base, OphydObject):
+        prefix = base.name + "."
+    else:
+        prefix = ""
 
     dd = dict(plan=[], doc=[])
 
