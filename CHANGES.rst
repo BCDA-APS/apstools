@@ -11,6 +11,9 @@ describe the future plans.
 
    * Drop Codacy (https://app.codacy.com/gh/BCDA-APS/apstools) as no longer needed.
 
+   * `#540 <https://github.com/BCDA-APS/apstools/pull/540>`_
+      Add ``apstools.utils.listruns()`` function.
+
    * `#534 <https://github.com/BCDA-APS/apstools/pull/534>`_
       Add ``apstools.utils.OverrideParameters`` class.
       Hoisted from APS USAXS instrument.
