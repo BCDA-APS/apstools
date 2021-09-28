@@ -8,6 +8,7 @@ Plans that might be useful at the APS when using Bluesky
    ~execute_command_list
    ~get_command_list
    ~lineup
+   ~apstools._plans.list_plans.listplans
    ~nscan
    ~parse_Excel_command_file
    ~parse_text_command_file
@@ -50,6 +51,7 @@ from ophyd.scaler import ScalerCH, ScalerChannel
 from . import utils as APS_utils
 from ._plans import addDeviceDataAsStream
 from ._plans import documentation_run
+from ._plans import listplans
 
 logger = logging.getLogger(__name__)
 logger.info(__file__)
