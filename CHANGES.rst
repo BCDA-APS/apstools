@@ -28,6 +28,9 @@ describe the future plans.
    * `#528 <https://github.com/BCDA-APS/apstools/pull/528>`_
       Add ``kind=`` kwarg to synApps Devices.
 
+   * `#539 <https://github.com/BCDA-APS/apstools/pull/539>`_
+      Break ``devices`` into submodule ``_devices``.
+
 :1.5.1:  release expected by 2021-07-31
 
    * `#522 <https://github.com/BCDA-APS/apstools/issues/522>`_

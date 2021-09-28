@@ -1,5 +1,6 @@
 """
-----
+Documentation of batch runs
++++++++++++++++++++++++++++++++++++++++
 
 .. autosummary::
 
@@ -7,7 +8,7 @@
    ~documentation_run
 """
 
-from .. utils import ipython_shell_namespace
+from ..utils import ipython_shell_namespace
 from bluesky import plan_stubs as bps
 from ophyd import Signal
 
@@ -67,10 +68,7 @@ def documentation_run(text, stream=None, bec=None, md=None):
 
     text_signal = Signal(value=text, name="text")
 
-    _md = dict(
-        purpose="save text as bluesky run",
-        plan_name="documentation_run",
-    )
+    _md = dict(purpose="save text as bluesky run", plan_name="documentation_run",)
     _md.update(md or {})
 
     if bec is not None:

@@ -1,5 +1,8 @@
 """
-**OverrideParameters** : Define parameters that can be overridden from a user configuration file.
+OverrideParameters
++++++++++++++++++++++++++++++++++++++++
+
+Define parameters that can be overridden from a user configuration file.
 
 EXAMPLE:
 
@@ -87,7 +90,9 @@ class OverrideParameters:
 
     def _check_known(self, parameter_name):
         if parameter_name not in self._parameters:
-            raise KeyError(f"Unknown parameter {parameter_name}.  First call register().")
+            raise KeyError(
+                f"Unknown parameter {parameter_name}.  First call register()."
+            )
 
     def set(self, parameter_name, value):
         """
