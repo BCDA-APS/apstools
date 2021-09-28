@@ -2,8 +2,8 @@
 test issue listplans() command
 """
 
-from ..devices import SimulatedApsPssShutterWithStatus
-from ..utils import listplans
+from ...devices import SimulatedApsPssShutterWithStatus
+from .. import listplans
 from bluesky import Msg
 from bluesky import plans as bp
 import pandas as pd
@@ -15,7 +15,7 @@ def ns():
     try:
         from IPython import get_ipython
 
-        ns = get_ipython().user_ns
+        ns = get_ipython().user_global_ns
     except (ModuleNotFoundError, AttributeError):
         ns = globals()
     return ns
