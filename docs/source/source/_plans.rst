@@ -14,3 +14,6 @@ Submodules
 
 .. automodule:: apstools._plans.doc_run
     :members:
+
+.. automodule:: apstools._plans.list_plans
+    :members:
