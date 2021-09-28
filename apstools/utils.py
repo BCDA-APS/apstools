@@ -32,6 +32,7 @@ Various utilities
    ~json_import
    ~listdevice
    ~listobjects
+   ~apstools._utils.list_plans.listplans
    ~listRunKeys
    ~ListRuns
    ~listruns
@@ -102,6 +103,7 @@ import warnings
 import zipfile
 
 from .filewriters import _rebuild_scan_command
+from ._utils import listplans
 from ._utils import OverrideParameters
 
 

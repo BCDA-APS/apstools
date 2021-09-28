@@ -3,7 +3,7 @@ test issue listplans() command
 """
 
 from ..devices import SimulatedApsPssShutterWithStatus
-from ..plans import listplans
+from ..utils import listplans
 import pandas as pd
 
 
