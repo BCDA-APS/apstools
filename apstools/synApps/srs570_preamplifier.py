@@ -37,11 +37,10 @@ class SRS570_PreAmplifier(Device):
     Ophyd support for Stanford Research Systems 570 preamplifier from synApps.
     """
 
-    # Current sensitivity
+    # TODO: why is this a string?
     sensitivity_value = Component(EpicsSignal, "sens_num", kind="config", string=True)
     sensitivity_unit = Component(EpicsSignal, "sens_unit", kind="config", string=True)
 
-    # Offset current
     offset_on = Component(EpicsSignal, "offset_on", kind="config", string=True)
     offset_sign = Component(EpicsSignal, "offset_sign", kind="config", string=True)
     offset_value = Component(EpicsSignal, "offset_num", kind="config", string=True)
