@@ -1,5 +1,5 @@
 """
-Ophyd support for aynsApps Stanford Research Systems 570 preamplifier
+Ophyd support for Stanford Research Systems 570 preamplifier from synApps
 
 Public Structures
 
@@ -32,47 +32,33 @@ logger = logging.getLogger(__name__)
 
 
 class SRS570_PreAmplifier(Device):
+    """
+    Ophyd support for Stanford Research Systems 570 preamplifier from synApps.
+    """
 
     # Current sensitivity
     sensitivity_value = Component(EpicsSignal, "sens_num", kind="config", string=True)
-
     sensitivity_unit = Component(EpicsSignal, "sens_unit", kind="config", string=True)
 
     # Offset current
     offset_on = Component(EpicsSignal, "offset_on", kind="config", string=True)
-
     offset_sign = Component(EpicsSignal, "offset_sign", kind="config", string=True)
-
     offset_value = Component(EpicsSignal, "offset_num", kind="config", string=True)
-
     offset_unit = Component(EpicsSignal, "offset_unit", kind="config", string=True)
-
     offset_fine = Component(EpicsSignal, "off_u_put", kind="config", string=True)
-
     offset_cal = Component(EpicsSignal, "offset_cal", kind="config", string=True)
 
-    # Set all button
     set_all = Component(EpicsSignal, "init.PROC", kind="config")
 
-    # Bias voltage
     bias_value = Component(EpicsSignal, "bias_put", kind="config", string=True)
-
     bias_on = Component(EpicsSignal, "bias_on", kind="config", string=True)
 
-    # Filter
     filter_type = Component(EpicsSignal, "filter_type", kind="config", string=True)
-
     filter_lowpass = Component(EpicsSignal, "low_freq", kind="config", string=True)
-
     filter_highpass = Component(EpicsSignal, "high_freq", kind="config", string=True)
 
-    # Gain mode
     gain_mode = Component(EpicsSignal, "gain_mode", kind="config", string=True)
-
-    # Invert
     invert = Component(EpicsSignal, "invert_on", kind="config", string=True)
-
-    # Blank
     blank = Component(EpicsSignal, "blank_on", kind="config", string=True)
 
     @property
