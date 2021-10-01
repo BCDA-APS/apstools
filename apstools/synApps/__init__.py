@@ -33,6 +33,7 @@ https://github.com/klauer/recordwhat
 # -----------------------------------------------------------------------------
 
 
+# structures
 from .asyn import *
 from .busy import *
 from .calcout import *
@@ -43,6 +44,9 @@ from .sscan import *
 from .swait import *
 from .transform import *
 
+# specific devices
+from .srs570_preamplifier import *
+
 __all__ = """
     AsynRecord
     BusyRecord
@@ -51,6 +55,7 @@ __all__ = """
     CalcoutRecordChannel
     EpidRecord
     SaveData
+    SRS570_PreAmplifier
     SscanRecord
     SscanDevice
     SwaitRecord
