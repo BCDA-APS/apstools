@@ -7,7 +7,13 @@ Change History
 The project `milestones <https://github.com/BCDA-APS/apstools/milestones>`_
 describe the future plans.
 
-.. :1.5.3:  release expected by 2021-10-31
+.. :1.6.0:  release expected by 2021-02-01
+
+:1.5.3:  release expected by 2021-11-01
+
+   * `#541 <https://github.com/BCDA-APS/apstools/pull/541>`_
+      Add device support for SRS570 preamplifier from synApps.
+      Hoisted from 4-ID-C Polar and 8-ID-I XPCS.
 
 :1.5.2:  released 2021-09-29
 
