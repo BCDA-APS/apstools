@@ -5,9 +5,9 @@ Public Structures
 
 .. autosummary::
 
-    ~AsynRecord
+    ~SRS570_PreAmplifier
 
-:see: https://github.com/epics-modules/asyn
+:see: https://github.com/epics-modules/ip
 """
 
 # -----------------------------------------------------------------------------
@@ -23,6 +23,7 @@ Public Structures
 __all__ = [
     "SRS570_PreAmplifier",
 ]
+
 from ophyd import Component
 from ophyd import Device
 from ophyd import EpicsSignal

@@ -10,3 +10,4 @@ Support for EPICS synApps modules (records and databases).
    :glob:
 
    _*
+   srs570
