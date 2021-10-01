@@ -20,7 +20,9 @@ Public Structures
 # The full license is in the file LICENSE.txt, distributed with this software.
 # -----------------------------------------------------------------------------
 
-__all__ = ["SRS570_PreAmplifier", ]
+__all__ = [
+    "SRS570_PreAmplifier",
+]
 from ophyd import Component
 from ophyd import Device
 from ophyd import EpicsSignal
@@ -32,13 +34,9 @@ logger = logging.getLogger(__name__)
 class SRS570_PreAmplifier(Device):
 
     # Current sensitivity
-    sensitivity_value = Component(
-        EpicsSignal, "sens_num", kind="config", string=True
-    )
+    sensitivity_value = Component(EpicsSignal, "sens_num", kind="config", string=True)
 
-    sensitivity_unit = Component(
-        EpicsSignal, "sens_unit", kind="config", string=True
-    )
+    sensitivity_unit = Component(EpicsSignal, "sens_unit", kind="config", string=True)
 
     # Offset current
     offset_on = Component(EpicsSignal, "offset_on", kind="config", string=True)
@@ -66,9 +64,7 @@ class SRS570_PreAmplifier(Device):
 
     filter_lowpass = Component(EpicsSignal, "low_freq", kind="config", string=True)
 
-    filter_highpass = Component(
-        EpicsSignal, "high_freq", kind="config", string=True
-    )
+    filter_highpass = Component(EpicsSignal, "high_freq", kind="config", string=True)
 
     # Gain mode
     gain_mode = Component(EpicsSignal, "gain_mode", kind="config", string=True)
@@ -78,7 +74,6 @@ class SRS570_PreAmplifier(Device):
 
     # Blank
     blank = Component(EpicsSignal, "blank_on", kind="config", string=True)
-    
 
     @property
     def gain(self):
