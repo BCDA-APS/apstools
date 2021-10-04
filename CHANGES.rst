@@ -11,6 +11,9 @@ describe the future plans.
 
 :1.5.3:  release expected by 2021-11-01
 
+   * `#546 <https://github.com/BCDA-APS/apstools/pull/546>`_
+      Start EPICS IOCs (gp & ad) for unit tests in GitHub workflow.
+
    * `#541 <https://github.com/BCDA-APS/apstools/pull/541>`_
       Add device support for SRS570 preamplifier from synApps.
       Hoisted from 4-ID-C Polar and 8-ID-I XPCS.

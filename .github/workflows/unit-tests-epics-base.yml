@@ -1,0 +1,57 @@
+name: EPICS Base Tests
+
+# see: GitHub Actions: Service Containers
+ #  https://docs.github.com/en/enterprise-server@3.0/actions/using-containerized-services/about-service-containers
+
+on: [push]
+
+jobs:
+  build-linux:
+    name: EPICS Base - caget
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Setup Miniconda
+      uses: conda-incubator/setup-miniconda@v2
+      with:
+        activate-environment:
+            anaconda-test-env
+        auto-update-conda: true
+        channel-priority: true
+        channels: defaults,conda-forge
+        # environment-file: environment.yml
+        mamba-version: "*"
+        use-only-tar-bz2: true  # required for caching
+
+    - shell: bash -l {0}
+      run: |
+        conda info
+        conda list
+        conda config --show-sources
+        conda config --show
+        conda env list
+        printenv | sort
+
+    - name: Start IOCs in Docker
+      run: |
+        bash ./.github/scripts/start_xxx.sh gp
+        bash ./.github/scripts/start_adsim.sh ad
+        docker ps -a
+
+    - name: Install dependencies
+      run: |
+        $CONDA/bin/conda install epics-base --name $ENV_NAME
+        $CONDA/bin/conda list -r --name $ENV_NAME
+      env:
+        ENV_NAME: anaconda-test-env
+
+    - name: Run tests with caget
+      run: |
+        source $CONDA/bin/activate $ENV_NAME
+        which caget
+        caget gp:UPTIME
+        caget ad:cam1:Acquire_RBV
+      env:
+        ENV_NAME: anaconda-test-env
