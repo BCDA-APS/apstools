@@ -40,7 +40,15 @@ import pint
 logger = logging.getLogger(__name__)
 
 
-class SRS570_PreAmplifier(Device):
+class PreamplifierBaseDevice(Device):
+    """
+    Generalized interface (base class) for preamplifiers.
+    """
+
+    gain = Component(Signal, kind="normal", value=1)
+
+
+class SRS570_PreAmplifier(PreamplifierBaseDevice):
     """
     Ophyd support for Stanford Research Systems 570 preamplifier from synApps.
     """
@@ -51,7 +59,6 @@ class SRS570_PreAmplifier(Device):
     # see: https://github.com/epics-modules/ip/blob/master/ipApp/Db/SR570.db
     sensitivity_value = Component(EpicsSignal, "sens_num", kind="config", string=True)
     sensitivity_unit = Component(EpicsSignal, "sens_unit", kind="config", string=True)
-    gain = Component(Signal, kind="normal")  # "normal": shows up in read()
 
     offset_on = Component(EpicsSignal, "offset_on", kind="config", string=True)
     offset_sign = Component(EpicsSignal, "offset_sign", kind="config", string=True)
