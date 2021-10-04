@@ -35,10 +35,15 @@ jobs:
         conda env list
         printenv | sort
 
+    - name: Start EPICS IOC in Docker
+      run: |
+        bash ./.github/scripts/start_xxx.sh gp
+        docker ps -a
+
     # $CONDA is an environment variable pointing to the
     # root of the miniconda directory
 
-    - name: Install dependencies
+    - name: Install Python package requirements
       run: |
         $CONDA/bin/conda env update --file environment.yml --name $ENV_NAME
         $CONDA/bin/conda install pytest --name $ENV_NAME
@@ -46,6 +51,37 @@ jobs:
       env:
         PY_VER: ${{ matrix.python-version }}
         ENV_NAME: anaconda-test-env-py-${{ matrix.python-version }}
+
+    - name: Confirm EPICS IOC is available via caget
+      run: |
+        source $CONDA/bin/activate $ENV_NAME
+        caget "${PV}"
+      env:
+        PY_VER: ${{ matrix.python-version }}
+        ENV_NAME: anaconda-test-env-py-${{ matrix.python-version }}
+        PV: gp:UPTIME
+
+    - name: Confirm EPICS IOC is available via PyEpics
+      run: |
+        source $CONDA/bin/activate $ENV_NAME
+        python -c "import epics; print(epics.caget('${PV}'))"
+      env:
+        PY_VER: ${{ matrix.python-version }}
+        ENV_NAME: anaconda-test-env-py-${{ matrix.python-version }}
+        PV: gp:UPTIME
+
+    - name: Confirm EPICS IOC is available via ophyd
+      run: |
+        source $CONDA/bin/activate $ENV_NAME
+        CMD="import ophyd"
+        CMD+="; up = ophyd.EpicsSignalRO('${PV}', name='up')"
+        CMD+="; up.wait_for_connection()"
+        CMD+="; print(up.get())"
+        python -c "${CMD}"
+      env:
+        PY_VER: ${{ matrix.python-version }}
+        ENV_NAME: anaconda-test-env-py-${{ matrix.python-version }}
+        PV: gp:UPTIME
 
     - name: install test data catalogs
       shell: bash -l {0}
