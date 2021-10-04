@@ -14,6 +14,7 @@ dependencies:
   - openpyxl
   - ophyd >=1.6.1
   - pandas
+  - pint
   - pip
   - prompt-toolkit
   - pyEpics >=3.4.3
