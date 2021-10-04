@@ -37,7 +37,10 @@ class SRS570_PreAmplifier(Device):
     Ophyd support for Stanford Research Systems 570 preamplifier from synApps.
     """
 
-    # TODO: why is this a string?
+    # These values are strings because that is how they are defined
+    # in the EPICS .db file.  Must cast them to ``float()`` or ``int()``
+    # as desired.
+    # see: https://github.com/epics-modules/ip/blob/master/ipApp/Db/SR570.db
     sensitivity_value = Component(EpicsSignal, "sens_num", kind="config", string=True)
     sensitivity_unit = Component(EpicsSignal, "sens_unit", kind="config", string=True)
 
