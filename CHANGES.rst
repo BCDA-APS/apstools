@@ -7,7 +7,10 @@ Change History
 The project `milestones <https://github.com/BCDA-APS/apstools/milestones>`_
 describe the future plans.
 
-.. :1.5.3:  release expected by 2021-10-31
+:1.5.3:  release expected by 2021-11-01
+
+   * `#546 <https://github.com/BCDA-APS/apstools/pull/546>`_
+      Start EPICS IOCs (gp & ad) for unit tests in GitHub workflow.
 
 :1.5.2:  released 2021-09-29
 
