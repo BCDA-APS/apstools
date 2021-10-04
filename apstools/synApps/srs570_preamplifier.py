@@ -28,6 +28,7 @@ from ophyd import Component
 from ophyd import Device
 from ophyd import EpicsSignal
 import logging
+import pint
 
 logger = logging.getLogger(__name__)
 
@@ -67,19 +68,9 @@ class SRS570_PreAmplifier(Device):
     @property
     def gain(self):
         """
-        Return amplifier's current setting of gain, including sensitivity.
+        Amplifier gain (A/V), as floating-point number.
         """
-        # FIXME: self.sensitivity_value.get() is a string
-        raise NotImplementedError("Must test with REAL SRS570 here.")
-        # enums = self.sensitivity_value.enum_strs
-        # sensitivity_index = self.sensitivity_value.get()
-        # sensitivity = float(enums[sensitivity_index])
-
-        # gain = {
-        #     "mA/V": 1e-3,
-        #     "uA/V": 1e-6,
-        #     "nA/V": 1e-9,
-        #     "pA/V": 1e-12,
-        # }[self.sensitivity_unit.get()]
-
-        # return gain * sensitivity
+        return pint.Quantity(
+            float(self.sensitivity_value.get()), 
+            self.sensitivity_unit.get()
+        ).to("A/V").magnitude
