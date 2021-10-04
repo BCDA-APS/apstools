@@ -2,7 +2,12 @@
 unit tests for the filewriters
 """
 
-import apstools.filewriters
+from ..filewriters import FileWriterCallbackBase
+from ..filewriters import NXWriterAPS
+from ..filewriters import NXWriter
+from ..filewriters import NEXUS_FILE_EXTENSION
+from ..filewriters import NEXUS_RELEASE
+from ..filewriters import SpecWriterCallback
 import databroker
 import h5py
 import os
@@ -68,7 +73,7 @@ def test_replay(cat):
 
 
 def test_FileWriterCallbackBase(cat, capsys):
-    callback = apstools.filewriters.FileWriterCallbackBase()
+    callback = FileWriterCallbackBase()
     for uid in cat:
         run = cat.v1[uid]
         callback.clear()
@@ -100,7 +105,7 @@ def test_FileWriterCallbackBase(cat, capsys):
 
 
 def test_NXWriterAPS(cat, tempdir):
-    callback = apstools.filewriters.NXWriterAPS()
+    callback = NXWriterAPS()
     callback.file_path = tempdir
 
     run = cat.v1[TUNE_MR]
@@ -122,7 +127,7 @@ def test_NXWriterAPS(cat, tempdir):
 
 
 def test_NXWriter_default_plot(cat, tempdir):
-    callback = apstools.filewriters.NXWriterAPS()
+    callback = NXWriterAPS()
     callback.file_path = tempdir
 
     run = cat.v1[TUNE_MR]
@@ -149,7 +154,7 @@ def test_NXWriter_make_file_name(tempdir):
     import datetime
     import dateutil.tz
 
-    callback = apstools.filewriters.NXWriter()
+    callback = NXWriter()
 
     assert callback.file_path is None
     assert callback.scan_id is None
@@ -190,7 +195,7 @@ def test_NXWriter_make_file_name(tempdir):
     expected = dt_local.strftime("%Y%m%d-%H%M%S")
     expected += f"-S{9876:05d}"
     expected += "-0123456"
-    expected += f".{apstools.filewriters.NEXUS_FILE_EXTENSION}"
+    expected += f".{NEXUS_FILE_EXTENSION}"
     assert os.path.split(fname)[-1] == expected
     assert os.path.dirname(fname) == os.getcwd()
 
@@ -200,9 +205,9 @@ def test_NXWriter_make_file_name(tempdir):
 
 
 def test_NXWriter_receiver_battery(cat, tempdir):
-    callback = apstools.filewriters.NXWriter()
-    assert callback.nexus_release == apstools.filewriters.NEXUS_RELEASE
-    assert callback.file_extension == apstools.filewriters.NEXUS_FILE_EXTENSION
+    callback = NXWriter()
+    assert callback.nexus_release == NEXUS_RELEASE
+    assert callback.file_extension == NEXUS_FILE_EXTENSION
 
     for uid in cat:
         run = cat.v1[uid]
@@ -217,7 +222,7 @@ def test_NXWriter_receiver_battery(cat, tempdir):
         fname = callback.make_file_name()
         assert os.path.exists(fname)
         with h5py.File(fname, "r") as nxroot:
-            assert nxroot.attrs["NeXus_version"] == apstools.filewriters.NEXUS_RELEASE
+            assert nxroot.attrs["NeXus_version"] == NEXUS_RELEASE
             assert nxroot.attrs["creator"] == callback.__class__.__name__
 
             assert "/entry" in nxroot
@@ -235,7 +240,7 @@ def test_NXWriter_receiver_battery(cat, tempdir):
 
 
 def test_SpecWriterCallback_writer_default_name(cat, tempdir):
-    specwriter = apstools.filewriters.SpecWriterCallback()
+    specwriter = SpecWriterCallback()
     path = os.path.abspath(os.path.dirname(specwriter.spec_filename))
     assert path != tempdir  # "default file not in tempdir"
     assert path == os.path.abspath(os.getcwd())  # "default file to go in pwd"
@@ -277,9 +282,9 @@ def test_SpecWriterCallback_writer_filename(cat, tempdir):
     testfile = os.path.join(tempdir, "tune_mr.dat")
     if os.path.exists(testfile):
         os.remove(testfile)
-    specwriter = apstools.filewriters.SpecWriterCallback(filename=testfile)
+    specwriter = SpecWriterCallback(filename=testfile)
 
-    assert isinstance(specwriter, apstools.filewriters.SpecWriterCallback)
+    assert isinstance(specwriter, SpecWriterCallback)
     assert specwriter.spec_filename == testfile
 
     assert not os.path.exists(testfile)
@@ -291,7 +296,7 @@ def test_SpecWriterCallback_newfile_exists(cat, tempdir):
     testfile = os.path.join(tempdir, "tune_mr.dat")
     if os.path.exists(testfile):
         os.remove(testfile)
-    specwriter = apstools.filewriters.SpecWriterCallback(
+    specwriter = SpecWriterCallback(
         filename=testfile
     )
 
@@ -365,7 +370,7 @@ def test_SpecWriterCallback_spec_comment(cat, tempdir):
     testfile = os.path.join(tempdir, "spec_comment.dat")
     if os.path.exists(testfile):
         os.remove(testfile)
-    specwriter = apstools.filewriters.SpecWriterCallback(
+    specwriter = SpecWriterCallback(
         filename=testfile
     )
 
