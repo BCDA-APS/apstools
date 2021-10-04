@@ -26,26 +26,14 @@ https://htmlpreview.github.io/?https://raw.githubusercontent.com/epics-modules/i
 # The full license is in the file LICENSE.txt, distributed with this software.
 # -----------------------------------------------------------------------------
 
-__all__ = [
-    "SRS570_PreAmplifier",
-]
-
 from ophyd import Component
-from ophyd import Device
 from ophyd import EpicsSignal
-from ophyd import Signal
+from .preamp_base import PreamplifierBaseDevice
+
 import logging
 import pint
 
 logger = logging.getLogger(__name__)
-
-
-class PreamplifierBaseDevice(Device):
-    """
-    Generalized interface (base class) for preamplifiers.
-    """
-
-    gain = Component(Signal, kind="normal", value=1)
 
 
 class SRS570_PreAmplifier(PreamplifierBaseDevice):

@@ -42,6 +42,9 @@ Submodules
 .. automodule:: apstools._devices.motor_mixins
     :members:
 
+.. automodule:: apstools._devices.preamp_base
+    :members:
+
 .. automodule:: apstools._devices.scaler_support
     :members:
 
