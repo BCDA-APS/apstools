@@ -35,9 +35,10 @@ jobs:
         conda env list
         printenv | sort
 
-    - name: Start EPICS IOC in Docker
+    - name: Start EPICS IOCs in Docker
       run: |
         bash ./.github/scripts/start_xxx.sh gp
+        bash ./.github/scripts/start_adsim.sh ad
         docker ps -a
 
     # $CONDA is an environment variable pointing to the
@@ -56,6 +57,7 @@ jobs:
       run: |
         source $CONDA/bin/activate $ENV_NAME
         caget "${PV}"
+        caget ad:cam1:Acquire_RBV
       env:
         PY_VER: ${{ matrix.python-version }}
         ENV_NAME: anaconda-test-env-py-${{ matrix.python-version }}

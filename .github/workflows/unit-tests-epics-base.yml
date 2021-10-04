@@ -34,9 +34,10 @@ jobs:
         conda env list
         printenv | sort
 
-    - name: Start IOC in Docker
+    - name: Start IOCs in Docker
       run: |
         bash ./.github/scripts/start_xxx.sh gp
+        bash ./.github/scripts/start_adsim.sh ad
         docker ps -a
 
     - name: Install dependencies
@@ -51,5 +52,6 @@ jobs:
         source $CONDA/bin/activate $ENV_NAME
         which caget
         caget gp:UPTIME
+        caget ad:cam1:Acquire_RBV
       env:
         ENV_NAME: anaconda-test-env
