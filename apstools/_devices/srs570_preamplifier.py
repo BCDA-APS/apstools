@@ -33,6 +33,7 @@ __all__ = [
 from ophyd import Component
 from ophyd import Device
 from ophyd import EpicsSignal
+from ophyd import Signal
 import logging
 import pint
 
@@ -50,6 +51,7 @@ class SRS570_PreAmplifier(Device):
     # see: https://github.com/epics-modules/ip/blob/master/ipApp/Db/SR570.db
     sensitivity_value = Component(EpicsSignal, "sens_num", kind="config", string=True)
     sensitivity_unit = Component(EpicsSignal, "sens_unit", kind="config", string=True)
+    gain = Component(Signal, kind="normal")  # "normal": shows up in read()
 
     offset_on = Component(EpicsSignal, "offset_on", kind="config", string=True)
     offset_sign = Component(EpicsSignal, "offset_sign", kind="config", string=True)
@@ -72,7 +74,7 @@ class SRS570_PreAmplifier(Device):
     blank = Component(EpicsSignal, "blank_on", kind="config", string=True)
 
     @property
-    def gain(self):
+    def computed_gain(self):
         """
         Amplifier gain (A/V), as floating-point number.
         """
@@ -80,3 +82,20 @@ class SRS570_PreAmplifier(Device):
             float(self.sensitivity_value.get()),
             self.sensitivity_unit.get()
         ).to("A/V").magnitude
+
+    def cb_gain(self, *args, **kwargs):
+        """
+        Called when sensitivity changes (EPICS CA monitor event).
+        """
+        self.gain.put(self.computed_gain)
+
+    def __init__(self, *args, **kwargs):
+        """
+        Update the gain when the sensitivity changes.
+        """
+        super().__init__(*args, **kwargs)
+        self.sensitivity_value.subscribe(self.cb_gain)
+        self.sensitivity_unit.subscribe(self.cb_gain)
+
+        # amplifier gain is the most relevant value
+        self.gain.name = self.name
