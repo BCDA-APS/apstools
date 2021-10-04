@@ -14,6 +14,9 @@ describe the future plans.
    * `#546 <https://github.com/BCDA-APS/apstools/pull/546>`_
       Start EPICS IOCs (gp & ad) for unit tests in GitHub workflow.
 
+   * `#544 <https://github.com/BCDA-APS/apstools/issue/544>`_
+      Generalize that amplifiers will have a ``gain`` Component.
+
    * `#541 <https://github.com/BCDA-APS/apstools/pull/541>`_
       Add device support for SRS570 preamplifier from synApps.
       Hoisted from 4-ID-C Polar and 8-ID-I XPCS.
