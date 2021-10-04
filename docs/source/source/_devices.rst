@@ -48,6 +48,9 @@ Submodules
 .. automodule:: apstools._devices.shutters
     :members:
 
+.. automodule:: apstools._devices.srs570_preamplifier
+    :members:
+
 .. automodule:: apstools._devices.struck3820
     :members:
 

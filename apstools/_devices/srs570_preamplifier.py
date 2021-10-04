@@ -7,6 +7,12 @@ Public Structures
 
     ~SRS570_PreAmplifier
 
+This device connects with the SRS570 support from synApps.
+(https://github.com/epics-modules/ip/blob/master/ipApp/Db/SR570.db)
+
+The SRS570 synApps support is part of the ``ip`` module:
+https://htmlpreview.github.io/?https://raw.githubusercontent.com/epics-modules/ip/R3-6-1/documentation/swaitRecord.html
+
 :see: https://github.com/epics-modules/ip
 """
 
@@ -71,6 +77,6 @@ class SRS570_PreAmplifier(Device):
         Amplifier gain (A/V), as floating-point number.
         """
         return pint.Quantity(
-            float(self.sensitivity_value.get()), 
+            float(self.sensitivity_value.get()),
             self.sensitivity_unit.get()
         ).to("A/V").magnitude
