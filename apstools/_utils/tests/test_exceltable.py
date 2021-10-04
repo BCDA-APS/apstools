@@ -8,9 +8,14 @@ import pytest
 from ...utils import ExcelDatabaseFileGeneric
 
 
+DATA_PATH = os.path.abspath(
+    os.path.join(os.path.dirname(__file__), "..", "..", "tests")
+)
+
+
 @pytest.fixture(scope="function")
 def xl_file():
-    xl_file = os.path.join(os.path.dirname(__file__), "demo3.xlsx")
+    xl_file = os.path.join(DATA_PATH, "demo3.xlsx")
     return xl_file
 
 

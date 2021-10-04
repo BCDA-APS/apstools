@@ -20,13 +20,11 @@ if _path not in sys.path:
 def suite(*args, **kw):
 
     from tests import test_apsbss
-    from tests import test_commandlist
     from tests import test_simple
     from tests import test_utils
 
     test_list = [
         test_simple,
-        test_commandlist,
         test_utils,
         test_apsbss,
     ]
