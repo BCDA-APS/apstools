@@ -7,9 +7,39 @@ Change History
 The project `milestones <https://github.com/BCDA-APS/apstools/milestones>`_
 describe the future plans.
 
-:1.5.2:  release expected by 2021-08-31
+:1.5.3:  release expected by 2021-11-01
 
-:1.5.1:  release expected by 2021-07-31
+   * `#546 <https://github.com/BCDA-APS/apstools/pull/546>`_
+      Start EPICS IOCs (gp & ad) for unit tests in GitHub workflow.
+
+:1.5.2:  released 2021-09-29
+
+   * Drop Codacy (https://app.codacy.com/gh/BCDA-APS/apstools) as no longer needed.
+
+   * `#540 <https://github.com/BCDA-APS/apstools/pull/540>`_
+      Add ``apstools.utils.listplans()`` function.
+
+   * `#534 <https://github.com/BCDA-APS/apstools/pull/534>`_
+      Add ``apstools.utils.OverrideParameters`` class.
+      Hoisted from APS USAXS instrument.
+
+   * `#537 <https://github.com/BCDA-APS/apstools/pull/537>`_
+      Enhancements to ``apstools.utils.listruns()``:
+
+      * Add search by list of ``scan_id`` or ``uid`` values.
+      * Optimize search speed.
+
+   * `#534 <https://github.com/BCDA-APS/apstools/pull/534>`_
+      Add ``apstools.plans.documentation_run()`` plan.
+      Hoisted from APS USAXS instrument.
+
+   * `#528 <https://github.com/BCDA-APS/apstools/pull/528>`_
+      Add ``kind=`` kwarg to synApps Devices.
+
+   * `#539 <https://github.com/BCDA-APS/apstools/pull/539>`_
+      Break ``devices`` into submodule ``_devices``.
+
+:1.5.1:  released 2021-07-22
 
    * `#522 <https://github.com/BCDA-APS/apstools/issues/522>`_
       Deprecate `apstools.devices.ProcessController`.
