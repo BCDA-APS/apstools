@@ -38,10 +38,9 @@ class KohzuSoftPositioner(PVPositioner):
         """
         Called when setpoint changes (EPICS CA monitor event).
 
-        When the setpoint is changed, force done=False.  For any move,
-        done must go != done_value, then back to done_value (True).
-        Without this response, a small move (within tolerance) will not return.
-        Next update of readback will compute self.done.
+        When the setpoint is changed, force ``done=False``.  For any move,
+        done must transition to ``!= done_value``, then back to ``done_value``.
+        Next update will refresh value from parent device.
         """
         self.done.put(1)
 
@@ -68,7 +67,7 @@ class KohzuSoftPositioner(PVPositioner):
         """
         if not self.done.get():
             self.setpoint.put(self.position)
-    
+
     def move(self, *args, **kwargs):
         @run_in_thread
         def push_the_move_button_soon():
@@ -88,7 +87,7 @@ class KohzuSeqCtl_Monochromator(Device):
 
     energy = Component(KohzuSoftPositioner, "BraggE", kind="hinted")
     theta = Component(KohzuSoftPositioner, "BraggTheta", kind="normal")
-    # lambda is reserved word in Python, can't use it
+    # lambda is reserved word in Python, can't use it for wavelength
     wavelength = Component(KohzuSoftPositioner, "BraggLambda", kind="normal")
 
     y1 = Component(EpicsSignalRO, "KohzuYRdbkAI", kind="normal")
@@ -98,7 +97,9 @@ class KohzuSeqCtl_Monochromator(Device):
     operator_acknowledge = Component(EpicsSignal, "KohzuOperAckBO", kind="omitted")
     use_set = Component(EpicsSignal, "KohzuUseSetBO", kind="omitted")
     mode = Component(EpicsSignal, "KohzuModeBO", kind="config")
-    move_button = Component(EpicsSignal, "KohzuPutBO", put_complete=True, kind="omitted")
+    move_button = Component(
+        EpicsSignal, "KohzuPutBO", put_complete=True, kind="omitted"
+    )
     moving = Component(EpicsSignal, "KohzuMoving", kind="omitted")
     y_offset = Component(EpicsSignal, "Kohzu_yOffsetAO", kind="config")
 
