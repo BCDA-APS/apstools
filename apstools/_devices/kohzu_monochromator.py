@@ -8,14 +8,16 @@ Kohzu double-crystal monochromator
 """
 
 import logging
+import time
 
 from ophyd import Component
 from ophyd import Device
-from ophyd import EpicsMotor
 from ophyd import EpicsSignal
 from ophyd import EpicsSignalRO
 from ophyd import Signal
 from ophyd import PVPositioner
+
+from ..utils import run_in_thread
 
 logger = logging.getLogger(__name__)
 
@@ -25,9 +27,6 @@ class KohzuSoftPositioner(PVPositioner):
     readback = Component(EpicsSignalRO, "RdbkAO", kind="hinted")
     done = Component(Signal, value=0, kind="omitted")
     done_value = 0
-    # self.parent.move_button
-    # actuate = Component(EpicsSignal, "KohzuPutBO", put_complete=True, kind="omitted")
-    # actuate_value = 1
 
     def cb_done(self, *args, **kwargs):
         """
@@ -56,8 +55,6 @@ class KohzuSoftPositioner(PVPositioner):
         # the readback needs no adjective
         self.readback.name = self.name
 
-        # self.cb_readback()  # compute the `done` value
-
     @property
     def inposition(self):
         """
@@ -71,6 +68,15 @@ class KohzuSoftPositioner(PVPositioner):
         """
         if not self.done.get():
             self.setpoint.put(self.position)
+    
+    def move(self, *args, **kwargs):
+        @run_in_thread
+        def push_the_move_button_soon():
+            time.sleep(0.01)  # wait a short time
+            self.parent.move_button.put(1)
+
+        push_the_move_button_soon()
+        return super().move(*args, **kwargs)
 
 
 class KohzuSeqCtl_Monochromator(Device):
