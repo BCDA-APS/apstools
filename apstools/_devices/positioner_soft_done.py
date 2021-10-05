@@ -61,15 +61,18 @@ class PVPositionerSoftDone(PVPositioner):
 
         Override (in subclass) with `EpicsSignal` to connect with a PV.
 
-        In some controllers (such as temperature controllers),
-        the setpoint may be changed incrementally
-        towards this target value (such as a ramp or controlled trajectory).
-        In such cases, the ``target`` will be final value while ``setpoint``
-        will be the current desired position.
+        In some controllers (such as temperature controllers), the setpoint
+        may be changed incrementally towards this target value (such as a
+        ramp or controlled trajectory).  In such cases, the ``target`` will
+        be final value while ``setpoint`` will be the current desired position.
 
         Otherwise, both ``setpoint`` and ``target`` will be set to the same value.
+    update_target : bool
+        ``True`` when this object update the ``target`` Component directly.
+        Use ``False`` if the ``target`` Component will be updated externally,
+        such as by the controller when ``target`` is an ``EpicsSignal``.
 
-    (new in apstools 1.5.2)
+    (new in apstools 1.5.3)
     """
 
     # positioner
@@ -94,6 +97,10 @@ class PVPositionerSoftDone(PVPositioner):
     def cb_readback(self, *args, **kwargs):
         """
         Called when readback changes (EPICS CA monitor event).
+
+        Computes if the positioner is done moving::
+
+            done = |readback - setpoint| <= tolerance
         """
         diff = self.readback.get() - self.setpoint.get()
         _tolerance = (
@@ -109,10 +116,12 @@ class PVPositionerSoftDone(PVPositioner):
     def cb_setpoint(self, *args, **kwargs):
         """
         Called when setpoint changes (EPICS CA monitor event).
-        When the setpoint is changed, force done=False.  For any move,
-        done must go != done_value, then back to done_value (True).
+
+        When the setpoint is changed, force done=False.  For any move, done
+        **must** transition to ``!= done_value``, then back to ``done_value``.
+
         Without this response, a small move (within tolerance) will not return.
-        Next update of readback will compute self.done.
+        Next update of readback will compute ``self.done``.
         """
         self.done.put(not self.done_value)
 
@@ -123,6 +132,7 @@ class PVPositionerSoftDone(PVPositioner):
         readback_pv="",
         setpoint_pv="",
         tolerance=None,
+        update_target=True,
         **kwargs,
     ):
 
@@ -134,6 +144,7 @@ class PVPositionerSoftDone(PVPositioner):
         # Make the default alias for the readback the name of the
         # positioner itself as in EpicsMotor.
         self.readback.name = self.name
+        self.update_target = update_target
 
         self.readback.subscribe(self.cb_readback)
         self.setpoint.subscribe(self.cb_setpoint)
@@ -143,10 +154,11 @@ class PVPositionerSoftDone(PVPositioner):
     def _setup_move(self, position):
         """Move and do not wait until motion is complete (asynchronous)"""
         self.log.debug("%s.setpoint = %s", self.name, position)
-        kwargs = {}
-        if issubclass(self.target.__class__, EpicsSignalBase):
-            kwargs["wait"] = True  # Signal.put() warns if kwargs are given
-        self.target.put(position, **kwargs)
+        if self.update_target:
+            kwargs = {}
+            if issubclass(self.target.__class__, EpicsSignalBase):
+                kwargs["wait"] = True  # Signal.put() warns if kwargs are given
+            self.target.put(position, **kwargs)
         self.setpoint.put(position, wait=True)
         if self.actuate is not None:
             self.log.debug("%s.actuate = %s", self.name, self.actuate_value)
