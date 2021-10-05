@@ -558,8 +558,8 @@ def listRecentRuns(quantity=6):
         run["name"]
         for run in api_bss.listRuns()
         if (
-            datetime.datetime.timestamp(iso2datetime(run["startTime"])) 
-            <= 
+            datetime.datetime.timestamp(iso2datetime(run["startTime"]))
+            <=
             datetime.datetime.timestamp(tNow)
         )
     ]
