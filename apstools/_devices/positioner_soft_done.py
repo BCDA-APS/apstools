@@ -38,6 +38,11 @@ class PVPositionerSoftDone(PVPositioner):
 
         Defaults to ``10^(-1*precision)``,
         where ``precision = setpoint.precision``.
+    update_target : bool
+        ``True`` when this object update the ``target`` Component directly.
+        Use ``False`` if the ``target`` Component will be updated externally,
+        such as by the controller when ``target`` is an ``EpicsSignal``.
+        Defaults to ``True``.
     kwargs :
         Passed to `ophyd.PVPositioner`
 
@@ -67,10 +72,6 @@ class PVPositionerSoftDone(PVPositioner):
         be final value while ``setpoint`` will be the current desired position.
 
         Otherwise, both ``setpoint`` and ``target`` will be set to the same value.
-    update_target : bool
-        ``True`` when this object update the ``target`` Component directly.
-        Use ``False`` if the ``target`` Component will be updated externally,
-        such as by the controller when ``target`` is an ``EpicsSignal``.
 
     (new in apstools 1.5.3)
     """
