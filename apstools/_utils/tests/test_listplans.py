@@ -60,7 +60,7 @@ def test_basic():
     ],
 )
 def test_globals(item, exists, ns):
-    assert (item in ns) == exists, f"{item=}  {exists=}"
+    assert (item in ns) == exists, f"item={item}  exists={exists}"
 
 
 @pytest.mark.parametrize(
@@ -81,7 +81,7 @@ def test_globals(item, exists, ns):
 def test_in_class(item, exists):
     result = listplans(my_class)
     generators = result["plan"].to_list()
-    assert (item in generators) == exists, f"{item=}  {exists=} {generators=}"
+    assert (item in generators) == exists, f"item={item}  exists={exists} generators={generators}"
 
 
 @pytest.mark.parametrize(
