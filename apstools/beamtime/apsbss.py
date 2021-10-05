@@ -167,7 +167,7 @@ def epicsUpdate(prefix):
     bss.status_msg.put("clearing PVs ...")
     bss.clear()
 
-    cycle = bss.esaf.aps_cycle.get()
+    cycle = bss.esaf.aps_cycle.get(timeout=10)
 
     beamline = bss.proposal.beamline_name.get()
     # sector = bss.esaf.sector.get()
@@ -520,10 +520,7 @@ def iso2datetime(isodate):
         Date and time in modified ISO8601 format. (e.g.: ``2020-07-01 12:34:56.789012``)
         Fractional seconds are optional.
     """
-    isoformat = "%Y-%m-%d %H:%M:%S"
-    if isodate.find(".") > 0:  # fractional seconds, too?
-        isoformat += ".%f"
-    return datetime.datetime.strptime(isodate, isoformat)
+    return datetime.datetime.fromisoformat(isodate)
 
 
 def listAllBeamlines():
@@ -555,12 +552,18 @@ def listRecentRuns(quantity=6):
         number of APS run cycles to include, optional (default: 6)
     """
     # 6 runs is the duration of a user proposal
+    # fmt: off
     tNow = datetime.datetime.now()
     runs = [
         run["name"]
         for run in api_bss.listRuns()
-        if iso2datetime(run["startTime"]) <= tNow
+        if (
+            datetime.datetime.timestamp(iso2datetime(run["startTime"])) 
+            <= 
+            datetime.datetime.timestamp(tNow)
+        )
     ]
+    # fmt: on
     return sorted(runs, reverse=True)[:quantity]
 
 

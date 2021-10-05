@@ -159,9 +159,9 @@ def test_ioc(ioc):
     ioc.bss = bio.EpicsBssDevice(BSS_TEST_IOC_PREFIX, name="bss")
     ioc.bss.wait_for_connection(timeout=2)
     assert ioc.bss.connected
-    assert ioc.bss.esaf.title.get() == ""
-    assert ioc.bss.esaf.description.get() == ""
-    # assert ioc.bss.esaf.aps_cycle.get() == ""
+    assert ioc.bss.esaf.title.get(timeout=10) == ""
+    assert ioc.bss.esaf.description.get(timeout=10) == ""
+    # assert ioc.bss.esaf.aps_cycle.get(timeout=10) == ""
 
 
 def test_EPICS(ioc):
@@ -174,10 +174,10 @@ def test_EPICS(ioc):
 
     ioc.bss = apsbss.connect_epics(BSS_TEST_IOC_PREFIX)
     assert ioc.bss.connected
-    assert ioc.bss.esaf.aps_cycle.get() == ""
+    assert ioc.bss.esaf.aps_cycle.get(timeout=10) == ""
 
     ioc.bss.esaf.aps_cycle.put(cycle)
-    assert ioc.bss.esaf.aps_cycle.get() != ""
+    assert ioc.bss.esaf.aps_cycle.get(timeout=10) != ""
 
     if not using_APS_workstation():
         return
@@ -185,10 +185,10 @@ def test_EPICS(ioc):
     # setup
     apsbss.epicsSetup(BSS_TEST_IOC_PREFIX, beamline, cycle)
 
-    assert ioc.bss.proposal.beamline_name.get() != "harpo"
-    assert ioc.bss.proposal.beamline_name.get() == beamline
-    assert ioc.bss.esaf.aps_cycle.get() == cycle
-    assert ioc.bss.esaf.sector.get() == beamline.split("-")[0]
+    assert ioc.bss.proposal.beamline_name.get(timeout=10) != "harpo"
+    assert ioc.bss.proposal.beamline_name.get(timeout=10) == beamline
+    assert ioc.bss.esaf.aps_cycle.get(timeout=10) == cycle
+    assert ioc.bss.esaf.sector.get(timeout=10) == beamline.split("-")[0]
 
     # epicsUpdate
     # Example ESAF on sector 9
@@ -210,15 +210,15 @@ def test_EPICS(ioc):
     ioc.bss.esaf.esaf_id.put(esaf_id)
     ioc.bss.proposal.proposal_id.put(proposal_id)
     apsbss.epicsUpdate(BSS_TEST_IOC_PREFIX)
-    assert ioc.bss.esaf.title.get() == "Commission 9ID and USAXS"
-    assert ioc.bss.proposal.title.get().startswith(
+    assert ioc.bss.esaf.title.get(timeout=10) == "Commission 9ID and USAXS"
+    assert ioc.bss.proposal.title.get(timeout=10).startswith(
         "2019 National School on Neutron & X-r"
     )
 
     apsbss.epicsClear(BSS_TEST_IOC_PREFIX)
-    assert ioc.bss.esaf.aps_cycle.get() != ""
-    assert ioc.bss.esaf.title.get() == ""
-    assert ioc.bss.proposal.title.get() == ""
+    assert ioc.bss.esaf.aps_cycle.get(timeout=10) != ""
+    assert ioc.bss.esaf.title.get(timeout=10) == ""
+    assert ioc.bss.proposal.title.get(timeout=10) == ""
 
 
 def test_makedb(capsys):
