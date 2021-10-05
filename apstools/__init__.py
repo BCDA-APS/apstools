@@ -24,7 +24,7 @@ __license__ = u"(c) " + __copyright__
 __license__ += u" (see LICENSE.txt file for details)"
 __platforms__ = "any"
 __zip_safe__ = False
-__exclude_project_dirs__ = "docs examples tests".split()
+__exclude_project_dirs__ = "docs examples resources".split()
 __python_version_required__ = ">=3.7"
 
 __package_name__ = __project__
