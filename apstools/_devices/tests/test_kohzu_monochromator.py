@@ -26,9 +26,9 @@ class MyKohzu(KohzuSeqCtl_Monochromator):
         Return early if the motors are already in range.
         """
         if (
-            self.m_theta.position >= p_theta,
-            and self.m_y.position <= p_y,
-            and self.m_z.position >= p_z,
+            self.m_theta.position >= p_theta
+            and self.m_y.position <= p_y
+            and self.m_z.position >= p_z
         ):
             # all motors in range, no work to do, MUST yield something
             yield from bps.null()
