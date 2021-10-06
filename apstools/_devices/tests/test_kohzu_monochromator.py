@@ -56,9 +56,9 @@ def test_dcm():
     RE = RunEngine({})
     RE(dcm.into_control_range())
     assert dcm.energy.position > 0
-    assert round(dcm.m_theta.position, 2) == 2
-    assert round(dcm.m_y.position, 2) == -15
-    assert round(dcm.m_z.position, 2) == 90
+    assert round(dcm.m_theta.position, 2) >= 2
+    assert round(dcm.m_y.position, 2) <= -15
+    assert round(dcm.m_z.position, 2) >= 90
 
     delay = 0.1
     time.sleep(delay)
