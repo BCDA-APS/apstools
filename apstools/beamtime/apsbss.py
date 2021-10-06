@@ -167,7 +167,7 @@ def epicsUpdate(prefix):
     bss.status_msg.put("clearing PVs ...")
     bss.clear()
 
-    cycle = bss.esaf.aps_cycle.get(timeout=10)
+    cycle = bss.esaf.aps_cycle.get()
 
     beamline = bss.proposal.beamline_name.get()
     # sector = bss.esaf.sector.get()
