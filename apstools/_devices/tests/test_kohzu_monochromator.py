@@ -21,7 +21,18 @@ class MyKohzu(KohzuSeqCtl_Monochromator):
     def into_control_range(self, p_theta=2, p_y=-15, p_z=90):
         """
         Move the Kohzu motors into range so the energy controls will work.
+
+        Written as a bluesky plan so that all motors can be moved simultaneously.
+        Return early if the motors are already in range.
         """
+        if (
+            self.m_theta.position >= p_theta,
+            and self.m_y.position <= p_y,
+            and self.m_z.position >= p_z,
+        ):
+            # all motors in range, no work to do, MUST yield something
+            yield from bps.null()
+            return
         yield from bps.mv(
             self.m_theta, p_theta,
             self.m_y, p_y,
