@@ -96,7 +96,7 @@ class KohzuSeqCtl_Monochromator(Device):
     message2 = Component(EpicsSignalRO, "KohzuSeqMsg2SI", kind="config")
     operator_acknowledge = Component(EpicsSignal, "KohzuOperAckBO", kind="omitted")
     use_set = Component(EpicsSignal, "KohzuUseSetBO", kind="omitted")
-    mode = Component(EpicsSignal, "KohzuModeBO", kind="config")
+    mode = Component(EpicsSignal, "KohzuModeBO", kind="config", string=True)
     move_button = Component(
         EpicsSignal, "KohzuPutBO", put_complete=True, kind="omitted"
     )
