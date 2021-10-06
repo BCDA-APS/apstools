@@ -178,10 +178,8 @@ def test_ioc(ioc, bss_PV):
 
 def test_EPICS(ioc, bss_PV):
     if not bss_PV.connected:
-        assert not bss_PV.connected  # assert *something*
+        assert True  # assert *something*
         return
-
-    assert bss_PV.connected == True
 
     beamline = "9-ID-B,C"
     cycle = "2019-3"
