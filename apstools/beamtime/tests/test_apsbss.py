@@ -2,8 +2,6 @@
 General tests of the apsbss module
 """
 
-from .. import apsbss, apsbss_makedb
-
 import datetime
 import epics
 import os
@@ -14,10 +12,20 @@ import sys
 import time
 import uuid
 
+from ophyd.signal import EpicsSignalBase
+
+from .. import apsbss, apsbss_makedb
+
+
 BSS_TEST_IOC_PREFIX = f"tst{uuid.uuid4().hex[:7]}:bss:"
 
 DATA_PATH = os.path.abspath(
     os.path.join(os.path.dirname(__file__), "..", "..", "tests")
+)
+
+# set default timeout for all EpicsSignal connections & communications
+EpicsSignalBase.set_defaults(
+    auto_monitor=True, timeout=60, write_timeout=60, connection_timeout=60,
 )
 
 
@@ -34,11 +42,12 @@ def using_APS_workstation():
     return hostname.lower().endswith(".aps.anl.gov")
 
 
-def bss_IOC_available():
+@pytest.fixture(scope="function")
+def bss_PV():
     # try connecting with one of the PVs in the database
     cycle = epics.PV(f"{BSS_TEST_IOC_PREFIX}esaf:cycle")
     cycle.wait_for_connection(timeout=2)
-    return cycle.connected
+    return cycle
 
 
 def test_general():
@@ -109,7 +118,11 @@ class IOC_ProcessConfig:
     bss = None
     manager = None
     ioc_name = "test_apsbss"
+    ioc_prefix = None
     ioc_process = None
+
+    def command(self, cmd):
+        return f"{self.manager} {cmd} {self.ioc_name} {self.ioc_prefix}"
 
 
 def run_process(cmd):
@@ -125,13 +138,14 @@ def run_process(cmd):
 @pytest.fixture()
 def ioc():
     # set up
+
     cfg = IOC_ProcessConfig()
 
     cfg.manager = os.path.abspath(
         os.path.join(DATA_PATH, "..", "beamtime", "apsbss_ioc.sh")
     )
-    cmd = f"{cfg.manager} restart {cfg.ioc_name} {BSS_TEST_IOC_PREFIX}"
-    cfg.ioc_process = run_process(cmd)
+    cfg.ioc_prefix = BSS_TEST_IOC_PREFIX
+    cfg.ioc_process = run_process(cfg.command("restart"))
     time.sleep(0.5)  # allow the IOC to start
 
     # use
@@ -143,14 +157,12 @@ def ioc():
         cfg.bss = None
     if cfg.ioc_process is not None:
         cfg.ioc_process = None
-        cmd = f"{cfg.manager} stop {cfg.ioc_name} {BSS_TEST_IOC_PREFIX}"
-        run_process(cmd)
-        # self.ioc_process.communicate(cmd.encode().split())
+        run_process(cfg.command("stop"))
         cfg.manager = None
 
 
-def test_ioc(ioc):
-    if not bss_IOC_available():
+def test_ioc(ioc, bss_PV):
+    if not bss_PV.connected:
         assert True  # assert *something*
         return
 
@@ -159,25 +171,28 @@ def test_ioc(ioc):
     ioc.bss = bio.EpicsBssDevice(BSS_TEST_IOC_PREFIX, name="bss")
     ioc.bss.wait_for_connection(timeout=2)
     assert ioc.bss.connected
-    assert ioc.bss.esaf.title.get(timeout=10) == ""
-    assert ioc.bss.esaf.description.get(timeout=10) == ""
-    # assert ioc.bss.esaf.aps_cycle.get(timeout=10) == ""
+    assert ioc.bss.esaf.title.get() == ""
+    assert ioc.bss.esaf.description.get() == ""
+    # assert ioc.bss.esaf.aps_cycle.get() == ""
 
 
-def test_EPICS(ioc):
-    if not bss_IOC_available():
-        assert True  # assert *something*
+def test_EPICS(ioc, bss_PV):
+    if not bss_PV.connected:
+        assert not bss_PV.connected  # assert *something*
         return
+
+    assert bss_PV.connected == True
 
     beamline = "9-ID-B,C"
     cycle = "2019-3"
 
     ioc.bss = apsbss.connect_epics(BSS_TEST_IOC_PREFIX)
     assert ioc.bss.connected
-    assert ioc.bss.esaf.aps_cycle.get(timeout=10) == ""
+    assert ioc.bss.esaf.aps_cycle.get() == ""
 
+    assert ioc.bss.esaf.aps_cycle.connected is True
     ioc.bss.esaf.aps_cycle.put(cycle)
-    assert ioc.bss.esaf.aps_cycle.get(timeout=10) != ""
+    assert ioc.bss.esaf.aps_cycle.get() != cycle
 
     if not using_APS_workstation():
         return
@@ -185,10 +200,10 @@ def test_EPICS(ioc):
     # setup
     apsbss.epicsSetup(BSS_TEST_IOC_PREFIX, beamline, cycle)
 
-    assert ioc.bss.proposal.beamline_name.get(timeout=10) != "harpo"
-    assert ioc.bss.proposal.beamline_name.get(timeout=10) == beamline
-    assert ioc.bss.esaf.aps_cycle.get(timeout=10) == cycle
-    assert ioc.bss.esaf.sector.get(timeout=10) == beamline.split("-")[0]
+    assert ioc.bss.proposal.beamline_name.get() != "harpo"
+    assert ioc.bss.proposal.beamline_name.get() == beamline
+    assert ioc.bss.esaf.aps_cycle.get() == cycle
+    assert ioc.bss.esaf.sector.get() == beamline.split("-")[0]
 
     # epicsUpdate
     # Example ESAF on sector 9
@@ -210,15 +225,15 @@ def test_EPICS(ioc):
     ioc.bss.esaf.esaf_id.put(esaf_id)
     ioc.bss.proposal.proposal_id.put(proposal_id)
     apsbss.epicsUpdate(BSS_TEST_IOC_PREFIX)
-    assert ioc.bss.esaf.title.get(timeout=10) == "Commission 9ID and USAXS"
-    assert ioc.bss.proposal.title.get(timeout=10).startswith(
+    assert ioc.bss.esaf.title.get() == "Commission 9ID and USAXS"
+    assert ioc.bss.proposal.title.get().startswith(
         "2019 National School on Neutron & X-r"
     )
 
     apsbss.epicsClear(BSS_TEST_IOC_PREFIX)
-    assert ioc.bss.esaf.aps_cycle.get(timeout=10) != ""
-    assert ioc.bss.esaf.title.get(timeout=10) == ""
-    assert ioc.bss.proposal.title.get(timeout=10) == ""
+    assert ioc.bss.esaf.aps_cycle.get() != ""
+    assert ioc.bss.esaf.title.get() == ""
+    assert ioc.bss.proposal.title.get() == ""
 
 
 def test_makedb(capsys):
