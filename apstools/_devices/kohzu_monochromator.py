@@ -63,10 +63,9 @@ class KohzuSoftPositioner(PVPositioner):
 
     def stop(self, *, success=False):
         """
-        Hold at readback value when the stop() method is called and not done.
+        Tell monochromator to stop its motors.
         """
-        if not self.done.get():
-            self.setpoint.put(self.position)
+        self.parent.allstop_button.put(1)
 
     def move(self, *args, **kwargs):
         @run_in_thread
@@ -102,6 +101,7 @@ class KohzuSeqCtl_Monochromator(Device):
     )
     moving = Component(EpicsSignal, "KohzuMoving", kind="omitted")
     y_offset = Component(EpicsSignal, "Kohzu_yOffsetAO", kind="config")
+    allstop_button = Component(EpicsSignal, "allstop", string=True, kind="omitted")
 
     crystal_mode = Component(EpicsSignal, "KohzuMode2MO", string=True, kind="config")
     crystal_h = Component(EpicsSignal, "BraggHAO", kind="config")
