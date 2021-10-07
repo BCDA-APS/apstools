@@ -9,6 +9,16 @@ describe the future plans.
 
 :1.5.3:  release expected by 2021-11-01
 
+   * `#553 <https://github.com/BCDA-APS/apstools/pull/553>`_
+      Add unit tests for ``devices.ApsCycle*`` Devices.
+
+   * `#551 <https://github.com/BCDA-APS/apstools/pull/551>`_
+      Fixed bug in ``devices.ApsCycleComputedRO`` and
+      ``devices.ApsCycleDM`` involving ``datetime``.
+
+   * `#547 <https://github.com/BCDA-APS/apstools/pull/547>`_
+      Re-organize unit tests with pytest.
+
    * `#546 <https://github.com/BCDA-APS/apstools/pull/546>`_
       Start EPICS IOCs (gp & ad) for unit tests in GitHub workflow.
 
