@@ -8,7 +8,7 @@ APS cycles
    ~ApsCycleDM
 """
 
-import datetime
+from datetime import datetime
 from ophyd.sim import SynSignalRO
 
 

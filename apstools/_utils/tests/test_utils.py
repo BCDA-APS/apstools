@@ -3,14 +3,12 @@ simple unit tests for this package
 """
 
 
-from apstools import __version__ as APS__version__
-from apstools import utils as APS_utils
+from ... import __version__ as APS__version__
+from ... import utils as APS_utils
 import databroker
 import numpy as np
 import ophyd.sim
-import os
 import pytest
-import sys
 import time
 import uuid
 
