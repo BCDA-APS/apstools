@@ -47,6 +47,11 @@ class KohzuSoftPositioner(PVPositioner):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
 
+        # Prepare the positioner to be stopped.
+        # Tells monochromator to stop its motors.  Brutal.
+        self.stop_signal = self.parent.allstop_button
+        self.stop_value = 1
+
         # setup callbacks on done and setpoint
         self.setpoint.subscribe(self.cb_setpoint)
         self.parent.moving.subscribe(self.cb_done)
@@ -56,25 +61,25 @@ class KohzuSoftPositioner(PVPositioner):
 
     @property
     def inposition(self):
-        """
-        Report (boolean) if positioner is done.
-        """
+        """Report (boolean) if positioner is done."""
         return self.done.get() == self.done_value
-
-    def stop(self, *, success=False):
-        """
-        Tell monochromator to stop its motors.
-        """
-        self.parent.allstop_button.put(1)
 
     def move(self, *args, **kwargs):
         @run_in_thread
-        def push_the_move_button_soon():
-            time.sleep(0.01)  # wait a short time
+        def push_the_move_button_soon(delay_s=0.01):
+            time.sleep(delay_s)  # wait a short time
             self.parent.move_button.put(1)
 
         push_the_move_button_soon()
         return super().move(*args, **kwargs)
+
+    def _setup_move(self, position):
+        """Move and do not wait until motion is complete (asynchronous)."""
+        self.log.debug('%s.setpoint = %s', self.name, position)
+        self.setpoint.put(position, wait=False)  # was: wait=True
+        if self.actuate is not None:
+            self.log.debug('%s.actuate = %s', self.name, self.actuate_value)
+            self.actuate.put(self.actuate_value, wait=False)
 
 
 class KohzuSeqCtl_Monochromator(Device):
