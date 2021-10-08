@@ -428,9 +428,9 @@ def db_query(db, query):
         Bluesky database, an instance of ``databroker.catalog``
         satisfying the ``query`` parameters.
 
-    See also:
+    .. seealso::
 
-    * :func:`databroker.catalog.search`
+       :func:`databroker.catalog.search`
     """
 
     if query is None:

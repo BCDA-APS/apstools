@@ -21,6 +21,7 @@ from .motor_mixins import EpicsMotorLimitsMixin
 from .motor_mixins import EpicsMotorRawMixin
 from .motor_mixins import EpicsMotorResolutionMixin
 from .motor_mixins import EpicsMotorServoMixin
+from .positioner_soft_done import PVPositionerSoftDone
 from .scaler_support import SCALER_AUTOCOUNT_MODE
 from .scaler_support import use_EPICS_scaler_channels
 from .shutters import ApsPssShutter

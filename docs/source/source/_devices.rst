@@ -42,6 +42,9 @@ Submodules
 .. automodule:: apstools._devices.motor_mixins
     :members:
 
+.. automodule:: apstools._devices.positioner_soft_done
+    :members:
+
 .. automodule:: apstools._devices.preamp_base
     :members:
 
