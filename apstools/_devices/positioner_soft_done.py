@@ -137,6 +137,12 @@ class PVPositionerSoftDone(PVPositioner):
         **kwargs,
     ):
 
+        if setpoint_pv == readback_pv:
+            raise ValueError(
+                f"readback_pv ({readback_pv})"
+                f" and setpoint_pv ({setpoint_pv})"
+                " must have different values"
+            )
         self._setpoint_pv = setpoint_pv
         self._readback_pv = readback_pv
 
