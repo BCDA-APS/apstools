@@ -33,11 +33,13 @@ class MyKohzu(KohzuSeqCtl_Monochromator):
             # all motors in range, no work to do, MUST yield something
             yield from bps.null()
             return
+        # fmt: off
         yield from bps.mv(
             self.m_theta, p_theta,
             self.m_y, p_y,
             self.m_z, p_z,
         )
+        # fmt: on
         yield from bps.sleep(1)  # allow IOC to react
         yield from bps.mv(self.operator_acknowledge, 1)
 
