@@ -5,6 +5,7 @@ h5py
 numpy
 ophyd>=1.5.1
 openpyxl
+pint
 pyepics>=3.4.2
 pyRestTable
 spec2nexus>=2021.1.7

@@ -70,6 +70,7 @@ OTHER SUPPORT
     ~apstools._devices.description_mixin.EpicsDescriptionMixin
     ~apstools._devices.kohzu_monochromator.KohzuSeqCtl_Monochromator
     ~ProcessController
+    ~apstools._devices.srs570_preamplifier.SRS570_PreAmplifier
     ~apstools._devices.struck3820.Struck3820
 
 Internal routines
