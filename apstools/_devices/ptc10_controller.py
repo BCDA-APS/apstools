@@ -102,15 +102,23 @@ class PTC10TcChannel(Device):
 class PTC10PositionerMixin(Device):
     """
     Mixin so SRS PTC10 can be used as a (temperature) positioner.
+
+    .. autosummary::
+
+       ~cb_readback
+       ~cb_setpoint
+       ~inposition
+       ~stop
     """
 
     done = Component(Signal, value=True, kind="omitted")
     done_value = True
 
     # for computation of soft `done` signal
-    tolerance = Component(
-        Signal, value=1, kind="config"
-    )  # default +/- 1 degree for "at temperature"
+    # default +/- 1 degree for "at temperature"
+    tolerance = Component(Signal, value=1, kind="config")
+
+    # For logging when temperature is reached after a move.
     report_dmov_changes = Component(Signal, value=True, kind="omitted")
 
     def cb_readback(self, *args, **kwargs):
