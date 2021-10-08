@@ -21,6 +21,10 @@ describe the future plans.
       Add device support for SRS570 preamplifier from synApps.
       Hoisted from 4-ID-C Polar and 8-ID-I XPCS.
 
+   * `#491 <https://github.com/BCDA-APS/apstools/issue/491>`_
+      Add device support for PTC10 temperature controller.
+      Hoisted from 9-ID-C USAXS.
+
 :1.5.2:  released 2021-09-29
 
    * Drop Codacy (https://app.codacy.com/gh/BCDA-APS/apstools) as no longer needed.
