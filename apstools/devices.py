@@ -70,6 +70,10 @@ OTHER SUPPORT
     ~apstools._devices.description_mixin.EpicsDescriptionMixin
     ~apstools._devices.kohzu_monochromator.KohzuSeqCtl_Monochromator
     ~ProcessController
+    ~apstools._devices.ptc10_controller.PTC10AioChannel
+    ~apstools._devices.ptc10_controller.PTC10RtdChannel
+    ~apstools._devices.ptc10_controller.PTC10TcChannel
+    ~apstools._devices.ptc10_controller.PTC10PositionerMixin
     ~apstools._devices.srs570_preamplifier.SRS570_PreAmplifier
     ~apstools._devices.struck3820.Struck3820
 
@@ -125,6 +129,10 @@ from ._devices.motor_mixins import EpicsMotorLimitsMixin
 from ._devices.motor_mixins import EpicsMotorRawMixin
 from ._devices.motor_mixins import EpicsMotorResolutionMixin
 from ._devices.motor_mixins import EpicsMotorServoMixin
+from ._devices.ptc10_controller import PTC10AioChannel
+from ._devices.ptc10_controller import PTC10RtdChannel
+from ._devices.ptc10_controller import PTC10TcChannel
+from ._devices.ptc10_controller import PTC10PositionerMixin
 from ._devices.scaler_support import SCALER_AUTOCOUNT_MODE
 from ._devices.scaler_support import use_EPICS_scaler_channels
 from ._devices.shutters import ApsPssShutter

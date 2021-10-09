@@ -22,6 +22,10 @@ from .motor_mixins import EpicsMotorRawMixin
 from .motor_mixins import EpicsMotorResolutionMixin
 from .motor_mixins import EpicsMotorServoMixin
 from .positioner_soft_done import PVPositionerSoftDone
+from .ptc10_controller import PTC10AioChannel
+from .ptc10_controller import PTC10RtdChannel
+from .ptc10_controller import PTC10TcChannel
+from .ptc10_controller import PTC10PositionerMixin
 from .scaler_support import SCALER_AUTOCOUNT_MODE
 from .scaler_support import use_EPICS_scaler_channels
 from .shutters import ApsPssShutter
