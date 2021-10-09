@@ -66,8 +66,8 @@ def test_dcm():
     time.sleep(delay)
 
     dcm.mode.put("Auto")
-    assert dcm.mode.get() == "Auto"
     time.sleep(delay)
+    assert dcm.mode.get() == "Auto"
 
     dcm.energy.move(10.2)
     assert round(dcm.energy.setpoint.get(), 7) == 10.2
