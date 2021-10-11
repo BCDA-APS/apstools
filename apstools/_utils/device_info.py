@@ -132,7 +132,13 @@ def listdevice_1_5_2(
 
 
 def listdevice(*args, **kwargs):
-    return listdevice_1_5_2(*args, **kwargs)
+    table = listdevice_1_5_2(*args, **kwargs)
+
+    # prepare result for pandas DataFrame
+    df = pd.DataFrame()
+    for c, k in enumerate(table.labels):
+        df.insert(len(df.columns), k, [row[c] for row in table.rows])
+    return df
 
 
 def object_explorer(obj, sortby=None, fmt="simple", printing=True):
