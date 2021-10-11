@@ -12,6 +12,9 @@ here.
 Submodules
 ++++++++++
 
+.. automodule:: apstools._utils.device_info
+    :members:
+
 .. automodule:: apstools._utils.list_plans
     :members:
 

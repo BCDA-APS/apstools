@@ -10,12 +10,12 @@ import pyRestTable
 import pytest
 
 from ...devices import SwaitRecord
-from ...utils import listdevice
-from ...utils import object_explorer
-from ...utils import _ophyd_structure_walker
+from ..device_info import listdevice
+from ..device_info import object_explorer
+from ..device_info import _ophyd_structure_walker
 
 
-IOC = "gp:"
+IOC = "gp:"  # for testing with an EPICS IOC
 
 
 class MyDevice(Device):
