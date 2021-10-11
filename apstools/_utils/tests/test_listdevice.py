@@ -1,9 +1,10 @@
 """
-Unit tests for :mod:`~apstools.utils.listdevices`.
+Unit tests for :mod:`~apstools.utils.listdevice`.
 """
 
 from ophyd import Component
 from ophyd import Device
+from ophyd.signal import EpicsSignalBase
 import pandas as pd
 import pyRestTable
 import pytest
@@ -11,6 +12,7 @@ import pytest
 from ...devices import SwaitRecord
 from ...utils import listdevice
 from ...utils import object_explorer
+from ...utils import _ophyd_structure_walker
 
 
 IOC = "gp:"
@@ -48,6 +50,20 @@ def test_object_explorer(calcs):
     assert len(result.labels) == 3
     assert result.labels == ["name", "PV reference", "value"]
     assert len(result.rows) == 126
+
+
+def test__ophyd_structure_walker(calcs):
+    # TODO: non EPICS ophyd structures
+    result = _ophyd_structure_walker(calcs)
+    assert isinstance(result, list)
+    assert len(result) == 126
+    for item in result:
+        assert isinstance(item, EpicsSignalBase)
+
+    result = _ophyd_structure_walker(calcs.calc5.description)
+    assert len(result) == 1
+    for item in result:
+        assert isinstance(item, EpicsSignalBase)
 
 
 @pytest.mark.parametrize(
