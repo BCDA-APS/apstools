@@ -1367,6 +1367,8 @@ def _ophyd_structure_walker(obj):
 def object_explorer(obj, sortby=None, fmt="simple", printing=True):
     """
     print the contents of obj
+
+    DEPRECATED: Use listdevice() instead.  (As of release 1.5.3)
     """
     t = pyRestTable.Table()
     t.addLabel("name")
