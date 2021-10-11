@@ -146,23 +146,27 @@ def object_explorer(obj, sortby=None, fmt="simple", printing=True):
     t.addLabel("PV reference")
     t.addLabel("value")
     items = _list_epics_signals(obj)
-    logger.debug(f"number of items: {len(items)}")
+    if items is None:
+        logger.debug("No EPICS signals found.")
+    else:
+        logger.debug(f"number of items: {len(items)}")
 
-    def sorter(obj):
-        if sortby is None:
-            key = obj.dotted_name
-        elif str(sortby).lower() == "pv":
-            key = _get_pv(obj) or "--"
-        else:
-            # fmt: off
-            raise ValueError(
-                f"sortby should be None or 'PV', found sortby='{sortby}'"
-            )
-            # fmt: on
-        return key
+        def sorter(obj):
+            if sortby is None:
+                key = obj.dotted_name
+            elif str(sortby).lower() == "pv":
+                key = _get_pv(obj) or "--"
+            else:
+                # fmt: off
+                raise ValueError(
+                    f"sortby should be None or 'PV', found sortby='{sortby}'"
+                )
+                # fmt: on
+            return key
 
-    for item in sorted(items, key=sorter):
-        t.addRow((item.dotted_name, _get_pv(item), item.get()))
+        for item in sorted(items, key=sorter):
+            t.addRow((item.dotted_name, _get_pv(item), item.get()))
+
     if printing:
         print(t.reST(fmt=fmt))
     return t

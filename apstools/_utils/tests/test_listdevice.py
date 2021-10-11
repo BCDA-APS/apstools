@@ -4,6 +4,7 @@ Unit tests for :mod:`~apstools.utils.listdevice`.
 
 from ophyd import Component
 from ophyd import Device
+from ophyd import EpicsMotor
 from ophyd import Signal
 from ophyd.signal import EpicsSignalBase
 import pandas as pd
@@ -24,55 +25,75 @@ class MyDevice(Device):
     calc6 = Component(SwaitRecord, "6")
 
 
-@pytest.fixture
-def calcs(scope="function"):
-    calcs = MyDevice(f"{IOC}userCalc", name="calcs")
-    calcs.wait_for_connection()
-    return calcs
+calcs = MyDevice(f"{IOC}userCalc", name="calcs")
+motor = EpicsMotor(f"{IOC}m1", name="motor")
+signal = Signal(name="signal", value=True)
+
+calcs.wait_for_connection()
+motor.wait_for_connection()
 
 
-@pytest.fixture
-def signal(scope="function"):
-    calcs = Signal(name="signal", value=True)
-    return signal
-
-
-def test_calcs(calcs):
+def test_calcs():
     assert calcs.connected
     assert calcs is not None
     assert isinstance(calcs, Device)
 
 
-def test_listdevice(calcs):
-    result = listdevice(calcs)
+@pytest.mark.parametrize(
+    "obj, length",
+    [
+        (calcs, 26),
+        (calcs.calc5.description, 1),
+        (signal, 1),
+        (motor, 2),
+        (motor.user_setpoint, 1),
+    ],
+)
+def test_listdevice(obj, length):
+    result = listdevice(obj)
     assert isinstance(result, pyRestTable.Table)
     assert len(result.labels) == 3
     assert result.labels == ["name", "value", "timestamp"]
-    assert len(result.rows) == 26
+    assert len(result.rows) == length
 
 
-def test_object_explorer(calcs):
-    result = object_explorer(calcs)
+@pytest.mark.parametrize(
+    "obj, length",
+    [
+        (calcs, 126),
+        (calcs.calc5.description, 1),
+        (signal, 0),
+        (motor, 19),
+        (motor.user_setpoint, 1),
+    ],
+)
+def test_object_explorer(obj, length):
+    result = object_explorer(obj)
     assert isinstance(result, pyRestTable.Table)
     assert len(result.labels) == 3
     assert result.labels == ["name", "PV reference", "value"]
-    assert len(result.rows) == 126
+    assert len(result.rows) == length
 
 
-def test__list_epics_signals(calcs, signal):
-    result = _list_epics_signals(calcs)
-    assert isinstance(result, list)
-    assert len(result) == 126
-    for item in result:
-        assert isinstance(item, EpicsSignalBase)
-
-    result = _list_epics_signals(calcs.calc5.description)
-    assert len(result) == 1
-    for item in result:
-        assert isinstance(item, EpicsSignalBase)
-
-    result = _list_epics_signals(signal)
-    assert result is None
+@pytest.mark.parametrize(
+    "obj, length, ref",
+    [
+        (calcs, 126, EpicsSignalBase),
+        (calcs.calc5.description, 1, EpicsSignalBase),
+        (signal, None, None),
+        (motor, 19, EpicsSignalBase),
+        (motor.user_setpoint, 1, EpicsSignalBase),
+    ],
+)
+def test__list_epics_signals(obj, length, ref):
+    result = _list_epics_signals(obj)
+    if length is None:
+        assert result is None
+    else:
+        assert isinstance(result, list)
+        assert len(result) == length
+        for item in result:
+            assert isinstance(item, ref)
 
 
 @pytest.mark.parametrize(
@@ -89,6 +110,6 @@ def test__list_epics_signals(calcs, signal):
         (object_explorer, 125, 2, 0),
     ],
 )
-def test_spotchecks(function, row, column, value, calcs):
+def test_spotchecks(function, row, column, value):
     result = function(calcs)
     assert result.rows[row][column] == value
