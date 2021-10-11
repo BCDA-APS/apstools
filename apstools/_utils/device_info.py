@@ -53,9 +53,9 @@ def _get_pv(obj):
         return obj.prefix
 
 
-def _ophyd_structure_walker(obj):
+def _list_epics_signals(obj):
     """
-    walk the structure of the ophyd obj
+    Return a list of the EPICS signals in obj.
 
     RETURNS
 
@@ -70,7 +70,7 @@ def _ophyd_structure_walker(obj):
             child = _get_named_child(obj, nm)
             if child in (None, "TIMEOUT"):
                 continue
-            result = _ophyd_structure_walker(child)
+            result = _list_epics_signals(child)
             if result is not None:
                 items.extend(result)
         return items
@@ -145,7 +145,7 @@ def object_explorer(obj, sortby=None, fmt="simple", printing=True):
     t.addLabel("name")
     t.addLabel("PV reference")
     t.addLabel("value")
-    items = _ophyd_structure_walker(obj)
+    items = _list_epics_signals(obj)
     logger.debug(f"number of items: {len(items)}")
 
     def sorter(obj):
