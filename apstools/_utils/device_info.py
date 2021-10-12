@@ -194,7 +194,7 @@ def listdevice(
     for signal in signals:
         if scope != "epics" or isinstance(signal, EpicsSignalBase):
             ts = getattr(signal, "timestamp", 0)
-            if (ts >= UNINITIALIZED) or (ts < UNINITIALIZED and show_ancient):
+            if show_ancient or (ts >= UNINITIALIZED):
                 if cname:
                     dd["name"].append(f"{obj.name}.{signal.dotted_name}")
                 if dname:
