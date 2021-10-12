@@ -65,6 +65,7 @@ class KohzuSoftPositioner(PVPositioner):
         return self.done.get() == self.done_value
 
     def move(self, *args, **kwargs):
+        """Reposition, with optional wait for completion."""
         @run_in_thread
         def push_the_move_button_soon(delay_s=0.01):
             time.sleep(delay_s)  # wait a short time
