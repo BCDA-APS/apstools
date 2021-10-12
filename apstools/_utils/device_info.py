@@ -31,7 +31,8 @@ import warnings
 
 
 logger = logging.getLogger(__name__)
-pd.set_option('display.max_rows', None)
+pd.set_option("display.max_rows", None)
+
 
 def _all_signals(base):
     if isinstance(base, Signal):
@@ -118,7 +119,7 @@ def listdevice(
     scope=None,
     cname=False,
     dname=True,
-    pname=False,
+    show_pv=False,
     use_datetime=True,
     show_ancient=True,
 ):
@@ -138,7 +139,10 @@ def listdevice(
             f"Unknown scope='{scope}'." " Must be one of None, 'full', 'epics', 'read'"
         )
 
-    ANCIENT_YEAR = 1989
+    # in EPICS, an uninitialized PV has a timestamp of 1990-01-01 UTC
+    UNINITIALIZED = datetime.datetime.timestamp(
+        datetime.datetime.fromisoformat("1990-06-01")
+    )
 
     if not cname and not dname:
         cname = True
@@ -146,17 +150,17 @@ def listdevice(
     dd = defaultdict(list)
     for signal in signals:
         if scope != "epics" or isinstance(signal, EpicsSignalBase):
-            ts = datetime.datetime.fromtimestamp(getattr(signal, "timestamp", 0))
-            if ts.year and show_ancient:
+            ts = getattr(signal, "timestamp", 0)
+            if (ts >= UNINITIALIZED) or (ts < UNINITIALIZED and show_ancient):
                 if cname:
                     dd["name"].append(f"{obj.name}.{signal.dotted_name}")
                 if dname:
                     dd["data name"].append(signal.name)
-                if pname:
+                if show_pv:
                     dd["PV"].append(_get_pv(signal) or "")
                 dd["value"].append(signal.get())
                 if use_datetime:
-                    dd["timestamp"].append(ts)
+                    dd["timestamp"].append(datetime.datetime.fromtimestamp(ts))
 
     return pd.DataFrame(dd)
 

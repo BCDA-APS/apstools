@@ -21,7 +21,15 @@ from ..device_info import object_explorer
 IOC = "gp:"  # for testing with an EPICS IOC
 
 
+class MySignals(Device):
+    allowed = Component(Signal, value=True, kind="omitted")
+    background = Component(Signal, value=True, kind="normal")
+    tolerance = Component(Signal, value=1, kind="config")
+    visible = Component(Signal, value=True, kind="hinted")
+
+
 class MyDevice(Device):
+    signals = Component(MySignals)
     calc5 = Component(SwaitRecord, "5")
     calc6 = Component(SwaitRecord, "6")
 
@@ -43,7 +51,7 @@ def test_calcs():
 @pytest.mark.parametrize(
     "obj, length",
     [
-        (calcs, 26),
+        (calcs, 28),
         (calcs.calc5.description, 1),
         (signal, 1),
         (motor, 2),
@@ -61,7 +69,7 @@ def test_listdevice_1_5_2(obj, length):
 @pytest.mark.parametrize(
     "obj, length",
     [
-        (calcs, 26),
+        (calcs, 28),
         (calcs.calc5.description, 1),
         (signal, 1),
         (motor, 2),
@@ -121,14 +129,18 @@ def test__list_epics_signals(obj, length, ref):
 @pytest.mark.parametrize(
     "function, row, column, value",
     [
-        (listdevice, 0, "data name", "calcs_calc5_calculated_value"),
-        (listdevice, 0, "value", 0.0),
-        (listdevice, 25, "data name", "calcs_calc6_channels_L_input_value"),
-        (listdevice, 25, "value", 0.0),
-        (listdevice_1_5_2, 0, 0, "calcs_calc5_calculated_value"),
-        (listdevice_1_5_2, 0, 1, 0.0),
-        (listdevice_1_5_2, 25, 0, "calcs_calc6_channels_L_input_value"),
-        (listdevice_1_5_2, 25, 1, 0.0),
+        (listdevice, 0, "data name", "calcs_signals_background"),
+        (listdevice, 0, "value", True),
+        (listdevice, 2, "data name", "calcs_calc5_calculated_value"),
+        (listdevice, 2, "value", 0.0),
+        (listdevice, 27, "data name", "calcs_calc6_channels_L_input_value"),
+        (listdevice, 27, "value", 0.0),
+        (listdevice_1_5_2, 0, 0, "calcs_signals_background"),
+        (listdevice_1_5_2, 0, 1, True),
+        (listdevice_1_5_2, 2, 0, "calcs_calc5_calculated_value"),
+        (listdevice_1_5_2, 2, 1, 0.0),
+        (listdevice_1_5_2, 27, 0, "calcs_calc6_channels_L_input_value"),
+        (listdevice_1_5_2, 27, 1, 0.0),
         (object_explorer, 0, 0, "calc5.alarm_severity"),
         (object_explorer, 0, 1, f"{IOC}userCalc5.SEVR"),
         (object_explorer, 125, 0, "calc6.trace_processing"),
@@ -145,3 +157,21 @@ def test_spotchecks(function, row, column, value):
         assert result[column][row] == value
     else:
         assert result.rows[row][column] == value
+
+
+@pytest.mark.parametrize(
+    "device, scope, ancient, length",
+    [
+        (calcs, "epics", False, 0),
+        (calcs, "epics", True, 126),
+        (calcs, "full", False, 4),
+        (calcs, "full", True, 130),
+        (calcs, "read", False, 2),
+        (calcs, "read", True, 28),
+        (calcs, None, False, 4),
+        (calcs, None, True, 130),
+    ],
+)
+def test_listdevice_filters(device, scope, ancient, length):
+    result = listdevice(device, scope, show_ancient=ancient)
+    assert len(result) == length
