@@ -192,8 +192,6 @@ def test_EPICS(ioc, bss_PV):
     assert ioc.bss.esaf.aps_cycle.get() == ""
 
     assert ioc.bss.esaf.aps_cycle.connected is True
-    ioc.bss.esaf.aps_cycle.put(cycle)
-    # assert ioc.bss.esaf.aps_cycle.get() != cycle    # TODO: confirm
 
     if not using_APS_workstation():
         return
