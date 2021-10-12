@@ -105,7 +105,7 @@ def device_read2table(
         " in release 1.6.0.  Use listdevice() instead.",
         DeprecationWarning,
     )
-    listdevice(
+    listdevice_1_5_2(
         device,
         show_ancient=show_ancient,
         use_datetime=use_datetime,
