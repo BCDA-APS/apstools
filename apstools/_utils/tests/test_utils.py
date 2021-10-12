@@ -34,7 +34,7 @@ def test_utils_cleanupText():
 
 def test_utils_listdevice():
     motor1 = ophyd.sim.hw().motor1
-    table = APS_utils.listdevice(motor1, show_ancient=True, use_datetime=True)
+    table = APS_utils.listdevice_1_5_2(motor1, show_ancient=True, use_datetime=True)
     expected = (
         "=============== =====\n"
         "name            value\n"
@@ -46,12 +46,12 @@ def test_utils_listdevice():
     received = "\n".join([v[:21] for v in str(table).strip().splitlines()])
     assert received == expected
 
-    table = APS_utils.listdevice(motor1, show_ancient=True, use_datetime=False)
+    table = APS_utils.listdevice_1_5_2(motor1, show_ancient=True, use_datetime=False)
     # expected = """ """.strip()
     received = "\n".join([v[:21] for v in str(table).strip().splitlines()])
     assert received == expected
 
-    table = APS_utils.listdevice(motor1, show_ancient=False, use_datetime=False)
+    table = APS_utils.listdevice_1_5_2(motor1, show_ancient=False, use_datetime=False)
     # expected = """ """.strip()
     received = "\n".join([v[:21] for v in str(table).strip().splitlines()])
     assert received == expected

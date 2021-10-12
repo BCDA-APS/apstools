@@ -19,6 +19,7 @@ def lr():
     lr = APS_utils.ListRuns()
     lr.cat = databroker.catalog[TEST_CATALOG_NAME]
     lr._check_keys()
+    assert len(lr.cat) == 53
     return lr
 
 
