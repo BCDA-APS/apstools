@@ -18,7 +18,9 @@ __all__ = """
 """.split()
 
 
+from collections import defaultdict
 from ophyd import Device
+from ophyd import Signal
 from ophyd.signal import EpicsSignalBase
 
 import datetime
@@ -29,6 +31,18 @@ import warnings
 
 
 logger = logging.getLogger(__name__)
+
+
+def _all_signals(base):
+    if isinstance(base, Signal):
+        return [base]
+    items = []
+    if hasattr(base, "component_names"):
+        for k in base.component_names:
+            obj = getattr(base, k)
+            if isinstance(obj, (Device, Signal)):
+                items += _all_signals(obj)
+    return items
 
 
 def _get_named_child(obj, nm):
@@ -99,6 +113,55 @@ def device_read2table(
     # fmt: on
 
 
+def listdevice(
+    obj, scope=None, cname=False, dname=True, pname=False, use_datetime=True,
+    show_ancient=True
+):
+    """
+    Describe the signal information from device ``obj``.
+    """
+    scope = (scope or "full").lower()
+    signals = _all_signals(obj)
+    if scope in ("full", "epics"):
+        if scope == "epics":
+            signals = [s for s in signals if isinstance(s, EpicsSignalBase)]
+    elif scope == "read":
+        reading = obj.read()
+        signals = [s for s in signals if s.name in reading]
+    else:
+        raise KeyError(
+            f"Unknown scope='{scope}'." " Must be one of None, 'full', 'epics', 'read'"
+        )
+
+    ANCIENT_YEAR = 1989
+
+    if not cname and not dname:
+        cname = True
+
+    dd = defaultdict(list)
+    for signal in signals:
+        if scope != "epics" or isinstance(signal, EpicsSignalBase):
+            ts = datetime.datetime.fromtimestamp(
+                getattr(signal, "timestamp", 0)
+            )
+            if not show_ancient and ts.year < ANCIENT_YEAR:
+                continue
+
+            if cname:
+                dd["name"].append(f"{obj.name}.{signal.dotted_name}")
+            if dname:
+                dd["data name"].append(signal.name)
+            if pname:
+                dd["PV"].append(_get_pv(signal) or "")
+            dd["value"].append(signal.get())
+            if use_datetime:
+                dd["timestamp"].append(
+                    ts
+                )
+
+    return pd.DataFrame(dd)
+
+
 def listdevice_1_5_2(
     # fmt:off
     device, show_ancient=True, use_datetime=True, printing=True
@@ -129,16 +192,6 @@ def listdevice_1_5_2(
         print(table)
 
     return table
-
-
-def listdevice(*args, **kwargs):
-    table = listdevice_1_5_2(*args, **kwargs)
-
-    # prepare result for pandas DataFrame
-    df = pd.DataFrame()
-    for c, k in enumerate(table.labels):
-        df.insert(len(df.columns), k, [row[c] for row in table.rows])
-    return df
 
 
 def object_explorer(obj, sortby=None, fmt="simple", printing=True):

@@ -69,13 +69,14 @@ def test_listdevice_1_5_2(obj, length):
     ],
 )
 def test_listdevice(obj, length):
-    result = listdevice(obj)
+    result = listdevice(obj, scope="read")
     assert isinstance(result, pd.DataFrame)
-    assert len(result.columns) == 3
-    expected = ["name", "value", "timestamp"]
-    for r in result.columns:
-        assert r in expected
     assert len(result) == length
+    if length > 0:
+        assert len(result.columns) == 3
+        expected = ["data name", "value", "timestamp"]
+        for r in result.columns:
+            assert r in expected
 
 
 @pytest.mark.parametrize(
@@ -120,9 +121,9 @@ def test__list_epics_signals(obj, length, ref):
 @pytest.mark.parametrize(
     "function, row, column, value",
     [
-        (listdevice, 0, "name", "calcs_calc5_calculated_value"),
+        (listdevice, 0, "data name", "calcs_calc5_calculated_value"),
         (listdevice, 0, "value", 0.0),
-        (listdevice, 25, "name", "calcs_calc6_channels_L_input_value"),
+        (listdevice, 25, "data name", "calcs_calc6_channels_L_input_value"),
         (listdevice, 25, "value", 0.0),
         (listdevice_1_5_2, 0, 0, "calcs_calc5_calculated_value"),
         (listdevice_1_5_2, 0, 1, 0.0),
@@ -136,7 +137,10 @@ def test__list_epics_signals(obj, length, ref):
     ],
 )
 def test_spotchecks(function, row, column, value):
-    result = function(calcs)
+    if function == listdevice:
+        result = function(calcs, scope="read")
+    else:
+        result = function(calcs)
     if isinstance(result, pd.DataFrame):
         assert result[column][row] == value
     else:
