@@ -124,7 +124,50 @@ def listdevice(
     show_ancient=True,
 ):
     """
-    Describe the signal information from device ``obj``.
+    Describe the signal information from device ``obj`` in a pandas DataFrame.
+
+    Look through all subcomponents to find all the signals to be shown.
+
+    PARAMETERS
+
+    obj
+        *object* : Instance of ophyd Signal or Device.
+    scope
+        *str* or None : Scope of content to be shown.
+
+        - ``"full"`` (or ``None``) shows all Signal components
+        - ``"epics"`` shows only EPICS-based Signals
+        - ``"read"`` shows only the signals returned by ``obj.read()``
+
+        default: ``None``
+    cname
+        *bool* : Show the _control_ (Python, dotted) name in column ``name``.
+
+        default: ``False``
+    dname
+        *bool* : Show the _data_ (databroker, with underlines) name in
+        column ``data name``.
+
+        default: ``True``
+    show_pv
+        *bool* : Show the EPICS process variable (PV) name in
+        column ``PV``.
+
+        default: ``False``
+    use_datetime
+        *bool* : Show the EPICS timestamp (time of last update) in
+        column ``timestamp``.
+
+        default: ``True``
+    show_ancient
+        *bool* : Show uninitialized EPICS process variables.
+
+        In EPICS, an uninitialized PV has a timestamp of 1990-01-01 UTC.
+        This option enables or suppresses ancient values identified
+        by timestamp from 1989.  These are values only defined in
+        the original ``.db`` file.
+
+        default: ``True``
     """
     scope = (scope or "full").lower()
     signals = _all_signals(obj)
