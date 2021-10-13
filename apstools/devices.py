@@ -66,6 +66,11 @@ OTHER SUPPORT
 .. autosummary::
 
     ~apstools._devices.aps_bss_user.ApsBssUserInfoDevice
+    ~apstools._devices.xia_pf4.Pf4FilterSingle
+    ~apstools._devices.xia_pf4.Pf4FilterDual
+    ~apstools._devices.xia_pf4.Pf4FilterTriple
+    ~apstools._devices.xia_pf4.Pf4FilterBank
+    ~apstools._devices.xia_pf4.Pf4FilterCommon
     ~apstools._devices.xia_pf4.DualPf4FilterBox
     ~apstools._devices.description_mixin.EpicsDescriptionMixin
     ~apstools._devices.kohzu_monochromator.KohzuSeqCtl_Monochromator
@@ -107,44 +112,7 @@ from ophyd import Signal
 from bluesky import plan_stubs as bps
 
 # pull up submodule features for: from apstools.devices import XYZ
-from ._devices.aps_bss_user import ApsBssUserInfoDevice
-from ._devices.aps_cycle import ApsCycleComputedRO
-from ._devices.aps_cycle import ApsCycleDM
-from ._devices.aps_machine import ApsMachineParametersDevice
-from ._devices.aps_machine import ApsOperatorMessagesDevice
-from ._devices.area_detector_support import AD_FrameType_schemes
-from ._devices.area_detector_support import AD_plugin_primed
-from ._devices.area_detector_support import AD_prime_plugin
-from ._devices.area_detector_support import AD_prime_plugin2
-from ._devices.area_detector_support import AD_EpicsHdf5FileName
-from ._devices.area_detector_support import AD_EpicsJpegFileName
-from ._devices.axis_tuner import AxisTunerException
-from ._devices.axis_tuner import AxisTunerMixin
-from ._devices.description_mixin import EpicsDescriptionMixin
-from ._devices.kohzu_monochromator import KohzuSeqCtl_Monochromator
-from ._devices.mixin_base import DeviceMixinBase
-from ._devices.motor_mixins import EpicsMotorDialMixin
-from ._devices.motor_mixins import EpicsMotorEnableMixin
-from ._devices.motor_mixins import EpicsMotorLimitsMixin
-from ._devices.motor_mixins import EpicsMotorRawMixin
-from ._devices.motor_mixins import EpicsMotorResolutionMixin
-from ._devices.motor_mixins import EpicsMotorServoMixin
-from ._devices.ptc10_controller import PTC10AioChannel
-from ._devices.ptc10_controller import PTC10RtdChannel
-from ._devices.ptc10_controller import PTC10TcChannel
-from ._devices.ptc10_controller import PTC10PositionerMixin
-from ._devices.scaler_support import SCALER_AUTOCOUNT_MODE
-from ._devices.scaler_support import use_EPICS_scaler_channels
-from ._devices.shutters import ApsPssShutter
-from ._devices.shutters import ApsPssShutterWithStatus
-from ._devices.shutters import EpicsMotorShutter
-from ._devices.shutters import EpicsOnOffShutter
-from ._devices.shutters import OneSignalShutter
-from ._devices.shutters import ShutterBase
-from ._devices.shutters import SimulatedApsPssShutterWithStatus
-from ._devices.struck3820 import Struck3820
-from ._devices.tracking_signal import TrackingSignal
-from ._devices.xia_pf4 import DualPf4FilterBox
+from ._devices import *
 from .synApps import *
 
 
