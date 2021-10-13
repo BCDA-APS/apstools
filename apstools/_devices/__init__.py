@@ -47,6 +47,11 @@ __all__ = """
     use_EPICS_scaler_channels
 """.split()
 
+# must come first to avoid circular imports
+from .positioner_soft_done import PVPositionerSoftDone
+from .positioner_soft_done import PVPositionerSoftDoneWithStop
+
+# other imports
 from .aps_bss_user import ApsBssUserInfoDevice
 from .aps_cycle import ApsCycleComputedRO
 from .aps_cycle import ApsCycleDM
@@ -63,6 +68,8 @@ from .axis_tuner import AxisTunerException
 from .axis_tuner import AxisTunerMixin
 from .description_mixin import EpicsDescriptionMixin
 from .kohzu_monochromator import KohzuSeqCtl_Monochromator
+from .linkam_controllers import Linkam_CI94_Device
+from .linkam_controllers import Linkam_T96_Device
 from .mixin_base import DeviceMixinBase
 from .motor_mixins import EpicsMotorDialMixin
 from .motor_mixins import EpicsMotorEnableMixin
@@ -70,7 +77,6 @@ from .motor_mixins import EpicsMotorLimitsMixin
 from .motor_mixins import EpicsMotorRawMixin
 from .motor_mixins import EpicsMotorResolutionMixin
 from .motor_mixins import EpicsMotorServoMixin
-from .positioner_soft_done import PVPositionerSoftDone
 from .ptc10_controller import PTC10AioChannel
 from .ptc10_controller import PTC10RtdChannel
 from .ptc10_controller import PTC10TcChannel
