@@ -36,6 +36,9 @@ Submodules
 .. automodule:: apstools._devices.kohzu_monochromator
     :members:
 
+.. automodule:: apstools._devices.linkam_controllers
+    :members:
+
 .. automodule:: apstools._devices.mixin_base
     :members:
 
