@@ -1,6 +1,16 @@
 """
 PVPositioner that computes ``done`` as a soft signal.
+
+.. autosummary::
+
+   ~PVPositionerSoftDone
+   ~PVPositionerSoftDoneWithStop
 """
+
+__all__ = """
+PVPositionerSoftDone
+PVPositionerSoftDoneWithStop
+""".split()
 
 from ophyd import Component
 from ophyd import FormattedComponent
@@ -171,3 +181,27 @@ class PVPositionerSoftDone(PVPositioner):
             self.log.debug("%s.actuate = %s", self.name, self.actuate_value)
             self.actuate.put(self.actuate_value, wait=False)
         self.cb_readback()  # This is needed to force the first check.
+
+
+class PVPositionerSoftDoneWithStop(PVPositionerSoftDone):
+    """
+    PVPositionerSoftDone with stop() and inposition.
+
+    The :meth:`stop()` method sets the setpoint to the immediate readback
+    value (only when ``inposition`` is ``True``).  This stops the
+    positioner at the current position.
+    """
+
+    @property
+    def inposition(self):
+        """
+        Report (boolean) if positioner is done.
+        """
+        return self.done.get() == self.done_value
+
+    def stop(self, *, success=False):
+        """
+        Hold the current readback when stop() is called and not inposition.
+        """
+        if not self.done.get():
+            self.setpoint.put(self.position)
