@@ -47,6 +47,8 @@ class Pf4FilterBank(Device):
             C = Component(Pf4FilterBank, "", bank="C")
 
         pf4 = MyTriplePf4("ioc:pf4:", name="pf4")
+
+    :see: https://github.com/epics-modules/optics/blob/master/opticsApp/Db/pf4bank.db
     """
 
     fPos = FormattedComponent(EpicsSignal, "{prefix}fPos{_bank}", kind="config")
@@ -80,6 +82,8 @@ class Pf4FilterCommon(Device):
             C = Component(Pf4FilterBank, "", bank="C")
 
         pf4 = MyTriplePf4("ioc:pf4:", name="pf4")
+
+    :see: https://github.com/epics-modules/optics/blob/master/opticsApp/Db/pf4common.db
     """
 
     transmission = Component(EpicsSignalRO, "trans", kind="hinted")
