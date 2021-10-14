@@ -2,7 +2,6 @@
 file: /tmp/kohzu.py
 """
 
-import logging
 import time
 
 from .. import KohzuSeqCtl_Monochromator
