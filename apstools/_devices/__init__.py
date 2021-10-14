@@ -27,6 +27,8 @@ __all__ = """
     EpicsMotorShutter
     EpicsOnOffShutter
     KohzuSeqCtl_Monochromator
+    Linkam_CI94_Device
+    Linkam_T96_Device
     OneSignalShutter
     Pf4FilterBank
     Pf4FilterCommon
