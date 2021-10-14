@@ -42,6 +42,8 @@ MOTORS, POSITIONERS, AXES, ...
     ~apstools._devices.motor_mixins.EpicsMotorRawMixin
     ~apstools._devices.motor_mixins.EpicsMotorResolutionMixin
     ~apstools._devices.motor_mixins.EpicsMotorServoMixin
+    ~apstools._devices.positioner_soft_done.PVPositionerSoftDone
+    ~apstools._devices.positioner_soft_done.PVPositionerSoftDoneWithStop
     ~apstools._devices.shutters.EpicsMotorShutter
     ~apstools._devices.shutters.EpicsOnOffShutter
 
@@ -61,6 +63,17 @@ synApps Support
 
     See separate :ref:`synApps` section.
 
+TEMPERATURE CONTROLLERS
+
+.. autosummary::
+
+    ~apstools._devices.linkam_controllers.Linkam_CI94_Device
+    ~apstools._devices.linkam_controllers.Linkam_T96_Device
+    ~apstools._devices.ptc10_controller.PTC10AioChannel
+    ~apstools._devices.ptc10_controller.PTC10RtdChannel
+    ~apstools._devices.ptc10_controller.PTC10TcChannel
+    ~apstools._devices.ptc10_controller.PTC10PositionerMixin
+
 OTHER SUPPORT
 
 .. autosummary::
@@ -74,13 +87,9 @@ OTHER SUPPORT
     ~apstools._devices.xia_pf4.DualPf4FilterBox
     ~apstools._devices.description_mixin.EpicsDescriptionMixin
     ~apstools._devices.kohzu_monochromator.KohzuSeqCtl_Monochromator
-    ~ProcessController
-    ~apstools._devices.ptc10_controller.PTC10AioChannel
-    ~apstools._devices.ptc10_controller.PTC10RtdChannel
-    ~apstools._devices.ptc10_controller.PTC10TcChannel
-    ~apstools._devices.ptc10_controller.PTC10PositionerMixin
     ~apstools._devices.srs570_preamplifier.SRS570_PreAmplifier
     ~apstools._devices.struck3820.Struck3820
+    ~ProcessController
 
 Internal routines
 
