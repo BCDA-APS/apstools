@@ -18,6 +18,15 @@ from ..device_info import listdevice_1_5_2
 from ..device_info import object_explorer
 
 
+# set default timeout for all EpicsSignal connections & communications
+try:
+    EpicsSignalBase.set_defaults(
+        auto_monitor=True, timeout=60, write_timeout=60, connection_timeout=60,
+    )
+except RuntimeError:
+    pass  # ignore if some EPICS object already created
+
+
 IOC = "gp:"  # for testing with an EPICS IOC
 
 
