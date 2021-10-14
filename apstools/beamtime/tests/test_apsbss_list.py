@@ -1,10 +1,9 @@
-#!/usr/bin/env pytest
+import pytest
+import sys
 
 from ..apsbss import getCurrentCycle
 from ..apsbss import main
 from .utils import is_aps_workstation
-import pytest
-import sys
 
 
 def test_myoutput(capsys):  # or use "capfd" for fd-level
