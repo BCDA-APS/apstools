@@ -203,5 +203,5 @@ class PVPositionerSoftDoneWithStop(PVPositionerSoftDone):
         """
         Hold the current readback when stop() is called and not inposition.
         """
-        if not self.done.get():
+        if not self.inposition:
             self.setpoint.put(self.position)
