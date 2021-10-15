@@ -1,19 +1,19 @@
 """
 unit tests for the filewriters
 """
-
-from ..filewriters import FileWriterCallbackBase
-from ..filewriters import NXWriterAPS
-from ..filewriters import NXWriter
-from ..filewriters import NEXUS_FILE_EXTENSION
-from ..filewriters import NEXUS_RELEASE
-from ..filewriters import SpecWriterCallback
 import databroker
 import h5py
 import os
 import pytest
 import spec2nexus.spec
 import tempfile
+
+from ..filewriters import FileWriterCallbackBase
+from ..filewriters import NEXUS_FILE_EXTENSION
+from ..filewriters import NEXUS_RELEASE
+from ..filewriters import NXWriter
+from ..filewriters import NXWriterAPS
+from ..filewriters import SpecWriterCallback
 
 CATALOG = "usaxs_test"
 COUNT = "555a604"  # <-- uid,  scan_id: 2
