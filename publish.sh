@@ -3,6 +3,16 @@
 # publish this package
 # Run this from the package's root directory.
 
+# pre-release steps per https://nsls-ii.github.io/scientific-python-cookiecutter/publishing-releases.html
+# 1. update the CHANGES.rst
+# 2. git status: on main?  no uncommitted code?
+# 3. git commit --allow-empty -m "REL: X.Y.Z"  # empty commit
+# 4. git tag -a X.Y.Z
+# 5. python ./setup.py version  # verify version is correct
+# 6. git push origin main
+# 7. git push origin X.Y.Z
+# 8. run this script
+
 # conda create -n build anaconda conda-build twine
 conda activate build
 
