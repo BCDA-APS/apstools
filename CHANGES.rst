@@ -26,7 +26,7 @@ describe the future plans.
 1.5.3
 ******
 
-release expected by 2021-11-01
+released 2021-10-15
 
 .. Format of the Change History changes with this release to make
    the organization here more relevant to the reader.  The
