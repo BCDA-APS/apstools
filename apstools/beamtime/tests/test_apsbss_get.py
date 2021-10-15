@@ -1,8 +1,7 @@
-#!/usr/bin/env pytest
-
-from .utils import is_aps_workstation
-from .. import apsbss
 import pytest
+
+from .. import apsbss
+from .utils import is_aps_workstation
 
 
 def test_cycle_not_found():

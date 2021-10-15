@@ -2,15 +2,15 @@
 simple unit tests for this package
 """
 
-
-from ... import __version__ as APS__version__
-from ... import utils as APS_utils
 import databroker
 import numpy as np
 import ophyd.sim
 import pytest
 import time
 import uuid
+
+from ... import __version__ as APS__version__
+from ... import utils as APS_utils
 
 
 CATALOG = "usaxs_test"

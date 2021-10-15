@@ -2,16 +2,13 @@
 test issue #440: specwriter
 """
 
-from apstools.filewriters import SpecWriterCallback
-from apstools.filewriters import _rebuild_scan_command
 import intake
-
-# import pytest
 import numpy as np
-
-# import numpy.testing
 import os
 import zipfile
+
+from ..filewriters import SpecWriterCallback
+from ..filewriters import _rebuild_scan_command
 
 
 DATA_ARCHIVE = "440_specwriter_problem_run.zip"

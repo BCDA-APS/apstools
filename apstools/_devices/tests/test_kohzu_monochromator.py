@@ -2,7 +2,6 @@
 file: /tmp/kohzu.py
 """
 
-import logging
 import time
 
 from .. import KohzuSeqCtl_Monochromator
@@ -10,7 +9,16 @@ from bluesky import plan_stubs as bps
 from bluesky import RunEngine
 from ophyd import Component
 from ophyd import EpicsMotor
-from ophyd import EpicsSignal
+from ophyd.signal import EpicsSignalBase
+
+
+# set default timeout for all EpicsSignal connections & communications
+try:
+    EpicsSignalBase.set_defaults(
+        auto_monitor=True, timeout=60, write_timeout=60, connection_timeout=60,
+    )
+except RuntimeError:
+    pass  # ignore if some EPICS object already created
 
 
 class MyKohzu(KohzuSeqCtl_Monochromator):

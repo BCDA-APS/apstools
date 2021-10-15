@@ -2,6 +2,14 @@
 Unit testing of plans.
 """
 
+from bluesky.simulators import summarize_plan
+from ophyd.signal import EpicsSignalBase
+
+import ophyd.sim
+import os
+import pytest
+import sys
+
 from ... import plans as APS_plans
 from ...plans import _COMMAND_HANDLER_
 from ...plans import addDeviceDataAsStream
@@ -9,12 +17,15 @@ from ...plans import execute_command_list
 from ...plans import get_command_list
 from ...plans import register_command_handler
 from ...plans import run_command_file
-from bluesky.simulators import summarize_plan
 
-import ophyd.sim
-import os
-import pytest
-import sys
+
+# set default timeout for all EpicsSignal connections & communications
+try:
+    EpicsSignalBase.set_defaults(
+        auto_monitor=True, timeout=60, write_timeout=60, connection_timeout=60,
+    )
+except RuntimeError:
+    pass  # ignore if some EPICS object already created
 
 
 DATA_PATH = os.path.abspath(
