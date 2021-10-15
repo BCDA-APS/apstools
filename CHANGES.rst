@@ -1,39 +1,109 @@
 ..
   This file describes user-visible changes between the versions.
 
+  subsections could include these headings (in this order), omit if no content
+
+    Notice
+    Breaking Changes
+    New Features and/or Enhancements
+    Fixes
+    Maintenance
+    Deprecations
+    Contributors
+
 Change History
 ##############
 
 The project `milestones <https://github.com/BCDA-APS/apstools/milestones>`_
 describe the future plans.
 
-.. :1.6.0:  release expected by 2021-02-01
+.. 
+   1.6.0
+   ******
 
-:1.5.3:  release expected by 2021-11-01
+   release expected by 2021-02-01
 
-   * `#553 <https://github.com/BCDA-APS/apstools/pull/553>`_
-      Add unit tests for ``devices.ApsCycle*`` Devices.
+1.5.3
+******
 
-   * `#551 <https://github.com/BCDA-APS/apstools/pull/551>`_
-      Fixed bug in ``devices.ApsCycleComputedRO`` and
-      ``devices.ApsCycleDM`` involving ``datetime``.
+release expected by 2021-11-01
 
-   * `#547 <https://github.com/BCDA-APS/apstools/pull/547>`_
-      Re-organize unit tests with pytest.
+.. Format of the Change History changes with this release to make
+   the organization here more relevant to the reader.  The
+   `release notes <https://github.com/BCDA-APS/apstools/wiki/Release-Notes>`_
+   on the wiki provide links to these specifics.
 
-   * `#546 <https://github.com/BCDA-APS/apstools/pull/546>`_
-      Start EPICS IOCs (gp & ad) for unit tests in GitHub workflow.
+Notice
+-----------------
 
-   * `#544 <https://github.com/BCDA-APS/apstools/issue/544>`_
-      Generalize that amplifiers will have a ``gain`` Component.
+The ``apstools.beamtime`` module and related content (includes ``apsbss``)
+will be moved to a new repository for release 1.6.0. This will
+remove the requirement that the APS data management tools (package *aps-dm*,
+which only works on the APS computing network) be included.  With this
+change, users will be able to ``conda install apstools -c aps-anl-tag`` on
+computers outside of the APS computing network.
 
-   * `#541 <https://github.com/BCDA-APS/apstools/pull/541>`_
-      Add device support for SRS570 preamplifier from synApps.
-      Hoisted from 4-ID-C Polar and 8-ID-I XPCS.
+Breaking Changes
+-----------------
 
-   * `#491 <https://github.com/BCDA-APS/apstools/issue/491>`_
-      Add device support for PTC10 temperature controller.
-      Hoisted from 9-ID-C USAXS.
+- ``apstools.utils.listdevice`` has a new API (old version renamed to ``listdevice_1_5_2``)
+
+New Features and/or Enhancements
+---------------------------------------------
+
+- Kohzu monochromator ``energy``, ``wavelength``, and ``theta`` each are now a ``PVPositioner`` (subclass).
+- Linkam temperature controller CI94
+- Linkam temperature controller T96
+- Stanford Research Systems 570 current preamplifier
+- Stanford Research Systems PTC10 temperature controller
+- XIA PF4 filter now supports multiple PF4 units.
+- Generalize that amplifiers will have a ``gain`` Component attribute.
+- Generalize that temperature controllers will have a  ``temperature`` Component attribute that is a positioner (subclass of ``ophyd.PVPositioner``).
+- Enhanced positioners for EPICS Devices:
+  - ``apstools.devices.PVPositionerSoftDone``
+  - ``apstools.devices.PVPositionerSoftDoneWithStop``
+
+Fixes
+---------------
+
+- Fixed bug in ``devices.ApsCycleComputedRO`` and ``devices.ApsCycleDM`` involving ``datetime``.
+
+Maintenance
+---------------
+
+- Moved all device support into individual modules under `apstools._devices` because `apstools.devices` module was getting too big.  Will refactor all with release 1.6.0.
+- Add unit tests for ``devices.ApsCycle*`` Devices.
+- Add EPICS IOCs (ADSimDetector and synApps xxx) to continuous integration for use in unit testing.
+- Unit tests now use *pytest* package.
+- Suppress certain warnings during unit testing.
+
+Deprecations
+---------------
+
+This support will be removed in release 1.6.0:
+
+- ``apstools.beamtime`` module and related content (includes ``apsbss``) will be moved to a new repository
+- ``apstools.devices.ProcessController``
+- ``apstools.utils.device_read2table``
+- ``apstools.utils.listdevice_1_5_2``
+- ``apstools.utils.object_explorer``
+
+Contributors
+---------------
+
+- Fanny Rodolakis
+- Gilberto Fabbris
+- Jan Ilavsky
+- Qingteng Zhang
+- 4-ID-C Polar
+- 8-ID-I XPCS
+- 9-ID-C USAXS
+
+1.5.2 (and previous)
+************************
+
+See this table for release change histories, highlighted by version control
+reference (pull request or issue):
 
 :1.5.2:  released 2021-09-29
 
