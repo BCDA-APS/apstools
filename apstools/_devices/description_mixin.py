@@ -23,8 +23,8 @@ class EpicsDescriptionMixin(DeviceMixinBase):
         from ophyd import EpicsMotor
         from apstools.devices import EpicsDescriptionMixin
 
-        class myEpicsMotor(EpicsDescriptionMixin, EpicsMotor): pass
-        m1 = myEpicsMotor('xxx:m1', name='m1')
+        class MyEpicsMotor(EpicsDescriptionMixin, EpicsMotor): pass
+        m1 = MyEpicsMotor('xxx:m1', name='m1')
         print(m1.desc.get())
 
     more ideas::
