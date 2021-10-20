@@ -34,7 +34,7 @@ EXAMPLE::
         rtd = Component(PTC10RtdChannel, "3A:")
         pid = Component(PTC10AioChannel, "5A:")
 
-    ptc10 = USAXS_PTC10("IOC_PREFIX:ptc10:", name="ptc10")
+    ptc10 = MyPTC10("IOC_PREFIX:ptc10:", name="ptc10")
     ptc10.report_dmov_changes.put(True)  # a diagnostic
     ptc10.tolerance.put(1.0)  # done when |readback-setpoint|<=tolerance
 
