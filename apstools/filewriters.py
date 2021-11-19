@@ -285,8 +285,8 @@ class SpecWriterCallback(object):
         )
         logger = logging.getLogger(__name__)
         if key in xref:
-            uid = document.get("uid") or document.get("datum_id")
-            logger.debug("%s document, uid=%s", key, str(uid))
+            token = document.get("uid") or document.get("datum_id")
+            logger.debug("%s document, uid=%s", key, str(token))
             ts = document.get("time")
             if ts is None:
                 ts = datetime.datetime.now()
