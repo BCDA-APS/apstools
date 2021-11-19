@@ -31,7 +31,7 @@ release expected 2021-12-01
 Fixes
 ---------------
 
-- Restricted python version to 3.7 or 3.8 due to upstream *aps_dm_api* package.
+- Restricted python version to 3.7 due to upstream *aps_dm_api* package.
 
 
 1.5.3
