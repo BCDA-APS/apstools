@@ -23,13 +23,24 @@ describe the future plans.
 
    release expected by 2021-02-01
 
+1.5.4
+******
+
+release expected 2021-12-01
+
+Fixes
+---------------
+
+- Restricted python version to 3.7 due to upstream *aps_dm_api* package.
+
+
 1.5.3
 ******
 
 released 2021-10-15
 
 .. Format of the Change History changes with this release to make
-   the organization here more relevant to the reader.  The
+   the layout become more relevant to the __reader__.  The
    `release notes <https://github.com/BCDA-APS/apstools/wiki/Release-Notes>`_
    on the wiki provide links to these specifics.
 
