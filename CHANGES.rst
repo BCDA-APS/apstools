@@ -32,7 +32,7 @@ Fixes
 ---------------
 
 - Restricted python version to 3.7 due to upstream *aps_dm_api* package.
-
+- Rename name `uid` to `token` to avoid LGTM security false alert.
 
 1.5.3
 ******
