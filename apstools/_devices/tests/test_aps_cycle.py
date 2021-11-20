@@ -64,7 +64,7 @@ def test_ApsCycleDB():
         ["2021-09-30 23:59:59", "2021-2"],
         ["2021-10-01 00:00:00", "2021-3"],
         ["1999-06-01", None],
-    ]
+    ],
 )
 def test_cycles(iso8601, cycle_name):
     assert isinstance(iso8601, str)
