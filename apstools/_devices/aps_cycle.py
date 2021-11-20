@@ -32,7 +32,7 @@ class _ApsCycleDB:
         # transform raw cycle data into JSON by replacing all ' with "
         _cycles = json.loads(self._read_cycle_data().replace("'", '"'))
         self.db = {
-            line["name"] : {
+            line["name"]: {
                 "start": datetime.datetime.timestamp(
                     datetime.datetime.fromisoformat(line["startTime"])
                 ),
@@ -77,7 +77,7 @@ class _ApsCycleDB:
         try:
             table = self._bss_list_runs
             self.source = "aps-dm-api"
-        except:
+        except Exception:
             table = open(LOCAL_FILE, "r").read()
             self.source = "file"
         return table
@@ -100,6 +100,7 @@ class _ApsCycleDB:
     @property
     def _bss_list_runs(self):
         from ..beamtime import apsbss
+
         return str(apsbss.api_bss.listRuns())
 
 
