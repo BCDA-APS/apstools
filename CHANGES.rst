@@ -28,11 +28,21 @@ describe the future plans.
 
 release expected 2021-12-01
 
+NOTE: The ``apsbss`` component will be moved out of ``apstools`` into its
+own package with the next release (1.6.0, ~Feb 2022) of ``apstools``.
+
 Fixes
 ---------------
 
-- Restricted python version to 3.7 due to upstream *aps_dm_api* package.
-- Rename name `uid` to `token` to avoid LGTM security false alert.
+* Restricted python version to 3.7 due to upstream *aps_dm_api* package.
+* Rename name `uid` to `token` to avoid LGTM security false alert.
+
+Deprecations
+---------------
+
+This support was marked as deprecated in release 1.5.4:
+
+* ``apstools.devices.ApsCycleComputedRO``
 
 1.5.3
 ******
@@ -57,58 +67,58 @@ computers outside of the APS computing network.
 Breaking Changes
 -----------------
 
-- ``apstools.utils.listdevice`` has a new API (old version renamed to ``listdevice_1_5_2``)
+* ``apstools.utils.listdevice`` has a new API (old version renamed to ``listdevice_1_5_2``)
 
 New Features and/or Enhancements
 ---------------------------------------------
 
-- Kohzu monochromator ``energy``, ``wavelength``, and ``theta`` each are now a ``PVPositioner`` (subclass).
-- Linkam temperature controller CI94
-- Linkam temperature controller T96
-- Stanford Research Systems 570 current preamplifier
-- Stanford Research Systems PTC10 temperature controller
-- XIA PF4 filter now supports multiple PF4 units.
-- Generalize that amplifiers will have a ``gain`` Component attribute.
-- Generalize that temperature controllers will have a  ``temperature`` Component attribute that is a positioner (subclass of ``ophyd.PVPositioner``).
-- Enhanced positioners for EPICS Devices:
-  - ``apstools.devices.PVPositionerSoftDone``
-  - ``apstools.devices.PVPositionerSoftDoneWithStop``
+* Kohzu monochromator ``energy``, ``wavelength``, and ``theta`` each are now a ``PVPositioner`` (subclass).
+* Linkam temperature controller CI94
+* Linkam temperature controller T96
+* Stanford Research Systems 570 current preamplifier
+* Stanford Research Systems PTC10 temperature controller
+* XIA PF4 filter now supports multiple PF4 units.
+* Generalize that amplifiers will have a ``gain`` Component attribute.
+* Generalize that temperature controllers will have a  ``temperature`` Component attribute that is a positioner (subclass of ``ophyd.PVPositioner``).
+* Enhanced positioners for EPICS Devices:
+  * ``apstools.devices.PVPositionerSoftDone``
+  * ``apstools.devices.PVPositionerSoftDoneWithStop``
 
 Fixes
 ---------------
 
-- Fixed bug in ``devices.ApsCycleComputedRO`` and ``devices.ApsCycleDM`` involving ``datetime``.
+* Fixed bug in ``devices.ApsCycleComputedRO`` and ``devices.ApsCycleDM`` involving ``datetime``.
 
 Maintenance
 ---------------
 
-- Moved all device support into individual modules under `apstools._devices` because `apstools.devices` module was getting too big.  Will refactor all with release 1.6.0.
-- Add unit tests for ``devices.ApsCycle*`` Devices.
-- Add EPICS IOCs (ADSimDetector and synApps xxx) to continuous integration for use in unit testing.
-- Unit tests now use *pytest* package.
-- Suppress certain warnings during unit testing.
+* Moved all device support into individual modules under `apstools._devices` because `apstools.devices` module was getting too big.  Will refactor all with release 1.6.0.
+* Add unit tests for ``devices.ApsCycle*`` Devices.
+* Add EPICS IOCs (ADSimDetector and synApps xxx) to continuous integration for use in unit testing.
+* Unit tests now use *pytest* package.
+* Suppress certain warnings during unit testing.
 
 Deprecations
 ---------------
 
 This support will be removed in release 1.6.0:
 
-- ``apstools.beamtime`` module and related content (includes ``apsbss``) will be moved to a new repository
-- ``apstools.devices.ProcessController``
-- ``apstools.utils.device_read2table``
-- ``apstools.utils.listdevice_1_5_2``
-- ``apstools.utils.object_explorer``
+* ``apstools.beamtime`` module and related content (includes ``apsbss``) will be moved to a new repository
+* ``apstools.devices.ProcessController``
+* ``apstools.utils.device_read2table``
+* ``apstools.utils.listdevice_1_5_2``
+* ``apstools.utils.object_explorer``
 
 Contributors
 ---------------
 
-- Fanny Rodolakis
-- Gilberto Fabbris
-- Jan Ilavsky
-- Qingteng Zhang
-- 4-ID-C Polar
-- 8-ID-I XPCS
-- 9-ID-C USAXS
+* Fanny Rodolakis
+* Gilberto Fabbris
+* Jan Ilavsky
+* Qingteng Zhang
+* 4-ID-C Polar
+* 8-ID-I XPCS
+* 9-ID-C USAXS
 
 1.5.2 (and previous)
 ************************
