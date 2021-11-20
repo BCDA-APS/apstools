@@ -27,11 +27,6 @@ def test_ApsCycleComputedRO():
 
 
 def test_ApsCycleDM():
-    if not using_APS_workstation():
-        assert True
-        return
-
-    # test requires APS subnet
     signal = ApsCycleDM(name="signal")
     assert signal.connected
 
