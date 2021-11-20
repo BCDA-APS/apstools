@@ -13,6 +13,7 @@ from ophyd.sim import SynSignalRO
 import json
 import os
 import time
+import warnings
 
 
 LOCAL_FILE = os.path.join(os.path.dirname(__file__), "aps_cycle_info.txt")
@@ -107,7 +108,7 @@ cycle_db = _ApsCycleDB()
 
 class ApsCycleDM(SynSignalRO):
     """
-    Get the APS cycle name from the APS Data Management system.
+    Get the APS cycle name from the APS Data Management system or a local file.
 
     .. index:: Ophyd Signal; ApsCycleDM
 
@@ -135,6 +136,8 @@ class ApsCycleDM(SynSignalRO):
 
 class ApsCycleComputedRO(SynSignalRO):
     """
+    DEPRECATED (1.5.4): Use newer ``ApsCycleDM`` instead.
+
     Compute the APS cycle name based on the calendar and the usual practice.
 
     .. index:: Ophyd Signal; ApsCycleComputedRO
@@ -148,6 +151,14 @@ class ApsCycleComputedRO(SynSignalRO):
     NOTE: There is info provided by the APS proposal & ESAF systems.  See
     :class:`~ApsCycleDM`.
     """
+
+    def __init__(self, *args, **kwargs):
+        warnings.warn(
+            "DEPRECATED: ApsCycleComputedRO() will be removed"
+            " in a future release.  Instead, use newer ``ApsCycleDM``.",
+            DeprecationWarning,
+        )
+        super().__init__(*args, **kwargs)
 
     def get(self):
         dt = datetime.datetime.now()
