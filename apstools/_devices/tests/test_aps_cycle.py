@@ -2,11 +2,14 @@
 test the APS cycle computation code
 """
 
-import dm
+import datetime
+import os
+import pytest
 import socket
 
 from .. import ApsCycleComputedRO
 from .. import ApsCycleDM
+from .. import aps_cycle
 
 
 def using_APS_workstation():
@@ -27,11 +30,6 @@ def test_ApsCycleComputedRO():
 
 
 def test_ApsCycleDM():
-    if not using_APS_workstation():
-        assert True
-        return
-
-    # test requires APS subnet
     signal = ApsCycleDM(name="signal")
     assert signal.connected
 
@@ -41,3 +39,36 @@ def test_ApsCycleDM():
     assert len(cycle) == 6
     assert cycle.startswith("20")
     assert cycle.find("-") >= 0
+
+
+def test_ApsCycleDB():
+    assert os.path.exists(aps_cycle.LOCAL_FILE)
+
+    assert aps_cycle.cycle_db.source in ("aps-dm-api", "file")
+
+    cycle = aps_cycle.cycle_db.get_cycle_name()
+    assert cycle in aps_cycle.cycle_db.db
+    assert isinstance(cycle, str)
+    assert cycle != ""
+    assert len(cycle) == 6
+    assert cycle.startswith("20")
+    assert cycle.find("-") >= 0
+    assert int(cycle.split("-")[0]) > 2020
+
+
+@pytest.mark.parametrize(
+    "iso8601, cycle_name",
+    [
+        ["2014-06-28 01:23:45", "2014-2"],
+        ["2021-09-28 12:34:56", "2021-2"],
+        ["2021-09-30 23:59:59", "2021-2"],
+        ["2021-10-02 00:00:00", "2021-3"],
+        ["1999-06-01", None],
+    ],
+)
+def test_cycles(iso8601, cycle_name):
+    assert isinstance(iso8601, str)
+
+    dt = datetime.datetime.fromisoformat(iso8601)
+    ts = datetime.datetime.timestamp(dt)
+    assert aps_cycle.cycle_db.get_cycle_name(ts) == cycle_name

@@ -8,13 +8,108 @@ APS cycles
    ~ApsCycleDM
 """
 
-from datetime import datetime
+import datetime
 from ophyd.sim import SynSignalRO
+import json
+import os
+import time
+import warnings
+
+
+LOCAL_FILE = os.path.join(os.path.dirname(__file__), "aps_cycle_info.txt")
+
+
+class _ApsCycleDB:
+    """
+    Python representation of the APS run cycle schedule table.
+    """
+
+    def __init__(self):
+        self.source = None  # source of cycle information
+        if not os.path.exists(LOCAL_FILE):
+            self._write_cycle_data()
+
+        # transform raw cycle data into JSON by replacing all ' with "
+        _cycles = json.loads(self._read_cycle_data().replace("'", '"'))
+        self.db = {
+            line["name"]: {
+                "start": datetime.datetime.timestamp(
+                    datetime.datetime.fromisoformat(line["startTime"])
+                ),
+                "end": datetime.datetime.timestamp(
+                    datetime.datetime.fromisoformat(line["endTime"])
+                ),
+            }
+            for line in _cycles
+        }
+
+    def get_cycle_name(self, ts=None):
+        """
+        Get the name of the current APS run cycle.
+
+        By default, the name of the current run cycle (based on the
+        current timestamp) will be returned.
+
+        PARAMETERS
+
+        ts float:
+            Absolute time stamp (such as from ``time.time()``).
+            Default: current time stamp.
+
+        RETURNS
+
+        Returns cycle name (str) or ``None`` if timestamp is not in data table.
+        """
+        ts = ts or time.time()
+        for cycle, span in self.db.items():
+            if span["start"] <= ts < span["end"]:
+                return cycle
+        return None  # not found
+
+    def _read_cycle_data(self):
+        """
+        Read the list of APS run cycles from *aps-dm-api* or a local file.
+
+        The file is formatted exactly as received from the
+        APS Data Management package (*aps-dm-api*).  This allows
+        automatic updates as needed.
+        """
+        try:
+            table = self._bss_list_runs
+            self.source = "aps-dm-api"
+        except Exception:
+            table = open(LOCAL_FILE, "r").read()
+            self.source = "file"
+        return table
+
+    def _write_cycle_data(self):
+        """
+        Write the list of APS run cycles to a local file.
+
+        The file is formatted exactly as received from the
+        APS Data Management package (*aps-dm-api*).  This allows
+        automatic updates as needed.
+
+        To update the LOCAL_FILE, run this code (on a workstation at the APS)::
+
+            from apstools._devices.aps_cycle import cycle_db
+            cycle_db._write_cycle_data()
+        """
+        open(LOCAL_FILE, "w").write(self._bss_list_runs)
+
+    @property
+    def _bss_list_runs(self):
+        from ..beamtime import apsbss
+
+        return str(apsbss.api_bss.listRuns())
+
+
+cycle_db = _ApsCycleDB()
 
 
 class ApsCycleDM(SynSignalRO):
     """
-    Get the APS cycle name from the APS Data Management system.
+    Get the APS cycle name from the APS Data Management system or a local file.
 
     .. index:: Ophyd Signal; ApsCycleDM
 
@@ -25,18 +120,25 @@ class ApsCycleDM(SynSignalRO):
     _cycle_name = "unknown"
 
     def get(self):
-        if datetime.now().isoformat(sep=" ") >= self._cycle_ends:
-            from ..beamtime.apsbss import api_bss
+        # if datetime.datetime.now().isoformat(sep=" ") >= self._cycle_ends:
+        #     from ..beamtime import apsbss
 
-            # only update from data management after the end of the run
-            cycle = api_bss.getCurrentRun()
-            self._cycle_name = cycle["name"]
-            self._cycle_ends = cycle["endTime"]
+        #     # only update from data management after the end of the run
+        #     cycle = apsbss.api_bss.getCurrentRun()
+        #     self._cycle_name = cycle["name"]
+        #     self._cycle_ends = cycle["endTime"]
+        self._cycle_name = cycle_db.get_cycle_name()
+        if datetime.datetime.now().isoformat(sep=" ") >= self._cycle_ends:
+            self._cycle_ends = datetime.datetime.fromtimestamp(
+                cycle_db.db[self._cycle_name]["end"]
+            ).isoformat(sep=" ")
         return self._cycle_name
 
 
 class ApsCycleComputedRO(SynSignalRO):
     """
+    DEPRECATED (1.5.4): Use newer ``ApsCycleDM`` instead.
+
     Compute the APS cycle name based on the calendar and the usual practice.
 
     .. index:: Ophyd Signal; ApsCycleComputedRO
@@ -51,7 +153,15 @@ class ApsCycleComputedRO(SynSignalRO):
     :class:`~ApsCycleDM`.
     """
 
+    def __init__(self, *args, **kwargs):
+        warnings.warn(
+            "DEPRECATED: ApsCycleComputedRO() will be removed"
+            " in a future release.  Instead, use newer ``ApsCycleDM``.",
+            DeprecationWarning,
+        )
+        super().__init__(*args, **kwargs)
+
     def get(self):
-        dt = datetime.now()
+        dt = datetime.datetime.now()
         aps_cycle = f"{dt.year}-{int((dt.month-0.1)/4) + 1}"
         return aps_cycle
