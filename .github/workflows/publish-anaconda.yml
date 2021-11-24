@@ -27,4 +27,4 @@ jobs:
         publish: ${{ github.event_name == 'push' && startsWith(github.event.ref, 'refs/tags') }}
         test_all: ${{(github.event_name == 'push' && startsWith(github.event.ref, 'refs/tags')) || (github.ref == 'refs/heads/main')}}
         convert_win: false
-        convert_osx: true
+        convert_osx: false
