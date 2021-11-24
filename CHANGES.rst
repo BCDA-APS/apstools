@@ -17,7 +17,7 @@ Change History
 The project `milestones <https://github.com/BCDA-APS/apstools/milestones>`_
 describe the future plans.
 
-.. 
+..
    1.6.0
    ******
 
@@ -31,9 +31,17 @@ release expected 2021-12-01
 NOTE: The ``apsbss`` component will be moved out of ``apstools`` into its
 own package with the next release (1.6.0, ~Feb 2022) of ``apstools``.
 
+Notice
+-----------------
+
+The Python version is limited to 3.7 due to *aps-dm-api* package.  Expect this
+limitation to be relaxed, allowing any Python 3.7 and higher with the 1.6.0
+release.
+
 Fixes
 ---------------
 
+* Added table of APS run cycle dates.  Use that if *aps-dm-api* not available.
 * Restricted python version to 3.7 due to upstream *aps_dm_api* package.
 * Rename name `uid` to `token` to avoid LGTM security false alert.
 
