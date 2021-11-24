@@ -25,7 +25,6 @@ package:
 build:
   script: python -m pip install --no-deps --ignore-installed .
   noarch: python
-  py: 37
   entry_points:
     - apsbss = apstools.beamtime.apsbss:main
     - apstools_plan_catalog = apstools.examples:main
