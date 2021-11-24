@@ -1,0 +1,30 @@
+name: Publish conda package to Anaconda
+
+# https://github.com/marketplace/actions/publish-anaconda-package-to-anaconda-org
+# https://github.com/BEFH/anaconda-publish
+
+on:
+  release:
+    types: [published]
+  push:
+    branches: [ main ]
+    tags:
+      - '**'
+  pull_request:
+    branches: [ main ]
+    
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v1
+    - name: Publish Anaconda package to Anaconda.org
+      uses: BEFH/anaconda-publish@v1.5.1
+      with:
+        subDir: 'conda'
+        channels: 'conda-forge -c aps-anl-tag'
+        AnacondaToken: ${{ secrets.ANACONDA_TOKEN }}
+        publish: ${{ github.event_name == 'push' && startsWith(github.event.ref, 'refs/tags') }}
+        test_all: ${{(github.event_name == 'push' && startsWith(github.event.ref, 'refs/tags')) || (github.ref == 'refs/heads/main')}}
+        convert_win: false
+        convert_osx: true
