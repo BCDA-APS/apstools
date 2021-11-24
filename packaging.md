@@ -1,26 +1,39 @@
 # Packaging Hints
 
-## Define the release
+## Pre-release
 
-	RELEASE=1.1.4
+1. Close all relevant issues and pull requests.
+2. Run `git status` and verify
+   1. on *main* branch
+   2. no uncommitted content
+   3. repo is synchronized with *origin*
+3. update `CHANGES.rst`
+
+## Tag the new version
+
+Follow [semantic versioning](https://semver.org) principles.
+
+1. empty commit: `git commit --allow-empty -m "REL: X.Y.Z"`
+2. make the tag: `git tag -a X.Y.Z`
+3. verify version: `python ./setup.py version`
+4. push the empty commit: `git push origin main`
+5. push the new tag: `git push origin --tags`
 
 ## PyPI upload
 
-Build and upload::
-
-	python setup.py sdist bdist_wheel
-	twine upload dist/apstools-${RELEASE}*
+Packaging for PyPI (`pip` installation) is covered by a GitHub Actions workflow.
 
 ## Conda upload
 
-Build and upload::
-
-	conda build ./conda-recipe/
-	anaconda upload -u aps-anl-tag /home/mintadmin/Apps/anaconda/conda-bld/noarch/apstools-${RELEASE}-py_0.tar.bz2
+Packaging for Anaconda (`conda` installation) is covered by a GitHub Actions
+workflow.
 
 ### Conda channels
 
 Builds of this package are uploaded to these conda channels:
 
-* [*aps-anl-tag*](https://anaconda.org/aps-anl-tag) : production releases
+* [*aps-anl-tag*](https://anaconda.org/aps-anl-tag) : all releases starting 2021-11-24
+
+<!-- 
 * [*aps-anl-dev*](https://anaconda.org/aps-anl-dev) : anything else, such as: pre-release, release candidates, or testing purposes
+-->
