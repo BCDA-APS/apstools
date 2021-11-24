@@ -18,7 +18,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v1
-    - name: Publish Anaconda package to Anaconda.org
+    - name: Build Anaconda package and Publish to Anaconda.org
       uses: BEFH/anaconda-publish@v1.5.1
       with:
         subDir: 'conda'
