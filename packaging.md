@@ -14,10 +14,29 @@
 Follow [semantic versioning](https://semver.org) principles.
 
 1. empty commit: `git commit --allow-empty -m "REL: X.Y.Z"`
-2. make the tag: `git tag -a X.Y.Z`
+2. make the tag: `git tag X.Y.Z`
 3. verify version: `python ./setup.py version`
-4. push the empty commit: `git push origin main`
-5. push the new tag: `git push origin --tags`
+4. push the empty commit: `git push`
+5. push the new tag: `git push --tags`
+
+## Create Release Notes
+
+1.Create the notes:
+
+   ```bash
+   ../../prjemian/condatools/create_release_notes.py \
+      --head main \
+      ${previous_tag} \
+      ${current_milestone_name} \
+      ${github_api_token} \
+      | tee /tmp/notes.md
+   ```
+
+2. Copy `/tmp/notes.md` to the GH wiki, creating a new page.
+3. On the GH web site, create the new release.
+4. Close the project for this release.
+5. Close the milestone for this release.
+6. Delete local branches that are merged or discarded.
 
 ## PyPI upload
 
