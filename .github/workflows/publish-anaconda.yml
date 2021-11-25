@@ -28,5 +28,3 @@ jobs:
         test_all: ${{(github.event_name == 'push' && startsWith(github.event.ref, 'refs/tags')) || (github.ref == 'refs/heads/main')}}
         convert_win: false
         convert_osx: false
-        test_pyver: "3.7"
-        test_npver: "1.18"
