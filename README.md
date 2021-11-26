@@ -22,7 +22,8 @@ item              | description
 **email**         | jemian@anl.gov
 **copyright**     | 2017-2021, UChicago Argonne, LLC
 [**license**](LICENSE.txt) | ANL OPEN SOURCE LICENSE
-[**documentation**](https://apstools.readthedocs.io) | https://apstools.readthedocs.io
+[documentation](https://bcda-aps.github.io/apstools/) | starting with 1.6.0 release
+[**documentation**](https://apstools.readthedocs.io) | repository *main* branch
 **source**        | https://github.com/BCDA-APS/apstools
 
 

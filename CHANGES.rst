@@ -18,10 +18,22 @@ The project `milestones <https://github.com/BCDA-APS/apstools/milestones>`_
 describe the future plans.
 
 ..
-   1.6.0
+   1.6.1
    ******
 
-   release expected by 2021-02-01
+   release expected by 2021-03-01
+
+1.6.0
+******
+
+release expected by 2021-02-01
+
+Breaking Changes
+-----------------
+
+Moved ``apsbss`` support to new ``apsbss`` package (install with either ``pip``
+or ``conda``).  See https://bcda-aps.github.io/apsbss/ for details.
+
 
 1.5.4
 ******
@@ -277,7 +289,7 @@ reference (pull request or issue):
 :1.3.9:  released 2020-11-30
 
     * `#459 <https://github.com/BCDA-APS/apstools/pull/459>`_
-       :ref:`apsbss`: list ESAFs & proposals from other cycles
+       ``apsbss``: list ESAFs & proposals from other cycles
     * `#457 <https://github.com/BCDA-APS/apstools/pull/457>`_
        :func:`apstools.utils.rss_mem()`: show memory used by this process
 

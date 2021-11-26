@@ -32,14 +32,15 @@ import apstools
 # Add any Sphinx extension module names here, as strings. They can be
 # extensions coming with Sphinx (named 'sphinx.ext.*') or your custom
 # ones.
-extensions = [
-    'sphinx.ext.autodoc',
-    'sphinx.ext.autosummary',
-    'sphinx.ext.coverage',
-    'sphinx.ext.mathjax',
-    'sphinx.ext.todo',
-    'sphinx.ext.viewcode',
-    ]
+extensions = """
+    sphinx.ext.autodoc
+    sphinx.ext.autosummary
+    sphinx.ext.coverage
+    sphinx.ext.githubpages
+    sphinx.ext.mathjax
+    sphinx.ext.todo
+    sphinx.ext.viewcode
+""".split()
 
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ['_templates']
@@ -93,7 +94,8 @@ todo_include_todos = True
 # a list of builtin themes.
 #
 #html_theme = 'alabaster'
-html_theme = 'sphinx_rtd_theme'
+# html_theme = 'sphinx_rtd_theme'
+html_theme = 'bizstyle'  # ok
 
 # Theme options are theme-specific and customize the look and feel of a theme
 # further.  For a list of options available for each theme, see the
@@ -171,12 +173,13 @@ texinfo_documents = [
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
 # http://www.sphinx-doc.org/en/master/usage/extensions/autodoc.html#confval-autodoc_mock_imports
-autodoc_mock_imports = [
-    'h5py',
-    'matplotlib',
-    'networkx',
-    'openpyxl',
-    'pyRestTable',
-    'snapshot',
-    'xarray',
-    ]
+autodoc_mock_imports = """
+    apsbss
+    h5py
+    matplotlib
+    networkx
+    openpyxl
+    pyRestTable
+    snapshot
+    xarray
+""".split()
