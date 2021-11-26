@@ -74,12 +74,12 @@ class _ApsCycleDB:
         APS Data Management package (*aps-dm-api*).  This allows
         automatic updates as needed.
         """
-        try:
-            table = self._bss_list_runs
-            self.source = "aps-dm-api"
-        except Exception:
+        table = self._bss_list_runs
+        if table is None:
             table = open(LOCAL_FILE, "r").read()
             self.source = "file"
+        else:
+            self.source = "aps-dm-api"
         return table
 
     def _write_cycle_data(self):
@@ -95,13 +95,18 @@ class _ApsCycleDB:
             from apstools._devices.aps_cycle import cycle_db
             cycle_db._write_cycle_data()
         """
-        open(LOCAL_FILE, "w").write(self._bss_list_runs)
+        runs = self._bss_list_runs
+        if runs is not None:
+            open(LOCAL_FILE, "w").write(self._bss_list_runs)
 
     @property
     def _bss_list_runs(self):
-        import apsbss
+        try:
+            import apsbss
 
-        return str(apsbss.api_bss.listRuns())
+            return str(apsbss.api_bss.listRuns())
+        except ModuleNotFoundError:
+            return None
 
 
 cycle_db = _ApsCycleDB()
