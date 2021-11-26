@@ -4,8 +4,4 @@ include LICENSE.txt
 include versioneer.py
 include apstools/_version.py
 include apstools/_devices/aps_cycle_info.txt
-include apstools/beamtime/apsbss.adl
-include apstools/beamtime/apsbss.db
-include apstools/beamtime/apsbss.ui
-include apstools/beamtime/apsbss_ioc.sh
 include apstools/migration/config

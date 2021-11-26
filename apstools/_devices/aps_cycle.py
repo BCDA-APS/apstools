@@ -99,7 +99,7 @@ class _ApsCycleDB:
 
     @property
     def _bss_list_runs(self):
-        from ..beamtime import apsbss
+        import apsbss
 
         return str(apsbss.api_bss.listRuns())
 
@@ -120,13 +120,6 @@ class ApsCycleDM(SynSignalRO):
     _cycle_name = "unknown"
 
     def get(self):
-        # if datetime.datetime.now().isoformat(sep=" ") >= self._cycle_ends:
-        #     from ..beamtime import apsbss
-
-        #     # only update from data management after the end of the run
-        #     cycle = apsbss.api_bss.getCurrentRun()
-        #     self._cycle_name = cycle["name"]
-        #     self._cycle_ends = cycle["endTime"]
         self._cycle_name = cycle_db.get_cycle_name()
         if datetime.datetime.now().isoformat(sep=" ") >= self._cycle_ends:
             self._cycle_ends = datetime.datetime.fromtimestamp(
