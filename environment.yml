@@ -5,7 +5,7 @@ channels:
   - aps-anl-tag
   - nsls2forge
 dependencies:
-  - python >=3.7,<3.8
+  - python =3.7
   - aps-dm-api
   - bluesky >=1.6.7
   - databroker >=1.2.3

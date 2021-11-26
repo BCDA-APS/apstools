@@ -22,7 +22,7 @@ jobs:
             anaconda-test-env-py-${{ matrix.python-version }}
         auto-update-conda: true
         channel-priority: true
-        channels: defaults,conda-forge,prjemian
+        channels: defaults,conda-forge,aps-anl-tag
         # environment-file: environment.yml
         mamba-version: "*"
         python-version: ${{ matrix.python-version }}

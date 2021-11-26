@@ -12,15 +12,14 @@ by ``conda``, ``pip``, or from source.
 conda
 -----
 
-If you are using Anaconda Python and have ``conda`` installed, then you
-can install with either of these::
+If you are using Anaconda Python and have ``conda`` installed, install with this
+command::
 
     $ conda install -c aps-anl-tag apstools
     $ conda install -c prjemian apstools
 
 Note that channel ``aps-anl-tag`` is for production versions while
-channel ``aps-anl-dev`` is for development/testing versions. The channel
-``prjemian`` is an alternate with all versions available.
+channel ``aps-anl-dev`` is for development/testing versions.
 
 pip
 ---
