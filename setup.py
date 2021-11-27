@@ -7,13 +7,12 @@ Packaging setup for apstools.
 # Always prefer setuptools over distutils
 from setuptools import setup, find_packages
 
-# from codecs import open
-from os import path
+import pathlib
 import sys
 import versioneer
 
-here = path.abspath(path.dirname(__file__))
-sys.path.insert(0, path.join("apstools",))
+
+sys.path.insert(0, (pathlib.Path(__file__).parent / "apstools"))
 import apstools as package
 
 
