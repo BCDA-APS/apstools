@@ -1,7 +1,7 @@
 """
 Various utilities
 
-.. _utils.finding
+.. _utils.finding:
 
 FINDING
 
@@ -9,7 +9,7 @@ FINDING
    ~findbypv
    ~findCatalogsInNamespace
 
-.. _utils.listing
+.. _utils.listing:
 
 LISTING
 
@@ -24,7 +24,7 @@ LISTING
    ~listruns
    ~listruns_v1_4
 
-.. _utils.reporting
+.. _utils.reporting:
 
 REPORTING
 
@@ -33,7 +33,7 @@ REPORTING
    ~print_RE_md
    ~print_snapshot_list
 
-.. _utils.other
+.. _utils.other:
 
 OTHER UTILITIES
 
@@ -49,7 +49,7 @@ OTHER UTILITIES
    ~trim_string_for_EPICS
    ~unix
 
-.. _utils.general
+.. _utils.general:
 
 GENERAL
 
