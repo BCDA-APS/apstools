@@ -76,11 +76,11 @@ GENERAL
    ~getDatabase
    ~getDefaultCatalog
    ~getDefaultDatabase
-   ~getDefaultNamespace
+   ~apstools._utils.profile_support.getDefaultNamespace
    ~getRunData
    ~getRunDataValue
    ~getStreamValues
-   ~ipython_profile_name
+   ~apstools._utils.profile_support.ipython_profile_name
    ~itemizer
    ~json_export
    ~json_import
@@ -807,19 +807,6 @@ def getDefaultCatalog():
         )
 
     raise ValueError("No catalogs available.")
-
-
-def getDefaultNamespace():
-    """
-    get the IPython shell's namespace dictionary (or globals() if not found)
-    """
-    try:
-        from IPython import get_ipython
-
-        ns = get_ipython().user_ns
-    except (ModuleNotFoundError, AttributeError):
-        ns = globals()
-    return ns
 
 
 @dataclass
@@ -2135,34 +2122,6 @@ class ExcelDatabaseFileGeneric(ExcelDatabaseFileBase):
         key = str(self._index_)
         self.db[key] = entry
         self._index_ += 1
-
-
-def ipython_profile_name():
-    """
-    return the name of the current ipython profile or ``None``
-
-    Example (add to default RunEngine metadata)::
-
-        RE.md['ipython_profile'] = str(ipython_profile_name())
-        print("using profile: " + RE.md['ipython_profile'])
-
-    """
-    from IPython import get_ipython
-
-    return get_ipython().profile
-
-
-def ipython_shell_namespace():
-    """
-    get the IPython shell's namespace dictionary (or empty if not found)
-    """
-    try:
-        from IPython import get_ipython
-
-        ns = get_ipython().user_ns
-    except AttributeError:
-        ns = {}
-    return ns
 
 
 def select_mpl_figure(x, y):
