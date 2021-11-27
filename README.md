@@ -20,14 +20,14 @@ item              | description
 ------------------|--------------------------------
 **author**        | Pete R. Jemian
 **email**         | jemian@anl.gov
-**copyright**     | 2017-2021, UChicago Argonne, LLC
+**copyright**     | 2017-2022, UChicago Argonne, LLC
 [**license**](LICENSE.txt) | ANL OPEN SOURCE LICENSE
-[**documentation**](https://bcda-aps.github.io/apstools/) | starting with 1.6.0 release
-[documentation](https://apstools.readthedocs.io) | repository *main* branch
+[**documentation**](https://bcda-aps.github.io/apstools/) | latest tagged release
 **source**        | https://github.com/BCDA-APS/apstools
 
 
 ## See also
+* https://BCDA-APS.github.io/apsbss
 * https://blueskyproject.io/
 * https://github.com/bluesky/bluesky
 * https://github.com/bluesky/ophyd

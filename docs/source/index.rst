@@ -8,13 +8,6 @@ Welcome to apstools's documentation!
 
 Various Python tools for use with Bluesky at the APS
 
-=============== ========================================
-apstools home   https://apstools.readthedocs.io
-apstools source https://github.com/BCDA-APS/apstools
-Bluesky home	https://blueskyproject.io/
-Bluesky source	https://github.com/bluesky
-=============== ========================================
-
 Summary Contents
 ----------------
 
@@ -45,6 +38,18 @@ author        Pete R. Jemian <jemian@anl.gov>
    source/index
    changes
    license
+
+See Also
+==================
+
+=============== ========================================
+apstools home   https://BCDA-APS.github.io/apstools
+apstools source https://github.com/BCDA-APS/apstools
+apsbss home     https://BCDA-APS.github.io/apsbss
+Bluesky home    https://blueskyproject.io/
+Bluesky source  https://github.com/bluesky
+=============== ========================================
+
 
 Indices and tables
 ==================
