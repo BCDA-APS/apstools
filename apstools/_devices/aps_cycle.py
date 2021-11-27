@@ -163,3 +163,14 @@ class ApsCycleComputedRO(SynSignalRO):
         dt = datetime.datetime.now()
         aps_cycle = f"{dt.year}-{int((dt.month-0.1)/4) + 1}"
         return aps_cycle
+
+
+# -----------------------------------------------------------------------------
+# :author:    Pete R. Jemian
+# :email:     jemian@anl.gov
+# :copyright: (c) 2017-2022, UChicago Argonne, LLC
+#
+# Distributed under the terms of the Creative Commons Attribution 4.0 International Public License.
+#
+# The full license is in the file LICENSE.txt, distributed with this software.
+# -----------------------------------------------------------------------------

@@ -44,3 +44,14 @@ def use_EPICS_scaler_channels(scaler):
                 configuration_attrs.append(ch + ".gate")
         scaler.channels.read_attrs = read_attrs
         scaler.channels.configuration_attrs = configuration_attrs
+
+
+# -----------------------------------------------------------------------------
+# :author:    Pete R. Jemian
+# :email:     jemian@anl.gov
+# :copyright: (c) 2017-2022, UChicago Argonne, LLC
+#
+# Distributed under the terms of the Creative Commons Attribution 4.0 International Public License.
+#
+# The full license is in the file LICENSE.txt, distributed with this software.
+# -----------------------------------------------------------------------------
