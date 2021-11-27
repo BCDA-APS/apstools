@@ -1,6 +1,8 @@
 """
 (ophyd) Devices that might be useful at the APS using Bluesky
 
+.. _devices.aps_support:
+
 APS GENERAL SUPPORT
 
 .. autosummary::
@@ -12,6 +14,8 @@ APS GENERAL SUPPORT
     ~apstools._devices.shutters.ApsPssShutterWithStatus
     ~apstools._devices.shutters.SimulatedApsPssShutterWithStatus
 
+.. _devices.area_detector:
+
 AREA DETECTOR SUPPORT
 
 .. autosummary::
@@ -22,12 +26,16 @@ AREA DETECTOR SUPPORT
     ~apstools._devices.area_detector_support.AD_prime_plugin
     ~apstools._devices.area_detector_support.AD_setup_FrameType
 
+.. _devices.scalers:
+
 DETECTOR / SCALER SUPPORT
 
 .. autosummary::
 
     ~apstools._devices.struck3820.Struck3820
     ~apstools._devices.scaler_support.use_EPICS_scaler_channels
+
+.. _devices.motors:
 
 MOTORS, POSITIONERS, AXES, ...
 
@@ -47,6 +55,9 @@ MOTORS, POSITIONERS, AXES, ...
     ~apstools._devices.shutters.EpicsMotorShutter
     ~apstools._devices.shutters.EpicsOnOffShutter
 
+.. _devices.shutters:
+
+
 SHUTTERS
 
 .. autosummary::
@@ -59,9 +70,13 @@ SHUTTERS
     ~apstools._devices.shutters.ShutterBase
     ~apstools._devices.shutters.SimulatedApsPssShutterWithStatus
 
+.. _devices.synApps_support:
+
 synApps Support
 
     See separate :ref:`synApps` section.
+
+.. _devices.temperature_controllers:
 
 TEMPERATURE CONTROLLERS
 
@@ -104,7 +119,7 @@ Internal routines
 # -----------------------------------------------------------------------------
 # :author:    Pete R. Jemian
 # :email:     jemian@anl.gov
-# :copyright: (c) 2017-2021, UChicago Argonne, LLC
+# :copyright: (c) 2017-2022, UChicago Argonne, LLC
 #
 # Distributed under the terms of the Creative Commons Attribution 4.0 International Public License.
 #

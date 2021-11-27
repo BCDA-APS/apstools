@@ -14,6 +14,23 @@ Summary Contents
 * :ref:`applications`
 * :ref:`examples`
 * :ref:`api_documentation`
+  * Devices
+     * :ref:`APS general support <devices.aps_support>`
+     * :ref:`area detector support <devices.area_detector>`
+     * :ref:`motors, positioners, ... <devices.motors>`
+     * :ref:`scalers <devices.scalers>`
+     * :ref:`shutters <devices.shutters>`
+     * :ref:`synApps support <devices.synApps_support>`
+     * :ref:`temperature controllers <devices.temperature_controllers>`
+  * Plans
+     * :ref:`batch scanning support <plans.batch>`
+     * :ref:`custom scans <plans.custom>`
+       * :func:`~apstools.plans.lineup()`
+  * Utilities
+     * :ref:`Finding ... <utils.finding>`
+     * :ref:`Listing ... <utils.listing>`
+     * :ref:`Reporting ... <utils.reporting>`
+     * :ref:`Other ... <utils.other>`
 * :ref:`license`
 
 Package Information
@@ -22,7 +39,7 @@ Package Information
 ============= ========================================
 version       |version|
 published     |today|
-copyright     2017-2020, UChicago Argonne, LLC
+copyright     2017-2022, UChicago Argonne, LLC
 license       ANL OPEN SOURCE LICENSE (see LICENSE.txt file)
 author        Pete R. Jemian <jemian@anl.gov>
 ============= ========================================

@@ -1,7 +1,6 @@
 import pytest
 from apstools.migration import spec2ophyd
 import os
-# import sys
 from collections import OrderedDict
 
 path = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))

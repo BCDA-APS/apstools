@@ -530,3 +530,14 @@ class AD_EpicsJpegFileName(FileStorePluginBase):  # lgtm [py/missing-call-to-ini
         # from FileStoreHDF5.stage()
         res_kwargs = {"frame_per_point": self.get_frames_per_point()}
         self._generate_resource(res_kwargs)
+
+
+# -----------------------------------------------------------------------------
+# :author:    Pete R. Jemian
+# :email:     jemian@anl.gov
+# :copyright: (c) 2017-2022, UChicago Argonne, LLC
+#
+# Distributed under the terms of the Creative Commons Attribution 4.0 International Public License.
+#
+# The full license is in the file LICENSE.txt, distributed with this software.
+# -----------------------------------------------------------------------------

@@ -1,6 +1,38 @@
 """
 Plans that might be useful at the APS when using Bluesky
 
+.. _plans.batch
+
+BATCH SCANNING
+
+.. autosummary::
+
+   ~execute_command_list
+   ~get_command_list
+   ~parse_Excel_command_file
+   ~parse_text_command_file
+   ~register_command_handler
+   ~run_command_file
+   ~summarize_command_file
+
+.. _plans.custom
+
+CUSTOM SCANS
+
+.. autosummary::
+
+   ~apstools._plans.doc_run.documentation_run
+   ~lineup
+   ~nscan
+   ~snapshot
+   ~sscan_1D
+   ~TuneAxis
+   ~tune_axes
+
+.. _plans.overall
+
+OVERALL
+
 .. autosummary::
 
    ~apstools._plans.doc_run.addDeviceDataAsStream
@@ -24,7 +56,7 @@ Plans that might be useful at the APS when using Bluesky
 # -----------------------------------------------------------------------------
 # :author:    Pete R. Jemian
 # :email:     jemian@anl.gov
-# :copyright: (c) 2017-2021, UChicago Argonne, LLC
+# :copyright: (c) 2017-2022, UChicago Argonne, LLC
 #
 # Distributed under the terms of the Creative Commons Attribution 4.0 International Public License.
 #
