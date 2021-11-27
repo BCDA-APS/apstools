@@ -34,6 +34,11 @@ Breaking Changes
 Moved ``apsbss`` support to new ``apsbss`` package (install with either ``pip``
 or ``conda``).  See https://bcda-aps.github.io/apsbss/ for details.
 
+Maintenance
+---------------
+
+Now testing with Python versions 3.7 - 3.10.
+
 
 1.5.4
 ******
