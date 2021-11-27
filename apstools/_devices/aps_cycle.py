@@ -70,8 +70,7 @@ class _ApsCycleDB:
 
         db = {
             run_name: dict(
-                start = iso2ts(span["begin"]),
-                end = iso2ts(span["end"]),
+                start=iso2ts(span["begin"]), end=iso2ts(span["end"])
             )
             for run_name, span in _cycles.items()
         }
@@ -94,8 +93,10 @@ class _ApsCycleDB:
         if runs is not None:
             cycle_data = runs.replace("'", '"')
             cycles = json.loads(cycle_data)
+
             def sorter(line):
                 return line["name"]
+
             db = {
                 line["name"]: {
                     "begin": line["startTime"],

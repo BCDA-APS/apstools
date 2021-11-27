@@ -160,6 +160,8 @@ import zipfile
 
 from .filewriters import _rebuild_scan_command
 from ._utils import *
+from ._utils import getDefaultNamespace
+from ._utils import ipython_shell_namespace
 
 
 logger = logging.getLogger(__name__)
