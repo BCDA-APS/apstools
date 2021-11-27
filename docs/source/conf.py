@@ -175,6 +175,7 @@ texinfo_documents = [
 # http://www.sphinx-doc.org/en/master/usage/extensions/autodoc.html#confval-autodoc_mock_imports
 autodoc_mock_imports = """
     apsbss
+    databroker
     h5py
     matplotlib
     networkx
