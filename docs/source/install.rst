@@ -16,10 +16,6 @@ If you are using Anaconda Python and have ``conda`` installed, install with this
 command::
 
     $ conda install -c aps-anl-tag apstools
-    $ conda install -c prjemian apstools
-
-Note that channel ``aps-anl-tag`` is for production versions while
-channel ``aps-anl-dev`` is for development/testing versions.
 
 pip
 ---
@@ -60,10 +56,10 @@ required by ``apstools``.  Most packages are available as conda packages
 from https://anaconda.org.  The others are available on
 https://PyPI.python.org.  Among the required packages:
 
-  - python>=3.6.0
-  - aps-dm-api
+  - python>=3.7
   - bluesky, databroker, ophyd
   - h5py
+  - pandas
   - pyEpics
   - pyqt=5
   - pyRestTable
