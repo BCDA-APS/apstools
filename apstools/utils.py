@@ -1,7 +1,61 @@
 """
 Various utilities
 
+.. _utils.finding
+
+FINDING
+
+   ~findbyname
+   ~findbypv
+   ~findCatalogsInNamespace
+
+.. _utils.listing
+
+LISTING
+
 .. autosummary::
+
+   ~apstools._utils.device_info.listdevice
+   ~apstools._utils.device_info.listdevice_1_5_2
+   ~listobjects
+   ~apstools._utils.list_plans.listplans
+   ~listRunKeys
+   ~ListRuns
+   ~listruns
+   ~listruns_v1_4
+
+.. _utils.reporting
+
+REPORTING
+
+.. autosummary::
+
+   ~print_RE_md
+   ~print_snapshot_list
+
+.. _utils.other
+
+OTHER UTILITIES
+
+.. autosummary::
+
+   ~cleanupText
+   ~connect_pvlist
+   ~EmailNotifications
+   ~select_live_plot
+   ~select_mpl_figure
+   ~trim_plot_by_name
+   ~trim_plot_lines
+   ~trim_string_for_EPICS
+   ~unix
+
+.. _utils.general
+
+GENERAL
+
+.. autosummary::
+
+   ~cleanupText
 
    ~cleanupText
    ~command_list_as_table
