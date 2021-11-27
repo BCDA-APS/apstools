@@ -3,7 +3,6 @@ test the APS cycle computation code
 """
 
 import datetime
-import os
 import pytest
 import socket
 
@@ -42,9 +41,7 @@ def test_ApsCycleDM():
 
 
 def test_ApsCycleDB():
-    assert os.path.exists(aps_cycle.LOCAL_FILE)
-
-    assert aps_cycle.cycle_db.source in ("aps-dm-api", "file")
+    assert aps_cycle.YAML_CYCLE_FILE.exists()
 
     cycle = aps_cycle.cycle_db.get_cycle_name()
     assert cycle in aps_cycle.cycle_db.db
