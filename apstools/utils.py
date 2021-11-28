@@ -5,6 +5,8 @@ Various utilities
 
 FINDING
 
+.. autosummary::
+
    ~findbyname
    ~findbypv
    ~findCatalogsInNamespace
