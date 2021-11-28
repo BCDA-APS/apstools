@@ -7,7 +7,6 @@ APS GENERAL SUPPORT
 
 .. autosummary::
 
-    ~apstools._devices.aps_cycle.ApsCycleComputedRO
     ~apstools._devices.aps_cycle.ApsCycleDM
     ~apstools._devices.aps_machine.ApsMachineParametersDevice
     ~apstools._devices.shutters.ApsPssShutter

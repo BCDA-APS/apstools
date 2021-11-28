@@ -39,6 +39,11 @@ Maintenance
 
 Now testing with Python versions 3.7 - 3.10.
 
+Deprecations
+---------------
+
+* Devices
+  * ``ApsCycleComputedRO``
 
 1.5.4
 ******
