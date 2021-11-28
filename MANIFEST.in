@@ -3,5 +3,5 @@ include CHANGES*
 include LICENSE.txt
 include versioneer.py
 include apstools/_version.py
-include apstools/_devices/aps_cycle_info.txt
+include apstools/devices/aps_cycle_info.txt
 include apstools/migration/config

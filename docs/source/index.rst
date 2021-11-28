@@ -18,13 +18,13 @@ Summary Contents
 
   * Devices
 
-    * :ref:`APS general support <devices.aps_support>`
-    * :ref:`area detector support <devices.area_detector>`
-    * :ref:`motors, positioners, ... <devices.motors>`
-    * :ref:`scalers <devices.scalers>`
-    * :ref:`shutters <devices.shutters>`
+    * :ref:`devices.aps_support`
+    * :ref:`devices.area_detector`
+    * :ref:`devices.motors`
+    * :ref:`devices.scalers`
+    * :ref:`devices.shutters`
     * :ref:`synApps`
-    * :ref:`temperature controllers <devices.temperature_controllers>`
+    * :ref:`devices.temperature_controllers`
 
   * Plans
      * :ref:`batch scanning support <plans.batch>`

@@ -100,6 +100,8 @@ from .xia_pf4 import Pf4FilterDual
 from .xia_pf4 import Pf4FilterSingle
 from .xia_pf4 import Pf4FilterTriple
 
+from ..synApps import *
+
 
 # -----------------------------------------------------------------------------
 # :author:    Pete R. Jemian
