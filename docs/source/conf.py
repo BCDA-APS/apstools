@@ -180,6 +180,7 @@ autodoc_mock_imports = """
     epics
     event_model
     h5py
+    idlelib
     intake
     matplotlib
     networkx
