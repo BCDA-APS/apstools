@@ -18,6 +18,7 @@ dependencies:
   - pip
   - prompt-toolkit
   - pyEpics >=3.4.3
+  - pymongo
   - pyqt =5
   - pyRestTable
   - qt =5

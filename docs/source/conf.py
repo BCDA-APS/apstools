@@ -178,6 +178,7 @@ autodoc_mock_imports = """
     bluesky
     databroker
     epics
+    event_model
     h5py
     intake
     matplotlib
@@ -187,6 +188,8 @@ autodoc_mock_imports = """
     ophyd
     pandas
     pint
+    psutil
+    pymongo
     pyRestTable
     snapshot
     tkinter
