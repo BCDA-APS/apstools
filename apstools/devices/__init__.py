@@ -100,7 +100,30 @@ from .xia_pf4 import Pf4FilterDual
 from .xia_pf4 import Pf4FilterSingle
 from .xia_pf4 import Pf4FilterTriple
 
-from ..synApps import *
+# synApps
+from ..synApps import AsynRecord
+from ..synApps import BusyRecord
+from ..synApps import BusyStatus
+from ..synApps import CalcoutRecord
+from ..synApps import CalcoutRecordChannel
+from ..synApps import setup_gaussian_calcout
+from ..synApps import setup_incrementer_calcout
+from ..synApps import setup_lorentzian_calcout
+from ..synApps import UserCalcoutDevice
+from ..synApps import EpidRecord
+from ..synApps import IocStatsDevice
+from ..synApps import SaveData
+from ..synApps import SscanRecord
+from ..synApps import SscanDevice
+from ..synApps import SwaitRecord
+from ..synApps import SwaitRecordChannel
+from ..synApps import UserCalcsDevice
+from ..synApps import setup_random_number_swait
+from ..synApps import setup_gaussian_swait
+from ..synApps import setup_lorentzian_swait
+from ..synApps import setup_incrementer_swait
+from ..synApps import TransformRecord
+from ..synApps import UserTransformsDevice
 
 
 # -----------------------------------------------------------------------------

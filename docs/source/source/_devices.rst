@@ -15,7 +15,7 @@ Categories
 
 .. _devices.aps_support:
 
-APS GENERAL SUPPORT
+APS General Support
 +++++++++++++++++++
 
 .. autosummary::
@@ -28,8 +28,8 @@ APS GENERAL SUPPORT
 
 .. _devices.area_detector:
 
-AREA DETECTOR SUPPORT
-+++++++++++++++++++++++++
+Area Detector Support
++++++++++++++++++++++
 
 .. autosummary::
 
@@ -41,7 +41,7 @@ AREA DETECTOR SUPPORT
 
 .. _devices.scalers:
 
-DETECTOR / SCALER SUPPORT
+Detector & Scaler Support
 +++++++++++++++++++++++++
 
 .. autosummary::
@@ -51,7 +51,7 @@ DETECTOR / SCALER SUPPORT
 
 .. _devices.motors:
 
-MOTORS, POSITIONERS, AXES, ...
+Motors, Positioners, Axes, ...
 +++++++++++++++++++++++++++++++
 
 .. autosummary::
@@ -72,8 +72,8 @@ MOTORS, POSITIONERS, AXES, ...
 
 .. _devices.shutters:
 
-SHUTTERS
-+++++++++++++++++++++++++
+Shutters
+++++++++
 
 .. autosummary::
 
@@ -92,8 +92,8 @@ synApps Support
 
 .. _devices.temperature_controllers:
 
-TEMPERATURE CONTROLLERS
-+++++++++++++++++++++++++
+Temperature Controllers
++++++++++++++++++++++++
 
 .. autosummary::
 
@@ -104,8 +104,8 @@ TEMPERATURE CONTROLLERS
     ~apstools.devices.ptc10_controller.PTC10TcChannel
     ~apstools.devices.ptc10_controller.PTC10PositionerMixin
 
-OTHER SUPPORT
-+++++++++++++++++++++++++
+Other Support
++++++++++++++
 
 .. autosummary::
 
@@ -121,8 +121,8 @@ OTHER SUPPORT
     ~apstools.devices.srs570_preamplifier.SRS570_PreAmplifier
     ~apstools.devices.struck3820.Struck3820
 
-Internal routines
-+++++++++++++++++++++++++
+Internal Routines
++++++++++++++++++
 
 .. autosummary::
 

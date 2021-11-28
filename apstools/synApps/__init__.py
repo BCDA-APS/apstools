@@ -2,6 +2,30 @@
 Ophyd support for EPICS synApps modules (records and databases).
 """
 
+from .asyn import AsynRecord
+from .busy import BusyRecord
+from .busy import BusyStatus
+from .calcout import CalcoutRecord
+from .calcout import CalcoutRecordChannel
+from .calcout import setup_gaussian_calcout
+from .calcout import setup_incrementer_calcout
+from .calcout import setup_lorentzian_calcout
+from .calcout import UserCalcoutDevice
+from .epid import EpidRecord
+from .iocstats import IocStatsDevice
+from .save_data import SaveData
+from .sscan import SscanRecord
+from .sscan import SscanDevice
+from .swait import SwaitRecord
+from .swait import SwaitRecordChannel
+from .swait import UserCalcsDevice
+from .swait import setup_random_number_swait
+from .swait import setup_gaussian_swait
+from .swait import setup_lorentzian_swait
+from .swait import setup_incrementer_swait
+from .transform import TransformRecord
+from .transform import UserTransformsDevice
+
 # -----------------------------------------------------------------------------
 # :author:    Pete R. Jemian
 # :email:     jemian@anl.gov
@@ -11,40 +35,3 @@ Ophyd support for EPICS synApps modules (records and databases).
 #
 # The full license is in the file LICENSE.txt, distributed with this software.
 # -----------------------------------------------------------------------------
-
-
-# structures
-from .asyn import *
-from .busy import *
-from .calcout import *
-from .epid import *
-from .iocstats import *
-from .save_data import *
-from .sscan import *
-from .swait import *
-from .transform import *
-
-__all__ = """
-    AsynRecord
-    BusyRecord
-    BusyStatus
-    CalcoutRecord
-    CalcoutRecordChannel
-    EpidRecord
-    SaveData
-    SscanRecord
-    SscanDevice
-    SwaitRecord
-    SwaitRecordChannel
-    TransformRecord
-    UserCalcoutDevice
-    UserCalcsDevice
-    UserTransformsDevice
-    setup_gaussian_calcout
-    setup_gaussian_swait
-    setup_incrementer_calcout
-    setup_incrementer_swait
-    setup_lorentzian_calcout
-    setup_lorentzian_swait
-    setup_random_number_swait
-    """.split()
