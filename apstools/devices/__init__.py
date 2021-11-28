@@ -1,52 +1,6 @@
-__all__ = """
-    AD_EpicsHdf5FileName
-    AD_EpicsJpegFileName
-    AD_FrameType_schemes
-    AD_plugin_primed
-    AD_prime_plugin
-    AD_prime_plugin2
-    ApsBssUserInfoDevice
-    ApsCycleDM
-    ApsMachineParametersDevice
-    ApsPssShutter
-    ApsPssShutterWithStatus
-    ApsUndulator
-    ApsUndulatorDual
-    AxisTunerException
-    AxisTunerMixin
-    DeviceMixinBase
-    DualPf4FilterBox
-    EpicsDescriptionMixin
-    EpicsMotorDialMixin
-    EpicsMotorEnableMixin
-    EpicsMotorLimitsMixin
-    EpicsMotorRawMixin
-    EpicsMotorResolutionMixin
-    EpicsMotorServoMixin
-    EpicsMotorShutter
-    EpicsOnOffShutter
-    KohzuSeqCtl_Monochromator
-    Linkam_CI94_Device
-    Linkam_T96_Device
-    OneSignalShutter
-    Pf4FilterBank
-    Pf4FilterCommon
-    Pf4FilterDual
-    Pf4FilterSingle
-    Pf4FilterTriple
-    PTC10AioChannel
-    PTC10PositionerMixin
-    PTC10RtdChannel
-    PTC10TcChannel
-    PVPositionerSoftDone
-    SCALER_AUTOCOUNT_MODE
-    ShutterBase
-    SimulatedApsPssShutterWithStatus
-    SRS570_PreAmplifier
-    Struck3820
-    TrackingSignal
-    use_EPICS_scaler_channels
-""".split()
+"""
+Support for APS hardware abstractions (both physical and virtual).
+"""
 
 # must come first to avoid circular imports
 from .positioner_soft_done import PVPositionerSoftDone
@@ -124,7 +78,6 @@ from ..synApps import setup_lorentzian_swait
 from ..synApps import setup_incrementer_swait
 from ..synApps import TransformRecord
 from ..synApps import UserTransformsDevice
-
 
 # -----------------------------------------------------------------------------
 # :author:    Pete R. Jemian
