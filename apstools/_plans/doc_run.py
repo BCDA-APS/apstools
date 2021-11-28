@@ -8,9 +8,10 @@ Documentation of batch runs
    ~documentation_run
 """
 
-from ..utils import ipython_shell_namespace
 from bluesky import plan_stubs as bps
 from ophyd import Signal
+
+from ..utils import ipython_shell_namespace
 
 
 def addDeviceDataAsStream(devices, label):

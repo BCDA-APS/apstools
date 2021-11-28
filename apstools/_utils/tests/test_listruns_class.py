@@ -1,9 +1,11 @@
 import databroker
 import datetime
+import intake
 import pandas as pd
 import pytest
 
-from ... import utils as APS_utils
+from .. import getDefaultNamespace
+from ... import utils as utils
 
 
 TEST_CATALOG_NAME = "apstools_test"
@@ -17,7 +19,7 @@ def cat():
 
 @pytest.fixture(scope="function")
 def lr():
-    lr = APS_utils.ListRuns()
+    lr = utils.ListRuns()
     lr.cat = databroker.catalog[TEST_CATALOG_NAME]
     lr._check_keys()
     assert len(lr.cat) == 53
@@ -26,45 +28,47 @@ def lr():
 
 def test_getDefaultCatalog_none_found():
     with pytest.raises(ValueError) as exinfo:
-        APS_utils.getDefaultCatalog()
+        utils.getDefaultCatalog()
     assert "Multiple catalog configurations available." in str(exinfo.value)
 
 
 def test_getDefaultCatalog(cat):
     # put the catalog in the namespace of the called function
-    APS_utils.__dict__.update(dict(cat1=cat))
+    ns = getDefaultNamespace()
+    ns.update(dict(cat1=cat))
 
-    cat = APS_utils.getDefaultCatalog()
+    cat = utils.getDefaultCatalog()
     assert cat is not None
     assert cat.name == TEST_CATALOG_NAME
 
 
 def test_getDefaultCatalog_many_found(cat):
-    APS_utils.__dict__.update(dict(cat1=cat, cat2=cat, cat3=cat))
+    ns = getDefaultNamespace()
+    ns.update(dict(cat1=cat, cat2=cat, cat3=cat))
 
     with pytest.raises(ValueError) as exinfo:
-        APS_utils.getDefaultCatalog()
+        utils.getDefaultCatalog()
     assert "Multiple catalog objects available." in str(exinfo.value)
 
 
 def test_getCatalog():
     # get by name of configuration YAML file
-    ret = APS_utils.getCatalog(TEST_CATALOG_NAME)
+    ret = utils.getCatalog(TEST_CATALOG_NAME)
     assert ret.name == TEST_CATALOG_NAME
 
     # get by supplying the catalog
-    ret = APS_utils.getCatalog(ret)
+    ret = utils.getCatalog(ret)
     assert ret.name == TEST_CATALOG_NAME
 
     # fail with configuration YAML file name not found
     bad_name = "no such catalog configuration"
     with pytest.raises(KeyError) as exinfo:
-        APS_utils.getCatalog(bad_name)
+        utils.getCatalog(bad_name)
     assert bad_name in str(exinfo.value)
 
 
 def test_getDefaultNamespace():
-    ret = APS_utils.getDefaultNamespace()
+    ret = utils.getDefaultNamespace()
     assert ret is not None
     assert isinstance(ret, dict)
     assert len(ret) > 0
@@ -72,14 +76,18 @@ def test_getDefaultNamespace():
 
 
 def test_findCatalogsInNamespace(cat):
-    APS_utils.__dict__.update(dict(cat1=cat, cat2=cat, cat3=cat))
+    ns = getDefaultNamespace()
+    assert isinstance(ns, dict)
 
-    cats = APS_utils.findCatalogsInNamespace()
+    ns.update(dict(cat1=cat, cat2=cat, cat3=cat))
+
+    cats = utils.findCatalogsInNamespace()
+    assert isinstance(cat, intake.Catalog)
     assert len(cats) == 3
 
 
 def test_ListRuns(cat):
-    lr = APS_utils.ListRuns()
+    lr = utils.ListRuns()
     assert lr is not None
     assert lr.cat is None
     assert lr.keys is None
@@ -341,7 +349,7 @@ def test_ListRuns_until(lr):
     ],
 )
 def test_listruns_tablefmt(tablefmt, structure, cat):
-    lr = APS_utils.listruns(cat=cat, tablefmt=tablefmt, printing=False)
+    lr = utils.listruns(cat=cat, tablefmt=tablefmt, printing=False)
     assert lr is not None
     assert isinstance(lr, structure)
 # fmt: on

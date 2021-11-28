@@ -175,11 +175,24 @@ texinfo_documents = [
 # http://www.sphinx-doc.org/en/master/usage/extensions/autodoc.html#confval-autodoc_mock_imports
 autodoc_mock_imports = """
     apsbss
+    bluesky
+    databroker
+    epics
+    event_model
     h5py
+    idlelib
+    intake
     matplotlib
     networkx
+    numpy
     openpyxl
+    ophyd
+    pandas
+    pint
+    psutil
+    pymongo
     pyRestTable
     snapshot
+    tkinter
     xarray
 """.split()

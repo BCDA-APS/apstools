@@ -46,7 +46,7 @@ import time
 import tkinter as tk
 import tkinter.ttk as ttk
 
-from databroker import Broker
+import databroker
 
 from . import utils as APS_utils
 from . import plans as APS_plans
@@ -155,7 +155,7 @@ def snapshot_cli():
     obj_dict = APS_utils.connect_pvlist(args.EPICS_PV, wait=False)
     time.sleep(2)  # FIXME: allow time to connect
 
-    db = Broker.named(args.broker_config)
+    db = databroker.Broker.named(args.broker_config)
     RE = RunEngine({})
     RE.subscribe(db.insert)
 
@@ -203,7 +203,7 @@ class SnapshotGui(object):
 
     def __init__(self, config=None):
         config = config or BROKER_CONFIG
-        self.db = Broker.named(config)
+        self.db = databroker.Broker.named(config)
         self.uids = []
 
         self._build_gui_()

@@ -1,7 +1,7 @@
 """
 Plans that might be useful at the APS when using Bluesky
 
-.. _plans.batch
+.. _plans.batch:
 
 BATCH SCANNING
 
@@ -15,7 +15,7 @@ BATCH SCANNING
    ~run_command_file
    ~summarize_command_file
 
-.. _plans.custom
+.. _plans.custom:
 
 CUSTOM SCANS
 
@@ -29,7 +29,7 @@ CUSTOM SCANS
    ~TuneAxis
    ~tune_axes
 
-.. _plans.overall
+.. _plans.overall:
 
 OVERALL
 
@@ -79,9 +79,10 @@ from bluesky.callbacks.fitting import PeakStats
 from ophyd import Device, Component, Signal, DeviceStatus, EpicsSignal
 from ophyd.scaler import ScalerCH, ScalerChannel
 
-from . import utils as APS_utils
 from ._plans import addDeviceDataAsStream
 from ._plans import documentation_run
+
+from . import utils as APS_utils
 
 logger = logging.getLogger(__name__)
 logger.info(__file__)

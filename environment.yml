@@ -10,6 +10,7 @@ dependencies:
   - databroker >=1.2.3
   - databroker-pack
   - h5py
+  - intake
   - openpyxl
   - ophyd >=1.6.1
   - pandas
@@ -17,6 +18,7 @@ dependencies:
   - pip
   - prompt-toolkit
   - pyEpics >=3.4.3
+  - pymongo
   - pyqt =5
   - pyRestTable
   - qt =5

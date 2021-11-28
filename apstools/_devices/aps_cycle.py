@@ -9,14 +9,16 @@ APS cycles
 """
 
 import datetime
-from ophyd.sim import SynSignalRO
 import json
-import os
+from ophyd.sim import SynSignalRO
+import pathlib
 import time
+import yaml
 import warnings
 
 
-LOCAL_FILE = os.path.join(os.path.dirname(__file__), "aps_cycle_info.txt")
+_PATH = pathlib.Path(__file__).parent
+YAML_CYCLE_FILE = (_PATH / "aps_cycle_info.yml")
 
 
 class _ApsCycleDB:
@@ -25,23 +27,7 @@ class _ApsCycleDB:
     """
 
     def __init__(self):
-        self.source = None  # source of cycle information
-        if not os.path.exists(LOCAL_FILE):
-            self._write_cycle_data()
-
-        # transform raw cycle data into JSON by replacing all ' with "
-        _cycles = json.loads(self._read_cycle_data().replace("'", '"'))
-        self.db = {
-            line["name"]: {
-                "start": datetime.datetime.timestamp(
-                    datetime.datetime.fromisoformat(line["startTime"])
-                ),
-                "end": datetime.datetime.timestamp(
-                    datetime.datetime.fromisoformat(line["endTime"])
-                ),
-            }
-            for line in _cycles
-        }
+        self.db = self._read_cycle_data()
 
     def get_cycle_name(self, ts=None):
         """
@@ -68,19 +54,27 @@ class _ApsCycleDB:
 
     def _read_cycle_data(self):
         """
-        Read the list of APS run cycles from *aps-dm-api* or a local file.
+        Read the list of APS run cycles from a local file.
 
-        The file is formatted exactly as received from the
-        APS Data Management package (*aps-dm-api*).  This allows
-        automatic updates as needed.
+        The file is formatted in YAML after reformatting content received from
+        the APS Data Management package (*aps-dm-api*).  The YAML format is
+        easily updated and human-readable.
         """
-        table = self._bss_list_runs
-        if table is None:
-            table = open(LOCAL_FILE, "r").read()
-            self.source = "file"
-        else:
-            self.source = "aps-dm-api"
-        return table
+        _cycles_yml = YAML_CYCLE_FILE.open().read()
+        _cycles = yaml.load(_cycles_yml, Loader=yaml.BaseLoader)
+
+        def iso2ts(isodatetime):
+            return datetime.datetime.timestamp(
+                datetime.datetime.fromisoformat(isodatetime)
+            )
+
+        db = {
+            run_name: dict(
+                start=iso2ts(span["begin"]), end=iso2ts(span["end"])
+            )
+            for run_name, span in _cycles.items()
+        }
+        return db
 
     def _write_cycle_data(self):
         """
@@ -97,7 +91,21 @@ class _ApsCycleDB:
         """
         runs = self._bss_list_runs
         if runs is not None:
-            open(LOCAL_FILE, "w").write(self._bss_list_runs)
+            cycle_data = runs.replace("'", '"')
+            cycles = json.loads(cycle_data)
+
+            def sorter(line):
+                return line["name"]
+
+            db = {
+                line["name"]: {
+                    "begin": line["startTime"],
+                    "end": line["endTime"],
+                }
+                for line in sorted(cycles, key=sorter)
+            }
+            with YAML_CYCLE_FILE.open("w") as f:
+                f.write(yaml.dump(db))
 
     @property
     def _bss_list_runs(self):

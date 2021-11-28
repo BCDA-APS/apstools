@@ -1,7 +1,7 @@
 """
 Various utilities
 
-.. _utils.finding
+.. _utils.finding:
 
 FINDING
 
@@ -9,7 +9,7 @@ FINDING
    ~findbypv
    ~findCatalogsInNamespace
 
-.. _utils.listing
+.. _utils.listing:
 
 LISTING
 
@@ -24,7 +24,7 @@ LISTING
    ~listruns
    ~listruns_v1_4
 
-.. _utils.reporting
+.. _utils.reporting:
 
 REPORTING
 
@@ -33,7 +33,7 @@ REPORTING
    ~print_RE_md
    ~print_snapshot_list
 
-.. _utils.other
+.. _utils.other:
 
 OTHER UTILITIES
 
@@ -49,7 +49,7 @@ OTHER UTILITIES
    ~trim_string_for_EPICS
    ~unix
 
-.. _utils.general
+.. _utils.general:
 
 GENERAL
 
@@ -76,11 +76,11 @@ GENERAL
    ~getDatabase
    ~getDefaultCatalog
    ~getDefaultDatabase
-   ~getDefaultNamespace
+   ~apstools._utils.profile_support.getDefaultNamespace
    ~getRunData
    ~getRunDataValue
    ~getStreamValues
-   ~ipython_profile_name
+   ~apstools._utils.profile_support.ipython_profile_name
    ~itemizer
    ~json_export
    ~json_import
@@ -126,18 +126,12 @@ GENERAL
 # The full license is in the file LICENSE.txt, distributed with this software.
 # -----------------------------------------------------------------------------
 
-from bluesky import plan_stubs as bps
-from bluesky.callbacks.best_effort import BestEffortCallback
-from collections import defaultdict
-from collections import OrderedDict
-from databroker._drivers.mongo_normalized import BlueskyMongoCatalog
-from dataclasses import dataclass
-from email.mime.text import MIMEText
-from event_model import NumpyEncoder
-
 import databroker
 import databroker.queries
+import databroker._drivers.mongo_normalized
+import databroker._drivers.msgpack
 import datetime
+import intake
 import json
 import logging
 import math
@@ -158,16 +152,36 @@ import typing
 import warnings
 import zipfile
 
+from bluesky import plan_stubs as bps
+from bluesky.callbacks.best_effort import BestEffortCallback
+from collections import defaultdict
+from collections import OrderedDict
+from dataclasses import dataclass
+from email.mime.text import MIMEText
+from event_model import NumpyEncoder
+
 from .filewriters import _rebuild_scan_command
 from ._utils import *
+from ._utils import getDefaultNamespace
+from ._utils import ipython_shell_namespace
 
 
 logger = logging.getLogger(__name__)
 
-MAX_EPICS_STRINGOUT_LENGTH = 40
-
+CATALOG_CLASSES = (
+    databroker.Broker,
+    databroker._drivers.mongo_normalized.BlueskyMongoCatalog,
+    databroker._drivers.msgpack.BlueskyMsgpackCatalog,
+    intake.Catalog,
+)
+MONGO_CATALOG_CLASSES = (
+    databroker.Broker,
+    databroker._drivers.mongo_normalized.BlueskyMongoCatalog,
+    # intake.Catalog,
+)
 FIRST_DATA = "1995-01-01"
 LAST_DATA = "2100-12-31"
+MAX_EPICS_STRINGOUT_LENGTH = 40
 
 
 class ExcelReadError(openpyxl.utils.exceptions.InvalidFileException):
@@ -354,11 +368,9 @@ def getDefaultDatabase():
 
     # note all database instances in memory
     db_list = []
-    for k, v in g.items():
-        if hasattr(v, "__class__") and not k.startswith("_"):
-            end = v.__class__.__name__.split(".")[-1]
-            if end in ("Broker", "BlueskyMongoCatalog"):
-                db_list.append(v)
+    for v in g.values():
+        if isinstance(v, CATALOG_CLASSES):
+            db_list.append(v)
 
     # easy decisions first
     if len(db_list) == 0:
@@ -809,19 +821,6 @@ def getDefaultCatalog():
     raise ValueError("No catalogs available.")
 
 
-def getDefaultNamespace():
-    """
-    get the IPython shell's namespace dictionary (or globals() if not found)
-    """
-    try:
-        from IPython import get_ipython
-
-        ns = get_ipython().user_ns
-    except (ModuleNotFoundError, AttributeError):
-        ns = globals()
-    return ns
-
-
 @dataclass
 class ListRuns:
     """
@@ -954,7 +953,7 @@ class ListRuns:
                         exc,
                     )
         else:
-            if isinstance(cat, BlueskyMongoCatalog) and self.sortby == "time":
+            if isinstance(cat, MONGO_CATALOG_CLASSES) and self.sortby == "time":
                 if self.reverse:
                     # the default rendering: from MongoDB in reverse time order
                     sequence = iter(cat)
@@ -2135,34 +2134,6 @@ class ExcelDatabaseFileGeneric(ExcelDatabaseFileBase):
         key = str(self._index_)
         self.db[key] = entry
         self._index_ += 1
-
-
-def ipython_profile_name():
-    """
-    return the name of the current ipython profile or ``None``
-
-    Example (add to default RunEngine metadata)::
-
-        RE.md['ipython_profile'] = str(ipython_profile_name())
-        print("using profile: " + RE.md['ipython_profile'])
-
-    """
-    from IPython import get_ipython
-
-    return get_ipython().profile
-
-
-def ipython_shell_namespace():
-    """
-    get the IPython shell's namespace dictionary (or empty if not found)
-    """
-    try:
-        from IPython import get_ipython
-
-        ns = get_ipython().user_ns
-    except AttributeError:
-        ns = {}
-    return ns
 
 
 def select_mpl_figure(x, y):

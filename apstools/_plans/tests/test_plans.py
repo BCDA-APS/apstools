@@ -10,7 +10,6 @@ import os
 import pytest
 import sys
 
-from ... import plans as APS_plans
 from ...plans import _COMMAND_HANDLER_
 from ...plans import addDeviceDataAsStream
 from ...plans import execute_command_list
@@ -63,6 +62,7 @@ def test_addDeviceDataAsStream(objects, name, expected, capsys):
 
 
 def test_register_action_handler():
+    from ... import plans as APS_plans
     assert summarize_plan != execute_command_list
     assert APS_plans._COMMAND_HANDLER_ == _COMMAND_HANDLER_
 
