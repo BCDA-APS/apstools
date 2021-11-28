@@ -112,6 +112,10 @@ Internal routines
 
 """
 
+# pull up submodule features for: from apstools.devices import XYZ
+from ._devices import *
+from .synApps import *
+
 # -----------------------------------------------------------------------------
 # :author:    Pete R. Jemian
 # :email:     jemian@anl.gov
@@ -121,16 +125,3 @@ Internal routines
 #
 # The full license is in the file LICENSE.txt, distributed with this software.
 # -----------------------------------------------------------------------------
-
-import time
-
-from ophyd import Component
-from ophyd import Device
-from ophyd import DeviceStatus
-from ophyd import Signal
-
-from bluesky import plan_stubs as bps
-
-# pull up submodule features for: from apstools.devices import XYZ
-from ._devices import *
-from .synApps import *
