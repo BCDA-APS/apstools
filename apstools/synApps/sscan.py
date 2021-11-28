@@ -39,22 +39,15 @@ Private Structures
 
 
 from collections import OrderedDict
-from ophyd.device import (
-    Device,
-    Component as Cpt,
-    DynamicDeviceComponent as DDC,
-    FormattedComponent as FC,
-)
-from ophyd import EpicsSignal, EpicsSignalRO
+from ophyd import Device
+from ophyd import Component as Cpt
+from ophyd import DynamicDeviceComponent as DDC
+from ophyd import FormattedComponent as FC
+from ophyd import EpicsSignal
+from ophyd import EpicsSignalRO
 from ophyd.status import DeviceStatus
 
 from .. import utils as APS_utils
-
-
-__all__ = """
-    SscanRecord
-    SscanDevice
-    """.split()
 
 
 class sscanPositioner(Device):

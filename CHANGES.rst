@@ -34,6 +34,8 @@ Breaking Changes
 Moved ``apsbss`` support to new ``apsbss`` package (install with either ``pip``
 or ``conda``).  See https://bcda-aps.github.io/apsbss/ for details.
 
+Reorganized all devices, including `synApps/`, into `devices/` subpackage.
+
 Maintenance
 ---------------
 

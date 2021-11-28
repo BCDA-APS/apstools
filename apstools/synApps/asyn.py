@@ -25,11 +25,6 @@ from ophyd import EpicsSignal, EpicsSignalRO
 from ._common import EpicsRecordDeviceCommonAll
 
 
-__all__ = [
-    "AsynRecord",
-]
-
-
 class AsynRecord(EpicsRecordDeviceCommonAll):
     """
     EPICS asyn record support in ophyd

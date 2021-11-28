@@ -39,27 +39,16 @@ EXAMPLES::
 
 
 from collections import OrderedDict
-from ophyd.device import (
-    Device,
-    Component as Cpt,
-    DynamicDeviceComponent as DDC,
-    FormattedComponent as FC,
-)
+from ophyd import Device
+from ophyd import Component as Cpt
+from ophyd import DynamicDeviceComponent as DDC
+from ophyd import FormattedComponent as FC
 from ophyd import EpicsSignal
 from ophyd.signal import EpicsSignalBase
 
 from ._common import EpicsRecordDeviceCommonAll
 from .. import utils as APS_utils
 
-__all__ = """
-    SwaitRecord
-    SwaitRecordChannel
-    UserCalcsDevice
-    setup_random_number_swait
-    setup_gaussian_swait
-    setup_lorentzian_swait
-    setup_incrementer_swait
-""".split()
 
 CHANNEL_LETTERS_LIST = "A B C D E F G H I J K L".split()
 

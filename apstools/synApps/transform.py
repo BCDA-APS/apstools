@@ -21,22 +21,15 @@ Public Structures
 # -----------------------------------------------------------------------------
 
 from collections import OrderedDict
-from ophyd.device import (
-    Device,
-    Component as Cpt,
-    DynamicDeviceComponent as DDC,
-    FormattedComponent as FC,
-)
-from ophyd import EpicsSignal, EpicsSignalRO
+from ophyd import Device
+from ophyd import Component as Cpt
+from ophyd import DynamicDeviceComponent as DDC
+from ophyd import FormattedComponent as FC
+from ophyd import EpicsSignal
+from ophyd import EpicsSignalRO
 
 from ._common import EpicsRecordDeviceCommonAll
 from .. import utils as APS_utils
-
-
-__all__ = """
-    TransformRecord
-    UserTransformsDevice
-    """.split()
 
 
 CHANNEL_LETTERS_LIST = "A B C D E F G H I J K L M N O P".split()
