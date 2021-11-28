@@ -50,6 +50,7 @@ Deprecations
 * Utilities
   * ``device_read2table``
   * ``listdevice_1_5_2``
+  * ``listruns_v1_4``
   * ``object_explorer``
 
 1.5.4

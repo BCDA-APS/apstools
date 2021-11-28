@@ -202,19 +202,6 @@ def test_utils_with_database_listruns(cat):
     assert (ts == np.sort(ts)[::-1]).all()
 
 
-def test_utils_with_database_listruns_v1_4(cat):
-    assert len(list(cat.v1[COUNT].documents())[:1]) == 1
-    table = APS_utils.listruns_v1_4(db=cat, show_command=True, printing=False, num=10,)
-    assert table is not None
-    assert len(table.labels) == 3 + 2  # requested 2 extra columns
-    assert len(table.rows) == 10
-    assert len(table.rows[1][4]) <= 40
-
-    assert table.labels[1] == "date/time"  # "second column is ISO8601 date/time"
-    ts = [row[1] for row in table.rows]
-    assert ts == sorted(ts, reverse=True)
-
-
 def test_utils_with_database_replay(cat):
     replies = []
 
