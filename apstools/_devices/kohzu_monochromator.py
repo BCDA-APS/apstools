@@ -117,25 +117,8 @@ class KohzuSeqCtl_Monochromator(Device):
     crystal_2d_spacing = Component(EpicsSignal, "Bragg2dSpacingAO", kind="config")
     crystal_type = Component(EpicsSignal, "BraggTypeMO", string=True, kind="config")
 
-    def move_energy(self, energy):
-        """
-        DEPRECATED: Simple command-line use to change the energy.
-
-        USAGE::
-
-            kohzu_mono.energy_move(8.2)
-
-        INSTEAD::
-
-            %mov kohzu_mono.mode "Auto" kohzu_mono.energy 8.2
-
-        To be removed in apstools release 1.6.0
-        """
-        self.move_button.put(1)
-        self.energy.put(energy)
-
     def calibrate_energy(self, value):
-        """Calibrate the mono energy.
+        """Calibrate the monochromator energy.
 
         PARAMETERS
 
