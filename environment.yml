@@ -10,6 +10,7 @@ dependencies:
   - databroker >=1.2.3
   - databroker-pack
   - h5py
+  - intake
   - openpyxl
   - ophyd >=1.6.1
   - pandas
