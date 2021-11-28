@@ -177,6 +177,7 @@ autodoc_mock_imports = """
     apsbss
     bluesky
     databroker
+    epics
     h5py
     intake
     matplotlib
@@ -184,6 +185,8 @@ autodoc_mock_imports = """
     numpy
     openpyxl
     ophyd
+    pandas
+    pint
     pyRestTable
     snapshot
     tkinter
