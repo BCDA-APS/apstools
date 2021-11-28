@@ -70,8 +70,6 @@ SHUTTERS
     ~apstools._devices.shutters.ShutterBase
     ~apstools._devices.shutters.SimulatedApsPssShutterWithStatus
 
-.. _devices.synApps_support:
-
 synApps Support
 
     See separate :ref:`synApps` section.

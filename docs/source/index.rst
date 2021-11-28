@@ -22,7 +22,7 @@ Summary Contents
     * :ref:`motors, positioners, ... <devices.motors>`
     * :ref:`scalers <devices.scalers>`
     * :ref:`shutters <devices.shutters>`
-    * :ref:`synApps support <devices.synApps_support>`
+    * :ref:`synApps`
     * :ref:`temperature controllers <devices.temperature_controllers>`
 
   * Plans
