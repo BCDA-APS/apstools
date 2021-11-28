@@ -46,6 +46,11 @@ Deprecations
   * ``ApsCycleComputedRO``
   * ``move_energy()`` method in ``KohzuSeqCtl_Monochromator`` class
 
+* Utilities
+  * ``device_read2table``
+  * ``listdevice_1_5_2``
+  * ``object_explorer``
+
 1.5.4
 ******
 

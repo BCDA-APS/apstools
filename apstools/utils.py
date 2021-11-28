@@ -18,7 +18,6 @@ LISTING
 .. autosummary::
 
    ~apstools._utils.device_info.listdevice
-   ~apstools._utils.device_info.listdevice_1_5_2
    ~listobjects
    ~apstools._utils.list_plans.listplans
    ~listRunKeys
@@ -64,7 +63,6 @@ GENERAL
    ~connect_pvlist
    ~copy_filtered_catalog
    ~db_query
-   ~apstools._utils.device_info.device_read2table
    ~dictionary_table
    ~EmailNotifications
    ~ExcelDatabaseFileBase
@@ -87,14 +85,12 @@ GENERAL
    ~json_export
    ~json_import
    ~apstools._utils.device_info.listdevice
-   ~apstools._utils.device_info.listdevice_1_5_2
    ~listobjects
    ~apstools._utils.list_plans.listplans
    ~listRunKeys
    ~ListRuns
    ~listruns
    ~listruns_v1_4
-   ~apstools._utils.device_info.object_explorer
    ~apstools._utils.override_parameters.OverrideParameters
    ~pairwise
    ~print_RE_md
