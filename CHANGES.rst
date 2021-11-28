@@ -39,6 +39,21 @@ Maintenance
 
 Now testing with Python versions 3.7 - 3.10.
 
+Deprecations
+---------------
+
+* Devices
+  * ``ApsCycleComputedRO``
+  * ``move_energy()`` method in ``KohzuSeqCtl_Monochromator`` class
+  * ``ProcessController``
+
+* Utilities
+  * ``device_read2table``
+  * ``json_export``
+  * ``json_import``
+  * ``listdevice_1_5_2``
+  * ``listruns_v1_4``
+  * ``object_explorer``
 
 1.5.4
 ******

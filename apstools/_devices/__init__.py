@@ -6,7 +6,6 @@ __all__ = """
     AD_prime_plugin
     AD_prime_plugin2
     ApsBssUserInfoDevice
-    ApsCycleComputedRO
     ApsCycleDM
     ApsMachineParametersDevice
     ApsPssShutter
@@ -55,7 +54,6 @@ from .positioner_soft_done import PVPositionerSoftDoneWithStop
 
 # other imports
 from .aps_bss_user import ApsBssUserInfoDevice
-from .aps_cycle import ApsCycleComputedRO
 from .aps_cycle import ApsCycleDM
 from .aps_machine import ApsMachineParametersDevice
 from .aps_undulator import ApsUndulator

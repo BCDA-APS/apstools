@@ -4,7 +4,6 @@ APS cycles
 
 .. autosummary::
 
-   ~ApsCycleComputedRO
    ~ApsCycleDM
 """
 
@@ -139,38 +138,6 @@ class ApsCycleDM(SynSignalRO):
                 cycle_db.db[self._cycle_name]["end"]
             ).isoformat(sep=" ")
         return self._cycle_name
-
-
-class ApsCycleComputedRO(SynSignalRO):
-    """
-    DEPRECATED (1.5.4): Use newer ``ApsCycleDM`` instead.
-
-    Compute the APS cycle name based on the calendar and the usual practice.
-
-    .. index:: Ophyd Signal; ApsCycleComputedRO
-
-    Absent any facility PV that provides the name of the current operating
-    cycle, this can be approximated by python computation (as long as the
-    present scheduling pattern is maintained)
-
-    This signal is read-only.
-
-    NOTE: There is info provided by the APS proposal & ESAF systems.  See
-    :class:`~ApsCycleDM`.
-    """
-
-    def __init__(self, *args, **kwargs):
-        warnings.warn(
-            "DEPRECATED: ApsCycleComputedRO() will be removed"
-            " in a future release.  Instead, use newer ``ApsCycleDM``.",
-            DeprecationWarning,
-        )
-        super().__init__(*args, **kwargs)
-
-    def get(self):
-        dt = datetime.datetime.now()
-        aps_cycle = f"{dt.year}-{int((dt.month-0.1)/4) + 1}"
-        return aps_cycle
 
 
 # -----------------------------------------------------------------------------

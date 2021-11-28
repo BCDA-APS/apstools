@@ -15,6 +15,7 @@ Summary Contents
 * :ref:`applications`
 * :ref:`examples`
 * :ref:`api_documentation`
+
   * Devices
 
     * :ref:`APS general support <devices.aps_support>`
@@ -28,6 +29,7 @@ Summary Contents
   * Plans
      * :ref:`batch scanning support <plans.batch>`
      * :ref:`custom scans <plans.custom>`
+
        * :func:`~apstools.plans.lineup()`
 
   * Utilities

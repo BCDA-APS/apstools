@@ -32,31 +32,6 @@ def test_utils_cleanupText():
     assert received == expected
 
 
-def test_utils_listdevice():
-    motor1 = ophyd.sim.hw().motor1
-    table = APS_utils.listdevice_1_5_2(motor1, show_ancient=True, use_datetime=True)
-    expected = (
-        "=============== =====\n"
-        "name            value\n"
-        "=============== =====\n"
-        "motor1          0    \n"
-        "motor1_setpoint 0    \n"
-        "=============== ====="
-    )
-    received = "\n".join([v[:21] for v in str(table).strip().splitlines()])
-    assert received == expected
-
-    table = APS_utils.listdevice_1_5_2(motor1, show_ancient=True, use_datetime=False)
-    # expected = """ """.strip()
-    received = "\n".join([v[:21] for v in str(table).strip().splitlines()])
-    assert received == expected
-
-    table = APS_utils.listdevice_1_5_2(motor1, show_ancient=False, use_datetime=False)
-    # expected = """ """.strip()
-    received = "\n".join([v[:21] for v in str(table).strip().splitlines()])
-    assert received == expected
-
-
 def test_utils_dictionary_table():
     md = {
         "login_id": "jemian:wow.aps.anl.gov",
@@ -225,19 +200,6 @@ def test_utils_with_database_listruns(cat):
     ts = df["time"]
     assert len(ts) == 10
     assert (ts == np.sort(ts)[::-1]).all()
-
-
-def test_utils_with_database_listruns_v1_4(cat):
-    assert len(list(cat.v1[COUNT].documents())[:1]) == 1
-    table = APS_utils.listruns_v1_4(db=cat, show_command=True, printing=False, num=10,)
-    assert table is not None
-    assert len(table.labels) == 3 + 2  # requested 2 extra columns
-    assert len(table.rows) == 10
-    assert len(table.rows[1][4]) <= 40
-
-    assert table.labels[1] == "date/time"  # "second column is ISO8601 date/time"
-    ts = [row[1] for row in table.rows]
-    assert ts == sorted(ts, reverse=True)
 
 
 def test_utils_with_database_replay(cat):

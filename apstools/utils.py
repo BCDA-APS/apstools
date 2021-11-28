@@ -18,13 +18,11 @@ LISTING
 .. autosummary::
 
    ~apstools._utils.device_info.listdevice
-   ~apstools._utils.device_info.listdevice_1_5_2
    ~listobjects
    ~apstools._utils.list_plans.listplans
    ~listRunKeys
    ~ListRuns
    ~listruns
-   ~listruns_v1_4
 
 .. _utils.reporting:
 
@@ -64,7 +62,6 @@ GENERAL
    ~connect_pvlist
    ~copy_filtered_catalog
    ~db_query
-   ~apstools._utils.device_info.device_read2table
    ~dictionary_table
    ~EmailNotifications
    ~ExcelDatabaseFileBase
@@ -84,17 +81,12 @@ GENERAL
    ~getStreamValues
    ~apstools._utils.profile_support.ipython_profile_name
    ~itemizer
-   ~json_export
-   ~json_import
    ~apstools._utils.device_info.listdevice
-   ~apstools._utils.device_info.listdevice_1_5_2
    ~listobjects
    ~apstools._utils.list_plans.listplans
    ~listRunKeys
    ~ListRuns
    ~listruns
-   ~listruns_v1_4
-   ~apstools._utils.device_info.object_explorer
    ~apstools._utils.override_parameters.OverrideParameters
    ~pairwise
    ~print_RE_md
@@ -1023,11 +1015,6 @@ def listruns(
     This function provides a thin interface to the highly-reconfigurable
     ``ListRuns()`` class in this package.
 
-    For the old version of this function, see
-    ``listruns_v1_4()``.  That code was last
-    updated in apstools version 1.4.1.  It
-    will be removed some time in the future.
-
     PARAMETERS
 
     cat
@@ -1149,177 +1136,6 @@ def listruns(
         print(obj)
         return
     return obj
-
-
-def listruns_v1_4(
-    num=20,
-    keys=None,
-    printing=True,
-    show_command=True,
-    db=None,
-    catalog_name=None,
-    exit_status=None,
-    since=None,
-    until=None,
-    **db_search_terms,
-):
-    """
-    DEPRECATED: Use newer ``listruns()`` instead.
-
-    make a table of the most recent runs (scans)
-
-    PARAMETERS
-
-    num
-        *int* :
-        Make the table include the ``num`` most recent runs.
-        (default: ``20``)
-    keys
-        *[str]* :
-        Include these additional keys from the start document.
-        (default: ``[]``)
-    printing
-        *bool* :
-        If ``True``, print the table to stdout
-        (default: ``True``)
-    show_command
-        *bool* :
-        If ``True``, show the (reconstructed) full command,
-        but truncate it to no more than 40 characters)
-        (note: This command is reconstructed from keys in the start
-        document so it will not be exactly as the user typed.)
-        (default: ``True``)
-    db
-        *object* :
-        Instance of databroker v1 ``Broker`` or
-        v2 ``BlueskyMongoCatalog``.
-        (default: see ``catalog_name`` keyword argument)
-    catalog_name
-        *str* :
-        Name of databroker v2 catalog, used when the supplied
-        ``db`` is ``None``.
-        (default: catalog with most recent run timestamp)
-        (new in release 1.3.0)
-    since
-        *str* :
-        include runs that started on or after this ISO8601 time
-        (default: ``1995-01-01``)
-    until
-        *str* :
-        include runs that started before this ISO8601 time
-        (default: ``2100-12-31``)
-    db_search_terms
-        *dict* :
-        Any additional keyword arguments will be passed to
-        the databroker to refine the search for matching runs.
-
-    RETURNS
-
-    object:
-        Instance of ``pyRestTable.Table()``
-
-    EXAMPLE::
-
-        In [2]: from apstools import utils as APS_utils
-
-        In [3]: APS_utils.listruns(num=5, keys=["proposal_id","pid"])
-        ========= ========================== ======= ======= ======================================== =========== ===
-        short_uid date/time                  exit    scan_id command                                  proposal_id pid
-        ========= ========================== ======= ======= ======================================== =========== ===
-        5f2bc62   2019-03-10 22:27:57.803193 success 3       fly()
-        ef7777d   2019-03-10 22:27:12.449852 success 2       fly()
-        8048ea1   2019-03-10 22:25:01.663526 success 1       scan(detectors=['calcs_calc2_val'],  ...
-        83ad06d   2019-03-10 22:19:14.352157 success 4       fly()
-        b713d46   2019-03-10 22:13:26.481118 success 3       fly()
-        ========= ========================== ======= ======= ======================================== =========== ===
-
-        In [100]: listruns(keys=["file_name",], since="2020-02-06", until="2020-02-07", num=10, plan_name="lambda_test", exit_status="success")
-            ...:
-        ========= ========================== ======= ======= ======================================== ==============================
-        short_uid date/time                  exit    scan_id command                                  file_name
-        ========= ========================== ======= ======= ======================================== ==============================
-        efab384   2020-02-06 11:21:36.129510 success 5081    lambda_test(detector_name=lambdadet, ... C042_Latex_Lq0_001
-        394a20a   2020-02-06 10:32:07.525558 success 5072    lambda_test(detector_name=lambdadet, ... B041_Aerogel_Translate_Lq0_001
-        aeea69b   2020-02-06 10:31:27.522871 success 5071    lambda_test(detector_name=lambdadet, ... B040_Aerogel_Translate_Lq0_001
-        b39813a   2020-02-06 10:27:16.267097 success 5069    lambda_test(detector_name=lambdadet, ... A038_Aerogel_Lq0_005
-        0651cb6   2020-02-06 10:27:02.070575 success 5068    lambda_test(detector_name=lambdadet, ... A038_Aerogel_Lq0_004
-        63897f8   2020-02-06 10:26:47.770677 success 5067    lambda_test(detector_name=lambdadet, ... A038_Aerogel_Lq0_003
-        188d31a   2020-02-06 10:26:33.230039 success 5066    lambda_test(detector_name=lambdadet, ... A038_Aerogel_Lq0_002
-        9907451   2020-02-06 10:26:19.048433 success 5065    lambda_test(detector_name=lambdadet, ... A038_Aerogel_Lq0_001
-        ========= ========================== ======= ======= ======================================== ==============================
-
-        Out[100]: <pyRestTable.rest_table.Table at 0x7f004e4d4898>
-
-    (new in apstools release 1.1.10)
-    """
-    warnings.warn(
-        "DEPRECATED: listruns_v1_4() will be removed"
-        " in a future release.  Instead, use newer ``listruns()``.",
-        DeprecationWarning,
-    )
-    db = getDatabase(db=db, catalog_name=catalog_name)
-    keys = keys or []
-    num_runs_requested = min(abs(num), len(db))
-    since = since or "1995-01-01"
-    until = until or "2100-12-31"
-
-    if show_command:
-        labels = "scan_id  command".split() + keys
-    else:
-        labels = "scan_id  plan_name".split() + keys
-
-    # fmt: off
-    cat = db.search(
-        databroker.queries.TimeRange(since=since, until=until)
-    ).search(db_search_terms)
-    # fmt: on
-
-    sortKey = "time"
-
-    def sorter(uid):
-        return cat[uid].metadata["start"][sortKey]
-
-    table = pyRestTable.Table()
-    table.labels = "short_uid   date/time  exit".split() + labels
-    for uid in sorted(cat, key=sorter, reverse=True):
-        if len(table.rows) == num_runs_requested:
-            break
-        run = cat[uid]
-        start = run.metadata["start"]
-        stop = run.metadata["stop"]
-        reported_exit_status = "unknown"
-        if stop is not None:
-            reported_exit_status = stop.get("exit_status", "")
-
-        if exit_status is not None and reported_exit_status != exit_status:
-            continue
-
-        row = [
-            start["uid"][:7],
-            datetime.datetime.fromtimestamp(start["time"]),
-            reported_exit_status,
-        ]
-
-        for k in labels:
-            if k == "command":
-                command = _rebuild_scan_command(start)
-                # fmt: off
-                command = command[command.find(" "):].strip()
-                # fmt: on
-                maxlen = 40
-                if len(command) > maxlen:
-                    suffix = " ..."
-                    command = command[: maxlen - len(suffix)] + suffix
-                row.append(command)
-            else:
-                row.append(start.get(k, ""))
-        table.addRow(row)
-
-    if printing:
-        if db.name is not None:
-            print(f"catalog name: {db.name}")
-        print(table)
-    return table
 
 
 def print_RE_md(dictionary=None, fmt="simple", printing=True):
@@ -2405,115 +2221,6 @@ def print_snapshot_list(db, printing=True, **search_criteria):
     if printing:
         print(t)
     return t
-
-
-def json_export(headers, filename, zipfilename=None):
-    """
-    DEPRECATED: Use *databroker-pack* package instead.
-
-    write a list of headers (from databroker) to a file
-
-    PARAMETERS
-
-    headers
-        *[headers]* or ``databroker._core.Results`` object :
-        list of databroker headers as returned from
-        ``db(...search criteria...)``
-    filename
-        *str* :
-        name of file into which to write JSON
-    zipfilename
-        *str* or ``None`` :
-        name of ZIP file container of ``filename``
-        (if ``None``, do not ZIP ``filename``)
-
-        .. note::  If writing to a ZIP file, the data file is
-           *only* written into the ZIP file.
-
-    EXAMPLE::
-
-        from databroker import Broker
-        db = Broker.named("mongodb_config")
-        headers = db(plan_name="count", since="2019-04-01")
-
-        json_export(
-            headers,
-            "data.json",
-            zipfilename="bluesky_data.zip")
-
-    EXAMPLE: READ THE ZIP FILE:
-
-     using :func:`~json_import`::
-
-        datasets = json_import("data.json", zipfilename="bluesky_data.zip")
-
-    EXAMPLE: READ THE JSON TEXT FILE
-
-    using :func:`~json_import`::
-
-        datasets = json_import("data.json)
-
-    """
-    warnings.warn(
-        "DEPRECATED: json_import() will be removed"
-        " in a future release.  Instead, use *databroker-pack* package.",
-        DeprecationWarning,
-    )
-    datasets = [list(h.documents()) for h in headers]
-    buf = json.dumps(datasets, cls=NumpyEncoder, indent=2)
-
-    if zipfilename is None:
-        with open(filename, "w") as fp:
-            fp.write(buf)
-    else:
-        with zipfile.ZipFile(zipfilename, "w", allowZip64=True) as fp:
-            fp.writestr(filename, buf, compress_type=zipfile.ZIP_LZMA)
-
-
-def json_import(filename, zipfilename=None):
-    """
-    DEPRECATED: Use *databroker-pack* package instead.
-
-    read the file exported by :func:`~json_export()`
-
-    RETURNS
-
-    datasets :
-        *list of documents* :
-        list of
-        `documents <https://blueskyproject.io/bluesky/documents.html/>`_,
-        such as returned by
-        ``[list(h.documents()) for h in db]``
-
-        See:
-        https://blueskyproject.io/databroker/generated/databroker.Header.documents.html
-
-    EXAMPLE
-
-    Insert the datasets into the databroker ``db``::
-
-        def insert_docs(db, datasets):
-            for i, h in enumerate(datasets):
-                print(f"{i+1}/{len(datasets)} : {len(h)} documents")
-                for k, doc in h:
-                    db.insert(k, doc)
-
-    """
-    warnings.warn(
-        "DEPRECATED: json_import() will be removed"
-        " in a future release.  Instead, use *databroker-pack* package.",
-        DeprecationWarning,
-    )
-    if zipfilename is None:
-        with open(filename, "r") as fp:
-            buf = fp.read()
-            datasets = json.loads(buf)
-    else:
-        with zipfile.ZipFile(zipfilename, "r") as fp:
-            buf = fp.read(filename).decode("utf-8")
-            datasets = json.loads(buf)
-
-    return datasets
 
 
 def redefine_motor_position(motor, new_position):
