@@ -59,7 +59,7 @@ author        Pete R. Jemian <jemian@anl.gov>
    install
    applications/index
    examples/index
-   source/index
+   api/index
    changes
    license
 

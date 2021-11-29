@@ -1,33 +1,49 @@
 """
-(ophyd) Signals that might be useful at the APS using Bluesky
+Synthetic pseudo-Voigt function
++++++++++++++++++++++++++++++++++++++++
+
+EXAMPLES:
+
+.. code-block:: python
+    :caption: Simple example of SynPseudoVoigt().
+    :linenos:
+
+    from apstools.devices import SynPseudoVoigt
+    from ophyd.sim import motor
+    det = SynPseudoVoigt('det', motor, 'motor',
+        center=0, eta=0.5, scale=1, sigma=1, bkg=0)
+
+    # scan the "det" peak with the "motor" positioner
+    # RE(bp.scan([det], motor, -2, 2, 41))
+
+
+.. code-block:: python
+    :caption: Example of SynPseudoVoigt() with randomized values.
+    :linenos:
+
+    import numpy as np
+    from apstools.devices import SynPseudoVoigt
+    synthetic_pseudovoigt = SynPseudoVoigt(
+        'synthetic_pseudovoigt', m1, 'm1',
+        center=-1.5 + 0.5*np.random.uniform(),
+        eta=0.2 + 0.5*np.random.uniform(),
+        sigma=0.001 + 0.05*np.random.uniform(),
+        scale=1e5,
+        bkg=0.01*np.random.uniform())
+
+    # scan the "synthetic_pseudovoigt" peak with the "m1" positioner
+    # RE(bp.scan([synthetic_pseudovoigt], m1, -2, 0, 219))
 
 .. autosummary::
 
    ~SynPseudoVoigt
-
 """
 
-# -----------------------------------------------------------------------------
-# :author:    Pete R. Jemian
-# :email:     jemian@anl.gov
-# :copyright: (c) 2017-2022, UChicago Argonne, LLC
-#
-# Distributed under the terms of the Creative Commons Attribution 4.0 International Public License.
-#
-# The full license is in the file LICENSE.txt, distributed with this software.
-# -----------------------------------------------------------------------------
-
-import logging
 import ophyd.sim
 import numpy as np
 
 
-logger = logging.getLogger(__name__).addHandler(logging.NullHandler())
-
-
-class SynPseudoVoigt(
-    ophyd.sim.SynSignal
-):  # lgtm [py/missing-call-to-init]
+class SynPseudoVoigt(ophyd.sim.SynSignal):  # lgtm [py/missing-call-to-init]
     """
     Evaluate a point on a pseudo-Voigt based on the value of a motor.
 
@@ -40,68 +56,32 @@ class SynPseudoVoigt(
 
     PARAMETERS
 
-    name
-        *str* :
+    name *str* :
         name of detector signal
-    motor
-        ``Mover`` :
+    motor positioner :
         The independent coordinate
-    motor_field
-        *str* :
-        name of `Mover` field
-    center
-        *float* :
+    motor_field *str* :
+        name of `motor`
+    center *float* :
         (optional)
         location of maximum value, default=0
-    eta
-        *float* :
+    eta *float* :
         (optional)
         0 <= eta < 1.0: Lorentzian fraction, default=0.5
-    scale
-        *float* :
+    scale *float* :
         (optional)
         scale >= 1 : scale factor, default=1
-    sigma
-        *float* :
+    sigma *float* :
         (optional)
         sigma > 0 : width, default=1
-    bkg
-        *float* :
+    bkg *float* :
         (optional)
         bkg >= 0 : constant background, default=0
-    noise
-        ``"poisson"`` or ``"uniform"`` or ``None`` :
+    noise ``"poisson"`` or ``"uniform"`` or ``None`` :
         Add noise to the result.
-    noise_multiplier
-        *float* :
+    noise_multiplier *float* :
         Only relevant for 'uniform' noise. Multiply the random amount of
         noise by 'noise_multiplier'
-
-    EXAMPLE
-
-    ::
-
-        from apstools.signals import SynPseudoVoigt
-        motor = Mover('motor', {'motor': lambda x: x}, {'x': 0})
-        det = SynPseudoVoigt('det', motor, 'motor',
-            center=0, eta=0.5, scale=1, sigma=1, bkg=0)
-
-    EXAMPLE
-
-    ::
-
-        import numpy as np
-        from apstools.signals import SynPseudoVoigt
-        synthetic_pseudovoigt = SynPseudoVoigt(
-            'synthetic_pseudovoigt', m1, 'm1',
-            center=-1.5 + 0.5*np.random.uniform(),
-            eta=0.2 + 0.5*np.random.uniform(),
-            sigma=0.001 + 0.05*np.random.uniform(),
-            scale=1e5,
-            bkg=0.01*np.random.uniform())
-
-        #  RE(bp.scan([synthetic_pseudovoigt], m1, -2, 0, 219))
-
     """
 
     def __init__(
@@ -161,3 +141,13 @@ class SynPseudoVoigt(
         ophyd.sim.SynSignal.__init__(
             self, name=name, func=pvoigt, **kwargs
         )
+
+# -----------------------------------------------------------------------------
+# :author:    Pete R. Jemian
+# :email:     jemian@anl.gov
+# :copyright: (c) 2017-2022, UChicago Argonne, LLC
+#
+# Distributed under the terms of the Creative Commons Attribution 4.0 International Public License.
+#
+# The full license is in the file LICENSE.txt, distributed with this software.
+# -----------------------------------------------------------------------------
