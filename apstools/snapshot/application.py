@@ -61,7 +61,7 @@ def get_args():
     """
     get command line arguments
     """
-    from .__init__ import __version__
+    from ..__init__ import __version__
 
     doc = __doc__.strip().splitlines()[0].strip()
     doc += f" version={__version__}"
