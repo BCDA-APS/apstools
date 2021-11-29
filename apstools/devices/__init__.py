@@ -46,6 +46,7 @@ from .shutters import ShutterBase
 from .shutters import SimulatedApsPssShutterWithStatus
 from .srs570_preamplifier import SRS570_PreAmplifier
 from .struck3820 import Struck3820
+from .synth_pseudo_voigt import SynPseudoVoigt
 from .tracking_signal import TrackingSignal
 from .xia_pf4 import DualPf4FilterBox
 from .xia_pf4 import Pf4FilterBank

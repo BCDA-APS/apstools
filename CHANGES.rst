@@ -38,6 +38,8 @@ Reorganized all devices, including `synApps/`, into `devices/` subpackage.
 
 Moved ``snapshot`` application and related files to a subdirectory.
 
+``signals.SynPseudoVoigt()`` moved to ``devices.SynPseudoVoigt()``.
+
 Maintenance
 ---------------
 
