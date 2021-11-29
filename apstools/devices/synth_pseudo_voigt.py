@@ -56,40 +56,30 @@ class SynPseudoVoigt(ophyd.sim.SynSignal):  # lgtm [py/missing-call-to-init]
 
     PARAMETERS
 
-    name
-        *str* :
+    name *str* :
         name of detector signal
-    motor
-        ``Mover`` :
+    motor positioner :
         The independent coordinate
-    motor_field
-        *str* :
-        name of `Mover` field
-    center
-        *float* :
+    motor_field *str* :
+        name of `motor`
+    center *float* :
         (optional)
         location of maximum value, default=0
-    eta
-        *float* :
+    eta *float* :
         (optional)
         0 <= eta < 1.0: Lorentzian fraction, default=0.5
-    scale
-        *float* :
+    scale *float* :
         (optional)
         scale >= 1 : scale factor, default=1
-    sigma
-        *float* :
+    sigma *float* :
         (optional)
         sigma > 0 : width, default=1
-    bkg
-        *float* :
+    bkg *float* :
         (optional)
         bkg >= 0 : constant background, default=0
-    noise
-        ``"poisson"`` or ``"uniform"`` or ``None`` :
+    noise ``"poisson"`` or ``"uniform"`` or ``None`` :
         Add noise to the result.
-    noise_multiplier
-        *float* :
+    noise_multiplier *float* :
         Only relevant for 'uniform' noise. Multiply the random amount of
         noise by 'noise_multiplier'
     """
