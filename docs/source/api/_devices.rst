@@ -48,6 +48,7 @@ Detector & Scaler Support
 
     ~apstools.devices.struck3820.Struck3820
     ~apstools.devices.scaler_support.use_EPICS_scaler_channels
+    ~apstools.devices.synth_pseudo_voigt.SynPseudoVoigt
 
 .. _devices.motors:
 
@@ -185,6 +186,9 @@ All Submodules
     :members:
 
 .. automodule:: apstools.devices.struck3820
+    :members:
+
+.. automodule:: apstools.devices.synth_pseudo_voigt
     :members:
 
 .. automodule:: apstools.devices.tracking_signal
