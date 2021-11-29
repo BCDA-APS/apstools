@@ -19,8 +19,8 @@ import apstools as package
 __entry_points__ = {
     "console_scripts": [
         "apstools_plan_catalog = apstools.examples:main",
-        "bluesky_snapshot = apstools.snapshot:snapshot_cli",
-        "bluesky_snapshot_viewer = apstools.snapshot:snapshot_gui",
+        "bluesky_snapshot = apstools.snapshot.application:snapshot_cli",
+        "bluesky_snapshot_viewer = apstools.snapshot.application:snapshot_gui",
         "spec2ophyd = apstools.migration.spec2ophyd:main",
     ],
     # 'gui_scripts': [],

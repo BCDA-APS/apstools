@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 """
-record a snapshot of some PVs using Bluesky, ophyd, and databroker
+Record a snapshot of some PVs using Bluesky, ophyd, and databroker.
 
 USAGE::
 
@@ -48,10 +48,10 @@ import tkinter.ttk as ttk
 
 import databroker
 
-from . import utils as APS_utils
-from . import plans as APS_plans
-from . import callbacks as APS_callbacks
 from . import textreadonly
+from .. import utils as APS_utils
+from .. import plans as APS_plans
+from .. import callbacks as APS_callbacks
 
 
 BROKER_CONFIG = "mongodb_config"
@@ -61,10 +61,12 @@ def get_args():
     """
     get command line arguments
     """
-    from .__init__ import __version__
+    from ..__init__ import __version__
 
-    doc = __doc__.strip().splitlines()[0].strip()
-    doc += f" version={__version__}"
+    doc = (
+        f"{__doc__.strip().splitlines()[0].strip()}"
+        f" version={__version__}"
+    )
 
     parser = argparse.ArgumentParser(description=doc)
 
@@ -124,9 +126,10 @@ def parse_metadata(args):
             if len(parts) == 2:
                 md[parts[0].strip()] = parts[1].strip()
             else:
-                msg = f"incorrect metadata specification {metadata}"
-                msg += ", must specify key = value [, key2 = value2 ]"
-                raise ValueError(msg)
+                raise ValueError(
+                    f"incorrect metadata specification {metadata}"
+                    ", must specify key = value [, key2 = value2 ]"
+                )
     return md
 
 
