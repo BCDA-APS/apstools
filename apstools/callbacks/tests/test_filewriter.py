@@ -9,12 +9,13 @@ import pytest
 import spec2nexus.spec
 import tempfile
 
-from ..filewriters import FileWriterCallbackBase
-from ..filewriters import NEXUS_FILE_EXTENSION
-from ..filewriters import NEXUS_RELEASE
-from ..filewriters import NXWriter
-from ..filewriters import NXWriterAPS
-from ..filewriters import SpecWriterCallback
+from ..callback_base import FileWriterCallbackBase
+from .. import NEXUS_FILE_EXTENSION
+from .. import NEXUS_RELEASE
+from .. import NXWriter
+from .. import NXWriterAPS
+from .. import SpecWriterCallback
+
 
 CATALOG = "usaxs_test"
 COUNT = "555a604"  # <-- uid,  scan_id: 2
@@ -301,7 +302,7 @@ def test_SpecWriterCallback_newfile_exists(cat, tempdir):
         filename=testfile
     )
 
-    from apstools.filewriters import SCAN_ID_RESET_VALUE
+    from .. import SCAN_ID_RESET_VALUE
 
     assert SCAN_ID_RESET_VALUE == 0  # "default reset scan id"
 
@@ -349,8 +350,8 @@ def test_SpecWriterCallback_newfile_exists(cat, tempdir):
         assert RE.md["scan_id"] == s
 
 
-def test_SpecWriterCallback__rebuild_scan_command(cat, tempdir):
-    from apstools.filewriters import _rebuild_scan_command
+def test_SpecWriterCallback__rebuild_scan_command(cat):
+    from ..spec_file_writer import _rebuild_scan_command
 
     start_docs = []
     for tag, doc in cat.v1[TUNE_MR].documents():
@@ -365,7 +366,7 @@ def test_SpecWriterCallback__rebuild_scan_command(cat, tempdir):
 
 
 def test_SpecWriterCallback_spec_comment(cat, tempdir):
-    from apstools.filewriters import spec_comment
+    from .. import spec_comment
 
     # spec_comment(comment, doc=None, writer=None)
     testfile = os.path.join(tempdir, "spec_comment.dat")

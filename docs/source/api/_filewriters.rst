@@ -1,13 +1,16 @@
+.. _filewriters:
 
 File Writers
 ------------
 
 The file writer callbacks are:
 
-* :class:`~apstools.filewriters.FileWriterCallbackBase`
-* :class:`~apstools.filewriters.NXWriterAPS`
-* :class:`~apstools.filewriters.NXWriter`
-* :class:`~apstools.filewriters.SpecWriterCallback`
+.. autosummary::
+
+   ~apstools.callbacks.callback_base.FileWriterCallbackBase
+   ~apstools.callbacks.nexus_writer.NXWriterAPS
+   ~apstools.callbacks.nexus_writer.NXWriter
+   ~apstools.callbacks.spec_file_writer.SpecWriterCallback
 
 
 Overview
@@ -26,17 +29,17 @@ Examples
 
 Write SPEC file automatically from data acquisition::
 
-    specwriter = apstools.filewriters.SpecWriterCallback()
+    specwriter = apstools.callbacks.SpecWriterCallback()
     RE.subscribe(specwriter.receiver)
 
 Write NeXus file automatically from data acquisition::
 
-    nxwriter = apstools.filewriters.NXWriter()
+    nxwriter = apstools.callbacks.NXWriter()
     RE.subscribe(nxwriter.receiver)
 
 Write APS-specific NeXus file automatically from data acquisition::
 
-    nxwriteraps = apstools.filewriters.NXWriterAPS()
+    nxwriteraps = apstools.callbacks.NXWriterAPS()
     RE.subscribe(nxwriteraps.receiver)
 
 Programmer's Note
@@ -77,20 +80,20 @@ The output file will be written to the file named in
 different from the current working directory.)
 
 When ``self.file_name`` is ``None`` (the default), the
-:meth:`~apstools.filewriters.FileWriterCallbackBase.make_file_name()`
+:meth:`~apstools.callbacks.callback_base.FileWriterCallbackBase.make_file_name()`
 method will construct
 the file name using a combination of the date and time
 (from the ``start`` document), the ``start`` document
 ``uid``, and the ``scan_id``.
 The default file extension (given in ``NEXUS_FILE_EXTENSION``)
 is used in
-:meth:`~apstools.filewriters.FileWriterCallbackBase.make_file_name()`.
+:meth:`~apstools.callbacks.callback_base.FileWriterCallbackBase.make_file_name()`.
 The directory will be
 ``self.file_path`` (or the current working directory
 if ``self.file_path`` is ``None`` which is the default).
 
 Either specify ``self.file_name`` or override
-:meth:`~apstools.filewriters.FileWriterCallbackBase.make_file_name()`
+:meth:`~apstools.callbacks.callback_base.FileWriterCallbackBase.make_file_name()`
 in a subclass to change the procedure for default output file names.
 
 Metadata
@@ -136,20 +139,20 @@ The output file will be written to the file named in
 different from the current working directory.)
 
 When ``self.file_name`` is ``None`` (the default), the
-:meth:`~apstools.filewriters.FileWriterCallbackBase.make_file_name()`
+:meth:`~apstools.callbacks.callback_base.FileWriterCallbackBase.make_file_name()`
 method will construct
 the file name using a combination of the date and time
 (from the `start` document), the ``start`` document
 ``uid``, and the ``scan_id``.
 The default file extension (given in ``NEXUS_FILE_EXTENSION``) is
 used in
-:meth:`~apstools.filewriters.FileWriterCallbackBase.make_file_name()`.
+:meth:`~apstools.callbacks.callback_base.FileWriterCallbackBase.make_file_name()`.
 The directory will be
 ``self.file_path`` (or the current working directory
 if ``self.file_path`` is ``None`` which is the default).
 
 Either specify ``self.file_name`` of override
-:meth:`~apstools.filewriters.FileWriterCallbackBase.make_file_name()`
+:meth:`~apstools.callbacks.callback_base.FileWriterCallbackBase.make_file_name()`
 in a subclass
 to change the procedure for default output file names.
 
@@ -188,12 +191,12 @@ Notes:
 NXWriterAPS
 ^^^^^^^^^^^
 
-Customize :class:`~apstools.filewriters.NXWriter` with APS-specific content.
+Customize :class:`~apstools.callbacks.nexus_writer.NXWriter` with APS-specific content.
 
 * Adds ``/entry/instrument/undulator`` group if metadata exists.
 * Adds APS information to ``/entry/instrument/source`` group.
 
-APS instruments should subclass :class:`~apstools.filewriters.NXWriterAPS`
+APS instruments should subclass :class:`~apstools.callbacks.nexus_writer.NXWriterAPS`
 to make customizations for specific plans or other considerations.
 
 HDF5/NeXus File Structures
@@ -275,7 +278,8 @@ NeXus structure is completed by making links to data from either
 APS-specific HDF5/NeXus File Structures
 +++++++++++++++++++++++++++++++++++++++
 
-Examples of additional structure in NeXus file added by :class:`~apstools.filewriters.NXWriterAPS()`:
+Examples of additional structure in NeXus file added by
+:class:`~apstools.callbacks.nexus_writer.NXWriterAPS()`:
 
 .. literalinclude:: ../../../examples/demo_nxapswriter.txt
     :linenos:
@@ -287,13 +291,13 @@ SPEC File Structure
 
 EXAMPLE : use as Bluesky callback::
 
-    from apstools.filewriters import SpecWriterCallback
+    from apstools import SpecWriterCallback
     specwriter = SpecWriterCallback()
     RE.subscribe(specwriter.receiver)
 
 EXAMPLE : use as writer from Databroker::
 
-    from apstools.filewriters import SpecWriterCallback
+    from apstools import SpecWriterCallback
     specwriter = SpecWriterCallback()
     for key, doc in db.get_documents(db["a123456"]):
         specwriter.receiver(key, doc)
@@ -301,7 +305,7 @@ EXAMPLE : use as writer from Databroker::
 
 EXAMPLE : use as writer from Databroker with customizations::
 
-    from apstools.filewriters import SpecWriterCallback
+    from apstools import SpecWriterCallback
 
     # write into file: /tmp/cerium.spec
     specwriter = SpecWriterCallback(filename="/tmp/cerium.spec")
@@ -319,8 +323,15 @@ Example output from ``SpecWriterCallback()``:
     :linenos:
     :language: text
 
-Source Code Documentation
-+++++++++++++++++++++++++
 
-.. automodule:: apstools.filewriters
+Source Code
+++++++++++++++++
+
+.. automodule:: apstools.callbacks.callback_base
+    :members:
+
+.. automodule:: apstools.callbacks.nexus_writer
+    :members:
+
+.. automodule:: apstools.callbacks.spec_file_writer
     :members:
