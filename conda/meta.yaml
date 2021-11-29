@@ -27,8 +27,8 @@ build:
   noarch: python
   entry_points:
     - apstools_plan_catalog = apstools.examples:main
-    - bluesky_snapshot = apstools.snapshot:snapshot_cli
-    - bluesky_snapshot_viewer = apstools.snapshot:snapshot_gui
+    - bluesky_snapshot = apstools.snapshot.application:snapshot_cli
+    - bluesky_snapshot_viewer = apstools.snapshot.application:snapshot_gui
 
 requirements:
   host:

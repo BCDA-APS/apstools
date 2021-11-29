@@ -36,6 +36,8 @@ or ``conda``).  See https://bcda-aps.github.io/apsbss/ for details.
 
 Reorganized all devices, including `synApps/`, into `devices/` subpackage.
 
+Moved ``snapshot`` application and related files to a subdirectory.
+
 Maintenance
 ---------------
 

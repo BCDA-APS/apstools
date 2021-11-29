@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 """
-record a snapshot of some PVs using Bluesky, ophyd, and databroker
+Record a snapshot of some PVs using Bluesky, ophyd, and databroker.
 
 USAGE::
 
@@ -48,10 +48,10 @@ import tkinter.ttk as ttk
 
 import databroker
 
-from . import utils as APS_utils
-from . import plans as APS_plans
-from . import callbacks as APS_callbacks
 from . import textreadonly
+from .. import utils as APS_utils
+from .. import plans as APS_plans
+from .. import callbacks as APS_callbacks
 
 
 BROKER_CONFIG = "mongodb_config"
