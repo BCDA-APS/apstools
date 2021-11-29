@@ -9,7 +9,8 @@ bluesky_snapshot
 
 Take a snapshot of a list of EPICS PVs and record it in the databroker.
 Retrieve (and display) that snapshot later using
-``apstools.callbacks.SnapshotReport`` or :ref:`bluesky_snapshot_viewer`.
+:class:`apstools.callbacks.snapshot_report.SnapshotReport`
+or the :ref:`bluesky_snapshot_viewer` graphical user interface.
 
 Example - command line
 ++++++++++++++++++++++

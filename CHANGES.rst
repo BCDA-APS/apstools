@@ -34,11 +34,15 @@ Breaking Changes
 Moved ``apsbss`` support to new ``apsbss`` package (install with either ``pip``
 or ``conda``).  See https://bcda-aps.github.io/apsbss/ for details.
 
-Reorganized all devices, including `synApps/`, into `devices/` subpackage.
+``callbacks/``: ``DocumentCollectorCallback``, ``document_contents_callback``, and
+``SnapshotReport`` moved into ``callbacks/``.
 
-Moved ``snapshot`` application and related files to a subdirectory.
+``devices/``: Reorganized all devices, including `synApps/`, into `devices/` subpackage.
 
-``signals.SynPseudoVoigt()`` moved to ``devices.SynPseudoVoigt()``.
+``devices/``: ``SynPseudoVoigt()`` moved from ``signals/`` to ``devices/``.
+
+``snapshot/``: Moved ``snapshot`` application and related files to a subdirectory.
+
 
 Maintenance
 ---------------
