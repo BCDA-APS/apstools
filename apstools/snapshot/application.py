@@ -63,8 +63,10 @@ def get_args():
     """
     from ..__init__ import __version__
 
-    doc = __doc__.strip().splitlines()[0].strip()
-    doc += f" version={__version__}"
+    doc = (
+        f"{__doc__.strip().splitlines()[0].strip()}"
+        f" version={__version__}"
+    )
 
     parser = argparse.ArgumentParser(description=doc)
 
@@ -124,9 +126,10 @@ def parse_metadata(args):
             if len(parts) == 2:
                 md[parts[0].strip()] = parts[1].strip()
             else:
-                msg = f"incorrect metadata specification {metadata}"
-                msg += ", must specify key = value [, key2 = value2 ]"
-                raise ValueError(msg)
+                raise ValueError(
+                    f"incorrect metadata specification {metadata}"
+                    ", must specify key = value [, key2 = value2 ]"
+                )
     return md
 
 
