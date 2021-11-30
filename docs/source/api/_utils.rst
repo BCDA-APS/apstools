@@ -8,136 +8,157 @@ Also consult the :ref:`Index <genindex>` under the *apstools* heading
 for links to the Exceptions, and Utilities described
 here.
 
-Categories
-----------
+Utilities by Activity
+----------------------
 
 .. _utils.finding:
 
-FINDING
+Finding
 +++++++++++
 
 .. autosummary::
 
-   ~findbyname
-   ~findbypv
-   ~findCatalogsInNamespace
+   ~apstools.utils.pvregistry.findbyname
+   ~apstools.utils.pvregistry.findbypv
+   ~apstools.utils.catalog.findCatalogsInNamespace
 
 .. _utils.listing:
 
-LISTING
+Listing
 +++++++++++
 
 .. autosummary::
 
-   ~apstools._utils.device_info.listdevice
-   ~listobjects
-   ~apstools._utils.list_plans.listplans
-   ~listRunKeys
-   ~ListRuns
-   ~listruns
+   ~apstools.utils.device_info.listdevice
+   ~apstools.utils.misc.listobjects
+   ~apstools.utils.list_plans.listplans
+   ~apstools.utils.list_runs.listRunKeys
+   ~apstools.utils.list_runs.ListRuns
+   ~apstools.utils.list_runs.listruns
 
 .. _utils.reporting:
 
-REPORTING
+Reporting
 +++++++++++
 
 .. autosummary::
 
-   ~print_RE_md
-   ~print_snapshot_list
+   ~apstools.utils.misc.print_RE_md
+   ~apstools.utils.misc.print_snapshot_list
 
 .. _utils.other:
 
-OTHER UTILITIES
+Other Utilities
 ++++++++++++++++
 
 .. autosummary::
 
-   ~cleanupText
-   ~connect_pvlist
-   ~EmailNotifications
-   ~select_live_plot
-   ~select_mpl_figure
-   ~trim_plot_by_name
-   ~trim_plot_lines
-   ~trim_string_for_EPICS
-   ~unix
+   ~apstools.utils.misc.cleanupText
+   ~apstools.utils.misc.connect_pvlist
+   ~apstools.utils.email.EmailNotifications
+   ~apstools.utils.plot.select_live_plot
+   ~apstools.utils.plot.select_mpl_figure
+   ~apstools.utils.plot.trim_plot_by_name
+   ~apstools.utils.plot.trim_plot_lines
+   ~apstools.utils.misc.trim_string_for_EPICS
+   ~apstools.utils.misc.unix
 
 .. _utils.general:
 
-GENERAL
+General
 +++++++++++
 
 .. autosummary::
 
-   ~cleanupText
-   ~command_list_as_table
-   ~connect_pvlist
-   ~copy_filtered_catalog
-   ~db_query
-   ~dictionary_table
-   ~EmailNotifications
-   ~ExcelDatabaseFileBase
-   ~ExcelDatabaseFileGeneric
-   ~ExcelReadError
-   ~findbyname
-   ~findbypv
-   ~findCatalogsInNamespace
-   ~full_dotted_name
-   ~getCatalog
-   ~getDatabase
-   ~getDefaultCatalog
-   ~getDefaultDatabase
-   ~apstools._utils.profile_support.getDefaultNamespace
-   ~getRunData
-   ~getRunDataValue
-   ~getStreamValues
-   ~apstools._utils.profile_support.ipython_profile_name
-   ~itemizer
-   ~apstools._utils.device_info.listdevice
-   ~listobjects
-   ~apstools._utils.list_plans.listplans
-   ~listRunKeys
-   ~ListRuns
-   ~listruns
-   ~apstools._utils.override_parameters.OverrideParameters
-   ~pairwise
-   ~print_RE_md
-   ~print_snapshot_list
-   ~quantify_md_key_use
-   ~redefine_motor_position
-   ~replay
-   ~rss_mem
-   ~run_in_thread
-   ~safe_ophyd_name
-   ~select_live_plot
-   ~select_mpl_figure
-   ~split_quoted_line
-   ~summarize_runs
-   ~text_encode
-   ~to_unicode_or_bust
-   ~trim_plot_by_name
-   ~trim_plot_lines
-   ~trim_string_for_EPICS
-   ~unix
+   ~apstools.utils.misc.cleanupText
+   ~apstools.plans.command_list.command_list_as_table
+   ~apstools.utils.misc.connect_pvlist
+   ~apstools.utils.catalog.copy_filtered_catalog
+   ~apstools.utils.query.db_query
+   ~apstools.utils.misc.dictionary_table
+   ~apstools.utils.email.EmailNotifications
+   ~apstools.utils.spreadsheet.ExcelDatabaseFileBase
+   ~apstools.utils.spreadsheet.ExcelDatabaseFileGeneric
+   ~apstools.utils.spreadsheet.ExcelReadError
+   ~apstools.utils.pvregistry.findbyname
+   ~apstools.utils.pvregistry.findbypv
+   ~apstools.utils.catalog.findCatalogsInNamespace
+   ~apstools.utils.misc.full_dotted_name
+   ~apstools.utils.catalog.getCatalog
+   ~apstools.utils.catalog.getDatabase
+   ~apstools.utils.catalog.getDefaultCatalog
+   ~apstools.utils.catalog.getDefaultDatabase
+   ~apstools.utils.profile_support.getDefaultNamespace
+   ~apstools.utils.list_runs.getRunData
+   ~apstools.utils.list_runs.getRunDataValue
+   ~apstools.utils.catalog.getStreamValues
+   ~apstools.utils.profile_support.ipython_profile_name
+   ~apstools.utils.misc.itemizer
+   ~apstools.utils.device_info.listdevice
+   ~apstools.utils.misc.listobjects
+   ~apstools.utils.list_plans.listplans
+   ~apstools.utils.list_runs.listRunKeys
+   ~apstools.utils.list_runs.ListRuns
+   ~apstools.utils.list_runs.listruns
+   ~apstools.utils.override_parameters.OverrideParameters
+   ~apstools.utils.misc.pairwise
+   ~apstools.utils.misc.print_RE_md
+   ~apstools.utils.misc.print_snapshot_list
+   ~apstools.utils.catalog.quantify_md_key_use
+   ~apstools.utils.misc.redefine_motor_position
+   ~apstools.utils.misc.replay
+   ~apstools.utils.memory.rss_mem
+   ~apstools.utils.misc.run_in_thread
+   ~apstools.utils.misc.safe_ophyd_name
+   ~apstools.utils.plot.select_live_plot
+   ~apstools.utils.plot.select_mpl_figure
+   ~apstools.utils.misc.split_quoted_line
+   ~apstools.utils.list_runs.summarize_runs
+   ~apstools.utils.misc.text_encode
+   ~apstools.utils.misc.to_unicode_or_bust
+   ~apstools.utils.plot.trim_plot_by_name
+   ~apstools.utils.plot.trim_plot_lines
+   ~apstools.utils.misc.trim_string_for_EPICS
+   ~apstools.utils.misc.unix
 
 Submodules
 ---------------
 
-.. automodule:: apstools._utils.catalog
+.. automodule:: apstools.utils.catalog
     :members:
 
-.. automodule:: apstools._utils.device_info
+.. automodule:: apstools.utils.device_info
     :members:
 
-.. automodule:: apstools._utils.list_plans
+.. automodule:: apstools.utils.email
     :members:
 
-.. automodule:: apstools._utils.list_runs
+.. automodule:: apstools.utils.list_plans
     :members:
 
-.. automodule:: apstools._utils.override_parameters
+.. automodule:: apstools.utils.list_runs
     :members:
 
-.. automodule:: apstools._utils.profile_support
+.. automodule:: apstools.utils.memory
+    :members:
+
+.. automodule:: apstools.utils.misc
+    :members:
+
+.. automodule:: apstools.utils.override_parameters
+    :members:
+
+.. automodule:: apstools.utils.plot
+    :members:
+
+.. automodule:: apstools.utils.profile_support
+    :members:
+
+.. automodule:: apstools.utils.pvregistry
+    :members:
+
+.. automodule:: apstools.utils.query
+    :members:
+
+.. automodule:: apstools.utils.spreadsheet
     :members:

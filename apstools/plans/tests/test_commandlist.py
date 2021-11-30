@@ -8,7 +8,7 @@ import pytest
 
 from .. import CommandFileReadError
 from .. import get_command_list
-from ...utils import command_list_as_table
+from .. import command_list_as_table
 
 DATA_PATH = pathlib.Path(__file__).parent
 

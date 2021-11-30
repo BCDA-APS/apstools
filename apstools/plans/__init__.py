@@ -3,6 +3,7 @@ from .alignment import tune_axes
 from .alignment import TuneAxis
 from .alignment import TuneResults
 from .command_list import CommandFileReadError
+from .command_list import command_list_as_table
 from .command_list import execute_command_list
 from .command_list import get_command_list
 from .command_list import parse_Excel_command_file

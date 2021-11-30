@@ -6,6 +6,7 @@ Directory of bluesky runs
 
    ~getRunData
    ~getRunDataValue
+   ~listRunKeys
    ~ListRuns
    ~listruns
    ~summarize_runs
@@ -25,10 +26,8 @@ import typing
 
 from collections import defaultdict
 
-from . import db_query
-from . import getCatalog
-from . import getDefaultNamespace
-from . import ipython_shell_namespace
+from .query import db_query
+
 from ._core import FIRST_DATA
 from ._core import LAST_DATA
 from ._core import MONGO_CATALOG_CLASSES
@@ -76,6 +75,8 @@ def getRunData(scan_id, db=None, stream="primary", query=None, use_v1=True):
 
     (new in apstools 1.5.1)
     """
+    from . import getCatalog
+
     cat = getCatalog(db)
     if query:
         cat = db_query(cat, query)
@@ -179,6 +180,82 @@ def getRunDataValue(
     )
 
 
+def listRunKeys(
+    scan_id,
+    key_fragment="",
+    db=None,
+    stream="primary",
+    query=None,
+    strict=False,
+    use_v1=True,
+):
+    """
+    Convenience function to list all keys (column names) in the scan's stream (default: primary).
+
+    PARAMETERS
+
+    scan_id
+        *int* or *str* :
+        Scan (run) identifier.
+        Positive integer value is ``scan_id`` from run's metadata.
+        Negative integer value is since most recent run in databroker.
+        String is run's ``uid`` unique identifier (can abbreviate to
+        the first characters needed to assure it is unique).
+
+    key_fragment
+        *str* :
+        Part or all of key name to be found in selected stream.
+        For instance, if you specify ``key_fragment="lakeshore"``,
+        it will return all the keys that include ``lakeshore``.
+
+    db
+        *object* :
+        Bluesky database, an instance of ``databroker.catalog``.
+        Default: will search existing session for instance.
+
+    stream
+        *str* :
+        Name of the bluesky data stream to obtain the data.
+        Default: 'primary'
+
+    query
+        *dict* :
+        mongo query dictionary, used to filter the results
+        Default: ``{}``
+
+        see: https://docs.mongodb.com/manual/reference/operator/query/
+
+    strict
+        *bool* :
+        Should the ``key_fragment`` be matched identically (``strict=True``)
+        or matched by lower case comparison (``strict=False``)?
+        Default: ``False``
+
+    use_v1
+        *bool* :
+        Chooses databroker API version between 'v1' or 'v2'.
+        Default: ``True`` (meaning use the v1 API)
+
+    (new in apstools 1.5.1)
+    """
+    table = getRunData(scan_id, db=db, stream=stream, query=query, use_v1=use_v1)
+
+    # fmt: off
+    if len(key_fragment):
+        output = [
+            col
+            for col in table.columns
+            if (
+                (strict and key_fragment in col)
+                or (not strict and key_fragment.lower() in col.lower())
+            )
+        ]
+    else:
+        output = list(table.columns)
+    # fmt: on
+    return output
+
+
 @dataclasses.dataclass
 class ListRuns:
     """
@@ -266,6 +343,8 @@ class ListRuns:
         return v or self.missing
 
     def _check_cat(self):
+        from . import getCatalog
+
         if self.cat is None:
             self.cat = getCatalog()
 
@@ -522,6 +601,8 @@ def summarize_runs(since=None, db=None):
         Instance of ``databroker.Broker()``
         (default: ``db`` from the IPython shell)
     """
+    from . import ipython_shell_namespace
+
     db = db or ipython_shell_namespace()["db"]
     # no APS X-ray experiment data before 1995!
     since = since or "1995"

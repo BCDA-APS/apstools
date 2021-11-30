@@ -4,12 +4,12 @@ Plans
 
 Plans that might be useful at the APS when using Bluesky.
 
-Categories
-----------
+Plans and Support by Activity
+------------------------------
 
 .. _plans.batch:
 
-BATCH SCANNING
+Batch Scanning
 +++++++++++++++++++
 
 .. autosummary::
@@ -24,7 +24,7 @@ BATCH SCANNING
 
 .. _plans.custom:
 
-CUSTOM SCANS
+Custom Scans
 +++++++++++++++++++
 
 .. autosummary::
@@ -39,12 +39,13 @@ CUSTOM SCANS
 
 .. _plans.overall:
 
-OVERALL
+Overall
 +++++++++++++++++++
 
 .. autosummary::
 
    ~apstools.plans.doc_run.addDeviceDataAsStream
+   ~apstools.plans.command_list.command_list_as_table
    ~apstools.plans.doc_run.documentation_run
    ~apstools.plans.command_list.execute_command_list
    ~apstools.plans.command_list.get_command_list
