@@ -7,8 +7,8 @@ import numpy as np
 import os
 import zipfile
 
-from ..filewriters import SpecWriterCallback
-from ..filewriters import _rebuild_scan_command
+from .. import SpecWriterCallback
+from ..spec_file_writer import _rebuild_scan_command
 
 
 DATA_ARCHIVE = "440_specwriter_problem_run.zip"

@@ -154,7 +154,7 @@ from dataclasses import dataclass
 from email.mime.text import MIMEText
 from event_model import NumpyEncoder
 
-from .filewriters import _rebuild_scan_command
+from .callbacks.spec_file_writer import _rebuild_scan_command
 from ._utils import *
 from ._utils import getDefaultNamespace
 from ._utils import ipython_shell_namespace

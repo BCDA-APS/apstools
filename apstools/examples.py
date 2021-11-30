@@ -21,7 +21,7 @@ demonstrate Bluesky callbacks
 
 
 import databroker
-from .filewriters import SpecWriterCallback
+from .callbacks import SpecWriterCallback
 import logging
 
 
