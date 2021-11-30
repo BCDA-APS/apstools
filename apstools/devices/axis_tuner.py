@@ -101,7 +101,7 @@ class AxisTunerMixin(DeviceMixinBase):
         if md is None:
             md = OrderedDict()
         md["purpose"] = "tuner"
-        md["datetime"] = str(datetime.now())
+        md["datetime"] = datetime.datetime.now().isoformat(sep=" ")
 
         if self.tuner is not None:
             if self.pre_tune_method is not None:

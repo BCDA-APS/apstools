@@ -14,16 +14,20 @@ http://nsls-ii.github.io/bluesky/async.html#flying
 import asyncio
 from collections import deque, OrderedDict
 import numpy as np
+import time
 
-P = "xxx:"
+P = "gp:"
 
-from ophyd.scaler import ScalerCH
-from ophyd import EpicsMotor
 from apstools.synApps import UserCalcsDevice
 from apstools.synApps import SscanDevice
 from apstools.synApps import SaveData
 from apstools.synApps import setup_lorentzian_swait
+from bluesky import RunEngine, plans as bp, preprocessors as bpre
+from ophyd import EpicsMotor
+from ophyd.scaler import ScalerCH
+from ophyd.status import DeviceStatus
 
+RE = RunEngine({})
 scaler = ScalerCH(f"{P}scaler1", name="scaler")
 scaler.select_channels(None)
 m1 = EpicsMotor(f"{P}m1", name="m1")
@@ -135,21 +139,21 @@ class MockFlyer:
 
     def _scan(self):
         "This will be run on a separate thread, started in self.kickoff()"
-        ttime.sleep(.1)
+        time.sleep(.1)
         for p in self._steps:
             stat = self._mot.set(p)
             while True:
                 if stat.done:
                     break
-                ttime.sleep(0.01)
+                time.sleep(0.01)
             stat = self._detector.trigger()
             while True:
                 if stat.done:
                     break
-                ttime.sleep(0.01)
+                time.sleep(0.01)
 
             event = dict()
-            event['time'] = ttime.time()
+            event['time'] = time.time()
             event['data'] = dict()
             event['timestamps'] = dict()
             for r in [self._mot, self._detector]:
@@ -166,4 +170,4 @@ class MockFlyer:
 mflyer = MockFlyer('mflyer', noisy_det, m1, -3, 6, 21)
 
 # FIXME: fails, see: https://github.com/NSLS-II/bluesky/issues/1157
-RE(fly_during_wrapper(bp.count([noisy_det], num=5), [mflyer]))      
+RE(bpre.fly_during_wrapper(bp.count([noisy_det], num=5), [mflyer]))      
