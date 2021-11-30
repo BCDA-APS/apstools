@@ -43,11 +43,21 @@ or ``conda``).  See https://bcda-aps.github.io/apsbss/ for details.
 
 ``snapshot/``: Moved ``snapshot`` application and related files to a subdirectory.
 
+Removed `apstools_plan_catalog` application and related support.
 
 Maintenance
 ---------------
 
 Now testing with Python versions 3.7 - 3.10.
+
+Update notebooks:
+
+* ``demo_specfile_example``
+* ``demo_tuneaxis``
+
+Remove notebooks:
+
+* ``demo_specfile_databroker``
 
 Deprecations
 ---------------
