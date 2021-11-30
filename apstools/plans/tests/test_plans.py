@@ -6,16 +6,15 @@ from bluesky.simulators import summarize_plan
 from ophyd.signal import EpicsSignalBase
 
 import ophyd.sim
-import os
+import pathlib
 import pytest
 import sys
 
-from ...plans import _COMMAND_HANDLER_
-from ...plans import addDeviceDataAsStream
-from ...plans import execute_command_list
-from ...plans import get_command_list
-from ...plans import register_command_handler
-from ...plans import run_command_file
+from .. import addDeviceDataAsStream
+from .. import execute_command_list
+from .. import get_command_list
+from .. import register_command_handler
+from .. import run_command_file
 
 
 # set default timeout for all EpicsSignal connections & communications
@@ -27,9 +26,7 @@ except RuntimeError:
     pass  # ignore if some EPICS object already created
 
 
-DATA_PATH = os.path.abspath(
-    os.path.join(os.path.dirname(__file__), "..", "..", "tests")
-)
+DATA_PATH = pathlib.Path(__file__).parent
 
 
 def test_myoutput(capsys):  # or use "capfd" for fd-level
@@ -62,23 +59,22 @@ def test_addDeviceDataAsStream(objects, name, expected, capsys):
 
 
 def test_register_action_handler():
-    from ... import plans as APS_plans
+    from ..command_list import COMMAND_LIST_REGISTRY
+
+    assert COMMAND_LIST_REGISTRY.command == execute_command_list
     assert summarize_plan != execute_command_list
-    assert APS_plans._COMMAND_HANDLER_ == _COMMAND_HANDLER_
 
     register_command_handler(summarize_plan)
-    assert APS_plans._COMMAND_HANDLER_ != _COMMAND_HANDLER_  # FIXME:
-    assert APS_plans._COMMAND_HANDLER_ == summarize_plan
-    assert APS_plans._COMMAND_HANDLER_ != execute_command_list
+    assert COMMAND_LIST_REGISTRY.command == summarize_plan
+    assert COMMAND_LIST_REGISTRY.command != execute_command_list
 
     register_command_handler()
-    assert APS_plans._COMMAND_HANDLER_ == _COMMAND_HANDLER_
-    assert APS_plans._COMMAND_HANDLER_ == execute_command_list
+    assert COMMAND_LIST_REGISTRY.command == execute_command_list
 
 
 def test_get_command_list(capsys):
-    filename = os.path.join(DATA_PATH, "actions.txt")
-    assert os.path.exists(filename)
+    filename = (DATA_PATH / "actions.txt")
+    assert filename.exists()
 
     expected = [
         "sample_slits 0 0 0.4 1.2",
@@ -95,8 +91,8 @@ def test_get_command_list(capsys):
 
 
 def test_run_command_file_text(capsys):
-    filename = os.path.join(DATA_PATH, "actions.txt")
-    assert os.path.exists(filename)
+    filename = (DATA_PATH / "actions.txt")
+    assert filename.exists()
 
     expected = [
         f"Command file: {filename}",
@@ -136,8 +132,8 @@ def test_run_command_file_text(capsys):
 
 
 def test_run_command_file_Excel(capsys):
-    filename = os.path.join(DATA_PATH, "actions.xlsx")
-    assert os.path.exists(filename)
+    filename = (DATA_PATH / "actions.xlsx")
+    assert filename.exists()
 
     expected = [
         f"Command file: {filename}",

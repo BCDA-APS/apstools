@@ -2,25 +2,25 @@
 Test the Excel support.
 """
 
-import os
+import pathlib
 import pytest
 
+from ...plans import command_list
 from ...utils import ExcelDatabaseFileGeneric
 
 
-DATA_PATH = os.path.abspath(
-    os.path.join(os.path.dirname(__file__), "..", "..", "tests")
-)
+DATA_PATH = (pathlib.Path(command_list.__file__).parent / "tests")
 
 
 @pytest.fixture(scope="function")
 def xl_file():
-    xl_file = os.path.join(DATA_PATH, "demo3.xlsx")
+    xl_file = (DATA_PATH / "demo3.xlsx")
     return xl_file
 
 
 def test_testfile_exists(xl_file):
-    assert os.path.exists(xl_file)
+    assert DATA_PATH.exists()
+    assert xl_file.exists()
 
 
 def test_normal_read(xl_file):
