@@ -37,9 +37,11 @@ or ``conda``).  See https://bcda-aps.github.io/apsbss/ for details.
 ``callbacks/``: ``DocumentCollectorCallback``, ``document_contents_callback``, and
 ``SnapshotReport`` moved into ``callbacks/``.
 
-``devices/``: Reorganized all devices, including `synApps/`, into `devices/` subpackage.
+``devices/``: Reorganized all devices, including ``synApps/``, into ``devices/`` subpackage.
 
 ``devices/``: ``SynPseudoVoigt()`` moved from ``signals/`` to ``devices/``.
+
+``plans/``: Reorganized ``plans.py`` and ``_plans/`` into ``plans/`` subpackage.
 
 ``snapshot/``: Moved ``snapshot`` application and related files to a subdirectory.
 
