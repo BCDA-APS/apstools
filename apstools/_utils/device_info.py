@@ -176,7 +176,6 @@ def listdevice(
 
     return pd.DataFrame(dd)
 
-
 # -----------------------------------------------------------------------------
 # :author:    Pete R. Jemian
 # :email:     jemian@anl.gov
