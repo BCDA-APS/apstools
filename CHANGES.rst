@@ -49,6 +49,11 @@ Maintenance
 
 Now testing with Python versions 3.7 - 3.10.
 
+Update notebooks:
+
+* ``demo_specfile_example``
+* ``demo_tuneaxis``
+
 Deprecations
 ---------------
 
