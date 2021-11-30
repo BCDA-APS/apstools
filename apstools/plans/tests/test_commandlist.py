@@ -2,41 +2,39 @@
 Test the command list support.
 """
 
-import os
+import pathlib
 import pyRestTable
 import pytest
 
-from ...plans import CommandFileReadError
-from ...plans import get_command_list
+from .. import CommandFileReadError
+from .. import get_command_list
 from ...utils import command_list_as_table
 
-DATA_PATH = os.path.abspath(
-    os.path.join(os.path.dirname(__file__), "..", "..", "tests")
-)
+DATA_PATH = pathlib.Path(__file__).parent
 
 
 @pytest.fixture(scope="function")
 def text_command_file():
-    text_command_file = os.path.join(DATA_PATH, "actions.txt")
+    text_command_file = (DATA_PATH / "actions.txt")
     return text_command_file
 
 
 @pytest.fixture(scope="function")
 def xl_command_file():
-    xl_command_file = os.path.join(DATA_PATH, "actions.xlsx")
+    xl_command_file = (DATA_PATH / "actions.xlsx")
     return xl_command_file
 
 
 @pytest.fixture(scope="function")
 def xl_file():
-    xl_file = os.path.join(DATA_PATH, "demo3.xlsx")
+    xl_file = (DATA_PATH / "demo3.xlsx")
     return xl_file
 
 
 def test_testfile_exists(text_command_file, xl_command_file, xl_file):
-    assert os.path.exists(text_command_file)
-    assert os.path.exists(xl_command_file)
-    assert os.path.exists(xl_file)
+    assert text_command_file.exists()
+    assert xl_command_file.exists()
+    assert xl_file.exists()
 
 
 def compare_tables_as_str(expected, received):
@@ -135,7 +133,7 @@ def test_TextCommandListRaw(text_command_file):
 @pytest.mark.parametrize(
     "error, expected, item",
     [
-        (IOError, "file not found: ", os.path.join(DATA_PATH, "none such")),
+        (IOError, "file not found: ", (DATA_PATH / "none such")),
         (CommandFileReadError, "could not read ", __file__),
     ],
 )
