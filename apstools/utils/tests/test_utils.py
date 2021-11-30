@@ -10,8 +10,8 @@ import time
 import uuid
 
 from ... import __version__ as APS__version__
-from ... import utils as APS_utils
-
+from ... import utils
+from .._core import MAX_EPICS_STRINGOUT_LENGTH
 
 CATALOG = "usaxs_test"
 COUNT = "555a604"  # <-- uid,  scan_id: 2
@@ -27,7 +27,7 @@ def cat():
 
 def test_utils_cleanupText():
     original = "1. Some text to cleanup #25"
-    received = APS_utils.cleanupText(original)
+    received = utils.cleanupText(original)
     expected = "1__Some_text_to_cleanup__25"
     assert received == expected
 
@@ -46,7 +46,7 @@ def test_utils_dictionary_table():
             "epics": "3.3.3",
         },
     }
-    table = APS_utils.dictionary_table(md)
+    table = utils.dictionary_table(md)
     received = str(table).strip()
     expected = (
         "=========== =============================================================================\n"
@@ -65,7 +65,7 @@ def test_utils_dictionary_table():
 
 def test_utils_itemizer():
     items = [1.0, 1.1, 1.01, 1.001, 1.0001, 1.00001]
-    received = APS_utils.itemizer("%.2f", items)
+    received = utils.itemizer("%.2f", items)
     expected = ["1.00", "1.10", "1.01", "1.00", "1.00", "1.00"]
     assert received == expected
 
@@ -77,7 +77,7 @@ def test_utils_print_RE_md(capsys):
     md["versions"] = dict(apstools=APS__version__)
     md["something"] = "else"
 
-    APS_utils.print_RE_md(md)
+    utils.print_RE_md(md)
     out, err = capsys.readouterr()
     received = out.splitlines()
 
@@ -104,7 +104,7 @@ def test_utils_print_RE_md(capsys):
 
 def test_utils_pairwise():
     items = [1.0, 1.1, 1.01, 1.001, 1.0001, 1.00001, 2]
-    received = list(APS_utils.pairwise(items))
+    received = list(utils.pairwise(items))
     expected = [(1.0, 1.1), (1.01, 1.001), (1.0001, 1.00001)]
     assert received == expected
 
@@ -126,13 +126,13 @@ def test_utils_pairwise():
     ],
 )
 def test_utils_safe_ophyd_name(given, expected):
-    received = APS_utils.safe_ophyd_name(given)
+    received = utils.safe_ophyd_name(given)
     assert received == expected
 
 
 def test_utils_split_quoted_line():
     source = 'FlyScan 5   2   0   "empty container"'
-    received = APS_utils.split_quoted_line(source)
+    received = utils.split_quoted_line(source)
     assert len(received) == 5
     expected = ["FlyScan", "5", "2", "0", "empty container"]
     assert received == expected
@@ -140,17 +140,17 @@ def test_utils_split_quoted_line():
 
 def test_utils_trim_string_for_EPICS():
     source = "0123456789"
-    assert len(source) < APS_utils.MAX_EPICS_STRINGOUT_LENGTH
-    received = APS_utils.trim_string_for_EPICS(source)
+    assert len(source) < MAX_EPICS_STRINGOUT_LENGTH
+    received = utils.trim_string_for_EPICS(source)
     assert len(source) == len(received)
     expected = source
     assert received == expected
 
     source = "0123456789" * 10
-    assert len(source) > APS_utils.MAX_EPICS_STRINGOUT_LENGTH
-    received = APS_utils.trim_string_for_EPICS(source)
+    assert len(source) > MAX_EPICS_STRINGOUT_LENGTH
+    received = utils.trim_string_for_EPICS(source)
     assert len(source) > len(received)
-    expected = source[: APS_utils.MAX_EPICS_STRINGOUT_LENGTH - 1]
+    expected = source[: MAX_EPICS_STRINGOUT_LENGTH - 1]
     assert received == expected
 
 
@@ -165,7 +165,7 @@ def test_utils_listobjects():
     num = len(sims) - len(wont_show)
     kk = sorted(sims.keys())
 
-    table = APS_utils.listobjects(symbols=sims, printing=False)
+    table = utils.listobjects(symbols=sims, printing=False)
     assert 4 == len(table.labels)
     rr = [r[0] for r in table.rows]
     for k in kk:
@@ -176,13 +176,13 @@ def test_utils_listobjects():
 
 def test_utils_unix():
     cmd = 'echo "hello"'
-    out, err = APS_utils.unix(cmd)
+    out, err = utils.unix(cmd)
     assert out == b"hello\n"
     assert err == b""
 
     cmd = "sleep 0.8 | echo hello"
     t0 = time.time()
-    out, err = APS_utils.unix(cmd)
+    out, err = utils.unix(cmd)
     dt = time.time() - t0
     assert dt >= 0.8
     assert out == b"hello\n"
@@ -191,7 +191,7 @@ def test_utils_unix():
 
 def test_utils_with_database_listruns(cat):
     assert len(list(cat.v1[COUNT].documents())[:1]) == 1
-    df = APS_utils.listruns(cat=cat, printing=False, num=10)
+    df = utils.listruns(cat=cat, printing=False, num=10)
     assert df is not None
     assert len(df.columns) == 4
 
@@ -208,7 +208,7 @@ def test_utils_with_database_replay(cat):
     def cb1(key, doc):
         replies.append((key, len(doc)))
 
-    APS_utils.replay(cat.v1[COUNT], callback=cb1)
+    utils.replay(cat.v1[COUNT], callback=cb1)
     assert len(replies) > 0
     keys = set([v[0] for v in replies])
     # doc_types = "start stop event descriptor datum resource".split()
@@ -221,22 +221,22 @@ def test_utils_with_database_replay(cat):
             replies.append(doc["time"])
 
     replies = []
-    APS_utils.replay(cat.v1[-1], callback=cb2)
+    utils.replay(cat.v1[-1], callback=cb2)
     assert len(replies) == 1  # last run
 
     replies = []
-    APS_utils.replay(cat.v1[-3:], callback=cb2)
+    utils.replay(cat.v1[-3:], callback=cb2)
     assert len(replies) == 3  # last 3 runs
 
     replies = []
-    APS_utils.replay(cat.v1[COUNT], callback=cb2)
+    utils.replay(cat.v1[COUNT], callback=cb2)
     previous = 0
     for i, v in enumerate(replies):
         assert v - previous > 0
         previous = v
 
     replies = []
-    APS_utils.replay(cat.v1[-1], callback=cb2, sort=False)
+    utils.replay(cat.v1[-1], callback=cb2, sort=False)
     previous = replies[0] + 1
     for i, v in enumerate(replies):
         assert v - previous < 0
@@ -257,26 +257,26 @@ def test_utils_listRunKeys(
     scan_id, stream, total_keys, key, v1, m3, m_default, m_strict, m_lower, cat
 ):
     assert (
-        len(APS_utils.listRunKeys(scan_id, db=cat, stream=stream, use_v1=v1))
+        len(utils.listRunKeys(scan_id, db=cat, stream=stream, use_v1=v1))
         == total_keys
     )
 
-    result = APS_utils.listRunKeys(
+    result = utils.listRunKeys(
         scan_id, key_fragment=key[0:3], db=cat, stream=stream, use_v1=v1
     )
     assert len(result) == m3
 
-    result = APS_utils.listRunKeys(
+    result = utils.listRunKeys(
         scan_id, key_fragment=key, db=cat, stream=stream, use_v1=v1
     )
     assert len(result) == m_default
 
-    result = APS_utils.listRunKeys(
+    result = utils.listRunKeys(
         scan_id, key_fragment=key, db=cat, stream=stream, strict=True, use_v1=v1
     )
     assert len(result) == m_strict
 
-    result = APS_utils.listRunKeys(
+    result = utils.listRunKeys(
         scan_id, key_fragment=key.lower(), db=cat, stream=stream, strict=True, use_v1=v1
     )
     assert len(result) == m_lower
@@ -293,7 +293,7 @@ def test_utils_listRunKeys(
 )
 def test_utils_listRunKeys_no_such_stream(scan_id, stream, cat):
     with pytest.raises(AttributeError) as exc:
-        APS_utils.listRunKeys(scan_id, db=cat, stream=stream)
+        utils.listRunKeys(scan_id, db=cat, stream=stream)
     assert str(exc.value).startswith("No such stream ")
 # fmt: on
 
@@ -311,7 +311,7 @@ def test_utils_listRunKeys_no_such_stream(scan_id, stream, cat):
     ],
 )
 def test_utils_getRunData(scan_id, stream, nkeys, v1, cat):
-    table = APS_utils.getRunData(scan_id, db=cat, stream=stream, use_v1=v1)
+    table = utils.getRunData(scan_id, db=cat, stream=stream, use_v1=v1)
     assert table is not None
     assert len(table.keys()) == nkeys
 
@@ -342,7 +342,7 @@ def test_utils_getRunData(scan_id, stream, nkeys, v1, cat):
     ],
 )
 def test_utils_getRunDataValue(scan_id, stream, key, idx, v1, expected, prec, cat):
-    value = APS_utils.getRunDataValue(
+    value = utils.getRunDataValue(
         scan_id, key, db=cat, stream=stream, idx=idx, use_v1=v1
     )
     if isinstance(value, str):
@@ -366,7 +366,7 @@ def test_utils_getRunDataValue(scan_id, stream, key, idx, v1, expected, prec, ca
 #     scan_id, stream, key, idx, expected, prec, cat
 # ):
 #     with pytest.raises(np.core._exceptions._ArrayMemoryError) as exc:
-#         APS_utils.getRunDataValue(
+#         utils.getRunDataValue(
 #             scan_id, key, db=cat, stream=stream, idx=idx
 #         )
 #     assert str(exc.value).startswith("Unable to allocate ")
@@ -391,7 +391,7 @@ def test_utils_getRunDataValue(scan_id, stream, key, idx, v1, expected, prec, ca
 def test_utils_db_query(
     query, n, cat
 ):
-    sub_cat = APS_utils.db_query(cat, query)
+    sub_cat = utils.db_query(cat, query)
     assert len(sub_cat) == n
 # fmt: on
 
@@ -412,7 +412,7 @@ def test_utils_getStreamValues(scan_id, key, db, stream, cat, query, v1, nrows, 
     """These tests should not raise exceptions."""
     if db == DEFAULT_CATALOG_ID:
         db = cat
-    table = APS_utils.getStreamValues(
+    table = utils.getStreamValues(
         scan_id, db=db, key_fragment=key, stream=stream, query=query, use_v1=v1
     )
     assert table is not None
@@ -440,7 +440,7 @@ def test_utils_getStreamValues_Exceptionr(
     if db == DEFAULT_CATALOG_ID:
         db = cat
     with pytest.raises(error) as exc:
-        APS_utils.getStreamValues(
+        utils.getStreamValues(
             scan_id, db=db, key_fragment=key, stream=stream, query=query, use_v1=v1
         )
     assert str(exc.value).startswith(first_words)

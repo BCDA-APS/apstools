@@ -55,7 +55,6 @@ def ipython_shell_namespace():
         ns = {}
     return ns
 
-
 # -----------------------------------------------------------------------------
 # :author:    Pete R. Jemian
 # :email:     jemian@anl.gov

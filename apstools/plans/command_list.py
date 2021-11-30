@@ -5,6 +5,7 @@ nscan plan
 .. autosummary::
 
    ~CommandFileReadError
+   ~command_list_as_table
    ~execute_command_list
    ~get_command_list
    ~parse_Excel_command_file
@@ -16,6 +17,7 @@ nscan plan
 
 import logging
 import os
+import pyRestTable
 
 from bluesky import plan_stubs as bps
 
@@ -31,6 +33,25 @@ class CommandFileReadError(IOError):
 
     .. index:: Bluesky Exception; CommandFileReadError
     """
+
+
+def command_list_as_table(commands, show_raw=False):
+    """
+    format a command list as a pyRestTable.Table object
+    """
+    tbl = pyRestTable.Table()
+    tbl.addLabel("line #")
+    tbl.addLabel("action")
+    tbl.addLabel("parameters")
+    if show_raw:  # only the developer might use this
+        tbl.addLabel("raw input")
+    for command in commands:
+        action, args, line_number, raw_command = command
+        row = [line_number, action, ", ".join(map(str, args))]
+        if show_raw:
+            row.append(str(raw_command))
+        tbl.addRow(row)
+    return tbl
 
 
 def execute_command_list(filename, commands, md=None):
@@ -98,7 +119,7 @@ def execute_command_list(filename, commands, md=None):
         return
 
     text = f"Command file: {filename}\n"
-    text += str(utils.command_list_as_table(commands))
+    text += str(command_list_as_table(commands))
     print(text)
 
     for command in commands:
@@ -160,6 +181,14 @@ def get_command_list(filename):
                 f"could not read {filename} as command list file: {exc}"
             )
     return commands
+
+
+class _HandlerRegistrar:
+    """
+    Internal use, allows redefinition of execute_command_list().
+    """
+
+    command = None
 
 
 def parse_Excel_command_file(filename):
@@ -308,15 +337,6 @@ def parse_text_command_file(filename):
     return commands
 
 
-# internal use, allows redefinition of execute_command_list()
-class _HandlerRegistrar:
-    command = None
-
-
-COMMAND_LIST_REGISTRY = _HandlerRegistrar()
-COMMAND_LIST_REGISTRY.command = execute_command_list
-
-
 def register_command_handler(handler=None):
     """
     Define the function called to execute the command list
@@ -392,7 +412,11 @@ def summarize_command_file(filename):
     """
     commands = get_command_list(filename)
     print(f"Command file: {filename}")
-    print(utils.command_list_as_table(commands))
+    print(command_list_as_table(commands))
+
+
+COMMAND_LIST_REGISTRY = _HandlerRegistrar()
+COMMAND_LIST_REGISTRY.command = execute_command_list
 
 # -----------------------------------------------------------------------------
 # :author:    Pete R. Jemian

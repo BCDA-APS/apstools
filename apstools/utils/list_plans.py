@@ -1,5 +1,5 @@
 """
-Documentation of batch runs
+Directory of the known plans
 +++++++++++++++++++++++++++++++++++++++
 
 .. autosummary::
@@ -75,7 +75,6 @@ def listplans(base=None, trunc=40):
             dd["plan"].append(f"{prefix}{key}")
             dd["doc"].append(doc)
     return pd.DataFrame(dd)
-
 
 # -----------------------------------------------------------------------------
 # :author:    Pete R. Jemian

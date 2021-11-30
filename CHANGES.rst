@@ -34,6 +34,8 @@ Breaking Changes
 Moved ``apsbss`` support to new ``apsbss`` package (install with either ``pip``
 or ``conda``).  See https://bcda-aps.github.io/apsbss/ for details.
 
+Moved ``command_list_as_table()`` from `utils` into ``plans/command_list``.
+
 ``callbacks/``: ``DocumentCollectorCallback``, ``document_contents_callback``, and
 ``SnapshotReport`` moved into ``callbacks/``.
 
@@ -44,6 +46,8 @@ or ``conda``).  See https://bcda-aps.github.io/apsbss/ for details.
 ``plans/``: Reorganized ``plans.py`` and ``_plans/`` into ``plans/`` subpackage.
 
 ``snapshot/``: Moved ``snapshot`` application and related files to a subdirectory.
+
+``utils/``: Reorganized ``utils.py`` and ``_utils/`` into ``utils/`` subpackage.
 
 Maintenance
 ---------------
