@@ -55,6 +55,10 @@ Update notebooks:
 * ``demo_specfile_example``
 * ``demo_tuneaxis``
 
+Remove notebooks:
+
+* ``demo_specfile_databroker``
+
 Deprecations
 ---------------
 
