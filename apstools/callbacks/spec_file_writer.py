@@ -217,9 +217,6 @@ class SpecWriterCallback(object):
        ~stop
     """
 
-    # EXAMPLE : the :ref:`specfile_example() <example_specfile>`
-    # writes one or more scans to a SPEC data file using a jupyter notebook.
-
     def __init__(
         self, filename=None, auto_write=True, RE=None, reset_scan_id=False
     ):
