@@ -43,6 +43,7 @@ or ``conda``).  See https://bcda-aps.github.io/apsbss/ for details.
 
 ``snapshot/``: Moved ``snapshot`` application and related files to a subdirectory.
 
+Removed `apstools_plan_catalog` application and related support.
 
 Maintenance
 ---------------
