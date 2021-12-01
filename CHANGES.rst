@@ -67,14 +67,17 @@ Deprecations
 ---------------
 
 * Applications
+
   * `apstools_plan_catalog` application and related support.
 
 * Devices
+
   * ``ApsCycleComputedRO``
   * ``move_energy()`` method in ``KohzuSeqCtl_Monochromator`` class
   * ``ProcessController``
 
 * Utilities
+
   * ``device_read2table``
   * ``json_export``
   * ``json_import``
