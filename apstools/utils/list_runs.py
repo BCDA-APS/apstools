@@ -31,7 +31,6 @@ from .query import db_query
 from ._core import FIRST_DATA
 from ._core import LAST_DATA
 from ._core import MONGO_CATALOG_CLASSES
-from ..callbacks.spec_file_writer import _rebuild_scan_command
 
 
 logger = logging.getLogger(__name__)

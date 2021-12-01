@@ -140,7 +140,7 @@ class FileWriterCallbackBase:
 
         fname = self.file_name or self.make_file_name()
         print("print to console")
-        print(f"suggested file name: {fname}")
+        print(f"suggested file name: {fname}")  # lgtm [py/clear-text-logging-sensitive-data]
 
         tbl = pyRestTable.Table()
         tbl.labels = "key value".split()

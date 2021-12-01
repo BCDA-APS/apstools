@@ -193,7 +193,7 @@ class NXWriter(FileWriterCallbackBase):
             self.write_root(fname)
 
         self.root = None
-        logger.info(f"wrote NeXus file: {fname}")
+        logger.info(f"wrote NeXus file: {fname}")  # lgtm [py/clear-text-logging-sensitive-data]
         self.output_nexus_file = fname
 
     def write_data(self, parent):

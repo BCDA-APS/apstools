@@ -13,7 +13,6 @@ from ophyd.sim import SynSignalRO
 import pathlib
 import time
 import yaml
-import warnings
 
 
 _PATH = pathlib.Path(__file__).parent

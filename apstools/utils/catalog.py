@@ -27,8 +27,6 @@ from .profile_support import getDefaultNamespace
 from .list_runs import getRunData
 from .profile_support import ipython_shell_namespace
 from ._core import CATALOG_CLASSES
-from ._core import FIRST_DATA
-from ._core import LAST_DATA
 
 
 logger = logging.getLogger(__name__)

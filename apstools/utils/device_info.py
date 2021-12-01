@@ -18,8 +18,6 @@ from ophyd.signal import EpicsSignalBase
 import datetime
 import logging
 import pandas as pd
-import pyRestTable
-import warnings
 
 
 logger = logging.getLogger(__name__)

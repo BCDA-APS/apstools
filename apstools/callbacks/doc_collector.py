@@ -58,7 +58,7 @@ class DocumentCollectorCallback(object):
             raise KeyError("No uid in '{}' document".format(key))
         self.uids.append(token)
         logger = logging.getLogger(__name__)
-        logger.debug("%s document  uid=%s", key, str(token))
+        logger.debug("%s document  uid=%s", key, str(token))  # lgtm [py/clear-text-logging-sensitive-data]
         if key == "start":
             self.documents = {key: document}
         elif key in self.data_event_names:

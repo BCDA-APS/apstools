@@ -304,7 +304,7 @@ class SpecWriterCallback(object):
         logger = logging.getLogger(__name__)
         if key in xref:
             token = document.get("uid") or document.get("datum_id")
-            logger.debug("%s document, uid=%s", key, str(token))
+            logger.debug("%s document, uid=%s", key, str(token))  # lgtm [py/clear-text-logging-sensitive-data]
             ts = document.get("time")
             if ts is None:
                 ts = datetime.datetime.now()
