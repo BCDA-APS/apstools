@@ -8,7 +8,6 @@ from ophyd import EpicsMotor
 from ophyd import Signal
 from ophyd.signal import EpicsSignalBase
 import pandas as pd
-import pyRestTable
 import pytest
 
 from ...devices import SwaitRecord
