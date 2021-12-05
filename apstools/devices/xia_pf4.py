@@ -12,15 +12,6 @@ XIA PF4 Filters
    ~DualPf4FilterBox
 """
 
-__all__ = """
-   DualPf4FilterBox
-   Pf4FilterBank
-   Pf4FilterCommon
-   Pf4FilterDual
-   Pf4FilterSingle
-   Pf4FilterTriple
-""".split()
-
 from ophyd import Component
 from ophyd import Device
 from ophyd import EpicsSignal

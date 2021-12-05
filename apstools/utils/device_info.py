@@ -7,8 +7,6 @@ Device information
    ~listdevice
 """
 
-__all__ = ["listdevice", ]
-
 
 from collections import defaultdict
 from ophyd import Device

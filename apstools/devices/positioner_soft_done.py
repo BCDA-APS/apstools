@@ -7,11 +7,6 @@ PVPositioner that computes ``done`` as a soft signal.
    ~PVPositionerSoftDoneWithStop
 """
 
-__all__ = """
-PVPositionerSoftDone
-PVPositionerSoftDoneWithStop
-""".split()
-
 from ophyd import Component
 from ophyd import FormattedComponent
 from ophyd import PVPositioner

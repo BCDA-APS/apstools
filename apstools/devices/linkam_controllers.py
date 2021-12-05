@@ -2,16 +2,11 @@
 Linkam temperature controllers
 ++++++++++++++++++++++++++++++
 
-Models:
+.. autosummary::
 
-- CI94
-- T96
+   ~Linkam_CI94_Device
+   ~Linkam_T96_Device
 """
-
-__all__ = """
-    Linkam_CI94_Device
-    Linkam_T96_Device
-""".split()
 
 from ophyd import Component
 from ophyd import Device
