@@ -98,6 +98,8 @@ Temperature Controllers
 
 .. autosummary::
 
+    ~apstools.devices.lakeshore_controllers.LakeShore336Device
+    ~apstools.devices.lakeshore_controllers.LakeShore340Device
     ~apstools.devices.linkam_controllers.Linkam_CI94_Device
     ~apstools.devices.linkam_controllers.Linkam_T96_Device
     ~apstools.devices.ptc10_controller.PTC10AioChannel
@@ -156,6 +158,9 @@ All Submodules
     :members:
 
 .. automodule:: apstools.devices.kohzu_monochromator
+    :members:
+
+.. automodule:: apstools.devices.lakeshore_controllers
     :members:
 
 .. automodule:: apstools.devices.linkam_controllers
