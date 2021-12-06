@@ -90,15 +90,7 @@ jobs:
       run: |
         ./resources/unpack.sh
 
-  test:
-    name: Run tests with pytest py${{ matrix.python-version }}
-    needs: build
-    runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        python-version: ['3.7', '3.8', '3.9', '3.10']
-      max-parallel: 5
-    - name: Run tests with pytest
+    - name: Run tests with pytest & coverage
       run: |
         source $CONDA/bin/activate $ENV_NAME
         # proceed as in hklpy
