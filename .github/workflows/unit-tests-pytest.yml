@@ -90,18 +90,24 @@ jobs:
       run: |
         ./resources/unpack.sh
 
-  # test:
-  #   needs: build
-  #   - name: Run tests with pytest
-  #     run: |
-  #       source $CONDA/bin/activate $ENV_NAME
-  #       # proceed as in hklpy
-  #       coverage run --concurrency=thread --parallel-mode -m pytest -vvv .
-  #       coverage combine
-  #       coverage report
-  #     env:
-  #       PY_VER: ${{ matrix.python-version }}
-  #       ENV_NAME: anaconda-test-env-py-${{ matrix.python-version }}
+  test:
+    name: Run tests with pytest py${{ matrix.python-version }}
+    needs: build
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: ['3.7', '3.8', '3.9', '3.10']
+      max-parallel: 5
+    - name: Run tests with pytest
+      run: |
+        source $CONDA/bin/activate $ENV_NAME
+        # proceed as in hklpy
+        coverage run --concurrency=thread --parallel-mode -m pytest -vvv .
+        coverage combine
+        coverage report
+      env:
+        PY_VER: ${{ matrix.python-version }}
+        ENV_NAME: anaconda-test-env-py-${{ matrix.python-version }}
 
   #   - name: Coveralls
   #   # https://github.com/marketplace/actions/coveralls-python
