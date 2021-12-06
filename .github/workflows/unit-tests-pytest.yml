@@ -3,7 +3,7 @@ name: Unit Tests
 on: [push]
 
 jobs:
-  setup:
+  build:
     name: Setup py${{ matrix.python-version }}
     runs-on: ubuntu-latest
     strategy:
@@ -90,16 +90,6 @@ jobs:
       run: |
         ./resources/unpack.sh
 
-  test:
-    name: Test py${{ matrix.python-version }}
-    runs-on: ubuntu-latest
-    needs: setup
-    strategy:
-      matrix:
-        python-version: ['3.7', '3.8', '3.9', '3.10']
-      max-parallel: 5
-
-    steps:
     - name: Diagnostics
       run: |
         $CONDA/bin/conda list --name $ENV_NAME
@@ -113,32 +103,14 @@ jobs:
         source $CONDA/bin/activate $ENV_NAME
         # proceed as in hklpy
         coverage run --concurrency=thread --parallel-mode -m pytest -vvv .
-      env:
-        PY_VER: ${{ matrix.python-version }}
-        ENV_NAME: anaconda-test-env-py-${{ matrix.python-version }}
-
-    steps:
-    - name: Report code coverage
-      run: |
-        source $CONDA/bin/activate $ENV_NAME
         coverage combine
         coverage report
       env:
         PY_VER: ${{ matrix.python-version }}
         ENV_NAME: anaconda-test-env-py-${{ matrix.python-version }}
 
-  upload:
-    name: Upload
-    runs-on: ubuntu-latest
-    needs: test
-    strategy:
-      matrix:
-        python-version: ['3.7', '3.8', '3.9', '3.10']
-      max-parallel: 5
-
-    steps:
     - name: Upload to coveralls
-      # https://github.com/TheKevJames/coveralls-python  
+      # https://github.com/TheKevJames/coveralls-python
       run: |
         source $CONDA/bin/activate $ENV_NAME
         coveralls --service=github
