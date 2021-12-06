@@ -110,8 +110,8 @@ jobs:
         ENV_NAME: anaconda-test-env-py-${{ matrix.python-version }}
 
     - name: Upload to coveralls
-    # https://github.com/TheKevJames/coveralls-python  
-    run: |
+      # https://github.com/TheKevJames/coveralls-python  
+      run: |
         source $CONDA/bin/activate $ENV_NAME
         coveralls --service=github
       env:
