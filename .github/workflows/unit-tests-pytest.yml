@@ -47,7 +47,7 @@ jobs:
     - name: Install Python package requirements
       run: |
         $CONDA/bin/conda env update --file environment.yml --name $ENV_NAME
-        $CONDA/bin/conda install pytest --name $ENV_NAME
+        $CONDA/bin/conda install pytest coverage coveralls --name $ENV_NAME
         $CONDA/bin/conda list -r --name $ENV_NAME
       env:
         PY_VER: ${{ matrix.python-version }}
@@ -90,6 +90,14 @@ jobs:
       run: |
         ./resources/unpack.sh
 
+    - name: Diagnostics
+      run: |
+        $CONDA/bin/conda list --name $ENV_NAME
+        $CONDA/bin/conda list -r --name $ENV_NAME
+      env:
+        PY_VER: ${{ matrix.python-version }}
+        ENV_NAME: anaconda-test-env-py-${{ matrix.python-version }}
+
     - name: Run tests with pytest & coverage
       run: |
         source $CONDA/bin/activate $ENV_NAME
@@ -101,18 +109,11 @@ jobs:
         PY_VER: ${{ matrix.python-version }}
         ENV_NAME: anaconda-test-env-py-${{ matrix.python-version }}
 
-  #   - name: Coveralls
-  #   # https://github.com/marketplace/actions/coveralls-python
-  #     uses: AndreMiras/coveralls-python-action@develop
-  #     with:
-  #       parallel: true
-  #       flag-name: Unit Test
-
-  # coveralls_finish:
-  #   needs: test
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #   - name: Coveralls Finished
-  #     uses: AndreMiras/coveralls-python-action@develop
-  #     with:
-  #       parallel-finished: true
+    - name: Upload to coveralls
+    # https://github.com/TheKevJames/coveralls-python  
+    run: |
+        source $CONDA/bin/activate $ENV_NAME
+        coveralls --service=github
+      env:
+        PY_VER: ${{ matrix.python-version }}
+        ENV_NAME: anaconda-test-env-py-${{ matrix.python-version }}
