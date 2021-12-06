@@ -3,7 +3,7 @@ name: Unit Tests
 on: [push]
 
 jobs:
-  build-linux:
+  build:
     name: CI py${{ matrix.python-version }}
     runs-on: ubuntu-latest
     strategy:
@@ -91,7 +91,7 @@ jobs:
         ./resources/unpack.sh
 
   test:
-    needs: build-linux
+    needs: build
     - name: Run tests with pytest
       run: |
         source $CONDA/bin/activate $ENV_NAME
