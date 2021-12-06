@@ -31,8 +31,6 @@ from .motor_mixins import EpicsMotorLimitsMixin
 from .motor_mixins import EpicsMotorRawMixin
 from .motor_mixins import EpicsMotorResolutionMixin
 from .motor_mixins import EpicsMotorServoMixin
-from .positioner_soft_done import PVPositionerSoftDone
-from .positioner_soft_done import PVPositionerSoftDoneWithStop
 from .ptc10_controller import PTC10AioChannel
 from .ptc10_controller import PTC10RtdChannel
 from .ptc10_controller import PTC10TcChannel
