@@ -13,4 +13,3 @@ exclude_lines =
 omit =
 	versioneer.py
 	apstools/_version.py
-    relative_files = True
