@@ -3,8 +3,8 @@ name: Unit Tests
 on: [push]
 
 jobs:
-  build-linux:
-    name: CI py${{ matrix.python-version }}
+  build:
+    name: Setup py${{ matrix.python-version }}
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -47,7 +47,7 @@ jobs:
     - name: Install Python package requirements
       run: |
         $CONDA/bin/conda env update --file environment.yml --name $ENV_NAME
-        $CONDA/bin/conda install pytest --name $ENV_NAME
+        $CONDA/bin/conda install pytest coverage coveralls --name $ENV_NAME
         $CONDA/bin/conda list -r --name $ENV_NAME
       env:
         PY_VER: ${{ matrix.python-version }}
@@ -90,10 +90,31 @@ jobs:
       run: |
         ./resources/unpack.sh
 
-    - name: Run tests with pytest
+    - name: Diagnostics
       run: |
-        source $CONDA/bin/activate $ENV_NAME
-        pytest -vvv .
+        $CONDA/bin/conda list --name $ENV_NAME
+        $CONDA/bin/conda list -r --name $ENV_NAME
       env:
         PY_VER: ${{ matrix.python-version }}
         ENV_NAME: anaconda-test-env-py-${{ matrix.python-version }}
+
+    - name: Run tests with pytest & coverage
+      run: |
+        source $CONDA/bin/activate $ENV_NAME
+        # proceed as in hklpy
+        coverage run --concurrency=thread --parallel-mode -m pytest -vvv .
+        coverage combine
+        coverage report
+      env:
+        PY_VER: ${{ matrix.python-version }}
+        ENV_NAME: anaconda-test-env-py-${{ matrix.python-version }}
+
+    - name: Upload to coveralls
+      # https://github.com/TheKevJames/coveralls-python
+      run: |
+        source $CONDA/bin/activate $ENV_NAME
+        coveralls --service=github
+      env:
+        PY_VER: ${{ matrix.python-version }}
+        ENV_NAME: anaconda-test-env-py-${{ matrix.python-version }}
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
