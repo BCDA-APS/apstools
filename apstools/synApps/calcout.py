@@ -92,6 +92,7 @@ class CalcoutRecord(EpicsRecordFloatFields, EpicsRecordDeviceCommonAll):
 
     :see: https://wiki-ext.aps.anl.gov/epics/index.php/RRM_3-14_Calcout
     """
+    enable = Cpt(EpicsSignal, "Enable", kind="omitted")
 
     units = Cpt(EpicsSignal, ".EGU", kind="config")
     precision = Cpt(EpicsSignal, ".PREC", kind="config")
@@ -131,7 +132,7 @@ class CalcoutRecord(EpicsRecordFloatFields, EpicsRecordDeviceCommonAll):
         self.units.put("")
         self.precision.put("5")
 
-        self.calculation.put("")
+        self.calculation.put("0")
         self.calculated_value.put(0)
         self.output_calculation.put("")
         self.output_value.put(0)
