@@ -122,7 +122,7 @@ class TransformRecord(EpicsRecordDeviceCommonAll):
             channel = getattr(self.channels, letter)
             if isinstance(channel, transformRecordChannel):
                 channel.reset()
-        self.hints = {"fields": ["channels.%s" % c for c in CHANNEL_LETTERS_LIST]}
+        self.hints["fields"] = ["channels.%s" % c for c in CHANNEL_LETTERS_LIST]
         self.read_attrs = ["channels.%s" % c for c in CHANNEL_LETTERS_LIST]
 
 
