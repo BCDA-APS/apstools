@@ -23,7 +23,6 @@ def test_read():
         ["application_directory", "iocxxx", "end"],
         ["engineer", "engineer", None],
         ["epics_version", "EPICS", "start"],
-        ["kernel_version", "generic", "find"],
         ["kernel_version", "Linux", "start"],
         ["kernel_version", "x86_64", "end"],
         ["location", "location", None],
