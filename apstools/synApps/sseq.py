@@ -6,8 +6,9 @@ Public Structures
 
 .. autosummary::
 
-    ~UserStringSequenceDevice
+    ~EditStringSequence
     ~SseqRecord
+    ~UserStringSequenceDevice
 """
 
 # -----------------------------------------------------------------------------
@@ -165,3 +166,17 @@ class UserStringSequenceDevice(Device):
                 continue
             getattr(self, c).reset()
         self.read_attrs = self.component_names
+
+
+class EditStringSequence(Device):
+    """
+    Assistance to quickly re-arrange steps in an sseq record configuration.
+
+    See the editSseq_more GUI screen for assistance.
+    """
+    record_name = Cpt(EpicsSignal, "ES:recordName", kind="config")
+    command = Cpt(EpicsSignal, "ES:command", kind="config")
+    message_acknowledge = Cpt(EpicsSignal, "ES:OperAck", kind="config")
+    message = Cpt(EpicsSignalRO, "ES:message", kind="normal")
+    alert = Cpt(EpicsSignalRO, "ES:Alert", kind="normal")
+    debug = Cpt(EpicsSignal, "ES:Debug", kind="config")
