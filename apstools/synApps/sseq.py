@@ -62,7 +62,7 @@ class sseqRecordStep(Device):
     wait_error = FC(EpicsSignalRO, "{self.prefix}.WERR{self._step}", kind="config")
 
     def __init__(self, prefix, step, **kwargs):
-        names = "_123456789A"  # step (1-based) #10 is called "A"
+        names = "_123456789A"  # step #10 (1-based) is called "A"
         self._step = names[step]
         super().__init__(prefix, **kwargs)
 
