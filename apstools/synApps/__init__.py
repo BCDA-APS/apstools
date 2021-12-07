@@ -30,6 +30,9 @@ from .swait import setup_incrementer_swait
 from .transform import TransformRecord
 from .transform import UserTransformsDevice
 
+from .sseq import SseqRecord
+from .sseq import UserStringSequenceDevice
+
 # -----------------------------------------------------------------------------
 # :author:    Pete R. Jemian
 # :email:     jemian@anl.gov
