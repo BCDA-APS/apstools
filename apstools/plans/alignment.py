@@ -560,6 +560,8 @@ class TuneResults(Device):
     def set_stats(self, peaks):
         for key in self.peakstats_attrs:
             v = getattr(peaks, key)
+            if v is None:  # None cannot be mapped into json
+                v = "null"  # but "null" can replace it
             if key in ("crossings", "min", "max"):
                 v = np.array(v)
             getattr(self, key).put(v)
