@@ -34,7 +34,7 @@ class MyKohzu(KohzuSeqCtl_Monochromator):
     m_y = Component(EpicsMotor, "m46")
     m_z = Component(EpicsMotor, "m47")
 
-    def into_control_range(self, p_theta=2, p_y=-15, p_z=90):
+    def into_control_range(self, p_theta=11, p_y=-18, p_z=90):
         """
         Move the Kohzu motors into range so the wavelength controls will work.
 
@@ -44,10 +44,13 @@ class MyKohzu(KohzuSeqCtl_Monochromator):
         args = []
         if self.m_theta.position < p_theta:
             args += [self.m_theta, p_theta]
+            yield from bps.mv(self.m_theta.velocity, 5)
         if self.m_y.position > p_y:
             args += [self.m_y, p_y]
+            yield from bps.mv(self.m_y.velocity, 5)
         if self.m_z.position < p_z:
             args += [self.m_z, p_z]
+            yield from bps.mv(self.m_z.velocity, 5)
         if (len(args) == 0):
             # all motors in range, no work to do, MUST yield something
             yield from bps.null()

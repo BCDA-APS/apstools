@@ -78,7 +78,7 @@ def test_listdevice(obj, length):
 @pytest.mark.parametrize(
     "obj, length, ref",
     [
-        (calcs, 126, EpicsSignalBase),
+        (calcs, 128, EpicsSignalBase),
         (calcs.calc5.description, 1, EpicsSignalBase),
         (signal, None, None),
         (motor, 19, EpicsSignalBase),
@@ -122,13 +122,13 @@ def test_spotchecks(function, row, column, value):
     "device, scope, ancient, length",
     [
         (calcs, "epics", False, 0),
-        (calcs, "epics", True, 126),
+        (calcs, "epics", True, 128),
         (calcs, "full", False, 4),
-        (calcs, "full", True, 130),
+        (calcs, "full", True, 132),
         (calcs, "read", False, 2),
         (calcs, "read", True, 28),
         (calcs, None, False, 4),
-        (calcs, None, True, 130),
+        (calcs, None, True, 132),
     ],
 )
 def test_listdevice_filters(device, scope, ancient, length):
