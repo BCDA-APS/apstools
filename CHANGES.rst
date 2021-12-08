@@ -54,6 +54,11 @@ New Features and/or Enhancements
 
 * Add support for synApps ``sseq`` record and ``userStringSeq`` databases.
 
+Fixes
+-----------
+
+Convert ``None`` to ``"null"`` when saving ``PeakStats`` to stream.
+
 Maintenance
 ---------------
 
