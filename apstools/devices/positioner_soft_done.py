@@ -196,7 +196,7 @@ class PVPositionerSoftDoneWithStop(PVPositionerSoftDone):
 
     def stop(self, *, success=False):
         """
-        Hold the current readback when stop() is called and not inposition.
+        Hold the current readback when stop() is called and not :meth:`inposition`.
         """
         if not self.inposition:
             self.setpoint.put(self.position)
