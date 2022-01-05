@@ -53,7 +53,13 @@ class Eurotherm2216e(PVPositionerSoftDoneWithStop):
         EpicsSignal,
         "SetPointSensor",
         kind="config",
-        write_pv="ModeWrite"
+        write_pv="ModeWrite",
+        string=True,
     )
     program_number = Component(EpicsSignalRO, "ProgramNumber", kind="config")
-    program_status = Component(EpicsSignalRO, "ProgramStatus", kind="config")
+    program_status = Component(
+        EpicsSignalRO,
+        "ProgramStatus",
+        kind="config",
+        string=True
+    )
