@@ -1,16 +1,17 @@
 from ..xia_slit import XiaSlitController
-# from ...utils import SlitGeometry
+from ...utils import SlitGeometry
 
 import pytest
 
 IOC = "gp:"
+PV_PREFIX = f"{IOC}phone_hsc1:"
 
 # Full testing requires two XIA Slit controllers (a 2D H & V set)
 # We don't have that for unit testing.  Proceed with best efforts.
 
 
 def test_XiaSlit_not_connected():
-    slit1 = XiaSlitController("gp:hsc1:", name="slit1")
+    slit1 = XiaSlitController(PV_PREFIX, name="slit1")
     assert slit1 is not None
 
     # slit1.wait_for_connection()
@@ -18,10 +19,12 @@ def test_XiaSlit_not_connected():
 
 
 def test_XiaSlit_geometry(capsys):
-    slit1 = XiaSlitController("gp:hsc1:", name="slit1")
+    slit1 = XiaSlitController(PV_PREFIX, name="slit1")
 
+    g = None
     with pytest.raises(TypeError):
-        print(slit1.geometry)
+        g = slit1.geometry
+    assert not isinstance(g, SlitGeometry)
 
     captured = capsys.readouterr()
     assert captured.out.split("\n") == [""]
@@ -29,7 +32,7 @@ def test_XiaSlit_geometry(capsys):
 
 
 def test_XiaSlit_components():
-    slit1 = XiaSlitController("gp:hsc1:", name="slit1")
+    slit1 = XiaSlitController(PV_PREFIX, name="slit1")
     cns = """
         inb out bot top
         hsize vsize hcenter vcenter
