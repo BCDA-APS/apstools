@@ -9,6 +9,7 @@ from ._common import EpicsRecordFloatFields
 from .asyn import AsynRecord
 from .busy import BusyRecord
 from .busy import BusyStatus
+
 from .calcout import CalcoutRecord
 from .calcout import CalcoutRecordChannel
 from .calcout import setup_gaussian_calcout
@@ -33,6 +34,11 @@ from .transform import UserTransformsDevice
 from .sseq import EditStringSequence
 from .sseq import SseqRecord
 from .sseq import UserStringSequenceDevice
+
+# MUST come AFTER previous imports
+from .db_2slit import Optics2Slit1D
+from .db_2slit import Optics2Slit2D_HV
+from .db_2slit import Optics2Slit2D_InbOutBotTop
 
 # -----------------------------------------------------------------------------
 # :author:    Pete R. Jemian
