@@ -29,7 +29,7 @@ def test_XiaSlit(capsys):
 
     with pytest.raises(TypeError):
         print(slit1.geometry)
-    
+
     captured = capsys.readouterr()
     assert captured.out.split("\n") == [""]
     assert captured.err.split("\n") == [""]
