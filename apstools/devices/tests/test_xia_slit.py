@@ -9,12 +9,27 @@ IOC = "gp:"
 # We don't have that for unit testing.  Proceed with best efforts.
 
 
-def test_XiaSlit(capsys):
+def test_XiaSlit_not_connected():
     slit1 = XiaSlitController("gp:hsc1:", name="slit1")
     assert slit1 is not None
 
     # slit1.wait_for_connection()
     assert not slit1.connected
+
+
+def test_XiaSlit_geometry(capsys):
+    slit1 = XiaSlitController("gp:hsc1:", name="slit1")
+
+    with pytest.raises(TypeError):
+        print(slit1.geometry)
+
+    captured = capsys.readouterr()
+    assert captured.out.split("\n") == [""]
+    assert captured.err.split("\n") == [""]
+
+
+def test_XiaSlit_components():
+    slit1 = XiaSlitController("gp:hsc1:", name="slit1")
     cns = """
         inb out bot top
         hsize vsize hcenter vcenter
@@ -25,11 +40,4 @@ def test_XiaSlit(capsys):
         calibrate initialize locate stop_button
         precision
     """.split()
-    assert slit1.component_names == tuple(cns)
-
-    with pytest.raises(TypeError):
-        print(slit1.geometry)
-
-    captured = capsys.readouterr()
-    assert captured.out.split("\n") == [""]
-    assert captured.err.split("\n") == [""]
+    assert sorted(slit1.component_names) == sorted(cns)
