@@ -86,6 +86,18 @@ Shutters
     ~apstools.devices.shutters.ShutterBase
     ~apstools.devices.shutters.SimulatedApsPssShutterWithStatus
 
+.. _devices.slits:
+
+Slits
+++++++++
+
+.. autosummary::
+
+    ~apstools.synApps.db_2slit.Optics2Slit1D
+    ~apstools.synApps.db_2slit.Optics2Slit2D_HV
+    ~apstools.synApps.db_2slit.Optics2Slit2D_InbOutBotTop
+    ~apstools.devices.xia_slit.XiaSlitController
+
 synApps Support
 ++++++++++++++++++++
 
