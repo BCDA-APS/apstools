@@ -23,6 +23,7 @@ Summary Contents
     * :ref:`devices.motors`
     * :ref:`devices.scalers`
     * :ref:`devices.shutters`
+    * :ref:`devices.slits`
     * :ref:`synApps`
     * :ref:`devices.temperature_controllers`
 
@@ -30,7 +31,7 @@ Summary Contents
      * :ref:`batch scanning support <plans.batch>`
      * :ref:`custom scans <plans.custom>`
 
-       * :func:`~apstools.plans.lineup()`
+       * :func:`~apstools.plans.alignment.lineup()`
 
   * Utilities
      * :ref:`Finding ... <utils.finding>`

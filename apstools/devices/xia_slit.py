@@ -43,7 +43,7 @@ from ..utils import SlitGeometry
 
 class XiaSlit2D(Device):
     """
-    EPICS synApps optics xia_slit.db 1D support: inb out bot top ...
+    EPICS synApps optics xia_slit.db 2D support: inb out bot top ...
     """
 
     inb = Component(
