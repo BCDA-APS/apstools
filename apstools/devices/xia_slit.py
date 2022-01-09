@@ -111,6 +111,16 @@ class XiaSlitController(Device):
 
         return SlitGeometry(*pppp)
 
+    @geometry.setter
+    def geometry(self, value):
+        # first, test the input by assigning it to local vars
+        width, height, x, y = value
+
+        self.hsize.move(width)
+        self.vsize.move(height)
+        self.hcenter.move(x)
+        self.vcenter.move(y)
+
 
 # -----------------------------------------------------------------------------
 # :author:    Pete R. Jemian

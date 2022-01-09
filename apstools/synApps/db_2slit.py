@@ -79,6 +79,16 @@ class Optics2Slit2D_HV(Device):
 
         return SlitGeometry(*pppp)
 
+    @geometry.setter
+    def geometry(self, value):
+        # first, test the input by assigning it to local vars
+        width, height, x, y = value
+
+        self.h.size.move(width)
+        self.v.size.move(height)
+        self.h.center.move(x)
+        self.v.center.move(y)
+
 
 class Optics2Slit2D_InbOutBotTop(Device):
     """
@@ -128,6 +138,16 @@ class Optics2Slit2D_InbOutBotTop(Device):
         ]
 
         return SlitGeometry(*pppp)
+
+    @geometry.setter
+    def geometry(self, value):
+        # first, test the input by assigning it to local vars
+        width, height, x, y = value
+
+        self.hsize.move(width)
+        self.vsize.move(height)
+        self.hcenter.move(x)
+        self.vcenter.move(y)
 
 
 # -----------------------------------------------------------------------------

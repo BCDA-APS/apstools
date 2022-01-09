@@ -3,6 +3,8 @@ from ..db_2slit import Optics2Slit2D_HV
 from ..db_2slit import Optics2Slit2D_InbOutBotTop
 from ...utils import SlitGeometry
 
+import pytest
+
 IOC = "gp:"
 
 # TODO: test "sync" signal
@@ -66,3 +68,22 @@ def test_2slit2D_InbOutBotTop():
     assert round(slit1.out.position, 4) == 0.15
     assert round(slit1.bot.position, 4) == -0.2
     assert round(slit1.top.position, 4) == 0.2
+
+
+@pytest.mark.parametrize(
+    "klass, prefix",
+    [
+        [Optics2Slit2D_HV, "gp:Slit1"],
+        [Optics2Slit2D_InbOutBotTop, "gp:Slit1"],
+    ]
+)
+def test_geometry_property(klass, prefix):
+    slit1 = klass(prefix, name="slit1")
+    assert slit1 is not None
+
+    slit1.wait_for_connection()
+    assert slit1.connected
+
+    h, v, x, y = (0.3, 0.1, .5, -.4)
+    slit1.geometry = (h, v, x, y)
+    assert slit1.geometry == SlitGeometry(h, v, x, y)
