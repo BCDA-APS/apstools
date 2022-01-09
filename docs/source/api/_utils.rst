@@ -45,6 +45,7 @@ Reporting
 
    ~apstools.utils.misc.print_RE_md
    ~apstools.utils.misc.print_snapshot_list
+   ~apstools.utils.slit_core.SlitGeometry
 
 .. _utils.other:
 
@@ -158,6 +159,9 @@ Submodules
     :members:
 
 .. automodule:: apstools.utils.query
+    :members:
+
+.. automodule:: apstools.utils.slit_core
     :members:
 
 .. automodule:: apstools.utils.spreadsheet

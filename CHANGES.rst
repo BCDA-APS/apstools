@@ -52,7 +52,9 @@ Moved ``command_list_as_table()`` from `utils` into ``plans/command_list``.
 New Features and/or Enhancements
 ---------------------------------------------
 
-* Add support for synApps ``sseq`` record and ``userStringSeq`` databases.
+* Add support for synApps calc ``sseq`` record.
+* Add support for synApps calc ``userStringSeq`` database.
+* Add support for synApps optics ``2slit`` database.
 
 Fixes
 -----------

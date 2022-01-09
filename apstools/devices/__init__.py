@@ -55,6 +55,8 @@ from .xia_pf4 import Pf4FilterDual
 from .xia_pf4 import Pf4FilterSingle
 from .xia_pf4 import Pf4FilterTriple
 
+from .xia_slit import XiaSlit2D
+
 # synApps
 from ..synApps import AsynRecord
 from ..synApps import BusyRecord
