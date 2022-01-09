@@ -9,5 +9,5 @@ Common support of slits
 from collections import namedtuple
 
 
-# TODO: How to document this structure?
-SlitGeometry = namedtuple("SlitGeometry", "hsize vsize hcenter vcenter")
+SlitGeometry = namedtuple("SlitGeometry", "width height x y")
+"Slit size and center as a named tuple"

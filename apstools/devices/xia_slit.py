@@ -2,7 +2,7 @@
 XIA Slit from EPICS synApps optics: xia_slit.db
 +++++++++++++++++++++++++++++++++++++++++++++++
 
-Coordinates (viewing from detector towards source):
+Coordinates (viewing from detector towards source)::
 
         top
     inb     out
@@ -11,7 +11,8 @@ Coordinates (viewing from detector towards source):
 Each blade [#]_ (in the XIA slit controller) travels in a _cylindrical_
 coordinate system.  Positive motion moves a blade **outwards** from the center
 with a backlash correction. No backlash correction is applied for negative
-motion (as the blades close).
+motion (as the blades close).  Size and center are computed
+by the underlying EPICS support.
 
     hsize = inb + out
     vsize = top + bot
@@ -40,7 +41,7 @@ from ophyd import Signal
 from ..utils import SlitGeometry
 
 
-class XiaSlitController(Device):
+class XiaSlit2D(Device):
     """
     EPICS synApps optics xia_slit.db 1D support: inb out bot top ...
     """

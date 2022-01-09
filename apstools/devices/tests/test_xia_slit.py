@@ -1,4 +1,4 @@
-from ..xia_slit import XiaSlitController
+from ..xia_slit import XiaSlit2D
 from ...utils import SlitGeometry
 
 import pytest
@@ -11,7 +11,7 @@ PV_PREFIX = f"{IOC}phony_hsc1:"
 
 
 def test_XiaSlit_not_connected():
-    slit1 = XiaSlitController(PV_PREFIX, name="slit1")
+    slit1 = XiaSlit2D(PV_PREFIX, name="slit1")
     assert slit1 is not None
 
     # slit1.wait_for_connection()
@@ -19,7 +19,7 @@ def test_XiaSlit_not_connected():
 
 
 def test_XiaSlit_geometry(capsys):
-    slit1 = XiaSlitController(PV_PREFIX, name="slit1")
+    slit1 = XiaSlit2D(PV_PREFIX, name="slit1")
 
     g = None
     with pytest.raises(TypeError):
@@ -32,7 +32,7 @@ def test_XiaSlit_geometry(capsys):
 
 
 def test_XiaSlit_components():
-    slit1 = XiaSlitController(PV_PREFIX, name="slit1")
+    slit1 = XiaSlit2D(PV_PREFIX, name="slit1")
     cns = """
         inb out bot top
         hsize vsize hcenter vcenter
