@@ -4,7 +4,7 @@ from ...utils import SlitGeometry
 import pytest
 
 IOC = "gp:"
-PV_PREFIX = f"{IOC}phone_hsc1:"
+PV_PREFIX = f"{IOC}phony_hsc1:"
 
 # Full testing requires two XIA Slit controllers (a 2D H & V set)
 # We don't have that for unit testing.  Proceed with best efforts.
