@@ -94,7 +94,7 @@ class XiaSlitController(Device):
     locate = Component(EpicsSignal, "locate", kind="omitted", put_complete=True)
     stop_button = Component(EpicsSignal, "stop", kind="omitted", put_complete=True)
 
-    precision = Component(Signal, value=3)
+    precision = Component(Signal, value=3, kind="config")
 
     @property
     def geometry(self):
