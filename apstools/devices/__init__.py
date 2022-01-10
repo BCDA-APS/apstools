@@ -21,6 +21,7 @@ from .area_detector_support import AD_EpicsJpegFileName
 from .axis_tuner import AxisTunerException
 from .axis_tuner import AxisTunerMixin
 from .description_mixin import EpicsDescriptionMixin
+from .eurotherm_2216e import Eurotherm2216e
 from .kohzu_monochromator import KohzuSeqCtl_Monochromator
 from .linkam_controllers import Linkam_CI94_Device
 from .linkam_controllers import Linkam_T96_Device

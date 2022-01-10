@@ -1,3 +1,5 @@
+# local developer code
+dev_*.py
 
 db/
 log/

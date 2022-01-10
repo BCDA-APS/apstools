@@ -22,6 +22,7 @@ dependencies:
   - pyqt =5
   - pyRestTable
   - qt =5
+  - readline !=8.1.2
   - spec2nexus
   - sphinx
   - pip:
