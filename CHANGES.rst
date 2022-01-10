@@ -55,6 +55,7 @@ New Features and/or Enhancements
 * Add support for synApps calc ``sseq`` record.
 * Add support for synApps calc ``userStringSeq`` database.
 * Add support for synApps optics ``2slit`` database.
+* Add support for Eurotherm 2216e temperature controller
 
 Fixes
 -----------
