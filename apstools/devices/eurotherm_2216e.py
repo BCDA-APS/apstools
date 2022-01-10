@@ -70,11 +70,23 @@ class Eurotherm2216e(PVPositionerSoftDoneWithStop):
     #     string=True
     # )
 
+    target = None  # remove from PVPositionerSoftDoneWithStop
+
     def cb_sensor(self, *args, **kwargs):
         "units: Convert dC from sensor to C"
         self.readback.put(0.1 * self.sensor.get())
 
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
+    def __init__(
+        self, prefix="", *, tolerance=None, update_target=True, **kwargs
+    ):
+        super().__init__(
+            prefix=prefix,
+            readback_pv="ignoreRBV",
+            setpoint_pv="ignore",
+            tolerance=tolerance,
+            update_target=update_target,
+            **kwargs
+        )
+        self.update_target = False  # remove from PVPositionerSoftDoneWithStop
         self.sensor.subscribe(self.cb_sensor)
         self.tolerance.put(1)  # because setpoint is integer
