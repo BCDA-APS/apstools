@@ -42,7 +42,7 @@ jobs:
 
     - name: Install dependencies
       run: |
-        $CONDA/bin/conda install epics-base --name $ENV_NAME
+        $CONDA/bin/conda install epics-base "readline!=8.1.2" --name $ENV_NAME
         $CONDA/bin/conda list -r --name $ENV_NAME
       env:
         ENV_NAME: anaconda-test-env
