@@ -13,7 +13,10 @@ PV_PREFIX = f"phony:{IOC}2216e:"
 def test_device():
     euro = eurotherm_2216e.Eurotherm2216e(PV_PREFIX, name="controller")
     assert not euro.connected
+
     assert euro.tolerance.get() == 1
+    assert euro.update_target is False
+    assert euro.target is None
 
     cns = """
     readback setpoint
