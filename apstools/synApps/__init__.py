@@ -18,6 +18,11 @@ from .calcout import setup_lorentzian_calcout
 from .calcout import UserCalcoutDevice
 from .epid import EpidRecord
 from .iocstats import IocStatsDevice
+
+from .luascript import LuascriptRecord
+from .luascript import LuascriptRecordChannel
+from .luascript import UserScriptsDevice
+
 from .save_data import SaveData
 from .sscan import SscanRecord
 from .sscan import SscanDevice

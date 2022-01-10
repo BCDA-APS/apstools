@@ -43,7 +43,7 @@ class EpicsRecordDeviceCommonAll(Device):
     disable_value = Component(EpicsSignal, ".DISV", kind="config")
     scan_disable_input_link_value = Component(EpicsSignal, ".DISA", kind="config")
     scan_disable_value_input_link = Component(EpicsSignal, ".SDIS", kind="config")
-    process_record = Component(EpicsSignal, ".PROC", kind="omitted")
+    process_record = Component(EpicsSignal, ".PROC", kind="omitted", put_complete=True)
     forward_link = Component(EpicsSignal, ".FLNK", kind="config")
     trace_processing = Component(EpicsSignal, ".TPRO", kind="omitted")
     device_type = Component(EpicsSignalRO, ".DTYP", kind="config")
