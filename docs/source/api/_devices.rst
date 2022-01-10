@@ -98,6 +98,7 @@ Temperature Controllers
 
 .. autosummary::
 
+    ~apstools.devices.eurotherm_2216e.Eurotherm2216e
     ~apstools.devices.linkam_controllers.Linkam_CI94_Device
     ~apstools.devices.linkam_controllers.Linkam_T96_Device
     ~apstools.devices.ptc10_controller.PTC10AioChannel
@@ -153,6 +154,9 @@ All Submodules
     :members:
 
 .. automodule:: apstools.devices.description_mixin
+    :members:
+
+.. automodule:: apstools.devices.eurotherm_2216e
     :members:
 
 .. automodule:: apstools.devices.kohzu_monochromator
