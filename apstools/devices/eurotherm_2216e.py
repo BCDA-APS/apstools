@@ -34,6 +34,8 @@ class Eurotherm2216e(PVPositionerSoftDoneWithStop):
     Eurotherm 2216e Temperature Controller
     """
 
+    # temperature value in dC, needs conversion: readback = 0.1 * sensor
+    sensor = Component(EpicsSignalRO, "SetPointSensor", kind="omitted")
     readback = Component(Signal, value=0, kind="hinted")
     setpoint = Component(
         EpicsSignal,
@@ -52,9 +54,6 @@ class Eurotherm2216e(PVPositionerSoftDoneWithStop):
         write_pv="SetPointPowerWrite",
         put_complete=True,
     )
-
-    # value in dC, needs conversion: readback = 0.1 * sensor
-    sensor = Component(EpicsSignalRO, "SetPointSensor", kind="omitted")
 
     mode = Component(
         EpicsSignal,
