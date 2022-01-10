@@ -22,6 +22,7 @@ import logging
 from ophyd import Component
 from ophyd import EpicsSignal
 from ophyd import EpicsSignalRO
+from ophyd import Signal
 
 from .positioner_soft_done import PVPositionerSoftDoneWithStop
 
@@ -33,21 +34,27 @@ class Eurotherm2216e(PVPositionerSoftDoneWithStop):
     Eurotherm 2216e Temperature Controller
     """
 
-    readback = Component(EpicsSignalRO, "Temp1", kind="config")
+    readback = Component(Signal, value=0, kind="hinted")
     setpoint = Component(
         EpicsSignal,
         "SetPointTemp",
         kind="hinted",
-        write_pv="SetPointTempWrite"
+        write_pv="SetPointTempWrite",
+        put_complete=True,
     )
-    temp2 = Component(EpicsSignalRO, "Temp2", kind="hinted")
+    # temp1 & temp2 PVs have no useful values : ignore here
+    # temp1 = Component(EpicsSignalRO, "Temp1", kind="hinted")
+    # temp2 = Component(EpicsSignalRO, "Temp2", kind="hinted")
     power = Component(
         EpicsSignal,
         "SetPointPower",
         kind="config",
-        write_pv="SetPointPowerWrite"
+        write_pv="SetPointPowerWrite",
+        put_complete=True,
     )
-    sensor = Component(EpicsSignalRO, "SetPointSensor", kind="hinted")
+
+    # value in dC, needs conversion: readback = 0.1 * sensor
+    sensor = Component(EpicsSignalRO, "SetPointSensor", kind="omitted")
 
     mode = Component(
         EpicsSignal,
@@ -57,9 +64,18 @@ class Eurotherm2216e(PVPositionerSoftDoneWithStop):
         string=True,
     )
     program_number = Component(EpicsSignalRO, "ProgramNumber", kind="config")
-    program_status = Component(
-        EpicsSignalRO,
-        "ProgramStatus",
-        kind="config",
-        string=True
-    )
+    # program_status = Component(
+    #     EpicsSignalRO,
+    #     "ProgramStatus",
+    #     kind="config",
+    #     string=True
+    # )
+
+    def cb_sensor(self, *args, **kwargs):
+        "units: Convert dC from sensor to C"
+        self.readback.put(0.1 * self.sensor.get())
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.sensor.subscribe(self.cb_sensor)
+        self.tolerance.put(1)  # because setpoint is integer
