@@ -101,6 +101,10 @@ def test_compute(code, a, b, nval, aa, bb, sval):
     assert lua_all.enable.get(as_string=True) == "Enable"
 
     lua = lua_all.script9
+    assert (
+        lua.scan_disable_input_link_value.get()
+        == lua_all.enable.get(as_string=False)
+    )
 
     # set the inputs
     lua.inputs.A.input_value.put(a)
