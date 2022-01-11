@@ -7,7 +7,12 @@ from ..luascript import UserScriptsDevice
 
 IOC = "gp:"
 PV_PREFIX = f"{IOC}set1:"
-EMPIRICAL_DELAY = 0.1
+EMPIRICAL_DELAY = 0.5
+
+# TODO: test a luascript file, where to put the file in the IOC?
+# LUA_SCRIPT_PATH
+# https://epics-lua.readthedocs.io/en/latest/luascriptRecord.html?highlight=file#examples
+# https://epics-lua.readthedocs.io/en/latest/using-lua-shell.html?highlight=file#calling-the-lua-shell-from-inside-the-ioc-shell
 
 
 def test_read():
@@ -72,6 +77,7 @@ def test_luascript_reset():
 @pytest.mark.parametrize(
     "code, a, b, nval, aa, bb, sval",
     [
+        ['return "A"', 0, 0, 0, "", "", "A"],
         ["return A+B", 5, -3, 2, "", "", ""],
         ["return A+B  --this is a comment", 5, -3, 2, "", "", ""],
         ['return string.rep(".", 5)', 0, 0, 0, "", "", "....."],
