@@ -98,6 +98,7 @@ def test_compute(code, a, b, nval, aa, bb, sval):
     assert lua_all.enable.get(as_string=True) == "Enable"
 
     lua_all.reset()
+    time.sleep(EMPIRICAL_DELAY)  # a short-ish wait (discovered empirically)
     assert lua_all.enable.get(as_string=True) == "Enable"
 
     lua = lua_all.script9
