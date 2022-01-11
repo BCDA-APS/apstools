@@ -36,6 +36,7 @@ def test_luascript_reset():
 
     lua_all.reset()
     lua.disable_value.put(2)  # ensure record is always enabled
+    time.sleep(EMPIRICAL_DELAY)  # a short-ish wait (discovered empirically)
     assert (
         lua.scan_disable_input_link_value.get() != lua.disable_value.get()
     )
