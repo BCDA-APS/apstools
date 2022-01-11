@@ -11,7 +11,8 @@ EXAMPLES::
 
     ~UserScriptsDevice
     ~LuascriptRecord
-    ~LuascriptRecordChannel
+    ~LuascriptRecordNumberInput
+    ~LuascriptRecordStringInput
 
 :see: https://epics-lua.readthedocs.io/en/latest/luascriptRecord.html
 """
@@ -28,24 +29,15 @@ from ._common import EpicsRecordDeviceCommonAll
 from .. import utils as APS_utils
 
 
-CHANNEL_LETTERS_LIST = "A B C D E F G H I J".split()
+INPUT_LETTERS_LIST = "A B C D E F G H I J".split()
 
 
-class LuascriptRecordChannel(Device):
+class _LuascriptRecordInputBase(Device):
     """
-    channel of a synApps luascript record: A-J
-
-    .. index:: Ophyd Device; synApps LuascriptRecordChannel
+    (internal): base class for one input of a LuascriptRecord
     """
 
-    number_input_pv = FC(EpicsSignal, "{prefix}.INP{_ch}", kind="config")
-    string_input_pv = FC(EpicsSignal, "{prefix}.IN{_ch}{_ch}", kind="config")
-
-    number_input_value = FC(EpicsSignal, "{prefix}.{_ch}", kind="hinted")
-    string_input_value = FC(EpicsSignal, "{prefix}.{_ch}{_ch}", kind="hinted")
-
-    number_description = FC(EpicsSignal, "{prefix}.{_ch}DSC", kind="config", string=True)
-    string_description = FC(EpicsSignal, "{prefix}.{_ch}{_ch}DN", kind="config", string=True)
+    # Components must be defined in subclass
 
     read_attrs = [
         "input_value",
@@ -58,18 +50,52 @@ class LuascriptRecordChannel(Device):
 
     def reset(self):
         """set all fields to default values"""
-        self.number_input_pv.put("")
-        self.string_input_pv.put("")
-        self.number_input_value.put(0)
-        self.string_input_value.put("")
-        self.number_description.put("")
-        self.string_description.put("")
+        raise NotImplementedError("Must define reset() method in subclass.")
 
 
-def _channels(channel_list):
+class LuascriptRecordNumberInput(_LuascriptRecordInputBase):
+    """
+    number input of a synApps luascript record: A-J
+
+    .. index:: Ophyd Device; synApps LuascriptRecordNumberInput
+    """
+
+    pv_link = FC(EpicsSignal, "{prefix}.INP{_ch}", kind="config", string=True)
+    input_value = FC(EpicsSignal, "{prefix}.{_ch}", kind="hinted")
+    description = FC(EpicsSignal, "{prefix}.{_ch}DSC", kind="config", string=True)
+
+    def reset(self):
+        """set all fields to default values"""
+        self.pv_link.put("")
+        self.input_value.put(0)
+        self.description.put("")
+
+
+class LuascriptRecordStringInput(_LuascriptRecordInputBase):
+    """
+    string input of a synApps luascript record: AA-JJ
+
+    .. index:: Ophyd Device; synApps LuascriptRecordStringInput
+    """
+
+    pv_link = FC(EpicsSignal, "{prefix}.IN{_ch}", kind="config", string=True)
+    input_value = FC(EpicsSignal, "{prefix}.{_ch}", kind="hinted", string=True)
+    description = FC(EpicsSignal, "{prefix}.{_ch}DN", kind="config", string=True)
+
+    def reset(self):
+        """set all fields to default values"""
+        self.pv_link.put("")
+        self.input_value.put("")
+        self.description.put("")
+
+
+def _inputs(input_list):
     defn = OrderedDict()
-    for chan in channel_list:
-        defn[chan] = (LuascriptRecordChannel, "", {"letter": chan})
+    for nsym in input_list:
+        defn[nsym] = (LuascriptRecordNumberInput, "", {"letter": nsym})
+        ssym = nsym + nsym
+        defn[ssym] = (LuascriptRecordStringInput, "", {"letter": ssym})
+
     return defn
 
 
@@ -93,13 +119,14 @@ class LuascriptRecord(EpicsRecordDeviceCommonAll):
 
     output_link = Cpt(EpicsSignal, ".OUT", kind="config")
     reload_script = Cpt(EpicsSignal, ".RELO", kind="omitted", put_complete=True)
+    output_execute_option = Cpt(EpicsSignal, ".OOPT", kind="config")
 
     error_message = Cpt(EpicsSignal, ".ERR", kind="config", string=True)
 
-    read_attrs = APS_utils.itemizer("channels.%s", CHANNEL_LETTERS_LIST)
+    read_attrs = APS_utils.itemizer("inputs.%s", INPUT_LETTERS_LIST)
     hints = {"fields": read_attrs}
 
-    channels = DDC(_channels(CHANNEL_LETTERS_LIST))
+    inputs = DDC(_inputs(INPUT_LETTERS_LIST))
 
     @property
     def value(self):
@@ -115,16 +142,19 @@ class LuascriptRecord(EpicsRecordDeviceCommonAll):
         self.output_link.put("")
         self.number_value.put(0)
         self.string_value.put("")
-        for letter in self.channels.read_attrs:
+        new_read_attrs = []
+        for letter in self.inputs.read_attrs:
             if "." not in letter:
-                channel = getattr(self.channels, letter)
-                if isinstance(channel, LuascriptRecordChannel):
-                    channel.reset()
+                input = getattr(self.inputs, letter)
+                if isinstance(input, (LuascriptRecordNumberInput, LuascriptRecordStringInput)):
+                    new_read_attrs.append(f"inputs.{letter}")
+                    input.reset()
 
-        self.read_attrs = ["channels.%s" % c for c in CHANNEL_LETTERS_LIST]
-        self.hints = {"fields": self.read_attrs}
+        self.read_attrs = new_read_attrs
+        self.hints = {"fields": new_read_attrs}
 
-        self.read_attrs.append("calculated_value")
+        self.read_attrs.append("number_value")
+        self.read_attrs.append("string_value")
 
 
 class UserScriptsDevice(Device):
@@ -153,6 +183,8 @@ class UserScriptsDevice(Device):
 
     def reset(self):  # lgtm [py/similar-function]
         """set all fields to default values"""
+        enable = self.enable.get()
+        self.enable.put("Enable")
         self.script0.reset()
         self.script1.reset()
         self.script2.reset()
@@ -163,6 +195,7 @@ class UserScriptsDevice(Device):
         self.script7.reset()
         self.script8.reset()
         self.script9.reset()
+        self.enable.put(enable)
         self.read_attrs = [f"script{c}" for c in range(10)]
 
 # -----------------------------------------------------------------------------

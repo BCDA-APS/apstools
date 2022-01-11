@@ -20,7 +20,8 @@ from .epid import EpidRecord
 from .iocstats import IocStatsDevice
 
 from .luascript import LuascriptRecord
-from .luascript import LuascriptRecordChannel
+from .luascript import LuascriptRecordNumberInput
+from .luascript import LuascriptRecordStringInput
 from .luascript import UserScriptsDevice
 
 from .save_data import SaveData
