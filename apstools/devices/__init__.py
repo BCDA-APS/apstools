@@ -28,6 +28,8 @@ from .axis_tuner import AxisTunerMixin
 
 from .description_mixin import EpicsDescriptionMixin
 
+from .eurotherm_2216e import Eurotherm2216e
+
 from .kohzu_monochromator import KohzuSeqCtl_Monochromator
 
 from .lakeshore_controllers import LakeShore336Device
@@ -75,6 +77,8 @@ from .xia_pf4 import Pf4FilterCommon
 from .xia_pf4 import Pf4FilterDual
 from .xia_pf4 import Pf4FilterSingle
 from .xia_pf4 import Pf4FilterTriple
+
+from .xia_slit import XiaSlit2D
 
 # synApps
 from ..synApps import AsynRecord

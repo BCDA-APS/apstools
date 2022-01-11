@@ -97,6 +97,7 @@ class SwaitRecord(EpicsRecordDeviceCommonAll):
         ~reset
 
     """
+    enable = Cpt(EpicsSignal, "Enable", kind="config")
 
     precision = Cpt(EpicsSignal, ".PREC", kind="config")
     high_operating_range = Cpt(EpicsSignal, ".HOPR", kind="config")

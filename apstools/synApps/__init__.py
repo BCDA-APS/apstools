@@ -9,6 +9,7 @@ from ._common import EpicsRecordFloatFields
 from .asyn import AsynRecord
 from .busy import BusyRecord
 from .busy import BusyStatus
+
 from .calcout import CalcoutRecord
 from .calcout import CalcoutRecordChannel
 from .calcout import setup_gaussian_calcout
@@ -17,6 +18,12 @@ from .calcout import setup_lorentzian_calcout
 from .calcout import UserCalcoutDevice
 from .epid import EpidRecord
 from .iocstats import IocStatsDevice
+
+from .luascript import LuascriptRecord
+from .luascript import LuascriptRecordNumberInput
+from .luascript import LuascriptRecordStringInput
+from .luascript import UserScriptsDevice
+
 from .save_data import SaveData
 from .sscan import SscanRecord
 from .sscan import SscanDevice
@@ -29,6 +36,15 @@ from .swait import setup_lorentzian_swait
 from .swait import setup_incrementer_swait
 from .transform import TransformRecord
 from .transform import UserTransformsDevice
+
+from .sseq import EditStringSequence
+from .sseq import SseqRecord
+from .sseq import UserStringSequenceDevice
+
+# MUST come AFTER previous imports
+from .db_2slit import Optics2Slit1D
+from .db_2slit import Optics2Slit2D_HV
+from .db_2slit import Optics2Slit2D_InbOutBotTop
 
 # -----------------------------------------------------------------------------
 # :author:    Pete R. Jemian

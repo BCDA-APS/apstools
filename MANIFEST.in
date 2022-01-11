@@ -3,7 +3,7 @@ include CHANGES*
 include LICENSE.txt
 include versioneer.py
 include apstools/_version.py
-include apstools/devices/aps_cycle_info.txt
+include apstools/devices/aps_cycle_info.yml
 include apstools/devices/pss_shutter.db
 include apstools/devices/pss_shutter.ui
 include apstools/migration/config

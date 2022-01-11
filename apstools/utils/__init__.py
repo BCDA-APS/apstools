@@ -56,6 +56,8 @@ from .pvregistry import findbypv
 
 from .query import db_query
 
+from .slit_core import SlitGeometry
+
 from .spreadsheet import ExcelDatabaseFileBase
 from .spreadsheet import ExcelDatabaseFileGeneric
 from .spreadsheet import ExcelReadError

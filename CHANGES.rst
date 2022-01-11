@@ -49,6 +49,19 @@ Moved ``command_list_as_table()`` from `utils` into ``plans/command_list``.
 
 ``utils/``: Reorganized ``utils.py`` and ``_utils/`` into ``utils/`` subpackage.
 
+New Features and/or Enhancements
+---------------------------------------------
+
+* Add support for synApps calc ``sseq`` record.
+* Add support for synApps calc ``userStringSeq`` database.
+* Add support for synApps optics ``2slit`` database.
+* Add support for Eurotherm 2216e temperature controller
+
+Fixes
+-----------
+
+Convert ``None`` to ``"null"`` when saving ``PeakStats`` to stream.
+
 Maintenance
 ---------------
 

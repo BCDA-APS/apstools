@@ -86,6 +86,19 @@ Shutters
     ~apstools.devices.shutters.ShutterBase
     ~apstools.devices.shutters.SimulatedApsPssShutterWithStatus
 
+.. _devices.slits:
+
+Slits
+++++++++
+
+.. autosummary::
+
+    ~apstools.devices.xia_slit.XiaSlit2D
+    ~apstools.synApps.db_2slit.Optics2Slit1D
+    ~apstools.synApps.db_2slit.Optics2Slit2D_HV
+    ~apstools.synApps.db_2slit.Optics2Slit2D_InbOutBotTop
+    ~apstools.utils.slit_core.SlitGeometry
+
 synApps Support
 ++++++++++++++++++++
 
@@ -98,6 +111,7 @@ Temperature Controllers
 
 .. autosummary::
 
+    ~apstools.devices.eurotherm_2216e.Eurotherm2216e
     ~apstools.devices.lakeshore_controllers.LakeShore336Device
     ~apstools.devices.lakeshore_controllers.LakeShore340Device
     ~apstools.devices.linkam_controllers.Linkam_CI94_Device
@@ -157,6 +171,9 @@ All Submodules
 .. automodule:: apstools.devices.description_mixin
     :members:
 
+.. automodule:: apstools.devices.eurotherm_2216e
+    :members:
+
 .. automodule:: apstools.devices.kohzu_monochromator
     :members:
 
@@ -200,4 +217,7 @@ All Submodules
     :members:
 
 .. automodule:: apstools.devices.xia_pf4
+    :members:
+
+.. automodule:: apstools.devices.xia_slit
     :members:

@@ -13,6 +13,7 @@ EXAMPLES::
     import apstools.synApps
     calcs = apstools.synApps.userCalcsDevice("xxx:", name="calcs")
     scans = apstools.synApps.SscanDevice("xxx:", name="scans")
+    scripts = apstools.synApps.userScriptsDevice("xxx:set1:", name="scripts")
     xxxstats = apstools.synApps.IocStatsDevice("xxx:", name="xxxstats")
 
     calc1 = calcs.calc1
