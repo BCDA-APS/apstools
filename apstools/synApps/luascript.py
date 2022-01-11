@@ -128,10 +128,6 @@ class LuascriptRecord(EpicsRecordDeviceCommonAll):
 
     inputs = DDC(_inputs(INPUT_LETTERS_LIST))
 
-    @property
-    def value(self):
-        return self.calculated_value.get()
-
     def reset(self):
         """set all fields to default values"""
         pvname = self.description.pvname.split(".")[0]
