@@ -23,7 +23,6 @@ from ophyd import Component as Cpt
 from ophyd import DynamicDeviceComponent as DDC
 from ophyd import FormattedComponent as FC
 from ophyd import EpicsSignal
-from ophyd.signal import EpicsSignalBase
 
 from ._common import EpicsRecordDeviceCommonAll
 from .. import utils as APS_utils
