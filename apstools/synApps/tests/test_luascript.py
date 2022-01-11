@@ -31,47 +31,50 @@ def test_luascript_reset():
     lua_all.enable.put("Enable")
     assert len(lua_all.read()) == 220
 
-    luarec = lua_all.script9
-    assert isinstance(luarec, LuascriptRecord)
+    lua = lua_all.script9
+    assert isinstance(lua, LuascriptRecord)
 
     lua_all.reset()
-    assert lua_all.enable.get(as_string=True) == "Enable"
+    lua.disable_value.put(2)  # ensure record is always enabled
+    assert (
+        lua.scan_disable_input_link_value.get() != lua.disable_value.get()
+    )
 
-    assert luarec.precision.get() == 5
-    assert luarec.code.get() == ""
-    assert luarec.number_value.get() == 0
-    assert luarec.string_value.get() == ""
-    assert luarec.inputs.A.input_value.get() == 0
-    assert luarec.inputs.AA.pv_link.get() == ""
-    assert luarec.inputs.BB.input_value.get() == ""
+    assert lua.precision.get() == 5
+    assert lua.code.get() == ""
+    assert lua.number_value.get() == 0
+    assert lua.string_value.get() == ""
+    assert lua.inputs.A.input_value.get() == 0
+    assert lua.inputs.AA.pv_link.get() == ""
+    assert lua.inputs.BB.input_value.get() == ""
 
-    luarec.precision.put(3)
-    luarec.number_value.put(-3.7)
-    luarec.string_value.put("string_value")
-    luarec.inputs.A.input_value.put(-2)
-    luarec.inputs.AA.pv_link.put("string_pv_link")
-    luarec.inputs.BB.input_value.put("BB.input_value")
+    lua.precision.put(3)
+    lua.number_value.put(-3.7)
+    lua.string_value.put("string_value")
+    lua.inputs.A.input_value.put(-2)
+    lua.inputs.AA.pv_link.put("string_pv_link")
+    lua.inputs.BB.input_value.put("BB.input_value")
     # order is important, set this LAST
-    luarec.code.put("code")
+    lua.code.put("code")
     time.sleep(EMPIRICAL_DELAY)  # a short-ish wait (discovered empirically)
 
-    assert luarec.precision.get() != 5
-    assert luarec.code.get() != ""
-    assert luarec.number_value.get() != 0
-    assert luarec.string_value.get() != ""
-    assert luarec.inputs.A.input_value.get() != 0
-    assert luarec.inputs.AA.pv_link.get() != ""
-    assert luarec.inputs.BB.input_value.get() != ""
+    assert lua.precision.get() != 5
+    assert lua.code.get() != ""
+    assert lua.number_value.get() != 0
+    assert lua.string_value.get() != ""
+    assert lua.inputs.A.input_value.get() != 0
+    assert lua.inputs.AA.pv_link.get() != ""
+    assert lua.inputs.BB.input_value.get() != ""
 
     lua_all.reset()
 
-    assert luarec.precision.get() == 5
-    assert luarec.code.get() == ""
-    assert luarec.number_value.get() == 0
-    assert luarec.string_value.get() == ""
-    assert luarec.inputs.A.input_value.get() == 0
-    assert luarec.inputs.AA.pv_link.get() == ""
-    assert luarec.inputs.BB.input_value.get() == ""
+    assert lua.precision.get() == 5
+    assert lua.code.get() == ""
+    assert lua.number_value.get() == 0
+    assert lua.string_value.get() == ""
+    assert lua.inputs.A.input_value.get() == 0
+    assert lua.inputs.AA.pv_link.get() == ""
+    assert lua.inputs.BB.input_value.get() == ""
 
 
 @pytest.mark.parametrize(
@@ -98,13 +101,11 @@ def test_compute(code, a, b, nval, aa, bb, sval):
     assert lua_all.enable.get(as_string=True) == "Enable"
 
     lua_all.reset()
-    time.sleep(EMPIRICAL_DELAY)  # a short-ish wait (discovered empirically)
-    assert lua_all.enable.get(as_string=True) == "Enable"
 
     lua = lua_all.script9
+    lua.disable_value.put(2)  # ensure record is always enabled
     assert (
-        lua.scan_disable_input_link_value.get()
-        == lua_all.enable.get(as_string=False)
+        lua.scan_disable_input_link_value.get() != lua.disable_value.get()
     )
 
     # set the inputs
@@ -121,8 +122,6 @@ def test_compute(code, a, b, nval, aa, bb, sval):
     assert lua.string_value.get() == ""
 
     # do the computation
-    assert lua_all.enable.get(as_string=True) == "Enable"
-    assert lua.scan_disable_input_link_value.get() == lua_all.enable.get(as_string=False)
     lua.process_record.put(1)
     time.sleep(EMPIRICAL_DELAY)  # a short-ish wait (discovered empirically)
 
