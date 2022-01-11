@@ -16,30 +16,37 @@ def test_read():
     assert len(lua._summary().splitlines()) == 175
 
 
-# def test_swait_reset():
-#     user = UserCalcsDevice(IOC, name="user")
-#     user.wait_for_connection()
-#     user.enable.put("Enable")
-#     assert len(user.read()) == 130
+def test_luascript_reset():
+    lua_all = UserScriptsDevice(PV_PREFIX, name="user")
+    lua_all.wait_for_connection()
+    lua_all.enable.put("Enable")
+    assert len(lua_all.read()) == 220
 
-#     swait = user.calc10
-#     assert isinstance(swait, SwaitRecord)
-#     swait.enable.put("E")  # Note: only "E"
+    luarec = lua_all.script0
+    assert isinstance(luarec, LuascriptRecord)
 
-#     setup_random_number_swait(swait)
-#     time.sleep(0.2)
-#     assert swait.description.get() == "uniform random numbers"
-#     assert swait.calculation.get() == "RNDM"
-#     v1 = swait.calculated_value.get()
-#     time.sleep(0.2)
-#     assert v1 != swait.calculated_value.get()
+    luarec.precision.put(3)
+    luarec.code.put("code")
+    luarec.number_value.put(-3.7)
+    luarec.string_value.put("string_value")
+    luarec.channels.A.number_input_value.put(-2)
+    luarec.channels.A.string_input_pv.put("string_input_pv")
 
-#     swait.reset()
-#     assert swait.description.get() == swait.prefix
-#     assert swait.calculation.get() == "0"
-#     v1 = swait.calculated_value.get()
-#     time.sleep(0.2)
-#     assert v1 == swait.calculated_value.get()
+    assert luarec.precision.get() != 5
+    assert luarec.code.get() != ""
+    assert luarec.number_value.get() != 0
+    assert luarec.string_value.get() != ""
+    assert luarec.channels.A.number_input_value.get() != 0
+    assert luarec.channels.A.string_input_pv.get() != ""
+
+    luarec.reset()
+
+    assert luarec.precision.get() == 5
+    assert luarec.code.get() == ""
+    assert luarec.number_value.get() == 0
+    assert luarec.string_value.get() == ""
+    assert luarec.channels.A.number_input_value.get() == 0
+    assert luarec.channels.A.string_input_pv.get() == ""
 
 # -----------------------------------------------------------------------------
 # :author:    Pete R. Jemian
