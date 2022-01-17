@@ -42,6 +42,12 @@ def delayed_stop(pos, delay=1):
     pos.stop()
 
 
+def test_same_sp_and_rb():
+    with pytest.raises(ValueError) as exc:
+        PVPositionerSoftDone("", name="pos")
+    assert str(exc.value).endswith("must have different values")
+
+
 @pytest.mark.parametrize(
     "device, has_inposition",
     [
