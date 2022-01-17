@@ -85,7 +85,7 @@ class Optics2Slit1D(Device):
 
 class Optics2Slit2D_HV(Device):
     """
-    synApps optics 2slit.db 2D support: h.xn, h.xp, v.xn, v.xp
+    EPICS synApps optics 2slit.db 2D support: h.xn, h.xp, v.xn, v.xp
     """
     h = Component(Optics2Slit1D, "H")
     v = Component(Optics2Slit1D, "V")
@@ -118,7 +118,7 @@ class Optics2Slit2D_HV(Device):
 
 class Optics2Slit2D_InbOutBotTop(Device):
     """
-    synApps optics 2slit.db 2D support: inb, out, bot, top
+    EPICS synApps optics 2slit.db 2D support: inb, out, bot, top
     """
 
     inb = Component(

@@ -8,7 +8,6 @@ from ._common import EpicsRecordOutputFields
 from ._common import EpicsRecordFloatFields
 from .asyn import AsynRecord
 from .busy import BusyRecord
-from .busy import BusyStatus
 
 from .calcout import CalcoutRecord
 from .calcout import CalcoutRecordChannel

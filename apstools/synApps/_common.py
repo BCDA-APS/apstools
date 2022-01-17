@@ -31,7 +31,7 @@ from ophyd import EpicsSignal, EpicsSignalRO
 
 class EpicsRecordDeviceCommonAll(Device):
     """
-    Many of the fields common to all EPICS records
+    Many of the fields common to all EPICS records.
 
     Some fields are not included because they are not interesting to
     an EPICS client or are already provided in other support.
@@ -57,7 +57,7 @@ class EpicsRecordDeviceCommonAll(Device):
 
 class EpicsRecordInputFields(Device):
     """
-    some fields common to EPICS input records
+    Some fields common to EPICS input records.
     """
 
     input_link = Component(EpicsSignal, ".INP", kind="config")
@@ -73,7 +73,7 @@ class EpicsRecordInputFields(Device):
 
 class EpicsRecordOutputFields(Device):
     """
-    some fields common to EPICS output records
+    Some fields common to EPICS output records.
     """
 
     output_link = Component(EpicsSignal, ".OUT", kind="config")
@@ -93,7 +93,7 @@ class EpicsRecordOutputFields(Device):
 
 class EpicsRecordFloatFields(Device):
     """
-    some fields common to EPICS records supporting floating point values
+    Some fields common to EPICS records supporting floating point values.
     """
 
     units = Component(EpicsSignal, ".EGU", kind="config")

@@ -315,7 +315,7 @@ class SscanRecord(Device):
 
 class SscanDevice(Device):
     """
-    synApps XXX IOC setup of sscan records: ``$(P):scan$(N)``
+    EPICS synApps XXX IOC setup of sscan records: ``$(P):scan$(N)``
 
     .. index:: Ophyd Device; synApps SscanDevice
 

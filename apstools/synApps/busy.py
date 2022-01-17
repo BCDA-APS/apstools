@@ -25,14 +25,9 @@ from ophyd.device import Device, Component
 from ophyd import EpicsSignal
 
 
-class BusyStatus(str, Enum):
-    busy = "Busy"
-    done = "Done"
-
-
 class BusyRecord(Device):
     """
-    synApps busy record
+    EPICS synApps busy record
 
     .. index:: Ophyd Device; synApps BusyRecord
     """

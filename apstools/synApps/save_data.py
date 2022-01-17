@@ -3,7 +3,7 @@ Ophyd support for the EPICS synApps saveData support
 
 see:  https://epics.anl.gov/bcda/synApps/sscan/sscanRecord.html
 
-EXAMPLE
+EXAMPLE::
 
     from apstools.synApps import SaveData
     save_data = SaveData("xxx:saveData_", name="save_data")
@@ -36,7 +36,7 @@ from ophyd import EpicsSignalRO
 
 class SaveData(Device):
     """
-    EPICS synApps saveData support
+    EPICS synApps saveData support.
 
     .. index:: Ophyd Device; synApps SaveData
 

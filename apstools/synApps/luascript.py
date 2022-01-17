@@ -101,7 +101,7 @@ def _inputs(input_list):
 
 class LuascriptRecord(EpicsRecordDeviceCommonAll):
     """
-    synApps luascript record: used as ``$(P):userScript$(N)``
+    EPICS synApps luascript record: used as ``$(P):userScript$(N)``
 
     .. index:: Ophyd Device; synApps LuascriptRecord
 
@@ -155,7 +155,7 @@ class LuascriptRecord(EpicsRecordDeviceCommonAll):
 
 class UserScriptsDevice(Device):
     """
-    synApps XXX IOC setup of userScripts: ``$(P):userScript$(N)``
+    EPICS synApps XXX IOC setup of user lua scripts: ``$(P):userScript$(N)``
 
     .. index:: Ophyd Device; synApps UserScriptsDevice
 
