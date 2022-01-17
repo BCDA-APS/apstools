@@ -118,8 +118,11 @@ class PVPositionerSoftDone(PVPositioner):
         )
         dmov = abs(diff) <= _tolerance
         if self.report_dmov_changes.get() and dmov != self.done.get():
-            logger.debug(f"{self.name} reached: {dmov}")
-        self.done.put(dmov)
+            logger.debug("%s reached: %s", self.name, dmov)
+
+        v = self.done_value
+        self.done.put({True: v, False: not v}[dmov])
+        logger.debug("cb_readback: done=%s, position=%s", self.done.get(), self.position)
 
     def cb_setpoint(self, *args, **kwargs):
         """
@@ -132,6 +135,7 @@ class PVPositionerSoftDone(PVPositioner):
         Next update of readback will compute ``self.done``.
         """
         self.done.put(not self.done_value)
+        logger.debug("cb_setpoint: done=%s, setpoint=%s", self.done.get(), self.setpoint.get())
 
     def __init__(
         self,
