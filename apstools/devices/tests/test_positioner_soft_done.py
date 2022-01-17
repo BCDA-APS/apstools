@@ -135,21 +135,21 @@ def test_move_and_stop(rbv):
     # move to non-zero
     longer_delay = 5*SHORT_DELAY_FOR_EPICS
     delayed_complete(pos, rbv, delay=longer_delay)
-    t0 = time.time()  # time it
+    # t0 = time.time()  # time it
     target = 5.43
     pos.move(target)  # readback set by delayed_complete()
-    dt = time.time() - t0
+    # dt = time.time() - t0
     time.sleep(SHORT_DELAY_FOR_EPICS)
     # assert dt >= longer_delay
     assert pos.inposition
 
     # move that is stopped before reaching the target
-    t0 = time.time()  # time it
+    # t0 = time.time()  # time it
     delayed_stop(pos, longer_delay)
     assert pos.inposition
 
     pos.move(target - 1)  # readback set by delayed_stop()
-    dt = time.time() - t0
+    # dt = time.time() - t0
     # assert dt >= longer_delay
     time.sleep(SHORT_DELAY_FOR_EPICS)
     assert pos.setpoint.get() == target
