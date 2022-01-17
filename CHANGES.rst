@@ -34,6 +34,9 @@ Breaking Changes
 Moved ``apsbss`` support to new ``apsbss`` package (install with either ``pip``
 or ``conda``).  See https://bcda-aps.github.io/apsbss/ for details.
 
+Can use Python 3.7 - 3.9.  Cannot use Python 3.10 yet due to upstream limitation
+from databroker and intake packages.
+
 Moved ``command_list_as_table()`` from `utils` into ``plans/command_list``.
 
 ``callbacks/``: ``DocumentCollectorCallback``, ``document_contents_callback``, and

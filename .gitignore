@@ -1,6 +1,9 @@
 # local developer code
 dev_*.py
 
+# unit test
+.coverage
+
 db/
 log/
 pid/

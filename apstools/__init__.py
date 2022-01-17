@@ -25,7 +25,7 @@ __license__ += u" (see LICENSE.txt file for details)"
 __platforms__ = "any"
 __zip_safe__ = False
 __exclude_project_dirs__ = "docs examples resources".split()
-__python_version_required__ = ">=3.7"
+__python_version_required__ = ">=3.7, <3.10"
 
 __package_name__ = __project__
 __long_description__ = __description__
