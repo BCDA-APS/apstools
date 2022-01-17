@@ -15,9 +15,11 @@ from ophyd import EpicsSignal
 from ophyd import EpicsSignalRO
 from ophyd.signal import EpicsSignalBase
 import logging
+import time
 
 
 logger = logging.getLogger(__name__)
+SHORT_DELAY_FOR_EPICS = 2.0 / 60  # two 60Hz clock cycles
 
 
 class PVPositionerSoftDone(PVPositioner):
@@ -200,6 +202,8 @@ class PVPositionerSoftDoneWithStop(PVPositionerSoftDone):
         """
         if not self.inposition:
             self.setpoint.put(self.position)
+            time.sleep(SHORT_DELAY_FOR_EPICS)
+            self.cb_readback()  # re-evaluate soft done Signal
 
 
 # -----------------------------------------------------------------------------
