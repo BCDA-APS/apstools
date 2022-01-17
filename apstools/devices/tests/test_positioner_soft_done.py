@@ -67,7 +67,7 @@ def test_structure(device, has_inposition):
     assert pos.setpoint.pvname == "v"
     assert pos.done.get() is True
     assert pos.done_value is True
-    assert pos.target.get() is None
+    assert pos.target.get() == -1
     assert pos.tolerance.get() == -1
 
 
