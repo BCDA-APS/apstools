@@ -96,7 +96,7 @@ class PVPositionerSoftDone(PVPositioner):
     tolerance = Component(Signal, value=-1, kind="config")
     report_dmov_changes = Component(Signal, value=False, kind="omitted")
 
-    target = Component(Signal, value=None, kind="config")
+    target = Component(Signal, value=-1, kind="config")
 
     @property
     def precision(self):
@@ -144,7 +144,7 @@ class PVPositionerSoftDone(PVPositioner):
         **kwargs,
     ):
 
-        if setpoint_pv == readback_pv:
+        if setpoint_pv == readback_pv and setpoint_pv != "":
             raise ValueError(
                 f"readback_pv ({readback_pv})"
                 f" and setpoint_pv ({setpoint_pv})"

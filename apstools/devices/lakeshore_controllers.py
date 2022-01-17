@@ -54,26 +54,11 @@ class LakeShore336_LoopControl(PVPositionerSoftDoneWithStop):
     """
 
     # position
-    # FIXME:
-    # GF: I believe this is fixed.
-    # Resolve this code:
-    #    setpoint is the temperature to be reached
-    #    readback is the current temperature
-    #    XXXXX is the interim setpoint for the PID loop
-    readback = FormattedComponent(
-        EpicsSignalRO,
-        "{prefix}IN{loop_number}",
-        auto_monitor=True,
-        kind="hinted"
-    )
+    # readback is provided by PVPositionerSoftDoneWithStop
+
     setpoint = FormattedComponent(
         EpicsSignalWithRBV, "{prefix}OUT{loop_number}:SP", put_complete=True
     )
-
-    # FIXME:  refactor (per above)
-    # Due to ramping the setpoint will change slowly and the readback may catch
-    # up even if the motion is not done.
-    target = Component(Signal, value=0, kind="omitted")
 
     # configuration
     units = FormattedComponent(
@@ -130,7 +115,8 @@ class LakeShore336_LoopControl(PVPositionerSoftDoneWithStop):
             *args,
             timeout=timeout,
             tolerance=0.1,
-            target_attr="target",
+            readback_pv=f"IN{loop_number}",
+            setpoint_pv=f"OUT{loop_number}",
             **kwargs
         )
         self._settle_time = 0
@@ -214,7 +200,7 @@ class LS340_LoopBase(PVPositionerSoftDoneWithStop):
     """ Base settings for both sample and control loops. """
 
     # position
-    readback = Component(Signal, value=0)
+    # readback is provided by PVPositionerSoftDoneWithStop
     # TODO: Polar reports: sometimes the setpoint PV is not updated
     setpoint = FormattedComponent(
         EpicsSignal,
@@ -223,10 +209,6 @@ class LS340_LoopBase(PVPositionerSoftDoneWithStop):
         kind="normal",
         put_complete=True,
     )
-
-    # This is here only because of ramping, because then setpoint will change
-    # slowly.
-    target = Component(Signal, value=0, kind="omitted")
 
     # configuration
     units = Component(Signal, value="K", kind="config")
@@ -263,7 +245,7 @@ class LS340_LoopBase(PVPositionerSoftDoneWithStop):
     def __init__(self, *args, loop_number=None, timeout=10 * HOUR, **kwargs):
         self.loop_number = loop_number
         super().__init__(
-            *args, timeout=timeout, tolerance=0.1, target_attr="target", **kwargs
+            *args, timeout=timeout, tolerance=0.1, **kwargs
         )
         self._settle_time = 0
 
