@@ -77,6 +77,12 @@ class Linkam_CI94_Device(Device):
         self.temperature.name = self.name
 
 
+class T96Temperature(PVPositionerSoftDoneWithStop):
+
+    actuate = Component(EpicsSignalWithRBV, "heating", kind="config", string=True)
+    actuate_value = "On"
+
+
 class Linkam_T96_Device(Device):
     """
     Linkam model T96 temperature controller
@@ -89,7 +95,7 @@ class Linkam_T96_Device(Device):
     controller_name = "Linkam T96"
 
     temperature = Component(
-        PVPositionerSoftDoneWithStop,
+        T96Temperature,
         "",
         readback_pv="temperature_RBV",
         setpoint_pv="rampLimit",
@@ -97,10 +103,8 @@ class Linkam_T96_Device(Device):
         kind="hinted",
     )
 
-    units = Component(Signal, value="C", kind="config")
-
-    heating = Component(EpicsSignalWithRBV, "heating", kind="omitted")
     ramprate = Component(EpicsSignalWithRBV, "rampRate", kind="config")
+    units = Component(Signal, value="C", kind="config")
 
     controller_config = Component(EpicsSignalRO, "controllerConfig_RBV", kind="omitted")
     controller_error = Component(EpicsSignalRO, "controllerError_RBV", kind="omitted")
