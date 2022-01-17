@@ -20,7 +20,6 @@ Public Structures
 # The full license is in the file LICENSE.txt, distributed with this software.
 # -----------------------------------------------------------------------------
 
-from enum import Enum
 from ophyd.device import Device, Component
 from ophyd import EpicsSignal
 
