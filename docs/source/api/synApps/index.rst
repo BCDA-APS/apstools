@@ -8,7 +8,7 @@ Ophyd-style support for EPICS synApps structures (records and databases).
 
 EXAMPLES::
 
-   .apstools.synApps
+    import apstools.synApps
     calcs = apstools.synApps.userCalcsDevice("xxx:", name="calcs")
     scans = apstools.synApps.SscanDevice("xxx:", name="scans")
     scripts = apstools.synApps.userScriptsDevice("xxx:set1:", name="scripts")
