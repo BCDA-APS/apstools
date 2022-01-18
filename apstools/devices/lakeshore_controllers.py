@@ -132,10 +132,6 @@ class LakeShore336_LoopControl(PVPositionerSoftDoneWithStop):
         else:
             self._settle_time = value
 
-    @property
-    def egu(self):
-        return self.units.get(as_string=True)
-
     def pause(self):
         self.setpoint.put(self._position)
 
@@ -159,10 +155,6 @@ class LakeShore336_LoopRO(Device):
     def __init__(self, *args, loop_number=None, **kwargs):
         self.loop_number = loop_number
         super().__init__(*args, **kwargs)
-
-    @property
-    def egu(self):
-        return self.units.get(as_string=True)
 
 
 class LakeShore336Device(Device):
