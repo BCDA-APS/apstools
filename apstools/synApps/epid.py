@@ -31,7 +31,7 @@ from ._common import EpicsRecordFloatFields
 
 class EpidRecord(EpicsRecordFloatFields, EpicsRecordDeviceCommonAll):
     """
-    EPICS epid record support in ophyd
+    EPICS synApps epid record support in ophyd
 
     .. index:: Ophyd Device; synApps EpidRecord
 

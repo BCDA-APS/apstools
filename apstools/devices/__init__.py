@@ -61,7 +61,6 @@ from .xia_slit import XiaSlit2D
 # synApps
 from ..synApps import AsynRecord
 from ..synApps import BusyRecord
-from ..synApps import BusyStatus
 from ..synApps import CalcoutRecord
 from ..synApps import CalcoutRecordChannel
 from ..synApps import setup_gaussian_calcout
