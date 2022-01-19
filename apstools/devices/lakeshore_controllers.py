@@ -33,19 +33,6 @@ MINUTE = 60 * SECOND
 HOUR = 60 * MINUTE
 
 
-class BooleanSignal(Signal):
-    """Signal that forces value to be a boolean."""
-
-    def check_value(self, value):
-        """
-        Check if the value is a boolean.
-
-        raises ``ValueError``
-        """
-        if not isinstance(value, bool):
-            raise ValueError("value can only be True or False.")
-
-
 class LakeShore336_LoopControl(PVPositionerSoftDoneWithStop):
     """
     LakeShore 336 temperature controller -- with heater control.
