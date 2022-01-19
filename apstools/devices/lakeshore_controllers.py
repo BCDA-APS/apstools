@@ -116,7 +116,6 @@ class LakeShore336_LoopControl(PVPositionerSoftDoneWithStop):
             timeout=timeout,
             tolerance=0.1,
             readback_pv=f"IN{loop_number}",
-            setpoint_pv=f"OUT{loop_number}",
             **kwargs
         )
         self._settle_time = 0
@@ -237,7 +236,11 @@ class LS340_LoopBase(PVPositionerSoftDoneWithStop):
     def __init__(self, *args, loop_number=None, timeout=10 * HOUR, **kwargs):
         self.loop_number = loop_number
         super().__init__(
-            *args, timeout=timeout, tolerance=0.1, **kwargs
+            *args,
+            readback_pv="ignore",
+            timeout=timeout,
+            tolerance=0.1,
+            **kwargs
         )
         self._settle_time = 0
 
