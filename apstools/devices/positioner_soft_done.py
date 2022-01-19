@@ -20,7 +20,6 @@ import time
 
 logger = logging.getLogger(__name__)
 SHORT_DELAY_FOR_EPICS = 2.0 / 60  # two 60Hz clock cycles
-UNDEFINED = object()
 
 
 class PVPositionerSoftDone(PVPositioner):
@@ -97,7 +96,7 @@ class PVPositionerSoftDone(PVPositioner):
     tolerance = Component(Signal, value=-1, kind="config")
     report_dmov_changes = Component(Signal, value=False, kind="omitted")
 
-    target = Component(Signal, value=UNDEFINED, kind="config")
+    target = Component(Signal, value="None", kind="config")
 
     @property
     def precision(self):
