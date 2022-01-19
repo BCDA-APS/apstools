@@ -55,10 +55,12 @@ Moved ``command_list_as_table()`` from `utils` into ``plans/command_list``.
 New Features and/or Enhancements
 ---------------------------------------------
 
+* Add support for Eurotherm 2216e temperature controller
+* Add support for synApps calc ``scalcout`` record.
 * Add support for synApps calc ``sseq`` record.
 * Add support for synApps calc ``userStringSeq`` database.
+* Add support for synApps calc ``userStringCalc`` database.
 * Add support for synApps optics ``2slit`` database.
-* Add support for Eurotherm 2216e temperature controller
 
 Fixes
 -----------

@@ -1,5 +1,5 @@
 
-EPICS synApps calcscalcout record
+EPICS synApps calc scalcout record
 ----------------------------------
 
 The ``scalcout`` record is part of EPICS synApps ``calc``:
