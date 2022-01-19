@@ -137,14 +137,14 @@ class PVPositionerSoftDone(PVPositioner):
         self,
         prefix="",
         *,
-        readback_pv="",
-        setpoint_pv="",
+        readback_pv="ignoreRBV",
+        setpoint_pv="ignore",
         tolerance=None,
         update_target=True,
         **kwargs,
     ):
 
-        if setpoint_pv == readback_pv and setpoint_pv != "":
+        if setpoint_pv == readback_pv:
             raise ValueError(
                 f"readback_pv ({readback_pv})"
                 f" and setpoint_pv ({setpoint_pv})"
