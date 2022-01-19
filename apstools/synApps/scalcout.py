@@ -13,16 +13,6 @@ Public Structures
     ~ScalcoutRecordStringChannel
 """
 
-# -----------------------------------------------------------------------------
-# :author:    Pete R. Jemian
-# :email:     jemian@anl.gov
-# :copyright: (c) 2017-2022, UChicago Argonne, LLC
-#
-# Distributed under the terms of the Creative Commons Attribution 4.0 International Public License.
-#
-# The full license is in the file LICENSE.txt, distributed with this software.
-# -----------------------------------------------------------------------------
-
 from collections import OrderedDict
 from ophyd import Component as Cpt
 from ophyd import Device
@@ -223,3 +213,13 @@ class UserScalcoutDevice(Device):
         self.scalcout10.reset()
         self.read_attrs = ["scalcout%d" % (c + 1) for c in range(10)]
         self.read_attrs.insert(0, "enable")
+
+# -----------------------------------------------------------------------------
+# :author:    Pete R. Jemian
+# :email:     jemian@anl.gov
+# :copyright: (c) 2017-2022, UChicago Argonne, LLC
+#
+# Distributed under the terms of the Creative Commons Attribution 4.0 International Public License.
+#
+# The full license is in the file LICENSE.txt, distributed with this software.
+# -----------------------------------------------------------------------------
