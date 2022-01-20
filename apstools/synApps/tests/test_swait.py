@@ -3,9 +3,7 @@ import time
 from ..swait import setup_random_number_swait
 from ..swait import SwaitRecord
 from ..swait import UserCalcsDevice
-
-
-IOC = "gp:"
+from ...tests import IOC
 
 
 def test_read():

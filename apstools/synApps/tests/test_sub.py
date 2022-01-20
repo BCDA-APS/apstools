@@ -5,9 +5,8 @@ from ..calcout import CalcoutRecord
 from ..sub import SubRecord
 from ..sub import UserAverage
 from ..sub import UserAverageDevice
-from ...__init__ import SHORT_DELAY_FOR_EPICS_IOC_DATABASE_PROCESSING
-
-IOC = "gp:"
+from ...tests import IOC
+from ...tests import SHORT_DELAY_FOR_EPICS_IOC_DATABASE_PROCESSING
 
 
 @pytest.fixture(scope="function")

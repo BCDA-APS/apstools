@@ -3,10 +3,10 @@ import time
 
 from ..luascript import LuascriptRecord
 from ..luascript import UserScriptsDevice
-from ...__init__ import SHORT_DELAY_FOR_EPICS_IOC_DATABASE_PROCESSING
+from ...tests import IOC
+from ...tests import SHORT_DELAY_FOR_EPICS_IOC_DATABASE_PROCESSING
 
 
-IOC = "gp:"
 PV_PREFIX = f"{IOC}set1:"
 EMPIRICAL_DELAY = 0.5
 

@@ -1,17 +1,16 @@
+import pytest
+
 from ..db_2slit import Optics2Slit1D
 from ..db_2slit import Optics2Slit2D_HV
 from ..db_2slit import Optics2Slit2D_InbOutBotTop
 from ...utils import SlitGeometry
-
-import pytest
-
-IOC = "gp:"
+from ...tests import IOC
 
 # TODO: test "sync" signal
 
 
 def test_2slit1D():
-    axis = Optics2Slit1D("gp:Slit1H", name="axis")
+    axis = Optics2Slit1D(f"{IOC}Slit1H", name="axis")
     assert axis is not None
 
     axis.wait_for_connection()
@@ -22,7 +21,7 @@ def test_2slit1D():
 
 
 def test_2slit2D_HV():
-    slit1 = Optics2Slit2D_HV("gp:Slit1", name="slit1")
+    slit1 = Optics2Slit2D_HV(f"{IOC}Slit1", name="slit1")
     assert slit1 is not None
 
     slit1.wait_for_connection()
@@ -43,7 +42,7 @@ def test_2slit2D_HV():
 
 
 def test_2slit2D_InbOutBotTop():
-    slit1 = Optics2Slit2D_InbOutBotTop("gp:Slit1", name="slit1")
+    slit1 = Optics2Slit2D_InbOutBotTop(f"{IOC}Slit1", name="slit1")
     assert slit1 is not None
 
     slit1.wait_for_connection()
@@ -73,8 +72,8 @@ def test_2slit2D_InbOutBotTop():
 @pytest.mark.parametrize(
     "klass, prefix",
     [
-        [Optics2Slit2D_HV, "gp:Slit1"],
-        [Optics2Slit2D_InbOutBotTop, "gp:Slit1"],
+        [Optics2Slit2D_HV, f"{IOC}Slit1"],
+        [Optics2Slit2D_InbOutBotTop, f"{IOC}Slit1"],
     ]
 )
 def test_geometry_property(klass, prefix):

@@ -8,8 +8,6 @@
 # The full license is in the file LICENSE.txt, distributed with this software.
 # -----------------------------------------------------------------------------
 
-SHORT_DELAY_FOR_EPICS_IOC_DATABASE_PROCESSING = 2. / 60  # two 60Hz clock cycles
-
 __project__ = u"apstools"
 __description__ = (
     u"Various Python tools for use with the Bluesky Framework at the APS"

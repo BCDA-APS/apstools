@@ -4,10 +4,8 @@ import time
 from ..sseq import SseqRecord
 from ..sseq import sseqRecordStep
 from ..sseq import UserStringSequenceDevice
-from ...__init__ import SHORT_DELAY_FOR_EPICS_IOC_DATABASE_PROCESSING
-
-
-IOC = "gp:"
+from ...tests import IOC
+from ...tests import SHORT_DELAY_FOR_EPICS_IOC_DATABASE_PROCESSING
 
 
 def test_read():

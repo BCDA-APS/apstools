@@ -3,9 +3,7 @@ import time
 from ..calcout import setup_incrementer_calcout
 from ..calcout import CalcoutRecord
 from ..calcout import UserCalcoutDevice
-
-
-IOC = "gp:"
+from ...tests import IOC
 
 
 def test_read():
