@@ -1,9 +1,7 @@
 import pytest
 
 from ..iocstats import IocStatsDevice
-
-
-IOC = "gp:"
+from ...tests import IOC
 
 
 def test_read():

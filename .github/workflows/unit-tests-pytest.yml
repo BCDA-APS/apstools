@@ -105,7 +105,7 @@ jobs:
         # proceed as in hklpy
         coverage run --concurrency=thread --parallel-mode -m pytest -vvv .
         coverage combine
-        coverage report
+        coverage report --precision 3
       env:
         PY_VER: ${{ matrix.python-version }}
         ENV_NAME: anaconda-test-env-py-${{ matrix.python-version }}

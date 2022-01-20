@@ -24,8 +24,20 @@ from .luascript import LuascriptRecordStringInput
 from .luascript import UserScriptsDevice
 
 from .save_data import SaveData
+
+from .scalcout import UserScalcoutDevice
+from .scalcout import ScalcoutRecord
+from .scalcout import ScalcoutRecordNumberChannel
+from .scalcout import ScalcoutRecordStringChannel
+
 from .sscan import SscanRecord
 from .sscan import SscanDevice
+
+from .sub import SubRecord
+from .sub import SubRecordChannel
+from .sub import UserAverage
+from .sub import UserAverageDevice
+
 from .swait import SwaitRecord
 from .swait import SwaitRecordChannel
 from .swait import UserCalcsDevice

@@ -42,8 +42,10 @@ Records
     ~apstools.synApps.calcout.CalcoutRecord
     ~apstools.synApps.epid.EpidRecord
     ~apstools.synApps.luascript.LuascriptRecord
+    ~apstools.synApps.scalcout.ScalcoutRecord
     ~apstools.synApps.sscan.SscanRecord
     ~apstools.synApps.sseq.SseqRecord
+    ~apstools.synApps.sub.SubRecord
     ~apstools.synApps.swait.SwaitRecord
     ~apstools.synApps.transform.TransformRecord
 
@@ -61,16 +63,19 @@ Databases
 
 .. autosummary::
 
-   ~apstools.synApps.calcout.UserCalcoutDevice
+   ~apstools.synApps.sseq.EditStringSequence
    ~apstools.synApps.db_2slit.Optics2Slit1D
    ~apstools.synApps.db_2slit.Optics2Slit2D_HV
    ~apstools.synApps.db_2slit.Optics2Slit2D_InbOutBotTop
-   ~apstools.synApps.luascript.UserScriptsDevice
    ~apstools.synApps.save_data.SaveData
    ~apstools.synApps.sscan.SscanDevice
-   ~apstools.synApps.sseq.EditStringSequence
-   ~apstools.synApps.sseq.UserStringSequenceDevice
    ~apstools.synApps.swait.UserCalcsDevice
+   ~apstools.synApps.calcout.UserCalcoutDevice
+   ~apstools.synApps.scalcout.UserScalcoutDevice
+   ~apstools.synApps.luascript.UserScriptsDevice
+   ~apstools.synApps.sseq.UserStringSequenceDevice
+   ~apstools.synApps.sub.UserAverage
+   ~apstools.synApps.sub.UserAverageDevice
    ~apstools.synApps.transform.UserTransformsDevice
 
 .. autosummary::
@@ -79,10 +84,16 @@ Databases
    ~apstools.synApps.iocstats.IocStatsDevice
    ~apstools.synApps.luascript.LuascriptRecordNumberInput
    ~apstools.synApps.luascript.LuascriptRecordStringInput
+   ~apstools.synApps.scalcout.ScalcoutRecordNumberChannel
+   ~apstools.synApps.scalcout.ScalcoutRecordStringChannel
+   ~apstools.synApps.sub.SubRecordChannel
    ~apstools.synApps.swait.SwaitRecordChannel
 
 Other Support
-+++++++++++++++++++
++++++++++++++
+
+These functions configure calcout or swait records
+for certain algorithms.
 
 .. autosummary::
 

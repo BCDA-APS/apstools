@@ -15,12 +15,8 @@ import bluesky.plan_stubs as bps
 from bluesky.callbacks import best_effort
 import databroker
 import dataclasses
-import pytest
 
 from .. import TuneResults
-
-
-IOC = "gp:"
 
 
 @dataclasses.dataclass
