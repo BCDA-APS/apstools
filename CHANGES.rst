@@ -56,6 +56,8 @@ New Features and/or Enhancements
 ---------------------------------------------
 
 * Add support for Eurotherm 2216e temperature controller
+* Add support for Lakeshore 336 temperature controller
+* Add support for Lakeshore 340 temperature controller
 * Add support for synApps calc ``scalcout`` record.
 * Add support for synApps calc ``sseq`` record.
 * Add support for EPICS base ``sub`` record.
