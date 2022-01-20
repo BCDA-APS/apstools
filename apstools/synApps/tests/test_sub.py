@@ -88,28 +88,28 @@ def test_useraverage_reset(ave):
         obj = getattr(ave, attr)
         assert obj.get() in (0, obj.enum_strs[0]), attr
 
+# FIXME: 2022-01-20: skipped per #627
+# def test_useraveragedevice_random(ave, calc):
+#     # setup a random number generator
+#     calc.calculation.put("RNDM")
 
-def test_useraveragedevice_random(ave, calc):
-    # setup a random number generator
-    calc.calculation.put("RNDM")
-
-    # average the RNG
-    nsamples = 100
-    ave.channel.put(calc.prefix)
-    ave.number_samples.put(nsamples)
-    ave.precision.put(3)
-    ave.mode.put("ONE-SHOT")
-    ave.acquire.put(1)
-    for i in range(nsamples):
-        calc.process_record.put(1)
-        ave.process_record.put(1)
-        time.sleep(SHORT_DELAY_FOR_EPICS_IOC_DATABASE_PROCESSING)
-        if ave.current_sample.get() == ave.number_samples.get():
-            break
-        assert ave.busy.get(as_string=False) == 1, i
-    assert ave.busy.get(as_string=False) == 0
-    # test that average = 0.5 as n -> inf
-    assert abs(ave.averaged_value.get() - 0.5) <= 0.1
+#     # average the RNG
+#     nsamples = 100
+#     ave.channel.put(calc.prefix)
+#     ave.number_samples.put(nsamples)
+#     ave.precision.put(3)
+#     ave.mode.put("ONE-SHOT")
+#     ave.acquire.put(1)
+#     for i in range(nsamples):
+#         calc.process_record.put(1)
+#         ave.process_record.put(1)
+#         time.sleep(SHORT_DELAY_FOR_EPICS_IOC_DATABASE_PROCESSING)
+#         if ave.current_sample.get() == ave.number_samples.get():
+#             break
+#         assert ave.busy.get(as_string=False) == 1, i
+#     assert ave.busy.get(as_string=False) == 0
+#     # test that average = 0.5 as n -> inf
+#     assert abs(ave.averaged_value.get() - 0.5) <= 0.1
 
 # -----------------------------------------------------------------------------
 # :author:    Pete R. Jemian
