@@ -3,13 +3,13 @@ from ophyd import EpicsSignal
 from ..positioner_soft_done import PVPositionerSoftDone
 from ..positioner_soft_done import PVPositionerSoftDoneWithStop
 from ...utils import run_in_thread
+from ...tests import IOC
+from ...tests import SHORT_DELAY_FOR_EPICS_IOC_DATABASE_PROCESSING
 
 import pytest
 import time
 
-IOC = "gp:"
 PV_PREFIX = f"{IOC}gp:"
-SHORT_DELAY_FOR_EPICS = 0.02
 
 
 @pytest.fixture(scope="function")
@@ -83,11 +83,11 @@ def test_put_and_stop(rbv, prec):
     # ensure starting value at 0.0
     pos.setpoint.put(0)
     rbv.put(1)  # make the readback to different
-    time.sleep(SHORT_DELAY_FOR_EPICS)
+    time.sleep(SHORT_DELAY_FOR_EPICS_IOC_DATABASE_PROCESSING)
     assert not pos.inposition
 
     rbv.put(0)  # make the readback match
-    time.sleep(SHORT_DELAY_FOR_EPICS)
+    time.sleep(SHORT_DELAY_FOR_EPICS_IOC_DATABASE_PROCESSING)
     assert pos.position == 0.0
 
     assert pos.done.get() is True
@@ -96,29 +96,29 @@ def test_put_and_stop(rbv, prec):
 
     # change the setpoint
     pos.setpoint.put(1)
-    time.sleep(SHORT_DELAY_FOR_EPICS)
+    time.sleep(SHORT_DELAY_FOR_EPICS_IOC_DATABASE_PROCESSING)
     assert not pos.inposition
 
     # change the readback to match
     rbv.put(1)
-    time.sleep(SHORT_DELAY_FOR_EPICS)
+    time.sleep(SHORT_DELAY_FOR_EPICS_IOC_DATABASE_PROCESSING)
     assert pos.inposition
 
     # change the setpoint
     pos.setpoint.put(0)
-    time.sleep(SHORT_DELAY_FOR_EPICS)
+    time.sleep(SHORT_DELAY_FOR_EPICS_IOC_DATABASE_PROCESSING)
     assert not pos.inposition
 
     # move the readback part-way, but move is not over yet
     rbv.put(0.5)
-    time.sleep(SHORT_DELAY_FOR_EPICS)
+    time.sleep(SHORT_DELAY_FOR_EPICS_IOC_DATABASE_PROCESSING)
     assert not pos.inposition
 
     # force a stop now
     pos.stop()
-    time.sleep(SHORT_DELAY_FOR_EPICS)
+    time.sleep(SHORT_DELAY_FOR_EPICS_IOC_DATABASE_PROCESSING)
     pos.cb_readback()
-    time.sleep(SHORT_DELAY_FOR_EPICS)
+    time.sleep(SHORT_DELAY_FOR_EPICS_IOC_DATABASE_PROCESSING)
     assert pos.setpoint.get() == 0.5
     assert pos.readback.get() == 0.5
     assert pos.position == 0.5
@@ -141,7 +141,7 @@ def test_move_and_stop(rbv):
     dt = time.time() - t0
     assert status.done
     assert status.success
-    time.sleep(SHORT_DELAY_FOR_EPICS)
+    time.sleep(SHORT_DELAY_FOR_EPICS_IOC_DATABASE_PROCESSING)
     assert dt >= longer_delay
     assert pos.inposition
 
@@ -153,7 +153,7 @@ def test_move_and_stop(rbv):
     dt = time.time() - t0
     assert status.done
     assert status.success
-    time.sleep(SHORT_DELAY_FOR_EPICS)
+    time.sleep(SHORT_DELAY_FOR_EPICS_IOC_DATABASE_PROCESSING)
     assert dt >= longer_delay
     assert pos.setpoint.get() == target
     assert pos.position == target
@@ -162,7 +162,7 @@ def test_move_and_stop(rbv):
     # move to 0.0
     delayed_complete(pos, rbv, delay=longer_delay)
     pos.move(0)
-    time.sleep(SHORT_DELAY_FOR_EPICS)
+    time.sleep(SHORT_DELAY_FOR_EPICS_IOC_DATABASE_PROCESSING)
     assert pos.setpoint.get() == 0
     assert pos.position == 0
     assert pos.inposition
