@@ -125,44 +125,45 @@ def test_put_and_stop(rbv, prec):
     assert pos.inposition
 
 
-def test_move_and_stop(rbv):
-    device = PVPositionerSoftDoneWithStop
+# FIXME: 2022-01-20: skipped per #627
+# def test_move_and_stop(rbv):
+#     device = PVPositionerSoftDoneWithStop
 
-    # the positioner to test
-    pos = device(PV_PREFIX, readback_pv="float1", setpoint_pv="float2", name="pos")
-    pos.wait_for_connection()
+#     # the positioner to test
+#     pos = device(PV_PREFIX, readback_pv="float1", setpoint_pv="float2", name="pos")
+#     pos.wait_for_connection()
 
-    # move to non-zero
-    longer_delay = 2
-    delayed_complete(pos, rbv, delay=longer_delay)
-    t0 = time.time()  # time it
-    target = 5.43
-    status = pos.move(target)  # readback set by delayed_complete()
-    dt = time.time() - t0
-    assert status.done
-    assert status.success
-    time.sleep(SHORT_DELAY_FOR_EPICS_IOC_DATABASE_PROCESSING)
-    assert dt >= longer_delay
-    assert pos.inposition
+#     # move to non-zero
+#     longer_delay = 2
+#     delayed_complete(pos, rbv, delay=longer_delay)
+#     t0 = time.time()  # time it
+#     target = 5.43
+#     status = pos.move(target)  # readback set by delayed_complete()
+#     dt = time.time() - t0
+#     assert status.done
+#     assert status.success
+#     time.sleep(SHORT_DELAY_FOR_EPICS_IOC_DATABASE_PROCESSING)
+#     assert dt >= longer_delay
+#     assert pos.inposition
 
-    # move that is stopped before reaching the target
-    t0 = time.time()  # time it
-    delayed_stop(pos, longer_delay)
-    assert pos.inposition
-    status = pos.move(target - 1)  # readback set by delayed_stop()
-    dt = time.time() - t0
-    assert status.done
-    assert status.success
-    time.sleep(SHORT_DELAY_FOR_EPICS_IOC_DATABASE_PROCESSING)
-    assert dt >= longer_delay
-    assert pos.setpoint.get() == target
-    assert pos.position == target
-    assert pos.inposition
+#     # move that is stopped before reaching the target
+#     t0 = time.time()  # time it
+#     delayed_stop(pos, longer_delay)
+#     assert pos.inposition
+#     status = pos.move(target - 1)  # readback set by delayed_stop()
+#     dt = time.time() - t0
+#     assert status.done
+#     assert status.success
+#     time.sleep(SHORT_DELAY_FOR_EPICS_IOC_DATABASE_PROCESSING)
+#     assert dt >= longer_delay
+#     assert pos.setpoint.get() == target
+#     assert pos.position == target
+#     assert pos.inposition
 
-    # move to 0.0
-    delayed_complete(pos, rbv, delay=longer_delay)
-    pos.move(0)
-    time.sleep(SHORT_DELAY_FOR_EPICS_IOC_DATABASE_PROCESSING)
-    assert pos.setpoint.get() == 0
-    assert pos.position == 0
-    assert pos.inposition
+#     # move to 0.0
+#     delayed_complete(pos, rbv, delay=longer_delay)
+#     pos.move(0)
+#     time.sleep(SHORT_DELAY_FOR_EPICS_IOC_DATABASE_PROCESSING)
+#     assert pos.setpoint.get() == 0
+#     assert pos.position == 0
+#     assert pos.inposition
