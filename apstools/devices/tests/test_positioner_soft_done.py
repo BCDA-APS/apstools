@@ -44,7 +44,7 @@ def delayed_stop(pos, delay=1):
 
 def test_same_sp_and_rb():
     with pytest.raises(ValueError) as exc:
-        PVPositionerSoftDone("", name="pos")
+        PVPositionerSoftDone("", readback_pv="test", setpoint_pv="test", name="pos")
     assert str(exc.value).endswith("must have different values")
 
 
@@ -67,7 +67,7 @@ def test_structure(device, has_inposition):
     assert pos.setpoint.pvname == "v"
     assert pos.done.get() is True
     assert pos.done_value is True
-    assert pos.target.get() is None
+    assert pos.target.get() == "None"
     assert pos.tolerance.get() == -1
 
 

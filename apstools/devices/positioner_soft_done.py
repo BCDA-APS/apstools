@@ -96,7 +96,7 @@ class PVPositionerSoftDone(PVPositioner):
     tolerance = Component(Signal, value=-1, kind="config")
     report_dmov_changes = Component(Signal, value=False, kind="omitted")
 
-    target = Component(Signal, value=None, kind="config")
+    target = Component(Signal, value="None", kind="config")
 
     @property
     def precision(self):
