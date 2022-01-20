@@ -1,9 +1,8 @@
 import time
 
-from apstools.synApps.tests.test_luascript import SHORT_DELAY_FOR_EPICS
-
 from ..scalcout import ScalcoutRecord
 from ..scalcout import UserScalcoutDevice
+from ...__init__ import SHORT_DELAY_FOR_EPICS_IOC_DATABASE_PROCESSING
 
 
 IOC = "gp:"
@@ -38,7 +37,7 @@ def test_scalcout_reset():
     calc.channels.BB.input_value.put("testing")
     calc.calculation.put("A")
     calc.process_record.put(1)
-    time.sleep(SHORT_DELAY_FOR_EPICS)
+    time.sleep(SHORT_DELAY_FOR_EPICS_IOC_DATABASE_PROCESSING)
     assert calc.channels.A.input_value.get() == v
     assert calc.channels.BB.input_value.get() == "testing"
     assert calc.calculation.get() == "A"

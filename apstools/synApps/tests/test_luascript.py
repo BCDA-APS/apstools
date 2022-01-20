@@ -3,12 +3,12 @@ import time
 
 from ..luascript import LuascriptRecord
 from ..luascript import UserScriptsDevice
+from ...__init__ import SHORT_DELAY_FOR_EPICS_IOC_DATABASE_PROCESSING
 
 
 IOC = "gp:"
 PV_PREFIX = f"{IOC}set1:"
 EMPIRICAL_DELAY = 0.5
-SHORT_DELAY_FOR_EPICS = 2. / 60
 
 # TODO: test a luascript file, where to put the file in the IOC?
 # LUA_SCRIPT_PATH
@@ -100,7 +100,7 @@ def test_compute(code, a, b, nval, aa, bb, sval):
     lua_all = UserScriptsDevice(PV_PREFIX, name="user")
     lua_all.wait_for_connection()
     lua_all.enable.put("Enable")
-    time.sleep(SHORT_DELAY_FOR_EPICS)
+    time.sleep(SHORT_DELAY_FOR_EPICS_IOC_DATABASE_PROCESSING)
     assert lua_all.enable.get(as_string=True) == "Enable"
 
     lua_all.reset()
