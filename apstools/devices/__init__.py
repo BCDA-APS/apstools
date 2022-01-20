@@ -85,6 +85,10 @@ from ..synApps import UserScalcoutDevice
 from ..synApps import ScalcoutRecord
 from ..synApps import ScalcoutRecordNumberChannel
 from ..synApps import ScalcoutRecordStringChannel
+from ..synApps import SubRecord
+from ..synApps import SubRecordChannel
+from ..synApps import UserAverage
+from ..synApps import UserAverageDevice
 
 # -----------------------------------------------------------------------------
 # :author:    Pete R. Jemian
