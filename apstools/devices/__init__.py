@@ -83,7 +83,6 @@ from .xia_slit import XiaSlit2D
 # synApps
 from ..synApps import AsynRecord
 from ..synApps import BusyRecord
-from ..synApps import BusyStatus
 from ..synApps import CalcoutRecord
 from ..synApps import CalcoutRecordChannel
 from ..synApps import setup_gaussian_calcout
@@ -104,6 +103,14 @@ from ..synApps import setup_lorentzian_swait
 from ..synApps import setup_incrementer_swait
 from ..synApps import TransformRecord
 from ..synApps import UserTransformsDevice
+from ..synApps import UserScalcoutDevice
+from ..synApps import ScalcoutRecord
+from ..synApps import ScalcoutRecordNumberChannel
+from ..synApps import ScalcoutRecordStringChannel
+from ..synApps import SubRecord
+from ..synApps import SubRecordChannel
+from ..synApps import UserAverage
+from ..synApps import UserAverageDevice
 
 # -----------------------------------------------------------------------------
 # :author:    Pete R. Jemian

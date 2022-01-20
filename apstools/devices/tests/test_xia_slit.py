@@ -1,9 +1,9 @@
-from ..xia_slit import XiaSlit2D
-from ...utils import SlitGeometry
-
 import pytest
 
-IOC = "gp:"
+from ..xia_slit import XiaSlit2D
+from ...utils import SlitGeometry
+from ...tests import IOC
+
 PV_PREFIX = f"{IOC}phony_hsc1:"
 
 # Full testing requires two XIA Slit controllers (a 2D H & V set)

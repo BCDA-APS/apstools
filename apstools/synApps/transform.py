@@ -128,7 +128,7 @@ class TransformRecord(EpicsRecordDeviceCommonAll):
 
 class UserTransformsDevice(Device):
     """
-    synApps XXX IOC setup of userTransforms: ``$(P):userTran$(N)``
+    EPICS synApps XXX IOC setup of userTransforms: ``$(P):userTran$(N)``
 
     .. index:: Ophyd Device; synApps UserTransformsDevice
     """

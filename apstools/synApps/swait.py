@@ -55,7 +55,7 @@ CHANNEL_LETTERS_LIST = "A B C D E F G H I J K L".split()
 
 class SwaitRecordChannel(Device):
     """
-    channel of a synApps swait record: A-L
+    EPICS synApps synApps swait record: single channel [A-L]
 
     .. index:: Ophyd Device; synApps SwaitRecordChannel
     """
@@ -88,7 +88,7 @@ def _swait_channels(channel_list):
 
 class SwaitRecord(EpicsRecordDeviceCommonAll):
     """
-    synApps swait record: used as ``$(P):userCalc$(N)``
+    EPICS synApps swait record: used as ``$(P):userCalc$(N)``
 
     .. index:: Ophyd Device; synApps SwaitRecord
 
@@ -151,7 +151,7 @@ class SwaitRecord(EpicsRecordDeviceCommonAll):
 
 class UserCalcsDevice(Device):
     """
-    synApps XXX IOC setup of userCalcs: ``$(P):userCalc$(N)``
+    EPICS synApps XXX IOC setup of userCalcs: ``$(P):userCalc$(N)``
 
     .. index:: Ophyd Device; synApps UserCalcsDevice
 

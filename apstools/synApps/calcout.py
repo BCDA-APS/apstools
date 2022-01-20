@@ -82,7 +82,7 @@ def _channels(channel_list):
 
 class CalcoutRecord(EpicsRecordFloatFields, EpicsRecordDeviceCommonAll):
     """
-    EPICS calcout record support in ophyd
+    EPICS base calcout record support in ophyd
 
     .. index:: Ophyd Device; synApps CalcoutRecord
 
@@ -156,7 +156,7 @@ class CalcoutRecord(EpicsRecordFloatFields, EpicsRecordDeviceCommonAll):
 
 class UserCalcoutDevice(Device):
     """
-    synApps XXX IOC setup of user calcouts: ``$(P):userCalcOut$(N)``
+    EPICS synApps XXX IOC setup of user calcouts: ``$(P):userCalcOut$(N)``
 
     .. index:: Ophyd Device; synApps UserCalcoutDevice
 

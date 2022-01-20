@@ -1,11 +1,11 @@
 from ophyd import EpicsSignal
+import time
 
 from ..sseq import SseqRecord
 from ..sseq import sseqRecordStep
 from ..sseq import UserStringSequenceDevice
-
-
-IOC = "gp:"
+from ...tests import IOC
+from ...tests import SHORT_DELAY_FOR_EPICS_IOC_DATABASE_PROCESSING
 
 
 def test_read():
@@ -32,6 +32,8 @@ def test_sseq_reset():
     assert isinstance(step, sseqRecordStep)
 
     step.reset()
+    time.sleep(SHORT_DELAY_FOR_EPICS_IOC_DATABASE_PROCESSING)
+
     assert step.input_pv.get() == ""
 
     uptime = EpicsSignal(f"{IOC}UPTIME", name="uptime")

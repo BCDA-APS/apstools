@@ -37,6 +37,8 @@ STEP_LIST = [f"step{i+1}" for i in range(10)]  # step1, step2, step10
 
 class sseqRecordStep(Device):
     """
+    EPICS synApps sseq single step of an sseq record.
+
     Step of a synApps sseq record: 1..10  (note: for 10, the PVs use "A")
 
     .. index:: Ophyd Device; synApps sseqRecordStep
@@ -86,7 +88,7 @@ def _steps(step_list):
 
 class SseqRecord(EpicsRecordDeviceCommonAll):
     """
-    EPICS sseq record support in ophyd
+    EPICS synApps sseq record support in ophyd
 
     .. index:: Ophyd Device; synApps SseqRecord
 
@@ -136,7 +138,7 @@ class SseqRecord(EpicsRecordDeviceCommonAll):
 
 class UserStringSequenceDevice(Device):
     """
-    synApps XXX IOC setup of userStringSeqs: ``$(P):userStringSeq$(N)``
+    EPICS synApps XXX IOC setup of userStringSeqs: ``$(P):userStringSeq$(N)``
 
     Note: This will connect more than 1,000 EpicsSignal objects!
 
@@ -170,9 +172,9 @@ class UserStringSequenceDevice(Device):
 
 class EditStringSequence(Device):
     """
-    Assistance to quickly re-arrange steps in an sseq record configuration.
+    EPICS synApps sseq support to quickly re-arrange steps.
 
-    See the editSseq_more GUI screen for assistance.
+    See the ``editSseq_more`` GUI screen for assistance.
     """
     record_name = Cpt(EpicsSignal, "ES:recordName", kind="config")
     command = Cpt(EpicsSignal, "ES:command", kind="config")
