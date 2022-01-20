@@ -45,6 +45,7 @@ Records
     ~apstools.synApps.scalcout.ScalcoutRecord
     ~apstools.synApps.sscan.SscanRecord
     ~apstools.synApps.sseq.SseqRecord
+    ~apstools.synApps.sub.SubRecord
     ~apstools.synApps.swait.SwaitRecord
     ~apstools.synApps.transform.TransformRecord
 
@@ -73,6 +74,8 @@ Databases
    ~apstools.synApps.scalcout.UserScalcoutDevice
    ~apstools.synApps.luascript.UserScriptsDevice
    ~apstools.synApps.sseq.UserStringSequenceDevice
+   ~apstools.synApps.sub.UserAverage
+   ~apstools.synApps.sub.UserAverageDevice
    ~apstools.synApps.transform.UserTransformsDevice
 
 .. autosummary::
@@ -83,10 +86,14 @@ Databases
    ~apstools.synApps.luascript.LuascriptRecordStringInput
    ~apstools.synApps.scalcout.ScalcoutRecordNumberChannel
    ~apstools.synApps.scalcout.ScalcoutRecordStringChannel
+   ~apstools.synApps.sub.SubRecordChannel
    ~apstools.synApps.swait.SwaitRecordChannel
 
 Other Support
-+++++++++++++++++++
++++++++++++++
+
+These functions configure calcout or swait records
+for certain algorithms.
 
 .. autosummary::
 
