@@ -17,9 +17,10 @@ from ophyd.signal import EpicsSignalBase
 import logging
 import time
 
+from ..tests import SHORT_DELAY_FOR_EPICS_IOC_DATABASE_PROCESSING
+
 
 logger = logging.getLogger(__name__)
-SHORT_DELAY_FOR_EPICS = 2.0 / 60  # two 60Hz clock cycles
 
 
 class PVPositionerSoftDone(PVPositioner):
@@ -96,7 +97,7 @@ class PVPositionerSoftDone(PVPositioner):
     tolerance = Component(Signal, value=-1, kind="config")
     report_dmov_changes = Component(Signal, value=False, kind="omitted")
 
-    target = Component(Signal, value=None, kind="config")
+    target = Component(Signal, value="None", kind="config")
 
     @property
     def precision(self):
@@ -206,7 +207,7 @@ class PVPositionerSoftDoneWithStop(PVPositionerSoftDone):
         """
         if not self.inposition:
             self.setpoint.put(self.position)
-            time.sleep(SHORT_DELAY_FOR_EPICS)
+            time.sleep(SHORT_DELAY_FOR_EPICS_IOC_DATABASE_PROCESSING)
             self.cb_readback()  # re-evaluate soft done Signal
 
 
