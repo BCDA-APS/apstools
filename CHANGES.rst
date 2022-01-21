@@ -31,26 +31,15 @@ release expected by 2021-02-01
 Breaking Changes
 -----------------
 
-Moved ``apsbss`` support to new ``apsbss`` package (install with either ``pip``
-or ``conda``).  See https://bcda-aps.github.io/apsbss/ for details.
-
-Can use Python 3.7 - 3.9.  Cannot use Python 3.10 yet due to upstream limitation
-from databroker and intake packages.
-
-Moved ``command_list_as_table()`` from `utils` into ``plans/command_list``.
-
-``callbacks/``: ``DocumentCollectorCallback``, ``document_contents_callback``, and
-``SnapshotReport`` moved into ``callbacks/``.
-
-``devices/``: Reorganized all devices, including ``synApps/``, into ``devices/`` subpackage.
-
-``devices/``: ``SynPseudoVoigt()`` moved from ``signals/`` to ``devices/``.
-
-``plans/``: Reorganized ``plans.py`` and ``_plans/`` into ``plans/`` subpackage.
-
-``snapshot/``: Moved ``snapshot`` application and related files to a subdirectory.
-
-``utils/``: Reorganized ``utils.py`` and ``_utils/`` into ``utils/`` subpackage.
+* Moved ``apsbss`` support to new ``apsbss`` package (install with either ``pip`` or ``conda``).  See https://bcda-aps.github.io/apsbss/ for details.
+* Can use Python 3.7 - 3.9.  Cannot use Python 3.10 yet due to upstream limitation from databroker and intake packages.
+* Moved ``command_list_as_table()`` from `utils` into ``plans/command_list``.
+* ``callbacks/``: ``DocumentCollectorCallback``, ``document_contents_callback``, and ``SnapshotReport`` moved into ``callbacks/``.
+* ``devices/``: Reorganized all devices, including ``synApps/``, into ``devices/`` subpackage.
+* ``devices/``: ``SynPseudoVoigt()`` moved from ``signals/`` to ``devices/``.
+* ``plans/``: Reorganized ``plans.py`` and ``_plans/`` into ``plans/`` subpackage.
+* ``snapshot/``: Moved ``snapshot`` application and related files to a subdirectory.
+* ``utils/``: Reorganized ``utils.py`` and ``_utils/`` into ``utils/`` subpackage.
 
 New Features and/or Enhancements
 ---------------------------------------------
@@ -67,12 +56,12 @@ New Features and/or Enhancements
 Fixes
 -----------
 
-Convert ``None`` to ``"null"`` when saving ``PeakStats`` to stream.
+* Convert ``None`` to ``"null"`` when saving ``PeakStats`` to stream.
 
 Maintenance
 ---------------
 
-Now testing with Python versions 3.7 - 3.10.
+Now testing with Python versions 3.7 - 3.9.  (Can't use with Py3.10 yet due to upstream requirements.)
 
 Update notebooks:
 
