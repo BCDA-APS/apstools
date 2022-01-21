@@ -96,6 +96,13 @@ Deprecations
   * ``listruns_v1_4``
   * ``object_explorer``
 
+Contributors
+---------------
+
+* Gilberto Fabbris
+* Jan Ilavsky
+* Qingteng Zhang
+
 1.5.4
 ******
 
