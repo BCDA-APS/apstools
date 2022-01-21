@@ -206,7 +206,7 @@ Bluesky stores a wealth of information about a measurement in a *run*.
 Raw data from the Bluesky *run* is stored in the HDF5/NeXus structure
 under the ``/entry/instrument/bluesky`` group as shown in this example:
 
-.. literalinclude:: ../../../examples/demo_nxwriter_bluesky.txt
+.. literalinclude:: ../resources/demo_nxwriter_bluesky.txt
     :linenos:
     :language: text
 
@@ -219,7 +219,7 @@ Metadata
 Metadata from the ``start`` document is stored in the ``metadata`` subgroup
 as shown in this example:
 
-.. literalinclude:: ../../../examples/demo_nxwriter_metadata.txt
+.. literalinclude:: ../resources/demo_nxwriter_metadata.txt
     :linenos:
     :language: text
 
@@ -246,7 +246,7 @@ to simplify linking any item into the NeXus tree structure.
 For example, the main data in a run is usually stored in the ``primary`` stream.
 Here, we show the tree structure for one signal (``I0_USAXS``) from the primary stream:
 
-.. literalinclude:: ../../../examples/demo_nxwriter_stream_primary.txt
+.. literalinclude:: ../resources/demo_nxwriter_stream_primary.txt
     :linenos:
     :language: text
 
@@ -259,7 +259,7 @@ streams (above), a subgroup is created for each baseline stream.
 The datasets include ``value``, ``EPOCH``, ``time`` (as above) and
 ``value_start`` and ``value_end``.  Here's an example:
 
-.. literalinclude:: ../../../examples/demo_nxwriter_baseline.txt
+.. literalinclude:: ../resources/demo_nxwriter_baseline.txt
     :linenos:
     :language: text
 
@@ -271,7 +271,7 @@ and array data for brevity) is shown next.  You can see that most of the
 NeXus structure is completed by making links to data from either
 ``/entry/instrument/bluesky/metadata`` or ``/entry/instrument/bluesky/streams``:
 
-.. literalinclude:: ../../../examples/demo_nxwriter_tree.txt
+.. literalinclude:: ../resources/demo_nxwriter_tree.txt
     :linenos:
     :language: text
 
@@ -281,7 +281,7 @@ APS-specific HDF5/NeXus File Structures
 Examples of additional structure in NeXus file added by
 :class:`~apstools.callbacks.nexus_writer.NXWriterAPS()`:
 
-.. literalinclude:: ../../../examples/demo_nxapswriter.txt
+.. literalinclude:: ../resources/demo_nxapswriter.txt
     :linenos:
     :language: text
 
@@ -319,7 +319,7 @@ EXAMPLE : use as writer from Databroker with customizations::
 
 Example output from ``SpecWriterCallback()``:
 
-.. literalinclude:: ../../../examples/demo_specdata.dat
+.. literalinclude:: ../resources/demo_specdata.dat
     :linenos:
     :language: text
 
