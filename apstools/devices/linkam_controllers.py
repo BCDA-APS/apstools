@@ -34,7 +34,7 @@ class Linkam_CI94_Device(Device):
         "",
         readback_pv="temp",
         setpoint_pv="setLimit",
-        tolerance=0.01,
+        tolerance=1.0,
         kind="hinted",
     )
 
@@ -99,7 +99,7 @@ class Linkam_T96_Device(Device):
         "",
         readback_pv="temperature_RBV",
         setpoint_pv="rampLimit",
-        tolerance=0.01,
+        tolerance=1.0,
         kind="hinted",
     )
 
