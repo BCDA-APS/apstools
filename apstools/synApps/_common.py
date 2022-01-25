@@ -10,6 +10,7 @@ Public Structures
     ~EpicsRecordInputFields
     ~EpicsRecordOutputFields
     ~EpicsRecordFloatFields
+    ~EpicsSynAppsRecordEnableMixin
 
 :see: https://wiki-ext.aps.anl.gov/epics/index.php/RRM_3-14_dbCommon
 :see: https://wiki-ext.aps.anl.gov/epics/index.php/RRM_3-14_Common
@@ -114,3 +115,13 @@ class EpicsRecordFloatFields(Device):
     low_alarm_severity = Component(EpicsSignal, ".LSV", kind="config")
     lolo_alarm_severity = Component(EpicsSignal, ".LLSV", kind="config")
     alarm_hysteresis = Component(EpicsSignal, ".HYST", kind="config")
+
+
+class EpicsSynAppsRecordEnableMixin(Device):
+    """Supports ``{PV}Enable`` feature from user databases."""
+    enable = Component(EpicsSignal, "Enable", kind="config")
+
+    def reset(self):
+        """set all fields to default values"""
+        self.enable.put(self.enable.enum_strs[1])  # Enable
+        super().reset()

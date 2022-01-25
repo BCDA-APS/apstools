@@ -48,6 +48,7 @@ from ophyd import EpicsSignal
 from ophyd.signal import EpicsSignalBase
 
 from ._common import EpicsRecordDeviceCommonAll
+from ._common import EpicsSynAppsRecordEnableMixin
 from .. import utils as APS_utils
 
 
@@ -148,14 +149,8 @@ class SwaitRecord(EpicsRecordDeviceCommonAll):
         self.read_attrs.append("calculated_value")
 
 
-class UserCalcN(SwaitRecord):
+class UserCalcN(EpicsSynAppsRecordEnableMixin, SwaitRecord):
     """Single instance of the userCalcN database."""
-    enable = Cpt(EpicsSignal, "Enable", kind="config")
-
-    def reset(self):
-        """set all fields to default values"""
-        self.enable.put(self.enable.enum_strs[1])  # Enable
-        super().reset()
 
 
 class UserCalcsDevice(Device):
