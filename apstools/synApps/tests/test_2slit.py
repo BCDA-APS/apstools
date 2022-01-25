@@ -11,6 +11,7 @@ from ...tests import SHORT_DELAY_FOR_EPICS_IOC_DATABASE_PROCESSING
 
 # TODO: test "sync" signal
 
+
 @pytest.mark.parametrize(
     "device, pv, connect, attr, expected",
     [
