@@ -57,7 +57,7 @@ def test_calcs():
 @pytest.mark.parametrize(
     "obj, length",
     [
-        (calcs, 28),
+        (calcs, 4),
         (calcs.calc5.description, 1),
         (signal, 1),
         (motor, 2),
@@ -97,25 +97,31 @@ def test__list_epics_signals(obj, length, ref):
 
 
 @pytest.mark.parametrize(
-    "function, row, column, value",
+    "scope, row, column, value",
     [
-        (listdevice, 0, "data name", "calcs_signals_background"),
-        (listdevice, 0, "value", True),
-        (listdevice, 2, "data name", "calcs_calc5_calculated_value"),
-        (listdevice, 2, "value", 0.0),
-        (listdevice, 27, "data name", "calcs_calc6_channels_L_input_value"),
-        (listdevice, 27, "value", 0.0),
+        (None, 0, "data name", "motor"),
+        (None, 0, "value", 0.0),
+        ("epics", 0, "data name", "motor"),
+        ("epics", 0, "value", 0.0),
+        ("epics", 6, "data name", "motor_velocity"),
+        ("epics", 6, "value", 1.0),
+        ("epics", 8, "data name", "motor_motor_egu"),
+        ("epics", 8, "value", "degrees"),
+        ("full", 0, "data name", "motor"),
+        ("full", 0, "value", 0.0),
+        ("full", 12, "data name", "motor_low_limit_switch"),
+        ("full", 12, "value", 0),
+        ("read", 0, "data name", "motor"),
+        ("read", 0, "value", 0.0),
     ],
-)
-def test_spotchecks(function, row, column, value):
-    if function == listdevice:
-        result = function(calcs, scope="read")
-    else:
-        result = function(calcs)
-    if isinstance(result, pd.DataFrame):
-        assert result[column][row] == value
-    else:
-        assert result.rows[row][column] == value
+)  # scope: full epics read
+def test_spotchecks(scope, row, column, value):
+    assert calcs.connected
+    result = listdevice(motor, scope=scope)
+    assert isinstance(result, pd.DataFrame)
+    assert column in result
+    assert row in result[column]
+    assert result[column][row] == value
 
 
 @pytest.mark.parametrize(
@@ -126,7 +132,7 @@ def test_spotchecks(function, row, column, value):
         (calcs, "full", False, 4),
         (calcs, "full", True, 130),
         (calcs, "read", False, 2),
-        (calcs, "read", True, 28),
+        (calcs, "read", True, 4),
         (calcs, None, False, 4),
         (calcs, None, True, 130),
     ],
