@@ -74,10 +74,13 @@ Databases
    ~apstools.synApps.calcout.UserCalcoutDevice
    ~apstools.synApps.calcout.UserCalcoutN
    ~apstools.synApps.scalcout.UserScalcoutDevice
+   ~apstools.synApps.scalcout.UserScalcoutN
    ~apstools.synApps.luascript.UserScriptsDevice
    ~apstools.synApps.sseq.UserStringSequenceDevice
-   ~apstools.synApps.sub.UserAverage
+   ~apstools.synApps.sseq.UserStringSequenceN
+   ~apstools.synApps.sub.UserAverageN
    ~apstools.synApps.sub.UserAverageDevice
+   ~apstools.synApps.transform.UserTransformN
    ~apstools.synApps.transform.UserTransformsDevice
 
 .. autosummary::

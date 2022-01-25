@@ -8,6 +8,7 @@ Public Structures
 .. autosummary::
 
     ~UserScalcoutDevice
+    ~UserScalcoutN
     ~ScalcoutRecord
     ~ScalcoutRecordNumberChannel
     ~ScalcoutRecordStringChannel
@@ -22,6 +23,7 @@ from ophyd import FormattedComponent as FC
 
 from ._common import EpicsRecordDeviceCommonAll
 from ._common import EpicsRecordFloatFields
+from ._common import EpicsSynAppsRecordEnableMixin
 from .. import utils as APS_utils
 
 
@@ -175,6 +177,10 @@ class ScalcoutRecord(EpicsRecordFloatFields, EpicsRecordDeviceCommonAll):
         self.hints = {"fields": self.read_attrs}
 
 
+class UserScalcoutN(EpicsSynAppsRecordEnableMixin, ScalcoutRecord):
+    """Single instance of the userStringCalcN database."""
+
+
 class UserScalcoutDevice(Device):
     """
     EPICS synApps XXX IOC setup of user scalcouts: ``$(P):userStringCalc$(N)``
@@ -188,16 +194,16 @@ class UserScalcoutDevice(Device):
     """
 
     enable = Cpt(EpicsSignal, "userStringCalcEnable", kind="omitted")
-    scalcout1 = Cpt(ScalcoutRecord, "userStringCalc1")
-    scalcout2 = Cpt(ScalcoutRecord, "userStringCalc2")
-    scalcout3 = Cpt(ScalcoutRecord, "userStringCalc3")
-    scalcout4 = Cpt(ScalcoutRecord, "userStringCalc4")
-    scalcout5 = Cpt(ScalcoutRecord, "userStringCalc5")
-    scalcout6 = Cpt(ScalcoutRecord, "userStringCalc6")
-    scalcout7 = Cpt(ScalcoutRecord, "userStringCalc7")
-    scalcout8 = Cpt(ScalcoutRecord, "userStringCalc8")
-    scalcout9 = Cpt(ScalcoutRecord, "userStringCalc9")
-    scalcout10 = Cpt(ScalcoutRecord, "userStringCalc10")
+    scalcout1 = Cpt(UserScalcoutN, "userStringCalc1")
+    scalcout2 = Cpt(UserScalcoutN, "userStringCalc2")
+    scalcout3 = Cpt(UserScalcoutN, "userStringCalc3")
+    scalcout4 = Cpt(UserScalcoutN, "userStringCalc4")
+    scalcout5 = Cpt(UserScalcoutN, "userStringCalc5")
+    scalcout6 = Cpt(UserScalcoutN, "userStringCalc6")
+    scalcout7 = Cpt(UserScalcoutN, "userStringCalc7")
+    scalcout8 = Cpt(UserScalcoutN, "userStringCalc8")
+    scalcout9 = Cpt(UserScalcoutN, "userStringCalc9")
+    scalcout10 = Cpt(UserScalcoutN, "userStringCalc10")
 
     def reset(self):  # lgtm [py/similar-function]
         """set all fields to default values"""

@@ -3,7 +3,7 @@ import time
 
 from ..calcout import CalcoutRecord
 from ..sub import SubRecord
-from ..sub import UserAverage
+from ..sub import UserAverageN
 from ..sub import UserAverageDevice
 from ...tests import IOC
 from ...tests import SHORT_DELAY_FOR_EPICS_IOC_DATABASE_PROCESSING
@@ -11,7 +11,7 @@ from ...tests import SHORT_DELAY_FOR_EPICS_IOC_DATABASE_PROCESSING
 
 @pytest.fixture(scope="function")
 def ave():
-    ave = UserAverage(f"{IOC}userAve9", name="ave")
+    ave = UserAverageN(f"{IOC}userAve9", name="ave")
     ave.wait_for_connection()
     ave.enable.put("E")
     yield ave
@@ -40,8 +40,8 @@ def calc():
 @pytest.mark.parametrize(
     "device, pv, nra, nca, nsl, nr",
     [
-        [SubRecord, f"{IOC}userAve10", 12, 53, 137, 13],
-        [UserAverage, f"{IOC}userAve10", 7, 33, 101, 7],
+        [SubRecord, f"{IOC}userAve10", 12, 53, 136, 13],
+        [UserAverageN, f"{IOC}userAve10", 7, 33, 101, 7],
         [UserAverageDevice, IOC, 80, 340, 835, 70],
     ]
 )

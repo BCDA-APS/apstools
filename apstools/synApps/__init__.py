@@ -32,6 +32,7 @@ from .luascript import UserScriptsDevice
 from .save_data import SaveData
 
 from .scalcout import UserScalcoutDevice
+from .scalcout import UserScalcoutN
 from .scalcout import ScalcoutRecord
 from .scalcout import ScalcoutRecordNumberChannel
 from .scalcout import ScalcoutRecordStringChannel
@@ -39,9 +40,14 @@ from .scalcout import ScalcoutRecordStringChannel
 from .sscan import SscanRecord
 from .sscan import SscanDevice
 
+from .sseq import EditStringSequence
+from .sseq import SseqRecord
+from .sseq import UserStringSequenceDevice
+from .sseq import UserStringSequenceN
+
 from .sub import SubRecord
 from .sub import SubRecordChannel
-from .sub import UserAverage
+from .sub import UserAverageN
 from .sub import UserAverageDevice
 
 from .swait import SwaitRecord
@@ -54,11 +60,8 @@ from .swait import setup_lorentzian_swait
 from .swait import setup_incrementer_swait
 
 from .transform import TransformRecord
+from .transform import UserTransformN
 from .transform import UserTransformsDevice
-
-from .sseq import EditStringSequence
-from .sseq import SseqRecord
-from .sseq import UserStringSequenceDevice
 
 # MUST come AFTER previous imports
 from .db_2slit import Optics2Slit1D
