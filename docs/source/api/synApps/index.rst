@@ -69,6 +69,7 @@ Databases
    ~apstools.synApps.db_2slit.Optics2Slit2D_InbOutBotTop
    ~apstools.synApps.save_data.SaveData
    ~apstools.synApps.sscan.SscanDevice
+   ~apstools.synApps.swait.UserCalcN
    ~apstools.synApps.swait.UserCalcsDevice
    ~apstools.synApps.calcout.UserCalcoutDevice
    ~apstools.synApps.scalcout.UserScalcoutDevice

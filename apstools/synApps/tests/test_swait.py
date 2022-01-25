@@ -4,6 +4,7 @@ from ..swait import setup_random_number_swait
 from ..swait import SwaitRecord
 from ..swait import UserCalcsDevice
 from ...tests import IOC
+# from ...tests import SHORT_DELAY_FOR_EPICS_IOC_DATABASE_PROCESSING
 
 
 def test_read():
@@ -12,8 +13,8 @@ def test_read():
     swait.wait_for_connection()
 
     assert len(swait.read_attrs) == 12
-    assert len(swait.configuration_attrs) == 61
-    assert len(swait._summary().splitlines()) == 152
+    assert len(swait.configuration_attrs) == 60
+    assert len(swait._summary().splitlines()) == 150
 
 
 def test_swait_reset():

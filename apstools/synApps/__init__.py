@@ -40,11 +40,13 @@ from .sub import UserAverageDevice
 
 from .swait import SwaitRecord
 from .swait import SwaitRecordChannel
+from .swait import UserCalcN
 from .swait import UserCalcsDevice
 from .swait import setup_random_number_swait
 from .swait import setup_gaussian_swait
 from .swait import setup_lorentzian_swait
 from .swait import setup_incrementer_swait
+
 from .transform import TransformRecord
 from .transform import UserTransformsDevice
 

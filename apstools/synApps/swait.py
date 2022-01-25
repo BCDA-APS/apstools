@@ -16,6 +16,7 @@ EXAMPLES::
 
 .. autosummary::
 
+    ~UserCalcN
     ~UserCalcsDevice
     ~SwaitRecord
     ~SwaitRecordChannel
@@ -97,8 +98,6 @@ class SwaitRecord(EpicsRecordDeviceCommonAll):
         ~reset
 
     """
-    enable = Cpt(EpicsSignal, "Enable", kind="config")
-
     precision = Cpt(EpicsSignal, ".PREC", kind="config")
     high_operating_range = Cpt(EpicsSignal, ".HOPR", kind="config")
     low_operating_range = Cpt(EpicsSignal, ".LOPR", kind="config")
@@ -149,6 +148,16 @@ class SwaitRecord(EpicsRecordDeviceCommonAll):
         self.read_attrs.append("calculated_value")
 
 
+class UserCalcN(SwaitRecord):
+    """Single instance of the userCalcN database."""
+    enable = Cpt(EpicsSignal, "Enable", kind="config")
+
+    def reset(self):
+        """set all fields to default values"""
+        self.enable.put(self.enable.enum_strs[1])  # Enable
+        super().reset()
+
+
 class UserCalcsDevice(Device):
     """
     EPICS synApps XXX IOC setup of userCalcs: ``$(P):userCalc$(N)``
@@ -162,16 +171,16 @@ class UserCalcsDevice(Device):
     """
 
     enable = Cpt(EpicsSignal, "userCalcEnable", kind="config")
-    calc1 = Cpt(SwaitRecord, "userCalc1")
-    calc2 = Cpt(SwaitRecord, "userCalc2")
-    calc3 = Cpt(SwaitRecord, "userCalc3")
-    calc4 = Cpt(SwaitRecord, "userCalc4")
-    calc5 = Cpt(SwaitRecord, "userCalc5")
-    calc6 = Cpt(SwaitRecord, "userCalc6")
-    calc7 = Cpt(SwaitRecord, "userCalc7")
-    calc8 = Cpt(SwaitRecord, "userCalc8")
-    calc9 = Cpt(SwaitRecord, "userCalc9")
-    calc10 = Cpt(SwaitRecord, "userCalc10")
+    calc1 = Cpt(UserCalcN, "userCalc1")
+    calc2 = Cpt(UserCalcN, "userCalc2")
+    calc3 = Cpt(UserCalcN, "userCalc3")
+    calc4 = Cpt(UserCalcN, "userCalc4")
+    calc5 = Cpt(UserCalcN, "userCalc5")
+    calc6 = Cpt(UserCalcN, "userCalc6")
+    calc7 = Cpt(UserCalcN, "userCalc7")
+    calc8 = Cpt(UserCalcN, "userCalc8")
+    calc9 = Cpt(UserCalcN, "userCalc9")
+    calc10 = Cpt(UserCalcN, "userCalc10")
 
     def reset(self):  # lgtm [py/similar-function]
         """set all fields to default values"""
