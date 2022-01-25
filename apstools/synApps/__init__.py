@@ -6,7 +6,10 @@ from ._common import EpicsRecordDeviceCommonAll
 from ._common import EpicsRecordInputFields
 from ._common import EpicsRecordOutputFields
 from ._common import EpicsRecordFloatFields
+from ._common import EpicsSynAppsRecordEnableMixin
+
 from .asyn import AsynRecord
+
 from .busy import BusyRecord
 
 from .calcout import CalcoutRecord
@@ -14,8 +17,11 @@ from .calcout import CalcoutRecordChannel
 from .calcout import setup_gaussian_calcout
 from .calcout import setup_incrementer_calcout
 from .calcout import setup_lorentzian_calcout
+from .calcout import UserCalcoutN
 from .calcout import UserCalcoutDevice
+
 from .epid import EpidRecord
+
 from .iocstats import IocStatsDevice
 
 from .luascript import LuascriptRecord

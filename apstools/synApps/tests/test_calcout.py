@@ -13,7 +13,7 @@ def test_read():
 
     assert len(calcout.read_attrs) == 12
     assert len(calcout.configuration_attrs) == 52
-    assert len(calcout._summary().splitlines()) == 173
+    assert len(calcout._summary().splitlines()) == 172
 
 
 def test_calcout_reset():

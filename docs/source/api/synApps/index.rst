@@ -72,6 +72,7 @@ Databases
    ~apstools.synApps.swait.UserCalcN
    ~apstools.synApps.swait.UserCalcsDevice
    ~apstools.synApps.calcout.UserCalcoutDevice
+   ~apstools.synApps.calcout.UserCalcoutN
    ~apstools.synApps.scalcout.UserScalcoutDevice
    ~apstools.synApps.luascript.UserScriptsDevice
    ~apstools.synApps.sseq.UserStringSequenceDevice
@@ -81,6 +82,7 @@ Databases
 
 .. autosummary::
 
+   ~apstools.synApps._common.EpicsSynAppsRecordEnableMixin
    ~apstools.synApps.calcout.CalcoutRecordChannel
    ~apstools.synApps.iocstats.IocStatsDevice
    ~apstools.synApps.luascript.LuascriptRecordNumberInput
