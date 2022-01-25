@@ -1,26 +1,36 @@
+import pytest
 import time
 
 from ..scalcout import ScalcoutRecord
 from ..scalcout import UserScalcoutDevice
+from ...tests import common_attribute_quantities_test
 from ...tests import IOC
 from ...tests import SHORT_DELAY_FOR_EPICS_IOC_DATABASE_PROCESSING
 
 
-def test_read():
-    scalcout = ScalcoutRecord(f"{IOC}userStringCalc10", name="scalcout")
-    assert scalcout is not None
-    scalcout.wait_for_connection()
+@pytest.mark.parametrize(
+    "device, pv, connect, attr, expected",
+    [
+        [ScalcoutRecord, f"{IOC}userStringCalc10", False, "read_attrs", 24],
+        [ScalcoutRecord, f"{IOC}userStringCalc10", False, "configuration_attrs", 114],
+        [ScalcoutRecord, f"{IOC}userStringCalc10", True, "read()", 3],
+        [ScalcoutRecord, f"{IOC}userStringCalc10", True, "summary()", 250],
 
-    assert len(scalcout.read_attrs) == 24
-    assert len(scalcout.configuration_attrs) == 89
-    assert len(scalcout._summary().splitlines()) == 227
+        [UserScalcoutDevice, IOC, False, "read_attrs", 250],
+        [UserScalcoutDevice, IOC, False, "configuration_attrs", 1160],
+        [UserScalcoutDevice, IOC, True, "read()", 30],
+        [UserScalcoutDevice, IOC, True, "summary()", 2355],
+    ]
+)
+def test_attribute_quantities(device, pv, connect, attr, expected):
+    """Verify the quantities of the different attributes."""
+    common_attribute_quantities_test(device, pv, connect, attr, expected)
 
 
 def test_scalcout_reset():
     user = UserScalcoutDevice(IOC, name="user")
     user.wait_for_connection()
     user.enable.put("Enable")
-    assert len(user.read()) == 280
 
     calc = user.scalcout10
     assert isinstance(calc, ScalcoutRecord)

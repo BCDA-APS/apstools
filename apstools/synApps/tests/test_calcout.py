@@ -1,26 +1,36 @@
+import pytest
 import time
 
 from ..calcout import setup_incrementer_calcout
 from ..calcout import CalcoutRecord
 from ..calcout import UserCalcoutDevice
+from ...tests import common_attribute_quantities_test
 from ...tests import IOC
 
 
-def test_read():
-    calcout = CalcoutRecord(f"{IOC}userCalcOut10", name="sseq")
-    assert calcout is not None
-    calcout.wait_for_connection()
+@pytest.mark.parametrize(
+    "device, pv, connect, attr, expected",
+    [
+        [CalcoutRecord, f"{IOC}userCalcOut10", False, "read_attrs", 12],
+        [CalcoutRecord, f"{IOC}userCalcOut10", False, "configuration_attrs", 100],
+        [CalcoutRecord, f"{IOC}userCalcOut10", True, "read()", 2],
+        [CalcoutRecord, f"{IOC}userCalcOut10", True, "summary()", 220],
 
-    assert len(calcout.read_attrs) == 12
-    assert len(calcout.configuration_attrs) == 52
-    assert len(calcout._summary().splitlines()) == 172
+        [UserCalcoutDevice, IOC, False, "read_attrs", 130],
+        [UserCalcoutDevice, IOC, False, "configuration_attrs", 1020],
+        [UserCalcoutDevice, IOC, True, "read()", 20],
+        [UserCalcoutDevice, IOC, True, "summary()", 2065],
+    ]
+)
+def test_attribute_quantities(device, pv, connect, attr, expected):
+    """Verify the quantities of the different attributes."""
+    common_attribute_quantities_test(device, pv, connect, attr, expected)
 
 
 def test_calcout_reset():
     user = UserCalcoutDevice(IOC, name="user")
     user.wait_for_connection()
     user.enable.put("Enable")
-    assert len(user.read()) == 500
 
     calcout = user.calcout10
     assert isinstance(calcout, CalcoutRecord)

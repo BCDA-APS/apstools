@@ -3,6 +3,7 @@ import time
 
 from ..luascript import LuascriptRecord
 from ..luascript import UserScriptsDevice
+from ...tests import common_attribute_quantities_test
 from ...tests import IOC
 from ...tests import SHORT_DELAY_FOR_EPICS_IOC_DATABASE_PROCESSING
 
@@ -16,21 +17,29 @@ EMPIRICAL_DELAY = 0.5
 # https://epics-lua.readthedocs.io/en/latest/using-lua-shell.html?highlight=file#calling-the-lua-shell-from-inside-the-ioc-shell
 
 
-def test_read():
-    lua = LuascriptRecord(f"{PV_PREFIX}userScript9", name="lua")
-    assert lua is not None
-    # lua.wait_for_connection()
+@pytest.mark.parametrize(
+    "device, pv, connect, attr, expected",
+    [
+        [LuascriptRecord, f"{PV_PREFIX}userScript9", False, "read_attrs", 10],
+        [LuascriptRecord, f"{PV_PREFIX}userScript9", False, "configuration_attrs", 98],
+        [LuascriptRecord, f"{PV_PREFIX}userScript9", True, "read()", 2],
+        [LuascriptRecord, f"{PV_PREFIX}userScript9", True, "summary()", 207],
 
-    assert len(lua.read_attrs) == 10
-    assert len(lua.configuration_attrs) == 78
-    assert len(lua._summary().splitlines()) == 187
+        [UserScriptsDevice, PV_PREFIX, False, "read_attrs", 110],
+        [UserScriptsDevice, PV_PREFIX, False, "configuration_attrs", 991],
+        [UserScriptsDevice, PV_PREFIX, True, "read()", 20],
+        [UserScriptsDevice, PV_PREFIX, True, "summary()", 1906],
+    ]
+)
+def test_attribute_quantities(device, pv, connect, attr, expected):
+    """Verify the quantities of the different attributes."""
+    common_attribute_quantities_test(device, pv, connect, attr, expected)
 
 
 def test_luascript_reset():
     lua_all = UserScriptsDevice(PV_PREFIX, name="user")
     lua_all.wait_for_connection()
     lua_all.enable.put("Enable")
-    assert len(lua_all.read()) == 220
 
     lua = lua_all.script9
     assert isinstance(lua, LuascriptRecord)

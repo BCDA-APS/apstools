@@ -5,6 +5,7 @@ from ..calcout import CalcoutRecord
 from ..sub import SubRecord
 from ..sub import UserAverageN
 from ..sub import UserAverageDevice
+from ...tests import common_attribute_quantities_test
 from ...tests import IOC
 from ...tests import SHORT_DELAY_FOR_EPICS_IOC_DATABASE_PROCESSING
 
@@ -38,22 +39,27 @@ def calc():
 
 
 @pytest.mark.parametrize(
-    "device, pv, nra, nca, nsl, nr",
+    "device, pv, connect, attr, expected",
     [
-        [SubRecord, f"{IOC}userAve10", 12, 53, 136, 13],
-        [UserAverageN, f"{IOC}userAve10", 7, 33, 101, 7],
-        [UserAverageDevice, IOC, 80, 340, 835, 70],
+        [SubRecord, f"{IOC}userAve10", False, "read_attrs", 12],
+        [SubRecord, f"{IOC}userAve10", False, "configuration_attrs", 65],
+        [SubRecord, f"{IOC}userAve10", True, "read()", 1],
+        [SubRecord, f"{IOC}userAve10", True, "summary()", 148],
+
+        [UserAverageN, f"{IOC}userAve10", False, "read_attrs", 7],
+        [UserAverageN, f"{IOC}userAve10", False, "configuration_attrs", 33],
+        [UserAverageN, f"{IOC}userAve10", True, "read()", 7],
+        [UserAverageN, f"{IOC}userAve10", True, "summary()", 101],
+
+        [UserAverageDevice, IOC, False, "read_attrs", 80],
+        [UserAverageDevice, IOC, False, "configuration_attrs", 340],
+        [UserAverageDevice, IOC, True, "read()", 70],
+        [UserAverageDevice, IOC, True, "summary()", 835],
     ]
 )
-def test_connect(device, pv, nra, nca, nsl, nr):
-    obj = device(pv, name="obj")
-    assert obj is not None
-    obj.wait_for_connection()
-
-    assert len(obj.read_attrs) == nra
-    assert len(obj.configuration_attrs) == nca
-    assert len(obj._summary().splitlines()) == nsl
-    assert len(obj.read()) == nr
+def test_attribute_quantities(device, pv, connect, attr, expected):
+    """Verify the quantities of the different attributes."""
+    common_attribute_quantities_test(device, pv, connect, attr, expected)
 
 
 # def test_sub_reset(sub):

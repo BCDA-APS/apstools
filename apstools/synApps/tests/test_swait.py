@@ -1,27 +1,43 @@
+import pytest
 import time
 
 from ..swait import setup_random_number_swait
 from ..swait import SwaitRecord
+from ..swait import UserCalcN
 from ..swait import UserCalcsDevice
+from ...tests import common_attribute_quantities_test
 from ...tests import IOC
 # from ...tests import SHORT_DELAY_FOR_EPICS_IOC_DATABASE_PROCESSING
 
 
-def test_read():
-    swait = SwaitRecord(f"{IOC}userCalc10", name="sseq")
-    assert swait is not None
-    swait.wait_for_connection()
+@pytest.mark.parametrize(
+    "device, pv, connect, attr, expected",
+    [
+        [SwaitRecord, f"{IOC}userCalc10", False, "read_attrs", 12],
+        [SwaitRecord, f"{IOC}userCalc10", False, "configuration_attrs", 72],
+        [SwaitRecord, f"{IOC}userCalc10", True, "read()", 1],
+        [SwaitRecord, f"{IOC}userCalc10", True, "summary()", 162],
 
-    assert len(swait.read_attrs) == 12
-    assert len(swait.configuration_attrs) == 60
-    assert len(swait._summary().splitlines()) == 150
+        [UserCalcN, f"{IOC}userCalc10", False, "read_attrs", 12],
+        [UserCalcN, f"{IOC}userCalc10", False, "configuration_attrs", 73],
+        [UserCalcN, f"{IOC}userCalc10", True, "read()", 1],
+        [UserCalcN, f"{IOC}userCalc10", True, "summary()", 164],
+
+        [UserCalcsDevice, IOC, False, "read_attrs", 130],
+        [UserCalcsDevice, IOC, False, "configuration_attrs", 741],
+        [UserCalcsDevice, IOC, True, "read()", 10],
+        [UserCalcsDevice, IOC, True, "summary()", 1496],
+    ]
+)
+def test_attribute_quantities(device, pv, connect, attr, expected):
+    """Verify the quantities of the different attributes."""
+    common_attribute_quantities_test(device, pv, connect, attr, expected)
 
 
-def test_swait_reset():
+def test_userCalcs_reset():
     user = UserCalcsDevice(IOC, name="user")
     user.wait_for_connection()
     user.enable.put("Enable")
-    assert len(user.read()) == 130
 
     swait = user.calc10
     assert isinstance(swait, SwaitRecord)

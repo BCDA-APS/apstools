@@ -1,17 +1,22 @@
 import pytest
 
 from ..iocstats import IocStatsDevice
+from ...tests import common_attribute_quantities_test
 from ...tests import IOC
 
 
-def test_read():
-    gp_info = IocStatsDevice(IOC, name="gp_info")
-    gp_info.wait_for_connection()
-    assert gp_info.connected
-
-    assert len(gp_info.read_attrs) == 19
-    assert len(gp_info.configuration_attrs) == 8
-    assert len(gp_info._summary().splitlines()) == 73
+@pytest.mark.parametrize(
+    "device, pv, connect, attr, expected",
+    [
+        [IocStatsDevice, IOC, False, "read_attrs", 19],
+        [IocStatsDevice, IOC, False, "configuration_attrs", 8],
+        [IocStatsDevice, IOC, True, "read()", 19],
+        [IocStatsDevice, IOC, True, "summary()", 73],
+    ]
+)
+def test_attribute_quantities(device, pv, connect, attr, expected):
+    """Verify the quantities of the different attributes."""
+    common_attribute_quantities_test(device, pv, connect, attr, expected)
 
 
 @pytest.mark.parametrize(
