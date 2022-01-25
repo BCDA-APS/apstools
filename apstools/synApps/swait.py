@@ -62,7 +62,7 @@ class SwaitRecordChannel(Device):
     .. index:: Ophyd Device; synApps SwaitRecordChannel
     """
 
-    input_value = FC(EpicsSignal, "{self.prefix}.{self._ch_letter}", kind="normal")
+    input_value = FC(EpicsSignal, "{self.prefix}.{self._ch_letter}", kind="config")
     input_pv = FC(EpicsSignal, "{self.prefix}.IN{self._ch_letter}N", kind="config")
     input_trigger = FC(EpicsSignal, "{self.prefix}.IN{self._ch_letter}P", kind="config")
     read_attrs = [

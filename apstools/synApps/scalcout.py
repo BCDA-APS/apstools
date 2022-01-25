@@ -41,7 +41,7 @@ class ScalcoutRecordNumberChannel(Device):
         ~reset
     """
 
-    input_value = FC(EpicsSignal, "{prefix}.{_ch}", kind="hinted")
+    input_value = FC(EpicsSignal, "{prefix}.{_ch}", kind="config")
     input_pv = FC(EpicsSignal, "{prefix}.INP{_ch}", kind="config")
 
     def __init__(self, prefix, letter, **kwargs):
@@ -65,7 +65,7 @@ class ScalcoutRecordStringChannel(Device):
         ~reset
     """
 
-    input_value = FC(EpicsSignal, "{prefix}.{_ch}", kind="hinted")
+    input_value = FC(EpicsSignal, "{prefix}.{_ch}", kind="config")
     input_pv = FC(EpicsSignal, "{prefix}.IN{_ch}", kind="config")
 
     def __init__(self, prefix, letter, **kwargs):
@@ -100,8 +100,6 @@ class ScalcoutRecord(EpicsRecordFloatFields, EpicsRecordDeviceCommonAll):
 
     :see: http://htmlpreview.github.io/?https://github.com/epics-modules/calc/blob/R3-6-1/documentation/calcDocs.html
     """
-    enable = Cpt(EpicsSignal, "Enable", kind="omitted")
-
     units = Cpt(EpicsSignal, ".EGU", kind="config")
     precision = Cpt(EpicsSignal, ".PREC", kind="config")
 
@@ -110,7 +108,7 @@ class ScalcoutRecord(EpicsRecordFloatFields, EpicsRecordDeviceCommonAll):
     calculated_value_string = Cpt(EpicsSignal, ".SVAL", kind="normal")
 
     output_calculation = Cpt(EpicsSignal, ".OCAL", kind="config", string=True)
-    output_value = Cpt(EpicsSignal, ".OVAL", kind="hinted")
+    output_value = Cpt(EpicsSignal, ".OVAL", kind="config")
     output_value_string = Cpt(EpicsSignal, ".OSV", kind="hinted", string=True)
     output_pv = Cpt(EpicsSignal, ".OUT", kind="config")
     output_execute_option = Cpt(EpicsSignal, ".OOPT", kind="config")

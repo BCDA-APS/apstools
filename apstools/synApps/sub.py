@@ -40,7 +40,7 @@ class SubRecordChannel(Device):
         ~reset
     """
 
-    input_value = FC(EpicsSignal, "{prefix}.{_ch}", kind="hinted")
+    input_value = FC(EpicsSignal, "{prefix}.{_ch}", kind="config")
     input_pv = FC(EpicsSignal, "{prefix}.INP{_ch}", kind="config", string=True)
 
     def __init__(self, prefix, letter, **kwargs):

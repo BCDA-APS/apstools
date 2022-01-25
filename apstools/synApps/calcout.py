@@ -55,10 +55,10 @@ class CalcoutRecordChannel(Device):
         ~reset
     """
 
-    input_value = FC(EpicsSignal, "{self.prefix}.{self._ch_letter}")
-    last_value = FC(EpicsSignalRO, "{self.prefix}.L{self._ch_letter}")
-    input_pv = FC(EpicsSignal, "{self.prefix}.INP{self._ch_letter}")
-    input_pv_valid = FC(EpicsSignalRO, "{self.prefix}.IN{self._ch_letter}V")
+    input_value = FC(EpicsSignal, "{self.prefix}.{self._ch_letter}", kind="config")
+    last_value = FC(EpicsSignalRO, "{self.prefix}.L{self._ch_letter}", kind="config")
+    input_pv = FC(EpicsSignal, "{self.prefix}.INP{self._ch_letter}", kind="config")
+    input_pv_valid = FC(EpicsSignalRO, "{self.prefix}.IN{self._ch_letter}V", kind="config")
 
     read_attrs = [
         "input_value",

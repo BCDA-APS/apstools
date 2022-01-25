@@ -102,7 +102,6 @@ class SseqRecord(EpicsRecordDeviceCommonAll):
     :see: https://htmlpreview.github.io/?https://raw.githubusercontent.com/epics-modules/calc/R3-6-1/documentation/sseqRecord.html
     """
 
-    enable = Cpt(EpicsSignal, "Enable", kind="config")
     precision = Cpt(EpicsSignal, ".PREC", kind="config")
     busy = Cpt(EpicsSignalRO, ".PREC", kind="config")
     _abort = Cpt(EpicsSignal, ".ABORT", kind="omitted")
