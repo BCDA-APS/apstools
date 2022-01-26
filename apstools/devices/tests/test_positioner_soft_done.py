@@ -3,6 +3,7 @@ from ophyd import EpicsSignal
 from ..positioner_soft_done import PVPositionerSoftDone
 from ..positioner_soft_done import PVPositionerSoftDoneWithStop
 from ...utils import run_in_thread
+from ...tests import common_attribute_quantities_test
 from ...tests import IOC
 from ...tests import short_delay_for_EPICS_IOC_database_processing
 
@@ -42,9 +43,49 @@ def delayed_stop(pos, delay=1):
     pos.stop()
 
 
-def test_same_sp_and_rb():
+class Tst_PVPos(PVPositionerSoftDone):
+    "To pass the readback_pv and setpoint_pv kwargs."
+    def __init__(self, prefix, *args, **kwargs):
+        super().__init__(prefix, *args, readback_pv="r", setpoint_pv="p", **kwargs)
+
+
+class Tst_PVPosWStop(PVPositionerSoftDoneWithStop):
+    "To pass the readback_pv and setpoint_pv kwargs."
+    def __init__(self, prefix, *args, **kwargs):
+        super().__init__(prefix, *args, readback_pv="r", setpoint_pv="p", **kwargs)
+
+
+@pytest.mark.parametrize(
+    "device, pv, connect, attr, expected",
+    [
+        [Tst_PVPos, "", False, "read_attrs", 2],
+        [Tst_PVPos, "", False, "configuration_attrs", 3],
+        [Tst_PVPos, "", False, "component_names", 6],
+
+        [Tst_PVPosWStop, "", False, "read_attrs", 2],
+        [Tst_PVPosWStop, "", False, "configuration_attrs", 3],
+        [Tst_PVPosWStop, "", False, "component_names", 6],
+    ]
+)
+def test_attribute_quantities(device, pv, connect, attr, expected):
+    """Verify the quantities of the different attributes."""
+    common_attribute_quantities_test(device, pv, connect, attr, expected)
+
+
+@pytest.mark.parametrize(
+    "klass, rb, sp",
+    [
+        [PVPositionerSoftDone, None, None],
+        [PVPositionerSoftDone, "", ""],
+        [PVPositionerSoftDone, "test", "test"],
+        [PVPositionerSoftDoneWithStop, None, None],
+        [PVPositionerSoftDoneWithStop, "", ""],
+        [PVPositionerSoftDoneWithStop, "test", "test"],
+    ]
+)
+def test_same_sp_and_rb(klass, rb, sp):
     with pytest.raises(ValueError) as exc:
-        PVPositionerSoftDone("", readback_pv="test", setpoint_pv="test", name="pos")
+        klass("", readback_pv=rb, setpoint_pv=sp, name="pos")
     assert str(exc.value).endswith("must have different values")
 
 
