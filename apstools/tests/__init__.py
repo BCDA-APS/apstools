@@ -1,8 +1,15 @@
+import time
 import warnings
 
 IOC = "gp:"
 MAX_TESTING_RETRIES = 3
 SHORT_DELAY_FOR_EPICS_IOC_DATABASE_PROCESSING = 2. / 60  # two 60Hz clock cycles
+
+
+def short_delay_for_EPICS_IOC_database_processing(delay=None):
+    if delay is None:
+        delay = SHORT_DELAY_FOR_EPICS_IOC_DATABASE_PROCESSING
+    time.sleep(delay)
 
 
 def common_attribute_quantities_test(device, pv, connect, attr, expected):
