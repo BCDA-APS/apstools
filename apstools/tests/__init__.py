@@ -40,22 +40,22 @@ def common_attribute_quantities_test(device, pv, connect, attr, expected):
     while retry < MAX_TESTING_RETRIES:
         retry += 1
         obj = device(pv, name="obj")
-        assert obj is not None
-        if connect:
-            try:
-                obj.wait_for_connection()
-                break
-            except TimeoutError:
-                # note: Increasing interval did not resolve the timeout.
-                # Forcing retries was successful
-                # This problem is intermittent.
-                warnings.warn(
-                    f"Timeout connecting {attr} in {retry}/{MAX_TESTING_RETRIES}"
-                )
-                continue
-        else:
+        assert obj is not None, pv
+        if not connect:
+            break  # no need to wait
+        try:
+            obj.wait_for_connection()
             break
-    assert obj.connected == connect
+        except TimeoutError:
+            # note: Increasing interval did not resolve the timeout.
+            # Forcing retries was successful
+            # This problem is intermittent.
+            warnings.warn(
+                f"Timeout connecting {attr} in {retry}/{MAX_TESTING_RETRIES}"
+            )
+
+    if connect:
+        assert obj.connected, f"{pv} {attr} {connect}"
 
     if attr == "read()":
         l = len(obj.read())
