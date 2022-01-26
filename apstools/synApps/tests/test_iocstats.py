@@ -3,6 +3,7 @@ import pytest
 from ..iocstats import IocStatsDevice
 from ...tests import common_attribute_quantities_test
 from ...tests import IOC
+from ...tests import short_delay_for_EPICS_IOC_database_processing
 
 
 @pytest.mark.parametrize(
@@ -36,6 +37,7 @@ def test_running(attr, expected, comparison):
     gp_info = IocStatsDevice(IOC, name="gp_info")
     gp_info.wait_for_connection()
     assert gp_info.connected
+    short_delay_for_EPICS_IOC_database_processing()
 
     assert hasattr(gp_info, attr)
     value = getattr(gp_info, attr).get()
