@@ -18,15 +18,26 @@ The project `milestones <https://github.com/BCDA-APS/apstools/milestones>`_
 describe the future plans.
 
 ..
-   1.6.1
+   1.6.2
    ******
 
    release expected by 2021-03-01
 
+1.6.1
+******
+
+release expected by 2021-01-26
+
+Fixes
+---------------
+
+* Move ``enable`` Component out from synApps Record devices.
+* Renew the unit tests for PVPositionerSoftDoneWithStop.
+
 1.6.0
 ******
 
-release expected by 2021-02-01
+released 2021-01-20
 
 Breaking Changes
 -----------------
