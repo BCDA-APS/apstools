@@ -1,11 +1,10 @@
 import pytest
-import time
 
 from ..scalcout import ScalcoutRecord
 from ..scalcout import UserScalcoutDevice
 from ...tests import common_attribute_quantities_test
 from ...tests import IOC
-from ...tests import SHORT_DELAY_FOR_EPICS_IOC_DATABASE_PROCESSING
+from ...tests import short_delay_for_EPICS_IOC_database_processing
 
 
 @pytest.mark.parametrize(
@@ -45,7 +44,7 @@ def test_scalcout_reset():
     calc.channels.BB.input_value.put("testing")
     calc.calculation.put("A")
     calc.process_record.put(1)
-    time.sleep(SHORT_DELAY_FOR_EPICS_IOC_DATABASE_PROCESSING)
+    short_delay_for_EPICS_IOC_database_processing()
     assert calc.channels.A.input_value.get() == v
     assert calc.channels.BB.input_value.get() == "testing"
     assert calc.calculation.get() == "A"
@@ -61,7 +60,7 @@ def test_scalcout_reset():
     assert calc.calculated_value_string.get() == "0.00000"
 
     v1 = calc.calculated_value.get()
-    time.sleep(0.2)
+    short_delay_for_EPICS_IOC_database_processing(0.2)
     assert v1 == calc.calculated_value.get()
 
 # -----------------------------------------------------------------------------

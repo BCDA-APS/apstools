@@ -1,11 +1,10 @@
 import pytest
-import time
 
 from ..luascript import LuascriptRecord
 from ..luascript import UserScriptsDevice
 from ...tests import common_attribute_quantities_test
 from ...tests import IOC
-from ...tests import SHORT_DELAY_FOR_EPICS_IOC_DATABASE_PROCESSING
+from ...tests import short_delay_for_EPICS_IOC_database_processing
 
 
 PV_PREFIX = f"{IOC}set1:"
@@ -46,7 +45,7 @@ def test_luascript_reset():
 
     lua_all.reset()
     lua.disable_value.put(2)  # ensure record is always enabled
-    time.sleep(EMPIRICAL_DELAY)  # a short-ish wait (discovered empirically)
+    short_delay_for_EPICS_IOC_database_processing(EMPIRICAL_DELAY)  # a short-ish wait (discovered empirically)
     assert (
         lua.scan_disable_input_link_value.get() != lua.disable_value.get()
     )
@@ -67,7 +66,7 @@ def test_luascript_reset():
     lua.inputs.BB.input_value.put("BB.input_value")
     # order is important, set this LAST
     lua.code.put("code")
-    time.sleep(EMPIRICAL_DELAY)  # a short-ish wait (discovered empirically)
+    short_delay_for_EPICS_IOC_database_processing(EMPIRICAL_DELAY)  # a short-ish wait (discovered empirically)
 
     assert lua.precision.get() != 5
     assert lua.code.get() != ""
@@ -109,7 +108,7 @@ def test_compute(code, a, b, nval, aa, bb, sval):
     lua_all = UserScriptsDevice(PV_PREFIX, name="user")
     lua_all.wait_for_connection()
     lua_all.enable.put("Enable")
-    time.sleep(SHORT_DELAY_FOR_EPICS_IOC_DATABASE_PROCESSING)
+    short_delay_for_EPICS_IOC_database_processing()
     assert lua_all.enable.get(as_string=True) == "Enable"
 
     lua_all.reset()
@@ -135,7 +134,7 @@ def test_compute(code, a, b, nval, aa, bb, sval):
 
     # do the computation
     lua.process_record.put(1)
-    time.sleep(EMPIRICAL_DELAY)  # a short-ish wait (discovered empirically)
+    short_delay_for_EPICS_IOC_database_processing(EMPIRICAL_DELAY)  # a short-ish wait (discovered empirically)
 
     assert round(lua.number_value.get(), 5) == nval
     assert lua.string_value.get() == sval

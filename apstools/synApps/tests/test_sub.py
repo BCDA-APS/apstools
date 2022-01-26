@@ -1,5 +1,4 @@
 import pytest
-import time
 
 from ..calcout import CalcoutRecord
 from ..sub import SubRecord
@@ -7,7 +6,7 @@ from ..sub import UserAverageN
 from ..sub import UserAverageDevice
 from ...tests import common_attribute_quantities_test
 from ...tests import IOC
-from ...tests import SHORT_DELAY_FOR_EPICS_IOC_DATABASE_PROCESSING
+from ...tests import short_delay_for_EPICS_IOC_database_processing
 
 
 @pytest.fixture(scope="function")
@@ -80,7 +79,7 @@ def test_useraverage_reset(ave):
     ave.algorithm.put("FIT-LINE")
 
     ave.reset()
-    time.sleep(SHORT_DELAY_FOR_EPICS_IOC_DATABASE_PROCESSING)
+    short_delay_for_EPICS_IOC_database_processing()
     assert ave.initroutine.get() == "initSubAve"
     assert ave.subroutine.get() == "SubAve"
 
@@ -109,7 +108,7 @@ def test_useraverage_reset(ave):
 #     for i in range(nsamples):
 #         calc.process_record.put(1)
 #         ave.process_record.put(1)
-#         time.sleep(SHORT_DELAY_FOR_EPICS_IOC_DATABASE_PROCESSING)
+#         short_delay_for_EPICS_IOC_database_processing()
 #         if ave.current_sample.get() == ave.number_samples.get():
 #             break
 #         assert ave.busy.get(as_string=False) == 1, i

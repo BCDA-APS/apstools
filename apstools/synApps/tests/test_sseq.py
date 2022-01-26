@@ -1,13 +1,12 @@
 from ophyd import EpicsSignal
 import pytest
-import time
 
 from ..sseq import SseqRecord
 from ..sseq import sseqRecordStep
 from ..sseq import UserStringSequenceDevice
 from ...tests import common_attribute_quantities_test
 from ...tests import IOC
-from ...tests import SHORT_DELAY_FOR_EPICS_IOC_DATABASE_PROCESSING
+from ...tests import short_delay_for_EPICS_IOC_database_processing
 
 
 @pytest.mark.parametrize(
@@ -43,7 +42,7 @@ def test_sseq_reset():
     assert isinstance(step, sseqRecordStep)
 
     step.reset()
-    time.sleep(SHORT_DELAY_FOR_EPICS_IOC_DATABASE_PROCESSING)
+    short_delay_for_EPICS_IOC_database_processing()
 
     assert step.input_pv.get() == ""
 
