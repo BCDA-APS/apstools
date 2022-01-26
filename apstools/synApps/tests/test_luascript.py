@@ -77,6 +77,7 @@ def test_luascript_reset():
     assert lua.inputs.BB.input_value.get() != ""
 
     lua_all.reset()
+    short_delay_for_EPICS_IOC_database_processing()
 
     assert lua.precision.get() == 5
     assert lua.code.get() == ""
@@ -112,6 +113,7 @@ def test_compute(code, a, b, nval, aa, bb, sval):
     assert lua_all.enable.get(as_string=True) == "Enable"
 
     lua_all.reset()
+    short_delay_for_EPICS_IOC_database_processing()
 
     lua = lua_all.script9
     lua.disable_value.put(2)  # ensure record is always enabled
@@ -139,7 +141,8 @@ def test_compute(code, a, b, nval, aa, bb, sval):
     assert round(lua.number_value.get(), 5) == nval
     assert lua.string_value.get() == sval
 
-    lua.reset()
+    lua_all.reset()
+    short_delay_for_EPICS_IOC_database_processing()
 
 # -----------------------------------------------------------------------------
 # :author:    Pete R. Jemian
