@@ -22,7 +22,6 @@ def pos():
     )
     pos.wait_for_connection()
     yield pos
-    # pos.move(0)
 
 
 @pytest.fixture(scope="function")
