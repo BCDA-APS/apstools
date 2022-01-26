@@ -9,6 +9,7 @@ Public Structures
     ~EditStringSequence
     ~SseqRecord
     ~UserStringSequenceDevice
+    ~UserStringSequenceN
 """
 
 # -----------------------------------------------------------------------------
@@ -30,6 +31,7 @@ from ophyd import EpicsSignalRO
 from ophyd import FormattedComponent as FC
 
 from ._common import EpicsRecordDeviceCommonAll
+from ._common import EpicsSynAppsRecordEnableMixin
 
 
 STEP_LIST = [f"step{i+1}" for i in range(10)]  # step1, step2, step10
@@ -100,7 +102,6 @@ class SseqRecord(EpicsRecordDeviceCommonAll):
     :see: https://htmlpreview.github.io/?https://raw.githubusercontent.com/epics-modules/calc/R3-6-1/documentation/sseqRecord.html
     """
 
-    enable = Cpt(EpicsSignal, "Enable", kind="config")
     precision = Cpt(EpicsSignal, ".PREC", kind="config")
     busy = Cpt(EpicsSignalRO, ".PREC", kind="config")
     _abort = Cpt(EpicsSignal, ".ABORT", kind="omitted")
@@ -136,6 +137,10 @@ class SseqRecord(EpicsRecordDeviceCommonAll):
         self.read_attrs = ["steps.%s" % c for c in STEP_LIST]
 
 
+class UserStringSequenceN(EpicsSynAppsRecordEnableMixin, SseqRecord):
+    """Single instance of the userStringSeqN database."""
+
+
 class UserStringSequenceDevice(Device):
     """
     EPICS synApps XXX IOC setup of userStringSeqs: ``$(P):userStringSeq$(N)``
@@ -150,16 +155,16 @@ class UserStringSequenceDevice(Device):
     """
 
     enable = Cpt(EpicsSignal, "userStringSeqEnable", kind="config")
-    sseq1 = Cpt(SseqRecord, "userStringSeq1")
-    sseq2 = Cpt(SseqRecord, "userStringSeq2")
-    sseq3 = Cpt(SseqRecord, "userStringSeq3")
-    sseq4 = Cpt(SseqRecord, "userStringSeq4")
-    sseq5 = Cpt(SseqRecord, "userStringSeq5")
-    sseq6 = Cpt(SseqRecord, "userStringSeq6")
-    sseq7 = Cpt(SseqRecord, "userStringSeq7")
-    sseq8 = Cpt(SseqRecord, "userStringSeq8")
-    sseq9 = Cpt(SseqRecord, "userStringSeq9")
-    sseq10 = Cpt(SseqRecord, "userStringSeq10")
+    sseq1 = Cpt(UserStringSequenceN, "userStringSeq1")
+    sseq2 = Cpt(UserStringSequenceN, "userStringSeq2")
+    sseq3 = Cpt(UserStringSequenceN, "userStringSeq3")
+    sseq4 = Cpt(UserStringSequenceN, "userStringSeq4")
+    sseq5 = Cpt(UserStringSequenceN, "userStringSeq5")
+    sseq6 = Cpt(UserStringSequenceN, "userStringSeq6")
+    sseq7 = Cpt(UserStringSequenceN, "userStringSeq7")
+    sseq8 = Cpt(UserStringSequenceN, "userStringSeq8")
+    sseq9 = Cpt(UserStringSequenceN, "userStringSeq9")
+    sseq10 = Cpt(UserStringSequenceN, "userStringSeq10")
 
     def reset(self):  # lgtm [py/similar-function]
         """set all fields to default values"""

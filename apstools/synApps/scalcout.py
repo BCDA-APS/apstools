@@ -8,6 +8,7 @@ Public Structures
 .. autosummary::
 
     ~UserScalcoutDevice
+    ~UserScalcoutN
     ~ScalcoutRecord
     ~ScalcoutRecordNumberChannel
     ~ScalcoutRecordStringChannel
@@ -22,6 +23,7 @@ from ophyd import FormattedComponent as FC
 
 from ._common import EpicsRecordDeviceCommonAll
 from ._common import EpicsRecordFloatFields
+from ._common import EpicsSynAppsRecordEnableMixin
 from .. import utils as APS_utils
 
 
@@ -39,7 +41,7 @@ class ScalcoutRecordNumberChannel(Device):
         ~reset
     """
 
-    input_value = FC(EpicsSignal, "{prefix}.{_ch}", kind="hinted")
+    input_value = FC(EpicsSignal, "{prefix}.{_ch}", kind="config")
     input_pv = FC(EpicsSignal, "{prefix}.INP{_ch}", kind="config")
 
     def __init__(self, prefix, letter, **kwargs):
@@ -63,7 +65,7 @@ class ScalcoutRecordStringChannel(Device):
         ~reset
     """
 
-    input_value = FC(EpicsSignal, "{prefix}.{_ch}", kind="hinted")
+    input_value = FC(EpicsSignal, "{prefix}.{_ch}", kind="config")
     input_pv = FC(EpicsSignal, "{prefix}.IN{_ch}", kind="config")
 
     def __init__(self, prefix, letter, **kwargs):
@@ -98,8 +100,6 @@ class ScalcoutRecord(EpicsRecordFloatFields, EpicsRecordDeviceCommonAll):
 
     :see: http://htmlpreview.github.io/?https://github.com/epics-modules/calc/blob/R3-6-1/documentation/calcDocs.html
     """
-    enable = Cpt(EpicsSignal, "Enable", kind="omitted")
-
     units = Cpt(EpicsSignal, ".EGU", kind="config")
     precision = Cpt(EpicsSignal, ".PREC", kind="config")
 
@@ -108,7 +108,7 @@ class ScalcoutRecord(EpicsRecordFloatFields, EpicsRecordDeviceCommonAll):
     calculated_value_string = Cpt(EpicsSignal, ".SVAL", kind="normal")
 
     output_calculation = Cpt(EpicsSignal, ".OCAL", kind="config", string=True)
-    output_value = Cpt(EpicsSignal, ".OVAL", kind="hinted")
+    output_value = Cpt(EpicsSignal, ".OVAL", kind="config")
     output_value_string = Cpt(EpicsSignal, ".OSV", kind="hinted", string=True)
     output_pv = Cpt(EpicsSignal, ".OUT", kind="config")
     output_execute_option = Cpt(EpicsSignal, ".OOPT", kind="config")
@@ -175,6 +175,10 @@ class ScalcoutRecord(EpicsRecordFloatFields, EpicsRecordDeviceCommonAll):
         self.hints = {"fields": self.read_attrs}
 
 
+class UserScalcoutN(EpicsSynAppsRecordEnableMixin, ScalcoutRecord):
+    """Single instance of the userStringCalcN database."""
+
+
 class UserScalcoutDevice(Device):
     """
     EPICS synApps XXX IOC setup of user scalcouts: ``$(P):userStringCalc$(N)``
@@ -188,16 +192,16 @@ class UserScalcoutDevice(Device):
     """
 
     enable = Cpt(EpicsSignal, "userStringCalcEnable", kind="omitted")
-    scalcout1 = Cpt(ScalcoutRecord, "userStringCalc1")
-    scalcout2 = Cpt(ScalcoutRecord, "userStringCalc2")
-    scalcout3 = Cpt(ScalcoutRecord, "userStringCalc3")
-    scalcout4 = Cpt(ScalcoutRecord, "userStringCalc4")
-    scalcout5 = Cpt(ScalcoutRecord, "userStringCalc5")
-    scalcout6 = Cpt(ScalcoutRecord, "userStringCalc6")
-    scalcout7 = Cpt(ScalcoutRecord, "userStringCalc7")
-    scalcout8 = Cpt(ScalcoutRecord, "userStringCalc8")
-    scalcout9 = Cpt(ScalcoutRecord, "userStringCalc9")
-    scalcout10 = Cpt(ScalcoutRecord, "userStringCalc10")
+    scalcout1 = Cpt(UserScalcoutN, "userStringCalc1")
+    scalcout2 = Cpt(UserScalcoutN, "userStringCalc2")
+    scalcout3 = Cpt(UserScalcoutN, "userStringCalc3")
+    scalcout4 = Cpt(UserScalcoutN, "userStringCalc4")
+    scalcout5 = Cpt(UserScalcoutN, "userStringCalc5")
+    scalcout6 = Cpt(UserScalcoutN, "userStringCalc6")
+    scalcout7 = Cpt(UserScalcoutN, "userStringCalc7")
+    scalcout8 = Cpt(UserScalcoutN, "userStringCalc8")
+    scalcout9 = Cpt(UserScalcoutN, "userStringCalc9")
+    scalcout10 = Cpt(UserScalcoutN, "userStringCalc10")
 
     def reset(self):  # lgtm [py/similar-function]
         """set all fields to default values"""

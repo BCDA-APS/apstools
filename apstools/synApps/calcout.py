@@ -8,6 +8,7 @@ Public Structures
 .. autosummary::
 
     ~UserCalcoutDevice
+    ~UserCalcoutN
     ~CalcoutRecord
     ~CalcoutRecordChannel
     ~setup_gaussian_calcout
@@ -36,6 +37,7 @@ from ophyd import Signal
 
 from ._common import EpicsRecordDeviceCommonAll
 from ._common import EpicsRecordFloatFields
+from ._common import EpicsSynAppsRecordEnableMixin
 from .. import utils as APS_utils
 
 
@@ -53,10 +55,10 @@ class CalcoutRecordChannel(Device):
         ~reset
     """
 
-    input_value = FC(EpicsSignal, "{self.prefix}.{self._ch_letter}")
-    last_value = FC(EpicsSignalRO, "{self.prefix}.L{self._ch_letter}")
-    input_pv = FC(EpicsSignal, "{self.prefix}.INP{self._ch_letter}")
-    input_pv_valid = FC(EpicsSignalRO, "{self.prefix}.IN{self._ch_letter}V")
+    input_value = FC(EpicsSignal, "{self.prefix}.{self._ch_letter}", kind="config")
+    last_value = FC(EpicsSignalRO, "{self.prefix}.L{self._ch_letter}", kind="config")
+    input_pv = FC(EpicsSignal, "{self.prefix}.INP{self._ch_letter}", kind="config")
+    input_pv_valid = FC(EpicsSignalRO, "{self.prefix}.IN{self._ch_letter}V", kind="config")
 
     read_attrs = [
         "input_value",
@@ -92,8 +94,6 @@ class CalcoutRecord(EpicsRecordFloatFields, EpicsRecordDeviceCommonAll):
 
     :see: https://wiki-ext.aps.anl.gov/epics/index.php/RRM_3-14_Calcout
     """
-    enable = Cpt(EpicsSignal, "Enable", kind="omitted")
-
     units = Cpt(EpicsSignal, ".EGU", kind="config")
     precision = Cpt(EpicsSignal, ".PREC", kind="config")
 
@@ -154,6 +154,10 @@ class CalcoutRecord(EpicsRecordFloatFields, EpicsRecordDeviceCommonAll):
         self.read_attrs = ["channels.%s" % c for c in CHANNEL_LETTERS_LIST]
 
 
+class UserCalcoutN(EpicsSynAppsRecordEnableMixin, CalcoutRecord):
+    """Single instance of the userCalcoutN database."""
+
+
 class UserCalcoutDevice(Device):
     """
     EPICS synApps XXX IOC setup of user calcouts: ``$(P):userCalcOut$(N)``
@@ -167,16 +171,16 @@ class UserCalcoutDevice(Device):
     """
 
     enable = Cpt(EpicsSignal, "userCalcOutEnable", kind="omitted")
-    calcout1 = Cpt(CalcoutRecord, "userCalcOut1")
-    calcout2 = Cpt(CalcoutRecord, "userCalcOut2")
-    calcout3 = Cpt(CalcoutRecord, "userCalcOut3")
-    calcout4 = Cpt(CalcoutRecord, "userCalcOut4")
-    calcout5 = Cpt(CalcoutRecord, "userCalcOut5")
-    calcout6 = Cpt(CalcoutRecord, "userCalcOut6")
-    calcout7 = Cpt(CalcoutRecord, "userCalcOut7")
-    calcout8 = Cpt(CalcoutRecord, "userCalcOut8")
-    calcout9 = Cpt(CalcoutRecord, "userCalcOut9")
-    calcout10 = Cpt(CalcoutRecord, "userCalcOut10")
+    calcout1 = Cpt(UserCalcoutN, "userCalcOut1")
+    calcout2 = Cpt(UserCalcoutN, "userCalcOut2")
+    calcout3 = Cpt(UserCalcoutN, "userCalcOut3")
+    calcout4 = Cpt(UserCalcoutN, "userCalcOut4")
+    calcout5 = Cpt(UserCalcoutN, "userCalcOut5")
+    calcout6 = Cpt(UserCalcoutN, "userCalcOut6")
+    calcout7 = Cpt(UserCalcoutN, "userCalcOut7")
+    calcout8 = Cpt(UserCalcoutN, "userCalcOut8")
+    calcout9 = Cpt(UserCalcoutN, "userCalcOut9")
+    calcout10 = Cpt(UserCalcoutN, "userCalcOut10")
 
     def reset(self):  # lgtm [py/similar-function]
         """set all fields to default values"""

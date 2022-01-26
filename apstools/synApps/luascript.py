@@ -39,10 +39,10 @@ class _LuascriptRecordInputBase(Device):
 
     # Components must be defined in subclass
 
-    read_attrs = [
-        "input_value",
-    ]
-    hints = {"fields": read_attrs}
+    # read_attrs = [
+    #     "input_value",
+    # ]
+    # hints = {"fields": read_attrs}
 
     def __init__(self, prefix, letter, **kwargs):
         self._ch = letter
@@ -61,7 +61,7 @@ class LuascriptRecordNumberInput(_LuascriptRecordInputBase):
     """
 
     pv_link = FC(EpicsSignal, "{prefix}.INP{_ch}", kind="config", string=True)
-    input_value = FC(EpicsSignal, "{prefix}.{_ch}", kind="hinted")
+    input_value = FC(EpicsSignal, "{prefix}.{_ch}", kind="config")
     description = FC(EpicsSignal, "{prefix}.{_ch}DSC", kind="config", string=True)
 
     def reset(self):
@@ -79,7 +79,7 @@ class LuascriptRecordStringInput(_LuascriptRecordInputBase):
     """
 
     pv_link = FC(EpicsSignal, "{prefix}.IN{_ch}", kind="config", string=True)
-    input_value = FC(EpicsSignal, "{prefix}.{_ch}", kind="hinted", string=True)
+    input_value = FC(EpicsSignal, "{prefix}.{_ch}", kind="config", string=True)
     description = FC(EpicsSignal, "{prefix}.{_ch}DN", kind="config", string=True)
 
     def reset(self):

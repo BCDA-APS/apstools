@@ -1,21 +1,31 @@
 from ophyd import EpicsSignal
-import time
+import pytest
 
 from ..sseq import SseqRecord
 from ..sseq import sseqRecordStep
 from ..sseq import UserStringSequenceDevice
+from ...tests import common_attribute_quantities_test
 from ...tests import IOC
-from ...tests import SHORT_DELAY_FOR_EPICS_IOC_DATABASE_PROCESSING
+from ...tests import short_delay_for_EPICS_IOC_database_processing
 
 
-def test_read():
-    sseq = SseqRecord(f"{IOC}userStringSeq10", name="sseq")
-    assert sseq is not None
-    sseq.wait_for_connection()
+@pytest.mark.parametrize(
+    "device, pv, connect, attr, expected",
+    [
+        [SseqRecord, f"{IOC}userStringSeq10", False, "read_attrs", 31],
+        [SseqRecord, f"{IOC}userStringSeq10", False, "configuration_attrs", 108],
+        [SseqRecord, f"{IOC}userStringSeq10", True, "read()", 20],
+        [SseqRecord, f"{IOC}userStringSeq10", True, "summary()", 274],
 
-    assert len(sseq.read_attrs) == 31
-    assert len(sseq.configuration_attrs) == 109
-    assert len(sseq._summary().splitlines()) == 276
+        [UserStringSequenceDevice, IOC, False, "read_attrs", 320],
+        [UserStringSequenceDevice, IOC, False, "configuration_attrs", 1101],
+        [UserStringSequenceDevice, IOC, True, "read()", 200],
+        [UserStringSequenceDevice, IOC, True, "summary()", 2616],
+    ]
+)
+def test_attribute_quantities(device, pv, connect, attr, expected):
+    """Verify the quantities of the different attributes."""
+    common_attribute_quantities_test(device, pv, connect, attr, expected)
 
 
 def test_sseq_reset():
@@ -32,7 +42,7 @@ def test_sseq_reset():
     assert isinstance(step, sseqRecordStep)
 
     step.reset()
-    time.sleep(SHORT_DELAY_FOR_EPICS_IOC_DATABASE_PROCESSING)
+    short_delay_for_EPICS_IOC_database_processing()
 
     assert step.input_pv.get() == ""
 

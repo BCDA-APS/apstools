@@ -1,17 +1,17 @@
 import pytest
-import time
 
 from ..calcout import CalcoutRecord
 from ..sub import SubRecord
-from ..sub import UserAverage
+from ..sub import UserAverageN
 from ..sub import UserAverageDevice
+from ...tests import common_attribute_quantities_test
 from ...tests import IOC
-from ...tests import SHORT_DELAY_FOR_EPICS_IOC_DATABASE_PROCESSING
+from ...tests import short_delay_for_EPICS_IOC_database_processing
 
 
 @pytest.fixture(scope="function")
 def ave():
-    ave = UserAverage(f"{IOC}userAve9", name="ave")
+    ave = UserAverageN(f"{IOC}userAve9", name="ave")
     ave.wait_for_connection()
     ave.enable.put("E")
     yield ave
@@ -38,22 +38,27 @@ def calc():
 
 
 @pytest.mark.parametrize(
-    "device, pv, nra, nca, nsl, nr",
+    "device, pv, connect, attr, expected",
     [
-        [SubRecord, f"{IOC}userAve10", 12, 53, 137, 13],
-        [UserAverage, f"{IOC}userAve10", 7, 33, 101, 7],
-        [UserAverageDevice, IOC, 80, 340, 835, 70],
+        [SubRecord, f"{IOC}userAve10", False, "read_attrs", 12],
+        [SubRecord, f"{IOC}userAve10", False, "configuration_attrs", 65],
+        [SubRecord, f"{IOC}userAve10", True, "read()", 1],
+        [SubRecord, f"{IOC}userAve10", True, "summary()", 148],
+
+        [UserAverageN, f"{IOC}userAve10", False, "read_attrs", 7],
+        [UserAverageN, f"{IOC}userAve10", False, "configuration_attrs", 33],
+        [UserAverageN, f"{IOC}userAve10", True, "read()", 7],
+        [UserAverageN, f"{IOC}userAve10", True, "summary()", 101],
+
+        [UserAverageDevice, IOC, False, "read_attrs", 80],
+        [UserAverageDevice, IOC, False, "configuration_attrs", 340],
+        [UserAverageDevice, IOC, True, "read()", 70],
+        [UserAverageDevice, IOC, True, "summary()", 835],
     ]
 )
-def test_connect(device, pv, nra, nca, nsl, nr):
-    obj = device(pv, name="obj")
-    assert obj is not None
-    obj.wait_for_connection()
-
-    assert len(obj.read_attrs) == nra
-    assert len(obj.configuration_attrs) == nca
-    assert len(obj._summary().splitlines()) == nsl
-    assert len(obj.read()) == nr
+def test_attribute_quantities(device, pv, connect, attr, expected):
+    """Verify the quantities of the different attributes."""
+    common_attribute_quantities_test(device, pv, connect, attr, expected)
 
 
 # def test_sub_reset(sub):
@@ -74,7 +79,7 @@ def test_useraverage_reset(ave):
     ave.algorithm.put("FIT-LINE")
 
     ave.reset()
-    time.sleep(SHORT_DELAY_FOR_EPICS_IOC_DATABASE_PROCESSING)
+    short_delay_for_EPICS_IOC_database_processing()
     assert ave.initroutine.get() == "initSubAve"
     assert ave.subroutine.get() == "SubAve"
 
@@ -103,7 +108,7 @@ def test_useraverage_reset(ave):
 #     for i in range(nsamples):
 #         calc.process_record.put(1)
 #         ave.process_record.put(1)
-#         time.sleep(SHORT_DELAY_FOR_EPICS_IOC_DATABASE_PROCESSING)
+#         short_delay_for_EPICS_IOC_database_processing()
 #         if ave.current_sample.get() == ave.number_samples.get():
 #             break
 #         assert ave.busy.get(as_string=False) == 1, i

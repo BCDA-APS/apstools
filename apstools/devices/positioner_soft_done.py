@@ -15,9 +15,8 @@ from ophyd import EpicsSignal
 from ophyd import EpicsSignalRO
 from ophyd.signal import EpicsSignalBase
 import logging
-import time
 
-from ..tests import SHORT_DELAY_FOR_EPICS_IOC_DATABASE_PROCESSING
+from ..tests import short_delay_for_EPICS_IOC_database_processing
 
 
 logger = logging.getLogger(__name__)
@@ -207,7 +206,7 @@ class PVPositionerSoftDoneWithStop(PVPositionerSoftDone):
         """
         if not self.inposition:
             self.setpoint.put(self.position)
-            time.sleep(SHORT_DELAY_FOR_EPICS_IOC_DATABASE_PROCESSING)
+            short_delay_for_EPICS_IOC_database_processing()
             self.cb_readback()  # re-evaluate soft done Signal
 
 

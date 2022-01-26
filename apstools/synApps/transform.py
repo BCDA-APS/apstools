@@ -6,6 +6,7 @@ Public Structures
 
 .. autosummary::
 
+    ~UserTransformN
     ~UserTransformsDevice
     ~TransformRecord
 """
@@ -29,6 +30,7 @@ from ophyd import EpicsSignal
 from ophyd import EpicsSignalRO
 
 from ._common import EpicsRecordDeviceCommonAll
+from ._common import EpicsSynAppsRecordEnableMixin
 from .. import utils as APS_utils
 
 
@@ -126,6 +128,10 @@ class TransformRecord(EpicsRecordDeviceCommonAll):
         self.read_attrs = ["channels.%s" % c for c in CHANNEL_LETTERS_LIST]
 
 
+class UserTransformN(EpicsSynAppsRecordEnableMixin, TransformRecord):
+    """Single instance of the userTranN database."""
+
+
 class UserTransformsDevice(Device):
     """
     EPICS synApps XXX IOC setup of userTransforms: ``$(P):userTran$(N)``
@@ -134,16 +140,16 @@ class UserTransformsDevice(Device):
     """
 
     enable = Cpt(EpicsSignal, "userTranEnable", kind="config")
-    transform1 = Cpt(TransformRecord, "userTran1")
-    transform2 = Cpt(TransformRecord, "userTran2")
-    transform3 = Cpt(TransformRecord, "userTran3")
-    transform4 = Cpt(TransformRecord, "userTran4")
-    transform5 = Cpt(TransformRecord, "userTran5")
-    transform6 = Cpt(TransformRecord, "userTran6")
-    transform7 = Cpt(TransformRecord, "userTran7")
-    transform8 = Cpt(TransformRecord, "userTran8")
-    transform9 = Cpt(TransformRecord, "userTran9")
-    transform10 = Cpt(TransformRecord, "userTran10")
+    transform1 = Cpt(UserTransformN, "userTran1")
+    transform2 = Cpt(UserTransformN, "userTran2")
+    transform3 = Cpt(UserTransformN, "userTran3")
+    transform4 = Cpt(UserTransformN, "userTran4")
+    transform5 = Cpt(UserTransformN, "userTran5")
+    transform6 = Cpt(UserTransformN, "userTran6")
+    transform7 = Cpt(UserTransformN, "userTran7")
+    transform8 = Cpt(UserTransformN, "userTran8")
+    transform9 = Cpt(UserTransformN, "userTran9")
+    transform10 = Cpt(UserTransformN, "userTran10")
 
     def reset(self):  # lgtm [py/similar-function]
         """set all fields to default values"""

@@ -69,17 +69,23 @@ Databases
    ~apstools.synApps.db_2slit.Optics2Slit2D_InbOutBotTop
    ~apstools.synApps.save_data.SaveData
    ~apstools.synApps.sscan.SscanDevice
+   ~apstools.synApps.swait.UserCalcN
    ~apstools.synApps.swait.UserCalcsDevice
    ~apstools.synApps.calcout.UserCalcoutDevice
+   ~apstools.synApps.calcout.UserCalcoutN
    ~apstools.synApps.scalcout.UserScalcoutDevice
+   ~apstools.synApps.scalcout.UserScalcoutN
    ~apstools.synApps.luascript.UserScriptsDevice
    ~apstools.synApps.sseq.UserStringSequenceDevice
-   ~apstools.synApps.sub.UserAverage
+   ~apstools.synApps.sseq.UserStringSequenceN
+   ~apstools.synApps.sub.UserAverageN
    ~apstools.synApps.sub.UserAverageDevice
+   ~apstools.synApps.transform.UserTransformN
    ~apstools.synApps.transform.UserTransformsDevice
 
 .. autosummary::
 
+   ~apstools.synApps._common.EpicsSynAppsRecordEnableMixin
    ~apstools.synApps.calcout.CalcoutRecordChannel
    ~apstools.synApps.iocstats.IocStatsDevice
    ~apstools.synApps.luascript.LuascriptRecordNumberInput

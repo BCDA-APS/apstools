@@ -81,36 +81,75 @@ from .xia_pf4 import Pf4FilterTriple
 from .xia_slit import XiaSlit2D
 
 # synApps
+
+# ## _common
+from ..synApps import EpicsRecordDeviceCommonAll
+from ..synApps import EpicsRecordInputFields
+from ..synApps import EpicsRecordOutputFields
+from ..synApps import EpicsRecordFloatFields
+from ..synApps import EpicsSynAppsRecordEnableMixin
+
+# ## asyn
 from ..synApps import AsynRecord
+
+# ## busy
 from ..synApps import BusyRecord
+
+# ## calcout
 from ..synApps import CalcoutRecord
 from ..synApps import CalcoutRecordChannel
 from ..synApps import setup_gaussian_calcout
 from ..synApps import setup_incrementer_calcout
 from ..synApps import setup_lorentzian_calcout
 from ..synApps import UserCalcoutDevice
+from ..synApps import UserCalcoutN
+
+# ## epid
 from ..synApps import EpidRecord
+
+# ## iocstats
 from ..synApps import IocStatsDevice
+
+# ## save_data
 from ..synApps import SaveData
+
+# ## scalcout
+from ..synApps import UserScalcoutDevice
+from ..synApps import UserScalcoutN
+from ..synApps import ScalcoutRecord
+from ..synApps import ScalcoutRecordNumberChannel
+from ..synApps import ScalcoutRecordStringChannel
+
+# ## sscan
 from ..synApps import SscanRecord
 from ..synApps import SscanDevice
+
+# sseq
+from ..synApps import EditStringSequence
+from ..synApps import SseqRecord
+from ..synApps import UserStringSequenceDevice
+from ..synApps import UserStringSequenceN
+
+# ## sub
+from ..synApps import SubRecord
+from ..synApps import SubRecordChannel
+from ..synApps import UserAverageN
+from ..synApps import UserAverageDevice
+
+# ## swait
 from ..synApps import SwaitRecord
 from ..synApps import SwaitRecordChannel
+from ..synApps import UserCalcN
 from ..synApps import UserCalcsDevice
 from ..synApps import setup_random_number_swait
 from ..synApps import setup_gaussian_swait
 from ..synApps import setup_lorentzian_swait
 from ..synApps import setup_incrementer_swait
+
+# ## transform
 from ..synApps import TransformRecord
+from ..synApps import UserTransformN
 from ..synApps import UserTransformsDevice
-from ..synApps import UserScalcoutDevice
-from ..synApps import ScalcoutRecord
-from ..synApps import ScalcoutRecordNumberChannel
-from ..synApps import ScalcoutRecordStringChannel
-from ..synApps import SubRecord
-from ..synApps import SubRecordChannel
-from ..synApps import UserAverage
-from ..synApps import UserAverageDevice
 
 # -----------------------------------------------------------------------------
 # :author:    Pete R. Jemian

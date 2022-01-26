@@ -7,7 +7,7 @@ Public Structures
 
 .. autosummary::
 
-    ~UserAverage
+    ~UserAverageN
     ~UserAverageDevice
     ~SubRecord
     ~SubRecordChannel
@@ -40,7 +40,7 @@ class SubRecordChannel(Device):
         ~reset
     """
 
-    input_value = FC(EpicsSignal, "{prefix}.{_ch}", kind="hinted")
+    input_value = FC(EpicsSignal, "{prefix}.{_ch}", kind="config")
     input_pv = FC(EpicsSignal, "{prefix}.INP{_ch}", kind="config", string=True)
 
     def __init__(self, prefix, letter, **kwargs):
@@ -73,8 +73,6 @@ class SubRecord(EpicsRecordFloatFields, EpicsRecordDeviceCommonAll):
 
     :see: http://htmlpreview.github.io/?https://github.com/epics-modules/calc/blob/R3-6-1/documentation/calcDocs.html
     """
-    enable = Cpt(EpicsSignal, "Enable", kind="omitted", string=True)
-
     units = Cpt(EpicsSignal, ".EGU", kind="config")
     precision = Cpt(EpicsSignal, ".PREC", kind="config")
 
@@ -94,7 +92,6 @@ class SubRecord(EpicsRecordFloatFields, EpicsRecordDeviceCommonAll):
     def reset(self):
         """set all fields to default values"""
         pvname = self.description.pvname.split(".")[0]
-        self.enable.put("E")
         self.scanning_rate.put("Passive")
         self.description.put(pvname)
         self.units.put("")
@@ -114,7 +111,7 @@ class SubRecord(EpicsRecordFloatFields, EpicsRecordDeviceCommonAll):
         self.hints = {"fields": self.read_attrs}
 
 
-class UserAverage(EpicsRecordFloatFields, EpicsRecordDeviceCommonAll):
+class UserAverageN(EpicsRecordFloatFields, EpicsRecordDeviceCommonAll):
     """
     EPICS synApps XXX IOC setup of user average: ``$(P):userAve$(N)``
 
@@ -149,9 +146,9 @@ class UserAverage(EpicsRecordFloatFields, EpicsRecordDeviceCommonAll):
 
     def reset(self):
         """set all fields to default values"""
+        self.enable.put(self.enable.enum_strs[1])  # enable
         pvname = self.description.pvname.split(".")[0]
         self.description.put(pvname)
-        self.enable.put("E")
         for attr in "scanning_rate mode algorithm".split():
             obj = getattr(self, attr)
             obj.put(obj.enum_strs[0])
@@ -173,16 +170,16 @@ class UserAverageDevice(Device):
     """
 
     enable = Cpt(EpicsSignal, "userAveEnable", kind="omitted")
-    average1 = Cpt(UserAverage, "userAve1")
-    average2 = Cpt(UserAverage, "userAve2")
-    average3 = Cpt(UserAverage, "userAve3")
-    average4 = Cpt(UserAverage, "userAve4")
-    average5 = Cpt(UserAverage, "userAve5")
-    average6 = Cpt(UserAverage, "userAve6")
-    average7 = Cpt(UserAverage, "userAve7")
-    average8 = Cpt(UserAverage, "userAve8")
-    average9 = Cpt(UserAverage, "userAve9")
-    average10 = Cpt(UserAverage, "userAve10")
+    average1 = Cpt(UserAverageN, "userAve1")
+    average2 = Cpt(UserAverageN, "userAve2")
+    average3 = Cpt(UserAverageN, "userAve3")
+    average4 = Cpt(UserAverageN, "userAve4")
+    average5 = Cpt(UserAverageN, "userAve5")
+    average6 = Cpt(UserAverageN, "userAve6")
+    average7 = Cpt(UserAverageN, "userAve7")
+    average8 = Cpt(UserAverageN, "userAve8")
+    average9 = Cpt(UserAverageN, "userAve9")
+    average10 = Cpt(UserAverageN, "userAve10")
 
     def reset(self):  # lgtm [py/similar-function]
         """set all fields to default values"""
