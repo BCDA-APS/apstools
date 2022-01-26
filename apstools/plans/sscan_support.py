@@ -152,7 +152,7 @@ def sscan_1D(
     _md = dict(plan_name="sscan_1D")
     _md.update(md or {})
 
-    yield from bps.open_run(_md)  # start data collection
+    uid = yield from bps.open_run(_md)  # start data collection
     yield from bps.mv(sscan.execute_scan, 1)  # start sscan
     started = True
 
@@ -195,7 +195,7 @@ def sscan_1D(
     elapsed = time.time() - t0
     print(f"total time for sscan_1D: {elapsed} s")
 
-    return sscan_status
+    return uid
 
 # -----------------------------------------------------------------------------
 # :author:    Pete R. Jemian
