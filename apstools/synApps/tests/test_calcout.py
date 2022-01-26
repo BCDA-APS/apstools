@@ -6,6 +6,7 @@ from ..calcout import CalcoutRecord
 from ..calcout import UserCalcoutDevice
 from ...tests import common_attribute_quantities_test
 from ...tests import IOC
+from ...tests import short_delay_for_EPICS_IOC_database_processing
 
 
 @pytest.mark.parametrize(
@@ -45,6 +46,7 @@ def test_calcout_reset():
     assert v1 < calcout.calculated_value.get()
 
     calcout.reset()
+    short_delay_for_EPICS_IOC_database_processing()
     assert calcout.description.get() == calcout.prefix
     assert calcout.calculation.get() == "0"
     v1 = calcout.calculated_value.get()

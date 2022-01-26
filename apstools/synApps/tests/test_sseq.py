@@ -55,6 +55,7 @@ def test_sseq_reset():
     assert step.string_value.get() <= uptime.get()
 
     user.reset()
+    short_delay_for_EPICS_IOC_database_processing()
     assert step.input_pv.get() == ""
     assert step.string_value.get() == f"{0:.5f}"
 
