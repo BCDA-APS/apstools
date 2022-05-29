@@ -24,11 +24,12 @@ jobs:
         channel-priority: true
         channels: defaults,conda-forge,aps-anl-tag
         # environment-file: environment.yml
-        # mamba-version: "*"
-        mamba-version: ${{ matrix.python-version }}
+        mamba-version: "*"
         python-version: ${{ matrix.python-version }}
         use-only-tar-bz2: true  # required for caching
-    - shell: bash -l {0}
+
+    - name: Initial diagnostics
+      shell: bash -l {0}
       run: |
         which mamba
         conda info
