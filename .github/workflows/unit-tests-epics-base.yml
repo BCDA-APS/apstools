@@ -22,7 +22,7 @@ jobs:
         channel-priority: true
         channels: defaults,conda-forge
         # environment-file: environment.yml
-        mamba-version: "*"
+        # mamba-version: "*"
         use-only-tar-bz2: true  # required for caching
 
     - shell: bash -l {0}

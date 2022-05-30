@@ -1,5 +1,5 @@
 bluesky>=1.6.2
-databroker>=1.0.6
+databroker==1
 databroker-pack
 h5py
 numpy

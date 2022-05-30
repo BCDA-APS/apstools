@@ -7,7 +7,7 @@ channels:
 dependencies:
   - python >=3.7, <3.10
   - bluesky >=1.6.7
-  - databroker >=1.2.3
+  - databroker =1
   - databroker-pack
   - h5py
   - intake
