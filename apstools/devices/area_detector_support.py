@@ -354,19 +354,19 @@ class AD_EpicsHdf5FileName(FileStorePluginBase):  # lgtm [py/missing-call-to-ini
 
         return filename, read_path, write_path
 
-    def generate_datum(self, key, timestamp, datum_kwargs):
-        """Generate a uid and cache it with its key for later insertion."""
-        template = self.file_template.get()
-        filename, read_path, write_path = self.make_filename()
-        file_number = self.file_number.get()
-        hdf5_file_name = template % (read_path, filename, file_number)
+    # def generate_datum(self, key, timestamp, datum_kwargs):
+    #     """Generate a uid and cache it with its key for later insertion."""
+    #     template = self.file_template.get()
+    #     filename, read_path, write_path = self.make_filename()
+    #     file_number = self.file_number.get()
+    #     hdf5_file_name = template % (read_path, filename, file_number)
 
-        # inject the actual name of the HDF5 file here into datum_kwargs
-        datum_kwargs["HDF5_file_name"] = hdf5_file_name
+    #     # inject the actual name of the HDF5 file here into datum_kwargs
+    #     datum_kwargs["HDF5_file_name"] = hdf5_file_name
 
-        logger.debug("make_filename: %s", hdf5_file_name)
-        logger.debug("write_path: %s", write_path)
-        return super().generate_datum(key, timestamp, datum_kwargs)
+    #     logger.debug("make_filename: %s", hdf5_file_name)
+    #     logger.debug("write_path: %s", write_path)
+    #     return super().generate_datum(key, timestamp, datum_kwargs)
 
     def get_frames_per_point(self):
         """overrides default behavior"""
