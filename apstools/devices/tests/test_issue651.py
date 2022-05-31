@@ -160,6 +160,11 @@ def test_no_unexpected_key_in_datum_kwarg():
     assert rsrc["spec"] == "AD_HDF5", rsrc
     assert rsrc["uid"] == uid_resource, rsrc
 
+    _n = len(str(AD_IOC_MOUNT_PATH.parent))
+    resource_file_name = ioc_file_name[_n:]
+    image_file = ioc_tmp / resource_file_name.lstrip("/")
+    assert image_file.exists()
+
     # If this errors, that's issue 651:
     ds = run.primary.read()
     assert ds is not None
