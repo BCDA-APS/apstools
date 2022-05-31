@@ -64,6 +64,8 @@ def test_no_unexpected_key_in_datum_kwarg():
 
     camera = MySimDetector(IOC, name="camera")
     assert isinstance(camera, MySimDetector)
+    assert camera.hdf1.read_path_template == READ_PATH_TEMPLATE
+    assert camera.hdf1.write_path_template == WRITE_PATH_TEMPLATE.rstrip("/")
 
     if hasattr(camera.hdf1.stage_sigs, "array_counter"):
         # remove this so array counter is not set to zero each staging
@@ -175,7 +177,7 @@ def test_no_unexpected_key_in_datum_kwarg():
         assert data is not None
         assert data.shape == (1, 1024, 1024)
 
-    # If this errors, that's issue 651:
+    # If this errors, one cause is issue 651:
     ds = run.primary.read()
     assert ds is not None
     assert camera.image.name in ds
