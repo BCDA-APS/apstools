@@ -73,7 +73,7 @@ def test_no_unexpected_key_in_datum_kwarg():
     camera.hdf1.stage_sigs["file_template"] = "%s%s_%3.3d.h5"
     camera.hdf1.stage_sigs["compression"] = "zlib"
 
-    # ensure the capture is always set last
+    # ensure the capture is always staged last
     camera.hdf1.stage_sigs["capture"] = camera.hdf1.stage_sigs.pop("capture")
 
     camera.wait_for_connection()
@@ -81,14 +81,15 @@ def test_no_unexpected_key_in_datum_kwarg():
 
     camera.hdf1.warmup()
 
-    file_path = AD_IOC_MOUNT_PATH / IMAGE_DIR
     file_name = "test_image"
+    file_number = camera.hdf1.file_number.get()
+    file_path = AD_IOC_MOUNT_PATH / IMAGE_DIR
     file_template = "%s%s_%4.4d.h5"
+
     camera.hdf1.create_directory.put(-5)
     camera.hdf1.file_name.put(file_name)
     camera.hdf1.file_path.put(str(file_path))
     camera.hdf1.stage_sigs["file_template"] = file_template
-    image_number = camera.hdf1.file_number.get()
 
     # take the image
     uids = RE(bp.count([camera], num=1))
@@ -97,7 +98,7 @@ def test_no_unexpected_key_in_datum_kwarg():
     uid = uids[0]
     assert isinstance(uid, str)
 
-    full_file_name = (file_template % (file_path, "/" + file_name, image_number))
+    full_file_name = (file_template % (file_path, "/" + file_name, file_number))
     assert camera.hdf1.full_file_name.get() == full_file_name
 
     # verify that the problem key in datum_kwargs is not found
@@ -120,7 +121,7 @@ def test_no_unexpected_key_in_datum_kwarg():
                 assert doc["spec"] == "AD_HDF5", doc
                 assert doc["root"] == "/", doc
                 assert doc["resource_path"] == full_file_name.lstrip("/"), doc
-                assert doc["resource_kwargs"] ==  {"frame_per_point": 1}, doc
+                assert doc["resource_kwargs"] == {"frame_per_point": 1}, doc
                 assert doc["path_semantics"] == "posix", doc
                 assert doc["run_start"] == uid_start, doc
 
