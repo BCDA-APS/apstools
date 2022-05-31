@@ -98,8 +98,17 @@ def test_no_unexpected_key_in_datum_kwarg():
     uid = uids[0]
     assert isinstance(uid, str)
 
+    # Can bluesky see the new image file?
     full_file_name = (file_template % (file_path, "/" + file_name, file_number))
     assert camera.hdf1.full_file_name.get() == full_file_name
+
+    ioc_tmp = pathlib.Path(BLUESKY_MOUNT_PATH).parent
+    assert ioc_tmp.exists(), ioc_tmp
+
+    # get the full file name interms of the bluesky file directory
+    _fname = full_file_name[len(str(AD_IOC_MOUNT_PATH.parent)):].lstrip("/")
+    image_file = ioc_tmp / _fname
+    assert image_file.exists(), f"ioc_tmp={ioc_tmp} _fname={_fname} image_file={image_file}"
 
     # verify that the problem key in datum_kwargs is not found
     for uid in uids:
