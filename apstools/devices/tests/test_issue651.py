@@ -91,6 +91,8 @@ def test_no_unexpected_key_in_datum_kwarg():
     camera.hdf1.file_path.put(str(file_path))
     camera.hdf1.stage_sigs["file_template"] = file_template
 
+    file_name = camera.hdf1.file_name.get()
+
     # take the image
     uids = RE(bp.count([camera], num=1))
     assert len(uids) == 1
@@ -119,30 +121,46 @@ def test_no_unexpected_key_in_datum_kwarg():
     for uid in uids:
         uid_start = None
         uid_resource = None
+        id_datum = None
         for doc_type, doc in cat.v1[uid].documents():
             if doc_type == "start":
                 uid_start = doc["uid"]
 
             elif doc_type == "datum":
+                id_datum = f"{uid_resource}/0"
                 assert doc["_name"] == "Datum", doc
-                assert doc["datum_id"] == f"{uid_resource}/0", doc
+                assert doc["datum_id"] == id_datum, doc
                 # "HDF5_file_name" is an unexpected key in datum_kwargs
                 assert doc["datum_kwargs"] == {"point_number": 0}, doc
                 assert doc["resource"] == uid_resource, doc
 
             elif doc_type == "resource":
                 uid_resource = doc["uid"]
-                assert doc["spec"] == "AD_HDF5", doc
-                assert doc["root"] == "/", doc
-                assert doc["resource_path"] == ioc_file_name.lstrip("/"), doc
-                assert doc["resource_kwargs"] == {"frame_per_point": 1}, doc
                 assert doc["path_semantics"] == "posix", doc
+                assert doc["resource_kwargs"] == {"frame_per_point": 1}, doc
+                assert doc["resource_path"] == ioc_file_name.lstrip("/"), doc
+                assert doc["root"] == "/", doc
                 assert doc["run_start"] == uid_start, doc
+                assert doc["spec"] == "AD_HDF5", doc
 
     run = cat.v2[uid]
     assert run is not None
 
-    # If this errors, that's issue 655:
+    primary = run.primary
+    rsrc = primary._resources
+    assert isinstance(rsrc, list), rsrc
+    assert len(rsrc) == 1
+    rsrc = rsrc[0].to_dict()
+    assert isinstance(rsrc, dict), rsrc
+    assert rsrc["path_semantics"] == "posix", rsrc
+    assert rsrc["resource_kwargs"] == {"frame_per_point": 1}, rsrc
+    assert rsrc["resource_path"] == ioc_file_name.lstrip("/"), rsrc
+    assert rsrc["root"] == "/", rsrc
+    assert rsrc["run_start"] == uid_start, rsrc
+    assert rsrc["spec"] == "AD_HDF5", rsrc
+    assert rsrc["uid"] == uid_resource, rsrc
+
+    # If this errors, that's issue 651:
     ds = run.primary.read()
     assert ds is not None
     assert camera.image.name in ds
