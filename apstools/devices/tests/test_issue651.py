@@ -7,6 +7,7 @@ from ophyd.areadetector.filestore_mixins import FileStoreIterativeWrite
 from ophyd.areadetector.plugins import HDF5Plugin_V34 as HDF5Plugin
 from ophyd.areadetector.plugins import ImagePlugin_V34 as ImagePlugin
 import databroker
+import h5py
 import pathlib
 
 
@@ -160,10 +161,19 @@ def test_no_unexpected_key_in_datum_kwarg():
     assert rsrc["spec"] == "AD_HDF5", rsrc
     assert rsrc["uid"] == uid_resource, rsrc
 
+    # Could databroker find this file?
     _n = len(str(AD_IOC_MOUNT_PATH.parent))
     resource_file_name = ioc_file_name[_n:]
     image_file = ioc_tmp / resource_file_name.lstrip("/")
     assert image_file.exists()
+
+    # Could databroker read this image?
+    with h5py.File(str(image_file), "r") as h5:
+        key = "/entry/data/data"
+        assert key in h5
+        data = h5[key]
+        assert data is not None
+        assert data.shape == (1, 1024, 1024)
 
     # If this errors, that's issue 651:
     ds = run.primary.read()
