@@ -82,10 +82,13 @@ def test_no_unexpected_key_in_datum_kwarg():
     camera.hdf1.warmup()
 
     file_path = AD_IOC_MOUNT_PATH / IMAGE_DIR
+    file_name = "test_image"
+    file_template = "%s%s_%4.4d.h5"
     camera.hdf1.create_directory.put(-5)
-    camera.hdf1.file_name.put("test_image")
+    camera.hdf1.file_name.put(file_name)
     camera.hdf1.file_path.put(str(file_path))
-    camera.hdf1.stage_sigs["file_template"] = "%s%s_%4.4d.h5"
+    camera.hdf1.stage_sigs["file_template"] = file_template
+    image_number = camera.hdf1.file_number.get()
 
     # take the image
     uids = RE(bp.count([camera], num=1))
@@ -94,18 +97,32 @@ def test_no_unexpected_key_in_datum_kwarg():
     uid = uids[0]
     assert isinstance(uid, str)
 
+    full_file_name = (file_template % (file_path, "/" + file_name, image_number))
+    assert camera.hdf1.full_file_name.get() == full_file_name
+
     # verify that the problem key in datum_kwargs is not found
     for uid in uids:
+        uid_start = None
+        uid_resource = None
         for doc_type, doc in cat.v1[uid].documents():
-            if doc_type == "datum":
-                datum_kwargs = doc.get("datum_kwargs")
-                assert datum_kwargs is not None
+            if doc_type == "start":
+                uid_start = doc["uid"]
 
-                # this key is expected
-                assert "point_number" in datum_kwargs
+            elif doc_type == "datum":
+                assert doc["_name"] == "Datum", doc
+                assert doc["datum_id"] == f"{uid_resource}/0", doc
+                # "HDF5_file_name" is an unexpected key in datum_kwargs
+                assert doc["datum_kwargs"] == {"point_number": 0}, doc
+                assert doc["resource"] == uid_resource, doc
 
-                # this is the unexpected key
-                assert "HDF5_file_name" not in datum_kwargs
+            elif doc_type == "resource":
+                uid_resource = doc["uid"]
+                assert doc["spec"] == "AD_HDF5", doc
+                assert doc["root"] == "/", doc
+                assert doc["resource_path"] == full_file_name.lstrip("/"), doc
+                assert doc["resource_kwargs"] ==  {"frame_per_point": 1}, doc
+                assert doc["path_semantics"] == "posix", doc
+                assert doc["run_start"] == uid_start, doc
 
     run = cat.v2[uid]
     assert run is not None
