@@ -49,8 +49,6 @@ class MySimDetector(SingleTrigger, SimDetector):
     hdf1 = ADComponent(
         myHDF5FileNames,
         suffix="HDF1:",
-        # root=str(AD_IOC_MOUNT_PATH),
-        # write_path_template="not_used_now",
         write_path_template=WRITE_PATH_TEMPLATE,
         read_path_template=READ_PATH_TEMPLATE,
     )
@@ -161,7 +159,9 @@ def test_no_unexpected_key_in_datum_kwarg():
                 # resource_path: persistent path to file
                 assert doc["root"] == camera.hdf1._root.as_posix(), doc
                 assert doc["resource_path"].endswith(resource_path)
-                assert doc["resource_path"] == str(image_file).lstrip(doc["root"]).lstrip("/")
+                assert doc["resource_path"] == (
+                    str(image_file).lstrip(doc["root"]).lstrip("/")
+                )
                 assert doc["run_start"] == uid_start, doc
                 assert doc["spec"] == "AD_HDF5", doc
 
@@ -176,7 +176,9 @@ def test_no_unexpected_key_in_datum_kwarg():
     assert isinstance(rsrc, dict), rsrc
     assert rsrc["path_semantics"] == "posix", rsrc
     assert rsrc["resource_kwargs"] == {"frame_per_point": 1}, rsrc
-    assert rsrc["resource_path"] == str(image_file).lstrip(rsrc["root"]).lstrip("/"), rsrc
+    assert rsrc["resource_path"] == (
+        str(image_file).lstrip(rsrc["root"]).lstrip("/"), rsrc
+    )
     assert rsrc["root"] == camera.hdf1._root.as_posix(), rsrc
     assert rsrc["run_start"] == uid_start, rsrc
     assert rsrc["spec"] == "AD_HDF5", rsrc
