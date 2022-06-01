@@ -240,7 +240,6 @@ class AD_EpicsHdf5FileName(FileStorePluginBase):  # lgtm [py/missing-call-to-ini
     .. autosummary::
 
         ~make_filename
-        ~generate_datum
         ~get_frames_per_point
         ~stage
 
@@ -292,13 +291,14 @@ class AD_EpicsHdf5FileName(FileStorePluginBase):  # lgtm [py/missing-call-to-ini
         class MySimDetector(SingleTrigger, SimDetector):
             '''SimDetector with HDF5 file names specified by EPICS'''
 
+            _default_read_attrs = ["hdf1"]
+
             cam = ADComponent(SimDetectorCam, "cam1:")
             image = ADComponent(ImagePlugin, "image1:")
 
             hdf1 = ADComponent(
                 myHDF5FileNames,
                 suffix = "HDF1:",
-                root = "/",
                 write_path_template = "/",
                 )
 
