@@ -16,6 +16,7 @@ from collections import OrderedDict
 from ophyd.areadetector.filestore_mixins import FileStoreBase
 from ophyd.areadetector.filestore_mixins import FileStorePluginBase
 from ophyd.utils import set_and_wait
+import datetime
 import epics
 import itertools
 import logging
@@ -343,14 +344,17 @@ class AD_EpicsHdf5FileName(FileStorePluginBase):  # lgtm [py/missing-call-to-ini
         """
         # start of the file name, file number will be appended per template
         filename = self.file_name.get()
+        file_path = self.file_path.get()
+        formatter = datetime.datetime.now().strftime
 
-        # this is where the HDF5 plugin will write the image,
-        # relative to the IOC's filesystem
-        write_path = self.file_path.get()
+        # Directory where the HDF5 plugin will write the
+        # image, using the IOC's filesystem.
+        # write_path = formatter(self.write_path_template)
+        write_path = formatter(file_path)
 
         # this is where the DataBroker will find the image,
         # on a filesystem accessible to Bluesky
-        read_path = write_path
+        read_path = formatter(self.read_path_template)
 
         return filename, read_path, write_path
 
