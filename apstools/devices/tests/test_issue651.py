@@ -1,4 +1,6 @@
 from ..area_detector_support import AD_EpicsHdf5FileName
+from ..area_detector_support import AD_plugin_primed
+from ..area_detector_support import AD_prime_plugin2
 from bluesky import plans as bp
 from bluesky import RunEngine
 from ophyd.areadetector import ADComponent, SimDetectorCam
@@ -47,6 +49,8 @@ class MySimDetector(SingleTrigger, SimDetector):
     hdf1 = ADComponent(
         myHDF5FileNames,
         suffix="HDF1:",
+        # root=str(AD_IOC_MOUNT_PATH),
+        # write_path_template="not_used_now",
         write_path_template=WRITE_PATH_TEMPLATE,
         read_path_template=READ_PATH_TEMPLATE,
     )
@@ -64,8 +68,6 @@ def test_no_unexpected_key_in_datum_kwarg():
 
     camera = MySimDetector(IOC, name="camera")
     assert isinstance(camera, MySimDetector)
-    assert camera.hdf1.read_path_template == READ_PATH_TEMPLATE
-    assert camera.hdf1.write_path_template == WRITE_PATH_TEMPLATE.rstrip("/")
 
     if hasattr(camera.hdf1.stage_sigs, "array_counter"):
         # remove this so array counter is not set to zero each staging
@@ -82,10 +84,11 @@ def test_no_unexpected_key_in_datum_kwarg():
     camera.wait_for_connection()
     assert camera.connected
 
-    camera.hdf1.warmup()
+    if not AD_plugin_primed(camera.hdf1):
+        # camera.hdf1.warmup()
+        AD_prime_plugin2(camera.hdf1)
 
     file_name = "test_image"
-    file_number = camera.hdf1.file_number.get()
     file_path = AD_IOC_MOUNT_PATH / IMAGE_DIR
     file_template = "%s%s_%4.4d.h5"
 
@@ -96,7 +99,20 @@ def test_no_unexpected_key_in_datum_kwarg():
 
     file_name = camera.hdf1.file_name.get()
 
+    camera.stage()
+    _fn, _rp, _wp = camera.hdf1.make_filename()
+    assert _fn == file_name
+    assert _rp == str(BLUESKY_MOUNT_PATH / IMAGE_DIR) + "/"
+    assert _wp == str(AD_IOC_MOUNT_PATH / IMAGE_DIR) + "/"
+    assert _rp == READ_PATH_TEMPLATE
+    assert _wp == WRITE_PATH_TEMPLATE
+    assert _rp == camera.hdf1.read_path_template
+    assert _wp == camera.hdf1.write_path_template + "/"
+    camera.unstage()
+    # assert False, "diagnostic stop"
+
     # take the image
+    file_number = camera.hdf1.file_number.get()
     uids = RE(bp.count([camera], num=1))
     assert len(uids) == 1
 
@@ -107,16 +123,16 @@ def test_no_unexpected_key_in_datum_kwarg():
     ioc_file_name = (file_template % (file_path, "/" + file_name, file_number))
     assert camera.hdf1.full_file_name.get() == ioc_file_name
 
-    ioc_tmp = pathlib.Path(BLUESKY_MOUNT_PATH).parent
-    assert ioc_tmp.exists(), ioc_tmp
+    assert str(BLUESKY_MOUNT_PATH).startswith("/tmp/docker_ioc/")
+    assert BLUESKY_MOUNT_PATH.exists(), BLUESKY_MOUNT_PATH
 
-    # get the full file name in terms of the bluesky file directory
-    _n = len(str(AD_IOC_MOUNT_PATH.parent))
-    resource_file_name = ioc_file_name[_n:]
-    image_file = ioc_tmp / resource_file_name.lstrip("/")
+    # get the full file name relative to the bluesky file directory
+    _n = len(camera.hdf1._root.as_posix())
+    resource_path = ioc_file_name[_n:].lstrip("/")
+    image_file = BLUESKY_MOUNT_PATH.parent / resource_path
     assert image_file.exists(), (
-        f"ioc_tmp={ioc_tmp}"
-        f" resource_file_name={resource_file_name}"
+        f"BLUESKY_MOUNT_PATH={BLUESKY_MOUNT_PATH}"
+        f" resource_path={resource_path}"
         f" image_file={image_file}"
     )
 
@@ -131,7 +147,6 @@ def test_no_unexpected_key_in_datum_kwarg():
 
             elif doc_type == "datum":
                 id_datum = f"{uid_resource}/0"
-                assert doc["_name"] == "Datum", doc
                 assert doc["datum_id"] == id_datum, doc
                 # "HDF5_file_name" is an unexpected key in datum_kwargs
                 assert doc["datum_kwargs"] == {"point_number": 0}, doc
@@ -141,8 +156,12 @@ def test_no_unexpected_key_in_datum_kwarg():
                 uid_resource = doc["uid"]
                 assert doc["path_semantics"] == "posix", doc
                 assert doc["resource_kwargs"] == {"frame_per_point": 1}, doc
-                assert doc["resource_path"] == ioc_file_name.lstrip("/"), doc
-                assert doc["root"] == "/", doc
+                # full file name is found by databroker at f"{root}/{resource_path}"
+                # root: relocatable part where databroker catalog is installed now
+                # resource_path: persistent path to file
+                assert doc["root"] == camera.hdf1._root.as_posix(), doc
+                assert doc["resource_path"].endswith(resource_path)
+                assert doc["resource_path"] == str(image_file).lstrip(doc["root"]).lstrip("/")
                 assert doc["run_start"] == uid_start, doc
                 assert doc["spec"] == "AD_HDF5", doc
 
@@ -157,17 +176,18 @@ def test_no_unexpected_key_in_datum_kwarg():
     assert isinstance(rsrc, dict), rsrc
     assert rsrc["path_semantics"] == "posix", rsrc
     assert rsrc["resource_kwargs"] == {"frame_per_point": 1}, rsrc
-    assert rsrc["resource_path"] == ioc_file_name.lstrip("/"), rsrc
-    assert rsrc["root"] == "/", rsrc
+    assert rsrc["resource_path"] == str(image_file).lstrip(rsrc["root"]).lstrip("/"), rsrc
+    assert rsrc["root"] == camera.hdf1._root.as_posix(), rsrc
     assert rsrc["run_start"] == uid_start, rsrc
     assert rsrc["spec"] == "AD_HDF5", rsrc
     assert rsrc["uid"] == uid_resource, rsrc
 
     # Could databroker find this file?
-    _n = len(str(AD_IOC_MOUNT_PATH.parent))
-    resource_file_name = ioc_file_name[_n:]
-    image_file = ioc_tmp / resource_file_name.lstrip("/")
+    image_file = BLUESKY_MOUNT_PATH.parent / resource_path
+    # How WE can find it.
     assert image_file.exists()
+    # How databroker finds it.
+    assert (pathlib.Path(rsrc["root"]) / rsrc["resource_path"]).exists(), rsrc
 
     # Could databroker read this image?
     with h5py.File(str(image_file), "r") as h5:
