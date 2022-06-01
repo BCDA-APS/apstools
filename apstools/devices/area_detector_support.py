@@ -16,6 +16,7 @@ from collections import OrderedDict
 from ophyd.areadetector.filestore_mixins import FileStoreBase
 from ophyd.areadetector.filestore_mixins import FileStorePluginBase
 from ophyd.utils import set_and_wait
+import datetime
 import epics
 import itertools
 import logging
@@ -239,7 +240,6 @@ class AD_EpicsHdf5FileName(FileStorePluginBase):  # lgtm [py/missing-call-to-ini
     .. autosummary::
 
         ~make_filename
-        ~generate_datum
         ~get_frames_per_point
         ~stage
 
@@ -291,13 +291,14 @@ class AD_EpicsHdf5FileName(FileStorePluginBase):  # lgtm [py/missing-call-to-ini
         class MySimDetector(SingleTrigger, SimDetector):
             '''SimDetector with HDF5 file names specified by EPICS'''
 
+            _default_read_attrs = ["hdf1"]
+
             cam = ADComponent(SimDetectorCam, "cam1:")
             image = ADComponent(ImagePlugin, "image1:")
 
             hdf1 = ADComponent(
                 myHDF5FileNames,
                 suffix = "HDF1:",
-                root = "/",
                 write_path_template = "/",
                 )
 
@@ -343,30 +344,19 @@ class AD_EpicsHdf5FileName(FileStorePluginBase):  # lgtm [py/missing-call-to-ini
         """
         # start of the file name, file number will be appended per template
         filename = self.file_name.get()
+        file_path = self.file_path.get()
+        formatter = datetime.datetime.now().strftime
 
-        # this is where the HDF5 plugin will write the image,
-        # relative to the IOC's filesystem
-        write_path = self.file_path.get()
+        # Directory where the HDF5 plugin will write the
+        # image, using the IOC's filesystem.
+        # write_path = formatter(self.write_path_template)
+        write_path = formatter(file_path)
 
         # this is where the DataBroker will find the image,
         # on a filesystem accessible to Bluesky
-        read_path = write_path
+        read_path = formatter(self.read_path_template)
 
         return filename, read_path, write_path
-
-    def generate_datum(self, key, timestamp, datum_kwargs):
-        """Generate a uid and cache it with its key for later insertion."""
-        template = self.file_template.get()
-        filename, read_path, write_path = self.make_filename()
-        file_number = self.file_number.get()
-        hdf5_file_name = template % (read_path, filename, file_number)
-
-        # inject the actual name of the HDF5 file here into datum_kwargs
-        datum_kwargs["HDF5_file_name"] = hdf5_file_name
-
-        logger.debug("make_filename: %s", hdf5_file_name)
-        logger.debug("write_path: %s", write_path)
-        return super().generate_datum(key, timestamp, datum_kwargs)
 
     def get_frames_per_point(self):
         """overrides default behavior"""

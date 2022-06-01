@@ -43,6 +43,8 @@ jobs:
         bash ./.github/scripts/start_xxx.sh gp
         bash ./.github/scripts/start_adsim.sh ad
         docker ps -a
+        ls -lAFgh /tmp/docker_ioc/iocad/
+        ls -lAFgh /tmp/docker_ioc/iocgp/
 
     # $CONDA is an environment variable pointing to the
     # root of the miniconda directory
@@ -95,6 +97,7 @@ jobs:
 
     - name: Diagnostics
       run: |
+        df -HT
         $CONDA/bin/conda list --name $ENV_NAME
         $CONDA/bin/conda list -r --name $ENV_NAME
       env:
