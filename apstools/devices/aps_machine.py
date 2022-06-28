@@ -53,7 +53,7 @@ class ApsMachineParametersDevice(Device):
         # db[-1].table("aps_current_monitor")
         sd.monitors.append(aps_current)
 
-    The `sd.baseline` and `sd.monitors` usage relies on this global setup:
+    The `sd.baseline` and `sd.monitors` usage relies on this global setup::
 
         from bluesky import SupplementalData
         sd = SupplementalData()
