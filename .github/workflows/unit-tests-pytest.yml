@@ -40,7 +40,7 @@ jobs:
         ls -lAFgh /tmp/docker_ioc/iocad/
         ls -lAFgh /tmp/docker_ioc/iocgp/
 
-    - name: Install Python package requirements
+    - name: Install Python testing packages
       shell: bash -l {0}
       run: |
         micromamba install pytest coverage coveralls
