@@ -13,45 +13,35 @@ jobs:
     steps:
     - uses: actions/checkout@v2
 
-    - name: Setup Miniconda
-      uses: conda-incubator/setup-miniconda@v2
+    - name: Create Python ${{ matrix.python-version }} environment
+      uses: mamba-org/provision-with-micromamba@main
       with:
-        activate-environment:
-            anaconda-test-env
-        auto-update-conda: true
-        channel-priority: true
-        channels: defaults,conda-forge
-        # environment-file: environment.yml
-        # mamba-version: "*"
-        use-only-tar-bz2: true  # required for caching
+        environment-file: environment.yml
+        environment-name: anaconda-test-env
 
-    - shell: bash -l {0}
+    - name: Diagnostics
+      shell: bash -l {0}
       run: |
-        conda info
-        conda list
-        conda config --show-sources
-        conda config --show
-        conda env list
+        micromamba info
+        micromamba list
+        micromamba env list
         printenv | sort
 
     - name: Start IOCs in Docker
+      shell: bash -l {0}
       run: |
         bash ./.github/scripts/start_xxx.sh gp
         bash ./.github/scripts/start_adsim.sh ad
         docker ps -a
 
     - name: Install dependencies
+      shell: bash -l {0}
       run: |
-        $CONDA/bin/conda install epics-base "readline!=8.1.2" --name $ENV_NAME
-        $CONDA/bin/conda list -r --name $ENV_NAME
-      env:
-        ENV_NAME: anaconda-test-env
+        micromamba install epics-base "readline!=8.1.2"
 
     - name: Run tests with caget
+      shell: bash -l {0}
       run: |
-        source $CONDA/bin/activate $ENV_NAME
         which caget
         caget gp:UPTIME
         caget ad:cam1:Acquire_RBV
-      env:
-        ENV_NAME: anaconda-test-env
