@@ -546,7 +546,7 @@ def connect_pvlist(pvlist, wait=True, timeout=2, poll_interval=0.1):
         obj_dict[oname] = obj
 
     if wait:
-        times_up = time.time() + min(0, timeout)
+        times_up = time.time() + max(0, timeout)
         poll_interval = min(0.01, poll_interval)
         waiting = True
         while waiting and time.time() < times_up:
