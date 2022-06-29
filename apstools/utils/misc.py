@@ -546,22 +546,25 @@ def connect_pvlist(pvlist, wait=True, timeout=2, poll_interval=0.1):
         obj_dict[oname] = obj
 
     if wait:
-        times_up = time.time() + min(0, timeout)
-        poll_interval = min(0.01, poll_interval)
+        times_up = time.time() + max(0, timeout)
+        poll_interval = max(0.01, poll_interval)
         waiting = True
         while waiting and time.time() < times_up:
             time.sleep(poll_interval)
-            waiting = False in [o.connected for o in obj_dict.values()]
+            waiting = False in [sig.connected for sig in obj_dict.values()]
+
         if waiting:
-            n = OrderedDict()
-            for k, v in obj_dict.items():
-                if v.connected:
-                    n[k] = v
+            # If did not connect all, revise with only the connected PVs
+            # and report the unconncetd PVs.
+            revised_dict = OrderedDict()
+            for label, sig in obj_dict.items():
+                if sig.connected:
+                    revised_dict[label] = sig
                 else:
-                    print(f"Could not connect {v.pvname}")
-            if len(n) == 0:
+                    print(f"Could not connect {sig.pvname}")
+            if len(revised_dict) == 0:
                 raise RuntimeError("Could not connect any PVs in the list")
-            obj_dict = n
+            obj_dict = revised_dict
 
     return obj_dict
 

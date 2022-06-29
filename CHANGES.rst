@@ -18,10 +18,38 @@ The project `milestones <https://github.com/BCDA-APS/apstools/milestones>`_
 describe the future plans.
 
 ..
-   1.6.2
+   1.6.3
    ******
 
-   release expected by 2021-03-01
+   release expected by 2022-08-31
+
+1.6.2
+******
+
+release expected by 2022-07-22
+
+Notice
+---------------
+
+* Confirmed (after fixes) that databroker can find HDF5 image files with custom
+  names.
+* Still not ready for databroker 2.0+.
+
+Fixes
+---------------
+
+* Fix timeout problem in utils.connect_pvlist().
+* Fix unexpected key in datum kwargs.
+
+Maintenance
+---------------
+
+* Applied custom project badge for APS software License.
+
+Contributors
+---------------
+
+* Harry Zhou
 
 1.6.1
 ******
