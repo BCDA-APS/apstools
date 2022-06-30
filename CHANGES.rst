@@ -46,6 +46,7 @@ Maintenance
 
 * Applied custom project badge for APS software License.
 * Use micromamba in testing workflows.
+* Drop LGTM static code analysis service.
 
 Contributors
 ---------------
