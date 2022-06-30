@@ -40,6 +40,7 @@ Fixes
 
 * Fix timeout problem in utils.connect_pvlist().
 * Fix unexpected key in datum kwargs.
+* Fix utils.listdevice() mixing dot and underline name separators.
 
 Maintenance
 ---------------
