@@ -4,20 +4,19 @@ name: Publish conda package to Anaconda
 # https://github.com/BEFH/anaconda-publish
 
 on:
-  release:
-    types: [published]
+  # Triggers the workflow on push events but only for the main branch
   push:
-    branches: [ main ]
+    branches:
+      - main
     tags:
-      - '**'
-  pull_request:
-    branches: [ main ]
+      - '*'  # all tags
     
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v1
+
     - name: Build Anaconda package and Publish to Anaconda.org
       uses: BEFH/anaconda-publish@v1.5.1
       with:

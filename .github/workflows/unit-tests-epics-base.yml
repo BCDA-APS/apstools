@@ -3,7 +3,14 @@ name: EPICS Base Tests
 # see: GitHub Actions: Service Containers
  #  https://docs.github.com/en/enterprise-server@3.0/actions/using-containerized-services/about-service-containers
 
-on: [push]
+on:
+  # Triggers the workflow on push or pull request events but only for the main branch
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
 
 jobs:
   build-linux:
