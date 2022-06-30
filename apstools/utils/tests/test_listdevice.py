@@ -140,3 +140,26 @@ def test_spotchecks(scope, row, column, value):
 def test_listdevice_filters(device, scope, ancient, length):
     result = listdevice(device, scope, show_ancient=ancient)
     assert len(result) == length
+
+
+@pytest.mark.parametrize(
+    "device, scope, cnames",
+    [
+        (calcs, "full", [
+            "calcs.signals.allowed",
+            "calcs.signals.background",
+            "calcs.signals.tolerance",
+            "calcs.signals.visible",
+        ]),
+        # This is the case that produced issue 640
+        (calcs.signals, "full", [
+            "calcs.signals.allowed",
+            "calcs.signals.background",
+            "calcs.signals.tolerance",
+            "calcs.signals.visible",
+        ]),
+    ],
+)
+def test_listdevice_cname(device, scope, cnames):
+    result = listdevice(device, scope, show_ancient=False, cname=True)
+    assert result["name"].tolist() == cnames
