@@ -1,5 +1,6 @@
 # local developer code
 dev_*.py
+dev_*.ipynb
 
 # unit test
 .coverage
