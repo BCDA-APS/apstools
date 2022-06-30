@@ -45,6 +45,7 @@ Maintenance
 ---------------
 
 * Applied custom project badge for APS software License.
+* Use micromamba in testing workflows.
 
 Contributors
 ---------------
@@ -54,7 +55,7 @@ Contributors
 1.6.1
 ******
 
-release expected by 2021-01-26
+released 2022-01-26
 
 Fixes
 ---------------
@@ -65,7 +66,7 @@ Fixes
 1.6.0
 ******
 
-released 2021-01-20
+released 2022-01-20
 
 Breaking Changes
 -----------------
@@ -146,7 +147,7 @@ Contributors
 1.5.4
 ******
 
-release expected 2021-12-01
+released 2021-11-25
 
 NOTE: The ``apsbss`` component will be moved out of ``apstools`` into its
 own package with the next release (1.6.0, ~Feb 2022) of ``apstools``.
