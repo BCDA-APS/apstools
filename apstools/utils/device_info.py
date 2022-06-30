@@ -143,9 +143,12 @@ def listdevice(
         reading = obj.read()
         signals = [s for s in signals if s.name in reading]
     else:
+        # fmt: off
         raise KeyError(
-            f"Unknown scope='{scope}'." " Must be one of None, 'full', 'epics', 'read'"
+            f"Unknown scope='{scope}'."
+            " Must be one of None, 'full', 'epics', 'read'"
         )
+        # fmt: on
 
     # in EPICS, an uninitialized PV has a timestamp of 1990-01-01 UTC
     UNINITIALIZED = datetime.datetime.timestamp(
@@ -161,7 +164,11 @@ def listdevice(
             ts = getattr(signal, "timestamp", 0)
             if show_ancient or (ts >= UNINITIALIZED):
                 if cname:
-                    dd["name"].append(f"{obj.name}.{signal.dotted_name}")
+                    head = obj
+                    while head.dotted_name != "":
+                        # walk back to the head
+                        head = head.parent
+                    dd["name"].append(f"{head.name}.{signal.dotted_name}")
                 if dname:
                     dd["data name"].append(signal.name)
                 if show_pv:
