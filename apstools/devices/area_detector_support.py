@@ -4,23 +4,32 @@ Area Detector Support
 
 .. autosummary::
 
-   ~AD_setup_FrameType
+   ~AD_EpicsFileNameHDF5Plugin
+   ~AD_EpicsHdf5FileName
+   ~AD_EpicsHDF5IterativeWriter
+   ~AD_EpicsJpegFileName
+   ~AD_full_file_name_local
    ~AD_plugin_primed
    ~AD_prime_plugin
    ~AD_prime_plugin2
-   ~AD_EpicsHdf5FileName
-   ~AD_EpicsJpegFileName
+   ~AD_setup_FrameType
 """
+
+# TODO: JPEG & TIFF similar to AD_EpicsFileNameHDF5Plugin
 
 from collections import OrderedDict
 from ophyd.areadetector.filestore_mixins import FileStoreBase
+from ophyd.areadetector.filestore_mixins import FileStoreIterativeWrite
 from ophyd.areadetector.filestore_mixins import FileStorePluginBase
+from ophyd.areadetector.plugins import HDF5Plugin_V34 as HDF5Plugin
+from ophyd.areadetector.plugins import JPEGPlugin_V34 as JPEGPlugin
 from ophyd.utils import set_and_wait
 import datetime
 import epics
 import itertools
 import logging
 import numpy as np
+import pathlib
 import time
 import warnings
 
@@ -135,7 +144,11 @@ def AD_plugin_primed(plugin):
         if not test:
             logger.debug("'%s' image size is zero", obj.name)
 
-    checks = dict(array_size=False, color_mode=True, data_type=True,)
+    checks = dict(
+        array_size=False,
+        color_mode=True,
+        data_type=True,
+    )
     for key, as_string in checks.items():
         c = getattr(cam, key).get(as_string=as_string)
         p = getattr(plugin, key).get(as_string=as_string)
@@ -222,9 +235,59 @@ def AD_prime_plugin2(plugin):
         set_and_wait(sig, val)
 
 
-class AD_EpicsHdf5FileName(FileStorePluginBase):  # lgtm [py/missing-call-to-init]
+def AD_full_file_name_local(plugin):
     """
-    custom class to define image file name from EPICS
+    Return AD plugin's *Last filename* using local filesystem path.
+
+    Get the full name, in terms of the bluesky filesystem, for the image file
+    recently-acquired by the area detector plugin.
+
+    Return the name as a pathlib object.
+
+    PARAMETERS
+
+    plugin *obj* :
+        Instance of ophyd area detector file writing plugin.
+
+    (new in apstools release 1.6.2)
+    """
+    fname = plugin.full_file_name.get().strip()
+    if fname == "":
+        return None
+
+    ffname = pathlib.Path(fname)  # FIXME: OS style?
+    if plugin.read_path_template == plugin.write_path_template:
+        return ffname
+
+    # identify the common last parts of the file directories
+    rparts = pathlib.Path(plugin.read_path_template).parts
+    wparts = pathlib.Path(plugin.write_path_template).parts
+    icommon = 0
+    for i in range(min(len(rparts), len(wparts))):
+        i1 = -i - 1
+        if rparts[i1:] != wparts[i1:]:
+            icommon = i
+            break
+
+    if icommon == 0:
+        raise ValueError(
+            "No common part to file paths. " "Cannot convert to local file path."
+        )
+
+    # fmt: off
+    local_root = pathlib.Path().joinpath(*rparts[:-icommon])
+    common_parts = ffname.parts[len(wparts[:-icommon]):]
+    local_ffname = local_root.joinpath(*common_parts)
+    # fmt: on
+
+    return local_ffname
+
+
+class AD_EpicsHdf5FileName(FileStorePluginBase):
+    """
+    Custom class to define image file name from EPICS.
+
+    Used as part of AD_EpicsFileNameHDF5Plugin.
 
     .. index:: Ophyd Device Support; AD_EpicsHdf5FileName
 
@@ -233,9 +296,6 @@ class AD_EpicsHdf5FileName(FileStorePluginBase):  # lgtm [py/missing-call-to-ini
     Replace standard Bluesky algorithm where file names
     are defined as UUID strings, virtually guaranteeing that
     no existing images files will ever be overwritten.
-
-    Also, this method decouples the data files from the databroker,
-    which needs the files to be named by UUID.
 
     .. autosummary::
 
@@ -252,79 +312,12 @@ class AD_EpicsHdf5FileName(FileStorePluginBase):  # lgtm [py/missing-call-to-ini
     and triple-comment out that line, and bring in
     sections from the methods we are replacing here.
 
-    The image file name is set in `FileStoreBase.make_filename()`
-    from `ophyd.areadetector.filestore_mixins`.  This is called
-    (during device staging) from `FileStoreBase.stage()`
+    It is allowed to set the ``file_template="%s%s.h5"``
+    so the file name does not include the file number.
 
-    EXAMPLE:
-
-    To use this custom class, we need to connect it to some
-    intervening structure.  Here are the steps:
-
-    #. override default file naming
-    #. use to make your custom iterative writer
-    #. use to make your custom HDF5 plugin
-    #. use to make your custom AD support
-
-    imports::
-
-        from bluesky import RunEngine, plans as bp
-        from ophyd.areadetector import SimDetector, SingleTrigger
-        from ophyd.areadetector import ADComponent, ImagePlugin, SimDetectorCam
-        from ophyd.areadetector import HDF5Plugin
-        from ophyd.areadetector.filestore_mixins import FileStoreIterativeWrite
-
-    override default file naming::
-
-        from apstools.devices import AD_EpicsHdf5FileName
-
-    make a custom iterative writer::
-
-        class myHdf5EpicsIterativeWriter(AD_EpicsHdf5FileName, FileStoreIterativeWrite): pass
-
-    make a custom HDF5 plugin::
-
-        class myHDF5FileNames(HDF5Plugin, myHdf5EpicsIterativeWriter): pass
-
-    define support for the detector (simulated detector here)::
-
-        class MySimDetector(SingleTrigger, SimDetector):
-            '''SimDetector with HDF5 file names specified by EPICS'''
-
-            _default_read_attrs = ["hdf1"]
-
-            cam = ADComponent(SimDetectorCam, "cam1:")
-            image = ADComponent(ImagePlugin, "image1:")
-
-            hdf1 = ADComponent(
-                myHDF5FileNames,
-                suffix = "HDF1:",
-                write_path_template = "/",
-                )
-
-    create an instance of the detector::
-
-        simdet = MySimDetector("13SIM1:", name="simdet")
-        if hasattr(simdet.hdf1.stage_sigs, "array_counter"):
-            # remove this so array counter is not set to zero each staging
-            del simdet.hdf1.stage_sigs["array_counter"]
-        simdet.hdf1.stage_sigs["file_template"] = '%s%s_%3.3d.h5'
-
-    setup the file names using the EPICS HDF5 plugin::
-
-        simdet.hdf1.file_path.put("/tmp/simdet_demo/")    # ! ALWAYS end with a "/" !
-        simdet.hdf1.file_name.put("test")
-        simdet.hdf1.array_counter.put(0)
-
-    If you have not already, create a bluesky RunEngine::
-
-        RE = RunEngine({})
-
-    take an image::
-
-        RE(bp.count([simdet]))
-
-    INTERNAL METHODS
+    The image file name is set in ``FileStoreBase.make_filename()``
+    from ``ophyd.areadetector.filestore_mixins``.  This is called
+    (during device staging) from ``FileStoreBase.stage()``
     """
 
     def __init__(self, *args, **kwargs):
@@ -332,11 +325,14 @@ class AD_EpicsHdf5FileName(FileStorePluginBase):  # lgtm [py/missing-call-to-ini
         self.filestore_spec = "AD_HDF5"  # spec name stored in resource doc
         self.stage_sigs.update(
             [
+                ("create_directory", -5),
                 ("file_template", "%s%s_%4.4d.h5"),
                 ("file_write_mode", "Stream"),
                 ("capture", 1),
             ]
         )
+        # "capture" must always come last
+        self.stage_sigs["capture"] = self.stage_sigs.pop("capture")
 
     def make_filename(self):
         """
@@ -393,10 +389,14 @@ class AD_EpicsHdf5FileName(FileStorePluginBase):  # lgtm [py/missing-call-to-ini
         # We can't access that result until after acquisition
         # so we apply the same template here in Python.
         template = self.file_template.get()
-        self._fn = template % (read_path, filename, file_number)
+        try:
+            self._fn = template % (read_path, filename, file_number)
+        except TypeError:
+            # in case template does not include file_number
+            self._fn = template % (read_path, filename)
         self._fp = read_path
         if not self.file_path_exists.get():
-            raise IOError(f"Path {self.file_path.get()} does not exist on IOC.")
+            raise IOError(f"Path '{self.file_path.get()}' does not exist on IOC.")
 
         self._point_counter = itertools.count()
 
@@ -405,7 +405,71 @@ class AD_EpicsHdf5FileName(FileStorePluginBase):  # lgtm [py/missing-call-to-ini
         self._generate_resource(res_kwargs)
 
 
-class AD_EpicsJpegFileName(FileStorePluginBase):  # lgtm [py/missing-call-to-init]
+class AD_EpicsHDF5IterativeWriter(AD_EpicsHdf5FileName, FileStoreIterativeWrite):
+    """
+    intermediate class between AD_EpicsHdf5FileName and AD_EpicsFileNameHDF5Plugin
+
+    (new in apstools release 1.6.2)
+    """
+
+    pass
+
+
+class AD_EpicsFileNameHDF5Plugin(HDF5Plugin, AD_EpicsHDF5IterativeWriter):
+    """
+    Alternative to HDF5Plugin: EPICS area detector PV sets file name.
+
+    Uses ``AD_EpicsHdf5FileName``.
+
+    EXAMPLE::
+
+        from apstools.devices.area_detector_support import AD_EpicsFileNameHDF5Plugin
+        from ophyd import EpicsSignalWithRBV
+        from ophyd.areadetector import ADComponent
+        from ophyd.areadetector import DetectorBase
+        from ophyd.areadetector import SingleTrigger
+        from ophyd.areadetector.plugins import ImagePlugin_V34 as ImagePlugin
+        from ophyd.areadetector.plugins import PvaPlugin_V34 as PvaPlugin
+        from ophyd.areadetector import SimDetectorCam
+        import datetime
+        import pathlib
+
+
+        IOC = "ad:"
+        IMAGE_DIR = "adsimdet/%Y/%m/%d"
+        AD_IOC_MOUNT_PATH = pathlib.Path("/tmp")
+        BLUESKY_MOUNT_PATH = pathlib.Path("/tmp/docker_ioc/iocad/tmp")
+
+        # MUST end with a `/`, pathlib will NOT provide it
+        WRITE_PATH_TEMPLATE = f"{AD_IOC_MOUNT_PATH / IMAGE_DIR}/"
+        READ_PATH_TEMPLATE = f"{BLUESKY_MOUNT_PATH / IMAGE_DIR}/"
+
+
+        class MyFixedCam(SimDetectorCam):
+            pool_max_buffers = None
+            offset = ADComponent(EpicsSignalWithRBV, "Offset")
+
+
+        class MySimDetector(SingleTrigger, DetectorBase):
+            '''ADSimDetector'''
+
+            cam = ADComponent(MyFixedCam, "cam1:")
+            image = ADComponent(ImagePlugin, "image1:")
+            hdf1 = ADComponent(
+                AD_EpicsFileNameHDF5Plugin,
+                "HDF1:",
+                write_path_template=WRITE_PATH_TEMPLATE,
+                read_path_template=READ_PATH_TEMPLATE,
+            )
+            pva = ADComponent(PvaPlugin, "Pva1:")
+
+    (new in apstools release 1.6.2)
+    """
+
+    pass
+
+
+class AD_EpicsJpegFileName(FileStorePluginBase):
 
     """
     custom class to define image file name from EPICS
@@ -483,6 +547,7 @@ class AD_EpicsJpegFileName(FileStorePluginBase):  # lgtm [py/missing-call-to-ini
     def stage(self):
         """
         overrides default behavior
+
         Set EPICS items before device is staged, then copy EPICS
         naming template (and other items) to ophyd after staging.
         """
@@ -510,7 +575,11 @@ class AD_EpicsJpegFileName(FileStorePluginBase):  # lgtm [py/missing-call-to-ini
         # We can't access that result until after acquisition
         # so we apply the same template here in Python.
         template = self.file_template.get()
-        self._fn = template % (read_path, filename, file_number)
+        try:
+            self._fn = template % (read_path, filename, file_number)
+        except TypeError:
+            # in case template does not include file_number
+            self._fn = template % (read_path, filename)
         self._fp = read_path
         if not self.file_path_exists.get():
             raise IOError("Path {} does not exist on IOC.".format(self.file_path.get()))
