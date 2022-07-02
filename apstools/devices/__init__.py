@@ -20,8 +20,14 @@ from .area_detector_support import AD_FrameType_schemes
 from .area_detector_support import AD_plugin_primed
 from .area_detector_support import AD_prime_plugin
 from .area_detector_support import AD_prime_plugin2
+from .area_detector_support import AD_full_file_name_local
+from .area_detector_support import AD_EpicsFileNameHDF5Plugin
+# TODO: JPEG
+# TODO: TIFF
 from .area_detector_support import AD_EpicsHdf5FileName
+from .area_detector_support import AD_EpicsHDF5IterativeWriter
 from .area_detector_support import AD_EpicsJpegFileName
+
 
 from .axis_tuner import AxisTunerException
 from .axis_tuner import AxisTunerMixin
