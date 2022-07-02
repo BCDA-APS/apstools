@@ -271,13 +271,14 @@ def AD_full_file_name_local(plugin):
 
     if icommon == 0:
         raise ValueError(
-            "No common part to file paths. "
-            "Cannot convert to local file path."
+            "No common part to file paths. " "Cannot convert to local file path."
         )
 
+    # fmt: off
     local_root = pathlib.Path().joinpath(*rparts[:-icommon])
     common_parts = ffname.parts[len(wparts[:-icommon]):]
     local_ffname = local_root.joinpath(*common_parts)
+    # fmt: on
 
     return local_ffname
 
@@ -331,7 +332,7 @@ class AD_EpicsHdf5FileName(FileStorePluginBase):
             ]
         )
         # "capture" must always come last
-        self.stage_sigs["capture"]=self.stage_sigs.pop('capture')
+        self.stage_sigs["capture"] = self.stage_sigs.pop("capture")
 
     def make_filename(self):
         """
