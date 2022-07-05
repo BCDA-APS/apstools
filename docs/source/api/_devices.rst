@@ -34,16 +34,18 @@ Area Detector Support
 .. autosummary::
 
     ~apstools.devices.area_detector_support.AD_EpicsFileNameHDF5Plugin
+    ~apstools.devices.area_detector_support.AD_EpicsFileNameJPEGPlugin
+    ~apstools.devices.area_detector_support.AD_EpicsFileNameTIFFPlugin
     ~apstools.devices.area_detector_support.AD_EpicsHdf5FileName
     ~apstools.devices.area_detector_support.AD_EpicsHDF5IterativeWriter
-    ~apstools.devices.area_detector_support.AD_EpicsJpegFileName
+    ~apstools.devices.area_detector_support.AD_EpicsJPEGFileName
+    ~apstools.devices.area_detector_support.AD_EpicsJPEGIterativeWriter
+    ~apstools.devices.area_detector_support.AD_EpicsTIFFFileName
+    ~apstools.devices.area_detector_support.AD_EpicsTIFFIterativeWriter
     ~apstools.devices.area_detector_support.AD_full_file_name_local
     ~apstools.devices.area_detector_support.AD_plugin_primed
     ~apstools.devices.area_detector_support.AD_prime_plugin
     ~apstools.devices.area_detector_support.AD_setup_FrameType
-
-.. # TODO: JPEG
-.. # TODO: TIFF
 
 .. _devices.scalers:
 
