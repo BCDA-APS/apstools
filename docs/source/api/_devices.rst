@@ -4,7 +4,8 @@
 Devices
 =======
 
-(ophyd) Devices that might be useful at the APS using Bluesky
+Devices (subclasses of ophyd's `Device`) that might be useful at the APS using
+Bluesky.
 
 Also consult the :ref:`Index <genindex>` under the *Ophyd* heading for
 links to the Devices, Exceptions, Mixins, Signals, and other support
@@ -12,6 +13,16 @@ items described here.
 
 Categories
 ----------
+
+See these categories:
+
+* :ref:`devices.aps_support`
+* :ref:`devices.area_detector`
+* :ref:`devices.motors`
+* :ref:`devices.scalers`
+* :ref:`devices.shutters`
+* :ref:`devices.slits`
+* :ref:`devices.temperature_controllers`
 
 .. _devices.aps_support:
 
