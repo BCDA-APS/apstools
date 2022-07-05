@@ -5,9 +5,15 @@ Area Detector Support
 .. autosummary::
 
    ~AD_EpicsFileNameHDF5Plugin
+   ~AD_EpicsFileNameJPEGPlugin
+   ~AD_EpicsFileNameTIFFPlugin
+   ~AD_EpicsFileNameMixin
    ~AD_EpicsHdf5FileName
    ~AD_EpicsHDF5IterativeWriter
-   ~AD_EpicsJpegFileName
+   ~AD_EpicsJPEGFileName
+   ~AD_EpicsJPEGIterativeWriter
+   ~AD_EpicsTIFFFileName
+   ~AD_EpicsTIFFIterativeWriter
    ~AD_full_file_name_local
    ~AD_plugin_primed
    ~AD_prime_plugin
@@ -23,6 +29,7 @@ from ophyd.areadetector.filestore_mixins import FileStoreIterativeWrite
 from ophyd.areadetector.filestore_mixins import FileStorePluginBase
 from ophyd.areadetector.plugins import HDF5Plugin_V34 as HDF5Plugin
 from ophyd.areadetector.plugins import JPEGPlugin_V34 as JPEGPlugin
+from ophyd.areadetector.plugins import TIFFPlugin_V34 as TIFFPlugin
 from ophyd.utils import set_and_wait
 import datetime
 import epics
@@ -283,7 +290,7 @@ def AD_full_file_name_local(plugin):
     return local_ffname
 
 
-class AD_EpicsHdf5FileName(FileStorePluginBase):
+class AD_EpicsFileNameMixin(FileStorePluginBase):
     """
     Custom class to define image file name from EPICS.
 
@@ -296,6 +303,19 @@ class AD_EpicsHdf5FileName(FileStorePluginBase):
     Replace standard Bluesky algorithm where file names
     are defined as UUID strings, virtually guaranteeing that
     no existing images files will ever be overwritten.
+
+    Caller is responsible for setting values of these Components:
+
+    * array_counter
+    * auto_increment
+    * auto_save
+    * compression (only HDF)
+    * create_directory
+    * file_name
+    * file_number
+    * file_path
+    * file_template
+    * num_capture
 
     .. autosummary::
 
@@ -320,36 +340,37 @@ class AD_EpicsHdf5FileName(FileStorePluginBase):
     (during device staging) from ``FileStoreBase.stage()``
     """
 
-    def __init__(self, *args, **kwargs):
-        FileStorePluginBase.__init__(self, *args, **kwargs)
-        self.filestore_spec = "AD_HDF5"  # spec name stored in resource doc
-        self.stage_sigs.update(
-            [
-                ("create_directory", -5),
-                ("file_template", "%s%s_%4.4d.h5"),
-                ("file_write_mode", "Stream"),
-                ("capture", 1),
-            ]
-        )
-        # "capture" must always come last
-        self.stage_sigs["capture"] = self.stage_sigs.pop("capture")
+    def _remove_caller_stage_sigs(self):
+        """Caller is responsible for setting these stage_sigs."""
+        caller_sets_these = """
+        array_counter
+        auto_increment
+        auto_save
+        compression (only HDF)
+        create_directory
+        file_name
+        file_number
+        file_path
+        file_template
+        num_capture
+        """.split()
+        for key in caller_sets_these:
+            if key in self.stage_sigs:
+                self.stage_sigs.pop(key)
 
     def make_filename(self):
         """
-        overrides default behavior: Get info from EPICS HDF5 plugin.
+        overrides default behavior: Get info from EPICS file writer plugin.
         """
         # start of the file name, file number will be appended per template
         filename = self.file_name.get()
         file_path = self.file_path.get()
         formatter = datetime.datetime.now().strftime
 
-        # Directory where the HDF5 plugin will write the
-        # image, using the IOC's filesystem.
-        # write_path = formatter(self.write_path_template)
+        # Directory (used by IOC) for file writer plugin to write the file.
         write_path = formatter(file_path)
 
-        # this is where the DataBroker will find the image,
-        # on a filesystem accessible to Bluesky
+        # Directory (used by bluesky) for databroker to read the file.
         read_path = formatter(self.read_path_template)
 
         return filename, read_path, write_path
@@ -360,49 +381,75 @@ class AD_EpicsHdf5FileName(FileStorePluginBase):
 
     def stage(self):
         """
-        overrides default behavior
+        Overrides default behavior of parent class.
+
+        Parent class items overridden here:
+
+        * Sets file_name based on a UUID.
+        * Sets file_path from write_path_template.
+        * Sets file_number to 0.
 
         Set EPICS items before device is staged, then copy EPICS
         naming template (and other items) to ophyd after staging.
         """
-        # Make a filename.
+        # Get the file name and paths from EPICS.
         filename, read_path, write_path = self.make_filename()
 
         # Ensure we do not have an old file open.
         set_and_wait(self.capture, 0)
-        # These must be set before parent is staged (specifically
-        # before capture mode is turned on. They will not be reset
-        # on 'unstage' anyway.
+
+        # Set these before capture is turned on.
+        # They will not be reset on 'unstage' anyway.
         set_and_wait(self.file_path, write_path)
         set_and_wait(self.file_name, filename)
-        # set_and_wait(self.file_number, 0)
 
-        # get file number now since it is incremented during stage()
+        # Get file number now, it is incremented during stage().
         file_number = self.file_number.get()
-        # Must avoid parent's stage() since it sets file_number to 0
-        # Want to call grandparent's stage()
-        # super().stage()     # avoid this - sets `file_number` to zero
-        # call grandparent.stage()
+
+        # Call ancestor's stage(), skipping parent's stage().
         FileStoreBase.stage(self)
 
-        # AD does the file name templating in C
+        # AD applies the file name templating in C.
         # We can't access that result until after acquisition
         # so we apply the same template here in Python.
-        template = self.file_template.get()
+        template = self.file_template.get(use_monitor=False)
         try:
+            # assume template includes format for a file number
             self._fn = template % (read_path, filename, file_number)
-        except TypeError:
+        except (TypeError, ValueError):
             # in case template does not include file_number
             self._fn = template % (read_path, filename)
         self._fp = read_path
         if not self.file_path_exists.get():
             raise IOError(f"Path '{self.file_path.get()}' does not exist on IOC.")
 
+        # index each image frame (used in generate_datum() method)
         self._point_counter = itertools.count()
 
         # from FileStoreHDF5.stage()
         res_kwargs = {"frame_per_point": self.get_frames_per_point()}
         self._generate_resource(res_kwargs)
+
+
+class AD_EpicsHdf5FileName(AD_EpicsFileNameMixin):
+    """
+    Custom class to define HDF5 image file name from EPICS PVs.
+
+    Used as part of AD_EpicsFileNameHDF5Plugin.
+    """
+
+    def __init__(self, *args, **kwargs):
+        FileStorePluginBase.__init__(self, *args, **kwargs)
+        self.filestore_spec = "AD_HDF5"  # spec name stored in resource doc
+        self.stage_sigs.update(
+            [
+                ("file_write_mode", "Stream"),
+                ("capture", 1),
+            ]
+        )
+        self._remove_caller_stage_sigs()
+        # "capture" must always come last
+        self.stage_sigs["capture"] = self.stage_sigs.pop("capture")
 
 
 class AD_EpicsHDF5IterativeWriter(AD_EpicsHdf5FileName, FileStoreIterativeWrite):
@@ -418,6 +465,10 @@ class AD_EpicsHDF5IterativeWriter(AD_EpicsHdf5FileName, FileStoreIterativeWrite)
 class AD_EpicsFileNameHDF5Plugin(HDF5Plugin, AD_EpicsHDF5IterativeWriter):
     """
     Alternative to HDF5Plugin: EPICS area detector PV sets file name.
+
+    .. index:: Ophyd Device Support; AD_EpicsFileNameHDF5Plugin
+
+    .. caution:: *Caveat emptor* applies here.  You assume expertise!
 
     Uses ``AD_EpicsHdf5FileName``.
 
@@ -469,126 +520,182 @@ class AD_EpicsFileNameHDF5Plugin(HDF5Plugin, AD_EpicsHDF5IterativeWriter):
     pass
 
 
-class AD_EpicsJpegFileName(FileStorePluginBase):
-
+class AD_EpicsJPEGFileName(AD_EpicsFileNameMixin):
     """
-    custom class to define image file name from EPICS
+    Custom class to define JPEG image file name from EPICS PVs.
 
-    .. index:: Ophyd Device Support; AD_EpicsJpegFileName
-
-    .. caution:: *Caveat emptor* applies here.  You assume expertise!
-
-    Replace standard Bluesky algorithm where file names
-    are defined as UUID strings, virtually guaranteeing that
-    no existing images files will ever be overwritten.
-    Also, this method decouples the data files from the databroker,
-    which needs the files to be named by UUID.
-
-    .. autosummary::
-        ~make_filename
-        ~generate_datum
-        ~get_frames_per_point
-        ~stage
-
-    Patterned on ``apstools.devices.AD_EpicsHdf5FileName()``.
-    (Follow that documentation from this point.)
+    Used as part of AD_EpicsFileNameJPEGPlugin.
     """
 
     def __init__(self, *args, **kwargs):
         FileStorePluginBase.__init__(self, *args, **kwargs)
-        # TODO: taking a guess here, it's needed if databroker is to *read* the image file
-        # If we get this wrong, we have to update any existing runs before
-        # databroker can read them into memory.  If there is not such symbol
-        # defined, it's up to somone who wants to read these images with databroker.
         self.filestore_spec = "AD_JPEG"  # spec name stored in resource doc
         self.stage_sigs.update(
             [
-                ("file_template", "%s%s_%4.4d.jpg"),
                 ("file_write_mode", "Stream"),
                 ("capture", 1),
             ]
         )
+        self._remove_caller_stage_sigs()
+        # "capture" must always come last
+        self.stage_sigs["capture"] = self.stage_sigs.pop("capture")
 
-    def make_filename(self):
-        """
-        overrides default behavior: Get info from EPICS JPEG plugin.
-        """
-        # start of the file name, file number will be appended per template
-        filename = self.file_name.get()
 
-        # this is where the JPEG plugin will write the image,
-        # relative to the IOC's filesystem
-        write_path = self.file_path.get()
+class AD_EpicsJPEGIterativeWriter(AD_EpicsJPEGFileName, FileStoreIterativeWrite):
+    """
+    intermediate class between AD_EpicsJPEGFileName and AD_EpicsFileNameJPEGPlugin
 
-        # this is where the DataBroker will find the image,
-        # on a filesystem accessible to Bluesky
-        read_path = write_path
+    (new in apstools release 1.6.2)
+    """
 
-        return filename, read_path, write_path
+    pass
 
-    def generate_datum(self, key, timestamp, datum_kwargs):
-        """Generate a uid and cache it with its key for later insertion."""
-        template = self.file_template.get()
-        filename, read_path, write_path = self.make_filename()
-        file_number = self.file_number.get()
-        jpeg_file_name = template % (read_path, filename, file_number)
 
-        # inject the actual name of the JPEG file here into datum_kwargs
-        datum_kwargs["JPEG_file_name"] = jpeg_file_name
+class AD_EpicsFileNameJPEGPlugin(JPEGPlugin, AD_EpicsJPEGIterativeWriter):
+    """
+    Alternative to JPEGPlugin: EPICS area detector PV sets file name.
 
-        logger.debug("make_filename: %s", jpeg_file_name)
-        logger.debug("write_path: %s", write_path)
-        return super().generate_datum(key, timestamp, datum_kwargs)
+    .. index:: Ophyd Device Support; AD_EpicsFileNameJPEGPlugin
 
-    def get_frames_per_point(self):
-        """overrides default behavior"""
-        return self.num_capture.get()
+    .. caution:: *Caveat emptor* applies here.  You assume expertise!
 
-    def stage(self):
-        """
-        overrides default behavior
+    Uses ``AD_EpicsJpegFileName``.
 
-        Set EPICS items before device is staged, then copy EPICS
-        naming template (and other items) to ophyd after staging.
-        """
-        # Make a filename.
-        filename, read_path, write_path = self.make_filename()
+    EXAMPLE::
 
-        # Ensure we do not have an old file open.
-        set_and_wait(self.capture, 0)
-        # These must be set before parent is staged (specifically
-        # before capture mode is turned on. They will not be reset
-        # on 'unstage' anyway.
-        set_and_wait(self.file_path, write_path)
-        set_and_wait(self.file_name, filename)
-        # set_and_wait(self.file_number, 0)
+        from apstools.devices.area_detector_support import AD_EpicsFileNameJPEGPlugin
+        from ophyd import EpicsSignalWithRBV
+        from ophyd.areadetector import ADComponent
+        from ophyd.areadetector import DetectorBase
+        from ophyd.areadetector import SingleTrigger
+        from ophyd.areadetector.plugins import ImagePlugin_V34 as ImagePlugin
+        from ophyd.areadetector.plugins import PvaPlugin_V34 as PvaPlugin
+        from ophyd.areadetector import SimDetectorCam
+        import datetime
+        import pathlib
 
-        # get file number now since it is incremented during stage()
-        file_number = self.file_number.get()
-        # Must avoid parent's stage() since it sets file_number to 0
-        # Want to call grandparent's stage()
-        # super().stage()     # avoid this - sets `file_number` to zero
-        # call grandparent.stage()
-        FileStoreBase.stage(self)
 
-        # AD does the file name templating in C
-        # We can't access that result until after acquisition
-        # so we apply the same template here in Python.
-        template = self.file_template.get()
-        try:
-            self._fn = template % (read_path, filename, file_number)
-        except TypeError:
-            # in case template does not include file_number
-            self._fn = template % (read_path, filename)
-        self._fp = read_path
-        if not self.file_path_exists.get():
-            raise IOError("Path {} does not exist on IOC.".format(self.file_path.get()))
+        IOC = "ad:"
+        IMAGE_DIR = "adsimdet/%Y/%m/%d"
+        AD_IOC_MOUNT_PATH = pathlib.Path("/tmp")
+        BLUESKY_MOUNT_PATH = pathlib.Path("/tmp/docker_ioc/iocad/tmp")
 
-        self._point_counter = itertools.count()
+        # MUST end with a `/`, pathlib will NOT provide it
+        WRITE_PATH_TEMPLATE = f"{AD_IOC_MOUNT_PATH / IMAGE_DIR}/"
+        READ_PATH_TEMPLATE = f"{BLUESKY_MOUNT_PATH / IMAGE_DIR}/"
 
-        # from FileStoreHDF5.stage()
-        res_kwargs = {"frame_per_point": self.get_frames_per_point()}
-        self._generate_resource(res_kwargs)
+
+        class MyFixedCam(SimDetectorCam):
+            pool_max_buffers = None
+            offset = ADComponent(EpicsSignalWithRBV, "Offset")
+
+
+        class MySimDetector(SingleTrigger, DetectorBase):
+            '''ADSimDetector'''
+
+            cam = ADComponent(MyFixedCam, "cam1:")
+            image = ADComponent(ImagePlugin, "image1:")
+            jpeg1 = ADComponent(
+                AD_EpicsFileNameHDF5Plugin,
+                "JPEG1:",
+                write_path_template=WRITE_PATH_TEMPLATE,
+                read_path_template=READ_PATH_TEMPLATE,
+            )
+            pva = ADComponent(PvaPlugin, "Pva1:")
+
+    (new in apstools release 1.6.2)
+    """
+
+    pass
+
+
+class AD_EpicsTIFFFileName(AD_EpicsFileNameMixin):
+    """
+    Custom class to define TIFF image file name from EPICS PVs.
+
+    Used as part of AD_EpicsFileNameTIFFPlugin.
+    """
+
+    def __init__(self, *args, **kwargs):
+        FileStorePluginBase.__init__(self, *args, **kwargs)
+        self.filestore_spec = "AD_TIFF"  # spec name stored in resource doc
+        self.stage_sigs.update(
+            [
+                ("file_write_mode", "Stream"),
+                ("capture", 1),
+            ]
+        )
+        self._remove_caller_stage_sigs()
+        # "capture" must always come last
+        self.stage_sigs["capture"] = self.stage_sigs.pop("capture")
+
+
+class AD_EpicsTIFFIterativeWriter(AD_EpicsTIFFFileName, FileStoreIterativeWrite):
+    """
+    intermediate class between AD_EpicsTIFFFileName and AD_EpicsFileNameTIFFPlugin
+
+    (new in apstools release 1.6.2)
+    """
+
+    pass
+
+
+class AD_EpicsFileNameTIFFPlugin(TIFFPlugin, AD_EpicsTIFFIterativeWriter):
+    """
+    Alternative to TIFFPlugin: EPICS area detector PV sets file name.
+
+    .. index:: Ophyd Device Support; AD_EpicsFileNameTIFFPlugin
+
+    .. caution:: *Caveat emptor* applies here.  You assume expertise!
+
+    Uses ``AD_EpicsTIFFFileName``.
+
+    EXAMPLE::
+
+        from apstools.devices.area_detector_support import AD_EpicsFileNameTIFFPlugin
+        from ophyd import EpicsSignalWithRBV
+        from ophyd.areadetector import ADComponent
+        from ophyd.areadetector import DetectorBase
+        from ophyd.areadetector import SingleTrigger
+        from ophyd.areadetector.plugins import ImagePlugin_V34 as ImagePlugin
+        from ophyd.areadetector.plugins import PvaPlugin_V34 as PvaPlugin
+        from ophyd.areadetector import SimDetectorCam
+        import datetime
+        import pathlib
+
+
+        IOC = "ad:"
+        IMAGE_DIR = "adsimdet/%Y/%m/%d"
+        AD_IOC_MOUNT_PATH = pathlib.Path("/tmp")
+        BLUESKY_MOUNT_PATH = pathlib.Path("/tmp/docker_ioc/iocad/tmp")
+
+        # MUST end with a `/`, pathlib will NOT provide it
+        WRITE_PATH_TEMPLATE = f"{AD_IOC_MOUNT_PATH / IMAGE_DIR}/"
+        READ_PATH_TEMPLATE = f"{BLUESKY_MOUNT_PATH / IMAGE_DIR}/"
+
+
+        class MyFixedCam(SimDetectorCam):
+            pool_max_buffers = None
+            offset = ADComponent(EpicsSignalWithRBV, "Offset")
+
+
+        class MySimDetector(SingleTrigger, DetectorBase):
+            '''ADSimDetector'''
+
+            cam = ADComponent(MyFixedCam, "cam1:")
+            image = ADComponent(ImagePlugin, "image1:")
+            tiff1 = ADComponent(
+                AD_EpicsFileNameTIFFPlugin,
+                "TIFF1:",
+                write_path_template=WRITE_PATH_TEMPLATE,
+                read_path_template=READ_PATH_TEMPLATE,
+            )
+            pva = ADComponent(PvaPlugin, "Pva1:")
+
+    (new in apstools release 1.6.2)
+    """
+
+    pass
 
 
 # -----------------------------------------------------------------------------

@@ -22,11 +22,14 @@ from .area_detector_support import AD_prime_plugin
 from .area_detector_support import AD_prime_plugin2
 from .area_detector_support import AD_full_file_name_local
 from .area_detector_support import AD_EpicsFileNameHDF5Plugin
-# TODO: JPEG
-# TODO: TIFF
+from .area_detector_support import AD_EpicsFileNameJPEGPlugin
+from .area_detector_support import AD_EpicsFileNameTIFFPlugin
 from .area_detector_support import AD_EpicsHdf5FileName
 from .area_detector_support import AD_EpicsHDF5IterativeWriter
-from .area_detector_support import AD_EpicsJpegFileName
+from .area_detector_support import AD_EpicsJPEGFileName
+from .area_detector_support import AD_EpicsJPEGIterativeWriter
+from .area_detector_support import AD_EpicsTIFFFileName
+from .area_detector_support import AD_EpicsTIFFIterativeWriter
 
 
 from .axis_tuner import AxisTunerException
