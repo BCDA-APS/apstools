@@ -177,7 +177,7 @@ def test_acquire(plugin_name, plugin_class, adsimdet, fname):
     assert lfname is not None
     assert lfname.exists(), lfname
     assert isinstance(lfname, pathlib.Path)
-    assert str(lfname).find(fname) > 0
+    assert str(lfname).find(fname) > 0, f"{lfname=}  {fname=}"
 
 
 def test_full_file_name_local(adsimdet, fname):
