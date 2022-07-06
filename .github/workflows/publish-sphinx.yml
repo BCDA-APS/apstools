@@ -28,9 +28,9 @@ jobs:
         pip install -r requirements-pub.txt
         sudo apt-get update && sudo apt-get install pandoc
 
-    - name: Install publishing requirements
+    - name: Install Sphinx build requirements
       run: |
-        pip install -r requirements-pub.txt
+        pip install -r requirements-sphinx.txt
 
     - name: Diagnostics
       run: |
