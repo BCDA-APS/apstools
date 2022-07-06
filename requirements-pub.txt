@@ -1,3 +1,4 @@
 nbsphinx
 pandoc ==2.0.1
 sphinx-rtd-theme
+markupsafe ==2.0.1
