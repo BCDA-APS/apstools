@@ -55,7 +55,6 @@ Area Detector Support
     ~apstools.devices.area_detector_support.AD_EpicsTIFFIterativeWriter
     ~apstools.devices.area_detector_support.AD_full_file_name_local
     ~apstools.devices.area_detector_support.AD_plugin_primed
-    ~apstools.devices.area_detector_support.AD_prime_plugin
     ~apstools.devices.area_detector_support.AD_prime_plugin2
     ~apstools.devices.area_detector_support.AD_setup_FrameType
 
