@@ -40,6 +40,7 @@ New Features
 * Documentation website: https://bcda-aps.github.io/apstools/
 * New example: user-controlled HDF5 image file names.
 * Using Jupyter notebooks directly (via ``nbsphinx`` extension).
+* User-controlled HDF5, JPEG, TIFF image file names.
 
 Fixes
 ---------------
