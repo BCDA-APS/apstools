@@ -1,4 +1,3 @@
-nbconvert-pandoc
 nbsphinx
 pandoc >=2.18
 sphinx-rtd-theme
