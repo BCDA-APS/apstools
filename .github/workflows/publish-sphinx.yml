@@ -23,6 +23,11 @@ jobs:
       with:
         fetch-depth: 0 # otherwise, you will fail to push refs to dest repo
 
+    - name: Install pandoc
+      run: |
+        pip install -r requirements-pub.txt
+        sudo apt-get update && sudo apt-get install pandoc
+
     - name: Install publishing requirements
       run: |
         pip install -r requirements-pub.txt
