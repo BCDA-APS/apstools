@@ -42,7 +42,7 @@ jobs:
         documentation_path: docs/source
 
     - name: Push changes if refs/tags
-      if: startsWith(github.ref, 'refs/tags')
+      # if: startsWith(github.ref, 'refs/tags')
       uses: ad-m/github-push-action@master
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
