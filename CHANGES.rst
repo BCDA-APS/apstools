@@ -31,22 +31,31 @@ release expected by 2022-07-22
 Notice
 ---------------
 
-* Confirmed (after fixes) that databroker can find HDF5 image files with custom
-  names.
+* Confirmed (after fixes): databroker finds HDF5 image files with custom names.
 * Still not ready for databroker 2.0+.
+
+New Features
+---------------
+
+* New example: user-controlled HDF5 image file names.
+* Using Jupyter notebooks directly (via ``nbsphinx`` extension).
 
 Fixes
 ---------------
 
 * Fix timeout problem in utils.connect_pvlist().
 * Fix unexpected key in datum kwargs.
-* Fix utils.listdevice() mixing dot and underline name separators.
+* Fix ``utils.listdevice()`` mixing dot and underline name separators.
 
 Maintenance
 ---------------
 
 * Applied custom project badge for APS software License.
 * Use micromamba in testing workflows.
+
+Deprecations
+---------------
+
 * Drop LGTM static code analysis service.
 
 Contributors
