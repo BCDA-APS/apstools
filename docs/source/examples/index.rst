@@ -9,7 +9,6 @@ Examples
 
    _*
 
-
 .. _examples_downloads:
 
 File Downloads
@@ -17,13 +16,13 @@ File Downloads
 
 The jupyter notebooks and files related to this section may be downloaded from the following table.
 
-* jupyter notebook: :download:`demo_excel_scan <../resources/excel_scan.ipynb>`
+* jupyter notebook: :download:`_excel_scan <_excel_scan.ipynb>`
 
-  * :download:`sample_example.xlsx <../resources/sample_example.xlsx>`
+  * :download:`sample_example.xlsx <sample_example.xlsx>`
 
-* jupyter notebook: :download:`demo_nscan <../resources/demo_nscan.ipynb>`
-* jupyter notebook: :download:`demo_tuneaxis <../resources/demo_tuneaxis.ipynb>`
-* jupyter notebook: :download:`demo_specfile_example <../resources/demo_specfile_example.ipynb>`
+* jupyter notebook: :download:`_nscan <_nscan.ipynb>`
+* jupyter notebook: :download:`_tuneaxis <_tuneaxis.ipynb>`
+* jupyter notebook: :download:`_specfile_example <_specfile_example.ipynb>`
 
   * :download:`spec1.dat <../resources/spec1.dat>`
   * :download:`spec2.dat <../resources/spec2.dat>`

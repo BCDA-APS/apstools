@@ -210,8 +210,8 @@ class TuneAxis(object):
         RE(tuner.multi_pass_tune(width=2, num=9), live_table)
         RE(tuner.tune(width=0.05, num=9), live_table)
 
-    Also see the jupyter notebook referenced here:
-    :ref:`example_tuneaxis`.
+    Also see the jupyter notebook tited **Demonstrate TuneAxis()**
+    in the :ref:`examples` section.
 
     .. autosummary::
 
