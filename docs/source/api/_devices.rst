@@ -4,7 +4,8 @@
 Devices
 =======
 
-(ophyd) Devices that might be useful at the APS using Bluesky
+Devices (subclasses of ophyd's `Device`) that might be useful at the APS using
+Bluesky.
 
 Also consult the :ref:`Index <genindex>` under the *Ophyd* heading for
 links to the Devices, Exceptions, Mixins, Signals, and other support
@@ -12,6 +13,16 @@ items described here.
 
 Categories
 ----------
+
+See these categories:
+
+* :ref:`devices.aps_support`
+* :ref:`devices.area_detector`
+* :ref:`devices.motors`
+* :ref:`devices.scalers`
+* :ref:`devices.shutters`
+* :ref:`devices.slits`
+* :ref:`devices.temperature_controllers`
 
 .. _devices.aps_support:
 
@@ -44,7 +55,7 @@ Area Detector Support
     ~apstools.devices.area_detector_support.AD_EpicsTIFFIterativeWriter
     ~apstools.devices.area_detector_support.AD_full_file_name_local
     ~apstools.devices.area_detector_support.AD_plugin_primed
-    ~apstools.devices.area_detector_support.AD_prime_plugin
+    ~apstools.devices.area_detector_support.AD_prime_plugin2
     ~apstools.devices.area_detector_support.AD_setup_FrameType
 
 .. _devices.scalers:

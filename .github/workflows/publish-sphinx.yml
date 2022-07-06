@@ -23,9 +23,17 @@ jobs:
       with:
         fetch-depth: 0 # otherwise, you will fail to push refs to dest repo
 
-    - name: Install sphinx-rtd-theme
+    - name: Install pandoc
       run: |
-        pip install sphinx-rtd-theme
+        sudo apt-get update && sudo apt-get install pandoc
+
+    - name: Install Sphinx build requirements
+      run: |
+        pip install -r requirements-sphinx.txt
+
+    - name: Diagnostics
+      run: |
+        pip list
 
     - name: Build and Commit
       uses: sphinx-notes/pages@master

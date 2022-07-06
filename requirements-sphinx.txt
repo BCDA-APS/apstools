@@ -1,0 +1,4 @@
+markupsafe ==2.0.1
+nbsphinx
+pygments ==2.6.1
+sphinx-rtd-theme

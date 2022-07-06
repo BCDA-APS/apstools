@@ -21,8 +21,6 @@ Area Detector Support
    ~AD_setup_FrameType
 """
 
-# TODO: JPEG & TIFF similar to AD_EpicsFileNameHDF5Plugin
-
 from collections import OrderedDict
 from ophyd.areadetector.filestore_mixins import FileStoreBase
 from ophyd.areadetector.filestore_mixins import FileStoreIterativeWrite
@@ -300,9 +298,9 @@ class AD_EpicsFileNameMixin(FileStorePluginBase):
 
     .. caution:: *Caveat emptor* applies here.  You assume expertise!
 
-    Replace standard Bluesky algorithm where file names
+    Replace standard ophyd file naming algorithm (where file names
     are defined as UUID strings, virtually guaranteeing that
-    no existing images files will ever be overwritten.
+    no existing images files will ever be overwritten).
 
     Caller is responsible for setting values of these Components:
 
