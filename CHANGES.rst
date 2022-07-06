@@ -31,12 +31,13 @@ release expected by 2022-07-22
 Notice
 ---------------
 
-* Confirmed (after fixes): databroker finds HDF5 image files with custom names.
+* Confirmed: databroker finds HDF5 image files with custom names.
 * Still not ready for databroker 2.0+.
 
 New Features
 ---------------
 
+* Documentation website: https://bcda-aps.github.io/apstools/
 * New example: user-controlled HDF5 image file names.
 * Using Jupyter notebooks directly (via ``nbsphinx`` extension).
 
@@ -56,7 +57,8 @@ Maintenance
 Deprecations
 ---------------
 
-* Drop LGTM static code analysis service.
+* Drop LGTM.com static code analysis service.
+* Drop RTD (readthedocs) documentation publishing service.
 
 Contributors
 ---------------
