@@ -1,0 +1,6 @@
+nbconvert-core
+nbconvert-pandoc
+nbsphinx
+pandoc
+pandoc >=2.18
+sphinx-rtd-theme

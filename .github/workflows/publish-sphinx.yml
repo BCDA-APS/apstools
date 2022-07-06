@@ -23,21 +23,9 @@ jobs:
       with:
         fetch-depth: 0 # otherwise, you will fail to push refs to dest repo
 
-    - name: Install sphinx-rtd-theme, pandoc, & nbsphinx
+    - name: Install publishing requirements
       run: |
-        pip install nbsphinx pandoc sphinx-rtd-theme
-
-    - name: Pin markupsafe version
-      # fixes:  ImportError: cannot import name 'soft_unicode' from 'markupsafe'
-      # see: https://stackoverflow.com/questions/72191560
-      run: |
-        pip install markupsafe==2.1.1
-
-    # - name: Pin pygments version
-    #   # fixes:  AssertionError: wrong color format 'var(--jp-mirror-editor-variable-color)'
-    #   # see: https://stackoverflow.com/questions/63840334
-    #   run: |
-    #     pip install Pygments==2.6.1
+        pip install -r requirements-pub.txt
 
     - name: Diagnostics
       run: |
