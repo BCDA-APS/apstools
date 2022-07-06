@@ -1,13 +1,13 @@
 name: Publish Sphinx Docs to GitHub Pages
 
-on:
-  # Triggers the workflow on push or pull request events but only for the main branch
-  push:
-    branches:
-      - main
-  pull_request:
-    branches:
-      - main
+on: push
+  # # Triggers the workflow on push or pull request events but only for the main branch
+  # push:
+  #   branches:
+  #     - main
+  # pull_request:
+  #   branches:
+  #     - main
 
 # see: https://sphinx-notes.github.io/pages/
 # see: https://github.com/marketplace/actions/sphinx-to-github-pages
