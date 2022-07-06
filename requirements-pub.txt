@@ -1,4 +1,3 @@
-nbconvert-core
 nbconvert-pandoc
 nbsphinx
 pandoc >=2.18
