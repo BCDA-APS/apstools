@@ -23,9 +23,9 @@ jobs:
       with:
         fetch-depth: 0 # otherwise, you will fail to push refs to dest repo
 
-    - name: Install sphinx-rtd-theme, pandoc, & nbsphinx
+    - name: Install sphinx-rtd-theme, pandoc, nbconvert-pandoc, & nbsphinx
       run: |
-        pip install nbsphinx pandoc sphinx-rtd-theme
+        pip install nbconvert-pandoc nbsphinx pandoc sphinx-rtd-theme
 
     - name: Pin markupsafe version
       # fixes:  ImportError: cannot import name 'soft_unicode' from 'markupsafe'
