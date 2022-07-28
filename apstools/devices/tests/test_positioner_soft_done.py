@@ -1,3 +1,6 @@
+import ophyd
+ophyd.set_cl("caproto")
+
 from ophyd import EpicsSignal
 
 from ..positioner_soft_done import PVPositionerSoftDone
