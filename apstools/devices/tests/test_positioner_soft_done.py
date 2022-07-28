@@ -228,10 +228,10 @@ def test_move_to_zero(rbv, pos):
 
     def make_verified_move(target, delay_time):
         # start code that will update the RBV later
-        delayed_complete(pos, rbv, delay=delay_time)  
+        delayed_complete(pos, rbv, delay=delay_time)
 
         # start the move and wait for RBV to be updated
-        status = pos.move(target)  
+        status = pos.move(target)
 
         short_delay_for_EPICS_IOC_database_processing()
 
