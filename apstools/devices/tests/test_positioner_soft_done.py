@@ -357,3 +357,4 @@ def test_move_calcpos(target, calcpos):
     if not calcpos.inposition:
         calcpos.cb_readback()  # nudge it one more time
     assert calcpos.inposition, str(pos)
+    time.sleep(0.2)  # pause between tests
