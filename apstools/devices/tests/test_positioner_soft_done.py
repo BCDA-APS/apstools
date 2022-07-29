@@ -352,7 +352,8 @@ def test_target_practice(target, rbv, pos):
 )
 def test_move_calcpos(target, calcpos):
     """Demonstrate simpler test with positioner that updates its own RBV."""
-    calcpos.move(target)
+    status = calcpos.move(target)
+    assert status.elapsed > 0, str(status)
     confirm_in_position(calcpos)
     if not calcpos.inposition:
         calcpos.cb_readback()  # nudge it one more time
