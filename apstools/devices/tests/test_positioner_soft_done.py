@@ -261,9 +261,10 @@ def test_move_to_zero(target, rbv, pos):
     # # FIXME: Why does this return immediately SOMETIMES in GH Actions workflow?
     # # assert round(status.elapsed, 1) in (0.0, delay_time)
 
-    # # verify the readback was updated AFTER the setpoint with correct delay
-    # dt = (
-    #     pos.readback.read()["pos"]["timestamp"]
-    #     - pos.setpoint.read()["pos_setpoint"]["timestamp"]
-    # )
+    # verify the readback was updated AFTER the setpoint with correct delay
+    dt = (
+        pos.readback.read()["pos"]["timestamp"]
+        - pos.setpoint.read()["pos_setpoint"]["timestamp"]
+    )
     # assert round(dt, 1) in (0.0, delay_time), f"dt={dt}, exp={delay_time}"
+    assert round(dt, 1) == delay_time, f"dt={dt}, exp={delay_time}"
