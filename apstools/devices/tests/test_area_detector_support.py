@@ -1,21 +1,3 @@
-""" FIXME:
-(bluesky_2022_3) prjemian@zap:~/.../BCDA-APS/apstools$ pytest -vvv --lf ./apstools/devices/tests/test_area_detector_support.py
-...
-apstools/devices/area_detector_support.py:418: ValueError
-============================================================== short test summary info ===============================================================
-FAILED apstools/devices/tests/test_area_detector_support.py::test_stage[tiff1-AD_EpicsFileNameTIFFPlugin] - OSError: Path '/' does not exist on IOC.
-FAILED apstools/devices/tests/test_area_detector_support.py::test_acquire[jpeg1-AD_EpicsFileNameJPEGPlugin] - ValueError: incomplete format
-FAILED apstools/devices/tests/test_area_detector_support.py::test_acquire[tiff1-AD_EpicsFileNameTIFFPlugin] - AttributeError: 'NoneType' object has...
-FAILED apstools/devices/tests/test_area_detector_support.py::test_full_file_name_local - ValueError: incomplete format
-FAILED apstools/devices/tests/test_area_detector_support.py::test_file_numbering - ValueError: incomplete format
-========================================================== 5 failed, 4 deselected in 7.88s ===========================================================
-============================================================== short test summary info ===============================================================
-FAILED apstools/devices/tests/test_area_detector_support.py::test_acquire[jpeg1-AD_EpicsFileNameJPEGPlugin] - AttributeError: 'NoneType' object has...
-FAILED apstools/devices/tests/test_area_detector_support.py::test_acquire[tiff1-AD_EpicsFileNameTIFFPlugin] - AttributeError: 'NoneType' object has...
-FAILED apstools/devices/tests/test_area_detector_support.py::test_file_numbering - AssertionError: assert False > 0
-===================================================== 3 failed, 2 passed, 4 deselected in 19.05s =====================================================
-"""
-
 from ...devices import AD_EpicsFileNameHDF5Plugin
 from ...devices import AD_EpicsFileNameJPEGPlugin
 from ...devices import AD_EpicsFileNameTIFFPlugin
