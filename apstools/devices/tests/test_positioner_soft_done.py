@@ -230,7 +230,12 @@ def test_move_to_zero(target, rbv, pos):
     # start from known position
     known_start_position = -1
     pos.setpoint.put(known_start_position)
+    short_delay_for_EPICS_IOC_database_processing()
     rbv.put(known_start_position)  # note: pos.readback is read-only
+    short_delay_for_EPICS_IOC_database_processing(1)
+    assert pos.inposition
+    assert pos.setpoint.get(use_monitor=False) == known_start_position
+    assert round(pos.readback.get(use_monitor=False), 2) == known_start_position
 
     delay_time = round(0.2 + 0.7 * random.random(), 1)
 
