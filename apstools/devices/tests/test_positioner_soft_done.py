@@ -2,6 +2,7 @@ from ophyd import EpicsSignal
 
 from ..positioner_soft_done import PVPositionerSoftDone
 from ..positioner_soft_done import PVPositionerSoftDoneWithStop
+from ...synApps.swait import UserCalcsDevice
 from ...tests import common_attribute_quantities_test
 from ...tests import IOC
 from ...tests import short_delay_for_EPICS_IOC_database_processing
@@ -39,6 +40,31 @@ def rbv():
     rbv = EpicsSignal(f"{PV_PREFIX}float1", name="rbv")
     rbv.wait_for_connection()
     yield rbv
+
+
+@pytest.fixture(scope="function")
+def calcpos():
+    "positioner to test."
+    user = UserCalcsDevice(IOC, name="user")
+    user.wait_for_connection()
+    user.enable.put("Enable")
+
+    swait = user.calc10
+    swait.wait_for_connection()
+    swait.reset()
+    swait.calculation.put("A+(B-A)*C")
+    swait.channels.A.input_pv.put(swait.calculated_value.pvname)
+    swait.channels.C.input_value.put(0.3)
+    swait.scanning_rate.put(".1 second")
+
+    calcpos = PVPositionerSoftDoneWithStop(
+        "",
+        readback_pv=swait.calculated_value.pvname,
+        setpoint_pv=swait.channels.B.input_value.pvname,
+        name="calcpos"
+    )
+    calcpos.wait_for_connection()
+    yield calcpos
 
 
 @run_in_thread
@@ -223,6 +249,15 @@ def test_move_and_stopped_early(rbv, pos):
     assert pos.inposition
 
 
+def confirm_in_position(positioner):
+    """Apply the 'inposition' property code."""
+    reading = positioner.read()
+    p = reading[positioner.setpoint.name]["value"]
+    r = reading[positioner.readback.name]["value"]
+    t = positioner.actual_tolerance
+    assert abs(r - p) <= t, f"target={p}, readback={r}, tolerance={t}"
+
+
 @pytest.mark.parametrize(
     "target",
     [-1] * 3 + [0] * 5 + [round(2 + 5 * random.random(), 2), 0.1, -0.15, -1] + [0] * 5,
@@ -246,14 +281,6 @@ def test_target_practice(target, rbv, pos):
         assert t_sp <= t_rbv, f"rbv={t_rbv-t_sp}, readback input not updated"
         assert t_rbv <= t_rb, f"rb={t_rb-t_sp}, readback value not updated"
 
-    def confirm_in_position():
-        """Apply the 'inposition' property code."""
-        reading = pos.read()
-        p = reading[pos.setpoint.name]["value"]
-        r = reading[pos.readback.name]["value"]
-        t = pos.actual_tolerance
-        assert abs(r - p) <= t, f"target={p}, readback={r}, tolerance={t}"
-
     # start from known position
     known_start_position = -1
     starting_rb_count = pos._rb_count
@@ -273,7 +300,7 @@ def test_target_practice(target, rbv, pos):
 
     # confirm all are ready
     # confirm_sequence_timings()
-    confirm_in_position()
+    confirm_in_position(pos)
     assert pos.setpoint.get(use_monitor=False) == known_start_position
     assert round(pos.readback.get(use_monitor=False), 2) == known_start_position
     assert pos.inposition, f"target={pos.setpoint.get()}, readback={pos.position}"
@@ -299,19 +326,21 @@ def test_target_practice(target, rbv, pos):
     assert round(pos.readback.get(use_monitor=False), 2) == target
     if is_new_target:
         confirm_sequence_timings()
-    confirm_in_position()
+    confirm_in_position(pos)
     assert pos.inposition
 
     assert status.done
     assert status.success
 
-    # TODO: are these timing test necessary?
-    # # verify the readback was updated AFTER the setpoint with correct delay
-    # dt = (
-    #     pos.readback.read()["pos"]["timestamp"]
-    #     - pos.setpoint.read()["pos_setpoint"]["timestamp"]
-    # )
-    # assert round(dt, 1) == rbv_delay, f"dt={dt}, rbv_delay={rbv_delay}"
 
-    # dt = status.elapsed
-    # assert round(dt, 1) == rbv_delay, f"dt={dt}, rbv_delay={rbv_delay}"
+@pytest.mark.parametrize(
+    "target",
+    [-1] * 3 + [0] * 5 + [round(2 + 5 * random.random(), 2), 0.1, -0.15, -1] + [0] * 5,
+)
+def test_move_calcpos(target, calcpos):
+    """Demonstrate"""
+    calcpos.move(target)
+    confirm_in_position(calcpos)
+    if not calcpos.inposition:
+        calcpos.cb_readback()
+    assert calcpos.inposition, str(pos)
