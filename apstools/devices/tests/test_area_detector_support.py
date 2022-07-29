@@ -1,26 +1,9 @@
-""" FIXME:
-(bluesky_2022_3) prjemian@zap:~/.../BCDA-APS/apstools$ pytest -vvv --lf ./apstools/devices/tests/test_area_detector_support.py
-...
-apstools/devices/area_detector_support.py:418: ValueError
-============================================================== short test summary info ===============================================================
-FAILED apstools/devices/tests/test_area_detector_support.py::test_stage[tiff1-AD_EpicsFileNameTIFFPlugin] - OSError: Path '/' does not exist on IOC.
-FAILED apstools/devices/tests/test_area_detector_support.py::test_acquire[jpeg1-AD_EpicsFileNameJPEGPlugin] - ValueError: incomplete format
-FAILED apstools/devices/tests/test_area_detector_support.py::test_acquire[tiff1-AD_EpicsFileNameTIFFPlugin] - AttributeError: 'NoneType' object has...
-FAILED apstools/devices/tests/test_area_detector_support.py::test_full_file_name_local - ValueError: incomplete format
-FAILED apstools/devices/tests/test_area_detector_support.py::test_file_numbering - ValueError: incomplete format
-========================================================== 5 failed, 4 deselected in 7.88s ===========================================================
-============================================================== short test summary info ===============================================================
-FAILED apstools/devices/tests/test_area_detector_support.py::test_acquire[jpeg1-AD_EpicsFileNameJPEGPlugin] - AttributeError: 'NoneType' object has...
-FAILED apstools/devices/tests/test_area_detector_support.py::test_acquire[tiff1-AD_EpicsFileNameTIFFPlugin] - AttributeError: 'NoneType' object has...
-FAILED apstools/devices/tests/test_area_detector_support.py::test_file_numbering - AssertionError: assert False > 0
-===================================================== 3 failed, 2 passed, 4 deselected in 19.05s =====================================================
-"""
-
 from ...devices import AD_EpicsFileNameHDF5Plugin
 from ...devices import AD_EpicsFileNameJPEGPlugin
 from ...devices import AD_EpicsFileNameTIFFPlugin
 from ...devices import AD_full_file_name_local
 from ...devices import AD_prime_plugin2
+from ...tests import MASTER_TIMEOUT
 from ophyd import EpicsSignalWithRBV
 from ophyd.areadetector import ADComponent
 from ophyd.areadetector import DetectorBase
@@ -49,9 +32,9 @@ READ_PATH_TEMPLATE = f"{BLUESKY_MOUNT_PATH / IMAGE_DIR}/"
 try:
     EpicsSignalBase.set_defaults(
         auto_monitor=True,
-        timeout=60,
-        write_timeout=60,
-        connection_timeout=60,
+        timeout=MASTER_TIMEOUT,
+        write_timeout=MASTER_TIMEOUT,
+        connection_timeout=MASTER_TIMEOUT,
     )
 except RuntimeError:
     pass  # ignore if some EPICS object already created
@@ -190,7 +173,7 @@ def test_full_file_name_local(adsimdet, fname):
     adsimdet.unstage()
 
     lfname = AD_full_file_name_local(plugin)
-    assert lfname is not None
+    assert lfname is not None, str(plugin)
     assert lfname.exists(), lfname
     assert isinstance(lfname, pathlib.Path)
     assert str(lfname).find(fname) > 0
@@ -228,7 +211,8 @@ def test_file_numbering(adsimdet, fname):
     adsimdet.unstage()
     full_file_name = plugin.full_file_name.get()
     assert isinstance(full_file_name, str)
-    assert full_file_name.find(fname) > 0
+    assert len(full_file_name) > 0
+    assert full_file_name.find(fname) > 0, str(full_file_name)
     assert full_file_name.endswith(
         f"{fname}_{file_number:04d}.h5"
     ), f"{full_file_name=} {fname}_{file_number:04d}.h5"
