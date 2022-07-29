@@ -223,48 +223,42 @@ def test_move_and_stopped_early(rbv, pos):
     assert pos.inposition
 
 
-def test_move_to_zero(rbv, pos):
+@pytest.mark.parametrize("target", [0, round(2 + 5 * random.random(), 2), 0, 0, 0])
+def test_move_to_zero(target, rbv, pos):
     short_delay_for_EPICS_IOC_database_processing()
-
-    def make_verified_move(target, delay_time):
-        # start code that will update the RBV later
-        delayed_complete(pos, rbv, delay=delay_time)
-
-        # start the move and wait for RBV to be updated
-        status = pos.move(target)
-
-        short_delay_for_EPICS_IOC_database_processing()
-
-        assert status.done
-        assert status.success
-        # FIXME: Why does this return immediately SOMETIMES in GH Actions workflow?
-        assert round(status.elapsed, 1) in (0.0, delay_time)
-
-        # assert not delay_active
-        assert pos.setpoint.get() == target
-
-        # verify the readback was updated AFTER the setpoint with correct delay
-        dt = (
-            pos.readback.read()["pos"]["timestamp"]
-            - pos.setpoint.read()["pos_setpoint"]["timestamp"]
-        )
-        assert round(dt, 1) in (0.0, delay_time), f"dt={dt}, exp={delay_time}"
-
-        # note: pos.position has been failing (issue #668)
-        # Replace ``pos.position`` and force a CA get from the IOC.
-        assert round(pos.readback.get(use_monitor=False), 2) == target
-        assert pos.inposition
 
     # start from known position
     known_start_position = -1
     pos.setpoint.put(known_start_position)
     rbv.put(known_start_position)  # note: pos.readback is read-only
 
-    # move to 0.0
-    make_verified_move(0, 0.2)
+    delay_time = round(0.2 + 0.7 * random.random(), 1)
 
-    # move to some random, non-zero, position
-    make_verified_move(round(2 + 5 * random.random(), 2), 0.5)
+    # start code that will update the RBV later
+    delayed_complete(pos, rbv, delay=delay_time)
 
-    # move back to 0.0
-    make_verified_move(0, 2)
+    # start the move and wait for RBV to be updated
+    status = pos.move(target)
+
+    short_delay_for_EPICS_IOC_database_processing()
+
+    # assert not delay_active
+    assert pos.setpoint.get(use_monitor=False) == target
+
+    # note: pos.position has been failing (issue #668)
+    # Replace ``pos.position`` and force a CA get from the IOC.
+    assert round(pos.readback.get(use_monitor=False), 2) == target
+    assert pos.inposition
+
+    assert status.done
+    assert status.success
+    # Are these remaining tests needed?
+    # # FIXME: Why does this return immediately SOMETIMES in GH Actions workflow?
+    # # assert round(status.elapsed, 1) in (0.0, delay_time)
+
+    # # verify the readback was updated AFTER the setpoint with correct delay
+    # dt = (
+    #     pos.readback.read()["pos"]["timestamp"]
+    #     - pos.setpoint.read()["pos_setpoint"]["timestamp"]
+    # )
+    # assert round(dt, 1) in (0.0, delay_time), f"dt={dt}, exp={delay_time}"
