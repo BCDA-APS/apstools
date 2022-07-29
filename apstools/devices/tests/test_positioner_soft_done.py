@@ -55,7 +55,7 @@ def calcpos():
     swait.calculation.put("A+(B-A)*C")  # incremental move towards the goal
     swait.channels.A.input_pv.put(swait.calculated_value.pvname)  # readback
     # channel B: setpoint
-    swait.channels.C.input_value.put(0.3)  # move fraction
+    swait.channels.C.input_value.put(0.6)  # move fraction
     swait.scanning_rate.put(".1 second")
 
     calcpos = PVPositionerSoftDoneWithStop(
@@ -261,7 +261,13 @@ def confirm_in_position(positioner):
 
 @pytest.mark.parametrize(
     "target",
-    [-1] * 3 + [0] * 5 + [round(2 + 5 * random.random(), 2), 0.1, -0.15, -1] + [0] * 5,
+    # fmt: off
+    [-1] * 3
+    + [0] * 5
+    + [1, -1, -1, 1, 1, 2, 0, 1, -1, -1]
+    + [round(2 + 5 * random.random(), 2), 0.1, -0.15, -1]
+    + [0] * 5,
+    # fmt: on
 )
 def test_target_practice(target, rbv, pos):
     """
@@ -337,12 +343,11 @@ def test_target_practice(target, rbv, pos):
 @pytest.mark.parametrize(
     "target",
     # fmt: off
-    (
-        [-1] * 3
-        + [0] * 5
-        + [round(2 + 5 * random.random(), 2), 0.1, -0.15, -1]
-        + [0] * 5,
-    )
+    [-1] * 3
+    + [0] * 5
+    + [1, -1, -1, 1, 1, 2, 0, 1, -1, -1]
+    + [round(2 + 5 * random.random(), 2), 0.1, -0.15, -1]
+    + [0] * 5,
     # fmt: on
 )
 def test_move_calcpos(target, calcpos):

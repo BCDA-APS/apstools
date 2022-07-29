@@ -3,6 +3,7 @@ from ...devices import AD_EpicsFileNameJPEGPlugin
 from ...devices import AD_EpicsFileNameTIFFPlugin
 from ...devices import AD_full_file_name_local
 from ...devices import AD_prime_plugin2
+from ...tests import MASTER_TIMEOUT
 from ophyd import EpicsSignalWithRBV
 from ophyd.areadetector import ADComponent
 from ophyd.areadetector import DetectorBase
@@ -31,9 +32,9 @@ READ_PATH_TEMPLATE = f"{BLUESKY_MOUNT_PATH / IMAGE_DIR}/"
 try:
     EpicsSignalBase.set_defaults(
         auto_monitor=True,
-        timeout=60,
-        write_timeout=60,
-        connection_timeout=60,
+        timeout=MASTER_TIMEOUT,
+        write_timeout=MASTER_TIMEOUT,
+        connection_timeout=MASTER_TIMEOUT,
     )
 except RuntimeError:
     pass  # ignore if some EPICS object already created

@@ -5,6 +5,7 @@ file: /tmp/kohzu.py
 import time
 
 from .. import KohzuSeqCtl_Monochromator
+from ...tests import MASTER_TIMEOUT
 from bluesky import plan_stubs as bps
 from bluesky import RunEngine
 from ophyd import Component
@@ -15,7 +16,10 @@ from ophyd.signal import EpicsSignalBase
 # set default timeout for all EpicsSignal connections & communications
 try:
     EpicsSignalBase.set_defaults(
-        auto_monitor=True, timeout=60, write_timeout=60, connection_timeout=60,
+        auto_monitor=True,
+        timeout=MASTER_TIMEOUT,
+        write_timeout=MASTER_TIMEOUT,
+        connection_timeout=MASTER_TIMEOUT,
     )
 except RuntimeError:
     pass  # ignore if some EPICS object already created
