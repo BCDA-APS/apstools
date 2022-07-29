@@ -190,7 +190,7 @@ def test_full_file_name_local(adsimdet, fname):
     adsimdet.unstage()
 
     lfname = AD_full_file_name_local(plugin)
-    assert lfname is not None
+    assert lfname is not None, str(plugin)
     assert lfname.exists(), lfname
     assert isinstance(lfname, pathlib.Path)
     assert str(lfname).find(fname) > 0
@@ -228,7 +228,8 @@ def test_file_numbering(adsimdet, fname):
     adsimdet.unstage()
     full_file_name = plugin.full_file_name.get()
     assert isinstance(full_file_name, str)
-    assert full_file_name.find(fname) > 0
+    assert len(full_file_name) > 0
+    assert full_file_name.find(fname) > 0, str(full_file_name)
     assert full_file_name.endswith(
         f"{fname}_{file_number:04d}.h5"
     ), f"{full_file_name=} {fname}_{file_number:04d}.h5"
