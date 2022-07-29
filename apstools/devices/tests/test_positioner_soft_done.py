@@ -239,10 +239,11 @@ def test_move_to_zero(target, rbv, pos):
     assert pos.setpoint.get(use_monitor=False) == known_start_position
     assert round(pos.readback.get(use_monitor=False), 2) == known_start_position
 
-    delay_time = round(0.2 + 0.7 * random.random(), 1)
+    # pick a random time to change RBV after the move starts
+    rbv_delay = round(0.2 + 0.7 * random.random(), 1)
 
     # start code that will update the RBV later
-    delayed_complete(pos, rbv, delay=delay_time)
+    delayed_complete(pos, rbv, delay=rbv_delay)
 
     # start the move and wait for RBV to be updated
     status = pos.move(target)
@@ -265,4 +266,4 @@ def test_move_to_zero(target, rbv, pos):
         pos.readback.read()["pos"]["timestamp"]
         - pos.setpoint.read()["pos_setpoint"]["timestamp"]
     )
-    assert round(dt, 1) == delay_time, f"dt={dt}, exp={delay_time}"
+    assert round(dt, 1) == rbv_delay, f"dt={dt}, rbv_delay={rbv_delay}"
