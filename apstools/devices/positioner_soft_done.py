@@ -98,9 +98,20 @@ class PVPositionerSoftDone(PVPositioner):
 
     target = Component(Signal, value="None", kind="config")
 
+    _rb_count = 0
+    _sp_count = 0
+
     @property
     def precision(self):
         return self.setpoint.precision
+
+    @property
+    def actual_tolerance(self):
+        return (
+            self.tolerance.get()
+            if self.tolerance.get() >= 0
+            else 10 ** (-1 * self.precision)
+        )
 
     def cb_readback(self, *args, **kwargs):
         """
@@ -110,13 +121,12 @@ class PVPositionerSoftDone(PVPositioner):
 
             done = |readback - setpoint| <= tolerance
         """
-        diff = self.readback.get() - self.setpoint.get()
-        _tolerance = (
-            self.tolerance.get()
-            if self.tolerance.get() >= 0
-            else 10 ** (-1 * self.precision)
-        )
-        dmov = abs(diff) <= _tolerance
+        self._rb_count += 1
+        if "value" in kwargs:
+            diff = kwargs["value"] - self.setpoint.get()
+        else:
+            diff = self.readback.get(use_monitor=False) - self.setpoint.get()
+        dmov = abs(diff) <= self.actual_tolerance
         if self.report_dmov_changes.get() and dmov != self.done.get():
             logger.debug("%s reached: %s", self.name, dmov)
 
@@ -134,6 +144,7 @@ class PVPositionerSoftDone(PVPositioner):
         Without this response, a small move (within tolerance) will not return.
         Next update of readback will compute ``self.done``.
         """
+        self._sp_count += 1
         self.done.put(not self.done_value)
         logger.debug("cb_setpoint: done=%s, setpoint=%s", self.done.get(), self.setpoint.get())
 
