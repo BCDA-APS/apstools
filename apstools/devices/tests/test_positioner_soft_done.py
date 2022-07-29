@@ -233,6 +233,8 @@ def test_move_to_zero(target, rbv, pos):
     short_delay_for_EPICS_IOC_database_processing()
     rbv.put(known_start_position)  # note: pos.readback is read-only
     short_delay_for_EPICS_IOC_database_processing(1)
+
+    # confirm all are ready
     assert pos.inposition
     assert pos.setpoint.get(use_monitor=False) == known_start_position
     assert round(pos.readback.get(use_monitor=False), 2) == known_start_position
@@ -257,14 +259,10 @@ def test_move_to_zero(target, rbv, pos):
 
     assert status.done
     assert status.success
-    # Are these remaining tests needed?
-    # # FIXME: Why does this return immediately SOMETIMES in GH Actions workflow?
-    # # assert round(status.elapsed, 1) in (0.0, delay_time)
 
     # verify the readback was updated AFTER the setpoint with correct delay
     dt = (
         pos.readback.read()["pos"]["timestamp"]
         - pos.setpoint.read()["pos_setpoint"]["timestamp"]
     )
-    # assert round(dt, 1) in (0.0, delay_time), f"dt={dt}, exp={delay_time}"
     assert round(dt, 1) == delay_time, f"dt={dt}, exp={delay_time}"
