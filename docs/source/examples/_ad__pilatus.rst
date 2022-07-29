@@ -36,8 +36,10 @@ Here is the complete support code:
     :linenos:
 
     from ophyd import ADComponent
+    from ophyd import DetectorBase
+    from ophyd import EpicsSignal
     from ophyd import ImagePlugin
-    from ophyd import PilatusDetector
+    from ophyd import PilatusDetectorCam
     from ophyd import SingleTrigger
     from ophyd.areadetector.filestore_mixins import FileStoreHDF5IterativeWrite
     from ophyd.areadetector.plugins import HDF5Plugin_V34
@@ -47,11 +49,18 @@ Here is the complete support code:
     BLUESKY_FILES_ROOT = "/export/raid5/fileshare/data"
     TEST_IMAGE_DIR = "test/pilatus/%Y/%m/%d/"
 
-    class MyHDF5Plugin(FileStoreHDF5IterativeWrite, HDF5Plugin_V34): ...
+    class MyPilatusDetectorCam(PilatusDetectorCam):
+        """Add to the Ophyd support for the Pilatus."""
 
-    class MyPilatusDetector(SingleTrigger, PilatusDetector):
+        wait_for_plugins = ADComponent(EpicsSignal, "WaitForPlugins")
+
+    class MyHDF5Plugin(FileStoreHDF5IterativeWrite, HDF5Plugin_V34):
+        """Custom HDF5 plugin support."""
+
+    class MyPilatusDetector(SingleTrigger, DetectorBase):
         """Pilatus detector"""
 
+        cam = ADComponent(MyPilatusDetectorCam, "cam1:")
         image = ADComponent(ImagePlugin, "image1:")
         hdf1 = ADComponent(
             MyHDF5Plugin,
@@ -66,11 +75,12 @@ Here is the complete support code:
     det.cam.stage_sigs["num_images"] = 1
     det.cam.stage_sigs["acquire_time"] = 0.1
     det.cam.stage_sigs["acquire_period"] = 0.105
+    det.cam.stage_sigs["wait_for_plugins"] = "Yes
     det.hdf1.stage_sigs["lazy_open"] = 1
     det.hdf1.stage_sigs["compression"] = "LZ4"
     det.hdf1.stage_sigs["file_template"] = "%s%s_%3.3d.h5"
-    del det.hdf1.stage_sigs["capture"]
-    det.hdf1.stage_sigs["capture"] = 1
+    # capture must always be last
+    det.hdf1.stage_sigs["capture"] = det.hdf1.stage_sigs.pop("capture")
 
 
 .. _ad_pilatus.explanation:
@@ -99,7 +109,7 @@ On the list of supported cameras, we find the ``PilatusDetector``. [#]_
 .. [#] https://blueskyproject.io/ophyd/generated/ophyd.areadetector.detectors.PilatusDetector.html
 
 Note that ophyd makes a distinction (using the Pilatus here as an
-example) between ``PilatusDetector` and ``PilatusDetectorCam``.  We'll
+example) between ``PilatusDetector`` and ``PilatusDetectorCam``.  We'll
 clarify that distinction below.
 
 Pay special attention to the :ref:`ad_pilatus.staging` section.  Staging is
@@ -287,14 +297,27 @@ We could get the same structure with this class instead:
 The ``ophyd.areadetector.PilatusDetectorCam`` class provides
 an ophyd ``Device`` interface for the *ADPilatus* camera controls.
 This support is already included in the ``PilatusDetector`` class
-so we do not need to add it (although there is no problem if we
-add it anyway).
+so might not need to add it.  But we want to add support for the
+``WaitForPlugins`` PV.  This support has not yet been added in ``ophyd``.
 
 Any useful implementation of an EPICS area detector will support the
 camera module, which controls the features of the camera and image
 acquisition.  The detector classes defined in ``ophyd.areadetector.detectors``
 all support the cam module appropriate for that detector.  They are convenience
 classes for the repetitive step of adding ``cam`` support.
+
+.. code-block:: python
+    :caption: alternative, equivalent to above
+    :linenos:
+
+    from ophyd import EpicsSignal
+    from ophyd import PilatusDetectorCam
+
+    class MyPilatusDetectorCam(PilatusDetectorCam):
+        """Add to the Ophyd support for the Pilatus."""
+
+        wait_for_plugins = ADComponent(EpicsSignal, "WaitForPlugins")
+
 
 HDF5Plugin: Writing images to an HDF5 File
 ++++++++++++++++++++++++++++++++++++++++++
@@ -461,7 +484,7 @@ defaults are::
 
     >>> det.hdf1.stage_sigs
     OrderedDict([('enable', 1),
-                ('blocking_callbacks', 'Yes'),
+                ('blocking_callbacks', 'No'),
                 ('parent.cam.array_callbacks', 1),
                 ('auto_increment', 'Yes'),
                 ('array_counter', 0),
@@ -477,6 +500,16 @@ file numbering and will automatically save the file once the image is
 captured.  By default, ophyd will choose a file name based on a random
 ``uuid``. [#]_  It is possible to change this naming style but those
 steps are beyond this example.
+
+..  note:: It is really not good practice to be setting 
+    ``blocking_callbacks`` to ``Yes`` in the area detector 
+    plugin's ``stage_sigs``. 
+    That slows down the detector. The preferred practice is to set 
+    ``blocking_callbacks`` to ``No`` in the plugin and set
+    ``wait_for_plugins`` to ``Yes`` in the cam (driver).
+    That way all plugins can run in their own threads without
+    slowing down the driver, and the detector will still wait for
+    them all to complete before it reports that acquisition is done.
 
 We want to enable the ``LazyOpen`` feature [#]_  (so we do not have to acquire
 an image into the HDF5 plugin before our first data acquisition)::
