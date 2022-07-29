@@ -11,6 +11,7 @@ import pandas as pd
 import pytest
 
 from ...devices import SwaitRecord
+from ...tests import MASTER_TIMEOUT
 from ..device_info import _list_epics_signals
 from ..device_info import listdevice
 
@@ -18,7 +19,10 @@ from ..device_info import listdevice
 # set default timeout for all EpicsSignal connections & communications
 try:
     EpicsSignalBase.set_defaults(
-        auto_monitor=True, timeout=60, write_timeout=60, connection_timeout=60,
+        auto_monitor=True,
+        timeout=MASTER_TIMEOUT,
+        write_timeout=MASTER_TIMEOUT,
+        connection_timeout=MASTER_TIMEOUT,
     )
 except RuntimeError:
     pass  # ignore if some EPICS object already created

@@ -2,6 +2,7 @@ import time
 import warnings
 
 IOC = "gp:"
+MASTER_TIMEOUT = 30
 MAX_TESTING_RETRIES = 3
 SHORT_DELAY_FOR_EPICS_IOC_DATABASE_PROCESSING = 2. / 60  # two 60Hz clock cycles
 
