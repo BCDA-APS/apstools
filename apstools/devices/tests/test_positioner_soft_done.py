@@ -259,6 +259,7 @@ def confirm_in_position(positioner):
     assert abs(r - p) <= t, f"target={p}, readback={r}, tolerance={t}"
 
 
+@pytest.mark.local
 @pytest.mark.parametrize(
     "target",
     # fmt: off
@@ -340,6 +341,7 @@ def test_target_practice(target, rbv, pos):
     assert status.success
 
 
+@pytest.mark.local
 @pytest.mark.parametrize(
     "target",
     # fmt: off
@@ -352,8 +354,11 @@ def test_target_practice(target, rbv, pos):
 )
 def test_move_calcpos(target, calcpos):
     """Demonstrate simpler test with positioner that updates its own RBV."""
-    calcpos.move(target)
+    status = calcpos.move(target)
+    assert status.elapsed > 0, str(status)
     confirm_in_position(calcpos)
     if not calcpos.inposition:
         calcpos.cb_readback()  # nudge it one more time
     assert calcpos.inposition, str(pos)
+
+    time.sleep(0.2)  # pause between tests
