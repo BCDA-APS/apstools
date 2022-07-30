@@ -62,7 +62,18 @@ jobs:
           name: catalogs
           path: catalogs
 
+      # - name: Directory Listings
+      #   run: |
+      #     ls ~/
+      #     ls -lAFghR catalogs
+
+      - name: Put them back
+        run: |
+          mkdir -p ~/.local/share/intake
+          mv ~/catalogs/home/runner/.local/share/intake/* ~/.local/share/intake
+          mv ~/catalogs/tmp/*_test /tmp/
+
       - name: Directory Listings
         run: |
-          ls ~/
-          ls -lAFghR catalogs
+          ls -lAFghR ~/.local/
+          ls -lart /tmp/*_test
