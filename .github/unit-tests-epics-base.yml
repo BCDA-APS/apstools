@@ -23,8 +23,9 @@ jobs:
     - name: Create Python ${{ matrix.python-version }} environment
       uses: mamba-org/provision-with-micromamba@main
       with:
+        cache-env: true
         environment-file: environment.yml
-        environment-name: anaconda-test-env
+        environment-name: anaconda-test-env-py-${{ matrix.python-version }}
 
     - name: Diagnostics
       shell: bash -l {0}
