@@ -1,4 +1,4 @@
-name: Unit Tests
+name: Unit Tests & Code Coverage
 
 on:
   # Triggers the workflow on push or pull request events but only for the main branch
@@ -8,11 +8,78 @@ on:
   pull_request:
     branches:
       - main
+  workflow_dispatch:   # allow manual triggering
+
+defaults:
+  run:
+    shell: bash
 
 jobs:
-  build:
+
+  lint:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - uses: actions/setup-python@v2
+
+      - name: Install Dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install flake8
+
+      - name: Run flake8
+        run: |
+          flake8
+
+  # TODO: duplicate of step(s) below
+  epics-base:
+    name: EPICS Base - caget
+    needs: lint
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Create Python ${{ matrix.python-version }} environment
+      uses: mamba-org/provision-with-micromamba@main
+      with:
+        cache-env: true
+        environment-file: environment.yml
+        environment-name: anaconda-test-env-py-${{ matrix.python-version }}
+
+    - name: Diagnostics
+      shell: bash -l {0}
+      run: |
+        micromamba info
+        micromamba list
+        micromamba env list
+        printenv | sort
+
+    - name: Start IOCs in Docker
+      shell: bash -l {0}
+      run: |
+        bash ./.github/scripts/start_xxx.sh gp
+        bash ./.github/scripts/start_adsim.sh ad
+        docker ps -a
+
+    - name: Install dependencies
+      shell: bash -l {0}
+      run: |
+        micromamba install epics-base "readline!=8.1.2"
+
+    - name: Run tests with caget
+      shell: bash -l {0}
+      run: |
+        which caget
+        caget gp:UPTIME
+        caget ad:cam1:Acquire_RBV
+
+  test-matrix:
     name: Setup py${{ matrix.python-version }}
     runs-on: ubuntu-latest
+    needs: epics-base
     strategy:
       matrix:
         # python-version: ['3.7', '3.8', '3.9', '3.10']
@@ -25,11 +92,11 @@ jobs:
     - name: Create Python ${{ matrix.python-version }} environment
       uses: mamba-org/provision-with-micromamba@main
       with:
+        cache-env: true
         environment-file: environment.yml
         environment-name: anaconda-test-env-py-${{ matrix.python-version }}
 
     - name: Initial diagnostics
-      shell: bash -l {0}
       run: |
         micromamba info
         micromamba list
@@ -39,7 +106,6 @@ jobs:
         printenv | sort
 
     - name: Start EPICS IOCs in Docker
-      shell: bash -l {0}
       run: |
         bash ./.github/scripts/start_xxx.sh gp
         bash ./.github/scripts/start_adsim.sh ad
@@ -48,12 +114,10 @@ jobs:
         ls -lAFgh /tmp/docker_ioc/iocgp/
 
     - name: Install Python testing packages
-      shell: bash -l {0}
       run: |
         micromamba install pytest coverage coveralls
 
     - name: Confirm EPICS IOC is available via caget
-      shell: bash -l {0}
       run: |
         caget "${PV}"
         caget ad:cam1:Acquire_RBV
@@ -61,14 +125,12 @@ jobs:
         PV: gp:UPTIME
 
     - name: Confirm EPICS IOC is available via PyEpics
-      shell: bash -l {0}
       run: |
         python -c "import epics; print(epics.caget('${PV}'))"
       env:
         PV: gp:UPTIME
 
     - name: Confirm EPICS IOC is available via ophyd
-      shell: bash -l {0}
       run: |
         CMD="import ophyd"
         CMD+="; up = ophyd.EpicsSignalRO('${PV}', name='up')"
@@ -79,18 +141,15 @@ jobs:
         PV: gp:UPTIME
 
     - name: install test data catalogs
-      shell: bash -l {0}
       run: |
         ./resources/unpack.sh
 
     - name: Diagnostics
-      shell: bash -l {0}
       run: |
         df -HT
         micromamba list
 
     - name: Run tests with pytest & coverage
-      shell: bash -l {0}
       run: |
         # proceed as in hklpy
         coverage run --concurrency=thread --parallel-mode -m pytest -vvv .
@@ -98,7 +157,6 @@ jobs:
         coverage report --precision 3
 
     - name: Upload to coveralls
-      shell: bash -l {0}
       # https://github.com/TheKevJames/coveralls-python
       run: |
         coveralls --service=github
