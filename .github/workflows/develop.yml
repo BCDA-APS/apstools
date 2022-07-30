@@ -14,6 +14,8 @@ defaults:
   run:
     shell: bash
 
+jobs:
+
   lint:
     name: Install catalogs
     runs-on: ubuntu-latest
