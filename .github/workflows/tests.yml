@@ -54,6 +54,10 @@ jobs:
         cache-env-key: env-key-${{ matrix.python-version }}
         environment-file: environment.yml
         environment-name: anaconda-test-env-py-${{ matrix.python-version }}
+        extra-specs: |
+          coverage
+          coveralls
+          pytest
 
     - name: Initial diagnostics
       run: |
@@ -71,11 +75,6 @@ jobs:
         docker ps -a
         ls -lAFgh /tmp/docker_ioc/iocad/
         ls -lAFgh /tmp/docker_ioc/iocgp/
-
-    - name: Install Python testing packages
-      shell: bash -l {0}
-      run: |
-        micromamba install pytest coverage coveralls
 
     - name: Confirm EPICS IOC is available via caget
       shell: bash -l {0}
