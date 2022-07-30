@@ -17,6 +17,7 @@ defaults:
 jobs:
 
   lint:
+    name: Code style
     runs-on: ubuntu-latest
 
     steps:
@@ -34,7 +35,7 @@ jobs:
           flake8
 
   test-matrix:
-    name: Setup py${{ matrix.python-version }}
+    name: Python ${{ matrix.python-version }}
     runs-on: ubuntu-latest
     needs: lint
     strategy:
