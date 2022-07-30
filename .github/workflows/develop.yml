@@ -34,10 +34,11 @@ jobs:
         run: |
           cd resources
           bash ./unpack.sh
+          cd ..
 
       - name: Directory Listings
         run: |
-          ls -lAFghR .local/
+          ls -lAFghR ~/.local/
           ls -lart /tmp/*_test
 
       - name: Archive catalog artifacts
@@ -45,7 +46,7 @@ jobs:
         with:
           name: catalogs
           path: |
-            .local
+            ~/.local
             /tmp/*_test
 
   verify-catalogs:
@@ -60,5 +61,5 @@ jobs:
 
       - name: Directory Listings
         run: |
-          ls -lAFghR .local/
+          ls -lAFghR ~/.local/
           ls -lart /tmp/*_test
