@@ -78,16 +78,19 @@ jobs:
         micromamba install pytest coverage coveralls
 
     - name: Confirm EPICS IOC is available via caget
+      shell: bash -l {0}
       run: |
         which caget
         caget gp:UPTIME
         caget ad:cam1:Acquire_RBV
 
     - name: Confirm EPICS IOC is available via PyEpics
+      shell: bash -l {0}
       run: |
         python -c "import epics; print(epics.caget('gp:UPTIME'))"
 
     - name: Confirm EPICS IOC is available via ophyd
+      shell: bash -l {0}
       run: |
         CMD="import ophyd"
         CMD+="; up = ophyd.EpicsSignalRO('gp:UPTIME', name='up')"
@@ -96,15 +99,18 @@ jobs:
         python -c "${CMD}"
 
     - name: install test data catalogs
+      shell: bash -l {0}
       run: |
         ./resources/unpack.sh
 
     - name: Diagnostics
+      shell: bash -l {0}
       run: |
         df -HT
         micromamba list
 
     - name: Run tests with pytest & coverage
+      shell: bash -l {0}
       run: |
         # proceed as in hklpy
         coverage run --concurrency=thread --parallel-mode -m pytest -vvv .
@@ -113,6 +119,7 @@ jobs:
 
     - name: Upload to coveralls
       # https://github.com/TheKevJames/coveralls-python
+      shell: bash -l {0}
       run: |
         coveralls --service=github
       env:
