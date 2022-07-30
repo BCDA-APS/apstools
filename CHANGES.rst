@@ -17,11 +17,20 @@ Change History
 The project `milestones <https://github.com/BCDA-APS/apstools/milestones>`_
 describe the future plans.
 
-..
-   1.6.3
-   ******
+1.6.3
+******
 
-   release expected by 2022-08-31
+release expected by 2022-08-31
+
+Maintenance
+---------------
+
+* Unit tests now Python version 3.8, 3.9, & 3.10.
+
+Deprecations
+---------------
+
+* Drop support for Python 3.7.
 
 1.6.2
 ******

@@ -5,7 +5,7 @@ channels:
   - defaults
 
 dependencies:
-  - python >=3.7, <3.10
+  - python >=3.8, <3.11
   - area-detector-handlers
   - bluesky >=1.6.7
   - databroker =1.2
