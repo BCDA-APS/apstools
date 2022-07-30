@@ -60,9 +60,9 @@ jobs:
         uses: actions/download-artifact@v3
         with:
           name: catalogs
+          path: catalogs
 
       - name: Directory Listings
         run: |
           ls ~/
-          ls -lAFghR ~/.local/
-          ls -lart /tmp/*_test
+          ls -lAFghR catalogs
