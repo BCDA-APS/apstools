@@ -50,7 +50,7 @@ jobs:
             /tmp/*_test
 
   verify-catalogs:
-    name: waiting
+    name: Verify Catalogs
     runs-on: ubuntu-latest
     needs: install-catalogs
 
@@ -58,8 +58,11 @@ jobs:
 
       - name: Download catalog artifacts
         uses: actions/download-artifact@v3
+        with:
+          name: catalogs
 
       - name: Directory Listings
         run: |
+          ls ~/
           ls -lAFghR ~/.local/
           ls -lart /tmp/*_test
