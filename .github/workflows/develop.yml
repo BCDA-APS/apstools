@@ -108,7 +108,7 @@ jobs:
         printenv | sort
 
     - name: Directories before Docker
-      run: ls -lAFgh ~/
+      run: ls -lAFghrt ~/
 
     - name: Start EPICS IOCs in Docker
       run: |
@@ -119,7 +119,7 @@ jobs:
         ls -lAFgh /tmp/docker_ioc/iocgp/
 
     - name: Directories after Docker
-      run: ls -lAFgh ~/
+      run: ls -lAFghrt ~/
 
     - name: Confirm EPICS IOC is available via caget
       shell: bash -l {0}
