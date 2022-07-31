@@ -12,6 +12,7 @@ dependencies:
   - databroker-pack
   - h5py
   - intake
+  - mongoquery >=1.3.6
   - openpyxl
   - ophyd >=1.6.1
   - pandas
