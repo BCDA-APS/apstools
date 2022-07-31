@@ -12,7 +12,7 @@ import sys
 import versioneer
 
 
-sys.path.insert(0, (pathlib.Path(__file__).parent / "apstools"))
+sys.path.insert(0, str(pathlib.Path(__file__).parent / "apstools"))
 import apstools as package
 
 
