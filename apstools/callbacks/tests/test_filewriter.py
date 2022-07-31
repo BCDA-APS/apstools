@@ -163,29 +163,26 @@ def test_NXWriter_make_file_name(tempdir):
     assert callback.start_time is None
     assert callback.uid is None
 
-    # scan_id is None which raises TypeError
     with pytest.raises(TypeError) as exinfo:
+        # error from f"-S{self.scan_id:05d}"
         callback.make_file_name()
     assert exinfo is not None
     assert "NoneType" in str(exinfo.value), f"{callback=} {exinfo=}"
     assert "an integer" in str(exinfo.value), f"{callback=} {exinfo=}"
 
     callback.start_time = 1000  # 1969-12-31T18:16:40
-    # still, same error
     with pytest.raises(TypeError) as exinfo:
+        # error from datetime.datetime.fromtimestamp
         callback.make_file_name()
-    assert (
-        "unsupported format string passed to NoneType.__format__"
-        ==
-        str(exinfo.value)
-    )
-    callback.scan_id = 9876
+    expected = "unsupported format string passed to NoneType.__format__"
+    assert expected == str(exinfo.value)
 
+    callback.scan_id = 9876
     with pytest.raises(TypeError) as exinfo:
         callback.make_file_name()
     assert "'NoneType' object is not subscriptable" == str(exinfo.value)
-    callback.uid = "012345678901234567890123456789"
 
+    callback.uid = "012345678901234567890123456789"
     fname = callback.make_file_name()
     # https://github.com/BCDA-APS/apstools/issues/345
     tz_aps = dateutil.tz.gettz("America/Chicago")
