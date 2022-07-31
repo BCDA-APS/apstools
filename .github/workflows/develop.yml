@@ -41,13 +41,17 @@ jobs:
           ls -lAFghR ~/.local/
           ls -lart /tmp/*_test
 
+      - name: Prepare archival content
+        run: |
+          mkdir -p ~/treasures/
+          mv ~/.local ~/treasures/
+          mv /tmp/*_test ~/treasures/
+
       - name: Archive catalog artifacts
         uses: actions/upload-artifact@v3
         with:
-          name: catalogs
-          path: |
-            ~/.local
-            /tmp/*_test
+          name: treasures
+          path: ~/treasures
 
   verify-catalogs:
     name: Verify Catalogs
@@ -59,19 +63,17 @@ jobs:
       - name: Download catalog artifacts
         uses: actions/download-artifact@v3
         with:
-          name: catalogs
-          path: catalogs
+          name: treasures
+          path: ~/treasures
 
       # - name: Directory Listings
-      #   run: |
-      #     ls ~/
-      #     ls -lAFghR catalogs
+      #   run: ls -lAFghR ~/treasures
 
-      - name: Put them back
+      - name: Restore archival content
         run: |
           mkdir -p ~/.local/share/intake
-          mv ~/catalogs/home/runner/.local/share/intake/* ~/.local/share/intake
-          mv ~/catalogs/tmp/*_test /tmp/
+          mv ~/treasures/.local/share/intake/* ~/.local/share/intake
+          mv ~/treasures/*_test /tmp/
 
       - name: Directory Listings
         run: |
