@@ -89,6 +89,7 @@ jobs:
       with:
         cache-env: true
         cache-env-key: env-key-${{ matrix.python-version }}
+        channel-priority: flexible
         environment-file: environment.yml
         environment-name: anaconda-test-env-py-${{ matrix.python-version }}
         extra-specs: |
