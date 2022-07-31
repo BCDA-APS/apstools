@@ -86,6 +86,7 @@ jobs:
 
     - name: Create Python ${{ matrix.python-version }} environment
       uses: mamba-org/provision-with-micromamba@main
+      # use main branch to enable choice of channel-priority
       with:
         cache-env: true
         cache-env-key: env-key-${{ matrix.python-version }}
