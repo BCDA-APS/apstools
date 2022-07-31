@@ -85,7 +85,7 @@ jobs:
     - uses: actions/checkout@v2
 
     - name: Create Python ${{ matrix.python-version }} environment
-      uses: mamba-org/provision-with-micromamba@v12
+      uses: mamba-org/provision-with-micromamba@main
       with:
         cache-env: true
         cache-env-key: env-key-${{ matrix.python-version }}
@@ -106,6 +106,9 @@ jobs:
         micromamba env list
         printenv | sort
 
+    - name: Directories before Docker
+      run: ls -lAFgh ~/
+
     - name: Start EPICS IOCs in Docker
       run: |
         bash ./.github/scripts/start_xxx.sh gp
@@ -113,6 +116,9 @@ jobs:
         docker ps -a
         ls -lAFgh /tmp/docker_ioc/iocad/
         ls -lAFgh /tmp/docker_ioc/iocgp/
+
+    - name: Directories after Docker
+      run: ls -lAFgh ~/
 
     - name: Confirm EPICS IOC is available via caget
       shell: bash -l {0}
