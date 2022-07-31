@@ -163,14 +163,15 @@ def test_NXWriter_make_file_name(tempdir):
     assert callback.start_time is None
     assert callback.uid is None
 
+    # scan_id is None which raises TypeError
     with pytest.raises(TypeError) as exinfo:
         callback.make_file_name()
-    assert (
-        "an integer is required (got type NoneType)"
-        in str(exinfo.value)
-    )
-    callback.start_time = 1000  # 1969-12-31T18:16:40
+    assert exinfo is not None
+    match = "an integer is required (got type NoneType)"
+    assert match in str(exinfo.value), f"{callback=} {exinfo=}"
 
+    callback.start_time = 1000  # 1969-12-31T18:16:40
+    # still, same error
     with pytest.raises(TypeError) as exinfo:
         callback.make_file_name()
     assert (
