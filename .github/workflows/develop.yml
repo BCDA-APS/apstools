@@ -152,6 +152,10 @@ jobs:
         df -HT
         micromamba list
 
+    - name: Test catalog length, expect 53
+      shell: bash -l {0}
+      run: python -c "import databroker; print(len(databroker.catalog['apstools_test']))"
+
     - name: Run tests with pytest & coverage
       shell: bash -l {0}
       run: |
