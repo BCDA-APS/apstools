@@ -39,7 +39,7 @@ jobs:
       - name: Directory Listings
         run: |
           ls -lAFghR ~/.local/
-          ls -lart /tmp/*_test
+          ls -lAFghR /tmp/*_test/
 
       - name: Prepare archival content
         run: |
@@ -66,9 +66,6 @@ jobs:
           name: treasures
           path: ~/treasures
 
-      # - name: Directory Listings
-      #   run: ls -lAFghR ~/treasures
-
       - name: Restore archival content
         run: |
           mkdir -p ~/.local/share/intake
@@ -78,4 +75,12 @@ jobs:
       - name: Directory Listings
         run: |
           ls -lAFghR ~/.local/
-          ls -lart /tmp/*_test
+          ls -lAFghR /tmp/*_test/
+
+      - uses: actions/setup-python@v2
+
+      - name: Install Databroker & test catalog (expect 53)
+        run: |
+          python -m pip install --upgrade pip
+          pip install databroker
+          python -c "import databroker; print(len(databroker.catalog['apstools_test']))"
