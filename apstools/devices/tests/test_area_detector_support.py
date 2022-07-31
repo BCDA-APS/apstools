@@ -4,6 +4,8 @@ from ...devices import AD_EpicsFileNameTIFFPlugin
 from ...devices import AD_full_file_name_local
 from ...devices import AD_prime_plugin2
 from ...tests import MASTER_TIMEOUT
+from ophyd import EpicsSignal
+from ophyd import EpicsSignalRO
 from ophyd import EpicsSignalWithRBV
 from ophyd.areadetector import ADComponent
 from ophyd.areadetector import DetectorBase
@@ -18,6 +20,7 @@ import pytest
 import time
 
 
+BRIEF_POLLING_DELAY = 0.000_05
 IOC = "ad:"
 IMAGE_DIR = "adsimdet/%Y/%m/%d"
 AD_IOC_MOUNT_PATH = pathlib.Path("/tmp")
@@ -42,7 +45,15 @@ except RuntimeError:
 
 class MyFixedCam(SimDetectorCam):
     pool_max_buffers = None
+    acquire_busy = ADComponent(EpicsSignalRO, "AcquireBusy")
     offset = ADComponent(EpicsSignalWithRBV, "Offset")
+    wait_for_plugins = ADComponent(EpicsSignal, "WaitForPlugins")
+
+    @property
+    def is_busy(self):
+        signal = self.acquire_busy
+        busy_value = signal.get(use_monitor=False)
+        return busy_value in (1, signal.enum_strs[1])
 
 
 class MySimDetector(SingleTrigger, DetectorBase):
@@ -75,6 +86,7 @@ class MySimDetector(SingleTrigger, DetectorBase):
 def adsimdet():
     "EPICS ADSimDetector."
     adsimdet = MySimDetector(IOC, name="adsimdet")
+    adsimdet.stage_sigs["cam.wait_for_plugins"] = "Yes"
     adsimdet.wait_for_connection(timeout=15)
     for plugin_name in "hdf1 jpeg1 tiff1".split():
         adsimdet.read_attrs.append(plugin_name)
@@ -151,10 +163,12 @@ def test_acquire(plugin_name, plugin_class, adsimdet, fname):
 
     adsimdet.stage()
     adsimdet.trigger()
-    time.sleep(0.005)
-    while adsimdet.cam.acquire.get(use_monitor=False) not in (0, "Done"):
-        time.sleep(0.005)
+    while not adsimdet.cam.is_busy:  # wait for acquire to start
+        time.sleep(BRIEF_POLLING_DELAY)
+    while adsimdet.cam.is_busy:  # wait for acquire to end
+        time.sleep(BRIEF_POLLING_DELAY)
     adsimdet.unstage()
+    time.sleep(0.2)
 
     lfname = AD_full_file_name_local(plugin)
     assert lfname is not None
