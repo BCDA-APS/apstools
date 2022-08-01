@@ -265,12 +265,12 @@ def AD_full_file_name_local(plugin):
         return ffname
 
     # identify the common last parts of the file directories
-    rparts = pathlib.Path(plugin.read_path_template).parts
-    wparts = pathlib.Path(plugin.write_path_template).parts
+    read_parts = pathlib.Path(plugin.read_path_template).parts
+    write_parts = pathlib.Path(plugin.write_path_template).parts
     icommon = 0
-    for i in range(min(len(rparts), len(wparts))):
+    for i in range(min(len(read_parts), len(write_parts))):
         i1 = -i - 1
-        if rparts[i1:] != wparts[i1:]:
+        if read_parts[i1:] != write_parts[i1:]:
             icommon = i
             break
 
@@ -280,10 +280,24 @@ def AD_full_file_name_local(plugin):
         )
 
     # fmt: off
-    local_root = pathlib.Path().joinpath(*rparts[:-icommon])
-    common_parts = ffname.parts[len(wparts[:-icommon]):]
+    local_root = pathlib.Path().joinpath(*read_parts[:-icommon])
+    common_parts = ffname.parts[len(write_parts[:-icommon]):]
     local_ffname = local_root.joinpath(*common_parts)
     # fmt: on
+    # TODO: diagnostics only
+    # rxiv = dict(
+    #     fname=fname,
+    #     read_parts=str(read_parts),
+    #     write_parts=str(write_parts),
+    #     local_root=str(local_root),
+    #     icommon=icommon,
+    #     common_parts=str(common_parts),
+    #     local_ffname=str(local_ffname),
+    # )
+    # title = f"{plugin.name}-{datetime.datetime.now()}"
+    # import yaml
+    # with open("/tmp/rxiv.yml", "a") as fp:
+    #     fp.write(yaml.dump({title: rxiv}))
 
     return local_ffname
 
