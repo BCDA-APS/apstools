@@ -1,3 +1,7 @@
+"""
+Test code where users control the names of the image files using EPICS.
+"""
+
 from ...devices import AD_EpicsFileNameHDF5Plugin
 from ...devices import AD_EpicsFileNameJPEGPlugin
 from ...devices import AD_EpicsFileNameTIFFPlugin
@@ -14,13 +18,15 @@ from ophyd.areadetector.plugins import ImagePlugin_V34 as ImagePlugin
 from ophyd.areadetector.plugins import PvaPlugin_V34 as PvaPlugin
 from ophyd.areadetector import SimDetectorCam
 from ophyd.signal import EpicsSignalBase
+import bluesky
+import bluesky.plans as bp
+import bluesky.plan_stubs as bps
 import datetime
 import pathlib
 import pytest
 import time
 
 
-BRIEF_POLLING_DELAY = 0.000_05
 IOC = "ad:"
 IMAGE_DIR = "adsimdet/%Y/%m/%d"
 AD_IOC_MOUNT_PATH = pathlib.Path("/tmp")
@@ -150,31 +156,58 @@ def test_stage(plugin_name, plugin_class, adsimdet, fname):
         ["tiff1", AD_EpicsFileNameTIFFPlugin],
     ],
 )
-def test_acquire(plugin_name, plugin_class, adsimdet, fname):
+def test_bp_count_custom_name(plugin_name, plugin_class, adsimdet, fname):
     assert isinstance(plugin_name, str)
 
     plugin = getattr(adsimdet, plugin_name)
     assert isinstance(plugin, plugin_class)
 
-    plugin.file_name.put(fname)
-    ext = dict(hdf1="h5", jpeg1="jpg", tiff1="tif")[plugin_name]
-    plugin.file_template.put(f"%s%s_%4.4d.{ext}")
-    time.sleep(0.2)
+    def prepare_count(file_path, file_name, n_images):
+        yield from bps.mv(
+            plugin.auto_increment, "Yes",
+            plugin.auto_save, "Yes",
+            plugin.create_directory, -5,
+            plugin.file_name, file_name,
+            plugin.file_path, file_path,
+            plugin.num_capture, n_images,
+            adsimdet.cam.num_images, n_images,
+            adsimdet.cam.acquire_time, 0.001,
+            adsimdet.cam.acquire_period, 0.002,
+            adsimdet.cam.image_mode, "Single",
+            # plugin.file_template  # pre-configured
+        )
 
-    adsimdet.stage()
-    adsimdet.trigger()
-    while not adsimdet.cam.is_busy:  # wait for acquire to start
-        time.sleep(BRIEF_POLLING_DELAY)
-    while adsimdet.cam.is_busy:  # wait for acquire to end
-        time.sleep(BRIEF_POLLING_DELAY)
-    adsimdet.unstage()
-    time.sleep(0.2)
+    RE = bluesky.RunEngine({})
+    RE(prepare_count(f"{plugin.write_path_template}/", fname, 1))
+    assert plugin.auto_increment.get() in (1, "Yes")
+    assert plugin.auto_save.get() in (1, "Yes")
+    assert plugin.create_directory.get() == -5
+    assert plugin.file_name.get() == fname
+    assert plugin.file_path.get() == f"{plugin.write_path_template}/"
+    assert plugin.file_template.get() not in ("", "/")
+    assert plugin.num_capture.get() == 1
+    assert adsimdet.cam.num_images.get() == 1
+    assert adsimdet.cam.acquire_time.get() == 0.001
+    assert adsimdet.cam.acquire_period.get() == 0.002
+    assert adsimdet.cam.image_mode.get() in (0, "Single")
 
+    # remember this for testing later
+    next_file_number = plugin.file_number.get()
+
+    # acquire the image (using standard technique)
+    uids = RE(bp.count([adsimdet]))
+    assert len(uids) == 1
+    assert plugin.file_number.get() > next_file_number
+    assert not adsimdet.cam.is_busy
+
+    assert plugin.full_file_name.get().strip() not in ("", "/")
+
+    # local file-system image file name
     lfname = AD_full_file_name_local(plugin)
     assert lfname is not None
     assert lfname.exists(), lfname
     assert isinstance(lfname, pathlib.Path)
-    assert str(lfname).find(fname) > 0, f"{lfname=}  {fname=}"
+    assert fname in str(lfname), f"{lfname=}  {fname=}"
 
 
 def test_full_file_name_local(adsimdet, fname):
