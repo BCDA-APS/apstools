@@ -31,11 +31,13 @@ release expected by 2022-08-31
 Maintenance
 ---------------
 
+* Unit tests now Python version 3.8, 3.9, & 3.10.
 * Now published on conda-forge ``conda install -c conda-forge apstools``.
 
 Deprecations
 ---------------
 
+* Drop support for Python 3.7.
 * Stop publishing on channel ``-c aps-anl-tag``
   (using ``-c conda-forge`` instead).
 * The ``bluesky_snapshot_viewer`` and underlying GUI code will be dropped by
