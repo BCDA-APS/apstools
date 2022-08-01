@@ -283,21 +283,6 @@ def AD_full_file_name_local(plugin):
     local_root = pathlib.Path().joinpath(*read_parts[:-icommon])
     common_parts = ffname.parts[len(write_parts[:-icommon]):]
     local_ffname = local_root.joinpath(*common_parts)
-    # fmt: on
-    # TODO: diagnostics only
-    # rxiv = dict(
-    #     fname=fname,
-    #     read_parts=str(read_parts),
-    #     write_parts=str(write_parts),
-    #     local_root=str(local_root),
-    #     icommon=icommon,
-    #     common_parts=str(common_parts),
-    #     local_ffname=str(local_ffname),
-    # )
-    # title = f"{plugin.name}-{datetime.datetime.now()}"
-    # import yaml
-    # with open("/tmp/rxiv.yml", "a") as fp:
-    #     fp.write(yaml.dump({title: rxiv}))
 
     return local_ffname
 

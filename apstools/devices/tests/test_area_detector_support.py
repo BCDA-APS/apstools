@@ -1,3 +1,7 @@
+"""
+Test code where users control the names of the image files using EPICS.
+"""
+
 from ...devices import AD_EpicsFileNameHDF5Plugin
 from ...devices import AD_EpicsFileNameJPEGPlugin
 from ...devices import AD_EpicsFileNameTIFFPlugin
@@ -23,7 +27,6 @@ import pytest
 import time
 
 
-BRIEF_POLLING_DELAY = 0.000_05
 IOC = "ad:"
 IMAGE_DIR = "adsimdet/%Y/%m/%d"
 AD_IOC_MOUNT_PATH = pathlib.Path("/tmp")
@@ -200,43 +203,6 @@ def test_bp_count_custom_name(plugin_name, plugin_class, adsimdet, fname):
     assert plugin.full_file_name.get().strip() not in ("", "/")
 
     # local file-system image file name
-    lfname = AD_full_file_name_local(plugin)
-    assert lfname is not None
-    assert lfname.exists(), lfname
-    assert isinstance(lfname, pathlib.Path)
-    assert fname in str(lfname), f"{lfname=}  {fname=}"
-
-
-@pytest.mark.parametrize(
-    "plugin_name, plugin_class",
-    [
-        ["hdf1", AD_EpicsFileNameHDF5Plugin],
-        ["jpeg1", AD_EpicsFileNameJPEGPlugin],
-        ["tiff1", AD_EpicsFileNameTIFFPlugin],
-    ],
-)
-def IGNORE_test_acquire(plugin_name, plugin_class, adsimdet, fname):
-    assert isinstance(plugin_name, str)
-
-    plugin = getattr(adsimdet, plugin_name)
-    assert isinstance(plugin, plugin_class)
-
-    plugin.file_name.put(fname, use_complete=True)
-    ext = dict(hdf1="h5", jpeg1="jpg", tiff1="tif")[plugin_name]
-    plugin.file_template.put(f"%s%s_%4.4d.{ext}")
-    time.sleep(0.02)
-    assert plugin.file_name.get(use_monitor=False) == fname
-
-    adsimdet.stage()
-    adsimdet.trigger()
-    while not adsimdet.cam.is_busy:  # wait for acquire to start
-        time.sleep(BRIEF_POLLING_DELAY)
-    while adsimdet.cam.is_busy:  # wait for acquire to end
-        time.sleep(BRIEF_POLLING_DELAY)
-    adsimdet.unstage()
-
-    assert plugin.full_file_name.get().strip() not in ("", "/")
-
     lfname = AD_full_file_name_local(plugin)
     assert lfname is not None
     assert lfname.exists(), lfname
