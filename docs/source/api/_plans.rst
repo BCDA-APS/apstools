@@ -55,6 +55,7 @@ Overall
    ~apstools.plans.command_list.parse_text_command_file
    ~apstools.plans.command_list.register_command_handler
    ~apstools.plans.command_list.run_command_file
+   ~apstools.plans.run_blocking_function_plan.run_blocking_function
    ~apstools.plans.snapshot_support.snapshot
    ~apstools.plans.sscan_support.sscan_1D
    ~apstools.plans.command_list.summarize_command_file
@@ -78,6 +79,9 @@ Submodules
     :members:
 
 .. automodule:: apstools.plans.nscan_support
+    :members:
+
+.. automodule:: apstools.plans.run_blocking_function_plan
     :members:
 
 .. automodule:: apstools.plans.snapshot_support

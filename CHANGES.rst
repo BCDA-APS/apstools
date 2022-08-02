@@ -27,6 +27,7 @@ New Features and/or Enhancements
 
 * Add EpicsScanIdSignal (scan_id from EPICS PV).
 * Switch HTML documentation to use *furo* theme.
+* Add run_blocking_function() plan to run blocking functions in the RunEngine.
 
 Maintenance
 ---------------
