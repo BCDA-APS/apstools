@@ -12,6 +12,9 @@ def run_blocking_function(function, *args, **kwargs):
     runs ``function(*args, **kwargs)`` in a thread so it does
     not block the RunEngine's background operations.
 
+    .. note: Any result(s) returned from ``function``
+       will be ignored.
+
     It is intended to call blocking code that should not be
     called directly from a bluesky plan.
 
@@ -19,7 +22,7 @@ def run_blocking_function(function, *args, **kwargs):
 
     This example creates a bluesky plan named ``start_incrementer()``
     which configures a synApps "userCalc" as an automated
-    10Hz incrementer.  
+    10Hz incrementer.
     Configuration is made by calling the *blocking* function
     :func:`~apstools.synApps.swait.setup_incrementer_swait`.
     The incrementer resets to zero at 100,000:
@@ -40,12 +43,13 @@ def run_blocking_function(function, *args, **kwargs):
                 scan="0.1 second",
                 limit=100_000
             )
-        
+
         # now, run my_plan
         RE(my_plan())
 
-    .. note: Any result(s) returned from ``function``
-       will be ignored.
+    .. note: This function is a convenience adapter to execute
+       functions that are not bluesky generator functions, plans.
+       It's best not to use this as a decorator.
 
     (new in release 1.6.3)
     """
