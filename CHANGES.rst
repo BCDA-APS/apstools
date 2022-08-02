@@ -22,6 +22,12 @@ describe the future plans.
 
 release expected by 2022-08-31
 
+New Features and/or Enhancements
+---------------------------------------------
+
+* Add EpicsScanIdSignal (scan_id from EPICS PV).
+* Switch HTML documentation to use *furo* theme.
+
 Maintenance
 ---------------
 
