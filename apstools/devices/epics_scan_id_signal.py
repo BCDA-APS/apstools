@@ -14,7 +14,7 @@ class EpicsScanIdSignal(EpicsSignal):
 
         scan_id = EpicsScanIdDevice("ioc:scan_id:longout", name="scan_id")
         # ...
-        RE = bluesky.RunEngine({}, scan_id=scan_id_signal.cb_scan_id_source)
+        RE = bluesky.RunEngine({}, scan_id_source=scan_id.cb_scan_id_source)
 
     (new in release 1.6.3)
     """
