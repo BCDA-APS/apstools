@@ -1,0 +1,59 @@
+from ..utils import run_in_thread
+import bluesky.plan_stubs as bps
+
+POLL_DELAY = 0.000_05
+
+
+def run_blocking_function(function, *args, **kwargs):
+    """
+    Run a blocking function as a bluesky plan, in a thread.
+
+    The ``run_blocking_function()`` is a bluesky plan which
+    runs ``function(*args, **kwargs)`` in a thread so it does
+    not block the RunEngine's background operations.
+
+    It is intended to call blocking code that should not be
+    called directly from a bluesky plan.
+
+    EXAMPLE:
+
+    This example creates a bluesky plan named ``start_incrementer()``
+    which configures a synApps "userCalc" as an automated
+    10Hz incrementer.  
+    Configuration is made by calling the *blocking* function
+    :func:`~apstools.synApps.swait.setup_incrementer_swait`.
+    The incrementer resets to zero at 100,000:
+
+    .. code-block:: python
+
+        from apstools.plans import run_blocking_function
+        from apstools.synApps import SwaitRecord
+        from apstools.synApps import setup_incrementer_swait
+        import bluesky.plan_stubs as bps
+
+        swait = SwaitRecord("ioc:userCalc1", name="swait")
+
+        def start_incrementer():
+            yield from run_blocking_function(
+                setup_incrementer_swait,
+                swait,
+                scan="0.1 second",
+                limit=100_000
+            )
+        
+        # now, run my_plan
+        RE(my_plan())
+
+    .. note: Any result(s) returned from ``function``
+       will be ignored.
+
+    (new in release 1.6.3)
+    """
+
+    @run_in_thread
+    def internal():
+        function(*args, **kwargs)  # ignore any returned result(s)
+
+    thread = internal()
+    while thread.is_alive():
+        yield from bps.sleep(POLL_DELAY)
