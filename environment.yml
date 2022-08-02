@@ -12,6 +12,7 @@ dependencies:
   - bluesky >=1.6.7
   - databroker =1.2
   - databroker-pack
+  - furo
   - h5py
   - intake
   - mongoquery >=1.3.6
@@ -28,8 +29,7 @@ dependencies:
   - qt =5
   - readline !=8.1.2
   - spec2nexus
-  - sphinx
-  - sphinx_rtd_theme
+  - sphinx >=5
   - versioneer
 
   # - pip:
