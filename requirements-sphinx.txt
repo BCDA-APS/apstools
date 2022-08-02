@@ -1,4 +1,4 @@
 markupsafe ==2.0.1
 nbsphinx
 pygments ==2.7.4
-sphinx-rtd-theme
+furo
