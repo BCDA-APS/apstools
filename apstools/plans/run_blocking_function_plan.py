@@ -1,6 +1,8 @@
 from ..utils import run_in_thread
 import bluesky.plan_stubs as bps
+import logging
 
+logger = logging.getLogger(__name__)
 POLL_DELAY = 0.000_05
 
 
@@ -17,6 +19,10 @@ def run_blocking_function(function, *args, **kwargs):
 
     It is intended to call blocking code that should not be
     called directly from a bluesky plan.
+
+    USAGE::
+
+        yield from run_blocking_function(function, *args, **kwargs)
 
     EXAMPLE:
 
@@ -56,7 +62,8 @@ def run_blocking_function(function, *args, **kwargs):
 
     @run_in_thread
     def internal():
-        function(*args, **kwargs)  # ignore any returned result(s)
+        result = function(*args, **kwargs)
+        logger.debug("%s() result=%s", result)
 
     thread = internal()
     while thread.is_alive():
