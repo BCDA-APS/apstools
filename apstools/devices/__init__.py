@@ -37,6 +37,8 @@ from .axis_tuner import AxisTunerMixin
 
 from .description_mixin import EpicsDescriptionMixin
 
+from .epics_scan_id_signal import EpicsScanIdSignal
+
 from .eurotherm_2216e import Eurotherm2216e
 
 from .kohzu_monochromator import KohzuSeqCtl_Monochromator

@@ -153,6 +153,7 @@ Other Support
     ~apstools.devices.xia_pf4.Pf4FilterCommon
     ~apstools.devices.xia_pf4.DualPf4FilterBox
     ~apstools.devices.description_mixin.EpicsDescriptionMixin
+    ~apstools.devices.epics_scan_id_signal.EpicsScanIdSignal
     ~apstools.devices.kohzu_monochromator.KohzuSeqCtl_Monochromator
     ~apstools.devices.srs570_preamplifier.SRS570_PreAmplifier
     ~apstools.devices.struck3820.Struck3820
@@ -188,6 +189,9 @@ All Submodules
     :members:
 
 .. automodule:: apstools.devices.description_mixin
+    :members:
+
+.. automodule:: apstools.devices.epics_scan_id_signal
     :members:
 
 .. automodule:: apstools.devices.eurotherm_2216e
