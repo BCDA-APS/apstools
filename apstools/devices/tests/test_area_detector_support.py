@@ -2,25 +2,24 @@
 Test code where users control the names of the image files using EPICS.
 """
 
-from ...devices import AD_EpicsFileNameHDF5Plugin
-from ...devices import AD_EpicsFileNameJPEGPlugin
-from ...devices import AD_EpicsFileNameTIFFPlugin
-from ...devices import AD_full_file_name_local
-from ...devices import AD_prime_plugin2
+from .. import AD_EpicsFileNameHDF5Plugin
+from .. import AD_EpicsFileNameJPEGPlugin
+from .. import AD_EpicsFileNameTIFFPlugin
+from .. import AD_full_file_name_local
+from .. import AD_plugin_primed
+from .. import AD_prime_plugin2
+from .. import CamMixin_V34 as CamMixin
+from .. import SingleTrigger_V34 as SingleTrigger
 from ...tests import MASTER_TIMEOUT
-from ophyd import EpicsSignal
-from ophyd import EpicsSignalRO
-from ophyd import EpicsSignalWithRBV
 from ophyd.areadetector import ADComponent
 from ophyd.areadetector import DetectorBase
-from ophyd.areadetector import SingleTrigger
+from ophyd.areadetector import SimDetectorCam
 from ophyd.areadetector.plugins import ImagePlugin_V34 as ImagePlugin
 from ophyd.areadetector.plugins import PvaPlugin_V34 as PvaPlugin
-from ophyd.areadetector import SimDetectorCam
 from ophyd.signal import EpicsSignalBase
 import bluesky
-import bluesky.plans as bp
 import bluesky.plan_stubs as bps
+import bluesky.plans as bp
 import datetime
 import pathlib
 import pytest
@@ -49,23 +48,14 @@ except RuntimeError:
     pass  # ignore if some EPICS object already created
 
 
-class MyFixedCam(SimDetectorCam):
-    pool_max_buffers = None
-    acquire_busy = ADComponent(EpicsSignalRO, "AcquireBusy")
-    offset = ADComponent(EpicsSignalWithRBV, "Offset")
-    wait_for_plugins = ADComponent(EpicsSignal, "WaitForPlugins")
-
-    @property
-    def is_busy(self):
-        signal = self.acquire_busy
-        busy_value = signal.get(use_monitor=False)
-        return busy_value in (1, signal.enum_strs[1])
+class MySimDetectorCam(CamMixin, SimDetectorCam):
+    """triggering configuration and AcquireBusy support"""
 
 
 class MySimDetector(SingleTrigger, DetectorBase):
     """ADSimDetector"""
 
-    cam = ADComponent(MyFixedCam, "cam1:")
+    cam = ADComponent(MySimDetectorCam, "cam1:")
     hdf1 = ADComponent(
         AD_EpicsFileNameHDF5Plugin,
         "HDF1:",
@@ -97,7 +87,8 @@ def adsimdet():
     for plugin_name in "hdf1 jpeg1 tiff1".split():
         adsimdet.read_attrs.append(plugin_name)
         plugin = getattr(adsimdet, plugin_name)
-        AD_prime_plugin2(plugin)
+        if not AD_plugin_primed(plugin):
+            AD_prime_plugin2(plugin)
 
         # these settings are the caller's responsibility
         plugin.file_name.put("")  # control this in tests
@@ -164,16 +155,26 @@ def test_bp_count_custom_name(plugin_name, plugin_class, adsimdet, fname):
 
     def prepare_count(file_path, file_name, n_images):
         yield from bps.mv(
-            plugin.auto_increment, "Yes",
-            plugin.auto_save, "Yes",
-            plugin.create_directory, -5,
-            plugin.file_name, file_name,
-            plugin.file_path, file_path,
-            plugin.num_capture, n_images,
-            adsimdet.cam.num_images, n_images,
-            adsimdet.cam.acquire_time, 0.001,
-            adsimdet.cam.acquire_period, 0.002,
-            adsimdet.cam.image_mode, "Single",
+            plugin.auto_increment,
+            "Yes",
+            plugin.auto_save,
+            "Yes",
+            plugin.create_directory,
+            -5,
+            plugin.file_name,
+            file_name,
+            plugin.file_path,
+            file_path,
+            plugin.num_capture,
+            n_images,
+            adsimdet.cam.num_images,
+            n_images,
+            adsimdet.cam.acquire_time,
+            0.001,
+            adsimdet.cam.acquire_period,
+            0.002,
+            adsimdet.cam.image_mode,
+            "Single",
             # plugin.file_template  # pre-configured
         )
 
