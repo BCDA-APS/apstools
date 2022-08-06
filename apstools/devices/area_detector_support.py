@@ -6,8 +6,8 @@ Area Detector Support
 
    ~AD_EpicsFileNameHDF5Plugin
    ~AD_EpicsFileNameJPEGPlugin
-   ~AD_EpicsFileNameTIFFPlugin
    ~AD_EpicsFileNameMixin
+   ~AD_EpicsFileNameTIFFPlugin
    ~AD_EpicsHdf5FileName
    ~AD_EpicsHDF5IterativeWriter
    ~AD_EpicsJPEGFileName
@@ -19,6 +19,9 @@ Area Detector Support
    ~AD_prime_plugin
    ~AD_prime_plugin2
    ~AD_setup_FrameType
+   ~CamMixin_V3_1_1
+   ~CamMixin_V34
+   ~SingleTrigger_V34
 """
 
 from collections import OrderedDict
@@ -290,6 +293,7 @@ def AD_full_file_name_local(plugin):
     local_root = pathlib.Path().joinpath(*read_parts[:-icommon])
     common_parts = ffname.parts[len(write_parts[:-icommon]):]
     local_ffname = local_root.joinpath(*common_parts)
+    # fmt: on
 
     return local_ffname
 
@@ -738,7 +742,7 @@ class SingleTrigger_V34(SingleTrigger):
     (new in release 1.6.3)
     """
 
-    def __init__(self, *args, image_name=None, **kwargs):
+    def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         has_v34_cam_features = (
             hasattr(self, "cam")
@@ -758,9 +762,6 @@ class SingleTrigger_V34(SingleTrigger):
     def unstage(self):
         super(SingleTrigger, self).unstage()  # from grandparent
         self._acquisition_busy_signal.clear_sub(self._acquire_changed)
-
-    # trigger() method is OK
-    # _acquire_changed() method is OK (no functional changes)
 
 
 # -----------------------------------------------------------------------------
