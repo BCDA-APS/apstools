@@ -17,6 +17,12 @@ Change History
 The project `milestones <https://github.com/BCDA-APS/apstools/milestones>`_
 describe the future plans.
 
+..
+   1.6.4
+   ******
+
+   release expected by 2022-09-30
+
 1.6.3
 ******
 
@@ -33,11 +39,16 @@ Maintenance
 ---------------
 
 * Unit tests now Python version 3.8, 3.9, & 3.10.
+* Now published on conda-forge ``conda install -c conda-forge apstools``.
 
 Deprecations
 ---------------
 
 * Drop support for Python 3.7.
+* Stop publishing on channel ``-c aps-anl-tag``
+  (using ``-c conda-forge`` instead).
+* The ``bluesky_snapshot_viewer`` and underlying GUI code will be dropped by
+  2022-12-31.
 
 1.6.2
 ******
