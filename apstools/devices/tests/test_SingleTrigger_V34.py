@@ -285,19 +285,19 @@ def Xtest_cam_mixin_v34_operation():
     dataset = run.primary.read()  # FIXME: cannot read the file as named,
     # resource_path is wrong, should end with "4fb5-bbc2_-000000.h5', "
     """
-    E           event_model.EventModelError: Error instantiating handler class 
-    <class 'area_detector_handlers.handlers.AreaDetectorHDF5Handler'> with 
+    E           event_model.EventModelError: Error instantiating handler class
+    <class 'area_detector_handlers.handlers.AreaDetectorHDF5Handler'> with
     Resource document {
-        'spec': 'AD_HDF5', 
-        'root': '/', 
-        'resource_path': 'tmp/docker_ioc/iocad/tmp/adsimdet/2022/08/05/f6d8d87b-dde9-4fb5-bbc2_-000001.h5', 
+        'spec': 'AD_HDF5',
+        'root': '/',
+        'resource_path': 'tmp/docker_ioc/iocad/tmp/adsimdet/2022/08/05/f6d8d87b-dde9-4fb5-bbc2_-000001.h5',
         'resource_kwargs': {
             'frame_per_point': 10
-        }, 
-        'path_semantics': 'posix', 
-        'uid': '12e8c7b2-90e1-4721-bdaf-02c1d6c1dd1f', 
+        },
+        'path_semantics': 'posix',
+        'uid': '12e8c7b2-90e1-4721-bdaf-02c1d6c1dd1f',
         'run_start': '9329adc9-6033-4955-aeea-8251cf7435d9'
-    }. 
+    }.
     Its 'root' field / was *not* modified by root_map.
 
     ../../../../micromamba/envs/bluesky_2022_3/lib/python3.9/site-packages/event_model/__init__.py:1052: EventModelError
