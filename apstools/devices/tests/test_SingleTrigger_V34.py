@@ -156,9 +156,9 @@ def test_ignore_no_WaitForPlugins():
 
     adsimdet.hdf1.create_directory.put(-5)
 
-    NUM_FRAMES = 10
-    # adsimdet.cam.stage_sigs["acquire_period"] = 0.105
-    adsimdet.cam.stage_sigs["acquire_time"] = 0.1
+    NUM_FRAMES = 100
+    adsimdet.cam.stage_sigs["acquire_period"] = 0.002
+    adsimdet.cam.stage_sigs["acquire_time"] = 0.001
     adsimdet.cam.stage_sigs["image_mode"] = "Multiple"
     adsimdet.cam.stage_sigs["num_images"] = NUM_FRAMES
 
@@ -209,9 +209,9 @@ def test_cam_mixin_v34_operation():
     adsimdet.read_attrs.append("hdf1")
     adsimdet.hdf1.create_directory.put(-5)
 
-    NUM_FRAMES = 10
-    adsimdet.cam.stage_sigs["acquire_period"] = 0.105
-    adsimdet.cam.stage_sigs["acquire_time"] = 0.1
+    NUM_FRAMES = 100
+    adsimdet.cam.stage_sigs["acquire_period"] = 0.01
+    adsimdet.cam.stage_sigs["acquire_time"] = 0.001
     adsimdet.cam.stage_sigs["image_mode"] = "Multiple"
     adsimdet.cam.stage_sigs["num_images"] = NUM_FRAMES
     adsimdet.cam.stage_sigs["wait_for_plugins"] = "Yes"
@@ -229,8 +229,8 @@ def test_cam_mixin_v34_operation():
 
     adsimdet.image.stage_sigs["blocking_callbacks"] = "No"
 
-    # assert adsimdet.cam.stage_sigs["wait_for_plugins"] == "Yes"
-    # assert adsimdet.hdf1.stage_sigs["blocking_callbacks"] == "No"
+    assert adsimdet.cam.stage_sigs["wait_for_plugins"] == "Yes"
+    assert adsimdet.hdf1.stage_sigs["blocking_callbacks"] == "No"
 
     cat = databroker.temp().v2
     RE = bluesky.RunEngine({})
@@ -248,8 +248,8 @@ def test_cam_mixin_v34_operation():
             "cam.image_mode": 1,
         },
         adsimdet.cam: {
-            "acquire_period": 0.105,
-            "acquire_time": 0.10,
+            "acquire_period": 0.01,
+            "acquire_time": 0.001,
             "image_mode": "Multiple",
             "num_images": NUM_FRAMES,
             "wait_for_plugins": "Yes",
