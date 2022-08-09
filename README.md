@@ -4,7 +4,6 @@ Various Python tools for use with the Bluesky framework at the APS
 
 [![release](https://img.shields.io/github/release/BCDA-APS/apstools.svg)](https://github.com/BCDA-APS/apstools/releases)
 [![PyPi](https://img.shields.io/pypi/v/apstools.svg)](https://pypi.python.org/pypi/apstools)
-[![conda](https://anaconda.org/aps-anl-tag/apstools/badges/version.svg)](https://anaconda.org/aps-anl-tag/apstools)
 [![conda-forge](https://img.shields.io/conda/vn/conda-forge/apstools)](https://anaconda.org/conda-forge/apstools)
 
 [![Python version](https://img.shields.io/pypi/pyversions/apstools.svg)](https://pypi.python.org/pypi/apstools)
