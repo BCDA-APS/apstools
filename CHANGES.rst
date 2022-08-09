@@ -34,6 +34,9 @@ New Features and/or Enhancements
 * Add EpicsScanIdSignal (scan_id from EPICS PV).
 * Switch HTML documentation to use *furo* theme.
 * Add run_blocking_function() plan to run blocking functions in the RunEngine.
+* Add devices.CamMixin_V3_1_1
+* Add devices.CamMixin_V34
+* Add devices.SingleTrigger_V34
 
 Maintenance
 ---------------

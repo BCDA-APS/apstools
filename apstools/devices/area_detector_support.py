@@ -6,8 +6,8 @@ Area Detector Support
 
    ~AD_EpicsFileNameHDF5Plugin
    ~AD_EpicsFileNameJPEGPlugin
-   ~AD_EpicsFileNameTIFFPlugin
    ~AD_EpicsFileNameMixin
+   ~AD_EpicsFileNameTIFFPlugin
    ~AD_EpicsHdf5FileName
    ~AD_EpicsHDF5IterativeWriter
    ~AD_EpicsJPEGFileName
@@ -19,9 +19,18 @@ Area Detector Support
    ~AD_prime_plugin
    ~AD_prime_plugin2
    ~AD_setup_FrameType
+   ~CamMixin_V3_1_1
+   ~CamMixin_V34
+   ~SingleTrigger_V34
 """
 
 from collections import OrderedDict
+from ophyd import EpicsSignal
+from ophyd import EpicsSignalRO
+from ophyd import EpicsSignalWithRBV
+from ophyd.areadetector import ADComponent
+from ophyd.areadetector import CamBase
+from ophyd.areadetector import SingleTrigger
 from ophyd.areadetector.filestore_mixins import FileStoreBase
 from ophyd.areadetector.filestore_mixins import FileStoreIterativeWrite
 from ophyd.areadetector.filestore_mixins import FileStorePluginBase
@@ -34,6 +43,7 @@ import epics
 import itertools
 import logging
 import numpy as np
+from packaging import version
 import pathlib
 import time
 import warnings
@@ -283,6 +293,7 @@ def AD_full_file_name_local(plugin):
     local_root = pathlib.Path().joinpath(*read_parts[:-icommon])
     common_parts = ffname.parts[len(write_parts[:-icommon]):]
     local_ffname = local_root.joinpath(*common_parts)
+    # fmt: on
 
     return local_ffname
 
@@ -693,6 +704,64 @@ class AD_EpicsFileNameTIFFPlugin(TIFFPlugin, AD_EpicsTIFFIterativeWriter):
     """
 
     pass
+
+
+class CamMixin_V3_1_1(CamBase):
+    """
+    Update cam support to AD release 3.1.1.
+
+    (new in release 1.6.3)
+    """
+
+    _cam_release = "3.1.1"
+    pool_max_buffers = None
+    acquire_busy = ADComponent(EpicsSignalRO, "AcquireBusy")
+    offset = ADComponent(EpicsSignalWithRBV, "Offset")
+    wait_for_plugins = ADComponent(EpicsSignal, "WaitForPlugins")
+
+    @property
+    def is_busy(self):
+        signal = self.acquire_busy
+        return signal.get() in (1, signal.enum_strs[1])
+
+
+class CamMixin_V34(CamMixin_V3_1_1):
+    """
+    Update cam support to AD release 3.1.1.
+
+    (new in release 1.6.3)
+    """
+
+    _cam_release = "3.4"
+
+
+class SingleTrigger_V34(SingleTrigger):
+    """
+    Variation of ophyd's SingleTrigger mixin supporting AcquireBusy.
+
+    (new in release 1.6.3)
+    """
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        has_v34_cam_features = (
+            hasattr(self, "cam")
+            and hasattr(self.cam, "_cam_release")
+            and version.parse(self.cam._cam_release) >= version.parse("3.4")
+        )
+        if has_v34_cam_features:
+            self._acquisition_busy_signal = self.cam.acquire_busy
+        else:
+            # backwards compatibility
+            self._acquisition_busy_signal = self._acquisition_signal
+
+    def stage(self):
+        self._acquisition_busy_signal.subscribe(self._acquire_changed)
+        super(SingleTrigger, self).stage()  # from grandparent
+
+    def unstage(self):
+        super(SingleTrigger, self).unstage()  # from grandparent
+        self._acquisition_busy_signal.clear_sub(self._acquire_changed)
 
 
 # -----------------------------------------------------------------------------
