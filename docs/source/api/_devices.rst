@@ -57,6 +57,9 @@ Area Detector Support
     ~apstools.devices.area_detector_support.AD_plugin_primed
     ~apstools.devices.area_detector_support.AD_prime_plugin2
     ~apstools.devices.area_detector_support.AD_setup_FrameType
+    ~apstools.devices.area_detector_support.CamMixin_V34
+    ~apstools.devices.area_detector_support.CamMixin_V3_1_1
+    ~apstools.devices.area_detector_support.SingleTrigger_V34
 
 .. _devices.scalers:
 
