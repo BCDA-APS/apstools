@@ -71,7 +71,6 @@ def test_cam_mixin_v34_structure():
 
 
 def test_the_old_way():
-
     class MyFixedCam(SimDetectorCam):
         "No need to add unused, new attributes such as offset."
         pool_max_buffers = None
@@ -102,7 +101,9 @@ def test_the_old_way():
     adsimdet.cam.stage_sigs["acquire_time"] = 0.1
     adsimdet.cam.stage_sigs["image_mode"] = "Multiple"
     adsimdet.cam.stage_sigs["num_images"] = NUM_FRAMES
-    adsimdet.hdf1.stage_sigs["compression"] = "None"  # ('None', 'N-bit', 'szip', 'zlib', 'Blosc', 'BSLZ4', 'LZ4', 'JPEG')
+    adsimdet.hdf1.stage_sigs[
+        "compression"
+    ] = "None"  # ('None', 'N-bit', 'szip', 'zlib', 'Blosc', 'BSLZ4', 'LZ4', 'JPEG')
     adsimdet.hdf1.stage_sigs["file_template"] = "%s%s_%3.3d.h5"
     adsimdet.hdf1.stage_sigs["lazy_open"] = 1
 
