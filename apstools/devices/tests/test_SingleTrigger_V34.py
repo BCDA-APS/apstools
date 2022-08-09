@@ -97,15 +97,10 @@ def test_the_old_way():
     adsimdet.hdf1.create_directory.put(-5)
 
     NUM_FRAMES = 1
-    adsimdet.cam.stage_sigs["acquire_period"] = 0.105
     adsimdet.cam.stage_sigs["acquire_time"] = 0.1
     adsimdet.cam.stage_sigs["image_mode"] = "Multiple"
     adsimdet.cam.stage_sigs["num_images"] = NUM_FRAMES
-    adsimdet.hdf1.stage_sigs[
-        "compression"
-    ] = "None"  # ('None', 'N-bit', 'szip', 'zlib', 'Blosc', 'BSLZ4', 'LZ4', 'JPEG')
-    adsimdet.hdf1.stage_sigs["file_template"] = "%s%s_%3.3d.h5"
-    adsimdet.hdf1.stage_sigs["lazy_open"] = 1
+    adsimdet.hdf1.stage_sigs.move_to_end("capture")
 
     if not AD_plugin_primed(adsimdet.hdf1):
         AD_prime_plugin2(adsimdet.hdf1)
@@ -131,7 +126,7 @@ def test_the_old_way():
     assert image.shape == (1, NUM_FRAMES, 1024, 1024)
 
 
-def Xtest_ignore_no_WaitForPlugins():
+def test_ignore_no_WaitForPlugins():
     """This is the old way (pre AD 3.1)."""
 
     class MyFixedCam(SimDetectorCam):
@@ -162,13 +157,20 @@ def Xtest_ignore_no_WaitForPlugins():
     adsimdet.hdf1.create_directory.put(-5)
 
     NUM_FRAMES = 10
+    # adsimdet.cam.stage_sigs["acquire_period"] = 0.105
+    adsimdet.cam.stage_sigs["acquire_time"] = 0.1
     adsimdet.cam.stage_sigs["image_mode"] = "Multiple"
     adsimdet.cam.stage_sigs["num_images"] = NUM_FRAMES
-    adsimdet.cam.stage_sigs["acquire_time"] = 0.1
-    adsimdet.cam.stage_sigs["acquire_period"] = 0.105
-    adsimdet.hdf1.stage_sigs["lazy_open"] = 1
+
+    # ('None', 'N-bit', 'szip', 'zlib', 'Blosc', 'BSLZ4', 'LZ4', 'JPEG')
     adsimdet.hdf1.stage_sigs["compression"] = "zlib"
-    adsimdet.hdf1.stage_sigs["file_template"] = "%s%s_%6.6d.h5"
+    adsimdet.hdf1.stage_sigs["file_template"] = "%s%s_%3.3d.h5"
+
+    # Can't use LazyOpen feature and access run.primary.read() using databroker.
+    # Raises event_model.EventModelError: Error instantiating handler class
+    #   <class 'area_detector_handlers.handlers.AreaDetectorHDF5Handler'>
+    # adsimdet.hdf1.stage_sigs["lazy_open"] = 1
+
     adsimdet.hdf1.stage_sigs.move_to_end("capture")
 
     if not AD_plugin_primed(adsimdet.hdf1):
@@ -194,7 +196,7 @@ def Xtest_ignore_no_WaitForPlugins():
     assert image.shape == (1, NUM_FRAMES, 1024, 1024)
 
 
-def Xtest_cam_mixin_v34_operation():
+def test_cam_mixin_v34_operation():
     adsimdet = SimDetector_V34(IOC, name="adsimdet")
     adsimdet.wait_for_connection()
     assert adsimdet.connected
@@ -207,24 +209,22 @@ def Xtest_cam_mixin_v34_operation():
     adsimdet.hdf1.create_directory.put(-5)
 
     NUM_FRAMES = 10
-    # adsimdet.cam.stage_sigs["image_mode"] = "Multiple"
-    # adsimdet.cam.stage_sigs["num_images"] = NUM_FRAMES
-    # adsimdet.cam.stage_sigs["acquire_time"] = 0.1
-    # adsimdet.cam.stage_sigs["acquire_period"] = 0.105
-    # adsimdet.hdf1.stage_sigs["lazy_open"] = 1
-    # adsimdet.hdf1.stage_sigs["compression"] = "None"
-    # adsimdet.hdf1.stage_sigs["file_template"] = "%s%s_%6.6d.h5"
     adsimdet.cam.stage_sigs["acquire_period"] = 0.105
     adsimdet.cam.stage_sigs["acquire_time"] = 0.1
-    # adsimdet.hdf1.stage_sigs["blocking_callbacks"] = "No"
     adsimdet.cam.stage_sigs["image_mode"] = "Multiple"
     adsimdet.cam.stage_sigs["num_images"] = NUM_FRAMES
-    # adsimdet.cam.stage_sigs["wait_for_plugins"] = "Yes"
+    adsimdet.cam.stage_sigs["wait_for_plugins"] = "Yes"
     adsimdet.hdf1.stage_sigs["auto_increment"] = "Yes"
     adsimdet.hdf1.stage_sigs["auto_save"] = "Yes"
-    adsimdet.hdf1.stage_sigs["compression"] = "LZ4"
-    adsimdet.hdf1.stage_sigs["lazy_open"] = 1
+    adsimdet.hdf1.stage_sigs["blocking_callbacks"] = "No"
+    adsimdet.hdf1.stage_sigs["compression"] = "zlib"
+    adsimdet.hdf1.stage_sigs["file_template"] = "%s%s_%5.5d.h5"
     adsimdet.hdf1.stage_sigs["num_capture"] = 0  # means: capture ALL frames sent
+
+    # Can't use LazyOpen feature and access run.primary.read() using databroker.
+    # Raises event_model.EventModelError: Error instantiating handler class
+    #   <class 'area_detector_handlers.handlers.AreaDetectorHDF5Handler'>
+    # adsimdet.hdf1.stage_sigs["lazy_open"] = 1
 
     adsimdet.image.stage_sigs["blocking_callbacks"] = "No"
 
@@ -258,12 +258,11 @@ def Xtest_cam_mixin_v34_operation():
             "auto_increment": "Yes",
             "auto_save": "Yes",
             "blocking_callbacks": "No",
-            "compression": "LZ4",
+            "compression": "zlib",
             "create_directory": -3,
             "enable": 1,
-            "file_template": "%s%s_%6.6d.h5",
+            "file_template": "%s%s_%5.5d.h5",
             "file_write_mode": "Stream",
-            "lazy_open": 1,
             "num_capture": 0,
             "parent.cam.array_callbacks": 1,
             "capture": 1,
@@ -280,28 +279,7 @@ def Xtest_cam_mixin_v34_operation():
     run = cat.v2[uids[0]]
     assert run is not None
 
-    # details = run.primary
-    # assert details == "", str(details)
-    dataset = run.primary.read()  # FIXME: cannot read the file as named,
-    # resource_path is wrong, should end with "4fb5-bbc2_-000000.h5', "
-    """
-    E           event_model.EventModelError: Error instantiating handler class
-    <class 'area_detector_handlers.handlers.AreaDetectorHDF5Handler'> with
-    Resource document {
-        'spec': 'AD_HDF5',
-        'root': '/',
-        'resource_path': 'tmp/docker_ioc/iocad/tmp/adsimdet/2022/08/05/f6d8d87b-dde9-4fb5-bbc2_-000001.h5',
-        'resource_kwargs': {
-            'frame_per_point': 10
-        },
-        'path_semantics': 'posix',
-        'uid': '12e8c7b2-90e1-4721-bdaf-02c1d6c1dd1f',
-        'run_start': '9329adc9-6033-4955-aeea-8251cf7435d9'
-    }.
-    Its 'root' field / was *not* modified by root_map.
-
-    ../../../../micromamba/envs/bluesky_2022_3/lib/python3.9/site-packages/event_model/__init__.py:1052: EventModelError
-    """
+    dataset = run.primary.read()
     assert dataset is not None
 
     image = dataset["adsimdet_image"]
