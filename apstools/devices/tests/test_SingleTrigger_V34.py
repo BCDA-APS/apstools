@@ -210,7 +210,7 @@ def test_cam_mixin_v34_operation():
     adsimdet.hdf1.create_directory.put(-5)
 
     NUM_FRAMES = 100
-    adsimdet.cam.stage_sigs["acquire_period"] = 0.01
+    adsimdet.cam.stage_sigs["acquire_period"] = 0.0021
     adsimdet.cam.stage_sigs["acquire_time"] = 0.001
     adsimdet.cam.stage_sigs["image_mode"] = "Multiple"
     adsimdet.cam.stage_sigs["num_images"] = NUM_FRAMES
@@ -221,6 +221,7 @@ def test_cam_mixin_v34_operation():
     adsimdet.hdf1.stage_sigs["compression"] = "zlib"
     adsimdet.hdf1.stage_sigs["file_template"] = "%s%s_%5.5d.h5"
     adsimdet.hdf1.stage_sigs["num_capture"] = 0  # means: capture ALL frames sent
+    adsimdet.hdf1.stage_sigs["queue_size"] = 80
 
     # Can't use LazyOpen feature and access run.primary.read() using databroker.
     # Raises event_model.EventModelError: Error instantiating handler class
@@ -248,7 +249,7 @@ def test_cam_mixin_v34_operation():
             "cam.image_mode": 1,
         },
         adsimdet.cam: {
-            "acquire_period": 0.01,
+            "acquire_period": 0.0021,
             "acquire_time": 0.001,
             "image_mode": "Multiple",
             "num_images": NUM_FRAMES,
@@ -266,6 +267,7 @@ def test_cam_mixin_v34_operation():
             "file_write_mode": "Stream",
             "num_capture": 0,
             "parent.cam.array_callbacks": 1,
+            'queue_size': 80,
             "capture": 1,
         },
         adsimdet.image: {
