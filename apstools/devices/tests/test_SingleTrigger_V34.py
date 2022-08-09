@@ -163,6 +163,7 @@ def test_ignore_no_WaitForPlugins():
     adsimdet.cam.stage_sigs["num_images"] = NUM_FRAMES
 
     # ('None', 'N-bit', 'szip', 'zlib', 'Blosc', 'BSLZ4', 'LZ4', 'JPEG')
+    # LZ4 and others require 'import hdf5plugin'
     adsimdet.hdf1.stage_sigs["compression"] = "zlib"
     adsimdet.hdf1.stage_sigs["file_template"] = "%s%s_%3.3d.h5"
 
