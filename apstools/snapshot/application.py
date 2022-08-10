@@ -27,17 +27,6 @@ USAGE::
 
 """
 
-# -----------------------------------------------------------------------------
-# :author:    Pete R. Jemian
-# :email:     jemian@anl.gov
-# :copyright: (c) 2017-2022, UChicago Argonne, LLC
-#
-# Distributed under the terms of the Creative Commons Attribution 4.0 International Public License.
-#
-# The full license is in the file LICENSE.txt, distributed with this software.
-# -----------------------------------------------------------------------------
-
-
 import argparse
 from collections import OrderedDict
 from io import StringIO
@@ -46,12 +35,7 @@ import time
 import tkinter as tk
 import tkinter.ttk as ttk
 
-import databroker
-
 from . import textreadonly
-from .. import utils
-from .. import plans
-from .. import callbacks
 
 
 BROKER_CONFIG = "mongodb_config"
@@ -148,23 +132,27 @@ def snapshot_cli():
         snapshot.py rpi5bf5:0:{humidity,temperature}
 
     """
-    from bluesky import RunEngine
 
     args = get_args()
 
     md = OrderedDict(purpose="archive a set of EPICS PVs")
     md.update(parse_metadata(args))
 
-    obj_dict = utils.connect_pvlist(args.EPICS_PV, wait=False)
-    time.sleep(2)  # FIXME: allow time to connect
-
-    db = databroker.Broker.named(args.broker_config)
-    RE = RunEngine({})
-    RE.subscribe(db.insert)
-
-    uuid_list = RE(plans.snapshot(obj_dict.values(), md=md))
-
     if args.report:
+        from .. import callbacks
+        from .. import plans
+        from .. import utils
+        from bluesky import RunEngine
+        import databroker
+
+        obj_dict = utils.connect_pvlist(args.EPICS_PV, wait=False)
+        time.sleep(2)  # FIXME: allow time to connect
+
+        db = databroker.Broker.named(args.broker_config)
+        RE = RunEngine({})
+        RE.subscribe(db.insert)
+
+        uuid_list = RE(plans.snapshot(obj_dict.values(), md=md))
         snap = list(db(uuid_list[0]))[0]
         callbacks.SnapshotReport().print_report(snap)
 
@@ -318,3 +306,14 @@ class SnapshotGui(object):
 
 if __name__ == "__main__":
     snapshot_cli()
+
+
+# -----------------------------------------------------------------------------
+# :author:    Pete R. Jemian
+# :email:     jemian@anl.gov
+# :copyright: (c) 2017-2022, UChicago Argonne, LLC
+#
+# Distributed under the terms of the Creative Commons Attribution 4.0 International Public License.
+#
+# The full license is in the file LICENSE.txt, distributed with this software.
+# -----------------------------------------------------------------------------
