@@ -27,31 +27,14 @@ USAGE::
 
 """
 
-# -----------------------------------------------------------------------------
-# :author:    Pete R. Jemian
-# :email:     jemian@anl.gov
-# :copyright: (c) 2017-2022, UChicago Argonne, LLC
-#
-# Distributed under the terms of the Creative Commons Attribution 4.0 International Public License.
-#
-# The full license is in the file LICENSE.txt, distributed with this software.
-# -----------------------------------------------------------------------------
-
-
-import argparse
+from . import textreadonly
 from collections import OrderedDict
 from io import StringIO
+import argparse
 import sys
 import time
 import tkinter as tk
 import tkinter.ttk as ttk
-
-import databroker
-
-from . import textreadonly
-from .. import utils
-from .. import plans
-from .. import callbacks
 
 
 BROKER_CONFIG = "mongodb_config"
@@ -63,10 +46,12 @@ def get_args():
     """
     from ..__init__ import __version__
 
+    # fmt: off
     doc = (
         f"{__doc__.strip().splitlines()[0].strip()}"
         f" version={__version__}"
     )
+    # fmt: on
 
     parser = argparse.ArgumentParser(description=doc)
 
@@ -111,9 +96,7 @@ def get_args():
         default=True,
     )
 
-    parser.add_argument(
-        "-v", "--version", action="version", version=__version__
-    )
+    parser.add_argument("-v", "--version", action="version", version=__version__)
 
     return parser.parse_args()
 
@@ -148,23 +131,27 @@ def snapshot_cli():
         snapshot.py rpi5bf5:0:{humidity,temperature}
 
     """
-    from bluesky import RunEngine
 
     args = get_args()
 
     md = OrderedDict(purpose="archive a set of EPICS PVs")
     md.update(parse_metadata(args))
 
-    obj_dict = utils.connect_pvlist(args.EPICS_PV, wait=False)
-    time.sleep(2)  # FIXME: allow time to connect
-
-    db = databroker.Broker.named(args.broker_config)
-    RE = RunEngine({})
-    RE.subscribe(db.insert)
-
-    uuid_list = RE(plans.snapshot(obj_dict.values(), md=md))
-
     if args.report:
+        from .. import callbacks
+        from .. import plans
+        from .. import utils
+        from bluesky import RunEngine
+        import databroker
+
+        obj_dict = utils.connect_pvlist(args.EPICS_PV, wait=False)
+        time.sleep(2)  # FIXME: allow time to connect
+
+        db = databroker.Broker.named(args.broker_config)
+        RE = RunEngine({})
+        RE.subscribe(db.insert)
+
+        uuid_list = RE(plans.snapshot(obj_dict.values(), md=md))
         snap = list(db(uuid_list[0]))[0]
         callbacks.SnapshotReport().print_report(snap)
 
@@ -205,6 +192,8 @@ class SnapshotGui(object):
     search_criteria = dict(plan_name="snapshot")
 
     def __init__(self, config=None):
+        import databroker
+
         config = config or BROKER_CONFIG
         self.db = databroker.Broker.named(config)
         self.uids = []
@@ -271,9 +260,7 @@ class SnapshotGui(object):
         self.snapview = textreadonly.TextReadOnly(fr)
         xsb.configure(command=self.snapview.xview)
         ysb.configure(command=self.snapview.yview)
-        self.snapview.configure(
-            xscrollcommand=xsb.set, yscrollcommand=ysb.set
-        )
+        self.snapview.configure(xscrollcommand=xsb.set, yscrollcommand=ysb.set)
         self.snapview.pack(expand=True, fill=tk.BOTH)
 
     @property
@@ -318,3 +305,14 @@ class SnapshotGui(object):
 
 if __name__ == "__main__":
     snapshot_cli()
+
+
+# -----------------------------------------------------------------------------
+# :author:    Pete R. Jemian
+# :email:     jemian@anl.gov
+# :copyright: (c) 2017-2022, UChicago Argonne, LLC
+#
+# Distributed under the terms of the Creative Commons Attribution 4.0 International Public License.
+#
+# The full license is in the file LICENSE.txt, distributed with this software.
+# -----------------------------------------------------------------------------
