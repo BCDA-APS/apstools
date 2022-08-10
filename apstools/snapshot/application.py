@@ -27,15 +27,14 @@ USAGE::
 
 """
 
-import argparse
+from . import textreadonly
 from collections import OrderedDict
 from io import StringIO
+import argparse
 import sys
 import time
 import tkinter as tk
 import tkinter.ttk as ttk
-
-from . import textreadonly
 
 
 BROKER_CONFIG = "mongodb_config"
@@ -47,10 +46,12 @@ def get_args():
     """
     from ..__init__ import __version__
 
+    # fmt: off
     doc = (
         f"{__doc__.strip().splitlines()[0].strip()}"
         f" version={__version__}"
     )
+    # fmt: on
 
     parser = argparse.ArgumentParser(description=doc)
 
@@ -95,9 +96,7 @@ def get_args():
         default=True,
     )
 
-    parser.add_argument(
-        "-v", "--version", action="version", version=__version__
-    )
+    parser.add_argument("-v", "--version", action="version", version=__version__)
 
     return parser.parse_args()
 
@@ -193,6 +192,8 @@ class SnapshotGui(object):
     search_criteria = dict(plan_name="snapshot")
 
     def __init__(self, config=None):
+        import databroker
+
         config = config or BROKER_CONFIG
         self.db = databroker.Broker.named(config)
         self.uids = []
@@ -259,9 +260,7 @@ class SnapshotGui(object):
         self.snapview = textreadonly.TextReadOnly(fr)
         xsb.configure(command=self.snapview.xview)
         ysb.configure(command=self.snapview.yview)
-        self.snapview.configure(
-            xscrollcommand=xsb.set, yscrollcommand=ysb.set
-        )
+        self.snapview.configure(xscrollcommand=xsb.set, yscrollcommand=ysb.set)
         self.snapview.pack(expand=True, fill=tk.BOTH)
 
     @property
