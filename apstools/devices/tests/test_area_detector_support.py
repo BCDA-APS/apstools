@@ -154,29 +154,21 @@ def test_bp_count_custom_name(plugin_name, plugin_class, adsimdet, fname):
     assert isinstance(plugin, plugin_class)
 
     def prepare_count(file_path, file_name, n_images):
+        # fmt: off
         yield from bps.mv(
-            plugin.auto_increment,
-            "Yes",
-            plugin.auto_save,
-            "Yes",
-            plugin.create_directory,
-            -5,
-            plugin.file_name,
-            file_name,
-            plugin.file_path,
-            file_path,
-            plugin.num_capture,
-            n_images,
-            adsimdet.cam.num_images,
-            n_images,
-            adsimdet.cam.acquire_time,
-            0.001,
-            adsimdet.cam.acquire_period,
-            0.002,
-            adsimdet.cam.image_mode,
-            "Single",
+            plugin.auto_increment, "Yes",
+            plugin.auto_save, "Yes",
+            plugin.create_directory, -5,
+            plugin.file_name, file_name,
+            plugin.file_path, file_path,
+            plugin.num_capture, n_images,
+            adsimdet.cam.num_images, n_images,
+            adsimdet.cam.acquire_time, 0.001,
+            adsimdet.cam.acquire_period, 0.002,
+            adsimdet.cam.image_mode, "Single",
             # plugin.file_template  # pre-configured
         )
+        # fmt: on
 
     RE = bluesky.RunEngine({})
     RE(prepare_count(f"{plugin.write_path_template}/", fname, 1))
@@ -261,20 +253,6 @@ def test_file_numbering(adsimdet, fname):
     assert isinstance(full_file_name, str)
     assert len(full_file_name) > 0
     assert full_file_name.find(fname) > 0, str(full_file_name)
-    assert full_file_name.endswith(
-        f"{fname}_{file_number:04d}.h5"
-    ), f"{full_file_name=} {fname}_{file_number:04d}.h5"
-
-    # prepare for file name with no file number
-    # stage it: show that does not work
-    file_number = plugin.file_number.get()
-    plugin.stage_sigs["file_template"] = "%s%s.h5"
-    adsimdet.stage()
-    adsimdet.unstage()
-    full_file_name = plugin.full_file_name.get()
-    assert isinstance(full_file_name, str)
-    assert full_file_name.find(fname) > 0
-    # still not changed
     assert full_file_name.endswith(
         f"{fname}_{file_number:04d}.h5"
     ), f"{full_file_name=} {fname}_{file_number:04d}.h5"
