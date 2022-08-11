@@ -156,9 +156,11 @@ def test_bp_count_custom_name(plugin_name, plugin_class, adsimdet, fname):
     def prepare_count(file_path, file_name, n_images):
         # fmt: off
         yield from bps.mv(
+            plugin.array_counter, 0,
             plugin.auto_increment, "Yes",
             plugin.auto_save, "Yes",
             plugin.create_directory, -5,
+            plugin.dropped_arrays, 0,
             plugin.file_name, file_name,
             plugin.file_path, file_path,
             plugin.num_capture, n_images,
@@ -171,15 +173,16 @@ def test_bp_count_custom_name(plugin_name, plugin_class, adsimdet, fname):
         # fmt: on
 
     RE = bluesky.RunEngine({})
-    RE(prepare_count(f"{plugin.write_path_template}/", fname, 1))
+    NUM_FRAMES = 1
+    RE(prepare_count(f"{plugin.write_path_template}/", fname, NUM_FRAMES))
     assert plugin.auto_increment.get() in (1, "Yes")
     assert plugin.auto_save.get() in (1, "Yes")
     assert plugin.create_directory.get() == -5
     assert plugin.file_name.get() == fname
     assert plugin.file_path.get() == f"{plugin.write_path_template}/"
     assert plugin.file_template.get() not in ("", "/")
-    assert plugin.num_capture.get() == 1
-    assert adsimdet.cam.num_images.get() == 1
+    assert plugin.num_capture.get() == NUM_FRAMES
+    assert adsimdet.cam.num_images.get() == NUM_FRAMES
     assert adsimdet.cam.acquire_time.get() == 0.001
     assert adsimdet.cam.acquire_period.get() == 0.002
     assert adsimdet.cam.image_mode.get() in (0, "Single")
@@ -193,7 +196,14 @@ def test_bp_count_custom_name(plugin_name, plugin_class, adsimdet, fname):
     assert plugin.file_number.get() > next_file_number
     assert not adsimdet.cam.is_busy
 
-    assert plugin.full_file_name.get().strip() not in ("", "/")
+    assert plugin.num_captured.get() == NUM_FRAMES
+
+    # diagnostic per issue #696
+    ffname = plugin.full_file_name.get().strip()
+    if ffname in ("", "/"):
+        assert plugin.dropped_arrays.get() == 0
+        assert plugin.array_counter.get() == NUM_FRAMES
+    assert ffname not in ("", "/"), str(ffname)
 
     # local file-system image file name
     lfname = AD_full_file_name_local(plugin)
