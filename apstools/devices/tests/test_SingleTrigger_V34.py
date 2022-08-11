@@ -267,7 +267,7 @@ def test_cam_mixin_v34_operation():
             "file_write_mode": "Stream",
             "num_capture": 0,
             "parent.cam.array_callbacks": 1,
-            'queue_size': 80,
+            'queue_size': 100,
             "capture": 1,
         },
         adsimdet.image: {
