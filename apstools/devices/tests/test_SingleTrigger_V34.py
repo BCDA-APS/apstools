@@ -221,7 +221,7 @@ def test_cam_mixin_v34_operation():
     adsimdet.hdf1.stage_sigs["compression"] = "zlib"
     adsimdet.hdf1.stage_sigs["file_template"] = "%s%s_%5.5d.h5"
     adsimdet.hdf1.stage_sigs["num_capture"] = 0  # means: capture ALL frames sent
-    adsimdet.hdf1.stage_sigs["queue_size"] = 80
+    adsimdet.hdf1.stage_sigs["queue_size"] = 100
 
     # Can't use LazyOpen feature and access run.primary.read() using databroker.
     # Raises event_model.EventModelError: Error instantiating handler class
