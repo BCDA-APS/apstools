@@ -196,15 +196,14 @@ def test_bp_count_custom_name(plugin_name, plugin_class, adsimdet, fname):
     assert plugin.file_number.get() > next_file_number
     assert not adsimdet.cam.is_busy
 
+    assert plugin.dropped_arrays.get() == 0
+    assert plugin.array_counter.get() == NUM_FRAMES
     assert plugin.num_captured.get() == NUM_FRAMES
 
     # diagnostic per issue #696
     ffname = plugin.full_file_name.get().strip()
     if ffname in ("", "/"):
-        # second chance, race condition?
-        assert plugin.dropped_arrays.get() == 0
-        assert plugin.array_counter.get() == NUM_FRAMES
-        # force caget
+        # second chance, race condition?  don't trust the CA monitor cache
         ffname = plugin.full_file_name.get(use_monitor=False).strip()
     assert ffname not in ("", "/"), str(ffname)
 
