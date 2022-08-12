@@ -16,6 +16,9 @@ File Downloads
 
 The jupyter notebooks and files related to this section may be downloaded from the following table.
 
+* jupyter notebook: :download:`_ad_adsim_hdf5_basic <_ad_adsim_hdf5_basic.ipynb>`
+* jupyter notebook: :download:`_ad_adsim_hdf5_custom_names <_ad_adsim_hdf5_custom_names.ipynb>`
+
 * jupyter notebook: :download:`_excel_scan <_excel_scan.ipynb>`
 
   * :download:`sample_example.xlsx <sample_example.xlsx>`

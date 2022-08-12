@@ -40,7 +40,7 @@ def test_running(attr, expected, comparison):
     short_delay_for_EPICS_IOC_database_processing()
 
     assert hasattr(gp_info, attr)
-    value = getattr(gp_info, attr).get()
+    value = getattr(gp_info, attr).get(use_monitor=False)
     if comparison == "start":
         assert value.startswith(expected)
     elif comparison == "end":
