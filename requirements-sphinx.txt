@@ -1,4 +1,5 @@
 markupsafe ==2.0.1
+myst-parser
 nbsphinx
 pygments ==2.7.4
 furo

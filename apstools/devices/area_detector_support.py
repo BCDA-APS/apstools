@@ -400,6 +400,9 @@ class AD_EpicsFileNameMixin(FileStorePluginBase):
         Set EPICS items before device is staged, then copy EPICS
         naming template (and other items) to ophyd after staging.
         """
+        if "capture" in self.stage_sigs:
+            self.stage_sigs.move_to_end("capture", last=True)
+
         # Get the file name and paths from EPICS.
         filename, read_path, write_path = self.make_filename()
 
