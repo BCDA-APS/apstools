@@ -59,6 +59,7 @@ class NXWriter(FileWriterCallbackBase):
        ~write_user
     """
 
+    warn_on_missing_content = True
     file_extension = NEXUS_FILE_EXTENSION
     instrument_name = None  # name of this instrument
     # NeXus release to which this file is written
@@ -113,9 +114,10 @@ class NXWriter(FileWriterCallbackBase):
             try:
                 v["value"].attrs["signal_type"] = signal_type  # dataset
             except KeyError:
-                logger.warning(
-                    "Could not assign %s as signal type %s", k, signal_type
-                )
+                if self.warn_on_missing_content:
+                    logger.warning(
+                        "Could not assign %s as signal type %s", k, signal_type
+                    )
 
     def create_NX_group(self, parent, specification):
         """
@@ -233,11 +235,13 @@ class NXWriter(FileWriterCallbackBase):
                     if ax in nxdata:
                         axes.append(ax)
                     else:
-                        logger.warning(fmt, ax, "axes")
+                        if self.warn_on_missing_content:
+                            logger.warning(fmt, ax, "axes")
                 if axes_attribute is not None:
                     nxdata.attrs["axes"] = axes_attribute
             else:
-                logger.warning(fmt, signal_attribute, "signal")
+                if self.warn_on_missing_content:
+                    logger.warning(fmt, signal_attribute, "signal")
 
         return nxdata
 
@@ -292,7 +296,8 @@ class NXWriter(FileWriterCallbackBase):
             nxdata = self.write_data(nxentry)
             nxentry.attrs["default"] = nxdata.name.split("/")[-1]
         except KeyError as exc:
-            logger.warning(exc)
+            if self.warn_on_missing_content:
+                logger.warning(exc)
 
         self.write_sample(nxentry)
         self.write_user(nxentry)
@@ -302,7 +307,8 @@ class NXWriter(FileWriterCallbackBase):
         if h5_addr in self.root:
             nxentry["run_cycle"] = self.root[h5_addr]
         else:
-            logger.warning("No data for /entry/run_cycle")
+            if self.warn_on_missing_content:
+                logger.warning("No data for /entry/run_cycle")
 
         nxentry["title"] = self.get_sample_title()
         nxentry["plan_name"] = self.root[
@@ -334,19 +340,22 @@ class NXWriter(FileWriterCallbackBase):
         try:
             self.assign_signal_type()
         except KeyError as exc:
-            logger.warning(exc)
+            if self.warn_on_missing_content:
+                logger.warning(exc)
 
         self.write_slits(nxinstrument)
         try:
             self.write_detector(nxinstrument)
         except KeyError as exc:
-            logger.warning(exc)
+            if self.warn_on_missing_content:
+                logger.warning(exc)
 
         self.write_monochromator(nxinstrument)
         try:
             self.write_positioner(nxinstrument)
         except KeyError as exc:
-            logger.warning(exc)
+            if self.warn_on_missing_content:
+                logger.warning(exc)
         self.write_source(nxinstrument)
         return nxinstrument
 
@@ -389,9 +398,10 @@ class NXWriter(FileWriterCallbackBase):
                 key: self.get_stream_link(f"{pre}_{key}") for key in keys
             }
         except KeyError as exc:
-            logger.warning(
-                "%s -- not creating monochromator group", str(exc)
-            )
+            if self.warn_on_missing_content:
+                logger.warning(
+                    "%s -- not creating monochromator group", str(exc)
+                )
             return
 
         pre = "monochromator"
@@ -399,7 +409,8 @@ class NXWriter(FileWriterCallbackBase):
         try:
             links[key] = self.get_stream_link(f"{pre}_{key}")
         except KeyError as exc:
-            logger.warning("%s -- feedback signal not found", str(exc))
+            if self.warn_on_missing_content:
+                logger.warning("%s -- feedback signal not found", str(exc))
 
         nxmonochromator = self.create_NX_group(
             parent, "monochromator:NXmonochromator"
@@ -467,11 +478,13 @@ class NXWriter(FileWriterCallbackBase):
             try:
                 links[key] = self.get_stream_link(f"{pre}_{key}")
             except KeyError as exc:
-                logger.warning("%s", str(exc))
+                if self.warn_on_missing_content:
+                    logger.warning("%s", str(exc))
         if len(links) == 0:
-            logger.warning(
-                "no sample data found, not creating sample group"
-            )
+            if self.warn_on_missing_content:
+                logger.warning(
+                    "no sample data found, not creating sample group"
+                )
             return
 
         nxsample = self.create_NX_group(parent, "sample:NXsample")
@@ -654,7 +667,8 @@ class NXWriter(FileWriterCallbackBase):
         try:
             links = {k: self.get_stream_link(v) for k, v in keymap.items()}
         except KeyError as exc:
-            logger.warning("%s -- not creating source group", str(exc))
+            if self.warn_on_missing_content:
+                logger.warning("%s -- not creating source group", str(exc))
             return
 
         nxuser = self.create_NX_group(parent, "contact:NXuser")
@@ -708,7 +722,8 @@ class NXWriterAPS(NXWriter):
             }
             # fmt: on
         except KeyError as exc:
-            logger.warning("%s -- not creating source group", str(exc))
+            if self.warn_on_missing_content:
+                logger.warning("%s -- not creating source group", str(exc))
             return
 
         nxsource = self.create_NX_group(parent, "source:NXsource")
@@ -750,7 +765,8 @@ class NXWriterAPS(NXWriter):
                 key: self.get_stream_link(f"{pre}_{key}") for key in keys
             }
         except KeyError as exc:
-            logger.warning("%s -- not creating undulator group", str(exc))
+            if self.warn_on_missing_content:
+                logger.warning("%s -- not creating undulator group", str(exc))
             return
 
         undulator = self.create_NX_group(
