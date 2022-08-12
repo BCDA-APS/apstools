@@ -49,7 +49,6 @@ example) between `PilatusDetector` and `PilatusDetectorCam`.  The `PilatusDetect
 ```py
 from apstools.devices import CamMixin_V34
 from ophyd.areadetector import PilatusDetectorCam
-from ophyd import ADComponent
 
 class PilatusDetectorCam_V34(CamMixin_V34, PilatusDetectorCam):
     """Update PilatusDetectorCam to ADCore 3.4+."""
@@ -75,8 +74,8 @@ class MyHDF5Plugin(FileStoreHDF5IterativeWrite, HDF5Plugin):
         super().stage()
 ```
 
-**NOTE**: If you want EPICS PVs (in area detector) to control the HDF5 file
-naming, then replace the `MyHDF5Plugin` class with `AD_EpicsFileNameHDF5Plugin`
+**NOTE**: If you want to control the HDF5 file naming with EPICS PVs (in area
+detector), then replace the `MyHDF5Plugin` class with `AD_EpicsFileNameHDF5Plugin`
 when creating the detector class below and follow the additional instructions
 and cautions in the *HDF5: AD_EpicsFileNameHDF5Plugin* section of the [custom
 HDF5 image file names example](./_ad_adsim_hdf5_custom_names.ipynb). You'll need
@@ -90,6 +89,7 @@ Then, build the detector class which puts it all together:
 
 ```py
 from apstools.devices import SingleTrigger_V34
+from ophyd import ADComponent
 from ophyd.areadetector import DetectorBase
 
 class PilatusDetector_V34(SingleTrigger_V34, DetectorBase):

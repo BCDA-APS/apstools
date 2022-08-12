@@ -36,7 +36,7 @@ The **ADPerkinElmer** driver is supported by `ophyd.areadetector`'s
 class.  We'll use that class here since we want to update that class for changes
 in area detector's `ADCore`.
 
-Note that ophyd makes a distinction (using thePerkin-Elmer here as an example)
+Note that ophyd makes a distinction (using the Perkin-Elmer here as an example)
 between `PerkinElmerDetector` and `PerkinElmerDetectorCam`.  The
 `PerkinElmerDetector` includes `PerkinElmerDetectorCam` as a component to build
 a useful detector.  We must customize the `PerkinElmerDetectorCam` class with
@@ -45,7 +45,6 @@ updates, so we can't use the stock `PerkinElmerDetector`.
 ```py
 from apstools.devices import CamMixin_V34
 from ophyd.areadetector import PerkinElmerDetectorCam
-from ophyd import ADComponent
 
 class PerkinElmerDetectorCam_V34(CamMixin_V34, PerkinElmerDetectorCam):
     """Update PerkinElmerDetectorCam to ADCore 3.4+."""
@@ -71,12 +70,12 @@ class MyHDF5Plugin(FileStoreHDF5IterativeWrite, HDF5Plugin):
         super().stage()
 ```
 
-**NOTE**: If you want EPICS PVs (in area detector) to control the HDF5 file
-naming, then replace the `MyHDF5Plugin` class with `AD_EpicsFileNameHDF5Plugin`
-when creating the detector class below and follow the additional instructions
-and cautions in the *HDF5: AD_EpicsFileNameHDF5Plugin* section of the [custom
-HDF5 image file names example](./_ad_adsim_hdf5_custom_names.ipynb). You'll need
-this import:
+**NOTE**: If you want to control the HDF5 file naming with EPICS PVs (in area
+detector), then replace the `MyHDF5Plugin` class with
+`AD_EpicsFileNameHDF5Plugin` when creating the detector class below and follow
+the additional instructions and cautions in the *HDF5:
+AD_EpicsFileNameHDF5Plugin* section of the [custom HDF5 image file names
+example](./_ad_adsim_hdf5_custom_names.ipynb). You'll need this import:
 
 ```py
 from apstools.devices import AD_EpicsFileNameHDF5Plugin
@@ -86,6 +85,7 @@ Then, build the detector class which puts it all together:
 
 ```py
 from apstools.devices import SingleTrigger_V34
+from ophyd import ADComponent
 from ophyd.areadetector import DetectorBase
 
 class PerkinElmerDetector_V34(SingleTrigger_V34, DetectorBase):
