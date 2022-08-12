@@ -26,6 +26,7 @@ build_log.txt
 .logs/
 .vscode/
 20*.dat
+20*.hdf
 
 # bird droppings from IT
 .log
