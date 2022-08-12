@@ -201,10 +201,11 @@ def test_bp_count_custom_name(plugin_name, plugin_class, adsimdet, fname):
     # diagnostic per issue #696
     ffname = plugin.full_file_name.get().strip()
     if ffname in ("", "/"):
+        # second chance, race condition?
         assert plugin.dropped_arrays.get() == 0
         assert plugin.array_counter.get() == NUM_FRAMES
-        time.sleep(0.5)
-    ffname = plugin.full_file_name.get(use_monitor=False).strip()
+        # force caget
+        ffname = plugin.full_file_name.get(use_monitor=False).strip()
     assert ffname not in ("", "/"), str(ffname)
 
     # local file-system image file name
