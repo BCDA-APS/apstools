@@ -26,7 +26,7 @@ describe the future plans.
 1.6.3
 ******
 
-release expected by 2022-08-31
+release expected 2022-08-15
 
 New Features and/or Enhancements
 ---------------------------------------------
