@@ -243,7 +243,7 @@ def test_no_file_path(adsimdet, fname):
 
     with pytest.raises(OSError) as exc:
         adsimdet.stage()
-    assert str(exc.value).endswith("'' does not exist on IOC.")
+    assert str(exc.value).endswith(" does not exist on IOC.")
     adsimdet.unstage()
 
 

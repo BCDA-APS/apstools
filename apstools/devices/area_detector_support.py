@@ -37,7 +37,6 @@ from ophyd.areadetector.filestore_mixins import FileStorePluginBase
 from ophyd.areadetector.plugins import HDF5Plugin_V34 as HDF5Plugin
 from ophyd.areadetector.plugins import JPEGPlugin_V34 as JPEGPlugin
 from ophyd.areadetector.plugins import TIFFPlugin_V34 as TIFFPlugin
-from ophyd.utils import set_and_wait
 import datetime
 import epics
 import itertools
@@ -241,13 +240,13 @@ def AD_prime_plugin2(plugin):
 
     for sig, val in sigs.items():
         time.sleep(0.1)  # abundance of caution
-        set_and_wait(sig, val)
+        sig.set(val).wait()
 
     time.sleep(2)  # wait for acquisition
 
     for sig, val in reversed(list(original_vals.items())):
         time.sleep(0.1)
-        set_and_wait(sig, val)
+        sig.set(val).wait()
 
 
 def AD_full_file_name_local(plugin):
@@ -407,12 +406,12 @@ class AD_EpicsFileNameMixin(FileStorePluginBase):
         filename, read_path, write_path = self.make_filename()
 
         # Ensure we do not have an old file open.
-        set_and_wait(self.capture, 0)
+        self.capture.set(0).wait()
 
         # Set these before capture is turned on.
         # They will not be reset on 'unstage' anyway.
-        set_and_wait(self.file_path, write_path)
-        set_and_wait(self.file_name, filename)
+        self.file_path.set(write_path).wait()
+        self.file_name.set(filename).wait()
 
         # Get file number now, it is incremented during stage().
         file_number = self.file_number.get()
