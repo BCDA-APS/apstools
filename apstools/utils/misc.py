@@ -211,16 +211,17 @@ def replay(headers, callback=None, sort=True):
     PARAMETERS
 
     headers
-        *scan* or *[scan]* :
-        Scan(s) to be replayed through callback.
-        A *scan* is an instance of a Bluesky ``databroker.Header``.
+        *run* or *[run]* :
+        Run(s) to be replayed through callback. A *run* is an instance of a
+        Bluesky ``databroker.core.BlueskyRun` (or the older
+        ``databroker.Header``).
         see: https://nsls-ii.github.io/databroker/api.html?highlight=header#header-api
 
     callback
-        *scan* or *[scan]* :
-        The Bluesky callback to handle the stream of documents from a
-        scan. If ``None``, then use the `bec` (BestEffortCallback) from
-        the IPython shell.
+        *run* or *[run]* :
+        The Bluesky callback to handle the stream of documents from a run. If
+        ``None``, then use the `bec` (BestEffortCallback) from the IPython
+        shell.
         (default:``None``)
 
     sort
@@ -237,8 +238,17 @@ def replay(headers, callback=None, sort=True):
     )
     # fmt: on
     _headers = headers  # do not mutate the input arg
-    if isinstance(_headers, databroker.Header):
+    if not isinstance(_headers, (list, tuple)):
         _headers = [_headers]
+
+    def as_header(run):
+        if hasattr(run, "start"):
+            return run  # this is a cat.v1 header
+        # convert cat.v2 run to cat.v1 header
+        uid = run.metadata["start"]["uid"]
+        return run.cat.v1[uid]
+
+    runs = [as_header(h) for h in _headers]
 
     def increasing_time_sorter(run):
         return run.start["time"]
@@ -254,7 +264,7 @@ def replay(headers, callback=None, sort=True):
     }[sort]
     # fmt: on
 
-    for h in sorted(_headers, key=sorter):
+    for h in sorted(runs, key=sorter):
         if not isinstance(h, databroker.Header):
             # fmt: off
             raise TypeError(
