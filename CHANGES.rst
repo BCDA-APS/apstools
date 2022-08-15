@@ -22,6 +22,9 @@ describe the future plans.
    ******
 
    release expected by 2022-09-30
+   
+   TODO: * Published on conda-forge ``conda install -c conda-forge apstools``.
+   TODO: * Stop publishing on channel ``-c aps-anl-tag`` (use ``-c conda-forge`` instead).
 
 1.6.3
 ******
@@ -36,7 +39,6 @@ New Features and/or Enhancements
 * Add devices.SingleTrigger_V34
 * Add EpicsScanIdSignal (scan_id from EPICS PV).
 * Add run_blocking_function() plan to run blocking functions in the RunEngine.
-* Published on conda-forge ``conda install -c conda-forge apstools``.
 * replay() can now take a run, [run], header, or [header]
 * Switch HTML documentation to use *furo* theme.
 
@@ -54,7 +56,6 @@ Deprecations
 
 * ``bluesky_snapshot_viewer`` and underlying GUI code will be dropped by 2022-12-31.
 * Drop support for Python 3.7 per NEP29.
-* Stop publishing on channel ``-c aps-anl-tag`` (use ``-c conda-forge`` instead).
 
 1.6.2
 ******

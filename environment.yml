@@ -1,6 +1,7 @@
 name: apstools-test-environment
 
 channels:
+  - aps-anl-tag
   - conda-forge
   - defaults
   # nsls2forge channel for newer mongoquery 1.3.6 (issue #673)
