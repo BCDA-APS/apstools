@@ -244,6 +244,52 @@ def test_utils_with_database_replay(cat):
 
 
 @pytest.mark.parametrize(
+    "run_type, ref, scan_ids",
+    [
+        ["header", -1, 1],
+        ["run", -1, 1],
+        ["run", 1, 1],
+        ["run", "e5d2cbdc", 1],
+        ["run", -2, 110],
+        ["run", 110, 110],
+        ["run", "19965989-0a2a-44aa-aa06-c1248754e651", 110],
+        ["header", [-1, -2], [1, 110]],
+        ["run", -3, 109],
+        ["run", [1, 110, 109], [1, 110, 109]],
+    ],
+)
+def test_replay(run_type, ref, scan_ids, cat):
+    if run_type == "header":
+        local_cat = cat.v1
+    else:
+        local_cat = cat.v2
+    if isinstance(ref, (list, tuple)):
+        n_items = len(ref)
+        local_ref = [local_cat[r] for r in ref]
+        if run_type == "header":
+            local_scan_ids = [r.start["scan_id"] for r in local_ref]
+        else:
+            local_scan_ids = [r.metadata["start"]["scan_id"] for r in local_ref]
+    else:
+        n_items = 1
+        local_ref = local_cat[ref]
+        if run_type == "header":
+            local_scan_ids = local_ref.start["scan_id"]
+        else:
+            local_scan_ids = local_ref.metadata["start"]["scan_id"]
+    assert local_scan_ids == scan_ids
+
+    replies = []
+
+    def cb2(key, doc):
+        if key == "start":
+            replies.append(doc["time"])
+
+    utils.replay(local_ref, cb2)
+    assert len(replies) == n_items
+
+
+@pytest.mark.parametrize(
     "scan_id, stream, total_keys, key, v1, m3, m_default, m_strict, m_lower",
     [
         (103, "primary", 7, "PD_USAXS", False, 1, 1, 1, 0),
@@ -257,8 +303,7 @@ def test_utils_listRunKeys(
     scan_id, stream, total_keys, key, v1, m3, m_default, m_strict, m_lower, cat
 ):
     assert (
-        len(utils.listRunKeys(scan_id, db=cat, stream=stream, use_v1=v1))
-        == total_keys
+        len(utils.listRunKeys(scan_id, db=cat, stream=stream, use_v1=v1)) == total_keys
     )
 
     result = utils.listRunKeys(
@@ -323,9 +368,29 @@ def test_utils_getRunData(scan_id, stream, nkeys, v1, cat):
         (2, "baseline", "undulator_downstream_version", None, True, "4.21", 0),
         (2, "primary", "I0_USAXS", -1, False, 3729, 0),
         (2, "primary", "I0_USAXS", "-1", False, 3729, 0),
-        (2, "primary", "I0_USAXS", "all", False, [3729.0, ], 0),
+        (
+            2,
+            "primary",
+            "I0_USAXS",
+            "all",
+            False,
+            [
+                3729.0,
+            ],
+            0,
+        ),
         (2, "primary", "I0_USAXS", None, False, 3729, 0),
-        (2, None, "I0_USAXS", "all", False, [3729.0, ], 0),
+        (
+            2,
+            None,
+            "I0_USAXS",
+            "all",
+            False,
+            [
+                3729.0,
+            ],
+            0,
+        ),
         # (103, "baseline", "undulator_downstream_version", None, False, "4.21", 0),  # VERY slow
         (103, "baseline", "undulator_downstream_version", None, True, "4.21", 0),
         (103, "primary", "a_stage_r", -1, False, 8.88197, 5),
