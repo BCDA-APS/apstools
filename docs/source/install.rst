@@ -15,9 +15,9 @@ conda
 If you are using Anaconda Python and have ``conda`` installed, install the most
 recent version with this command::
 
-    $ conda install -c aps-anl-tag apstools
+    $ conda install -c conda-forge apstools
 
-..    $ conda install -c conda-forge apstools
+..    $ conda install -c aps-anl-tag apstools
 
 pip
 ---
