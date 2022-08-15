@@ -37,6 +37,7 @@ New Features and/or Enhancements
 * Add devices.CamMixin_V3_1_1
 * Add devices.CamMixin_V34
 * Add devices.SingleTrigger_V34
+* replay() can now take a run, [run], header, or [header]
 
 Maintenance
 ---------------
