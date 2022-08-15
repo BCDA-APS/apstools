@@ -31,28 +31,30 @@ release expected by 2022-08-31
 New Features and/or Enhancements
 ---------------------------------------------
 
-* Add EpicsScanIdSignal (scan_id from EPICS PV).
-* Switch HTML documentation to use *furo* theme.
-* Add run_blocking_function() plan to run blocking functions in the RunEngine.
 * Add devices.CamMixin_V3_1_1
 * Add devices.CamMixin_V34
 * Add devices.SingleTrigger_V34
+* Add EpicsScanIdSignal (scan_id from EPICS PV).
+* Add run_blocking_function() plan to run blocking functions in the RunEngine.
+* Published on conda-forge ``conda install -c conda-forge apstools``.
 * replay() can now take a run, [run], header, or [header]
+* Switch HTML documentation to use *furo* theme.
 
 Maintenance
 ---------------
 
+* Combine install steps, workflows in CI
+* Describe how to use the NXWriter callback.
+* Refactor AD test with EPICS-controlled image file names.
+* Refactor test_move_to_zero().
 * Unit tests now Python version 3.8, 3.9, & 3.10.
-* Now published on conda-forge ``conda install -c conda-forge apstools``.
 
 Deprecations
 ---------------
 
-* Drop support for Python 3.7.
-* Stop publishing on channel ``-c aps-anl-tag``
-  (using ``-c conda-forge`` instead).
-* The ``bluesky_snapshot_viewer`` and underlying GUI code will be dropped by
-  2022-12-31.
+* ``bluesky_snapshot_viewer`` and underlying GUI code will be dropped by 2022-12-31.
+* Drop support for Python 3.7 per NEP29.
+* Stop publishing on channel ``-c aps-anl-tag`` (use ``-c conda-forge`` instead).
 
 1.6.2
 ******
