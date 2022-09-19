@@ -9,7 +9,6 @@ from setuptools import setup, find_packages
 
 import pathlib
 import sys
-import versioneer
 
 
 sys.path.insert(0, str(pathlib.Path(__file__).parent / "apstools"))
@@ -40,8 +39,6 @@ setup(
     packages=find_packages(exclude=package.__exclude_project_dirs__),
     include_package_data=True,
     url=package.__url__,
-    version=versioneer.get_version(),
-    cmdclass=versioneer.get_cmdclass(),
     zip_safe=package.__zip_safe__,
     python_requires=package.__python_version_required__,
 )

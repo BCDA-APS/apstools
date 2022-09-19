@@ -26,7 +26,7 @@ def learn_requirements():
         # not needed with installed package
         return reqs
 
-    excludes = "versioneer coveralls coverage".split()
+    excludes = "coveralls coverage".split()
     with open(req_file, "r") as fp:
         buf = fp.read().strip().splitlines()
         for req in buf:

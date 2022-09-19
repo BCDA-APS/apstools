@@ -31,7 +31,6 @@ dependencies:
   - readline !=8.1.2
   - spec2nexus
   - sphinx >=5
-  - versioneer
 
   # - pip:
     # - bluesky_live
