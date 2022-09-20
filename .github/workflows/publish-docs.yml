@@ -33,7 +33,7 @@ jobs:
 
     - name: Install Sphinx build requirements
       run: |
-        pip install -r requirements-sphinx.txt
+        pip install -r requirements-sphinx.txt setuptools-scm
 
     - name: Diagnostics
       run: |
