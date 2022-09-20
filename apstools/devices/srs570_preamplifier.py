@@ -16,16 +16,6 @@ https://htmlpreview.github.io/?https://raw.githubusercontent.com/epics-modules/i
 :see: https://github.com/epics-modules/ip
 """
 
-# -----------------------------------------------------------------------------
-# :author:    Pete R. Jemian
-# :email:     jemian@anl.gov
-# :copyright: (c) 2017-2022, UChicago Argonne, LLC
-#
-# Distributed under the terms of the Creative Commons Attribution 4.0 International Public License.
-#
-# The full license is in the file LICENSE.txt, distributed with this software.
-# -----------------------------------------------------------------------------
-
 from ophyd import Component
 from ophyd import EpicsSignal
 from .preamp_base import PreamplifierBaseDevice
@@ -94,3 +84,13 @@ class SRS570_PreAmplifier(PreamplifierBaseDevice):
 
         # amplifier gain is the most relevant value
         self.gain.name = self.name
+
+# -----------------------------------------------------------------------------
+# :author:    Pete R. Jemian
+# :email:     jemian@anl.gov
+# :copyright: (c) 2017-2022, UChicago Argonne, LLC
+#
+# Distributed under the terms of the Argonne National Laboratory Open Source License.
+#
+# The full license is in the file LICENSE.txt, distributed with this software.
+# -----------------------------------------------------------------------------

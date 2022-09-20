@@ -29,11 +29,15 @@ jobs:
 
     - name: Install pandoc
       run: |
-        sudo apt-get update && sudo apt-get install pandoc
+        sudo apt-get update && sudo apt-get -y install pandoc python3-pip
 
     - name: Install Sphinx build requirements
       run: |
-        pip install -r requirements-sphinx.txt
+        pip install -r requirements-sphinx.txt setuptools-scm
+
+    - name: Install our package
+      run: |
+        pip install -e .
 
     - name: Diagnostics
       run: |

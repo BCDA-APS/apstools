@@ -58,13 +58,3 @@ def test_sseq_reset():
     short_delay_for_EPICS_IOC_database_processing()
     assert step.input_pv.get() == ""
     assert step.string_value.get() == f"{0:.5f}"
-
-# -----------------------------------------------------------------------------
-# :author:    Pete R. Jemian
-# :email:     jemian@anl.gov
-# :copyright: (c) 2017-2022, UChicago Argonne, LLC
-#
-# Distributed under the terms of the Creative Commons Attribution 4.0 International Public License.
-#
-# The full license is in the file LICENSE.txt, distributed with this software.
-# -----------------------------------------------------------------------------

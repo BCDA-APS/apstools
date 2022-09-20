@@ -1,26 +1,20 @@
 {% set data = load_setup_py_data(setup_file='../setup.py', from_recipe_dir=True) %}
-{% set name = data.get('name') %}
-{% set version = data.get('version') %}
-{% set url = data.get('url') %}
-{% set description = data.get('description') %}
-{% set keywords = data.get('keywords') %}
-{% set license = data.get('license') %}
 
 source:
   path: ../
 
 about:
-    home: "{{ url }}"
+    home: "{{ data.get('url') }}"
     license_file: LICENSE.txt
     # see: https://github.com/conda/conda-build/blob/master/conda_build/license_family.py#L8-L23
     license_family: OTHER
-    license: "{{ license }}"
-    summary: "{{ description }}"
-    keywords: "{{ keywords }}"
+    license: "{{ data.get('license') }}"
+    summary: "{{ data.get('description') }}"
+    keywords: "{{ data.get('keywords') }}"
 
 package:
-  name: "{{ name|lower }}"
-  version: "{{ version }}"
+  name: "{{ data.get('name')|lower }}"
+  version: "{{ data.get('version') }}"
 
 build:
   script: python -m pip install --no-deps --ignore-installed .
@@ -34,6 +28,7 @@ requirements:
   host:
     - python >=3.7, < 3.10
     - pip
+    - setuptools-scm
   run:
     - python >=3.7, < 3.10
     - area-detector-handlers
@@ -44,6 +39,7 @@ requirements:
     - openpyxl
     - pyEpics >=3.4.3
     - pyRestTable
+    - setuptools-scm
     - spec2nexus >=2021.1.7
 
 test:

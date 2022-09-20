@@ -3,3 +3,4 @@ myst-parser
 nbsphinx
 pygments ==2.7.4
 furo
+setuptools-scm
