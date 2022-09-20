@@ -94,9 +94,10 @@ jobs:
         environment-file: environment.yml
         environment-name: anaconda-test-env-py-${{ matrix.python-version }}
         extra-specs: |
-          coverage
           coveralls
           pytest
+          pytest-cov
+          setuptools-scm
 
     - name: Initial diagnostics
       run: |

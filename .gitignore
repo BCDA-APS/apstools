@@ -32,5 +32,5 @@ build_log.txt
 .log
 .loglogin
 
-# setuptools-scm
+# setuptools-scm : generated version number
 _version.py
