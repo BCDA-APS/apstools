@@ -231,7 +231,7 @@ def test_move_and_stopped_early(rbv, pos):
     short_delay_for_EPICS_IOC_database_processing()
     assert status.done
     assert status.success
-    assert status.elapsed >= 0.5
+    # assert status.elapsed >= 0.5  # can't assure for initial move
 
     # move that is stopped before reaching the target
     longer_delay = 2
