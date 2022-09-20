@@ -31,3 +31,6 @@ build_log.txt
 # bird droppings from IT
 .log
 .loglogin
+
+# setuptools-scm
+_version.py
