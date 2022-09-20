@@ -68,3 +68,13 @@ def run_blocking_function(function, *args, **kwargs):
     thread = internal()
     while thread.is_alive():
         yield from bps.sleep(POLL_DELAY)
+
+# -----------------------------------------------------------------------------
+# :author:    Pete R. Jemian
+# :email:     jemian@anl.gov
+# :copyright: (c) 2017-2022, UChicago Argonne, LLC
+#
+# Distributed under the terms of the Argonne National Laboratory Open Source License.
+#
+# The full license is in the file LICENSE.txt, distributed with this software.
+# -----------------------------------------------------------------------------

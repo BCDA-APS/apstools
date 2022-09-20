@@ -32,3 +32,13 @@ class EpicsScanIdSignal(EpicsSignal):
         new_scan_id = max(self.get(), 0) + 1
         self.put(new_scan_id)
         return new_scan_id
+
+# -----------------------------------------------------------------------------
+# :author:    Pete R. Jemian
+# :email:     jemian@anl.gov
+# :copyright: (c) 2017-2022, UChicago Argonne, LLC
+#
+# Distributed under the terms of the Argonne National Laboratory Open Source License.
+#
+# The full license is in the file LICENSE.txt, distributed with this software.
+# -----------------------------------------------------------------------------

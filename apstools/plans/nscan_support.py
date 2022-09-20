@@ -120,7 +120,7 @@ def nscan(detectors, *motor_sets, num=11, per_step=None, md=None):
 # :email:     jemian@anl.gov
 # :copyright: (c) 2017-2022, UChicago Argonne, LLC
 #
-# Distributed under the terms of the Creative Commons Attribution 4.0 International Public License.
+# Distributed under the terms of the Argonne National Laboratory Open Source License.
 #
 # The full license is in the file LICENSE.txt, distributed with this software.
 # -----------------------------------------------------------------------------

@@ -115,13 +115,3 @@ def test_useraverage_reset(ave):
 #     assert ave.busy.get(as_string=False) == 0
 #     # test that average = 0.5 as n -> inf
 #     assert abs(ave.averaged_value.get() - 0.5) <= 0.1
-
-# -----------------------------------------------------------------------------
-# :author:    Pete R. Jemian
-# :email:     jemian@anl.gov
-# :copyright: (c) 2017-2022, UChicago Argonne, LLC
-#
-# Distributed under the terms of the Creative Commons Attribution 4.0 International Public License.
-#
-# The full license is in the file LICENSE.txt, distributed with this software.
-# -----------------------------------------------------------------------------

@@ -17,3 +17,13 @@ from .nscan_support import nscan
 from .run_blocking_function_plan import run_blocking_function
 from .snapshot_support import snapshot
 from .sscan_support import sscan_1D
+
+# -----------------------------------------------------------------------------
+# :author:    Pete R. Jemian
+# :email:     jemian@anl.gov
+# :copyright: (c) 2017-2022, UChicago Argonne, LLC
+#
+# Distributed under the terms of the Argonne National Laboratory Open Source License.
+#
+# The full license is in the file LICENSE.txt, distributed with this software.
+# -----------------------------------------------------------------------------
