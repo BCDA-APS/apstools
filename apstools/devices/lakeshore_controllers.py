@@ -119,6 +119,7 @@ class LakeShore336_LoopControl(PVPositionerSoftDoneWithStop):
             self._settle_time = value
 
     def pause(self):
+        """Change setpoint to current position."""
         self.setpoint.put(self._position)
 
 
@@ -247,6 +248,7 @@ class LS340_LoopBase(PVPositionerSoftDoneWithStop):
         return self.units.get(as_string=True)
 
     def pause(self):
+        """Change setpoint to current position."""
         self.setpoint.put(self._position, wait=True)
 
 
