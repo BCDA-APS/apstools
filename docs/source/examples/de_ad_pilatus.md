@@ -1,4 +1,4 @@
-# Example: ADPilatus Area Detector & HDF5 File (default)
+# ADPilatus Area Detector & (default) HDF5 File Name
 
 **Objective**
 
@@ -20,7 +20,7 @@ method to accomplish this goal (shared file system, such as NFS, or file
 transfer from Pilatus computer to Bluesky computer), the file path on the IOC
 (`AD_IOC_MOUNT_PATH`) will likely be different than on the Bluesky (local)
 workstation (`BLUESKY_MOUNT_PATH`).  Following the setup in the *File-Directories*
-section of the [basic example](_ad_adsim_hdf5_basic.ipynb):
+section of the [basic example](de_adsim_hdf5_basic.ipynb):
 
 ```py
 import pathlib
@@ -77,9 +77,9 @@ class MyHDF5Plugin(FileStoreHDF5IterativeWrite, HDF5Plugin):
 **NOTE**: If you want to control the HDF5 file naming with EPICS PVs (in area
 detector), then replace the `MyHDF5Plugin` class with `AD_EpicsFileNameHDF5Plugin`
 when creating the detector class below and follow the additional instructions
-and cautions in the *HDF5: AD_EpicsFileNameHDF5Plugin* section of the [custom
-HDF5 image file names example](./_ad_adsim_hdf5_custom_names.ipynb). You'll need
-this import:
+and cautions in the *HDF5: AD_EpicsFileNameHDF5Plugin* section of the
+[custom HDF5 image file names example](de_adsim_hdf5_custom_names.ipynb). You'll
+need this import:
 
 ```py
 from apstools.devices import AD_EpicsFileNameHDF5Plugin
@@ -153,5 +153,5 @@ RE(bp.count([pilatus]))
 ```
 
 See the *bluesky* section of the 
-[basic example](_ad_adsim_hdf5_basic.ipynb) for
+[basic example](de_adsim_hdf5_basic.ipynb) for
 more information.

@@ -11,14 +11,13 @@ Various Python tools for use with Bluesky at the APS
 
    overview
    applications/index
-   install
 
 .. toctree::
-   :maxdepth: 1
+   :maxdepth: 2
    :glob:
-   :caption: Ready-to-Use Devices
+   :caption: Examples & Guides
 
-   examples/*
+   examples/index
 
 .. toctree::
    :maxdepth: 2
@@ -26,6 +25,13 @@ Various Python tools for use with Bluesky at the APS
    :caption: Developer Notes
 
    api/index
+
+.. toctree::
+   :maxdepth: 1
+   :glob:
+   :caption: Package Details
+
+   install
    changes
    license
 
