@@ -70,14 +70,3 @@ def common_attribute_quantities_test(device, pv, connect, attr, expected):
     else:
         l = len(getattr(obj, attr))
     assert l == expected, f"{attr}: {l} != {expected}"
-
-
-# -----------------------------------------------------------------------------
-# :author:    Pete R. Jemian
-# :email:     jemian@anl.gov
-# :copyright: (c) 2017-2022, UChicago Argonne, LLC
-#
-# Distributed under the terms of the Creative Commons Attribution 4.0 International Public License.
-#
-# The full license is in the file LICENSE.txt, distributed with this software.
-# -----------------------------------------------------------------------------

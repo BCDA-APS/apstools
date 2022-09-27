@@ -11,16 +11,6 @@ Public Structures
 :see: https://epics.anl.gov/bcda/synApps/std/epidRecord.html
 """
 
-# -----------------------------------------------------------------------------
-# :author:    Pete R. Jemian
-# :email:     jemian@anl.gov
-# :copyright: (c) 2017-2022, UChicago Argonne, LLC
-#
-# Distributed under the terms of the Creative Commons Attribution 4.0 International Public License.
-#
-# The full license is in the file LICENSE.txt, distributed with this software.
-# -----------------------------------------------------------------------------
-
 from ophyd import Component
 from ophyd import EpicsSignal
 from ophyd import EpicsSignalRO
@@ -74,3 +64,13 @@ class EpidRecord(EpicsRecordFloatFields, EpicsRecordDeviceCommonAll):
     @property
     def value(self):
         return self.output_value.get()
+
+# -----------------------------------------------------------------------------
+# :author:    Pete R. Jemian
+# :email:     jemian@anl.gov
+# :copyright: (c) 2017-2022, UChicago Argonne, LLC
+#
+# Distributed under the terms of the Argonne National Laboratory Open Source License.
+#
+# The full license is in the file LICENSE.txt, distributed with this software.
+# -----------------------------------------------------------------------------

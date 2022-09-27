@@ -10,16 +10,6 @@ Public Structures
 :see: https://github.com/epics-modules/asyn
 """
 
-# -----------------------------------------------------------------------------
-# :author:    Pete R. Jemian
-# :email:     jemian@anl.gov
-# :copyright: (c) 2017-2022, UChicago Argonne, LLC
-#
-# Distributed under the terms of the Creative Commons Attribution 4.0 International Public License.
-#
-# The full license is in the file LICENSE.txt, distributed with this software.
-# -----------------------------------------------------------------------------
-
 from ophyd.device import Component
 from ophyd import EpicsSignal, EpicsSignalRO
 from ._common import EpicsRecordDeviceCommonAll
@@ -54,3 +44,13 @@ class AsynRecord(EpicsRecordDeviceCommonAll):
     timeout = Component(EpicsSignal, ".TMOT", kind="config")
     transaction_mode = Component(EpicsSignal, ".TMOD", kind="config")
     translated_input = Component(EpicsSignal, ".TINP", kind="config")
+
+# -----------------------------------------------------------------------------
+# :author:    Pete R. Jemian
+# :email:     jemian@anl.gov
+# :copyright: (c) 2017-2022, UChicago Argonne, LLC
+#
+# Distributed under the terms of the Argonne National Laboratory Open Source License.
+#
+# The full license is in the file LICENSE.txt, distributed with this software.
+# -----------------------------------------------------------------------------

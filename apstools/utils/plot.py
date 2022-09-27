@@ -193,3 +193,13 @@ def trim_plot_by_name(n=3, plots=None):
                     ax.lines[0].remove()
                 # update the plot legend
                 ax.legend()
+
+# -----------------------------------------------------------------------------
+# :author:    Pete R. Jemian
+# :email:     jemian@anl.gov
+# :copyright: (c) 2017-2022, UChicago Argonne, LLC
+#
+# Distributed under the terms of the Argonne National Laboratory Open Source License.
+#
+# The full license is in the file LICENSE.txt, distributed with this software.
+# -----------------------------------------------------------------------------

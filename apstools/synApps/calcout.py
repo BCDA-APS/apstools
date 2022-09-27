@@ -16,16 +16,6 @@ Public Structures
     ~setup_lorentzian_calcout
 """
 
-# -----------------------------------------------------------------------------
-# :author:    Pete R. Jemian
-# :email:     jemian@anl.gov
-# :copyright: (c) 2017-2022, UChicago Argonne, LLC
-#
-# Distributed under the terms of the Creative Commons Attribution 4.0 International Public License.
-#
-# The full license is in the file LICENSE.txt, distributed with this software.
-# -----------------------------------------------------------------------------
-
 from collections import OrderedDict
 from ophyd import Component as Cpt
 from ophyd import Device
@@ -406,3 +396,13 @@ def setup_incrementer_calcout(calcout, scan=None, limit=100000):
     calcout.read_attrs = [
         "input_value",
     ]
+
+# -----------------------------------------------------------------------------
+# :author:    Pete R. Jemian
+# :email:     jemian@anl.gov
+# :copyright: (c) 2017-2022, UChicago Argonne, LLC
+#
+# Distributed under the terms of the Argonne National Laboratory Open Source License.
+#
+# The full license is in the file LICENSE.txt, distributed with this software.
+# -----------------------------------------------------------------------------
