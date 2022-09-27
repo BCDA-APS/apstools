@@ -2,7 +2,9 @@
 Snapshot Report
 +++++++++++++++++++++++++++++++++++++++
 
-NOTE: Deprecated in v1.6.4! All snapshot support will be removed in v1.6.5 (2022-11)!
+.. deprecated:: v1.6.4
+
+    All snapshot support will be removed in v1.6.5 (2022-11)!
 
 .. autosummary::
 
@@ -19,7 +21,9 @@ class SnapshotReport(CallbackBase):
     """
     Show the data from a ``apstools.plans.snapshot()``.
 
-    NOTE: Deprecated in v1.6.4! All snapshot support will be removed in v1.6.5 (2022-11)!
+    .. deprecated:: v1.6.4
+
+        All snapshot support will be removed in v1.6.5 (2022-11)!
 
     Find most recent snapshot between certain dates::
 
