@@ -758,10 +758,12 @@ class SingleTrigger_V34(SingleTrigger):
             self._acquisition_busy_signal = self._acquisition_signal
 
     def stage(self):
+        """Prepare device settings before data acquisition."""
         self._acquisition_busy_signal.subscribe(self._acquire_changed)
         super(SingleTrigger, self).stage()  # from grandparent
 
     def unstage(self):
+        """Restore device settings after data acquisition."""
         super(SingleTrigger, self).unstage()  # from grandparent
         self._acquisition_busy_signal.clear_sub(self._acquire_changed)
 

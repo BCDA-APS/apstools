@@ -2,8 +2,8 @@
 
 .. _example_run_command_file:
 
-Example: the :func:`~apstools.plans.run_command_file` plan
-================================================================
+The :func:`~apstools.plans.run_command_file()` plan -- batch scans using a text file
+=====================================================================================
 
 You can use a text file or an Excel spreadsheet as a multi-sample
 batch scan tool using the :func:`~apstools.plans.run_command_file` plan.

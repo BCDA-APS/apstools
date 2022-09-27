@@ -49,16 +49,10 @@ extensions = """
 """.split()
 
 templates_path = ['_templates']
-# source_suffix = ['.rst', '.md']
-exclude_patterns = []
-
-# The suffix(es) of source filenames.
-# You can specify multiple suffix as a list of string:
 source_suffix = ['.rst', '.md']
+exclude_patterns = ['**.ipynb_checkpoints']
 
 today_fmt = "%Y-%m-%d %H:%M"
-
-exclude_patterns = ['**.ipynb_checkpoints']
 
 # html_theme = 'alabaster'
 # html_theme = 'furo'
