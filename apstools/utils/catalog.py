@@ -217,7 +217,6 @@ def getDefaultDatabase():
     for cat_name in list(databroker.catalog):
         cat = databroker.catalog[cat_name]
         if cat in db_list:
-            print(cat_name, cat.name)
             if len(cat) > 0:
                 run = cat.v2[-1]
                 t = run.metadata["start"]["time"]
