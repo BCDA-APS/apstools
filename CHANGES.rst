@@ -31,6 +31,7 @@ release expected by 2022-10-21
 New Features and/or Enhancements
 ---------------------------------------------
 
+* Only publish documentation on demand by executing GitHub workflow.
 * Switch HTML documentation to use *PyData* theme.
 
 1.6.3
