@@ -34,6 +34,11 @@ New Features and/or Enhancements
 * Only publish documentation on demand by executing GitHub workflow.
 * Switch HTML documentation to use *PyData* theme.
 
+Maintenance
+---------------
+
+* Re-arranged the documentation.  Some examples renamed.  Content unchanged.
+
 1.6.3
 ******
 
