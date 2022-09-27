@@ -13,7 +13,6 @@ dependencies:
   - bluesky >=1.6.7
   - databroker =1.2
   - databroker-pack
-  - furo
   - h5py
   - intake
   - mongoquery >=1.3.6
@@ -23,6 +22,7 @@ dependencies:
   - pint
   - pip
   - prompt-toolkit
+  - pydata-sphinx-theme
   - pyEpics >=3.4.3
   - pymongo
   - pyqt =5

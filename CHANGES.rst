@@ -18,11 +18,21 @@ The project `milestones <https://github.com/BCDA-APS/apstools/milestones>`_
 describe the future plans.
 
 ..
-   1.6.4
+   1.6.5
    ******
 
-   release expected by 2022-09-30
-   
+   release expected by 2022-11-18
+
+1.6.4
+******
+
+release expected by 2022-10-21
+
+New Features and/or Enhancements
+---------------------------------------------
+
+* Switch HTML documentation to use *PyData* theme.
+
 1.6.3
 ******
 
