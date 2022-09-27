@@ -2,21 +2,30 @@
 snapshot Support
 +++++++++++++++++++++++++++++++++++++++
 
+.. deprecated:: v1.6.4
+
+    All snapshot support will be removed in v1.6.5 (2022-11)!
+
 .. autosummary::
 
    ~snapshot
 """
 
-import datetime
-import sys
 
 from bluesky import plan_stubs as bps
 from ophyd import Signal, EpicsSignal
+import datetime
+import sys
+import warnings
 
 
 def snapshot(obj_list, stream="primary", md=None):
     """
     bluesky plan: record current values of list of ophyd signals
+
+    .. deprecated:: v1.6.4
+
+        All snapshot support will be removed in v1.6.5 (2022-11)!
 
     .. index:: Bluesky Plan; snapshot
 
@@ -39,6 +48,8 @@ def snapshot(obj_list, stream="primary", md=None):
     from ophyd import __version__ as ophyd_version
     import socket
     import getpass
+
+    warnings.warn("Deprecated in v1.6.4! All snapshot support will be removed in v1.6.5 (2022-11)!")
 
     objects = []
     for obj in obj_list:

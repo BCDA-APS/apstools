@@ -24,6 +24,12 @@ Miscellaneous Support
    ~unix
 """
 
+from ._core import MAX_EPICS_STRINGOUT_LENGTH
+from ..callbacks import spec_file_writer
+from .profile_support import ipython_shell_namespace
+from bluesky import plan_stubs as bps
+from bluesky.callbacks.best_effort import BestEffortCallback
+from collections import OrderedDict
 import databroker
 import logging
 import ophyd
@@ -33,14 +39,7 @@ import subprocess
 import sys
 import threading
 import time
-
-from bluesky import plan_stubs as bps
-from bluesky.callbacks.best_effort import BestEffortCallback
-from collections import OrderedDict
-
-from ._core import MAX_EPICS_STRINGOUT_LENGTH
-from .profile_support import ipython_shell_namespace
-from ..callbacks import spec_file_writer
+import warnings
 
 
 logger = logging.getLogger(__name__)
@@ -583,6 +582,10 @@ def print_snapshot_list(db, printing=True, **search_criteria):
     """
     print (stdout) a list of all snapshots in the databroker
 
+    .. deprecated:: v1.6.4
+
+        All snapshot support will be removed in v1.6.5 (2022-11)!
+
     USAGE::
 
         print_snapshot_list(db, )
@@ -653,6 +656,8 @@ def print_snapshot_list(db, printing=True, **search_criteria):
         uid: 6c1b2100-1ef6-404d-943e-405da9ada882
 
     """
+    warnings.warn("Deprecated in v1.6.4! All snapshot support will be removed in v1.6.5 (2022-11)!")
+
     t = pyRestTable.Table()
     t.addLabel("#")
     t.addLabel("uid")

@@ -2,6 +2,8 @@
 Snapshot Report
 +++++++++++++++++++++++++++++++++++++++
 
+NOTE: Deprecated in v1.6.4! All snapshot support will be removed in v1.6.5 (2022-11)!
+
 .. autosummary::
 
    ~SnapshotReport
@@ -10,11 +12,14 @@ Snapshot Report
 import datetime
 import pyRestTable
 from bluesky.callbacks.core import CallbackBase
+import warnings
 
 
 class SnapshotReport(CallbackBase):
     """
     Show the data from a ``apstools.plans.snapshot()``.
+
+    NOTE: Deprecated in v1.6.4! All snapshot support will be removed in v1.6.5 (2022-11)!
 
     Find most recent snapshot between certain dates::
 
@@ -87,6 +92,7 @@ class SnapshotReport(CallbackBase):
 
         method: play the entire document stream through this callback
         """
+        warnings.warn("Deprecated in v1.6.4! All snapshot support will be removed in v1.6.5 (2022-11)!")
         print()
         print("=" * 40)
         print("snapshot:", header.start["iso8601"])

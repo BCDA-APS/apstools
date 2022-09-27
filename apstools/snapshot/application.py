@@ -3,6 +3,10 @@
 """
 Record a snapshot of some PVs using Bluesky, ophyd, and databroker.
 
+.. deprecated:: v1.6.4
+
+    All snapshot support will be removed in v1.6.5 (2022-11)!
+
 USAGE::
 
     (base) user@hostname .../pwd $ bluesky_snapshot -h
@@ -35,6 +39,7 @@ import sys
 import time
 import tkinter as tk
 import tkinter.ttk as ttk
+import warnings
 
 
 BROKER_CONFIG = "mongodb_config"
@@ -120,6 +125,10 @@ def snapshot_cli():
     """
     given a list of PVs on the command line, snapshot and print report
 
+    .. deprecated:: v1.6.4
+
+        All snapshot support will be removed in v1.6.5 (2022-11)!
+
     EXAMPLES::
 
         snapshot.py pv1 [more pvs ...]
@@ -131,6 +140,7 @@ def snapshot_cli():
         snapshot.py rpi5bf5:0:{humidity,temperature}
 
     """
+    warnings.warn("Deprecated in v1.6.4! All snapshot support will be removed in v1.6.5 (2022-11)!")
 
     args = get_args()
 
@@ -175,7 +185,14 @@ class Capturing(list):  # LGTM
 
 
 def snapshot_gui(config=None):
-    """run the snapshot viewer"""
+    """
+    run the snapshot viewer
+
+    .. deprecated:: v1.6.4
+
+        All snapshot support will be removed in v1.6.5 (2022-11)!
+    """
+    warnings.warn("Deprecated in v1.6.4! All snapshot support will be removed in v1.6.5 (2022-11)!")
     SnapshotGui(config or BROKER_CONFIG)
 
 
