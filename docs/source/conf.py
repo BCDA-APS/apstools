@@ -58,9 +58,9 @@ source_suffix = ['.rst', '.md']
 
 today_fmt = "%Y-%m-%d %H:%M"
 
-# -- Options for HTML output -------------------------------------------------
-# https://www.sphinx-doc.org/en/master/usage/configuration.html#options-for-html-output
+exclude_patterns = ['**.ipynb_checkpoints']
 
 # html_theme = 'alabaster'
-html_theme = "furo"
+# html_theme = 'furo'
+html_theme = "pydata_sphinx_theme"
 html_static_path = ['_static']
