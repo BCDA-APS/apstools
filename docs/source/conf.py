@@ -9,6 +9,7 @@ from importlib.metadata import version
 import configparser
 import pathlib
 import sys
+
 sys.path.insert(0, str(pathlib.Path().absolute().parent.parent))
 import apstools
 
@@ -48,13 +49,13 @@ extensions = """
     myst_parser
 """.split()
 
-templates_path = ['_templates']
-source_suffix = ['.rst', '.md']
-exclude_patterns = ['**.ipynb_checkpoints']
+templates_path = ["_templates"]
+source_suffix = [".rst", ".md"]
+exclude_patterns = ["**.ipynb_checkpoints"]
 
 today_fmt = "%Y-%m-%d %H:%M"
 
-# html_theme = 'alabaster'
-# html_theme = 'furo'
+# html_theme = "alabaster"
+# html_theme = "furo"
 html_theme = "pydata_sphinx_theme"
-html_static_path = ['_static']
+html_static_path = ["_static"]

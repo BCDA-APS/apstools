@@ -1,5 +1,7 @@
 """
 a read-only TkTkinter.Text widget
+
+NOTE: All snapshot support will be removed in v1.6.5 (2022-11)!
 """
 # see: https://stackoverflow.com/a/11612656/1046449
 

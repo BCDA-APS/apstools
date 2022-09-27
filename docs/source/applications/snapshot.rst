@@ -1,11 +1,13 @@
-
-
 .. index:: bluesky_snapshot
 
 .. _bluesky_snapshot:
 
 bluesky_snapshot
 ----------------
+
+.. deprecated:: v1.6.4
+
+    All snapshot support will be removed in v1.6.5 (2022-11)!
 
 Take a snapshot of a list of EPICS PVs and record it in the databroker.
 Retrieve (and display) that snapshot later using
@@ -170,6 +172,10 @@ You can log text and arrays, too.::
 
 bluesky_snapshot_viewer
 -----------------------
+
+.. deprecated:: v1.6.4
+
+    All snapshot support will be removed in v1.6.5 (2022-11)!
 
 View a snapshot previously recorded by the *databroker*.
 This is a GUI program started with the command: `bluesky_snapshot_viewer`

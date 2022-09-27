@@ -1,7 +1,11 @@
 #!/usr/bin/env python
 
 """
-let the developer test the snapshot tool in the source directory
+Let the developer test the snapshot tool in the source directory.
+
+.. deprecated:: v1.6.4
+
+    All snapshot support will be removed in v1.6.5 (2022-11)!
 """
 
 import sys
