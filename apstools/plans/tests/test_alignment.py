@@ -73,7 +73,7 @@ def test_SynPseudoVoigt_randomize():
     assert signal.scale == 1
     assert signal.sigma == 1
     assert signal.bkg == 0
-    assert signal.noise == None
+    assert signal.noise is None
     assert signal.noise_multiplier == 1
 
     signal.randomize_parameters()
@@ -173,8 +173,8 @@ def test_lineup(signal, mover, start, finish, npts, feature, rescan):
         else:
             center = swait.channels.B.input_value.get()
             width = swait.channels.C.input_value.get()
-        position = get_position(mover)
-        lo = center-width
-        hi = center+width
-        # FIXME: fails to find the bec analysis in lineup()
-        # assert lo <= position <= hi, f"{bec=} {bec.peaks=} {position=} {center=} {width=}"
+        # # FIXME: fails to find the bec analysis in lineup()
+        # position = get_position(mover)
+        # lo = center-width
+        # hi = center+width
+        # # assert lo <= position <= hi, f"{bec=} {bec.peaks=} {position=} {center=} {width=}"
