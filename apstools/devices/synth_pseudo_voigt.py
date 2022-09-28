@@ -105,6 +105,7 @@ class SynPseudoVoigt(ophyd.sim.SynSignal):  # lgtm [py/missing-call-to-init]
         # remember these terms for later access by user
         self.name = name
         self.motor = motor
+        self.motor_field = motor_field
         self.center = center
         self.eta = eta
         self.scale = scale
@@ -123,24 +124,35 @@ class SynPseudoVoigt(ophyd.sim.SynSignal):  # lgtm [py/missing-call-to-init]
             return numerator / denominator
 
         def pvoigt():
-            m = motor.read()[motor_field]["value"]
-            g_max = f_gaussian(0, sigma)  # peak normalization
-            l_max = f_lorentzian(0, sigma)
-            v = bkg
+            m = motor.read()[self.motor_field]["value"]
+            g_max = f_gaussian(0, self.sigma)  # peak normalization
+            l_max = f_lorentzian(0, self.sigma)
+            v = self.bkg
             if eta > 0:
-                v += eta * f_lorentzian(m - center, sigma) / l_max
+                v += self.eta * f_lorentzian(m - self.center, self.sigma) / l_max
             if eta < 1:
-                v += (1 - eta) * f_gaussian(m - center, sigma) / g_max
-            v *= scale
-            if noise == "poisson":
+                v += (1 - self.eta) * f_gaussian(m - self.center, self.sigma) / g_max
+            v *= self.scale
+            if self.noise == "poisson":
                 v = int(np.random.poisson(np.round(v), 1))
-            elif noise == "uniform":
-                v += np.random.uniform(-1, 1) * noise_multiplier
+            elif self.noise == "uniform":
+                v += np.random.uniform(-1, 1) * self.noise_multiplier
             return v
 
         ophyd.sim.SynSignal.__init__(
             self, name=name, func=pvoigt, **kwargs
         )
+
+    def randomize_parameters(self, scale=100_000, bkg=0.01):
+        """
+        Set random parameters. -1 <= center < 1, 0.001 <= sigma < 0.051, 95k <= scale <= 105k
+        """
+        self.center = -1.0 + 2 * np.random.uniform()
+        self.eta = 0.2 + 0.5*np.random.uniform()
+        self.sigma = 0.001 + 0.05*np.random.uniform()
+        self.scale = scale * (0.95 + 0.1 * np.random.uniform())
+        self.bkg = bkg*np.random.uniform()
+        self.noise = "poisson"
 
 # -----------------------------------------------------------------------------
 # :author:    Pete R. Jemian
