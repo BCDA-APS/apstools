@@ -33,6 +33,7 @@ New Features and/or Enhancements
 
 * Only publish documentation on demand by executing GitHub workflow.
 * Switch HTML documentation to use *PyData* theme.
+* ``lineup()``: user can choose which feature (max, min, cen, com), additional API changes.
 
 Maintenance
 ---------------
