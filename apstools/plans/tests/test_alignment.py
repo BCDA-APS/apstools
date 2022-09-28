@@ -136,18 +136,21 @@ def test_direct_implementation_with_rel_scan(signal, mover, start, finish, npts,
 
 
 @pytest.mark.parametrize(
-    "signal, mover, start, finish, npts, feature, rescan",
+    "signals, mover, start, finish, npts, feature, rescan",
     [
         [noisy, m1, -1.2, 1.2, 11, "max", True],  # slower, is motor
         [pvoigt, axis, -1.2, 1.2, 11, "cen", True],  # faster, is ao (float)
         [pvoigt, axis, -1.2, 1.2, 11, "max", True],
+        [[pvoigt], axis, -1.2, 1.2, 11, "max", True], # list
+        [[pvoigt, noisy, scaler1], axis, -1.2, 1.2, 11, "max", True], # more than one detector
+        [(pvoigt), axis, -1.2, 1.2, 11, "max", True], # tuple
         [pvoigt, axis, -1.2, 1.2, 11, "cen", False],
         [pvoigt, axis, -1.2, 1.2, 11, "com", False],
         [pvoigt, axis, -1.2, 1.2, 11, "max", False],
         [pvoigt, axis, -1.2, 1.2, 11, "min", False],  # pathological
     ],
 )
-def test_lineup(signal, mover, start, finish, npts, feature, rescan):
+def test_lineup(signals, mover, start, finish, npts, feature, rescan):
     def get_position(obj, digits=3):
         if isinstance(obj, ophyd.EpicsMotor):
             position = obj.position
@@ -155,22 +158,22 @@ def test_lineup(signal, mover, start, finish, npts, feature, rescan):
             position = obj.get()
         return round(position, digits)
 
-    if isinstance(signal, SynPseudoVoigt):
-        signal.randomize_parameters(scale=250_000, bkg=0.000_000_000_1)
+    if isinstance(signals, SynPseudoVoigt):
+        signals.randomize_parameters(scale=250_000, bkg=0.000_000_000_1)
     else:
         change_noisy_parameters()
 
     RE(bps.mv(mover, 0))
     assert get_position(mover) == 0.0
 
-    RE(alignment.lineup(signal, mover, start, finish, npts, feature=feature, rescan=rescan, bec=bec))
+    RE(alignment.lineup(signals, mover, start, finish, npts, feature=feature, rescan=rescan, bec=bec))
 
     # if rescan and feature in "max cen".split():
     #     # Test if mover position is within width of center.
-    #     if isinstance(signal, SynPseudoVoigt):
-    #         center = signal.center
-    #         width = signal.sigma * 2.355  # FWHM approx.
-    #     else:
+    #     if isinstance(signals, SynPseudoVoigt):
+    #         center = signals.center
+    #         width = signals.sigma * 2.355  # FWHM approx.
+    #     else:  # FIXME: multiple signals
     #         center = swait.channels.B.input_value.get()
     #         width = swait.channels.C.input_value.get()
     #     # FIXME: fails to find the bec analysis in lineup()
