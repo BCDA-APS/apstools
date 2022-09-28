@@ -32,11 +32,16 @@ def lineup(
     # fmt: off
     counter, axis, minus, plus, npts,
     time_s=0.1, peak_factor=4, width_factor=0.8,
+    feature="cen",
+    rescan=True,
+    bec=None,
     md=None,
     # fmt: on
 ):
     """
-    lineup and center a given axis, relative to current position
+    Lineup and center a given axis, relative to current position.
+
+    If first run identifies a peak, makes a second run to fine tune the result.
 
     .. index:: Bluesky Plan; lineup
 
@@ -79,13 +84,30 @@ def lineup(
         fwhm must be less than ``width_factor*plot_range``
         (default: 0.8)
 
+    feature
+        *str* :
+        One of the parameters returned by BestEffortCallback peak stats.
+        (``cen``, ``com``, ``max``, ``min``)
+        (default: ``cen``)
+
+    rescan
+        *bool* :
+        If first scan indicates a peak, should a second scan refine the result?
+        (default: ``True``)
+
+    bec
+        *object* :
+        Instance of ``bluesky.callbacks.best_effort.BestEffortCallback``.
+        (default: ``None``, meaning look for it from global namespace)
+
     EXAMPLE::
 
         RE(lineup(diode, foemirror.theta, -30, 30, 30, 1.0))
     """
-    bec = utils.ipython_shell_namespace().get("bec")
+    bec = bec or utils.ipython_shell_namespace().get("bec")
     if bec is None:
         raise ValueError("Cannot find BestEffortCallback() instance.")
+    bec.enable_plots()
 
     # first, determine if counter is part of a ScalerCH device
     scaler = None
@@ -109,14 +131,24 @@ def lineup(
     def peak_analysis():
         aligned = False
 
-        if counter.name in bec.peaks["cen"]:
+        if counter.name not in bec.peaks[feature]:
+            logger.error(
+                "No statistical analysis of scan peak for feature '%s'!"
+                "  (bec.peaks=%s, bec=%s)",
+                feature, bec.peaks, bec
+            )
+            yield from bps.null()
+        else:
             table = pyRestTable.Table()
             table.labels = ("key", "value")
             table.addRow(("axis", axis.name))
             table.addRow(("detector", counter.name))
             table.addRow(("starting position", old_position))
             for key in bec.peaks.ATTRS:
-                table.addRow((key, bec.peaks[key][counter.name]))
+                target = bec.peaks[key][counter.name]
+                if isinstance(target, tuple):
+                    target = target[0]
+                table.addRow((key, target))
             logger.info(f"alignment scan results:\n{table}")
 
             lo = bec.peaks["min"][counter.name][-1]  # [-1] means detector
@@ -158,9 +190,6 @@ def lineup(
                 str(aligned),
             )
             yield from bps.mv(axis, final)
-        else:
-            logger.error("no statistical analysis of scan peak!")
-            yield from bps.null()
 
         # too sneaky?  We're modifying this structure locally
         bec.peaks.aligned = aligned
@@ -171,7 +200,7 @@ def lineup(
     yield from bp.rel_scan([counter], axis, minus, plus, npts, md=_md)
     yield from peak_analysis()
 
-    if bec.peaks.aligned:
+    if bec.peaks.aligned and rescan:
         # again, tweak axis to maximize
         _md["purpose"] = "alignment - fine"
         fwhm = bec.peaks["fwhm"][counter.name]
