@@ -141,9 +141,9 @@ def test_direct_implementation_with_rel_scan(signal, mover, start, finish, npts,
         [noisy, m1, -1.2, 1.2, 11, "max", True],  # slower, is motor
         [pvoigt, axis, -1.2, 1.2, 11, "cen", True],  # faster, is ao (float)
         [pvoigt, axis, -1.2, 1.2, 11, "max", True],
-        [[pvoigt], axis, -1.2, 1.2, 11, "max", True], # list
-        [[pvoigt, noisy, scaler1], axis, -1.2, 1.2, 11, "max", True], # more than one detector
-        [(pvoigt), axis, -1.2, 1.2, 11, "max", True], # tuple
+        [[pvoigt], axis, -1.2, 1.2, 11, "max", True],  # list
+        [[pvoigt, noisy, scaler1], axis, -1.2, 1.2, 11, "max", True],  # more than one detector
+        [(pvoigt), axis, -1.2, 1.2, 11, "max", True],  # tuple
         [pvoigt, axis, -1.2, 1.2, 11, "cen", False],
         [pvoigt, axis, -1.2, 1.2, 11, "com", False],
         [pvoigt, axis, -1.2, 1.2, 11, "max", False],
