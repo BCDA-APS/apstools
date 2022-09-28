@@ -60,6 +60,14 @@ def change_noisy_parameters(fwhm=0.15, peak=10000, noise=0.08):
     )
 
 
+def get_position(obj, digits=3):
+    if isinstance(obj, ophyd.EpicsMotor):
+        position = obj.position
+    else:
+        position = obj.get()
+    return round(position, digits)
+
+
 @pytest.mark.parametrize("obj", [axis, m1, noisy, pvoigt, scaler1, swait])
 def test_connected(obj):
     assert obj.connected
@@ -97,13 +105,6 @@ def test_SynPseudoVoigt_randomize():
     ],
 )
 def test_direct_implementation_with_rel_scan(signal, mover, start, finish, npts, feature):
-    def get_position(obj, digits=3):
-        if isinstance(obj, ophyd.EpicsMotor):
-            position = obj.position
-        else:
-            position = obj.get()
-        return round(position, digits)
-
     RE(bps.mv(mover, 0))
     assert get_position(mover) == 0.0
 
@@ -151,13 +152,6 @@ def test_direct_implementation_with_rel_scan(signal, mover, start, finish, npts,
     ],
 )
 def test_lineup(signals, mover, start, finish, npts, feature, rescan):
-    def get_position(obj, digits=3):
-        if isinstance(obj, ophyd.EpicsMotor):
-            position = obj.position
-        else:
-            position = obj.get()
-        return round(position, digits)
-
     if isinstance(signals, SynPseudoVoigt):
         signals.randomize_parameters(scale=250_000, bkg=0.000_000_000_1)
     else:
