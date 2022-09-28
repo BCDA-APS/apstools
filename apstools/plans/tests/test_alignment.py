@@ -165,16 +165,16 @@ def test_lineup(signal, mover, start, finish, npts, feature, rescan):
 
     RE(alignment.lineup(signal, mover, start, finish, npts, feature=feature, rescan=rescan, bec=bec))
 
-    if rescan and feature in "max cen".split():
-        # Test if mover position is within width of center.
-        if isinstance(signal, SynPseudoVoigt):
-            center = signal.center
-            width = signal.sigma * 2.355  # FWHM approx.
-        else:
-            center = swait.channels.B.input_value.get()
-            width = swait.channels.C.input_value.get()
-        # # FIXME: fails to find the bec analysis in lineup()
-        # position = get_position(mover)
-        # lo = center-width
-        # hi = center+width
-        # # assert lo <= position <= hi, f"{bec=} {bec.peaks=} {position=} {center=} {width=}"
+    # if rescan and feature in "max cen".split():
+    #     # Test if mover position is within width of center.
+    #     if isinstance(signal, SynPseudoVoigt):
+    #         center = signal.center
+    #         width = signal.sigma * 2.355  # FWHM approx.
+    #     else:
+    #         center = swait.channels.B.input_value.get()
+    #         width = swait.channels.C.input_value.get()
+    #     # FIXME: fails to find the bec analysis in lineup()
+    #     position = get_position(mover)
+    #     lo = center-width
+    #     hi = center+width
+    #     # assert lo <= position <= hi, f"{bec=} {bec.peaks=} {position=} {center=} {width=}"
