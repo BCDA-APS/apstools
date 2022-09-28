@@ -30,22 +30,28 @@ logger = logging.getLogger(__name__)
 
 def lineup(
     # fmt: off
-    counter, axis, minus, plus, npts,
+    detectors, axis, minus, plus, npts,
     time_s=0.1, peak_factor=4, width_factor=0.8,
+    feature="cen",
+    rescan=True,
+    bec=None,
     md=None,
     # fmt: on
 ):
     """
-    lineup and center a given axis, relative to current position
+    Lineup and center a given axis, relative to current position.
+
+    If first run identifies a peak, makes a second run to fine tune the result.
 
     .. index:: Bluesky Plan; lineup
 
     PARAMETERS
 
-    counter
-        *object* :
-        instance of ophyd.Signal (or subclass such as ophyd.scaler.ScalerChannel)
-        dependent measurement to be maximized
+    detectors
+        *[object]* or *object* :
+        Instance(s) of ophyd.Signal (or subclass such as ophyd.scaler.ScalerChannel)
+        dependent measurement to be maximized.  If a list, the first signal in the
+        list will be used.
 
     axis
         movable *object* :
@@ -66,7 +72,8 @@ def lineup(
 
     time_s
         *float* :
-        count time per step (if counter is ScalerChannel object)
+        Count time per step (if detectors[0] is ScalerChannel object),
+        other object types not yet supported.
         (default: 0.1)
 
     peak_factor
@@ -79,18 +86,40 @@ def lineup(
         fwhm must be less than ``width_factor*plot_range``
         (default: 0.8)
 
+    feature
+        *str* :
+        One of the parameters returned by BestEffortCallback peak stats.
+        (``cen``, ``com``, ``max``, ``min``)
+        (default: ``cen``)
+
+    rescan
+        *bool* :
+        If first scan indicates a peak, should a second scan refine the result?
+        (default: ``True``)
+
+    bec
+        *object* :
+        Instance of ``bluesky.callbacks.best_effort.BestEffortCallback``.
+        (default: ``None``, meaning look for it from global namespace)
+
     EXAMPLE::
 
         RE(lineup(diode, foemirror.theta, -30, 30, 30, 1.0))
     """
-    bec = utils.ipython_shell_namespace().get("bec")
+    bec = bec or utils.ipython_shell_namespace().get("bec")
     if bec is None:
         raise ValueError("Cannot find BestEffortCallback() instance.")
+    bec.enable_plots()
 
-    # first, determine if counter is part of a ScalerCH device
+    if not isinstance(detectors, (tuple, list)):
+        detectors = [detectors]
+    det0 = detectors[0]
+    logger.info("Using detector '%s' for lineup()", det0.name)
+
+    # first, determine if det0 is part of a ScalerCH device
     scaler = None
-    obj = counter.parent
-    if isinstance(counter.parent, ScalerChannel):
+    obj = det0.parent
+    if isinstance(det0.parent, ScalerChannel):
         if hasattr(obj, "parent") and obj.parent is not None:
             obj = obj.parent
             if hasattr(obj, "parent") and isinstance(obj.parent, ScalerCH):
@@ -99,7 +128,7 @@ def lineup(
     if scaler is not None:
         old_sigs = scaler.stage_sigs
         scaler.stage_sigs["preset_time"] = time_s
-        scaler.select_channels([counter.name])
+        scaler.select_channels([det0.name])
 
     if hasattr(axis, "position"):
         old_position = axis.position
@@ -109,23 +138,33 @@ def lineup(
     def peak_analysis():
         aligned = False
 
-        if counter.name in bec.peaks["cen"]:
+        if det0.name not in bec.peaks[feature]:
+            logger.error(
+                "No statistical analysis of scan peak for feature '%s'!"
+                "  (bec.peaks=%s, bec=%s)",
+                feature, bec.peaks, bec
+            )
+            yield from bps.null()
+        else:
             table = pyRestTable.Table()
             table.labels = ("key", "value")
             table.addRow(("axis", axis.name))
-            table.addRow(("detector", counter.name))
+            table.addRow(("detector", det0.name))
             table.addRow(("starting position", old_position))
             for key in bec.peaks.ATTRS:
-                table.addRow((key, bec.peaks[key][counter.name]))
+                target = bec.peaks[key][det0.name]
+                if isinstance(target, tuple):
+                    target = target[0]
+                table.addRow((key, target))
             logger.info(f"alignment scan results:\n{table}")
 
-            lo = bec.peaks["min"][counter.name][-1]  # [-1] means detector
-            hi = bec.peaks["max"][counter.name][-1]  # [0] means axis
-            fwhm = bec.peaks["fwhm"][counter.name]
-            final = bec.peaks["cen"][counter.name]
+            lo = bec.peaks["min"][det0.name][-1]  # [-1] means detector
+            hi = bec.peaks["max"][det0.name][-1]  # [0] means axis
+            fwhm = bec.peaks["fwhm"][det0.name]
+            final = bec.peaks["cen"][det0.name]
 
-            # local PeakStats object of our plot of counter .v x
-            ps = list(bec._peak_stats.values())[0][counter.name]
+            # local PeakStats object of our plot of det0 .v x
+            ps = list(bec._peak_stats.values())[0][det0.name]
             # get the X data range as received by PeakStats
             x_range = abs(max(ps.x_data) - min(ps.x_data))
 
@@ -158,9 +197,6 @@ def lineup(
                 str(aligned),
             )
             yield from bps.mv(axis, final)
-        else:
-            logger.error("no statistical analysis of scan peak!")
-            yield from bps.null()
 
         # too sneaky?  We're modifying this structure locally
         bec.peaks.aligned = aligned
@@ -168,14 +204,14 @@ def lineup(
 
     _md = dict(purpose="alignment")
     _md.update(md or {})
-    yield from bp.rel_scan([counter], axis, minus, plus, npts, md=_md)
+    yield from bp.rel_scan([det0], axis, minus, plus, npts, md=_md)
     yield from peak_analysis()
 
-    if bec.peaks.aligned:
+    if bec.peaks.aligned and rescan:
         # again, tweak axis to maximize
         _md["purpose"] = "alignment - fine"
-        fwhm = bec.peaks["fwhm"][counter.name]
-        yield from bp.rel_scan([counter], axis, -fwhm, fwhm, npts, md=_md)
+        fwhm = bec.peaks["fwhm"][det0.name]
+        yield from bp.rel_scan([det0], axis, -fwhm, fwhm, npts, md=_md)
         yield from peak_analysis()
 
     if scaler is not None:
