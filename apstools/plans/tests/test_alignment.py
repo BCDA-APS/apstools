@@ -98,7 +98,7 @@ def test_SynPseudoVoigt_randomize():
 @pytest.mark.parametrize(
     "signal, mover, start, finish, npts, feature",
     [
-        # [noisy, m1, -1.2, 1.2, 11, "max"],  # slower
+        [noisy, m1, -1.2, 1.2, 11, "max"],  # slower
         [pvoigt, axis, -1.2, 1.2, 11, "max"],  # faster
         [pvoigt, axis, -1.2, 1.2, 11, "cen"],
         [pvoigt, axis, -1.2, 1.2, 51, "com"],
