@@ -48,8 +48,9 @@ File Downloads for the Examples
 
 The jupyter notebooks and files related to this section may be downloaded from the following table.
 
-* jupyter notebook: :download:`de_adsim_hdf5_basic <de_adsim_hdf5_basic.ipynb>`
-* jupyter notebook: :download:`de_adsim_hdf5_custom_names <de_adsim_hdf5_custom_names.ipynb>`
+* jupyter notebook: :download:`de_0_adsim_hdf5_basic <de_0_adsim_hdf5_basic.ipynb>`
+* jupyter notebook: :download:`de_1_adsim_hdf5_custom_names <de_1_adsim_hdf5_custom_names.ipynb>`
+* jupyter notebook: :download:`de_2_adsim_hdf5_single_mode <de_2_adsim_hdf5_single_mode.ipynb>`
 
 * jupyter notebook: :download:`pl_excel_scan <pl_excel_scan.ipynb>`
 

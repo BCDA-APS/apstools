@@ -1,4 +1,4 @@
-# ADPerkinElmer Area Detector & (default) HDF5 File Name
+# ADPerkinElmer Area Detector with default HDF5 File Name
 
 Demonstrate the setup of an
 [ADPerkinElmer](https://github.com/areaDetector/ADPerkinElmer) camera driver

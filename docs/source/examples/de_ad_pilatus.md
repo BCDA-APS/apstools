@@ -1,4 +1,4 @@
-# ADPilatus Area Detector & (default) HDF5 File Name
+# ADPilatus Area Detector with default HDF5 File Name
 
 **Objective**
 
