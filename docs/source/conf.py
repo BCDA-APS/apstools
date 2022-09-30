@@ -59,3 +59,21 @@ today_fmt = "%Y-%m-%d %H:%M"
 # html_theme = "furo"
 html_theme = "pydata_sphinx_theme"
 html_static_path = ["_static"]
+
+autodoc_mock_imports = """
+    bluesky
+    dask
+    databroker
+    databroker_pack
+    epics
+    h5py
+    intake
+    numpy
+    openpyxl
+    ophyd
+    pandas
+    pint
+    psutil
+    pyRestTable
+    xarray
+""".split()

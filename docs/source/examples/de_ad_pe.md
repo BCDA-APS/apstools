@@ -1,4 +1,4 @@
-# ADPerkinElmer Area Detector & (default) HDF5 File Name
+# ADPerkinElmer Area Detector with default HDF5 File Name
 
 Demonstrate the setup of an
 [ADPerkinElmer](https://github.com/areaDetector/ADPerkinElmer) camera driver
@@ -13,7 +13,7 @@ with [bluesky](https://blueskyproject.io/) and write it to an
 workstation.  Thus, the file path is the same on both the IOC
 (`AD_IOC_MOUNT_PATH`) and the Bluesky (local) workstation
 (`BLUESKY_MOUNT_PATH`).  Following the setup in the *File-Directories* section
-of the [basic example](de_adsim_hdf5_basic.ipynb):
+of the [basic example](de_0_adsim_hdf5_basic.ipynb):
 
 ```py
 import pathlib
@@ -75,7 +75,7 @@ detector), then replace the `MyHDF5Plugin` class with
 `AD_EpicsFileNameHDF5Plugin` when creating the detector class below and follow
 the additional instructions and cautions in the *HDF5:
 AD_EpicsFileNameHDF5Plugin* section of the
-[custom HDF5 image file names example](de_adsim_hdf5_custom_names.ipynb). You'll
+[custom HDF5 image file names example](de_1_adsim_hdf5_custom_names.ipynb). You'll
 need this import:
 
 ```py
@@ -150,5 +150,5 @@ RE(bp.count([det_pe]))
 ```
 
 See the *bluesky* section of the
-[basic example](de_adsim_hdf5_basic.ipynb) for
+[basic example](de_0_adsim_hdf5_basic.ipynb) for
 more information.

@@ -98,7 +98,7 @@ def test_SynPseudoVoigt_randomize():
 @pytest.mark.parametrize(
     "signal, mover, start, finish, npts, feature",
     [
-        # [noisy, m1, -1.2, 1.2, 11, "max"],  # slower
+        # FIXME: [noisy, m1, -1.2, 1.2, 11, "max"],  # slower
         [pvoigt, axis, -1.2, 1.2, 11, "max"],  # faster
         [pvoigt, axis, -1.2, 1.2, 11, "cen"],
         [pvoigt, axis, -1.2, 1.2, 51, "com"],
@@ -110,8 +110,8 @@ def test_direct_implementation_with_rel_scan(signal, mover, start, finish, npts,
 
     if isinstance(signal, SynPseudoVoigt):
         signal.randomize_parameters(scale=250_000)
-    else:
-        change_noisy_parameters()
+    # FIXME: else:
+    #     change_noisy_parameters()
 
     RE(bp.rel_scan([signal], mover, start, finish, npts))
     analysis = bec.peaks[feature][signal.name]
@@ -125,9 +125,9 @@ def test_direct_implementation_with_rel_scan(signal, mover, start, finish, npts,
         if isinstance(signal, SynPseudoVoigt):
             center = signal.center
             width = signal.sigma * 2.355  # FWHM approx.
-        else:
-            center = swait.channels.B.input_value.get()
-            width = swait.channels.C.input_value.get()
+        # FIXME: else:
+        #     center = swait.channels.B.input_value.get()
+        #     width = swait.channels.C.input_value.get()
         position = get_position(mover)
         lo = center-width
         hi = center+width

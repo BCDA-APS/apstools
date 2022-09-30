@@ -31,6 +31,8 @@ release expected by 2022-10-21
 New Features and/or Enhancements
 ---------------------------------------------
 
+* Example of imaging with AreaDetector in Single mode writing HDF5 files.
+* ``lineup()``: user can choose which feature (max, min, cen, com), additional API changes.
 * Only publish documentation on demand by executing GitHub workflow.
 * Switch HTML documentation to use *PyData* theme.
 
