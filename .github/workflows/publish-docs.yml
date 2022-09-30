@@ -49,7 +49,7 @@ jobs:
 
     - name: Install our package
       run: |
-        pip install -e .
+        pip install --no-deps -e .
 
     - name: Diagnostics
       run: |
