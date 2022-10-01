@@ -26,21 +26,26 @@ def make_dict_device(obj, name="ddev"):
 
     New in release 1.6.4.
     """
-    # Is obj dictionary-like?
-    fix_it = False
-    for v in obj.values():
-        # Same structure as from Signal.read()?
-        if not isinstance(v, dict):
-            fix_it = True
-            break
-        if sorted(list(v.keys())) != sorted("value timestamp".split()):
-            fix_it = True
-            break
-    if fix_it:
-        # Make it look like .read()
-        ts = time.time()
-        obj = {k: dict(value=v, timestamp=ts) for k, v in obj.items()}
+    def standardize(obj):
+        """Make obj look like .read()"""
+        d_new = {}
+        ts = time.time()  # new timestamps will be the same
+        for k, v in obj.items():
+            # fmt: off
+            # Same structure as from Signal.read()?
+            if (
+                isinstance(v, dict) and
+                sorted(list(v.keys())) == sorted("value timestamp".split())
+            ):
+                # looks like v is from .read(), accept it
+                d_new[k] = v
+            else:
+                # Make it look like .read()
+                d_new[k] = dict(value=v, timestamp=ts)
+            # fmt: on
+        return d_new
 
+    obj = standardize(obj)
     kv = {k: v["value"] for k, v in obj.items()}
     ddev = _make_dict_device_class(kv)("", name=name)
     # set the timestamps to what was read
