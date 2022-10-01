@@ -21,7 +21,11 @@ def _make_dict_device_class(data={}):
 
 
 def make_dict_device(obj, name="ddev"):
-    """Make recordable DictionaryDevice instance from dictionary."""
+    """
+    Make recordable DictionaryDevice instance from dictionary.
+
+    New in release 1.6.4.
+    """
     # Is obj dictionary-like?
     fix_it = False
     for v in obj.values():
