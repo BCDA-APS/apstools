@@ -33,6 +33,7 @@ New Features and/or Enhancements
 
 * Example of imaging with AreaDetector in Single mode writing HDF5 files.
 * ``lineup()``: user can choose which feature (max, min, cen, com), additional API changes.
+* ``devices.make_dict_device()`` to make a recordable Device from a dictionary.
 * Only publish documentation on demand by executing GitHub workflow.
 * Switch HTML documentation to use *PyData* theme.
 

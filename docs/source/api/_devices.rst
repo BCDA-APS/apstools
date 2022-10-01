@@ -23,6 +23,7 @@ See these categories:
 * :ref:`devices.shutters`
 * :ref:`devices.slits`
 * :ref:`devices.temperature_controllers`
+* :ref:`devices.other_support`
 
 .. _devices.aps_support:
 
@@ -143,6 +144,8 @@ Temperature Controllers
     ~apstools.devices.ptc10_controller.PTC10TcChannel
     ~apstools.devices.ptc10_controller.PTC10PositionerMixin
 
+.. _devices.other_support:
+
 Other Support
 +++++++++++++
 
@@ -156,6 +159,7 @@ Other Support
     ~apstools.devices.xia_pf4.Pf4FilterCommon
     ~apstools.devices.xia_pf4.DualPf4FilterBox
     ~apstools.devices.description_mixin.EpicsDescriptionMixin
+    ~apstools.devices.dict_device_support.make_dict_device
     ~apstools.devices.epics_scan_id_signal.EpicsScanIdSignal
     ~apstools.devices.kohzu_monochromator.KohzuSeqCtl_Monochromator
     ~apstools.devices.srs570_preamplifier.SRS570_PreAmplifier
@@ -192,6 +196,9 @@ All Submodules
     :members:
 
 .. automodule:: apstools.devices.description_mixin
+    :members:
+
+.. automodule:: apstools.devices.dict_device_support
     :members:
 
 .. automodule:: apstools.devices.epics_scan_id_signal
