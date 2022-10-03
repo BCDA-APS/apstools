@@ -41,6 +41,7 @@ Maintenance
 ---------------
 
 * Re-arranged the documentation.  Some examples renamed.  Content unchanged.
+* Update the APS cycle dates file through 2023-04-30.
 
 1.6.3
 ******
