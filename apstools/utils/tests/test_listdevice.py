@@ -121,6 +121,8 @@ def test__list_epics_signals(obj, length, ref):
 )  # scope: full epics read
 def test_spotchecks(scope, row, column, value):
     assert calcs.connected
+    if round(motor.position, 2) != 0:
+        motor.move(0)
     result = listdevice(motor, scope=scope)
     assert isinstance(result, pd.DataFrame)
     assert column in result
