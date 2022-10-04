@@ -4,9 +4,14 @@ import setuptools
 import setuptools_scm
 
 setuptools.setup(
+    # https://github.com/pypa/setuptools_scm/#setuppy-usage-deprecated
     version=setuptools_scm.get_version(),
-    # use_scm_version=True,
+    use_scm_version=True,
     setup_requires=["setuptools_scm"],
+
+    # confirm the version from command line:
+    # python -m setuptools_scm
+    # python setup.py --version
 )
 
 # -----------------------------------------------------------------------------

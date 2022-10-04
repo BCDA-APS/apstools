@@ -1,13 +1,22 @@
 import pytest
-from apstools.migration import spec2ophyd
-import os
+from ...migration import spec2ophyd
+import pathlib
 from collections import OrderedDict
 
-path = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
+
+path = pathlib.Path(__file__).parent.parent
+
+
+def test_Version():
+    from ... import __version__
+    version = spec2ophyd.get_apstools_version()
+    assert isinstance(version, str)
+    assert len(version) > len("#.#.#")
+    assert version == __version__
 
 
 def test_SpecConfig():
-    sc = spec2ophyd.SpecConfig(os.path.join(path, "config_fourc"))
+    sc = spec2ophyd.SpecConfig(path / "config_fourc")
     assert sc is not None
     assert isinstance(sc.devices, OrderedDict)
     assert isinstance(sc.scalers, list)
@@ -31,14 +40,14 @@ def test_SpecConfig_read_config():
         sc.read_config()
     assert "No such file or directory:" in str(exinfo.value)
 
-    sc = spec2ophyd.SpecConfig(os.path.join(path, "config"))  # USAXS
+    sc = spec2ophyd.SpecConfig(path / "config")  # USAXS
     sc.read_config()
     assert len(sc.devices) == 3
     assert len(sc.scalers) == 1
     assert len(sc.collection) == 68
     assert len(sc.unhandled) == 2
 
-    sc = spec2ophyd.SpecConfig(os.path.join(path, "config_fourc"))
+    sc = spec2ophyd.SpecConfig(path / "config_fourc")
     sc.read_config()
     assert len(sc.devices) == 0
     assert len(sc.scalers) == 0
@@ -53,21 +62,21 @@ def test_SpecConfig_read_config():
     assert len(sc.unhandled) == 2
     assert sc.unhandled == ["SW_SFTWARE\t = 1 INTR", ""]
 
-    sc = spec2ophyd.SpecConfig(os.path.join(path, "config-CNTPAR"))
+    sc = spec2ophyd.SpecConfig(path / "config-CNTPAR")
     sc.read_config()
     assert len(sc.devices) == 4
     assert len(sc.scalers) == 1
     assert len(sc.collection) == 78
     assert len(sc.unhandled) == 7
 
-    sc = spec2ophyd.SpecConfig(os.path.join(path, "config-MOTPAR"))
+    sc = spec2ophyd.SpecConfig(path / "config-MOTPAR")
     sc.read_config()
     assert len(sc.devices) == 4
     assert len(sc.scalers) == 1
     assert len(sc.collection) == 124
     assert len(sc.unhandled) == 1
 
-    sc = spec2ophyd.SpecConfig(os.path.join(path, "config_spec"))
+    sc = spec2ophyd.SpecConfig(path / "config_spec")
     sc.read_config()
     assert len(sc.devices) == 3
     assert len(sc.scalers) == 1
@@ -76,7 +85,7 @@ def test_SpecConfig_read_config():
 
 
 def test_SpecConfig_find_pv_in_collection():
-    sc = spec2ophyd.SpecConfig(os.path.join(path, "config"))  # USAXS
+    sc = spec2ophyd.SpecConfig(path / "config")  # USAXS
     sc.read_config()
     assert isinstance(
         sc.find_pv_in_collection("9idcLAX:aero:c1:m1"),
@@ -94,7 +103,7 @@ def test_SpecConfig_find_pv_in_collection():
 
 
 def test_create_ophyd_setup(capsys):
-    sc = spec2ophyd.SpecConfig(os.path.join(path, "config_fourc"))
+    sc = spec2ophyd.SpecConfig(path / "config_fourc")
     sc.read_config()
     spec2ophyd.create_ophyd_setup(sc)
     out, err = capsys.readouterr()
@@ -115,7 +124,7 @@ def test_issue499(capsys):
     * only chan is used
     * assign the others into SpecMotor.ctrl_parms as [int]
     """
-    sc = spec2ophyd.SpecConfig(os.path.join(path, "config_spec"))
+    sc = spec2ophyd.SpecConfig(path / "config_spec")
     sc.read_config()
     spec2ophyd.create_ophyd_setup(sc)
     out, err = capsys.readouterr()

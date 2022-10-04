@@ -473,14 +473,19 @@ def create_ophyd_setup(spec_config):
             print(device)
 
 
+def get_apstools_version():
+    """Get the version string from the parent package."""
+    from .. import __version__
+    return __version__
+
+
 def get_options():
     """Handle command line arguments."""
     import argparse
     import os
     import sys
-    import apstools._version
 
-    version = apstools._version.__version__
+    version = get_apstools_version()
 
     parser = argparse.ArgumentParser(
         prog=os.path.split(sys.argv[0])[-1],

@@ -2,7 +2,7 @@
 test override_parameters module
 """
 
-from apstools.utils import OverrideParameters
+from ...utils import OverrideParameters
 import numpy as np
 import pandas as pd
 import pytest
