@@ -23,11 +23,15 @@ describe the future plans.
 
    release expected by 2023-01-05
 
-..
-   1.6.6
-   ******
+1.6.6
+******
 
-   release expected by 2022-11-18
+release expected by 2022-11-18
+
+Deprecations
+------------
+
+* Removed all snapshot support.
 
 1.6.5
 ******

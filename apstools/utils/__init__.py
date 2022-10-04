@@ -29,7 +29,6 @@ from .misc import itemizer
 from .misc import listobjects
 from .misc import pairwise
 from .misc import print_RE_md
-from .misc import print_snapshot_list
 from .misc import redefine_motor_position
 from .misc import replay
 from .misc import run_in_thread

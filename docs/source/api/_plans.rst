@@ -32,7 +32,6 @@ Custom Scans
    ~apstools.plans.doc_run.documentation_run
    ~apstools.plans.alignment.lineup
    ~apstools.plans.nscan_support.nscan
-   ~apstools.plans.snapshot_support.snapshot
    ~apstools.plans.sscan_support.sscan_1D
    ~apstools.plans.alignment.TuneAxis
    ~apstools.plans.alignment.tune_axes
@@ -56,7 +55,6 @@ Overall
    ~apstools.plans.command_list.register_command_handler
    ~apstools.plans.command_list.run_command_file
    ~apstools.plans.run_blocking_function_plan.run_blocking_function
-   ~apstools.plans.snapshot_support.snapshot
    ~apstools.plans.sscan_support.sscan_1D
    ~apstools.plans.command_list.summarize_command_file
    ~apstools.plans.alignment.TuneAxis
@@ -82,9 +80,6 @@ Submodules
     :members:
 
 .. automodule:: apstools.plans.run_blocking_function_plan
-    :members:
-
-.. automodule:: apstools.plans.snapshot_support
     :members:
 
 .. automodule:: apstools.plans.sscan_support

@@ -5,7 +5,6 @@ from .nexus_writer import NEXUS_FILE_EXTENSION
 from .nexus_writer import NEXUS_RELEASE
 from .nexus_writer import NXWriter
 from .nexus_writer import NXWriterAPS
-from .snapshot_report import SnapshotReport
 from .spec_file_writer import SpecWriterCallback
 from .spec_file_writer import spec_comment
 from .spec_file_writer import SCAN_ID_RESET_VALUE

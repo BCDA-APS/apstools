@@ -44,7 +44,6 @@ Reporting
 .. autosummary::
 
    ~apstools.utils.misc.print_RE_md
-   ~apstools.utils.misc.print_snapshot_list
    ~apstools.utils.slit_core.SlitGeometry
 
 .. _utils.other:
@@ -104,7 +103,6 @@ General
    ~apstools.utils.override_parameters.OverrideParameters
    ~apstools.utils.misc.pairwise
    ~apstools.utils.misc.print_RE_md
-   ~apstools.utils.misc.print_snapshot_list
    ~apstools.utils.catalog.quantify_md_key_use
    ~apstools.utils.misc.redefine_motor_position
    ~apstools.utils.misc.replay
