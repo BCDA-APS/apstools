@@ -478,9 +478,9 @@ def get_options():
     import argparse
     import os
     import sys
-    from apstools._version import get_versions
+    import apstools._version
 
-    version = get_versions()["version"]
+    version = apstools._version.__version__
 
     parser = argparse.ArgumentParser(
         prog=os.path.split(sys.argv[0])[-1],
