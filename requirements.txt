@@ -1,6 +1,6 @@
 area-detector-handlers
 bluesky>=1.6.2
-databroker==1
+databroker==1.2
 databroker-pack
 h5py
 mongoquery>=1.3.6
