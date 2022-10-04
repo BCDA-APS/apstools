@@ -32,7 +32,7 @@ describe the future plans.
 1.6.5
 ******
 
-release expected 2022-10-04
+released 2022-10-04
 
 Maintenance
 ---------------
