@@ -20,8 +20,6 @@ build:
   script: python -m pip install --no-deps --ignore-installed .
   noarch: python
   entry_points:
-    - bluesky_snapshot = apstools.snapshot.application:snapshot_cli
-    - bluesky_snapshot_viewer = apstools.snapshot.application:snapshot_gui
     - spec2ophyd = apstools.migration.spec2ophyd:main
 
 requirements:
@@ -48,7 +46,6 @@ test:
     - apstools.synApps
   commands:
     - python -c "import apstools;"
-    - bluesky_snapshot --help
     - spec2ophyd --help
 
 extra:
