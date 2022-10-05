@@ -13,11 +13,12 @@ def test_same_position_725(target, calcpos):
     # Before anything is changed.
     confirm_in_position(calcpos)
 
+    # Confirm the initial position is as expected.
     if calcpos.position == target:
         # First, move away from the target.
         status = calcpos.move(-target or 0.1 *(1 +  random.random()))
         assert status.elapsed > 0, str(status)
-    confirm_in_position(calcpos)
+        confirm_in_position(calcpos)
 
     # Move to the target position.
     status = calcpos.move(target)
