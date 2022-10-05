@@ -19,9 +19,11 @@ delay_active = False
 @pytest.fixture(scope="function")
 def pos():
     """Test Positioner based on two analogout PVs."""
+    # fmt: off
     pos = PVPositionerSoftDoneWithStop(
         PV_PREFIX, readback_pv="float1", setpoint_pv="float2", name="pos"
     )
+    # fmt: on
     pos.wait_for_connection()
     yield pos
 
@@ -62,7 +64,7 @@ def calcpos():
         "",
         readback_pv=swait.calculated_value.pvname,
         setpoint_pv=swait.channels.B.input_value.pvname,
-        name="calcpos"
+        name="calcpos",
     )
     calcpos.wait_for_connection()
     yield calcpos
