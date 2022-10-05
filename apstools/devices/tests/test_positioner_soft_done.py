@@ -368,7 +368,7 @@ def test_move_calcpos(target, calcpos):
 
 @pytest.mark.parametrize(
     # fmt: off
-    "target", [-1.2345, -1, -1, -0.1, -0.1, 0, 0, 0, 0.1, 0.1, 1, 1, 1.2345]
+    "target", [-55, -1.2345, -1, -1, -0.1, -0.1, 0, 0, 0, 0.1, 0.1, 1, 1, 1.2345, 55]
     # fmt: on
 )
 def test_same_position_725(target, calcpos):
@@ -377,10 +377,15 @@ def test_same_position_725(target, calcpos):
 
     # Confirm the initial position is as expected.
     if calcpos.position == target:
+        user = UserCalcsDevice(IOC, name="user")
+        user.wait_for_connection()
+        swait = user.calc10
         # First, move away from the target.
-        status = calcpos.move(-target or 0.1 * (1 + random.random()))
+        away_target = -target or 0.1 * (1 + random.random())
+        status = calcpos.move(away_target)
         assert status.done
         assert status.elapsed > 0, str(status)
+        assert swait.channels.B.input_value.get() == away_target, f"{swait.channels.B.input_value.get()}  {away_target=}  {target=}"
         confirm_in_position(calcpos)
 
     # Move to the target position.
