@@ -21,7 +21,8 @@ def my_plan(msg, default, agree, bypass):
 @pytest.mark.parametrize(
     "msg, default, agree, bypass",
     [
-        ["Continue?", "y", "y", False],
+        # TODO: re-enable pending bluesky/bluesky#1550
+        # ["Continue?", "y", "y", False],
         ["Continue?", "y", "y", True],
         [None, None, None, True],
         ["Continue?", "n", "y", True],
