@@ -57,7 +57,7 @@ def calcpos():
     swait.calculation.put("A+(B-A)*C")  # incremental move towards the goal
     swait.channels.A.input_pv.put(swait.calculated_value.pvname)  # readback
     # channel B: setpoint
-    swait.channels.C.input_value.put(0.6)  # move fraction
+    swait.channels.C.input_value.put(0.9)  # move fraction
     swait.scanning_rate.put(".1 second")
 
     calcpos = PVPositionerSoftDoneWithStop(
@@ -255,10 +255,10 @@ def test_move_and_stopped_early(rbv, pos):
 def confirm_in_position(positioner):
     """Apply the 'inposition' property code."""
     reading = positioner.read()
-    p = reading[positioner.setpoint.name]["value"]
-    r = reading[positioner.readback.name]["value"]
-    t = positioner.actual_tolerance
-    assert abs(r - p) <= t, f"target={p}, readback={r}, tolerance={t}"
+    sp = reading[positioner.setpoint.name]["value"]
+    rb = reading[positioner.readback.name]["value"]
+    tol = positioner.actual_tolerance
+    assert abs(rb - sp) <= tol, f"setpoint={sp}, readback={rb}, tolerance={tol}"
 
 
 @pytest.mark.local
