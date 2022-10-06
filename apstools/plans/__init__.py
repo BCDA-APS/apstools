@@ -13,6 +13,7 @@ from .command_list import run_command_file
 from .command_list import summarize_command_file
 from .doc_run import addDeviceDataAsStream
 from .doc_run import documentation_run
+from .input_plan import request_input
 from .nscan_support import nscan
 from .run_blocking_function_plan import run_blocking_function
 from .sscan_support import sscan_1D
