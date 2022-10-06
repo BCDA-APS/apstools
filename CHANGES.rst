@@ -28,6 +28,11 @@ describe the future plans.
 
 release expected by 2022-11-18
 
+New Features
+------------
+
+* Add ``request_input()`` plan stub, per user request.
+
 Deprecations
 ------------
 
