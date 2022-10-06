@@ -19,9 +19,11 @@ delay_active = False
 @pytest.fixture(scope="function")
 def pos():
     """Test Positioner based on two analogout PVs."""
+    # fmt: off
     pos = PVPositionerSoftDoneWithStop(
         PV_PREFIX, readback_pv="float1", setpoint_pv="float2", name="pos"
     )
+    # fmt: on
     pos.wait_for_connection()
     yield pos
 
@@ -55,14 +57,14 @@ def calcpos():
     swait.calculation.put("A+(B-A)*C")  # incremental move towards the goal
     swait.channels.A.input_pv.put(swait.calculated_value.pvname)  # readback
     # channel B: setpoint
-    swait.channels.C.input_value.put(0.6)  # move fraction
+    swait.channels.C.input_value.put(0.9)  # move fraction
     swait.scanning_rate.put(".1 second")
 
     calcpos = PVPositionerSoftDoneWithStop(
         "",
         readback_pv=swait.calculated_value.pvname,
         setpoint_pv=swait.channels.B.input_value.pvname,
-        name="calcpos"
+        name="calcpos",
     )
     calcpos.wait_for_connection()
     yield calcpos
@@ -253,10 +255,10 @@ def test_move_and_stopped_early(rbv, pos):
 def confirm_in_position(positioner):
     """Apply the 'inposition' property code."""
     reading = positioner.read()
-    p = reading[positioner.setpoint.name]["value"]
-    r = reading[positioner.readback.name]["value"]
-    t = positioner.actual_tolerance
-    assert abs(r - p) <= t, f"target={p}, readback={r}, tolerance={t}"
+    sp = reading[positioner.setpoint.name]["value"]
+    rb = reading[positioner.readback.name]["value"]
+    tol = positioner.actual_tolerance
+    assert abs(rb - sp) <= tol, f"setpoint={sp}, readback={rb}, tolerance={tol}"
 
 
 @pytest.mark.local
@@ -362,3 +364,38 @@ def test_move_calcpos(target, calcpos):
     assert calcpos.inposition, str(pos)
 
     time.sleep(0.2)  # pause between tests
+
+
+@pytest.mark.parametrize(
+    # fmt: off
+    "target", [-55, -1.2345, -1, -1, -0.1, -0.1, 0, 0, 0, 0.1, 0.1, 1, 1, 1.2345, 55]
+    # fmt: on
+)
+def test_same_position_725(target, calcpos):
+    # Before anything is changed.
+    confirm_in_position(calcpos)
+
+    # Confirm the initial position is as expected.
+    if calcpos.position == target:
+        user = UserCalcsDevice(IOC, name="user")
+        user.wait_for_connection()
+        swait = user.calc10
+        # First, move away from the target.
+        away_target = -target or 0.1 * (1 + random.random())
+        status = calcpos.move(away_target)
+        assert status.done
+        assert status.elapsed > 0, str(status)
+        assert swait.channels.B.input_value.get() == away_target, f"{swait.channels.B.input_value.get()}  {away_target=}  {target=}"
+        confirm_in_position(calcpos)
+
+    # Move to the target position.
+    status = calcpos.move(target)
+    assert status.done
+    assert status.elapsed > 0, str(status)
+    confirm_in_position(calcpos)
+
+    # Do it again (the reason for issue #725).
+    status = calcpos.move(target)
+    assert status.done
+    assert status.elapsed > 0, str(status)
+    confirm_in_position(calcpos)
