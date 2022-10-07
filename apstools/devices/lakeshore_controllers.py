@@ -44,7 +44,7 @@ class LakeShore336_LoopControl(PVPositionerSoftDoneWithStop):
     # readback is provided by PVPositionerSoftDoneWithStop
 
     setpoint = FormattedComponent(
-        EpicsSignalWithRBV, "{prefix}OUT{loop_number}:SP", put_complete=True
+        EpicsSignal, "{prefix}OUT{loop_number}:SP", put_complete=True
     )
 
     # configuration
