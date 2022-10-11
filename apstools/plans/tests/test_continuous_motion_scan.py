@@ -24,6 +24,7 @@ for obj in (m1, scaler1):
     READING_KEY_LIST += list(obj.read().keys())
 STREAM_NAME = "primary"
 
+
 @pytest.fixture(scope="function")
 def flyer():
     obj = ContinuousScalerMotorFlyer(
