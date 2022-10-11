@@ -40,9 +40,10 @@ def test_kickoff(flyer):
 
     kickoff_status = flyer.kickoff()
     assert isinstance(kickoff_status, ophyd.DeviceStatus)
+    if flyer.mode.get() == "kickoff":
+        assert flyer._readings == []
     kickoff_status.wait()
     assert kickoff_status.done
-    assert flyer._readings == []
 
     while flyer.mode.get() == "kickoff":
         time.sleep(very_short_time)
