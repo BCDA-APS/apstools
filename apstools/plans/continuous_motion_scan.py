@@ -17,7 +17,11 @@ from ophyd import Component
 from ophyd import Device
 from ophyd import DeviceStatus
 from ophyd import Signal
-# import time
+import logging
+import time
+
+logger = logging.getLogger(__name__)
+MOTOR_BASE_VELOCITY = 0.1  # Provided in motor's .VBAS field
 
 
 def fly_scaler_motor(scaler, motor, start_position, end_position, velocity=None, num_points=10, md={}):
@@ -89,7 +93,7 @@ class ContinuousScalerMotorFlyer(Device):
         self._velocity = velocity
         self._num_points = num_points
 
-        # self._original = {}
+        self._restore_db = []
         self._readings = []  # cache of new device readings
         self._old_scaler_reading = None
         self._action_modes = "idle kickoff taxi fly return".split()
@@ -129,7 +133,13 @@ class ContinuousScalerMotorFlyer(Device):
 
         # ---------------------------------------
         self.mode.put("taxi")
-        # TODO: move to start position
+        self._restore_db.append((self._motor.user_setpoint, self._motor.position))
+        st = self._motor.move(self._start_position)  # FIXME: Why does this timeout?
+        if not st.done:
+            raise FlyerError(f"Did not move to start position: {self._start_position}")
+        del st
+        self._set_velocity(self._velocity)
+
         # TODO: start scaler counting
 
         self._old_scaler_reading = self._scaler.read()
@@ -137,18 +147,42 @@ class ContinuousScalerMotorFlyer(Device):
 
         # TODO: start accumulator (collects only when mode="fly")
         # TODO: start motion
+        self._motor.user_setpoint.put(self._end_position)
 
         # ---------------------------------------
         self.mode.put("fly")
         self.add_reading()  # provisional
+        while not self._motor.motor_done_move.get():
+            time.sleep(0.05)
 
         # ---------------------------------------
         self.mode.put("return")
+        self._restore_settings()
 
         # ---------------------------------------
         # once all is complete...
         self.mode.put("idle")
         self.flyscan_complete_status.set_finished()  # once the flyer is truly complete
+
+    def _set_velocity(self, velocity):
+        if velocity is None:
+            velocity = self._motor.velocity.get()
+
+        target_velocity = max(MOTOR_BASE_VELOCITY, velocity)
+        if self._motor.velocity.get() != target_velocity:
+            self._restore_db.append((self._motor.velocity, self._motor.velocity.get()))
+            self._motor.velocity.put(target_velocity)
+            velocity = self._motor.velocity.get()  # value as reported by the motor
+        logger.info(
+            "scanned motor '%s' velocity: %.3f %s/s",
+            self._motor.name, velocity, self._motor.egu
+        )
+        return velocity
+    
+    def _restore_settings(self):
+        for pair in reversed(self._restore_db):
+            pair[0].put(pair[-1])
+        self._restore_db = []
 
     def kickoff(self):
         """Start the flyer."""
