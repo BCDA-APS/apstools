@@ -28,7 +28,7 @@ STREAM_NAME = "primary"
 @pytest.fixture(scope="function")
 def flyer():
     obj = ContinuousScalerMotorFlyer(
-        scaler1, m1, -1, 1, velocity=1.5, name="flyer"
+        scaler1, m1, -1, 1, velocity=0.5, name="flyer"
     )
     return obj
 
@@ -45,24 +45,25 @@ def test_kickoff(flyer):
     kickoff_status.wait()
     assert kickoff_status.done
 
-    while flyer.mode.get() == "kickoff":
+    while flyer.mode.get() == "kickoff":  # check next mode
         time.sleep(very_short_time)
-    assert flyer.mode.get() == "taxi"
-    assert not flyer.flyscan_complete_status.done
+    assert flyer.mode.get() in ("taxi", "fly", "return", "idle")
 
+    assert not flyer.flyscan_complete_status.done
     assert flyer.mode.get() in flyer._action_modes
-    while flyer.mode.get() == "taxi":
+    while flyer.mode.get() == "taxi":  # check next mode
         time.sleep(very_short_time)
-    assert flyer.mode.get() == "fly"
+    assert flyer.mode.get() in ("fly", "return", "idle")
+
     assert flyer._old_scaler_reading is not None
     assert kickoff_status.done
     assert not flyer.flyscan_complete_status.done
 
-    while flyer.mode.get() == "fly":
+    while flyer.mode.get() == "fly":  # check next mode
         time.sleep(very_short_time)
-    # assert flyer.mode.get() == "return"
+    assert flyer.mode.get() in ("return", "idle")
 
-    while flyer.mode.get() == "return":
+    while flyer.mode.get() == "return":  # check next mode
         time.sleep(very_short_time)
     assert flyer.mode.get() == "idle"
 
