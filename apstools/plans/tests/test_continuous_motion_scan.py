@@ -36,31 +36,35 @@ def flyer():
 def test_kickoff(flyer):
     assert flyer is not None
 
+    very_short_time = 0.000_1
+
     kickoff_status = flyer.kickoff()
-    assert not kickoff_status.done
     assert isinstance(kickoff_status, ophyd.DeviceStatus)
+    kickoff_status.wait()
+    assert kickoff_status.done
     assert flyer._readings == []
+
     while flyer.mode.get() == "kickoff":
-        time.sleep(0.000_1)
+        time.sleep(very_short_time)
     assert flyer.mode.get() == "taxi"
     assert not flyer.flyscan_complete_status.done
 
     assert flyer.mode.get() in flyer._action_modes
     while flyer.mode.get() == "taxi":
-        time.sleep(0.000_1)
+        time.sleep(very_short_time)
     assert flyer.mode.get() == "fly"
     assert flyer._old_scaler_reading is not None
     assert kickoff_status.done
     assert not flyer.flyscan_complete_status.done
 
     while flyer.mode.get() == "fly":
-        time.sleep(0.000_1)
+        time.sleep(very_short_time)
     # assert flyer.mode.get() == "return"
 
     while flyer.mode.get() == "return":
-        time.sleep(0.000_1)
+        time.sleep(very_short_time)
     assert flyer.mode.get() == "idle"
-    time.sleep(0.000_1)
+    time.sleep(very_short_time)
     assert flyer.flyscan_complete_status.done
 
 
@@ -75,9 +79,9 @@ def test_describe_collect(flyer):
 
 def test_collect(flyer):
     flyer.kickoff()
-    assert len(flyer._readings) == 0
+    assert isinstance(flyer.flyscan_complete_status, ophyd.DeviceStatus)
 
-    time.sleep(1e-1)
+    flyer.flyscan_complete_status.wait()
     assert len(flyer._readings) > 0
 
     event = flyer.collect()
