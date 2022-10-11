@@ -40,6 +40,7 @@ from .axis_tuner import AxisTunerMixin
 
 from .description_mixin import EpicsDescriptionMixin
 
+from .dict_device_support import dict_device_factory
 from .dict_device_support import make_dict_device
 
 from .epics_scan_id_signal import EpicsScanIdSignal

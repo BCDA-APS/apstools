@@ -159,6 +159,7 @@ Other Support
     ~apstools.devices.xia_pf4.Pf4FilterCommon
     ~apstools.devices.xia_pf4.DualPf4FilterBox
     ~apstools.devices.description_mixin.EpicsDescriptionMixin
+    ~apstools.devices.dict_device_support.dict_device_factory
     ~apstools.devices.dict_device_support.make_dict_device
     ~apstools.devices.epics_scan_id_signal.EpicsScanIdSignal
     ~apstools.devices.kohzu_monochromator.KohzuSeqCtl_Monochromator
