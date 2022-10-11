@@ -178,7 +178,7 @@ class ContinuousScalerMotorFlyer(Device):
             self._motor.name, velocity, self._motor.egu
         )
         return velocity
-    
+
     def _restore_settings(self):
         for pair in reversed(self._restore_db):
             pair[0].put(pair[-1])
