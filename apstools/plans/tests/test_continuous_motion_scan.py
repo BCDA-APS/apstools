@@ -64,7 +64,8 @@ def test_kickoff(flyer):
     while flyer.mode.get() == "return":
         time.sleep(very_short_time)
     assert flyer.mode.get() == "idle"
-    time.sleep(very_short_time)
+
+    flyer.flyscan_complete_status.wait()
     assert flyer.flyscan_complete_status.done
 
 
