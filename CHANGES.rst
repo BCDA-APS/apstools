@@ -32,6 +32,7 @@ New Features
 ------------
 
 * Add ``request_input()`` plan stub, per user request.
+* Add fly scan for scaler v. continuous motor.
 
 Deprecations
 ------------

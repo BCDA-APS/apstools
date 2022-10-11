@@ -31,6 +31,7 @@ Custom Scans
 
    ~apstools.plans.doc_run.documentation_run
    ~apstools.plans.alignment.lineup
+   ~apstools.plans.continuous_motion_scan.fly_scaler_motor
    ~apstools.plans.nscan_support.nscan
    ~apstools.plans.sscan_support.sscan_1D
    ~apstools.plans.alignment.TuneAxis
@@ -72,6 +73,9 @@ Submodules
     :members:
 
 .. automodule:: apstools.plans.command_list
+    :members:
+
+.. automodule:: apstools.plans.continuous_motion_scan
     :members:
 
 .. automodule:: apstools.plans.doc_run
