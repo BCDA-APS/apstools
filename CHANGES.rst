@@ -33,6 +33,11 @@ New Features
 
 * Add ``request_input()`` plan stub, per user request.
 
+Fixes
+------------
+
+* Make sure that YML (and other) files are packaged for pip and conda.
+
 Deprecations
 ------------
 
