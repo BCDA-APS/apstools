@@ -23,12 +23,15 @@ READING_KEY_LIST = []
 for obj in (m1, scaler1):
     READING_KEY_LIST += list(obj.read().keys())
 STREAM_NAME = "primary"
+START = -1
+FINISH = 1
+VELOCITY = 2
 
 
 @pytest.fixture(scope="function")
 def flyer():
     obj = ContinuousScalerMotorFlyer(
-        scaler1, m1, -1, 1, velocity=0.5, name="flyer"
+        scaler1, m1, START, FINISH, velocity=VELOCITY, name="flyer"
     )
     return obj
 
@@ -83,13 +86,19 @@ def test_describe_collect(flyer):
 def test_collect(flyer):
     flyer.kickoff()
     assert isinstance(flyer.flyscan_complete_status, ophyd.DeviceStatus)
+    while flyer.mode.get() in ("idle", "kickoff"):
+        time.sleep(0.000_1)
+    assert flyer.mode.get() == "taxi"
+
+    # while flyer.mode.get() in ("taxi"):
+    #     time.sleep(0.000_1)
 
     flyer.flyscan_complete_status.wait()
     assert len(flyer._readings) > 0
 
     event = flyer.collect()
     readings = flyer._readings.copy()
-    assert len(readings) > 1
+    assert len(readings) > 0
     assert not isinstance(event, dict)
 
     events = list(event)
