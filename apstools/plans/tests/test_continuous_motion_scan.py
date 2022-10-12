@@ -9,7 +9,7 @@ import pytest
 import time
 
 
-cat = databroker.temp()
+cat = databroker.temp().v2
 RE = RunEngine({})
 RE.subscribe(cat.v1.insert)
 
@@ -88,12 +88,13 @@ def test_collect(flyer):
     assert len(flyer._readings) > 0
 
     event = flyer.collect()
-    assert len(flyer._readings) == 2
+    readings = flyer._readings.copy()
+    assert len(readings) > 1
     assert not isinstance(event, dict)
 
     events = list(event)
     assert isinstance(events, list)
-    assert len(events) == 2
+    assert len(events) == len(readings)
     for event in events:
         assert "time" in event
         assert "data" in event
