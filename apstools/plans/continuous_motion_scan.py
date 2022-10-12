@@ -103,22 +103,32 @@ class ContinuousScalerMotorFlyer(Device):
 
         super().__init__(*args, **kwargs)
 
-    def add_reading(self):
+    def add_reading(self):  # FIXME: timestamps & previous reading
         """Record a reading to the cache."""
+        def get_read_timestamp(d):
+            for v in d.values():
+                return v["timestamp"]
+
         if self._old_scaler_reading is None:
             raise FlyerError("No previous scaler reading.")
+        print(f"{time.time()=}")
+        print(f"{get_read_timestamp(self._old_scaler_reading)=}")
 
         # read both as synchronous as possible
         m_read = self._motor.read()
         s_read = self._scaler.read()
+        print(f"{get_read_timestamp(s_read)=}")
 
         delta = s_read.copy()
         for k, old in self._old_scaler_reading.items():
             delta[k]["value"] = delta[k]["value"] - old["value"]  # difference
         self._old_scaler_reading = s_read.copy()
+        print(f"{get_read_timestamp(self._old_scaler_reading)=}")
+        print("~"*40)
 
         reading = {}
         reading.update(m_read)
+        # reading.update(s_read)
         reading.update(delta)
         self._readings.append(reading)
 
@@ -162,7 +172,16 @@ class ContinuousScalerMotorFlyer(Device):
                 )
 
         self._scaler.count.put("Count")  # start scaler counting
-        self._old_scaler_reading = self._scaler.read()
+        t_start = time.time()
+        while True:
+            s_read = self._scaler.read()
+            for v in s_read.values():
+                t_read = v["timestamp"]
+                break
+            if t_read > t_start:
+                break
+            time.sleep(0.000_1)  # wait for EPICS
+        self._old_scaler_reading = s_read
         self.add_reading()
 
         moving_status = DeviceStatus(self._motor.motor_done_move)
@@ -198,6 +217,7 @@ class ContinuousScalerMotorFlyer(Device):
             self._fly_scan_fly(moving_status)
         except FlyerError as exc:
             logger.error("FlyerError: %s", exc)
+            print(f"FlyerError: {exc=}")
         finally:
             self._fly_scan_return()
 
