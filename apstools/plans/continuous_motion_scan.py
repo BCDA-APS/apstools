@@ -164,7 +164,7 @@ class ContinuousScalerMotorFlyer(Device):
         time_remaining = abs(self._motor.position - self._start_position) / velocity
         extra_motion_time = 2
         expire = time.time() + time_remaining + extra_motion_time
-        while not self._motor.motor_done_move.get(): # != 1:
+        while not self._motor.motor_done_move.get():
             time.sleep(0.000_1)
             if time.time() >= expire:
                 raise FlyerError(
@@ -221,7 +221,7 @@ class ContinuousScalerMotorFlyer(Device):
         finally:
             self._fly_scan_return()
 
-        self.mode.put("idle") # once all is complete...
+        self.mode.put("idle")  # once all is complete...
         logger.debug("mode: %s", self.mode.get())
         self.flyscan_complete_status.set_finished()  # once the flyer is truly complete
         logger.debug("leave fly_scan_activity()")
