@@ -133,28 +133,34 @@ class ContinuousScalerMotorFlyer(Device):
     def _fly_scan_taxi(self, taxi_status):
         self.mode.put("taxi")
         logger.debug("mode: %s", self.mode.get())
+
+        # begin move to start position
         self._restore_db.append((self._motor.user_setpoint, self._motor.position))
-        st = self._motor.move(self._start_position)  # FIXME: Why does this timeout?
-        if not st.done:
-            raise FlyerError(f"Did not move to start position: {self._start_position}")
+        self._motor.user_setpoint.put(self._start_position)
 
         velocity = self._set_velocity(self._velocity)
 
         scan_time_expected = abs(self._start_position - self._end_position)/velocity
         acquire_period = scan_time_expected / self._num_points
-        print(f"{self._start_position=}")
-        print(f"{self._end_position=}")
-        print(f"{velocity=}")
-        print(f"{scan_time_expected=}")
-        print(f"{self._num_points=}")
-        print(f"{acquire_period=}")
         logger.info("expected scan time: %.1f seconds", scan_time_expected)
         logger.info("take a reading every %.3f seconds", acquire_period)
 
         self._restore_db.append((self._scaler.preset_time, self._scaler.preset_time.get()))
         self._restore_db.append((self._scaler.count, self._scaler.count.get()))
-        extra_time_for_scaler = 9  # so scaler does not stop before motor
-        self._scaler.preset_time.put(scan_time_expected + extra_time_for_scaler)
+        extra_scaler_time = 9  # so scaler does not stop before motor
+        self._scaler.preset_time.put(scan_time_expected + extra_scaler_time)
+
+        # wait for move to start position
+        time_remaining = abs(self._motor.position - self._start_position) / velocity
+        extra_motion_time = 2
+        expire = time.time() + time_remaining + extra_motion_time
+        while not self._motor.motor_done_move.get(): # != 1:
+            time.sleep(0.000_1)
+            if time.time() >= expire:
+                raise FlyerError(
+                    "Did not move to start position: {self._start_position}"
+                )
+
         self._scaler.count.put("Count")  # start scaler counting
         self._old_scaler_reading = self._scaler.read()
         self.add_reading()
@@ -186,10 +192,14 @@ class ContinuousScalerMotorFlyer(Device):
         Not a plan (generator function), so blocking code is allowed.
         """
         logger.debug("enter fly_scan_activity()")
-        taxi_status = self._fly_scan_kickoff()
-        moving_status = self._fly_scan_taxi(taxi_status)
-        self._fly_scan_fly(moving_status)
-        self._fly_scan_return()
+        try:
+            taxi_status = self._fly_scan_kickoff()
+            moving_status = self._fly_scan_taxi(taxi_status)
+            self._fly_scan_fly(moving_status)
+        except FlyerError as exc:
+            logger.error("FlyerError: %s", exc)
+        finally:
+            self._fly_scan_return()
 
         self.mode.put("idle") # once all is complete...
         logger.debug("mode: %s", self.mode.get())
@@ -215,23 +225,24 @@ class ContinuousScalerMotorFlyer(Device):
     def _fly_scan_sampler(self, acquire_period, taxi_status, fly_status):
         """Acquire readings at periodic intervals while flying."""
         logger.debug("enter _sampler()")
-        print("enter _sampler()")
         while not taxi_status.done:
             # wait for mode="fly" to start
             time.sleep(0.000_1)
 
-        logger.debug("_sampler() active")
-        print(f"_sampler() active {acquire_period=}")
+        logger.debug("_sampler() active=%s fly_status=%s", acquire_period, fly_status)
         report_time = time.time() + acquire_period
+        i = 0
         while not fly_status.done:
             if time.time() >= report_time and self.mode.get() == "fly":
                 self.add_reading()
-                logger.debug("_sampler() reading")
-                print("_sampler() reading")
+                i += 1
+                logger.debug(
+                    "add_reading(): i=%s time=%s report_time=%s",
+                    i, time.time(), report_time
+                )
                 report_time += acquire_period
-            time.sleep(acquire_period/10)
+            time.sleep(acquire_period/25)
         logger.debug("leave _sampler()")
-        print("leave _sampler()")
 
     @run_in_thread
     def _watch_motor(self, taxi_status, moving_status):
