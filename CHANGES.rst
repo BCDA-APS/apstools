@@ -18,20 +18,30 @@ The project `milestones <https://github.com/BCDA-APS/apstools/milestones>`_
 describe the future plans.
 
 ..
-   1.6.7
+   1.6.8
    ******
 
    release expected by 2023-01-05
 
+   1.6.7
+   ******
+
+   release expected by 2022-11-18
+
 1.6.6
 ******
 
-release expected by 2022-11-18
+release expected by 2022-10-18
 
 New Features
 ------------
 
 * Add ``request_input()`` plan stub, per user request.
+
+Fixes
+------------
+
+* PVPositioner got stuck if target position was the same as current position.
 
 Deprecations
 ------------
