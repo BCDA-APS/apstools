@@ -1,0 +1,7 @@
+exclude .*
+prune .github/
+prune apstools.egg-info/
+exclude conda/*
+prune docs/
+prune ideas/
+include apstools/devices/aps_cycle_info.yml
