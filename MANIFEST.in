@@ -1,7 +1,8 @@
+include LICENSE.txt
+include apstools/devices/*.yml
 exclude .*
-prune .github/
-prune apstools.egg-info/
 exclude conda/*
+prune .*/
+prune *.egg-info/
 prune docs/
 prune ideas/
-include apstools/devices/aps_cycle_info.yml
