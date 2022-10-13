@@ -18,15 +18,20 @@ The project `milestones <https://github.com/BCDA-APS/apstools/milestones>`_
 describe the future plans.
 
 ..
-   1.6.7
+   1.6.8
    ******
 
    release expected by 2023-01-05
 
+   1.6.7
+   ******
+
+   release expected by 2022-11-18
+
 1.6.6
 ******
 
-release expected by 2022-11-18
+release expected by 2022-10-18
 
 New Features
 ------------
@@ -37,6 +42,7 @@ Fixes
 ------------
 
 * Make sure that YML (and other) files are packaged for pip and conda.
+* PVPositioner got stuck if target position was the same as current position.
 
 Deprecations
 ------------
