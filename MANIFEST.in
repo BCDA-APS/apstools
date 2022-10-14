@@ -1,5 +1,8 @@
 include LICENSE.txt
+include apstools/devices/*.db
+include apstools/devices/*.ui
 include apstools/devices/*.yml
+include apstools/migration/config
 exclude .*
 exclude conda/*
 prune .*/
