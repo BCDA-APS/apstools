@@ -191,6 +191,9 @@ class PVPositionerSoftDone(PVPositioner):
         if self.actuate is not None:
             self.log.debug("%s.actuate = %s", self.name, self.actuate_value)
             self.actuate.put(self.actuate_value, wait=False)
+        # This is needed because in a special case the setpoint.put does not
+        # run the "sub_value" subscriptions.
+        self.cb_setpoint()
         self.cb_readback()  # This is needed to force the first check.
 
 
