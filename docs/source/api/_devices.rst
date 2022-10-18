@@ -18,6 +18,7 @@ See these categories:
 
 * :ref:`devices.aps_support`
 * :ref:`devices.area_detector`
+* :ref:`devices.flyers`
 * :ref:`devices.motors`
 * :ref:`devices.scalers`
 * :ref:`devices.shutters`
@@ -72,6 +73,17 @@ Detector & Scaler Support
     ~apstools.devices.struck3820.Struck3820
     ~apstools.devices.scaler_support.use_EPICS_scaler_channels
     ~apstools.devices.synth_pseudo_voigt.SynPseudoVoigt
+
+.. _devices.flyers:
+
+Fly Scan Support
++++++++++++++++++++++++
+
+.. autosummary::
+
+    ~apstools.devices.flyer_motor_scaler.FlyerBase
+    ~apstools.devices.flyer_motor_scaler.ActionsFlyerBase
+    ~apstools.devices.flyer_motor_scaler.ScalerMotorFlyer
 
 .. _devices.motors:
 
@@ -159,9 +171,11 @@ Other Support
     ~apstools.devices.xia_pf4.Pf4FilterCommon
     ~apstools.devices.xia_pf4.DualPf4FilterBox
     ~apstools.devices.description_mixin.EpicsDescriptionMixin
+    ~apstools.devices.dict_device_support.dict_device_factory
     ~apstools.devices.dict_device_support.make_dict_device
     ~apstools.devices.epics_scan_id_signal.EpicsScanIdSignal
     ~apstools.devices.kohzu_monochromator.KohzuSeqCtl_Monochromator
+    ~apstools.devices.flyer_motor_scaler.SignalValueStack
     ~apstools.devices.srs570_preamplifier.SRS570_PreAmplifier
     ~apstools.devices.struck3820.Struck3820
 
@@ -206,6 +220,10 @@ All Submodules
 
 .. automodule:: apstools.devices.eurotherm_2216e
     :members:
+
+.. automodule:: apstools.devices.flyer_motor_scaler
+    :members:
+    :private-members:
 
 .. automodule:: apstools.devices.kohzu_monochromator
     :members:

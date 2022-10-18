@@ -47,6 +47,12 @@ New Features
 ------------
 
 * Add ``request_input()`` plan stub, per user request.
+* Add fly scan for scaler v. continuous motor.
+
+Maintenance
+-----------
+
+* Rename: ``devices.make_dict_device()`` is now ``devices.dict_device_factory()``.
 
 Fixes
 ------------

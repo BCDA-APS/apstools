@@ -1,8 +1,14 @@
 """
 DictionaryDevice
++++++++++++++++++++++++++++++++++++++++
 
 Create an ophyd Device defined by a dictionary so
 that a simple dictionary can be recorded in a bluesky data stream.
+
+.. autosummary::
+
+    ~dict_device_factory
+    ~make_dict_device
 """
 
 from ophyd import Component
@@ -11,7 +17,7 @@ from ophyd import Signal
 import time
 
 
-def _make_dict_device_class(data={}):
+def dict_device_factory(data={}):
     """
     Create a DictionaryDevice class using the supplied dictionary.
     """
@@ -47,7 +53,7 @@ def make_dict_device(obj, name="ddev"):
 
     obj = standardize(obj)
     kv = {k: v["value"] for k, v in obj.items()}
-    ddev = _make_dict_device_class(kv)("", name=name)
+    ddev = dict_device_factory(kv)("", name=name)
     # set the timestamps to what was read
     for k, v in obj.items():
         getattr(ddev, k)._metadata["timestamp"] = v["timestamp"]
