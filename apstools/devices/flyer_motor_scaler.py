@@ -20,10 +20,7 @@ from ..utils import run_in_thread
 from ophyd import Component
 from ophyd import Device
 from ophyd import DeviceStatus
-from ophyd import EpicsMotor
-from ophyd import EpicsSignal
 from ophyd import Signal
-from ophyd.scaler import ScalerCH
 from ophyd.status import Status
 import logging
 import time
