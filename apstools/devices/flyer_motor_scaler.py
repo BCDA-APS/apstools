@@ -21,7 +21,7 @@ Flyers for motor and scaler scans
    ~_SMFlyer_Step_2
    ~_SMFlyer_Step_3
 
-New in release 1.6.6
+New in release 1.6.9
 """
 
 from ..utils import run_in_thread
