@@ -8,10 +8,10 @@ Motor and scaler flyer, constant velocity
    ~FlyerError
    ~FlyerBase
    ~ActionsFlyer
-   ~_MotorFlyer
-   ~FlyerPlusModes
-   ~FlyerPlusScaler
-   ~FlyerPlusAcquisition
+   ~_SMFlyer_Step_1
+   ~_SMFlyer_Step_2
+   ~_SMFlyer_Step_3
+   ~ScalerMotorFlyer
 
 New in release 1.6.6
 """
@@ -129,7 +129,7 @@ class ActionsFlyer(FlyerBase):
         logging.debug("actions thread marked 'finished'")
 
 
-class _MotorFlyer(ActionsFlyer):
+class _SMFlyer_Step_1(ActionsFlyer):
     """Move the motor through its trajectory.  Extends ActionsFlyer()."""
 
     def __init__(self, motor, start, finish, *args, fly_time=1, fly_time_pad=2, **kwargs):
@@ -186,8 +186,8 @@ class _MotorFlyer(ActionsFlyer):
         self.status_actions_thread.set_finished()
 
 
-class _ModeFlyer(_MotorFlyer):
-    """Make it easier to recover from an exception.  Extends _MotorFlyer()."""
+class _SMFlyer_Step_2(_SMFlyer_Step_1):
+    """Make it easier to recover from an exception.  Extends _SMFlyer_Step_1()."""
 
     mode = Component(Signal, value="idle")
     ACTION_MODES = "idle setup taxi fly return".split()
@@ -247,8 +247,8 @@ class _ModeFlyer(_MotorFlyer):
         self._original_values.restore()
 
 
-class _ScalerFlyer(_ModeFlyer):
-    """Add the scaler and trigger it for the fly motion.  Extends _ModeFlyer()."""
+class _SMFlyer_Step_3(_SMFlyer_Step_2):
+    """Add the scaler and trigger it for the fly motion.  Extends _SMFlyer_Step_2()."""
 
     def __init__(self, scaler, *args, scaler_time_pad=9, **kwargs):
         if not (
@@ -285,8 +285,8 @@ class _ScalerFlyer(_ModeFlyer):
         self._scaler.count.put("Done")  # stop scaler counting
 
 
-class ScalerMotorFlyer(_ScalerFlyer):
-    """Add periodic data acquisition.  Extends _ScalerFlyer()."""
+class ScalerMotorFlyer(_SMFlyer_Step_3):
+    """Add periodic data acquisition.  Extends _SMFlyer_Step_3()."""
 
     def __init__(self, *args, period=0.1, **kwargs):
         if not (isinstance(period, (float, int)) and period > 0):
