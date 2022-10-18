@@ -47,6 +47,14 @@ from .epics_scan_id_signal import EpicsScanIdSignal
 
 from .eurotherm_2216e import Eurotherm2216e
 
+from .flyer_motor_scaler import FlyerBase
+from .flyer_motor_scaler import ActionsFlyerBase
+from .flyer_motor_scaler import ScalerMotorFlyer
+from .flyer_motor_scaler import SignalValueStack
+from .flyer_motor_scaler import _SMFlyer_Step_1
+from .flyer_motor_scaler import _SMFlyer_Step_2
+from .flyer_motor_scaler import _SMFlyer_Step_3
+
 from .kohzu_monochromator import KohzuSeqCtl_Monochromator
 
 from .lakeshore_controllers import LakeShore336Device
