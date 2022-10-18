@@ -13,9 +13,6 @@ from .command_list import register_command_handler
 from .command_list import run_command_file
 from .command_list import summarize_command_file
 
-from .continuous_motion_scan import ContinuousScalerMotorFlyer
-from .continuous_motion_scan import fly_scaler_motor
-
 from .doc_run import addDeviceDataAsStream
 from .doc_run import documentation_run
 
