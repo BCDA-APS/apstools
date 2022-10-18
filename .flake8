@@ -8,6 +8,8 @@ exclude =
     apstools/_version.py,
     ideas
     resources/debug_findpv.py
+    dev_*.py
+    dev_*.ipynb
 
 # E501 line too long
 # many long lines in python code
