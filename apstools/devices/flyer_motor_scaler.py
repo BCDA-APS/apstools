@@ -1,17 +1,25 @@
 """
-Motor and scaler flyer, constant velocity
+Flyers for motor and scaler scans
 ++++++++++++++++++++++++++++++++++++++++++++
 
+.. rubric:: Public
+
 .. autosummary::
+   :recursive:
 
    ~SignalValueStack
-   ~FlyerError
    ~FlyerBase
-   ~ActionsFlyer
+   ~ActionsFlyerBase
+   ~ScalerMotorFlyer
+
+.. rubric:: Private
+
+.. autosummary::
+   :recursive:
+
    ~_SMFlyer_Step_1
    ~_SMFlyer_Step_2
    ~_SMFlyer_Step_3
-   ~ScalerMotorFlyer
 
 New in release 1.6.6
 """
@@ -29,13 +37,46 @@ logger = logging.getLogger(__name__)
 
 
 class SignalValueStack:
-    """Gather a list of (signal, value) pairs to be restored later."""
+    """
+    Gather a list of (signal, value) pairs to be restored later.
+
+    Signals and values will restored in reverse order from how they were
+    pushed to the stack.
+
+    Not a bluesky plan. This is blocking code, intended for use in a separate
+    thread from the RunEngine.
+
+    Similar to the ``stage()`` / ``unstage()`` algorithm, an
+    instance of ``SignalValueStack()`` records signals and their values
+    to be reset once some operations have finished.
+
+    Since any signal cannot be staged twice, or staged from within a running
+    plan, we need some support that will save/restore values that are changed
+    during a plan's execution.
+    Use this for internal operations (such as in a multi-step fly plan)
+    to allow original values to be recovered from Signals.
+
+    .. rubric:: Usage
+
+    ::
+
+        from apstools.devices import SignalValueStack
+        import ophyd
+        signal = ophyd.Signal(name="signal", value=1)
+        original = SignalValueStack()
+
+        # ... in the threaded code
+        original.remember(signal) # remember the original value
+        signal.put(2)  # make some change(s)
+        original.restore()  # put it back as we found it
+    """
 
     def __init__(self) -> None:
         self.clear()
 
-    def add(self, signal, value):
-        """Push a (signal, value) pair on to the stack."""
+    # TODO: Use the 'list' interface?
+    def push(self, signal, value):
+        """Add a (signal, value) pair on the stack."""
         self._cache.append((signal, value))
 
     def clear(self):
@@ -43,8 +84,8 @@ class SignalValueStack:
         self._cache = []
 
     def remember(self, signal):
-        """Push the signal's value on to the stack."""
-        self.add(signal, signal.get())
+        """Push the signal's value on the stack."""
+        self.push(signal, signal.get())
 
     def restore(self):
         """Write the signals in the stack, in reverse order."""
@@ -53,12 +94,10 @@ class SignalValueStack:
         self._cache = []
 
 
-class FlyerError(RuntimeError):
-    """Exceptions specific to these flyers."""
-
-
 class FlyerBase(Device):
-    """Canonical ophyd Flyer object."""
+    """
+    Canonical ophyd Flyer object.  Acquires one empty data event.
+    """
 
     STREAM_NAME = "primary"
 
@@ -75,7 +114,7 @@ class FlyerBase(Device):
         return status
 
     def describe_collect(self):
-        """Describe the data from collect()."""
+        """Describe the data from :meth:`~collect()`."""
         logging.debug("describe_collect()")
         schema = {}
         return {self.STREAM_NAME: schema}
@@ -87,8 +126,22 @@ class FlyerBase(Device):
         yield event
 
 
-class ActionsFlyer(FlyerBase):
-    """Call actions_thread() method from kickoff().  Extends FlyerBase()."""
+class ActionsFlyerBase(FlyerBase):
+    """
+    Call :meth:`~actions_thread` method from :meth:`~kickoff`.
+
+    Method :meth:`~actions_thread()` will describe all the fly scan steps.
+    Method :meth:`~collect` is changed to wait for :meth:`~actions_thread`
+    to complete before signalling that the flyer is complete and data is ready
+    to :meth:`~collect`.
+
+    In :meth:`~actions_thread()`, wait for all fly scan actions to complete,
+    then mark the status object as finished before returning.
+
+    .. note:: Due to the ``@run_in_thread`` decorator, the :meth:`~actions_thread()`
+       method is not documented by Sphinx.  See the class source code for
+       this method's code.
+    """
 
     def __init__(self, *args, **kwargs):
         self.status_actions_thread = None
@@ -122,25 +175,59 @@ class ActionsFlyer(FlyerBase):
 
     @run_in_thread
     def actions_thread(self):
-        """Run the flyer in a thread.  Not a bluesky plan."""
+        """
+        Run the flyer in a thread.  Not a bluesky plan.
+
+        Any acquired data should be saved internally and yielded from
+        :meth:`~collect`.  (Remember to modify :meth:`~describe_collect` for
+        any changes in the structure of data yielded by :meth:`~collect`!)
+        """
         logging.debug("in actions thread")
         time.sleep(1)  # as a demonstration of a slow action
         self.status_actions_thread.set_finished()
         logging.debug("actions thread marked 'finished'")
 
 
-class _SMFlyer_Step_1(ActionsFlyer):
-    """Move the motor through its trajectory.  Extends ActionsFlyer()."""
+class _SMFlyer_Step_1(ActionsFlyerBase):
+    """
+    Add a motor to ActionsFlyerBase().
+
+    .. rubric:: Parameters
+
+    motor
+        *object* :
+        Instance of :class:`ophyd.EpicsMotor`.
+    start
+        *float* or *int* :
+        Fly scan will begin at this motor position.
+    finish
+        *float* or *int* :
+        Fly scan will end at this motor position.
+    fly_time
+        *float* or *int* :
+        Time (seconds, approximate) for fly scan to traverse from 'start' to
+        'finish'.  The motor velocity will be set to meet this parameter.
+        (Default: 1 s)
+    fly_time_pad
+        *float* or *int* :
+        Extra time (seconds) to allow the fly scan to finish before a fly
+        scan timeout is declared.
+        (Default: 2 s)
+
+    .. note:: This class is used internally to build, in steps,
+        :class:`~ScalerMotorFlyer` from :class:`~ActionsFlyerBase`.
+    .. note:: Due to the ``@run_in_thread`` decorator, the :meth:`~actions_thread()`
+       method is not documented by Sphinx.  See the class source code for
+       this method's code.
+    """
 
     def __init__(self, motor, start, finish, *args, fly_time=1, fly_time_pad=2, **kwargs):
+        fly_time = fly_time or 1
+        fly_time_pad = fly_time_pad or 2
         if not hasattr(motor, "velocity"):
-            raise TypeError(f"Unprepared to handle object as motor: {motor=}")
-        if not isinstance(fly_time, (float, int)):
-            raise TypeError(f"Must be a number: {fly_time=}")
+            raise TypeError(f"Unprepared to handle as motor: {motor=}")
         if fly_time <= 0:
             raise ValueError(f"Must be a POSITIVE number: {fly_time=}")
-        if not isinstance(fly_time_pad, (float, int)):
-            raise TypeError(f"Must be a number: {fly_time_pad=}")
         if fly_time_pad <= 0:
             raise ValueError(f"Must be a POSITIVE number: {fly_time_pad=}")
 
@@ -168,7 +255,7 @@ class _SMFlyer_Step_1(ActionsFlyer):
         self.status_taxi = self._motor.move(self._pos_start, wait=False)
         self.status_taxi.wait()
         if self._motor.position != self._pos_start:  # TODO: within tolerance?
-            raise FlyerError(
+            raise RuntimeError(
                 "Not in requested taxi position:"
                 f" requested={self._pos_start}"
                 f" position={self._motor.position}"
@@ -187,20 +274,48 @@ class _SMFlyer_Step_1(ActionsFlyer):
 
 
 class _SMFlyer_Step_2(_SMFlyer_Step_1):
-    """Make it easier to recover from an exception.  Extends _SMFlyer_Step_1()."""
+    """
+    Add modes (states) to _SMFlyer_Step_1() to recover from exceptions.
+
+    Overrides :meth:`~actions_thread()` to recover from exceptions and restore
+    previous values.  Since exceptions from threaded code are not reported
+    through to the RunEgine (the thread simply stops for unhandled exceptions),
+    the override handles such exceptions and then restores any signals to
+    original values, as recorded via use of :class:`~SignalValueStack`. Here's
+    the algorithm::
+
+        try
+            setup, taxi, then fly
+        except Exception
+            report the exception and save as attribute
+        finally
+            restore and return to idle
+
+        mark status finished
+
+    .. note:: This class is used internally to build, in steps,
+        :class:`~ScalerMotorFlyer` from :class:`~ActionsFlyerBase`.
+    .. note:: Due to the ``@run_in_thread`` decorator, the :meth:`~actions_thread()`
+       method is not documented by Sphinx.  See the class source code for
+       this method's code.
+    """
 
     mode = Component(Signal, value="idle")
     ACTION_MODES = "idle setup taxi fly return".split()
+    action_exception = None
 
     @run_in_thread
     def actions_thread(self):
         """Run the flyer in a thread."""
+        self.action_exception = None
         try:
             self._action_setup()
             self._action_taxi()
             self._action_fly()
         except Exception as exc:
-            print(f"FlyerError: {exc=}")
+            self.action_exception = exc
+            logger.exception("Flyer Error")
+            print(f"Flyer Error: {exc=}")
         finally:
             self._action_return()
             self.mode.put("idle")
@@ -220,7 +335,7 @@ class _SMFlyer_Step_2(_SMFlyer_Step_1):
         self.status_taxi = self._motor.move(self._pos_start, wait=False)
         self.status_taxi.wait()
         if self._motor.position != self._pos_start:  # TODO: within tolerance?
-            raise FlyerError(
+            raise RuntimeError(
                 "Not in requested taxi position:"
                 f" requested={self._pos_start}"
                 f" position={self._motor.position}"
@@ -243,14 +358,31 @@ class _SMFlyer_Step_2(_SMFlyer_Step_1):
         self.status_fly.wait(timeout=allowed_motion_time)
 
     def _action_return(self):
+        """Restore original values."""
         self.mode.put("return")
         self._original_values.restore()
 
 
 class _SMFlyer_Step_3(_SMFlyer_Step_2):
-    """Add the scaler and trigger it for the fly motion.  Extends _SMFlyer_Step_2()."""
+    """
+    Add a scaler to _SMFlyer_Step_2() and trigger it for the fly motion.
 
-    def __init__(self, scaler, *args, scaler_time_pad=9, **kwargs):
+    .. rubric:: Parameters
+
+    scaler
+        *object* :
+        Instance of :class:`ophyd.scaler.ScalerCH`.
+    scaler_time_pad
+        *float* or *int* :
+        Extra time (seconds) to leave the scaler counting before a fly scan
+        timeout is declared.
+        (Default: 2 s)
+
+    .. note:: This class is used internally to build, in steps,
+        :class:`~ScalerMotorFlyer` from :class:`~ActionsFlyerBase`.
+    """
+
+    def __init__(self, scaler, *args, scaler_time_pad=2, **kwargs):
         if not (
             # fmt: off
             hasattr(scaler, "count")
@@ -286,11 +418,38 @@ class _SMFlyer_Step_3(_SMFlyer_Step_2):
 
 
 class ScalerMotorFlyer(_SMFlyer_Step_3):
-    """Add periodic data acquisition.  Extends _SMFlyer_Step_3()."""
+    """
+    Motor and scaler flyer, moving at constant velocity.
 
-    def __init__(self, *args, period=0.1, **kwargs):
-        if not (isinstance(period, (float, int)) and period > 0):
-            raise FlyerError("Sampling period must be a POSITIVE number: {period=}")
+    Built from the :class:`~ActionsFlyerBase`, the
+    :class:`~ScalerMotorFlyer` runs a fly scan described
+    in :meth:`~actions_thread`.
+
+    .. autosummary::
+
+        ~_action_acquire_event
+        ~_action_setup
+        ~_action_fly
+        ~_action_readings_to_collect_events
+        ~describe_collect
+        ~collect
+
+    .. rubric:: Parameters
+
+    period
+        *float* or *int* :
+        Time (seconds) between data collection events.
+        (Default: 0.1 s)
+
+    Extends :class:`SMFlyer__Step_3()`, adding periodic data acquisition.
+    """
+
+    def __init__(self, *args, period=None, **kwargs):
+        period = period or 0.1
+        if period <= 0:
+            raise ValueError(
+                f"Sampling period must be a POSITIVE number: {period=}"
+            )
 
         self._period = period
         self._readings = []
@@ -333,15 +492,17 @@ class ScalerMotorFlyer(_SMFlyer_Step_3):
         super()._action_setup()
 
         # try to set the sampling period
-        update_rate = 1.0 / self._period
+        expected_period = round(self._period, 5)
         self._original_values.remember(self._scaler.update_rate)
-        self._scaler.update_rate.put(update_rate)
-        if round(abs(self._scaler.update_rate.get() - update_rate), 4) > 0.001:
-            # this math avoids precision mismatches
-            raise FlyerError(
+        self._scaler.update_rate.put(1 / self._period)
+        received_period = round(
+            1 / self._scaler.update_rate.get(use_monitor=False), 5
+        )
+        if received_period != expected_period:
+            raise ValueError(
                 "Could not get requested scaler sample period:"
                 f" requested={self._period}"
-                f" received={1/self._scaler.update_rate.get()}"
+                f" received={received_period}"
             )
 
     def _action_fly(self):
