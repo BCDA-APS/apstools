@@ -254,6 +254,7 @@ def test_move_and_stopped_early(rbv, pos):
 
 def confirm_in_position(positioner):
     """Apply the 'inposition' property code."""
+    positioner.get(use_monitor=False)
     reading = positioner.read()
     sp = reading[positioner.setpoint.name]["value"]
     rb = reading[positioner.readback.name]["value"]
