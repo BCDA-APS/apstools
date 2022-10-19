@@ -201,7 +201,7 @@ def test_bp_count_custom_name(plugin_name, plugin_class, adsimdet, fname):
     assert plugin.num_captured.get() == NUM_FRAMES
 
     # diagnostic per issue #696
-    ffname = plugin.full_file_name.get().strip()
+    ffname = plugin.full_file_name.get(use_monitor=False).strip()
     if ffname in ("", "/"):
         # second chance, race condition?  don't trust the CA monitor cache
         ffname = plugin.full_file_name.get(use_monitor=False).strip()

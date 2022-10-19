@@ -1,9 +1,9 @@
-import pytest
-
-from ..iocstats import IocStatsDevice
 from ...tests import common_attribute_quantities_test
 from ...tests import IOC
 from ...tests import short_delay_for_EPICS_IOC_database_processing
+from ..iocstats import IocStatsDevice
+import pytest
+import time
 
 
 @pytest.mark.parametrize(
@@ -41,6 +41,7 @@ def test_running(attr, expected, comparison):
 
     assert hasattr(gp_info, attr)
     value = getattr(gp_info, attr).get(use_monitor=False)
+    time.sleep(.1)
     if comparison == "start":
         assert value.startswith(expected)
     elif comparison == "end":
