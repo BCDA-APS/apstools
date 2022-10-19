@@ -341,20 +341,21 @@ class _SMFlyer_Step_2(_SMFlyer_Step_1):
                 f" position={self._motor.position}"
             )
 
+    def _action_fly(self):
+        """Start the fly scan and wait for it to complete."""
+        self.mode.put("fly")
+
+        # set the fly scan velocity
         velocity = abs(self._pos_finish - self._pos_start) / self._fly_time
         if velocity != self._motor.velocity.get():
             self._original_values.remember(self._motor.velocity)
             self._motor.velocity.put(velocity)
 
-    def _action_fly(self):
-        """Start the fly scan and wait for it to complete."""
-        self.mode.put("fly")
-        allowed_motion_time = self._fly_time + self._fly_time_pad
-
         # get the motor moving
         self.status_fly = self._motor.move(self._pos_finish, wait=False)
 
         # wait for motor to be done moving
+        allowed_motion_time = self._fly_time + self._fly_time_pad
         self.status_fly.wait(timeout=allowed_motion_time)
 
     def _action_return(self):
@@ -515,21 +516,27 @@ class ScalerMotorFlyer(_SMFlyer_Step_3):
 
         self.mode.put("fly")
 
-        self._original_values.remember(self._scaler.count)
-        self._original_values.remember(self._scaler.preset_time)
+        # set the fly scan velocity
+        velocity = abs(self._pos_finish - self._pos_start) / self._fly_time
+        if velocity != self._motor.velocity.get():
+            self._original_values.remember(self._motor.velocity)
+            self._motor.velocity.put(velocity)
 
-        motion_time_allowance = self._fly_time + self._fly_time_pad
+        # set the scaler count time (allowance)
+        self._original_values.remember(self._scaler.preset_time)
         count_time_allowance = self._fly_time + self._scaler_time_pad
         self._scaler.preset_time.put(count_time_allowance)
 
-        # scaler update rate was set in _action_setup()
+        # start acquiring, scaler update rate was set in _action_setup()
         self._scaler.time.subscribe(self._action_acquire_event)  # CA monitor
 
         # start scaler counting, THEN motor moving
+        self._original_values.remember(self._scaler.count)
         self._scaler.count.put("Count")
         self.status_fly = self._motor.move(self._pos_finish, wait=False)
 
         # wait for motor to be done moving
+        motion_time_allowance = self._fly_time + self._fly_time_pad
         self.status_fly.wait(timeout=motion_time_allowance)
         self._action_acquire_event()  # last event
 
