@@ -44,24 +44,35 @@ APS General Support
 Area Detector Support
 +++++++++++++++++++++
 
+.. rubric: Plugins
+
 .. autosummary::
 
     ~apstools.devices.area_detector_support.AD_EpicsFileNameHDF5Plugin
     ~apstools.devices.area_detector_support.AD_EpicsFileNameJPEGPlugin
     ~apstools.devices.area_detector_support.AD_EpicsFileNameTIFFPlugin
+
+.. rubric: Mix-in classes
+
+.. autosummary::
+    ~apstools.devices.area_detector_support.AD_EpicsFileNameMixin
     ~apstools.devices.area_detector_support.AD_EpicsHdf5FileName
     ~apstools.devices.area_detector_support.AD_EpicsHDF5IterativeWriter
     ~apstools.devices.area_detector_support.AD_EpicsJPEGFileName
     ~apstools.devices.area_detector_support.AD_EpicsJPEGIterativeWriter
     ~apstools.devices.area_detector_support.AD_EpicsTIFFFileName
     ~apstools.devices.area_detector_support.AD_EpicsTIFFIterativeWriter
-    ~apstools.devices.area_detector_support.AD_full_file_name_local
-    ~apstools.devices.area_detector_support.AD_plugin_primed
-    ~apstools.devices.area_detector_support.AD_prime_plugin2
     ~apstools.devices.area_detector_support.AD_setup_FrameType
     ~apstools.devices.area_detector_support.CamMixin_V34
     ~apstools.devices.area_detector_support.CamMixin_V3_1_1
     ~apstools.devices.area_detector_support.SingleTrigger_V34
+
+.. rubric: Other support
+
+.. autosummary::
+    ~apstools.devices.area_detector_support.AD_full_file_name_local
+    ~apstools.devices.area_detector_support.AD_plugin_primed
+    ~apstools.devices.area_detector_support.AD_prime_plugin2
 
 .. _devices.scalers:
 
@@ -224,6 +235,8 @@ All Submodules
 .. automodule:: apstools.devices.flyer_motor_scaler
     :members:
     :private-members:
+    :show-inheritance:
+    :inherited-members:
 
 .. automodule:: apstools.devices.kohzu_monochromator
     :members:
