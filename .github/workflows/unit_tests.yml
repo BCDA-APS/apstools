@@ -174,12 +174,17 @@ jobs:
         coverage report --precision 3
 
     - name: Upload coverage data to coveralls.io
-      run: coveralls --service=github
+      run: |
+        # pip install coveralls
+        micromamba list coveralls
+        which coveralls
+        coveralls --service=github
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         COVERALLS_FLAG_NAME: ${{ matrix.test-name }}
         COVERALLS_PARALLEL: true
 
+  # https://coveralls-python.readthedocs.io/en/latest/usage/configuration.html#github-actions-support
   coveralls:
     name: Report unit test coverage to coveralls
     needs: test-matrix
