@@ -235,6 +235,8 @@ All Submodules
 .. automodule:: apstools.devices.flyer_motor_scaler
     :members:
     :private-members:
+    :show-inheritance:
+    :inherited-members:
 
 .. automodule:: apstools.devices.kohzu_monochromator
     :members:
