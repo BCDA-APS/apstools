@@ -173,6 +173,28 @@ jobs:
         coverage combine
         coverage report --precision 3
 
+    - name: Upload coverage data to coveralls.io
+      run: coveralls --service=github
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        COVERALLS_FLAG_NAME: ${{ matrix.test-name }}
+        COVERALLS_PARALLEL: true
+
+  coveralls:
+    name: Report unit test coverage to coveralls
+    needs: test-matrix
+    runs-on: ubuntu-latest
+    container: python:3-slim
+
+    steps:
+      - name: Gather coverage and report to Coveralls
+        run: |
+          echo "Finally!"
+          pip3 install --upgrade coveralls
+          coveralls --service=github --finish
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
   # coveralls:
   #   name: Report unit test coverage to coveralls
   #   needs: test-matrix
