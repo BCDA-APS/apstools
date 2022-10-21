@@ -173,16 +173,16 @@ jobs:
         coverage combine
         coverage report --precision 3
 
-  coveralls:
-    name: Report unit test coverage to coveralls
-    needs: test-matrix
-    runs-on: ubuntu-latest
-    steps:
-      - name: Report unit test coverage
-        # https://github.com/TheKevJames/coveralls-python
-        shell: bash -l {0}
-        run: |
-          # coveralls --service=github
-          coveralls --service=${{ COVERALLS_SERVICE_NAME }}
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  # coveralls:
+  #   name: Report unit test coverage to coveralls
+  #   needs: test-matrix
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - name: Report unit test coverage
+  #       # https://github.com/TheKevJames/coveralls-python
+  #       shell: bash -l {0}
+  #       run: |
+  #         # coveralls --service=github
+  #         coveralls --service=${{ COVERALLS_SERVICE_NAME }}
+  #       env:
+  #         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
