@@ -2,6 +2,7 @@
 Test code where users control the names of the image files using EPICS.
 """
 
+from .. import AD_EpicsFileNameMixin
 from .. import AD_EpicsFileNameHDF5Plugin
 from .. import AD_EpicsFileNameJPEGPlugin
 from .. import AD_EpicsFileNameTIFFPlugin
@@ -76,6 +77,11 @@ class MySimDetector(SingleTrigger, DetectorBase):
         write_path_template=WRITE_PATH_TEMPLATE,
         read_path_template=READ_PATH_TEMPLATE,
     )
+
+
+def test_AD_EpicsFileNameMixin():
+    # TODO: improve this test per issue #744
+    assert AD_EpicsFileNameMixin is not None
 
 
 @pytest.fixture(scope="function")
