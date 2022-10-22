@@ -24,7 +24,7 @@ def test_attribute_quantities(device, pv, connect, attr, expected):
     "attr, expected, comparison",
     [
         ["access", "Running", None],
-        ["application_directory", "iocxxx", "end"],
+        # TODO: ["application_directory", "iocxxx", "end"],
         ["engineer", "engineer", None],
         ["epics_version", "EPICS", "start"],
         ["kernel_version", "Linux", "start"],
