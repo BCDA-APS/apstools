@@ -18,25 +18,35 @@ The project `milestones <https://github.com/BCDA-APS/apstools/milestones>`_
 describe the future plans.
 
 ..
-   1.6.8
+   1.6.10
    ******
 
    release expected by 2023-01-05
 
-   1.6.8
-   ******
+1.6.9
+******
 
    release expected by 2022-11-18
 
-1.6.7
+Maintenance
+------------
+
+* Add convenience import:``from apstools.devices import AD_EpicsFileNameMixin``.
+
+1.6.8
 ******
 
-release expected by 2022-10-18
+released 2022-10-16
 
 Fixes
 ------------
 
 * [again] Make sure that YML (and other) files are packaged for pip and conda.
+
+1.6.7
+******
+
+skipped
 
 1.6.6
 ******

@@ -10,5 +10,6 @@ exclude_lines =
     if __name__ == .__main__.:
 
 [run]
+# relative_files = True
 omit =
 	apstools/_version.py

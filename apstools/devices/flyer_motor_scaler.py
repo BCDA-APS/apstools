@@ -137,10 +137,6 @@ class ActionsFlyerBase(FlyerBase):
 
     In :meth:`~actions_thread()`, wait for all fly scan actions to complete,
     then mark the status object as finished before returning.
-
-    .. note:: Due to the ``@run_in_thread`` decorator, the :meth:`~actions_thread()`
-       method is not documented by Sphinx.  See the class source code for
-       this method's code.
     """
 
     def __init__(self, *args, **kwargs):
@@ -173,7 +169,6 @@ class ActionsFlyerBase(FlyerBase):
 
         return self.status_complete
 
-    @run_in_thread
     def actions_thread(self):
         """
         Run the flyer in a thread.  Not a bluesky plan.
@@ -182,10 +177,15 @@ class ActionsFlyerBase(FlyerBase):
         :meth:`~collect`.  (Remember to modify :meth:`~describe_collect` for
         any changes in the structure of data yielded by :meth:`~collect`!)
         """
-        logging.debug("in actions thread")
-        time.sleep(1)  # as a demonstration of a slow action
-        self.status_actions_thread.set_finished()
-        logging.debug("actions thread marked 'finished'")
+
+        @run_in_thread
+        def example_action():
+            logging.debug("in actions thread")
+            time.sleep(1)  # as a demonstration of a slow action
+            self.status_actions_thread.set_finished()
+            logging.debug("actions thread marked 'finished'")
+
+        example_action()
 
 
 class _SMFlyer_Step_1(ActionsFlyerBase):
@@ -216,9 +216,6 @@ class _SMFlyer_Step_1(ActionsFlyerBase):
 
     .. note:: This class is used internally to build, in steps,
         :class:`~ScalerMotorFlyer` from :class:`~ActionsFlyerBase`.
-    .. note:: Due to the ``@run_in_thread`` decorator, the :meth:`~actions_thread()`
-       method is not documented by Sphinx.  See the class source code for
-       this method's code.
     """
 
     def __init__(self, motor, start, finish, *args, fly_time=1, fly_time_pad=2, **kwargs):
@@ -252,25 +249,30 @@ class _SMFlyer_Step_1(ActionsFlyerBase):
         Runs in background thread so it does not block RunEngine. This is not a
         generator function. It is not a bluesky plan, so blocking code is ok.
         """
-        self.status_taxi = self._motor.move(self._pos_start, wait=False)
-        self.status_taxi.wait()
-        if self._motor.position != self._pos_start:  # TODO: within tolerance?
-            raise RuntimeError(
-                "Not in requested taxi position:"
-                f" requested={self._pos_start}"
-                f" position={self._motor.position}"
-            )
 
-        velocity = abs(self._pos_finish - self._pos_start) / self._fly_time
-        if velocity != self._motor.velocity.get():
-            self._original_values.remember(self._motor.velocity)
-            self._motor.velocity.put(velocity)
+        @run_in_thread
+        def example_fly_scan():
+            self.status_taxi = self._motor.move(self._pos_start, wait=False)
+            self.status_taxi.wait()
+            if self._motor.position != self._pos_start:  # TODO: within tolerance?
+                raise RuntimeError(
+                    "Not in requested taxi position:"
+                    f" requested={self._pos_start}"
+                    f" position={self._motor.position}"
+                )
 
-        self.status_fly = self._motor.move(self._pos_finish, wait=False)
-        self.status_fly.wait(timeout=(self._fly_time + self._fly_time_pad))
+            velocity = abs(self._pos_finish - self._pos_start) / self._fly_time
+            if velocity != self._motor.velocity.get():
+                self._original_values.remember(self._motor.velocity)
+                self._motor.velocity.put(velocity)
 
-        self._original_values.restore()
-        self.status_actions_thread.set_finished()
+            self.status_fly = self._motor.move(self._pos_finish, wait=False)
+            self.status_fly.wait(timeout=(self._fly_time + self._fly_time_pad))
+
+            self._original_values.restore()
+            self.status_actions_thread.set_finished()
+
+        example_fly_scan()
 
 
 class _SMFlyer_Step_2(_SMFlyer_Step_1):
@@ -295,32 +297,33 @@ class _SMFlyer_Step_2(_SMFlyer_Step_1):
 
     .. note:: This class is used internally to build, in steps,
         :class:`~ScalerMotorFlyer` from :class:`~ActionsFlyerBase`.
-    .. note:: Due to the ``@run_in_thread`` decorator, the :meth:`~actions_thread()`
-       method is not documented by Sphinx.  See the class source code for
-       this method's code.
     """
 
     mode = Component(Signal, value="idle")
     ACTION_MODES = "idle setup taxi fly return".split()
     action_exception = None
 
-    @run_in_thread
     def actions_thread(self):
         """Run the flyer in a thread."""
-        self.action_exception = None
-        try:
-            self._action_setup()
-            self._action_taxi()
-            self._action_fly()
-        except Exception as exc:
-            self.action_exception = exc
-            logger.exception("Flyer Error")
-            print(f"Flyer Error: {exc=}")
-        finally:
-            self._action_return()
-            self.mode.put("idle")
 
-        self.status_actions_thread.set_finished()
+        @run_in_thread
+        def fly_scan_workflow():
+            self.action_exception = None
+            try:
+                self._action_setup()
+                self._action_taxi()
+                self._action_fly()
+            except Exception as exc:
+                self.action_exception = exc
+                logger.exception("Flyer Error")
+                print(f"Flyer Error: {exc=}")
+            finally:
+                self._action_return()
+                self.mode.put("idle")
+
+            self.status_actions_thread.set_finished()
+
+        fly_scan_workflow()
 
     def _action_setup(self):
         """Prepare for the taxi & fly."""

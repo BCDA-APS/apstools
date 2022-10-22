@@ -16,6 +16,7 @@ from .aps_machine import ApsMachineParametersDevice
 from .aps_undulator import ApsUndulator
 from .aps_undulator import ApsUndulatorDual
 
+from .area_detector_support import AD_EpicsFileNameMixin
 from .area_detector_support import AD_FrameType_schemes
 from .area_detector_support import AD_plugin_primed
 from .area_detector_support import AD_prime_plugin

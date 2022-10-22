@@ -262,7 +262,7 @@ def confirm_in_position(positioner):
     assert abs(rb - sp) <= tol, f"setpoint={sp}, readback={rb}, tolerance={tol}"
 
 
-# @pytest.mark.local
+@pytest.mark.local
 @pytest.mark.parametrize(
     "target",
     # fmt: off
@@ -344,7 +344,7 @@ def test_target_practice(target, rbv, pos):
     assert status.success
 
 
-# @pytest.mark.local
+@pytest.mark.local
 @pytest.mark.parametrize(
     "target",
     # fmt: off
@@ -367,6 +367,7 @@ def test_move_calcpos(target, calcpos):
     time.sleep(0.2)  # pause between tests
 
 
+@pytest.mark.local
 @pytest.mark.parametrize(
     # fmt: off
     "target", [-55, -1.2345, -1, -1, -0.1, -0.1, 0, 0, 0, 0.1, 0.1, 1, 1, 1.2345, 55]
