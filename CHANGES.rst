@@ -28,10 +28,23 @@ describe the future plans.
 
    release expected by 2022-11-18
 
+New Features
+------------
+
+* Add ``ScalerMotorFlyer()`` device.
+
+Enhancements
+------------
+
+* Add example notebook demonstrating ``ScalerMotorFlyer``.
+
 Maintenance
 ------------
 
 * Add convenience import:``from apstools.devices import AD_EpicsFileNameMixin``.
+* Enable: ``from apstools.devices import AD_EpicsFileNameMixin``.
+* Resolve intermittent, random CI failures.
+* Resolve problems reporting unit test coverage statistics.
 
 1.6.8
 ******
