@@ -36,7 +36,8 @@ New Features
 Enhancements
 ------------
 
-* Add example notebook demonstrating ``ScalerMotorFlyer``.
+* Add example notebook *Fly Scans with EPICS motor and scaler*.
+* Add guide *How to Search in Databroker*.
 
 Maintenance
 ------------
