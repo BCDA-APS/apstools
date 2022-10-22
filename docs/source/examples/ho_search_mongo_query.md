@@ -1,13 +1,33 @@
-# Search Using MongoDB Query
+# How to Search in Databroker
 
-Show how to search a catalog with MongoDB Query.
+[Show how to search](https://github.com/BCDA-APS/apstools/issues/674) a catalog with [MongoDB Query](https://www.mongodb.com/docs/manual/reference/operator/query/).  
 
 First, examine the databroker [search and lookup](https://blueskyproject.io/databroker/tutorials/search-and-lookup.html) tutorial.
 
 Custom queries can be done with the [MongoDB query language](https://www.mongodb.com/docs/manual/reference/operator/query/).
 
-- [Search Using MongoDB Query](#search-using-mongodb-query)
+Additional help with the MongoDB query language, operators, and syntax may be found online, such as [w3schools](https://www.w3schools.com/python/python_mongodb_query.asp).
+
+- [How to Search in Databroker](#how-to-search-in-databroker)
+  - [listruns](#listruns)
+  - [MongoDB Query with `listruns()`](#mongodb-query-with-listruns)
+  - [MongoDB Query with a databroker catalog](#mongodb-query-with-a-databroker-catalog)
   - [Goals](#goals)
+
+## listruns
+
+Show with additional keys:
+
+- [ ] plan
+- [ ] dets
+- [ ] md
+- [ ] start position
+- [ ] end position
+- [ ] number of points
+
+## MongoDB Query with `listruns()`
+
+## MongoDB Query with a databroker catalog
 
 ## Goals
 
