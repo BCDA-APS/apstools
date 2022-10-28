@@ -243,9 +243,10 @@ def test_move_and_stopped_early(rbv, pos):
     status = pos.move(target - 1)  # readback set by delayed_stop()
     assert status.done
     assert status.success
-    # dt = time.time() - t0
-    # assert status.elapsed >= longer_delay
-    # assert dt >= longer_delay
+    dt = time.time() - t0
+    # assert status.elapsed >= longer_delay  # FIXME: fails sometimes
+    # assert dt >= longer_delay  # TODO: restore
+    assert dt >= 0
 
     short_delay_for_EPICS_IOC_database_processing()
     assert pos.setpoint.get() == target
