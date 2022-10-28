@@ -32,6 +32,13 @@ See the [Bluesky home page](https://blueskyproject.io/) for more details.
    :glob:
 
    fw_*
+.. rubric:: How-to Guides
+
+.. toctree::
+   :maxdepth: 2
+   :glob:
+
+   ho_*
 
 .. rubric:: Plans
 

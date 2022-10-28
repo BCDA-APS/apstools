@@ -44,6 +44,10 @@ Reporting
 .. autosummary::
 
    ~apstools.utils.misc.print_RE_md
+   ~apstools.utils.log_utils.file_log_handler
+   ~apstools.utils.log_utils.get_log_path
+   ~apstools.utils.log_utils.setup_IPython_console_logging
+   ~apstools.utils.log_utils.stream_log_handler
    ~apstools.utils.slit_core.SlitGeometry
 
 .. _utils.other:
@@ -136,6 +140,9 @@ Submodules
     :members:
 
 .. automodule:: apstools.utils.list_runs
+    :members:
+
+.. automodule:: apstools.utils.log_utils
     :members:
 
 .. automodule:: apstools.utils.memory
