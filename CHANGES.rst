@@ -28,6 +28,11 @@ describe the future plans.
 
    release expected by 2022-11-18
 
+New Features
+------------
+
+* Added functions to support reporting of logging messages.
+
 Maintenance
 ------------
 
