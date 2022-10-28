@@ -14,11 +14,21 @@ To setup for logging in your code:
 
     import logging
     logger = logging.getLogger(__name__)
+
+You can use this code in any module to create a ``logger`` object. Use one of
+the levels such as ``logger.warning("a warning message")`` or
+``logger.debug("some detail")`` to add messages for logging.  ``INFO`` and
+``DEBUG`` level messages will not be reported unless you adjust the level to
+allow this level of detail. To set the level:
+
+.. code-block:: python
+    :linenos:
+
     logger.setLevel(logging.DEBUG)  # allow any log content at this level
 
-Still, you may not see any output on your console unless you provide a *handler*
-which tells the logger what to do with each message.  A logger has its own
-reporting level which determines which messages to report.
+Yet still, you may not see any output on your console unless you provide a
+*handler* which tells the logger what to do with each message.  A logger has its
+own reporting level which determines which messages to report.
 
 .. tip:: Set the logger level to the lowest level of any of the handlers you will use.
 
