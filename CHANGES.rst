@@ -32,12 +32,14 @@ New Features
 ------------
 
 * Add ``ScalerMotorFlyer()`` device.
+* Add functions to support reporting of logging messages.
 
 Enhancements
 ------------
 
 * Add example notebook *Fly Scans with EPICS motor and scaler*.
 * Add guide *How to Search in Databroker*.
+* Add guide *How to setup logging*.
 
 Maintenance
 ------------

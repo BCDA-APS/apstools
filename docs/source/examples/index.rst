@@ -34,6 +34,13 @@ File Writers
    :glob:
 
    fw_*
+.. rubric:: How-to Guides
+
+.. toctree::
+   :maxdepth: 2
+   :glob:
+
+   ho_*
 
 How-to Guides
 ++++++++++++++++++++++++++++++++++++

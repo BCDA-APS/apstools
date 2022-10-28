@@ -19,6 +19,12 @@ from .list_runs import listruns
 from .list_runs import ListRuns
 from .list_runs import summarize_runs
 
+
+from .log_utils import file_log_handler
+from .log_utils import get_log_path
+from .log_utils import setup_IPython_console_logging
+from .log_utils import stream_log_handler
+
 from .memory import rss_mem
 
 from .misc import cleanupText
