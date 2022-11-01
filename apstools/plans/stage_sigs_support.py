@@ -27,6 +27,8 @@ their original ``.stage_sigs`` dictionaries.
         yield from bp.rel_scan([scaler], motor, start, finish, npts)
 
     RE(my_plan(-1, 1, 11, ct=0.5, v=2))
+
+(new in apstools release 1.6.9)
 """
 
 from bluesky.utils import make_decorator
