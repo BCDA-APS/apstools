@@ -32,6 +32,7 @@ New Features
 ------------
 
 * Added functions to support reporting of logging messages.
+* Added :meth:`restorable_stage_sigs` decorator.
 
 Maintenance
 ------------
