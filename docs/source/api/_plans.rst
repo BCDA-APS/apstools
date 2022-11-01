@@ -55,6 +55,7 @@ Overall
    ~apstools.plans.command_list.register_command_handler
    ~apstools.plans.command_list.run_command_file
    ~apstools.plans.input_plan.request_input
+   ~apstools.plans.stage_sigs_support.restorable_stage_sigs
    ~apstools.plans.run_blocking_function_plan.run_blocking_function
    ~apstools.plans.sscan_support.sscan_1D
    ~apstools.plans.command_list.summarize_command_file
@@ -87,4 +88,7 @@ Submodules
     :members:
 
 .. automodule:: apstools.plans.sscan_support
+    :members:
+
+.. automodule:: apstools.plans.stage_sigs_support
     :members:
