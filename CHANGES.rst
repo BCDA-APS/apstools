@@ -33,6 +33,7 @@ New Features
 
 * Add ``ScalerMotorFlyer()`` device.
 * Add functions to support reporting of logging messages.
+* Add :meth:`restorable_stage_sigs` decorator.
 
 Enhancements
 ------------
