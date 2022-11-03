@@ -17,7 +17,8 @@ See the [Bluesky home page](https://blueskyproject.io/) for more details.
   Reference
   Explanation
 
-.. rubric:: Devices
+Devices
+++++++++++++++++++++++++++++++++++++
 
 .. toctree::
    :maxdepth: 2
@@ -25,14 +26,17 @@ See the [Bluesky home page](https://blueskyproject.io/) for more details.
 
    de_*
 
-.. rubric:: File Writers
+File Writers
+++++++++++++++++++++++++++++++++++++
 
 .. toctree::
    :maxdepth: 2
    :glob:
 
    fw_*
-.. rubric:: How-to Guides
+
+How-to Guides
+++++++++++++++++++++++++++++++++++++
 
 .. toctree::
    :maxdepth: 2
@@ -40,7 +44,8 @@ See the [Bluesky home page](https://blueskyproject.io/) for more details.
 
    ho_*
 
-.. rubric:: Plans
+Plans
+++++++++++++++++++++++++++++++++++++
 
 .. toctree::
    :maxdepth: 2

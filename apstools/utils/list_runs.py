@@ -558,6 +558,7 @@ def listruns(
         keys=keys,
         missing=missing,
         num=num,
+        query=query,
         reverse=reverse,
         since=since,
         sortby=sortby,

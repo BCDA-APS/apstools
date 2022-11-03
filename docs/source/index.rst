@@ -13,14 +13,14 @@ Various Python tools for use with Bluesky at the APS
    applications/index
 
 .. toctree::
-   :maxdepth: 2
+   :maxdepth: 3
    :glob:
    :caption: Examples & Guides
 
    examples/index
 
 .. toctree::
-   :maxdepth: 2
+   :maxdepth: 3
    :glob:
    :caption: Developer Notes
 

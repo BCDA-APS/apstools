@@ -31,13 +31,24 @@ describe the future plans.
 New Features
 ------------
 
-* Added functions to support reporting of logging messages.
-* Added :meth:`restorable_stage_sigs` decorator.
+* Add ``ScalerMotorFlyer()`` device.
+* Add functions to support reporting of logging messages.
+* Add :meth:`restorable_stage_sigs` decorator.
+
+Enhancements
+------------
+
+* Add example notebook *Fly Scans with EPICS motor and scaler*.
+* Add guide *How to Search in Databroker*.
+* Add guide *How to setup logging*.
 
 Maintenance
 ------------
 
 * Add convenience import:``from apstools.devices import AD_EpicsFileNameMixin``.
+* Enable: ``from apstools.devices import AD_EpicsFileNameMixin``.
+* Resolve intermittent, random CI failures.
+* Resolve problems reporting unit test coverage statistics.
 
 1.6.8
 ******
