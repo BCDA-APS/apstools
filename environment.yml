@@ -29,6 +29,7 @@ dependencies:
   - pymongo
   - pyqt =5
   - pyRestTable
+  - pysumreg
   - qt =5
   - readline !=8.1.2
   - setuptools-scm
