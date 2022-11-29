@@ -9,6 +9,7 @@ from bluesky import plans as bp
 from bluesky import RunEngine
 import databroker
 import ophyd
+import pysumreg
 import pytest
 import time
 import uuid
@@ -68,6 +69,8 @@ def test_bases(flyer_class):
     assert dataset is not None
     assert len(dataset.keys()) == 0
 
+    assert not hasattr(flyer, "stats")
+
 
 @pytest.mark.parametrize(
     "start, finish, fly_time, fly_time_pad, period, n_keys, n_data",
@@ -103,6 +106,37 @@ def test_ScalerMotorFlyer(start, finish, fly_time, fly_time_pad, period, n_keys,
 
     array = dataset[key].values
     assert n_data <= len(array) <= n_data + 3
+
+    # spot check some statistics
+    assert hasattr(flyer, "stats")
+    assert isinstance(flyer.stats, dict)
+
+    skeys = list(flyer.stats.keys())
+    assert len(skeys) < NUM_READING_KEYS
+    for k in skeys:
+        assert k in READING_KEY_LIST, k
+
+    ch = f"{scaler1.time.name}"
+    assert ch in flyer.stats
+
+    ch_stats = flyer.stats[ch]
+    assert isinstance(ch_stats, pysumreg.SummationRegisters)
+    assert ch_stats.n == len(array)
+
+    lo = min(start, finish)
+    hi = max(start, finish)
+    if ch_stats.n == 0:
+        assert ch_stats.min_x is None
+        assert ch_stats.max_x is None
+        # avoid ZeroDivisionErrors
+        stats_dict = ch_stats.to_dict()
+        assert stats_dict["mean_x"] is None
+        assert stats_dict["centroid"] is None
+    else:
+        assert ch_stats.min_x >= lo
+        assert ch_stats.max_x <= hi
+        assert lo <= ch_stats.mean_x <= hi
+        assert lo <= ch_stats.centroid <= hi
 
 
 @pytest.mark.parametrize(
