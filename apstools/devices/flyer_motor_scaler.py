@@ -30,6 +30,7 @@ from ophyd import Device
 from ophyd import DeviceStatus
 from ophyd import Signal
 from ophyd.status import Status
+import pysumreg
 import logging
 import time
 
@@ -458,6 +459,7 @@ class ScalerMotorFlyer(_SMFlyer_Step_3):
         self._period = period
         self._readings = []
         self.scaler_keys = None
+        self.stats = None
 
         super().__init__(*args, **kwargs)
 
@@ -509,6 +511,8 @@ class ScalerMotorFlyer(_SMFlyer_Step_3):
                 f" received={received_period}"
             )
 
+        self.stats = None
+
     def _action_fly(self):
         """
         Start the fly scan and wait for it to complete.
@@ -551,6 +555,7 @@ class ScalerMotorFlyer(_SMFlyer_Step_3):
         motor_keys = list(self._motor.read().keys())
         scaler_keys = list(self._scaler.read().keys())
         all_keys = motor_keys + scaler_keys
+        self.stats = {k: pysumreg.SummationRegisters() for k in scaler_keys}
 
         previous = None
         for reading in self._readings:
@@ -570,14 +575,20 @@ class ScalerMotorFlyer(_SMFlyer_Step_3):
                     timestamps={k: None for k in all_keys},
                 )
                 # fmt: on
+
                 for k in motor_keys:
                     event["data"][k] = reading[k]["value"]
                     event["timestamps"][k] = reading[k]["timestamp"]
+
+                # use first motor reading is the one to use
+                x_value = reading[motor_keys[0]]["value"]
                 for k in scaler_keys:
-                    # TODO: divide by time increment?
+                    # TODO: consider divide by time increment
                     delta = reading[k]["value"] - previous[k]["value"]
                     event["data"][k] = delta
                     event["timestamps"][k] = ts
+                    self.stats[k].add(x_value, delta)
+
                 yield event
             previous = reading.copy()
 
@@ -590,4 +601,7 @@ class ScalerMotorFlyer(_SMFlyer_Step_3):
 
     def collect(self):
         """Report the collected data."""
+        from . import make_dict_device
+        from bluesky import plan_stubs as bps
+
         yield from self._action_readings_to_collect_events()
