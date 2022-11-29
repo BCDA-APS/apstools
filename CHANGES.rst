@@ -34,6 +34,7 @@ New Features
 * Add ``ScalerMotorFlyer()`` device.
 * Add functions to support reporting of logging messages.
 * Add :meth:`restorable_stage_sigs` decorator.
+* Add support for Python 3.11.
 
 Enhancements
 ------------
@@ -49,6 +50,7 @@ Maintenance
 * Enable: ``from apstools.devices import AD_EpicsFileNameMixin``.
 * Resolve intermittent, random CI failures.
 * Resolve problems reporting unit test coverage statistics.
+* Unit tests now support Python version 3.8, 3.9, 3.10, & 3.11.
 
 1.6.8
 ******
@@ -146,7 +148,7 @@ Maintenance
 * Describe how to use the NXWriter callback.
 * Refactor AD test with EPICS-controlled image file names.
 * Refactor test_move_to_zero().
-* Unit tests now Python version 3.8, 3.9, & 3.10.
+* Unit tests now support Python version 3.8, 3.9, & 3.10.
 
 Deprecations
 ---------------
