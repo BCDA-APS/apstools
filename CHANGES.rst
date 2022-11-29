@@ -26,7 +26,7 @@ describe the future plans.
 1.6.9
 ******
 
-   release expected by 2022-11-18
+   release expected by 2022-12-18
 
 New Features
 ------------
