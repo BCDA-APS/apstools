@@ -136,6 +136,9 @@ Submodules
 .. automodule:: apstools.utils.email
     :members:
 
+.. automodule:: apstools.utils.image_analysis
+    :members:
+
 .. automodule:: apstools.utils.list_plans
     :members:
 
