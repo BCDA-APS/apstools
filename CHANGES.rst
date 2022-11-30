@@ -18,15 +18,21 @@ The project `milestones <https://github.com/BCDA-APS/apstools/milestones>`_
 describe the future plans.
 
 ..
+   1.6.11
+   ******
+
+   release expected by 2023-02-01
+
+..
    1.6.10
    ******
 
-   release expected by 2023-01-05
+   release expected by 2023-01-06
 
 1.6.9
 ******
 
-   release expected by 2022-12-18
+released 2022-11-30
 
 New Features
 ------------
