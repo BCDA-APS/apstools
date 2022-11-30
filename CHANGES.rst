@@ -35,6 +35,7 @@ New Features
 * Add functions to support reporting of logging messages.
 * Add :meth:`restorable_stage_sigs` decorator.
 * Add support for Python 3.11.
+* Add ``utils.analysis_1D()`` & ``utils.analysis_2D()`` functions for peaks statistics.
 
 Enhancements
 ------------

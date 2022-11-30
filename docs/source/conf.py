@@ -75,5 +75,6 @@ autodoc_mock_imports = """
     pint
     psutil
     pyRestTable
+    pysumreg
     xarray
 """.split()
