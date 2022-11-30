@@ -8,56 +8,58 @@ import pytest
     "data, expected, ndigits",
     [
         [
+            # fmt: off
             dict(
                 x=[.1, .2, .3, .4, .5, .6, .7, .8, .9, 1.0, 1.1],
                 y=[0, 1, 2, 3, 4, 5, 4, 3, 2, 1, 0]
             ),
+            # fmt: on
             dict(
                 n=11,
-                centroid=.6,
-                sigma=.2,
+                centroid=0.6,
+                sigma=0.2,
                 max_y=5,
                 min_y=0,
-                min_x=.1,
+                min_x=0.1,
                 max_x=1.1,
-                x_at_max_y=.6,
-                mean_x=.6,
+                x_at_max_y=0.6,
+                mean_x=0.6,
                 mean_y=2.2727,
-                stddev_x=.33166,
+                stddev_x=0.33166,
                 stddev_y=1.6787,
                 correlation=0,
                 intercept=2.2727,
                 slope=0,
             ),
-            4
+            4,
         ],
         [
+            # fmt: off
             dict(
                 y=[0, 1, 2, 3, 4, 5, 4, 3, 2, 1, 0]
             ),
+            # fmt: on
             dict(
                 n=11,
-                mean_x = 5.0,
-                mean_y = 2.2727,
-                stddev_x = 3.3166,
-                stddev_y = 1.6787,
-                slope = 0.0,
-                intercept = 2.2727,
-                correlation = 0.0,
-                centroid = 5.0,
-                sigma = 2.0,
-                min_x = 1,
-                max_x = 10,
-                min_y = 0,
-                max_y = 5,
-                x_at_max_y = 5,
+                mean_x=5.0,
+                mean_y=2.2727,
+                stddev_x=3.3166,
+                stddev_y=1.6787,
+                slope=0.0,
+                intercept=2.2727,
+                correlation=0.0,
+                centroid=5.0,
+                sigma=2.0,
+                min_x=1,
+                max_x=10,
+                min_y=0,
+                max_y=5,
+                x_at_max_y=5,
             ),
-            4
+            4,
         ],
         [
-            dict(
-                y=[0, 1, 0]
-            ),
+            dict(y=[0, 1, 0]),
             dict(
                 n=3,
                 centroid=1,
@@ -68,16 +70,16 @@ import pytest
                 max_x=2,
                 x_at_max_y=1,
                 mean_x=1,
-                mean_y=1/3,
+                mean_y=1 / 3,
                 stddev_x=1,
                 stddev_y=0.58,
                 correlation=0,
                 intercept=0.33,
                 slope=0,
             ),
-            2
+            2,
         ],
-    ]
+    ],
 )
 def test_analyze_1D(data, expected, ndigits):
     x_arr = data.get("x")
@@ -86,9 +88,11 @@ def test_analyze_1D(data, expected, ndigits):
     assert isinstance(results, dict)
 
     for k in expected.keys():
+        # fmt: off
         assert (
             round(results[k], ndigits) == round(expected[k], ndigits)
         ), f"{k=} {results=} {expected=}"
+        # fmt: on
 
 
 @pytest.mark.parametrize(
@@ -109,9 +113,8 @@ def test_analyze_1D(data, expected, ndigits):
                 sigma=(1.1192, 0.8695),
                 peak_position=(3, 2),
                 max_y=10,
-            )
-            ,
-            4
+            ),
+            4,
         ],
         [
             dict(
@@ -126,11 +129,10 @@ def test_analyze_1D(data, expected, ndigits):
                 sigma=(0, 0),
                 peak_position=(1, 0),
                 max_y=100,
-            )
-            ,
-            1
+            ),
+            1,
         ],
-    ]
+    ],
 )
 def test_analyze_2D(data, expected, ndigits):
     image = data.get("y")

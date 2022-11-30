@@ -34,13 +34,13 @@ def analyze_1D(y_arr, x_arr=None):
 
     Example::
 
-        {'mean_x': 2.0, 'mean_y': 7.2, 
-        'stddev_x': 1.5811388300841898, 'stddev_y': 3.3466401061363027, 
-        'slope': 0.0, 'intercept': 7.2, 'correlation': 0.0, 
-        'centroid': 2.0, 'sigma': 1.1547005383792515, 
-        'min_x': 1, 'max_x': 4, 'min_y': 4, 'max_y': 12, 
-        'x_at_max_y': 2, 
-        'n': 5, 'X': 10, 'Y': 36, 'XX': 30, 'XY': 72, 
+        {'mean_x': 2.0, 'mean_y': 7.2,
+        'stddev_x': 1.5811388300841898, 'stddev_y': 3.3466401061363027,
+        'slope': 0.0, 'intercept': 7.2, 'correlation': 0.0,
+        'centroid': 2.0, 'sigma': 1.1547005383792515,
+        'min_x': 1, 'max_x': 4, 'min_y': 4, 'max_y': 12,
+        'x_at_max_y': 2,
+        'n': 5, 'X': 10, 'Y': 36, 'XX': 30, 'XY': 72,
         'XXY': 192, 'YY': 304}
     """
     if x_arr is None:
@@ -62,7 +62,7 @@ def analyze_2D(image):
 
     Return result is a dictionary with the statistical results for a peak
     analysis, grouped in pairs (row, column) as it makes sense given
-    ``frame[rows][columns]``. 
+    ``frame[rows][columns]``.
     The :math:`x` values are the index number along the respective axis.
 
     For this image data::
@@ -85,11 +85,11 @@ def analyze_2D(image):
     if not isinstance(image, np.ndarray):
         image = np.array(image)
 
-    axis_0=analyze_1D(image.sum(axis=0))
-    axis_1=analyze_1D(image.sum(axis=1))
+    axis_0 = analyze_1D(image.sum(axis=0))
+    axis_1 = analyze_1D(image.sum(axis=1))
     key_list = "n centroid sigma".split()
     results = {k: (axis_0[k], axis_1[k]) for k in key_list}
     k = "x_at_max_y"
-    results["peak_position"] = ((axis_0[k], axis_1[k]))
+    results["peak_position"] = (axis_0[k], axis_1[k])
     results["max_y"] = image[axis_1[k]][axis_0[k]]
     return results
