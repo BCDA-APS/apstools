@@ -4,8 +4,6 @@ channels:
   - aps-anl-tag
   - conda-forge
   - defaults
-  # nsls2forge channel for newer mongoquery 1.3.6 (issue #673)
-  - nsls2forge
 
 dependencies:
   - python >=3.8, <=3.11
