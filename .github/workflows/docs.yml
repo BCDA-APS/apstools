@@ -19,24 +19,20 @@ on:
         required: true
         default: false
 
-# see: https://sphinx-notes.github.io/pages/
-# see: https://github.com/marketplace/actions/sphinx-to-github-pages
-
 defaults:
   run:
     shell: bash -l {0}
 
 jobs:
-
   docs:
-    name: Publish documentation
     runs-on: ubuntu-latest
-
     steps:
+    - uses: actions/setup-python@v2
+
     - name: Checkout
       uses: actions/checkout@master
       with:
-        fetch-depth: 0 # otherwise, you will fail to push refs to dest repo
+        fetch-depth: 0 # otherwise, you will failed to push refs to dest repo
 
     - name: Deploy Information
       if: ${{ github.event.inputs.deploy }}
@@ -45,7 +41,8 @@ jobs:
 
     - name: Install pandoc
       run: |
-        sudo apt-get update && sudo apt-get -y install pandoc python3-pip
+        sudo apt-get update && \
+        sudo apt-get -y install pandoc
 
     - name: Install Sphinx build requirements
       run: |
@@ -55,19 +52,30 @@ jobs:
       run: |
         pip install --no-deps -e .
 
-    - name: Diagnostics
+    - name: Diagnostic
       run: |
-        pip list
+        echo $(which pandoc)
+        echo $(which sphinx-build)
 
-    - name: Build and Commit
-      uses: sphinx-notes/pages@master
-      with:
-        # path to conf.py directory
-        documentation_path: docs/source
+    - name: Sphinx
+      run: |
+        make -C docs html
+
+    # - name: Integrity check
+    #   run: |
+    #     sphinx-build \
+    #       docs/source \
+    #       -W \
+    #       -b linkcheck \
+    #       -d \
+    #         docs/build/doctrees \
+    #         docs/html
 
     - name: Publish (push gh-pages branch) only on demand
+      uses: peaceiris/actions-gh-pages@v3
       if: ${{ github.event.inputs.deploy }}
-      uses: ad-m/github-push-action@master
       with:
+        publish_branch: gh-pages
         github_token: ${{ secrets.GITHUB_TOKEN }}
-        branch: gh-pages
+        publish_dir: _build/
+        force_orphan: true

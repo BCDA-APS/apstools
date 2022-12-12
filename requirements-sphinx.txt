@@ -1,7 +1,9 @@
+ipython
+jinja2 >=3.0
 markupsafe ==2.0.1
 myst-parser
 nbsphinx
 pydata-sphinx-theme
 pygments >=2.12
-jinja2 >=3.0
+pygments-ipython-console
 setuptools-scm
