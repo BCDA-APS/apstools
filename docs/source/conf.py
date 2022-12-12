@@ -78,5 +78,6 @@ autodoc_mock_imports = """
     psutil
     pyRestTable
     pysumreg
+    spec2nexus
     xarray
 """.split()
