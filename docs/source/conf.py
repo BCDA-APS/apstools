@@ -37,6 +37,8 @@ version = ".".join(release.split(".")[:2])
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#general-configuration
 
 extensions = """
+    IPython.sphinxext.ipython_console_highlighting
+    IPython.sphinxext.ipython_directive
     sphinx.ext.autodoc
     sphinx.ext.autosummary
     sphinx.ext.coverage
@@ -76,5 +78,6 @@ autodoc_mock_imports = """
     psutil
     pyRestTable
     pysumreg
+    spec2nexus
     xarray
 """.split()

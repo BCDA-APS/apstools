@@ -23,11 +23,15 @@ describe the future plans.
 
    release expected by 2023-02-01
 
-..
-   1.6.10
-   ******
+1.6.10
+******
 
-   release expected by 2023-01-06
+release expected by 2023-01-06
+
+Maintenance
+------------
+
+* Remove ``nsls2forge`` channel from conda environment.
 
 1.6.9
 ******

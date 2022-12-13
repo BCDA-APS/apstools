@@ -268,13 +268,10 @@ def test_SpecWriterCallback_writer_default_name(cat, tempdir):
     assert scan.header.raw.find("\n#O0 \n") > 0
     assert scan.header.raw.find("\n#o0 \n") > 0
     assert len(scan.header.O) == 1
-    assert len(scan.header.O[0]) == 0
     assert len(scan.header.o) == 1
-    assert len(scan.header.o[0]) == 0
 
     assert scan.raw.find("\n#P0 \n") > 0
     assert len(scan.P) == 1
-    assert len(scan.P[0]) == 0
     assert len(scan.positioner) == 0
 
 
