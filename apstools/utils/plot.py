@@ -51,7 +51,7 @@ def plotxy(runs, xname, yname, append=False, cat=None, stats=True, stream="prima
         (optional) Title to show on this plot.
         Default: Metadata "title" keyword of first run (if found)
         or scan_id and starting date/time of first run.
-    
+
     New in release 1.6.10.
     """
     from . import getDefaultCatalog
@@ -76,8 +76,8 @@ def plotxy(runs, xname, yname, append=False, cat=None, stats=True, stream="prima
         plt.plot(x.values, y.values)
 
         md = run.metadata
-        scan_id = md['start']['scan_id']
-        dt = datetime.datetime.fromtimestamp(md['start']['time'])
+        scan_id = md["start"]["scan_id"]
+        dt = datetime.datetime.fromtimestamp(md["start"]["time"])
         if i == 0:
             if title is None:
                 title = md["start"].get("title")
@@ -90,17 +90,21 @@ def plotxy(runs, xname, yname, append=False, cat=None, stats=True, stream="prima
         if stats:
             import pysumreg
 
+            # collect statistics
+            # fmt: off
             sr = pysumreg.SummationRegisters()
             for xv, yv, in zip(x.values, y.values):
                 sr.add(xv, yv)
+            # fmt: on
+
             centroid = sr.centroid
             sigma = sr.sigma
             if sr.mean_y > 0:
                 half_max = sr.max_y / 2
             else:
                 half_max = sr.min_y / 2
-            plt.plot([centroid]*2, [sr.min_y, sr.max_y], "k-")
-            plt.plot([centroid-sigma, centroid+sigma], [half_max]*2, "k-")
+            plt.plot([centroid] * 2, [sr.min_y, sr.max_y], "k-")
+            plt.plot([centroid - sigma, centroid + sigma], [half_max] * 2, "k-")
             print(f"#{scan_id}: {sr.to_dict()=}")
 
 
@@ -281,6 +285,7 @@ def trim_plot_by_name(n=3, plots=None):
                     ax.lines[0].remove()
                 # update the plot legend
                 ax.legend()
+
 
 # -----------------------------------------------------------------------------
 # :author:    Pete R. Jemian
