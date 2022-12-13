@@ -56,6 +56,8 @@ def plotxy(runs, xname, yname, append=False, cat=None, stats=True, stream="prima
     """
     from . import getDefaultCatalog
 
+    # TODO: legend?
+
     plt.ion()
 
     if not isinstance(runs, (list, tuple)):
