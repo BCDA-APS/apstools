@@ -4,16 +4,95 @@ Plot Support
 
 .. autosummary::
 
+   ~plotxy
    ~select_mpl_figure
    ~select_live_plot
    ~trim_plot_lines
    ~trim_plot_by_name
 """
 
+from matplotlib import pyplot as plt
+import datetime
 import logging
 
-
 logger = logging.getLogger(__name__)
+
+
+def plotxy(runs, xname, yname, cat=None, stats=True, stream="primary", title=None):
+    """
+    Plot y vs. x from a bluesky run.
+
+    Parameters
+
+    ``runs`` : *[run]* or *run*:
+        List or runs or single ``run``.  A ``run`` is either a
+        ``bluesky.core.BlueskyRun`` object or a reference (uid, scan_id,
+        relative to most recent) to a BlueskyRun in the catalog.
+    ``xname`` : *str*:
+        Name of the signal to plot on the **x** axis.
+    ``yname`` : *str*:
+        Name of the signal to plot on the **y** axis.
+    ``cat`` : *object*:
+        (optional) Catalog to be used for finding a run by reference.
+        Default: return value from ``apstools.utils.getCatalog()``
+    ``stats`` : *bool*:
+        (optional) If ``True``, compute and plot centroid and sigma.
+        Default: ``True``
+    ``stream`` : *str*:
+        (optional) Name of the data stream in which to find "xname"
+        and "yname".
+        Default: ``"primary"``
+    ``title`` : *str*:
+        (optional) Title to show on this plot.
+        Default: Metadata "title" keyword of first run (if found)
+        or scan_id and starting date/time of first run.
+    
+    New in release 1.6.10.
+    """
+    from . import getDefaultCatalog
+
+    plt.ion()
+
+    if not isinstance(runs, (list, tuple)):
+        runs = [runs]
+
+    for i, run in enumerate(runs):
+        if isinstance(run, (str, int)):
+            cat = cat or getDefaultCatalog()
+            run = cat.v2[run]
+
+        dataset = getattr(run, stream).read()
+        x = dataset[xname]
+        y = dataset[yname]
+        plt.plot(x.values, y.values)
+
+        md = run.metadata
+        scan_id = md['start']['scan_id']
+        dt = datetime.datetime.fromtimestamp(md['start']['time'])
+        if i == 0:
+            if title is None:
+                title = md["start"].get("title")
+            plt.title(f"#{scan_id}: {dt.isoformat(sep=' ')}")
+            if title is not None:
+                plt.suptitle(title)
+            plt.xlabel(x.name)
+            plt.ylabel(y.name)
+
+        if stats:
+            import pysumreg
+
+            sr = pysumreg.SummationRegisters()
+            for xv, yv, in zip(x.values, y.values):
+                sr.add(xv, yv)
+            centroid = sr.centroid
+            sigma = sr.sigma
+            if sr.mean_y > 0:
+                half_max = sr.max_y / 2
+            else:
+                half_max = sr.min_y / 2
+            plt.plot([centroid]*2, [sr.min_y, sr.max_y], "k-")
+            plt.plot([centroid-sigma, centroid+sigma], [half_max]*2, "k-")
+            print(f"#{scan_id}: {sr.to_dict()=}")
 
 
 def select_mpl_figure(x, y):
