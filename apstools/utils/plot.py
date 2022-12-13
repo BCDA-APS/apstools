@@ -18,11 +18,13 @@ import logging
 logger = logging.getLogger(__name__)
 
 
-def plotxy(runs, xname, yname, cat=None, stats=True, stream="primary", title=None):
+def plotxy(runs, xname, yname, append=False, cat=None, stats=True, stream="primary", title=None):
     """
     Plot y vs. x from a bluesky run.
 
-    Parameters
+    Note: this is not a bluesky plan.  Call it as normal Python function.
+
+    PARAMETERS
 
     ``runs`` : *[run]* or *run*:
         List or runs or single ``run``.  A ``run`` is either a
@@ -32,6 +34,9 @@ def plotxy(runs, xname, yname, cat=None, stats=True, stream="primary", title=Non
         Name of the signal to plot on the **x** axis.
     ``yname`` : *str*:
         Name of the signal to plot on the **y** axis.
+    ``append`` : *bool*:
+        (optional) If ``True``, append to existing plot window.
+        Default: ``False``
     ``cat`` : *object*:
         (optional) Catalog to be used for finding a run by reference.
         Default: return value from ``apstools.utils.getCatalog()``
@@ -55,6 +60,10 @@ def plotxy(runs, xname, yname, cat=None, stats=True, stream="primary", title=Non
 
     if not isinstance(runs, (list, tuple)):
         runs = [runs]
+
+    if not append:
+        trim_plot_by_name(0)  # TODO: name?  Without name, this clears ALL!
+        # TODO: reset to autoscale both x & y
 
     for i, run in enumerate(runs):
         if isinstance(run, (str, int)):
