@@ -28,6 +28,11 @@ describe the future plans.
 
 release expected by 2023-01-06
 
+New Features
+------------
+
+* Add ``apstools.utils.plotxy()`` utility function.
+
 Maintenance
 ------------
 
