@@ -9,7 +9,7 @@
     Fixes
     Maintenance
     Deprecations
-    Contributors
+    New Contributors
 
 Change History
 ##############
@@ -37,6 +37,11 @@ Maintenance
 ------------
 
 * Remove ``nsls2forge`` channel from conda environment.
+
+New Contributors
+-----------------------
+
+* @jwkim-anl (Jong Woo Kim, ANL) for the ``pyplot()`` idea.
 
 1.6.9
 ******
