@@ -50,6 +50,7 @@ from .misc import unix
 
 from .override_parameters import OverrideParameters
 
+from .plot import plotxy
 from .plot import select_live_plot
 from .plot import select_mpl_figure
 from .plot import trim_plot_by_name
