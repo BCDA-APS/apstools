@@ -106,6 +106,7 @@ General
    ~apstools.utils.list_runs.listruns
    ~apstools.utils.override_parameters.OverrideParameters
    ~apstools.utils.misc.pairwise
+   ~apstools.utils.plot.plotxy
    ~apstools.utils.misc.print_RE_md
    ~apstools.utils.catalog.quantify_md_key_use
    ~apstools.utils.misc.redefine_motor_position
