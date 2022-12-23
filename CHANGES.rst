@@ -33,6 +33,11 @@ New Features
 
 * Add ``apstools.utils.plotxy()`` utility function.
 
+Fixes
+------------
+
+* Version number was not reported correctly in certain situations (issue #771).
+
 Maintenance
 ------------
 
