@@ -10,10 +10,12 @@
         "url": "https://bcda-aps.github.io/apstools/1.6.9/"
     },
     {
+        "name": "1.6.8 (no version dropdown)",
         "version": "1.6.8",
         "url": "https://bcda-aps.github.io/apstools/1.6.8/"
     },
     {
+        "name": "1.6.6 (no version dropdown)",
         "version": "1.6.6",
         "url": "https://bcda-aps.github.io/apstools/1.6.6/"
     }
