@@ -1,0 +1,9 @@
+/* Style the link marked: latest */
+.version-switcher__container a[data-version-name*="(latest)"] {
+    background-color: lightgreen;
+ }
+
+ /* Style the link marked: dev */
+ .version-switcher__container a[data-version="dev"] {
+    background-color: var(--pst-color-secondary);
+ }

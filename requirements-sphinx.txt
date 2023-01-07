@@ -7,3 +7,4 @@ pydata-sphinx-theme
 pygments >=2.12
 pygments-ipython-console
 setuptools-scm
+sphinx <6
