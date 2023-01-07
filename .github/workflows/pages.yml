@@ -111,11 +111,11 @@ jobs:
         ls -laFGh
         du -shc *
 
-    # - name: Publish (push gh-pages branch) only on demand
-    #   uses: peaceiris/actions-gh-pages@v3
-    #   if: ${{ github.event.inputs.deploy }}
-    #   with:
-    #     publish_branch: gh-pages
-    #     github_token: ${{ secrets.GITHUB_TOKEN }}
-    #     publish_dir: ${{ env.TMP_DIR }}
-    #     force_orphan: true
+    - name: Publish (push gh-pages branch) only on demand
+      uses: peaceiris/actions-gh-pages@v3
+      if: ${{ github.event.inputs.deploy }}
+      with:
+        publish_branch: gh-pages
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        publish_dir: ${{ env.TMP_DIR }}
+        force_orphan: true
