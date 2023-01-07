@@ -31,7 +31,6 @@ rst_prolog = f".. |author| replace:: {author}"
 # https://github.com/pypa/setuptools_scm#usage-from-sphinx
 
 gh_org = "BCDA-APS"
-project = project
 release = apstools.__version__
 version = ".".join(release.split(".")[:2])
 
@@ -43,10 +42,11 @@ switcher_json_url = (
     "main/docs/source"
     f"/{switcher_file}"
 )
-switcher_version_list = [
-    v["version"]  # to match with ``release`` (above)
-    for v in json.load(open(switcher_file))
-]
+with open(switcher_file) as fp:
+    switcher_version_list = [
+        v["version"]  # to match with ``release`` (above)
+        for v in json.load(fp)
+    ]
 # fmt: on
 
 # -- General configuration ---------------------------------------------------
