@@ -10,6 +10,7 @@
 versions=
 
 # existing versions
+versions+=" 1.6.6"
 versions+=" 1.6.8"
 versions+=" 1.6.9"
 
