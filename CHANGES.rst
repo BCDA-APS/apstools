@@ -42,6 +42,7 @@ Fixes
 Maintenance
 ------------
 
+* Pin Sphinx to `<6` due to problems with PyData and Sphinx v6.
 * Remove ``nsls2forge`` channel from conda environment.
 
 New Contributors
