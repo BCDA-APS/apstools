@@ -85,24 +85,24 @@ jobs:
 
         # add previous documentation (built versions)
         # update the switcher.json file before a new release
-        wget https://github.com/prjemian/demo2301/archive/refs/heads/gh-pages.zip
+        wget https://github.com/BCDA-APS/apstools/archive/refs/heads/gh-pages.zip
         unzip -q gh-pages.zip
         /bin/rm gh-pages.zip
 
-        source "${SRC_DIR}/.github/define_versions.sh"
+        source "${SRC_DIR}/.github/scripts/define_versions.sh"
         for v in ${versions}
           do
-              if [ -d "demo2301-gh-pages/${v}" ]
+              if [ -d "apstools-gh-pages/${v}" ]
                 then
-                    echo "directory 'demo2301-gh-pages/${v}' exists"
-                    mv "demo2301-gh-pages/${v}" ./
+                    echo "directory 'apstools-gh-pages/${v}' exists"
+                    mv "apstools-gh-pages/${v}" ./
                     latest="${v}"
                 fi
           done
         echo "latest=${latest}"
         ln -s "./${latest}" ./latest
 
-        /bin/rm -rf demo2301-gh-pages
+        /bin/rm -rf apstools-gh-pages
 
     - name: Info
       run: |
