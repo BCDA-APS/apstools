@@ -26,12 +26,13 @@ describe the future plans.
 1.6.10
 ******
 
-release expected by 2023-01-06
+release expected by 2023-01-13
 
 New Features
 ------------
 
 * Add ``apstools.utils.plotxy()`` utility function.
+* Add tag-based documentation selection via PyData switcher.
 
 Fixes
 ------------

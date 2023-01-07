@@ -57,19 +57,59 @@ jobs:
         echo $(which pandoc)
         echo $(which sphinx-build)
 
+    - name: Make Temporary Directory for Sphinx content
+      run: |
+        echo "SRC_DIR=$(pwd)" >> ${GITHUB_ENV}
+        echo "TMP_DIR=$(mktemp -d)" >> ${GITHUB_ENV}
+        # next step also creates _version.py file
+        echo "VERSION=$(./setup.py --version)" >> ${GITHUB_ENV}
+
+    - name: Show Environment variables
+      run: |
+        echo "SRC_DIR=${SRC_DIR}"
+        echo "TMP_DIR=${TMP_DIR}"
+        echo "VERSION=${VERSION}"
+
     - name: Sphinx
       run: |
-        make -C docs html
+        sphinx-build -M html ./docs/source "${TMP_DIR}/build"
 
-    # - name: Integrity check
-    #   run: |
-    #     sphinx-build \
-    #       docs/source \
-    #       -W \
-    #       -b linkcheck \
-    #       -d \
-    #         docs/build/doctrees \
-    #         docs/html
+    - name: Re-build the master directory (contains all documentation versions)
+      run: |
+        cp .github/index.html "${TMP_DIR}"
+
+        cd "${TMP_DIR}"
+        mv build/html "${VERSION}"
+        /bin/rm -rf build
+        ln -s "./${VERSION}" dev
+
+        # add previous documentation (built versions)
+        # update the switcher.json file before a new release
+        wget https://github.com/prjemian/demo2301/archive/refs/heads/gh-pages.zip
+        unzip -q gh-pages.zip
+        /bin/rm gh-pages.zip
+
+        source "${SRC_DIR}/.github/define_versions.sh"
+        for v in ${versions}
+          do
+              if [ -d "demo2301-gh-pages/${v}" ]
+                then
+                    echo "directory 'demo2301-gh-pages/${v}' exists"
+                    mv "demo2301-gh-pages/${v}" ./
+                    latest="${v}"
+                fi
+          done
+        echo "latest=${latest}"
+        ln -s "./${latest}" ./latest
+
+        /bin/rm -rf demo2301-gh-pages
+
+    - name: Info
+      run: |
+        cd "${TMP_DIR}"
+        echo "pwd=$(pwd)"
+        ls -laFGh
+        du -shc *
 
     - name: Publish (push gh-pages branch) only on demand
       uses: peaceiris/actions-gh-pages@v3
@@ -77,5 +117,5 @@ jobs:
       with:
         publish_branch: gh-pages
         github_token: ${{ secrets.GITHUB_TOKEN }}
-        publish_dir: docs/build/html
+        publish_dir: ${{ env.TMP_DIR }}
         force_orphan: true
