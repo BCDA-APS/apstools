@@ -28,7 +28,9 @@ from ..utils import run_in_thread
 from ophyd import Component
 from ophyd import Device
 from ophyd import DeviceStatus
+from ophyd import EpicsMotor
 from ophyd import Signal
+from ophyd.scaler import ScalerCH
 from ophyd.status import Status
 import pysumreg
 import logging
@@ -229,11 +231,11 @@ class _SMFlyer_Step_1(ActionsFlyerBase):
         if fly_time_pad <= 0:
             raise ValueError(f"Must be a POSITIVE number: {fly_time_pad=}")
 
-        self._motor = motor
-        self._pos_start = start
-        self._pos_finish = finish
-        self._fly_time = fly_time
-        self._fly_time_pad = fly_time_pad
+        self.motor = motor
+        self.pos_start = start
+        self.pos_finish = finish
+        self.fly_time = fly_time
+        self.fly_time_pad = fly_time_pad
 
         self._original_values = SignalValueStack()
 
@@ -253,27 +255,72 @@ class _SMFlyer_Step_1(ActionsFlyerBase):
 
         @run_in_thread
         def example_fly_scan():
-            self.status_taxi = self._motor.move(self._pos_start, wait=False)
+            self.status_taxi = self.motor.move(self.pos_start, wait=False)
             self.status_taxi.wait()
-            if self._motor.position != self._pos_start:  # TODO: within tolerance?
+            if self.motor.position != self.pos_start:  # TODO: within tolerance?
                 raise RuntimeError(
                     "Not in requested taxi position:"
-                    f" requested={self._pos_start}"
-                    f" position={self._motor.position}"
+                    f" requested={self.pos_start}"
+                    f" position={self.motor.position}"
                 )
 
-            velocity = abs(self._pos_finish - self._pos_start) / self._fly_time
-            if velocity != self._motor.velocity.get():
-                self._original_values.remember(self._motor.velocity)
-                self._motor.velocity.put(velocity)
+            velocity = abs(self.pos_finish - self.pos_start) / self.fly_time
+            if velocity != self.motor.velocity.get():
+                self._original_values.remember(self.motor.velocity)
+                self.motor.velocity.put(velocity)
 
-            self.status_fly = self._motor.move(self._pos_finish, wait=False)
-            self.status_fly.wait(timeout=(self._fly_time + self._fly_time_pad))
+            self.status_fly = self.motor.move(self.pos_finish, wait=False)
+            self.status_fly.wait(timeout=(self.fly_time + self.fly_time_pad))
 
             self._original_values.restore()
             self.status_actions_thread.set_finished()
 
         example_fly_scan()
+
+    @property
+    def motor(self):
+        return self._motor
+
+    @motor.setter
+    def motor(self, obj):
+        if not isinstance(obj, EpicsMotor):
+            raise TypeError(
+                "Expected instance of 'ophyd.EpicsMotor'."
+                f"  Received: {type(obj)}"
+            )
+        self._motor = obj
+
+    @property
+    def pos_start(self):
+        return self._pos_start
+
+    @pos_start.setter
+    def pos_start(self, value):
+        self._pos_start = value
+
+    @property
+    def pos_finish(self):
+        return self._pos_finish
+
+    @pos_finish.setter
+    def pos_finish(self, value):
+        self._pos_finish = value
+
+    @property
+    def fly_time(self):
+        return self._fly_time
+
+    @fly_time.setter
+    def fly_time(self, value):
+        self._fly_time = value
+
+    @property
+    def fly_time_pad(self):
+        return self._fly_time_pad
+
+    @fly_time_pad.setter
+    def fly_time_pad(self, value):
+        self._fly_time_pad = value
 
 
 class _SMFlyer_Step_2(_SMFlyer_Step_1):
@@ -336,13 +383,13 @@ class _SMFlyer_Step_2(_SMFlyer_Step_1):
     def _action_taxi(self):
         """Move motor to start position."""
         self.mode.put("taxi")
-        self.status_taxi = self._motor.move(self._pos_start, wait=False)
+        self.status_taxi = self.motor.move(self.pos_start, wait=False)
         self.status_taxi.wait()
-        if self._motor.position != self._pos_start:  # TODO: within tolerance?
+        if self.motor.position != self.pos_start:  # TODO: within tolerance?
             raise RuntimeError(
                 "Not in requested taxi position:"
-                f" requested={self._pos_start}"
-                f" position={self._motor.position}"
+                f" requested={self.pos_start}"
+                f" position={self.motor.position}"
             )
 
     def _action_fly(self):
@@ -350,16 +397,16 @@ class _SMFlyer_Step_2(_SMFlyer_Step_1):
         self.mode.put("fly")
 
         # set the fly scan velocity
-        velocity = abs(self._pos_finish - self._pos_start) / self._fly_time
-        if velocity != self._motor.velocity.get():
-            self._original_values.remember(self._motor.velocity)
-            self._motor.velocity.put(velocity)
+        velocity = abs(self.pos_finish - self.pos_start) / self.fly_time
+        if velocity != self.motor.velocity.get():
+            self._original_values.remember(self.motor.velocity)
+            self.motor.velocity.put(velocity)
 
         # get the motor moving
-        self.status_fly = self._motor.move(self._pos_finish, wait=False)
+        self.status_fly = self.motor.move(self.pos_finish, wait=False)
 
         # wait for motor to be done moving
-        allowed_motion_time = self._fly_time + self._fly_time_pad
+        allowed_motion_time = self.fly_time + self.fly_time_pad
         self.status_fly.wait(timeout=allowed_motion_time)
 
     def _action_return(self):
@@ -396,8 +443,8 @@ class _SMFlyer_Step_3(_SMFlyer_Step_2):
             # fmt: on
         ):
             raise TypeError(f"Unprepared to handle as scaler: {scaler=}")
-        self._scaler = scaler
-        self._scaler_time_pad = scaler_time_pad
+        self.scaler = scaler
+        self.scaler_time_pad = scaler_time_pad
 
         super().__init__(*args, **kwargs)
 
@@ -405,21 +452,42 @@ class _SMFlyer_Step_3(_SMFlyer_Step_2):
         """Start the fly scan and wait for it to complete."""
         self.mode.put("fly")
 
-        motion_time_allowance = self._fly_time + self._fly_time_pad
-        count_time_allowance = self._fly_time + self._scaler_time_pad
-        self._original_values.remember(self._scaler.count)
-        self._original_values.remember(self._scaler.preset_time)
-        self._scaler.preset_time.put(count_time_allowance)
+        motion_time_allowance = self.fly_time + self.fly_time_pad
+        count_time_allowance = self.fly_time + self.scaler_time_pad
+        self._original_values.remember(self.scaler.count)
+        self._original_values.remember(self.scaler.preset_time)
+        self.scaler.preset_time.put(count_time_allowance)
 
-        self._scaler.count.put("Count")  # start scaler counting
-        time.sleep(1 / self._scaler.update_rate.get())
+        self.scaler.count.put("Count")  # start scaler counting
+        time.sleep(1 / self.scaler.update_rate.get())
 
         # get the motor moving
-        self.status_fly = self._motor.move(self._pos_finish, wait=False)
+        self.status_fly = self.motor.move(self.pos_finish, wait=False)
 
         # wait for motor to be done moving
         self.status_fly.wait(timeout=motion_time_allowance)
-        self._scaler.count.put("Done")  # stop scaler counting
+        self.scaler.count.put("Done")  # stop scaler counting
+
+    @property
+    def scaler(self):
+        return self._scaler
+
+    @scaler.setter
+    def scaler(self, obj):
+        if not isinstance(obj, ScalerCH):
+            raise TypeError(
+                "Expected instance of 'ophyd.scaler.ScalerCH'."
+                f"  Received: {type(obj)}"
+            )
+        self._scaler = obj
+
+    @property
+    def scaler_time_pad(self):
+        return self._scaler_time_pad
+
+    @scaler_time_pad.setter
+    def scaler_time_pad(self, value):
+        self._scaler_time_pad = value
 
 
 class ScalerMotorFlyer(_SMFlyer_Step_3):
@@ -430,15 +498,6 @@ class ScalerMotorFlyer(_SMFlyer_Step_3):
     :class:`~ScalerMotorFlyer` runs a fly scan described
     in :meth:`~actions_thread`.
 
-    .. autosummary::
-
-        ~_action_acquire_event
-        ~_action_setup
-        ~_action_fly
-        ~_action_readings_to_collect_events
-        ~describe_collect
-        ~collect
-
     .. rubric:: Parameters
 
     period
@@ -447,6 +506,38 @@ class ScalerMotorFlyer(_SMFlyer_Step_3):
         (Default: 0.1 s)
 
     Extends :class:`SMFlyer__Step_3()`, adding periodic data acquisition.
+
+    .. rubric:: How to change parameters?
+
+    Start, finish, and other parameters may be changed after the flyer object
+    has been created. These properties may be changed after the flyer object has
+    been created (but before a fly scan has started):
+
+    ====================  ======  ===========================
+    property              type    description
+    ====================  ======  ===========================
+    ``motor``             object  Instance (not the name) of ``EpicsMotor``.
+    ``scaler``            object  Instance (not the name) of ``ScalerCH``.
+    ``fly_time``          float   Fly scan duration (seconds). Time to move ``motor`` from start to finish.
+    ``pos_start``         float   Starting position of the fly scan.
+    ``pos_finish``        float   Finishing position of the fly scan.
+    ``period``            float   Sampling period (s); time between scaler readings.
+    ``fly_time_pad``      float   Extra time (s) allowed for motion to reach finish.
+    ``scaler_time_pad``   float   Extra time (s) allowed for scaler to finish counting.
+    ====================  ======  ===========================
+
+    For a flyer object named ``flyer``, change the fly time to 120 s::
+
+        flyer.fly_time = 120
+
+    .. autosummary::
+
+        ~_action_acquire_event
+        ~_action_setup
+        ~_action_fly
+        ~_action_readings_to_collect_events
+        ~describe_collect
+        ~collect
     """
 
     def __init__(self, *args, period=None, **kwargs):
@@ -456,7 +547,7 @@ class ScalerMotorFlyer(_SMFlyer_Step_3):
                 f"Sampling period must be a POSITIVE number: {period=}"
             )
 
-        self._period = period
+        self.period = period
         self._readings = []
         self.scaler_keys = None
         self.stats = None
@@ -474,8 +565,8 @@ class ScalerMotorFlyer(_SMFlyer_Step_3):
         """
         # read all the data at once
         ts = time.time()
-        m_now = self._motor.read()
-        s_now = self._scaler.read()
+        m_now = self.motor.read()
+        s_now = self.scaler.read()
 
         for v in s_now.values():
             # Scaler timestamps update _only_ once counting has stopped.
@@ -485,8 +576,8 @@ class ScalerMotorFlyer(_SMFlyer_Step_3):
         # and _done_moving keys to ID events for successive counter readings.
         event = dict(
             time=ts,
-            _counting=self._scaler.count.get(),
-            _done_moving=self._motor.motor_done_move.get(),
+            _counting=self.scaler.count.get(),
+            _done_moving=self.motor.motor_done_move.get(),
         )
         event.update(m_now)
         event.update(s_now)
@@ -498,16 +589,16 @@ class ScalerMotorFlyer(_SMFlyer_Step_3):
         super()._action_setup()
 
         # try to set the sampling period
-        expected_period = round(self._period, 5)
-        self._original_values.remember(self._scaler.update_rate)
-        self._scaler.update_rate.put(1 / self._period)
+        expected_period = round(self.period, 5)
+        self._original_values.remember(self.scaler.update_rate)
+        self.scaler.update_rate.put(1 / self.period)
         received_period = round(
-            1 / self._scaler.update_rate.get(use_monitor=False), 5
+            1 / self.scaler.update_rate.get(use_monitor=False), 5
         )
         if received_period != expected_period:
             raise ValueError(
                 "Could not get requested scaler sample period:"
-                f" requested={self._period}"
+                f" requested={self.period}"
                 f" received={received_period}"
             )
 
@@ -524,36 +615,36 @@ class ScalerMotorFlyer(_SMFlyer_Step_3):
         self.mode.put("fly")
 
         # set the fly scan velocity
-        velocity = abs(self._pos_finish - self._pos_start) / self._fly_time
-        if velocity != self._motor.velocity.get():
-            self._original_values.remember(self._motor.velocity)
-            self._motor.velocity.put(velocity)
+        velocity = abs(self.pos_finish - self.pos_start) / self.fly_time
+        if velocity != self.motor.velocity.get():
+            self._original_values.remember(self.motor.velocity)
+            self.motor.velocity.put(velocity)
 
         # set the scaler count time (allowance)
-        self._original_values.remember(self._scaler.preset_time)
-        count_time_allowance = self._fly_time + self._scaler_time_pad
-        self._scaler.preset_time.put(count_time_allowance)
+        self._original_values.remember(self.scaler.preset_time)
+        count_time_allowance = self.fly_time + self.scaler_time_pad
+        self.scaler.preset_time.put(count_time_allowance)
 
         # start acquiring, scaler update rate was set in _action_setup()
-        self._scaler.time.subscribe(self._action_acquire_event)  # CA monitor
+        self.scaler.time.subscribe(self._action_acquire_event)  # CA monitor
 
         # start scaler counting, THEN motor moving
-        self._original_values.remember(self._scaler.count)
-        self._scaler.count.put("Count")
-        self.status_fly = self._motor.move(self._pos_finish, wait=False)
+        self._original_values.remember(self.scaler.count)
+        self.scaler.count.put("Count")
+        self.status_fly = self.motor.move(self.pos_finish, wait=False)
 
         # wait for motor to be done moving
-        motion_time_allowance = self._fly_time + self._fly_time_pad
+        motion_time_allowance = self.fly_time + self.fly_time_pad
         self.status_fly.wait(timeout=motion_time_allowance)
         self._action_acquire_event()  # last event
 
-        self._scaler.count.put("Done")  # stop scaler counting
-        self._scaler.time.unsubscribe_all()  # stop acquiring
+        self.scaler.count.put("Done")  # stop scaler counting
+        self.scaler.time.unsubscribe_all()  # stop acquiring
 
     def _action_readings_to_collect_events(self):
         """Return the readings as collect() events."""
-        motor_keys = list(self._motor.read().keys())
-        scaler_keys = list(self._scaler.read().keys())
+        motor_keys = list(self.motor.read().keys())
+        scaler_keys = list(self.scaler.read().keys())
         all_keys = motor_keys + scaler_keys
         self.stats = {k: pysumreg.SummationRegisters() for k in scaler_keys}
 
@@ -595,8 +686,8 @@ class ScalerMotorFlyer(_SMFlyer_Step_3):
     def describe_collect(self):
         """Describe the data from collect()."""
         schema = {}
-        schema.update(self._motor.describe())
-        schema.update(self._scaler.describe())
+        schema.update(self.motor.describe())
+        schema.update(self.scaler.describe())
         return {self.STREAM_NAME: schema}
 
     def collect(self):
@@ -605,3 +696,11 @@ class ScalerMotorFlyer(_SMFlyer_Step_3):
         from bluesky import plan_stubs as bps
 
         yield from self._action_readings_to_collect_events()
+
+    @property
+    def period(self):
+        return self._period
+
+    @period.setter
+    def period(self, value):
+        self._period = value
