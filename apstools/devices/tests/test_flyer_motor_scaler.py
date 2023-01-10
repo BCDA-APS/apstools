@@ -136,7 +136,8 @@ def test_ScalerMotorFlyer(start, finish, fly_time, fly_time_pad, period, n_keys,
         assert ch_stats.min_x >= lo
         assert ch_stats.max_x <= hi
         assert lo <= ch_stats.mean_x <= hi
-        assert lo <= ch_stats.centroid <= hi
+        if ch_stats.Y != 0:
+            assert lo <= ch_stats.centroid <= hi
 
 
 @pytest.mark.parametrize(
