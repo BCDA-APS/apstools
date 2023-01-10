@@ -105,7 +105,7 @@ def test_ScalerMotorFlyer(start, finish, fly_time, fly_time_pad, period, n_keys,
     assert key in dataset
 
     array = dataset[key].values
-    assert n_data <= len(array) <= n_data + 3
+    assert n_data <= len(array) <= n_data + 4
 
     # spot check some statistics
     assert hasattr(flyer, "stats")

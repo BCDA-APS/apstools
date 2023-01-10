@@ -466,7 +466,10 @@ class _SMFlyer_Step_3(_SMFlyer_Step_2):
         count_time_allowance = self.fly_time + self.scaler_time_pad
         self._original_values.remember(self.scaler.count)
         self._original_values.remember(self.scaler.preset_time)
+        self._original_values.remember(self.scaler.count_mode)
         self.scaler.preset_time.put(count_time_allowance)
+        self.scaler.count_mode.put("OneShot")
+        self.scaler.count.put("Done")
 
         self.scaler.count.put("Count")  # start scaler counting
         time.sleep(1 / self.scaler.update_rate.get())
@@ -640,6 +643,9 @@ class ScalerMotorFlyer(_SMFlyer_Step_3):
 
         # start scaler counting, THEN motor moving
         self._original_values.remember(self.scaler.count)
+        self._original_values.remember(self.scaler.count_mode)
+        self.scaler.count_mode.put("OneShot")
+        self.scaler.count.put("Done")
         self.scaler.count.put("Count")
         self.status_fly = self.motor.move(self.pos_finish, wait=False)
 
