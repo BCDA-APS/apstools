@@ -317,6 +317,8 @@ class _SMFlyer_Step_1(ActionsFlyerBase):
 
     @fly_time.setter
     def fly_time(self, value):
+        if value <= 0:
+            raise ValueError(f"Value must be greater than zero.  Received: {value}")
         self._fly_time = value
 
     @property
@@ -325,6 +327,8 @@ class _SMFlyer_Step_1(ActionsFlyerBase):
 
     @fly_time_pad.setter
     def fly_time_pad(self, value):
+        if value < 0:
+            raise ValueError(f"Value must not be negative.  Received: {value}")
         self._fly_time_pad = value
 
 
@@ -500,6 +504,8 @@ class _SMFlyer_Step_3(_SMFlyer_Step_2):
 
     @scaler_time_pad.setter
     def scaler_time_pad(self, value):
+        if value < 0:
+            raise ValueError(f"Value must not be negative.  Received: {value}")
         self._scaler_time_pad = value
 
 
@@ -515,7 +521,7 @@ class ScalerMotorFlyer(_SMFlyer_Step_3):
 
     period
         *float* or *int* :
-        Time (seconds) between data collection events.
+        Time (seconds) between successive (starts of) data collection events.
         (Default: 0.1 s)
 
     Extends :class:`SMFlyer__Step_3()`, adding periodic data acquisition.
@@ -534,7 +540,7 @@ class ScalerMotorFlyer(_SMFlyer_Step_3):
     ``fly_time``          float   Fly scan duration (seconds). Time to move ``motor`` from start to finish.
     ``pos_start``         float   Starting position of the fly scan.
     ``pos_finish``        float   Finishing position of the fly scan.
-    ``period``            float   Sampling period (s); time between scaler readings.
+    ``period``            float   Sampling period (s); time between (starts of) scaler readings.
     ``fly_time_pad``      float   Extra time (s) allowed for motion to reach finish.
     ``scaler_time_pad``   float   Extra time (s) allowed for scaler to finish counting.
     ====================  ======  ===========================
@@ -719,4 +725,6 @@ class ScalerMotorFlyer(_SMFlyer_Step_3):
 
     @period.setter
     def period(self, value):
+        if value <= 0:
+            raise ValueError(f"Value must be greater than zero.  Received: {value}")
         self._period = value
