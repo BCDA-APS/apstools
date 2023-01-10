@@ -24,6 +24,7 @@ class EpicsDescriptionMixin(DeviceMixinBase):
         from apstools.devices import EpicsDescriptionMixin
 
         class MyEpicsMotor(EpicsDescriptionMixin, EpicsMotor): pass
+
         m1 = MyEpicsMotor('xxx:m1', name='m1')
         print(m1.desc.get())
 
@@ -31,8 +32,10 @@ class EpicsDescriptionMixin(DeviceMixinBase):
 
         class TunableSynAxis(AxisTunerMixin, SynAxis):
             '''synthetic axis that can be tuned'''
+
         class TunableEpicsMotor(AxisTunerMixin, EpicsMotor):
             '''EpicsMotor that can be tuned'''
+
         class EpicsMotorWithDescription(EpicsDescriptionMixin, EpicsMotor):
             '''EpicsMotor with description field'''
 
@@ -41,7 +44,8 @@ class EpicsDescriptionMixin(DeviceMixinBase):
             EpicsMotorLimitsMixin,
             EpicsMotorDialMixin,
             EpicsMotorRawMixin,
-            EpicsMotor):
+            EpicsMotor
+        ):
             '''
             EpicsMotor with more fields
 

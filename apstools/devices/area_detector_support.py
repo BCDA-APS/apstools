@@ -484,11 +484,12 @@ class AD_EpicsFileNameHDF5Plugin(HDF5Plugin, AD_EpicsHDF5IterativeWriter):
 
     EXAMPLE::
 
+        from apstools.devices import CamMixin_V34
+        from apstools.devices import SingleTrigger_V34
         from apstools.devices.area_detector_support import AD_EpicsFileNameHDF5Plugin
         from ophyd import EpicsSignalWithRBV
         from ophyd.areadetector import ADComponent
         from ophyd.areadetector import DetectorBase
-        from ophyd.areadetector import SingleTrigger
         from ophyd.areadetector.plugins import ImagePlugin_V34 as ImagePlugin
         from ophyd.areadetector.plugins import PvaPlugin_V34 as PvaPlugin
         from ophyd.areadetector import SimDetectorCam
@@ -505,16 +506,13 @@ class AD_EpicsFileNameHDF5Plugin(HDF5Plugin, AD_EpicsHDF5IterativeWriter):
         WRITE_PATH_TEMPLATE = f"{AD_IOC_MOUNT_PATH / IMAGE_DIR}/"
         READ_PATH_TEMPLATE = f"{BLUESKY_MOUNT_PATH / IMAGE_DIR}/"
 
+        class SimDetectorCam_V34(CamMixin_V34, SimDetectorCam):
+            '''Revise SimDetectorCam for ADCore revisions.'''
 
-        class MyFixedCam(SimDetectorCam):
-            pool_max_buffers = None
-            offset = ADComponent(EpicsSignalWithRBV, "Offset")
-
-
-        class MySimDetector(SingleTrigger, DetectorBase):
+        class SimDetector_V34(SingleTrigger_V34, DetectorBase):
             '''ADSimDetector'''
 
-            cam = ADComponent(MyFixedCam, "cam1:")
+            cam = ADComponent(SimDetectorCam_V34, "cam1:")
             image = ADComponent(ImagePlugin, "image1:")
             hdf1 = ADComponent(
                 AD_EpicsFileNameHDF5Plugin,
@@ -573,11 +571,12 @@ class AD_EpicsFileNameJPEGPlugin(JPEGPlugin, AD_EpicsJPEGIterativeWriter):
 
     EXAMPLE::
 
+        from apstools.devices import CamMixin_V34
+        from apstools.devices import SingleTrigger_V34
         from apstools.devices.area_detector_support import AD_EpicsFileNameJPEGPlugin
         from ophyd import EpicsSignalWithRBV
         from ophyd.areadetector import ADComponent
         from ophyd.areadetector import DetectorBase
-        from ophyd.areadetector import SingleTrigger
         from ophyd.areadetector.plugins import ImagePlugin_V34 as ImagePlugin
         from ophyd.areadetector.plugins import PvaPlugin_V34 as PvaPlugin
         from ophyd.areadetector import SimDetectorCam
@@ -595,15 +594,14 @@ class AD_EpicsFileNameJPEGPlugin(JPEGPlugin, AD_EpicsJPEGIterativeWriter):
         READ_PATH_TEMPLATE = f"{BLUESKY_MOUNT_PATH / IMAGE_DIR}/"
 
 
-        class MyFixedCam(SimDetectorCam):
-            pool_max_buffers = None
-            offset = ADComponent(EpicsSignalWithRBV, "Offset")
+        class SimDetectorCam_V34(CamMixin_V34, SimDetectorCam):
+            '''Revise SimDetectorCam for ADCore revisions.'''
 
 
-        class MySimDetector(SingleTrigger, DetectorBase):
+        class SimDetector_V34(SingleTrigger_V34, DetectorBase):
             '''ADSimDetector'''
 
-            cam = ADComponent(MyFixedCam, "cam1:")
+            cam = ADComponent(SimDetectorCam_V34, "cam1:")
             image = ADComponent(ImagePlugin, "image1:")
             jpeg1 = ADComponent(
                 AD_EpicsFileNameHDF5Plugin,
@@ -662,11 +660,12 @@ class AD_EpicsFileNameTIFFPlugin(TIFFPlugin, AD_EpicsTIFFIterativeWriter):
 
     EXAMPLE::
 
+        from apstools.devices import CamMixin_V34
+        from apstools.devices import SingleTrigger_V34
         from apstools.devices.area_detector_support import AD_EpicsFileNameTIFFPlugin
         from ophyd import EpicsSignalWithRBV
         from ophyd.areadetector import ADComponent
         from ophyd.areadetector import DetectorBase
-        from ophyd.areadetector import SingleTrigger
         from ophyd.areadetector.plugins import ImagePlugin_V34 as ImagePlugin
         from ophyd.areadetector.plugins import PvaPlugin_V34 as PvaPlugin
         from ophyd.areadetector import SimDetectorCam
@@ -684,15 +683,14 @@ class AD_EpicsFileNameTIFFPlugin(TIFFPlugin, AD_EpicsTIFFIterativeWriter):
         READ_PATH_TEMPLATE = f"{BLUESKY_MOUNT_PATH / IMAGE_DIR}/"
 
 
-        class MyFixedCam(SimDetectorCam):
-            pool_max_buffers = None
-            offset = ADComponent(EpicsSignalWithRBV, "Offset")
+        class SimDetectorCam_V34(CamMixin_V34, SimDetectorCam):
+            '''Revise SimDetectorCam for ADCore revisions.'''
 
 
-        class MySimDetector(SingleTrigger, DetectorBase):
+        class SimDetector_V34(SingleTrigger_V34, DetectorBase):
             '''ADSimDetector'''
 
-            cam = ADComponent(MyFixedCam, "cam1:")
+            cam = ADComponent(SimDetectorCam_V34, "cam1:")
             image = ADComponent(ImagePlugin, "image1:")
             tiff1 = ADComponent(
                 AD_EpicsFileNameTIFFPlugin,
