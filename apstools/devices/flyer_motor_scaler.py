@@ -257,7 +257,12 @@ class _SMFlyer_Step_1(ActionsFlyerBase):
         def example_fly_scan():
             self.status_taxi = self.motor.move(self.pos_start, wait=False)
             self.status_taxi.wait()
-            if self.motor.position != self.pos_start:  # TODO: within tolerance?
+
+            # arrived to within motor's precision?
+            if round(
+                self._motor.position - self._pos_start,
+                self._motor.precision
+            ) != 0:
                 raise RuntimeError(
                     "Not in requested taxi position:"
                     f" requested={self.pos_start}"
@@ -385,7 +390,12 @@ class _SMFlyer_Step_2(_SMFlyer_Step_1):
         self.mode.put("taxi")
         self.status_taxi = self.motor.move(self.pos_start, wait=False)
         self.status_taxi.wait()
-        if self.motor.position != self.pos_start:  # TODO: within tolerance?
+
+        # arrived to within motor's precision?
+        if round(
+            self._motor.position - self._pos_start,
+            self._motor.precision
+        ) != 0:
             raise RuntimeError(
                 "Not in requested taxi position:"
                 f" requested={self.pos_start}"
