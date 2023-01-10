@@ -215,13 +215,13 @@ class _SMFlyer_Step_1(ActionsFlyerBase):
         *float* or *int* :
         Extra time (seconds) to allow the fly scan to finish before a fly
         scan timeout is declared.
-        (Default: 2 s)
+        (Default: 10 s)
 
     .. note:: This class is used internally to build, in steps,
         :class:`~ScalerMotorFlyer` from :class:`~ActionsFlyerBase`.
     """
 
-    def __init__(self, motor, start, finish, *args, fly_time=1, fly_time_pad=2, **kwargs):
+    def __init__(self, motor, start, finish, *args, fly_time=1, fly_time_pad=10, **kwargs):
         fly_time = fly_time or 1
         fly_time_pad = fly_time_pad or 2
         if not hasattr(motor, "velocity"):
