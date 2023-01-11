@@ -58,7 +58,7 @@ See Also
 -------------------
 
 =============== ========================================
-apstools home   https://BCDA-APS.github.io/apstools
+apstools home   https://BCDA-APS.github.io/apstools/latest/
 apstools source https://github.com/BCDA-APS/apstools
 apsbss home     https://BCDA-APS.github.io/apsbss
 Bluesky home    https://blueskyproject.io/

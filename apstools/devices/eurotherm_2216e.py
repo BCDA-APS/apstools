@@ -8,11 +8,12 @@ The 2216e is a temperature controller from Eurotherm.
 
    ~Eurotherm2216e
 
-According to their website, the [Eurotherm 2216e Temperature
-Controller](https://www.eurothermcontrollers.com/eurotherm-2216e-series-controller-now-obsolete/)
-is obsolete.  Please see replacement
-[EPC3016](https://www.eurothermcontrollers.com/eurotherm-epc3016-1-16-din-process-and-temperature-controller/)
-in our [EPC3000 Series](https://www.eurothermcontrollers.com/epc3000-series).
+According to their website, the Eurotherm 2216e Temperature Controller [#]_ is
+obsolete.  Please see [its] replacement EPC3016 [#]_ in our EPC3000 Series. [#]_
+
+.. [#] https://www.eurothermcontrollers.com/eurotherm-2216e-series-controller-now-obsolete/
+.. [#] https://www.eurothermcontrollers.com/eurotherm-epc3016-1-16-din-process-and-temperature-controller/
+.. [#] https://www.eurothermcontrollers.com/epc3000-series
 
 New in apstools 1.6.0.
 """

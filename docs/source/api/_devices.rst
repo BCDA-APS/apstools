@@ -204,33 +204,63 @@ All Submodules
 
 .. automodule:: apstools.devices.aps_bss_user
     :members:
+    :private-members:
+    :show-inheritance:
+    :inherited-members:
 
 .. automodule:: apstools.devices.area_detector_support
     :members:
+    :private-members:
+    :show-inheritance:
+    :inherited-members:
 
 .. automodule:: apstools.devices.aps_cycle
     :members:
+    :private-members:
+    :show-inheritance:
+    :inherited-members:
 
 .. automodule:: apstools.devices.aps_machine
     :members:
+    :private-members:
+    :show-inheritance:
+    :inherited-members:
 
 .. automodule:: apstools.devices.aps_undulator
     :members:
+    :private-members:
+    :show-inheritance:
+    :inherited-members:
 
 .. automodule:: apstools.devices.axis_tuner
     :members:
+    :private-members:
+    :show-inheritance:
+    :inherited-members:
 
 .. automodule:: apstools.devices.description_mixin
     :members:
+    :private-members:
+    :show-inheritance:
+    :inherited-members:
 
 .. automodule:: apstools.devices.dict_device_support
     :members:
+    :private-members:
+    :show-inheritance:
+    :inherited-members:
 
 .. automodule:: apstools.devices.epics_scan_id_signal
     :members:
+    :private-members:
+    :show-inheritance:
+    :inherited-members:
 
 .. automodule:: apstools.devices.eurotherm_2216e
     :members:
+    :private-members:
+    :show-inheritance:
+    :inherited-members:
 
 .. automodule:: apstools.devices.flyer_motor_scaler
     :members:
@@ -240,48 +270,96 @@ All Submodules
 
 .. automodule:: apstools.devices.kohzu_monochromator
     :members:
+    :private-members:
+    :show-inheritance:
+    :inherited-members:
 
 .. automodule:: apstools.devices.lakeshore_controllers
     :members:
+    :private-members:
+    :show-inheritance:
+    :inherited-members:
 
 .. automodule:: apstools.devices.linkam_controllers
     :members:
+    :private-members:
+    :show-inheritance:
+    :inherited-members:
 
 .. automodule:: apstools.devices.mixin_base
     :members:
+    :private-members:
+    :show-inheritance:
+    :inherited-members:
 
 .. automodule:: apstools.devices.motor_mixins
     :members:
+    :private-members:
+    :show-inheritance:
+    :inherited-members:
 
 .. automodule:: apstools.devices.positioner_soft_done
     :members:
+    :private-members:
+    :show-inheritance:
+    :inherited-members:
 
 .. automodule:: apstools.devices.preamp_base
     :members:
+    :private-members:
+    :show-inheritance:
+    :inherited-members:
 
 .. automodule:: apstools.devices.ptc10_controller
     :members:
+    :private-members:
+    :show-inheritance:
+    :inherited-members:
 
 .. automodule:: apstools.devices.scaler_support
     :members:
+    :private-members:
+    :show-inheritance:
+    :inherited-members:
 
 .. automodule:: apstools.devices.shutters
     :members:
+    :private-members:
+    :show-inheritance:
+    :inherited-members:
 
 .. automodule:: apstools.devices.srs570_preamplifier
     :members:
+    :private-members:
+    :show-inheritance:
+    :inherited-members:
 
 .. automodule:: apstools.devices.struck3820
     :members:
+    :private-members:
+    :show-inheritance:
+    :inherited-members:
 
 .. automodule:: apstools.devices.synth_pseudo_voigt
     :members:
+    :private-members:
+    :show-inheritance:
+    :inherited-members:
 
 .. automodule:: apstools.devices.tracking_signal
     :members:
+    :private-members:
+    :show-inheritance:
+    :inherited-members:
 
 .. automodule:: apstools.devices.xia_pf4
     :members:
+    :private-members:
+    :show-inheritance:
+    :inherited-members:
 
 .. automodule:: apstools.devices.xia_slit
     :members:
+    :private-members:
+    :show-inheritance:
+    :inherited-members:
