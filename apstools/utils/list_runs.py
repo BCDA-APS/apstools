@@ -94,9 +94,7 @@ def getRunData(scan_id, db=None, stream="primary", query=None, use_v1=True):
     raise AttributeError(f"No such stream '{stream}' in run '{scan_id}'.")
 
 
-def getRunDataValue(
-    scan_id, key, db=None, stream="primary", query=None, idx=-1, use_v1=True
-):
+def getRunDataValue(scan_id, key, db=None, stream="primary", query=None, idx=-1, use_v1=True):
     """
     Convenience function to get value of key in run stream.
 
@@ -156,9 +154,7 @@ def getRunDataValue(
         _idx = str(idx).lower()
 
     if isinstance(_idx, str) and _idx not in "all mean".split():
-        raise KeyError(
-            f"Did not understand 'idx={idx}', use integer, 'all', or 'mean'."
-        )
+        raise KeyError(f"Did not understand 'idx={idx}', use integer, 'all', or 'mean'.")
 
     stream = stream or "primary"
 
@@ -174,9 +170,7 @@ def getRunDataValue(
         return data.mean()
     elif (0 <= _idx < len(data)) or (_idx < 0):
         return data.values[_idx]
-    raise KeyError(
-        f"Cannot reference idx={idx} in scan {scan_id} stream'{stream}' key={key}."
-    )
+    raise KeyError(f"Cannot reference idx={idx} in scan {scan_id} stream'{stream}' key={key}.")
 
 
 def listRunKeys(
@@ -660,6 +654,7 @@ def summarize_runs(since=None, db=None):
         table.addRow((k, sorter(k)))
     table.addRow(("TOTAL", n + 1))
     print(table)
+
 
 # -----------------------------------------------------------------------------
 # :author:    Pete R. Jemian
