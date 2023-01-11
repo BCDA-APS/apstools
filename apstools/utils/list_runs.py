@@ -294,6 +294,7 @@ class ListRuns:
     timefmt: str = "%Y-%m-%d %H:%M:%S"
     until: str = None
     ids: "typing.Any" = None
+    hints_override: bool = False
 
     _default_keys = "scan_id time plan_name detectors"
 
@@ -321,7 +322,7 @@ class ListRuns:
         It is not possible to ``sortby`` the dotted-key syntax
         at this time.
         """
-        v = None
+        v = self.missing
         if key == "time":
             v = md["start"][key]
             if self.timefmt != "raw":
@@ -339,7 +340,10 @@ class ListRuns:
                 if key == "time" and self.timefmt != "raw":
                     ts = datetime.datetime.fromtimestamp(v)
                     v = ts.strftime(self.timefmt)
-        return v or self.missing
+        hints = md["start"].get("hints", {})
+        if (v == self.missing or self.hints_override) and key in hints:
+            v = hints[key]
+        return v
 
     def _check_cat(self):
         from . import getCatalog
@@ -413,8 +417,7 @@ class ListRuns:
     def _check_keys(self):
         """Check that self.keys is a list of strings."""
         self.keys = self.keys or self._default_keys
-        if isinstance(self.keys, str) and self.keys.find(" ") >= 0:
-            # convert a space-delimited string of names
+        if isinstance(self.keys, str):
             self.keys = self.keys.split()
 
     def to_dataframe(self):
@@ -449,6 +452,7 @@ def listruns(
     timefmt="%Y-%m-%d %H:%M:%S",
     until=None,
     ids=None,
+    hints_override=False,
     **query,
 ):
     """
@@ -470,6 +474,10 @@ def listruns(
         *str*:
         Test to report when a value is not available.
         (default: ``""``)
+    hints_override *bool*:
+        For a key that appears in both the metadata and the hints,
+        override the metadata value if the same key is found in the hints.
+        (default: ``False``)
     ids
         *[int]* or *[str]*:
         List of ``uid`` or ``scan_id`` value(s).
@@ -565,6 +573,7 @@ def listruns(
         timefmt=timefmt,
         until=until,
         ids=ids,
+        hints_override=hints_override,
     )
 
     tablefmt = tablefmt or "dataframe"
