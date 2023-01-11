@@ -10,7 +10,6 @@ import bluesky.plans as bp
 import databroker
 import pytest
 import random
-import time
 
 PV = f"{IOC}scaler1"
 
