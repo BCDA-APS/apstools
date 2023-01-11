@@ -54,3 +54,13 @@ def request_input(msg="", default="n", agree="y", bypass=False):
         else:
             raise TypeError(f"Unhandled type: agree={agree}")
     return bypass or match
+
+# -----------------------------------------------------------------------------
+# :author:    Pete R. Jemian
+# :email:     jemian@anl.gov
+# :copyright: (c) 2017-2023, UChicago Argonne, LLC
+#
+# Distributed under the terms of the Argonne National Laboratory Open Source License.
+#
+# The full license is in the file LICENSE.txt, distributed with this software.
+# -----------------------------------------------------------------------------

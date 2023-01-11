@@ -655,11 +655,10 @@ def summarize_runs(since=None, db=None):
     table.addRow(("TOTAL", n + 1))
     print(table)
 
-
 # -----------------------------------------------------------------------------
 # :author:    Pete R. Jemian
 # :email:     jemian@anl.gov
-# :copyright: (c) 2017-2022, UChicago Argonne, LLC
+# :copyright: (c) 2017-2023, UChicago Argonne, LLC
 #
 # Distributed under the terms of the Argonne National Laboratory Open Source License.
 #

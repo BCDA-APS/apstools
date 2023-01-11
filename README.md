@@ -17,7 +17,7 @@ item              | description
 ------------------|--------------------------------
 **author**        | Pete R. Jemian
 **email**         | jemian@anl.gov
-**copyright**     | 2017-2022, UChicago Argonne, LLC
+**copyright**     | 2017-2023, UChicago Argonne, LLC
 **documentation** | versions: [latest tagged release](https://bcda-aps.github.io/apstools/latest/) or [development (main branch)](https://bcda-aps.github.io/apstools/dev/)
 **source**        | https://github.com/BCDA-APS/apstools
 

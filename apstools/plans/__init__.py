@@ -30,7 +30,7 @@ from .stage_sigs_support import stage_sigs_wrapper
 # -----------------------------------------------------------------------------
 # :author:    Pete R. Jemian
 # :email:     jemian@anl.gov
-# :copyright: (c) 2017-2022, UChicago Argonne, LLC
+# :copyright: (c) 2017-2023, UChicago Argonne, LLC
 #
 # Distributed under the terms of the Argonne National Laboratory Open Source License.
 #
