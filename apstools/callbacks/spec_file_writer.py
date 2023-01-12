@@ -97,34 +97,22 @@ def _rebuild_scan_command(doc):
         s = str(src)
         p = s.find("(")
         if p > 0:  # only if an open parenthesis is found
-            # fmt: offf
-            # fmt: on
-            parts = s[p + 1:].rstrip(")").split(",")
+            parts = s[p + 1 :].rstrip(")").split(",")
             for item in parts:
                 # should be key=value pairs
                 item = item.strip()
                 p = item.find("=")
                 if item[:p] == "name":
-                    # fmt: off
-                    # fmt: on
-                    s = item[p + 1:]  # get the name value
+                    s = item[p + 1 :]  # get the name value
                     break
         return s
 
     def struct_to_str(struct):
         """Convert given structure into string representation."""
         if isinstance(struct, list):
-            return (
-                "[" + ", ".join([struct_to_str(v) for v in struct]) + "]"
-            )
+            return "[" + ", ".join([struct_to_str(v) for v in struct]) + "]"
         elif isinstance(struct, dict):
-            return (
-                "{"
-                + ", ".join(
-                    [f"{k}={struct_to_str(v)}" for k, v in struct.items()]
-                )
-                + "}"
-            )
+            return "{" + ", ".join([f"{k}={struct_to_str(v)}" for k, v in struct.items()]) + "}"
         elif isinstance(struct, np.ndarray):
             return struct_to_str(list(struct))
         elif isinstance(struct, str):
@@ -217,9 +205,7 @@ class SpecWriterCallback(object):
        ~stop
     """
 
-    def __init__(
-        self, filename=None, auto_write=True, RE=None, reset_scan_id=False
-    ):
+    def __init__(self, filename=None, auto_write=True, RE=None, reset_scan_id=False):
         self.clear()
         self.buffered_comments = self._empty_comments_dict()
         self.spec_filename = filename
@@ -400,17 +386,10 @@ class SpecWriterCallback(object):
         # TODO: if len(last_keys) == 0: look at doc["hints"]
 
         # get remaining keys from keyset, they go in the middle
-        middle_keys = [
-            k for k in keyset if k not in first_keys + last_keys
-        ]
+        middle_keys = [k for k in keyset if k not in first_keys + last_keys]
         epoch_keys = "Epoch_float Epoch".split()
 
-        self.data.update(
-            {
-                k: []
-                for k in first_keys + epoch_keys + middle_keys + last_keys
-            }
-        )
+        self.data.update({k: [] for k in first_keys + epoch_keys + middle_keys + last_keys})
 
     def event(self, doc):
         """
@@ -473,17 +452,13 @@ class SpecWriterCallback(object):
         lines = []
         lines.append("")
         lines.append("#S " + self.scan_command)
-        lines.append(
-            "#D " + datetime.datetime.strftime(dt, SPEC_TIME_FORMAT)
-        )
+        lines.append("#D " + datetime.datetime.strftime(dt, SPEC_TIME_FORMAT))
         if self.T_or_M is not None:
             lines.append(f"#{self.T_or_M} {self.T_or_M_value}")
 
         for v in self.comments["start"]:
             # C Wed Feb 03 16:51:38 2016.  do ./usaxs.mac.
-            lines.append(
-                "#C " + v
-            )  # TODO: add time/date stamp as SPEC does
+            lines.append("#C " + v)  # TODO: add time/date stamp as SPEC does
         for v in self.comments["descriptor"]:
             lines.append("#C " + v)
 
@@ -540,12 +515,8 @@ class SpecWriterCallback(object):
         lines = []
         lines.append(f"#F {self.spec_filename}")
         lines.append(f"#E {self.spec_epoch}")
-        lines.append(
-            f"#D {datetime.datetime.strftime(dt, SPEC_TIME_FORMAT)}"
-        )
-        lines.append(
-            f"#C Bluesky  user = {self.spec_user}  host = {self.spec_host}"
-        )
+        lines.append(f"#D {datetime.datetime.strftime(dt, SPEC_TIME_FORMAT)}")
+        lines.append(f"#C Bluesky  user = {self.spec_user}  host = {self.spec_host}")
         lines.append("#O0 ")
         lines.append("#o0 ")
         lines.append("")
@@ -578,9 +549,7 @@ class SpecWriterCallback(object):
         if lines is not None:
             if self.write_file_header:
                 self.write_header()
-                logger.info(
-                    "wrote header to SPEC file: %s", self.spec_filename
-                )
+                logger.info("wrote header to SPEC file: %s", self.spec_filename)
             self._write_lines_(lines, mode="a")
             logger.info(
                 "wrote scan %d to SPEC file: %s",
@@ -708,10 +677,11 @@ def spec_comment(comment, doc=None, writer=None):
     for line in comment.splitlines():
         writer._cmt(doc, line)
 
+
 # -----------------------------------------------------------------------------
 # :author:    Pete R. Jemian
 # :email:     jemian@anl.gov
-# :copyright: (c) 2017-2022, UChicago Argonne, LLC
+# :copyright: (c) 2017-2023, UChicago Argonne, LLC
 #
 # Distributed under the terms of the Argonne National Laboratory Open Source License.
 #

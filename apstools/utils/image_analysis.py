@@ -93,3 +93,13 @@ def analyze_2D(image):
     results["peak_position"] = (axis_0[k], axis_1[k])
     results["max_y"] = image[axis_1[k]][axis_0[k]]
     return results
+
+# -----------------------------------------------------------------------------
+# :author:    Pete R. Jemian
+# :email:     jemian@anl.gov
+# :copyright: (c) 2017-2023, UChicago Argonne, LLC
+#
+# Distributed under the terms of the Argonne National Laboratory Open Source License.
+#
+# The full license is in the file LICENSE.txt, distributed with this software.
+# -----------------------------------------------------------------------------

@@ -94,9 +94,7 @@ def getRunData(scan_id, db=None, stream="primary", query=None, use_v1=True):
     raise AttributeError(f"No such stream '{stream}' in run '{scan_id}'.")
 
 
-def getRunDataValue(
-    scan_id, key, db=None, stream="primary", query=None, idx=-1, use_v1=True
-):
+def getRunDataValue(scan_id, key, db=None, stream="primary", query=None, idx=-1, use_v1=True):
     """
     Convenience function to get value of key in run stream.
 
@@ -156,9 +154,7 @@ def getRunDataValue(
         _idx = str(idx).lower()
 
     if isinstance(_idx, str) and _idx not in "all mean".split():
-        raise KeyError(
-            f"Did not understand 'idx={idx}', use integer, 'all', or 'mean'."
-        )
+        raise KeyError(f"Did not understand 'idx={idx}', use integer, 'all', or 'mean'.")
 
     stream = stream or "primary"
 
@@ -174,9 +170,7 @@ def getRunDataValue(
         return data.mean()
     elif (0 <= _idx < len(data)) or (_idx < 0):
         return data.values[_idx]
-    raise KeyError(
-        f"Cannot reference idx={idx} in scan {scan_id} stream'{stream}' key={key}."
-    )
+    raise KeyError(f"Cannot reference idx={idx} in scan {scan_id} stream'{stream}' key={key}.")
 
 
 def listRunKeys(
@@ -294,6 +288,7 @@ class ListRuns:
     timefmt: str = "%Y-%m-%d %H:%M:%S"
     until: str = None
     ids: "typing.Any" = None
+    hints_override: bool = False
 
     _default_keys = "scan_id time plan_name detectors"
 
@@ -321,7 +316,7 @@ class ListRuns:
         It is not possible to ``sortby`` the dotted-key syntax
         at this time.
         """
-        v = None
+        v = self.missing
         if key == "time":
             v = md["start"][key]
             if self.timefmt != "raw":
@@ -339,7 +334,10 @@ class ListRuns:
                 if key == "time" and self.timefmt != "raw":
                     ts = datetime.datetime.fromtimestamp(v)
                     v = ts.strftime(self.timefmt)
-        return v or self.missing
+        hints = md["start"].get("hints", {})
+        if (v == self.missing or self.hints_override) and key in hints:
+            v = hints[key]
+        return v
 
     def _check_cat(self):
         from . import getCatalog
@@ -413,8 +411,7 @@ class ListRuns:
     def _check_keys(self):
         """Check that self.keys is a list of strings."""
         self.keys = self.keys or self._default_keys
-        if isinstance(self.keys, str) and self.keys.find(" ") >= 0:
-            # convert a space-delimited string of names
+        if isinstance(self.keys, str):
             self.keys = self.keys.split()
 
     def to_dataframe(self):
@@ -449,6 +446,7 @@ def listruns(
     timefmt="%Y-%m-%d %H:%M:%S",
     until=None,
     ids=None,
+    hints_override=False,
     **query,
 ):
     """
@@ -470,6 +468,10 @@ def listruns(
         *str*:
         Test to report when a value is not available.
         (default: ``""``)
+    hints_override *bool*:
+        For a key that appears in both the metadata and the hints,
+        override the metadata value if the same key is found in the hints.
+        (default: ``False``)
     ids
         *[int]* or *[str]*:
         List of ``uid`` or ``scan_id`` value(s).
@@ -565,6 +567,7 @@ def listruns(
         timefmt=timefmt,
         until=until,
         ids=ids,
+        hints_override=hints_override,
     )
 
     tablefmt = tablefmt or "dataframe"
@@ -655,7 +658,7 @@ def summarize_runs(since=None, db=None):
 # -----------------------------------------------------------------------------
 # :author:    Pete R. Jemian
 # :email:     jemian@anl.gov
-# :copyright: (c) 2017-2022, UChicago Argonne, LLC
+# :copyright: (c) 2017-2023, UChicago Argonne, LLC
 #
 # Distributed under the terms of the Argonne National Laboratory Open Source License.
 #

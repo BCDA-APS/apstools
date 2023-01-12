@@ -728,3 +728,13 @@ class ScalerMotorFlyer(_SMFlyer_Step_3):
         if value <= 0:
             raise ValueError(f"Value must be greater than zero.  Received: {value}")
         self._period = value
+
+# -----------------------------------------------------------------------------
+# :author:    Pete R. Jemian
+# :email:     jemian@anl.gov
+# :copyright: (c) 2017-2023, UChicago Argonne, LLC
+#
+# Distributed under the terms of the Argonne National Laboratory Open Source License.
+#
+# The full license is in the file LICENSE.txt, distributed with this software.
+# -----------------------------------------------------------------------------

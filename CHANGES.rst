@@ -5,7 +5,8 @@
 
     Notice
     Breaking Changes
-    New Features and/or Enhancements
+    New Features
+    Enhancements
     Fixes
     Maintenance
     Deprecations
@@ -33,6 +34,11 @@ New Features
 
 * Add ``apstools.utils.plotxy()`` utility function.
 * Add tag-based documentation selection via PyData switcher.
+
+Enhancements
+------------
+
+* In listruns(), also search the hints for keys.
 
 Fixes
 ------------
