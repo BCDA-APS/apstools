@@ -43,18 +43,25 @@ Enhancements
 Fixes
 ------------
 
+* CI failed to build documentation when creating pip installation.
+* ScalerMotorFlyer default fly_time_pad increased to 10 s.
+* ScalerMotorFlyer now sets scaler to "OneShot" mode.
+* ScalerMotorFlyer in-position comparison now based on motor's precision.
 * Version number was not reported correctly in certain situations (issue #771).
+
 
 Maintenance
 ------------
 
+* "Custom HDF5 File Name" example updated to latest advice.
 * Pin Sphinx to `<6` due to problems with PyData and Sphinx v6.
+* Conda channel "nsls2forge" no longer needed.
 * Remove ``nsls2forge`` channel from conda environment.
 
 New Contributors
 -----------------------
 
-* @jwkim-anl (Jong Woo Kim, ANL) for the ``pyplot()`` idea.
+* @jwkim-anl (Jong Woo Kim, ANL) for the ``plotxy()`` idea.
 
 1.6.9
 ******
