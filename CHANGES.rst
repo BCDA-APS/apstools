@@ -19,10 +19,26 @@ The project `milestones <https://github.com/BCDA-APS/apstools/milestones>`_
 describe the future plans.
 
 ..
-   1.6.11
+   1.6.13
    ******
 
-   release expected by 2023-02-01
+   release expected by 2023-04-03
+
+..
+   1.6.12
+   ******
+
+   release expected by 2023-03-03
+
+1.6.11
+******
+
+release expected by 2023-02-01
+
+Maintenance
+------------
+
+* Added github/super-linter workflow.
 
 1.6.10
 ******
@@ -48,7 +64,6 @@ Fixes
 * ScalerMotorFlyer now sets scaler to "OneShot" mode.
 * ScalerMotorFlyer in-position comparison now based on motor's precision.
 * Version number was not reported correctly in certain situations (issue #771).
-
 
 Maintenance
 ------------
