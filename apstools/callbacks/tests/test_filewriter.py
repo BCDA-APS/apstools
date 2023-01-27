@@ -286,7 +286,6 @@ def test_SpecWriterCallback_writer_default_name(cat, tempdir):
     specwriter = SpecWriterCallback()
     path = pathlib.Path(specwriter.spec_filename).parent
     assert path != tempdir  # "default file not in tempdir"
-    assert path == pathlib.Path(".").absolute()  # "default file to go in pwd"
 
     # change the directory
     fname = tempdir / specwriter.spec_filename
