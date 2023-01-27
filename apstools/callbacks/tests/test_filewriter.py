@@ -5,7 +5,7 @@ unit tests for the filewriters
 import databroker
 import h5py
 import numpy
-import os
+import pathlib
 import pytest
 import spec2nexus.spec
 import tempfile
@@ -33,7 +33,7 @@ def cat():
 @pytest.fixture(scope="function")
 def tempdir():
     tempdir = tempfile.mkdtemp()
-    return tempdir
+    return pathlib.Path(tempdir)
 
 
 def to_string(text):
@@ -124,12 +124,12 @@ def test_FileWriterCallbackBase(cat, capsys):
 
 def test_NXWriterAPS(cat, tempdir):
     callback = NXWriterAPS()
-    callback.file_path = tempdir
+    callback.file_path = str(tempdir)
 
     replay(cat.v1[TUNE_MR], callback.receiver)
 
-    fname = callback.make_file_name()
-    assert os.path.exists(fname)
+    fname = pathlib.Path(callback.make_file_name())
+    assert fname.exists()
     with h5py.File(fname, "r") as nxroot:
         assert "/entry/instrument/source" in nxroot
         nxsource = nxroot["/entry/instrument/source"]
@@ -144,12 +144,12 @@ def test_NXWriterAPS(cat, tempdir):
 
 def test_NXWriter_default_plot(cat, tempdir):
     callback = NXWriterAPS()
-    callback.file_path = tempdir
+    callback.file_path = str(tempdir)
 
     replay(cat.v1[TUNE_MR], callback.receiver)
 
-    fname = callback.make_file_name()
-    assert os.path.exists(fname)
+    fname = pathlib.Path(callback.make_file_name())
+    assert fname.exists()
     with h5py.File(fname, "r") as nxroot:
         assert nxroot is not None
 
@@ -223,7 +223,7 @@ def test_NXWriter_make_file_name(tempdir):
     assert "'NoneType' object is not subscriptable" == str(exinfo.value)
 
     callback.uid = "012345678901234567890123456789"
-    fname = callback.make_file_name()
+    fname = pathlib.Path(callback.make_file_name())
     # https://github.com/BCDA-APS/apstools/issues/345
     tz_aps = dateutil.tz.gettz("America/Chicago")
     tz_local = dateutil.tz.tzlocal()
@@ -236,12 +236,12 @@ def test_NXWriter_make_file_name(tempdir):
     expected += f"-S{9876:05d}"
     expected += "-0123456"
     expected += f".{NEXUS_FILE_EXTENSION}"
-    assert os.path.split(fname)[-1] == expected
-    assert os.path.dirname(fname) == os.getcwd()
+    assert fname.name == expected
+    assert fname.parent == pathlib.Path(".").absolute()
 
-    callback.file_path = tempdir
-    fname = callback.make_file_name()
-    assert os.path.dirname(fname) == tempdir
+    callback.file_path = str(tempdir)
+    fname = pathlib.Path(callback.make_file_name())
+    assert fname.parent == tempdir
 
 
 def test_NXWriter_receiver_battery(cat, tempdir):
@@ -251,14 +251,14 @@ def test_NXWriter_receiver_battery(cat, tempdir):
 
     for uid in cat:
         callback.clear()
-        callback.file_path = tempdir
+        callback.file_path = str(tempdir)
         assert callback.uid is None
         assert not callback.scanning
 
         replay(cat.v1[uid], callback.receiver)
 
-        fname = callback.make_file_name()
-        assert os.path.exists(fname)
+        fname = pathlib.Path(callback.make_file_name())
+        assert fname.exists()
         with h5py.File(fname, "r") as nxroot:
             assert nxroot.attrs["NeXus_version"] == NEXUS_RELEASE
             assert nxroot.attrs["creator"] == callback.__class__.__name__
@@ -271,7 +271,7 @@ def test_NXWriter_receiver_battery(cat, tempdir):
             for subgroup_name in "detectors positioners".split():
                 if subgroup_name in nxinstrument:
                     subgroup = nxinstrument[subgroup_name]
-                    # FIXME: assert len(subgroup) > 0, f"{uid[:7]=}  {subgroup_name=} is empty"
+                    # FIXME:  assert len(subgroup) > 0, f"{uid[:7]=}  {subgroup_name=} is empty"
             
             assert "bluesky" in nxinstrument
             bluesky_group = nxinstrument["bluesky"]
@@ -284,18 +284,18 @@ def test_NXWriter_receiver_battery(cat, tempdir):
 
 def test_SpecWriterCallback_writer_default_name(cat, tempdir):
     specwriter = SpecWriterCallback()
-    path = os.path.abspath(os.path.dirname(specwriter.spec_filename))
+    path = pathlib.Path(specwriter.spec_filename).parent
     assert path != tempdir  # "default file not in tempdir"
-    assert path == os.path.abspath(os.getcwd())  # "default file to go in pwd"
+    assert path == pathlib.Path(".").absolute()  # "default file to go in pwd"
 
     # change the directory
-    specwriter.spec_filename = os.path.join(
-        tempdir, specwriter.spec_filename
-    )
+    fname = tempdir / specwriter.spec_filename
+    assert not fname.exists()  # "data file not created yet"
 
-    assert not os.path.exists(specwriter.spec_filename)  # "data file not created yet"
+    specwriter.spec_filename = str(fname)
     write_stream(specwriter, cat.v1[TUNE_MR].documents())
-    assert os.path.exists(specwriter.spec_filename)  # "data file created"
+    assert str(fname) == specwriter.spec_filename  # confirm unchanged
+    assert fname.exists()  # "data file created"
 
     sdf = spec2nexus.spec.SpecDataFile(specwriter.spec_filename)
     assert len(sdf.headers) == 1
@@ -319,23 +319,23 @@ def test_SpecWriterCallback_writer_default_name(cat, tempdir):
 
 
 def test_SpecWriterCallback_writer_filename(cat, tempdir):
-    testfile = os.path.join(tempdir, "tune_mr.dat")
-    if os.path.exists(testfile):
-        os.remove(testfile)
+    testfile = tempdir / "tune_mr.dat"
+    if testfile.exists():
+        testfile.unlink()  # remove
     specwriter = SpecWriterCallback(filename=testfile)
 
     assert isinstance(specwriter, SpecWriterCallback)
     assert specwriter.spec_filename == testfile
 
-    assert not os.path.exists(testfile)
+    assert not testfile.exists()
     write_stream(specwriter, cat.v1[TUNE_MR].documents())
-    assert os.path.exists(testfile)
+    assert testfile.exists()
 
 
 def test_SpecWriterCallback_newfile_exists(cat, tempdir):
-    testfile = os.path.join(tempdir, "tune_mr.dat")
-    if os.path.exists(testfile):
-        os.remove(testfile)
+    testfile = tempdir / "tune_mr.dat"
+    if testfile.exists():
+        testfile.unlink()  # remove
     specwriter = SpecWriterCallback(
         filename=testfile
     )
@@ -345,7 +345,7 @@ def test_SpecWriterCallback_newfile_exists(cat, tempdir):
     assert SCAN_ID_RESET_VALUE == 0  # "default reset scan id"
 
     write_stream(specwriter, cat.v1[TUNE_MR].documents())
-    assert os.path.exists(testfile)  # "data file created"
+    assert testfile.exists()  # "data file created"
 
     raised = False
     try:
@@ -407,9 +407,9 @@ def test_SpecWriterCallback_spec_comment(cat, tempdir):
     from .. import spec_comment
 
     # spec_comment(comment, doc=None, writer=None)
-    testfile = os.path.join(tempdir, "spec_comment.dat")
-    if os.path.exists(testfile):
-        os.remove(testfile)
+    testfile = tempdir / "spec_comment.dat"
+    if testfile.exists():
+        testfile.unlink()  # remove
     specwriter = SpecWriterCallback(
         filename=testfile
     )
