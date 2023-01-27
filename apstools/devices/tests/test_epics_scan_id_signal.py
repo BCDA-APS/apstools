@@ -1,9 +1,10 @@
-from .. import EpicsScanIdSignal
-from ...tests import IOC
-from ophyd import EpicsSignal
 import bluesky
 import bluesky.plans as bp
 import pytest
+from ophyd import EpicsSignal
+
+from ...tests import IOC
+from .. import EpicsScanIdSignal
 
 SCAN_ID_PV = f"{IOC}gp:int1"
 

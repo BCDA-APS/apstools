@@ -12,26 +12,24 @@ Directory of bluesky runs
    ~summarize_runs
 """
 
+import dataclasses
+import datetime
+import logging
+import time
+import typing
+from collections import defaultdict
+
 import databroker
 import databroker._drivers.mongo_normalized
 import databroker._drivers.msgpack
 import databroker.queries
-import dataclasses
-import datetime
-import logging
 import pandas as pd
 import pyRestTable
-import time
-import typing
-
-from collections import defaultdict
-
-from .query import db_query
 
 from ._core import FIRST_DATA
 from ._core import LAST_DATA
 from ._core import MONGO_CATALOG_CLASSES
-
+from .query import db_query
 
 logger = logging.getLogger(__name__)
 
@@ -278,15 +276,15 @@ class ListRuns:
     """
 
     cat: object = None
-    query: dict = None
-    keys: str = None
+    query: object = None
+    keys: object = None
     missing: str = ""
     num: int = 20
     reverse: bool = True
-    since: str = None
+    since: object = None
     sortby: str = "time"
     timefmt: str = "%Y-%m-%d %H:%M:%S"
-    until: str = None
+    until: object = None
     ids: "typing.Any" = None
     hints_override: bool = False
 

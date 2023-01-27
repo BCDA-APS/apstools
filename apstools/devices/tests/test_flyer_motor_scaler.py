@@ -1,19 +1,19 @@
 # FIXME: refactor for new code
 
-from .. import ActionsFlyerBase
-from .. import FlyerBase
-from .. import ScalerMotorFlyer
-from .. import SignalValueStack
-from ...tests import IOC
-from bluesky import plans as bp
-from bluesky import RunEngine
+import uuid
+
 import databroker
 import ophyd
 import pysumreg
 import pytest
-import time
-import uuid
+from bluesky import RunEngine
+from bluesky import plans as bp
 
+from ...tests import IOC
+from .. import ActionsFlyerBase
+from .. import FlyerBase
+from .. import ScalerMotorFlyer
+from .. import SignalValueStack
 
 cat = databroker.temp().v2
 RE = RunEngine({})

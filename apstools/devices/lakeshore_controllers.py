@@ -25,8 +25,8 @@ from ophyd import EpicsSignalWithRBV
 from ophyd import FormattedComponent
 from ophyd import Signal
 
-from . import PVPositionerSoftDoneWithStop
 from ..synApps import AsynRecord
+from . import PVPositionerSoftDoneWithStop
 
 SECOND = 1
 MINUTE = 60 * SECOND

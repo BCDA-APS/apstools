@@ -9,11 +9,11 @@ APS cycles
 
 import datetime
 import json
-from ophyd.sim import SynSignalRO
 import pathlib
 import time
-import yaml
 
+import yaml
+from ophyd.sim import SynSignalRO
 
 _PATH = pathlib.Path(__file__).parent
 YAML_CYCLE_FILE = (_PATH / "aps_cycle_info.yml")

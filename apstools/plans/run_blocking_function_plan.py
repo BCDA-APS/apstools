@@ -1,6 +1,8 @@
-from ..utils import run_in_thread
-import bluesky.plan_stubs as bps
 import logging
+
+import bluesky.plan_stubs as bps
+
+from ..utils import run_in_thread
 
 logger = logging.getLogger(__name__)
 POLL_DELAY = 0.000_05

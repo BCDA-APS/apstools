@@ -1,5 +1,6 @@
-from ophyd import EpicsSignal
 import logging
+
+from ophyd import EpicsSignal
 
 logger = logging.getLogger(__name__)
 

@@ -10,8 +10,10 @@ Axis Tuner
 
 import datetime
 import logging
-from bluesky import plan_stubs as bps
 from collections import OrderedDict
+
+from bluesky import plan_stubs as bps
+
 from .mixin_base import DeviceMixinBase
 
 logger = logging.getLogger(__name__)

@@ -1,12 +1,12 @@
-import databroker
 import datetime
+
+import databroker
 import intake
 import pandas as pd
 import pytest
 
-from .. import getDefaultNamespace
 from ... import utils as utils
-
+from .. import getDefaultNamespace
 
 TEST_CATALOG_NAME = "apstools_test"
 

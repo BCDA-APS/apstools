@@ -15,6 +15,7 @@ Mixin classes for Motor Devices
 from bluesky import plan_stubs as bps
 from ophyd import Component
 from ophyd import EpicsSignal
+
 from .mixin_base import DeviceMixinBase
 
 

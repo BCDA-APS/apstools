@@ -1,7 +1,7 @@
+import pytest
+
 from ..image_analysis import analyze_1D
 from ..image_analysis import analyze_2D
-from pysumreg import SummationRegisters
-import pytest
 
 
 @pytest.mark.parametrize(

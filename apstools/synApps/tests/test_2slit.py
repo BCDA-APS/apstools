@@ -1,12 +1,12 @@
 import pytest
 
+from ...tests import IOC
+from ...tests import common_attribute_quantities_test
+from ...tests import short_delay_for_EPICS_IOC_database_processing
+from ...utils import SlitGeometry
 from ..db_2slit import Optics2Slit1D
 from ..db_2slit import Optics2Slit2D_HV
 from ..db_2slit import Optics2Slit2D_InbOutBotTop
-from ...utils import SlitGeometry
-from ...tests import common_attribute_quantities_test
-from ...tests import IOC
-from ...tests import short_delay_for_EPICS_IOC_database_processing
 
 # TODO: test "sync" signal
 

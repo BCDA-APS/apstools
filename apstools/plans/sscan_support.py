@@ -7,12 +7,11 @@ sscan Record plans
    ~sscan_1D
 """
 
-from collections import OrderedDict
 import time
+from collections import OrderedDict
 
 from bluesky import plan_stubs as bps
 from ophyd import DeviceStatus
-
 
 new_data = False  # sscan has new data, boolean
 inactive_deadline = 0  # sscan timeout, absolute time.time()

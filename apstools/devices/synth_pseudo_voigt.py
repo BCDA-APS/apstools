@@ -39,8 +39,8 @@ EXAMPLES:
    ~SynPseudoVoigt
 """
 
-import ophyd.sim
 import numpy as np
+import ophyd.sim
 
 
 class SynPseudoVoigt(ophyd.sim.SynSignal):  # lgtm [py/missing-call-to-init]

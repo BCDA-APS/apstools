@@ -3,8 +3,9 @@ test the APS cycle computation code
 """
 
 import datetime
-import pytest
 import socket
+
+import pytest
 
 from .. import ApsCycleDM
 from .. import aps_cycle

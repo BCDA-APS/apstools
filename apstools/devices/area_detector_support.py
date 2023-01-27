@@ -24,7 +24,16 @@ Area Detector Support
    ~SingleTrigger_V34
 """
 
+import datetime
+import itertools
+import logging
+import pathlib
+import time
+import warnings
 from collections import OrderedDict
+
+import epics
+import numpy as np
 from ophyd import EpicsSignal
 from ophyd import EpicsSignalRO
 from ophyd import EpicsSignalWithRBV
@@ -37,15 +46,7 @@ from ophyd.areadetector.filestore_mixins import FileStorePluginBase
 from ophyd.areadetector.plugins import HDF5Plugin_V34 as HDF5Plugin
 from ophyd.areadetector.plugins import JPEGPlugin_V34 as JPEGPlugin
 from ophyd.areadetector.plugins import TIFFPlugin_V34 as TIFFPlugin
-import datetime
-import epics
-import itertools
-import logging
-import numpy as np
 from packaging import version
-import pathlib
-import time
-import warnings
 
 logger = logging.getLogger(__name__)
 

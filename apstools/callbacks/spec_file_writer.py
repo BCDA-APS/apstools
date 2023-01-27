@@ -54,15 +54,15 @@ results in this SPEC file output::
    ~spec_comment
 """
 
-from collections import OrderedDict
 import datetime
 import getpass
 import logging
-import numpy as np
 import os
 import socket
 import time
+from collections import OrderedDict
 
+import numpy as np
 
 SPEC_TIME_FORMAT = "%a %b %d %H:%M:%S %Y"
 SCAN_ID_RESET_VALUE = 0

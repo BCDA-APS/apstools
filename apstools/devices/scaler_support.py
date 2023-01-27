@@ -7,9 +7,9 @@ Scaler support
    ~use_EPICS_scaler_channels
 """
 
+import epics
 from ophyd import EpicsScaler
 from ophyd.scaler import ScalerCH
-import epics
 
 # for convenience
 SCALER_AUTOCOUNT_MODE = 1  # TODO: contribute to ophyd?

@@ -1,8 +1,8 @@
-from ..input_plan import request_input
-from bluesky import RunEngine
 import databroker
 import pytest
+from bluesky import RunEngine
 
+from ..input_plan import request_input
 
 cat = databroker.temp()
 RE = RunEngine({})

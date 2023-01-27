@@ -16,9 +16,10 @@ __all__ = """
     analyze_2D
 """.split()
 
-from pysumreg import SummationRegisters
 import logging
+
 import numpy as np
+from pysumreg import SummationRegisters
 
 logger = logging.getLogger(__name__)
 logger.info(__file__)

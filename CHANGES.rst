@@ -39,6 +39,7 @@ Maintenance
 ------------
 
 * Added github/super-linter workflow.
+* Apply isort code style.
 
 1.6.10
 ******

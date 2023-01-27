@@ -9,14 +9,14 @@ NeXus File Writer Callbacks
 """
 
 import datetime
-import h5py
 import logging
-import numpy as np
 import os
+
+import h5py
+import numpy as np
 import yaml
 
 from .callback_base import FileWriterCallbackBase
-
 
 NEXUS_FILE_EXTENSION = "hdf"  # use this file extension for the output
 NEXUS_RELEASE = "v2020.1"  # NeXus release to which this file is written

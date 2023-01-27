@@ -16,12 +16,13 @@ https://htmlpreview.github.io/?https://raw.githubusercontent.com/epics-modules/i
 :see: https://github.com/epics-modules/ip
 """
 
+import logging
+
+import pint
 from ophyd import Component
 from ophyd import EpicsSignal
-from .preamp_base import PreamplifierBaseDevice
 
-import logging
-import pint
+from .preamp_base import PreamplifierBaseDevice
 
 logger = logging.getLogger(__name__)
 

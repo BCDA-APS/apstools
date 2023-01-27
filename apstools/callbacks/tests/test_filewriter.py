@@ -2,22 +2,22 @@
 unit tests for the filewriters
 """
 
+import pathlib
+import tempfile
+
 import databroker
 import h5py
 import numpy
-import pathlib
 import pytest
 import spec2nexus.spec
-import tempfile
 
-from ..callback_base import FileWriterCallbackBase
+from ...utils import replay
 from .. import NEXUS_FILE_EXTENSION
 from .. import NEXUS_RELEASE
 from .. import NXWriter
 from .. import NXWriterAPS
 from .. import SpecWriterCallback
-from ...utils import replay
-
+from ..callback_base import FileWriterCallbackBase
 
 CATALOG = "usaxs_test"
 TUNE_AR = 103  # <-- scan_id,  uid: "3554003"
@@ -194,6 +194,7 @@ def test_NXWriter_default_plot(cat, tempdir):
 
 def test_NXWriter_make_file_name(tempdir):
     import datetime
+
     import dateutil.tz
 
     callback = NXWriter()

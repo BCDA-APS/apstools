@@ -1,8 +1,8 @@
 import pytest
 
-from ..xia_slit import XiaSlit2D
-from ...utils import SlitGeometry
 from ...tests import IOC
+from ...utils import SlitGeometry
+from ..xia_slit import XiaSlit2D
 
 PV_PREFIX = f"{IOC}phony_hsc1:"
 

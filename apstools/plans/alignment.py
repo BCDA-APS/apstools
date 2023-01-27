@@ -12,18 +12,20 @@ Alignment plans
 
 import datetime
 import logging
+
 import numpy as np
 import pyRestTable
-
-from bluesky import plans as bp
 from bluesky import plan_stubs as bps
+from bluesky import plans as bp
 from bluesky import preprocessors as bpp
 from bluesky.callbacks.fitting import PeakStats
-from ophyd import Device, Component, Signal
-from ophyd.scaler import ScalerCH, ScalerChannel
+from ophyd import Component
+from ophyd import Device
+from ophyd import Signal
+from ophyd.scaler import ScalerCH
+from ophyd.scaler import ScalerChannel
 
 from .. import utils
-
 
 logger = logging.getLogger(__name__)
 

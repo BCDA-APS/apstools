@@ -3,11 +3,11 @@ Test the Excel support.
 """
 
 import pathlib
+
 import pytest
 
 from ...plans import command_list
 from ...utils import ExcelDatabaseFileGeneric
-
 
 DATA_PATH = (pathlib.Path(command_list.__file__).parent / "tests")
 

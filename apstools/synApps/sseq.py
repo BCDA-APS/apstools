@@ -13,6 +13,7 @@ Public Structures
 """
 
 from collections import OrderedDict
+
 from ophyd import Component as Cpt
 from ophyd import Device
 from ophyd import DynamicDeviceComponent as DDC
@@ -22,7 +23,6 @@ from ophyd import FormattedComponent as FC
 
 from ._common import EpicsRecordDeviceCommonAll
 from ._common import EpicsSynAppsRecordEnableMixin
-
 
 STEP_LIST = [f"step{i+1}" for i in range(10)]  # step1, step2, step10
 

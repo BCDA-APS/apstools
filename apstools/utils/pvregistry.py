@@ -10,13 +10,12 @@ EPICS PV Registry
 """
 
 import logging
-import ophyd
-
 from collections import defaultdict
 
-from . import ipython_shell_namespace
-from . import full_dotted_name
+import ophyd
 
+from . import full_dotted_name
+from . import ipython_shell_namespace
 
 logger = logging.getLogger(__name__)
 

@@ -1,11 +1,10 @@
 import pytest
 
+from ...tests import IOC
+from ...tests import common_attribute_quantities_test
+from ...tests import short_delay_for_EPICS_IOC_database_processing
 from ..luascript import LuascriptRecord
 from ..luascript import UserScriptsDevice
-from ...tests import common_attribute_quantities_test
-from ...tests import IOC
-from ...tests import short_delay_for_EPICS_IOC_database_processing
-
 
 PV_PREFIX = f"{IOC}set1:"
 EMPIRICAL_DELAY = 0.5

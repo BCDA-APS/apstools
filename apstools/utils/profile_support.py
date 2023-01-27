@@ -11,7 +11,6 @@ Support for IPython profiles
 
 import logging
 
-
 logger = logging.getLogger(__name__)
 
 

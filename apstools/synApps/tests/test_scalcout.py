@@ -1,10 +1,10 @@
 import pytest
 
+from ...tests import IOC
+from ...tests import common_attribute_quantities_test
+from ...tests import short_delay_for_EPICS_IOC_database_processing
 from ..scalcout import ScalcoutRecord
 from ..scalcout import UserScalcoutDevice
-from ...tests import common_attribute_quantities_test
-from ...tests import IOC
-from ...tests import short_delay_for_EPICS_IOC_database_processing
 
 
 @pytest.mark.parametrize(

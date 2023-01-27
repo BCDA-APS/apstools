@@ -9,9 +9,9 @@ Struck 3820
 
 from ophyd import Component
 from ophyd import Device
-from ophyd.mca import EpicsMCARecord
 from ophyd import EpicsSignal
 from ophyd import EpicsSignalRO
+from ophyd.mca import EpicsMCARecord
 
 
 class Struck3820(Device):

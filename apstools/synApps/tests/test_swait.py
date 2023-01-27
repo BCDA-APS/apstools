@@ -1,12 +1,12 @@
 import pytest
 
-from ..swait import setup_random_number_swait
+from ...tests import IOC
+from ...tests import common_attribute_quantities_test
+from ...tests import short_delay_for_EPICS_IOC_database_processing
 from ..swait import SwaitRecord
 from ..swait import UserCalcN
 from ..swait import UserCalcsDevice
-from ...tests import common_attribute_quantities_test
-from ...tests import IOC
-from ...tests import short_delay_for_EPICS_IOC_database_processing
+from ..swait import setup_random_number_swait
 
 
 @pytest.mark.parametrize(

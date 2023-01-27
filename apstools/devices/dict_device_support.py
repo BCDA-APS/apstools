@@ -11,10 +11,11 @@ that a simple dictionary can be recorded in a bluesky data stream.
     ~make_dict_device
 """
 
+import time
+
 from ophyd import Component
 from ophyd import Device
 from ophyd import Signal
-import time
 
 
 def dict_device_factory(data={}):

@@ -9,8 +9,9 @@ Directory of the known plans
 
 import inspect
 import logging
-from ophyd.ophydobj import OphydObject
+
 import pandas as pd
+from ophyd.ophydobj import OphydObject
 
 logger = logging.getLogger(__name__)
 

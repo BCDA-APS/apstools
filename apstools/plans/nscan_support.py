@@ -7,10 +7,10 @@ nscan plan
    ~nscan
 """
 
-from collections import OrderedDict
 import datetime
-import numpy as np
+from collections import OrderedDict
 
+import numpy as np
 from bluesky import plan_stubs as bps
 from bluesky import preprocessors as bpp
 

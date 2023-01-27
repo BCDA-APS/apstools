@@ -2,19 +2,18 @@
 Unit tests for :mod:`~apstools._utils.device_info`.
 """
 
+import pandas as pd
+import pytest
 from ophyd import Component
 from ophyd import Device
 from ophyd import EpicsMotor
 from ophyd import Signal
 from ophyd.signal import EpicsSignalBase
-import pandas as pd
-import pytest
 
 from ...devices import SwaitRecord
 from ...tests import MASTER_TIMEOUT
 from ..device_info import _list_epics_signals
 from ..device_info import listdevice
-
 
 # set default timeout for all EpicsSignal connections & communications
 try:

@@ -14,20 +14,19 @@ Working with databroker catalogs
    ~quantify_md_key_use
 """
 
+import logging
+
 import databroker
-import databroker.queries
 import databroker._drivers.mongo_normalized
 import databroker._drivers.msgpack
-import logging
+import databroker.queries
 import pandas as pd
 import pyRestTable
 
-
-from .profile_support import getDefaultNamespace
-from .list_runs import getRunData
-from .profile_support import ipython_shell_namespace
 from ._core import CATALOG_CLASSES
-
+from .list_runs import getRunData
+from .profile_support import getDefaultNamespace
+from .profile_support import ipython_shell_namespace
 
 logger = logging.getLogger(__name__)
 
