@@ -19,7 +19,6 @@ from .. import SpecWriterCallback
 
 
 CATALOG = "usaxs_test"
-COUNT = "555a604"  # <-- uid,  scan_id: 2
 TUNE_AR = 103  # <-- scan_id,  uid: "3554003"
 TUNE_MR = 108  # <-- scan_id,  uid: "2ffe4d8"
 
@@ -49,30 +48,45 @@ def write_stream(specwriter, stream):
         specwriter.receiver(tag, doc)
 
 
-def test_catalog(cat):
+@pytest.mark.parametrize(
+    "ref, md_tag, md_key, md_value",
+    [
+        ["99f", "start", "uid", "99fe9e07-6a44-4834-856f-e48432fb01e5"],
+        ["99f", "start", "scan_id", 2],
+        [2, "start", "uid", "555a6047-acd9-46a8-85b0-234986ae1323"],
+        [2, "start", "scan_id", 2],
+        [110, "start", "uid", "19965989-0a2a-44aa-aa06-c1248754e651"],
+        ["19965989-0a2a-44aa-aa06-c1248754e651", "start", "scan_id", 110],
+        ["19965989-0a2a", "start", "scan_id", 110],
+        [103, "start", "plan_name", "tune_ar"],
+        [108, "start", "plan_name", "tune_mr"],
+        [110, "start", "plan_name", "Flyscan"],
+    ]
+)
+def test_metadata_keys(ref, md_tag, md_key, md_value, cat):
     assert len(cat) == 10
-    assert cat["99f"].metadata["start"]["scan_id"] == 2
-    assert cat[110].metadata["start"]["uid"][:5] == "19965"
+    assert cat[ref].metadata[md_tag][md_key] == md_value
 
 
-def test_replay(cat):
-    run = cat.v1[COUNT]
-    assert len(list(run.documents())) == 7
-    di = iter(run.documents())
-    key, doc = next(di)
-    assert key == "start"
-    key, doc = next(di)
-    assert key == "descriptor"
-    key, doc = next(di)
-    assert key == "descriptor"
-    key, doc = next(di)
-    assert key == "event"
-    key, doc = next(di)
-    assert key == "event"
-    key, doc = next(di)
-    assert key == "event"
-    key, doc = next(di)
-    assert key == "stop"
+@pytest.mark.parametrize(
+    "ref, tag_sequence",
+    [
+        ["555a604", ["start"] + ["descriptor"]*2 + ["event"]*3 + ["stop"]],
+        [2, ["start"] + ["descriptor"]*2 + ["event"]*3 + ["stop"]],
+        ["99f", ["start"] + ["descriptor"]*2 + ["event"]*33 + ["stop"]],
+        [103, ["start"] + ["descriptor"]*2 + ["event"]*37 + ["stop"]],
+        [108, ["start"] + ["descriptor"]*2 + ["event"]*33 + ["stop"]],
+        [110, ["start"] + ["descriptor"]*2 + ["event"]*3 + ["stop"]],
+    ]
+)
+def test_replay(ref, tag_sequence, cat):
+    run = cat.v1[ref]
+    document_keys = [k for k, _ in run.documents()]
+    assert len(document_keys) == len(tag_sequence), f"{document_keys=}"
+    for tag, item in zip(tag_sequence, list(run.documents())):
+        assert isinstance(item, (list, tuple))
+        assert len(item) == 2
+        assert item[0] == tag
 
 
 def test_FileWriterCallbackBase(cat, capsys):
