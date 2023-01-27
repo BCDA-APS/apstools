@@ -10,11 +10,11 @@ Spreadsheet Support
 """
 
 import math
+import os
+from collections import OrderedDict
+
 import openpyxl
 import openpyxl.utils.exceptions
-import os
-
-from collections import OrderedDict
 
 from . import to_unicode_or_bust
 

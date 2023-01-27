@@ -29,9 +29,8 @@ output of ophyd configuration to stdout
 
 """
 
-from collections import OrderedDict
 import re
-
+from collections import OrderedDict
 
 KNOWN_DEVICES = "PSE_MAC_MOT VM_EPICS_M1 VM_EPICS_PV VM_EPICS_SC".split()
 

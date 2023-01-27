@@ -2,14 +2,14 @@
 test issue #440: specwriter
 """
 
-import intake
-import numpy as np
 import os
 import zipfile
 
+import intake
+import numpy as np
+
 from .. import SpecWriterCallback
 from ..spec_file_writer import _rebuild_scan_command
-
 
 DATA_ARCHIVE = "440_specwriter_problem_run.zip"
 

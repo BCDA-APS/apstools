@@ -35,9 +35,9 @@ from ophyd import Component
 from ophyd import Device
 from ophyd import EpicsSignal
 from ophyd import EpicsSignalRO
-from ..devices import PVPositionerSoftDone
 from ophyd import Signal
 
+from ..devices import PVPositionerSoftDone
 from ..utils import SlitGeometry
 
 

@@ -11,8 +11,8 @@ Base Class for File Writer Callbacks
 import datetime
 import logging
 import os
-import pyRestTable
 
+import pyRestTable
 
 logger = logging.getLogger(__name__)
 

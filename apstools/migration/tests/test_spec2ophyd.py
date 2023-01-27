@@ -1,8 +1,9 @@
-import pytest
-from ...migration import spec2ophyd
 import pathlib
 from collections import OrderedDict
 
+import pytest
+
+from ...migration import spec2ophyd
 
 path = pathlib.Path(__file__).parent.parent
 

@@ -1,12 +1,12 @@
-from ophyd import EpicsSignal
 import pytest
+from ophyd import EpicsSignal
 
-from ..sseq import SseqRecord
-from ..sseq import sseqRecordStep
-from ..sseq import UserStringSequenceDevice
-from ...tests import common_attribute_quantities_test
 from ...tests import IOC
+from ...tests import common_attribute_quantities_test
 from ...tests import short_delay_for_EPICS_IOC_database_processing
+from ..sseq import SseqRecord
+from ..sseq import UserStringSequenceDevice
+from ..sseq import sseqRecordStep
 
 
 @pytest.mark.parametrize(

@@ -1,8 +1,10 @@
-from .. import restorable_stage_sigs
-from ophyd import Component, Device, Signal
 import bluesky
 import pytest
+from ophyd import Component
+from ophyd import Device
+from ophyd import Signal
 
+from .. import restorable_stage_sigs
 
 RE = bluesky.RunEngine()
 

@@ -2,14 +2,16 @@
 Test search for keys in hints from listruns().
 """
 
-from ... import utils as utils
-from ...tests import IOC
-from ophyd.scaler import ScalerCH
+import random
+
 import bluesky
 import bluesky.plans as bp
 import databroker
 import pytest
-import random
+from ophyd.scaler import ScalerCH
+
+from ... import utils as utils
+from ...tests import IOC
 
 PV = f"{IOC}scaler1"
 

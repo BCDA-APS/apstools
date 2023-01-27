@@ -2,21 +2,20 @@
 Unit testing of plans.
 """
 
+import pathlib
+import sys
+
+import ophyd.sim
+import pytest
 from bluesky.simulators import summarize_plan
 from ophyd.signal import EpicsSignalBase
 
-import ophyd.sim
-import pathlib
-import pytest
-import sys
-
+from ...tests import MASTER_TIMEOUT
 from .. import addDeviceDataAsStream
 from .. import execute_command_list
 from .. import get_command_list
 from .. import register_command_handler
 from .. import run_command_file
-from ...tests import MASTER_TIMEOUT
-
 
 # set default timeout for all EpicsSignal connections & communications
 try:

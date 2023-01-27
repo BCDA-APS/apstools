@@ -10,11 +10,12 @@ Issue 606
 Because fwhm is None.
 """
 
-from bluesky import RunEngine
-import bluesky.plan_stubs as bps
-from bluesky.callbacks import best_effort
-import databroker
 import dataclasses
+
+import bluesky.plan_stubs as bps
+import databroker
+from bluesky import RunEngine
+from bluesky.callbacks import best_effort
 
 from .. import TuneResults
 

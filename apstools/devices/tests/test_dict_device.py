@@ -1,9 +1,10 @@
-from .. import make_dict_device
-from ...tests import IOC
-import ophyd
-import pytest
 import time
 
+import ophyd
+import pytest
+
+from ...tests import IOC
+from .. import make_dict_device
 
 m1 = ophyd.EpicsMotor(f"{IOC}m1", name="m1")
 m1.wait_for_connection()

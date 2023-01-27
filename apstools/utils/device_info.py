@@ -8,15 +8,14 @@ Device information
 """
 
 
+import datetime
+import logging
 from collections import defaultdict
+
+import pandas as pd
 from ophyd import Device
 from ophyd import Signal
 from ophyd.signal import EpicsSignalBase
-
-import datetime
-import logging
-import pandas as pd
-
 
 logger = logging.getLogger(__name__)
 pd.set_option("display.max_rows", None)

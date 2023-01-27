@@ -7,7 +7,8 @@ PVPositioner that computes ``done`` as a soft signal.
    ~PVPositionerSoftDoneWithStop
 """
 
-from ..tests import short_delay_for_EPICS_IOC_database_processing
+import logging
+
 from ophyd import Component
 from ophyd import EpicsSignal
 from ophyd import EpicsSignalRO
@@ -15,8 +16,8 @@ from ophyd import FormattedComponent
 from ophyd import PVPositioner
 from ophyd import Signal
 from ophyd.signal import EpicsSignalBase
-import logging
 
+from ..tests import short_delay_for_EPICS_IOC_database_processing
 
 logger = logging.getLogger(__name__)
 

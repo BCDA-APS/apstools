@@ -2,7 +2,6 @@ import databroker._drivers.mongo_normalized
 import databroker._drivers.msgpack
 import intake
 
-
 FIRST_DATA = "1995-01-01"
 LAST_DATA = "2100-12-31"
 

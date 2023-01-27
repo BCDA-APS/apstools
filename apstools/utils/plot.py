@@ -61,8 +61,9 @@ def plotxy(runs, xname, yname, append=False, cat=None, stats=True, stream="prima
 
     New in release 1.6.10.
     """
-    from . import getDefaultCatalog
     import matplotlib.pyplot as plt
+
+    from . import getDefaultCatalog
 
     plt.ion()
 

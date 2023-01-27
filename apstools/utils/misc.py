@@ -23,23 +23,24 @@ Miscellaneous Support
    ~unix
 """
 
-from ._core import MAX_EPICS_STRINGOUT_LENGTH
-from ..callbacks import spec_file_writer
-from .profile_support import ipython_shell_namespace
-from bluesky import plan_stubs as bps
-from bluesky.callbacks.best_effort import BestEffortCallback
-from collections import OrderedDict
-import databroker
 import logging
-import ophyd
-import pyRestTable
 import re
 import subprocess
 import sys
 import threading
 import time
 import warnings
+from collections import OrderedDict
 
+import databroker
+import ophyd
+import pyRestTable
+from bluesky import plan_stubs as bps
+from bluesky.callbacks.best_effort import BestEffortCallback
+
+from ..callbacks import spec_file_writer
+from ._core import MAX_EPICS_STRINGOUT_LENGTH
+from .profile_support import ipython_shell_namespace
 
 logger = logging.getLogger(__name__)
 

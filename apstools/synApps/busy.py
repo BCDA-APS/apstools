@@ -10,8 +10,9 @@ Public Structures
 
 """
 
-from ophyd.device import Device, Component
 from ophyd import EpicsSignal
+from ophyd.device import Component
+from ophyd.device import Device
 
 
 class BusyRecord(Device):

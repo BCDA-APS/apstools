@@ -10,8 +10,10 @@ Public Structures
 :see: https://github.com/epics-modules/asyn
 """
 
+from ophyd import EpicsSignal
+from ophyd import EpicsSignalRO
 from ophyd.device import Component
-from ophyd import EpicsSignal, EpicsSignalRO
+
 from ._common import EpicsRecordDeviceCommonAll
 
 

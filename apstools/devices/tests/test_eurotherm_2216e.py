@@ -4,8 +4,8 @@ test the Eurotherm 2216e device support
 Hardware is not available so test with best efforts
 """
 
-from .. import eurotherm_2216e
 from ...tests import IOC
+from .. import eurotherm_2216e
 
 PV_PREFIX = f"phony:{IOC}2216e:"
 

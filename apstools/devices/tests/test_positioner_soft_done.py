@@ -1,16 +1,16 @@
-from ophyd import EpicsSignal
-
-from ..positioner_soft_done import PVPositionerSoftDone
-from ..positioner_soft_done import PVPositionerSoftDoneWithStop
-from ...synApps.swait import UserCalcsDevice
-from ...tests import common_attribute_quantities_test
-from ...tests import IOC
-from ...tests import short_delay_for_EPICS_IOC_database_processing
-from ...utils import run_in_thread
-
-import pytest
 import random
 import time
+
+import pytest
+from ophyd import EpicsSignal
+
+from ...synApps.swait import UserCalcsDevice
+from ...tests import IOC
+from ...tests import common_attribute_quantities_test
+from ...tests import short_delay_for_EPICS_IOC_database_processing
+from ...utils import run_in_thread
+from ..positioner_soft_done import PVPositionerSoftDone
+from ..positioner_soft_done import PVPositionerSoftDoneWithStop
 
 PV_PREFIX = f"{IOC}gp:"
 delay_active = False

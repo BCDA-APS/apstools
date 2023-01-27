@@ -3,12 +3,13 @@ Test the command list support.
 """
 
 import pathlib
+
 import pyRestTable
 import pytest
 
 from .. import CommandFileReadError
-from .. import get_command_list
 from .. import command_list_as_table
+from .. import get_command_list
 
 DATA_PATH = pathlib.Path(__file__).parent
 

@@ -31,9 +31,9 @@ their original ``.stage_sigs`` dictionaries.
 (new in apstools release 1.6.9)
 """
 
-from bluesky.utils import make_decorator
 import logging
 
+from bluesky.utils import make_decorator
 
 logger = logging.getLogger(__name__)
 

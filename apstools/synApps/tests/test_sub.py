@@ -1,12 +1,12 @@
 import pytest
 
+from ...tests import IOC
+from ...tests import common_attribute_quantities_test
+from ...tests import short_delay_for_EPICS_IOC_database_processing
 from ..calcout import CalcoutRecord
 from ..sub import SubRecord
-from ..sub import UserAverageN
 from ..sub import UserAverageDevice
-from ...tests import common_attribute_quantities_test
-from ...tests import IOC
-from ...tests import short_delay_for_EPICS_IOC_database_processing
+from ..sub import UserAverageN
 
 
 @pytest.fixture(scope="function")

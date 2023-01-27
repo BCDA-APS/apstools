@@ -17,8 +17,8 @@ nscan plan
 
 import logging
 import os
-import pyRestTable
 
+import pyRestTable
 from bluesky import plan_stubs as bps
 
 from .. import utils

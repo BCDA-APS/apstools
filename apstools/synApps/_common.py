@@ -16,8 +16,10 @@ Public Structures
 :see: https://wiki-ext.aps.anl.gov/epics/index.php/RRM_3-14_Common
 """
 
-from ophyd.device import Device, Component
-from ophyd import EpicsSignal, EpicsSignalRO
+from ophyd import EpicsSignal
+from ophyd import EpicsSignalRO
+from ophyd.device import Component
+from ophyd.device import Device
 
 
 class EpicsRecordDeviceCommonAll(Device):

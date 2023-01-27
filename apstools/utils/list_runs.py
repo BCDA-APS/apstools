@@ -12,26 +12,24 @@ Directory of bluesky runs
    ~summarize_runs
 """
 
+import dataclasses
+import datetime
+import logging
+import time
+import typing
+from collections import defaultdict
+
 import databroker
 import databroker._drivers.mongo_normalized
 import databroker._drivers.msgpack
 import databroker.queries
-import dataclasses
-import datetime
-import logging
 import pandas as pd
 import pyRestTable
-import time
-import typing
-
-from collections import defaultdict
-
-from .query import db_query
 
 from ._core import FIRST_DATA
 from ._core import LAST_DATA
 from ._core import MONGO_CATALOG_CLASSES
-
+from .query import db_query
 
 logger = logging.getLogger(__name__)
 

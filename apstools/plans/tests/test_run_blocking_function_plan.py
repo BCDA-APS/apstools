@@ -2,14 +2,16 @@
 Test execution of a blocking function in a plan.
 """
 
+import random
+import time
+
+import bluesky
+import pytest
+from ophyd import EpicsSignal
+
 from ...tests import IOC
 from ...utils import run_in_thread
 from .. import run_blocking_function
-from ophyd import EpicsSignal
-import bluesky
-import pytest
-import random
-import time
 
 PV = f"{IOC}gp:float1"
 T_MIN = 0.1

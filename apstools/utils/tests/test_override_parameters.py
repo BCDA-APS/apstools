@@ -2,10 +2,11 @@
 test override_parameters module
 """
 
-from ...utils import OverrideParameters
 import numpy as np
 import pandas as pd
 import pytest
+
+from ...utils import OverrideParameters
 
 
 @pytest.fixture(scope="function")

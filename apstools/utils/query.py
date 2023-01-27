@@ -8,6 +8,7 @@ Searching databroker catalogs
 """
 
 import databroker
+
 from ._core import FIRST_DATA
 from ._core import LAST_DATA
 

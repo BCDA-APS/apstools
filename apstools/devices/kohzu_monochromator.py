@@ -14,8 +14,8 @@ from ophyd import Component
 from ophyd import Device
 from ophyd import EpicsSignal
 from ophyd import EpicsSignalRO
-from ophyd import Signal
 from ophyd import PVPositioner
+from ophyd import Signal
 
 from ..utils import run_in_thread
 

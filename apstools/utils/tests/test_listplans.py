@@ -2,10 +2,10 @@
 test issue listplans() command
 """
 
-from bluesky import Msg
-from bluesky import plans as bp
 import pandas as pd
 import pytest
+from bluesky import Msg
+from bluesky import plans as bp
 
 from ...devices import SimulatedApsPssShutterWithStatus
 from .. import listplans

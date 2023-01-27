@@ -4,14 +4,14 @@ file: /tmp/kohzu.py
 
 import time
 
-from .. import KohzuSeqCtl_Monochromator
-from ...tests import MASTER_TIMEOUT
-from bluesky import plan_stubs as bps
 from bluesky import RunEngine
+from bluesky import plan_stubs as bps
 from ophyd import Component
 from ophyd import EpicsMotor
 from ophyd.signal import EpicsSignalBase
 
+from ...tests import MASTER_TIMEOUT
+from .. import KohzuSeqCtl_Monochromator
 
 # set default timeout for all EpicsSignal connections & communications
 try:

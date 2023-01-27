@@ -1,5 +1,6 @@
-from ..misc import connect_pvlist
 import pytest
+
+from ..misc import connect_pvlist
 
 
 @pytest.mark.parametrize(

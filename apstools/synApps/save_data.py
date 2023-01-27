@@ -18,8 +18,8 @@ Public Structures
 """
 
 
-from ophyd import Device
 from ophyd import Component
+from ophyd import Device
 from ophyd import EpicsSignal
 from ophyd import EpicsSignalRO
 

@@ -24,7 +24,10 @@ Flyers for motor and scaler scans
 New in release 1.6.9
 """
 
-from ..utils import run_in_thread
+import logging
+import time
+
+import pysumreg
 from ophyd import Component
 from ophyd import Device
 from ophyd import DeviceStatus
@@ -32,9 +35,8 @@ from ophyd import EpicsMotor
 from ophyd import Signal
 from ophyd.scaler import ScalerCH
 from ophyd.status import Status
-import pysumreg
-import logging
-import time
+
+from ..utils import run_in_thread
 
 logger = logging.getLogger(__name__)
 
@@ -714,8 +716,9 @@ class ScalerMotorFlyer(_SMFlyer_Step_3):
 
     def collect(self):
         """Report the collected data."""
-        from . import make_dict_device
         from bluesky import plan_stubs as bps
+
+        from . import make_dict_device
 
         yield from self._action_readings_to_collect_events()
 

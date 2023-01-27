@@ -19,15 +19,15 @@ EXAMPLES::
 
 
 from collections import OrderedDict
-from ophyd import Device
+
 from ophyd import Component as Cpt
+from ophyd import Device
 from ophyd import DynamicDeviceComponent as DDC
-from ophyd import FormattedComponent as FC
 from ophyd import EpicsSignal
+from ophyd import FormattedComponent as FC
 
-from ._common import EpicsRecordDeviceCommonAll
 from .. import utils as APS_utils
-
+from ._common import EpicsRecordDeviceCommonAll
 
 INPUT_LETTERS_LIST = "A B C D E F G H I J".split()
 

@@ -2,6 +2,8 @@
 Support for APS hardware abstractions (both physical and virtual).
 """
 
+# isort: skip_file
+
 # must come first to avoid circular imports
 from .positioner_soft_done import PVPositionerSoftDone
 from .positioner_soft_done import PVPositionerSoftDoneWithStop

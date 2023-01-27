@@ -9,6 +9,7 @@ Mixin to add EPICS .DESC field
 
 from ophyd import Component
 from ophyd import EpicsSignal
+
 from .mixin_base import DeviceMixinBase
 
 

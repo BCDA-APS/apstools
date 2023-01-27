@@ -13,6 +13,10 @@ Shutters
    ~SimulatedApsPssShutterWithStatus
 """
 
+import threading
+import time
+
+import numpy as np
 from ophyd import Component
 from ophyd import Device
 from ophyd import DeviceStatus
@@ -21,10 +25,6 @@ from ophyd import EpicsSignal
 from ophyd import EpicsSignalRO
 from ophyd import FormattedComponent
 from ophyd import Signal
-
-import numpy as np
-import threading
-import time
 
 
 class ShutterBase(Device):

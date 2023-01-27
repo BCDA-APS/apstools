@@ -1,11 +1,13 @@
+import logging
+import pathlib
+import tempfile
+
+import pytest
+
 from .. import file_log_handler
 from .. import get_log_path
 from .. import setup_IPython_console_logging
 from .. import stream_log_handler
-import logging
-import pathlib
-import pytest
-import tempfile
 
 
 @pytest.fixture(scope="function")
