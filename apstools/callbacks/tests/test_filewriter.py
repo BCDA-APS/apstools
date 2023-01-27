@@ -271,7 +271,7 @@ def test_NXWriter_receiver_battery(cat, tempdir):
             for subgroup_name in "detectors positioners".split():
                 if subgroup_name in nxinstrument:
                     subgroup = nxinstrument[subgroup_name]
-                    # FIXME:  assert len(subgroup) > 0, f"{uid[:7]=}  {subgroup_name=} is empty"
+                    assert len(subgroup) > 0, f"{uid[:7]=}  {subgroup_name=} is empty"
             
             assert "bluesky" in nxinstrument
             bluesky_group = nxinstrument["bluesky"]
