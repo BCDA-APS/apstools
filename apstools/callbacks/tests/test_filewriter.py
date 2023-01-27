@@ -16,6 +16,7 @@ from .. import NEXUS_RELEASE
 from .. import NXWriter
 from .. import NXWriterAPS
 from .. import SpecWriterCallback
+from ...utils import replay
 
 
 CATALOG = "usaxs_test"
@@ -79,7 +80,7 @@ def test_metadata_keys(ref, md_tag, md_key, md_value, cat):
         [110, ["start"] + ["descriptor"]*2 + ["event"]*3 + ["stop"]],
     ]
 )
-def test_replay(ref, tag_sequence, cat):
+def test_document_sequence(ref, tag_sequence, cat):
     run = cat.v1[ref]
     document_keys = [k for k, _ in run.documents()]
     assert len(document_keys) == len(tag_sequence), f"{document_keys=}"
@@ -125,9 +126,7 @@ def test_NXWriterAPS(cat, tempdir):
     callback = NXWriterAPS()
     callback.file_path = tempdir
 
-    run = cat.v1[TUNE_MR]
-    for tag, doc in run.documents():
-        callback.receiver(tag, doc)
+    replay(cat.v1[TUNE_MR], callback.receiver)
 
     fname = callback.make_file_name()
     assert os.path.exists(fname)
@@ -147,9 +146,7 @@ def test_NXWriter_default_plot(cat, tempdir):
     callback = NXWriterAPS()
     callback.file_path = tempdir
 
-    run = cat.v1[TUNE_MR]
-    for tag, doc in run.documents():
-        callback.receiver(tag, doc)
+    replay(cat.v1[TUNE_MR], callback.receiver)
 
     fname = callback.make_file_name()
     assert os.path.exists(fname)
@@ -253,14 +250,12 @@ def test_NXWriter_receiver_battery(cat, tempdir):
     assert callback.file_extension == NEXUS_FILE_EXTENSION
 
     for uid in cat:
-        run = cat.v1[uid]
         callback.clear()
         callback.file_path = tempdir
         assert callback.uid is None
         assert not callback.scanning
 
-        for tag, doc in run.documents():
-            callback.receiver(tag, doc)
+        replay(cat.v1[uid], callback.receiver)
 
         fname = callback.make_file_name()
         assert os.path.exists(fname)
@@ -272,13 +267,19 @@ def test_NXWriter_receiver_battery(cat, tempdir):
             assert to_string(nxentry["entry_identifier"][()]) == to_string(callback.uid)
             assert to_string(nxentry["plan_name"][()]) == to_string(callback.plan_name)
 
-            assert "instrument/bluesky" in nxentry
-            bluesky_group = nxentry["instrument/bluesky"]
+            nxinstrument = nxentry["instrument"]
+            for subgroup_name in "detectors positioners".split():
+                if subgroup_name in nxinstrument:
+                    subgroup = nxinstrument[subgroup_name]
+                    # FIXME: assert len(subgroup) > 0, f"{uid[:7]=}  {subgroup_name=} is empty"
+            
+            assert "bluesky" in nxinstrument
+            bluesky_group = nxinstrument["bluesky"]
             assert "metadata" in bluesky_group
             assert "streams" in bluesky_group
             assert len(bluesky_group["streams"]) == len(callback.streams)
 
-            assert "/entry/instrument/undulator" not in nxroot
+            assert "undulator" not in nxinstrument
 
 
 def test_SpecWriterCallback_writer_default_name(cat, tempdir):
