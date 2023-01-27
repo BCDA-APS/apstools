@@ -93,9 +93,8 @@ class NXWriter(FileWriterCallbackBase):
         decide if a signal in the primary stream is a detector or a positioner
         """
         try:
-            primary = self.root[
-                "/entry/instrument/bluesky/streams/primary"
-            ]
+            k = "/entry/instrument/bluesky/streams/primary"
+            primary = self.root[k]
         except KeyError:
             raise KeyError(
                 f"no primary data stream in "
@@ -109,7 +108,11 @@ class NXWriter(FileWriterCallbackBase):
             elif k in self.positioners:
                 signal_type = "positioner"
             else:
-                signal_type = "other"
+                if v["value"].attrs.get("source", "").find(".S") > 0:
+                    # PV name matches a scaler channel PV
+                    signal_type = "detector"
+                else:
+                    signal_type = "other"
             v.attrs["signal_type"] = signal_type  # group
             try:
                 v["value"].attrs["signal_type"] = signal_type  # dataset

@@ -4,7 +4,8 @@ unit tests for the filewriters
 
 import databroker
 import h5py
-import os
+import numpy
+import pathlib
 import pytest
 import spec2nexus.spec
 import tempfile
@@ -15,10 +16,10 @@ from .. import NEXUS_RELEASE
 from .. import NXWriter
 from .. import NXWriterAPS
 from .. import SpecWriterCallback
+from ...utils import replay
 
 
 CATALOG = "usaxs_test"
-COUNT = "555a604"  # <-- uid,  scan_id: 2
 TUNE_AR = 103  # <-- scan_id,  uid: "3554003"
 TUNE_MR = 108  # <-- scan_id,  uid: "2ffe4d8"
 
@@ -32,7 +33,7 @@ def cat():
 @pytest.fixture(scope="function")
 def tempdir():
     tempdir = tempfile.mkdtemp()
-    return tempdir
+    return pathlib.Path(tempdir)
 
 
 def to_string(text):
@@ -48,30 +49,45 @@ def write_stream(specwriter, stream):
         specwriter.receiver(tag, doc)
 
 
-def test_catalog(cat):
+@pytest.mark.parametrize(
+    "ref, md_tag, md_key, md_value",
+    [
+        ["99f", "start", "uid", "99fe9e07-6a44-4834-856f-e48432fb01e5"],
+        ["99f", "start", "scan_id", 2],
+        [2, "start", "uid", "555a6047-acd9-46a8-85b0-234986ae1323"],
+        [2, "start", "scan_id", 2],
+        [110, "start", "uid", "19965989-0a2a-44aa-aa06-c1248754e651"],
+        ["19965989-0a2a-44aa-aa06-c1248754e651", "start", "scan_id", 110],
+        ["19965989-0a2a", "start", "scan_id", 110],
+        [103, "start", "plan_name", "tune_ar"],
+        [108, "start", "plan_name", "tune_mr"],
+        [110, "start", "plan_name", "Flyscan"],
+    ]
+)
+def test_metadata_keys(ref, md_tag, md_key, md_value, cat):
     assert len(cat) == 10
-    assert cat["99f"].metadata["start"]["scan_id"] == 2
-    assert cat[110].metadata["start"]["uid"][:5] == "19965"
+    assert cat[ref].metadata[md_tag][md_key] == md_value
 
 
-def test_replay(cat):
-    run = cat.v1[COUNT]
-    assert len(list(run.documents())) == 7
-    di = iter(run.documents())
-    key, doc = next(di)
-    assert key == "start"
-    key, doc = next(di)
-    assert key == "descriptor"
-    key, doc = next(di)
-    assert key == "descriptor"
-    key, doc = next(di)
-    assert key == "event"
-    key, doc = next(di)
-    assert key == "event"
-    key, doc = next(di)
-    assert key == "event"
-    key, doc = next(di)
-    assert key == "stop"
+@pytest.mark.parametrize(
+    "ref, tag_sequence",
+    [
+        ["555a604", ["start"] + ["descriptor"]*2 + ["event"]*3 + ["stop"]],
+        [2, ["start"] + ["descriptor"]*2 + ["event"]*3 + ["stop"]],
+        ["99f", ["start"] + ["descriptor"]*2 + ["event"]*33 + ["stop"]],
+        [103, ["start"] + ["descriptor"]*2 + ["event"]*37 + ["stop"]],
+        [108, ["start"] + ["descriptor"]*2 + ["event"]*33 + ["stop"]],
+        [110, ["start"] + ["descriptor"]*2 + ["event"]*3 + ["stop"]],
+    ]
+)
+def test_document_sequence(ref, tag_sequence, cat):
+    run = cat.v1[ref]
+    document_keys = [k for k, _ in run.documents()]
+    assert len(document_keys) == len(tag_sequence), f"{document_keys=}"
+    for tag, item in zip(tag_sequence, list(run.documents())):
+        assert isinstance(item, (list, tuple))
+        assert len(item) == 2
+        assert item[0] == tag
 
 
 def test_FileWriterCallbackBase(cat, capsys):
@@ -108,14 +124,12 @@ def test_FileWriterCallbackBase(cat, capsys):
 
 def test_NXWriterAPS(cat, tempdir):
     callback = NXWriterAPS()
-    callback.file_path = tempdir
+    callback.file_path = str(tempdir)
 
-    run = cat.v1[TUNE_MR]
-    for tag, doc in run.documents():
-        callback.receiver(tag, doc)
+    replay(cat.v1[TUNE_MR], callback.receiver)
 
-    fname = callback.make_file_name()
-    assert os.path.exists(fname)
+    fname = pathlib.Path(callback.make_file_name())
+    assert fname.exists()
     with h5py.File(fname, "r") as nxroot:
         assert "/entry/instrument/source" in nxroot
         nxsource = nxroot["/entry/instrument/source"]
@@ -130,26 +144,52 @@ def test_NXWriterAPS(cat, tempdir):
 
 def test_NXWriter_default_plot(cat, tempdir):
     callback = NXWriterAPS()
-    callback.file_path = tempdir
+    callback.file_path = str(tempdir)
 
-    run = cat.v1[TUNE_MR]
-    for tag, doc in run.documents():
-        callback.receiver(tag, doc)
+    replay(cat.v1[TUNE_MR], callback.receiver)
 
-    fname = callback.make_file_name()
-    assert os.path.exists(fname)
+    fname = pathlib.Path(callback.make_file_name())
+    assert fname.exists()
     with h5py.File(fname, "r") as nxroot:
-        assert nxroot.attrs["default"] == "entry"
-        assert nxroot["/entry"].attrs["default"] == "data"
-        nxdata = nxroot["/entry/data"]
-        signal = nxdata.attrs.get("signal")
+        assert nxroot is not None
+
+        default_entry = nxroot.attrs.get("default")
+        assert default_entry == "entry"
+        assert default_entry in nxroot
+
+        nxentry = nxroot[default_entry]
+        assert nxentry is not None
+
+        default_data = nxentry.attrs.get("default")
+        assert default_data == "data"
+        assert default_data in nxentry
+
+        nxdata = nxentry[default_data]
+        default_signal = nxdata.attrs.get("signal")
+        assert default_signal is not None
+        assert default_signal in nxdata
+
+        signal = nxdata[default_signal]
         assert signal is not None
-        assert signal in nxdata
-        axes = nxdata.attrs.get("axes")
-        assert axes is not None
-        assert len(axes) == 1
-        assert axes[0] in nxdata
-        assert axes[0] != signal
+        assert isinstance(signal[()], numpy.ndarray)
+
+        signal_shape = signal[()].shape
+        assert len(signal_shape) > 0
+        assert signal_shape[0] > 0
+
+        default_axes = nxdata.attrs.get("axes")
+        assert default_axes is not None
+        assert isinstance(default_axes, numpy.ndarray)
+        assert default_axes.dtype == "O"
+        assert len(default_axes) > 0
+        for axis_name in default_axes:
+            assert axis_name != default_signal
+            assert axis_name in nxdata
+
+            axis = nxdata[axis_name]
+            assert axis is not None
+            assert isinstance(axis[()], numpy.ndarray)
+            assert axis[()].shape == signal_shape
 
 
 def test_NXWriter_make_file_name(tempdir):
@@ -183,7 +223,7 @@ def test_NXWriter_make_file_name(tempdir):
     assert "'NoneType' object is not subscriptable" == str(exinfo.value)
 
     callback.uid = "012345678901234567890123456789"
-    fname = callback.make_file_name()
+    fname = pathlib.Path(callback.make_file_name())
     # https://github.com/BCDA-APS/apstools/issues/345
     tz_aps = dateutil.tz.gettz("America/Chicago")
     tz_local = dateutil.tz.tzlocal()
@@ -196,12 +236,12 @@ def test_NXWriter_make_file_name(tempdir):
     expected += f"-S{9876:05d}"
     expected += "-0123456"
     expected += f".{NEXUS_FILE_EXTENSION}"
-    assert os.path.split(fname)[-1] == expected
-    assert os.path.dirname(fname) == os.getcwd()
+    assert fname.name == expected
+    assert fname.parent == pathlib.Path(".").absolute()
 
-    callback.file_path = tempdir
-    fname = callback.make_file_name()
-    assert os.path.dirname(fname) == tempdir
+    callback.file_path = str(tempdir)
+    fname = pathlib.Path(callback.make_file_name())
+    assert fname.parent == tempdir
 
 
 def test_NXWriter_receiver_battery(cat, tempdir):
@@ -210,49 +250,51 @@ def test_NXWriter_receiver_battery(cat, tempdir):
     assert callback.file_extension == NEXUS_FILE_EXTENSION
 
     for uid in cat:
-        run = cat.v1[uid]
         callback.clear()
-        callback.file_path = tempdir
+        callback.file_path = str(tempdir)
         assert callback.uid is None
         assert not callback.scanning
 
-        for tag, doc in run.documents():
-            callback.receiver(tag, doc)
+        replay(cat.v1[uid], callback.receiver)
 
-        fname = callback.make_file_name()
-        assert os.path.exists(fname)
+        fname = pathlib.Path(callback.make_file_name())
+        assert fname.exists()
         with h5py.File(fname, "r") as nxroot:
             assert nxroot.attrs["NeXus_version"] == NEXUS_RELEASE
             assert nxroot.attrs["creator"] == callback.__class__.__name__
 
-            assert "/entry" in nxroot
             nxentry = nxroot["/entry"]
             assert to_string(nxentry["entry_identifier"][()]) == to_string(callback.uid)
             assert to_string(nxentry["plan_name"][()]) == to_string(callback.plan_name)
 
-            assert "instrument/bluesky" in nxentry
-            bluesky_group = nxentry["instrument/bluesky"]
+            nxinstrument = nxentry["instrument"]
+            for subgroup_name in "detectors positioners".split():
+                if subgroup_name in nxinstrument:
+                    subgroup = nxinstrument[subgroup_name]
+                    assert len(subgroup) > 0, f"{uid[:7]=}  {subgroup_name=} is empty"
+
+            assert "bluesky" in nxinstrument
+            bluesky_group = nxinstrument["bluesky"]
             assert "metadata" in bluesky_group
             assert "streams" in bluesky_group
             assert len(bluesky_group["streams"]) == len(callback.streams)
 
-            assert "/entry/instrument/undulator" not in nxroot
+            assert "undulator" not in nxinstrument
 
 
 def test_SpecWriterCallback_writer_default_name(cat, tempdir):
     specwriter = SpecWriterCallback()
-    path = os.path.abspath(os.path.dirname(specwriter.spec_filename))
+    path = pathlib.Path(specwriter.spec_filename).parent
     assert path != tempdir  # "default file not in tempdir"
-    assert path == os.path.abspath(os.getcwd())  # "default file to go in pwd"
 
     # change the directory
-    specwriter.spec_filename = os.path.join(
-        tempdir, specwriter.spec_filename
-    )
+    fname = tempdir / specwriter.spec_filename
+    assert not fname.exists()  # "data file not created yet"
 
-    assert not os.path.exists(specwriter.spec_filename)  # "data file not created yet"
+    specwriter.spec_filename = str(fname)
     write_stream(specwriter, cat.v1[TUNE_MR].documents())
-    assert os.path.exists(specwriter.spec_filename)  # "data file created"
+    assert str(fname) == specwriter.spec_filename  # confirm unchanged
+    assert fname.exists()  # "data file created"
 
     sdf = spec2nexus.spec.SpecDataFile(specwriter.spec_filename)
     assert len(sdf.headers) == 1
@@ -276,23 +318,23 @@ def test_SpecWriterCallback_writer_default_name(cat, tempdir):
 
 
 def test_SpecWriterCallback_writer_filename(cat, tempdir):
-    testfile = os.path.join(tempdir, "tune_mr.dat")
-    if os.path.exists(testfile):
-        os.remove(testfile)
+    testfile = tempdir / "tune_mr.dat"
+    if testfile.exists():
+        testfile.unlink()  # remove
     specwriter = SpecWriterCallback(filename=testfile)
 
     assert isinstance(specwriter, SpecWriterCallback)
     assert specwriter.spec_filename == testfile
 
-    assert not os.path.exists(testfile)
+    assert not testfile.exists()
     write_stream(specwriter, cat.v1[TUNE_MR].documents())
-    assert os.path.exists(testfile)
+    assert testfile.exists()
 
 
 def test_SpecWriterCallback_newfile_exists(cat, tempdir):
-    testfile = os.path.join(tempdir, "tune_mr.dat")
-    if os.path.exists(testfile):
-        os.remove(testfile)
+    testfile = tempdir / "tune_mr.dat"
+    if testfile.exists():
+        testfile.unlink()  # remove
     specwriter = SpecWriterCallback(
         filename=testfile
     )
@@ -302,7 +344,7 @@ def test_SpecWriterCallback_newfile_exists(cat, tempdir):
     assert SCAN_ID_RESET_VALUE == 0  # "default reset scan id"
 
     write_stream(specwriter, cat.v1[TUNE_MR].documents())
-    assert os.path.exists(testfile)  # "data file created"
+    assert testfile.exists()  # "data file created"
 
     raised = False
     try:
@@ -364,9 +406,9 @@ def test_SpecWriterCallback_spec_comment(cat, tempdir):
     from .. import spec_comment
 
     # spec_comment(comment, doc=None, writer=None)
-    testfile = os.path.join(tempdir, "spec_comment.dat")
-    if os.path.exists(testfile):
-        os.remove(testfile)
+    testfile = tempdir / "spec_comment.dat"
+    if testfile.exists():
+        testfile.unlink()  # remove
     specwriter = SpecWriterCallback(
         filename=testfile
     )
