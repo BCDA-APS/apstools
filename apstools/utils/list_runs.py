@@ -276,15 +276,15 @@ class ListRuns:
     """
 
     cat: object = None
-    query: dict = None
-    keys: str = None
+    query: object = None
+    keys: object = None
     missing: str = ""
     num: int = 20
     reverse: bool = True
-    since: str = None
+    since: object = None
     sortby: str = "time"
     timefmt: str = "%Y-%m-%d %H:%M:%S"
-    until: str = None
+    until: object = None
     ids: "typing.Any" = None
     hints_override: bool = False
 

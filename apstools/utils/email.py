@@ -10,6 +10,8 @@ email Support
 import smtplib
 from email.mime.text import MIMEText
 
+from .misc import run_in_thread
+
 
 class EmailNotifications(object):
     """
@@ -45,7 +47,6 @@ class EmailNotifications(object):
             message = "Feedback is very close to its limits."
             email_notices.send(subject, message)
     """
-    from .misc import run_in_thread
 
     def __init__(self, sender=None):
         self.addresses = []
