@@ -4,6 +4,7 @@ unit tests for the filewriters
 
 import databroker
 import h5py
+import numpy
 import os
 import pytest
 import spec2nexus.spec
@@ -139,17 +140,45 @@ def test_NXWriter_default_plot(cat, tempdir):
     fname = callback.make_file_name()
     assert os.path.exists(fname)
     with h5py.File(fname, "r") as nxroot:
-        assert nxroot.attrs["default"] == "entry"
-        assert nxroot["/entry"].attrs["default"] == "data"
-        nxdata = nxroot["/entry/data"]
-        signal = nxdata.attrs.get("signal")
+        assert nxroot is not None
+
+        default_entry = nxroot.attrs.get("default")
+        assert default_entry == "entry"
+        assert default_entry in nxroot
+
+        nxentry = nxroot[default_entry]
+        assert nxentry is not None
+
+        default_data = nxentry.attrs.get("default")
+        assert default_data == "data"
+        assert default_data in nxentry
+
+        nxdata = nxentry[default_data]
+        default_signal = nxdata.attrs.get("signal")
+        assert default_signal is not None
+        assert default_signal in nxdata
+
+        signal = nxdata[default_signal]
         assert signal is not None
-        assert signal in nxdata
-        axes = nxdata.attrs.get("axes")
-        assert axes is not None
-        assert len(axes) == 1
-        assert axes[0] in nxdata
-        assert axes[0] != signal
+        assert isinstance(signal[()], numpy.ndarray)
+
+        signal_shape = signal[()].shape
+        assert len(signal_shape) > 0
+        assert signal_shape[0] > 0
+
+        default_axes = nxdata.attrs.get("axes")
+        assert default_axes is not None
+        assert isinstance(default_axes, numpy.ndarray)
+        assert default_axes.dtype == "O"
+        assert len(default_axes) > 0
+        for axis_name in default_axes:
+            assert axis_name != default_signal
+            assert axis_name in nxdata
+
+            axis = nxdata[axis_name]
+            assert axis is not None
+            assert isinstance(axis[()], numpy.ndarray)
+            assert axis[()].shape == signal_shape
 
 
 def test_NXWriter_make_file_name(tempdir):
@@ -225,7 +254,6 @@ def test_NXWriter_receiver_battery(cat, tempdir):
             assert nxroot.attrs["NeXus_version"] == NEXUS_RELEASE
             assert nxroot.attrs["creator"] == callback.__class__.__name__
 
-            assert "/entry" in nxroot
             nxentry = nxroot["/entry"]
             assert to_string(nxentry["entry_identifier"][()]) == to_string(callback.uid)
             assert to_string(nxentry["plan_name"][()]) == to_string(callback.plan_name)
