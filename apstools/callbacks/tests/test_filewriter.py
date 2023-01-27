@@ -272,7 +272,7 @@ def test_NXWriter_receiver_battery(cat, tempdir):
                 if subgroup_name in nxinstrument:
                     subgroup = nxinstrument[subgroup_name]
                     assert len(subgroup) > 0, f"{uid[:7]=}  {subgroup_name=} is empty"
-            
+
             assert "bluesky" in nxinstrument
             bluesky_group = nxinstrument["bluesky"]
             assert "metadata" in bluesky_group
