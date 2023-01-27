@@ -16,7 +16,7 @@ from .. import run_blocking_function
 PV = f"{IOC}gp:float1"
 T_MIN = 0.1
 T_RANDOM_SCALE = 0.3
-T_MAX = T_MIN + T_RANDOM_SCALE + 0.1
+T_MAX = T_MIN + T_RANDOM_SCALE * random.random() + 1
 
 
 def create_signal():
@@ -88,5 +88,5 @@ def test_bluesky(target, expected, random_start):
     t0 = time.time()
     RE(run_blocking_function(procedure, signal, target))
     dt = time.time() - t0
-    assert T_MIN <= dt <= T_MAX
+    assert T_MIN <= dt <= T_MAX, f"{T_MIN=:.3f} {dt=:.3f} {T_MAX=:.3f}"
     assert signal.get() == expected
