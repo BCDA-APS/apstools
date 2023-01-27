@@ -13,7 +13,6 @@ import pytest
 from bluesky import RunEngine
 from bluesky.callbacks import best_effort
 
-from ... import utils
 from ...devices import SynPseudoVoigt
 from ...synApps import SwaitRecord
 from ...synApps import setup_lorentzian_swait
@@ -26,8 +25,6 @@ RE = RunEngine({})
 RE.subscribe(cat.v1.insert)
 RE.subscribe(bec)
 bec.enable_plots()
-# utils.ipython_shell_namespace()["bec"] = bec
-# globals()["bec"] = bec
 
 axis = ophyd.EpicsSignal(f"{IOC}gp:float1", name="axis")
 m1 = ophyd.EpicsMotor(f"{IOC}m1", name="m1")

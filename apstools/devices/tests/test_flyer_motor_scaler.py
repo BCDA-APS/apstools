@@ -1,6 +1,5 @@
 # FIXME: refactor for new code
 
-import time
 import uuid
 
 import databroker
