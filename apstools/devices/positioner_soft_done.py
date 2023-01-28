@@ -8,6 +8,7 @@ PVPositioner that computes ``done`` as a soft signal.
 """
 
 import logging
+import math
 
 from ophyd import Component
 from ophyd import EpicsSignal
@@ -122,11 +123,9 @@ class PVPositionerSoftDone(PVPositioner):
             done = |readback - setpoint| <= tolerance
         """
         self._rb_count += 1
-        if "value" in kwargs:
-            diff = kwargs["value"] - self.setpoint.get()
-        else:
-            diff = self.readback.get(use_monitor=False) - self.setpoint.get()
-        dmov = abs(diff) <= self.actual_tolerance
+        sp = self.setpoint.get()
+        rb = kwargs["value"] if "value" in kwargs else self.readback.get(use_monitor=False)
+        dmov = math.isclose(rb, sp, abs_tol=self.actual_tolerance)
         if self.report_dmov_changes.get() and dmov != self.done.get():
             logger.debug("%s reached: %s", self.name, dmov)
 
