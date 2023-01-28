@@ -1,3 +1,4 @@
+import math
 import random
 import time
 
@@ -266,13 +267,12 @@ def test_move_and_stopped_early(rbv, pos):
 
 def confirm_in_position(positioner):
     """Apply the 'inposition' property code."""
-    pos = positioner.readback.get(use_monitor=False)
+    pos = positioner.readback.get(use_monitor=False)  # force EPICS CA update
     reading = positioner.read()
     sp = reading[positioner.setpoint.name]["value"]
     rb = reading[positioner.readback.name]["value"]
-    assert pos == rb
-    tol = positioner.actual_tolerance
-    assert abs(rb - sp) <= tol, f"setpoint={sp}, readback={rb}, tolerance={tol}"
+    assert pos == rb  # by definition, these MUST be equal
+    assert math.isclose(rb, sp, abs_tol=positioner.actual_tolerance)
 
 
 # @pytest.mark.local
