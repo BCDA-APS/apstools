@@ -40,6 +40,7 @@ Maintenance
 
 * Added github/super-linter workflow.
 * Apply isort code style.
+* Resolve failing unit tests of soft positioners.
 
 1.6.10
 ******
