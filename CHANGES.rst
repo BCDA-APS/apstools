@@ -38,8 +38,9 @@ release expected by 2023-02-01
 Maintenance
 ------------
 
-* Added github/super-linter workflow.
+* Added github/super-linter workflow, adds mypy, isort, and other tests.
 * Apply isort code style.
+* Resolve failing unit tests of soft positioners.
 
 1.6.10
 ******

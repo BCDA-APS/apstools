@@ -15,6 +15,16 @@ from ..positioner_soft_done import PVPositionerSoftDoneWithStop
 PV_PREFIX = f"{IOC}gp:"
 delay_active = False
 
+# fmt: off
+POSITION_SEQUENCE = (
+    [-1] * 3
+    + [0] * 5
+    + [1, -1, -1, 1, 1, 2, 0, 1, -1, -1]
+    + [round(2 + 5 * random.random(), 2), 0.1, -0.15, -1]
+    + [0] * 5,
+)[0]
+# fmt: on
+
 
 @pytest.fixture(scope="function")
 def pos():
@@ -256,25 +266,17 @@ def test_move_and_stopped_early(rbv, pos):
 
 def confirm_in_position(positioner):
     """Apply the 'inposition' property code."""
-    positioner.get(use_monitor=False)
+    pos = positioner.readback.get(use_monitor=False)
     reading = positioner.read()
     sp = reading[positioner.setpoint.name]["value"]
     rb = reading[positioner.readback.name]["value"]
+    assert pos == rb
     tol = positioner.actual_tolerance
     assert abs(rb - sp) <= tol, f"setpoint={sp}, readback={rb}, tolerance={tol}"
 
 
-@pytest.mark.local
-@pytest.mark.parametrize(
-    "target",
-    # fmt: off
-    [-1] * 3
-    + [0] * 5
-    + [1, -1, -1, 1, 1, 2, 0, 1, -1, -1]
-    + [round(2 + 5 * random.random(), 2), 0.1, -0.15, -1]
-    + [0] * 5,
-    # fmt: on
-)
+# @pytest.mark.local
+@pytest.mark.parametrize("target", POSITION_SEQUENCE)
 def test_target_practice(target, rbv, pos):
     """
     Watch for random errors that fail to reach intended target position.
@@ -346,18 +348,9 @@ def test_target_practice(target, rbv, pos):
     assert status.success
 
 
-@pytest.mark.local
-@pytest.mark.parametrize(
-    "target",
-    # fmt: off
-    [-1] * 3
-    + [0] * 5
-    + [1, -1, -1, 1, 1, 2, 0, 1, -1, -1]
-    + [round(2 + 5 * random.random(), 2), 0.1, -0.15, -1]
-    + [0] * 5,
-    # fmt: on
-)
-def test_move_calcpos(target, calcpos):
+# @pytest.mark.local
+@pytest.mark.parametrize("target", POSITION_SEQUENCE)
+def test_target_practice_simpler_with_calcpos(target, calcpos):
     """Demonstrate simpler test with positioner that updates its own RBV."""
     status = calcpos.move(target)
     assert status.elapsed > 0, str(status)
@@ -369,7 +362,7 @@ def test_move_calcpos(target, calcpos):
     time.sleep(0.2)  # pause between tests
 
 
-@pytest.mark.local
+# @pytest.mark.local
 @pytest.mark.parametrize(
     # fmt: off
     "target", [-55, -1.2345, -1, -1, -0.1, -0.1, 0, 0, 0, 0.1, 0.1, 1, 1, 1.2345, 55]
@@ -389,7 +382,11 @@ def test_same_position_725(target, calcpos):
         status = calcpos.move(away_target)
         assert status.done
         assert status.elapsed > 0, str(status)
-        assert swait.channels.B.input_value.get() == away_target, f"{swait.channels.B.input_value.get()}  {away_target=}  {target=}"
+        # fmt: off
+        assert (
+            swait.channels.B.input_value.get() == away_target
+        ), f"{swait.channels.B.input_value.get()}  {away_target=}  {target=}"
+        # fmt: on
         confirm_in_position(calcpos)
 
     # Move to the target position.
