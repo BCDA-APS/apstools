@@ -463,7 +463,7 @@ class AD_EpicsHdf5FileName(AD_EpicsFileNameMixin):
         )
         self._remove_caller_stage_sigs()
         # "capture" must always come last
-        self.stage_sigs["capture"] = self.stage_sigs.pop("capture")
+        self.stage_sigs.move_to_end("capture", last=True)
 
 
 class AD_EpicsHDF5IterativeWriter(AD_EpicsHdf5FileName, FileStoreIterativeWrite):
@@ -550,7 +550,7 @@ class AD_EpicsJPEGFileName(AD_EpicsFileNameMixin):
         )
         self._remove_caller_stage_sigs()
         # "capture" must always come last
-        self.stage_sigs["capture"] = self.stage_sigs.pop("capture")
+        self.stage_sigs.move_to_end("capture", last=True)
 
 
 class AD_EpicsJPEGIterativeWriter(AD_EpicsJPEGFileName, FileStoreIterativeWrite):
@@ -639,7 +639,7 @@ class AD_EpicsTIFFFileName(AD_EpicsFileNameMixin):
         )
         self._remove_caller_stage_sigs()
         # "capture" must always come last
-        self.stage_sigs["capture"] = self.stage_sigs.pop("capture")
+        self.stage_sigs.move_to_end("capture", last=True)
 
 
 class AD_EpicsTIFFIterativeWriter(AD_EpicsTIFFFileName, FileStoreIterativeWrite):
