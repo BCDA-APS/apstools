@@ -119,19 +119,21 @@ def fname():
 
 
 @pytest.mark.parametrize(
-    "attr, spec",
+    # fmt: off
+    "plugin_name, spec",
     [
         ["hdf1", "AD_HDF5"],
         ["jpeg1", "AD_JPEG"],
         ["tiff1", "AD_TIFF"],
-    ]
+    ],
+    # fmt: on
 )
-def test_AD_EpicsFileNameMixin(attr, spec, adsimdet):
+def test_AD_EpicsFileNameMixin(plugin_name, spec, adsimdet):
     assert adsimdet is not None
-    assert attr in dir(adsimdet)
+    assert plugin_name in dir(adsimdet)
 
     # basic plugin tests
-    mixin = getattr(adsimdet, attr)
+    mixin = getattr(adsimdet, plugin_name)
     assert AD_EpicsFileNameMixin is not None
     assert isinstance(mixin, AD_EpicsFileNameMixin)
     assert "filestore_spec" in dir(mixin)
@@ -141,7 +143,6 @@ def test_AD_EpicsFileNameMixin(attr, spec, adsimdet):
     assert "capture" in mixin.stage_sigs
 
     # configuration prescribed for the user
-    path = pathlib.Path(tempfile.mkdtemp())
     user_settings = dict(
         array_counter=0,
         auto_increment=1,  # Yes
@@ -149,11 +150,11 @@ def test_AD_EpicsFileNameMixin(attr, spec, adsimdet):
         create_directory=-5,
         file_name="flotsam",
         file_number=1 + int(10 * random.random()),
-        file_path=f"{path}/",  # ALWAYS ends with "/"
-        file_template=f"%s%s_%2.2d.{attr}",
+        file_path=f"{pathlib.Path(tempfile.mkdtemp())}/",  # ALWAYS ends with "/"
+        file_template=f"%s%s_%2.2d.{plugin_name}",
         num_capture=1 + int(10 * random.random()),
     )
-    if attr == "hdf1":
+    if plugin_name == "hdf1":
         user_settings["compression"] = "zlib"
 
     # add the settings
@@ -161,11 +162,14 @@ def test_AD_EpicsFileNameMixin(attr, spec, adsimdet):
         getattr(mixin, k).put(v)
 
     adsimdet.stage()
-    if attr == "hdf1":  # Why only HDF plugin?
+    if plugin_name == "hdf1":  # Why special case?
         user_settings["file_number"] += 1  # the IOC will do the same
     assert list(mixin.stage_sigs.keys())[-1] == "capture"
     for k, v in user_settings.items():
-        assert getattr(mixin, k).get() == v, f"{attr=} {k=}  {v=}"
+        assert getattr(mixin, k).get() == v, f"{plugin_name=} {k=}  {v=}"
+
+    assert mixin.get_frames_per_point() == user_settings["num_capture"]
+
     filename, read_path, write_path = mixin.make_filename()
     assert isinstance(filename, str)
     assert isinstance(read_path, str)
@@ -173,7 +177,6 @@ def test_AD_EpicsFileNameMixin(attr, spec, adsimdet):
     assert filename == user_settings["file_name"]
     assert read_path.startswith(datetime.datetime.now().strftime(READ_PATH_TEMPLATE))
     assert write_path == user_settings["file_path"]
-    assert mixin.get_frames_per_point() == user_settings["num_capture"]
     adsimdet.unstage()
 
 
