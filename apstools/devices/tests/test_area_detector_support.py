@@ -4,6 +4,8 @@ Test code where users control the names of the image files using EPICS.
 
 import datetime
 import pathlib
+import random
+import tempfile
 import time
 
 import bluesky
@@ -116,47 +118,63 @@ def fname():
     yield fname
 
 
-def test_AD_EpicsFileNameMixin():
+@pytest.mark.parametrize(
+    "attr, spec",
+    [
+        ["hdf1", "AD_HDF5"],
+        ["jpeg1", "AD_JPEG"],
+        ["tiff1", "AD_TIFF"],
+    ]
+)
+def test_AD_EpicsFileNameMixin(attr, spec, adsimdet):
+    assert adsimdet is not None
+    assert attr in dir(adsimdet)
+
+    # basic plugin tests
+    mixin = getattr(adsimdet, attr)
     assert AD_EpicsFileNameMixin is not None
-
-    mixin = AD_EpicsFileNameMixin(
-        # cannot test much depth without connection to an IOC
-        # f"{IOC}HDF1:",  # pick one of the file writers in the IOC
-        # name="mixin",
-        write_path_template="/",
-    )
     assert isinstance(mixin, AD_EpicsFileNameMixin)
-    assert "filestore_spec" not in dir(mixin)
+    assert "filestore_spec" in dir(mixin)
+    assert mixin.filestore_spec == spec
     assert isinstance(mixin.stage_sigs, dict)
+    assert len(mixin.stage_sigs) >= 4
+    assert "capture" in mixin.stage_sigs
 
-    # mixin._remove_caller_stage_sigs()
-    assert hasattr(mixin, "_remove_caller_stage_sigs")
-    attrs = "array_counter auto_increment auto_save num_capture".split()
-    assert len(mixin.stage_sigs) == len(attrs)
-    for k in attrs:
-        assert k in mixin.stage_sigs
-    mixin._remove_caller_stage_sigs()
-    for k in attrs:
-        assert k not in mixin.stage_sigs
-    assert len(mixin.stage_sigs) == 0
+    # configuration prescribed for the user
+    path = pathlib.Path(tempfile.mkdtemp())
+    user_settings = dict(
+        array_counter=0,
+        auto_increment=1,  # Yes
+        auto_save=1,  # Yes
+        create_directory=-5,
+        file_name="flotsam",
+        file_number=1 + int(10 * random.random()),
+        file_path=f"{path}/",  # ALWAYS ends with "/"
+        file_template=f"%s%s_%2.2d.{attr}",
+        num_capture=1 + int(10 * random.random()),
+    )
+    if attr == "hdf1":
+        user_settings["compression"] = "zlib"
 
-    # mixin.get_frames_per_point
-    assert hasattr(mixin, "get_frames_per_point")
-    if "num_capture" in dir(mixin):
-        fpp = mixin.get_frames_per_point()
-        assert fpp == mixin.num_capture.get()
+    # add the settings
+    for k, v in user_settings.items():
+        getattr(mixin, k).put(v)
 
-    # mixin.make_filename()
-    assert hasattr(mixin, "make_filename")
-    if "file_name" in dir(mixin):
-        fname = mixin.make_filename()
-        assert isinstance(fname, str)
-
-    # mixin.stage
-    assert hasattr(mixin, "stage")
-    if "file_name" in dir(mixin):
-        mixin.stage()
-        mixin.unstage()
+    adsimdet.stage()
+    if attr == "hdf1":  # Why only HDF plugin?
+        user_settings["file_number"] += 1  # the IOC will do the same
+    assert list(mixin.stage_sigs.keys())[-1] == "capture"
+    for k, v in user_settings.items():
+        assert getattr(mixin, k).get() == v, f"{attr=} {k=}  {v=}"
+    filename, read_path, write_path = mixin.make_filename()
+    assert isinstance(filename, str)
+    assert isinstance(read_path, str)
+    assert isinstance(write_path, str)
+    assert filename == user_settings["file_name"]
+    assert read_path.startswith(datetime.datetime.now().strftime(READ_PATH_TEMPLATE))
+    assert write_path == user_settings["file_path"]
+    assert mixin.get_frames_per_point() == user_settings["num_capture"]
+    adsimdet.unstage()
 
 
 @pytest.mark.parametrize(
