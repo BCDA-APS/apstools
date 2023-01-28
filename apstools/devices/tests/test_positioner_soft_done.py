@@ -275,7 +275,6 @@ def confirm_in_position(positioner):
     assert math.isclose(rb, sp, abs_tol=positioner.actual_tolerance)
 
 
-# @pytest.mark.local
 @pytest.mark.parametrize("target", POSITION_SEQUENCE)
 def test_target_practice(target, rbv, pos):
     """
@@ -348,7 +347,6 @@ def test_target_practice(target, rbv, pos):
     assert status.success
 
 
-# @pytest.mark.local
 @pytest.mark.parametrize("target", POSITION_SEQUENCE)
 def test_target_practice_simpler_with_calcpos(target, calcpos):
     """Demonstrate simpler test with positioner that updates its own RBV."""
@@ -390,7 +388,7 @@ def test_same_position_725(target, calcpos):
         confirm_in_position(calcpos)
 
     # Move to the target position.
-    status = calcpos.move(target)
+    status = calcpos.move(target)  # FIXME: sometimes does not move
     assert status.done
     assert status.elapsed > 0, str(status)
     confirm_in_position(calcpos)
