@@ -80,11 +80,6 @@ class MySimDetector(SingleTrigger, DetectorBase):
     )
 
 
-def test_AD_EpicsFileNameMixin():
-    # TODO: improve this test per issue #744
-    assert AD_EpicsFileNameMixin is not None
-
-
 @pytest.fixture(scope="function")
 def adsimdet():
     "EPICS ADSimDetector."
@@ -119,6 +114,49 @@ def fname():
     dt = datetime.datetime.now()
     fname = f"test-image-{dt.minute:02d}-{dt.second:02d}"
     yield fname
+
+
+def test_AD_EpicsFileNameMixin():
+    assert AD_EpicsFileNameMixin is not None
+
+    mixin = AD_EpicsFileNameMixin(
+        # cannot test much depth without connection to an IOC
+        # f"{IOC}HDF1:",  # pick one of the file writers in the IOC
+        # name="mixin",
+        write_path_template="/",
+    )
+    assert isinstance(mixin, AD_EpicsFileNameMixin)
+    assert "filestore_spec" not in dir(mixin)
+    assert isinstance(mixin.stage_sigs, dict)
+
+    # mixin._remove_caller_stage_sigs()
+    assert hasattr(mixin, "_remove_caller_stage_sigs")
+    attrs = "array_counter auto_increment auto_save num_capture".split()
+    assert len(mixin.stage_sigs) == len(attrs)
+    for k in attrs:
+        assert k in mixin.stage_sigs
+    mixin._remove_caller_stage_sigs()
+    for k in attrs:
+        assert k not in mixin.stage_sigs
+    assert len(mixin.stage_sigs) == 0
+
+    # mixin.get_frames_per_point
+    assert hasattr(mixin, "get_frames_per_point")
+    if "num_capture" in dir(mixin):
+        fpp = mixin.get_frames_per_point()
+        assert fpp == mixin.num_capture.get()
+
+    # mixin.make_filename()
+    assert hasattr(mixin, "make_filename")
+    if "file_name" in dir(mixin):
+        fname = mixin.make_filename()
+        assert isinstance(fname, str)
+
+    # mixin.stage
+    assert hasattr(mixin, "stage")
+    if "file_name" in dir(mixin):
+        mixin.stage()
+        mixin.unstage()
 
 
 @pytest.mark.parametrize(

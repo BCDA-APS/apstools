@@ -284,10 +284,13 @@ def AD_full_file_name_local(plugin):
             icommon = i
             break
 
+    # fmt: off
     if icommon == 0:
         raise ValueError(
-            "No common part to file paths. " "Cannot convert to local file path."
+            "No common part to file paths. "
+            "Cannot convert to local file path."
         )
+    # fmt: on
 
     # fmt: off
     local_root = pathlib.Path().joinpath(*read_parts[:-icommon])
@@ -351,16 +354,16 @@ class AD_EpicsFileNameMixin(FileStorePluginBase):
     def _remove_caller_stage_sigs(self):
         """Caller is responsible for setting these stage_sigs."""
         caller_sets_these = """
-        array_counter
-        auto_increment
-        auto_save
-        compression (only HDF)
-        create_directory
-        file_name
-        file_number
-        file_path
-        file_template
-        num_capture
+            array_counter
+            auto_increment
+            auto_save
+            compression (only HDF)
+            create_directory
+            file_name
+            file_number
+            file_path
+            file_template
+            num_capture
         """.split()
         for key in caller_sets_these:
             if key in self.stage_sigs:
@@ -765,6 +768,7 @@ class SingleTrigger_V34(SingleTrigger):
         """Restore device settings after data acquisition."""
         super(SingleTrigger, self).unstage()  # from grandparent
         self._acquisition_busy_signal.clear_sub(self._acquire_changed)
+
 
 # -----------------------------------------------------------------------------
 # :author:    Pete R. Jemian
