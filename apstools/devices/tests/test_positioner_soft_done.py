@@ -22,7 +22,7 @@ POSITION_SEQUENCE = (
     + [1, -1, -1, 1, 1, 2, 0, 1, -1, -1]
     + [round(2 + 5 * random.random(), 2), 0.1, -0.15, -1]
     + [0] * 5,
-)
+)[0]
 # fmt: on
 
 
@@ -349,7 +349,7 @@ def test_target_practice(target, rbv, pos):
 
 # @pytest.mark.local
 @pytest.mark.parametrize("target", POSITION_SEQUENCE)
-def test_move_calcpos(target, calcpos):
+def test_simpler_target_practice_with_calcpos(target, calcpos):
     """Demonstrate simpler test with positioner that updates its own RBV."""
     status = calcpos.move(target)
     assert status.elapsed > 0, str(status)
