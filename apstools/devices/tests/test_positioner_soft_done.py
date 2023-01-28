@@ -15,6 +15,16 @@ from ..positioner_soft_done import PVPositionerSoftDoneWithStop
 PV_PREFIX = f"{IOC}gp:"
 delay_active = False
 
+# fmt: off
+POSITION_SEQUENCE = (
+    [-1] * 3
+    + [0] * 5
+    + [1, -1, -1, 1, 1, 2, 0, 1, -1, -1]
+    + [round(2 + 5 * random.random(), 2), 0.1, -0.15, -1]
+    + [0] * 5,
+)
+# fmt: on
+
 
 @pytest.fixture(scope="function")
 def pos():
@@ -265,16 +275,7 @@ def confirm_in_position(positioner):
 
 
 # @pytest.mark.local
-@pytest.mark.parametrize(
-    "target",
-    # fmt: off
-    [-1] * 3
-    + [0] * 5
-    + [1, -1, -1, 1, 1, 2, 0, 1, -1, -1]
-    + [round(2 + 5 * random.random(), 2), 0.1, -0.15, -1]
-    + [0] * 5,
-    # fmt: on
-)
+@pytest.mark.parametrize("target", POSITION_SEQUENCE)
 def test_target_practice(target, rbv, pos):
     """
     Watch for random errors that fail to reach intended target position.
@@ -347,16 +348,7 @@ def test_target_practice(target, rbv, pos):
 
 
 # @pytest.mark.local
-@pytest.mark.parametrize(
-    "target",
-    # fmt: off
-    [-1] * 3
-    + [0] * 5
-    + [1, -1, -1, 1, 1, 2, 0, 1, -1, -1]
-    + [round(2 + 5 * random.random(), 2), 0.1, -0.15, -1]
-    + [0] * 5,
-    # fmt: on
-)
+@pytest.mark.parametrize("target", POSITION_SEQUENCE)
 def test_move_calcpos(target, calcpos):
     """Demonstrate simpler test with positioner that updates its own RBV."""
     status = calcpos.move(target)
@@ -389,7 +381,11 @@ def test_same_position_725(target, calcpos):
         status = calcpos.move(away_target)
         assert status.done
         assert status.elapsed > 0, str(status)
-        assert swait.channels.B.input_value.get() == away_target, f"{swait.channels.B.input_value.get()}  {away_target=}  {target=}"
+        # fmt: off
+        assert (
+            swait.channels.B.input_value.get() == away_target
+        ), f"{swait.channels.B.input_value.get()}  {away_target=}  {target=}"
+        # fmt: on
         confirm_in_position(calcpos)
 
     # Move to the target position.
