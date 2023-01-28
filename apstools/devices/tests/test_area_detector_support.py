@@ -4,6 +4,8 @@ Test code where users control the names of the image files using EPICS.
 
 import datetime
 import pathlib
+import random
+import tempfile
 import time
 
 import bluesky
@@ -80,11 +82,6 @@ class MySimDetector(SingleTrigger, DetectorBase):
     )
 
 
-def test_AD_EpicsFileNameMixin():
-    # TODO: improve this test per issue #744
-    assert AD_EpicsFileNameMixin is not None
-
-
 @pytest.fixture(scope="function")
 def adsimdet():
     "EPICS ADSimDetector."
@@ -119,6 +116,68 @@ def fname():
     dt = datetime.datetime.now()
     fname = f"test-image-{dt.minute:02d}-{dt.second:02d}"
     yield fname
+
+
+@pytest.mark.parametrize(
+    # fmt: off
+    "plugin_name, spec",
+    [
+        ["hdf1", "AD_HDF5"],
+        ["jpeg1", "AD_JPEG"],
+        ["tiff1", "AD_TIFF"],
+    ],
+    # fmt: on
+)
+def test_AD_EpicsFileNameMixin(plugin_name, spec, adsimdet):
+    assert adsimdet is not None
+    assert plugin_name in dir(adsimdet)
+
+    # basic plugin tests
+    mixin = getattr(adsimdet, plugin_name)
+    assert AD_EpicsFileNameMixin is not None
+    assert isinstance(mixin, AD_EpicsFileNameMixin)
+    assert "filestore_spec" in dir(mixin)
+    assert mixin.filestore_spec == spec
+    assert isinstance(mixin.stage_sigs, dict)
+    assert len(mixin.stage_sigs) >= 4
+    assert "capture" in mixin.stage_sigs
+
+    # configuration prescribed for the user
+    user_settings = dict(
+        array_counter=0,
+        auto_increment=1,  # Yes
+        auto_save=1,  # Yes
+        create_directory=-5,
+        file_name="flotsam",
+        file_number=1 + int(10 * random.random()),
+        file_path=f"{pathlib.Path(tempfile.mkdtemp())}/",  # ALWAYS ends with "/"
+        file_template=f"%s%s_%2.2d.{plugin_name}",
+        num_capture=1 + int(10 * random.random()),
+    )
+    if plugin_name == "hdf1":
+        user_settings["compression"] = "zlib"
+
+    # add the settings
+    for k, v in user_settings.items():
+        getattr(mixin, k).put(v)
+
+    adsimdet.stage()
+    if plugin_name == "hdf1":  # Why special case?
+        user_settings["file_number"] += 1  # the IOC will do the same
+    assert list(mixin.stage_sigs.keys())[-1] == "capture"
+    for k, v in user_settings.items():
+        assert getattr(mixin, k).get() == v, f"{plugin_name=} {k=}  {v=}"
+
+    assert mixin.get_frames_per_point() == user_settings["num_capture"]
+
+    filename, read_path, write_path = mixin.make_filename()
+    assert isinstance(filename, str)
+    assert isinstance(read_path, str)
+    assert isinstance(write_path, str)
+    assert filename == user_settings["file_name"]
+    assert read_path.startswith(datetime.datetime.now().strftime(READ_PATH_TEMPLATE))
+    assert write_path == user_settings["file_path"]
+    adsimdet.unstage()
 
 
 @pytest.mark.parametrize(
