@@ -3,6 +3,7 @@ import random
 import time
 
 import pytest
+from ophyd import Component
 from ophyd import EpicsSignal
 
 from ...synApps.swait import UserCalcsDevice
@@ -71,7 +72,11 @@ def calcpos():
     swait.channels.C.input_value.put(0.9)  # move fraction
     swait.scanning_rate.put(".1 second")
 
-    calcpos = PVPositionerSoftDoneWithStop(
+    class MyUserCalcPositioner(PVPositionerSoftDoneWithStop):
+        actuate = Component(EpicsSignal, swait.process_record.pvname)
+        actuate_value = 1
+
+    calcpos = MyUserCalcPositioner(
         "",
         readback_pv=swait.calculated_value.pvname,
         setpoint_pv=swait.channels.B.input_value.pvname,
