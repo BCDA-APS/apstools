@@ -97,7 +97,7 @@ def confirm_in_position(p):
     rb = p.readback.get(use_monitor=False)
     sp = p.setpoint.get(use_monitor=False)
     tol = p.actual_tolerance
-    assert math.isclose(rb, sp, abs_tol=tol),  f"{rb=}  {sp=}   {tol=}"
+    assert math.isclose(rb, sp, abs_tol=tol), f"{rb=}  {sp=}   {tol=}"
 
 
 @run_in_thread
