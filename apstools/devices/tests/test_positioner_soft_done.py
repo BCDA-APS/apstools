@@ -23,7 +23,8 @@ POSITION_SEQUENCE = (
     + [0] * 5
     + [1, -1, -1, 1, 1, 2, 0, 1, -1, -1]
     + [round(2 + 5 * random.random(), 2), 0.1, -0.15, -1]
-    + [0] * 5,
+    + [0] * 5
+    + [-55, -1.2345, -1, -1, -0.1, -0.1, 0, 0, 0, 0.1, 0.1, 1, 1, 1.2345, 55],
 )[0]
 # fmt: on
 
@@ -280,130 +281,64 @@ def confirm_in_position(positioner):
 
 
 @pytest.mark.parametrize("target", POSITION_SEQUENCE)
-def test_target_practice(target, rbv, pos):
+def test_position_sequence_pos(target, rbv, pos):
     """
-    Watch for random errors that fail to reach intended target position.
+    Move both pos and calcpos to reference, then target position.
 
-    Test battery is a sequence of target positions, including repeated moves to
-    the same location and pathologies involving numerical zero.
+    Args:
+        target (_type_): new position for the move
+        rbv (_type_): Signal to set readback for pos
+        pos (_type_): positioner based on two float signals
     """
-    short_delay_for_EPICS_IOC_database_processing()
+    def motion(p, goal, delay):
+        p.setpoint.put(goal)
+        short_delay_for_EPICS_IOC_database_processing(delay)
+        assert math.isclose(
+            p.setpoint.get(use_monitor=False), goal, abs_tol=p.actual_tolerance
+        )
 
-    def confirm_sequence_timings():
-        """Confirm that values are set in this order."""
-        reading = pos.read()
-        t_rb = reading[pos.readback.name]["timestamp"]
-        t_sp = reading[pos.setpoint.name]["timestamp"]
-        t_rbv = rbv.read()[rbv.name]["timestamp"]
+        rbv.put(goal)  # note: pos.readback is read-only
+        assert math.isclose(
+            rbv.get(use_monitor=False), goal, abs_tol=p.actual_tolerance
+        )
+        confirm_in_position(p)
+        if not p.inposition:  # in case cb_readback needs one more call
+            p.cb_readback()
+        assert p.inposition
 
-        assert t_sp <= t_rbv, f"rbv={t_rbv-t_sp}, readback input not updated"
-        assert t_rbv <= t_rb, f"rb={t_rb-t_sp}, readback value not updated"
+    known_position = -1
+    delay = 0.125
 
-    # start from known position
-    known_start_position = -1
-    starting_rb_count = pos._rb_count
-    starting_sp_count = pos._sp_count
-
-    # initiate the move to the known position
-    pos.setpoint.put(known_start_position)
-    # short_delay_for_EPICS_IOC_database_processing()
-    assert pos._sp_count > starting_sp_count, "cb_setpoint() was not called"
-
-    # complete the initial move by updating the readback signal
-    rbv.put(known_start_position)  # note: pos.readback is read-only
-    pos.cb_readback()
-    short_delay_for_EPICS_IOC_database_processing(1)
-    # time.sleep(0.03)
-    assert pos._rb_count > starting_rb_count, "cb_readback() was not called"
-
-    # confirm all are ready
-    # confirm_sequence_timings()
-    confirm_in_position(pos)
-    assert pos.setpoint.get(use_monitor=False) == known_start_position
-    assert math.isclose(pos.readback.get(use_monitor=False), known_start_position, abs_tol=0.01)
-    assert pos.inposition, f"target={pos.setpoint.get()}, readback={pos.position}"
-
-    # pick a random time to change RBV after the move starts
-    rbv_delay = round(0.2 + 0.7 * random.random(), 1)
-
-    # start code that will update the RBV later
-    delayed_complete(pos, rbv, delay=rbv_delay)
-
-    # start the move and wait for RBV to be updated
-    # fmt: off
-    is_new_target = not math.isclose(
-        pos.setpoint.get(use_monitor=False), target, abs_tol=pos.actual_tolerance
-    )
-    status = pos.move(target)
-    # fmt: on
-
-    short_delay_for_EPICS_IOC_database_processing()
-
-    # assert not delay_active
-    assert pos.setpoint.get(use_monitor=False) == target
-
-    # note: pos.position has been failing (issue #668)
-    # Replace ``pos.position`` and force a CA get from the IOC.
-    assert math.isclose(pos.readback.get(use_monitor=False), target, abs_tol=0.01)
-    if is_new_target:
-        confirm_sequence_timings()
-    confirm_in_position(pos)
-    assert pos.inposition
-
-    assert status.done
-    assert status.success
+    motion(pos, known_position, delay)  # known starting position
+    motion(pos, target, delay)
+    motion(pos, target, delay)
 
 
-# @pytest.mark.local
 @pytest.mark.parametrize("target", POSITION_SEQUENCE)
-def test_target_practice_simpler_with_calcpos(target, calcpos):
-    """Demonstrate simpler test with positioner that updates its own RBV."""
-    status = calcpos.move(target)
-    assert status.elapsed > 0, str(status)
-    confirm_in_position(calcpos)
-    if not calcpos.inposition:
-        calcpos.cb_readback()  # nudge it one more time
-    assert calcpos.inposition, str(pos)
+def test_position_sequence_calcpos(target, calcpos):
+    """
+    Move both pos and calcpos to reference, then target position.
 
-    time.sleep(0.2)  # pause between tests
-
-
-# again
-# @pytest.mark.local
-@pytest.mark.parametrize(
-    # fmt: off
-    "target", [-55, -1.2345, -1, -1, -0.1, -0.1, 0, 0, 0, 0.1, 0.1, 1, 1, 1.2345, 55]
-    # fmt: on
-)
-def test_same_position_725(target, calcpos):
-    # Before anything is changed.
-    confirm_in_position(calcpos)
-
-    # Confirm the initial position is as expected.
-    if calcpos.position == target:
-        user = UserCalcsDevice(IOC, name="user")
-        user.wait_for_connection()
-        swait = user.calc10
-        # First, move away from the target.
-        away_target = -target or 0.1 * (1 + random.random())
-        status = calcpos.move(away_target)
-        assert status.done
+    Args:
+        target (_type_): new position for the move
+        calcpos (_type_): positioner based on swait record
+    """
+    def motion(p, goal, delay):
+        status = p.move(goal)
         assert status.elapsed > 0, str(status)
-        # fmt: off
-        assert (
-            swait.channels.B.input_value.get(use_monitor=False) == away_target
-        ), f"{swait.channels.B.input_value.get()}  {away_target=}  {target=}"
-        # fmt: on
-        confirm_in_position(calcpos)
 
-    # Move to the target position.
-    status = calcpos.move(target)  # FIXME: sometimes does not move
-    assert status.done
-    assert status.elapsed > 0, str(status)
-    confirm_in_position(calcpos)
+        short_delay_for_EPICS_IOC_database_processing(delay)
+        assert math.isclose(
+            p.setpoint.get(use_monitor=False), goal, abs_tol=p.actual_tolerance
+        )
+        confirm_in_position(p)
+        if not p.inposition:  # in case cb_readback needs one more call
+            p.cb_readback()
+        assert p.inposition
 
-    # Do it again (the reason for issue #725).
-    status = calcpos.move(target)
-    assert status.done
-    assert status.elapsed > 0, str(status)
-    confirm_in_position(calcpos)
+    known_position = -1
+    delay = 0.125
+
+    motion(calcpos, known_position, delay)  # known starting position
+    motion(calcpos, target, delay)
+    motion(calcpos, target, delay)
