@@ -92,19 +92,12 @@ def calcpos():
     yield calcpos
 
 
-def confirm_in_position(positioner):
-    """Positioner readback is close enough to the target."""
-    # fmt: off
-    assert math.isclose(
-        positioner.readback.get(use_monitor=False),
-        positioner.setpoint.get(use_monitor=False),
-        abs_tol=positioner.actual_tolerance,
-    ),  (
-        f"{positioner.readback.get()=}"
-        f"  {positioner.setpoint.get()=}"
-        f"  {positioner.actual_tolerance=}"
-    )
-    # fmt: on
+def confirm_in_position(p):
+    """Positioner p.readback is close enough to p.setpoint."""
+    rb = p.readback.get(use_monitor=False)
+    sp = p.setpoint.get(use_monitor=False)
+    tol = p.actual_tolerance
+    assert math.isclose(rb, sp, abs_tol=tol),  f"{rb=}  {sp=}   {tol=}"
 
 
 @run_in_thread
