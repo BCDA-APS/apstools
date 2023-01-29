@@ -290,17 +290,14 @@ def test_position_sequence_pos(target, rbv, pos):
         rbv (_type_): Signal to set readback for pos
         pos (_type_): positioner based on two float signals
     """
+
     def motion(p, goal, delay):
         p.setpoint.put(goal)
         short_delay_for_EPICS_IOC_database_processing(delay)
-        assert math.isclose(
-            p.setpoint.get(use_monitor=False), goal, abs_tol=p.actual_tolerance
-        )
+        assert math.isclose(p.setpoint.get(use_monitor=False), goal, abs_tol=p.actual_tolerance)
 
         rbv.put(goal)  # note: pos.readback is read-only
-        assert math.isclose(
-            rbv.get(use_monitor=False), goal, abs_tol=p.actual_tolerance
-        )
+        assert math.isclose(rbv.get(use_monitor=False), goal, abs_tol=p.actual_tolerance)
         confirm_in_position(p)
         if not p.inposition:  # in case cb_readback needs one more call
             p.cb_readback()
@@ -323,14 +320,13 @@ def test_position_sequence_calcpos(target, calcpos):
         target (_type_): new position for the move
         calcpos (_type_): positioner based on swait record
     """
+
     def motion(p, goal, delay):
         status = p.move(goal)
         assert status.elapsed > 0, str(status)
 
         short_delay_for_EPICS_IOC_database_processing(delay)
-        assert math.isclose(
-            p.setpoint.get(use_monitor=False), goal, abs_tol=p.actual_tolerance
-        )
+        assert math.isclose(p.setpoint.get(use_monitor=False), goal, abs_tol=p.actual_tolerance)
         confirm_in_position(p)
         if not p.inposition:  # in case cb_readback needs one more call
             p.cb_readback()
