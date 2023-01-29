@@ -273,9 +273,9 @@ def test_move_and_stopped_early(rbv, pos):
 def confirm_in_position(positioner):
     """Positioner readback is close enough to the target."""
     assert math.isclose(
-        positioner.readback.get(use_monitor=False), 
-        positioner.setpoint.get(use_monitor=False), 
-        abs_tol=positioner.actual_tolerance
+        positioner.readback.get(use_monitor=False),
+        positioner.setpoint.get(use_monitor=False),
+        abs_tol=positioner.actual_tolerance,
     )
 
 
