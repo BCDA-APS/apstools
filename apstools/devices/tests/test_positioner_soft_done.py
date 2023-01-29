@@ -17,12 +17,17 @@ from ..positioner_soft_done import PVPositionerSoftDoneWithStop
 PV_PREFIX = f"{IOC}gp:"
 delay_active = False
 
+
+def rand(base, scale):
+    return base + scale * random.random()
+
+
 # fmt: off
 POSITION_SEQUENCE = (
     [-1] * 3
     + [0] * 5
     + [1, -1, -1, 1, 1, 2, 0, 1, -1, -1]
-    + [round(2 + 5 * random.random(), 2), 0.1, -0.15, -1]
+    + [round(rand(2, 5), 2), 0.1, -0.15, -1]
     + [0] * 5
     + [-55, -1.2345, -1, -1, -0.1, -0.1, 0, 0, 0, 0.1, 0.1, 1, 1, 1.2345, 55],
 )[0]
@@ -236,7 +241,7 @@ def test_move_and_stop_nonzero(rbv, pos):
 
     # move to non-zero
     longer_delay = 2
-    target = round(2 + 5 * random.random(), 2)
+    target = round(rand(2, 5), 2)
     delayed_complete(pos, rbv, delay=longer_delay)
     t0 = time.time()  # time it
     status = pos.move(target)  # readback set by delayed_complete()
@@ -273,10 +278,10 @@ def test_move_and_stopped_early(rbv, pos):
             assert arrived
         confirm_in_position(pos)
 
-    target = round(2 + 5 * random.random(), 2)
-    motion(target, 0.5)
-    motion(target - 1, 2, True)
-    motion(target - 1, 1)
+    target = round(rand(2, 5), 2)
+    motion(target, rand(0.4, 0.3))
+    motion(target - 1, rand(0.4, 0.3), True)
+    motion(target - 1, rand(0.4, 0.3))
 
 
 @pytest.mark.parametrize("target", POSITION_SEQUENCE)
@@ -307,7 +312,7 @@ def test_position_sequence_pos(target, rbv, pos):
 
     motion(pos, known_position, delay)  # known starting position
     motion(pos, target, delay)
-    motion(pos, target, delay)
+    motion(pos, target, delay)  # issue #725, repeated move to same target
 
 
 @pytest.mark.parametrize("target", POSITION_SEQUENCE)
@@ -336,4 +341,4 @@ def test_position_sequence_calcpos(target, calcpos):
 
     motion(calcpos, known_position, delay)  # known starting position
     motion(calcpos, target, delay)
-    motion(calcpos, target, delay)
+    motion(calcpos, target, delay)  # issue #725, repeated move to same target
