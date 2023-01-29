@@ -87,6 +87,15 @@ def calcpos():
     yield calcpos
 
 
+def confirm_in_position(positioner):
+    """Positioner readback is close enough to the target."""
+    assert math.isclose(
+        positioner.readback.get(use_monitor=False),
+        positioner.setpoint.get(use_monitor=False),
+        abs_tol=positioner.actual_tolerance,
+    )
+
+
 @run_in_thread
 def delayed_complete(positioner, readback, delay=1):
     "Time-delayed completion of positioner move."
@@ -241,43 +250,33 @@ def test_move_and_stop_nonzero(rbv, pos):
 
 
 def test_move_and_stopped_early(rbv, pos):
-    short_delay_for_EPICS_IOC_database_processing()
+    def motion(target, delay, interrupt=False):
+        t0 = time.time()
+        delayed_complete(pos, rbv, delay=delay)
+        status = pos.move(target, wait=False)  # readback set by delayed_complete()
 
-    # first, move to some random, non-zero, initial position
+        short_delay_for_EPICS_IOC_database_processing(delay / 2 if interrupt else delay + 0.1)
+        dt = time.time() - t0
+        # fmt: off
+        arrived = math.isclose(
+            pos.readback.get(use_monitor=False), target, abs_tol=pos.actual_tolerance
+        )
+        # fmt: on
+        if interrupt:
+            assert not status.done
+            assert not status.success
+            assert not arrived, f"{dt=:.3f}"
+            pos.stop()
+        else:
+            assert status.done
+            assert status.success
+            assert arrived
+        confirm_in_position(pos)
+
     target = round(2 + 5 * random.random(), 2)
-    delayed_complete(pos, rbv, delay=0.5)
-    status = pos.move(target)  # readback set by delayed_complete()
-    short_delay_for_EPICS_IOC_database_processing()
-    assert status.done
-    assert status.success
-    # assert status.elapsed >= 0.5  # can't assure for initial move
-
-    # move that is stopped before reaching the target
-    longer_delay = 2
-    t0 = time.time()  # time it
-    delayed_stop(pos, longer_delay)
-    assert pos.inposition
-    status = pos.move(target - 1)  # readback set by delayed_stop()
-    assert status.done
-    assert status.success
-    dt = time.time() - t0
-    # assert status.elapsed >= longer_delay  # FIXME: fails sometimes
-    # assert dt >= longer_delay  # TODO: restore
-    assert dt >= 0
-
-    short_delay_for_EPICS_IOC_database_processing()
-    assert pos.setpoint.get(use_monitor=False) == target
-    assert math.isclose(pos.position, target, abs_tol=0.01)
-    assert pos.inposition
-
-
-def confirm_in_position(positioner):
-    """Positioner readback is close enough to the target."""
-    assert math.isclose(
-        positioner.readback.get(use_monitor=False),
-        positioner.setpoint.get(use_monitor=False),
-        abs_tol=positioner.actual_tolerance,
-    )
+    motion(target, 0.5)
+    motion(target - 1, 2, True)
+    motion(target - 1, 1)
 
 
 @pytest.mark.parametrize("target", POSITION_SEQUENCE)
