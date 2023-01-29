@@ -287,7 +287,7 @@ def test_move_and_stopped_early(rbv, pos):
 @pytest.mark.parametrize("target", POSITION_SEQUENCE)
 def test_position_sequence_pos(target, rbv, pos):
     """
-    Move both pos and calcpos to reference, then target position.
+    Move pos to reference, then target position.
 
     Args:
         target (_type_): new position for the move
@@ -307,8 +307,8 @@ def test_position_sequence_pos(target, rbv, pos):
             p.cb_readback()
         assert p.inposition
 
-    known_position = -1
-    delay = 0.125
+    known_position = round(rand(-1.1, 0.2), 4)
+    delay = round(rand(0.12, 0.2), 2)
 
     motion(pos, known_position, delay)  # known starting position
     motion(pos, target, delay)
@@ -318,7 +318,7 @@ def test_position_sequence_pos(target, rbv, pos):
 @pytest.mark.parametrize("target", POSITION_SEQUENCE)
 def test_position_sequence_calcpos(target, calcpos):
     """
-    Move both pos and calcpos to reference, then target position.
+    Move calcpos to reference, then target position.
 
     Args:
         target (_type_): new position for the move
@@ -336,8 +336,8 @@ def test_position_sequence_calcpos(target, calcpos):
             p.cb_readback()
         assert p.inposition
 
-    known_position = -1
-    delay = 0.125
+    known_position = round(rand(-1.1, 0.2), 4)
+    delay = round(rand(0.12, 0.2), 2)
 
     motion(calcpos, known_position, delay)  # known starting position
     motion(calcpos, target, delay)
