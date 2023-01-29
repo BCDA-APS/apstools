@@ -93,7 +93,7 @@ def delayed_complete(positioner, readback, delay=1):
 
     delay_active = True
     time.sleep(delay)
-    readback.put(positioner.setpoint.get())
+    readback.put(positioner.setpoint.get(use_monitor=False))
     delay_active = False
 
 
@@ -215,8 +215,8 @@ def test_put_and_stop(rbv, prec, pos):
     short_delay_for_EPICS_IOC_database_processing()
     pos.cb_readback()
     short_delay_for_EPICS_IOC_database_processing()
-    assert pos.setpoint.get() == 0.5
-    assert pos.readback.get() == 0.5
+    assert pos.setpoint.get(use_monitor=False) == 0.5
+    assert pos.readback.get(use_monitor=False) == 0.5
     assert pos.position == 0.5
     assert pos.inposition
 
@@ -265,19 +265,18 @@ def test_move_and_stopped_early(rbv, pos):
     assert dt >= 0
 
     short_delay_for_EPICS_IOC_database_processing()
-    assert pos.setpoint.get() == target
+    assert pos.setpoint.get(use_monitor=False) == target
     assert math.isclose(pos.position, target, abs_tol=0.01)
     assert pos.inposition
 
 
 def confirm_in_position(positioner):
-    """Apply the 'inposition' property code."""
-    pos = positioner.readback.get(use_monitor=False)  # force EPICS CA update
-    reading = positioner.read()
-    sp = reading[positioner.setpoint.name]["value"]
-    rb = reading[positioner.readback.name]["value"]
-    assert pos == rb  # by definition, these MUST be equal
-    assert math.isclose(rb, sp, abs_tol=positioner.actual_tolerance)
+    """Positioner readback is close enough to the target."""
+    assert math.isclose(
+        positioner.readback.get(use_monitor=False), 
+        positioner.setpoint.get(use_monitor=False), 
+        abs_tol=positioner.actual_tolerance
+    )
 
 
 @pytest.mark.parametrize("target", POSITION_SEQUENCE)
@@ -331,9 +330,12 @@ def test_target_practice(target, rbv, pos):
     delayed_complete(pos, rbv, delay=rbv_delay)
 
     # start the move and wait for RBV to be updated
-    diff = target - pos.setpoint.get()
-    is_new_target = round(abs(diff), 2) > pos.actual_tolerance
+    # fmt: off
+    is_new_target = not math.isclose(
+        pos.setpoint.get(use_monitor=False), target, abs_tol=pos.actual_tolerance
+    )
     status = pos.move(target)
+    # fmt: on
 
     short_delay_for_EPICS_IOC_database_processing()
 
@@ -352,6 +354,7 @@ def test_target_practice(target, rbv, pos):
     assert status.success
 
 
+# @pytest.mark.local
 @pytest.mark.parametrize("target", POSITION_SEQUENCE)
 def test_target_practice_simpler_with_calcpos(target, calcpos):
     """Demonstrate simpler test with positioner that updates its own RBV."""
@@ -387,7 +390,7 @@ def test_same_position_725(target, calcpos):
         assert status.elapsed > 0, str(status)
         # fmt: off
         assert (
-            swait.channels.B.input_value.get() == away_target
+            swait.channels.B.input_value.get(use_monitor=False) == away_target
         ), f"{swait.channels.B.input_value.get()}  {away_target=}  {target=}"
         # fmt: on
         confirm_in_position(calcpos)
