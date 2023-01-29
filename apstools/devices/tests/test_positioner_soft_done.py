@@ -94,11 +94,17 @@ def calcpos():
 
 def confirm_in_position(positioner):
     """Positioner readback is close enough to the target."""
+    # fmt: off
     assert math.isclose(
         positioner.readback.get(use_monitor=False),
         positioner.setpoint.get(use_monitor=False),
         abs_tol=positioner.actual_tolerance,
+    ),  (
+        f"{positioner.readback.get()=}"
+        f"  {positioner.setpoint.get()=}"
+        f"  {positioner.actual_tolerance=}"
     )
+    # fmt: on
 
 
 @run_in_thread
@@ -325,20 +331,24 @@ def test_position_sequence_calcpos(target, calcpos):
         calcpos (_type_): positioner based on swait record
     """
 
-    def motion(p, goal, delay):
+    def motion(p, goal):
+        t0 = time.time()
         status = p.move(goal)
         assert status.elapsed > 0, str(status)
+        dt = time.time() - t0
 
-        short_delay_for_EPICS_IOC_database_processing(delay)
-        assert math.isclose(p.setpoint.get(use_monitor=False), goal, abs_tol=p.actual_tolerance)
+        # fmt: off
+        assert math.isclose(
+            p.setpoint.get(use_monitor=False),
+            goal,
+            abs_tol=p.actual_tolerance
+        ), f"{status=!r}  {dt=}  {goal=}  {p=!r}  {p.actual_tolerance=}"
+        # fmt: on
         confirm_in_position(p)
         if not p.inposition:  # in case cb_readback needs one more call
             p.cb_readback()
-        assert p.inposition
+        assert p.inposition, f"{status=!r}  {dt=}  {p=!r}"
 
-    known_position = round(rand(-1.1, 0.2), 4)
-    delay = round(rand(0.12, 0.2), 2)
-
-    motion(calcpos, known_position, delay)  # known starting position
-    motion(calcpos, target, delay)
-    motion(calcpos, target, delay)  # issue #725, repeated move to same target
+    motion(calcpos, round(rand(-1.1, 0.2), 4))  # known starting position
+    motion(calcpos, target)
+    motion(calcpos, target)  # issue #725, repeated move to same target
