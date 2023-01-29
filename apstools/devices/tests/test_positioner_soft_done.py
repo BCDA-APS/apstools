@@ -266,7 +266,7 @@ def test_move_and_stopped_early(rbv, pos):
 
     short_delay_for_EPICS_IOC_database_processing()
     assert pos.setpoint.get() == target
-    assert round(pos.position, 2) == target
+    assert math.isclose(pos.position, target, abs_tol=0.01)
     assert pos.inposition
 
 
@@ -321,7 +321,7 @@ def test_target_practice(target, rbv, pos):
     # confirm_sequence_timings()
     confirm_in_position(pos)
     assert pos.setpoint.get(use_monitor=False) == known_start_position
-    assert round(pos.readback.get(use_monitor=False), 2) == known_start_position
+    assert math.isclose(pos.readback.get(use_monitor=False), known_start_position, abs_tol=0.01)
     assert pos.inposition, f"target={pos.setpoint.get()}, readback={pos.position}"
 
     # pick a random time to change RBV after the move starts
@@ -342,7 +342,7 @@ def test_target_practice(target, rbv, pos):
 
     # note: pos.position has been failing (issue #668)
     # Replace ``pos.position`` and force a CA get from the IOC.
-    assert round(pos.readback.get(use_monitor=False), 2) == target
+    assert math.isclose(pos.readback.get(use_monitor=False), target, abs_tol=0.01)
     if is_new_target:
         confirm_sequence_timings()
     confirm_in_position(pos)
