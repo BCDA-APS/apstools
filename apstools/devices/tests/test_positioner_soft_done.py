@@ -97,10 +97,30 @@ def confirm_in_position(p, dt):
     rb = p.readback.get(use_monitor=False)
     sp = p.setpoint.get(use_monitor=False)
     tol = p.actual_tolerance
+
     p.cb_readback()  # update self.done
-    assert p.inposition, f"{rb=}  {sp=}   {tol=} {dt=:.4f}s"
-    assert math.isclose(rb, sp, abs_tol=tol), f"{rb=}  {sp=}   {tol=} {dt=:.4f}s"
-    assert p.done.get() == p.done_value, f"{rb=}  {sp=}   {tol=} {dt=:.4f}s"
+    dmov = p.done.get()
+    short_delay_for_EPICS_IOC_database_processing()
+
+    # fmt: off
+    diagnostics = (
+        f"{rb=}  {sp=}   {tol=}"
+        f"  {dt=:.4f}s"
+        f"  {p._sp_count=}"
+        f"  {p._rb_count=}"
+        f"  {dmov=}"
+        f"  {p.done=}"
+        f"  {p.done_value=}"
+        f"  {time.time()=:.4f}"
+    )
+    # fmt: on
+
+    assert p.inposition, diagnostics
+    assert math.isclose(rb, sp, abs_tol=tol), diagnostics
+
+    # assert dmov, diagnostics
+    # assert p.done.get() == dmov, diagnostics
+    assert dmov == p.done_value, diagnostics
 
 
 @run_in_thread
