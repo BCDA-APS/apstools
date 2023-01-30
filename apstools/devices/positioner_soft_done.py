@@ -133,8 +133,8 @@ class PVPositionerSoftDone(PVPositioner):
         dmov = self.inposition
         if self.report_dmov_changes.get() and dmov != self.done.get():
             logger.debug(f"{self.name} reached: {dmov}")
-        v = {True: self.done_value, False: not self.done_value}[dmov]
-        self.done.put(v)
+        if dmov and self.done.get() != self.done_value:
+            self.done.put(self.done_value)
 
     def cb_setpoint(self, *args, **kwargs):
         """
