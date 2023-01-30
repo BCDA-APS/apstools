@@ -9,6 +9,7 @@ PVPositioner that computes ``done`` as a soft signal.
 
 import logging
 import math
+import weakref
 
 from ophyd import Component
 from ophyd import EpicsSignal
@@ -85,12 +86,14 @@ class PVPositionerSoftDone(PVPositioner):
     """
 
     # positioner
+    # fmt: off
     readback = FormattedComponent(
         EpicsSignalRO, "{prefix}{_readback_pv}", kind="hinted", auto_monitor=True
     )
     setpoint = FormattedComponent(
         EpicsSignal, "{prefix}{_setpoint_pv}", kind="normal", put_complete=True
     )
+    # fmt: on
     done = Component(Signal, value=True, kind="config")
     done_value = True
 
@@ -106,6 +109,7 @@ class PVPositionerSoftDone(PVPositioner):
     def precision(self):
         return self.setpoint.precision
 
+    # fmt: off
     @property
     def actual_tolerance(self):
         return (
@@ -113,25 +117,37 @@ class PVPositionerSoftDone(PVPositioner):
             if self.tolerance.get() >= 0
             else 10 ** (-1 * self.precision)
         )
+    # fmt: on
 
     def cb_readback(self, *args, **kwargs):
         """
-        Called when readback changes (EPICS CA monitor event).
+        Called when readback changes (EPICS CA monitor event) or on-demand.
 
-        Computes if the positioner is done moving::
+        Responsible for determining _if_ the positioner is done moving.
+        Since soft positioners have no such direct indication, computes
+        if the positioner is done moving::
 
             done = |readback - setpoint| <= tolerance
         """
         self._rb_count += 1
-        sp = self.setpoint.get()
-        rb = kwargs["value"] if "value" in kwargs else self.readback.get(use_monitor=False)
-        dmov = math.isclose(rb, sp, abs_tol=self.actual_tolerance)
-        if self.report_dmov_changes.get() and dmov != self.done.get():
-            logger.debug("%s reached: %s", self.name, dmov)
+        at_target = self.inposition
+        # fmt: off
+        if (
+            self.report_dmov_changes.get()
+            and at_target
+            and (self.done.get() != self.done_value)
+        ):
+            logger.debug("%s reached: %s", self.name, at_target)
 
-        v = self.done_value
-        self.done.put({True: v, False: not v}[dmov])
-        logger.debug("cb_readback: done=%s, position=%s", self.done.get(), self.position)
+        v = {True: self.done_value, False: not self.done_value}[at_target]
+        if self.done.get() != v:
+            self.done.put(v)  # update, but only on change
+            logger.debug(
+                "cb_readback: done=%s, position=%s",
+                self.done.get(),
+                self.position
+                )
+        # fmt: on
 
     def cb_setpoint(self, *args, **kwargs):
         """
@@ -147,6 +163,18 @@ class PVPositionerSoftDone(PVPositioner):
         self.done.put(not self.done_value)
         logger.debug("cb_setpoint: done=%s, setpoint=%s", self.done.get(), self.setpoint.get())
 
+    @property
+    def inposition(self):
+        """
+        Do readback and setpoint (both from cache) agree within tolerance?
+        """
+        rb = self.readback.get()
+        sp = self.setpoint.get()
+        tol = self.actual_tolerance
+        result = math.isclose(rb, sp, abs_tol=tol)
+        logger.debug("inposition: result=%s rb=%s sp=%s tol=%s", result, rb, sp, tol)
+        return result
+
     def __init__(
         self,
         prefix="",
@@ -158,12 +186,14 @@ class PVPositionerSoftDone(PVPositioner):
         **kwargs,
     ):
 
+        # fmt: off
         if setpoint_pv == readback_pv:
             raise ValueError(
                 f"readback_pv ({readback_pv})"
                 f" and setpoint_pv ({setpoint_pv})"
                 " must have different values"
             )
+        # fmt: on
         self._setpoint_pv = setpoint_pv
         self._readback_pv = readback_pv
 
@@ -176,6 +206,10 @@ class PVPositionerSoftDone(PVPositioner):
 
         self.readback.subscribe(self.cb_readback)
         self.setpoint.subscribe(self.cb_setpoint)
+        # cancel subscriptions before object is garbage collected
+        weakref.finalize(self.readback, self.readback.unsubscribe_all)
+        weakref.finalize(self.setpoint, self.setpoint.unsubscribe_all)
+
         if tolerance:
             self.tolerance.put(tolerance)
 
@@ -206,13 +240,6 @@ class PVPositionerSoftDoneWithStop(PVPositionerSoftDone):
     positioner at the current position.
     """
 
-    @property
-    def inposition(self):
-        """
-        Report (boolean) if positioner is done.
-        """
-        return self.done.get() == self.done_value
-
     def stop(self, *, success=False):
         """
         Hold the current readback when stop() is called and not :meth:`inposition`.
@@ -221,6 +248,7 @@ class PVPositionerSoftDoneWithStop(PVPositionerSoftDone):
             self.setpoint.put(self.position)
             short_delay_for_EPICS_IOC_database_processing()
             self.cb_readback()  # re-evaluate soft done Signal
+
 
 # -----------------------------------------------------------------------------
 # :author:    Pete R. Jemian
