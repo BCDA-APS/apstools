@@ -100,7 +100,7 @@ def confirm_in_position(p, dt):
 
     p.cb_readback()  # update self.done
     dmov = p.done.get()
-    short_delay_for_EPICS_IOC_database_processing()
+    # short_delay_for_EPICS_IOC_database_processing()
 
     # fmt: off
     diagnostics = (
@@ -354,6 +354,9 @@ def test_position_sequence_calcpos(target, calcpos):
         status = p.move(goal)
         assert status.elapsed > 0, str(status)
         dt = time.time() - t0
+        if not p.inposition:  # in case cb_readback needs one more call
+            p.cb_readback()
+        confirm_in_position(p, dt)
 
         # fmt: off
         assert math.isclose(
@@ -362,10 +365,6 @@ def test_position_sequence_calcpos(target, calcpos):
             abs_tol=p.actual_tolerance
         ), f"{status=!r}  {dt=}  {goal=}  {p=!r}  {p.actual_tolerance=}"
         # fmt: on
-        confirm_in_position(p, dt)
-        if not p.inposition:  # in case cb_readback needs one more call
-            p.cb_readback()
-        assert p.inposition, f"{status=!r}  {dt=}  {p=!r}"
 
     motion(calcpos, round(rand(-1.1, 0.2), 4))  # known starting position
     motion(calcpos, target)
