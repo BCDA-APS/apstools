@@ -99,7 +99,7 @@ def confirm_in_position(p):
     tol = p.actual_tolerance
     assert p.inposition, f"{rb=}  {sp=}   {tol=}"
     assert math.isclose(rb, sp, abs_tol=tol), f"{rb=}  {sp=}   {tol=}"
-    p.cb_readback()
+    p.cb_readback()  # update self.done
     assert p.done.get() == p.done_value, f"{rb=}  {sp=}   {tol=}"
 
 
@@ -346,6 +346,6 @@ def test_position_sequence_calcpos(target, calcpos):
             p.cb_readback()
         assert p.inposition, f"{status=!r}  {dt=}  {p=!r}"
 
-    # motion(calcpos, round(rand(-1.1, 0.2), 4))  # known starting position
+    motion(calcpos, round(rand(-1.1, 0.2), 4))  # known starting position
     motion(calcpos, target)
     motion(calcpos, target)  # issue #725, repeated move to same target
