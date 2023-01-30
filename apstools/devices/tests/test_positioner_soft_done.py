@@ -92,15 +92,15 @@ def calcpos():
     yield calcpos
 
 
-def confirm_in_position(p):
+def confirm_in_position(p, dt):
     """Positioner p.readback is close enough to p.setpoint."""
     rb = p.readback.get(use_monitor=False)
     sp = p.setpoint.get(use_monitor=False)
     tol = p.actual_tolerance
     p.cb_readback()  # update self.done
-    assert p.inposition, f"{rb=}  {sp=}   {tol=}"
-    assert math.isclose(rb, sp, abs_tol=tol), f"{rb=}  {sp=}   {tol=}"
-    assert p.done.get() == p.done_value, f"{rb=}  {sp=}   {tol=}"
+    assert p.inposition, f"{rb=}  {sp=}   {tol=} {dt=:.4f}s"
+    assert math.isclose(rb, sp, abs_tol=tol), f"{rb=}  {sp=}   {tol=} {dt=:.4f}s"
+    assert p.done.get() == p.done_value, f"{rb=}  {sp=}   {tol=} {dt=:.4f}s"
 
 
 @run_in_thread
@@ -279,7 +279,7 @@ def test_move_and_stopped_early(rbv, pos):
             assert status.done
             assert status.success
             assert arrived
-        confirm_in_position(pos)
+        confirm_in_position(pos, dt)
 
     target = round(rand(2, 5), 2)
     motion(target, rand(0.4, 0.3))
@@ -299,15 +299,16 @@ def test_position_sequence_pos(target, rbv, pos):
     """
 
     def motion(p, goal, delay):
+        t0 = time.time()
         p.setpoint.put(goal)
         short_delay_for_EPICS_IOC_database_processing(delay)
         assert math.isclose(p.setpoint.get(use_monitor=False), goal, abs_tol=p.actual_tolerance)
 
         rbv.put(goal)  # note: pos.readback is read-only
+        dt = time.time() - t0
+        p.cb_readback()
         assert math.isclose(rbv.get(use_monitor=False), goal, abs_tol=p.actual_tolerance)
-        confirm_in_position(p)
-        if not p.inposition:  # in case cb_readback needs one more call
-            p.cb_readback()
+        confirm_in_position(p, dt)
         assert p.inposition
 
     known_position = round(rand(-1.1, 0.2), 4)
@@ -341,7 +342,7 @@ def test_position_sequence_calcpos(target, calcpos):
             abs_tol=p.actual_tolerance
         ), f"{status=!r}  {dt=}  {goal=}  {p=!r}  {p.actual_tolerance=}"
         # fmt: on
-        confirm_in_position(p)
+        confirm_in_position(p, dt)
         if not p.inposition:  # in case cb_readback needs one more call
             p.cb_readback()
         assert p.inposition, f"{status=!r}  {dt=}  {p=!r}"
