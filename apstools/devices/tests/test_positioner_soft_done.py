@@ -91,8 +91,6 @@ def calcpos():
     calcpos.wait_for_connection()
     yield calcpos
 
-    # TODO: cancel any subscriptions before calcpos object is deleted
-
 
 def confirm_in_position(p):
     """Positioner p.readback is close enough to p.setpoint."""
@@ -169,13 +167,14 @@ def test_same_sp_and_rb(klass, rb, sp):
 
 @pytest.mark.parametrize(
     "device, has_inposition",
-    [[PVPositionerSoftDone, False], [PVPositionerSoftDoneWithStop, True]],
+    [[PVPositionerSoftDone, True], [PVPositionerSoftDoneWithStop, True]],
 )
 def test_structure(device, has_inposition):
     "actual PVs not necessary for this test"
     pos = device("", readback_pv="r", setpoint_pv="v", name="pos")
     assert isinstance(pos, device)
-    assert hasattr(pos, "inposition") is has_inposition
+    # avoid hasattr() which tries to connect
+    assert ("inposition" in dir(pos)) is has_inposition
     assert pos.precision is None
     assert pos.prefix == ""
     assert pos.readback.pvname == "r"
@@ -202,9 +201,9 @@ def test_put_and_stop(rbv, prec, pos):
     short_delay_for_EPICS_IOC_database_processing()
     assert pos.position == 0.0
 
-    assert pos.done.get() is True
-    assert pos.done_value is True
     assert pos.inposition
+    assert pos.done_value is True
+    assert pos.done.get() is True
 
     # change the setpoint
     pos.setpoint.put(1)
