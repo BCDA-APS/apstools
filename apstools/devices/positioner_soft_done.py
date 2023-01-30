@@ -130,24 +130,12 @@ class PVPositionerSoftDone(PVPositioner):
             done = |readback - setpoint| <= tolerance
         """
         self._rb_count += 1
-        at_target = self.inposition
-        # fmt: off
-        if (
-            self.report_dmov_changes.get()
-            and at_target
-            and (self.done.get() != self.done_value)
-        ):
-            logger.debug("%s reached: %s", self.name, at_target)
-
-        v = {True: self.done_value, False: not self.done_value}[at_target]
+        dmov = self.inposition
+        if self.report_dmov_changes.get() and dmov != self.done.get():
+            logger.debug(f"{self.name} reached: {dmov}")
+        v = {True: self.done_value, False: not self.done_value}[dmov]
         if self.done.get() != v:
             self.done.put(v)  # update, but only on change
-            logger.debug(
-                "cb_readback: done=%s, position=%s",
-                self.done.get(),
-                self.position
-                )
-        # fmt: on
 
     def cb_setpoint(self, *args, **kwargs):
         """
@@ -168,6 +156,8 @@ class PVPositionerSoftDone(PVPositioner):
         """
         Do readback and setpoint (both from cache) agree within tolerance?
         """
+        # Since this method must execute quickly, do NOT force
+        # EPICS CA gets using `use_monitor=False`.
         rb = self.readback.get()
         sp = self.setpoint.get()
         tol = self.actual_tolerance
