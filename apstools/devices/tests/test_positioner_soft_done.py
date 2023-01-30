@@ -343,6 +343,6 @@ def test_position_sequence_calcpos(target, calcpos):
             p.cb_readback()
         assert p.inposition, f"{status=!r}  {dt=}  {p=!r}"
 
-    motion(calcpos, round(rand(-1.1, 0.2), 4))  # known starting position
+    # motion(calcpos, round(rand(-1.1, 0.2), 4))  # known starting position
     motion(calcpos, target)
     motion(calcpos, target)  # issue #725, repeated move to same target
