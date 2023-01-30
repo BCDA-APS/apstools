@@ -91,6 +91,8 @@ def calcpos():
     calcpos.wait_for_connection()
     yield calcpos
 
+    # TODO: cancel any subscriptions before calcpos object is deleted
+
 
 def confirm_in_position(p):
     """Positioner p.readback is close enough to p.setpoint."""
