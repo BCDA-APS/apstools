@@ -134,8 +134,8 @@ class PVPositionerSoftDone(PVPositioner):
         if self.report_dmov_changes.get() and dmov != self.done.get():
             logger.debug(f"{self.name} reached: {dmov}")
         v = {True: self.done_value, False: not self.done_value}[dmov]
-        if self.done.get() != v:
-            self.done.put(v)  # update, but only on change
+        # if self.done.get() != v:  # update, but only on change
+        self.done.put(v)
 
     def cb_setpoint(self, *args, **kwargs):
         """
