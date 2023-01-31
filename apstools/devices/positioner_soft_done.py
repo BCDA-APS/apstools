@@ -128,28 +128,31 @@ class PVPositionerSoftDone(PVPositioner):
         if the positioner is in position (if a move is active).
         """
         self._rb_count += 1
+        idle = self.done.get() == self.done_value
 
-        active = self.done.get() != self.done_value
-        if active:
-            active = not self.inposition
-
-        if (self.done.get() != self.done_value) and not active:
+        if self.inposition and not idle:
             self.done.put(self.done_value)
             if self.report_dmov_changes.get():
-                logger.debug(f"{self.name} reached: {not active}")
+                logger.debug(f"{self.name} reached: {True}")
 
     def cb_setpoint(self, *args, **kwargs):
         """
         Called when setpoint changes (EPICS CA monitor event).
 
-        When the setpoint is changed, force done=False.  For any move, done
+        When the setpoint is changed, force`` done=False``.  For any move, ``done``
         **must** transition to ``!= done_value``, then back to ``done_value``.
 
         Without this response, a small move (within tolerance) will not return.
-        Next update of readback will compute ``self.done``.
+        The ``cb_readback()`` method will compute ``done``.
+
+        Since other code will also call this method, check the keys in kwargs
+        and do not react to the "wrong" signature.
         """
-        self._sp_count += 1
-        self.done.put(not self.done_value)
+        if "value" in kwargs and "status" not in kwargs:
+            self._sp_count += 1
+            self.done.put(not self.done_value)
+            # with open("/tmp/debug.txt", "a") as f:  # diagnostic logging
+            #     f.write(f"{kwargs}\n")
         logger.debug("cb_setpoint: done=%s, setpoint=%s", self.done.get(), self.setpoint.get())
 
     @property
