@@ -128,27 +128,15 @@ class PVPositionerSoftDone(PVPositioner):
         if the positioner is in position (if a move is active).
         """
         idle = self.done.get() == self.done_value
-        # idle = self._move_active
         if idle:
             return
 
         self._rb_count += 1
 
         if self.inposition:
-            self._move_active = False
             self.done.put(self.done_value)
             if self.report_dmov_changes.get():
                 logger.debug(f"{self.name} reached: {True}")
-
-        # with open("/tmp/debug.txt", "a") as f:  # diagnostic logging
-        #     d = dict(
-        #         rb_count=self._rb_count,
-        #         done=self.done.get(),
-        #         sp=self.setpoint.get(),
-        #         rb=self.readback.get(),
-        #         kwargs=kwargs
-        #         )
-        #     f.write(f"{d}\n")
 
     def cb_setpoint(self, *args, **kwargs):
         """
@@ -165,7 +153,6 @@ class PVPositionerSoftDone(PVPositioner):
         """
         if "value" in kwargs and "status" not in kwargs:
             self._sp_count += 1
-            self._move_active = True
             self.done.put(not self.done_value)
         logger.debug("cb_setpoint: done=%s, setpoint=%s", self.done.get(), self.setpoint.get())
 
@@ -221,8 +208,6 @@ class PVPositionerSoftDone(PVPositioner):
         # cancel subscriptions before object is garbage collected
         weakref.finalize(self.readback, self.readback.unsubscribe_all)
         weakref.finalize(self.setpoint, self.setpoint.unsubscribe_all)
-
-        self._move_active = False
 
         if tolerance:
             self.tolerance.put(tolerance)
