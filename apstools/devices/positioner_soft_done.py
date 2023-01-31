@@ -155,14 +155,17 @@ class PVPositionerSoftDone(PVPositioner):
         """
         Do readback and setpoint (both from cache) agree within tolerance?
         """
-        # Since this method must execute quickly, do NOT force
-        # EPICS CA gets using `use_monitor=False`.
-        rb = self.readback.get()
-        sp = self.setpoint.get()
-        tol = self.actual_tolerance
-        result = math.isclose(rb, sp, abs_tol=tol)
-        logger.debug("inposition: result=%s rb=%s sp=%s tol=%s", result, rb, sp, tol)
-        return result
+        moving = self.done.get() != self.done_value
+        if moving:
+            # Since this method must execute quickly, do NOT force
+            # EPICS CA gets using `use_monitor=False`.
+            rb = self.readback.get()
+            sp = self.setpoint.get()
+            tol = self.actual_tolerance
+            inpos = math.isclose(rb, sp, abs_tol=tol)
+            logger.debug("inposition: inpos=%s rb=%s sp=%s tol=%s", inpos, rb, sp, tol)
+            moving = not inpos
+        return not moving
 
     def __init__(
         self,
