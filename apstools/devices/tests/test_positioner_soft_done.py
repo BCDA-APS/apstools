@@ -207,6 +207,7 @@ def test_structure(device, has_inposition):
     assert pos.tolerance.get() == -1
 
 
+@pytest.mark.local
 def test_put_and_stop(rbv, prec, pos):
     assert pos.tolerance.get() == -1
     assert pos.precision == prec.get()
