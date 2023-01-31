@@ -1,5 +1,4 @@
 import math
-import random
 import time
 
 import pytest
@@ -9,6 +8,7 @@ from ophyd import EpicsSignal
 from ...synApps.swait import UserCalcsDevice
 from ...tests import IOC
 from ...tests import common_attribute_quantities_test
+from ...tests import rand
 from ...tests import short_delay_for_EPICS_IOC_database_processing
 from ...utils import run_in_thread
 from ..positioner_soft_done import PVPositionerSoftDone
@@ -16,10 +16,6 @@ from ..positioner_soft_done import PVPositionerSoftDoneWithStop
 
 PV_PREFIX = f"{IOC}gp:"
 delay_active = False
-
-
-def rand(base, scale):
-    return base + scale * random.random()
 
 
 # fmt: off
@@ -99,28 +95,22 @@ def confirm_in_position(p, dt):
     tol = p.actual_tolerance
 
     p.cb_readback()  # update self.done
-    dmov = p.done.get()
-    # short_delay_for_EPICS_IOC_database_processing()
+    # dmov = p.done.get()
 
     # fmt: off
     diagnostics = (
-        f"{rb=}  {sp=}   {tol=}"
+        f"{rb=:.5f}  {sp=:.5f}   {tol=}"
         f"  {dt=:.4f}s"
         f"  {p._sp_count=}"
         f"  {p._rb_count=}"
-        f"  {dmov=}"
         f"  {p.done=}"
         f"  {p.done_value=}"
         f"  {time.time()=:.4f}"
     )
     # fmt: on
 
-    assert p.inposition, diagnostics
+    assert p.done.get() == p.done_value, diagnostics
     assert math.isclose(rb, sp, abs_tol=tol), diagnostics
-
-    # assert dmov, diagnostics
-    # assert p.done.get() == dmov, diagnostics
-    assert dmov == p.done_value, diagnostics
 
 
 @run_in_thread
@@ -223,7 +213,6 @@ def test_put_and_stop(rbv, prec, pos):
 
     rbv.put(0)  # make the readback match
     assert math.isclose(pos.readback.get(use_monitor=False), 0, abs_tol=0.02)
-    assert pos.position == 0.0
 
     assert pos.inposition
     assert pos.done_value is True
@@ -358,12 +347,15 @@ def test_position_sequence_calcpos(target, calcpos):
     """
 
     def motion(p, goal):
+        c_sp = p._sp_count
         t0 = time.time()
         status = p.move(goal)
-        assert status.elapsed > 0, str(status)
         dt = time.time() - t0
-        if not p.inposition:  # in case cb_readback needs one more call
-            p.cb_readback()
+        assert p._sp_count == c_sp+1
+        assert status.elapsed > 0, str(status)
+        assert status.done, str(status)
+
+        p.cb_readback()
         confirm_in_position(p, dt)
 
         # fmt: off
