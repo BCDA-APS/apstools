@@ -210,49 +210,57 @@ def test_structure(device, has_inposition):
 
 
 def test_put_and_stop(rbv, prec, pos):
-    short_delay_for_EPICS_IOC_database_processing()
     assert pos.tolerance.get() == -1
     assert pos.precision == prec.get()
 
     # ensure starting value at 0.0
-    pos.setpoint.put(0)
     rbv.put(1)  # make the readback to different
-    short_delay_for_EPICS_IOC_database_processing()
+    pos.setpoint.put(0)
+    assert math.isclose(pos.readback.get(), 1, abs_tol=0.02)
+    assert math.isclose(pos.setpoint.get(use_monitor=False), 0, abs_tol=0.02)
+    assert pos.done.get() != pos.done_value
     assert not pos.inposition
 
     rbv.put(0)  # make the readback match
-    short_delay_for_EPICS_IOC_database_processing()
+    assert math.isclose(pos.readback.get(use_monitor=False), 0, abs_tol=0.02)
     assert pos.position == 0.0
 
     assert pos.inposition
     assert pos.done_value is True
     assert pos.done.get() is True
 
+    # - - - - - - - - - - - - - - - - - - - - - - - -
+
     # change the setpoint
+    c_sp = pos._sp_count
     pos.setpoint.put(1)
-    short_delay_for_EPICS_IOC_database_processing()
+    assert pos._sp_count > c_sp
+    assert math.isclose(pos.setpoint.get(use_monitor=False), 1, abs_tol=0.02)
+    assert pos.done.get() != pos.done_value
     assert not pos.inposition
 
     # change the readback to match
     rbv.put(1)
-    short_delay_for_EPICS_IOC_database_processing()
+    assert math.isclose(pos.readback.get(use_monitor=False), 1, abs_tol=0.02)
     assert pos.inposition
 
+    # - - - - - - - - - - - - - - - - - - - - - - - -
+
     # change the setpoint
+    c_sp = pos._sp_count
     pos.setpoint.put(0)
-    short_delay_for_EPICS_IOC_database_processing()
+    assert math.isclose(pos.setpoint.get(use_monitor=False), 0, abs_tol=0.02)
+    assert pos._sp_count > c_sp
     assert not pos.inposition
 
     # move the readback part-way, but move is not over yet
     rbv.put(0.5)
-    short_delay_for_EPICS_IOC_database_processing()
+    assert math.isclose(pos.readback.get(use_monitor=False), 0.5, abs_tol=0.02)
     assert not pos.inposition
 
     # force a stop now
     pos.stop()
-    short_delay_for_EPICS_IOC_database_processing()
     pos.cb_readback()
-    short_delay_for_EPICS_IOC_database_processing()
     assert pos.setpoint.get(use_monitor=False) == 0.5
     assert pos.readback.get(use_monitor=False) == 0.5
     assert pos.position == 0.5
