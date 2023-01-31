@@ -90,26 +90,30 @@ def calcpos():
 
 def confirm_in_position(p, dt):
     """Positioner p.readback is close enough to p.setpoint."""
-    rb = p.readback.get(use_monitor=False)
-    sp = p.setpoint.get(use_monitor=False)
-    tol = p.actual_tolerance
-
+    p.readback.get(use_monitor=False)  # force a read from the IOC
     p.cb_readback()  # update self.done
-    # dmov = p.done.get()
+
+    # collect these values at one instant (as close as possible).
+    dmov = p.done.get()
+    rb = p.readback.get()
+    sp = p.setpoint.get()
+    tol = p.actual_tolerance
 
     # fmt: off
     diagnostics = (
-        f"{rb=:.5f}  {sp=:.5f}   {tol=}"
+        f"{p.name=}"
+        f"  {rb=:.5f} {sp=:.5f} {tol=}"
         f"  {dt=:.4f}s"
         f"  {p._sp_count=}"
         f"  {p._rb_count=}"
+        f"  {p._move_active=}"
         f"  {p.done=}"
         f"  {p.done_value=}"
         f"  {time.time()=:.4f}"
     )
     # fmt: on
 
-    assert p.done.get() == p.done_value, diagnostics
+    assert dmov == p.done_value, diagnostics
     assert math.isclose(rb, sp, abs_tol=tol), diagnostics
 
 
