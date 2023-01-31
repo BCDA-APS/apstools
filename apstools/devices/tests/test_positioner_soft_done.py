@@ -211,58 +211,40 @@ def test_put_and_stop(rbv, prec, pos):
     assert pos.tolerance.get() == -1
     assert pos.precision == prec.get()
 
-    # ensure starting value at 0.0
-    rbv.put(1)  # make the readback to different
-    pos.setpoint.put(0)
-    assert math.isclose(pos.readback.get(), 1, abs_tol=0.02)
-    assert math.isclose(pos.setpoint.get(use_monitor=False), 0, abs_tol=0.02)
-    assert pos.done.get() != pos.done_value
-    assert not pos.inposition
+    def motion(rb_initial, target, rb_mid=None):
+        rbv.put(rb_initial)  # make the readback to different
+        c_sp = pos._sp_count
+        pos.setpoint.put(target)
+        assert pos._sp_count == c_sp + 1
+        assert math.isclose(pos.readback.get(), rb_initial, abs_tol=0.02)
+        assert math.isclose(pos.setpoint.get(use_monitor=False), target, abs_tol=0.02)
+        assert pos.done.get() != pos.done_value
+        assert not pos.inposition
 
-    rbv.put(0)  # make the readback match
-    assert math.isclose(pos.readback.get(use_monitor=False), 0, abs_tol=0.02)
+        if rb_mid is not None:
+            # move the readback part-way, but move is not over yet
+            rbv.put(rb_mid)
+            assert math.isclose(pos.readback.get(use_monitor=False), rb_mid, abs_tol=0.02)
+            assert not pos.inposition
 
-    assert pos.inposition
-    assert pos.done_value is True
-    pos.cb_readback()
-    assert pos.done.get() is True
+            # force a stop now
+            pos.stop()
+            pos.cb_readback()
+            assert pos.setpoint.get(use_monitor=False) == rb_mid
+            assert pos.readback.get(use_monitor=False) == rb_mid
+            assert pos.position == rb_mid
+        else:  # interrupted move
+            rbv.put(target)  # make the readback match
+            assert math.isclose(pos.readback.get(use_monitor=False), target, abs_tol=0.02)
 
-    # - - - - - - - - - - - - - - - - - - - - - - - -
+        assert pos.inposition
+        assert pos.done_value is True
+        pos.cb_readback()
+        assert pos.done.get() is True
 
-    # change the setpoint
-    c_sp = pos._sp_count
-    pos.setpoint.put(1)
-    assert pos._sp_count > c_sp
-    assert math.isclose(pos.setpoint.get(use_monitor=False), 1, abs_tol=0.02)
-    assert pos.done.get() != pos.done_value
-    assert not pos.inposition
-
-    # change the readback to match
-    rbv.put(1)
-    assert math.isclose(pos.readback.get(use_monitor=False), 1, abs_tol=0.02)
-    assert pos.inposition
-
-    # - - - - - - - - - - - - - - - - - - - - - - - -
-
-    # change the setpoint
-    c_sp = pos._sp_count
-    pos.setpoint.put(0)
-    assert math.isclose(pos.setpoint.get(use_monitor=False), 0, abs_tol=0.02)
-    assert pos._sp_count > c_sp
-    assert not pos.inposition
-
-    # move the readback part-way, but move is not over yet
-    rbv.put(0.5)
-    assert math.isclose(pos.readback.get(use_monitor=False), 0.5, abs_tol=0.02)
-    assert not pos.inposition
-
-    # force a stop now
-    pos.stop()
-    pos.cb_readback()
-    assert pos.setpoint.get(use_monitor=False) == 0.5
-    assert pos.readback.get(use_monitor=False) == 0.5
-    assert pos.position == 0.5
-    assert pos.inposition
+    motion(1, 0)  # ensure starting value at 0.0
+    motion(0, 1)  # new setpoint
+    motion(1, 0, 0.5)  # interrupted move
 
 
 def test_move_and_stop_nonzero(rbv, pos):
