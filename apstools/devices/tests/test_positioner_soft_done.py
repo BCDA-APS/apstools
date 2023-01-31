@@ -352,7 +352,7 @@ def test_position_sequence_calcpos(target, calcpos):
         t0 = time.time()
         status = p.move(goal)
         dt = time.time() - t0
-        assert p._sp_count == c_sp+1
+        assert p._sp_count == c_sp + 1
         assert status.elapsed > 0, str(status)
         assert status.done, str(status)
 
