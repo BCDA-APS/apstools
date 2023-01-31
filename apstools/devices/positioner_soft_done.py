@@ -127,13 +127,26 @@ class PVPositionerSoftDone(PVPositioner):
         Since soft positioners have no such direct indication, computes
         if the positioner is in position (if a move is active).
         """
-        self._rb_count += 1
         idle = self.done.get() == self.done_value
+        if idle:
+            return
 
-        if self.inposition and not idle:
+        self._rb_count += 1
+
+        if self.inposition:
             self.done.put(self.done_value)
             if self.report_dmov_changes.get():
                 logger.debug(f"{self.name} reached: {True}")
+
+        # with open("/tmp/debug.txt", "a") as f:  # diagnostic logging
+        #     d = dict(
+        #         rb_count=self._rb_count,
+        #         done=self.done.get(),
+        #         sp=self.setpoint.get(),
+        #         rb=self.readback.get(),
+        #         kwargs=kwargs
+        #         )
+        #     f.write(f"{d}\n")
 
     def cb_setpoint(self, *args, **kwargs):
         """
@@ -151,8 +164,6 @@ class PVPositionerSoftDone(PVPositioner):
         if "value" in kwargs and "status" not in kwargs:
             self._sp_count += 1
             self.done.put(not self.done_value)
-            # with open("/tmp/debug.txt", "a") as f:  # diagnostic logging
-            #     f.write(f"{kwargs}\n")
         logger.debug("cb_setpoint: done=%s, setpoint=%s", self.done.get(), self.setpoint.get())
 
     @property
