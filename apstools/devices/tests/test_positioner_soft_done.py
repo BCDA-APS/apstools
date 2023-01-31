@@ -94,6 +94,8 @@ def confirm_in_position(p, dt):
     p.cb_readback()  # update self.done
 
     # collect these values at one instant (as close as possible).
+    c_rb = p._rb_count  # do not expect any new callbacks during this method
+    c_sp = p._sp_count
     dmov = p.done.get()
     rb = p.readback.get()
     sp = p.setpoint.get()
@@ -113,6 +115,8 @@ def confirm_in_position(p, dt):
     )
     # fmt: on
 
+    assert p._rb_count == c_rb, diagnostics
+    assert p._sp_count == c_sp, diagnostics
     assert dmov == p.done_value, diagnostics
     assert math.isclose(rb, sp, abs_tol=tol), diagnostics
 
@@ -281,6 +285,8 @@ def test_move_and_stop_nonzero(rbv, pos):
 
 def test_move_and_stopped_early(rbv, pos):
     def motion(target, delay, interrupt=False):
+        short_delay_for_EPICS_IOC_database_processing(0.1)  # allow previous activities to settle down
+
         t0 = time.time()
         delayed_complete(pos, rbv, delay=delay)
         status = pos.move(target, wait=False)  # readback set by delayed_complete()
@@ -321,6 +327,8 @@ def test_position_sequence_pos(target, rbv, pos):
     """
 
     def motion(p, goal, delay):
+        short_delay_for_EPICS_IOC_database_processing(0.1)  # allow previous activities to settle down
+
         t0 = time.time()
         p.setpoint.put(goal)
         short_delay_for_EPICS_IOC_database_processing(delay)
@@ -352,6 +360,8 @@ def test_position_sequence_calcpos(target, calcpos):
     """
 
     def motion(p, goal):
+        short_delay_for_EPICS_IOC_database_processing(0.1)  # allow previous activities to settle down
+
         c_sp = p._sp_count
         t0 = time.time()
         status = p.move(goal)
