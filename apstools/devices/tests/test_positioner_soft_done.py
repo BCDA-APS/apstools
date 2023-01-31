@@ -216,6 +216,7 @@ def test_put_and_stop(rbv, prec, pos):
 
     assert pos.inposition
     assert pos.done_value is True
+    pos.cb_readback()
     assert pos.done.get() is True
 
     # - - - - - - - - - - - - - - - - - - - - - - - -
