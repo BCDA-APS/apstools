@@ -73,5 +73,5 @@ def rand(base, scale):
     return base + scale * random.random()
 
 
-def short_delay_for_EPICS_IOC_database_processing(delay=None):
+def timed_pause(delay=None):
     time.sleep(delay or SHORT_DELAY_FOR_EPICS_IOC_DATABASE_PROCESSING)

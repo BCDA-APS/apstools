@@ -2,7 +2,7 @@ import pytest
 
 from ...tests import IOC
 from ...tests import common_attribute_quantities_test
-from ...tests import short_delay_for_EPICS_IOC_database_processing
+from ...tests import timed_pause
 from ..scalcout import ScalcoutRecord
 from ..scalcout import UserScalcoutDevice
 
@@ -35,7 +35,7 @@ def test_scalcout_reset():
     assert isinstance(calc, ScalcoutRecord)
 
     calc.reset()
-    short_delay_for_EPICS_IOC_database_processing()
+    timed_pause()
     assert calc.enable.get() in [1, "E"]
 
     # set some things
@@ -45,7 +45,7 @@ def test_scalcout_reset():
     calc.channels.BB.input_value.put("testing")
     calc.calculation.put("A")
     calc.process_record.put(1)
-    short_delay_for_EPICS_IOC_database_processing()
+    timed_pause()
     assert calc.channels.A.input_value.get() == v
     assert calc.channels.BB.input_value.get() == "testing"
     assert calc.calculation.get() == "A"
@@ -53,7 +53,7 @@ def test_scalcout_reset():
     assert calc.calculated_value_string.get() == str(v)
 
     calc.reset()
-    short_delay_for_EPICS_IOC_database_processing()
+    timed_pause()
     assert calc.description.get() == calc.prefix
     assert calc.calculation.get() == "0"
     assert calc.channels.A.input_value.get() == 0
@@ -62,5 +62,5 @@ def test_scalcout_reset():
     assert calc.calculated_value_string.get() == "0.00000"
 
     v1 = calc.calculated_value.get()
-    short_delay_for_EPICS_IOC_database_processing(0.2)
+    timed_pause(0.2)
     assert v1 == calc.calculated_value.get()

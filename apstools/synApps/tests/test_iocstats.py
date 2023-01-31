@@ -4,7 +4,7 @@ import pytest
 
 from ...tests import IOC
 from ...tests import common_attribute_quantities_test
-from ...tests import short_delay_for_EPICS_IOC_database_processing
+from ...tests import timed_pause
 from ..iocstats import IocStatsDevice
 
 
@@ -39,7 +39,7 @@ def test_running(attr, expected, comparison):
     gp_info = IocStatsDevice(IOC, name="gp_info")
     gp_info.wait_for_connection()
     assert gp_info.connected
-    short_delay_for_EPICS_IOC_database_processing()
+    timed_pause()
 
     assert hasattr(gp_info, attr)
     value = getattr(gp_info, attr).get(use_monitor=False)

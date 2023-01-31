@@ -9,7 +9,7 @@ from ...synApps.swait import UserCalcsDevice
 from ...tests import IOC
 from ...tests import common_attribute_quantities_test
 from ...tests import rand
-from ...tests import short_delay_for_EPICS_IOC_database_processing
+from ...tests import timed_pause
 from ...utils import run_in_thread
 from ..positioner_soft_done import PVPositionerSoftDone
 from ..positioner_soft_done import PVPositionerSoftDoneWithStop
@@ -266,7 +266,7 @@ def test_put_and_stop(rbv, prec, pos):
 
 
 def test_move_and_stop_nonzero(rbv, pos):
-    short_delay_for_EPICS_IOC_database_processing()
+    timed_pause()
 
     # move to non-zero
     longer_delay = 2
@@ -278,20 +278,20 @@ def test_move_and_stop_nonzero(rbv, pos):
     assert status.done
     assert status.success
     assert status.elapsed >= longer_delay
-    short_delay_for_EPICS_IOC_database_processing()
+    timed_pause()
     assert dt >= longer_delay
     assert pos.inposition
 
 
 def test_move_and_stopped_early(rbv, pos):
     def motion(target, delay, interrupt=False):
-        short_delay_for_EPICS_IOC_database_processing(0.1)  # allow previous activities to settle down
+        timed_pause(0.1)  # allow previous activities to settle down
 
         t0 = time.time()
         delayed_complete(pos, rbv, delay=delay)
         status = pos.move(target, wait=False)  # readback set by delayed_complete()
 
-        short_delay_for_EPICS_IOC_database_processing(delay / 2 if interrupt else delay + 0.1)
+        timed_pause(delay / 2 if interrupt else delay + 0.1)
         dt = time.time() - t0
         # fmt: off
         arrived = math.isclose(
@@ -327,11 +327,11 @@ def test_position_sequence_pos(target, rbv, pos):
     """
 
     def motion(p, goal, delay):
-        short_delay_for_EPICS_IOC_database_processing(0.1)  # allow previous activities to settle down
+        timed_pause(0.1)  # allow previous activities to settle down
 
         t0 = time.time()
         p.setpoint.put(goal)
-        short_delay_for_EPICS_IOC_database_processing(delay)
+        timed_pause(delay)
         assert math.isclose(p.setpoint.get(use_monitor=False), goal, abs_tol=p.actual_tolerance)
 
         rbv.put(goal)  # note: pos.readback is read-only
@@ -360,7 +360,7 @@ def test_position_sequence_calcpos(target, calcpos):
     """
 
     def motion(p, goal):
-        short_delay_for_EPICS_IOC_database_processing(0.1)  # allow previous activities to settle down
+        timed_pause(0.1)  # allow previous activities to settle down
 
         c_sp = p._sp_count
         t0 = time.time()

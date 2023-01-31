@@ -2,7 +2,7 @@ import pytest
 
 from ...tests import IOC
 from ...tests import common_attribute_quantities_test
-from ...tests import short_delay_for_EPICS_IOC_database_processing
+from ...tests import timed_pause
 from ...utils import SlitGeometry
 from ..db_2slit import Optics2Slit1D
 from ..db_2slit import Optics2Slit2D_HV
@@ -58,7 +58,7 @@ def test_2slit2D_HV():
     slit1.v.size.move(0.2)
     slit1.h.center.move(0.)
     slit1.v.center.move(0.)
-    short_delay_for_EPICS_IOC_database_processing()
+    timed_pause()
     assert round(slit1.h.size.position, 4) == 0.1
     assert round(slit1.v.size.position, 4) == 0.2
     assert round(slit1.h.center.position, 4) == 0.
@@ -92,7 +92,7 @@ def test_2slit2D_InbOutBotTop():
     slit1.vsize.move(0.4)
     slit1.hcenter.move(0.)
     slit1.vcenter.move(0.)
-    short_delay_for_EPICS_IOC_database_processing()
+    timed_pause()
     assert round(slit1.hsize.position, 4) == 0.3
     assert round(slit1.vsize.position, 4) == 0.4
     assert round(slit1.hcenter.position, 4) == 0.
