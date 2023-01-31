@@ -125,16 +125,18 @@ class PVPositionerSoftDone(PVPositioner):
 
         Responsible for determining _if_ the positioner is done moving.
         Since soft positioners have no such direct indication, computes
-        if the positioner is done moving::
-
-            done = |readback - setpoint| <= tolerance
+        if the positioner is in position (if a move is active).
         """
         self._rb_count += 1
-        dmov = self.inposition
-        if self.report_dmov_changes.get() and dmov != self.done.get():
-            logger.debug(f"{self.name} reached: {dmov}")
-        if dmov and self.done.get() != self.done_value:
+
+        active = self.done.get() != self.done_value
+        if active:
+            active = not self.inposition
+
+        if (self.done.get() != self.done_value) and not active:
             self.done.put(self.done_value)
+            if self.report_dmov_changes.get():
+                logger.debug(f"{self.name} reached: {not active}")
 
     def cb_setpoint(self, *args, **kwargs):
         """
@@ -154,18 +156,19 @@ class PVPositionerSoftDone(PVPositioner):
     def inposition(self):
         """
         Do readback and setpoint (both from cache) agree within tolerance?
+
+        Returns::
+
+            inposition = |readback - setpoint| <= tolerance
         """
-        moving = self.done.get() != self.done_value
-        if moving:
-            # Since this method must execute quickly, do NOT force
-            # EPICS CA gets using `use_monitor=False`.
-            rb = self.readback.get()
-            sp = self.setpoint.get()
-            tol = self.actual_tolerance
-            inpos = math.isclose(rb, sp, abs_tol=tol)
-            logger.debug("inposition: inpos=%s rb=%s sp=%s tol=%s", inpos, rb, sp, tol)
-            moving = not inpos
-        return not moving
+        # Since this method must execute quickly, do NOT force
+        # EPICS CA gets using `use_monitor=False`.
+        rb = self.readback.get()
+        sp = self.setpoint.get()
+        tol = self.actual_tolerance
+        inpos = math.isclose(rb, sp, abs_tol=tol)
+        logger.debug("inposition: inpos=%s rb=%s sp=%s tol=%s", inpos, rb, sp, tol)
+        return inpos
 
     def __init__(
         self,
