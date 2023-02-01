@@ -108,7 +108,6 @@ def confirm_in_position(p, dt):
         f"  {dt=:.4f}s"
         f"  {p._sp_count=}"
         f"  {p._rb_count=}"
-        f"  {p._move_active=}"
         f"  {p.done=}"
         f"  {p.done_value=}"
         f"  {time.time()=:.4f}"
