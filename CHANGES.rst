@@ -49,7 +49,7 @@ Maintenance
 * Apply isort code style.
 
 Known Problems
-------------------------
+--------------
 
 * Observing random occurrence of unit test failures involving PVPositionerSoftDone.
 
