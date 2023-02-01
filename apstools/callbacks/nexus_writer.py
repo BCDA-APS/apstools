@@ -11,11 +11,13 @@ NeXus File Writer Callbacks
 import datetime
 import logging
 import os
+import time
 
 import h5py
 import numpy as np
 import yaml
 
+from ..utils import run_in_thread
 from .callback_base import FileWriterCallbackBase
 
 NEXUS_FILE_EXTENSION = "hdf"  # use this file extension for the output
@@ -67,6 +69,10 @@ class NXWriter(FileWriterCallbackBase):
     nxdata_signal = None  # name of dataset for Y axis on plot
     nxdata_signal_axes = None  # name of dataset for X axis on plot
     root = None  # instance of h5py.File
+
+    _external_file_read_timeout = 20
+    _external_file_read_retry_delay = 0.5
+    _writer_active = False
 
     # convention: methods written in alphabetical order
 
@@ -191,15 +197,28 @@ class NXWriter(FileWriterCallbackBase):
 
     def writer(self):
         """
-        write collected data to HDF5/NeXus data file
-        """
-        fname = self.file_name or self.make_file_name()
-        with h5py.File(fname, "w") as self.root:
-            self.write_root(fname)
+        Write collected data to HDF5/NeXus data file.
 
-        self.root = None
-        logger.info(f"wrote NeXus file: {fname}")  # lgtm [py/clear-text-logging-sensitive-data]
-        self.output_nexus_file = fname
+        The callback launches ``_threaded_writer()`` and returns. In the thread,
+        ``write_root()`` (or methods within) can wait on certain items (such as
+        an external HDF5 file written by an area detector IOC) to become
+        readable or a timeout period has expired.
+        """
+
+        @run_in_thread
+        def _threaded_writer(fname):
+            """Allow read of external files _after_ run ends."""
+            self._writer_active = True
+            try:
+                with h5py.File(fname, "w") as self.root:
+                    self.write_root(fname)
+                self.output_nexus_file = fname
+                logger.info(f"wrote NeXus file: {fname}")  # lgtm [py/clear-text-logging-sensitive-data]
+            finally:
+                self.root = None
+                self._writer_active = False
+
+        _threaded_writer(self.file_name or self.make_file_name())
 
     def write_data(self, parent):
         """
