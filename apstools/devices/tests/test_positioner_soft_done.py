@@ -247,6 +247,7 @@ def test_put_and_stop(rbv, prec, pos):
     motion(1, 0, 0.5)  # interrupted move
 
 
+@pytest.mark.local
 def test_move_and_stop_nonzero(rbv, pos):
     timed_pause()
 
