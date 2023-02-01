@@ -3,7 +3,7 @@ dev_*.py
 dev_*.ipynb
 
 # local note-taking
-_notes.md
+_notes*.md
 
 # unit test
 .coverage
