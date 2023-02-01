@@ -65,6 +65,8 @@ def camera():
         name="camera",
         read_attrs=["hdf1"],
     )
+    if "capture" in camera.stage_sigs:
+        camera.stage_sigs.move_to_end("capture", last=True)
     camera.wait_for_connection(timeout=15)
     if not AD_plugin_primed(camera.hdf1):
         AD_prime_plugin2(camera.hdf1)
