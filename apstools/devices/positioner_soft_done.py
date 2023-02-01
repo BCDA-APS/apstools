@@ -105,9 +105,43 @@ class PVPositionerSoftDone(PVPositioner):
     _rb_count = 0
     _sp_count = 0
 
-    @property
-    def precision(self):
-        return self.setpoint.precision
+    def __init__(
+        self,
+        prefix="",
+        *,
+        readback_pv="",
+        setpoint_pv="",
+        tolerance=None,
+        update_target=True,
+        **kwargs,
+    ):
+
+        # fmt: off
+        if setpoint_pv == readback_pv:
+            raise ValueError(
+                f"readback_pv ({readback_pv})"
+                f" and setpoint_pv ({setpoint_pv})"
+                " must have different values"
+            )
+        # fmt: on
+        self._setpoint_pv = setpoint_pv
+        self._readback_pv = readback_pv
+
+        super().__init__(prefix=prefix, **kwargs)
+
+        # Make the default alias for the readback the name of the
+        # positioner itself as in EpicsMotor.
+        self.readback.name = self.name
+        self.update_target = update_target
+
+        self.readback.subscribe(self.cb_readback)
+        self.setpoint.subscribe(self.cb_setpoint)
+        # cancel subscriptions before object is garbage collected
+        weakref.finalize(self.readback, self.readback.unsubscribe_all)
+        weakref.finalize(self.setpoint, self.setpoint.unsubscribe_all)
+
+        if tolerance:
+            self.tolerance.put(tolerance)
 
     # fmt: off
     @property
@@ -174,43 +208,9 @@ class PVPositionerSoftDone(PVPositioner):
         logger.debug("inposition: inpos=%s rb=%s sp=%s tol=%s", inpos, rb, sp, tol)
         return inpos
 
-    def __init__(
-        self,
-        prefix="",
-        *,
-        readback_pv="",
-        setpoint_pv="",
-        tolerance=None,
-        update_target=True,
-        **kwargs,
-    ):
-
-        # fmt: off
-        if setpoint_pv == readback_pv:
-            raise ValueError(
-                f"readback_pv ({readback_pv})"
-                f" and setpoint_pv ({setpoint_pv})"
-                " must have different values"
-            )
-        # fmt: on
-        self._setpoint_pv = setpoint_pv
-        self._readback_pv = readback_pv
-
-        super().__init__(prefix=prefix, **kwargs)
-
-        # Make the default alias for the readback the name of the
-        # positioner itself as in EpicsMotor.
-        self.readback.name = self.name
-        self.update_target = update_target
-
-        self.readback.subscribe(self.cb_readback)
-        self.setpoint.subscribe(self.cb_setpoint)
-        # cancel subscriptions before object is garbage collected
-        weakref.finalize(self.readback, self.readback.unsubscribe_all)
-        weakref.finalize(self.setpoint, self.setpoint.unsubscribe_all)
-
-        if tolerance:
-            self.tolerance.put(tolerance)
+    @property
+    def precision(self):
+        return self.setpoint.precision
 
     def _setup_move(self, position):
         """Move and do not wait until motion is complete (asynchronous)"""
