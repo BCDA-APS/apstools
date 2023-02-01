@@ -266,6 +266,7 @@ def test_move_and_stop_nonzero(rbv, pos):
     assert pos.inposition
 
 
+@pytest.mark.local
 def test_move_and_stopped_early(rbv, pos):
     def motion(target, delay, interrupt=False):
         timed_pause(0.1)  # allow previous activities to settle down
