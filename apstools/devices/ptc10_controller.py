@@ -42,6 +42,7 @@ New in apstools 1.5.3.
 """
 
 import logging
+import weakref
 
 from ophyd import Component
 from ophyd import Device
@@ -150,6 +151,9 @@ class PTC10PositionerMixin(Device):
         # to compute the soft `done` signal
         self.readback.subscribe(self.cb_readback)
         self.setpoint.subscribe(self.cb_setpoint)
+        # cancel subscriptions before object is garbage collected
+        weakref.finalize(self.readback, self.readback.unsubscribe_all)
+        weakref.finalize(self.setpoint, self.setpoint.unsubscribe_all)
 
     @property
     def inposition(self):

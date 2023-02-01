@@ -8,6 +8,8 @@ PVPositioner that computes ``done`` as a soft signal.
 """
 
 import logging
+import math
+import weakref
 
 from ophyd import Component
 from ophyd import EpicsSignal
@@ -17,7 +19,7 @@ from ophyd import PVPositioner
 from ophyd import Signal
 from ophyd.signal import EpicsSignalBase
 
-from ..tests import short_delay_for_EPICS_IOC_database_processing
+from ..tests import timed_pause
 
 logger = logging.getLogger(__name__)
 
@@ -84,12 +86,14 @@ class PVPositionerSoftDone(PVPositioner):
     """
 
     # positioner
+    # fmt: off
     readback = FormattedComponent(
         EpicsSignalRO, "{prefix}{_readback_pv}", kind="hinted", auto_monitor=True
     )
     setpoint = FormattedComponent(
         EpicsSignal, "{prefix}{_setpoint_pv}", kind="normal", put_complete=True
     )
+    # fmt: on
     done = Component(Signal, value=True, kind="config")
     done_value = True
 
@@ -100,53 +104,6 @@ class PVPositionerSoftDone(PVPositioner):
 
     _rb_count = 0
     _sp_count = 0
-
-    @property
-    def precision(self):
-        return self.setpoint.precision
-
-    @property
-    def actual_tolerance(self):
-        return (
-            self.tolerance.get()
-            if self.tolerance.get() >= 0
-            else 10 ** (-1 * self.precision)
-        )
-
-    def cb_readback(self, *args, **kwargs):
-        """
-        Called when readback changes (EPICS CA monitor event).
-
-        Computes if the positioner is done moving::
-
-            done = |readback - setpoint| <= tolerance
-        """
-        self._rb_count += 1
-        if "value" in kwargs:
-            diff = kwargs["value"] - self.setpoint.get()
-        else:
-            diff = self.readback.get(use_monitor=False) - self.setpoint.get()
-        dmov = abs(diff) <= self.actual_tolerance
-        if self.report_dmov_changes.get() and dmov != self.done.get():
-            logger.debug("%s reached: %s", self.name, dmov)
-
-        v = self.done_value
-        self.done.put({True: v, False: not v}[dmov])
-        logger.debug("cb_readback: done=%s, position=%s", self.done.get(), self.position)
-
-    def cb_setpoint(self, *args, **kwargs):
-        """
-        Called when setpoint changes (EPICS CA monitor event).
-
-        When the setpoint is changed, force done=False.  For any move, done
-        **must** transition to ``!= done_value``, then back to ``done_value``.
-
-        Without this response, a small move (within tolerance) will not return.
-        Next update of readback will compute ``self.done``.
-        """
-        self._sp_count += 1
-        self.done.put(not self.done_value)
-        logger.debug("cb_setpoint: done=%s, setpoint=%s", self.done.get(), self.setpoint.get())
 
     def __init__(
         self,
@@ -159,12 +116,14 @@ class PVPositionerSoftDone(PVPositioner):
         **kwargs,
     ):
 
+        # fmt: off
         if setpoint_pv == readback_pv:
             raise ValueError(
                 f"readback_pv ({readback_pv})"
                 f" and setpoint_pv ({setpoint_pv})"
                 " must have different values"
             )
+        # fmt: on
         self._setpoint_pv = setpoint_pv
         self._readback_pv = readback_pv
 
@@ -177,8 +136,81 @@ class PVPositionerSoftDone(PVPositioner):
 
         self.readback.subscribe(self.cb_readback)
         self.setpoint.subscribe(self.cb_setpoint)
+        # cancel subscriptions before object is garbage collected
+        weakref.finalize(self.readback, self.readback.unsubscribe_all)
+        weakref.finalize(self.setpoint, self.setpoint.unsubscribe_all)
+
         if tolerance:
             self.tolerance.put(tolerance)
+
+    # fmt: off
+    @property
+    def actual_tolerance(self):
+        return (
+            self.tolerance.get()
+            if self.tolerance.get() >= 0
+            else 10 ** (-1 * self.precision)
+        )
+    # fmt: on
+
+    def cb_readback(self, *args, **kwargs):
+        """
+        Called when readback changes (EPICS CA monitor event) or on-demand.
+
+        Responsible for determining _if_ the positioner is done moving.
+        Since soft positioners have no such direct indication, computes
+        if the positioner is in position (if a move is active).
+        """
+        idle = self.done.get() == self.done_value
+        if idle:
+            return
+
+        self._rb_count += 1
+
+        if self.inposition:
+            self.done.put(self.done_value)
+            if self.report_dmov_changes.get():
+                logger.debug(f"{self.name} reached: {True}")
+
+    def cb_setpoint(self, *args, **kwargs):
+        """
+        Called when setpoint changes (EPICS CA monitor event).
+
+        When the setpoint is changed, force`` done=False``.  For any move, ``done``
+        **must** transition to ``!= done_value``, then back to ``done_value``.
+
+        Without this response, a small move (within tolerance) will not return.
+        The ``cb_readback()`` method will compute ``done``.
+
+        Since other code will also call this method, check the keys in kwargs
+        and do not react to the "wrong" signature.
+        """
+        if "value" in kwargs and "status" not in kwargs:
+            self._sp_count += 1
+            self.done.put(not self.done_value)
+        logger.debug("cb_setpoint: done=%s, setpoint=%s", self.done.get(), self.setpoint.get())
+
+    @property
+    def inposition(self):
+        """
+        Do readback and setpoint (both from cache) agree within tolerance?
+
+        Returns::
+
+            inposition = |readback - setpoint| <= tolerance
+        """
+        # Since this method must execute quickly, do NOT force
+        # EPICS CA gets using `use_monitor=False`.
+        rb = self.readback.get()
+        sp = self.setpoint.get()
+        tol = self.actual_tolerance
+        inpos = math.isclose(rb, sp, abs_tol=tol)
+        logger.debug("inposition: inpos=%s rb=%s sp=%s tol=%s", inpos, rb, sp, tol)
+        return inpos
+
+    @property
+    def precision(self):
+        return self.setpoint.precision
 
     def _setup_move(self, position):
         """Move and do not wait until motion is complete (asynchronous)"""
@@ -207,21 +239,15 @@ class PVPositionerSoftDoneWithStop(PVPositionerSoftDone):
     positioner at the current position.
     """
 
-    @property
-    def inposition(self):
-        """
-        Report (boolean) if positioner is done.
-        """
-        return self.done.get() == self.done_value
-
     def stop(self, *, success=False):
         """
         Hold the current readback when stop() is called and not :meth:`inposition`.
         """
         if not self.inposition:
             self.setpoint.put(self.position)
-            short_delay_for_EPICS_IOC_database_processing()
+            timed_pause()
             self.cb_readback()  # re-evaluate soft done Signal
+
 
 # -----------------------------------------------------------------------------
 # :author:    Pete R. Jemian

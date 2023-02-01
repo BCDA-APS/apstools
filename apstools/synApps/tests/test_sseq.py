@@ -3,7 +3,7 @@ from ophyd import EpicsSignal
 
 from ...tests import IOC
 from ...tests import common_attribute_quantities_test
-from ...tests import short_delay_for_EPICS_IOC_database_processing
+from ...tests import timed_pause
 from ..sseq import SseqRecord
 from ..sseq import UserStringSequenceDevice
 from ..sseq import sseqRecordStep
@@ -42,7 +42,7 @@ def test_sseq_reset():
     assert isinstance(step, sseqRecordStep)
 
     step.reset()
-    short_delay_for_EPICS_IOC_database_processing()
+    timed_pause()
 
     assert step.input_pv.get() == ""
 
@@ -55,6 +55,6 @@ def test_sseq_reset():
     assert step.string_value.get() <= uptime.get()
 
     user.reset()
-    short_delay_for_EPICS_IOC_database_processing()
+    timed_pause()
     assert step.input_pv.get() == ""
     assert step.string_value.get() == f"{0:.5f}"

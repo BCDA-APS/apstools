@@ -1,3 +1,4 @@
+import random
 import time
 import warnings
 
@@ -5,10 +6,6 @@ IOC = "gp:"
 MASTER_TIMEOUT = 30
 MAX_TESTING_RETRIES = 3
 SHORT_DELAY_FOR_EPICS_IOC_DATABASE_PROCESSING = 2. / 60  # two 60Hz clock cycles
-
-
-def short_delay_for_EPICS_IOC_database_processing(delay=None):
-    time.sleep(delay or SHORT_DELAY_FOR_EPICS_IOC_DATABASE_PROCESSING)
 
 
 def common_attribute_quantities_test(device, pv, connect, attr, expected):
@@ -70,3 +67,11 @@ def common_attribute_quantities_test(device, pv, connect, attr, expected):
     else:
         l = len(getattr(obj, attr))
     assert l == expected, f"{attr}: {l} != {expected}"
+
+
+def rand(base, scale):
+    return base + scale * random.random()
+
+
+def timed_pause(delay=None):
+    time.sleep(delay or SHORT_DELAY_FOR_EPICS_IOC_DATABASE_PROCESSING)

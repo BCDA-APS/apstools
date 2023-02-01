@@ -4,7 +4,7 @@ import pytest
 
 from ...tests import IOC
 from ...tests import common_attribute_quantities_test
-from ...tests import short_delay_for_EPICS_IOC_database_processing
+from ...tests import timed_pause
 from ..calcout import CalcoutRecord
 from ..calcout import UserCalcoutDevice
 from ..calcout import setup_incrementer_calcout
@@ -47,7 +47,7 @@ def test_calcout_reset():
     assert v1 < calcout.calculated_value.get()
 
     calcout.reset()
-    short_delay_for_EPICS_IOC_database_processing()
+    timed_pause()
     assert calcout.description.get() == calcout.prefix
     assert calcout.calculation.get() == "0"
     v1 = calcout.calculated_value.get()

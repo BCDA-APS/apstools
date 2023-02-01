@@ -2,7 +2,7 @@ import pytest
 
 from ...tests import IOC
 from ...tests import common_attribute_quantities_test
-from ...tests import short_delay_for_EPICS_IOC_database_processing
+from ...tests import timed_pause
 from ..swait import SwaitRecord
 from ..swait import UserCalcN
 from ..swait import UserCalcsDevice
@@ -43,17 +43,17 @@ def test_userCalcs_reset():
     swait.enable.put("E")  # Note: only "E"
 
     setup_random_number_swait(swait)
-    short_delay_for_EPICS_IOC_database_processing(0.2)
+    timed_pause(0.2)
     assert swait.description.get() == "uniform random numbers"
     assert swait.calculation.get() == "RNDM"
     v1 = swait.calculated_value.get()
-    short_delay_for_EPICS_IOC_database_processing(0.2)
+    timed_pause(0.2)
     assert v1 != swait.calculated_value.get()
 
     swait.reset()
-    short_delay_for_EPICS_IOC_database_processing()
+    timed_pause()
     assert swait.description.get() == swait.prefix
     assert swait.calculation.get() == "0"
     v1 = swait.calculated_value.get()
-    short_delay_for_EPICS_IOC_database_processing(0.2)
+    timed_pause(0.2)
     assert v1 == swait.calculated_value.get()

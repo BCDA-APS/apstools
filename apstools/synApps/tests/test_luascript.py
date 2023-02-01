@@ -2,7 +2,7 @@ import pytest
 
 from ...tests import IOC
 from ...tests import common_attribute_quantities_test
-from ...tests import short_delay_for_EPICS_IOC_database_processing
+from ...tests import timed_pause
 from ..luascript import LuascriptRecord
 from ..luascript import UserScriptsDevice
 
@@ -44,7 +44,7 @@ def test_luascript_reset():
 
     lua_all.reset()
     lua.disable_value.put(2)  # ensure record is always enabled
-    short_delay_for_EPICS_IOC_database_processing(EMPIRICAL_DELAY)  # a short-ish wait (discovered empirically)
+    timed_pause(EMPIRICAL_DELAY)  # a short-ish wait (discovered empirically)
     assert (
         lua.scan_disable_input_link_value.get() != lua.disable_value.get()
     )
@@ -65,7 +65,7 @@ def test_luascript_reset():
     lua.inputs.BB.input_value.put("BB.input_value")
     # order is important, set this LAST
     lua.code.put("code")
-    short_delay_for_EPICS_IOC_database_processing(EMPIRICAL_DELAY)  # a short-ish wait (discovered empirically)
+    timed_pause(EMPIRICAL_DELAY)  # a short-ish wait (discovered empirically)
 
     assert lua.precision.get() != 5
     assert lua.code.get() != ""
@@ -76,7 +76,7 @@ def test_luascript_reset():
     assert lua.inputs.BB.input_value.get() != ""
 
     lua_all.reset()
-    short_delay_for_EPICS_IOC_database_processing()
+    timed_pause()
 
     assert lua.precision.get() == 5
     assert lua.code.get() == ""
@@ -108,11 +108,11 @@ def test_compute(code, a, b, nval, aa, bb, sval):
     lua_all = UserScriptsDevice(PV_PREFIX, name="user")
     lua_all.wait_for_connection()
     lua_all.enable.put("Enable")
-    short_delay_for_EPICS_IOC_database_processing()
+    timed_pause()
     assert lua_all.enable.get(as_string=True) == "Enable"
 
     lua_all.reset()
-    short_delay_for_EPICS_IOC_database_processing()
+    timed_pause()
 
     lua = lua_all.script9
     lua.disable_value.put(2)  # ensure record is always enabled
@@ -135,10 +135,10 @@ def test_compute(code, a, b, nval, aa, bb, sval):
 
     # do the computation
     lua.process_record.put(1)
-    short_delay_for_EPICS_IOC_database_processing(EMPIRICAL_DELAY)  # a short-ish wait (discovered empirically)
+    timed_pause(EMPIRICAL_DELAY)  # a short-ish wait (discovered empirically)
 
     assert round(lua.number_value.get(), 5) == nval
     assert lua.string_value.get() == sval
 
     lua_all.reset()
-    short_delay_for_EPICS_IOC_database_processing()
+    timed_pause()

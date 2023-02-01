@@ -10,6 +10,7 @@
     Fixes
     Maintenance
     Deprecations
+    Known Problems
     New Contributors
 
 Change History
@@ -35,12 +36,22 @@ describe the future plans.
 
 release expected by 2023-02-01
 
+Fixes
+------------
+
+* PVPositionerSoftDone: computation of 'done' signal and 'inposition' deconvoluted.
+* Tests involving PVPositionerSoftDone call '.cb_readback()' method to upate 'done' signal.
+
 Maintenance
 ------------
 
 * Added github/super-linter workflow, adds mypy, isort, and other tests.
 * Apply isort code style.
-* Resolve failing unit tests of soft positioners.
+
+Known Problems
+--------------
+
+* Observing random occurrence of unit test failures involving PVPositionerSoftDone.
 
 1.6.10
 ******

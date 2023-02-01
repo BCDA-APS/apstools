@@ -17,10 +17,6 @@ from .calcout import setup_gaussian_calcout
 from .calcout import setup_incrementer_calcout
 from .calcout import setup_lorentzian_calcout
 
-# MUST come AFTER previous imports
-from .db_2slit import Optics2Slit1D
-from .db_2slit import Optics2Slit2D_HV
-from .db_2slit import Optics2Slit2D_InbOutBotTop
 from .epid import EpidRecord
 from .iocstats import IocStatsDevice
 from .luascript import LuascriptRecord
@@ -54,6 +50,12 @@ from .swait import setup_random_number_swait
 from .transform import TransformRecord
 from .transform import UserTransformN
 from .transform import UserTransformsDevice
+
+# MUST come AFTER previous imports
+# isort: off
+from .db_2slit import Optics2Slit1D
+from .db_2slit import Optics2Slit2D_HV
+from .db_2slit import Optics2Slit2D_InbOutBotTop
 
 # -----------------------------------------------------------------------------
 # :author:    Pete R. Jemian
