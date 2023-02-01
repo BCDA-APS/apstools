@@ -17,7 +17,6 @@ import h5py
 import numpy as np
 import yaml
 
-from ..utils import run_in_thread
 from .callback_base import FileWriterCallbackBase
 
 NEXUS_FILE_EXTENSION = "hdf"  # use this file extension for the output
@@ -204,6 +203,7 @@ class NXWriter(FileWriterCallbackBase):
         an external HDF5 file written by an area detector IOC) to become
         readable or a timeout period has expired.
         """
+        from ..utils import run_in_thread
 
         @run_in_thread
         def _threaded_writer(fname):
