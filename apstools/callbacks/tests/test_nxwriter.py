@@ -13,6 +13,8 @@ from ophyd.areadetector.filestore_mixins import FileStoreHDF5IterativeWrite
 from ophyd.areadetector.plugins import HDF5Plugin
 from ophyd.areadetector.plugins import ImagePlugin
 
+from ...devices import AD_plugin_primed
+from ...devices import AD_prime_plugin2
 from ...devices import CamMixin_V34 as CamMixin
 from ...devices import SingleTrigger_V34 as SingleTrigger
 from .. import NXWriter
@@ -41,7 +43,7 @@ class MyDetector(SingleTrigger, DetectorBase):
     image = Component(ImagePlugin, "image1:")
     cam = Component(MySimDetectorCam, "cam1:")
 
-    hdf5 = Component(
+    hdf1 = Component(
         HDF5PluginWithFileStore,
         "HDF1:",
         write_path_template=WRITE_PATH_TEMPLATE,
@@ -51,8 +53,8 @@ class MyDetector(SingleTrigger, DetectorBase):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.hdf5.write_path_template = WRITE_PATH_TEMPLATE
-        self.hdf5.read_path_template = READ_PATH_TEMPLATE
+        self.hdf1.write_path_template = WRITE_PATH_TEMPLATE
+        self.hdf1.read_path_template = READ_PATH_TEMPLATE
 
 
 @pytest.fixture(scope="function")
@@ -61,10 +63,11 @@ def camera():
     camera = MyDetector(
         AD_IOC,
         name="camera",
-        read_attrs=["hdf5"],
+        read_attrs=["hdf1"],
     )
     camera.wait_for_connection(timeout=15)
-    camera.hdf5.warmup()
+    if not AD_plugin_primed(camera.hdf1):
+        AD_prime_plugin2(camera.hdf1)
     camera.cam.acquire_period.put(0.1)
     camera.cam.acquire_time.put(0.1)
     yield camera
