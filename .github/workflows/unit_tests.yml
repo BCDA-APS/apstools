@@ -184,7 +184,6 @@ jobs:
     - name: Run tests with pytest & coverage
       shell: bash -l {0}
       run: |
-        # proceed as in hklpy
         coverage run --concurrency=thread --parallel-mode -m pytest -vvv --exitfirst .
         coverage combine
         coverage report --precision 3
