@@ -10,8 +10,7 @@ from ophyd import EpicsMotor
 from ophyd.areadetector import DetectorBase
 from ophyd.areadetector import SimDetectorCam
 from ophyd.areadetector.filestore_mixins import FileStoreHDF5IterativeWrite
-from ophyd.areadetector.plugins import HDF5Plugin
-from ophyd.areadetector.plugins import ImagePlugin
+from ophyd.areadetector.plugins import HDF5Plugin_V34 as HDF5Plugin
 
 from ...devices import AD_plugin_primed
 from ...devices import AD_prime_plugin2
@@ -40,7 +39,6 @@ class MySimDetectorCam(CamMixin, SimDetectorCam):
 
 class MyDetector(SingleTrigger, DetectorBase):
 
-    image = Component(ImagePlugin, "image1:")
     cam = Component(MySimDetectorCam, "cam1:")
 
     hdf1 = Component(
@@ -48,7 +46,6 @@ class MyDetector(SingleTrigger, DetectorBase):
         "HDF1:",
         write_path_template=WRITE_PATH_TEMPLATE,
         read_path_template=READ_PATH_TEMPLATE,
-        read_attrs=[],
     )
 
     def __init__(self, *args, **kwargs):
@@ -60,12 +57,15 @@ class MyDetector(SingleTrigger, DetectorBase):
 @pytest.fixture(scope="function")
 def camera():
     """EPICS ADSimDetector."""
-    camera = MyDetector(
-        AD_IOC,
-        name="camera",
-        read_attrs=["hdf1"],
-    )
+    camera = MyDetector(AD_IOC, name="camera")
     camera.wait_for_connection(timeout=15)
+
+    camera.stage_sigs["cam.wait_for_plugins"] = "Yes"
+    camera.read_attrs.append("hdf1")
+    camera.hdf1.file_name.put("pytest")
+    camera.hdf1.create_directory.put(-5)
+    camera.hdf1.compression.put("zlib")
+    camera.hdf1.zlevel.put(6)
     if not AD_plugin_primed(camera.hdf1):
         AD_prime_plugin2(camera.hdf1)
     camera.cam.acquire_period.put(0.1)
