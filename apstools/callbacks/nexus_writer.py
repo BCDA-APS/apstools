@@ -548,24 +548,45 @@ class NXWriter(FileWriterCallbackBase):
             )
             # fmt: on
 
+        def copy_image_from_IOC_file(fname):
+            with h5py.File(fname, "r") as hdf_image_file_root:
+                h5addr = "/entry/data/data"
+                h5_obj = hdf_image_file_root[h5addr]
+                ds = subgroup.create_dataset(
+                    "value",
+                    data=h5_obj[()],
+                    compression="lzf",
+                    # compression="gzip",
+                    # compression_opts=9,
+                    shuffle=True,
+                    fletcher32=True,
+                )
+                ds.attrs["target"] = ds.name
+                ds.attrs["source_file"] = fname
+                ds.attrs["source_address"] = h5_obj.name
+                ds.attrs["resource_id"] = resource_id
+                ds.attrs["units"] = ""
+
         fname = self.getResourceFile(resource_id)
         logger.info("reading %s from EPICS AD data file: %s", k, fname)
-        with h5py.File(fname, "r") as hdf_image_file_root:
-            h5_obj = hdf_image_file_root["/entry/data/data"]
-            ds = subgroup.create_dataset(
-                "value",
-                data=h5_obj[()],
-                compression="lzf",
-                # compression="gzip",
-                # compression_opts=9,
-                shuffle=True,
-                fletcher32=True,
-            )
-            ds.attrs["target"] = ds.name
-            ds.attrs["source_file"] = fname
-            ds.attrs["source_address"] = h5_obj.name
-            ds.attrs["resource_id"] = resource_id
-            ds.attrs["units"] = ""
+        t0 = time.time()
+        while time.time() - t0 < self._external_file_read_timeout:
+            t_elapsed = time.time() - t0
+            try:
+                copy_image_from_IOC_file(fname)
+                break
+            except (OSError, BlockingIOError):
+                logger.warning(
+                    (
+                        "Could not open EPICS AD data file for reading: %s"
+                        " ... waiting %.2f s for next retry."
+                        " (or timeout in %.2f s)"
+                    ),
+                    fname,
+                    self._external_file_read_retry_delay,
+                    self._external_file_read_timeout - t_elapsed
+                )
+                time.sleep(self._external_file_read_retry_delay)
 
         subgroup.attrs["signal"] = "value"
 
