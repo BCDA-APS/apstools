@@ -1,8 +1,10 @@
 import pathlib
 import tempfile
+import time
 
 import bluesky.plans as bp
 import databroker
+import h5py
 import pytest
 from bluesky import RunEngine
 from ophyd import Component
@@ -11,6 +13,7 @@ from ophyd.areadetector import DetectorBase
 from ophyd.areadetector import SimDetectorCam
 from ophyd.areadetector.filestore_mixins import FileStoreHDF5IterativeWrite
 from ophyd.areadetector.plugins import HDF5Plugin_V34 as HDF5Plugin
+from ophyd.areadetector.plugins import ImagePlugin_V34 as ImagePlugin
 
 from ...devices import AD_plugin_primed
 from ...devices import AD_prime_plugin2
@@ -47,6 +50,7 @@ class MyDetector(SingleTrigger, DetectorBase):
         write_path_template=WRITE_PATH_TEMPLATE,
         read_path_template=READ_PATH_TEMPLATE,
     )
+    image = Component(ImagePlugin, "image1:")
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -60,16 +64,20 @@ def camera():
     camera = MyDetector(AD_IOC, name="camera")
     camera.wait_for_connection(timeout=15)
 
-    camera.stage_sigs["cam.wait_for_plugins"] = "Yes"
+    camera.read_attrs.append("cam")
     camera.read_attrs.append("hdf1")
-    camera.hdf1.file_name.put("pytest")
-    camera.hdf1.create_directory.put(-5)
-    camera.hdf1.compression.put("zlib")
-    camera.hdf1.zlevel.put(6)
+
+    camera.cam.stage_sigs["acquire_period"] = 0.1
+    camera.cam.stage_sigs["acquire_time"] = 0.1
+    camera.cam.stage_sigs["num_images"] = 1
+    camera.cam.stage_sigs["wait_for_plugins"] = "Yes"
+    camera.hdf1.stage_sigs["blocking_callbacks"] = "No"
+    camera.hdf1.stage_sigs["compression"] = "zlib"
+    camera.hdf1.stage_sigs["zlevel"] = 6
+
     if not AD_plugin_primed(camera.hdf1):
         AD_prime_plugin2(camera.hdf1)
-    camera.cam.acquire_period.put(0.1)
-    camera.cam.acquire_time.put(0.1)
+
     if "capture" in camera.hdf1.stage_sigs:
         camera.hdf1.stage_sigs.move_to_end("capture", last=True)
     yield camera
@@ -106,8 +114,29 @@ def test_NXWriter_with_RunEngine(camera, motor):
     RE.subscribe(catalog.v1.insert)
     RE.subscribe(nxwriter.receiver)
 
-    uids = RE(bp.scan([camera], motor, -0.1, 0, 3))
+    npoints = 3
+    uids = RE(bp.scan([camera], motor, -0.1, 0, npoints))
     assert isinstance(uids, (list, tuple))
     assert len(uids) == 1
     assert uids[-1] in catalog
+
+    while nxwriter._writer_active:  # wait for the call back to finish
+        time.sleep(nxwriter._external_file_read_retry_delay)
+
     assert test_file.exists()
+    with h5py.File(test_file, "r") as root:
+        default = root.attrs.get("default")
+        assert default == "entry"
+        assert default in root
+        nxentry = root[default]
+
+        default = nxentry.attrs.get("default")
+        assert default == "data"
+        assert default in nxentry
+        nxdata = nxentry[default]
+
+        signal = nxdata.attrs.get("signal")
+        assert signal == camera.name
+        assert signal in nxdata
+        frames = nxdata[signal]
+        assert frames.shape == (npoints, 1024, 1024)
