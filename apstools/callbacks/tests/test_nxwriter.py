@@ -83,6 +83,18 @@ def motor():
     yield motor
 
 
+def test_stage_camera(camera):
+    camera.stage()
+    camera.unstage()
+    assert True
+
+
+def test_stage_motor(motor):
+    motor.stage()
+    motor.unstage()
+    assert True
+
+
 def test_NXWriter_with_RunEngine(camera, motor):
     test_file = pathlib.Path(tempfile.mkdtemp()) / "nxwriter.h5"
     catalog = databroker.temp().v2
