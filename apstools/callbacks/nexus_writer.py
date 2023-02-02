@@ -584,7 +584,7 @@ class NXWriter(FileWriterCallbackBase):
                     ),
                     fname,
                     self._external_file_read_retry_delay,
-                    self._external_file_read_timeout - t_elapsed
+                    self._external_file_read_timeout - t_elapsed,
                 )
                 time.sleep(self._external_file_read_retry_delay)
 
