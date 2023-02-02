@@ -15,7 +15,6 @@ from ophyd.areadetector.filestore_mixins import FileStoreHDF5IterativeWrite
 from ophyd.areadetector.plugins import HDF5Plugin_V34 as HDF5Plugin
 from ophyd.areadetector.plugins import ImagePlugin_V34 as ImagePlugin
 
-from ...devices import AD_plugin_primed
 from ...devices import AD_prime_plugin2
 from ...devices import CamMixin_V34 as CamMixin
 from ...devices import SingleTrigger_V34 as SingleTrigger
@@ -75,8 +74,7 @@ def camera():
     camera.hdf1.stage_sigs["compression"] = "zlib"
     camera.hdf1.stage_sigs["zlevel"] = 6
 
-    if not AD_plugin_primed(camera.hdf1):
-        AD_prime_plugin2(camera.hdf1)
+    AD_prime_plugin2(camera.hdf1)
 
     if "capture" in camera.hdf1.stage_sigs:
         camera.hdf1.stage_sigs.move_to_end("capture", last=True)
