@@ -1,6 +1,7 @@
 # local developer code
 dev_*.py
 dev_*.ipynb
+_notes*.md
 
 # local note-taking
 _notes.md
