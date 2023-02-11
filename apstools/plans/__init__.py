@@ -14,6 +14,7 @@ from .command_list import summarize_command_file
 from .doc_run import addDeviceDataAsStream
 from .doc_run import documentation_run
 from .input_plan import request_input
+from .labels_to_streams import write_label_stream
 from .nscan_support import nscan
 from .run_blocking_function_plan import run_blocking_function
 from .sscan_support import sscan_1D

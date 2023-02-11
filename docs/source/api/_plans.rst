@@ -52,6 +52,7 @@ Overall
    ~apstools.plans.nscan_support.nscan
    ~apstools.plans.command_list.parse_Excel_command_file
    ~apstools.plans.command_list.parse_text_command_file
+   ~apstools.plans.labels_to_streams.record_labels_to_streams
    ~apstools.plans.command_list.register_command_handler
    ~apstools.plans.command_list.run_command_file
    ~apstools.plans.input_plan.request_input
@@ -79,6 +80,9 @@ Submodules
     :members:
 
 .. automodule:: apstools.plans.input_plan
+    :members:
+
+.. automodule:: apstools.plans.labels_to_streams
     :members:
 
 .. automodule:: apstools.plans.nscan_support

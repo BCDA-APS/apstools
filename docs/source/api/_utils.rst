@@ -60,7 +60,6 @@ Other Utilities
    ~apstools.utils.misc.cleanupText
    ~apstools.utils.misc.connect_pvlist
    ~apstools.utils.email.EmailNotifications
-   ~apstools.utils.support_labeled_devices.read_labeled_devices
    ~apstools.utils.plot.select_live_plot
    ~apstools.utils.plot.select_mpl_figure
    ~apstools.utils.plot.trim_plot_by_name
