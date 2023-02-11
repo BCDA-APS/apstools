@@ -39,7 +39,7 @@ Then define a custom plan with ...::
 
     # TODO: once the decorator is ready
 
-    @write_label_stream_at_start("motor")  # write any objects labeled as "motor"
+    @write_label_stream("motor", when="start")
     def my_count_plan(dets, md=None):
         _md = md or {}
         yield from bp.count(dets, md=_md)
