@@ -152,7 +152,7 @@ def test_plan_a(m1, noisy, othersignal, simsignal):
     assert len(stream_names) == 3
     assert "primary" in stream_names
     # verify only 1 labeled stream
-    assert(len([l for l in stream_names if l.startswith("label_")])) == 1
+    assert len([l for l in stream_names if l.startswith("label_")]) == 1
 
     ds = run.primary.read()
     assert m1.name not in ds
