@@ -39,7 +39,7 @@ release expected by 2023-02-18
 New Features
 ------------
 
-* Support to record all motor positions at start of run. (``read_labeled_devices()``)
+* Support to record all motor positions at start of run.
 
 Fixes
 ------------
