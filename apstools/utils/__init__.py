@@ -9,7 +9,6 @@ from .device_info import listdevice
 from .email import EmailNotifications
 from .image_analysis import analyze_1D
 from .image_analysis import analyze_2D
-from .support_labeled_devices import read_labeled_devices
 from .list_plans import listplans
 from .list_runs import ListRuns
 from .list_runs import getRunData
