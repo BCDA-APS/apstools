@@ -34,7 +34,12 @@ describe the future plans.
 1.6.11
 ******
 
-release expected by 2023-02-01
+release expected by 2023-02-18
+
+New Features
+------------
+
+* Support to record all motor (or other ophyd-labeled devices) positions at start (or end) of run.
 
 Fixes
 ------------
