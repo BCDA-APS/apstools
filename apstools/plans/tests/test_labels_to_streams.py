@@ -16,7 +16,9 @@ from ophyd import Signal
 from ...tests import IOC
 from ...utils import getDefaultNamespace
 from ..doc_run import addDeviceDataAsStream
-from ..labels_to_streams import write_label_stream
+from ..labels_to_streams import label_stream_decorator
+from ..labels_to_streams import label_stream_wrapper
+from ..labels_to_streams import label_stream_stub
 
 bec = best_effort.BestEffortCallback()
 cat = databroker.temp()
@@ -72,7 +74,7 @@ def simsignal():
 
 def test_empty_namespace_no_exception():
     # no ophyd objects in the namespace
-    uids = RE(write_label_stream())
+    uids = RE(label_stream_stub())
     # No labels defined, so no streams attempted to write: no exception raised.
     assert len(uids) == 0
 
@@ -83,8 +85,34 @@ def test_call_outside_of_run_engine(noisy):
 
     # can't record a stream without an open run
     with pytest.raises(bluesky.utils.IllegalMessageSequence) as exinfo:
-        RE(write_label_stream())
+        RE(label_stream_stub())
     assert "Cannot bundle readings without an open run." in str(exinfo.value)
+
+
+def test_bad_when(noisy):
+    bad_when = "bad_when_value"
+    assert label_stream_wrapper(None, None, when=bad_when) is not None  # no exception
+
+    @label_stream_decorator(None, when=bad_when)
+    def tester():
+        yield from bp.count([noisy])
+
+    with pytest.raises((KeyError, ValueError)) as exinfo:
+        RE(tester())
+    assert "Unrecognized value:" in str(exinfo.value), f"{exinfo=}"
+
+
+def test_label_not_found(noisy):
+    bad_label = "motors"  # singular is defined
+    assert label_stream_wrapper(None, bad_label) is not None  # no exception
+
+    @label_stream_decorator(bad_label)
+    def tester():
+        yield from bp.count([noisy])
+
+    with pytest.raises(KeyError) as exinfo:
+        RE(tester())
+    assert bad_label in str(exinfo.value), f"{exinfo=}"
 
 
 def test_count_plans(simsignal):
@@ -132,7 +160,7 @@ def test_plan_a(m1, noisy, othersignal, simsignal):
         @bpp.stage_decorator(dets)
         @bpp.run_decorator(md=_md)
         def inner():
-            yield from write_label_stream("motor")  # based on ``labels``
+            yield from label_stream_stub("motor")  # based on ``labels``
             yield from addDeviceDataAsStream(noisy, "pre_run")  # by device or signal
             for i in range(number):
                 if i > 0:
@@ -183,7 +211,7 @@ def test_plan_b(m1, noisy, othersignal, simsignal):
         @bpp.stage_decorator(dets)
         @bpp.run_decorator(md=_md)
         def inner():
-            yield from write_label_stream()  # all labeled objects
+            yield from label_stream_stub()  # all labeled objects
             yield from addDeviceDataAsStream(dets, "primary")
 
         uid = yield from inner()
@@ -219,3 +247,36 @@ def test_plan_b(m1, noisy, othersignal, simsignal):
     assert noisy.name not in ds
     assert othersignal.name in ds
     assert simsignal.name in ds
+
+
+def test_decorator(m1, noisy, othersignal, simsignal):
+    # by association, tests the label_stream_wrapper
+    def the_plan(dets, md=None):
+        _md = {}
+        _md.update(md or {})
+
+        @label_stream_decorator("motor", when="start")
+        @label_stream_decorator("motor", when="end")
+        def inner():
+            yield from bp.count(dets)
+
+        uid = yield from inner()
+
+        return uid
+
+    uids = RE(the_plan([othersignal, simsignal]))
+    assert len(uids) == 1
+
+    run = cat.v2[uids[-1]]
+    stream_names = list(run.metadata["stop"]["num_events"].keys())
+
+    for when in "start end".split():
+        stream = f"label_{when}_motor"
+        assert stream in stream_names
+
+        ds = getattr(run, stream).read().to_dict()
+
+        assert m1.name not in ds
+        assert noisy.name not in ds
+        assert othersignal.name not in ds
+        assert simsignal.name not in ds
