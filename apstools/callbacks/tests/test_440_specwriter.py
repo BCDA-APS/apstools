@@ -3,7 +3,7 @@ test issue #440: specwriter
 """
 
 import pathlib
-import tempfile
+# import tempfile
 import zipfile
 
 import intake
@@ -16,7 +16,8 @@ DATA_ARCHIVE = "440_specwriter_problem_run.zip"
 
 PATH = pathlib.Path(__file__).parent
 FULL_ZIP_FILE = PATH / DATA_ARCHIVE
-TEMPDIR = pathlib.Path(tempfile.mkdtemp())
+# TEMPDIR = pathlib.Path(tempfile.mkdtemp())
+TEMPDIR = pathlib.Path("/tmp")
 TMP_CATALOG = TEMPDIR / DATA_ARCHIVE.split(".")[0] / "catalog.yml"
 
 
