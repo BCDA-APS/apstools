@@ -43,14 +43,15 @@ def catalog():
 
 def test_confirm_run_exists(catalog):
     cat = intake.open_catalog(catalog)
-    assert "packed_catalog" in cat
+    assert len(cat) > 0, f"{catalog=}   {cat=}"
+    assert "packed_catalog" in cat, f"{catalog=}   {cat=}"
 
     cat = cat["packed_catalog"]
-    assert len(cat) == 1
-    assert "624e776a-a914-4a74-8841-babf1591fb29" in cat
+    assert len(cat) == 1, f"{catalog=}   {cat=}"
+    assert "624e776a-a914-4a74-8841-babf1591fb29" in cat, f"{catalog=}   {cat=}"
 
 
-def test_specwriter(tempdir, catalog):
+def test_specwriter_replay(tempdir, catalog):
     # https://github.com/BCDA-APS/apstools/issues/440
     # The problem does not appear when using data from the databroker.
     # Verify that is the case now.
@@ -61,9 +62,10 @@ def test_specwriter(tempdir, catalog):
     specwriter = SpecWriterCallback()
     specwriter.newfile(specfile)
 
-    db = intake.open_catalog(catalog)["packed_catalog"].v1
-    h = db[-1]
-    for key, doc in db.get_documents(h):
+    cat = intake.open_catalog(catalog)["packed_catalog"].v2
+    assert len(cat) > 0, f"{catalog=}   {cat=}"
+    h = cat.v1[-1]
+    for key, doc in cat.v1.get_documents(h):
         specwriter.receiver(key, doc)
         assert "relative_energy" not in doc
     assert specwriter.spec_filename.exists()
@@ -79,6 +81,8 @@ def test_specwriter(tempdir, catalog):
         line = f.readline()
         assert line.startswith("#D ")
 
+
+def test_specwriter_numpy_array(tempdir, catalog):
     # The problem comes up if one of the arguments is a numpy.array.
     # So we must replay the document stream and modify the right
     # structure as it passes by.
@@ -86,7 +90,10 @@ def test_specwriter(tempdir, catalog):
     # Note: we don't have to write the whole SPEC file again,
     # just test if _rebuild_scan_command(start_doc) is one line.
 
-    hh = db.get_documents(h)
+    cat = intake.open_catalog(catalog)["packed_catalog"].v2
+    assert len(cat) > 0, f"{catalog=}   {cat=}"
+
+    hh = cat.v1.get_documents(cat.v1[-1])
     key, doc = next(hh)
     arr = doc["plan_args"]["qx_setup"]["relative_energy"]
     assert isinstance(arr, list)
