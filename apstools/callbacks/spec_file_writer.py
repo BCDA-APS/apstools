@@ -334,7 +334,7 @@ class SpecWriterCallback(object):
         # Can this be omitted?
         self.T_or_M = None  # for now
         # self.T_or_M = "T"           # TODO: how to get this from the document stream?
-        # self.T_or_M_value = 1
+        self.T_or_M_value = 1
         # self._cmt("start", "!!! #T line not correct yet !!!")
 
         # metadata
@@ -705,8 +705,8 @@ def spec_comment(comment, doc=None, writer=None):
         Instance of ``SpecWriterCallback()``,
         typically: ``specwriter = SpecWriterCallback()``
     """
-    global specwriter  # such as: specwriter = SpecWriterCallback()
-    writer = writer or specwriter  # FIXME: get from namespace
+    # global specwriter  # such as: specwriter = SpecWriterCallback()
+    # writer = writer or specwriter  # FIXME: get from namespace
     if doc is None:
         if writer.scanning:
             doc = "event"
