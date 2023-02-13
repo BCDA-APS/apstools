@@ -41,17 +41,6 @@ def catalog():
     yield catalog
 
 
-def test_setup_comes_first(tempdir):
-    assert tempdir.exists()
-    assert FULL_ZIP_FILE.exists()
-
-    with zipfile.ZipFile(FULL_ZIP_FILE, "r") as zip_ref:
-        zip_ref.extractall(str(tempdir))
-
-    catalog = tempdir / DATA_ARCHIVE / "catalog.yml"
-    assert catalog.exists(), f"{catalog=}"
-
-
 def test_confirm_run_exists(catalog):
     cat = intake.open_catalog(catalog)
     assert "packed_catalog" in cat
