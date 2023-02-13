@@ -1,39 +1,59 @@
 """
 test issue #440: specwriter
+
+# https://github.com/BCDA-APS/apstools/issues/440
 """
 
 import pathlib
-# import tempfile
+import tempfile
 import zipfile
 
 import intake
 import numpy as np
+import pytest
 
 from .. import SpecWriterCallback
 from ..spec_file_writer import _rebuild_scan_command
 
-DATA_ARCHIVE = "440_specwriter_problem_run.zip"
-
-PATH = pathlib.Path(__file__).parent
-FULL_ZIP_FILE = PATH / DATA_ARCHIVE
-# TEMPDIR = pathlib.Path(tempfile.mkdtemp())
-TEMPDIR = pathlib.Path("/tmp")
-TMP_CATALOG = TEMPDIR / DATA_ARCHIVE.split(".")[0] / "catalog.yml"
+DATA_ARCHIVE = "440_specwriter_problem_run"
+FULL_ZIP_FILE = pathlib.Path(__file__).parent / f"{DATA_ARCHIVE}.zip"
 
 
-def test_setup_comes_first():
+@pytest.fixture(scope="function")
+def tempdir():
+    tempdir = tempfile.mkdtemp()
+    yield pathlib.Path(tempdir)
+
+
+@pytest.fixture(scope="function")
+def catalog():
+    assert FULL_ZIP_FILE.exists()
+
+    tempdir = pathlib.Path(tempfile.mkdtemp())
+    assert tempdir.exists()
+
+    with zipfile.ZipFile(FULL_ZIP_FILE, "r") as zip_ref:
+        zip_ref.extractall(str(tempdir))
+
+    catalog = tempdir / DATA_ARCHIVE / "catalog.yml"
+    assert catalog.exists(), f"{catalog=}"
+
+    yield catalog
+
+
+def test_setup_comes_first(tempdir):
+    assert tempdir.exists()
     assert FULL_ZIP_FILE.exists()
 
     with zipfile.ZipFile(FULL_ZIP_FILE, "r") as zip_ref:
-        zip_ref.extractall(str(TEMPDIR))
+        zip_ref.extractall(str(tempdir))
 
-    assert TMP_CATALOG.exists()
+    catalog = tempdir / DATA_ARCHIVE / "catalog.yml"
+    assert catalog.exists(), f"{catalog=}"
 
 
-def test_confirm_run_exists():
-    assert TMP_CATALOG.exists()
-
-    cat = intake.open_catalog(TMP_CATALOG)
+def test_confirm_run_exists(catalog):
+    cat = intake.open_catalog(catalog)
     assert "packed_catalog" in cat
 
     cat = cat["packed_catalog"]
@@ -41,16 +61,18 @@ def test_confirm_run_exists():
     assert "624e776a-a914-4a74-8841-babf1591fb29" in cat
 
 
-def test_specwriter():
+def test_specwriter(tempdir, catalog):
+    # https://github.com/BCDA-APS/apstools/issues/440
     # The problem does not appear when using data from the databroker.
     # Verify that is the case now.
-    pathlib.os.chdir(TEMPDIR)
+    pathlib.os.chdir(tempdir)
     specfile = pathlib.Path("issue240.spec")
     if specfile.exists():
         specfile.unlink()  # remove existing file
     specwriter = SpecWriterCallback()
     specwriter.newfile(specfile)
-    db = intake.open_catalog(TMP_CATALOG)["packed_catalog"].v1
+
+    db = intake.open_catalog(catalog)["packed_catalog"].v1
     h = db[-1]
     for key, doc in db.get_documents(h):
         specwriter.receiver(key, doc)
