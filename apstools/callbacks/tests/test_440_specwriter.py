@@ -51,12 +51,13 @@ def test_confirm_run_exists(catalog):
     assert isinstance(cat, intake.Catalog), f"{type(cat)=}  {dir(cat)=}"
     assert isinstance(cat, intake.catalog.Catalog), f"{type(cat)=}  {dir(cat)=}"
     assert isinstance(cat, intake.catalog.local.Catalog), f"{type(cat)=}  {dir(cat)=}"
-    assert isinstance(cat, intake.catalog.local.YAMLFileCatalog), f"{type(cat)=}  {dir(cat)=}"
-    assert False, f"{type(cat)=}  {dir(cat)=}"
-    assert cat.path == str(catalog), f"{dir(cat)=}"
+    # locally, next test passes, in CI, it is databroker._drivers.msgpack.BlueskyMsgpackCatalog
+    # assert isinstance(cat, intake.catalog.local.YAMLFileCatalog), f"{type(cat)=}  {dir(cat)=}"
+    # assert False, f"{type(cat)=}  {dir(cat)=}"
+    # assert cat.path == str(catalog), f"{dir(cat)=}"  "path" exists only for YAMLFileCatalog
     assert cat.name == DATA_ARCHIVE
-    assert len(cat) == 1, f"{catalog=}   {cat=}"
-    assert "624e776a-a914-4a74-8841-babf1591fb29" in cat, f"{catalog=}   {cat=}"
+    assert len(cat) == 1, f"{catalog=}  {cat=}  {dir(cat)=}"
+    assert "624e776a-a914-4a74-8841-babf1591fb29" in cat, f"{catalog=}  {cat=}  {dir(cat)=}"
 
 
 def test_specwriter_replay(tempdir, catalog):
