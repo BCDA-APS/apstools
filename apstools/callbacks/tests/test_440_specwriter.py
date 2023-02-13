@@ -36,6 +36,7 @@ def catalog():
         zip_ref.extractall(str(tempdir))
 
     catalog = tempdir / DATA_ARCHIVE / "catalog.yml"
+    assert catalog.parent.exists(), f"{catalog.parent=}"
     assert catalog.exists(), f"{catalog=}"
 
     yield catalog
@@ -47,6 +48,13 @@ def test_confirm_run_exists(catalog):
     assert "packed_catalog" in cat, f"{catalog=}   {cat=}"
 
     cat = cat["packed_catalog"]
+    assert isinstance(cat, intake.Catalog), f"{type(cat)=}  {dir(cat)=}"
+    assert isinstance(cat, intake.catalog.Catalog), f"{type(cat)=}  {dir(cat)=}"
+    assert isinstance(cat, intake.catalog.local.Catalog), f"{type(cat)=}  {dir(cat)=}"
+    assert isinstance(cat, intake.catalog.local.YAMLFileCatalog), f"{type(cat)=}  {dir(cat)=}"
+    assert False, f"{type(cat)=}  {dir(cat)=}"
+    assert cat.path == str(catalog), f"{dir(cat)=}"
+    assert cat.name == DATA_ARCHIVE
     assert len(cat) == 1, f"{catalog=}   {cat=}"
     assert "624e776a-a914-4a74-8841-babf1591fb29" in cat, f"{catalog=}   {cat=}"
 
