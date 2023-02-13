@@ -2,7 +2,8 @@
 test issue #440: specwriter
 """
 
-import os
+import pathlib
+import tempfile
 import zipfile
 
 import intake
@@ -13,25 +14,23 @@ from ..spec_file_writer import _rebuild_scan_command
 
 DATA_ARCHIVE = "440_specwriter_problem_run.zip"
 
-PATH = os.path.dirname(__file__)
-FULL_ZIP_FILE = os.path.join(PATH, DATA_ARCHIVE)
-
-TMP_CATALOG = os.path.join(
-    "/tmp", DATA_ARCHIVE.split(".")[0], "catalog.yml"
-)
+PATH = pathlib.Path(__file__).parent
+FULL_ZIP_FILE = PATH / DATA_ARCHIVE
+TEMPDIR = pathlib.Path(tempfile.mkdtemp())
+TMP_CATALOG = TEMPDIR / DATA_ARCHIVE.split(".")[0] / "catalog.yml"
 
 
 def test_setup_comes_first():
-    assert os.path.exists(FULL_ZIP_FILE)
+    assert FULL_ZIP_FILE.exists()
 
     with zipfile.ZipFile(FULL_ZIP_FILE, "r") as zip_ref:
-        zip_ref.extractall("/tmp")
+        zip_ref.extractall(str(TEMPDIR))
 
-    assert os.path.exists(TMP_CATALOG)
+    assert TMP_CATALOG.exists()
 
 
 def test_confirm_run_exists():
-    assert os.path.exists(TMP_CATALOG)
+    assert TMP_CATALOG.exists()
 
     cat = intake.open_catalog(TMP_CATALOG)
     assert "packed_catalog" in cat
@@ -44,10 +43,10 @@ def test_confirm_run_exists():
 def test_specwriter():
     # The problem does not appear when using data from the databroker.
     # Verify that is the case now.
-    os.chdir("/tmp")
-    specfile = "issue240.spec"
-    if os.path.exists(specfile):
-        os.remove(specfile)
+    pathlib.os.chdir(TEMPDIR)
+    specfile = pathlib.Path("issue240.spec")
+    if specfile.exists():
+        specfile.unlink()  # remove existing file
     specwriter = SpecWriterCallback()
     specwriter.newfile(specfile)
     db = intake.open_catalog(TMP_CATALOG)["packed_catalog"].v1
@@ -55,7 +54,7 @@ def test_specwriter():
     for key, doc in db.get_documents(h):
         specwriter.receiver(key, doc)
         assert "relative_energy" not in doc
-    assert os.path.exists(specwriter.spec_filename)
+    assert specwriter.spec_filename.exists()
 
     with open(specwriter.spec_filename, "r") as f:
         line = ""

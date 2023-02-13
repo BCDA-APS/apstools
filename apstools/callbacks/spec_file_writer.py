@@ -57,7 +57,6 @@ results in this SPEC file output::
 import datetime
 import getpass
 import logging
-import os
 import pathlib
 import socket
 import time
@@ -209,7 +208,6 @@ class SpecWriterCallback(object):
     def __init__(self, filename=None, auto_write=True, RE=None, reset_scan_id=False):
         self.clear()
         self.buffered_comments = self._empty_comments_dict()
-        self.spec_filename = filename
         self.auto_write = auto_write
         self.uid_short_length = 8
         self.write_new_header = False
@@ -226,12 +224,15 @@ class SpecWriterCallback(object):
             reset_scan_id = SCAN_ID_RESET_VALUE
         self.reset_scan_id = reset_scan_id
 
-        if filename is None or not os.path.exists(filename):
-            self.newfile(filename)
+        if isinstance(filename, str):
+            filename = pathlib.Path(filename)
+        if filename is None or not filename.exists():
+            filename = self.newfile(filename)
         else:
             max_scan_id = self.usefile(filename)
             if RE is not None and reset_scan_id is not False:
                 RE.md["scan_id"] = max_scan_id
+        self.spec_filename = filename
 
     def clear(self):
         """reset all scan data defaults"""
@@ -557,7 +558,7 @@ class SpecWriterCallback(object):
 
         lines.append("")
 
-        if os.path.exists(self.spec_filename):
+        if self.spec_filename.exists():
             lines.insert(0, "")
         self._write_lines_(lines, mode="a+")
         self.write_new_header = False
@@ -572,7 +573,7 @@ class SpecWriterCallback(object):
 
         note:  does nothing if there are no lines to be written
         """
-        if os.path.exists(self.spec_filename):
+        if self.spec_filename.exists():
             with open(self.spec_filename) as f:
                 buf = f.read()
                 if buf.find(self.uid) >= 0:
@@ -596,7 +597,8 @@ class SpecWriterCallback(object):
     def make_default_filename(self):
         """generate a file name to be used as default"""
         now = datetime.datetime.now()
-        return datetime.datetime.strftime(now, "%Y%m%d-%H%M%S") + ".dat"
+        filename = datetime.datetime.strftime(now, "%Y%m%d-%H%M%S") + ".dat"
+        return pathlib.Path(filename)
 
     def newfile(self, filename=None, scan_id=None, RE=None):
         """
@@ -606,7 +608,7 @@ class SpecWriterCallback(object):
         """
         self.clear()
         filename = filename or self.make_default_filename()
-        if os.path.exists(filename):
+        if filename.exists():
             from spec2nexus.spec import SpecDataFile
 
             sdf = SpecDataFile(filename)
@@ -635,7 +637,7 @@ class SpecWriterCallback(object):
 
     def usefile(self, filename):
         """read from existing SPEC data file"""
-        if not os.path.exists(self.spec_filename):
+        if not self.spec_filename.exists():
             raise IOError(f"file {filename} does not exist")
         scan_id = None
         with open(filename, "r") as f:
