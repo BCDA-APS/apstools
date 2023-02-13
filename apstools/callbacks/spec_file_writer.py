@@ -58,6 +58,7 @@ import datetime
 import getpass
 import logging
 import os
+import pathlib
 import socket
 import time
 from collections import OrderedDict
@@ -211,11 +212,13 @@ class SpecWriterCallback(object):
         self.spec_filename = filename
         self.auto_write = auto_write
         self.uid_short_length = 8
-        self.write_file_header = False
+        self.write_new_header = False
         self.spec_epoch = None  # for both #E & #D line in header, also offset for all scans
         self.spec_host = None
         self.spec_user = None
         self._datetime = None  # most recent document time
+        self._motor_stream_name = "label_start_motor"
+        self._header_motor_keys = None
         self._streams = {}  # descriptor documents, keyed by uid
         self.RE = RE
 
@@ -366,6 +369,13 @@ class SpecWriterCallback(object):
         # referenced by event and bulk_events documents
         self._streams[doc["uid"]] = doc
 
+        if doc["name"] == self._motor_stream_name:
+            # list of all known positioners (motors)
+            mlist = sorted(doc["object_keys"].keys())
+            if self._header_motor_keys != mlist:
+                self.write_new_header = True
+            self.positioners = {k: None for k in mlist}
+            return
         if doc["name"] != "primary":
             return
 
@@ -395,11 +405,14 @@ class SpecWriterCallback(object):
         """
         handle *event* documents
         """
-        stream_doc = self._streams.get(doc["descriptor"])
-        if stream_doc is None:
+        descriptor = self._streams.get(doc["descriptor"])
+        if descriptor is None:
             fmt = "descriptor UID {} not found"
             raise KeyError(fmt.format(doc["descriptor"]))
-        if stream_doc["name"] == "primary":
+        if descriptor["name"] == self._motor_stream_name:
+            for k in self.positioners.keys():
+                self.positioners[k] = doc["data"][k]  # get motor values
+        elif descriptor["name"] == "primary":
             for k in doc["data"].keys():
                 if k not in self.data.keys():
                     msg = f"unexpected failure here, key {k} not found"
@@ -466,7 +479,17 @@ class SpecWriterCallback(object):
             # "#MD" is our ad hoc SPEC data tag
             lines.append(f"#MD {k} = {v}")
 
-        lines.append("#P0 ")
+        if sorted(self.positioners.keys()) != self._header_motor_keys:
+            self.write_new_header = True
+        if len(self.positioners) == 0:
+            lines.append("#P0 ")
+        else:
+            values = list(self.positioners.values())
+            r = 0
+            while len(values) > 0:
+                lines.append(f"#P{r} " + " ".join([str(v) for v in values[:8]]))
+                values = values[8:]
+                r += 1
 
         lines.append("#N " + str(len(self.data.keys())))
         if len(self.data.keys()) > 0:
@@ -510,21 +533,34 @@ class SpecWriterCallback(object):
             f.write("\n".join(lines))
 
     def write_header(self):
-        """write the header section of a SPEC data file"""
+        """Write the (initial) header section of a SPEC data file."""
         dt = datetime.datetime.fromtimestamp(self.spec_epoch)
         lines = []
+        # Ok to repeat #F in addtional header sections
         lines.append(f"#F {self.spec_filename}")
         lines.append(f"#E {self.spec_epoch}")
         lines.append(f"#D {datetime.datetime.strftime(dt, SPEC_TIME_FORMAT)}")
         lines.append(f"#C Bluesky  user = {self.spec_user}  host = {self.spec_host}")
-        lines.append("#O0 ")
-        lines.append("#o0 ")
+        self._header_motor_keys = sorted(self.positioners.keys())
+        if len(self._header_motor_keys) == 0:
+            lines.append("#O0 ")  # names
+            lines.append("#o0 ")  # mnemonics
+        else:
+            delimiter = " " * 2  # two spaces between names
+            for pre in "#O #o".split():  # same list for names and mnemonics
+                values = self._header_motor_keys
+                r = 0
+                while len(values) > 0:
+                    lines.append(f"{pre}{r} " + delimiter.join([str(v) for v in values[:8]]))
+                    values = values[8:]
+                    r += 1
+
         lines.append("")
 
         if os.path.exists(self.spec_filename):
             lines.insert(0, "")
         self._write_lines_(lines, mode="a+")
-        self.write_file_header = False
+        self.write_new_header = False
 
     def write_scan(self):
         """
@@ -547,7 +583,7 @@ class SpecWriterCallback(object):
         lines = self.prepare_scan_contents()
         lines.append("")
         if lines is not None:
-            if self.write_file_header:
+            if self.write_new_header:
                 self.write_header()
                 logger.info("wrote header to SPEC file: %s", self.spec_filename)
             self._write_lines_(lines, mode="a")
@@ -583,7 +619,7 @@ class SpecWriterCallback(object):
         self.spec_epoch = int(time.time())  # ! no roundup here!!!
         self.spec_host = socket.gethostname() or "localhost"
         self.spec_user = getpass.getuser() or "BlueskyUser"
-        self.write_file_header = True  # don't write the file yet
+        self.write_new_header = True  # don't write the file yet
 
         # backwards-compatibility
         if isinstance(scan_id, bool):
