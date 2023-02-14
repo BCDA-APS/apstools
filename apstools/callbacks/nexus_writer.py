@@ -195,6 +195,11 @@ class NXWriter(FileWriterCallbackBase):
         text = text or ""
         return text.encode("utf8")
 
+    def wait_writer(self):
+        """Wait for the writer to finish."""
+        while self._writer_active:
+            time.sleep(self._external_file_read_retry_delay)
+
     def writer(self):
         """
         Write collected data to HDF5/NeXus data file.
