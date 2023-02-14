@@ -15,6 +15,7 @@ from ophyd.areadetector.filestore_mixins import FileStoreHDF5IterativeWrite
 from ophyd.areadetector.plugins import HDF5Plugin_V34 as HDF5Plugin
 from ophyd.areadetector.plugins import ImagePlugin_V34 as ImagePlugin
 
+from ...devices import AD_plugin_primed
 from ...devices import AD_prime_plugin2
 from ...devices import CamMixin_V34 as CamMixin
 from ...devices import SingleTrigger_V34 as SingleTrigger
@@ -69,12 +70,15 @@ def camera():
     camera.cam.stage_sigs["acquire_period"] = 0.1
     camera.cam.stage_sigs["acquire_time"] = 0.1
     camera.cam.stage_sigs["num_images"] = 1
+    # camera.cam.stage_sigs["num_capture"] = 0  # capture ALL frames received
     camera.cam.stage_sigs["wait_for_plugins"] = "Yes"
     camera.hdf1.stage_sigs["blocking_callbacks"] = "No"
     camera.hdf1.stage_sigs["compression"] = "zlib"
     camera.hdf1.stage_sigs["zlevel"] = 6
 
-    AD_prime_plugin2(camera.hdf1)
+    if not AD_plugin_primed(camera.hdf1):
+        print(f"Priming {camera.hdf1.dotted_name}")
+        AD_prime_plugin2(camera.hdf1)
 
     if "capture" in camera.hdf1.stage_sigs:
         camera.hdf1.stage_sigs.move_to_end("capture", last=True)
@@ -88,12 +92,42 @@ def motor():
     motor.wait_for_connection(timeout=5)
     yield motor
 
+# AssertionError: camera.hdf1.stage_sigs=OrderedDict(
+#   [
+#         ('enable', 1), 
+#         ('create_directory', -3),
+#         ('auto_increment', 'Yes'), 
+#         ('array_counter', 0),
+#         ('auto_save', 'Yes'), 
+#         ('num_capture', 0), 
+#         ('file_template', '%s%s_%6.6d.h5'), 
+#         ('file_write_mode', 'Stream'), 
+#         ('blocking_callbacks', 'No'), 
+#         ('parent.cam.array_callbacks', 1), 
+#         ('compression', 'zlib'), 
+#         ('zlevel', 6), 
+#         ('capture', 1)
+#   ]
+# )
 
 def test_stage_camera(camera):
-    assert list(camera.hdf1.stage_sigs.keys())[-1] == "capture", f"{camera.hdf1.stage_sigs=}"
+    plugin = camera.hdf1
+    assert "num_capture" in dir(plugin), f"{dir(plugin)=}"
+    if  "num_capture" in plugin.stage_sigs:
+        plugin.stage_sigs.pop("num_capture")
+    assert "num_capture" not in plugin.stage_sigs
+    assert plugin.create_directory.get() < -1, f"{plugin.create_directory.get()=}"
+    assert len(plugin.file_path.get()) > 0, f"{plugin.file_path.get()=}"
+    assert len(plugin.write_path_template) > 0, f"{plugin.write_path_template.get()=}"
+    assert len(plugin.read_path_template) > 0, f"{plugin.read_path_template.get()=}"
+    assert plugin.file_path.get().endswith("/"), f"{plugin.file_path.get()=}"
+    assert list(plugin.stage_sigs.keys())[-1] == "capture", f"{plugin.stage_sigs=}"
+
     camera.stage()
     camera.unstage()
     assert True
+
+    assert False, f"{plugin.stage_sigs=}"
 
 
 def test_stage_motor(motor):
