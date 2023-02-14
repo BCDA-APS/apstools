@@ -62,7 +62,7 @@ def write_stream(specwriter, stream):
         [103, "start", "plan_name", "tune_ar"],
         [108, "start", "plan_name", "tune_mr"],
         [110, "start", "plan_name", "Flyscan"],
-    ]
+    ],
 )
 def test_metadata_keys(ref, md_tag, md_key, md_value, cat):
     assert len(cat) == 10
@@ -72,13 +72,13 @@ def test_metadata_keys(ref, md_tag, md_key, md_value, cat):
 @pytest.mark.parametrize(
     "ref, tag_sequence",
     [
-        ["555a604", ["start"] + ["descriptor"]*2 + ["event"]*3 + ["stop"]],
-        [2, ["start"] + ["descriptor"]*2 + ["event"]*3 + ["stop"]],
-        ["99f", ["start"] + ["descriptor"]*2 + ["event"]*33 + ["stop"]],
-        [103, ["start"] + ["descriptor"]*2 + ["event"]*37 + ["stop"]],
-        [108, ["start"] + ["descriptor"]*2 + ["event"]*33 + ["stop"]],
-        [110, ["start"] + ["descriptor"]*2 + ["event"]*3 + ["stop"]],
-    ]
+        ["555a604", ["start"] + ["descriptor"] * 2 + ["event"] * 3 + ["stop"]],
+        [2, ["start"] + ["descriptor"] * 2 + ["event"] * 3 + ["stop"]],
+        ["99f", ["start"] + ["descriptor"] * 2 + ["event"] * 33 + ["stop"]],
+        [103, ["start"] + ["descriptor"] * 2 + ["event"] * 37 + ["stop"]],
+        [108, ["start"] + ["descriptor"] * 2 + ["event"] * 33 + ["stop"]],
+        [110, ["start"] + ["descriptor"] * 2 + ["event"] * 3 + ["stop"]],
+    ],
 )
 def test_document_sequence(ref, tag_sequence, cat):
     run = cat.v1[ref]
@@ -292,9 +292,9 @@ def test_SpecWriterCallback_writer_default_name(cat, tempdir):
     fname = tempdir / specwriter.spec_filename
     assert not fname.exists()  # "data file not created yet"
 
-    specwriter.spec_filename = str(fname)
+    specwriter.spec_filename = pathlib.Path(fname)
     write_stream(specwriter, cat.v1[TUNE_MR].documents())
-    assert str(fname) == specwriter.spec_filename  # confirm unchanged
+    assert str(fname) == str(specwriter.spec_filename)  # confirm unchanged
     assert fname.exists()  # "data file created"
 
     sdf = spec2nexus.spec.SpecDataFile(specwriter.spec_filename)
@@ -336,9 +336,7 @@ def test_SpecWriterCallback_newfile_exists(cat, tempdir):
     testfile = tempdir / "tune_mr.dat"
     if testfile.exists():
         testfile.unlink()  # remove
-    specwriter = SpecWriterCallback(
-        filename=testfile
-    )
+    specwriter = SpecWriterCallback(filename=testfile)
 
     from .. import SCAN_ID_RESET_VALUE
 
@@ -410,9 +408,7 @@ def test_SpecWriterCallback_spec_comment(cat, tempdir):
     testfile = tempdir / "spec_comment.dat"
     if testfile.exists():
         testfile.unlink()  # remove
-    specwriter = SpecWriterCallback(
-        filename=testfile
-    )
+    specwriter = SpecWriterCallback(filename=testfile)
 
     for category in "buffered_comments comments".split():
         for k in "start stop descriptor event".split():

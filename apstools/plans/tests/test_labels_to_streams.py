@@ -280,3 +280,21 @@ def test_decorator(m1, noisy, othersignal, simsignal):
         assert noisy.name not in ds
         assert othersignal.name not in ds
         assert simsignal.name not in ds
+
+
+def test_as_RE_preprocessor(m1, noisy, othersignal, simsignal):
+    def motor_start_preprocessor(plan):
+        return label_stream_wrapper(plan, "motor")
+
+    RE = RunEngine({})  # make a new one for testing here
+    RE.subscribe(cat.v1.insert)
+    RE.preprocessors.append(motor_start_preprocessor)
+
+    dets = [noisy, simsignal]
+    uids = RE(bp.count(dets))
+    assert len(uids) == 1
+
+    assert "label_start_motor" in cat.v1[-1].stream_names
+    assert len(cat.v1[-1].stream_names) == 2
+    assert "label_start_motor" in cat.v2[-1]
+    assert "primary" in cat.v2[-1]

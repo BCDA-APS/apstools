@@ -30,6 +30,7 @@ Custom Scans
 .. autosummary::
 
    ~apstools.plans.doc_run.documentation_run
+   ~apstools.plans.labels_to_streams.label_stream_decorator
    ~apstools.plans.alignment.lineup
    ~apstools.plans.nscan_support.nscan
    ~apstools.plans.sscan_support.sscan_1D

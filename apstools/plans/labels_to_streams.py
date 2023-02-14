@@ -43,9 +43,9 @@ objects::
     m49 = EpicsMotor("ioc:m49", name="m49", labels=["motor"])
     scint = EpicsSignal("ioc:counter1", name="scint", labels=["counter"])
 
-Then define a custom plan with ...::
+Then define a custom plan with the following (where `when="start"` is the default)::
 
-    @label_stream_decorator("motor", when="start")
+    @label_stream_decorator("motor")
     def my_count_plan(dets, md=None):
         _md = md or {}
         yield from bp.count(dets, md=_md)
@@ -59,8 +59,13 @@ or from another plan::
     yield from my_count_plan([scint, diode])
 
 Once the run is complete, look for the ``label_start_motor`` stream that has the
-positions at the start of the run of all devices with the ``"motor"`` label.
-Similarly::
+positions at the start of the run of all devices with the ``"motor"`` label.  Such as::
+
+    run = cat.v2[-1]  # assume the most recent run
+    run.label_start_motor.read()
+
+Similarly, to write the `motor` objects at the end of the run, use the
+`when="end"` keyword::
 
     @label_stream_decorator("motor", when="end")
     def my_count_plan(dets, md=None):
@@ -138,7 +143,7 @@ class When(Enum):
     END = "end"
 
 
-def label_stream_wrapper(plan, labels, fmt=None, when=When.START):
+def label_stream_wrapper(plan, labels, fmt=None, when="start"):
     """
     Decorator support: Write labeled device(s) to stream(s).  Either at "start" or "end".
 
@@ -170,6 +175,8 @@ def label_stream_wrapper(plan, labels, fmt=None, when=When.START):
         =============== ==========================
 
         The ``str`` value can be expressed in either upper or lower case.
+
+        Default: ``"start"``
 
     *new in apstools release 1.6.11*
     """
