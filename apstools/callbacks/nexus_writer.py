@@ -30,9 +30,37 @@ class NXWriter(FileWriterCallbackBase):
 
     .. index:: Bluesky Callback; NXWriter
 
-    New with apstools release 1.3.0.
-
     One scan is written to one HDF5/NeXus file.
+
+    ..note::
+        If you use ``NXWriter`` _and_ you use an area detector (or other device
+        which writes HDF5 files as external resources), you must call
+        ``NXWriter.wait_writer()`` which waits for all data processing to finish
+        before proceeding with the next acquisition or processing.
+
+    EXAMPLE:
+
+    With a Run Engine::
+
+        # ...
+        nxwriter = NXWriter()  # create the callback instance
+        RE.subscribe(nxwriter.receiver)  # subscribe to the RunEngine
+        # ...
+        RE(bp.count([camera]))
+        nxwriter.wait_writer()
+        # ...
+        run = cat.v2[-1]  # for additional processing
+
+    In a custom plan, it is a bit different since the ``wait_writer()`` method
+    calls ``time.sleep()`` directly.  Instead, we use ``bps.sleep()`` as follows::
+
+        def my_plan(dets, n=5):
+            nxwriter = NXWriter()  # create the callback instance
+            for i in range(n):
+                yield from bp.count(dets)
+                while nxwriter._writer_active:
+                    yield from bps.sleep(nxwriter._external_file_read_retry_delay)
+
 
     METHODS
 
@@ -45,6 +73,7 @@ class NXWriter(FileWriterCallbackBase):
        ~create_NX_group
        ~get_sample_title
        ~get_stream_link
+       ~wait_writer
        ~write_data
        ~write_detector
        ~write_entry
@@ -58,6 +87,9 @@ class NXWriter(FileWriterCallbackBase):
        ~write_source
        ~write_streams
        ~write_user
+
+    New with apstools release 1.3.0.
+    Update in release 1.6.11 to wait for area detector HDF5 files.
     """
 
     warn_on_missing_content = True
@@ -196,7 +228,14 @@ class NXWriter(FileWriterCallbackBase):
         return text.encode("utf8")
 
     def wait_writer(self):
-        """Wait for the writer to finish."""
+        """
+        Wait for the writer to finish.  Not for use in a plan.
+
+        If you use ``NXWriter`` _and_ you use an area detector (or other device
+        which writes HDF5 files as external resources), you must call
+        ``NXWriter.wait_writer()`` which waits for all data processing to finish
+        before proceeding with the next acquisition or processing.
+        """
         while self._writer_active:
             time.sleep(self._external_file_read_retry_delay)
 
