@@ -96,7 +96,7 @@ def motor():
 def test_stage_camera(camera):
     plugin = camera.hdf1
     assert "num_capture" in dir(plugin), f"{dir(plugin)=}"
-    if  "num_capture" in plugin.stage_sigs:
+    if "num_capture" in plugin.stage_sigs:
         plugin.stage_sigs.pop("num_capture")
     assert "num_capture" not in plugin.stage_sigs
     assert plugin.create_directory.get() < -1, f"{plugin.create_directory.get()=}"
