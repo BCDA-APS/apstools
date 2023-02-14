@@ -90,6 +90,7 @@ def motor():
 
 
 def test_stage_camera(camera):
+    assert list(camera.hdf1.stage_sigs.keys())[-1] == "capture", f"{camera.hdf1.stage_sigs=}"
     camera.stage()
     camera.unstage()
     assert True
