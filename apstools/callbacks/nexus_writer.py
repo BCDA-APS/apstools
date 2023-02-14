@@ -61,7 +61,6 @@ class NXWriter(FileWriterCallbackBase):
                 while nxwriter._writer_active:
                     yield from bps.sleep(nxwriter._external_file_read_retry_delay)
 
-
     METHODS
 
     .. autosummary::
