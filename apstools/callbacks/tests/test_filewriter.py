@@ -4,7 +4,6 @@ unit tests for the filewriters
 
 import pathlib
 import tempfile
-import time
 
 import databroker
 import h5py
@@ -130,8 +129,8 @@ def test_NXWriterAPS(cat, tempdir):
     replay(cat.v1[TUNE_MR], callback.receiver)
 
     fname = pathlib.Path(callback.make_file_name())
-    while callback._writer_active:
-        time.sleep(callback._external_file_read_retry_delay)
+    callback.wait_writer()
+
     assert fname.exists()
     with h5py.File(fname, "r") as nxroot:
         assert "/entry/instrument/source" in nxroot
@@ -152,8 +151,8 @@ def test_NXWriter_default_plot(cat, tempdir):
     replay(cat.v1[TUNE_MR], callback.receiver)
 
     fname = pathlib.Path(callback.make_file_name())
-    while callback._writer_active:
-        time.sleep(callback._external_file_read_retry_delay)
+    callback.wait_writer()
+
     assert fname.exists()
     with h5py.File(fname, "r") as nxroot:
         assert nxroot is not None
@@ -264,8 +263,8 @@ def test_NXWriter_receiver_battery(cat, tempdir):
         replay(cat.v1[uid], callback.receiver)
 
         fname = pathlib.Path(callback.make_file_name())
-        while callback._writer_active:
-            time.sleep(callback._external_file_read_retry_delay)
+        callback.wait_writer()
+
         assert fname.exists()
         with h5py.File(fname, "r") as nxroot:
             assert nxroot.attrs.get("NeXus_version") == NEXUS_RELEASE

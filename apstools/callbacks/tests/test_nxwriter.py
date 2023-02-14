@@ -1,6 +1,5 @@
 import pathlib
 import tempfile
-import time
 
 import bluesky.plans as bp
 import databroker
@@ -135,8 +134,7 @@ def test_NXWriter_with_RunEngine(camera, motor):
     assert len(uids) == 1
     assert uids[-1] in catalog
 
-    while nxwriter._writer_active:  # wait for the call back to finish
-        time.sleep(nxwriter._external_file_read_retry_delay)
+    nxwriter.wait_writer()
 
     assert test_file.exists()
     with h5py.File(test_file, "r") as root:
