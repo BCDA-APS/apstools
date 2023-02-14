@@ -11,6 +11,7 @@ NeXus File Writer Callbacks
 import datetime
 import logging
 import os
+import time
 
 import h5py
 import numpy as np
@@ -29,9 +30,36 @@ class NXWriter(FileWriterCallbackBase):
 
     .. index:: Bluesky Callback; NXWriter
 
-    New with apstools release 1.3.0.
-
     One scan is written to one HDF5/NeXus file.
+
+    ..note::
+        If you use ``NXWriter`` _and_ you use an area detector (or other device
+        which writes HDF5 files as external resources), you must call
+        ``NXWriter.wait_writer()`` which waits for all data processing to finish
+        before proceeding with the next acquisition or processing.
+
+    EXAMPLE:
+
+    With a Run Engine::
+
+        # ...
+        nxwriter = NXWriter()  # create the callback instance
+        RE.subscribe(nxwriter.receiver)  # subscribe to the RunEngine
+        # ...
+        RE(bp.count([camera]))
+        nxwriter.wait_writer()
+        # ...
+        run = cat.v2[-1]  # for additional processing
+
+    In a custom plan, it is a bit different since the ``wait_writer()`` method
+    calls ``time.sleep()`` directly.  Instead, we use ``bps.sleep()`` as follows::
+
+        def my_plan(dets, n=5):
+            nxwriter = NXWriter()  # create the callback instance
+            for i in range(n):
+                yield from bp.count(dets)
+                while nxwriter._writer_active:
+                    yield from bps.sleep(nxwriter._external_file_read_retry_delay)
 
     METHODS
 
@@ -44,6 +72,7 @@ class NXWriter(FileWriterCallbackBase):
        ~create_NX_group
        ~get_sample_title
        ~get_stream_link
+       ~wait_writer
        ~write_data
        ~write_detector
        ~write_entry
@@ -57,6 +86,9 @@ class NXWriter(FileWriterCallbackBase):
        ~write_source
        ~write_streams
        ~write_user
+
+    New with apstools release 1.3.0.
+    Update in release 1.6.11 to wait for area detector HDF5 files.
     """
 
     warn_on_missing_content = True
@@ -67,6 +99,10 @@ class NXWriter(FileWriterCallbackBase):
     nxdata_signal = None  # name of dataset for Y axis on plot
     nxdata_signal_axes = None  # name of dataset for X axis on plot
     root = None  # instance of h5py.File
+
+    _external_file_read_timeout = 20
+    _external_file_read_retry_delay = 0.5
+    _writer_active = False
 
     # convention: methods written in alphabetical order
 
@@ -96,10 +132,12 @@ class NXWriter(FileWriterCallbackBase):
             k = "/entry/instrument/bluesky/streams/primary"
             primary = self.root[k]
         except KeyError:
+            # fmt: off
             raise KeyError(
                 f"no primary data stream in "
                 f"scan {self.scan_id} ({self.uid[:7]})"
             )
+            # fmt: on
         for k, v in primary.items():
             # logger.debug(v.name)
             # logger.debug(v.keys())
@@ -118,9 +156,7 @@ class NXWriter(FileWriterCallbackBase):
                 v["value"].attrs["signal_type"] = signal_type  # dataset
             except KeyError:
                 if self.warn_on_missing_content:
-                    logger.warning(
-                        "Could not assign %s as signal type %s", k, signal_type
-                    )
+                    logger.warning("Could not assign %s as signal type %s", k, signal_type)
 
     def create_NX_group(self, parent, specification):
         """
@@ -128,10 +164,12 @@ class NXWriter(FileWriterCallbackBase):
         """
         local_address, nx_class = specification.split(":")
         if not nx_class.startswith("NX"):
+            # fmt: off
             raise ValueError(
                 "NeXus base class must start with 'NX',"
                 f" received {nx_class}"
             )
+            # fmt: on
         group = parent.create_group(local_address)
         group.attrs["NX_class"] = nx_class
         group.attrs["target"] = group.name  # for use as NeXus link
@@ -147,12 +185,13 @@ class NXWriter(FileWriterCallbackBase):
         resource = self.externals[resource_id]
         if resource["spec"] not in ("AD_HDF5",):
             # HDF5-specific implementation for now
-            raise ValueError(
-                f'{resource_id}: spec {resource["spec"]} not handled'
-            )
+            raise ValueError(f'{resource_id}: spec {resource["spec"]} not handled')
 
         # logger.debug(yaml.dump(resource))
-        fname = os.path.join(resource["root"], resource["resource_path"],)
+        fname = os.path.join(
+            resource["root"],
+            resource["resource_path"],
+        )
         return fname
 
     def get_sample_title(self):
@@ -174,9 +213,7 @@ class NXWriter(FileWriterCallbackBase):
         """
         stream = stream or "baseline"
         ref = ref or "value_start"
-        h5_addr = (
-            f"/entry/instrument/bluesky/streams/{stream}/{signal}/{ref}"
-        )
+        h5_addr = f"/entry/instrument/bluesky/streams/{stream}/{signal}/{ref}"
         if h5_addr not in self.root:
             raise KeyError(f"HDF5 address {h5_addr} not found.")
         # return the h5 object, to make a link
@@ -189,17 +226,43 @@ class NXWriter(FileWriterCallbackBase):
         text = text or ""
         return text.encode("utf8")
 
+    def wait_writer(self):
+        """
+        Wait for the writer to finish.  Not for use in a plan.
+
+        If you use ``NXWriter`` _and_ you use an area detector (or other device
+        which writes HDF5 files as external resources), you must call
+        ``NXWriter.wait_writer()`` which waits for all data processing to finish
+        before proceeding with the next acquisition or processing.
+        """
+        while self._writer_active:
+            time.sleep(self._external_file_read_retry_delay)
+
     def writer(self):
         """
-        write collected data to HDF5/NeXus data file
-        """
-        fname = self.file_name or self.make_file_name()
-        with h5py.File(fname, "w") as self.root:
-            self.write_root(fname)
+        Write collected data to HDF5/NeXus data file.
 
-        self.root = None
-        logger.info(f"wrote NeXus file: {fname}")  # lgtm [py/clear-text-logging-sensitive-data]
-        self.output_nexus_file = fname
+        The callback launches ``_threaded_writer()`` and returns. In the thread,
+        ``write_root()`` (or methods within) can wait on certain items (such as
+        an external HDF5 file written by an area detector IOC) to become
+        readable or a timeout period has expired.
+        """
+        from ..utils import run_in_thread
+
+        @run_in_thread
+        def _threaded_writer(fname):
+            """Allow read of external files _after_ run ends."""
+            self._writer_active = True
+            try:
+                with h5py.File(fname, "w") as self.root:
+                    self.write_root(fname)
+                self.output_nexus_file = fname
+                logger.info(f"wrote NeXus file: {fname}")  # lgtm [py/clear-text-logging-sensitive-data]
+            finally:
+                self.root = None
+                self._writer_active = False
+
+        _threaded_writer(self.file_name or self.make_file_name())
 
     def write_data(self, parent):
         """
@@ -271,6 +334,7 @@ class NXWriter(FileWriterCallbackBase):
         """
         group: /entry/data:NXentry
         """
+        # fmt: off
         nxentry = self.create_NX_group(
             self.root, self.root.attrs["default"] + ":NXentry"
         )
@@ -291,6 +355,7 @@ class NXWriter(FileWriterCallbackBase):
             "duration", data=self.stop_time - self.start_time
         )
         ds.attrs["units"] = "s"
+        # fmt: on
 
         nxentry.create_dataset("program_name", data="bluesky")
 
@@ -314,12 +379,8 @@ class NXWriter(FileWriterCallbackBase):
                 logger.warning("No data for /entry/run_cycle")
 
         nxentry["title"] = self.get_sample_title()
-        nxentry["plan_name"] = self.root[
-            "/entry/instrument/bluesky/metadata/plan_name"
-        ]
-        nxentry["entry_identifier"] = self.root[
-            "/entry/instrument/bluesky/uid"
-        ]
+        nxentry["plan_name"] = self.root["/entry/instrument/bluesky/metadata/plan_name"]
+        nxentry["entry_identifier"] = self.root["/entry/instrument/bluesky/uid"]
 
         return nxentry
 
@@ -327,12 +388,8 @@ class NXWriter(FileWriterCallbackBase):
         """
         group: /entry/instrument:NXinstrument
         """
-        nxinstrument = self.create_NX_group(
-            parent, "instrument:NXinstrument"
-        )
-        bluesky_group = self.create_NX_group(
-            nxinstrument, "bluesky:NXnote"
-        )
+        nxinstrument = self.create_NX_group(parent, "instrument:NXinstrument")
+        bluesky_group = self.create_NX_group(nxinstrument, "bluesky:NXnote")
 
         md_group = self.write_metadata(bluesky_group)
         self.write_streams(bluesky_group)
@@ -397,14 +454,10 @@ class NXWriter(FileWriterCallbackBase):
         keys = "wavelength energy theta y_offset mode".split()
 
         try:
-            links = {
-                key: self.get_stream_link(f"{pre}_{key}") for key in keys
-            }
+            links = {key: self.get_stream_link(f"{pre}_{key}") for key in keys}
         except KeyError as exc:
             if self.warn_on_missing_content:
-                logger.warning(
-                    "%s -- not creating monochromator group", str(exc)
-                )
+                logger.warning("%s -- not creating monochromator group", str(exc))
             return
 
         pre = "monochromator"
@@ -415,9 +468,7 @@ class NXWriter(FileWriterCallbackBase):
             if self.warn_on_missing_content:
                 logger.warning("%s -- feedback signal not found", str(exc))
 
-        nxmonochromator = self.create_NX_group(
-            parent, "monochromator:NXmonochromator"
-        )
+        nxmonochromator = self.create_NX_group(parent, "monochromator:NXmonochromator")
         for k, v in links.items():
             nxmonochromator[k] = v
         return nxmonochromator
@@ -485,9 +536,7 @@ class NXWriter(FileWriterCallbackBase):
                     logger.warning("%s", str(exc))
         if len(links) == 0:
             if self.warn_on_missing_content:
-                logger.warning(
-                    "no sample data found, not creating sample group"
-                )
+                logger.warning("no sample data found, not creating sample group")
             return
 
         nxsample = self.create_NX_group(parent, "sample:NXsample")
@@ -496,9 +545,7 @@ class NXWriter(FileWriterCallbackBase):
 
         for key in "electric_field magnetic_field stress_field".split():
             ds = nxsample[key]
-            ds.attrs["direction"] = self.get_stream_link(
-                f"{pre}_{key}_dir"
-            )[()].lower()
+            ds.attrs["direction"] = self.get_stream_link(f"{pre}_{key}_dir")[()].lower()
 
         return nxsample
 
@@ -526,9 +573,7 @@ class NXWriter(FileWriterCallbackBase):
 
         return nxsource
 
-    def write_stream_external(
-        self, parent, d, subgroup, stream_name, k, v
-    ):
+    def write_stream_external(self, parent, d, subgroup, stream_name, k, v):
         # TODO: rabbit-hole alert! simplify
         # lots of variations possible
 
@@ -539,35 +584,56 @@ class NXWriter(FileWriterCallbackBase):
             if resource_id not in resource_id_list:
                 resource_id_list.append(resource_id)
         if len(resource_id_list) != 1:
+            # fmt: off
             raise ValueError(
                 f"{len(resource_id_list)}"
                 f" unique resource UIDs: {resource_id_list}"
             )
+            # fmt: on
+
+        def copy_image_from_IOC_file(fname):
+            with h5py.File(fname, "r") as hdf_image_file_root:
+                h5addr = "/entry/data/data"
+                h5_obj = hdf_image_file_root[h5addr]
+                ds = subgroup.create_dataset(
+                    "value",
+                    data=h5_obj[()],
+                    compression="lzf",
+                    # compression="gzip",
+                    # compression_opts=9,
+                    shuffle=True,
+                    fletcher32=True,
+                )
+                ds.attrs["target"] = ds.name
+                ds.attrs["source_file"] = fname
+                ds.attrs["source_address"] = h5_obj.name
+                ds.attrs["resource_id"] = resource_id
+                ds.attrs["units"] = ""
 
         fname = self.getResourceFile(resource_id)
         logger.info("reading %s from EPICS AD data file: %s", k, fname)
-        with h5py.File(fname, "r") as hdf_image_file_root:
-            h5_obj = hdf_image_file_root["/entry/data/data"]
-            ds = subgroup.create_dataset(
-                "value",
-                data=h5_obj[()],
-                compression="lzf",
-                # compression="gzip",
-                # compression_opts=9,
-                shuffle=True,
-                fletcher32=True,
-            )
-            ds.attrs["target"] = ds.name
-            ds.attrs["source_file"] = fname
-            ds.attrs["source_address"] = h5_obj.name
-            ds.attrs["resource_id"] = resource_id
-            ds.attrs["units"] = ""
+        t0 = time.time()
+        while time.time() - t0 < self._external_file_read_timeout:
+            t_elapsed = time.time() - t0
+            try:
+                copy_image_from_IOC_file(fname)
+                break
+            except (OSError, BlockingIOError):
+                logger.warning(
+                    (
+                        "Could not open EPICS AD data file for reading: %s"
+                        " ... waiting %.2f s for next retry."
+                        " (or timeout in %.2f s)"
+                    ),
+                    fname,
+                    self._external_file_read_retry_delay,
+                    self._external_file_read_timeout - t_elapsed,
+                )
+                time.sleep(self._external_file_read_retry_delay)
 
         subgroup.attrs["signal"] = "value"
 
-    def write_stream_internal(
-        self, parent, d, subgroup, stream_name, k, v
-    ):
+    def write_stream_internal(self, parent, d, subgroup, stream_name, k, v):
         # fmt: off
         subgroup.attrs["signal"] = "value"
         subgroup.attrs["axes"] = ["time", ]
@@ -611,9 +677,11 @@ class NXWriter(FileWriterCallbackBase):
         bluesky = self.create_NX_group(parent, "streams:NXnote")
         for stream_name, uids in self.streams.items():
             if len(uids) != 1:
+                # fmt: off
                 raise ValueError(
                     f"stream {len(uids)} has descriptors, expecting only 1"
                 )
+                # fmt: on
             group = self.create_NX_group(bluesky, stream_name + ":NXnote")
             uid0 = uids[0]  # just get the one descriptor uid
             group.attrs["uid"] = uid0
@@ -625,13 +693,9 @@ class NXWriter(FileWriterCallbackBase):
                 subgroup = self.create_NX_group(group, k + ":NXdata")
 
                 if v["external"]:
-                    self.write_stream_external(
-                        parent, d, subgroup, stream_name, k, v
-                    )
+                    self.write_stream_external(parent, d, subgroup, stream_name, k, v)
                 else:
-                    self.write_stream_internal(
-                        parent, d, subgroup, stream_name, k, v
-                    )
+                    self.write_stream_internal(parent, d, subgroup, stream_name, k, v)
 
                 t = np.array(v["time"])
                 ds = subgroup.create_dataset("EPOCH", data=t)
@@ -640,14 +704,13 @@ class NXWriter(FileWriterCallbackBase):
                 ds.attrs["target"] = ds.name
 
                 t_start = t[0]
+                iso = datetime.datetime.fromtimestamp(t_start).isoformat()
                 ds = subgroup.create_dataset("time", data=t - t_start)
                 ds.attrs["units"] = "s"
                 ds.attrs["long_name"] = "time since first data (s)"
                 ds.attrs["target"] = ds.name
                 ds.attrs["start_time"] = t_start
-                ds.attrs[
-                    "start_time_iso"
-                ] = datetime.datetime.fromtimestamp(t_start).isoformat()
+                ds.attrs["start_time_iso"] = iso
 
             # link images to parent names
             for k in group:
@@ -764,21 +827,18 @@ class NXWriterAPS(NXWriter):
         """.split()
 
         try:
-            links = {
-                key: self.get_stream_link(f"{pre}_{key}") for key in keys
-            }
+            links = {key: self.get_stream_link(f"{pre}_{key}") for key in keys}
         except KeyError as exc:
             if self.warn_on_missing_content:
                 logger.warning("%s -- not creating undulator group", str(exc))
             return
 
-        undulator = self.create_NX_group(
-            parent, "undulator:NXinsertion_device"
-        )
+        undulator = self.create_NX_group(parent, "undulator:NXinsertion_device")
         undulator.create_dataset("type", data="undulator")
         for k, v in links.items():
             undulator[k] = v
         return undulator
+
 
 # -----------------------------------------------------------------------------
 # :author:    Pete R. Jemian

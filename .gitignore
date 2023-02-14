@@ -6,7 +6,7 @@ dev_*.ipynb
 _notes*.md
 
 # local note-taking
-_notes.md
+_notes*.md
 
 # unit test
 .coverage

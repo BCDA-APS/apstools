@@ -129,6 +129,8 @@ def test_NXWriterAPS(cat, tempdir):
     replay(cat.v1[TUNE_MR], callback.receiver)
 
     fname = pathlib.Path(callback.make_file_name())
+    callback.wait_writer()
+
     assert fname.exists()
     with h5py.File(fname, "r") as nxroot:
         assert "/entry/instrument/source" in nxroot
@@ -149,6 +151,8 @@ def test_NXWriter_default_plot(cat, tempdir):
     replay(cat.v1[TUNE_MR], callback.receiver)
 
     fname = pathlib.Path(callback.make_file_name())
+    callback.wait_writer()
+
     assert fname.exists()
     with h5py.File(fname, "r") as nxroot:
         assert nxroot is not None
@@ -259,10 +263,12 @@ def test_NXWriter_receiver_battery(cat, tempdir):
         replay(cat.v1[uid], callback.receiver)
 
         fname = pathlib.Path(callback.make_file_name())
+        callback.wait_writer()
+
         assert fname.exists()
         with h5py.File(fname, "r") as nxroot:
-            assert nxroot.attrs["NeXus_version"] == NEXUS_RELEASE
-            assert nxroot.attrs["creator"] == callback.__class__.__name__
+            assert nxroot.attrs.get("NeXus_version") == NEXUS_RELEASE
+            assert nxroot.attrs.get("creator") == callback.__class__.__name__
 
             nxentry = nxroot["/entry"]
             assert to_string(nxentry["entry_identifier"][()]) == to_string(callback.uid)

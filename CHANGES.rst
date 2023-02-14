@@ -44,6 +44,7 @@ New Features
 Fixes
 ------------
 
+* NXWriter: scans with area detectors did not have image data.  Fixed.
 * PVPositionerSoftDone: computation of 'done' signal and 'inposition' deconvoluted.
 * Tests involving PVPositionerSoftDone call '.cb_readback()' method to upate 'done' signal.
 
