@@ -64,6 +64,8 @@ def camera():
     camera = MyDetector(AD_IOC, name="camera")
     camera.wait_for_connection(timeout=15)
 
+    camera.hdf1.create_directory.put(-5)
+
     camera.read_attrs.append("cam")
     camera.read_attrs.append("hdf1")
 
