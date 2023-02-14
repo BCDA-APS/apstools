@@ -107,29 +107,9 @@ def test_stage_camera(camera):
     assert plugin.file_path.get().endswith("/"), f"{plugin.file_path.get()=}"
     assert list(plugin.stage_sigs.keys())[-1] == "capture", f"{plugin.stage_sigs=}"
 
-    # AssertionError: camera.hdf1.stage_sigs=OrderedDict(
-    #   [
-    #         ('enable', 1),
-    #         ('create_directory', -3),
-    #         ('auto_increment', 'Yes'),
-    #         ('array_counter', 0),
-    #         ('auto_save', 'Yes'),
-    #         ('num_capture', 0),
-    #         ('file_template', '%s%s_%6.6d.h5'),
-    #         ('file_write_mode', 'Stream'),
-    #         ('blocking_callbacks', 'No'),
-    #         ('parent.cam.array_callbacks', 1),
-    #         ('compression', 'zlib'),
-    #         ('zlevel', 6),
-    #         ('capture', 1)
-    #   ]
-    # )
-
     camera.stage()
     camera.unstage()
     assert True
-
-    assert False, f"{plugin.stage_sigs=}"
 
 
 def test_stage_motor(motor):
