@@ -59,7 +59,11 @@ or from another plan::
     yield from my_count_plan([scint, diode])
 
 Once the run is complete, look for the ``label_start_motor`` stream that has the
-positions at the start of the run of all devices with the ``"motor"`` label.
+positions at the start of the run of all devices with the ``"motor"`` label.  Such as::
+
+    run = cat.v2[-1]  # assume the most recent run
+    run.label_start_motor.read()
+
 Similarly, to write the `motor` objects at the end of the run, use the
 `when="end"` keyword::
 
