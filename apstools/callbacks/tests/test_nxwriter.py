@@ -65,6 +65,7 @@ def camera():
     camera.wait_for_connection(timeout=15)
 
     camera.hdf1.create_directory.put(-5)
+    camera.hdf1.file_path.put(f"{WRITE_PATH_TEMPLATE}/")
 
     camera.read_attrs.append("cam")
     camera.read_attrs.append("hdf1")
@@ -72,10 +73,10 @@ def camera():
     camera.cam.stage_sigs["acquire_period"] = 0.1
     camera.cam.stage_sigs["acquire_time"] = 0.1
     camera.cam.stage_sigs["num_images"] = 1
-    # camera.cam.stage_sigs["num_capture"] = 0  # capture ALL frames received
     camera.cam.stage_sigs["wait_for_plugins"] = "Yes"
     camera.hdf1.stage_sigs["blocking_callbacks"] = "No"
     camera.hdf1.stage_sigs["compression"] = "zlib"
+    camera.hdf1.stage_sigs["num_capture"] = 0  # capture ALL frames received
     camera.hdf1.stage_sigs["zlevel"] = 6
 
     if not AD_plugin_primed(camera.hdf1):
@@ -98,13 +99,11 @@ def motor():
 def test_stage_camera(camera):
     plugin = camera.hdf1
     assert "num_capture" in dir(plugin), f"{dir(plugin)=}"
-    if "num_capture" in plugin.stage_sigs:
-        plugin.stage_sigs.pop("num_capture")
-    assert "num_capture" not in plugin.stage_sigs
+    assert "num_capture" in plugin.stage_sigs
     assert plugin.create_directory.get() < -1, f"{plugin.create_directory.get()=}"
-    assert len(plugin.file_path.get()) > 0, f"{plugin.file_path.get()=}"
     assert len(plugin.write_path_template) > 0, f"{plugin.write_path_template.get()=}"
     assert len(plugin.read_path_template) > 0, f"{plugin.read_path_template.get()=}"
+    assert len(plugin.file_path.get()) > 0, f"{plugin.file_path.get()=}"
     assert plugin.file_path.get().endswith("/"), f"{plugin.file_path.get()=}"
     assert list(plugin.stage_sigs.keys())[-1] == "capture", f"{plugin.stage_sigs=}"
 
