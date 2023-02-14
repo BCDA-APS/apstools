@@ -299,9 +299,9 @@ def test_SpecWriterCallback_writer_default_name(cat, tempdir):
     fname = tempdir / specwriter.spec_filename
     assert not fname.exists()  # "data file not created yet"
 
-    specwriter.spec_filename = str(fname)
+    specwriter.spec_filename = pathlib.Path(fname)
     write_stream(specwriter, cat.v1[TUNE_MR].documents())
-    assert str(fname) == specwriter.spec_filename  # confirm unchanged
+    assert str(fname) == str(specwriter.spec_filename)  # confirm unchanged
     assert fname.exists()  # "data file created"
 
     sdf = spec2nexus.spec.SpecDataFile(specwriter.spec_filename)

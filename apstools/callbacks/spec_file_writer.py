@@ -57,7 +57,7 @@ results in this SPEC file output::
 import datetime
 import getpass
 import logging
-import os
+import pathlib
 import socket
 import time
 from collections import OrderedDict
@@ -208,14 +208,15 @@ class SpecWriterCallback(object):
     def __init__(self, filename=None, auto_write=True, RE=None, reset_scan_id=False):
         self.clear()
         self.buffered_comments = self._empty_comments_dict()
-        self.spec_filename = filename
         self.auto_write = auto_write
         self.uid_short_length = 8
-        self.write_file_header = False
+        self.write_new_header = False
         self.spec_epoch = None  # for both #E & #D line in header, also offset for all scans
         self.spec_host = None
         self.spec_user = None
         self._datetime = None  # most recent document time
+        self._motor_stream_name = "label_start_motor"
+        self._header_motor_keys = None
         self._streams = {}  # descriptor documents, keyed by uid
         self.RE = RE
 
@@ -223,12 +224,15 @@ class SpecWriterCallback(object):
             reset_scan_id = SCAN_ID_RESET_VALUE
         self.reset_scan_id = reset_scan_id
 
-        if filename is None or not os.path.exists(filename):
-            self.newfile(filename)
+        if isinstance(filename, str):
+            filename = pathlib.Path(filename)
+        if filename is None or not filename.exists():
+            filename = self.newfile(filename)
         else:
             max_scan_id = self.usefile(filename)
             if RE is not None and reset_scan_id is not False:
                 RE.md["scan_id"] = max_scan_id
+        self.spec_filename = filename
 
     def clear(self):
         """reset all scan data defaults"""
@@ -330,7 +334,7 @@ class SpecWriterCallback(object):
         # Can this be omitted?
         self.T_or_M = None  # for now
         # self.T_or_M = "T"           # TODO: how to get this from the document stream?
-        # self.T_or_M_value = 1
+        self.T_or_M_value = 1
         # self._cmt("start", "!!! #T line not correct yet !!!")
 
         # metadata
@@ -366,6 +370,13 @@ class SpecWriterCallback(object):
         # referenced by event and bulk_events documents
         self._streams[doc["uid"]] = doc
 
+        if doc["name"] == self._motor_stream_name:
+            # list of all known positioners (motors)
+            mlist = sorted(doc["object_keys"].keys())
+            if self._header_motor_keys != mlist:
+                self.write_new_header = True
+            self.positioners = {k: None for k in mlist}
+            return
         if doc["name"] != "primary":
             return
 
@@ -395,11 +406,14 @@ class SpecWriterCallback(object):
         """
         handle *event* documents
         """
-        stream_doc = self._streams.get(doc["descriptor"])
-        if stream_doc is None:
+        descriptor = self._streams.get(doc["descriptor"])
+        if descriptor is None:
             fmt = "descriptor UID {} not found"
             raise KeyError(fmt.format(doc["descriptor"]))
-        if stream_doc["name"] == "primary":
+        if descriptor["name"] == self._motor_stream_name:
+            for k in self.positioners.keys():
+                self.positioners[k] = doc["data"][k]  # get motor values
+        elif descriptor["name"] == "primary":
             for k in doc["data"].keys():
                 if k not in self.data.keys():
                     msg = f"unexpected failure here, key {k} not found"
@@ -466,7 +480,17 @@ class SpecWriterCallback(object):
             # "#MD" is our ad hoc SPEC data tag
             lines.append(f"#MD {k} = {v}")
 
-        lines.append("#P0 ")
+        if sorted(self.positioners.keys()) != self._header_motor_keys:
+            self.write_new_header = True
+        if len(self.positioners) == 0:
+            lines.append("#P0 ")
+        else:
+            values = list(self.positioners.values())
+            r = 0
+            while len(values) > 0:
+                lines.append(f"#P{r} " + " ".join([str(v) for v in values[:8]]))
+                values = values[8:]
+                r += 1
 
         lines.append("#N " + str(len(self.data.keys())))
         if len(self.data.keys()) > 0:
@@ -510,21 +534,34 @@ class SpecWriterCallback(object):
             f.write("\n".join(lines))
 
     def write_header(self):
-        """write the header section of a SPEC data file"""
+        """Write the (initial) header section of a SPEC data file."""
         dt = datetime.datetime.fromtimestamp(self.spec_epoch)
         lines = []
+        # Ok to repeat #F in addtional header sections
         lines.append(f"#F {self.spec_filename}")
         lines.append(f"#E {self.spec_epoch}")
         lines.append(f"#D {datetime.datetime.strftime(dt, SPEC_TIME_FORMAT)}")
         lines.append(f"#C Bluesky  user = {self.spec_user}  host = {self.spec_host}")
-        lines.append("#O0 ")
-        lines.append("#o0 ")
+        self._header_motor_keys = sorted(self.positioners.keys())
+        if len(self._header_motor_keys) == 0:
+            lines.append("#O0 ")  # names
+            lines.append("#o0 ")  # mnemonics
+        else:
+            delimiter = " " * 2  # two spaces between names
+            for pre in "#O #o".split():  # same list for names and mnemonics
+                values = self._header_motor_keys
+                r = 0
+                while len(values) > 0:
+                    lines.append(f"{pre}{r} " + delimiter.join([str(v) for v in values[:8]]))
+                    values = values[8:]
+                    r += 1
+
         lines.append("")
 
-        if os.path.exists(self.spec_filename):
+        if self.spec_filename.exists():
             lines.insert(0, "")
         self._write_lines_(lines, mode="a+")
-        self.write_file_header = False
+        self.write_new_header = False
 
     def write_scan(self):
         """
@@ -536,7 +573,7 @@ class SpecWriterCallback(object):
 
         note:  does nothing if there are no lines to be written
         """
-        if os.path.exists(self.spec_filename):
+        if self.spec_filename.exists():
             with open(self.spec_filename) as f:
                 buf = f.read()
                 if buf.find(self.uid) >= 0:
@@ -547,7 +584,7 @@ class SpecWriterCallback(object):
         lines = self.prepare_scan_contents()
         lines.append("")
         if lines is not None:
-            if self.write_file_header:
+            if self.write_new_header:
                 self.write_header()
                 logger.info("wrote header to SPEC file: %s", self.spec_filename)
             self._write_lines_(lines, mode="a")
@@ -560,7 +597,8 @@ class SpecWriterCallback(object):
     def make_default_filename(self):
         """generate a file name to be used as default"""
         now = datetime.datetime.now()
-        return datetime.datetime.strftime(now, "%Y%m%d-%H%M%S") + ".dat"
+        filename = datetime.datetime.strftime(now, "%Y%m%d-%H%M%S") + ".dat"
+        return pathlib.Path(filename)
 
     def newfile(self, filename=None, scan_id=None, RE=None):
         """
@@ -570,7 +608,7 @@ class SpecWriterCallback(object):
         """
         self.clear()
         filename = filename or self.make_default_filename()
-        if os.path.exists(filename):
+        if filename.exists():
             from spec2nexus.spec import SpecDataFile
 
             sdf = SpecDataFile(filename)
@@ -583,7 +621,7 @@ class SpecWriterCallback(object):
         self.spec_epoch = int(time.time())  # ! no roundup here!!!
         self.spec_host = socket.gethostname() or "localhost"
         self.spec_user = getpass.getuser() or "BlueskyUser"
-        self.write_file_header = True  # don't write the file yet
+        self.write_new_header = True  # don't write the file yet
 
         # backwards-compatibility
         if isinstance(scan_id, bool):
@@ -599,7 +637,7 @@ class SpecWriterCallback(object):
 
     def usefile(self, filename):
         """read from existing SPEC data file"""
-        if not os.path.exists(self.spec_filename):
+        if not self.spec_filename.exists():
             raise IOError(f"file {filename} does not exist")
         scan_id = None
         with open(filename, "r") as f:
@@ -667,8 +705,8 @@ def spec_comment(comment, doc=None, writer=None):
         Instance of ``SpecWriterCallback()``,
         typically: ``specwriter = SpecWriterCallback()``
     """
-    global specwriter  # such as: specwriter = SpecWriterCallback()
-    writer = writer or specwriter  # FIXME: get from namespace
+    # global specwriter  # such as: specwriter = SpecWriterCallback()
+    # writer = writer or specwriter  # FIXME: get from namespace
     if doc is None:
         if writer.scanning:
             doc = "event"
