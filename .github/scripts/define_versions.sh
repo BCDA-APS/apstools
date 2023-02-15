@@ -10,15 +10,16 @@
 versions=
 
 # existing versions
-versions+=" 1.6.6"
+# versions+=" 1.6.6"
 versions+=" 1.6.8"
 versions+=" 1.6.9"
 versions+=" 1.6.10"
+versions+=" 1.6.11"
 
 # future versions (only expected release tags)
-versions+=" 1.6.11"
 versions+=" 1.6.12"
 versions+=" 1.6.13"
+versions+=" 1.6.14"
 
 export versions
 

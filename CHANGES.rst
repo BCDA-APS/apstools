@@ -34,17 +34,18 @@ describe the future plans.
 1.6.11
 ******
 
-release expected by 2023-02-18
+released 2023-02-15
 
 New Features
 ------------
 
 * Support to record all motor (or other ophyd-labeled devices) positions at start (or end) of run.
+* SpecWriterCallback: write ``#O`` and ``#P`` lines from motor positions recorded at start of run.
 
 Fixes
 ------------
 
-* NXWriter: scans with area detectors did not have image data.  Fixed.
+* NXWriter: scans with area detectors did not have image data.  Fixed.  Clients must wait for writer to finish.
 * PVPositionerSoftDone: computation of 'done' signal and 'inposition' deconvoluted.
 * Struck3820: changed (typo) ``do_readl_all`` to ``do_read_all``
 * Tests involving PVPositionerSoftDone call '.cb_readback()' method to upate 'done' signal.
