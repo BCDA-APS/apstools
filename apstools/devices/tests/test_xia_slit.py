@@ -11,14 +11,14 @@ PV_PREFIX = f"{IOC}phony_hsc1:"
 
 
 COMPONENT_NAMES = """
-        inb out bot top
-        hsize vsize hcenter vcenter
-        hID horientation hbusy
-        vID vorientation vbusy
-        enable
-        error_code error_message message1 message2 message3
-        calibrate initialize locate stop_button
-        precision
+    inb out bot top
+    hsize vsize hcenter vcenter
+    hID horientation hbusy
+    vID vorientation vbusy
+    enable
+    error_code error_message message1 message2 message3
+    calibrate initialize locate stop_button
+    precision
 """.split()
 
 
