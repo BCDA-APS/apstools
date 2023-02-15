@@ -51,7 +51,8 @@ class Struck3820(Device):
     output_mode = Component(EpicsSignal, "OutputMode")
     output_polarity = Component(EpicsSignal, "OutputPolarity")
     read_rate = Component(EpicsSignal, "ReadAll.SCAN")
-    do_readl_all = Component(EpicsSignal, "DoReadAll")
+    do_read_all = Component(EpicsSignal, "DoReadAll")
+
 
 # -----------------------------------------------------------------------------
 # :author:    Pete R. Jemian
