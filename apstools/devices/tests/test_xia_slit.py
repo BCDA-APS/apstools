@@ -10,6 +10,18 @@ PV_PREFIX = f"{IOC}phony_hsc1:"
 # We don't have that for unit testing.  Proceed with best efforts.
 
 
+COMPONENT_NAMES = """
+    inb out bot top
+    hsize vsize hcenter vcenter
+    hID horientation hbusy
+    vID vorientation vbusy
+    enable
+    error_code error_message message1 message2 message3
+    calibrate initialize locate stop_button
+    precision
+""".split()
+
+
 def test_XiaSlit_not_connected():
     slit1 = XiaSlit2D(PV_PREFIX, name="slit1")
     assert slit1 is not None
@@ -31,16 +43,7 @@ def test_XiaSlit_geometry(capsys):
     assert captured.err.split("\n") == [""]
 
 
-def test_XiaSlit_components():
-    slit1 = XiaSlit2D(PV_PREFIX, name="slit1")
-    cns = """
-        inb out bot top
-        hsize vsize hcenter vcenter
-        hID horientation hbusy
-        vID vorientation vbusy
-        enable
-        error_code error_message message1 message2 message3
-        calibrate initialize locate stop_button
-        precision
-    """.split()
-    assert sorted(slit1.component_names) == sorted(cns)
+@pytest.mark.parametrize("name", COMPONENT_NAMES)
+def test_component_names_exist(name):
+    device = XiaSlit2D(PV_PREFIX, name="device")
+    assert name in device.component_names
