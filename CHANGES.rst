@@ -46,6 +46,7 @@ Fixes
 
 * NXWriter: scans with area detectors did not have image data.  Fixed.
 * PVPositionerSoftDone: computation of 'done' signal and 'inposition' deconvoluted.
+* Struck3820: changed (typo) ``do_readl_all`` to ``do_read_all``
 * Tests involving PVPositionerSoftDone call '.cb_readback()' method to upate 'done' signal.
 
 Maintenance
