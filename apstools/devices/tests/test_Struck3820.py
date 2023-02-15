@@ -3,37 +3,37 @@ import pytest
 from ..struck3820 import Struck3820
 
 COMPONENT_NAMES = """
-    start_all
-    stop_all
-    erase_start
+    acquire_mode
+    acquiring
+    channel_advance
+    channel_max
+    channel1_source
+    channels_used
+    clock_frequency
+    count_on_start
+    current_channel
+    do_read_all
+    dwell_time
+    elapsed_real_time
     erase_all
+    erase_start
+    firmware
+    input_mode
     mca1
     mca2
     mca3
     mca4
-    clock_frequency
-    current_channel
-    channel_max
-    channels_used
-    elapsed_real_time
-    preset_real_time
-    dwell_time
-    prescale
-    acquiring
-    acquire_mode
     model
-    firmware
-    channel_advance
-    count_on_start
-    software_channel_advance
-    channel1_source
-    user_led
     mux_output
-    input_mode
     output_mode
     output_polarity
+    prescale
+    preset_real_time
     read_rate
-    do_read_all
+    software_channel_advance
+    start_all
+    stop_all
+    user_led
 """.split()
 
 
