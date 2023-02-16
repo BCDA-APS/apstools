@@ -8,10 +8,10 @@ from ophyd import EpicsSignal
 from ophyd import EpicsSignalRO
 from ophyd import PVPositioner
 
-from ...tests import IOC
-from ...tests import setup_transform_as_soft_motor
 from ...synApps import UserCalcsDevice
 from ...synApps import UserTransformsDevice
+from ...tests import IOC
+from ...tests import setup_transform_as_soft_motor
 from ..nexus_writer import NXWriter
 
 CALC_COMPONENT_SELECTED = "calc10"
