@@ -235,7 +235,8 @@ def test_put_and_stop(rbv, prec, pos):
             assert pos.position == rb_mid
         else:  # interrupted move
             rbv.put(target)  # make the readback match
-            assert math.isclose(pos.readback.get(use_monitor=False), target, abs_tol=0.02)
+            rb_new = pos.readback.get(use_monitor=False)
+            assert math.isclose(rb_new, target, abs_tol=0.02)
 
         assert pos.inposition
         assert pos.done_value is True
