@@ -206,7 +206,7 @@ def test_structure(device, has_inposition):
     assert pos.tolerance.get() == -1
 
 
-@pytest.mark.local
+# @pytest.mark.local
 def test_put_and_stop(rbv, prec, pos):
     assert pos.tolerance.get() == -1
     assert pos.precision == prec.get()
@@ -216,7 +216,7 @@ def test_put_and_stop(rbv, prec, pos):
         c_sp = pos._sp_count
         pos.setpoint.put(target)
         assert pos._sp_count == c_sp + 1
-        assert math.isclose(pos.readback.get(), rb_initial, abs_tol=0.02)
+        assert math.isclose(pos.readback.get(use_monitor=False), rb_initial, abs_tol=0.02)
         assert math.isclose(pos.setpoint.get(use_monitor=False), target, abs_tol=0.02)
         assert pos.done.get() != pos.done_value
         assert not pos.inposition
@@ -247,7 +247,7 @@ def test_put_and_stop(rbv, prec, pos):
     motion(1, 0, 0.5)  # interrupted move
 
 
-@pytest.mark.local
+# @pytest.mark.local
 def test_move_and_stop_nonzero(rbv, pos):
     timed_pause()
 
@@ -264,6 +264,10 @@ def test_move_and_stop_nonzero(rbv, pos):
     timed_pause()
     # assert dt >= longer_delay
     assert pos.inposition
+
+    rb_new = pos.readback.get(use_monitor=False)
+    arrived = math.isclose(rb_new, target, abs_tol=pos.actual_tolerance)
+    assert arrived, f"{target=}"
 
 
 # @pytest.mark.local
