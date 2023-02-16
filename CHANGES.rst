@@ -26,10 +26,20 @@ describe the future plans.
    release expected by 2023-04-03
 
 ..
-   1.6.12
+   1.6.13
    ******
 
    release expected by 2023-03-03
+
+1.6.12
+******
+
+release expected by 2023-02-15
+
+Maintenance
+------------
+
+* Release process documented on the wiki.
 
 1.6.11
 ******
