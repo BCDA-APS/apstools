@@ -54,12 +54,19 @@ class NXWriter(FileWriterCallbackBase):
     In a custom plan, it is a bit different since the ``wait_writer()`` method
     calls ``time.sleep()`` directly.  Instead, we use ``bps.sleep()`` as follows::
 
+        # ...
+        nxwriter = NXWriter()  # create the callback instance
+        RE.subscribe(nxwriter.receiver)  # subscribe to the RunEngine
+        # ...
+
+        def wait_for_writer(callback):
+            while callback._writer_active:
+                yield from bps.sleep(callback._external_file_read_retry_delay)
+
         def my_plan(dets, n=5):
-            nxwriter = NXWriter()  # create the callback instance
             for i in range(n):
                 yield from bp.count(dets)
-                while nxwriter._writer_active:
-                    yield from bps.sleep(nxwriter._external_file_read_retry_delay)
+                yield from wait_for_writer(nxwriter)
 
     METHODS
 
