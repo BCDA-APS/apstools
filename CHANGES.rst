@@ -23,13 +23,13 @@ describe the future plans.
    1.6.13
    ******
 
-   release expected by 2023-04-03
+   release expected by 2023-04-07
 
 ..
    1.6.13
    ******
 
-   release expected by 2023-03-03
+   release expected by 2023-03-17
 
 1.6.12
 ******
