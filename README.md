@@ -2,13 +2,13 @@
 
 Various Python tools for use with the Bluesky framework at the APS.
 
-tag | release | PyPI | conda-forge
+GH tag | GH release | PyPI | conda-forge
 --- | --- | --- | ---
 [![tag](https://img.shields.io/github/tag/BCDA-APS/apstools.svg)](https://github.com/BCDA-APS/apstools/tags) | [![release](https://img.shields.io/github/release/BCDA-APS/apstools.svg)](https://github.com/BCDA-APS/apstools/releases) | [![PyPi](https://img.shields.io/pypi/v/apstools.svg)](https://pypi.python.org/pypi/apstools) | [![conda-forge](https://img.shields.io/conda/vn/conda-forge/apstools)](https://anaconda.org/conda-forge/apstools)
 
 Python version(s) | Unit Tests | Code Coverage | License
 --- | --- | --- | ---
-[![Python version](https://img.shields.io/pypi/pyversions/apstools.svg)](https://pypi.python.org/pypi/apstools) | ![Unit Tests](https://github.com/BCDA-APS/apstools/workflows/Unit%20Tests/badge.svg) | [![Coverage Status](https://coveralls.io/repos/github/BCDA-APS/apstools/badge.svg?branch=main)](https://coveralls.io/github/BCDA-APS/apstools?branch=main) | [![license: ANL](https://img.shields.io/badge/license-ANL-brightgreen)](/LICENSE.txt)
+[![Python version](https://img.shields.io/pypi/pyversions/apstools.svg)](https://pypi.python.org/pypi/apstools) | [![Unit Tests](https://github.com/BCDA-APS/apstools/workflows/Unit%20Tests/badge.svg)](https://github.com/BCDA-APS/apstools/actions/workflows/unit_tests.yml) | [![Coverage Status](https://coveralls.io/repos/github/BCDA-APS/apstools/badge.svg?branch=main)](https://coveralls.io/github/BCDA-APS/apstools?branch=main) | [![license: ANL](https://img.shields.io/badge/license-ANL-brightgreen)](/LICENSE.txt)
 
 
 ## Package Information
