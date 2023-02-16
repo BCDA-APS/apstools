@@ -266,7 +266,7 @@ def test_move_and_stop_nonzero(rbv, pos):
     assert pos.inposition
 
 
-@pytest.mark.local
+# @pytest.mark.local
 def test_move_and_stopped_early(rbv, pos):
     def motion(target, delay, interrupt=False):
         timed_pause(0.1)  # allow previous activities to settle down
@@ -278,9 +278,8 @@ def test_move_and_stopped_early(rbv, pos):
         timed_pause(delay / 2 if interrupt else delay + 0.1)
         dt = time.time() - t0
         # fmt: off
-        arrived = math.isclose(
-            pos.readback.get(use_monitor=False), target, abs_tol=pos.actual_tolerance
-        )
+        rb_new = pos.readback.get(use_monitor=False)
+        arrived = math.isclose(rb_new, target, abs_tol=pos.actual_tolerance)
         # fmt: on
         if interrupt:
             assert not status.done
