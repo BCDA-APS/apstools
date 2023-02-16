@@ -89,10 +89,10 @@ def test_as_reported():
     assert TRANSFORMS_COMPONENT_SELECTED in dir(user_transforms)
     t_rec = getattr(user_transforms, TRANSFORMS_COMPONENT_SELECTED)
     t_rec.reset()
-    assert t_rec.description.get() != "simulated motor"
+    assert t_rec.description.get(use_monitor=False) != "simulated motor"
 
     setup_transform_as_soft_motor(t_rec)
-    assert t_rec.description.get() == "simulated motor"
+    assert t_rec.description.get(use_monitor=False) == "simulated motor"
 
     dets = [noisy]
     und_pos_list = [5.4651, 5.9892, 6.539]
