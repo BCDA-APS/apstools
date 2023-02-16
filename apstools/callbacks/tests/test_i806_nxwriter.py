@@ -81,7 +81,7 @@ def test_as_reported():
     noisy = EpicsSignalRO(NOISY_PV, name="noisy")
     user_transforms = UserTransformsDevice(IOC, name="user_transforms")
     for obj in (motor, noisy, und, user_transforms):
-        obj.wait_for_connection()
+        obj.wait_for_connection(timeout=20.0)
 
     assert und.name == "und"
     assert und.name in und.read()
