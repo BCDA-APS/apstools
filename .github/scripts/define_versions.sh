@@ -10,16 +10,17 @@
 versions=
 
 # existing versions
-# versions+=" 1.6.6"  # drop this version
-versions+=" 1.6.8"
+# versions+=" 1.6.6"  # drop docs for this version
+# versions+=" 1.6.8"  # drop docs for this version
 versions+=" 1.6.9"
 versions+=" 1.6.10"
 # versions+=" 1.6.11"  # no docs for this version
-versions+=" 1.6.12"
-
-# future versions (only expected release tags)
+# versions+=" 1.6.12"  # no docs for this version
 versions+=" 1.6.13"
+
+# future versions (release tags that are expected)
 versions+=" 1.6.14"
+versions+=" 1.6.15"
 
 export versions
 
