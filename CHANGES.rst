@@ -25,11 +25,15 @@ describe the future plans.
 
    release expected by 2023-04-07
 
-..
-   1.6.14
-   ******
+1.6.14
+******
 
-   release expected by 2023-03-17
+release expected by 2023-03-17
+
+Maintenance
+------------
+
+* NXWriter: unit tests added for proper NXdata@axes structure.
 
 1.6.13
 ******

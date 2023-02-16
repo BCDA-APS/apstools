@@ -41,7 +41,7 @@ class UndulatorFixed(Undulator):
         self.readback.name = self.name
 
 
-def test_root_cause():
+def test_i806_root_cause():
     """Root cause: NXdata group wanted ``und`` but found ``und_readback``."""
     und = Undulator(IOC, name="und")
     und.wait_for_connection()
