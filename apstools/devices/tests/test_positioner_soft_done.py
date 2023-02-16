@@ -261,13 +261,13 @@ def test_move_and_stop_nonzero(rbv, pos):
     assert status.done
     assert status.success
     # assert status.elapsed >= longer_delay
-    timed_pause()
-    # assert dt >= longer_delay
-    assert pos.inposition
 
     rb_new = pos.readback.get(use_monitor=False)
     arrived = math.isclose(rb_new, target, abs_tol=pos.actual_tolerance)
     assert arrived, f"{target=}"
+
+    # assert dt >= longer_delay
+    assert pos.inposition
 
 
 # @pytest.mark.local
