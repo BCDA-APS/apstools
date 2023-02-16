@@ -34,11 +34,12 @@ describe the future plans.
 1.6.12
 ******
 
-release expected by 2023-02-15
+released 2023-02-16
 
 Maintenance
 ------------
 
+* NXWriter: add wait_writer_plan_stub() method for use in a plan.
 * Release process documented on the wiki.
 
 1.6.11
