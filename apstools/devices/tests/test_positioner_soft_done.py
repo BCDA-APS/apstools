@@ -206,6 +206,7 @@ def test_structure(device, has_inposition):
     assert pos.tolerance.get() == -1
 
 
+@pytest.mark.local
 def test_put_and_stop(rbv, prec, pos):
     assert pos.tolerance.get() == -1
     assert pos.precision == prec.get()
@@ -247,6 +248,7 @@ def test_put_and_stop(rbv, prec, pos):
     motion(1, 0, 0.5)  # interrupted move
 
 
+@pytest.mark.local
 def test_move_and_stop_nonzero(rbv, pos):
     timed_pause()
 
@@ -269,6 +271,7 @@ def test_move_and_stop_nonzero(rbv, pos):
     assert pos.inposition
 
 
+@pytest.mark.local
 def test_move_and_stopped_early(rbv, pos):
     def motion(target, delay, interrupt=False):
         timed_pause(0.1)  # allow previous activities to settle down
