@@ -16,7 +16,7 @@ nscan plan
 """
 
 import logging
-import os
+import pathlib
 
 import pyRestTable
 from bluesky import plan_stubs as bps
@@ -112,7 +112,7 @@ def execute_command_list(filename, commands, md=None):
 
     *new in apstools release 1.1.7*
     """
-    full_filename = os.path.abspath(filename)
+    full_filename = pathlib.Path(filename).absolute()
 
     if len(commands) == 0:
         yield from bps.null()
@@ -127,7 +127,7 @@ def execute_command_list(filename, commands, md=None):
         print(f"file line {i}: {raw_command}")
 
         _md = {}
-        _md["full_filename"] = full_filename
+        _md["full_filename"] = str(full_filename)
         _md["filename"] = filename
         _md["line_number"] = i
         _md["action"] = action
@@ -168,8 +168,8 @@ def get_command_list(filename):
 
     *new in apstools release 1.1.7*
     """
-    full_filename = os.path.abspath(filename)
-    if not os.path.exists(full_filename):
+    full_filename = pathlib.Path(filename)
+    if not full_filename.exists():
         raise IOError(f"file not found: {filename}")
     try:
         commands = parse_Excel_command_file(filename)
@@ -235,8 +235,8 @@ def parse_Excel_command_file(filename):
 
     *new in apstools release 1.1.7*
     """
-    full_filename = os.path.abspath(filename)
-    if not os.path.exists(full_filename):
+    full_filename = pathlib.Path(filename)
+    if not full_filename.exists():
         raise FileNotFoundError(full_filename)
     xl = utils.ExcelDatabaseFileGeneric(full_filename)
 
@@ -319,8 +319,8 @@ def parse_text_command_file(filename):
 
     *new in apstools release 1.1.7*
     """
-    full_filename = os.path.abspath(filename)
-    if not os.path.exists(full_filename):
+    full_filename = pathlib.Path(filename)
+    if not full_filename.exists():
         raise FileNotFoundError(full_filename)
     with open(full_filename, "r") as fp:
         buf = fp.readlines()

@@ -481,13 +481,13 @@ def get_apstools_version():
 def get_options():
     """Handle command line arguments."""
     import argparse
-    import os
+    import pathlib
     import sys
 
     version = get_apstools_version()
 
     parser = argparse.ArgumentParser(
-        prog=os.path.split(sys.argv[0])[-1],
+        prog=pathlib.Path(sys.argv[0]).name,
         description=__doc__.strip().splitlines()[0],
     )
 
