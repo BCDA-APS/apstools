@@ -24,7 +24,7 @@ def test_i108():
     scaler = ScalerCH(f"{IOC}scaler1", name="scaler")
     scans = SscanDevice(IOC, name="scans")
     for item in (motor, scaler, scans):
-        item.wait_for_connection()
+        item.wait_for_connection(timeout=20)
 
     scans.scan1.reset()
 
