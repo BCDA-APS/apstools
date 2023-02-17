@@ -216,7 +216,7 @@ def test_put_and_stop(rbv, prec, pos):
         c_sp = pos._sp_count
         pos.setpoint.put(target)
         assert pos._sp_count == c_sp + 1
-        assert math.isclose(pos.readback.get(), rb_initial, abs_tol=0.02)
+        assert math.isclose(pos.readback.get(use_monitor=False), rb_initial, abs_tol=0.02)
         assert math.isclose(pos.setpoint.get(use_monitor=False), target, abs_tol=0.02)
         assert pos.done.get() != pos.done_value
         assert not pos.inposition
@@ -235,7 +235,8 @@ def test_put_and_stop(rbv, prec, pos):
             assert pos.position == rb_mid
         else:  # interrupted move
             rbv.put(target)  # make the readback match
-            assert math.isclose(pos.readback.get(use_monitor=False), target, abs_tol=0.02)
+            rb_new = pos.readback.get(use_monitor=False)
+            assert math.isclose(rb_new, target, abs_tol=0.02)
 
         assert pos.inposition
         assert pos.done_value is True
@@ -261,7 +262,11 @@ def test_move_and_stop_nonzero(rbv, pos):
     assert status.done
     assert status.success
     # assert status.elapsed >= longer_delay
-    timed_pause()
+
+    rb_new = pos.readback.get(use_monitor=False)
+    arrived = math.isclose(rb_new, target, abs_tol=pos.actual_tolerance)
+    assert arrived, f"{target=}"
+
     # assert dt >= longer_delay
     assert pos.inposition
 
@@ -278,9 +283,8 @@ def test_move_and_stopped_early(rbv, pos):
         timed_pause(delay / 2 if interrupt else delay + 0.1)
         dt = time.time() - t0
         # fmt: off
-        arrived = math.isclose(
-            pos.readback.get(use_monitor=False), target, abs_tol=pos.actual_tolerance
-        )
+        rb_new = pos.readback.get(use_monitor=False)
+        arrived = math.isclose(rb_new, target, abs_tol=pos.actual_tolerance)
         # fmt: on
         if interrupt:
             assert not status.done

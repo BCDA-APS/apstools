@@ -60,9 +60,9 @@ def change_noisy_parameters(fwhm=0.15, peak=10000, noise=0.08):
 
 def get_position(obj, digits=3):
     if isinstance(obj, ophyd.EpicsMotor):
-        position = obj.position
+        position = obj.user_readback.get(use_monitor=False)
     else:
-        position = obj.get()
+        position = obj.get(use_monitor=False)
     return round(position, digits)
 
 
@@ -127,11 +127,11 @@ def test_direct_implementation_with_rel_scan(signal, mover, start, finish, npts,
         #     center = swait.channels.B.input_value.get()
         #     width = swait.channels.C.input_value.get()
         position = get_position(mover)
-        lo = center-width
-        hi = center+width
+        lo = center - width
+        hi = center + width
         fwhm = bec.peaks["fwhm"][signal.name]
-        assert lo <= position+fwhm, f"{lo=} {position=} {fwhm=}"
-        assert position-fwhm < hi, f"{position=} {fwhm=} {hi=}"
+        assert lo <= position + fwhm, f"{lo=} {position=} {fwhm=}"
+        assert position - fwhm < hi, f"{position=} {fwhm=} {hi=}"
 
 
 @pytest.mark.parametrize(
