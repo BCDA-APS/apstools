@@ -69,7 +69,7 @@ def documentation_run(text, stream=None, bec=None, md=None):
         bec.disable_table()
 
     uid = yield from bps.open_run(md=_md)
-    yield from addDeviceDataAsStream(text_signal, stream)
+    yield from write_stream(text_signal, stream)
     yield from bps.close_run()
 
     if bec is not None:
