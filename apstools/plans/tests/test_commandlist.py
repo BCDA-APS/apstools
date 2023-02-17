@@ -16,19 +16,19 @@ DATA_PATH = pathlib.Path(__file__).parent
 
 @pytest.fixture(scope="function")
 def text_command_file():
-    text_command_file = (DATA_PATH / "actions.txt")
+    text_command_file = DATA_PATH / "actions.txt"
     return text_command_file
 
 
 @pytest.fixture(scope="function")
 def xl_command_file():
-    xl_command_file = (DATA_PATH / "actions.xlsx")
+    xl_command_file = DATA_PATH / "actions.xlsx"
     return xl_command_file
 
 
 @pytest.fixture(scope="function")
 def xl_file():
-    xl_file = (DATA_PATH / "demo3.xlsx")
+    xl_file = DATA_PATH / "demo3.xlsx"
     return xl_file
 
 

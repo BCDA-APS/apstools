@@ -17,8 +17,8 @@ from ...tests import IOC
 from ...utils import getDefaultNamespace
 from ..doc_run import write_stream
 from ..labels_to_streams import label_stream_decorator
-from ..labels_to_streams import label_stream_wrapper
 from ..labels_to_streams import label_stream_stub
+from ..labels_to_streams import label_stream_wrapper
 
 bec = best_effort.BestEffortCallback()
 cat = databroker.temp()
