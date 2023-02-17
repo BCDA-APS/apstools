@@ -33,6 +33,7 @@ release expected by 2023-03-17
 Maintenance
 ------------
 
+* add more unit tests for ``apstools.plans``
 * addDeviceDataAsStream() renamed to write_stream()
 * NXWriter: unit tests added for proper NXdata@axes structure.
 
