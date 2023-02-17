@@ -227,7 +227,7 @@ def test_NXWriter_make_file_name(tempdir):
         callback.make_file_name()
     assert "'NoneType' object is not subscriptable" == str(exinfo.value)
 
-    callback.uid = "fakeUID-012345678901234567890123456789"
+    callback.uid = "012345678901234567890123456789"
     fname = pathlib.Path(callback.make_file_name())
     assert fname.parent == callback.file_path or pathlib.Path(".").absolute()
 

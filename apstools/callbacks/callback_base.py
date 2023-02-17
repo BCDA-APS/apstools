@@ -140,9 +140,13 @@ class FileWriterCallbackBase:
         override in subclass to change
         """
         start_time = datetime.datetime.fromtimestamp(self.start_time)
-        fname = start_time.strftime("%Y%m%d-%H%M%S")
-        fname += f"-S{self.scan_id:05d}"
-        fname += f"-{self.uid[:7]}.{self.file_extension}"
+        # fmt: off
+        fname = (
+            f"{start_time.strftime('%Y%m%d-%H%M%S')}"
+            f"-S{self.scan_id:05d}"
+            f"-{self.uid[:7]}.{self.file_extension}"
+        )
+        # fmt: on
         path = self.file_path or pathlib.Path(".")
         return path / fname
 

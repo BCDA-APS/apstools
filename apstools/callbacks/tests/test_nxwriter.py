@@ -1,6 +1,5 @@
 import pathlib
 import tempfile
-import time
 
 import bluesky.plans as bp
 import databroker
@@ -121,8 +120,10 @@ def test_stage_motor(motor):
 def test_NXWriter_with_RunEngine(camera, motor):
     test_file = pathlib.Path(tempfile.mkdtemp()) / "nxwriter.h5"
     catalog = databroker.temp().v2
+
     nxwriter = NXWriter()
     nxwriter.file_name = str(test_file)
+    assert isinstance(nxwriter.file_name, pathlib.Path)
     nxwriter.warn_on_missing_content = False
 
     RE = RunEngine()
@@ -136,7 +137,7 @@ def test_NXWriter_with_RunEngine(camera, motor):
     assert uids[-1] in catalog
 
     nxwriter.wait_writer()
-    time.sleep(1)  # wait just a bit longer
+    # time.sleep(1)  # wait just a bit longer
 
     assert test_file.exists()
     with h5py.File(test_file, "r") as root:
