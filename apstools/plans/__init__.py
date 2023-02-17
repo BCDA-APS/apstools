@@ -13,6 +13,7 @@ from .command_list import run_command_file
 from .command_list import summarize_command_file
 from .doc_run import addDeviceDataAsStream
 from .doc_run import documentation_run
+from .doc_run import write_stream
 from .input_plan import request_input
 from .labels_to_streams import label_stream_decorator
 from .labels_to_streams import label_stream_wrapper

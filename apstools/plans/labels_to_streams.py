@@ -99,7 +99,7 @@ from bluesky.utils import make_decorator
 from bluesky.utils import single_gen
 
 from ..utils import getDefaultNamespace
-from .doc_run import addDeviceDataAsStream
+from .doc_run import write_stream
 
 
 def label_stream_stub(labels=None, fmt=None):
@@ -129,7 +129,7 @@ def label_stream_stub(labels=None, fmt=None):
 
     for label in labels:
         # fmt: off
-        yield from addDeviceDataAsStream(
+        yield from write_stream(
             [pair[-1] for pair in devices[label]],
             fmt.format(label)
         )

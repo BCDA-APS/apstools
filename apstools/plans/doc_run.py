@@ -6,7 +6,10 @@ Documentation of batch runs
 
    ~addDeviceDataAsStream
    ~documentation_run
+   ~write_stream
 """
+
+import warnings
 
 from bluesky import plan_stubs as bps
 from ophyd import Signal
@@ -15,32 +18,15 @@ from ..utils import ipython_shell_namespace
 
 
 def addDeviceDataAsStream(devices, label):
-    """
-    add an ophyd Device as an additional document stream
-
-    .. index:: Bluesky Plan; addDeviceDataAsStream
-
-    Use this within a custom plan, such as this example::
-
-        from apstools.plans import addDeviceStream
-        ...
-        yield from bps.open_run()
-        # ...
-        yield from addDeviceDataAsStream(prescanDeviceList, "metadata_prescan")
-        # ...
-        yield from custom_scan_procedure()
-        # ...
-        yield from addDeviceDataAsStream(postscanDeviceList, "metadata_postscan")
-        # ...
-        yield from bps.close_run()
-
-    """
-    if not isinstance(devices, list):  # just in case...
-        devices = [devices]
-    yield from bps.create(name=label)
-    for d in devices:
-        yield from bps.read(d)
-    yield from bps.save()
+    """Renamed to write_stream().  Will remove with relase 1.7+."""
+    # fmt: off
+    warnings.warn(
+        UserWarning(
+            "Deprecation: addDeviceDataAsStream() renamed to write_stream()."
+        )
+    )
+    # fmt: on
+    yield from write_stream(devices, label)
 
 
 def documentation_run(text, stream=None, bec=None, md=None):
@@ -85,6 +71,35 @@ def documentation_run(text, stream=None, bec=None, md=None):
         bec.enable_plots()
 
     return uid
+
+
+def write_stream(devices, label):
+    """
+    add an ophyd Device as an additional document stream
+
+    .. index:: Bluesky Plan; write_stream
+
+    Use this within a custom plan, such as this example::
+
+        from apstools.plans import addDeviceStream
+        ...
+        yield from bps.open_run()
+        # ...
+        yield from write_stream(prescanDeviceList, "metadata_prescan")
+        # ...
+        yield from custom_scan_procedure()
+        # ...
+        yield from write_stream(postscanDeviceList, "metadata_postscan")
+        # ...
+        yield from bps.close_run()
+
+    """
+    if not isinstance(devices, list):  # just in case...
+        devices = [devices]
+    yield from bps.create(name=label)
+    for d in devices:
+        yield from bps.read(d)
+    yield from bps.save()
 
 # -----------------------------------------------------------------------------
 # :author:    Pete R. Jemian

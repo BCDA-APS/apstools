@@ -65,6 +65,7 @@ Overall
    ~apstools.plans.command_list.summarize_command_file
    ~apstools.plans.alignment.TuneAxis
    ~apstools.plans.alignment.tune_axes
+   ~apstools.plans.doc_run.write_stream
 
 Also consult the :ref:`Index <genindex>` under the *Bluesky* heading
 for links to the Callbacks, Devices, Exceptions, and Plans described
