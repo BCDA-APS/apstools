@@ -531,7 +531,7 @@ class NXWriter(FileWriterCallbackBase):
         """
         root of the HDF5 file
         """
-        self.root.attrs["file_name"] = filename
+        self.root.attrs["file_name"] = str(filename)
         self.root.attrs["file_time"] = datetime.datetime.now().isoformat()
         if self.instrument_name is not None:
             self.root.attrs["instrument"] = self.instrument_name

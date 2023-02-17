@@ -73,8 +73,7 @@ def test_as_reported():
 
     assert nx.file_name is None
     nx.file_name = str(filename)
-    assert isinstance(nx.file_name, str)  # issue #806
-    # assert isinstance(nx.file_name, pathlib.Path)  # TODO: issue #807
+    assert isinstance(nx.file_name, pathlib.Path)
 
     und = UndulatorFixed(IOC, name="und")
     motor = EpicsMotor(MOTOR_PV, name="motor")
