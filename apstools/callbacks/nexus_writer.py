@@ -10,7 +10,7 @@ NeXus File Writer Callbacks
 
 import datetime
 import logging
-import os
+import pathlib
 import time
 
 import h5py
@@ -211,10 +211,7 @@ class NXWriter(FileWriterCallbackBase):
             raise ValueError(f'{resource_id}: spec {resource["spec"]} not handled')
 
         # logger.debug(yaml.dump(resource))
-        fname = os.path.join(
-            resource["root"],
-            resource["resource_path"],
-        )
+        fname = pathlib.Path(resource["root"]) / resource["resource_path"]
         return fname
 
     def get_sample_title(self):
@@ -531,7 +528,7 @@ class NXWriter(FileWriterCallbackBase):
         """
         root of the HDF5 file
         """
-        self.root.attrs["file_name"] = filename
+        self.root.attrs["file_name"] = str(filename)
         self.root.attrs["file_time"] = datetime.datetime.now().isoformat()
         if self.instrument_name is not None:
             self.root.attrs["instrument"] = self.instrument_name
@@ -640,7 +637,7 @@ class NXWriter(FileWriterCallbackBase):
                     fletcher32=True,
                 )
                 ds.attrs["target"] = ds.name
-                ds.attrs["source_file"] = fname
+                ds.attrs["source_file"] = str(fname)
                 ds.attrs["source_address"] = h5_obj.name
                 ds.attrs["resource_id"] = resource_id
                 ds.attrs["units"] = ""
@@ -653,16 +650,18 @@ class NXWriter(FileWriterCallbackBase):
             try:
                 copy_image_from_IOC_file(fname)
                 break
-            except (OSError, BlockingIOError):
+            except (OSError, BlockingIOError) as exinfo:
                 logger.warning(
                     (
                         "Could not open EPICS AD data file for reading: %s"
                         " ... waiting %.2f s for next retry."
                         " (or timeout in %.2f s)"
+                        "  exception: %s"
                     ),
                     fname,
                     self._external_file_read_retry_delay,
                     self._external_file_read_timeout - t_elapsed,
+                    exinfo
                 )
                 time.sleep(self._external_file_read_retry_delay)
 

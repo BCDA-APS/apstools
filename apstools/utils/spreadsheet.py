@@ -10,7 +10,7 @@ Spreadsheet Support
 """
 
 import math
-import os
+import pathlib
 from collections import OrderedDict
 
 import openpyxl
@@ -47,7 +47,7 @@ class ExcelDatabaseFileBase(object):
             '''
             content for exhibitors from the Excel file
             '''
-            EXCEL_FILE = os.path.join("resources", "exhibitors.xlsx")
+            EXCEL_FILE = pathlib.Path("resources") / "exhibitors.xlsx"
             LABELS_ROW = 2
 
             def handle_single_entry(self, entry):
@@ -62,7 +62,7 @@ class ExcelDatabaseFileBase(object):
     """
 
     EXCEL_FILE = None  # subclass MUST define
-    # EXCEL_FILE = os.path.join("abstracts", "index of abstracts.xlsx")
+    # EXCEL_FILE = pathlib.Path("abstracts") / "index of abstracts.xlsx"
     LABELS_ROW = 3  # labels are on line LABELS_ROW+1 in the Excel file
 
     def __init__(self, ignore_extra=True):
@@ -70,7 +70,7 @@ class ExcelDatabaseFileBase(object):
         self.data_labels = None
         if self.EXCEL_FILE is None:
             raise ValueError("subclass must define EXCEL_FILE")
-        self.fname = os.path.join(os.getcwd(), self.EXCEL_FILE)
+        self.fname = pathlib.Path(".") / self.EXCEL_FILE
 
         self.sheet_name = 0
 
@@ -235,7 +235,7 @@ class ExcelDatabaseFileGeneric(ExcelDatabaseFileBase):
         from apstools.utils import ExcelDatabaseFileGeneric, cleanupText
 
         def myExcelPlan(xl_file, md={}):
-            excel_file = os.path.abspath(xl_file)
+            excel_file = pathlib.Path(xl_file).absolute()
             xl = ExcelDatabaseFileGeneric(excel_file)
             for i, row in xl.db.values():
                 # prepare the metadata

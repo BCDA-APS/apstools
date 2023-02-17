@@ -10,7 +10,7 @@ Base Class for File Writer Callbacks
 
 import datetime
 import logging
-import os
+import pathlib
 
 import pyRestTable
 
@@ -60,8 +60,8 @@ class FileWriterCallbackBase:
     """
 
     file_extension = "dat"
-    file_name = None
-    file_path = None
+    _file_name = None
+    _file_path = None
 
     # convention: methods written in alphabetical order
 
@@ -111,6 +111,22 @@ class FileWriterCallbackBase:
         self.stop_time = None
         self.uid = None
 
+    @property
+    def file_name(self):
+        return self._file_name
+
+    @file_name.setter
+    def file_name(self, value):
+        self._file_name = pathlib.Path(value)
+
+    @property
+    def file_path(self):
+        return self._file_path
+
+    @file_path.setter
+    def file_path(self, value):
+        self._file_path = pathlib.Path(value)
+
     def make_file_name(self):
         """
         generate a file name to be used as default
@@ -124,11 +140,15 @@ class FileWriterCallbackBase:
         override in subclass to change
         """
         start_time = datetime.datetime.fromtimestamp(self.start_time)
-        fname = start_time.strftime("%Y%m%d-%H%M%S")
-        fname += f"-S{self.scan_id:05d}"
-        fname += f"-{self.uid[:7]}.{self.file_extension}"
-        path = os.path.abspath(self.file_path or os.getcwd())
-        return os.path.join(path, fname)
+        # fmt: off
+        fname = (
+            f"{start_time.strftime('%Y%m%d-%H%M%S')}"
+            f"-S{self.scan_id:05d}"
+            f"-{self.uid[:7]}.{self.file_extension}"
+        )
+        # fmt: on
+        path = self.file_path or pathlib.Path(".")
+        return path / fname
 
     def writer(self):
         """

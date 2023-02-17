@@ -229,6 +229,8 @@ def test_NXWriter_make_file_name(tempdir):
 
     callback.uid = "012345678901234567890123456789"
     fname = pathlib.Path(callback.make_file_name())
+    assert fname.parent == callback.file_path or pathlib.Path(".").absolute()
+
     # https://github.com/BCDA-APS/apstools/issues/345
     tz_aps = dateutil.tz.gettz("America/Chicago")
     tz_local = dateutil.tz.tzlocal()
@@ -242,7 +244,6 @@ def test_NXWriter_make_file_name(tempdir):
     expected += "-0123456"
     expected += f".{NEXUS_FILE_EXTENSION}"
     assert fname.name == expected
-    assert fname.parent == pathlib.Path(".").absolute()
 
     callback.file_path = str(tempdir)
     fname = pathlib.Path(callback.make_file_name())

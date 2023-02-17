@@ -1,4 +1,4 @@
-import os
+import pathlib
 
 import ophyd
 import ophyd.areadetector.filestore_mixins
@@ -12,8 +12,8 @@ GP_IOC_PREFIX = "gp:"
 AD_IOC_FILES_ROOT = "/"
 BLUESKY_FILES_ROOT = "/tmp/docker_ioc/ioc{AD_IOC_PREFIX.rstrip(':')}"
 IOC_IMAGE_DIR = "/tmp/images/"
-AD_IOC_PATH = os.path.join(AD_IOC_FILES_ROOT, IOC_IMAGE_DIR.lstrip("/"))
-BLUESKY_PATH = os.path.join(BLUESKY_FILES_ROOT, IOC_IMAGE_DIR.lstrip("/"))
+AD_IOC_PATH = pathlib.Path(AD_IOC_FILES_ROOT) / IOC_IMAGE_DIR.lstrip("/")
+BLUESKY_PATH = pathlib.Path(BLUESKY_FILES_ROOT) / IOC_IMAGE_DIR.lstrip("/")
 
 
 class MyCam(ophyd.SimDetectorCam):

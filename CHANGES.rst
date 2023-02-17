@@ -35,6 +35,7 @@ Maintenance
 
 * add more unit tests for ``apstools.plans``
 * addDeviceDataAsStream() renamed to write_stream()
+* FileWriterCallbackBase.file_name now a property, uses pathlib
 * NXWriter: unit tests added for proper NXdata@axes structure.
 
 1.6.13
