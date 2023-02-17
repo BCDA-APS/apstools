@@ -1,9 +1,5 @@
 """Test the alignment plans."""
 
-# TODO: TuneAxis
-# TODO: tune_axes
-# TODO: TuneResults
-
 import bluesky.plan_stubs as bps
 import bluesky.plans as bp
 import databroker
@@ -12,6 +8,9 @@ import ophyd
 import pytest
 from bluesky import RunEngine
 from bluesky.callbacks import best_effort
+from ophyd import Component
+from ophyd import Device
+from ophyd import Signal
 
 from ...devices import SynPseudoVoigt
 from ...synApps import SwaitRecord
@@ -28,11 +27,12 @@ bec.enable_plots()
 
 axis = ophyd.EpicsSignal(f"{IOC}gp:float1", name="axis")
 m1 = ophyd.EpicsMotor(f"{IOC}m1", name="m1")
+m2 = ophyd.EpicsMotor(f"{IOC}m2", name="m2")
 noisy = ophyd.EpicsSignalRO(f"{IOC}userCalc1.VAL", name="noisy")
 scaler1 = ophyd.scaler.ScalerCH(f"{IOC}scaler1", name="scaler1")
 swait = SwaitRecord(f"{IOC}userCalc1", name="swait")
 
-for obj in (axis, m1, noisy, scaler1, swait):
+for obj in (axis, m1, m2, noisy, scaler1, swait):
     obj.wait_for_connection()
 
 scaler1.select_channels()
@@ -173,3 +173,94 @@ def test_lineup(signals, mover, start, finish, npts, feature, rescan):
     #     lo = center-width
     #     hi = center+width
     #     # assert lo <= position <= hi, f"{bec=} {bec.peaks=} {position=} {center=} {width=}"
+
+
+def test_TuneAxis():
+    signal = SynPseudoVoigt(name="signal", motor=m1, motor_field=m1.name)
+    signal.kind = "hinted"
+
+    m1.tuner = alignment.TuneAxis([signal], m1)
+    assert "tune" in dir(m1.tuner)
+
+    npoints = 9
+    uids = RE(m1.tuner.tune(width=4, num=npoints))
+    assert len(uids) == 1
+
+    stream_names = cat.v1[uids[-1]].stream_names
+    assert ["PeakStats", "primary"] == sorted(stream_names)
+
+    stats = cat.v2[uids[-1]].PeakStats.read()
+
+    expected = dict(  # test a few keys with predictable values
+        PeakStats_x=m1.name,
+        PeakStats_y=signal.name,
+        PeakStats_tune_ok=True,
+    )
+    for k, exp in expected.items():
+        assert k in stats, f"{list(stats.keys())=}"
+        v = stats[k].values
+        assert v.shape == (1,), f"{v=} {v=} {exp=}"
+        assert v[0] == exp, f"{k=} {v=} {exp=}"
+
+
+def test_tune_axes():
+    signal = SynPseudoVoigt(name="signal", motor=m1, motor_field=m1.name)
+    signal.kind = "hinted"
+
+    axes = (m1, m2)
+    for obj in axes:
+        obj.tuner = alignment.TuneAxis([signal], obj)
+        assert "tune" in dir(obj.tuner), f"{obj.name=}"
+
+    uids = RE(alignment.tune_axes(axes))
+    assert len(uids) == 2
+
+
+def test_tune_axes_raises():
+    signal = SynPseudoVoigt(name="signal", motor=m1, motor_field=m1.name)
+    signal.kind = "hinted"
+
+    axes = (m1, m2)
+    for obj in axes:
+        obj.not_named_tuner = alignment.TuneAxis([signal], obj)
+        if "tuner" in dir(obj):  # from other testing here
+            del obj.tuner
+
+    with pytest.raises(AttributeError) as exinfo:
+        RE(alignment.tune_axes(axes))
+    assert f"Did not find '{m1.name}.tuner' attribute." in str(exinfo.value)
+
+
+def test_TuneResults():
+    results = alignment.TuneResults(name="results")
+    assert results is not None
+    assert results.name == "results"
+
+    assert results.report() is None
+
+    class ImitatorForTesting(Device):
+        tune_ok = Component(Signal)
+        initial_position = Component(Signal)
+        final_position = Component(Signal)
+        center = Component(Signal)
+        # - - - - -
+        x = Component(Signal)
+        y = Component(Signal)
+        cen = Component(Signal)
+        com = Component(Signal)
+        fwhm = Component(Signal)
+        min = Component(Signal)
+        max = Component(Signal)
+        crossings = Component(Signal)
+
+    peaks = ImitatorForTesting(name="peaks")
+    for k in results.peakstats_attrs:
+        if k in "crossings min max".split():
+            v = numpy.array([0])
+        elif k in "x y".split():
+            v = "text"
+        else:
+            v = 0
+        getattr(peaks, k).put(v)
+    results.set_stats(peaks)
+    assert results.report() is None
