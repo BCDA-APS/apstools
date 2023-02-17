@@ -9,12 +9,15 @@ Documentation of batch runs
    ~write_stream
 """
 
+import logging
 import warnings
 
 from bluesky import plan_stubs as bps
 from ophyd import Signal
 
 from ..utils import ipython_shell_namespace
+
+logger = logging.getLogger(__name__)
 
 
 def addDeviceDataAsStream(devices, label):
@@ -55,7 +58,10 @@ def documentation_run(text, stream=None, bec=None, md=None):
 
     text_signal = Signal(value=text, name="text")
 
-    _md = dict(purpose="save text as bluesky run", plan_name="documentation_run",)
+    _md = dict(
+        purpose="save text as bluesky run",
+        plan_name="documentation_run",
+    )
     _md.update(md or {})
 
     if bec is not None:
@@ -98,8 +104,12 @@ def write_stream(devices, label):
         devices = [devices]
     yield from bps.create(name=label)
     for d in devices:
-        yield from bps.read(d)
+        try:
+            yield from bps.read(d)
+        except Exception as exc:
+            logger.warning("device=%s, exception=%s", d, exc)
     yield from bps.save()
+
 
 # -----------------------------------------------------------------------------
 # :author:    Pete R. Jemian
