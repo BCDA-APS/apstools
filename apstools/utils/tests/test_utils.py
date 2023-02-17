@@ -499,7 +499,7 @@ def test_utils_getStreamValues(scan_id, key, db, stream, cat, query, v1, nrows, 
         (COUNT, "aps", None, "primary", None, None, ValueError, "No catalog defined.  Multiple catalog "),
     ],
 )
-def test_utils_getStreamValues_Exceptionr(
+def test_utils_getStreamValues_Exception(
     scan_id, key, db, stream, cat, query, v1, error, first_words
 ):
     """Look for known errors from getStreamValues()."""

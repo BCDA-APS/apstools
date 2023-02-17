@@ -81,10 +81,10 @@ def nscan(detectors, *motor_sets, num=11, per_step=None, md=None):
             "motors": repr(motor_sets),
             "per_step": repr(per_step),
         },
-        "plan_name": "nscan",
+        # "plan_name": "nscan",  # supplied by RunEngine
         "plan_pattern": "linspace",
         "hints": {},
-        "iso8601": datetime.datetime.now(),
+        "iso8601": str(datetime.datetime.now()),
     }
     _md.update(md or {})
 

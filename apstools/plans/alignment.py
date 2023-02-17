@@ -527,7 +527,10 @@ class TuneAxis(object):
 
 def tune_axes(axes):
     """
-    Bluesky plan to tune a list of axes in sequence
+    Bluesky plan to tune a list of axes in sequence.
+
+    Expects each axis will have a ``tuner`` attribute which is an instance of
+    :class:`~apstools.plans.alignment.TuneAxis()`.
 
     .. index:: Bluesky Plan; tune_axes
 
@@ -544,7 +547,9 @@ def tune_axes(axes):
        ~TuneAxis
     """
     for axis in axes:
-        yield from axis.tune()
+        if "tuner" not in dir(axis):
+            raise AttributeError(f"Did not find '{axis.name}.tuner' attribute.")
+        yield from axis.tuner.tune()
 
 
 class TuneResults(Device):

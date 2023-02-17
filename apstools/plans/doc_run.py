@@ -13,6 +13,7 @@ import logging
 import warnings
 
 from bluesky import plan_stubs as bps
+from bluesky import preprocessors as bpp
 from ophyd import Signal
 
 from ..utils import ipython_shell_namespace
@@ -64,13 +65,15 @@ def documentation_run(text, stream=None, bec=None, md=None):
     )
     _md.update(md or {})
 
+    @bpp.run_decorator(md=_md)
+    def inner():
+        yield from write_stream(text_signal, stream)
+
     if bec is not None:
         bec.disable_plots()
         bec.disable_table()
 
-    uid = yield from bps.open_run(md=_md)
-    yield from addDeviceDataAsStream(text_signal, stream)
-    yield from bps.close_run()
+    uid = (yield from inner())
 
     if bec is not None:
         bec.enable_table()
@@ -89,7 +92,7 @@ def write_stream(devices, label):
 
         from apstools.plans import addDeviceStream
         ...
-        yield from bps.open_run()
+        yield from bps.open_run(md={})
         # ...
         yield from write_stream(prescanDeviceList, "metadata_prescan")
         # ...
