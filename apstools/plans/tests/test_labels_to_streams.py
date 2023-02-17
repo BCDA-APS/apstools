@@ -15,7 +15,7 @@ from ophyd import Signal
 
 from ...tests import IOC
 from ...utils import getDefaultNamespace
-from ..doc_run import addDeviceDataAsStream
+from ..doc_run import write_stream
 from ..labels_to_streams import label_stream_decorator
 from ..labels_to_streams import label_stream_wrapper
 from ..labels_to_streams import label_stream_stub
@@ -161,11 +161,11 @@ def test_plan_a(m1, noisy, othersignal, simsignal):
         @bpp.run_decorator(md=_md)
         def inner():
             yield from label_stream_stub("motor")  # based on ``labels``
-            yield from addDeviceDataAsStream(noisy, "pre_run")  # by device or signal
+            yield from write_stream(noisy, "pre_run")  # by device or signal
             for i in range(number):
                 if i > 0:
                     yield from bps.sleep(dwell)
-                yield from addDeviceDataAsStream(dets, "primary")
+                yield from write_stream(dets, "primary")
 
         uid = yield from inner()
 
@@ -212,7 +212,7 @@ def test_plan_b(m1, noisy, othersignal, simsignal):
         @bpp.run_decorator(md=_md)
         def inner():
             yield from label_stream_stub()  # all labeled objects
-            yield from addDeviceDataAsStream(dets, "primary")
+            yield from write_stream(dets, "primary")
 
         uid = yield from inner()
 

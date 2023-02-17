@@ -16,6 +16,7 @@ from .. import execute_command_list
 from .. import get_command_list
 from .. import register_command_handler
 from .. import run_command_file
+from .. import write_stream
 
 # set default timeout for all EpicsSignal connections & communications
 try:
@@ -55,7 +56,26 @@ def test_myoutput(capsys):  # or use "capfd" for fd-level
     ],
 )
 def test_addDeviceDataAsStream(objects, name, expected, capsys):
-    summarize_plan(addDeviceDataAsStream(*objects, name))
+    with pytest.warns(UserWarning):
+        summarize_plan(addDeviceDataAsStream(*objects, name))
+
+    captured = capsys.readouterr()
+    assert captured.out == expected
+
+
+@pytest.mark.parametrize(
+    "objects, name, expected",
+    [
+        ([ophyd.sim.motor1], "test-device", "  Read ['motor1']\n"),
+        (
+            [[ophyd.sim.motor2, ophyd.sim.motor3]],
+            "test-device-list",
+            "  Read ['motor2', 'motor3']\n",
+        ),
+    ],
+)
+def test_write_stream(objects, name, expected, capsys):
+    summarize_plan(write_stream(*objects, name))
 
     captured = capsys.readouterr()
     assert captured.out == expected

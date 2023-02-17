@@ -13,11 +13,13 @@ Because fwhm is None.
 import dataclasses
 
 import bluesky.plan_stubs as bps
+import bluesky.preprocessors as bpp
 import databroker
 from bluesky import RunEngine
 from bluesky.callbacks import best_effort
 
 from .. import TuneResults
+from ..doc_run import write_stream
 
 
 @dataclasses.dataclass
@@ -38,15 +40,12 @@ class PeaksStatisticalData:
     final_position: float = 0.0
 
 
+@bpp.run_decorator()
 def peak_stats_plan(peaks, stream="primary"):
     """Bluesky plan that saves PeakStats as a run."""
     stats = TuneResults("", name="stats")
     stats.set_stats(peaks)
-    yield from bps.open_run(md={})
-    yield from bps.create(name=stream)
-    yield from bps.read(stats)
-    yield from bps.save()
-    yield from bps.close_run()
+    yield from write_stream(stats, stream)
 
 
 def test_results_stream(capsys):

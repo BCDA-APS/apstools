@@ -26,6 +26,7 @@ from ophyd.scaler import ScalerCH
 from ophyd.scaler import ScalerChannel
 
 from .. import utils
+from .doc_run import write_stream
 
 logger = logging.getLogger(__name__)
 
@@ -142,9 +143,10 @@ def lineup(
 
         if det0.name not in bec.peaks[feature]:
             logger.error(
-                "No statistical analysis of scan peak for feature '%s'!"
-                "  (bec.peaks=%s, bec=%s)",
-                feature, bec.peaks, bec
+                "No statistical analysis of scan peak for feature '%s'!" "  (bec.peaks=%s, bec=%s)",
+                feature,
+                bec.peaks,
+                bec,
             )
             yield from bps.null()
         else:
@@ -177,9 +179,7 @@ def lineup(
                 logger.error("FWHM is None")
                 final = old_position
             elif hi < peak_factor * lo:
-                logger.error(
-                    "no clear peak: %f < %f*%f", hi, peak_factor, lo
-                )
+                logger.error("no clear peak: %f < %f*%f", hi, peak_factor, lo)
                 final = old_position
             elif fwhm > width_factor * x_range:
                 logger.error(
@@ -388,15 +388,13 @@ class TuneAxis(object):
             self.stats.append(results)
 
             if results.tune_ok.get():
-                yield from bps.create(name=stream_name)
                 try:
-                    yield from bps.read(results)
+                    yield from write_stream(results, label=stream_name)
                 except ValueError as ex:
                     separator = " " * 8 + "-" * 12
                     print(separator)
                     print(f"Error saving stream {stream_name}:\n{ex}")
                     print(separator)
-                yield from bps.save()
 
             yield from bps.mv(self.axis, final_position)
             yield from bps.close_run()
@@ -466,20 +464,15 @@ class TuneAxis(object):
 
         def _scan(width=1, step_factor=10, num=10, snake=True):
             for _pass_number in range(pass_max):
-                logger.info(
-                    "Multipass tune %d of %d", _pass_number + 1, pass_max
-                )
+                logger.info("Multipass tune %d of %d", _pass_number + 1, pass_max)
                 _md = {
                     "pass": _pass_number + 1,
                     "pass_max": pass_max,
-                    "plan_name": self.__class__.__name__
-                    + ".multi_pass_tune",
+                    "plan_name": f"{self.__class__.__name__}.multi_pass_tune",
                 }
                 _md.update(md or {})
 
-                yield from self.tune(
-                    width=width, num=num, peak_factor=peak_factor, md=_md
-                )
+                yield from self.tune(width=width, num=num, peak_factor=peak_factor, md=_md)
 
                 if not self.tune_ok:
                     return
@@ -491,11 +484,7 @@ class TuneAxis(object):
                 if snake:
                     width *= -1
 
-        return (
-            yield from _scan(
-                width=width, step_factor=step_factor, num=num, snake=snake
-            )
-        )
+        return (yield from _scan(width=width, step_factor=step_factor, num=num, snake=snake))
 
     def multi_pass_tune_summary(self):
         t = pyRestTable.Table()
@@ -581,10 +570,7 @@ class TuneResults(Device):
     peakstats_attrs = "x y cen com fwhm min max crossings".split()
 
     def report(self, title=None):
-        keys = (
-            self.peakstats_attrs
-            + "tune_ok center initial_position final_position".split()
-        )
+        keys = self.peakstats_attrs + "tune_ok center initial_position final_position".split()
         t = pyRestTable.Table()
         t.addLabel("key")
         t.addLabel("result")
@@ -603,6 +589,7 @@ class TuneResults(Device):
             if key in ("crossings", "min", "max"):
                 v = np.array(v)
             getattr(self, key).put(v)
+
 
 # -----------------------------------------------------------------------------
 # :author:    Pete R. Jemian

@@ -13,6 +13,8 @@ from collections import OrderedDict
 from bluesky import plan_stubs as bps
 from ophyd import DeviceStatus
 
+from .doc_run import write_stream
+
 new_data = False  # sscan has new data, boolean
 inactive_deadline = 0  # sscan timeout, absolute time.time()
 
@@ -110,10 +112,12 @@ def sscan_1D(
     global new_data, inactive_deadline
 
     if not (0 <= poll_delay_s <= 0.1):
+        # fmt: off
         raise ValueError(
             "poll_delay_s must be a number between 0 and 0.1,"
             f" received {poll_delay_s}"
         )
+        # fmt: on
 
     t0 = time.time()
     sscan_status = DeviceStatus(sscan.execute_scan)
@@ -158,36 +162,34 @@ def sscan_1D(
     # collect and emit data, wait for sscan to end
     while not sscan_status.done or new_data:
         if new_data and running_stream is not None:
-            yield from bps.create(running_stream)
-            for _k, obj in sscan_data_objects.items():
-                yield from bps.read(obj)
-            yield from bps.save()
+            yield from write_stream(sscan_data_objects.values(), running_stream)
         new_data = False
         if phase_timeout_s is not None and time.time() > inactive_deadline:
-            print(
-                f"No change in sscan record for {phase_timeout_s} seconds."
-            )
+            print(f"No change in sscan record for {phase_timeout_s} seconds.")
             print("ending plan early as unsuccessful")
             sscan_status._finished(success=False)
         yield from bps.sleep(poll_delay_s)
 
     # dump the complete data arrays
     if final_array_stream is not None:
-        yield from bps.create(final_array_stream)
-        # we have to search for the arrays since they have ``kind="omitted"``
-        # (which means they do not get reported by the ``.read()`` method)
-        for part in (sscan.positioners, sscan.detectors):
-            for nm in part.read_attrs:
-                if "." not in nm:
-                    # TODO: write just the acquired data, not the FULL arrays!
-                    yield from bps.read(getattr(part, nm).array)
-        yield from bps.save()
+        # fmt: off
+        yield from write_stream(
+            [
+                # TODO: write just the acquired data, not the FULL arrays!
+                getattr(part, nm).array
+                # we have to search for the arrays since they have ``kind="omitted"``
+                # (which means they do not get reported by the ``.read()`` method)
+                for part in (sscan.positioners, sscan.detectors)
+                for nm in part.read_attrs
+                if "." not in nm
+            ],
+            final_array_stream
+        )
+        # fmt: on
 
     # dump the entire sscan record into another stream
     if device_settings_stream is not None:
-        yield from bps.create(device_settings_stream)
-        yield from bps.read(sscan)
-        yield from bps.save()
+        yield from write_stream(sscan, device_settings_stream)
 
     yield from bps.close_run()
 
@@ -195,6 +197,7 @@ def sscan_1D(
     print(f"total time for sscan_1D: {elapsed} s")
 
     return uid
+
 
 # -----------------------------------------------------------------------------
 # :author:    Pete R. Jemian
