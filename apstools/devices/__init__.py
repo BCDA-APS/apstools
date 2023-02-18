@@ -66,6 +66,8 @@ from .lakeshore_controllers import LakeShore340Device
 from .linkam_controllers import Linkam_CI94_Device
 from .linkam_controllers import Linkam_T96_Device
 
+from .measComp_tc32_support import MeasCompTc32
+
 from .mixin_base import DeviceMixinBase
 
 from .motor_mixins import EpicsMotorDialMixin
