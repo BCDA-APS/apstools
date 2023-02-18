@@ -152,8 +152,11 @@ synApps Support
 
 .. _devices.temperature_controllers:
 
-Temperature Controllers
+Temperature Support
 +++++++++++++++++++++++
+
+Controllers
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 .. autosummary::
 
@@ -166,6 +169,13 @@ Temperature Controllers
     ~apstools.devices.ptc10_controller.PTC10RtdChannel
     ~apstools.devices.ptc10_controller.PTC10TcChannel
     ~apstools.devices.ptc10_controller.PTC10PositionerMixin
+
+Readers
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. autosummary::
+
+    ~apstools.devices.measComp_tc32_support.MeasCompTc32
 
 .. _devices.other_support:
 
@@ -184,7 +194,6 @@ Other Support
     ~apstools.devices.description_mixin.EpicsDescriptionMixin
     ~apstools.devices.dict_device_support.dict_device_factory
     ~apstools.devices.dict_device_support.make_dict_device
-    ~apstools.devices.measComp_tc32_support.MeasCompTc32
     ~apstools.devices.epics_scan_id_signal.EpicsScanIdSignal
     ~apstools.devices.kohzu_monochromator.KohzuSeqCtl_Monochromator
     ~apstools.devices.flyer_motor_scaler.SignalValueStack
