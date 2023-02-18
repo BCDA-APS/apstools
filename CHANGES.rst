@@ -30,6 +30,11 @@ describe the future plans.
 
 release expected by 2023-03-17
 
+New Features
+------------
+
+* MeasCompTc32: Measurement Computing TC-32 Thermocouple reader
+
 Maintenance
 ------------
 
