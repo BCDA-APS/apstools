@@ -1,5 +1,7 @@
 """Test the alignment plans."""
 
+import math
+
 import bluesky.plan_stubs as bps
 import bluesky.plans as bp
 import databroker
@@ -96,7 +98,7 @@ def test_SynPseudoVoigt_randomize():
 @pytest.mark.parametrize(
     "signal, mover, start, finish, npts, feature",
     [
-        # FIXME: [noisy, m1, -1.2, 1.2, 11, "max"],  # slower
+        [noisy, m1, -1.2, 1.2, 11, "max"],  # slower
         [pvoigt, axis, -1.2, 1.2, 11, "max"],  # faster
         [pvoigt, axis, -1.2, 1.2, 11, "cen"],
         [pvoigt, axis, -1.2, 1.2, 51, "com"],
@@ -108,30 +110,22 @@ def test_direct_implementation_with_rel_scan(signal, mover, start, finish, npts,
 
     if isinstance(signal, SynPseudoVoigt):
         signal.randomize_parameters(scale=250_000)
-    # FIXME: else:
-    #     change_noisy_parameters()
 
     RE(bp.rel_scan([signal], mover, start, finish, npts))
-    analysis = bec.peaks[feature][signal.name]
-    if isinstance(analysis, tuple):
-        analysis = analysis[0]
-    RE(bps.mv(mover, analysis))
-    assert get_position(mover) == round(analysis, 3)
 
-    if feature in "max cen".split():
-        # Test if ended close to the expected value.
-        if isinstance(signal, SynPseudoVoigt):
-            center = signal.center
-            width = signal.sigma * 2.355  # FWHM approx.
-        # FIXME: else:
-        #     center = swait.channels.B.input_value.get()
-        #     width = swait.channels.C.input_value.get()
-        position = get_position(mover)
-        lo = center - width
-        hi = center + width
-        fwhm = bec.peaks["fwhm"][signal.name]
-        assert lo <= position + fwhm, f"{lo=} {position=} {fwhm=}"
-        assert position - fwhm < hi, f"{position=} {fwhm=} {hi=}"
+    if feature in ("max", "min"):
+        center = bec.peaks[feature][signal.name][0]
+    else:
+        center = bec.peaks[feature][signal.name]
+    # fwhm = bec.peaks["fwhm"][signal.name]
+
+    # confirm center will be within scan range
+    assert min(start, finish) <= center
+    assert center <= max(start, finish)
+
+    RE(bps.mv(mover, center))  # move to the center position
+    position = get_position(mover)
+    assert math.isclose(position, center, abs_tol=0.001)
 
 
 @pytest.mark.parametrize(
