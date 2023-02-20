@@ -607,7 +607,7 @@ class SpecWriterCallback(object):
         but don't create it until we have data
         """
         self.clear()
-        filename = filename or self.make_default_filename()
+        filename = pathlib.Path(filename or self.make_default_filename())
         if filename.exists():
             from spec2nexus.spec import SpecDataFile
 
