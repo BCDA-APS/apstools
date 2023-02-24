@@ -1,5 +1,5 @@
 """
-simple unit tests for this package
+simple unit tests for this package.
 """
 
 import time
@@ -173,6 +173,26 @@ def test_utils_listobjects():
         if k not in wont_show:
             assert k in rr
     assert num == len(table.rows)
+
+
+@pytest.mark.parametrize(
+    "show_d, show_s, columns",
+    [
+        [None, None, 4],
+        [False, False, 4],
+        [True, False, 5],
+        [True, True, 6],
+        [False, True, 5],
+    ],
+)
+def test_utils_listobjects_children(show_d, show_s, columns):
+    from ophyd.ophydobj import OphydObject
+
+    sims = {k: v for k, v in ophyd.sim.hw().__dict__.items() if isinstance(v, OphydObject)}
+    table = utils.listobjects(
+        symbols=sims, printing=False, child_devices=show_d, child_signals=show_s
+    )
+    assert columns == len(table.labels)
 
 
 def test_utils_unix():
