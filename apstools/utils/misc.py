@@ -6,6 +6,7 @@ Miscellaneous Support
 
    ~cleanupText
    ~connect_pvlist
+   ~count_child_devices_and_signals
    ~dictionary_table
    ~full_dotted_name
    ~itemizer
@@ -61,6 +62,21 @@ def cleanupText(text):
         return "_"
 
     return "".join([mapper(c) for c in text])
+
+
+def count_child_devices_and_signals(device):
+    """
+    Dict with number of children of this device.  Keys: Device and Signal.
+    """
+    count = dict(Device=0, Signal=0)
+    if hasattr(device, "walk_components"):  # Device has this attribute
+        for item in device.walk_components():
+            # assume if it is NOT a device, then it's a signal
+            which = "Device" if item.item.is_device else "Signal"
+            count[which] += 1
+    else:
+        count["Signal"] += 1
+    return count
 
 
 def dictionary_table(dictionary, **kwargs):
@@ -434,7 +450,14 @@ def unix(command, raises=True):
     return stdout, stderr
 
 
-def listobjects(show_pv=True, printing=True, verbose=False, symbols=None):
+def listobjects(
+    show_pv=True,
+    printing=True,
+    verbose=False,
+    symbols=None,
+    child_devices=False,
+    child_signals=False
+):
     """
     Show all the ophyd Signal and Device objects defined as globals.
 
@@ -457,6 +480,14 @@ def listobjects(show_pv=True, printing=True, verbose=False, symbols=None):
         If None, use global symbol table.
         If not None, use provided dictionary.
         (default: ``globals()``)
+    child_devices
+        *bool* :
+        If True, also show how many Devices are children of this device.
+        (default: False)
+    child_signals
+        *bool* :
+        If True, also show how many Signals are children of this device.
+        (default: False)
 
     RETURNS
 
@@ -495,6 +526,10 @@ def listobjects(show_pv=True, printing=True, verbose=False, symbols=None):
         table.addLabel("EPICS PV")
     if verbose:
         table.addLabel("object representation")
+    if child_devices:
+        table.addLabel("#devices")
+    if child_signals:
+        table.addLabel("#signals")
     table.addLabel("label(s)")
     if symbols is None:
         # the default choice
@@ -516,6 +551,12 @@ def listobjects(show_pv=True, printing=True, verbose=False, symbols=None):
                     row.append("")
             if verbose:
                 row.append(str(v))
+            if child_devices or child_signals:
+                nchildren = count_child_devices_and_signals(v)
+                if child_devices:
+                    row.append(nchildren["Device"])
+                if child_signals:
+                    row.append(nchildren["Signal"])
             row.append(" ".join(v._ophyd_labels_))
             table.addRow(row)
     if printing:
