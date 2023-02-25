@@ -17,7 +17,7 @@ from .profile_support import getDefaultNamespace
 logger = logging.getLogger(__name__)
 
 
-def listplans(base=None, trunc=40):
+def listplans(base=None, trunc=50):
     """
     List all plans.  (Actually, lists all generator functions).
 
@@ -36,7 +36,7 @@ def listplans(base=None, trunc=40):
     trunc
         *int* :
         Truncate long docstrings to no more than ``trunc`` characters.
-        (default: 40)
+        (default: 50)
 
         .. note:: ``pandas.DataFrame`` wll truncate long text to at most 50 characters.
     """
