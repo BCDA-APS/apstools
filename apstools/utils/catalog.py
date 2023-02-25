@@ -70,6 +70,7 @@ def copy_filtered_catalog(source_cat, target_cat, query=None):
 
 
 def findCatalogsInNamespace():
+    """Return a dictionary of databroker catalogs in the default namespace."""
     g = {}
     g.update(getDefaultNamespace())
     ns_cats = {}
