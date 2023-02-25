@@ -12,11 +12,12 @@ import logging
 
 import pandas as pd
 from ophyd.ophydobj import OphydObject
+from .profile_support import getDefaultNamespace
 
 logger = logging.getLogger(__name__)
 
 
-def listplans(base=None, trunc=40):
+def listplans(base=None, trunc=50):
     """
     List all plans.  (Actually, lists all generator functions).
 
@@ -35,17 +36,12 @@ def listplans(base=None, trunc=40):
     trunc
         *int* :
         Truncate long docstrings to no more than ``trunc`` characters.
-        (default: 40)
+        (default: 50)
+
+        .. note:: ``pandas.DataFrame`` wll truncate long text to at most 50 characters.
     """
     if base is None:
-        try:
-            from IPython import get_ipython
-
-            base = get_ipython().user_global_ns
-            # logger.debug("IPython user global namespace: %s", base.keys())
-        except (ModuleNotFoundError, AttributeError):
-            base = globals()
-            # logger.debug("globals() namespace: %s", base.keys())
+        base = getDefaultNamespace(attr="user_global_ns")
         _gg = {k: v for k, v in base.items() if not k.startswith("_")}
     else:
         # fmt: off
@@ -68,14 +64,16 @@ def listplans(base=None, trunc=40):
 
     for key, obj in _gg.items():
         if inspect.isgeneratorfunction(obj):  # TODO: bluesky.isplan(obj)
-            doc = (obj.__doc__ or "").split("\n")[0]
+            doc = (obj.__doc__ or "").lstrip().split("\n")[0]
             if len(doc.strip()) == 0:
                 doc = "---"
-            if len(doc) > trunc and trunc > 4:
-                doc = doc[: trunc - 4] + " ..."
+            more = " ..."
+            if len(doc) > trunc and trunc > len(more):
+                doc = doc[: trunc - len(more)] + more
             dd["plan"].append(f"{prefix}{key}")
             dd["doc"].append(doc)
     return pd.DataFrame(dd)
+
 
 # -----------------------------------------------------------------------------
 # :author:    Pete R. Jemian

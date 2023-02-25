@@ -6,6 +6,7 @@ Miscellaneous Support
 
    ~cleanupText
    ~connect_pvlist
+   ~count_child_devices_and_signals
    ~dictionary_table
    ~full_dotted_name
    ~itemizer
@@ -29,14 +30,15 @@ import subprocess
 import sys
 import threading
 import time
-import warnings
 from collections import OrderedDict
+from collections import defaultdict
 
 import databroker
 import ophyd
 import pyRestTable
 from bluesky import plan_stubs as bps
 from bluesky.callbacks.best_effort import BestEffortCallback
+from ophyd.ophydobj import OphydObject
 
 from ..callbacks import spec_file_writer
 from ._core import MAX_EPICS_STRINGOUT_LENGTH
@@ -61,6 +63,21 @@ def cleanupText(text):
         return "_"
 
     return "".join([mapper(c) for c in text])
+
+
+def count_child_devices_and_signals(device):
+    """
+    Dict with number of children of this device.  Keys: Device and Signal.
+    """
+    count = dict(Device=0, Signal=0)
+    if hasattr(device, "walk_components"):  # Device has this attribute
+        for item in device.walk_components():
+            # assume if it is NOT a device, then it's a signal
+            which = "Device" if item.item.is_device else "Signal"
+            count[which] += 1
+    else:
+        count["Signal"] += 1
+    return count
 
 
 def dictionary_table(dictionary, **kwargs):
@@ -434,7 +451,9 @@ def unix(command, raises=True):
     return stdout, stderr
 
 
-def listobjects(show_pv=True, printing=True, verbose=False, symbols=None):
+def listobjects(
+    show_pv=True, printing=True, verbose=False, symbols=None, child_devices=False, child_signals=False
+):
     """
     Show all the ophyd Signal and Device objects defined as globals.
 
@@ -457,6 +476,14 @@ def listobjects(show_pv=True, printing=True, verbose=False, symbols=None):
         If None, use global symbol table.
         If not None, use provided dictionary.
         (default: ``globals()``)
+    child_devices
+        *bool* :
+        If True, also show how many Devices are children of this device.
+        (default: False)
+    child_signals
+        *bool* :
+        If True, also show how many Signals are children of this device.
+        (default: False)
 
     RETURNS
 
@@ -489,35 +516,45 @@ def listobjects(show_pv=True, printing=True, verbose=False, symbols=None):
 
     (new in apstools release 1.1.8)
     """
-    table = pyRestTable.Table()
-    table.labels = ["name", "ophyd structure"]
-    if show_pv:
-        table.addLabel("EPICS PV")
-    if verbose:
-        table.addLabel("object representation")
-    table.addLabel("label(s)")
     if symbols is None:
-        # the default choice
-        g = ipython_shell_namespace()
+        g = ipython_shell_namespace()  # the default choice
         if len(g) == 0:
-            # ultimate fallback
-            g = globals()
+            g = globals()  # ultimate fallback
     else:
         g = symbols
-    for k, v in sorted(g.items()):
-        if isinstance(v, (ophyd.Signal, ophyd.Device)):
-            row = [k, v.__class__.__name__]
-            if show_pv:
-                if hasattr(v, "pvname"):
-                    row.append(v.pvname)
-                elif hasattr(v, "prefix"):
-                    row.append(v.prefix)
-                else:
-                    row.append("")
-            if verbose:
-                row.append(str(v))
-            row.append(" ".join(v._ophyd_labels_))
-            table.addRow(row)
+    g = {k: v for k, v in sorted(g.items()) if isinstance(v, OphydObject)}
+    # Now, g is a dict of the objects to be listed.
+
+    # Build the table as a dict keyed by column names.
+    contents = defaultdict(list)
+    for k, v in g.items():
+        contents["name"].append(k)
+        contents["class"].append(v.__class__.__name__)
+        if show_pv:
+            if hasattr(v, "pvname"):
+                pv = v.pvname
+            elif hasattr(v, "prefix"):
+                pv = v.prefix
+            else:
+                pv = ""
+            contents["PV (or prefix)"].append(pv)
+        if verbose:
+            contents["object"].append(v)
+        if child_devices or child_signals:
+            nchildren = count_child_devices_and_signals(v)
+            if child_devices:
+                contents["#devices"].append(nchildren["Device"])
+            if child_signals:
+                contents["#signals"].append(nchildren["Signal"])
+        contents["label(s)"].append(" ".join(v._ophyd_labels_))
+
+    # Render the dict as a table.
+    table = pyRestTable.Table()
+    if len(contents) > 0:
+        table.labels = list(contents.keys())
+        for i in range(len(contents[table.labels[0]])):
+            table.addRow([contents[k][i] for k in table.labels])
+
     if printing:
         print(table)
     return table
@@ -583,6 +620,7 @@ def redefine_motor_position(motor, new_position):
     yield from bps.mv(motor.set_use_switch, 1)
     yield from bps.mv(motor.user_setpoint, new_position)
     yield from bps.mv(motor.set_use_switch, 0)
+
 
 # -----------------------------------------------------------------------------
 # :author:    Pete R. Jemian
