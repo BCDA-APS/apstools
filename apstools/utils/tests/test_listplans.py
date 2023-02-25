@@ -16,10 +16,12 @@ def ns():
     try:
         from IPython import get_ipython
 
-        ns = get_ipython().user_global_ns
+        # ns_dict = get_ipython().user_global_ns
+        ns_dict = getattr(get_ipython(), "user_global_ns")
     except (ModuleNotFoundError, AttributeError):
-        ns = globals()
-    return ns
+        ns_dict = globals()
+
+    yield ns_dict
 
 
 def my_generator_function():
