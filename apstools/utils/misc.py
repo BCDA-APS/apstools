@@ -523,11 +523,13 @@ def listobjects(
     else:
         g = symbols
     g = {k: v for k, v in sorted(g.items()) if isinstance(v, OphydObject)}
+    # Now, g is a dict of the objects to be listed.
 
+    # Build the table as a dict keyed by column names.
     contents = defaultdict(list)
     for k, v in g.items():
         contents["name"].append(k)
-        contents["ophyd structure"].append(v.__class__.__name__)
+        contents["class"].append(v.__class__.__name__)
         if show_pv:
             if hasattr(v, "pvname"):
                 pv = v.pvname
@@ -535,9 +537,9 @@ def listobjects(
                 pv = v.prefix
             else:
                 pv = ""
-            contents["EPICS PV"].append(pv)
+            contents["PV (or prefix)"].append(pv)
         if verbose:
-            contents["object representation"].append(v)
+            contents["object"].append(v)
         if child_devices or child_signals:
             nchildren = count_child_devices_and_signals(v)
             if child_devices:
@@ -546,6 +548,7 @@ def listobjects(
                 contents["#signals"].append(nchildren["Signal"])
         contents["label(s)"].append(" ".join(v._ophyd_labels_))
 
+    # Render the dict as a table.
     table = pyRestTable.Table()
     if len(contents) > 0:
         table.labels = list(contents.keys())
