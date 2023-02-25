@@ -38,6 +38,7 @@ import ophyd
 import pyRestTable
 from bluesky import plan_stubs as bps
 from bluesky.callbacks.best_effort import BestEffortCallback
+from ophyd.ophydobj import OphydObject
 
 from ..callbacks import spec_file_writer
 from ._core import MAX_EPICS_STRINGOUT_LENGTH
@@ -531,6 +532,7 @@ def listobjects(
     if child_signals:
         table.addLabel("#signals")
     table.addLabel("label(s)")
+
     if symbols is None:
         # the default choice
         g = ipython_shell_namespace()
@@ -539,26 +541,28 @@ def listobjects(
             g = globals()
     else:
         g = symbols
-    for k, v in sorted(g.items()):
-        if isinstance(v, (ophyd.Signal, ophyd.Device)):
-            row = [k, v.__class__.__name__]
-            if show_pv:
-                if hasattr(v, "pvname"):
-                    row.append(v.pvname)
-                elif hasattr(v, "prefix"):
-                    row.append(v.prefix)
-                else:
-                    row.append("")
-            if verbose:
-                row.append(str(v))
-            if child_devices or child_signals:
-                nchildren = count_child_devices_and_signals(v)
-                if child_devices:
-                    row.append(nchildren["Device"])
-                if child_signals:
-                    row.append(nchildren["Signal"])
-            row.append(" ".join(v._ophyd_labels_))
-            table.addRow(row)
+    g = {k: v for k, v in sorted(g.items()) if isinstance(v, OphydObject)}
+
+    for k, v in g.items():
+        row = [k, v.__class__.__name__]
+        if show_pv:
+            if hasattr(v, "pvname"):
+                row.append(v.pvname)
+            elif hasattr(v, "prefix"):
+                row.append(v.prefix)
+            else:
+                row.append("")
+        if verbose:
+            row.append(str(v))
+        if child_devices or child_signals:
+            nchildren = count_child_devices_and_signals(v)
+            if child_devices:
+                row.append(nchildren["Device"])
+            if child_signals:
+                row.append(nchildren["Signal"])
+        row.append(" ".join(v._ophyd_labels_))
+        table.addRow(row)
+
     if printing:
         print(table)
     return table
