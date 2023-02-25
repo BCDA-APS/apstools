@@ -68,7 +68,7 @@ def listplans(base=None, trunc=40):
 
     for key, obj in _gg.items():
         if inspect.isgeneratorfunction(obj):  # TODO: bluesky.isplan(obj)
-            doc = (obj.__doc__ or "").split("\n")[0]
+            doc = (obj.__doc__ or "").lstrip().split("\n")[0]
             if len(doc.strip()) == 0:
                 doc = "---"
             if len(doc) > trunc and trunc > 4:
