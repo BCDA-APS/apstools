@@ -30,8 +30,8 @@ import subprocess
 import sys
 import threading
 import time
-import warnings
 from collections import OrderedDict
+from collections import defaultdict
 
 import databroker
 import ophyd
@@ -452,12 +452,7 @@ def unix(command, raises=True):
 
 
 def listobjects(
-    show_pv=True,
-    printing=True,
-    verbose=False,
-    symbols=None,
-    child_devices=False,
-    child_signals=False
+    show_pv=True, printing=True, verbose=False, symbols=None, child_devices=False, child_signals=False
 ):
     """
     Show all the ophyd Signal and Device objects defined as globals.
@@ -521,47 +516,41 @@ def listobjects(
 
     (new in apstools release 1.1.8)
     """
-    table = pyRestTable.Table()
-    table.labels = ["name", "ophyd structure"]
-    if show_pv:
-        table.addLabel("EPICS PV")
-    if verbose:
-        table.addLabel("object representation")
-    if child_devices:
-        table.addLabel("#devices")
-    if child_signals:
-        table.addLabel("#signals")
-    table.addLabel("label(s)")
-
     if symbols is None:
-        # the default choice
-        g = ipython_shell_namespace()
+        g = ipython_shell_namespace()  # the default choice
         if len(g) == 0:
-            # ultimate fallback
-            g = globals()
+            g = globals()  # ultimate fallback
     else:
         g = symbols
     g = {k: v for k, v in sorted(g.items()) if isinstance(v, OphydObject)}
 
+    contents = defaultdict(list)
     for k, v in g.items():
-        row = [k, v.__class__.__name__]
+        contents["name"].append(k)
+        contents["ophyd structure"].append(v.__class__.__name__)
         if show_pv:
             if hasattr(v, "pvname"):
-                row.append(v.pvname)
+                pv = v.pvname
             elif hasattr(v, "prefix"):
-                row.append(v.prefix)
+                pv = v.prefix
             else:
-                row.append("")
+                pv = ""
+            contents["EPICS PV"].append(pv)
         if verbose:
-            row.append(str(v))
+            contents["object representation"].append(v)
         if child_devices or child_signals:
             nchildren = count_child_devices_and_signals(v)
             if child_devices:
-                row.append(nchildren["Device"])
+                contents["#devices"].append(nchildren["Device"])
             if child_signals:
-                row.append(nchildren["Signal"])
-        row.append(" ".join(v._ophyd_labels_))
-        table.addRow(row)
+                contents["#signals"].append(nchildren["Signal"])
+        contents["label(s)"].append(" ".join(v._ophyd_labels_))
+
+    table = pyRestTable.Table()
+    if len(contents) > 0:
+        table.labels = list(contents.keys())
+        for i in range(len(contents[table.labels[0]])):
+            table.addRow([contents[k][i] for k in table.labels])
 
     if printing:
         print(table)
@@ -628,6 +617,7 @@ def redefine_motor_position(motor, new_position):
     yield from bps.mv(motor.set_use_switch, 1)
     yield from bps.mv(motor.user_setpoint, new_position)
     yield from bps.mv(motor.set_use_switch, 0)
+
 
 # -----------------------------------------------------------------------------
 # :author:    Pete R. Jemian
