@@ -35,6 +35,11 @@ New Features
 
 * MeasCompTc32: Measurement Computing TC-32 Thermocouple reader
 
+Enhancements
+------------
+
+* Add guide *What are the objects to control?*
+
 Maintenance
 ------------
 
