@@ -130,7 +130,7 @@ def label_stream_stub(labels=None, fmt=None):
     for label in labels:
         # fmt: off
         yield from write_stream(
-            [pair[-1] for pair in devices[label]],
+            [pair[-1] for pair in devices.get(label, [])],
             fmt.format(label)
         )
         # fmt: on
