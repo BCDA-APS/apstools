@@ -110,9 +110,11 @@ def test_label_not_found(noisy):
     def tester():
         yield from bp.count([noisy])
 
-    with pytest.raises(KeyError) as exinfo:
-        RE(tester())
-    assert bad_label in str(exinfo.value), f"{exinfo=}"
+    uids = RE(tester())
+    assert len(uids) == 1
+    run = cat.v2[uids[-1]]
+    assert "primary" in run.metadata["stop"]["num_events"]
+    assert not f"label_start_{bad_label}" in run.metadata["stop"]["num_events"]
 
 
 def test_count_plans(simsignal):
@@ -298,3 +300,20 @@ def test_as_RE_preprocessor(m1, noisy, othersignal, simsignal):
     assert len(cat.v1[-1].stream_names) == 2
     assert "label_start_motor" in cat.v2[-1]
     assert "primary" in cat.v2[-1]
+
+
+def test_no_labeled_motor(noisy):
+    RE = RunEngine({})  # make a new one for testing here
+    RE.subscribe(cat.v1.insert)
+
+    label = "motor"
+
+    @label_stream_decorator(label)
+    def tester():
+        yield from bp.count([noisy])
+
+    uids = RE(bp.count([noisy]))
+    assert len(uids) == 1
+    run = cat.v2[uids[-1]]
+    assert "primary" in run.metadata["stop"]["num_events"]
+    assert not f"label_start_{label}" in run.metadata["stop"]["num_events"]
