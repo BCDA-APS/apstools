@@ -44,7 +44,8 @@ Enhancements
 Fixes
 ------------
 
-- labels_to_streams() failed when no motor label assigned
+- labels_to_streams(): do not plot items in the labeled stream
+- labels_to_streams(): failed when no motor label assigned
 
 Maintenance
 ------------
