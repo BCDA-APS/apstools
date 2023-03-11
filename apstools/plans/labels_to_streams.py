@@ -102,7 +102,7 @@ from ..utils import getDefaultNamespace
 from .doc_run import write_stream
 
 
-def label_stream_stub(labels=None, fmt=None):
+def label_stream_stub(labels=None, fmt=None, bec=None):
     """
     Writes ophyd-labeled objects to open bluesky run streams. One stream per label.
 
@@ -118,22 +118,38 @@ def label_stream_stub(labels=None, fmt=None):
         Format string for stream name(s).
         Default: ``"label_{}"``
 
+    bec
+        *obj*:
+        Instance of bluesky BestEffortCallback.
+        Default: selected from default namespace, if available.
+
     *new in apstools release 1.6.11*
     """
+    from bluesky.callbacks.best_effort import BestEffortCallback
+
     fmt = fmt or "label_{}"
     ns = getDefaultNamespace()
     devices = get_labeled_devices(ns)
     labels = labels or list(devices.keys())
     if not isinstance(labels, (list, tuple)):
         labels = [labels]
+    if bec is None:  # look for bec in default namespace
+        for obj in ns.values():
+            if isinstance(obj, BestEffortCallback):
+                bec = obj
+                break
 
+    # fmt: off
     for label in labels:
-        # fmt: off
-        yield from write_stream(
-            [pair[-1] for pair in devices.get(label, [])],
-            fmt.format(label)
-        )
-        # fmt: on
+        if label in devices:
+            stream_name = fmt.format(label)
+            if bec is not None and stream_name not in bec.noplot_streams:
+                bec.noplot_streams.append(stream_name)
+            yield from write_stream(
+                [pair[-1] for pair in devices[label]],
+                stream_name
+            )
+    # fmt: on
 
 
 class When(Enum):
