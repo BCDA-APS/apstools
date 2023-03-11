@@ -114,7 +114,7 @@ def test_label_not_found(noisy):
     assert len(uids) == 1
     run = cat.v2[uids[-1]]
     assert "primary" in run.metadata["stop"]["num_events"]
-    assert not f"label_start_{bad_label}" in run.metadata["stop"]["num_events"]
+    assert f"label_start_{bad_label}" not in run.metadata["stop"]["num_events"]
 
 
 def test_count_plans(simsignal):
@@ -316,4 +316,4 @@ def test_no_labeled_motor(noisy):
     assert len(uids) == 1
     run = cat.v2[uids[-1]]
     assert "primary" in run.metadata["stop"]["num_events"]
-    assert not f"label_start_{label}" in run.metadata["stop"]["num_events"]
+    assert f"label_start_{label}" not in run.metadata["stop"]["num_events"]
