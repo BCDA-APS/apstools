@@ -30,6 +30,7 @@ describe the future plans.
 
 release expected by 2023-03-17
 
+
 New Features
 ------------
 
@@ -39,6 +40,11 @@ Enhancements
 ------------
 
 * Add guide *What are the objects to control?*
+
+Fixes
+------------
+
+- labels_to_streams() failed when no motor label assigned
 
 Maintenance
 ------------
