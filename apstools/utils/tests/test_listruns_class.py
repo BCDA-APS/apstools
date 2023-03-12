@@ -345,7 +345,7 @@ def test_ListRuns_until(lr):
         (None, None, TableStyle.pyRestTable.value),
         ("dataframe", None, TableStyle.pandas.value),
         ("table", None, TableStyle.pyRestTable.value),
-        ("the other table format" ,None,  TableStyle.pyRestTable.value),
+        ("the other table format" , None, TableStyle.pyRestTable.value),
         (None, TableStyle.pyRestTable, TableStyle.pyRestTable.value),
         (None, TableStyle.pandas, TableStyle.pandas.value),
         ("dataframe", TableStyle.pyRestTable, TableStyle.pandas.value),
