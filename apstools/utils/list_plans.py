@@ -11,8 +11,9 @@ import inspect
 import logging
 
 from ophyd.ophydobj import OphydObject
-from .profile_support import getDefaultNamespace
+
 from ._core import TableStyle
+from .profile_support import getDefaultNamespace
 
 logger = logging.getLogger(__name__)
 
