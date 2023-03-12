@@ -1,3 +1,4 @@
+from ._core import TableStyle
 from .catalog import copy_filtered_catalog
 from .catalog import findCatalogsInNamespace
 from .catalog import getCatalog
