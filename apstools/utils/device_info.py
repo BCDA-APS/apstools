@@ -137,8 +137,9 @@ def listdevice(
         default: ``True``
     table_style *object* :
         Either ``apstools.utils.TableStyle.pandas`` (default) or
-        ``apstools.utils.TableStyle.pyRestTable``.
+        using values from :class:`apstools.utils.TableStyle`.
 
+        .. note:: ``pandas.DataFrame`` wll truncate long text to at most 50 characters.
     """
     scope = (scope or "full").lower()
     signals = _all_signals(obj)
@@ -157,9 +158,11 @@ def listdevice(
         # fmt: on
 
     # in EPICS, an uninitialized PV has a timestamp of 1990-01-01 UTC
+    # fmt: off
     UNINITIALIZED = datetime.datetime.timestamp(
         datetime.datetime.fromisoformat("1990-06-01")
     )
+    # fmt: on
 
     if not cname and not dname:
         cname = True
@@ -184,6 +187,7 @@ def listdevice(
                     dd["timestamp"].append(datetime.datetime.fromtimestamp(ts))
 
     return table_style.value(dd)
+
 
 # -----------------------------------------------------------------------------
 # :author:    Pete R. Jemian

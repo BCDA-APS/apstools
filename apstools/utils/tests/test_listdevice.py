@@ -149,6 +149,7 @@ def test_listdevice_filters(device, scope, ancient, length):
 
 @pytest.mark.parametrize(
     "device, scope, cnames",
+    # fmt: off
     [
         (calcs, "full", [
             "calcs.signals.allowed",
@@ -164,6 +165,7 @@ def test_listdevice_filters(device, scope, ancient, length):
             "calcs.signals.visible",
         ]),
     ],
+    # fmt: on
 )
 def test_listdevice_cname(device, scope, cnames):
     result = listdevice(device, scope, show_ancient=False, cname=True)
