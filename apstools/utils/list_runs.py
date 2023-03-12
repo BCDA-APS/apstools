@@ -419,7 +419,7 @@ class ListRuns:
     def to_table(self, fmt=None):
         """Output as pyRestTable object."""
         dd = self.parse_runs()
-        return TableStyle.pyRestTable.value(dd).reST(fmt=fmt or "simple")
+        return TableStyle.pyRestTable.value(dd=dd).reST(fmt=fmt or "simple")
 
 
 def listruns(
