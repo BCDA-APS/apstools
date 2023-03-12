@@ -9,13 +9,15 @@
 # versions (typically release tags) to be kept if they exist
 versions=
 
-# existing versions
-# versions+=" 1.6.6"  # drop docs for this version
-# versions+=" 1.6.8"  # drop docs for this version
-versions+=" 1.6.9"
-versions+=" 1.6.10"
+# drop docs for these versions
+# versions+=" 1.6.6"
+# versions+=" 1.6.8"
+# versions+=" 1.6.9"
 # versions+=" 1.6.11"  # no docs for this version
 # versions+=" 1.6.12"  # no docs for this version
+
+# existing versions
+versions+=" 1.6.10"
 versions+=" 1.6.13"
 versions+=" 1.6.14"
 
