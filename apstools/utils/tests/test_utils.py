@@ -167,7 +167,7 @@ def test_utils_listobjects():
     num = len(sims) - len(wont_show)
     kk = sorted(sims.keys())
 
-    table = utils.listobjects(symbols=sims, printing=False)
+    table = utils.listobjects(symbols=sims)
     assert 4 == len(table.labels)
     rr = [r[0] for r in table.rows]
     for k in kk:
@@ -190,7 +190,7 @@ def test_utils_listobjects_children(show_d, show_s, columns):
     from ophyd.ophydobj import OphydObject
 
     sims = {k: v for k, v in ophyd.sim.hw().__dict__.items() if isinstance(v, OphydObject)}
-    table = utils.listobjects(symbols=sims, printing=False, child_devices=show_d, child_signals=show_s)
+    table = utils.listobjects(symbols=sims, child_devices=show_d, child_signals=show_s)
     assert columns == len(table.labels)
 
 
@@ -211,7 +211,7 @@ def test_utils_unix():
 
 def test_utils_with_database_listruns(cat):
     assert len(list(cat.v1[COUNT].documents())[:1]) == 1
-    table = utils.listruns(cat=cat, printing=False, num=10)
+    table = utils.listruns(cat=cat, num=10)
     assert isinstance(table, TableStyle.pyRestTable.value)
     assert len(table.labels) == 4
 

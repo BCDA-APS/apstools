@@ -354,7 +354,7 @@ def test_ListRuns_until(lr):
     ],
 )
 def test_listruns_tablefmt(tablefmt, table_style, structure, cat):
-    lr = utils.listruns(cat=cat, tablefmt=tablefmt, table_style=table_style, printing=False)
+    lr = utils.listruns(cat=cat, tablefmt=tablefmt, table_style=table_style)
     assert isinstance(lr, structure)
 # fmt: on
 
