@@ -139,7 +139,8 @@ def listdevice(
         Either ``apstools.utils.TableStyle.pandas`` (default) or
         using values from :class:`apstools.utils.TableStyle`.
 
-        .. note:: ``pandas.DataFrame`` wll truncate long text to at most 50 characters.
+        .. note:: ``pandas.DataFrame`` wll truncate long text
+           to at most 50 characters.
     """
     scope = (scope or "full").lower()
     signals = _all_signals(obj)

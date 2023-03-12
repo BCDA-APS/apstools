@@ -30,6 +30,7 @@ import subprocess
 import sys
 import threading
 import time
+import warnings
 from collections import OrderedDict
 from collections import defaultdict
 
@@ -454,7 +455,7 @@ def unix(command, raises=True):
 
 def listobjects(
     show_pv=True,
-    printing=True,
+    printing=None,  # DEPRECATED
     verbose=False,
     symbols=None,
     child_devices=False,
@@ -470,10 +471,8 @@ def listobjects(
         *bool* :
         If True, also show relevant EPICS PV, if available.
         (default: True)
-    printing
-        *bool* :
-        If True, print table to stdout.
-        (default: True)
+    printing *bool* :
+        Deprecated.
     verbose
         *bool* :
         If True, also show ``str(obj``.
@@ -493,8 +492,10 @@ def listobjects(
         (default: False)
     table_style *object* :
         Either ``apstools.utils.TableStyle.pandas`` (default) or
-        ``apstools.utils.TableStyle.pyRestTable``.
+        using values from :class:`apstools.utils.TableStyle`.
 
+        .. note:: ``pandas.DataFrame`` wll truncate long text
+           to at most 50 characters.
 
     RETURNS
 
@@ -562,8 +563,9 @@ def listobjects(
     # Render the dict as a table.
     table = table_style.value(contents)
 
-    # if printing:
-    #     print(table)
+    if printing is not None:
+        warnings.warn(f"Keyword argument 'printing={printing}' is deprecated.")
+
     return table
 
 
