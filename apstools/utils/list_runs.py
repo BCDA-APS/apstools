@@ -23,12 +23,11 @@ import databroker
 import databroker._drivers.mongo_normalized
 import databroker._drivers.msgpack
 import databroker.queries
-import pandas as pd
-import pyRestTable
 
 from ._core import FIRST_DATA
 from ._core import LAST_DATA
 from ._core import MONGO_CATALOG_CLASSES
+from ._core import TableStyle
 from .query import db_query
 
 logger = logging.getLogger(__name__)
@@ -415,20 +414,12 @@ class ListRuns:
     def to_dataframe(self):
         """Output as pandas DataFrame object"""
         dd = self.parse_runs()
-        return pd.DataFrame(dd, columns=self.keys)
+        return TableStyle.pandas.value(dd, columns=self.keys)
 
     def to_table(self, fmt=None):
         """Output as pyRestTable object."""
         dd = self.parse_runs()
-
-        table = pyRestTable.Table()
-        rows = []
-        for label, values in dd.items():
-            table.addLabel(label)
-            rows.append(values)
-        table.rows = list(zip(*rows))
-
-        return table.reST(fmt=fmt or "simple")
+        return TableStyle.pyRestTable.value(dd).reST(fmt=fmt or "simple")
 
 
 def listruns(
@@ -646,7 +637,7 @@ def summarize_runs(since=None, db=None):
     def sorter(plan_name):
         return len(plans[plan_name])
 
-    table = pyRestTable.Table()
+    table = TableStyle.pyRestTable.value()
     table.labels = "plan quantity".split()
     for k in sorted(plans.keys(), key=sorter, reverse=True):
         table.addRow((k, sorter(k)))

@@ -10,14 +10,14 @@ Directory of the known plans
 import inspect
 import logging
 
-import pandas as pd
 from ophyd.ophydobj import OphydObject
 from .profile_support import getDefaultNamespace
+from ._core import TableStyle
 
 logger = logging.getLogger(__name__)
 
 
-def listplans(base=None, trunc=50):
+def listplans(base=None, trunc=50, table_style=TableStyle.pandas):
     """
     List all plans.  (Actually, lists all generator functions).
 
@@ -29,14 +29,15 @@ def listplans(base=None, trunc=50):
 
     PARAMETERS
 
-    base
-        *object* or *None* :
+    base *object* or *None* :
         Object that contains plan methods (if ``None``, use global namespace.)
         (default: ``None``)
-    trunc
-        *int* :
+    trunc *int* :
         Truncate long docstrings to no more than ``trunc`` characters.
         (default: 50)
+    table_style *object* :
+        Either ``apstools.utils.TableStyle.pandas`` (default) or
+        ``apstools.utils.TableStyle.pyRestTable``.
 
         .. note:: ``pandas.DataFrame`` wll truncate long text to at most 50 characters.
     """
@@ -72,7 +73,8 @@ def listplans(base=None, trunc=50):
                 doc = doc[: trunc - len(more)] + more
             dd["plan"].append(f"{prefix}{key}")
             dd["doc"].append(doc)
-    return pd.DataFrame(dd)
+
+    return table_style.value(dd)
 
 
 # -----------------------------------------------------------------------------
