@@ -2,11 +2,11 @@ import datetime
 
 import databroker
 import intake
-import pandas as pd
 import pytest
 
-from ... import utils as utils
+from ... import utils
 from .. import getDefaultNamespace
+from .._core import TableStyle
 
 TEST_CATALOG_NAME = "apstools_test"
 
@@ -306,7 +306,7 @@ def test_ListRuns_to_dataframe(lr):
     assert out is not None
     assert lr.keys is not None
     assert len(lr.keys) == 4
-    assert isinstance(out, pd.DataFrame)
+    assert isinstance(out, TableStyle.pandas.value)
     assert len(out.columns) == len(lr.keys)
     for idx, label in enumerate(lr.keys):
         assert out.columns[idx] == label
@@ -340,17 +340,21 @@ def test_ListRuns_until(lr):
 
 # fmt: off
 @pytest.mark.parametrize(
-    "tablefmt, structure",
+    "tablefmt, table_style, structure",
     [
-        (None, pd.DataFrame),
-        ("dataframe", pd.DataFrame),
-        ("table", str),
-        ("no such format", str),
+        (None, None, TableStyle.pyRestTable.value),
+        ("dataframe", None, TableStyle.pandas.value),
+        ("table", None, TableStyle.pyRestTable.value),
+        ("the other table format" , None, TableStyle.pyRestTable.value),
+        (None, TableStyle.pyRestTable, TableStyle.pyRestTable.value),
+        (None, TableStyle.pandas, TableStyle.pandas.value),
+        ("dataframe", TableStyle.pyRestTable, TableStyle.pandas.value),
+        ("not a dataframe", TableStyle.pyRestTable, TableStyle.pyRestTable.value),
+        ("not a dataframe", TableStyle.pandas, TableStyle.pyRestTable.value),
     ],
 )
-def test_listruns_tablefmt(tablefmt, structure, cat):
-    lr = utils.listruns(cat=cat, tablefmt=tablefmt, printing=False)
-    assert lr is not None
+def test_listruns_tablefmt(tablefmt, table_style, structure, cat):
+    lr = utils.listruns(cat=cat, tablefmt=tablefmt, table_style=table_style)
     assert isinstance(lr, structure)
 # fmt: on
 

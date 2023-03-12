@@ -30,6 +30,15 @@ describe the future plans.
 
 release expected by 2023-03-17
 
+Breaking Changes
+------------------------
+
+* listobjects() ``printing`` keyword argument is deprecated.
+* ListRuns.to_dataframe()' method is deprecated.
+* ListRuns.to_table() method is deprecated.
+* listruns() ``printing`` keyword argument is deprecated.
+* listruns() ``tablefmt`` keyword argument is deprecated.  Use ``table_style`` instead.
+* listruns() now returns pyRestTable.Table or pandas.DataFrame
 
 New Features
 ------------
@@ -53,6 +62,10 @@ Maintenance
 * add more unit tests for ``apstools.plans``
 * addDeviceDataAsStream() renamed to write_stream()
 * FileWriterCallbackBase.file_name now a property, uses pathlib
+* listobjects() now returns pyRestTable (by default)
+* listdevice() now returns pyRestTable (by default)
+* listplans() now returns pyRestTable (by default)
+* listruns() now returns pyRestTable (by default)
 * NXWriter: unit tests added for proper NXdata@axes structure.
 
 1.6.13

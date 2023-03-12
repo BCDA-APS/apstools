@@ -12,6 +12,7 @@ from ophyd.signal import EpicsSignalBase
 
 from ...devices import SwaitRecord
 from ...tests import MASTER_TIMEOUT
+from .._core import TableStyle
 from ..device_info import _list_epics_signals
 from ..device_info import listdevice
 
@@ -69,12 +70,12 @@ def test_calcs():
 )
 def test_listdevice(obj, length):
     result = listdevice(obj, scope="read")
-    assert isinstance(result, pd.DataFrame)
-    assert len(result) == length
+    assert isinstance(result, TableStyle.pyRestTable.value)
+    assert len(result.rows) == length
     if length > 0:
-        assert len(result.columns) == 3
+        assert len(result.labels) == 3
         expected = ["data name", "value", "timestamp"]
-        for r in result.columns:
+        for r in result.labels:
             assert r in expected
 
 
@@ -122,11 +123,13 @@ def test_spotchecks(scope, row, column, value):
     assert calcs.connected
     if round(motor.position, 2) != 0:
         motor.move(0)
+
     result = listdevice(motor, scope=scope)
-    assert isinstance(result, pd.DataFrame)
-    assert column in result
-    assert row in result[column]
-    assert result[column][row] == value
+    assert isinstance(result, TableStyle.pyRestTable.value)
+    assert column in result.labels
+
+    assert row < len(result.rows)
+    assert result.rows[row][result.labels.index(column)] == value
 
 
 @pytest.mark.parametrize(
@@ -144,11 +147,12 @@ def test_spotchecks(scope, row, column, value):
 )
 def test_listdevice_filters(device, scope, ancient, length):
     result = listdevice(device, scope, show_ancient=ancient)
-    assert len(result) == length
+    assert len(result.rows) == length
 
 
 @pytest.mark.parametrize(
     "device, scope, cnames",
+    # fmt: off
     [
         (calcs, "full", [
             "calcs.signals.allowed",
@@ -164,7 +168,11 @@ def test_listdevice_filters(device, scope, ancient, length):
             "calcs.signals.visible",
         ]),
     ],
+    # fmt: on
 )
 def test_listdevice_cname(device, scope, cnames):
     result = listdevice(device, scope, show_ancient=False, cname=True)
-    assert result["name"].tolist() == cnames
+
+    col_num = result.labels.index("name")
+    values = [row[col_num] for row in result.rows]
+    assert values == cnames

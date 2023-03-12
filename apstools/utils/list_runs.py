@@ -17,18 +17,18 @@ import datetime
 import logging
 import time
 import typing
+import warnings
 from collections import defaultdict
 
 import databroker
 import databroker._drivers.mongo_normalized
 import databroker._drivers.msgpack
 import databroker.queries
-import pandas as pd
-import pyRestTable
 
 from ._core import FIRST_DATA
 from ._core import LAST_DATA
 from ._core import MONGO_CATALOG_CLASSES
+from ._core import TableStyle
 from .query import db_query
 
 logger = logging.getLogger(__name__)
@@ -412,23 +412,17 @@ class ListRuns:
         if isinstance(self.keys, str):
             self.keys = self.keys.split()
 
-    def to_dataframe(self):
+    def to_dataframe(self):  # DEPRECATED
         """Output as pandas DataFrame object"""
+        warnings.warn("'ListRuns.to_dataframe()' method is deprecated.")
         dd = self.parse_runs()
-        return pd.DataFrame(dd, columns=self.keys)
+        return TableStyle.pandas.value(dd, columns=self.keys)
 
-    def to_table(self, fmt=None):
+    def to_table(self, fmt=None):  # DEPRECATED
         """Output as pyRestTable object."""
+        warnings.warn("'ListRuns.to_table()' method is deprecated.")
         dd = self.parse_runs()
-
-        table = pyRestTable.Table()
-        rows = []
-        for label, values in dd.items():
-            table.addLabel(label)
-            rows.append(values)
-        table.rows = list(zip(*rows))
-
-        return table.reST(fmt=fmt or "simple")
+        return TableStyle.pyRestTable.value(dd=dd).reST(fmt=fmt or "simple")
 
 
 def listruns(
@@ -436,11 +430,12 @@ def listruns(
     keys=None,
     missing="",
     num=20,
-    printing="smart",
+    printing=None,  # DEPRECATED
     reverse=True,
     since=None,
     sortby="time",
-    tablefmt="dataframe",
+    tablefmt=None,  # DEPRECATED
+    table_style=TableStyle.pyRestTable,
     timefmt="%Y-%m-%d %H:%M:%S",
     until=None,
     ids=None,
@@ -483,20 +478,8 @@ def listruns(
         *int* :
         Make the table include the ``num`` most recent runs.
         (default: ``20``)
-    printing
-        *bool* or ``"smart"``:
-        If ``True``, print the table to stdout.
-        If ``"smart"``, then act as shown below.
-        (default: ``True``)
-
-        ================  ===================
-        session           action(s)
-        ================  ===================
-        python session    print and return ``None``
-        Ipython console   return ``DataFrame`` object
-        Jupyter notebook  return ``DataFrame`` object
-        ================  ===================
-
+    printing *bool* or *str* :
+        Deprecated.
     reverse
         *bool* :
         If ``True``, sort in descending order by ``sortby``.
@@ -510,19 +493,13 @@ def listruns(
         Sort columns by this key, found by exact match in either
         the ``start`` or ``stop`` document.
         (default: ``"time"``)
-    tablefmt
-        *str* :
-        When returning an object, specify which type
-        of object to return.
-        (default: ``"dataframe",``)
+    tablefmt *str* :
+        Deprecated.  Use ``table_style`` instead.
+    table_style *object* :
+        Either ``TableStyle.pyRestTable`` (default) or ``TableStyle.pandas``,
+        using values from :class:`apstools.utils.TableStyle`.
 
-        ========== ==============
-        value      object
-        ========== ==============
-        dataframe  ``pandas.DataFrame``
-        table      ``str(pyRestTable.Table)``
-        ========== ==============
-
+        .. note:: ``pandas.DataFrame`` wll truncate long text to at most 50 characters.
     timefmt
         *str* :
         The ``time`` key (also includes keys ``"start.time"`` and  ``"stop.time"``)
@@ -568,18 +545,25 @@ def listruns(
         hints_override=hints_override,
     )
 
-    tablefmt = tablefmt or "dataframe"
-    if tablefmt == "dataframe":
-        obj = lr.to_dataframe()
-    else:
-        obj = lr.to_table()
+    table_style = table_style or TableStyle.pyRestTable
+    if tablefmt is not None:
+        if tablefmt == "dataframe":
+            choice = "TableStyle.pandas"
+            table_style = TableStyle.pandas
+        else:
+            choice = "TableStyle.pyRestTable"
+            table_style = TableStyle.pyRestTable
+        # fmt: off
+        warnings.warn(
+            f"Use 'table_style={choice}' instead of"
+            f" deprecated option 'tablefmt=\"{tablefmt}\"'."
+        )
+        # fmt: on
 
-    if printing:
-        if lr.cat is not None:
-            print(f"catalog: {lr.cat.name}")
-        print(obj)
-        return
-    return obj
+    if printing is not None:
+        warnings.warn(f"Keyword argument 'printing={printing}' is deprecated.")
+
+    return table_style.value(lr.parse_runs())
 
 
 def summarize_runs(since=None, db=None):
@@ -646,12 +630,13 @@ def summarize_runs(since=None, db=None):
     def sorter(plan_name):
         return len(plans[plan_name])
 
-    table = pyRestTable.Table()
+    table = TableStyle.pyRestTable.value()
     table.labels = "plan quantity".split()
     for k in sorted(plans.keys(), key=sorter, reverse=True):
         table.addRow((k, sorter(k)))
     table.addRow(("TOTAL", n + 1))
     print(table)
+
 
 # -----------------------------------------------------------------------------
 # :author:    Pete R. Jemian

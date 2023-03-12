@@ -13,6 +13,7 @@ import pytest
 from ... import __version__ as APS__version__
 from ... import utils
 from .._core import MAX_EPICS_STRINGOUT_LENGTH
+from .._core import TableStyle
 
 CATALOG = "usaxs_test"
 COUNT = "555a604"  # <-- uid,  scan_id: 2
@@ -166,7 +167,7 @@ def test_utils_listobjects():
     num = len(sims) - len(wont_show)
     kk = sorted(sims.keys())
 
-    table = utils.listobjects(symbols=sims, printing=False)
+    table = utils.listobjects(symbols=sims)
     assert 4 == len(table.labels)
     rr = [r[0] for r in table.rows]
     for k in kk:
@@ -189,9 +190,7 @@ def test_utils_listobjects_children(show_d, show_s, columns):
     from ophyd.ophydobj import OphydObject
 
     sims = {k: v for k, v in ophyd.sim.hw().__dict__.items() if isinstance(v, OphydObject)}
-    table = utils.listobjects(
-        symbols=sims, printing=False, child_devices=show_d, child_signals=show_s
-    )
+    table = utils.listobjects(symbols=sims, child_devices=show_d, child_signals=show_s)
     assert columns == len(table.labels)
 
 
@@ -212,13 +211,15 @@ def test_utils_unix():
 
 def test_utils_with_database_listruns(cat):
     assert len(list(cat.v1[COUNT].documents())[:1]) == 1
-    df = utils.listruns(cat=cat, printing=False, num=10)
-    assert df is not None
-    assert len(df.columns) == 4
+    table = utils.listruns(cat=cat, num=10)
+    assert isinstance(table, TableStyle.pyRestTable.value)
+    assert len(table.labels) == 4
 
-    assert "time" in df
-    assert df.columns[1] == "time"
-    ts = df["time"]
+    assert "time" in table.labels
+    column = table.labels.index("time")
+    assert table.labels[column] == "time"
+
+    ts = [row[column] for row in table.rows]
     assert len(ts) == 10
     assert (ts == np.sort(ts)[::-1]).all()
 
@@ -310,6 +311,7 @@ def test_replay(run_type, ref, scan_ids, cat):
     assert len(replies) == n_items
 
 
+# fmt:off
 @pytest.mark.parametrize(
     "scan_id, stream, total_keys, key, v1, m3, m_default, m_strict, m_lower",
     [
@@ -346,6 +348,7 @@ def test_utils_listRunKeys(
         scan_id, key_fragment=key.lower(), db=cat, stream=stream, strict=True, use_v1=v1
     )
     assert len(result) == m_lower
+# fmt: on
 
 
 # fmt: off
@@ -382,6 +385,7 @@ def test_utils_getRunData(scan_id, stream, nkeys, v1, cat):
     assert len(table.keys()) == nkeys
 
 
+# fmt: off
 @pytest.mark.parametrize(
     "scan_id, stream, key, idx, v1, expected, prec",
     [
@@ -389,29 +393,9 @@ def test_utils_getRunData(scan_id, stream, nkeys, v1, cat):
         (2, "baseline", "undulator_downstream_version", None, True, "4.21", 0),
         (2, "primary", "I0_USAXS", -1, False, 3729, 0),
         (2, "primary", "I0_USAXS", "-1", False, 3729, 0),
-        (
-            2,
-            "primary",
-            "I0_USAXS",
-            "all",
-            False,
-            [
-                3729.0,
-            ],
-            0,
-        ),
+        (2, "primary", "I0_USAXS", "all", False, [3729.0, ], 0),
         (2, "primary", "I0_USAXS", None, False, 3729, 0),
-        (
-            2,
-            None,
-            "I0_USAXS",
-            "all",
-            False,
-            [
-                3729.0,
-            ],
-            0,
-        ),
+        (2, None, "I0_USAXS", "all", False, [3729.0, ], 0),
         # (103, "baseline", "undulator_downstream_version", None, False, "4.21", 0),  # VERY slow
         (103, "baseline", "undulator_downstream_version", None, True, "4.21", 0),
         (103, "primary", "a_stage_r", -1, False, 8.88197, 5),
@@ -439,7 +423,7 @@ def test_utils_getRunDataValue(scan_id, stream, key, idx, v1, expected, prec, ca
         assert len(value) == len(expected)
         for v, e in zip(value, expected):
             assert round(v, prec) == e
-
+# fmt: on
 
 # # fmt: off
 # @pytest.mark.parametrize(

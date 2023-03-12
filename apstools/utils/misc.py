@@ -30,6 +30,7 @@ import subprocess
 import sys
 import threading
 import time
+import warnings
 from collections import OrderedDict
 from collections import defaultdict
 
@@ -42,6 +43,7 @@ from ophyd.ophydobj import OphydObject
 
 from ..callbacks import spec_file_writer
 from ._core import MAX_EPICS_STRINGOUT_LENGTH
+from ._core import TableStyle
 from .profile_support import ipython_shell_namespace
 
 logger = logging.getLogger(__name__)
@@ -82,7 +84,9 @@ def count_child_devices_and_signals(device):
 
 def dictionary_table(dictionary, **kwargs):
     """
-    return a text table from ``dictionary``
+    Return a text table from ``dictionary``.
+
+    Dictionary keys in first column, values in second.
 
     PARAMETERS
 
@@ -452,7 +456,13 @@ def unix(command, raises=True):
 
 
 def listobjects(
-    show_pv=True, printing=True, verbose=False, symbols=None, child_devices=False, child_signals=False
+    show_pv=True,
+    printing=None,  # DEPRECATED
+    verbose=False,
+    symbols=None,
+    child_devices=False,
+    child_signals=False,
+    table_style=TableStyle.pyRestTable,
 ):
     """
     Show all the ophyd Signal and Device objects defined as globals.
@@ -463,10 +473,8 @@ def listobjects(
         *bool* :
         If True, also show relevant EPICS PV, if available.
         (default: True)
-    printing
-        *bool* :
-        If True, print table to stdout.
-        (default: True)
+    printing *bool* :
+        Deprecated.
     verbose
         *bool* :
         If True, also show ``str(obj``.
@@ -484,6 +492,12 @@ def listobjects(
         *bool* :
         If True, also show how many Signals are children of this device.
         (default: False)
+    table_style *object* :
+        Either ``apstools.utils.TableStyle.pandas`` (default) or
+        using values from :class:`apstools.utils.TableStyle`.
+
+        .. note:: ``pandas.DataFrame`` wll truncate long text
+           to at most 50 characters.
 
     RETURNS
 
@@ -549,14 +563,11 @@ def listobjects(
         contents["label(s)"].append(" ".join(v._ophyd_labels_))
 
     # Render the dict as a table.
-    table = pyRestTable.Table()
-    if len(contents) > 0:
-        table.labels = list(contents.keys())
-        for i in range(len(contents[table.labels[0]])):
-            table.addRow([contents[k][i] for k in table.labels])
+    table = table_style.value(contents)
 
-    if printing:
-        print(table)
+    if printing is not None:
+        warnings.warn(f"Keyword argument 'printing={printing}' is deprecated.")
+
     return table
 
 

@@ -17,6 +17,8 @@ from ophyd import Device
 from ophyd import Signal
 from ophyd.signal import EpicsSignalBase
 
+from ._core import TableStyle
+
 logger = logging.getLogger(__name__)
 pd.set_option("display.max_rows", None)
 
@@ -86,6 +88,7 @@ def listdevice(
     show_pv=False,
     use_datetime=True,
     show_ancient=True,
+    table_style=TableStyle.pyRestTable,
 ):
     """
     Describe the signal information from device ``obj`` in a pandas DataFrame.
@@ -118,13 +121,13 @@ def listdevice(
         column ``PV``.
 
         default: ``False``
-    use_datetime
-        *bool* : Show the EPICS timestamp (time of last update) in
+    use_datetime *bool* :
+        Show the EPICS timestamp (time of last update) in
         column ``timestamp``.
 
         default: ``True``
-    show_ancient
-        *bool* : Show uninitialized EPICS process variables.
+    show_ancient *bool* :
+        Show uninitialized EPICS process variables.
 
         In EPICS, an uninitialized PV has a timestamp of 1990-01-01 UTC.
         This option enables or suppresses ancient values identified
@@ -132,6 +135,12 @@ def listdevice(
         the original ``.db`` file.
 
         default: ``True``
+    table_style *object* :
+        Either ``apstools.utils.TableStyle.pandas`` (default) or
+        using values from :class:`apstools.utils.TableStyle`.
+
+        .. note:: ``pandas.DataFrame`` wll truncate long text
+           to at most 50 characters.
     """
     scope = (scope or "full").lower()
     signals = _all_signals(obj)
@@ -150,9 +159,11 @@ def listdevice(
         # fmt: on
 
     # in EPICS, an uninitialized PV has a timestamp of 1990-01-01 UTC
+    # fmt: off
     UNINITIALIZED = datetime.datetime.timestamp(
         datetime.datetime.fromisoformat("1990-06-01")
     )
+    # fmt: on
 
     if not cname and not dname:
         cname = True
@@ -176,7 +187,8 @@ def listdevice(
                 if use_datetime:
                     dd["timestamp"].append(datetime.datetime.fromtimestamp(ts))
 
-    return pd.DataFrame(dd)
+    return table_style.value(dd)
+
 
 # -----------------------------------------------------------------------------
 # :author:    Pete R. Jemian

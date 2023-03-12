@@ -3,6 +3,7 @@ test issue listplans() command
 """
 
 import pandas as pd
+import pyRestTable
 import pytest
 from bluesky import Msg
 from bluesky import plans as bp
@@ -46,8 +47,8 @@ shutter = SimulatedApsPssShutterWithStatus(name="shutter")
 def test_basic():
     result = listplans()
     assert result is not None
-    assert isinstance(result, pd.DataFrame)
-    assert len(result) == 0
+    assert isinstance(result, pyRestTable.Table)
+    assert len(result.rows) == 0
 
 
 @pytest.mark.parametrize(
@@ -63,7 +64,7 @@ def test_basic():
     ],
 )
 def test_globals(item, exists, ns):
-    assert (item in ns) == exists, f"item={item}  exists={exists}"
+    assert (item in ns) == exists, f"{item=}  {exists=} {ns=}"
 
 
 @pytest.mark.parametrize(
@@ -83,7 +84,8 @@ def test_globals(item, exists, ns):
 )
 def test_in_class(item, exists):
     result = listplans(my_class)
-    generators = result["plan"].to_list()
+    assert isinstance(result, pyRestTable.Table)
+    generators = [v[0] for v in result.rows]
     assert (item in generators) == exists, f"item={item}  exists={exists} generators={generators}"
 
 
@@ -97,7 +99,7 @@ def test_in_class(item, exists):
 )
 def test_shutter(item, plan_name):
     result = listplans(shutter)
-    assert result["plan"][item] == plan_name
+    assert result.rows[item][0] == plan_name
 
 
 @pytest.mark.parametrize(
@@ -110,7 +112,7 @@ def test_shutter(item, plan_name):
 )
 def test_bluesky_plans(item, plan_name):
     result = listplans(bp)
-    assert result["plan"][item] == plan_name
+    assert result.rows[item][0] == plan_name
 
 
 @pytest.mark.parametrize(
@@ -129,4 +131,4 @@ def test_number(library, length, ns):
     if library == "ns":
         library = ns
     result = listplans(library)
-    assert len(result) == length
+    assert len(result.rows) == length

@@ -26,7 +26,7 @@ dependencies:
   - pyEpics >=3.4.3
   - pymongo
   - pyqt =5
-  - pyRestTable
+  - pyRestTable >=2020.0.8
   - pysumreg
   - qt =5
   - readline !=8.1.2

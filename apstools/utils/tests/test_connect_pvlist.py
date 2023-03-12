@@ -7,7 +7,7 @@ from ..misc import connect_pvlist
     "pvlist, success",
     [
         ["ad:cam1:Acquire gp:UPTIME".split(), True],
-    ]
+    ],
 )
 def test_connect_pvlist(pvlist, success):
     assert isinstance(pvlist, list)
