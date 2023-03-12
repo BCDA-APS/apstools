@@ -9,12 +9,12 @@ import pytest
 from ...plans import command_list
 from ...utils import ExcelDatabaseFileGeneric
 
-DATA_PATH = (pathlib.Path(command_list.__file__).parent / "tests")
+DATA_PATH = pathlib.Path(command_list.__file__).parent / "tests"
 
 
 @pytest.fixture(scope="function")
 def xl_file():
-    xl_file = (DATA_PATH / "demo3.xlsx")
+    xl_file = DATA_PATH / "demo3.xlsx"
     return xl_file
 
 
