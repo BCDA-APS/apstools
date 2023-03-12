@@ -17,7 +17,7 @@ from ._core import TableStyle
 logger = logging.getLogger(__name__)
 
 
-def listplans(base=None, trunc=50, table_style=TableStyle.pandas):
+def listplans(base=None, trunc=50, table_style=TableStyle.pyRestTable):
     """
     List all plans.  (Actually, lists all generator functions).
 
@@ -36,8 +36,8 @@ def listplans(base=None, trunc=50, table_style=TableStyle.pandas):
         Truncate long docstrings to no more than ``trunc`` characters.
         (default: 50)
     table_style *object* :
-        Either ``apstools.utils.TableStyle.pandas`` (default) or
-        ``apstools.utils.TableStyle.pyRestTable``.
+        Either ``TableStyle.pyRestTable`` (default) or ``TableStyle.pandas``,
+        using values from :class:`apstools.utils.TableStyle`.
 
         .. note:: ``pandas.DataFrame`` wll truncate long text to at most 50 characters.
     """
