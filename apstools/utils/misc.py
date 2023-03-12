@@ -84,7 +84,9 @@ def count_child_devices_and_signals(device):
 
 def dictionary_table(dictionary, **kwargs):
     """
-    return a text table from ``dictionary``
+    Return a text table from ``dictionary``.
+    
+    Dictionary keys in first column, values in second.
 
     PARAMETERS
 
