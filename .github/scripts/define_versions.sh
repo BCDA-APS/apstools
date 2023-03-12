@@ -17,10 +17,11 @@ versions+=" 1.6.10"
 # versions+=" 1.6.11"  # no docs for this version
 # versions+=" 1.6.12"  # no docs for this version
 versions+=" 1.6.13"
+versions+=" 1.6.14"
 
 # future versions (release tags that are expected)
-versions+=" 1.6.14"
 versions+=" 1.6.15"
+versions+=" 1.6.16"
 
 export versions
 

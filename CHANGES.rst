@@ -28,7 +28,7 @@ describe the future plans.
 1.6.14
 ******
 
-release expected by 2023-03-17
+release expected 2023-03-12
 
 Breaking Changes
 ------------------------
