@@ -88,7 +88,7 @@ def listdevice(
     show_pv=False,
     use_datetime=True,
     show_ancient=True,
-    table_style=TableStyle.pandas,
+    table_style=TableStyle.pyRestTable,
 ):
     """
     Describe the signal information from device ``obj`` in a pandas DataFrame.
