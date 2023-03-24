@@ -20,10 +20,24 @@ The project `milestones <https://github.com/BCDA-APS/apstools/milestones>`_
 describe the future plans.
 
 ..
-   1.6.15
+   1.6.16
    ******
 
    release expected by 2023-04-07
+
+1.6.15
+******
+
+release expected by 2023-03-27
+------------
+
+* add ``log_path=None`` kwarg to ``apstools.utils.stream_log_handler()``
+
+Fixes
+------------
+
+- resolved ``AttributeError`` for certain logging configurations
+
 
 1.6.14
 ******
