@@ -25,29 +25,58 @@ def test_get_log_path(tempdir):
     assert log_path.exists()
 
 
-def test_file_log_handler(tempdir):
+@pytest.mark.parametrize(
+    "maxBytes, backupCount, log_path, level",
+    [
+        [0, 0, None, None],  # defaults
+        [1_000_000, 9, None, None],  # training repo uses this
+        [0, 9, None, None],
+        [1_000_000, 0, None, None],
+        [1_000_000, 0, None, "DEBUG"],
+        [0, 0, "/tmp", None],
+    ],
+)
+def test_file_log_handler(maxBytes, backupCount, log_path, level, tempdir):
     pathlib.os.chdir(tempdir)
-    handler = file_log_handler("my_log_file")
-    assert isinstance(handler, logging.Handler)
-
-    log_path = get_log_path()
+    log_path = pathlib.Path(log_path or get_log_path())
     assert log_path.exists()
+
+    handler = file_log_handler(
+        "my_log_file",
+        maxBytes=maxBytes,
+        backupCount=backupCount,
+        log_path=log_path,
+        level=level,
+    )
+    assert isinstance(handler, logging.Handler)
 
     logfile = log_path / "my_log_file.log"
     assert logfile.exists()
 
-    # TODO: more tests
 
-
-def test_stream_log_handler():
-    handler = stream_log_handler()
+@pytest.mark.parametrize(
+    "formatter, level",
+    [
+        [None, "INFO"],  # defaults
+        [None, "DEBUG"],
+    ],
+)
+def test_stream_log_handler(formatter, level):
+    handler = stream_log_handler(formatter=formatter, level=level)
     assert isinstance(handler, logging.Handler)
     # TODO: more tests
 
 
-def test_setup_IPython_console_logging(tempdir):
+@pytest.mark.parametrize(
+    "logger, filename, log_path",
+    [
+        [None, "ipython_console.log", None],  # defaults
+        [None, "ipython_console.log", "/tmp"],
+    ],
+)
+def test_setup_IPython_console_logging(logger, filename, log_path, tempdir):
     pathlib.os.chdir(tempdir)
-    setup_IPython_console_logging()
+    setup_IPython_console_logging(logger=logger, filename=filename, log_path=log_path)
 
     log_path = get_log_path()
     assert log_path.exists()

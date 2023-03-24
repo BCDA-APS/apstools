@@ -12,8 +12,12 @@ There is a guide describing :ref:`howto_session_logs`.
    ~stream_log_handler
 """
 
-import logging
 import pathlib
+from logging import DEBUG
+from logging import FileHandler
+from logging import Formatter
+from logging import StreamHandler
+from logging.handlers import RotatingFileHandler
 
 
 def file_log_handler(
@@ -58,16 +62,16 @@ def file_log_handler(
     """
     log_path = log_path or get_log_path()
     log_file = log_path / f"{file_name_base}.log"
-    level = level or logging.DEBUG
+    level = level or DEBUG
 
     if maxBytes > 0 or backupCount > 0:
-        handler = logging.handlers.RotatingFileHandler(log_file, maxBytes=maxBytes, backupCount=backupCount)
+        handler = RotatingFileHandler(log_file, maxBytes=maxBytes, backupCount=backupCount)
     else:
-        handler = logging.FileHandler(log_file)
+        handler = FileHandler(log_file)
 
     handler.setLevel(level)
 
-    formatter = logging.Formatter(
+    formatter = Formatter(
         (
             "|%(asctime)s"
             "|%(levelname)s"
@@ -96,7 +100,7 @@ def get_log_path():
     return path
 
 
-def setup_IPython_console_logging(logger=None, filename="ipython_console.log"):
+def setup_IPython_console_logging(logger=None, filename="ipython_console.log", log_path=None):
     """
     Record all input (``In``) and output (``Out``) from IPython console.
 
@@ -109,6 +113,10 @@ def setup_IPython_console_logging(logger=None, filename="ipython_console.log"):
         *str*:
         Name of the log file.
         (default: ``ipython_console.log``)
+    log_path : *str*
+        Directory to store the log file. Full name is
+        ``f"<log_path>/{file_name_base}.log"``.
+        default: (the present working directory)/LOG_DIR_BASE
     """
     try:
         from IPython import get_ipython
@@ -116,7 +124,8 @@ def setup_IPython_console_logging(logger=None, filename="ipython_console.log"):
         # start logging console to file
         # https://ipython.org/ipython-doc/3/interactive/magics.html#magic-logstart
         _ipython = get_ipython()
-        io_file = get_log_path() / filename
+        log_path = pathlib.Path(log_path or get_log_path())
+        io_file = log_path / filename
         if _ipython is not None:
             _ipython.magic(f"logstart -o -t {io_file} rotate")
         if logger is not None:
@@ -142,13 +151,13 @@ def stream_log_handler(formatter=None, level="INFO"):
         Name of the logging level to report.
         (default: ``INFO``)
     """
-    handler = logging.StreamHandler()
+    handler = StreamHandler()
 
     # nice output format
     # https://docs.python.org/3/library/logging.html#logrecord-attributes
     if formatter is None:
         # fmt: off
-        formatter = logging.Formatter(
+        formatter = Formatter(
             (
                 "%(levelname)-.1s"		# only first letter
                 " %(asctime)s"
@@ -163,6 +172,7 @@ def stream_log_handler(formatter=None, level="INFO"):
     handler.setLevel(level)
 
     return handler
+
 
 # -----------------------------------------------------------------------------
 # :author:    Pete R. Jemian
