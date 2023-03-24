@@ -28,7 +28,9 @@ describe the future plans.
 1.6.15
 ******
 
-release expected by 2023-03-27
+released 2023-03-27
+
+Maintenance
 ------------
 
 * add ``log_path=None`` kwarg to ``apstools.utils.stream_log_handler()``
