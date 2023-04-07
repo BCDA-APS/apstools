@@ -146,6 +146,9 @@ jobs:
     - name: Confirm EPICS IOC is available via caget
       shell: bash -l {0}
       run: |
+        docker exec iocgp grep float1 /home/iocgp/dbl-all.txt
+        docker exec iocgp /opt/base/bin/linux-x86_64/caget gp:UPTIME gp:gp:float1
+        docker exec iocad /opt/base/bin/linux-x86_64/caget ad:cam1:Acquire_RBV
         which caget
         caget gp:UPTIME
         caget gp:gp:float1
