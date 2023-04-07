@@ -1,11 +1,12 @@
 # GitHub Workflow Scripts
 
-To avoid using `wget` in the CI process, the bash shell scripts to start the
-IOCs have been copied from the vendor repository:
+To avoid using `wget` in the CI process, the bash shell script to manage the
+IOCs has been copied from the vendor repository:
 
-https://github.com/prjemian/epics-docker
-
-starter script | subdirectory
---- | ---
-`start_xxx.sh` | `v1.1/n5_custom_synApps/start_xxx.sh`
-`start_adsim.sh` | `v1.1/n6_custom_areaDetector/start_adsim.sh`
+```bash
+cd ~/bin
+wget https://raw.githubusercontent.com/prjemian/epics-docker/main/resources/iocmgr.sh
+chmod +x iocmgr.sh
+iocmgr.sh start GP gp
+iocmgr.sh start ADSIM ad
+```

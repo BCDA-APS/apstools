@@ -21,9 +21,11 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
 
       - uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
 
       - name: Install Dependencies
         run: |
@@ -45,9 +47,11 @@ jobs:
       max-parallel: 5
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
 
       - uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
 
       - name: Create Python ${{ matrix.python-version }} environment
         uses: mamba-org/provision-with-micromamba@main
@@ -98,7 +102,7 @@ jobs:
       max-parallel: 5
 
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v3
 
     - name: Create Python ${{ matrix.python-version }} environment
       uses: mamba-org/provision-with-micromamba@main
@@ -113,6 +117,7 @@ jobs:
           coveralls
           pytest
           pytest-cov
+          python=${{ matrix.python-version }}
           setuptools-scm
 
     - name: Initial diagnostics
@@ -129,8 +134,8 @@ jobs:
 
     - name: Start EPICS IOCs in Docker
       run: |
-        bash ./.github/scripts/start_xxx.sh gp
-        bash ./.github/scripts/start_adsim.sh ad
+        bash ./.github/scripts/iocmgr.sh start GP gp
+        bash ./.github/scripts/iocmgr.sh start ADSIM ad
         docker ps -a
         ls -lAFgh /tmp/docker_ioc/iocad/
         ls -lAFgh /tmp/docker_ioc/iocgp/
@@ -141,8 +146,12 @@ jobs:
     - name: Confirm EPICS IOC is available via caget
       shell: bash -l {0}
       run: |
+        docker exec iocgp grep float1 /home/iocgp/dbl-all.txt
+        docker exec iocgp /opt/base/bin/linux-x86_64/caget gp:UPTIME gp:gp:float1
+        docker exec iocad /opt/base/bin/linux-x86_64/caget ad:cam1:Acquire_RBV
         which caget
         caget gp:UPTIME
+        caget gp:gp:float1
         caget ad:cam1:Acquire_RBV
 
     - name: Confirm EPICS IOC is available via PyEpics
@@ -155,8 +164,9 @@ jobs:
       run: |
         CMD="import ophyd"
         CMD+="; up = ophyd.EpicsSignalRO('gp:UPTIME', name='up')"
+        CMD+="; pv = ophyd.EpicsSignalRO('gp:gp:float1', name='pv')"
         CMD+="; up.wait_for_connection()"
-        CMD+="; print(up.get())"
+        CMD+="; print(up.get(), pv.get())"
         python -c "${CMD}"
 
     - name: Download catalog artifacts
