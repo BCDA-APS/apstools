@@ -143,6 +143,7 @@ jobs:
       run: |
         which caget
         caget gp:UPTIME
+        caget gp:gp:float1
         caget ad:cam1:Acquire_RBV
 
     - name: Confirm EPICS IOC is available via PyEpics
@@ -155,8 +156,9 @@ jobs:
       run: |
         CMD="import ophyd"
         CMD+="; up = ophyd.EpicsSignalRO('gp:UPTIME', name='up')"
+        CMD+="; pv = ophyd.EpicsSignalRO('gp:gp:float1', name='pv')"
         CMD+="; up.wait_for_connection()"
-        CMD+="; print(up.get())"
+        CMD+="; print(up.get(), pv.get())"
         python -c "${CMD}"
 
     - name: Download catalog artifacts
