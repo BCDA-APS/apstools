@@ -129,8 +129,8 @@ jobs:
 
     - name: Start EPICS IOCs in Docker
       run: |
-        bash ./.github/scripts/start_xxx.sh gp
-        bash ./.github/scripts/start_adsim.sh ad
+        bash ./.github/scripts/iocmgr.sh start GP gp
+        bash ./.github/scripts/iocmgr.sh start ADSIM ad
         docker ps -a
         ls -lAFgh /tmp/docker_ioc/iocad/
         ls -lAFgh /tmp/docker_ioc/iocgp/
