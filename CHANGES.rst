@@ -30,6 +30,11 @@ describe the future plans.
 
 release expected by 2023-04-21
 
+Enhancements
+------------
+
+* Add guide *How to interrupt/stop/abort a running plan & recover to safe settings*.
+
 Maintenance
 ------------
 
