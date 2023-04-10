@@ -20,10 +20,20 @@ The project `milestones <https://github.com/BCDA-APS/apstools/milestones>`_
 describe the future plans.
 
 ..
-   1.6.16
+   1.6.17
    ******
 
-   release expected by 2023-04-07
+   release expected by 2023-06-30
+
+1.6.16
+******
+
+release expected by 2023-04-21
+
+Maintenance
+------------
+
+* Set `kind` attribute to add plugin to ad.read_attrs list.
 
 1.6.15
 ******
