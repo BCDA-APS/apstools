@@ -29,7 +29,12 @@ def _all_signals(base):
     items = []
     if hasattr(base, "component_names"):
         for k in base.component_names:
-            obj = getattr(base, k)
+            # Check for lazy components that may not be connected
+            try:
+                obj = getattr(base, k)
+            except TimeoutError:
+                logger.warning(f"Could not list component: {base.name}.{k}")
+                continue
             if isinstance(obj, (Device, Signal)):
                 items += _all_signals(obj)
     return items
@@ -90,10 +95,11 @@ def listdevice(
     show_ancient=True,
     table_style=TableStyle.pyRestTable,
 ):
-    """
-    Describe the signal information from device ``obj`` in a pandas DataFrame.
+    """Describe the signal information from device ``obj`` in a pandas DataFrame.
 
-    Look through all subcomponents to find all the signals to be shown.
+    Look through all subcomponents to find all the signals to be
+    shown. Components that are disconnected will be skipped and a
+    warning logged.
 
     PARAMETERS
 
@@ -141,6 +147,7 @@ def listdevice(
 
         .. note:: ``pandas.DataFrame`` wll truncate long text
            to at most 50 characters.
+
     """
     scope = (scope or "full").lower()
     signals = _all_signals(obj)
