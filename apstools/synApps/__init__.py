@@ -17,6 +17,8 @@ from .calcout import setup_gaussian_calcout
 from .calcout import setup_incrementer_calcout
 from .calcout import setup_lorentzian_calcout
 from .epid import EpidRecord
+from .epid import Fb_EpidDatabase
+from .epid import Fb_EpidDatabaseHeaterSimulator
 from .iocstats import IocStatsDevice
 from .luascript import LuascriptRecord
 from .luascript import LuascriptRecordNumberInput
