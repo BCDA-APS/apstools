@@ -23,9 +23,13 @@ def test_ApsCycleDM():
     cycle = signal.get()  # expect 2021-3 or such
     assert isinstance(cycle, str)
     assert cycle != ""
-    assert len(cycle) == 6
-    assert cycle.startswith("20")
+    assert len(cycle) in (5, 6)  # 5 for APS-U
     assert cycle.find("-") >= 0
+    if cycle.startswith("A"):
+        assert cycle == "APS-U"
+    else:
+        assert cycle.startswith("20")
+        assert int(cycle.split("-")[0]) > 2020
 
 
 def test_ApsCycleDB():
@@ -35,10 +39,13 @@ def test_ApsCycleDB():
     assert cycle in aps_cycle.cycle_db.db
     assert isinstance(cycle, str)
     assert cycle != ""
-    assert len(cycle) == 6
-    assert cycle.startswith("20")
+    assert len(cycle) in (5, 6)  # 5 for APS-U
     assert cycle.find("-") >= 0
-    assert int(cycle.split("-")[0]) > 2020
+    if cycle.startswith("A"):
+        assert cycle == "APS-U"
+    else:
+        assert cycle.startswith("20")
+        assert int(cycle.split("-")[0]) > 2020
 
 
 @pytest.mark.parametrize(
