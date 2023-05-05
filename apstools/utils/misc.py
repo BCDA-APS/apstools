@@ -233,7 +233,7 @@ def replay(headers, callback=None, sort=True):
     headers
         *run* or *[run]* :
         Run(s) to be replayed through callback. A *run* is an instance of a
-        Bluesky ``databroker.core.BlueskyRun` (or the older
+        Bluesky ``databroker.core.BlueskyRun`` (or the older
         ``databroker.Header``).
         see: https://nsls-ii.github.io/databroker/api.html?highlight=header#header-api
 
