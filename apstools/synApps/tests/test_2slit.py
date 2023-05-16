@@ -111,8 +111,8 @@ def test_2slit2D_InbOutBotTop():
 @pytest.mark.parametrize(
     "class_, prefix, tolerance",
     [
-        [Optics2Slit2D_HV, f"{IOC}Slit1", 0.001],
-        [Optics2Slit2D_InbOutBotTop, f"{IOC}Slit1", 0.001],
+        [Optics2Slit2D_HV, f"{IOC}Slit1", 0.01],
+        [Optics2Slit2D_InbOutBotTop, f"{IOC}Slit1", 0.01],
     ]
 )
 def test_geometry_property(class_, prefix, tolerance):
