@@ -7,18 +7,12 @@ from ..epid import Fb_EpidDatabaseHeaterSimulator
 
 
 @pytest.mark.parametrize(
-    "support, ignore",
-    [
-        [EpidRecord, None],
-        [Fb_EpidDatabase, None],
-        [Fb_EpidDatabaseHeaterSimulator, None],
-    ],
+    "support", [EpidRecord, Fb_EpidDatabase, Fb_EpidDatabaseHeaterSimulator],
 )
-def test_connection(support, ignore):
+def test_connection(support):
     """Connection test."""
     epid = support(f"{IOC}epid1", name="epid")
     epid.wait_for_connection()
-
     assert epid.connected
 
 
