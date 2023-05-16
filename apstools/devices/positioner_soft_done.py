@@ -144,7 +144,7 @@ class PVPositionerSoftDone(PVPositioner):
 
         if tolerance:
             self.tolerance.put(tolerance)
-    
+
     def cleanup(self):
         self.readback.unsubscribe_all()
         self.setpoint.unsubscribe_all()
