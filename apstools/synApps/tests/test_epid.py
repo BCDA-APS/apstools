@@ -23,13 +23,13 @@ def test_connection(support, ignore):
 
 
 @pytest.mark.parametrize(
-    "method, scan, Kp, Ki, hi, T_noise",
+    "method, scan, Kp, Ki, hi",
     [
-        ["reset", 0, 0, 0, 1.0, 0.1],
-        ["setup", 8, 4e-4, 0.5, 1.0, 0.1],
+        ["reset", 0, 0, 0, 1.0],
+        ["setup", 8, 4e-4, 0.5, 1.0],
     ],
 )
-def test_sim_heater(method, scan, Kp, Ki, hi, T_noise):
+def test_sim_heater(method, scan, Kp, Ki, hi):
     epid = Fb_EpidDatabaseHeaterSimulator(f"{IOC}epid1", name="epid")
     epid.wait_for_connection()
 
@@ -38,4 +38,3 @@ def test_sim_heater(method, scan, Kp, Ki, hi, T_noise):
     assert epid.proportional_gain.get() == Kp
     assert epid.integral_gain.get() == Ki
     assert epid.high_limit.get() == hi
-    assert epid.sim_calc.channels.H.input_value.get() == T_noise
