@@ -146,6 +146,7 @@ class PVPositionerSoftDone(PVPositioner):
             self.tolerance.put(tolerance)
 
     def cleanup(self):
+        """Clear subscriptions on exit."""
         self.readback.unsubscribe_all()
         self.setpoint.unsubscribe_all()
 

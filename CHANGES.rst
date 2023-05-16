@@ -28,7 +28,7 @@ describe the future plans.
 1.6.16
 ******
 
-release expected by 2023-04-28
+release expected by 2023-05-26
 
 Enhancements
 ------------
@@ -39,7 +39,8 @@ Enhancements
 Maintenance
 ------------
 
-* Set `kind` attribute to add plugin to ad.read_attrs list.
+* Set ``kind`` attribute to add plugin to ad.read_attrs list.
+* Clear ``PVPositionerSoftDone``'s setpoint & readback subscriptions at exit.
 
 1.6.15
 ******
