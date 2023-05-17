@@ -145,9 +145,7 @@ class ShutterBase(Device):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.valid_open_values = list(map(self.lowerCaseString, self.valid_open_values))
-        self.valid_close_values = list(
-            map(self.lowerCaseString, self.valid_close_values)
-        )
+        self.valid_close_values = list(map(self.lowerCaseString, self.valid_close_values))
 
     @property
     def isOpen(self):
@@ -741,6 +739,7 @@ class EpicsOnOffShutter(OneSignalShutter):
     """
 
     signal = Component(EpicsSignal, "")
+
 
 # -----------------------------------------------------------------------------
 # :author:    Pete R. Jemian
