@@ -2,6 +2,7 @@
 Test the shutter classes.
 """
 
+import pytest
 from ophyd import Component
 from ophyd import EpicsSignal
 
@@ -32,6 +33,55 @@ def operate_shutter(shutter):
     assert shutter.state == "close"
     assert not shutter.isOpen
     assert shutter.isClosed
+
+
+@pytest.mark.parametrize(
+    "close_pv, open_pv",
+    [
+        [None, None],
+        ["alternative:close", None],
+        ["alternative:close_epics", None],
+        ["alternative:aaa", None],
+        [None, "alternative:open"],
+        [None, "alternative:open_epics"],
+        [None, "alternative:bbb"],
+        ["second:aaa", "third:bbb"],
+    ],
+)
+def test_ApsPssShutter(close_pv, open_pv):
+    """
+    Structure tests only.
+
+    Cannot connect or operate! We don't have the APS when testing!
+    """
+    prefix = "TEST:"
+    shutter = shutters.ApsPssShutter(prefix, name="shutter", close_pv=close_pv, open_pv=open_pv)
+    close_pv = close_pv or f"{prefix}Close"
+    open_pv = open_pv or f"{prefix}Open"
+    assert shutter.open_signal.pvname == open_pv
+    assert shutter.close_signal.pvname == close_pv
+
+
+@pytest.mark.parametrize(
+    "state_pv, close_pv, open_pv",
+    [
+        [None, None, None],
+        ["the:state:pv", None, None],
+        ["the:state:EPICS_PV", "a:close:pv", "that:open:pvname"],
+    ],
+)
+def test_ApsPssShutterWithStatus(state_pv, close_pv, open_pv):
+    """
+    Structure tests only.
+
+    Cannot connect or operate! We don't have the APS when testing!
+    """
+    prefix = "TEST:"
+    shutter = shutters.ApsPssShutterWithStatus(
+        prefix, state_pv, name="shutter", close_pv=close_pv, open_pv=open_pv
+    )
+    # state_pv = state_pv or f"{prefix}Close"
+    assert shutter.pss_state.pvname == str(state_pv)
 
 
 def test_EpicsMotorShutter():
