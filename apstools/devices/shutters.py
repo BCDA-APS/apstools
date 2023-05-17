@@ -373,6 +373,7 @@ class ApsPssShutter(ShutterBase):
     EXAMPLE::
 
         shutter_a = ApsPssShutter("2bma:A_shutter:", name="shutter")
+        shutter_a.wait_for_connection()
 
         shutter_a.open()
         shutter_a.close()
@@ -461,6 +462,8 @@ class ApsPssShutterWithStatus(ApsPssShutter):
             "2bma:B_shutter:",
             "PA:02BM:STA_B_SBS_OPEN_PL",
             name="B_shutter")
+        A_shutter.wait_for_connection()
+        B_shutter.wait_for_connection()
 
         A_shutter.open()
         A_shutter.close()
@@ -653,6 +656,7 @@ class EpicsMotorShutter(OneSignalShutter):
     EXAMPLE::
 
         tomo_shutter = EpicsMotorShutter("2bma:m23", name="tomo_shutter")
+        tomo_shutter.wait_for_connection()
         tomo_shutter.close_value = 1.0      # default
         tomo_shutter.open_value = 0.0       # default
         tomo_shutter.tolerance = 0.01       # default
@@ -718,6 +722,7 @@ class EpicsOnOffShutter(OneSignalShutter):
     EXAMPLE::
 
         bit_shutter = EpicsOnOffShutter("2bma:bit1", name="bit_shutter")
+        bit_shutter.wait_for_connection()
         bit_shutter.close_value = 0      # default
         bit_shutter.open_value = 1       # default
         bit_shutter.open()
