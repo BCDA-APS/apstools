@@ -14,12 +14,16 @@ import bluesky.plans as bp
 import pytest
 from ophyd.areadetector import ADComponent
 from ophyd.areadetector import DetectorBase
+from ophyd.areadetector import EpicsSignal
+from ophyd.areadetector import EpicsSignalRO
 from ophyd.areadetector import SimDetectorCam
+from ophyd.areadetector.plugins import HDF5Plugin_V34 as HDF5Plugin
 from ophyd.areadetector.plugins import ImagePlugin_V34 as ImagePlugin
 from ophyd.areadetector.plugins import PvaPlugin_V34 as PvaPlugin
 from ophyd.signal import EpicsSignalBase
 
 from ...tests import MASTER_TIMEOUT
+from ...tests import timed_pause
 from .. import AD_EpicsFileNameHDF5Plugin
 from .. import AD_EpicsFileNameJPEGPlugin
 from .. import AD_EpicsFileNameMixin
@@ -50,6 +54,39 @@ try:
     )
 except RuntimeError:
     pass  # ignore if some EPICS object already created
+
+
+class MonitorCache:
+    """Capture CA monitor values that match 'target'."""
+
+    def __init__(self, target):
+        self.target = target
+        self.reset()
+
+    def reset(self):
+        self.messages = []
+
+    def receiver(self, **kwargs):
+        value = kwargs["value"]
+        if value == self.target:
+            self.messages.append(value)
+
+
+class SignalSaveRestoreCache:
+    """
+    Save and restore previous signal values.
+
+    Ensure area detector signals are restored to previous values.
+    """
+
+    cache = {}
+
+    def save(self, signal):
+        self.cache[signal] = signal.get()
+
+    def restore(self):
+        for signal in reversed(self.cache):
+            signal.put(self.cache[signal])
 
 
 class MySimDetectorCam(CamMixin, SimDetectorCam):
@@ -86,6 +123,8 @@ class MySimDetector(SingleTrigger, DetectorBase):
 def adsimdet():
     "EPICS ADSimDetector."
     adsimdet = MySimDetector(IOC, name="adsimdet")
+    cache = SignalSaveRestoreCache()
+
     adsimdet.stage_sigs["cam.wait_for_plugins"] = "Yes"
     adsimdet.wait_for_connection(timeout=15)
     for plugin_name in "hdf1 jpeg1 tiff1".split():
@@ -95,19 +134,64 @@ def adsimdet():
             AD_prime_plugin2(plugin)
 
         # these settings are the caller's responsibility
-        plugin.file_name.put("")  # control this in tests
-        plugin.create_directory.put(-5)
-        plugin.file_path.put(f"{plugin.write_path_template}/")
         ext = dict(hdf1="h5", jpeg1="jpg", tiff1="tif")[plugin_name]
-        plugin.file_template.put(f"%s%s_%4.4d.{ext}")
-        plugin.auto_increment.put("Yes")
-        plugin.auto_save.put("Yes")
+        settings = [
+            [plugin.file_name, ""],  # control this in tests
+            [plugin.create_directory, -5],
+            [plugin.file_path, f"{plugin.write_path_template}/"],
+            [plugin.file_template, f"%s%s_%4.4d.{ext}"],
+            [plugin.auto_increment, "Yes"],
+            [plugin.auto_save, "Yes"],
+        ]
         if plugin_name == "hdf1":
-            plugin.compression.put("zlib")
-            plugin.zlevel.put(6)
+            settings.append([plugin.compression, "zlib"])
+            settings.append([plugin.zlevel, 6])
         elif plugin_name == "jpeg":
-            plugin.jpeg_quality.put(50)
+            settings.append([plugin.jpeg_quality, 50])
+
+        for signal, value in settings:
+            cache.save(signal)
+            signal.put(value)
+        cache.save(plugin.file_write_mode)
+        cache.save(plugin.num_capture)
+
+        if "capture" in plugin.stage_sigs:
+            plugin.stage_sigs.move_to_end("capture", last=True)
+
     yield adsimdet
+
+    adsimdet.unstage()
+    cache.restore()
+
+
+@pytest.fixture(scope="function")
+def adsingle():
+    """Using mostly ophyd sources."""
+
+    class MyCam(CamMixin, SimDetectorCam):
+        nd_attr_status = ADComponent(EpicsSignalRO, "NDAttributesStatus", kind="omitted", string=True)
+
+    class MyHDF5(HDF5Plugin):
+        layout_filename = ADComponent(EpicsSignal, "XMLFileName", kind="config", string=True)
+        layout_filename_valid = ADComponent(EpicsSignal, "XMLValid_RBV", kind="omitted", string=True)
+        nd_attr_status = ADComponent(EpicsSignal, "NDAttributesStatus", kind="omitted", string=True)
+
+    class MyAdSingle(SingleTrigger, DetectorBase):
+        cam = ADComponent(MyCam, suffix="cam1:")
+        hdf1 = ADComponent(MyHDF5, suffix="HDF1:")
+        image = ADComponent(ImagePlugin, suffix="image1:")
+        pva1 = ADComponent(PvaPlugin, suffix="Pva1:")
+
+    det = MyAdSingle(IOC, name="det")
+    det.wait_for_connection()
+
+    cache = SignalSaveRestoreCache()
+    cache.save(det.hdf1.file_write_mode)
+    cache.save(det.hdf1.num_capture)
+
+    yield det
+    det.unstage()
+    cache.restore()
 
 
 @pytest.fixture(scope="function")
@@ -160,6 +244,7 @@ def test_AD_EpicsFileNameMixin(plugin_name, spec, adsimdet):
     # add the settings
     for k, v in user_settings.items():
         getattr(mixin, k).put(v)
+    timed_pause()
 
     adsimdet.stage()
     if plugin_name == "hdf1":  # Why special case?
@@ -345,3 +430,46 @@ def test_file_numbering(adsimdet, fname):
     assert isinstance(full_file_name, str)
     assert full_file_name.find(fname) > 0, f"{fname=} {full_file_name=}"
     assert full_file_name.endswith(f"{fname}.h5"), f"{full_file_name=} {fname}.h5"
+
+
+def test_capture_error_with_single_mode(adsimdet):
+    plugin = adsimdet.hdf1
+
+    # test that plugin is in the wrong configuration for Single mode
+    assert "capture" in plugin.stage_sigs
+    assert list(plugin.stage_sigs)[-1] == "capture"
+    assert "file_write_mode" in plugin.stage_sigs
+    assert plugin.file_write_mode.enum_strs[0] == "Single"
+    assert plugin.stage_sigs["file_write_mode"] == "Stream"
+
+    # Test for this reported error message.
+    err_message = "ERROR: capture not supported in Single mode"
+
+    # A lot happens during device staging. The error message is posted and then
+    # quickly cleared as the IOC responds to other items staged.  Collect this
+    # transient message using a callback for later examination.
+    mcache = MonitorCache(err_message)
+
+    plugin.write_message.subscribe(mcache.receiver)
+    plugin.stage()
+    plugin.write_message.unsubscribe_all()
+    assert len(mcache.messages) >= 1
+    assert err_message == mcache.messages[0]
+    plugin.unstage()
+
+
+def test_single_mode(adsingle):
+    err_message = "ERROR: capture not supported in Single mode"
+    mcache = MonitorCache(err_message)
+
+    plugin = adsingle.hdf1
+    plugin.file_write_mode.put("Stream")
+    plugin.num_capture.put(0)
+
+    plugin.write_message.subscribe(mcache.receiver)
+    plugin.stage()
+    plugin.write_message.unsubscribe_all()
+    assert len(mcache.messages) == 0
+    plugin.unstage()
+
+    # assert adsingle is None  # TODO:
