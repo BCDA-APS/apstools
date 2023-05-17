@@ -23,11 +23,13 @@ def set_and_assert_signal(signal, value):
 def operate_shutter(shutter):
     shutter.open()
     timed_pause()
+    assert shutter.state == "open"
     assert shutter.isOpen
     assert not shutter.isClosed
 
     shutter.close()
     timed_pause()
+    assert shutter.state == "close"
     assert not shutter.isOpen
     assert shutter.isClosed
 
