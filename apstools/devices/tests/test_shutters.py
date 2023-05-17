@@ -13,11 +13,11 @@ PV_BIT = f"{IOC}gp:bit20"
 PV_MOTOR = f"{IOC}m16"
 
 
-def set_signal(signal, value):
+def set_and_assert_signal(signal, value):
     if signal.get() != value:
         signal.put(value)
         timed_pause()
-        assert signal.get() == value
+    assert signal.get() == value
 
 
 def operate_shutter(shutter):
@@ -40,7 +40,7 @@ def test_EpicsMotorShutter():
     shutter.tolerance = 0.01  # default
 
     # put the shutter into known state
-    set_signal(shutter.signal.user_setpoint, shutter.close_value)
+    set_and_assert_signal(shutter.signal.user_setpoint, shutter.close_value)
     operate_shutter(shutter)
 
 
@@ -50,7 +50,7 @@ def test_EpicsOnOffShutter():
     shutter.open_value = 1  # default
 
     # put the shutter into known state
-    set_signal(shutter.signal, shutter.close_value)
+    set_and_assert_signal(shutter.signal, shutter.close_value)
     operate_shutter(shutter)
 
 
@@ -63,7 +63,7 @@ def test_OneEpicsSignalShutter():
     assert shutter.connected
 
     # put the shutter into known state
-    set_signal(shutter.signal, shutter.close_value)
+    set_and_assert_signal(shutter.signal, shutter.close_value)
     operate_shutter(shutter)
 
 
