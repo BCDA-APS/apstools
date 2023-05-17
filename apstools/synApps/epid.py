@@ -12,6 +12,9 @@ Public Structures
 
 :see: https://epics.anl.gov/bcda/synApps/std/epidRecord.html
 :see: https://github.com/epics-modules/optics/blob/master/opticsApp/Db/fb_epid.db
+
+.. note:: Keep in mind a bug report suggests an update to this database.
+   (https://github.com/epics-modules/optics/issues/10)
 """
 
 from ophyd import Component
