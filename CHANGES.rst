@@ -35,6 +35,7 @@ Enhancements
 
 * Add ``fb_epid`` database support from the optics module.
 * Add guide *How to interrupt/stop/abort a running plan & recover to safe settings*.
+* Add ``close_pv`` & ``open_pv`` kwargs to ``ApsPssShutter``
 
 Maintenance
 ------------
