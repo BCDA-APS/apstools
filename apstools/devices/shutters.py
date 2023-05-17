@@ -404,10 +404,15 @@ class ApsPssShutter(ShutterBase):
 
     # bo records that reset after a short time, set to 1 to move
     # note: upper-case first characters here (unique to 9-ID)?
-    open_signal = Component(EpicsSignal, "Open")
-    close_signal = Component(EpicsSignal, "Close")
+    open_signal = FormattedComponent(EpicsSignal, "{self.open_pv}")
+    close_signal = FormattedComponent(EpicsSignal, "{self.close_pv}")
 
     delay_s = 1.2  # allow time for shutter to move
+
+    def __init__(self, prefix, *args, close_pv=None, open_pv=None, **kwargs):
+        self.open_pv = open_pv or f"{prefix}Open"
+        self.close_pv = close_pv or f"{prefix}Close"
+        super().__init__(prefix, *args, **kwargs)
 
     @property
     def state(self):
