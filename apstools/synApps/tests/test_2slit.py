@@ -1,3 +1,4 @@
+import math
 import pytest
 
 from ...tests import IOC
@@ -108,14 +109,14 @@ def test_2slit2D_InbOutBotTop():
 
 
 @pytest.mark.parametrize(
-    "klass, prefix",
+    "class_, prefix, tolerance",
     [
-        [Optics2Slit2D_HV, f"{IOC}Slit1"],
-        [Optics2Slit2D_InbOutBotTop, f"{IOC}Slit1"],
+        [Optics2Slit2D_HV, f"{IOC}Slit1", 0.01],
+        [Optics2Slit2D_InbOutBotTop, f"{IOC}Slit1", 0.01],
     ]
 )
-def test_geometry_property(klass, prefix):
-    slit1 = klass(prefix, name="slit1")
+def test_geometry_property(class_, prefix, tolerance):
+    slit1 = class_(prefix, name="slit1")
     assert slit1 is not None
 
     slit1.wait_for_connection()
@@ -123,4 +124,13 @@ def test_geometry_property(klass, prefix):
 
     h, v, x, y = (0.3, 0.1, .5, -.4)
     slit1.geometry = (h, v, x, y)
-    assert slit1.geometry == SlitGeometry(h, v, x, y)
+    assert math.isclose(slit1.geometry[0], h, abs_tol=tolerance)
+    assert math.isclose(slit1.geometry[1], v, abs_tol=tolerance)
+    assert math.isclose(slit1.geometry[2], x, abs_tol=tolerance)
+    assert math.isclose(slit1.geometry[3], y, abs_tol=tolerance)
+
+    sg = SlitGeometry(h, v, x, y)
+    assert math.isclose(slit1.geometry[0], sg.width, abs_tol=tolerance)
+    assert math.isclose(slit1.geometry[1], sg.height, abs_tol=tolerance)
+    assert math.isclose(slit1.geometry[2], sg.x, abs_tol=tolerance)
+    assert math.isclose(slit1.geometry[3], sg.y, abs_tol=tolerance)

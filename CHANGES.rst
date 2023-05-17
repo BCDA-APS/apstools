@@ -28,17 +28,19 @@ describe the future plans.
 1.6.16
 ******
 
-release expected by 2023-04-21
+release expected by 2023-05-26
 
 Enhancements
 ------------
 
+* Add ``fb_epid`` database support from the optics module.
 * Add guide *How to interrupt/stop/abort a running plan & recover to safe settings*.
 
 Maintenance
 ------------
 
-* Set `kind` attribute to add plugin to ad.read_attrs list.
+* Set ``kind`` attribute to add plugin to ad.read_attrs list.
+* Clear ``PVPositionerSoftDone``'s setpoint & readback subscriptions at exit.
 
 1.6.15
 ******

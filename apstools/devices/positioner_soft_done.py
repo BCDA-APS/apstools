@@ -7,6 +7,7 @@ PVPositioner that computes ``done`` as a soft signal.
    ~PVPositionerSoftDoneWithStop
 """
 
+import atexit
 import logging
 import math
 import weakref
@@ -139,9 +140,15 @@ class PVPositionerSoftDone(PVPositioner):
         # cancel subscriptions before object is garbage collected
         weakref.finalize(self.readback, self.readback.unsubscribe_all)
         weakref.finalize(self.setpoint, self.setpoint.unsubscribe_all)
+        atexit.register(self.cleanup)
 
         if tolerance:
             self.tolerance.put(tolerance)
+
+    def cleanup(self):
+        """Clear subscriptions on exit."""
+        self.readback.unsubscribe_all()
+        self.setpoint.unsubscribe_all()
 
     # fmt: off
     @property
