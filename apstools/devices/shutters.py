@@ -74,6 +74,10 @@ class ShutterBase(Device):
         (constant) Text reported by ``state`` when not open or closed.
         cannot move to this position
         (default = "unknown")
+
+    name
+        *str* :
+        (kwarg, required) object's canonical name
     """
 
     # fmt: off
@@ -262,6 +266,10 @@ class OneSignalShutter(ShutterBase):
         one communication channel to use.  See the
         ``ApsPssShutter`` as an example.
 
+    name
+        *str* :
+        (kwarg, required) object's canonical name
+
     See ``ShutterBase`` for more parameters.
 
     EXAMPLE
@@ -368,6 +376,26 @@ class ApsPssShutter(ShutterBase):
     shutter motion.  Change this as desired.  Advise if this
     default should be changed.
 
+    PARAMETERS
+
+    prefix
+        *str* :
+        EPICS PV prefix
+
+    name
+        *str* :
+        (kwarg, required) object's canonical name
+
+    close_pv
+        *str* :
+        (kwarg, optional) Name of EPICS PV to close the shutter.
+        If ``None``, defaults to ``"{prefix}Close"``.
+
+    open_pv
+        *str* :
+        (kwarg, optional) Name of EPICS PV to open the shutter.
+        If ``None``, defaults to ``"{prefix}Open"``.
+
     EXAMPLE::
 
         shutter_a = ApsPssShutter("2bma:A_shutter:", name="shutter")
@@ -455,6 +483,20 @@ class ApsPssShutterWithStatus(ApsPssShutter):
     * a separate status PV tells if the shutter is open or closed
       (see :func:`ApsPssShutter()` for alternative)
 
+    PARAMETERS
+
+    prefix
+        *str* :
+        EPICS PV prefix
+
+    state_pv
+        *str* :
+        Name of EPICS PV that provides shutter's current state.
+
+    name
+        *str* :
+        (kwarg, required) object's canonical name
+
     EXAMPLE::
 
         A_shutter = ApsPssShutterWithStatus(
@@ -527,19 +569,24 @@ class ApsPssShutterWithStatus(ApsPssShutter):
 
         PARAMETERS
 
+        (kwarg, optional) Name of EPICS PV to close the shutter.
+        If ``None``, defaults to ``"{prefix}Close"``.
+
         target
             *[str]* :
             list of strings containing acceptable values
 
         timeout
             *non-negative number* :
-            maximum amount of time (seconds) to wait for PSS state to reach target
+            (kwarg, optional) Maximum amount of time (seconds) to wait for PSS
+            state to reach target. If ``None``, defaults to ``10``.
 
         poll_s
             *non-negative number* :
-            Time to wait (seconds) in first polling cycle.
+            (kwarg, optional) Time to wait (seconds) in first polling cycle.
             After first poll, this will be increased by ``_poll_factor_``
             up to a maximum time of ``_poll_s_max_``.
+            If ``None``, defaults to ``0.01``.
         """
         if timeout is not None:
             expiration = time.time() + max(timeout, 0)  # ensure non-negative timeout
@@ -600,6 +647,16 @@ class SimulatedApsPssShutterWithStatus(ApsPssShutterWithStatus):
 
     .. index:: Ophyd Device; SimulatedApsPssShutterWithStatus
 
+    PARAMETERS
+
+    prefix
+        *str* :
+        EPICS PV prefix
+
+    name
+        *str* :
+        (kwarg, required) object's canonical name
+
     EXAMPLE::
 
         sim = SimulatedApsPssShutterWithStatus(name="sim")
@@ -655,6 +712,16 @@ class EpicsMotorShutter(OneSignalShutter):
     Shutter, implemented with an EPICS motor moved between two positions
 
     .. index:: Ophyd Device; EpicsMotorShutter
+
+    PARAMETERS
+
+    prefix
+        *str* :
+        EPICS PV prefix
+
+    name
+        *str* :
+        (kwarg, required) object's canonical name
 
     EXAMPLE::
 
@@ -721,6 +788,16 @@ class EpicsOnOffShutter(OneSignalShutter):
     value for the close command and a different value for the open command.
     The current position is determined by comparing the value of the control
     with the expected open and close values.
+
+    PARAMETERS
+
+    prefix
+        *str* :
+        EPICS PV prefix
+
+    name
+        *str* :
+        (kwarg, required) object's canonical name
 
     EXAMPLE::
 
