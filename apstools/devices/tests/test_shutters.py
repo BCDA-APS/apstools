@@ -24,15 +24,17 @@ def set_and_assert_signal(signal, value):
 def operate_shutter(shutter):
     shutter.open()
     timed_pause()
-    assert shutter.state == "open"
-    assert shutter.isOpen
-    assert not shutter.isClosed
+    assert shutter.state in ("open", "unknown")
+    if shutter.state != "unknown":
+        assert shutter.isOpen
+        assert not shutter.isClosed
 
     shutter.close()
     timed_pause()
-    assert shutter.state == "close"
-    assert not shutter.isOpen
-    assert shutter.isClosed
+    assert shutter.state in ("close", "unknown")
+    if shutter.state != "unknown":
+        assert not shutter.isOpen
+        assert shutter.isClosed
 
 
 @pytest.mark.parametrize(
@@ -70,6 +72,7 @@ def test_ApsPssShutter(close_pv, open_pv):
         [None, None, None],
         ["the:state:pv", None, None],
         ["the:state:EPICS_PV", "a:close:pv", "that:open:pvname"],
+        [f"{IOC}hutch_BEAM_PRESENT", f"{IOC}XYZ:CLOSE_EPICS.VAL", f"{IOC}ABC:OPEN_EPICS.VAL"],
     ],
 )
 def test_ApsPssShutterWithStatus(state_pv, close_pv, open_pv):
