@@ -56,6 +56,8 @@ def test_ApsPssShutter(close_pv, open_pv):
     """
     prefix = "TEST:"
     shutter = shutters.ApsPssShutter(prefix, name="shutter", close_pv=close_pv, open_pv=open_pv)
+    assert not shutter.connected
+
     close_pv = close_pv or f"{prefix}Close"
     open_pv = open_pv or f"{prefix}Open"
     assert shutter.open_signal.pvname == open_pv
@@ -80,7 +82,8 @@ def test_ApsPssShutterWithStatus(state_pv, close_pv, open_pv):
     shutter = shutters.ApsPssShutterWithStatus(
         prefix, state_pv, name="shutter", close_pv=close_pv, open_pv=open_pv
     )
-    # state_pv = state_pv or f"{prefix}Close"
+    assert not shutter.connected
+
     assert shutter.pss_state.pvname == str(state_pv)
 
 
