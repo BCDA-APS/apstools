@@ -292,5 +292,3 @@ def test_single_mode(adsingle):
     plugin.write_message.unsubscribe_all()
     assert len(mcache.messages) == 0
     plugin.unstage()
-
-    # assert adsingle is None  # TODO:
