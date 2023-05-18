@@ -176,6 +176,8 @@ class SignalSaveRestoreCache:
     cache = {}
 
     def save(self, signal):
+        if signal in self.cache:
+            raise KeyError(f"'{signal.name}' already in the cache.")
         self.cache[signal] = signal.get()
 
     def restore(self):
