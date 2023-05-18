@@ -49,40 +49,39 @@ def fname():
     yield fname
 
 
-class MySimDetectorCam(CamMixin, SimDetectorCam):
-    """triggering configuration and AcquireBusy support"""
-
-
-class MySimDetector(SingleTrigger, DetectorBase):
-    """ADSimDetector"""
-
-    cam = ADComponent(MySimDetectorCam, "cam1:")
-    hdf1 = ADComponent(
-        AD_EpicsFileNameHDF5Plugin,
-        "HDF1:",
-        write_path_template=WRITE_PATH_TEMPLATE,
-        read_path_template=READ_PATH_TEMPLATE,
-    )
-    image = ADComponent(ImagePlugin, "image1:")
-    jpeg1 = ADComponent(
-        AD_EpicsFileNameJPEGPlugin,
-        "JPEG1:",
-        write_path_template=WRITE_PATH_TEMPLATE,
-        read_path_template=READ_PATH_TEMPLATE,
-    )
-    pva = ADComponent(PvaPlugin, "Pva1:")
-    tiff1 = ADComponent(
-        AD_EpicsFileNameTIFFPlugin,
-        "TIFF1:",
-        write_path_template=WRITE_PATH_TEMPLATE,
-        read_path_template=READ_PATH_TEMPLATE,
-    )
-
-
 @pytest.fixture()
 def adsimdet():
-    "EPICS ADSimDetector."
-    adsimdet = MySimDetector(IOC_AD, name="adsimdet")
+    """EPICS ADSimDetector."""
+
+    class MyCam(CamMixin, SimDetectorCam):
+        """triggering configuration and AcquireBusy support"""
+
+    class MySimDet(SingleTrigger, DetectorBase):
+        """ADSimDetector"""
+
+        cam = ADComponent(MyCam, "cam1:")
+        hdf1 = ADComponent(
+            AD_EpicsFileNameHDF5Plugin,
+            "HDF1:",
+            write_path_template=WRITE_PATH_TEMPLATE,
+            read_path_template=READ_PATH_TEMPLATE,
+        )
+        image = ADComponent(ImagePlugin, "image1:")
+        jpeg1 = ADComponent(
+            AD_EpicsFileNameJPEGPlugin,
+            "JPEG1:",
+            write_path_template=WRITE_PATH_TEMPLATE,
+            read_path_template=READ_PATH_TEMPLATE,
+        )
+        pva = ADComponent(PvaPlugin, "Pva1:")
+        tiff1 = ADComponent(
+            AD_EpicsFileNameTIFFPlugin,
+            "TIFF1:",
+            write_path_template=WRITE_PATH_TEMPLATE,
+            read_path_template=READ_PATH_TEMPLATE,
+        )
+
+    adsimdet = MySimDet(IOC_AD, name="adsimdet")
     cache = SignalSaveRestoreCache()
 
     adsimdet.stage_sigs["cam.wait_for_plugins"] = "Yes"
