@@ -141,12 +141,23 @@ def adsingle():
         image = ADComponent(ImagePlugin, suffix="image1:")
         pva1 = ADComponent(PvaPlugin, suffix="Pva1:")
 
-    det = MyAdSingle(IOC_AD, name="det")
+    det = MyAdSingle(IOC_AD, name="adsingle")
     det.wait_for_connection()
 
+    # Configure detector (and save any previous settings).
     cache = SignalSaveRestoreCache()
+    settings = {
+        det.hdf1.file_path: "/tmp/test/",
+        det.hdf1.file_name: det.name,
+        det.hdf1.file_template: "%s%s_%3.3d.h5",
+    }
+    for signal, value in settings.items():
+        cache.save(signal)
+        signal.put(value)
     cache.save(det.hdf1.file_write_mode)
     cache.save(det.hdf1.num_capture)
+
+    det.hdf1.kind = 3
 
     yield det
     det.unstage()
