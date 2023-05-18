@@ -37,19 +37,8 @@ def operate_shutter(shutter):
         assert shutter.isClosed
 
 
-@pytest.mark.parametrize(
-    "close_pv, open_pv",
-    [
-        [None, None],
-        ["alternative:close", None],
-        ["alternative:close_epics", None],
-        ["alternative:aaa", None],
-        [None, "alternative:open"],
-        [None, "alternative:open_epics"],
-        [None, "alternative:bbb"],
-        ["second:aaa", "third:bbb"],
-    ],
-)
+@pytest.mark.parametrize("close_pv", [None, "a:close:pv", f"{IOC}XYZ:CLOSE_EPICS.VAL"])
+@pytest.mark.parametrize("open_pv", [None, "that:open:pvname", f"{IOC}ABC:OPEN_EPICS.VAL"])
 def test_ApsPssShutter(close_pv, open_pv):
     """
     Structure tests only.
@@ -66,15 +55,9 @@ def test_ApsPssShutter(close_pv, open_pv):
     assert shutter.close_signal.pvname == close_pv
 
 
-@pytest.mark.parametrize(
-    "state_pv, close_pv, open_pv",
-    [
-        [None, None, None],
-        ["the:state:pv", None, None],
-        ["the:state:EPICS_PV", "a:close:pv", "that:open:pvname"],
-        [f"{IOC}hutch_BEAM_PRESENT", f"{IOC}XYZ:CLOSE_EPICS.VAL", f"{IOC}ABC:OPEN_EPICS.VAL"],
-    ],
-)
+@pytest.mark.parametrize("state_pv", [None, "the:state:pv", "the:state:EPICS_PV", f"{IOC}hutch_BEAM_PRESENT"])
+@pytest.mark.parametrize("close_pv", [None, "a:close:pv", f"{IOC}XYZ:CLOSE_EPICS.VAL"])
+@pytest.mark.parametrize("open_pv", [None, "that:open:pvname", f"{IOC}ABC:OPEN_EPICS.VAL"])
 def test_ApsPssShutterWithStatus(state_pv, close_pv, open_pv):
     """
     Structure tests only.
