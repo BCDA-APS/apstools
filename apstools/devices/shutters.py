@@ -74,6 +74,10 @@ class ShutterBase(Device):
         (constant) Text reported by ``state`` when not open or closed.
         cannot move to this position
         (default = "unknown")
+
+    name
+        *str* :
+        (kwarg, required) object's canonical name
     """
 
     # fmt: off
@@ -145,9 +149,7 @@ class ShutterBase(Device):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.valid_open_values = list(map(self.lowerCaseString, self.valid_open_values))
-        self.valid_close_values = list(
-            map(self.lowerCaseString, self.valid_close_values)
-        )
+        self.valid_close_values = list(map(self.lowerCaseString, self.valid_close_values))
 
     @property
     def isOpen(self):
@@ -264,6 +266,10 @@ class OneSignalShutter(ShutterBase):
         one communication channel to use.  See the
         ``ApsPssShutter`` as an example.
 
+    name
+        *str* :
+        (kwarg, required) object's canonical name
+
     See ``ShutterBase`` for more parameters.
 
     EXAMPLE
@@ -370,9 +376,30 @@ class ApsPssShutter(ShutterBase):
     shutter motion.  Change this as desired.  Advise if this
     default should be changed.
 
+    PARAMETERS
+
+    prefix
+        *str* :
+        EPICS PV prefix
+
+    name
+        *str* :
+        (kwarg, required) object's canonical name
+
+    close_pv
+        *str* :
+        (kwarg, optional) Name of EPICS PV to close the shutter.
+        If ``None``, defaults to ``"{prefix}Close"``.
+
+    open_pv
+        *str* :
+        (kwarg, optional) Name of EPICS PV to open the shutter.
+        If ``None``, defaults to ``"{prefix}Open"``.
+
     EXAMPLE::
 
         shutter_a = ApsPssShutter("2bma:A_shutter:", name="shutter")
+        shutter_a.wait_for_connection()
 
         shutter_a.open()
         shutter_a.close()
@@ -403,10 +430,15 @@ class ApsPssShutter(ShutterBase):
 
     # bo records that reset after a short time, set to 1 to move
     # note: upper-case first characters here (unique to 9-ID)?
-    open_signal = Component(EpicsSignal, "Open")
-    close_signal = Component(EpicsSignal, "Close")
+    open_signal = FormattedComponent(EpicsSignal, "{self.open_pv}")
+    close_signal = FormattedComponent(EpicsSignal, "{self.close_pv}")
 
     delay_s = 1.2  # allow time for shutter to move
+
+    def __init__(self, prefix, *args, close_pv=None, open_pv=None, **kwargs):
+        self.open_pv = open_pv or f"{prefix}Open"
+        self.close_pv = close_pv or f"{prefix}Close"
+        super().__init__(prefix, *args, **kwargs)
 
     @property
     def state(self):
@@ -451,6 +483,20 @@ class ApsPssShutterWithStatus(ApsPssShutter):
     * a separate status PV tells if the shutter is open or closed
       (see :func:`ApsPssShutter()` for alternative)
 
+    PARAMETERS
+
+    prefix
+        *str* :
+        EPICS PV prefix
+
+    state_pv
+        *str* :
+        Name of EPICS PV that provides shutter's current state.
+
+    name
+        *str* :
+        (kwarg, required) object's canonical name
+
     EXAMPLE::
 
         A_shutter = ApsPssShutterWithStatus(
@@ -461,6 +507,8 @@ class ApsPssShutterWithStatus(ApsPssShutter):
             "2bma:B_shutter:",
             "PA:02BM:STA_B_SBS_OPEN_PL",
             name="B_shutter")
+        A_shutter.wait_for_connection()
+        B_shutter.wait_for_connection()
 
         A_shutter.open()
         A_shutter.close()
@@ -521,19 +569,24 @@ class ApsPssShutterWithStatus(ApsPssShutter):
 
         PARAMETERS
 
+        (kwarg, optional) Name of EPICS PV to close the shutter.
+        If ``None``, defaults to ``"{prefix}Close"``.
+
         target
             *[str]* :
             list of strings containing acceptable values
 
         timeout
             *non-negative number* :
-            maximum amount of time (seconds) to wait for PSS state to reach target
+            (kwarg, optional) Maximum amount of time (seconds) to wait for PSS
+            state to reach target. If ``None``, defaults to ``10``.
 
         poll_s
             *non-negative number* :
-            Time to wait (seconds) in first polling cycle.
+            (kwarg, optional) Time to wait (seconds) in first polling cycle.
             After first poll, this will be increased by ``_poll_factor_``
             up to a maximum time of ``_poll_s_max_``.
+            If ``None``, defaults to ``0.01``.
         """
         if timeout is not None:
             expiration = time.time() + max(timeout, 0)  # ensure non-negative timeout
@@ -594,6 +647,16 @@ class SimulatedApsPssShutterWithStatus(ApsPssShutterWithStatus):
 
     .. index:: Ophyd Device; SimulatedApsPssShutterWithStatus
 
+    PARAMETERS
+
+    prefix
+        *str* :
+        EPICS PV prefix
+
+    name
+        *str* :
+        (kwarg, required) object's canonical name
+
     EXAMPLE::
 
         sim = SimulatedApsPssShutterWithStatus(name="sim")
@@ -650,9 +713,20 @@ class EpicsMotorShutter(OneSignalShutter):
 
     .. index:: Ophyd Device; EpicsMotorShutter
 
+    PARAMETERS
+
+    prefix
+        *str* :
+        EPICS PV prefix
+
+    name
+        *str* :
+        (kwarg, required) object's canonical name
+
     EXAMPLE::
 
         tomo_shutter = EpicsMotorShutter("2bma:m23", name="tomo_shutter")
+        tomo_shutter.wait_for_connection()
         tomo_shutter.close_value = 1.0      # default
         tomo_shutter.open_value = 0.0       # default
         tomo_shutter.tolerance = 0.01       # default
@@ -715,9 +789,20 @@ class EpicsOnOffShutter(OneSignalShutter):
     The current position is determined by comparing the value of the control
     with the expected open and close values.
 
+    PARAMETERS
+
+    prefix
+        *str* :
+        EPICS PV prefix
+
+    name
+        *str* :
+        (kwarg, required) object's canonical name
+
     EXAMPLE::
 
         bit_shutter = EpicsOnOffShutter("2bma:bit1", name="bit_shutter")
+        bit_shutter.wait_for_connection()
         bit_shutter.close_value = 0      # default
         bit_shutter.open_value = 1       # default
         bit_shutter.open()
@@ -731,6 +816,7 @@ class EpicsOnOffShutter(OneSignalShutter):
     """
 
     signal = Component(EpicsSignal, "")
+
 
 # -----------------------------------------------------------------------------
 # :author:    Pete R. Jemian
