@@ -23,6 +23,8 @@ from ophyd.areadetector.plugins import PvaPlugin_V34 as PvaPlugin
 from ophyd.signal import EpicsSignalBase
 
 from ...tests import MASTER_TIMEOUT
+from ...tests import MonitorCache
+from ...tests import SignalSaveRestoreCache
 from ...tests import timed_pause
 from .. import AD_EpicsFileNameHDF5Plugin
 from .. import AD_EpicsFileNameJPEGPlugin
@@ -54,39 +56,6 @@ try:
     )
 except RuntimeError:
     pass  # ignore if some EPICS object already created
-
-
-class MonitorCache:
-    """Capture CA monitor values that match 'target'."""
-
-    def __init__(self, target):
-        self.target = target
-        self.reset()
-
-    def reset(self):
-        self.messages = []
-
-    def receiver(self, **kwargs):
-        value = kwargs["value"]
-        if value == self.target:
-            self.messages.append(value)
-
-
-class SignalSaveRestoreCache:
-    """
-    Save and restore previous signal values.
-
-    Ensure area detector signals are restored to previous values.
-    """
-
-    cache = {}
-
-    def save(self, signal):
-        self.cache[signal] = signal.get()
-
-    def restore(self):
-        for signal in reversed(self.cache):
-            signal.put(self.cache[signal])
 
 
 class MySimDetectorCam(CamMixin, SimDetectorCam):

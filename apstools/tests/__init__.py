@@ -124,3 +124,36 @@ def setup_transform_as_soft_motor(
 
 def timed_pause(delay=None):
     time.sleep(delay or SHORT_DELAY_FOR_EPICS_IOC_DATABASE_PROCESSING)
+
+
+class MonitorCache:
+    """Capture CA monitor values that match 'target'."""
+
+    def __init__(self, target):
+        self.target = target
+        self.reset()
+
+    def reset(self):
+        self.messages = []
+
+    def receiver(self, **kwargs):
+        value = kwargs["value"]
+        if value == self.target:
+            self.messages.append(value)
+
+
+class SignalSaveRestoreCache:
+    """
+    Save and restore previous signal values.
+
+    Ensure area detector signals are restored to previous values.
+    """
+
+    cache = {}
+
+    def save(self, signal):
+        self.cache[signal] = signal.get()
+
+    def restore(self):
+        for signal in reversed(self.cache):
+            signal.put(self.cache[signal])
