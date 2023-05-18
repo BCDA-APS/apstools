@@ -2,9 +2,9 @@ import databroker
 from bluesky import plans as bp
 from bluesky.run_engine import RunEngine
 
-from ...tests import MonitorCache
-from ...tests import timed_pause
 from ...tests import BLUESKY_MOUNT_PATH
+from ...tests import MonitorCache
+
 
 def test_stage(adsingle):
     mcache = MonitorCache("ERROR: capture not supported in Single mode")
