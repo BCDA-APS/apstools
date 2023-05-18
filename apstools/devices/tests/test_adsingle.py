@@ -4,7 +4,7 @@ from bluesky.run_engine import RunEngine
 
 from ...tests import MonitorCache
 from ...tests import timed_pause
-
+from ...tests import BLUESKY_MOUNT_PATH
 
 def test_stage(adsingle):
     mcache = MonitorCache("ERROR: capture not supported in Single mode")
@@ -15,12 +15,22 @@ def test_stage(adsingle):
     adsingle.hdf1.unstage()
 
 
-def test_count(adsingle):
+def test_count_not_in_catalog(adsingle):
     cat = databroker.temp().v2
     RE = RunEngine({})
     RE.subscribe(cat.v1.insert)
+
+    # Acquire one image and save to HDF5 file.
     uids = RE(bp.count([adsingle]))
     assert len(uids) == 1
-    
-    # TODO: test the file is not known by databroker
-    # TODO: test the file is found
+    assert len(cat) == 1
+
+    ioc_file = adsingle.hdf1.full_file_name.get()
+    assert len(ioc_file) > 0
+
+    # Test the file is not known by the databroker
+    assert len(cat[-1].primary.read()) == 0  # no image data
+
+    # Test the file is found
+    f = BLUESKY_MOUNT_PATH.parent / ioc_file.lstrip("/")
+    assert f.exists()
