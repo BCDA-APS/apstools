@@ -3,6 +3,8 @@ import random
 import time
 import warnings
 
+from ophyd.signal import EpicsSignalBase
+
 IOC = "gp:"
 IOC_AD = "ad:"
 MASTER_TIMEOUT = 30
@@ -16,6 +18,18 @@ BLUESKY_MOUNT_PATH = pathlib.Path("/tmp/docker_ioc/iocad/tmp")
 # MUST end with a `/`, pathlib will NOT provide it
 WRITE_PATH_TEMPLATE = f"{AD_IOC_MOUNT_PATH / IMAGE_DIR}/"
 READ_PATH_TEMPLATE = f"{BLUESKY_MOUNT_PATH / IMAGE_DIR}/"
+
+
+# set default timeout for all EpicsSignal connections & communications
+try:
+    EpicsSignalBase.set_defaults(
+        auto_monitor=True,
+        timeout=MASTER_TIMEOUT,
+        write_timeout=MASTER_TIMEOUT,
+        connection_timeout=MASTER_TIMEOUT,
+    )
+except RuntimeError:
+    pass  # ignore if some EPICS object already created
 
 
 def common_attribute_quantities_test(device, pv, connect, attr, expected):

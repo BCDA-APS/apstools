@@ -12,9 +12,7 @@ import bluesky
 import bluesky.plan_stubs as bps
 import bluesky.plans as bp
 import pytest
-from ophyd.signal import EpicsSignalBase
 
-from ...tests import MASTER_TIMEOUT
 from ...tests import READ_PATH_TEMPLATE
 from ...tests import MonitorCache
 from ...tests import timed_pause
@@ -23,17 +21,6 @@ from .. import AD_EpicsFileNameJPEGPlugin
 from .. import AD_EpicsFileNameMixin
 from .. import AD_EpicsFileNameTIFFPlugin
 from .. import AD_full_file_name_local
-
-# set default timeout for all EpicsSignal connections & communications
-try:
-    EpicsSignalBase.set_defaults(
-        auto_monitor=True,
-        timeout=MASTER_TIMEOUT,
-        write_timeout=MASTER_TIMEOUT,
-        connection_timeout=MASTER_TIMEOUT,
-    )
-except RuntimeError:
-    pass  # ignore if some EPICS object already created
 
 
 @pytest.mark.parametrize(
