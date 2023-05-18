@@ -12,9 +12,6 @@ import bluesky
 import bluesky.plan_stubs as bps
 import bluesky.plans as bp
 import pytest
-from ophyd.areadetector.plugins import HDF5Plugin_V34 as HDF5Plugin
-from ophyd.areadetector.plugins import ImagePlugin_V34 as ImagePlugin
-from ophyd.areadetector.plugins import PvaPlugin_V34 as PvaPlugin
 from ophyd.signal import EpicsSignalBase
 
 from ...tests import MASTER_TIMEOUT
