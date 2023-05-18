@@ -35,10 +35,12 @@ Enhancements
 
 * Add ``fb_epid`` database support from the optics module.
 * Add guide *How to interrupt/stop/abort a running plan & recover to safe settings*.
+* Add ``close_pv`` & ``open_pv`` kwargs to ``ApsPssShutter``
 
 Maintenance
 ------------
 
+* Add unit tests for shutters.
 * Set ``kind`` attribute to add plugin to ad.read_attrs list.
 * Clear ``PVPositionerSoftDone``'s setpoint & readback subscriptions at exit.
 
