@@ -22,7 +22,10 @@ from ophyd.areadetector.plugins import ImagePlugin_V34 as ImagePlugin
 from ophyd.areadetector.plugins import PvaPlugin_V34 as PvaPlugin
 from ophyd.signal import EpicsSignalBase
 
+from ...tests import IOC_AD
 from ...tests import MASTER_TIMEOUT
+from ...tests import READ_PATH_TEMPLATE
+from ...tests import WRITE_PATH_TEMPLATE
 from ...tests import MonitorCache
 from ...tests import SignalSaveRestoreCache
 from ...tests import timed_pause
@@ -35,16 +38,6 @@ from .. import AD_plugin_primed
 from .. import AD_prime_plugin2
 from .. import CamMixin_V34 as CamMixin
 from .. import SingleTrigger_V34 as SingleTrigger
-
-IOC = "ad:"
-IMAGE_DIR = "adsimdet/%Y/%m/%d"
-AD_IOC_MOUNT_PATH = pathlib.Path("/tmp")
-BLUESKY_MOUNT_PATH = pathlib.Path("/tmp/docker_ioc/iocad/tmp")
-
-# MUST end with a `/`, pathlib will NOT provide it
-WRITE_PATH_TEMPLATE = f"{AD_IOC_MOUNT_PATH / IMAGE_DIR}/"
-READ_PATH_TEMPLATE = f"{BLUESKY_MOUNT_PATH / IMAGE_DIR}/"
-
 
 # set default timeout for all EpicsSignal connections & communications
 try:
@@ -88,10 +81,10 @@ class MySimDetector(SingleTrigger, DetectorBase):
     )
 
 
-@pytest.fixture(scope="function")
+@pytest.fixture()
 def adsimdet():
     "EPICS ADSimDetector."
-    adsimdet = MySimDetector(IOC, name="adsimdet")
+    adsimdet = MySimDetector(IOC_AD, name="adsimdet")
     cache = SignalSaveRestoreCache()
 
     adsimdet.stage_sigs["cam.wait_for_plugins"] = "Yes"
@@ -133,7 +126,7 @@ def adsimdet():
     cache.restore()
 
 
-@pytest.fixture(scope="function")
+@pytest.fixture()
 def adsingle():
     """Using mostly ophyd sources."""
 
@@ -151,7 +144,7 @@ def adsingle():
         image = ADComponent(ImagePlugin, suffix="image1:")
         pva1 = ADComponent(PvaPlugin, suffix="Pva1:")
 
-    det = MyAdSingle(IOC, name="det")
+    det = MyAdSingle(IOC_AD, name="det")
     det.wait_for_connection()
 
     cache = SignalSaveRestoreCache()
@@ -163,7 +156,7 @@ def adsingle():
     cache.restore()
 
 
-@pytest.fixture(scope="function")
+@pytest.fixture()
 def fname():
     "File (base) name."
     dt = datetime.datetime.now()

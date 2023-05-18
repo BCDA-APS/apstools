@@ -4,9 +4,7 @@ import pytest
 
 
 def pytest_addoption(parser):
-    parser.addoption(
-        "--run-local", action="store_true", default=False, help="run local tests"
-    )
+    parser.addoption("--run-local", action="store_true", default=False, help="run local tests")
 
 
 def pytest_configure(config):

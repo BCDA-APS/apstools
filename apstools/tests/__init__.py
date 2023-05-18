@@ -1,11 +1,21 @@
+import pathlib
 import random
 import time
 import warnings
 
 IOC = "gp:"
+IOC_AD = "ad:"
 MASTER_TIMEOUT = 30
 MAX_TESTING_RETRIES = 3
 SHORT_DELAY_FOR_EPICS_IOC_DATABASE_PROCESSING = 2.0 / 60  # two 60Hz clock cycles
+
+IMAGE_DIR = "adsimdet/%Y/%m/%d"
+AD_IOC_MOUNT_PATH = pathlib.Path("/tmp")
+BLUESKY_MOUNT_PATH = pathlib.Path("/tmp/docker_ioc/iocad/tmp")
+
+# MUST end with a `/`, pathlib will NOT provide it
+WRITE_PATH_TEMPLATE = f"{AD_IOC_MOUNT_PATH / IMAGE_DIR}/"
+READ_PATH_TEMPLATE = f"{BLUESKY_MOUNT_PATH / IMAGE_DIR}/"
 
 
 def common_attribute_quantities_test(device, pv, connect, attr, expected):
