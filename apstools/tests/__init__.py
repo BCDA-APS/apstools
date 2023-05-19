@@ -173,7 +173,8 @@ class SignalSaveRestoreCache:
     Ensure area detector signals are restored to previous values.
     """
 
-    cache = {}
+    def __init__(self) -> None:
+        self.cache = {}
 
     def save(self, signal):
         if signal in self.cache:
