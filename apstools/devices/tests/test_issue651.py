@@ -13,8 +13,7 @@ from ophyd.areadetector.plugins import HDF5Plugin_V34 as HDF5Plugin
 from ophyd.areadetector.plugins import ImagePlugin_V34 as ImagePlugin
 
 from ..area_detector_support import AD_EpicsHdf5FileName
-from ..area_detector_support import AD_plugin_primed
-from ..area_detector_support import AD_prime_plugin2
+from ..area_detector_support import ensure_AD_plugin_primed
 
 IOC = "ad:"
 IMAGE_DIR = "images"
@@ -85,9 +84,7 @@ def test_no_unexpected_key_in_datum_kwarg():
     camera.wait_for_connection()
     assert camera.connected
 
-    if not AD_plugin_primed(camera.hdf1):
-        # camera.hdf1.warmup()
-        AD_prime_plugin2(camera.hdf1)
+    ensure_AD_plugin_primed(camera.hdf1, True)
 
     file_name = "test_image"
     file_path = AD_IOC_MOUNT_PATH / IMAGE_DIR

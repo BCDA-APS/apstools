@@ -17,8 +17,7 @@ from ...tests import SignalSaveRestoreCache
 from .. import AD_EpicsFileNameHDF5Plugin
 from .. import AD_EpicsFileNameJPEGPlugin
 from .. import AD_EpicsFileNameTIFFPlugin
-from .. import AD_plugin_primed
-from .. import AD_prime_plugin2
+from .. import ensure_AD_plugin_primed
 from .. import CamMixin_V34 as CamMixin
 from .. import SingleTrigger_V34 as SingleTrigger
 
@@ -89,8 +88,7 @@ def adsimdet():
     for plugin_name in "hdf1 jpeg1 tiff1".split():
         adsimdet.read_attrs.append(plugin_name)
         plugin = getattr(adsimdet, plugin_name)
-        if not AD_plugin_primed(plugin):
-            AD_prime_plugin2(plugin)
+        ensure_AD_plugin_primed(plugin, True)
 
         # these settings are the caller's responsibility
         ext = dict(hdf1="h5", jpeg1="jpg", tiff1="tif")[plugin_name]
