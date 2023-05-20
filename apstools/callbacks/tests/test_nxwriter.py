@@ -18,9 +18,10 @@ from ...devices import ensure_AD_plugin_primed
 from ...devices import CamMixin_V34 as CamMixin
 from ...devices import SingleTrigger_V34 as SingleTrigger
 from .. import NXWriter
+from ...tests import IOC
+from ...tests import IOC_AD
 
-AD_IOC = "ad:"
-MOTOR_PV = "gp:m1"
+MOTOR_PV = f"{IOC}m1"
 IMAGE_DIR = "adsimdet/%Y/%m/%d"
 AD_IOC_MOUNT_PATH = pathlib.Path("/tmp")
 BLUESKY_MOUNT_PATH = pathlib.Path("/tmp/docker_ioc/iocad/tmp")
@@ -59,7 +60,7 @@ class MyDetector(SingleTrigger, DetectorBase):
 @pytest.fixture(scope="function")
 def camera():
     """EPICS ADSimDetector."""
-    camera = MyDetector(AD_IOC, name="camera")
+    camera = MyDetector(IOC_AD, name="camera")
     camera.wait_for_connection(timeout=15)
 
     camera.hdf1.create_directory.put(-5)
