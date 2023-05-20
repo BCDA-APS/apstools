@@ -36,6 +36,7 @@ from .area_detector_support import AD_EpicsTIFFIterativeWriter
 from .area_detector_support import CamMixin_V34
 from .area_detector_support import CamMixin_V3_1_1
 from .area_detector_support import SingleTrigger_V34
+from .area_detector_support import ensure_AD_plugin_primed
 
 
 from .axis_tuner import AxisTunerException
