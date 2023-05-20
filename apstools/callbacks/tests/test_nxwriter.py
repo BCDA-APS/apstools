@@ -18,10 +18,10 @@ from ...devices import ensure_AD_plugin_primed
 from ...devices import CamMixin_V34 as CamMixin
 from ...devices import SingleTrigger_V34 as SingleTrigger
 from .. import NXWriter
-from ...tests import IOC
+from ...tests import IOC_GP
 from ...tests import IOC_AD
 
-MOTOR_PV = f"{IOC}m1"
+MOTOR_PV = f"{IOC_GP}m1"
 IMAGE_DIR = "adsimdet/%Y/%m/%d"
 AD_IOC_MOUNT_PATH = pathlib.Path("/tmp")
 BLUESKY_MOUNT_PATH = pathlib.Path("/tmp/docker_ioc/iocad/tmp")

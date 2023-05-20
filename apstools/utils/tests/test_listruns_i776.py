@@ -11,9 +11,9 @@ import pytest
 from ophyd.scaler import ScalerCH
 
 from ... import utils as utils
-from ...tests import IOC
+from ...tests import IOC_GP
 
-PV = f"{IOC}scaler1"
+PV = f"{IOC_GP}scaler1"
 
 
 @pytest.mark.parametrize(

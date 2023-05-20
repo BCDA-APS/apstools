@@ -1,6 +1,6 @@
 import pytest
 
-from ...tests import IOC
+from ...tests import IOC_GP
 from ...tests import common_attribute_quantities_test
 from ...tests import timed_pause
 from ..calcout import CalcoutRecord
@@ -11,7 +11,7 @@ from ..sub import UserAverageN
 
 @pytest.fixture(scope="function")
 def ave():
-    ave = UserAverageN(f"{IOC}userAve9", name="ave")
+    ave = UserAverageN(f"{IOC_GP}userAve9", name="ave")
     ave.wait_for_connection()
     ave.enable.put("E")
     yield ave
@@ -20,7 +20,7 @@ def ave():
 
 @pytest.fixture(scope="function")
 def calc():
-    calc = CalcoutRecord(f"{IOC}userCalcOut9", name="calc")
+    calc = CalcoutRecord(f"{IOC_GP}userCalcOut9", name="calc")
     calc.wait_for_connection()
     calc.enable.put("E")
     yield calc
@@ -40,20 +40,20 @@ def calc():
 @pytest.mark.parametrize(
     "device, pv, connect, attr, expected",
     [
-        [SubRecord, f"{IOC}userAve10", False, "read_attrs", 12],
-        [SubRecord, f"{IOC}userAve10", False, "configuration_attrs", 65],
-        [SubRecord, f"{IOC}userAve10", True, "read()", 1],
-        [SubRecord, f"{IOC}userAve10", True, "summary()", 148],
+        [SubRecord, f"{IOC_GP}userAve10", False, "read_attrs", 12],
+        [SubRecord, f"{IOC_GP}userAve10", False, "configuration_attrs", 65],
+        [SubRecord, f"{IOC_GP}userAve10", True, "read()", 1],
+        [SubRecord, f"{IOC_GP}userAve10", True, "summary()", 148],
 
-        [UserAverageN, f"{IOC}userAve10", False, "read_attrs", 7],
-        [UserAverageN, f"{IOC}userAve10", False, "configuration_attrs", 33],
-        [UserAverageN, f"{IOC}userAve10", True, "read()", 7],
-        [UserAverageN, f"{IOC}userAve10", True, "summary()", 101],
+        [UserAverageN, f"{IOC_GP}userAve10", False, "read_attrs", 7],
+        [UserAverageN, f"{IOC_GP}userAve10", False, "configuration_attrs", 33],
+        [UserAverageN, f"{IOC_GP}userAve10", True, "read()", 7],
+        [UserAverageN, f"{IOC_GP}userAve10", True, "summary()", 101],
 
-        [UserAverageDevice, IOC, False, "read_attrs", 80],
-        [UserAverageDevice, IOC, False, "configuration_attrs", 340],
-        [UserAverageDevice, IOC, True, "read()", 70],
-        [UserAverageDevice, IOC, True, "summary()", 835],
+        [UserAverageDevice, IOC_GP, False, "read_attrs", 80],
+        [UserAverageDevice, IOC_GP, False, "configuration_attrs", 340],
+        [UserAverageDevice, IOC_GP, True, "read()", 70],
+        [UserAverageDevice, IOC_GP, True, "summary()", 835],
     ]
 )
 def test_attribute_quantities(device, pv, connect, attr, expected):

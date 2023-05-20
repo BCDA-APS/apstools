@@ -9,11 +9,11 @@ import bluesky
 import pytest
 from ophyd import EpicsSignal
 
-from ...tests import IOC
+from ...tests import IOC_GP
 from ...utils import run_in_thread
 from .. import run_blocking_function
 
-PV = f"{IOC}gp:float1"
+PV = f"{IOC_GP}gp:float1"
 T_MIN = 0.1
 T_RANDOM_SCALE = 0.3
 T_MAX = T_MIN + T_RANDOM_SCALE * random.random() + 1

@@ -7,7 +7,7 @@ import pytest
 
 from ... import utils
 from ...tests import IOC_AD
-from ...tests import IOC
+from ...tests import IOC_GP
 
 AD_IOC_FILES_ROOT = "/"
 BLUESKY_FILES_ROOT = f"/tmp/docker_ioc/ioc{IOC_AD.rstrip(':')}"
@@ -43,7 +43,7 @@ class MyDetector(ophyd.SimDetector):
     image = ophyd.ADComponent(MyFixedImagePlugin, "image1:")
 
 
-gpm1 = ophyd.EpicsMotor(f"{IOC}m1", name="gpm1")
+gpm1 = ophyd.EpicsMotor(f"{IOC_GP}m1", name="gpm1")
 simdet = MyDetector(IOC_AD, name="simdet")
 gpm1.wait_for_connection()
 simdet.wait_for_connection()
@@ -69,7 +69,7 @@ simdet.wait_for_connection()
         ],
         [
             utils.findbypv,
-            f"{IOC}m1.RBV",
+            f"{IOC_GP}m1.RBV",
             dict(read=["gpm1.user_readback"], write=[]),
         ],
         [utils.findbyname, "m1_user_setpoint", None],

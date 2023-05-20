@@ -4,10 +4,10 @@ test the Eurotherm 2216e device support
 Hardware is not available so test with best efforts
 """
 
-from ...tests import IOC
+from ...tests import IOC_GP
 from .. import eurotherm_2216e
 
-PV_PREFIX = f"phony:{IOC}2216e:"
+PV_PREFIX = f"phony:{IOC_GP}2216e:"
 
 
 def test_device():

@@ -1,6 +1,6 @@
 import pytest
 
-from ...tests import IOC
+from ...tests import IOC_GP
 from ...tests import common_attribute_quantities_test
 from ...tests import timed_pause
 from ..scalcout import ScalcoutRecord
@@ -10,15 +10,15 @@ from ..scalcout import UserScalcoutDevice
 @pytest.mark.parametrize(
     "device, pv, connect, attr, expected",
     [
-        [ScalcoutRecord, f"{IOC}userStringCalc10", False, "read_attrs", 24],
-        [ScalcoutRecord, f"{IOC}userStringCalc10", False, "configuration_attrs", 114],
-        [ScalcoutRecord, f"{IOC}userStringCalc10", True, "read()", 3],
-        [ScalcoutRecord, f"{IOC}userStringCalc10", True, "summary()", 250],
+        [ScalcoutRecord, f"{IOC_GP}userStringCalc10", False, "read_attrs", 24],
+        [ScalcoutRecord, f"{IOC_GP}userStringCalc10", False, "configuration_attrs", 114],
+        [ScalcoutRecord, f"{IOC_GP}userStringCalc10", True, "read()", 3],
+        [ScalcoutRecord, f"{IOC_GP}userStringCalc10", True, "summary()", 250],
 
-        [UserScalcoutDevice, IOC, False, "read_attrs", 250],
-        [UserScalcoutDevice, IOC, False, "configuration_attrs", 1160],
-        [UserScalcoutDevice, IOC, True, "read()", 30],
-        [UserScalcoutDevice, IOC, True, "summary()", 2355],
+        [UserScalcoutDevice, IOC_GP, False, "read_attrs", 250],
+        [UserScalcoutDevice, IOC_GP, False, "configuration_attrs", 1160],
+        [UserScalcoutDevice, IOC_GP, True, "read()", 30],
+        [UserScalcoutDevice, IOC_GP, True, "summary()", 2355],
     ]
 )
 def test_attribute_quantities(device, pv, connect, attr, expected):
@@ -27,7 +27,7 @@ def test_attribute_quantities(device, pv, connect, attr, expected):
 
 
 def test_scalcout_reset():
-    user = UserScalcoutDevice(IOC, name="user")
+    user = UserScalcoutDevice(IOC_GP, name="user")
     user.wait_for_connection()
     user.enable.put("Enable")
 

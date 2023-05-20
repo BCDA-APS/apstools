@@ -1,10 +1,10 @@
 import pytest
 
-from ...tests import IOC
+from ...tests import IOC_GP
 from ...utils import SlitGeometry
 from ..xia_slit import XiaSlit2D
 
-PV_PREFIX = f"{IOC}phony_hsc1:"
+PV_PREFIX = f"{IOC_GP}phony_hsc1:"
 
 # Full testing requires two XIA Slit controllers (a 2D H & V set)
 # We don't have that for unit testing.  Proceed with best efforts.

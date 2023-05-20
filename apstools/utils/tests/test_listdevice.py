@@ -10,7 +10,7 @@ from ophyd import Signal
 from ophyd.signal import EpicsSignalBase
 
 from ...devices import SwaitRecord
-from ...tests import IOC
+from ...tests import IOC_GP
 from .._core import TableStyle
 from ..device_info import _list_epics_signals
 from ..device_info import listdevice
@@ -29,8 +29,8 @@ class MyDevice(Device):
     calc6 = Component(SwaitRecord, "6")
 
 
-calcs = MyDevice(f"{IOC}userCalc", name="calcs")
-motor = EpicsMotor(f"{IOC}m1", name="motor")
+calcs = MyDevice(f"{IOC_GP}userCalc", name="calcs")
+motor = EpicsMotor(f"{IOC_GP}m1", name="motor")
 signal = Signal(name="signal", value=True)
 
 calcs.wait_for_connection()

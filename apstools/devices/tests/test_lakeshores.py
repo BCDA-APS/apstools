@@ -4,11 +4,11 @@ test the Eurotherm 2216e device support
 Hardware is not available so test with best efforts
 """
 
-from ...tests import IOC
+from ...tests import IOC_GP
 from ..lakeshore_controllers import LakeShore336Device
 from ..lakeshore_controllers import LakeShore340Device
 
-PV_PREFIX = f"phony:{IOC}lakeshore:"
+PV_PREFIX = f"phony:{IOC_GP}lakeshore:"
 
 
 def test_lakeshore_336():
