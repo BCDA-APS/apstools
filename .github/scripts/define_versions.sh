@@ -20,10 +20,12 @@ versions=
 versions+=" 1.6.10"
 versions+=" 1.6.13"
 versions+=" 1.6.14"
+versions+=" 1.6.15"
 
 # future versions (release tags that are expected)
-versions+=" 1.6.15"
 versions+=" 1.6.16"
+versions+=" 1.6.17"
+versions+=" 1.6.18"
 
 export versions
 
