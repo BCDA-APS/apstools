@@ -153,7 +153,7 @@ def timed_pause(delay=None):
 class MonitorCache:
     """Capture CA monitor values that match 'target'."""
 
-    def __init__(self, target):
+    def __init__(self, target=None):
         self.target = target
         self.reset()
 
@@ -162,7 +162,7 @@ class MonitorCache:
 
     def receiver(self, **kwargs):
         value = kwargs["value"]
-        if value == self.target:
+        if value == self.target or self.target is None:
             self.messages.append(value)
 
 
