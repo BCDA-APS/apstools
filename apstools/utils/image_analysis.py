@@ -95,6 +95,7 @@ def analyze_2D(image):
     results["max_y"] = image[axis_1[k]][axis_0[k]]
     return results
 
+
 # -----------------------------------------------------------------------------
 # :author:    Pete R. Jemian
 # :email:     jemian@anl.gov

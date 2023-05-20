@@ -16,12 +16,11 @@ from ..sseq import sseqRecordStep
         [SseqRecord, f"{IOC_GP}userStringSeq10", False, "configuration_attrs", 108],
         [SseqRecord, f"{IOC_GP}userStringSeq10", True, "read()", 20],
         [SseqRecord, f"{IOC_GP}userStringSeq10", True, "summary()", 274],
-
         [UserStringSequenceDevice, IOC_GP, False, "read_attrs", 320],
         [UserStringSequenceDevice, IOC_GP, False, "configuration_attrs", 1101],
         [UserStringSequenceDevice, IOC_GP, True, "read()", 200],
         [UserStringSequenceDevice, IOC_GP, True, "summary()", 2616],
-    ]
+    ],
 )
 def test_attribute_quantities(device, pv, connect, attr, expected):
     """Verify the quantities of the different attributes."""

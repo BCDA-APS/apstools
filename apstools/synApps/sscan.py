@@ -344,6 +344,7 @@ class SscanDevice(Device):
             attrs.append(nm)
         self.read_attrs = attrs
 
+
 # -----------------------------------------------------------------------------
 # :author:    Pete R. Jemian
 # :email:     jemian@anl.gov

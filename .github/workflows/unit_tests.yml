@@ -36,6 +36,11 @@ jobs:
         run: |
           flake8
 
+      - name: Run black
+        uses: rickstaa/action-black@v1
+        with:
+          black_args: ". --check"
+
   install-catalogs:
     name: Install & cache databroker catalogs
     runs-on: ubuntu-latest

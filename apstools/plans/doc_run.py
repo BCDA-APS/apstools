@@ -73,7 +73,7 @@ def documentation_run(text, stream=None, bec=None, md=None):
         bec.disable_plots()
         bec.disable_table()
 
-    uid = (yield from inner())
+    uid = yield from inner()
 
     if bec is not None:
         bec.enable_table()

@@ -84,9 +84,10 @@ class Eurotherm2216e(PVPositionerSoftDoneWithStop):
             setpoint_pv="ignore",
             tolerance=tolerance,
             update_target=False,
-            **kwargs
+            **kwargs,
         )
         self.sensor.subscribe(self.cb_sensor)
+
 
 # -----------------------------------------------------------------------------
 # :author:    Pete R. Jemian

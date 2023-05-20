@@ -84,6 +84,7 @@ class CalcoutRecord(EpicsRecordFloatFields, EpicsRecordDeviceCommonAll):
 
     :see: https://wiki-ext.aps.anl.gov/epics/index.php/RRM_3-14_Calcout
     """
+
     units = Cpt(EpicsSignal, ".EGU", kind="config")
     precision = Cpt(EpicsSignal, ".PREC", kind="config")
 
@@ -392,10 +393,15 @@ def setup_incrementer_calcout(calcout, scan=None, limit=100000):
     calcout.calculation.put("(A+1) % B")
     calcout.scanning_rate.put(scan)
 
-    calcout.hints = {"fields": ["input_value", ]}
+    calcout.hints = {
+        "fields": [
+            "input_value",
+        ]
+    }
     calcout.read_attrs = [
         "input_value",
     ]
+
 
 # -----------------------------------------------------------------------------
 # :author:    Pete R. Jemian

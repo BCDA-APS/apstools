@@ -63,6 +63,7 @@ def db_query(db, query):
 
     return _db
 
+
 # -----------------------------------------------------------------------------
 # :author:    Pete R. Jemian
 # :email:     jemian@anl.gov

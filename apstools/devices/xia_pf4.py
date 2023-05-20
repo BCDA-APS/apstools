@@ -43,13 +43,9 @@ class Pf4FilterBank(Device):
     """
 
     fPos = FormattedComponent(EpicsSignal, "{prefix}fPos{_bank}", kind="config")
-    control = FormattedComponent(
-        EpicsSignalRO, "{prefix}bank{_bank}", string=True, kind="config"
-    )
+    control = FormattedComponent(EpicsSignalRO, "{prefix}bank{_bank}", string=True, kind="config")
     bits = FormattedComponent(EpicsSignalRO, "{prefix}bitFlag{_bank}", kind="config")
-    transmission = FormattedComponent(
-        EpicsSignalRO, "{prefix}trans{_bank}", kind="config"
-    )
+    transmission = FormattedComponent(EpicsSignalRO, "{prefix}trans{_bank}", kind="config")
 
     def __init__(self, prefix, bank=None, **kwargs):
         self._bank = bank
@@ -139,6 +135,7 @@ class DualPf4FilterBox(Device):
     energy_keV_local = Component(EpicsSignal, "E:local")
     energy_keV_mono = Component(EpicsSignal, "displayEnergy")
     mode = Component(EpicsSignal, "useMono", string=True)
+
 
 # -----------------------------------------------------------------------------
 # :author:    Pete R. Jemian

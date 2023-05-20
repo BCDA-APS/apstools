@@ -64,10 +64,7 @@ class SRS570_PreAmplifier(PreamplifierBaseDevice):
         """
         Amplifier gain (A/V), as floating-point number.
         """
-        return pint.Quantity(
-            float(self.sensitivity_value.get()),
-            self.sensitivity_unit.get()
-        ).to("A/V").magnitude
+        return pint.Quantity(float(self.sensitivity_value.get()), self.sensitivity_unit.get()).to("A/V").magnitude
 
     def cb_gain(self, *args, **kwargs):
         """
@@ -85,6 +82,7 @@ class SRS570_PreAmplifier(PreamplifierBaseDevice):
 
         # amplifier gain is the most relevant value
         self.gain.name = self.name
+
 
 # -----------------------------------------------------------------------------
 # :author:    Pete R. Jemian

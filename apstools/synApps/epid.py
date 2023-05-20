@@ -114,7 +114,7 @@ class Fb_EpidDatabaseHeaterSimulator(Fb_EpidDatabase):
             self.out_calc,
             self.resume_calc,
             self.sim_calc,
-            self
+            self,
         ):
             # change from default ("I/O Intr" which is incorrect for swait records)
             obj.scanning_rate.put(scan)
@@ -137,7 +137,7 @@ class Fb_EpidDatabaseHeaterSimulator(Fb_EpidDatabase):
             self.out_calc,
             self.resume_calc,
             self.sim_calc,
-            self
+            self,
         ):
             obj.scanning_rate.put("Passive")
 

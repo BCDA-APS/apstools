@@ -111,12 +111,14 @@ class EpicsRecordFloatFields(Device):
 
 class EpicsSynAppsRecordEnableMixin(Device):
     """Supports ``{PV}Enable`` feature from user databases."""
+
     enable = Component(EpicsSignal, "Enable", kind="config")
 
     def reset(self):
         """set all fields to default values"""
         self.enable.put(self.enable.enum_strs[1])  # Enable
         super().reset()
+
 
 # -----------------------------------------------------------------------------
 # :author:    Pete R. Jemian

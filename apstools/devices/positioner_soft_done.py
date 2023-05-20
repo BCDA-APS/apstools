@@ -116,7 +116,6 @@ class PVPositionerSoftDone(PVPositioner):
         update_target=True,
         **kwargs,
     ):
-
         # fmt: off
         if setpoint_pv == readback_pv:
             raise ValueError(

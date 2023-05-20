@@ -89,6 +89,7 @@ class SwaitRecord(EpicsRecordDeviceCommonAll):
         ~reset
 
     """
+
     precision = Cpt(EpicsSignal, ".PREC", kind="config")
     high_operating_range = Cpt(EpicsSignal, ".HOPR", kind="config")
     low_operating_range = Cpt(EpicsSignal, ".LOPR", kind="config")
@@ -196,9 +197,7 @@ def setup_random_number_swait(swait, **kw):
     swait.hints = {"fields": swait.read_attrs}
 
 
-def _setup_peak_swait_(
-    calc, desc, swait, ref_signal, center=0, width=1, scale=1, noise=0.05
-):
+def _setup_peak_swait_(calc, desc, swait, ref_signal, center=0, width=1, scale=1, noise=0.05):
     """
     internal: setup that is common to both Gaussian and Lorentzian swaits
 
@@ -235,11 +234,9 @@ def _setup_peak_swait_(
 
     # consider a noisy background, as well (needs a couple calcs)
     if not isinstance(swait, SwaitRecord):
-        raise TypeError("expected SwaitRecord instance," f" received {type(swait)}")
+        raise TypeError("expected SwaitRecord instance, received {type(swait)}")
     if not isinstance(ref_signal, EpicsSignalBase):
-        raise TypeError(
-            "expected EpicsSignalBase instance," f" received {type(ref_signal)}"
-        )
+        raise TypeError("expected EpicsSignalBase instance, received {type(ref_signal)}")
     if width <= 0:
         raise ValueError(f"width must be positive, received {width}")
     if not (0.0 <= noise <= 1.0):
@@ -398,6 +395,7 @@ def setup_incrementer_swait(swait, scan=None, limit=100000):
         "calculated_value",
     ]
     swait.hints = {"fields": swait.read_attrs}
+
 
 # -----------------------------------------------------------------------------
 # :author:    Pete R. Jemian

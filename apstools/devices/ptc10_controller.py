@@ -169,6 +169,7 @@ class PTC10PositionerMixin(Device):
         if not self.done.get():
             self.setpoint.put(self.position)
 
+
 # -----------------------------------------------------------------------------
 # :author:    Pete R. Jemian
 # :email:     jemian@anl.gov

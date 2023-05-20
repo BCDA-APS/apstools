@@ -99,9 +99,7 @@ def nscan(detectors, *motor_sets, num=11, per_step=None, md=None):
     if per_step is None:
         per_step = bps.one_nd_step
 
-    @bpp.stage_decorator(
-        list(detectors) + [m["motor"] for m in motors.values()]
-    )
+    @bpp.stage_decorator(list(detectors) + [m["motor"] for m in motors.values()])
     @bpp.run_decorator(md=_md)
     def inner_scan():
         for step in range(num):
@@ -114,6 +112,7 @@ def nscan(detectors, *motor_sets, num=11, per_step=None, md=None):
             yield from per_step(detectors, step_cache, pos_cache)
 
     return (yield from inner_scan())
+
 
 # -----------------------------------------------------------------------------
 # :author:    Pete R. Jemian

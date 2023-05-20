@@ -47,6 +47,7 @@ Maintenance
 ------------
 
 * Add unit tests for shutters.
+* Apply consistent code style (black) throughout.
 * Set ``kind`` attribute to add plugin to ad.read_attrs list.
 * Clear ``PVPositionerSoftDone``'s setpoint & readback subscriptions at exit.
 

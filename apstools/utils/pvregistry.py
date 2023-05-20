@@ -124,9 +124,7 @@ class PVRegistry:
     def search_by_mode(self, pvname, mode="R"):
         """Search for PV in specified mode."""
         if mode not in ["R", "W"]:
-            raise ValueError(
-                f"Incorrect mode given ({mode}." "  Must be either `R` or `W`."
-            )
+            raise ValueError(f"Incorrect mode given ({mode}.  Must be either `R` or `W`.")
         return self._pvdb[pvname][mode]
 
     def search(self, pvname):
@@ -228,6 +226,7 @@ def findbypv(pvname, force_rebuild=False, ns=None):
 
     """
     return _get_pv_registry(force_rebuild, ns).search(pvname)
+
 
 # -----------------------------------------------------------------------------
 # :author:    Pete R. Jemian

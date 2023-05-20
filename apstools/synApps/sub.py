@@ -73,6 +73,7 @@ class SubRecord(EpicsRecordFloatFields, EpicsRecordDeviceCommonAll):
 
     :see: http://htmlpreview.github.io/?https://github.com/epics-modules/calc/blob/R3-6-1/documentation/calcDocs.html
     """
+
     units = Cpt(EpicsSignal, ".EGU", kind="config")
     precision = Cpt(EpicsSignal, ".PREC", kind="config")
 
@@ -120,6 +121,7 @@ class UserAverageN(EpicsRecordFloatFields, EpicsRecordDeviceCommonAll):
 
     It *uses* a ``sub`` record and other, hence not exactly a :meth:`SubRecord`.
     """
+
     enable = Cpt(EpicsSignal, "Enable", kind="omitted", string=True, put_complete=True)
 
     averaged_value = Cpt(EpicsSignalRO, ".VAL", kind="hinted")
@@ -195,6 +197,7 @@ class UserAverageDevice(Device):
         self.average10.reset()
         self.read_attrs = ["average%d" % (c + 1) for c in range(10)]
         self.read_attrs.insert(0, "enable")
+
 
 # -----------------------------------------------------------------------------
 # :author:    Pete R. Jemian

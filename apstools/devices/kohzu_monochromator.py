@@ -66,6 +66,7 @@ class KohzuSoftPositioner(PVPositioner):
 
     def move(self, *args, **kwargs):
         """Reposition, with optional wait for completion."""
+
         @run_in_thread
         def push_the_move_button_soon(delay_s=0.01):
             time.sleep(delay_s)  # wait a short time
@@ -102,9 +103,7 @@ class KohzuSeqCtl_Monochromator(Device):
     operator_acknowledge = Component(EpicsSignal, "KohzuOperAckBO", kind="omitted")
     use_set = Component(EpicsSignal, "KohzuUseSetBO", kind="omitted")
     mode = Component(EpicsSignal, "KohzuModeBO", kind="config", string=True)
-    move_button = Component(
-        EpicsSignal, "KohzuPutBO", put_complete=True, kind="omitted"
-    )
+    move_button = Component(EpicsSignal, "KohzuPutBO", put_complete=True, kind="omitted")
     moving = Component(EpicsSignal, "KohzuMoving", kind="omitted")
     y_offset = Component(EpicsSignal, "Kohzu_yOffsetAO", kind="config")
     allstop_button = Component(EpicsSignal, "allstop", string=True, kind="omitted")
@@ -128,6 +127,7 @@ class KohzuSeqCtl_Monochromator(Device):
         self.use_set.put("Set")
         self.energy.put(value)
         self.use_set.put("Use")
+
 
 # -----------------------------------------------------------------------------
 # :author:    Pete R. Jemian

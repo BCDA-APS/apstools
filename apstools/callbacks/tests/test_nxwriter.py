@@ -40,7 +40,6 @@ class MySimDetectorCam(CamMixin, SimDetectorCam):
 
 
 class MyDetector(SingleTrigger, DetectorBase):
-
     cam = Component(MySimDetectorCam, "cam1:")
 
     hdf1 = Component(

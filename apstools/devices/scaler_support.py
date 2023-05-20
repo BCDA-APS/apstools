@@ -45,6 +45,7 @@ def use_EPICS_scaler_channels(scaler):
         scaler.channels.read_attrs = read_attrs
         scaler.channels.configuration_attrs = configuration_attrs
 
+
 # -----------------------------------------------------------------------------
 # :author:    Pete R. Jemian
 # :email:     jemian@anl.gov

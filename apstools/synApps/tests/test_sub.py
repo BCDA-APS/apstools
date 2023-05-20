@@ -44,17 +44,15 @@ def calc():
         [SubRecord, f"{IOC_GP}userAve10", False, "configuration_attrs", 65],
         [SubRecord, f"{IOC_GP}userAve10", True, "read()", 1],
         [SubRecord, f"{IOC_GP}userAve10", True, "summary()", 148],
-
         [UserAverageN, f"{IOC_GP}userAve10", False, "read_attrs", 7],
         [UserAverageN, f"{IOC_GP}userAve10", False, "configuration_attrs", 33],
         [UserAverageN, f"{IOC_GP}userAve10", True, "read()", 7],
         [UserAverageN, f"{IOC_GP}userAve10", True, "summary()", 101],
-
         [UserAverageDevice, IOC_GP, False, "read_attrs", 80],
         [UserAverageDevice, IOC_GP, False, "configuration_attrs", 340],
         [UserAverageDevice, IOC_GP, True, "read()", 70],
         [UserAverageDevice, IOC_GP, True, "summary()", 835],
-    ]
+    ],
 )
 def test_attribute_quantities(device, pv, connect, attr, expected):
     """Verify the quantities of the different attributes."""
@@ -92,6 +90,7 @@ def test_useraverage_reset(ave):
     for attr in "mode algorithm scanning_rate".split():
         obj = getattr(ave, attr)
         assert obj.get() in (0, obj.enum_strs[0]), attr
+
 
 # FIXME: 2022-01-20: skipped per #627
 # def test_useraveragedevice_random(ave, calc):

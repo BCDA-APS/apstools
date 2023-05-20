@@ -100,6 +100,7 @@ class ScalcoutRecord(EpicsRecordFloatFields, EpicsRecordDeviceCommonAll):
 
     :see: http://htmlpreview.github.io/?https://github.com/epics-modules/calc/blob/R3-6-1/documentation/calcDocs.html
     """
+
     units = Cpt(EpicsSignal, ".EGU", kind="config")
     precision = Cpt(EpicsSignal, ".PREC", kind="config")
 
@@ -126,10 +127,8 @@ class ScalcoutRecord(EpicsRecordFloatFields, EpicsRecordDeviceCommonAll):
 
     channels = DDC(_channels(CHANNEL_LETTERS_LIST))
 
-    read_attrs = (
-        APS_utils.itemizer("channels.%s", CHANNEL_LETTERS_LIST)
-        +
-        APS_utils.itemizer("channels.%s", [c+c for c in CHANNEL_LETTERS_LIST])
+    read_attrs = APS_utils.itemizer("channels.%s", CHANNEL_LETTERS_LIST) + APS_utils.itemizer(
+        "channels.%s", [c + c for c in CHANNEL_LETTERS_LIST]
     )
     hints = {"fields": read_attrs}
 
@@ -162,16 +161,11 @@ class ScalcoutRecord(EpicsRecordFloatFields, EpicsRecordDeviceCommonAll):
 
         for letter in self.channels.read_attrs:
             channel = getattr(self.channels, letter)
-            if isinstance(
-                channel,
-                (ScalcoutRecordNumberChannel, ScalcoutRecordStringChannel)
-            ):
+            if isinstance(channel, (ScalcoutRecordNumberChannel, ScalcoutRecordStringChannel)):
                 channel.reset()
-        self.read_attrs = (
-            ["channels.%s" % c for c in CHANNEL_LETTERS_LIST]
-            +
-            ["channels.%s" % c+c for c in CHANNEL_LETTERS_LIST]
-        )
+        self.read_attrs = ["channels.%s" % c for c in CHANNEL_LETTERS_LIST] + [
+            "channels.%s" % c + c for c in CHANNEL_LETTERS_LIST
+        ]
         self.hints = {"fields": self.read_attrs}
 
 
@@ -217,6 +211,7 @@ class UserScalcoutDevice(Device):
         self.scalcout10.reset()
         self.read_attrs = ["scalcout%d" % (c + 1) for c in range(10)]
         self.read_attrs.insert(0, "enable")
+
 
 # -----------------------------------------------------------------------------
 # :author:    Pete R. Jemian

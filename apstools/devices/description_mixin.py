@@ -59,6 +59,7 @@ class EpicsDescriptionMixin(DeviceMixinBase):
 
     desc = Component(EpicsSignal, ".DESC")
 
+
 # -----------------------------------------------------------------------------
 # :author:    Pete R. Jemian
 # :email:     jemian@anl.gov

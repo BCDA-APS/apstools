@@ -36,7 +36,6 @@ KNOWN_DEVICES = "PSE_MAC_MOT VM_EPICS_M1 VM_EPICS_PV VM_EPICS_SC".split()
 
 
 class Spec2ophydBase(object):
-
     str_keys = []
     mne = ""
     name = ""
@@ -84,13 +83,10 @@ class SpecDevice(Spec2ophydBase):
         self.index = None
         self.num_channels = int(num_channels)
         self.ophyd_device = None
-        self.str_keys = (
-            "config_line name index, prefix num_channels".split()
-        )
+        self.str_keys = "config_line name index, prefix num_channels".split()
 
 
 class ItemNameBase(Spec2ophydBase):
-
     ignore = False
     str_keys = "mne config_line name"
 
@@ -146,18 +142,12 @@ class SpecSignal(ItemNameBase):
             self.ignore = True
 
     def ophyd_config(self):
-        s = (
-            f"{self.mne} = {self.signal_name}"
-            f"('{self.pvname}', name='{self.mne}', labels=('detectors',))"
-        )
+        s = f"{self.mne} = {self.signal_name}('{self.pvname}', name='{self.mne}', labels=('detectors',))"
         suffix = None
         if "misc_par_1" in self.cntpar:
             suffix = self.cntpar.pop("misc_par_1")
             pvname = f"{self.device.prefix}{suffix}"
-            s = (
-                f"{self.mne} = EpicsSignal"
-                f"('{pvname}', name='{self.mne}', labels=('detectors',))"
-            )
+            s = f"{self.mne} = EpicsSignal('{pvname}', name='{self.mne}', labels=('detectors',))"
         if self.mne != self.name:
             s += f"  # {self.name}"
         if self.ignore:
@@ -209,9 +199,7 @@ class SpecMotor(ItemNameBase):
 
     def __str__(self):
         items = self.obj_keys_to_list()
-        txt = self.item_name_value("pvname") or self.item_name_value(
-            "ctrl"
-        )
+        txt = self.item_name_value("pvname") or self.item_name_value("ctrl")
         if not txt.endswith("=None"):
             items.append(txt)
         return f"{self.__class__.__name__}({', '.join(items)})"
@@ -220,14 +208,14 @@ class SpecMotor(ItemNameBase):
         if self.ctrl.startswith("EPICS_M2"):
             device_list = devices.get("VM_EPICS_M1")
             if device_list is not None:
-                uc_str = self.ctrl[len("EPICS_M2:"):]
+                uc_str = self.ctrl[len("EPICS_M2:") :]
                 unit, chan = list(map(int, uc_str.split("/")))
                 self.device = device_list[unit]
                 self.pvname = "{}m{}".format(self.device.prefix, chan)
         elif self.ctrl.startswith("MAC_MOT"):
             device_list = devices.get("PSE_MAC_MOT")
             if device_list is not None:
-                uc_str = self.ctrl[len("MAC_MOT:"):]
+                uc_str = self.ctrl[len("MAC_MOT:") :]
                 unit, *self.mac_parms = list(map(int, uc_str.split("/")))
                 self.device = device_list[unit]
                 self.macro_prefix = self.device.prefix
@@ -236,19 +224,13 @@ class SpecMotor(ItemNameBase):
             self.ignore = True
 
     def ophyd_config(self):
-        s = (
-            f"{self.mne} = EpicsMotor"
-            f"('{self.pvname}', name='{self.mne}', labels=('motor',))"
-        )
+        s = f"{self.mne} = EpicsMotor('{self.pvname}', name='{self.mne}', labels=('motor',))"
         suffix = None
         if "misc_par_1" in self.motpar:
             # suffix = self.motpar.pop("misc_par_1")
             suffix = self.motpar["misc_par_1"]
             pvname = f"{self.device.prefix}{suffix}"
-            s = (
-                f"{self.mne} = EpicsMotor"
-                f"('{pvname}', name='{self.mne}', labels=('motor',))"
-            )
+            s = f"{self.mne} = EpicsMotor('{pvname}', name='{self.mne}', labels=('motor',))"
         if self.pvname is None:
             if self.macro_prefix is not None:
                 s = f"# Macro Motor: {self}"
@@ -316,9 +298,7 @@ class SpecCounter(ItemNameBase):
                 # scalers are goofy,
                 # SPEC uses 0-based numbering,
                 # scaler uses 1-based
-                self.pvname = "{}.S{}".format(
-                    self.device.prefix, self.chan + 1
-                )
+                self.pvname = "{}.S{}".format(self.device.prefix, self.chan + 1)
         elif self.ctrl.startswith("EPICS_PV"):
             device_list = devices.get("VM_EPICS_PV")
             if device_list is not None:
@@ -339,10 +319,7 @@ class SpecCounter(ItemNameBase):
                 prefix = self.device.prefix
                 pvname = f"{prefix}{suffix}"
                 s = f"{self.mne} = EpicsSignal("
-                s += (
-                    f"'{pvname}', name='{self.mne}',"
-                    f" labels=('detectors',)"
-                )
+                s += f"'{pvname}', name='{self.mne}', labels=('detectors',)"
                 s += ")"
         if self.ignore:
             s = f"# {self.config_line}: {self.raw}"
@@ -392,11 +369,11 @@ class SpecConfig(object):
                 elif word0.startswith("CNTPAR:"):
                     item = self.collection[-1]  # most recent item
                     if isinstance(item, (SpecSignal, SpecCounter)):
-                        k, v = line[len("CNTPAR:"):].split("=")
+                        k, v = line[len("CNTPAR:") :].split("=")
                         item.cntpar[k.strip()] = v.strip()
                 elif word0.startswith("MOTPAR:"):
                     if motor is not None:
-                        k, v = line[len("MOTPAR:"):].split("=")
+                        k, v = line[len("MOTPAR:") :].split("=")
                         motor.motpar[k.strip()] = v.strip()
                 elif re.match(r"CNT\d*", line) is not None:
                     counter = SpecCounter(line)
@@ -423,9 +400,7 @@ class SpecConfig(object):
                         if counter.pvname is None:
                             scaler = None
                         else:
-                            scaler = self.find_pv_in_collection(
-                                counter.pvname.split(".")[0]
-                            )
+                            scaler = self.find_pv_in_collection(counter.pvname.split(".")[0])
                         if scaler is not None:
                             # clock = scaler.channels.chan01.s
                             fmt = "%s = %s.channels.chan%02d.s"
@@ -463,10 +438,7 @@ def create_ophyd_setup(spec_config):
     for device in spec_config.collection:
         if hasattr(device, "ophyd_config"):
             print(f"{device.ophyd_config()}")
-            if (
-                hasattr(device, "signal_name")
-                and device.signal_name == "ScalerCH"
-            ):
+            if hasattr(device, "signal_name") and device.signal_name == "ScalerCH":
                 print(f"{device.name}.select_channels(None)")
         else:
             print(device)
@@ -475,6 +447,7 @@ def create_ophyd_setup(spec_config):
 def get_apstools_version():
     """Get the version string from the parent package."""
     from .. import __version__
+
     return __version__
 
 
@@ -499,9 +472,7 @@ def get_options():
         version=version,
     )
 
-    parser.add_argument(
-        "configFileName", type=str, help="SPEC config file name"
-    )
+    parser.add_argument("configFileName", type=str, help="SPEC config file name")
 
     return parser.parse_args()
 

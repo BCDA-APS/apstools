@@ -31,6 +31,7 @@ class TrackingSignal(Signal):
         if not isinstance(value, bool):
             raise ValueError("tracking is boolean, it can only be True or False.")
 
+
 # -----------------------------------------------------------------------------
 # :author:    Pete R. Jemian
 # :email:     jemian@anl.gov

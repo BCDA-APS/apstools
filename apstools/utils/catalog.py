@@ -148,10 +148,7 @@ def getDefaultCatalog():
         ])
         # fmt: on
         raise ValueError(
-            "No catalog defined.  "
-            "Multiple catalog objects available."
-            "  Specify one of these:"
-            f" {choices}"
+            "No catalog defined.  Multiple catalog objects available.  Specify one of these: {choices}"
         )
 
     cats = list(databroker.catalog)
@@ -233,9 +230,7 @@ def getDefaultDatabase():
     return sorted(choices)[-1]
 
 
-def getStreamValues(
-    scan_id, key_fragment="", db=None, stream="baseline", query=None, use_v1=True
-):
+def getStreamValues(scan_id, key_fragment="", db=None, stream="baseline", query=None, use_v1=True):
     """
     Get values from a previous scan stream in a databroker catalog.
 
@@ -323,7 +318,12 @@ def getStreamValues(
 
 
 def quantify_md_key_use(
-    key=None, db=None, catalog_name=None, since=None, until=None, query=None,
+    key=None,
+    db=None,
+    catalog_name=None,
+    since=None,
+    until=None,
+    query=None,
 ):
     """
     Print table of different ``key`` values and how many times each appears.
@@ -417,6 +417,7 @@ def quantify_md_key_use(
     for item in sorted(items, key=sorter):
         table.addRow((item, len(cat.search({key: item}))))
     print(table)
+
 
 # -----------------------------------------------------------------------------
 # :author:    Pete R. Jemian

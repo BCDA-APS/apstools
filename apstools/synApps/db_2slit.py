@@ -67,18 +67,11 @@ class Optics2Slit1D(Device):
     "sync" is used to tell the EPICS 2slit database to synchronize the
     virtual slit values with the actual motor positions.
     """
-    xn = Component(
-        PVPositionerSoftDone, "", setpoint_pv="xn", readback_pv="t2.B"
-    )
-    xp = Component(
-        PVPositionerSoftDone, "", setpoint_pv="xp", readback_pv="t2.A"
-    )
-    size = Component(
-        PVPositionerSoftDone, "", setpoint_pv="size", readback_pv="t2.C"
-    )
-    center = Component(
-        PVPositionerSoftDone, "", setpoint_pv="center", readback_pv="t2.D"
-    )
+
+    xn = Component(PVPositionerSoftDone, "", setpoint_pv="xn", readback_pv="t2.B")
+    xp = Component(PVPositionerSoftDone, "", setpoint_pv="xp", readback_pv="t2.A")
+    size = Component(PVPositionerSoftDone, "", setpoint_pv="size", readback_pv="t2.C")
+    center = Component(PVPositionerSoftDone, "", setpoint_pv="center", readback_pv="t2.D")
 
     sync = Component(EpicsSignal, "sync", put_complete=True, kind="omitted")
 
@@ -87,6 +80,7 @@ class Optics2Slit2D_HV(Device):
     """
     EPICS synApps optics 2slit.db 2D support: h.xn, h.xp, v.xn, v.xp
     """
+
     h = Component(Optics2Slit1D, "H")
     v = Component(Optics2Slit1D, "V")
 
@@ -94,13 +88,7 @@ class Optics2Slit2D_HV(Device):
     def geometry(self):
         """Return the slit 2D size and center as a namedtuple."""
         pppp = [
-            round(obj.position, obj.precision)
-            for obj in (
-                self.h.size,
-                self.v.size,
-                self.h.center,
-                self.v.center
-            )
+            round(obj.position, obj.precision) for obj in (self.h.size, self.v.size, self.h.center, self.v.center)
         ]
 
         return SlitGeometry(*pppp)
@@ -121,31 +109,15 @@ class Optics2Slit2D_InbOutBotTop(Device):
     EPICS synApps optics 2slit.db 2D support: inb, out, bot, top
     """
 
-    inb = Component(
-        PVPositionerSoftDone, "H", setpoint_pv="xn", readback_pv="t2.B"
-    )
-    out = Component(
-        PVPositionerSoftDone, "H", setpoint_pv="xp", readback_pv="t2.A"
-    )
-    hsize = Component(
-        PVPositionerSoftDone, "H", setpoint_pv="size", readback_pv="t2.C"
-    )
-    hcenter = Component(
-        PVPositionerSoftDone, "H", setpoint_pv="center", readback_pv="t2.D"
-    )
+    inb = Component(PVPositionerSoftDone, "H", setpoint_pv="xn", readback_pv="t2.B")
+    out = Component(PVPositionerSoftDone, "H", setpoint_pv="xp", readback_pv="t2.A")
+    hsize = Component(PVPositionerSoftDone, "H", setpoint_pv="size", readback_pv="t2.C")
+    hcenter = Component(PVPositionerSoftDone, "H", setpoint_pv="center", readback_pv="t2.D")
 
-    bot = Component(
-        PVPositionerSoftDone, "V", setpoint_pv="xn", readback_pv="t2.B"
-    )
-    top = Component(
-        PVPositionerSoftDone, "V", setpoint_pv="xp", readback_pv="t2.A"
-    )
-    vsize = Component(
-        PVPositionerSoftDone, "V", setpoint_pv="size", readback_pv="t2.C"
-    )
-    vcenter = Component(
-        PVPositionerSoftDone, "V", setpoint_pv="center", readback_pv="t2.D"
-    )
+    bot = Component(PVPositionerSoftDone, "V", setpoint_pv="xn", readback_pv="t2.B")
+    top = Component(PVPositionerSoftDone, "V", setpoint_pv="xp", readback_pv="t2.A")
+    vsize = Component(PVPositionerSoftDone, "V", setpoint_pv="size", readback_pv="t2.C")
+    vcenter = Component(PVPositionerSoftDone, "V", setpoint_pv="center", readback_pv="t2.D")
 
     hsync = Component(EpicsSignal, "Hsync", put_complete=True, kind="omitted")
     vsync = Component(EpicsSignal, "Vsync", put_complete=True, kind="omitted")
@@ -153,15 +125,7 @@ class Optics2Slit2D_InbOutBotTop(Device):
     @property
     def geometry(self):
         """Return the slit 2D size and center as a namedtuple."""
-        pppp = [
-            round(obj.position, obj.precision)
-            for obj in (
-                self.hsize,
-                self.vsize,
-                self.hcenter,
-                self.vcenter
-            )
-        ]
+        pppp = [round(obj.position, obj.precision) for obj in (self.hsize, self.vsize, self.hcenter, self.vcenter)]
 
         return SlitGeometry(*pppp)
 
@@ -174,6 +138,7 @@ class Optics2Slit2D_InbOutBotTop(Device):
         self.vsize.move(height)
         self.hcenter.move(x)
         self.vcenter.move(y)
+
 
 # -----------------------------------------------------------------------------
 # :author:    Pete R. Jemian
