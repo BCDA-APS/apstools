@@ -73,6 +73,7 @@ Area Detector Support
     ~apstools.devices.area_detector_support.AD_full_file_name_local
     ~apstools.devices.area_detector_support.AD_plugin_primed
     ~apstools.devices.area_detector_support.AD_prime_plugin2
+    ~apstools.devices.area_detector_support.ensure_AD_plugin_primed
 
 .. _devices.scalers:
 

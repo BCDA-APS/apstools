@@ -14,7 +14,7 @@ from ophyd.areadetector.plugins import ImagePlugin_V34 as ImagePlugin
 from packaging import version
 
 from .. import AD_plugin_primed
-from .. import AD_prime_plugin2
+from .. import ensure_AD_plugin_primed
 from .. import CamMixin_V34
 from .. import SingleTrigger_V34
 
@@ -103,8 +103,7 @@ def test_the_old_way():
     adsimdet.cam.stage_sigs["num_images"] = NUM_FRAMES
     adsimdet.hdf1.stage_sigs.move_to_end("capture")
 
-    if not AD_plugin_primed(adsimdet.hdf1):
-        AD_prime_plugin2(adsimdet.hdf1)
+    ensure_AD_plugin_primed(adsimdet.hdf1, True)
     assert AD_plugin_primed(adsimdet.hdf1)
 
     cat = databroker.temp().v2
@@ -175,8 +174,7 @@ def test_ignore_no_WaitForPlugins():
 
     adsimdet.hdf1.stage_sigs.move_to_end("capture")
 
-    if not AD_plugin_primed(adsimdet.hdf1):
-        AD_prime_plugin2(adsimdet.hdf1)
+    ensure_AD_plugin_primed(adsimdet.hdf1, True)
 
     cat = databroker.temp().v2
     RE = bluesky.RunEngine({})
@@ -203,8 +201,7 @@ def test_cam_mixin_v34_operation():
     adsimdet.wait_for_connection()
     assert adsimdet.connected
 
-    if not AD_plugin_primed(adsimdet.hdf1):
-        AD_prime_plugin2(adsimdet.hdf1)
+    ensure_AD_plugin_primed(adsimdet.hdf1, True)
     assert AD_plugin_primed(adsimdet.hdf1)
 
     adsimdet.read_attrs.append("hdf1")

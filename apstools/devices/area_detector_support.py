@@ -22,6 +22,7 @@ Area Detector Support
    ~CamMixin_V3_1_1
    ~CamMixin_V34
    ~SingleTrigger_V34
+   ~ensure_AD_plugin_primed
 """
 
 import datetime
@@ -248,6 +249,63 @@ def AD_prime_plugin2(plugin):
     for sig, val in reversed(list(original_vals.items())):
         time.sleep(0.1)
         sig.set(val).wait()
+
+
+def ensure_AD_plugin_primed(plugin, allow=False):
+    """
+    Ensure the AD file writing plugin is *primed* (warmed up), if allowed.
+
+    This function primes the plugin only if it is deemed necessary (for the use
+    by ophyd).
+
+    PARAMETERS
+
+    plugin
+        *obj* :
+        area detector plugin to be *primed* (such as ``detector.hdf1``)
+
+    allow
+        *bool* :
+        (default: ``False``)
+        Should the detector be primed?  This keyword argument might be provided
+        by a local configuration setting, controlled externally, such as
+        from configuration file or other ophyd Signal.
+
+    EXAMPLE::
+
+        from apstools.devices import ensure_AD_plugin_primed
+        ensure_AD_plugin_primed(det.hdf1, True)
+
+        # or from a boolean python object
+
+        from local_configuration_settings import ok_to_prime
+        ensure_AD_plugin_primed(det.hdf1, allow=ok_to_prime)
+
+    An area detector file writing plugin is *primed* (as considered by ophyd) if
+    the plugin's image array parameters (size, number of bits, & color mode)
+    match those configured in the cam.  This agreement is required by the
+    bluesky RunEngine (via ``area_detector_handlers``) to generate a descriptor
+    document for any ensuing image events.
+
+    Use with these area detector file writing plugins (maybe others):
+
+    - HDF5Plugin
+    - JPEGPlugin
+    - NetCDFPlugin
+    - TIFFPlugin
+
+    Even with ``lazy_open=1``, ophyd (via ``area_detector_handlers``) checks
+    if the area detector file writing plugin has been *primed*.
+
+    .. see: ``ophyd.areadetector.plugins.UnprimedPlugin``:
+       https://github.com/bluesky/ophyd/blob/7612b2c9de9d5bc16cf28eea79ba5c12553f3cc2/ophyd/areadetector/plugins.py#L999-L1004
+
+    (new in apstools release 1.6.16)
+    """
+    if allow:
+        if not AD_plugin_primed(plugin):
+            logger.info(f"Priming {plugin.name} ...")
+            AD_prime_plugin2(plugin)
 
 
 def AD_full_file_name_local(plugin):

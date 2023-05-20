@@ -14,8 +14,7 @@ from ophyd.areadetector.filestore_mixins import FileStoreHDF5IterativeWrite
 from ophyd.areadetector.plugins import HDF5Plugin_V34 as HDF5Plugin
 from ophyd.areadetector.plugins import ImagePlugin_V34 as ImagePlugin
 
-from ...devices import AD_plugin_primed
-from ...devices import AD_prime_plugin2
+from ...devices import ensure_AD_plugin_primed
 from ...devices import CamMixin_V34 as CamMixin
 from ...devices import SingleTrigger_V34 as SingleTrigger
 from .. import NXWriter
@@ -78,9 +77,7 @@ def camera():
     camera.hdf1.stage_sigs["num_capture"] = 0  # capture ALL frames received
     camera.hdf1.stage_sigs["zlevel"] = 6
 
-    if not AD_plugin_primed(camera.hdf1):
-        print(f"Priming {camera.hdf1.dotted_name}")
-        AD_prime_plugin2(camera.hdf1)
+    ensure_AD_plugin_primed(camera.hdf1, True)
 
     if "capture" in camera.hdf1.stage_sigs:
         camera.hdf1.stage_sigs.move_to_end("capture", last=True)
