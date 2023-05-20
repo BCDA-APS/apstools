@@ -184,3 +184,7 @@ class SignalSaveRestoreCache:
     def restore(self):
         for signal in reversed(self.cache):
             signal.put(self.cache[signal])
+
+    @property
+    def review(self):
+        return {signal.name: v for signal, v in self.cache.items()}
