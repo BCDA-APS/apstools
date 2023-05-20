@@ -17,7 +17,7 @@ from ophyd import Signal
 from ...devices import SynPseudoVoigt
 from ...synApps import SwaitRecord
 from ...synApps import setup_lorentzian_swait
-from ...tests import IOC
+from ...tests import IOC_GP
 from .. import alignment
 
 bec = best_effort.BestEffortCallback()
@@ -27,12 +27,12 @@ RE.subscribe(cat.v1.insert)
 RE.subscribe(bec)
 bec.enable_plots()
 
-axis = ophyd.EpicsSignal(f"{IOC}gp:float1", name="axis")
-m1 = ophyd.EpicsMotor(f"{IOC}m1", name="m1")
-m2 = ophyd.EpicsMotor(f"{IOC}m2", name="m2")
-noisy = ophyd.EpicsSignalRO(f"{IOC}userCalc1.VAL", name="noisy")
-scaler1 = ophyd.scaler.ScalerCH(f"{IOC}scaler1", name="scaler1")
-swait = SwaitRecord(f"{IOC}userCalc1", name="swait")
+axis = ophyd.EpicsSignal(f"{IOC_GP}gp:float1", name="axis")
+m1 = ophyd.EpicsMotor(f"{IOC_GP}m1", name="m1")
+m2 = ophyd.EpicsMotor(f"{IOC_GP}m2", name="m2")
+noisy = ophyd.EpicsSignalRO(f"{IOC_GP}userCalc1.VAL", name="noisy")
+scaler1 = ophyd.scaler.ScalerCH(f"{IOC_GP}scaler1", name="scaler1")
+swait = SwaitRecord(f"{IOC_GP}userCalc1", name="swait")
 
 for obj in (axis, m1, m2, noisy, scaler1, swait):
     obj.wait_for_connection()

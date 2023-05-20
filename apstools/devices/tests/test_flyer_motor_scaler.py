@@ -9,7 +9,7 @@ import pytest
 from bluesky import RunEngine
 from bluesky import plans as bp
 
-from ...tests import IOC
+from ...tests import IOC_GP
 from .. import ActionsFlyerBase
 from .. import FlyerBase
 from .. import ScalerMotorFlyer
@@ -19,8 +19,8 @@ cat = databroker.temp().v2
 RE = RunEngine({})
 RE.subscribe(cat.v1.insert)
 
-m1 = ophyd.EpicsMotor(f"{IOC}m1", name="m1")
-scaler1 = ophyd.scaler.ScalerCH(f"{IOC}scaler1", name="scaler1")
+m1 = ophyd.EpicsMotor(f"{IOC_GP}m1", name="m1")
+scaler1 = ophyd.scaler.ScalerCH(f"{IOC_GP}scaler1", name="scaler1")
 for obj in (m1, scaler1):
     obj.wait_for_connection()
 scaler1.select_channels()

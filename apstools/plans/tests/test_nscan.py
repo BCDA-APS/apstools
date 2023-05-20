@@ -5,7 +5,7 @@ from ophyd import EpicsMotor
 
 from ...synApps import UserCalcN
 from ...synApps import setup_random_number_swait
-from ...tests import IOC
+from ...tests import IOC_GP
 from ...utils import getDefaultNamespace
 from ..nscan_support import nscan
 
@@ -14,7 +14,7 @@ WAIT_TIMEOUT = 10
 
 @pytest.fixture(scope="function")
 def m1():
-    obj = EpicsMotor(f"{IOC}m1", name="m1", labels=["motor", "positioner"])
+    obj = EpicsMotor(f"{IOC_GP}m1", name="m1", labels=["motor", "positioner"])
     obj.wait_for_connection(timeout=WAIT_TIMEOUT)
 
     ns = getDefaultNamespace()
@@ -26,7 +26,7 @@ def m1():
 
 @pytest.fixture(scope="function")
 def m2():
-    obj = EpicsMotor(f"{IOC}m2", name="m2", labels=["motor", "positioner"])
+    obj = EpicsMotor(f"{IOC_GP}m2", name="m2", labels=["motor", "positioner"])
     obj.wait_for_connection(timeout=WAIT_TIMEOUT)
 
     ns = getDefaultNamespace()
@@ -38,7 +38,7 @@ def m2():
 
 @pytest.fixture(scope="function")
 def noisy():
-    obj = UserCalcN(f"{IOC}userCalc1", name="noisy", labels=["detector"])
+    obj = UserCalcN(f"{IOC_GP}userCalc1", name="noisy", labels=["detector"])
     obj.wait_for_connection(timeout=WAIT_TIMEOUT)
 
     obj.calculated_value.name = obj.name

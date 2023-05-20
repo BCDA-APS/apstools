@@ -1,12 +1,12 @@
 import pytest
 
-from ...tests import IOC
+from ...tests import IOC_GP
 from ...tests import common_attribute_quantities_test
 from ...tests import timed_pause
 from ..luascript import LuascriptRecord
 from ..luascript import UserScriptsDevice
 
-PV_PREFIX = f"{IOC}set1:"
+PV_PREFIX = f"{IOC_GP}set1:"
 EMPIRICAL_DELAY = 0.5
 
 # TODO: test a luascript file, where to put the file in the IOC?

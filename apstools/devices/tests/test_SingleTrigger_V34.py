@@ -17,8 +17,8 @@ from .. import AD_plugin_primed
 from .. import ensure_AD_plugin_primed
 from .. import CamMixin_V34
 from .. import SingleTrigger_V34
+from ...tests import IOC_AD
 
-IOC = "ad:"
 IMAGE_DIR = "adsimdet/%Y/%m/%d"
 AD_IOC_MOUNT_PATH = pathlib.Path("/tmp")
 BLUESKY_MOUNT_PATH = pathlib.Path("/tmp/docker_ioc/iocad/tmp")
@@ -60,7 +60,7 @@ class SimDetector_V34(SingleTrigger_V34, DetectorBase):
 
 
 def test_cam_mixin_v34_structure():
-    adsimdet = SimDetector_V34(IOC, name="adsimdet")
+    adsimdet = SimDetector_V34(IOC_AD, name="adsimdet")
     assert isinstance(adsimdet, DetectorBase)
     assert isinstance(adsimdet.cam, SimDetectorCam_V34)
     assert version.parse(adsimdet.cam._cam_release) >= version.parse("3.4")
@@ -90,7 +90,7 @@ def test_the_old_way():
         )
         image = ADComponent(ImagePlugin, "image1:")
 
-    adsimdet = Phoenix(IOC, name="adsimdet")
+    adsimdet = Phoenix(IOC_AD, name="adsimdet")
     adsimdet.wait_for_connection(timeout=15)
     assert adsimdet.connected
 
@@ -148,7 +148,7 @@ def test_ignore_no_WaitForPlugins():
         )
         image = ADComponent(ImagePlugin, "image1:")
 
-    adsimdet = ThisSimDetector(IOC, name="adsimdet")
+    adsimdet = ThisSimDetector(IOC_AD, name="adsimdet")
     adsimdet.wait_for_connection(timeout=15)
     assert adsimdet.connected
 
@@ -197,7 +197,7 @@ def test_ignore_no_WaitForPlugins():
 
 
 def test_cam_mixin_v34_operation():
-    adsimdet = SimDetector_V34(IOC, name="adsimdet")
+    adsimdet = SimDetector_V34(IOC_AD, name="adsimdet")
     adsimdet.wait_for_connection()
     assert adsimdet.connected
 

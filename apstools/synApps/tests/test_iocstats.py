@@ -2,7 +2,7 @@ import time
 
 import pytest
 
-from ...tests import IOC
+from ...tests import IOC_GP
 from ...tests import common_attribute_quantities_test
 from ...tests import timed_pause
 from ..iocstats import IocStatsDevice
@@ -11,10 +11,10 @@ from ..iocstats import IocStatsDevice
 @pytest.mark.parametrize(
     "device, pv, connect, attr, expected",
     [
-        [IocStatsDevice, IOC, False, "read_attrs", 19],
-        [IocStatsDevice, IOC, False, "configuration_attrs", 8],
-        [IocStatsDevice, IOC, True, "read()", 19],
-        [IocStatsDevice, IOC, True, "summary()", 73],
+        [IocStatsDevice, IOC_GP, False, "read_attrs", 19],
+        [IocStatsDevice, IOC_GP, False, "configuration_attrs", 8],
+        [IocStatsDevice, IOC_GP, True, "read()", 19],
+        [IocStatsDevice, IOC_GP, True, "summary()", 73],
     ]
 )
 def test_attribute_quantities(device, pv, connect, attr, expected):
@@ -36,7 +36,7 @@ def test_attribute_quantities(device, pv, connect, attr, expected):
     ]
 )
 def test_running(attr, expected, comparison):
-    gp_info = IocStatsDevice(IOC, name="gp_info")
+    gp_info = IocStatsDevice(IOC_GP, name="gp_info")
     gp_info.wait_for_connection()
     assert gp_info.connected
     timed_pause()

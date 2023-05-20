@@ -5,8 +5,10 @@ import warnings
 
 from ophyd.signal import EpicsSignalBase
 
-IOC = "gp:"
-IOC_AD = "ad:"
+# IOC prefixes
+IOC_GP = "gp:"  # general purpose IOC: motors, scalers, slits, ...
+IOC_AD = "ad:"  # ADSimDetector IOC
+
 MASTER_TIMEOUT = 30
 MAX_TESTING_RETRIES = 3
 SHORT_DELAY_FOR_EPICS_IOC_DATABASE_PROCESSING = 2.0 / 60  # two 60Hz clock cycles

@@ -9,7 +9,7 @@ from bluesky import plan_stubs as bps
 from ophyd import Component
 from ophyd import EpicsMotor
 
-from ...tests import IOC
+from ...tests import IOC_GP
 from .. import KohzuSeqCtl_Monochromator
 
 
@@ -58,7 +58,7 @@ class MyKohzu(KohzuSeqCtl_Monochromator):
 
 
 def test_dcm():
-    dcm = MyKohzu(IOC, name="dcm")
+    dcm = MyKohzu(IOC_GP, name="dcm")
     assert dcm is not None
     assert dcm.energy.name == "dcm_energy"
     dcm.wait_for_connection()

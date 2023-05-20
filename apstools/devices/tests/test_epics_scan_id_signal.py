@@ -3,10 +3,10 @@ import bluesky.plans as bp
 import pytest
 from ophyd import EpicsSignal
 
-from ...tests import IOC
+from ...tests import IOC_GP
 from .. import EpicsScanIdSignal
 
-SCAN_ID_PV = f"{IOC}gp:int1"
+SCAN_ID_PV = f"{IOC_GP}gp:int1"
 
 
 @pytest.mark.parametrize(
@@ -34,7 +34,7 @@ def test_usage(pvname, initial_value):
     assert isinstance(RE.md, dict)
     assert "scan_id" not in RE.md
 
-    signal = EpicsSignal(f"{IOC}gp:float1", name="signal")
+    signal = EpicsSignal(f"{IOC_GP}gp:float1", name="signal")
     signal.wait_for_connection()
 
     RE(bp.count([signal]))

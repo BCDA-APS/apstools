@@ -14,12 +14,12 @@ from ophyd.areadetector.plugins import ImagePlugin_V34 as ImagePlugin
 
 from ..area_detector_support import AD_EpicsHdf5FileName
 from ..area_detector_support import ensure_AD_plugin_primed
+from ...tests import IOC_AD
 
-IOC = "ad:"
 IMAGE_DIR = "images"
 AD_IOC_MOUNT_PATH = pathlib.Path("/tmp")
 BLUESKY_MOUNT_PATH = pathlib.Path(
-    f"/tmp/docker_ioc/ioc{IOC.rstrip(':')}{AD_IOC_MOUNT_PATH}"
+    f"/tmp/docker_ioc/ioc{IOC_AD.rstrip(':')}{AD_IOC_MOUNT_PATH}"
 )
 
 # MUST end with a `/`, pathlib will NOT provide it
@@ -66,7 +66,7 @@ def test_no_unexpected_key_in_datum_kwarg():
     RE = RunEngine({})
     RE.subscribe(cat.v1.insert)
 
-    camera = MySimDetector(IOC, name="camera")
+    camera = MySimDetector(IOC_AD, name="camera")
     assert isinstance(camera, MySimDetector)
 
     if hasattr(camera.hdf1.stage_sigs, "array_counter"):

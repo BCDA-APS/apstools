@@ -1,7 +1,7 @@
 import math
 import pytest
 
-from ...tests import IOC
+from ...tests import IOC_GP
 from ...tests import common_attribute_quantities_test
 from ...tests import timed_pause
 from ...utils import SlitGeometry
@@ -15,20 +15,20 @@ from ..db_2slit import Optics2Slit2D_InbOutBotTop
 @pytest.mark.parametrize(
     "device, pv, connect, attr, expected",
     [
-        [Optics2Slit1D, f"{IOC}Slit1H", False, "read_attrs", 12],
-        [Optics2Slit1D, f"{IOC}Slit1H", False, "configuration_attrs", 16],
-        [Optics2Slit1D, f"{IOC}Slit1H", True, "read()", 8],
-        [Optics2Slit1D, f"{IOC}Slit1H", True, "summary()", 63],
+        [Optics2Slit1D, f"{IOC_GP}Slit1H", False, "read_attrs", 12],
+        [Optics2Slit1D, f"{IOC_GP}Slit1H", False, "configuration_attrs", 16],
+        [Optics2Slit1D, f"{IOC_GP}Slit1H", True, "read()", 8],
+        [Optics2Slit1D, f"{IOC_GP}Slit1H", True, "summary()", 63],
 
-        [Optics2Slit2D_HV, f"{IOC}Slit1", False, "read_attrs", 26],
-        [Optics2Slit2D_HV, f"{IOC}Slit1", False, "configuration_attrs", 34],
-        [Optics2Slit2D_HV, f"{IOC}Slit1", True, "read()", 16],
-        [Optics2Slit2D_HV, f"{IOC}Slit1", True, "summary()", 114],
+        [Optics2Slit2D_HV, f"{IOC_GP}Slit1", False, "read_attrs", 26],
+        [Optics2Slit2D_HV, f"{IOC_GP}Slit1", False, "configuration_attrs", 34],
+        [Optics2Slit2D_HV, f"{IOC_GP}Slit1", True, "read()", 16],
+        [Optics2Slit2D_HV, f"{IOC_GP}Slit1", True, "summary()", 114],
 
-        [Optics2Slit2D_InbOutBotTop, f"{IOC}Slit1", False, "read_attrs", 24],
-        [Optics2Slit2D_InbOutBotTop, f"{IOC}Slit1", False, "configuration_attrs", 32],
-        [Optics2Slit2D_InbOutBotTop, f"{IOC}Slit1", True, "read()", 16],
-        [Optics2Slit2D_InbOutBotTop, f"{IOC}Slit1", True, "summary()", 112],
+        [Optics2Slit2D_InbOutBotTop, f"{IOC_GP}Slit1", False, "read_attrs", 24],
+        [Optics2Slit2D_InbOutBotTop, f"{IOC_GP}Slit1", False, "configuration_attrs", 32],
+        [Optics2Slit2D_InbOutBotTop, f"{IOC_GP}Slit1", True, "read()", 16],
+        [Optics2Slit2D_InbOutBotTop, f"{IOC_GP}Slit1", True, "summary()", 112],
     ]
 )
 def test_attribute_quantities(device, pv, connect, attr, expected):
@@ -37,7 +37,7 @@ def test_attribute_quantities(device, pv, connect, attr, expected):
 
 
 def test_2slit1D():
-    axis = Optics2Slit1D(f"{IOC}Slit1H", name="axis")
+    axis = Optics2Slit1D(f"{IOC_GP}Slit1H", name="axis")
     assert axis is not None
 
     axis.wait_for_connection()
@@ -48,7 +48,7 @@ def test_2slit1D():
 
 
 def test_2slit2D_HV():
-    slit1 = Optics2Slit2D_HV(f"{IOC}Slit1", name="slit1")
+    slit1 = Optics2Slit2D_HV(f"{IOC_GP}Slit1", name="slit1")
     assert slit1 is not None
 
     slit1.wait_for_connection()
@@ -75,7 +75,7 @@ def test_2slit2D_HV():
 
 
 def test_2slit2D_InbOutBotTop():
-    slit1 = Optics2Slit2D_InbOutBotTop(f"{IOC}Slit1", name="slit1")
+    slit1 = Optics2Slit2D_InbOutBotTop(f"{IOC_GP}Slit1", name="slit1")
     assert slit1 is not None
 
     slit1.wait_for_connection()
@@ -111,8 +111,8 @@ def test_2slit2D_InbOutBotTop():
 @pytest.mark.parametrize(
     "class_, prefix, tolerance",
     [
-        [Optics2Slit2D_HV, f"{IOC}Slit1", 0.01],
-        [Optics2Slit2D_InbOutBotTop, f"{IOC}Slit1", 0.01],
+        [Optics2Slit2D_HV, f"{IOC_GP}Slit1", 0.01],
+        [Optics2Slit2D_InbOutBotTop, f"{IOC_GP}Slit1", 0.01],
     ]
 )
 def test_geometry_property(class_, prefix, tolerance):

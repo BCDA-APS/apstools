@@ -7,7 +7,7 @@ from ophyd.scaler import ScalerCH
 
 from apstools.plans import sscan_1D
 from apstools.synApps import SscanDevice
-from apstools.tests import IOC
+from apstools.tests import IOC_GP
 
 from ..sscan_support import _get_sscan_data_objects
 from ..sscan_support import sscan_1D
@@ -20,9 +20,9 @@ def test_i108():
     RE.subscribe(BestEffortCallback())
     RE.preprocessors.append(SupplementalData())
 
-    motor = EpicsMotor(f"{IOC}m1", name="motor")
-    scaler = ScalerCH(f"{IOC}scaler1", name="scaler")
-    scans = SscanDevice(IOC, name="scans")
+    motor = EpicsMotor(f"{IOC_GP}m1", name="motor")
+    scaler = ScalerCH(f"{IOC_GP}scaler1", name="scaler")
+    scans = SscanDevice(IOC_GP, name="scans")
     for item in (motor, scaler, scans):
         item.wait_for_connection(timeout=20)
 

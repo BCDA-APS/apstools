@@ -1,6 +1,6 @@
 import pytest
 
-from ...tests import IOC
+from ...tests import IOC_GP
 from ...tests import common_attribute_quantities_test
 from ...tests import timed_pause
 from ..swait import SwaitRecord
@@ -12,20 +12,20 @@ from ..swait import setup_random_number_swait
 @pytest.mark.parametrize(
     "device, pv, connect, attr, expected",
     [
-        [SwaitRecord, f"{IOC}userCalc10", False, "read_attrs", 12],
-        [SwaitRecord, f"{IOC}userCalc10", False, "configuration_attrs", 72],
-        [SwaitRecord, f"{IOC}userCalc10", True, "read()", 1],
-        [SwaitRecord, f"{IOC}userCalc10", True, "summary()", 162],
+        [SwaitRecord, f"{IOC_GP}userCalc10", False, "read_attrs", 12],
+        [SwaitRecord, f"{IOC_GP}userCalc10", False, "configuration_attrs", 72],
+        [SwaitRecord, f"{IOC_GP}userCalc10", True, "read()", 1],
+        [SwaitRecord, f"{IOC_GP}userCalc10", True, "summary()", 162],
 
-        [UserCalcN, f"{IOC}userCalc10", False, "read_attrs", 12],
-        [UserCalcN, f"{IOC}userCalc10", False, "configuration_attrs", 73],
-        [UserCalcN, f"{IOC}userCalc10", True, "read()", 1],
-        [UserCalcN, f"{IOC}userCalc10", True, "summary()", 164],
+        [UserCalcN, f"{IOC_GP}userCalc10", False, "read_attrs", 12],
+        [UserCalcN, f"{IOC_GP}userCalc10", False, "configuration_attrs", 73],
+        [UserCalcN, f"{IOC_GP}userCalc10", True, "read()", 1],
+        [UserCalcN, f"{IOC_GP}userCalc10", True, "summary()", 164],
 
-        [UserCalcsDevice, IOC, False, "read_attrs", 130],
-        [UserCalcsDevice, IOC, False, "configuration_attrs", 741],
-        [UserCalcsDevice, IOC, True, "read()", 10],
-        [UserCalcsDevice, IOC, True, "summary()", 1496],
+        [UserCalcsDevice, IOC_GP, False, "read_attrs", 130],
+        [UserCalcsDevice, IOC_GP, False, "configuration_attrs", 741],
+        [UserCalcsDevice, IOC_GP, True, "read()", 10],
+        [UserCalcsDevice, IOC_GP, True, "summary()", 1496],
     ]
 )
 def test_attribute_quantities(device, pv, connect, attr, expected):
@@ -34,7 +34,7 @@ def test_attribute_quantities(device, pv, connect, attr, expected):
 
 
 def test_userCalcs_reset():
-    user = UserCalcsDevice(IOC, name="user")
+    user = UserCalcsDevice(IOC_GP, name="user")
     user.wait_for_connection()
     user.enable.put("Enable")
 

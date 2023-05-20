@@ -2,7 +2,7 @@ import time
 
 import pytest
 
-from ...tests import IOC
+from ...tests import IOC_GP
 from ...tests import common_attribute_quantities_test
 from ...tests import timed_pause
 from ..calcout import CalcoutRecord
@@ -13,15 +13,15 @@ from ..calcout import setup_incrementer_calcout
 @pytest.mark.parametrize(
     "device, pv, connect, attr, expected",
     [
-        [CalcoutRecord, f"{IOC}userCalcOut10", False, "read_attrs", 12],
-        [CalcoutRecord, f"{IOC}userCalcOut10", False, "configuration_attrs", 100],
-        [CalcoutRecord, f"{IOC}userCalcOut10", True, "read()", 2],
-        [CalcoutRecord, f"{IOC}userCalcOut10", True, "summary()", 220],
+        [CalcoutRecord, f"{IOC_GP}userCalcOut10", False, "read_attrs", 12],
+        [CalcoutRecord, f"{IOC_GP}userCalcOut10", False, "configuration_attrs", 100],
+        [CalcoutRecord, f"{IOC_GP}userCalcOut10", True, "read()", 2],
+        [CalcoutRecord, f"{IOC_GP}userCalcOut10", True, "summary()", 220],
 
-        [UserCalcoutDevice, IOC, False, "read_attrs", 130],
-        [UserCalcoutDevice, IOC, False, "configuration_attrs", 1020],
-        [UserCalcoutDevice, IOC, True, "read()", 20],
-        [UserCalcoutDevice, IOC, True, "summary()", 2065],
+        [UserCalcoutDevice, IOC_GP, False, "read_attrs", 130],
+        [UserCalcoutDevice, IOC_GP, False, "configuration_attrs", 1020],
+        [UserCalcoutDevice, IOC_GP, True, "read()", 20],
+        [UserCalcoutDevice, IOC_GP, True, "summary()", 2065],
     ]
 )
 def test_attribute_quantities(device, pv, connect, attr, expected):
@@ -30,7 +30,7 @@ def test_attribute_quantities(device, pv, connect, attr, expected):
 
 
 def test_calcout_reset():
-    user = UserCalcoutDevice(IOC, name="user")
+    user = UserCalcoutDevice(IOC_GP, name="user")
     user.wait_for_connection()
     user.enable.put("Enable")
 

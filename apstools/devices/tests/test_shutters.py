@@ -6,12 +6,12 @@ import pytest
 from ophyd import Component
 from ophyd import EpicsSignal
 
-from ...tests import IOC
+from ...tests import IOC_GP
 from ...tests import timed_pause
 from .. import shutters
 
-PV_BIT = f"{IOC}gp:bit20"
-PV_MOTOR = f"{IOC}m16"
+PV_BIT = f"{IOC_GP}gp:bit20"
+PV_MOTOR = f"{IOC_GP}m16"
 
 
 def set_and_assert_signal(signal, value):
@@ -37,8 +37,8 @@ def operate_shutter(shutter):
         assert shutter.isClosed
 
 
-@pytest.mark.parametrize("close_pv", [None, "a:close:pv", f"{IOC}XYZ:CLOSE_EPICS.VAL"])
-@pytest.mark.parametrize("open_pv", [None, "that:open:pvname", f"{IOC}ABC:OPEN_EPICS.VAL"])
+@pytest.mark.parametrize("close_pv", [None, "a:close:pv", f"{IOC_GP}XYZ:CLOSE_EPICS.VAL"])
+@pytest.mark.parametrize("open_pv", [None, "that:open:pvname", f"{IOC_GP}ABC:OPEN_EPICS.VAL"])
 def test_ApsPssShutter(close_pv, open_pv):
     """
     Structure tests only.
@@ -55,9 +55,9 @@ def test_ApsPssShutter(close_pv, open_pv):
     assert shutter.close_signal.pvname == close_pv
 
 
-@pytest.mark.parametrize("state_pv", [None, "the:state:pv", "the:state:EPICS_PV", f"{IOC}hutch_BEAM_PRESENT"])
-@pytest.mark.parametrize("close_pv", [None, "a:close:pv", f"{IOC}XYZ:CLOSE_EPICS.VAL"])
-@pytest.mark.parametrize("open_pv", [None, "that:open:pvname", f"{IOC}ABC:OPEN_EPICS.VAL"])
+@pytest.mark.parametrize("state_pv", [None, "the:state:pv", "the:state:EPICS_PV", f"{IOC_GP}hutch_BEAM_PRESENT"])
+@pytest.mark.parametrize("close_pv", [None, "a:close:pv", f"{IOC_GP}XYZ:CLOSE_EPICS.VAL"])
+@pytest.mark.parametrize("open_pv", [None, "that:open:pvname", f"{IOC_GP}ABC:OPEN_EPICS.VAL"])
 def test_ApsPssShutterWithStatus(state_pv, close_pv, open_pv):
     """
     Structure tests only.

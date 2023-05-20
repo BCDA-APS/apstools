@@ -6,7 +6,7 @@ from ophyd import Component
 from ophyd import EpicsSignal
 
 from ...synApps.swait import UserCalcsDevice
-from ...tests import IOC
+from ...tests import IOC_GP
 from ...tests import common_attribute_quantities_test
 from ...tests import rand
 from ...tests import timed_pause
@@ -14,7 +14,7 @@ from ...utils import run_in_thread
 from ..positioner_soft_done import PVPositionerSoftDone
 from ..positioner_soft_done import PVPositionerSoftDoneWithStop
 
-PV_PREFIX = f"{IOC}gp:"
+PV_PREFIX = f"{IOC_GP}gp:"
 delay_active = False
 
 
@@ -61,7 +61,7 @@ def rbv():
 @pytest.fixture(scope="function")
 def calcpos():
     """Test Positioner based on swait (userCalc) PV."""
-    user = UserCalcsDevice(IOC, name="user")
+    user = UserCalcsDevice(IOC_GP, name="user")
     user.wait_for_connection()
     user.enable.put("Enable")
 

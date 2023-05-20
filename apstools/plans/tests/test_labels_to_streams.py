@@ -13,7 +13,7 @@ from ophyd import EpicsMotor
 from ophyd import EpicsSignalRO
 from ophyd import Signal
 
-from ...tests import IOC
+from ...tests import IOC_GP
 from ...utils import getDefaultNamespace
 from ..doc_run import write_stream
 from ..labels_to_streams import label_stream_decorator
@@ -28,7 +28,7 @@ RE.subscribe(cat.v1.insert)
 
 @pytest.fixture(scope="function")
 def m1():
-    obj = EpicsMotor(f"{IOC}m1", name="m1", labels=["motor", "positioner"])
+    obj = EpicsMotor(f"{IOC_GP}m1", name="m1", labels=["motor", "positioner"])
     obj.wait_for_connection()
 
     ns = getDefaultNamespace()
@@ -40,7 +40,7 @@ def m1():
 
 @pytest.fixture(scope="function")
 def noisy():
-    obj = EpicsSignalRO(f"{IOC}userCalc1.VAL", name="noisy", labels=["detector"])
+    obj = EpicsSignalRO(f"{IOC_GP}userCalc1.VAL", name="noisy", labels=["detector"])
     obj.wait_for_connection()
 
     ns = getDefaultNamespace()

@@ -1,12 +1,14 @@
 import pytest
 
 from ..misc import connect_pvlist
+from ...tests import IOC_AD
+from ...tests import IOC_GP
 
 
 @pytest.mark.parametrize(
     "pvlist, success",
     [
-        ["ad:cam1:Acquire gp:UPTIME".split(), True],
+        [f"{IOC_AD}cam1:Acquire {IOC_GP}UPTIME".split(), True],
     ],
 )
 def test_connect_pvlist(pvlist, success):

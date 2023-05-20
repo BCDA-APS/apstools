@@ -1,6 +1,6 @@
 import pytest
 
-from ...tests import IOC
+from ...tests import IOC_GP
 from ...tests import timed_pause
 from ..epid import EpidRecord
 from ..epid import Fb_EpidDatabase
@@ -13,7 +13,7 @@ from ..epid import Fb_EpidDatabaseHeaterSimulator
 )
 def test_connection(support):
     """Connection test."""
-    epid = support(f"{IOC}epid1", name="epid")
+    epid = support(f"{IOC_GP}epid1", name="epid")
     epid.wait_for_connection()
     assert epid.connected
 
@@ -26,7 +26,7 @@ def test_connection(support):
     ],
 )
 def test_sim_heater(method, scan, Kp, Ki):
-    epid = Fb_EpidDatabaseHeaterSimulator(f"{IOC}epid1", name="epid")
+    epid = Fb_EpidDatabaseHeaterSimulator(f"{IOC_GP}epid1", name="epid")
     epid.wait_for_connection()
 
     getattr(epid, method)()

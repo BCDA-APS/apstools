@@ -12,7 +12,7 @@ from ophyd import EpicsSignalRO
 from ophyd import PVPositioner
 
 from ...synApps import UserTransformsDevice
-from ...tests import IOC
+from ...tests import IOC_GP
 from ...tests import setup_transform_as_soft_motor
 from ..nexus_writer import NXWriter
 
@@ -20,8 +20,8 @@ CALC_COMPONENT_SELECTED = "calc10"
 CALC_PV_SELECTED = "userCalc10"
 TRANSFORMS_COMPONENT_SELECTED = "transform10"
 TRANSFORMS_PV_SELECTED = "userTran10"
-MOTOR_PV = f"{IOC}m1"
-NOISY_PV = f"{IOC}{CALC_PV_SELECTED}.VAL"
+MOTOR_PV = f"{IOC_GP}m1"
+NOISY_PV = f"{IOC_GP}{CALC_PV_SELECTED}.VAL"
 
 
 class Undulator(PVPositioner):
@@ -43,13 +43,13 @@ class UndulatorFixed(Undulator):
 
 def test_i806_root_cause():
     """Root cause: NXdata group wanted ``und`` but found ``und_readback``."""
-    und = Undulator(IOC, name="und")
+    und = Undulator(IOC_GP, name="und")
     und.wait_for_connection()
     assert "und" not in und.read()
     assert "und_readback" in und.read()
     assert "und_setpoint" in und.read()
 
-    und_fixed = UndulatorFixed(IOC, name="und")
+    und_fixed = UndulatorFixed(IOC_GP, name="und")
     und_fixed.wait_for_connection()
     assert "und" in und_fixed.read()
     assert "und_readback" not in und_fixed.read()
@@ -75,10 +75,10 @@ def test_as_reported():
     nx.file_name = str(filename)
     assert isinstance(nx.file_name, pathlib.Path)
 
-    und = UndulatorFixed(IOC, name="und")
+    und = UndulatorFixed(IOC_GP, name="und")
     motor = EpicsMotor(MOTOR_PV, name="motor")
     noisy = EpicsSignalRO(NOISY_PV, name="noisy")
-    user_transforms = UserTransformsDevice(IOC, name="user_transforms")
+    user_transforms = UserTransformsDevice(IOC_GP, name="user_transforms")
     for obj in (motor, noisy, und, user_transforms):
         obj.wait_for_connection(timeout=20.0)
 
