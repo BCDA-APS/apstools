@@ -76,18 +76,12 @@ class AxisTunerMixin(DeviceMixinBase):
 
     def _default_pre_tune_method(self):
         """called before `tune()`"""
-        logger.info(
-            "{} position before tuning: {}".format(
-                self.name, self.position
-            )
-        )
+        logger.info("{} position before tuning: {}".format(self.name, self.position))
         yield from bps.null()
 
     def _default_post_tune_method(self):
         """called after `tune()`"""
-        logger.info(
-            "{} position after tuning: {}".format(self.name, self.position)
-        )
+        logger.info("{} position after tuning: {}".format(self.name, self.position))
         yield from bps.null()
 
     def tune(self, md=None, **kwargs):
@@ -113,6 +107,7 @@ class AxisTunerMixin(DeviceMixinBase):
 
             if self.post_tune_method is not None:
                 yield from self.post_tune_method()
+
 
 # -----------------------------------------------------------------------------
 # :author:    Pete R. Jemian

@@ -185,10 +185,7 @@ class FileWriterCallbackBase:
         tbl.labels = "stream num_vars num_values".split()
         for k, v in sorted(self.streams.items()):
             if len(v) != 1:
-                print(
-                    f"expecting only one descriptor in stream {k},"
-                    f" found {len(v)}"
-                )
+                print(f"expecting only one descriptor in stream {k}, found {len(v)}")
             else:
                 data = self.acquisitions[v[0]]["data"]
                 num_vars = len(data)
@@ -287,10 +284,7 @@ class FileWriterCallbackBase:
             for k, v in doc["data"].items():
                 data = descriptor["data"].get(k)
                 if data is None:
-                    print(
-                        f"entry key {k} not found in"
-                        f" descriptor of {descriptor['stream']}"
-                    )
+                    print(f"entry key {k} not found in descriptor of {descriptor['stream']}")
                 else:
                     data["data"].append(v)
                     data["time"].append(doc["timestamps"][k])
@@ -316,9 +310,7 @@ class FileWriterCallbackBase:
         self.start_time = doc["time"]
         self.uid = doc["uid"]
         self.detectors = doc.get("detectors", [])
-        self.positioners = (
-            doc.get("positioners") or doc.get("motors") or []
-        )
+        self.positioners = doc.get("positioners") or doc.get("motors") or []
 
         # gather the metadata
         for k, v in doc.items():
@@ -338,6 +330,7 @@ class FileWriterCallbackBase:
         self.scanning = False
 
         self.writer()
+
 
 # -----------------------------------------------------------------------------
 # :author:    Pete R. Jemian

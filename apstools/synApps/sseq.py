@@ -43,16 +43,12 @@ class sseqRecordStep(Device):
     input_pv = FC(EpicsSignal, "{self.prefix}.DOL{self._step}", kind="config")
     input_pv_valid = FC(EpicsSignalRO, "{self.prefix}.DOL{self._step}V", kind="config")
     delay = FC(EpicsSignal, "{self.prefix}.DLY{self._step}", kind="config")
-    string_value = FC(
-        EpicsSignal, "{self.prefix}.STR{self._step}", string=True, kind="hinted"
-    )
+    string_value = FC(EpicsSignal, "{self.prefix}.STR{self._step}", string=True, kind="hinted")
     numeric_value = FC(EpicsSignal, "{self.prefix}.DO{self._step}", kind="hinted")
     output_pv = FC(EpicsSignal, "{self.prefix}.LNK{self._step}", kind="config")
     output_pv_valid = FC(EpicsSignalRO, "{self.prefix}.LNK{self._step}V", kind="config")
 
-    waiting_completion = FC(
-        EpicsSignalRO, "{self.prefix}.WTG{self._step}", kind="config"
-    )
+    waiting_completion = FC(EpicsSignalRO, "{self.prefix}.WTG{self._step}", kind="config")
     wait_completion = FC(EpicsSignal, "{self.prefix}.WAIT{self._step}", kind="config")
     wait_error = FC(EpicsSignalRO, "{self.prefix}.WERR{self._step}", kind="config")
 
@@ -171,12 +167,14 @@ class EditStringSequence(Device):
 
     See the ``editSseq_more`` GUI screen for assistance.
     """
+
     record_name = Cpt(EpicsSignal, "ES:recordName", kind="config")
     command = Cpt(EpicsSignal, "ES:command", kind="config")
     message_acknowledge = Cpt(EpicsSignal, "ES:OperAck", kind="config")
     message = Cpt(EpicsSignalRO, "ES:message", kind="normal")
     alert = Cpt(EpicsSignalRO, "ES:Alert", kind="normal")
     debug = Cpt(EpicsSignal, "ES:Debug", kind="config")
+
 
 # -----------------------------------------------------------------------------
 # :author:    Pete R. Jemian

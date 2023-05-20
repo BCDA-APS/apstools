@@ -15,7 +15,7 @@ from ..iocstats import IocStatsDevice
         [IocStatsDevice, IOC_GP, False, "configuration_attrs", 8],
         [IocStatsDevice, IOC_GP, True, "read()", 19],
         [IocStatsDevice, IOC_GP, True, "summary()", 73],
-    ]
+    ],
 )
 def test_attribute_quantities(device, pv, connect, attr, expected):
     """Verify the quantities of the different attributes."""
@@ -33,7 +33,7 @@ def test_attribute_quantities(device, pv, connect, attr, expected):
         ["kernel_version", "x86_64", "end"],
         ["location", "location", None],
         ["records_count", 100, ">="],
-    ]
+    ],
 )
 def test_running(attr, expected, comparison):
     gp_info = IocStatsDevice(IOC_GP, name="gp_info")
@@ -43,7 +43,7 @@ def test_running(attr, expected, comparison):
 
     assert hasattr(gp_info, attr)
     value = getattr(gp_info, attr).get(use_monitor=False)
-    time.sleep(.1)
+    time.sleep(0.1)
     if comparison == "start":
         assert value.startswith(expected)
     elif comparison == "end":

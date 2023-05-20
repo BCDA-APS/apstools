@@ -24,6 +24,7 @@ class PreamplifierBaseDevice(Device):
 
     gain = Component(Signal, kind="normal", value=1)
 
+
 # -----------------------------------------------------------------------------
 # :author:    Pete R. Jemian
 # :email:     jemian@anl.gov

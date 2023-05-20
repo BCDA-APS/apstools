@@ -26,6 +26,7 @@ class BusyRecord(Device):
     output_link = Component(EpicsSignal, ".OUT", kind="config")
     forward_link = Component(EpicsSignal, ".FLNK", kind="config")
 
+
 # -----------------------------------------------------------------------------
 # :author:    Pete R. Jemian
 # :email:     jemian@anl.gov

@@ -29,15 +29,20 @@ class ApsUndulator(Device):
     """
 
     energy = Component(
-        EpicsSignal, "Energy", write_pv="EnergySet", put_complete=True, kind="hinted",
+        EpicsSignal,
+        "Energy",
+        write_pv="EnergySet",
+        put_complete=True,
+        kind="hinted",
     )
     energy_taper = Component(
-        EpicsSignal, "TaperEnergy", write_pv="TaperEnergySet", kind="config",
+        EpicsSignal,
+        "TaperEnergy",
+        write_pv="TaperEnergySet",
+        kind="config",
     )
     gap = Component(EpicsSignal, "Gap", write_pv="GapSet")
-    gap_taper = Component(
-        EpicsSignal, "TaperGap", write_pv="TaperGapSet", kind="config"
-    )
+    gap_taper = Component(EpicsSignal, "TaperGap", write_pv="TaperGapSet", kind="config")
     start_button = Component(EpicsSignal, "Start", put_complete=True, kind="omitted")
     stop_button = Component(EpicsSignal, "Stop", kind="omitted")
     harmonic_value = Component(EpicsSignal, "HarmonicValue", kind="config")
@@ -78,6 +83,7 @@ class ApsUndulatorDual(Device):
 
     upstream = Component(ApsUndulator, "us:")
     downstream = Component(ApsUndulator, "ds:")
+
 
 # -----------------------------------------------------------------------------
 # :author:    Pete R. Jemian

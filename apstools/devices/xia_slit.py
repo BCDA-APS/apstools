@@ -46,31 +46,15 @@ class XiaSlit2D(Device):
     EPICS synApps optics xia_slit.db 2D support: inb out bot top ...
     """
 
-    inb = Component(
-        PVPositionerSoftDone, "", setpoint_pv="l", readback_pv="lRB"
-    )
-    out = Component(
-        PVPositionerSoftDone, "", setpoint_pv="r", readback_pv="rRB"
-    )
-    bot = Component(
-        PVPositionerSoftDone, "", setpoint_pv="b", readback_pv="bRB"
-    )
-    top = Component(
-        PVPositionerSoftDone, "", setpoint_pv="t", readback_pv="tRB"
-    )
+    inb = Component(PVPositionerSoftDone, "", setpoint_pv="l", readback_pv="lRB")
+    out = Component(PVPositionerSoftDone, "", setpoint_pv="r", readback_pv="rRB")
+    bot = Component(PVPositionerSoftDone, "", setpoint_pv="b", readback_pv="bRB")
+    top = Component(PVPositionerSoftDone, "", setpoint_pv="t", readback_pv="tRB")
 
-    hsize = Component(
-        PVPositionerSoftDone, "", setpoint_pv="width", readback_pv="widthRB"
-    )
-    vsize = Component(
-        PVPositionerSoftDone, "", setpoint_pv="height", readback_pv="heightRB"
-    )
-    hcenter = Component(
-        PVPositionerSoftDone, "", setpoint_pv="h0", readback_pv="h0RB"
-    )
-    vcenter = Component(
-        PVPositionerSoftDone, "", setpoint_pv="v0", readback_pv="v0RB"
-    )
+    hsize = Component(PVPositionerSoftDone, "", setpoint_pv="width", readback_pv="widthRB")
+    vsize = Component(PVPositionerSoftDone, "", setpoint_pv="height", readback_pv="heightRB")
+    hcenter = Component(PVPositionerSoftDone, "", setpoint_pv="h0", readback_pv="h0RB")
+    vcenter = Component(PVPositionerSoftDone, "", setpoint_pv="v0", readback_pv="v0RB")
 
     hID = Component(EpicsSignal, "hID", kind="config", string=True)
     horientation = Component(EpicsSignal, "hOrient", kind="config", string=True)
@@ -102,12 +86,7 @@ class XiaSlit2D(Device):
         """Return the slit 2D size and center as a namedtuple."""
         pppp = [
             round(obj.position, self.precision.get())
-            for obj in (
-                self.hsize,
-                self.vsize,
-                self.hcenter,
-                self.vcenter
-            )
+            for obj in (self.hsize, self.vsize, self.hcenter, self.vcenter)
         ]
 
         return SlitGeometry(*pppp)
@@ -121,6 +100,7 @@ class XiaSlit2D(Device):
         self.vsize.move(height)
         self.hcenter.move(x)
         self.vcenter.move(y)
+
 
 # -----------------------------------------------------------------------------
 # :author:    Pete R. Jemian

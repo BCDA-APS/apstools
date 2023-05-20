@@ -17,12 +17,11 @@ from ..calcout import setup_incrementer_calcout
         [CalcoutRecord, f"{IOC_GP}userCalcOut10", False, "configuration_attrs", 100],
         [CalcoutRecord, f"{IOC_GP}userCalcOut10", True, "read()", 2],
         [CalcoutRecord, f"{IOC_GP}userCalcOut10", True, "summary()", 220],
-
         [UserCalcoutDevice, IOC_GP, False, "read_attrs", 130],
         [UserCalcoutDevice, IOC_GP, False, "configuration_attrs", 1020],
         [UserCalcoutDevice, IOC_GP, True, "read()", 20],
         [UserCalcoutDevice, IOC_GP, True, "summary()", 2065],
-    ]
+    ],
 )
 def test_attribute_quantities(device, pv, connect, attr, expected):
     """Verify the quantities of the different attributes."""

@@ -43,9 +43,7 @@ class DocumentCollectorCallback(object):
 
     """
 
-    data_event_names = (
-        "descriptor event resource datum bulk_events".split()
-    )
+    data_event_names = "descriptor event resource datum bulk_events".split()
 
     def __init__(self):
         self.documents = {}  # key: name, value: document
@@ -78,6 +76,7 @@ class DocumentCollectorCallback(object):
                 self.documents[key] = []
             self.documents[key].append(document)
         return
+
 
 # -----------------------------------------------------------------------------
 # :author:    Pete R. Jemian

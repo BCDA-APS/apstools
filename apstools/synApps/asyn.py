@@ -47,6 +47,7 @@ class AsynRecord(EpicsRecordDeviceCommonAll):
     transaction_mode = Component(EpicsSignal, ".TMOD", kind="config")
     translated_input = Component(EpicsSignal, ".TINP", kind="config")
 
+
 # -----------------------------------------------------------------------------
 # :author:    Pete R. Jemian
 # :email:     jemian@anl.gov

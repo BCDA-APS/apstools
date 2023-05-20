@@ -14,12 +14,11 @@ from ..scalcout import UserScalcoutDevice
         [ScalcoutRecord, f"{IOC_GP}userStringCalc10", False, "configuration_attrs", 114],
         [ScalcoutRecord, f"{IOC_GP}userStringCalc10", True, "read()", 3],
         [ScalcoutRecord, f"{IOC_GP}userStringCalc10", True, "summary()", 250],
-
         [UserScalcoutDevice, IOC_GP, False, "read_attrs", 250],
         [UserScalcoutDevice, IOC_GP, False, "configuration_attrs", 1160],
         [UserScalcoutDevice, IOC_GP, True, "read()", 30],
         [UserScalcoutDevice, IOC_GP, True, "summary()", 2355],
-    ]
+    ],
 )
 def test_attribute_quantities(device, pv, connect, attr, expected):
     """Verify the quantities of the different attributes."""

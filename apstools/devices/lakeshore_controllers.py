@@ -43,21 +43,12 @@ class LakeShore336_LoopControl(PVPositionerSoftDoneWithStop):
     # position
     # readback is provided by PVPositionerSoftDoneWithStop
 
-    setpoint = FormattedComponent(
-        EpicsSignalWithRBV, "{prefix}OUT{loop_number}:SP", put_complete=True
-    )
+    setpoint = FormattedComponent(EpicsSignalWithRBV, "{prefix}OUT{loop_number}:SP", put_complete=True)
 
     # configuration
-    units = FormattedComponent(
-        EpicsSignalWithRBV, "{prefix}IN{loop_number}:Units", kind="config"
-    )
+    units = FormattedComponent(EpicsSignalWithRBV, "{prefix}IN{loop_number}:Units", kind="config")
 
-    heater = FormattedComponent(
-        EpicsSignalRO,
-        "{prefix}HTR{loop_number}",
-        auto_monitor=True,
-        kind="normal"
-    )
+    heater = FormattedComponent(EpicsSignalRO, "{prefix}HTR{loop_number}", auto_monitor=True, kind="normal")
     heater_range = FormattedComponent(
         EpicsSignalWithRBV,
         "{prefix}HTR{loop_number}:Range",
@@ -66,45 +57,21 @@ class LakeShore336_LoopControl(PVPositionerSoftDoneWithStop):
         string=True,
     )
 
-    pid_P = FormattedComponent(
-        EpicsSignalWithRBV, "{prefix}P{loop_number}", kind="config"
-    )
-    pid_I = FormattedComponent(
-        EpicsSignalWithRBV, "{prefix}I{loop_number}", kind="config"
-    )
-    pid_D = FormattedComponent(
-        EpicsSignalWithRBV, "{prefix}D{loop_number}", kind="config"
-    )
+    pid_P = FormattedComponent(EpicsSignalWithRBV, "{prefix}P{loop_number}", kind="config")
+    pid_I = FormattedComponent(EpicsSignalWithRBV, "{prefix}I{loop_number}", kind="config")
+    pid_D = FormattedComponent(EpicsSignalWithRBV, "{prefix}D{loop_number}", kind="config")
 
-    ramp_rate = FormattedComponent(
-        EpicsSignalWithRBV, "{prefix}RampR{loop_number}", kind="config"
-    )
-    ramp_on = FormattedComponent(
-        EpicsSignalWithRBV, "{prefix}OnRamp{loop_number}", kind="config"
-    )
+    ramp_rate = FormattedComponent(EpicsSignalWithRBV, "{prefix}RampR{loop_number}", kind="config")
+    ramp_on = FormattedComponent(EpicsSignalWithRBV, "{prefix}OnRamp{loop_number}", kind="config")
 
-    loop_name = FormattedComponent(
-        EpicsSignalRO, "{prefix}IN{loop_number}:Name_RBV", kind="config"
-    )
-    control = FormattedComponent(
-        EpicsSignalWithRBV, "{prefix}OUT{loop_number}:Cntrl", kind="config"
-    )
-    manual = FormattedComponent(
-        EpicsSignalWithRBV, "{prefix}OUT{loop_number}:MOUT", kind="config"
-    )
-    mode = FormattedComponent(
-        EpicsSignalWithRBV, "{prefix}OUT{loop_number}:Mode", kind="config"
-    )
+    loop_name = FormattedComponent(EpicsSignalRO, "{prefix}IN{loop_number}:Name_RBV", kind="config")
+    control = FormattedComponent(EpicsSignalWithRBV, "{prefix}OUT{loop_number}:Cntrl", kind="config")
+    manual = FormattedComponent(EpicsSignalWithRBV, "{prefix}OUT{loop_number}:MOUT", kind="config")
+    mode = FormattedComponent(EpicsSignalWithRBV, "{prefix}OUT{loop_number}:Mode", kind="config")
 
     def __init__(self, *args, loop_number=None, timeout=10 * HOUR, **kwargs):
         self.loop_number = loop_number
-        super().__init__(
-            *args,
-            timeout=timeout,
-            tolerance=0.1,
-            readback_pv=f"IN{loop_number}",
-            **kwargs
-        )
+        super().__init__(*args, timeout=timeout, tolerance=0.1, readback_pv=f"IN{loop_number}", **kwargs)
         self._settle_time = 0
 
     @property
@@ -129,15 +96,9 @@ class LakeShore336_LoopRO(Device):
     """
 
     # Set this to normal because we don't use it.
-    readback = FormattedComponent(
-        EpicsSignalRO, "{prefix}IN{loop_number}", kind="normal"
-    )
-    units = FormattedComponent(
-        EpicsSignalWithRBV, "{prefix}IN{loop_number}:Units", kind="omitted"
-    )
-    loop_name = FormattedComponent(
-        EpicsSignalRO, "{prefix}IN{loop_number}:Name_RBV", kind="omitted"
-    )
+    readback = FormattedComponent(EpicsSignalRO, "{prefix}IN{loop_number}", kind="normal")
+    units = FormattedComponent(EpicsSignalWithRBV, "{prefix}IN{loop_number}:Units", kind="omitted")
+    loop_name = FormattedComponent(EpicsSignalRO, "{prefix}IN{loop_number}:Name_RBV", kind="omitted")
 
     def __init__(self, *args, loop_number=None, **kwargs):
         self.loop_number = loop_number
@@ -154,18 +115,10 @@ class LakeShore336Device(Device):
     - loop 4: temperature positioner
     """
 
-    loop1 = FormattedComponent(
-        LakeShore336_LoopControl, "{self.prefix}", loop_number=1
-    )
-    loop2 = FormattedComponent(
-        LakeShore336_LoopControl, "{self.prefix}", loop_number=2
-    )
-    loop3 = FormattedComponent(
-        LakeShore336_LoopRO, "{self.prefix}", loop_number=3
-    )
-    loop4 = FormattedComponent(
-        LakeShore336_LoopRO, "{self.prefix}", loop_number=4
-    )
+    loop1 = FormattedComponent(LakeShore336_LoopControl, "{self.prefix}", loop_number=1)
+    loop2 = FormattedComponent(LakeShore336_LoopControl, "{self.prefix}", loop_number=2)
+    loop3 = FormattedComponent(LakeShore336_LoopRO, "{self.prefix}", loop_number=3)
+    loop4 = FormattedComponent(LakeShore336_LoopRO, "{self.prefix}", loop_number=4)
 
     # same names as apstools.synApps._common.EpicsRecordDeviceCommonAll
     scanning_rate = Component(EpicsSignal, "read.SCAN", kind="omitted")
@@ -176,7 +129,7 @@ class LakeShore336Device(Device):
 
 
 class LS340_LoopBase(PVPositionerSoftDoneWithStop):
-    """ Base settings for both sample and control loops. """
+    """Base settings for both sample and control loops."""
 
     # position
     # readback is provided by PVPositionerSoftDoneWithStop
@@ -217,19 +170,11 @@ class LS340_LoopBase(PVPositionerSoftDoneWithStop):
         write_pv="{prefix}setRamp{loop_number}.BB",
         kind="config",
     )
-    ramp_on = FormattedComponent(
-        EpicsSignal, "{prefix}Ramp{loop_number}_on", kind="config"
-    )
+    ramp_on = FormattedComponent(EpicsSignal, "{prefix}Ramp{loop_number}_on", kind="config")
 
     def __init__(self, *args, loop_number=None, timeout=10 * HOUR, **kwargs):
         self.loop_number = loop_number
-        super().__init__(
-            *args,
-            readback_pv="ignore",
-            timeout=timeout,
-            tolerance=0.1,
-            **kwargs
-        )
+        super().__init__(*args, readback_pv="ignore", timeout=timeout, tolerance=0.1, **kwargs)
         self._settle_time = 0
 
     @property
@@ -253,14 +198,14 @@ class LS340_LoopBase(PVPositionerSoftDoneWithStop):
 
 
 class LS340_LoopControl(LS340_LoopBase):
-    """ Control specific """
+    """Control specific"""
 
     readback = Component(EpicsSignalRO, "Control", kind="normal")
     sensor = Component(EpicsSignal, "Ctl_sel", kind="config")
 
 
 class LS340_LoopSample(LS340_LoopBase):
-    """ Sample specific """
+    """Sample specific"""
 
     readback = Component(EpicsSignalRO, "Sample", kind="hinted")
     sensor = Component(EpicsSignal, "Spl_sel", kind="config")
@@ -275,13 +220,7 @@ class LakeShore340Device(Device):
     sample = FormattedComponent(LS340_LoopSample, "{prefix}", loop_number=2)
 
     heater = Component(EpicsSignalRO, "Heater")
-    heater_range = Component(
-        EpicsSignal,
-        "Rg_rdbk",
-        write_pv="HeatRg",
-        kind="normal",
-        put_complete=True
-    )
+    heater_range = Component(EpicsSignal, "Rg_rdbk", write_pv="HeatRg", kind="normal", put_complete=True)
 
     read_pid = Component(EpicsSignal, "readPID.PROC", kind="omitted")
 
@@ -290,6 +229,7 @@ class LakeShore340Device(Device):
     process_record = Component(EpicsSignal, "read.PROC", kind="omitted")
 
     serial = Component(AsynRecord, "serial", kind="omitted")
+
 
 # -----------------------------------------------------------------------------
 # :author:    Pete R. Jemian

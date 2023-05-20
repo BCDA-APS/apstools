@@ -261,10 +261,7 @@ class _SMFlyer_Step_1(ActionsFlyerBase):
             self.status_taxi.wait()
 
             # arrived to within motor's precision?
-            if round(
-                self._motor.position - self._pos_start,
-                self._motor.precision
-            ) != 0:
+            if round(self._motor.position - self._pos_start, self._motor.precision) != 0:
                 raise RuntimeError(
                     "Not in requested taxi position:"
                     f" requested={self.pos_start}"
@@ -291,10 +288,7 @@ class _SMFlyer_Step_1(ActionsFlyerBase):
     @motor.setter
     def motor(self, obj):
         if not isinstance(obj, EpicsMotor):
-            raise TypeError(
-                "Expected instance of 'ophyd.EpicsMotor'."
-                f"  Received: {type(obj)}"
-            )
+            raise TypeError("Expected instance of 'ophyd.EpicsMotor'.  Received: {type(obj)}")
         self._motor = obj
 
     @property
@@ -398,14 +392,9 @@ class _SMFlyer_Step_2(_SMFlyer_Step_1):
         self.status_taxi.wait()
 
         # arrived to within motor's precision?
-        if round(
-            self._motor.position - self._pos_start,
-            self._motor.precision
-        ) != 0:
+        if round(self._motor.position - self._pos_start, self._motor.precision) != 0:
             raise RuntimeError(
-                "Not in requested taxi position:"
-                f" requested={self.pos_start}"
-                f" position={self.motor.position}"
+                "Not in requested taxi position: requested={self.pos_start} position={self.motor.position}"
             )
 
     def _action_fly(self):
@@ -494,10 +483,7 @@ class _SMFlyer_Step_3(_SMFlyer_Step_2):
     @scaler.setter
     def scaler(self, obj):
         if not isinstance(obj, ScalerCH):
-            raise TypeError(
-                "Expected instance of 'ophyd.scaler.ScalerCH'."
-                f"  Received: {type(obj)}"
-            )
+            raise TypeError("Expected instance of 'ophyd.scaler.ScalerCH'.  Received: {type(obj)}")
         self._scaler = obj
 
     @property
@@ -564,9 +550,7 @@ class ScalerMotorFlyer(_SMFlyer_Step_3):
     def __init__(self, *args, period=None, **kwargs):
         period = period or 0.1
         if period <= 0:
-            raise ValueError(
-                f"Sampling period must be a POSITIVE number: {period=}"
-            )
+            raise ValueError(f"Sampling period must be a POSITIVE number: {period=}")
 
         self.period = period
         self._readings = []
@@ -613,9 +597,7 @@ class ScalerMotorFlyer(_SMFlyer_Step_3):
         expected_period = round(self.period, 5)
         self._original_values.remember(self.scaler.update_rate)
         self.scaler.update_rate.put(1 / self.period)
-        received_period = round(
-            1 / self.scaler.update_rate.get(use_monitor=False), 5
-        )
+        received_period = round(1 / self.scaler.update_rate.get(use_monitor=False), 5)
         if received_period != expected_period:
             raise ValueError(
                 "Could not get requested scaler sample period:"
@@ -731,6 +713,7 @@ class ScalerMotorFlyer(_SMFlyer_Step_3):
         if value <= 0:
             raise ValueError(f"Value must be greater than zero.  Received: {value}")
         self._period = value
+
 
 # -----------------------------------------------------------------------------
 # :author:    Pete R. Jemian

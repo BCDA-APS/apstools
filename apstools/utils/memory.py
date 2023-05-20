@@ -16,6 +16,7 @@ def rss_mem():
     """return memory used by this process"""
     return psutil.Process(os.getpid()).memory_info()
 
+
 # -----------------------------------------------------------------------------
 # :author:    Pete R. Jemian
 # :email:     jemian@anl.gov

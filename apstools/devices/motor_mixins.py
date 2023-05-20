@@ -228,6 +228,7 @@ class EpicsMotorResolutionMixin(DeviceMixinBase):
     steps_per_rev = Component(EpicsSignal, ".SREV", kind="omitted")
     units_per_rev = Component(EpicsSignal, ".UREV", kind="omitted")
 
+
 # -----------------------------------------------------------------------------
 # :author:    Pete R. Jemian
 # :email:     jemian@anl.gov

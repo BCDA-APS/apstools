@@ -71,6 +71,7 @@ def run_blocking_function(function, *args, **kwargs):
     while thread.is_alive():
         yield from bps.sleep(POLL_DELAY)
 
+
 # -----------------------------------------------------------------------------
 # :author:    Pete R. Jemian
 # :email:     jemian@anl.gov

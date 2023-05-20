@@ -194,6 +194,7 @@ class UserScriptsDevice(Device):
         self.enable.put(enable)
         self.read_attrs = [f"script{c}" for c in range(10)]
 
+
 # -----------------------------------------------------------------------------
 # :author:    Pete R. Jemian
 # :email:     jemian@anl.gov

@@ -17,6 +17,7 @@ class DeviceMixinBase(Device):
     .. index:: Ophyd Device Mixin; DeviceMixinBase
     """
 
+
 # -----------------------------------------------------------------------------
 # :author:    Pete R. Jemian
 # :email:     jemian@anl.gov

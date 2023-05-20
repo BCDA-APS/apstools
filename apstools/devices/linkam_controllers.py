@@ -78,7 +78,6 @@ class Linkam_CI94_Device(Device):
 
 
 class T96Temperature(PVPositionerSoftDoneWithStop):
-
     actuate = Component(EpicsSignalWithRBV, "heating", kind="config", string=True)
     actuate_value = "On"
 
@@ -127,6 +126,7 @@ class Linkam_T96_Device(Device):
 
         # temperature component is the main value
         self.temperature.name = self.name
+
 
 # -----------------------------------------------------------------------------
 # :author:    Pete R. Jemian

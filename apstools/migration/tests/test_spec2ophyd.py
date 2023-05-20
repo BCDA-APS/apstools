@@ -10,6 +10,7 @@ path = pathlib.Path(__file__).parent.parent
 
 def test_Version():
     from ... import __version__
+
     version = spec2ophyd.get_apstools_version()
     assert isinstance(version, str)
     assert len(version) > len("#.#.#")
@@ -88,14 +89,8 @@ def test_SpecConfig_read_config():
 def test_SpecConfig_find_pv_in_collection():
     sc = spec2ophyd.SpecConfig(path / "config")  # USAXS
     sc.read_config()
-    assert isinstance(
-        sc.find_pv_in_collection("9idcLAX:aero:c1:m1"),
-        spec2ophyd.SpecMotor
-    )
-    assert isinstance(
-        sc.find_pv_in_collection("9idcLAX:vsc:c0"),
-        spec2ophyd.SpecSignal
-    )
+    assert isinstance(sc.find_pv_in_collection("9idcLAX:aero:c1:m1"), spec2ophyd.SpecMotor)
+    assert isinstance(sc.find_pv_in_collection("9idcLAX:vsc:c0"), spec2ophyd.SpecSignal)
     # FIXME:
     # assert isinstance(
     #     sc.find_pv_in_collection("9idcLAX:vsc:c0.S1"),

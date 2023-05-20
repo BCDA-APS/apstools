@@ -177,9 +177,7 @@ def get_command_list(filename):
         try:
             commands = parse_text_command_file(filename)
         except ValueError as exc:
-            raise CommandFileReadError(
-                f"could not read {filename} as command list file: {exc}"
-            )
+            raise CommandFileReadError(f"could not read {filename} as command list file: {exc}")
     return commands
 
 

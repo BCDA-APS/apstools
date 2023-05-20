@@ -139,20 +139,19 @@ class SynPseudoVoigt(ophyd.sim.SynSignal):  # lgtm [py/missing-call-to-init]
                 v += np.random.uniform(-1, 1) * self.noise_multiplier
             return v
 
-        ophyd.sim.SynSignal.__init__(
-            self, name=name, func=pvoigt, **kwargs
-        )
+        ophyd.sim.SynSignal.__init__(self, name=name, func=pvoigt, **kwargs)
 
     def randomize_parameters(self, scale=100_000, bkg=0.01):
         """
         Set random parameters. -1 <= center < 1, 0.001 <= sigma < 0.051, 95k <= scale <= 105k
         """
         self.center = -1.0 + 2 * np.random.uniform()
-        self.eta = 0.2 + 0.5*np.random.uniform()
-        self.sigma = 0.001 + 0.05*np.random.uniform()
+        self.eta = 0.2 + 0.5 * np.random.uniform()
+        self.sigma = 0.001 + 0.05 * np.random.uniform()
         self.scale = scale * (0.95 + 0.1 * np.random.uniform())
-        self.bkg = bkg*np.random.uniform()
+        self.bkg = bkg * np.random.uniform()
         self.noise = "poisson"
+
 
 # -----------------------------------------------------------------------------
 # :author:    Pete R. Jemian

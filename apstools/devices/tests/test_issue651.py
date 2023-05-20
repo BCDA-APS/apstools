@@ -18,9 +18,7 @@ from ...tests import IOC_AD
 
 IMAGE_DIR = "images"
 AD_IOC_MOUNT_PATH = pathlib.Path("/tmp")
-BLUESKY_MOUNT_PATH = pathlib.Path(
-    f"/tmp/docker_ioc/ioc{IOC_AD.rstrip(':')}{AD_IOC_MOUNT_PATH}"
-)
+BLUESKY_MOUNT_PATH = pathlib.Path(f"/tmp/docker_ioc/ioc{IOC_AD.rstrip(':')}{AD_IOC_MOUNT_PATH}")
 
 # MUST end with a `/`, pathlib will NOT provide it
 WRITE_PATH_TEMPLATE = f"{AD_IOC_MOUNT_PATH / IMAGE_DIR}/"
@@ -118,7 +116,7 @@ def test_no_unexpected_key_in_datum_kwarg():
     assert isinstance(uid, str)
 
     # Can bluesky see the new image file?
-    ioc_file_name = (file_template % (file_path, "/" + file_name, file_number))
+    ioc_file_name = file_template % (file_path, "/" + file_name, file_number)
     assert camera.hdf1.full_file_name.get() == ioc_file_name
 
     assert str(BLUESKY_MOUNT_PATH).startswith("/tmp/docker_ioc/")
@@ -129,9 +127,7 @@ def test_no_unexpected_key_in_datum_kwarg():
     resource_path = ioc_file_name[_n:].lstrip("/")
     image_file = BLUESKY_MOUNT_PATH.parent / resource_path
     assert image_file.exists(), (
-        f"BLUESKY_MOUNT_PATH={BLUESKY_MOUNT_PATH}"
-        f" resource_path={resource_path}"
-        f" image_file={image_file}"
+        f"BLUESKY_MOUNT_PATH={BLUESKY_MOUNT_PATH} resource_path={resource_path} image_file={image_file}"
     )
 
     # verify that the problem key in datum_kwargs is not found

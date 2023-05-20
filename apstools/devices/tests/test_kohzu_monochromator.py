@@ -43,7 +43,7 @@ class MyKohzu(KohzuSeqCtl_Monochromator):
         if self.m_z.position < p_z:
             args += [self.m_z, p_z]
             yield from bps.mv(self.m_z.velocity, 5)
-        if (len(args) == 0):
+        if len(args) == 0:
             # all motors in range, no work to do, MUST yield something
             yield from bps.null()
             return

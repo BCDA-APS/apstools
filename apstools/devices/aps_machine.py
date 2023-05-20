@@ -123,6 +123,7 @@ class ApsMachineParametersDevice(Device):
         )
         # fmt: on
 
+
 # -----------------------------------------------------------------------------
 # :author:    Pete R. Jemian
 # :email:     jemian@anl.gov

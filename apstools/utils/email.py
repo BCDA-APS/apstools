@@ -69,6 +69,7 @@ class EmailNotifications(object):
         s.sendmail(self.sender, self.addresses, msg.as_string())
         s.quit()
 
+
 # -----------------------------------------------------------------------------
 # :author:    Pete R. Jemian
 # :email:     jemian@anl.gov

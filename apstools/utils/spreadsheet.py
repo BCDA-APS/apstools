@@ -91,7 +91,10 @@ class ExcelDatabaseFileBase(object):
         # fmt: on
 
     def parse(
-        self, labels_row_num=None, data_start_row_num=None, ignore_extra=True,
+        self,
+        labels_row_num=None,
+        data_start_row_num=None,
+        ignore_extra=True,
     ):
         labels_row_num = labels_row_num or self.LABELS_ROW
         try:
@@ -278,6 +281,7 @@ class ExcelDatabaseFileGeneric(ExcelDatabaseFileBase):
         key = str(self._index_)
         self.db[key] = entry
         self._index_ += 1
+
 
 # -----------------------------------------------------------------------------
 # :author:    Pete R. Jemian

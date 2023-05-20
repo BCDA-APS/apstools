@@ -33,6 +33,7 @@ def make_dict_device(obj, name="ddev"):
 
     New in release 1.6.4.
     """
+
     def standardize(obj):
         """Make obj look like .read()"""
         d_new = {}

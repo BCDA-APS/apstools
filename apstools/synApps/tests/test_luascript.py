@@ -22,12 +22,11 @@ EMPIRICAL_DELAY = 0.5
         [LuascriptRecord, f"{PV_PREFIX}userScript9", False, "configuration_attrs", 98],
         [LuascriptRecord, f"{PV_PREFIX}userScript9", True, "read()", 2],
         [LuascriptRecord, f"{PV_PREFIX}userScript9", True, "summary()", 207],
-
         [UserScriptsDevice, PV_PREFIX, False, "read_attrs", 110],
         [UserScriptsDevice, PV_PREFIX, False, "configuration_attrs", 991],
         [UserScriptsDevice, PV_PREFIX, True, "read()", 20],
         [UserScriptsDevice, PV_PREFIX, True, "summary()", 1906],
-    ]
+    ],
 )
 def test_attribute_quantities(device, pv, connect, attr, expected):
     """Verify the quantities of the different attributes."""
@@ -45,9 +44,7 @@ def test_luascript_reset():
     lua_all.reset()
     lua.disable_value.put(2)  # ensure record is always enabled
     timed_pause(EMPIRICAL_DELAY)  # a short-ish wait (discovered empirically)
-    assert (
-        lua.scan_disable_input_link_value.get() != lua.disable_value.get()
-    )
+    assert lua.scan_disable_input_link_value.get() != lua.disable_value.get()
 
     assert lua.precision.get() == 5
     assert lua.code.get() == ""
@@ -96,13 +93,12 @@ def test_luascript_reset():
         ['return string.rep(".", 5)', 0, 0, 0, "", "", "....."],
         ['return string.len("parametrize")', 0, 0, 11, "", "", ""],
         ['return "AA" .. "BB"', 0, 0, 0, "", "", "AABB"],
-
         # TODO: string variables are not recognized in luascript 3.0.1 in the test VM.
         # Wait for the test VM to be upgraded to at least 3.0.2 before enabling these tests.
         # FIXME: ["return string.upper(AA)", 0, 0, 0, "Abc", "", "ABC"],
         # FIXME: ["return string.lower(AA)", 0, 0, 0, "Abc", "", "abc"],
         # FIXME: ["return AA .. BB", 0, 0, 0, "Aaa", "Bbb", "AaaBbb"],
-    ]
+    ],
 )
 def test_compute(code, a, b, nval, aa, bb, sval):
     lua_all = UserScriptsDevice(PV_PREFIX, name="user")
@@ -116,9 +112,7 @@ def test_compute(code, a, b, nval, aa, bb, sval):
 
     lua = lua_all.script9
     lua.disable_value.put(2)  # ensure record is always enabled
-    assert (
-        lua.scan_disable_input_link_value.get() != lua.disable_value.get()
-    )
+    assert lua.scan_disable_input_link_value.get() != lua.disable_value.get()
 
     # set the inputs
     lua.inputs.A.input_value.put(a)

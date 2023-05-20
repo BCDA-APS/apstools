@@ -16,7 +16,7 @@ import yaml
 from ophyd.sim import SynSignalRO
 
 _PATH = pathlib.Path(__file__).parent
-YAML_CYCLE_FILE = (_PATH / "aps_cycle_info.yml")
+YAML_CYCLE_FILE = _PATH / "aps_cycle_info.yml"
 
 
 class _ApsCycleDB:
@@ -62,14 +62,10 @@ class _ApsCycleDB:
         _cycles = yaml.load(_cycles_yml, Loader=yaml.BaseLoader)
 
         def iso2ts(isodatetime):
-            return datetime.datetime.timestamp(
-                datetime.datetime.fromisoformat(isodatetime)
-            )
+            return datetime.datetime.timestamp(datetime.datetime.fromisoformat(isodatetime))
 
         db = {
-            run_name: dict(
-                start=iso2ts(span["begin"]), end=iso2ts(span["end"])
-            )
+            run_name: dict(start=iso2ts(span["begin"]), end=iso2ts(span["end"]))
             for run_name, span in _cycles.items()
         }
         return db
@@ -133,10 +129,11 @@ class ApsCycleDM(SynSignalRO):
     def get(self):
         self._cycle_name = cycle_db.get_cycle_name()
         if datetime.datetime.now().isoformat(sep=" ") >= self._cycle_ends:
-            self._cycle_ends = datetime.datetime.fromtimestamp(
-                cycle_db.db[self._cycle_name]["end"]
-            ).isoformat(sep=" ")
+            self._cycle_ends = datetime.datetime.fromtimestamp(cycle_db.db[self._cycle_name]["end"]).isoformat(
+                sep=" "
+            )
         return self._cycle_name
+
 
 # -----------------------------------------------------------------------------
 # :author:    Pete R. Jemian

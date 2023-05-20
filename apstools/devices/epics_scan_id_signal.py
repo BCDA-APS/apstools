@@ -34,6 +34,7 @@ class EpicsScanIdSignal(EpicsSignal):
         self.put(new_scan_id)
         return new_scan_id
 
+
 # -----------------------------------------------------------------------------
 # :author:    Pete R. Jemian
 # :email:     jemian@anl.gov

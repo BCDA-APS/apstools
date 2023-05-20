@@ -80,9 +80,7 @@ class IocStatsDevice(Device):
             Instead of a @property, keep a Signal updated
             so it will be recorded with a Device.read()
             """
-            self.startup_script.put(
-                self._startup_script1.get() + self._startup_script2.get()
-            )
+            self.startup_script.put(self._startup_script1.get() + self._startup_script2.get())
 
         self._startup_script1.subscribe(ss_update)
         self._startup_script2.subscribe(ss_update)
@@ -94,11 +92,10 @@ class IocStatsDevice(Device):
             Instead of a @property, keep a Signal updated
             so it will be recorded with a Device.read()
             """
-            self.memory_used_percentage.put(
-                100 * self.memory_used.get() / self.memory_max.get()
-            )
+            self.memory_used_percentage.put(100 * self.memory_used.get() / self.memory_max.get())
 
         self.memory_used.subscribe(mem_used_update)
+
 
 # -----------------------------------------------------------------------------
 # :author:    Pete R. Jemian

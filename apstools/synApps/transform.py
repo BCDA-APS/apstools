@@ -41,18 +41,12 @@ class transformRecordChannel(Device):
     current_value = FC(EpicsSignal, "{self.prefix}.{self._ch_letter}", kind="hinted")
     last_value = FC(EpicsSignalRO, "{self.prefix}.L{self._ch_letter}", kind="config")
     input_pv = FC(EpicsSignal, "{self.prefix}.INP{self._ch_letter}", kind="config")
-    input_pv_valid = FC(
-        EpicsSignalRO, "{self.prefix}.I{self._ch_letter}V", kind="config"
-    )
-    expression_invalid = FC(
-        EpicsSignalRO, "{self.prefix}.C{self._ch_letter}V", kind="config"
-    )
+    input_pv_valid = FC(EpicsSignalRO, "{self.prefix}.I{self._ch_letter}V", kind="config")
+    expression_invalid = FC(EpicsSignalRO, "{self.prefix}.C{self._ch_letter}V", kind="config")
     comment = FC(EpicsSignal, "{self.prefix}.CMT{self._ch_letter}", kind="config")
     expression = FC(EpicsSignal, "{self.prefix}.CLC{self._ch_letter}", kind="config")
     output_pv = FC(EpicsSignal, "{self.prefix}.OUT{self._ch_letter}", kind="config")
-    output_pv_valid = FC(
-        EpicsSignalRO, "{self.prefix}.O{self._ch_letter}V", kind="config"
-    )
+    output_pv_valid = FC(EpicsSignalRO, "{self.prefix}.O{self._ch_letter}V", kind="config")
 
     read_attrs = ["current_value"]
 
@@ -155,6 +149,7 @@ class UserTransformsDevice(Device):
         self.transform10.reset()
         self.read_attrs = ["transform%d" % (c + 1) for c in range(10)]
         self.read_attrs.insert(0, "enable")
+
 
 # -----------------------------------------------------------------------------
 # :author:    Pete R. Jemian
