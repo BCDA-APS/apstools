@@ -251,7 +251,7 @@ def AD_prime_plugin2(plugin):
         sig.set(val).wait()
 
 
-def ensure_AD_plugin_primed(plugin, allow_warmup=False):
+def ensure_AD_plugin_primed(plugin, allow=False):
     """
     Ensure the AD file writing plugin is _primed_ (warmed up), if allowed.
 
@@ -264,7 +264,7 @@ def ensure_AD_plugin_primed(plugin, allow_warmup=False):
         *obj* :
         area detector plugin to be *primed* (such as ``detector.hdf1``)
 
-    allow_warmup
+    allow
         *bool* :
         (default: ``False``)
         Should the detector be primed?  This kwarg might be provided
@@ -281,7 +281,7 @@ def ensure_AD_plugin_primed(plugin, allow_warmup=False):
 
         from configuration_settings import ok_to_prime
 
-        ensure_AD_plugin_primed(det.hdf1, ok_to_prime)
+        ensure_AD_plugin_primed(det.hdf1, allow=ok_to_prime)
 
     An area detector file writing plugin is _primed_ (as considered by ophyd) if
     the plugin's image array parameters (size, number of bits, & color mode)
@@ -304,7 +304,7 @@ def ensure_AD_plugin_primed(plugin, allow_warmup=False):
 
     (new in apstools release 1.6.16)
     """
-    if allow_warmup:
+    if allow:
         if not AD_plugin_primed(plugin):
             logger.info(f"Priming {plugin.name} ...")
             AD_prime_plugin2(plugin)
