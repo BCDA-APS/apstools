@@ -266,6 +266,7 @@ def test_capture_error_with_single_mode(adsimdet):
     # Test for this reported error message.
     err_message = "ERROR: capture not supported in Single mode"
 
+    # Error was corrected in issue #823.
     # A lot happens during device staging. The error message is posted and then
     # quickly cleared as the IOC responds to other items staged.  Collect this
     # transient message using a callback for later examination.
@@ -274,8 +275,7 @@ def test_capture_error_with_single_mode(adsimdet):
     plugin.write_message.subscribe(mcache.receiver)
     plugin.stage()
     plugin.write_message.unsubscribe_all()
-    assert len(mcache.messages) >= 1
-    assert err_message == mcache.messages[0]
+    assert len(mcache.messages) == 0
     plugin.unstage()
 
 
