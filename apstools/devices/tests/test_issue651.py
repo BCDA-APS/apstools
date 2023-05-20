@@ -126,9 +126,9 @@ def test_no_unexpected_key_in_datum_kwarg():
     _n = len(camera.hdf1._root.as_posix())
     resource_path = ioc_file_name[_n:].lstrip("/")
     image_file = BLUESKY_MOUNT_PATH.parent / resource_path
-    assert image_file.exists(), (
-        f"BLUESKY_MOUNT_PATH={BLUESKY_MOUNT_PATH} resource_path={resource_path} image_file={image_file}"
-    )
+    assert (
+        image_file.exists()
+    ), f"BLUESKY_MOUNT_PATH={BLUESKY_MOUNT_PATH} resource_path={resource_path} image_file={image_file}"
 
     # verify that the problem key in datum_kwargs is not found
     for uid in uids:
