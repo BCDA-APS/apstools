@@ -1,11 +1,35 @@
+import pathlib
 import random
 import time
 import warnings
 
+from ophyd.signal import EpicsSignalBase
+
 IOC = "gp:"
+IOC_AD = "ad:"
 MASTER_TIMEOUT = 30
 MAX_TESTING_RETRIES = 3
 SHORT_DELAY_FOR_EPICS_IOC_DATABASE_PROCESSING = 2.0 / 60  # two 60Hz clock cycles
+
+IMAGE_DIR = "adsimdet/%Y/%m/%d"
+AD_IOC_MOUNT_PATH = pathlib.Path("/tmp")
+BLUESKY_MOUNT_PATH = pathlib.Path("/tmp/docker_ioc/iocad/tmp")
+
+# MUST end with a `/`, pathlib will NOT provide it
+WRITE_PATH_TEMPLATE = f"{AD_IOC_MOUNT_PATH / IMAGE_DIR}/"
+READ_PATH_TEMPLATE = f"{BLUESKY_MOUNT_PATH / IMAGE_DIR}/"
+
+
+# set default timeout for all EpicsSignal connections & communications
+try:
+    EpicsSignalBase.set_defaults(
+        auto_monitor=True,
+        timeout=MASTER_TIMEOUT,
+        write_timeout=MASTER_TIMEOUT,
+        connection_timeout=MASTER_TIMEOUT,
+    )
+except RuntimeError:
+    pass  # ignore if some EPICS object already created
 
 
 def common_attribute_quantities_test(device, pv, connect, attr, expected):
@@ -124,3 +148,43 @@ def setup_transform_as_soft_motor(
 
 def timed_pause(delay=None):
     time.sleep(delay or SHORT_DELAY_FOR_EPICS_IOC_DATABASE_PROCESSING)
+
+
+class MonitorCache:
+    """Capture CA monitor values that match 'target'."""
+
+    def __init__(self, target=None):
+        self.target = target
+        self.reset()
+
+    def reset(self):
+        self.messages = []
+
+    def receiver(self, **kwargs):
+        value = kwargs["value"]
+        if value == self.target or self.target is None:
+            self.messages.append(value)
+
+
+class SignalSaveRestoreCache:
+    """
+    Save and restore previous signal values.
+
+    Ensure area detector signals are restored to previous values.
+    """
+
+    def __init__(self) -> None:
+        self.cache = {}
+
+    def save(self, signal):
+        if signal in self.cache:
+            raise KeyError(f"'{signal.name}' already in the cache.")
+        self.cache[signal] = signal.get()
+
+    def restore(self):
+        for signal in reversed(self.cache):
+            signal.put(self.cache[signal])
+
+    @property
+    def review(self):
+        return {signal.name: v for signal, v in self.cache.items()}

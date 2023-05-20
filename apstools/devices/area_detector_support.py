@@ -410,7 +410,8 @@ class AD_EpicsFileNameMixin(FileStorePluginBase):
         filename, read_path, write_path = self.make_filename()
 
         # Ensure we do not have an old file open.
-        self.capture.set(0).wait()
+        if self.file_write_mode.get(as_string=True) != "Single":
+            self.capture.set(0).wait()
 
         # Set these before capture is turned on.
         # They will not be reset on 'unstage' anyway.

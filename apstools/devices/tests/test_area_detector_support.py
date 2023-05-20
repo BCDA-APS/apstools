@@ -12,110 +12,15 @@ import bluesky
 import bluesky.plan_stubs as bps
 import bluesky.plans as bp
 import pytest
-from ophyd.areadetector import ADComponent
-from ophyd.areadetector import DetectorBase
-from ophyd.areadetector import SimDetectorCam
-from ophyd.areadetector.plugins import ImagePlugin_V34 as ImagePlugin
-from ophyd.areadetector.plugins import PvaPlugin_V34 as PvaPlugin
-from ophyd.signal import EpicsSignalBase
 
-from ...tests import MASTER_TIMEOUT
+from ...tests import READ_PATH_TEMPLATE
+from ...tests import MonitorCache
+from ...tests import timed_pause
 from .. import AD_EpicsFileNameHDF5Plugin
 from .. import AD_EpicsFileNameJPEGPlugin
 from .. import AD_EpicsFileNameMixin
 from .. import AD_EpicsFileNameTIFFPlugin
 from .. import AD_full_file_name_local
-from .. import AD_plugin_primed
-from .. import AD_prime_plugin2
-from .. import CamMixin_V34 as CamMixin
-from .. import SingleTrigger_V34 as SingleTrigger
-
-IOC = "ad:"
-IMAGE_DIR = "adsimdet/%Y/%m/%d"
-AD_IOC_MOUNT_PATH = pathlib.Path("/tmp")
-BLUESKY_MOUNT_PATH = pathlib.Path("/tmp/docker_ioc/iocad/tmp")
-
-# MUST end with a `/`, pathlib will NOT provide it
-WRITE_PATH_TEMPLATE = f"{AD_IOC_MOUNT_PATH / IMAGE_DIR}/"
-READ_PATH_TEMPLATE = f"{BLUESKY_MOUNT_PATH / IMAGE_DIR}/"
-
-
-# set default timeout for all EpicsSignal connections & communications
-try:
-    EpicsSignalBase.set_defaults(
-        auto_monitor=True,
-        timeout=MASTER_TIMEOUT,
-        write_timeout=MASTER_TIMEOUT,
-        connection_timeout=MASTER_TIMEOUT,
-    )
-except RuntimeError:
-    pass  # ignore if some EPICS object already created
-
-
-class MySimDetectorCam(CamMixin, SimDetectorCam):
-    """triggering configuration and AcquireBusy support"""
-
-
-class MySimDetector(SingleTrigger, DetectorBase):
-    """ADSimDetector"""
-
-    cam = ADComponent(MySimDetectorCam, "cam1:")
-    hdf1 = ADComponent(
-        AD_EpicsFileNameHDF5Plugin,
-        "HDF1:",
-        write_path_template=WRITE_PATH_TEMPLATE,
-        read_path_template=READ_PATH_TEMPLATE,
-    )
-    image = ADComponent(ImagePlugin, "image1:")
-    jpeg1 = ADComponent(
-        AD_EpicsFileNameJPEGPlugin,
-        "JPEG1:",
-        write_path_template=WRITE_PATH_TEMPLATE,
-        read_path_template=READ_PATH_TEMPLATE,
-    )
-    pva = ADComponent(PvaPlugin, "Pva1:")
-    tiff1 = ADComponent(
-        AD_EpicsFileNameTIFFPlugin,
-        "TIFF1:",
-        write_path_template=WRITE_PATH_TEMPLATE,
-        read_path_template=READ_PATH_TEMPLATE,
-    )
-
-
-@pytest.fixture(scope="function")
-def adsimdet():
-    "EPICS ADSimDetector."
-    adsimdet = MySimDetector(IOC, name="adsimdet")
-    adsimdet.stage_sigs["cam.wait_for_plugins"] = "Yes"
-    adsimdet.wait_for_connection(timeout=15)
-    for plugin_name in "hdf1 jpeg1 tiff1".split():
-        adsimdet.read_attrs.append(plugin_name)
-        plugin = getattr(adsimdet, plugin_name)
-        if not AD_plugin_primed(plugin):
-            AD_prime_plugin2(plugin)
-
-        # these settings are the caller's responsibility
-        plugin.file_name.put("")  # control this in tests
-        plugin.create_directory.put(-5)
-        plugin.file_path.put(f"{plugin.write_path_template}/")
-        ext = dict(hdf1="h5", jpeg1="jpg", tiff1="tif")[plugin_name]
-        plugin.file_template.put(f"%s%s_%4.4d.{ext}")
-        plugin.auto_increment.put("Yes")
-        plugin.auto_save.put("Yes")
-        if plugin_name == "hdf1":
-            plugin.compression.put("zlib")
-            plugin.zlevel.put(6)
-        elif plugin_name == "jpeg":
-            plugin.jpeg_quality.put(50)
-    yield adsimdet
-
-
-@pytest.fixture(scope="function")
-def fname():
-    "File (base) name."
-    dt = datetime.datetime.now()
-    fname = f"test-image-{dt.minute:02d}-{dt.second:02d}"
-    yield fname
 
 
 @pytest.mark.parametrize(
@@ -160,6 +65,7 @@ def test_AD_EpicsFileNameMixin(plugin_name, spec, adsimdet):
     # add the settings
     for k, v in user_settings.items():
         getattr(mixin, k).put(v)
+    timed_pause()
 
     adsimdet.stage()
     if plugin_name == "hdf1":  # Why special case?
@@ -345,3 +251,44 @@ def test_file_numbering(adsimdet, fname):
     assert isinstance(full_file_name, str)
     assert full_file_name.find(fname) > 0, f"{fname=} {full_file_name=}"
     assert full_file_name.endswith(f"{fname}.h5"), f"{full_file_name=} {fname}.h5"
+
+
+def test_capture_error_with_single_mode(adsimdet):
+    plugin = adsimdet.hdf1
+
+    # test that plugin is in the wrong configuration for Single mode
+    assert "capture" in plugin.stage_sigs
+    assert list(plugin.stage_sigs)[-1] == "capture"
+    assert "file_write_mode" in plugin.stage_sigs
+    assert plugin.file_write_mode.enum_strs[0] == "Single"
+    assert plugin.stage_sigs["file_write_mode"] == "Stream"
+
+    # Test for this reported error message.
+    err_message = "ERROR: capture not supported in Single mode"
+
+    # Error was corrected in issue #823.
+    # A lot happens during device staging. The error message is posted and then
+    # quickly cleared as the IOC responds to other items staged.  Collect this
+    # transient message using a callback for later examination.
+    mcache = MonitorCache(err_message)
+
+    plugin.write_message.subscribe(mcache.receiver)
+    plugin.stage()
+    plugin.write_message.unsubscribe_all()
+    assert len(mcache.messages) == 0
+    plugin.unstage()
+
+
+def test_single_mode(adsingle):
+    err_message = "ERROR: capture not supported in Single mode"
+    mcache = MonitorCache(err_message)
+
+    plugin = adsingle.hdf1
+    plugin.file_write_mode.put("Stream")
+    plugin.num_capture.put(0)
+
+    plugin.write_message.subscribe(mcache.receiver)
+    plugin.stage()
+    plugin.write_message.unsubscribe_all()
+    assert len(mcache.messages) == 0
+    plugin.unstage()

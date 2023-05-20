@@ -8,21 +8,9 @@ from bluesky import RunEngine
 from bluesky import plan_stubs as bps
 from ophyd import Component
 from ophyd import EpicsMotor
-from ophyd.signal import EpicsSignalBase
 
-from ...tests import MASTER_TIMEOUT
+from ...tests import IOC
 from .. import KohzuSeqCtl_Monochromator
-
-# set default timeout for all EpicsSignal connections & communications
-try:
-    EpicsSignalBase.set_defaults(
-        auto_monitor=True,
-        timeout=MASTER_TIMEOUT,
-        write_timeout=MASTER_TIMEOUT,
-        connection_timeout=MASTER_TIMEOUT,
-    )
-except RuntimeError:
-    pass  # ignore if some EPICS object already created
 
 
 class MyKohzu(KohzuSeqCtl_Monochromator):
@@ -70,7 +58,7 @@ class MyKohzu(KohzuSeqCtl_Monochromator):
 
 
 def test_dcm():
-    dcm = MyKohzu("gp:", name="dcm")
+    dcm = MyKohzu(IOC, name="dcm")
     assert dcm is not None
     assert dcm.energy.name == "dcm_energy"
     dcm.wait_for_connection()

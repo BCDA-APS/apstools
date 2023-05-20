@@ -37,6 +37,11 @@ Enhancements
 * Add guide *How to interrupt/stop/abort a running plan & recover to safe settings*.
 * Add ``close_pv`` & ``open_pv`` kwargs to ``ApsPssShutter``
 
+Fixes
+-----
+
+* Resolve AD ERROR reports "capture not supported in Single mode".
+
 Maintenance
 ------------
 

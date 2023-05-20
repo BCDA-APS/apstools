@@ -2,7 +2,6 @@
 Unit tests for :mod:`~apstools._utils.device_info`.
 """
 
-import pandas as pd
 import pytest
 from ophyd import Component
 from ophyd import Device
@@ -11,24 +10,10 @@ from ophyd import Signal
 from ophyd.signal import EpicsSignalBase
 
 from ...devices import SwaitRecord
-from ...tests import MASTER_TIMEOUT
+from ...tests import IOC
 from .._core import TableStyle
 from ..device_info import _list_epics_signals
 from ..device_info import listdevice
-
-# set default timeout for all EpicsSignal connections & communications
-try:
-    EpicsSignalBase.set_defaults(
-        auto_monitor=True,
-        timeout=MASTER_TIMEOUT,
-        write_timeout=MASTER_TIMEOUT,
-        connection_timeout=MASTER_TIMEOUT,
-    )
-except RuntimeError:
-    pass  # ignore if some EPICS object already created
-
-
-IOC = "gp:"  # for testing with an EPICS IOC
 
 
 class MySignals(Device):

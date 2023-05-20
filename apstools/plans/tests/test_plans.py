@@ -6,24 +6,12 @@ import pathlib
 import sys
 
 from bluesky.simulators import summarize_plan
-from ophyd.signal import EpicsSignalBase
 
-from ...tests import MASTER_TIMEOUT
+from ...tests import timed_pause
 from .. import execute_command_list
 from .. import get_command_list
 from .. import register_command_handler
 from .. import run_command_file
-
-# set default timeout for all EpicsSignal connections & communications
-try:
-    EpicsSignalBase.set_defaults(
-        auto_monitor=True,
-        timeout=MASTER_TIMEOUT,
-        write_timeout=MASTER_TIMEOUT,
-        connection_timeout=MASTER_TIMEOUT,
-    )
-except RuntimeError:
-    pass  # ignore if some EPICS object already created
 
 
 DATA_PATH = pathlib.Path(__file__).parent
@@ -35,6 +23,8 @@ def test_myoutput(capsys):  # or use "capfd" for fd-level
     captured = capsys.readouterr()
     assert captured.out == "hello\n"
     assert captured.err == "world\n"
+
+    timed_pause()
     print("next")
     captured = capsys.readouterr()
     assert captured.out == "next\n"
