@@ -301,6 +301,8 @@ def ensure_AD_plugin_primed(plugin, allow_warmup=False):
 
     .. see: ``ophyd.areadetector.plugins.UnprimedPlugin``:
        https://github.com/bluesky/ophyd/blob/7612b2c9de9d5bc16cf28eea79ba5c12553f3cc2/ophyd/areadetector/plugins.py#L999-L1004
+
+    (new in apstools release 1.6.16)
     """
     if allow_warmup:
         if not AD_plugin_primed(plugin):
