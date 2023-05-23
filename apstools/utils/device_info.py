@@ -15,12 +15,17 @@ from collections import defaultdict
 import pandas as pd
 from ophyd import Device
 from ophyd import Signal
+from ophyd.signal import ConnectionTimeoutError
 from ophyd.signal import EpicsSignalBase
 
 from ._core import TableStyle
 
 logger = logging.getLogger(__name__)
 pd.set_option("display.max_rows", None)
+
+
+# Use NOT_CONNECTED_VALUE in tables for signals that are not connected.
+NOT_CONNECTED_VALUE = "-n/c-"
 
 
 def _all_signals(base):
@@ -32,7 +37,7 @@ def _all_signals(base):
             # Check for lazy components that may not be connected
             try:
                 obj = getattr(base, k)
-            except TimeoutError:
+            except (ConnectionTimeoutError, TimeoutError):
                 logger.warning(f"Could not list component: {base.name}.{k}")
                 continue
             if isinstance(obj, (Device, Signal)):
@@ -190,7 +195,17 @@ def listdevice(
                     dd["data name"].append(signal.name)
                 if show_pv:
                     dd["PV"].append(_get_pv(signal) or "")
-                dd["value"].append(signal.get())
+                # At this point, either the signals have connected or they will
+                # likely never connect.  It's much to slow to wait for a
+                # connection timeout on each signal, in series.  The default
+                # connection timeout has already been set.
+                # If the signal is not connected now, provide informative text
+                # and move along.
+                if signal.connected:
+                    v = signal.get()
+                else:
+                    v = NOT_CONNECTED_VALUE
+                dd["value"].append(v)
                 if use_datetime:
                     dd["timestamp"].append(datetime.datetime.fromtimestamp(ts))
 
