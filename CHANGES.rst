@@ -28,7 +28,7 @@ describe the future plans.
 1.6.16
 ******
 
-release expected 2023-05-23
+released 2023-05-23
 
 Enhancements
 ------------
