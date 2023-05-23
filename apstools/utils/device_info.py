@@ -228,7 +228,7 @@ def listdevice(
         """Ensure that str(value) fits into column of 'width'."""
         value = str(value)
         if len(value) > width:
-            value = value[:width-len(pad)] + pad
+            value = value[: width - len(pad)] + pad
         return value
 
     if limit_width:  # check if column widths need to be truncated
