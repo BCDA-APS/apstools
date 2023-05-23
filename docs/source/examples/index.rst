@@ -4,11 +4,10 @@ Guides
 ========
 
 In addition to the guides presented below, there are many Jupyter notebooks
-online to provide additional
-[Bluesky training](https://github.com/BCDA-APS/bluesky_training#notebooks) for the APS.
+online to provide additional `Bluesky training <https://github.com/BCDA-APS/bluesky_training#notebooks>`__ for the APS.
 Further, NSLS-II provides online notebooks which can be
-[executed online](https://try.nsls2.bnl.gov) (in a web browser).
-See the [Bluesky home page](https://blueskyproject.io/) for more details.
+`executed online <https://try.nsls2.bnl.gov>`__ (in a web browser).
+See the `Bluesky home page <https://blueskyproject.io/>`__ for more details.
 
 .. Consider writing new content in one of these categories:
 
