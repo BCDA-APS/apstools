@@ -24,6 +24,8 @@ logger = logging.getLogger(__name__)
 pd.set_option("display.max_rows", None)
 
 
+DEFAULT_COLUMN_WIDTH = 50
+TRUNCATION_TEXT = " ..."
 # Use NOT_CONNECTED_VALUE in tables for signals that are not connected.
 NOT_CONNECTED_VALUE = "-n/c-"
 
@@ -98,6 +100,7 @@ def listdevice(
     show_pv=False,
     use_datetime=True,
     show_ancient=True,
+    max_column_width=None,
     table_style=TableStyle.pyRestTable,
 ):
     """Describe the signal information from device ``obj`` in a pandas DataFrame.
@@ -146,6 +149,11 @@ def listdevice(
         the original ``.db`` file.
 
         default: ``True``
+    max_column_width *int* or *None* :
+        Truncate long columns to no more than this length.  If not default,
+        then table will be formatted using pyRestTable.
+
+        default: ``None`` (will use ``50``)
     table_style *object* :
         Either ``apstools.utils.TableStyle.pandas`` (default) or
         using values from :class:`apstools.utils.TableStyle`.
@@ -154,6 +162,13 @@ def listdevice(
            to at most 50 characters.
 
     """
+    if max_column_width is not None:
+        if table_style != TableStyle.pyRestTable:
+            logger.warning("Changing table style to pyRestTable.")
+        table_style = TableStyle.pyRestTable
+    limit_width = max_column_width is not None or table_style == TableStyle.pyRestTable
+    max_column_width = max_column_width or DEFAULT_COLUMN_WIDTH
+
     scope = (scope or "full").lower()
     signals = _all_signals(obj)
     if scope in ("full", "epics"):
@@ -195,10 +210,10 @@ def listdevice(
                     dd["data name"].append(signal.name)
                 if show_pv:
                     dd["PV"].append(_get_pv(signal) or "")
-                # At this point, either the signals have connected or they will
-                # likely never connect.  It's much to slow to wait for a
-                # connection timeout on each signal, in series.  The default
-                # connection timeout has already been set.
+                # At this point, either the Signal has connected or it may never
+                # connect.  It's much too slow to wait for a connection timeout
+                # on each signal, in series.  The default connection timeout has
+                # already been set.
                 # If the signal is not connected now, provide informative text
                 # and move along.
                 if signal.connected:
@@ -208,6 +223,20 @@ def listdevice(
                 dd["value"].append(v)
                 if use_datetime:
                     dd["timestamp"].append(datetime.datetime.fromtimestamp(ts))
+
+    def truncate(value, width, pad):
+        """Ensure that str(value) fits into column of 'width'."""
+        value = str(value)
+        if len(value) > width:
+            value = value[: width - len(pad)] + pad
+        return value
+
+    if limit_width:  # check if column widths need to be truncated
+        for k in dd:
+            vv = []
+            for v in dd[k]:
+                vv.append(truncate(v, max_column_width, TRUNCATION_TEXT))
+            dd[k] = vv  # replace the row with (maybe) truncated content
 
     return table_style.value(dd)
 

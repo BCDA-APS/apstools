@@ -9,12 +9,12 @@ from ophyd import EpicsMotor
 from ophyd import EpicsSignal
 from ophyd import Signal
 from ophyd.signal import EpicsSignalBase
-from ophyd.signal import ConnectionTimeoutError
 
+from .._core import TableStyle
 from ...devices import SwaitRecord
 from ...tests import IOC_GP
-from .._core import TableStyle
 from ..device_info import _list_epics_signals
+from ..device_info import DEFAULT_COLUMN_WIDTH
 from ..device_info import listdevice
 from ..device_info import NOT_CONNECTED_VALUE
 
@@ -22,6 +22,7 @@ from ..device_info import NOT_CONNECTED_VALUE
 class MySignals(Device):
     allowed = Component(Signal, value=True, kind="omitted")
     background = Component(Signal, value=True, kind="normal")
+    message = Component(Signal, value="", kind="config")
     tolerance = Component(Signal, value=1, kind="config")
     visible = Component(Signal, value=True, kind="hinted")
 
@@ -122,7 +123,7 @@ def test_spotchecks(scope, row, column, value):
     assert column in result.labels
 
     assert row < len(result.rows)
-    assert result.rows[row][result.labels.index(column)] == value
+    assert result.rows[row][result.labels.index(column)] == str(value)
 
 
 @pytest.mark.parametrize(
@@ -130,12 +131,12 @@ def test_spotchecks(scope, row, column, value):
     [
         (calcs, "epics", False, 0),
         (calcs, "epics", True, 126),
-        (calcs, "full", False, 4),
-        (calcs, "full", True, 130),
+        (calcs, "full", False, 5),
+        (calcs, "full", True, 131),
         (calcs, "read", False, 2),
         (calcs, "read", True, 4),
-        (calcs, None, False, 4),
-        (calcs, None, True, 130),
+        (calcs, None, False, 5),
+        (calcs, None, True, 131),
     ],
 )
 def test_listdevice_filters(device, scope, ancient, length):
@@ -150,6 +151,7 @@ def test_listdevice_filters(device, scope, ancient, length):
         (calcs, "full", [
             "calcs.signals.allowed",
             "calcs.signals.background",
+            "calcs.signals.message",
             "calcs.signals.tolerance",
             "calcs.signals.visible",
         ]),
@@ -157,6 +159,7 @@ def test_listdevice_filters(device, scope, ancient, length):
         (calcs.signals, "full", [
             "calcs.signals.allowed",
             "calcs.signals.background",
+            "calcs.signals.message",
             "calcs.signals.tolerance",
             "calcs.signals.visible",
         ]),
@@ -175,7 +178,7 @@ def test_listdevice_cname(device, scope, cnames):
     "class_, num_lines, nc_item",
     [
         [TwoSignalDevice, 6, 3],
-        [MyDevice, 134, 130],
+        [MyDevice, 135, 130],
     ],
 )
 def test_unconnectable(class_, num_lines, nc_item):
@@ -186,3 +189,22 @@ def test_unconnectable(class_, num_lines, nc_item):
     assert not device.connected
     assert len(result) == num_lines
     assert result[nc_item].split()[1] == NOT_CONNECTED_VALUE
+
+
+@pytest.mark.parametrize(
+    "width",
+    [None, 10, 20, 40, 80, 98, 99, 100, 101, 102, 120],
+)
+def test_maximum_column_width(width):
+    device = MySignals(name="device")
+    device.message.put("0123456789" * 10)
+    assert len(device.message.get()) == 100
+
+    table = listdevice(device, max_column_width=width)
+    # assert isinstance(table, TableStyle.pyRestTable)
+
+    result = str(table).splitlines()
+    assert len(result) == 4 + len(device.component_names)
+    if width is not None:
+        for column, content in enumerate(result[0].split()):
+            assert len(content) <= (width), f"{column=} {content=}"
