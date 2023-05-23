@@ -37,6 +37,7 @@ Enhancements
 * Add guide *How to interrupt/stop/abort a running plan & recover to safe settings*.
 * Add ``close_pv`` & ``open_pv`` kwargs to ``ApsPssShutter``
 * Add ``ensure_AD_plugin_primed()`` convenience function.
+* Made ``listdevice()`` more tolerant of unconnectable signals.
 
 Fixes
 -----
