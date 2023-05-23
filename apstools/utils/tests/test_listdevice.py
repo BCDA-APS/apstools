@@ -172,17 +172,17 @@ def test_listdevice_cname(device, scope, cnames):
 
 
 @pytest.mark.parametrize(
-    "class_, count, item",
+    "class_, num_lines, nc_item",
     [
         [TwoSignalDevice, 6, 3],
         [MyDevice, 134, 130],
     ],
 )
-def test_unconnectable(class_, count, item):
+def test_unconnectable(class_, num_lines, nc_item):
     device = class_("", name="device")
     assert not device.connected
 
     result = str(listdevice(device)).splitlines()
     assert not device.connected
-    assert len(result) == count
-    assert result[item].split()[1] == NOT_CONNECTED_VALUE
+    assert len(result) == num_lines
+    assert result[nc_item].split()[1] == NOT_CONNECTED_VALUE

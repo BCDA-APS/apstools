@@ -24,7 +24,7 @@ logger = logging.getLogger(__name__)
 pd.set_option("display.max_rows", None)
 
 
-NOT_CONNECTED_VALUE = "-nc-" # use this in table for signals that did not connect
+NOT_CONNECTED_VALUE = "-n/c-" # use this in table for signals that did not connect
 
 
 def _all_signals(base):
