@@ -6,14 +6,17 @@ import pytest
 from ophyd import Component
 from ophyd import Device
 from ophyd import EpicsMotor
+from ophyd import EpicsSignal
 from ophyd import Signal
 from ophyd.signal import EpicsSignalBase
+from ophyd.signal import ConnectionTimeoutError
 
 from ...devices import SwaitRecord
 from ...tests import IOC_GP
 from .._core import TableStyle
 from ..device_info import _list_epics_signals
 from ..device_info import listdevice
+from ..device_info import NOT_CONNECTED_VALUE
 
 
 class MySignals(Device):
@@ -27,6 +30,11 @@ class MyDevice(Device):
     signals = Component(MySignals)
     calc5 = Component(SwaitRecord, "5")
     calc6 = Component(SwaitRecord, "6")
+
+
+class TwoSignalDevice(Device):
+    aaa = Component(EpicsSignal, "aaa")
+    bbb = Component(EpicsSignal, "bbb")
 
 
 calcs = MyDevice(f"{IOC_GP}userCalc", name="calcs")
@@ -161,3 +169,20 @@ def test_listdevice_cname(device, scope, cnames):
     col_num = result.labels.index("name")
     values = [row[col_num] for row in result.rows]
     assert values == cnames
+
+
+@pytest.mark.parametrize(
+    "class_, count, item",
+    [
+        [TwoSignalDevice, 6, 3],
+        [MyDevice, 134, 130],
+    ],
+)
+def test_unconnectable(class_, count, item):
+    device = class_("", name="device")
+    assert not device.connected
+
+    result = str(listdevice(device)).splitlines()
+    assert not device.connected
+    assert len(result) == count
+    assert result[item].split()[1] == NOT_CONNECTED_VALUE
