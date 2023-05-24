@@ -42,7 +42,7 @@ Enhancements
 Fixes
 -----
 
-* APS cycle set to ``APSU`` during this _dark_ year.
+* APS cycle set to ``APSU`` during this *dark* year.
 * Resolve AD ERROR reports "capture not supported in Single mode".
 
 Maintenance
