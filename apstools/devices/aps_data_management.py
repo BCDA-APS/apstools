@@ -16,6 +16,8 @@ Example::
         )
     )
 
+.. note::  Requires APS Data Management package (``aps-dm-api >=5``)
+
 from: https://github.com/APS-1ID-MPE/hexm-bluesky/blob/main/instrument/devices/data_management.py
 """
 
