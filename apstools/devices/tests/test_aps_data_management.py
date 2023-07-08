@@ -7,7 +7,9 @@ It's a challenge to test since DM is only available on the APS subnet!
 import pytest
 
 from .. import DM_WorkflowConnector
+
 # from dm.common.exceptions.dmException import DmException
+
 
 @pytest.mark.parametrize("wf_name", ["a_workflow_name"])
 def test_object(wf_name):
@@ -22,5 +24,5 @@ def test_object(wf_name):
 
     with pytest.raises(Exception) as exc:
         # FIXME: will fail if run on APS subnet!
-        workflow_list = wf.workflows
+        wf.workflows
     assert str(exc.value).endswith(" Connection refused")
