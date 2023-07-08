@@ -60,11 +60,11 @@ jobs:
 
       - name: Create Python ${{ matrix.python-version }} environment
         uses: mamba-org/setup-micromamba@v1
-        # use main branch to enable choice of channel-priority
         with:
           cache-environment: true
           cache-environment-key: env-key-${{ matrix.python-version }}
-          channel-priority: flexible
+          condarc: |
+            channel-priority: flexible
           environment-file: environment.yml
           environment-name: anaconda-test-env-py-${{ matrix.python-version }}
 
@@ -114,7 +114,8 @@ jobs:
       with:
         cache-environment: true
         cache-environment-key: env-key-${{ matrix.python-version }}
-        channel-priority: flexible
+        condarc: |
+          channel-priority: flexible
         environment-file: environment.yml
         environment-name: anaconda-test-env-py-${{ matrix.python-version }}
         create-args: >-
