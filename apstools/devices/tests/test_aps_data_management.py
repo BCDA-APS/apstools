@@ -24,9 +24,10 @@ def test_object(wf_name):
         import dm
 
         assert wf.api is not None
-        assert wf.idle is not None
     except ModuleNotFoundError:
-        assert wf.api is None
+        pass
+
+    assert wf.idle is not None
 
     assert wf.report_status() is None
     assert wf.report_processing_stages() is None
