@@ -13,6 +13,8 @@ from .aps_bss_user import ApsBssUserInfoDevice
 
 from .aps_cycle import ApsCycleDM
 
+from .aps_data_management import DM_WorkflowConnector
+
 from .aps_machine import ApsMachineParametersDevice
 
 from .aps_undulator import ApsUndulator

@@ -57,6 +57,7 @@ Other Utilities
 
 .. autosummary::
 
+   ~apstools.utils.aps_data_management.dm_setup
    ~apstools.utils.misc.cleanupText
    ~apstools.utils.misc.connect_pvlist
    ~apstools.utils.email.EmailNotifications
@@ -127,6 +128,9 @@ General
 
 Submodules
 ---------------
+
+.. automodule:: apstools.utils.aps_data_management
+    :members:
 
 .. automodule:: apstools.utils.catalog
     :members:

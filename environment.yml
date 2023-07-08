@@ -4,11 +4,12 @@ channels:
   - aps-anl-tag
   - conda-forge
   - defaults
+  - apsu
 
 dependencies:
   - python >=3.8, <=3.11
   - area-detector-handlers
-  - bluesky >=1.6.7
+  - bluesky >=1.6.7, !=1.11.0
   - databroker =1.2.5
   - databroker-pack
   - h5py
@@ -33,6 +34,8 @@ dependencies:
   - setuptools-scm
   - spec2nexus
   - sphinx >=5
+
+  - aps-dm-api >=5   # linux-64  osx-64
 
   # - pip:
     # - bluesky_live

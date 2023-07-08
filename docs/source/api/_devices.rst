@@ -186,6 +186,7 @@ Other Support
 .. autosummary::
 
     ~apstools.devices.aps_bss_user.ApsBssUserInfoDevice
+    ~apstools.devices.aps_data_management.DM_WorkflowConnector
     ~apstools.devices.xia_pf4.Pf4FilterSingle
     ~apstools.devices.xia_pf4.Pf4FilterDual
     ~apstools.devices.xia_pf4.Pf4FilterTriple
@@ -214,6 +215,12 @@ All Submodules
 --------------
 
 .. automodule:: apstools.devices.aps_bss_user
+    :members:
+    :private-members:
+    :show-inheritance:
+    :inherited-members:
+
+.. automodule:: apstools.devices.aps_data_management
     :members:
     :private-members:
     :show-inheritance:

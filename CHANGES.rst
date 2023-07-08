@@ -20,10 +20,26 @@ The project `milestones <https://github.com/BCDA-APS/apstools/milestones>`_
 describe the future plans.
 
 ..
-   1.6.17
+   1.6.19
    ******
 
-   release expected by 2023-06-30
+   release expected by 2023-12-31
+
+..
+   1.6.18
+   ******
+
+   release expected by 2023-09-30
+
+1.6.17
+******
+
+release expected by 2023-07-31
+
+New Features
+------------
+
+* Add ophyd device support for APS Data Management workflows.
 
 1.6.16
 ******
