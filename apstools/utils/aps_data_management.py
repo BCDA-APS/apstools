@@ -30,8 +30,13 @@ def dm_setup(setup_file):
             key, value = line.strip().split()[-1].split("=")
             env_vars[key] = value
 
-    os.environ.update(env_vars)
+    # Assumed env_var_file is a bash script.  What if it is not?
+    key = "DM_STATION_NAME"
+    if key not in env_vars and key not in os.environ:
+        raise KeyError(f"Did not find expected {key!r}")
 
+    os.environ.update(env_vars)
     bdp_workflow_owner = os.environ["DM_STATION_NAME"].lower()
+
     logger.info("APS DM workflow owner: %s", bdp_workflow_owner)
     return bdp_workflow_owner
