@@ -34,7 +34,7 @@ dependencies:
   - spec2nexus
   - sphinx >=5
 
-  - aps-dm-api >=5   # linux-64  osx-64
+  # - aps-dm-api >=5   # linux-64  osx-64
 
   # - pip:
     # - bluesky_live

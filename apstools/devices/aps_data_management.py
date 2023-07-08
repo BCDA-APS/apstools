@@ -16,7 +16,11 @@ Example::
         )
     )
 
-.. note::  Requires APS Data Management package (``aps-dm-api >=5``)
+.. note::  :class:`~DM_WorkflowConnector()` requires APS Data Management package (``aps-dm-api >=5``)
+
+.. autosummary::
+
+    ~DM_WorkflowConnector
 
 from: https://github.com/APS-1ID-MPE/hexm-bluesky/blob/main/instrument/devices/data_management.py
 """
@@ -34,7 +38,6 @@ logger.setLevel(logging.DEBUG)  # allow any log content at this level
 logger.info(__file__)
 print(__file__)
 
-from dm import ProcApiFactory
 from ophyd import Component
 from ophyd import Device
 from ophyd import Signal
@@ -156,6 +159,8 @@ class DM_WorkflowConnector(Device):
     @property
     def api(self):
         """Local copy of DM Processing API object."""
+        from dm import ProcApiFactory
+
         if self._api is None:
             self._api = ProcApiFactory.getWorkflowProcApi()
         return self._api
