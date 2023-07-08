@@ -20,8 +20,14 @@ def test_object(wf_name):
     assert wf.workflow.get() == wf_name
     assert wf.owner.get() == DM_STATION_NAME
 
-    assert wf.api is not None
-    assert wf.idle is not None
+    try:
+        import dm
+
+        assert wf.api is not None
+        assert wf.idle is not None
+    except ModuleNotFoundError:
+        assert wf.api is None
+
     assert wf.report_status() is None
     assert wf.report_processing_stages() is None
 
