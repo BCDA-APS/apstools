@@ -24,6 +24,19 @@ def test_object(wf_name):
         import dm
 
         assert wf.api is not None
+
+        with pytest.raises(Exception) as exc:
+            # FIXME: will fail if run on APS subnet!
+            wf.workflows
+        err_str = str(exc.value)
+        # fmt: off
+        assert (
+            "Connection refused" in err_str
+            or
+            "invalid literal for int() with base 10" in err_str
+        )
+        # fmt: on
+
     except ModuleNotFoundError:
         pass
 
@@ -31,8 +44,3 @@ def test_object(wf_name):
 
     assert wf.report_status() is None
     assert wf.report_processing_stages() is None
-
-    with pytest.raises(Exception) as exc:
-        # FIXME: will fail if run on APS subnet!
-        wf.workflows
-    assert "Connection refused" in str(exc.value) or "invalid literal for int() with base 10" in str(exc.value)
