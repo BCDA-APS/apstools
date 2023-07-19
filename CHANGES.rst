@@ -34,7 +34,7 @@ describe the future plans.
 1.6.17
 ******
 
-release expected by 2023-07-31
+released 2023-07-19
 
 New Features
 ------------
