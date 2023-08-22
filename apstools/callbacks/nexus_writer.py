@@ -32,7 +32,7 @@ class NXWriter(FileWriterCallbackBase):
 
     One scan is written to one HDF5/NeXus file.
 
-    ..note::
+    .. note::
         If you use ``NXWriter``, you must wait for the `writer()` method to
         finish before proceeding with the next acquisition or processing.  (The
         `writer()` method is launched in a background thread to complete once
