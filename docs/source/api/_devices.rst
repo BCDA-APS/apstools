@@ -201,6 +201,7 @@ Other Support
     ~apstools.devices.flyer_motor_scaler.SignalValueStack
     ~apstools.devices.srs570_preamplifier.SRS570_PreAmplifier
     ~apstools.devices.struck3820.Struck3820
+    ~apstools.devices.delay.DG645Delay
 
 Internal Routines
 +++++++++++++++++
