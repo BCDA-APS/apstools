@@ -46,6 +46,7 @@ class DG645Delay(Device):
     for the remaining delayed outputs.
 
     """
+
     # Individual delay channels
     channel_A = Cpt(DG645Channel, "A")
     channel_B = Cpt(DG645Channel, "B")
@@ -84,9 +85,7 @@ class DG645Delay(Device):
     dhcp_state = Cpt(EpicsSignalWithIO, "IfaceDhcpStateB", kind=Kind.config)
     autoip_state = Cpt(EpicsSignalWithIO, "IfaceAutoIpStateB", kind=Kind.config)
     static_ip_state = Cpt(EpicsSignalWithIO, "IfaceStaticIpStateB", kind=Kind.config)
-    bare_socket_state = Cpt(
-        EpicsSignalWithIO, "IfaceBareSocketStateB", kind=Kind.config
-    )
+    bare_socket_state = Cpt(EpicsSignalWithIO, "IfaceBareSocketStateB", kind=Kind.config)
     telnet_state = Cpt(EpicsSignalWithIO, "IfaceTelnetStateB", kind=Kind.config)
     vxi11_state = Cpt(EpicsSignalWithIO, "IfaceVxiStateB", kind=Kind.config)
     ip_address = Cpt(EpicsSignalWithIO, "IfaceIpAddrS", kind=Kind.config)
@@ -98,9 +97,7 @@ class DG645Delay(Device):
     trigger_inhibit = Cpt(EpicsSignalWithIO, "TriggerInhibitM", kind=Kind.config)
     trigger_level = Cpt(EpicsSignalWithIO, "TriggerLevelA", kind=Kind.config)
     trigger_rate = Cpt(EpicsSignalWithIO, "TriggerRateA", kind=Kind.config)
-    trigger_advanced_mode = Cpt(
-        EpicsSignalWithIO, "TriggerAdvancedModeB", kind=Kind.config
-    )
+    trigger_advanced_mode = Cpt(EpicsSignalWithIO, "TriggerAdvancedModeB", kind=Kind.config)
     trigger_holdoff = Cpt(EpicsSignalWithIO, "TriggerHoldoffA", kind=Kind.config)
     trigger_prescale = Cpt(EpicsSignalWithIO, "TriggerPrescaleL", kind=Kind.config)
 
