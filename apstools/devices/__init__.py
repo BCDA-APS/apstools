@@ -44,6 +44,8 @@ from .area_detector_support import ensure_AD_plugin_primed
 from .axis_tuner import AxisTunerException
 from .axis_tuner import AxisTunerMixin
 
+from .delay import DG645Delay
+
 from .description_mixin import EpicsDescriptionMixin
 
 from .dict_device_support import dict_device_factory

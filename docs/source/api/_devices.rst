@@ -201,6 +201,7 @@ Other Support
     ~apstools.devices.flyer_motor_scaler.SignalValueStack
     ~apstools.devices.srs570_preamplifier.SRS570_PreAmplifier
     ~apstools.devices.struck3820.Struck3820
+    ~apstools.devices.delay.DG645Delay
 
 Internal Routines
 +++++++++++++++++
@@ -251,6 +252,12 @@ All Submodules
     :inherited-members:
 
 .. automodule:: apstools.devices.axis_tuner
+    :members:
+    :private-members:
+    :show-inheritance:
+    :inherited-members:
+
+.. automodule:: apstools.devices.delay
     :members:
     :private-members:
     :show-inheritance:
