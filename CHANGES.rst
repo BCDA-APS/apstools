@@ -25,11 +25,15 @@ describe the future plans.
 
    release expected by 2023-12-31
 
-..
-   1.6.18
-   ******
+1.6.18
+******
 
-   release expected by 2023-09-30
+release expected by 2023-09-30
+
+New Features
+------------
+
+* Add ophyd device support for DG-645 digital delay/pulse generator.
 
 1.6.17
 ******
