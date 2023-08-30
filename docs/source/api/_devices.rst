@@ -257,6 +257,12 @@ All Submodules
     :show-inheritance:
     :inherited-members:
 
+.. automodule:: apstools.devices.delay
+    :members:
+    :private-members:
+    :show-inheritance:
+    :inherited-members:
+
 .. automodule:: apstools.devices.description_mixin
     :members:
     :private-members:
