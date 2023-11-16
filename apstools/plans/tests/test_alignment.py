@@ -169,6 +169,33 @@ def test_lineup(signals, mover, start, finish, npts, feature, rescan):
     #     # assert lo <= position <= hi, f"{bec=} {bec.peaks=} {position=} {center=} {width=}"
 
 
+@pytest.mark.parametrize(
+    "signals, mover, start, finish, npts, feature, nscans",
+    [
+        [noisy, m1, -1.2, 1.2, 11, "max", 2],  # slower, is motor
+        [pvoigt, axis, -1.2, 1.2, 11, "cen", 2],  # faster, is ao (float)
+        [pvoigt, axis, -1.2, 1.2, 11, "max", 2],
+        [[pvoigt], axis, -1.2, 1.2, 11, "max", 2],  # list
+        [[pvoigt, noisy, scaler1], axis, -1.2, 1.2, 11, "max", 2],  # more than one detector
+        [(pvoigt), axis, -1.2, 1.2, 11, "max", 2],  # tuple
+        [pvoigt, axis, -1.2, 1.2, 11, "cen", 1],
+        [pvoigt, axis, -1.2, 1.2, 11, "com", 1],
+        [pvoigt, axis, -1.2, 1.2, 11, "max", 1],
+        [pvoigt, axis, -1.2, 1.2, 11, "min", 1],  # pathological
+    ],
+)
+def test_lineup2(signals, mover, start, finish, npts, feature, nscans):
+    if isinstance(signals, SynPseudoVoigt):
+        signals.randomize_parameters(scale=250_000, bkg=0.000_000_000_1)
+    else:
+        change_noisy_parameters()
+
+    RE(bps.mv(mover, 0))
+    assert get_position(mover) == 0.0
+
+    RE(alignment.lineup2(signals, mover, start, finish, npts, feature=feature, nscans=nscans))
+
+
 def test_TuneAxis():
     signal = SynPseudoVoigt(name="signal", motor=m1, motor_field=m1.name)
     signal.kind = "hinted"

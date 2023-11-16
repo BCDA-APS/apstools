@@ -5,6 +5,7 @@ Alignment plans
 .. autosummary::
 
    ~lineup
+   ~lineup2
    ~tune_axes
    ~TuneAxis
    ~TuneResults
@@ -42,68 +43,59 @@ def lineup(
     # fmt: on
 ):
     """
-    Lineup and center a given axis, relative to current position.
+    (use ``lineup2()`` now) Lineup and center a given axis, relative to current position.
 
     If first run identifies a peak, makes a second run to fine tune the result.
+
+    ..caution:: ``lineup()`` does not work in the queueserver.  Use
+        :func:`~apstools.plans.alignment.lineup2()` instead.
 
     .. index:: Bluesky Plan; lineup
 
     PARAMETERS
 
     detectors
-        *[object]* or *object* :
-        Instance(s) of ophyd.Signal (or subclass such as ophyd.scaler.ScalerChannel)
-        dependent measurement to be maximized.  If a list, the first signal in the
-        list will be used.
+        *[object]* or *object* : Instance(s) of ophyd.Signal (or subclass such
+        as ophyd.scaler.ScalerChannel) dependent measurement to be maximized.
+        If a list, the first signal in the list will be used.
 
     axis
-        movable *object* :
-        instance of ophyd.Signal (or subclass such as EpicsMotor)
-        independent axis to use for alignment
+        movable *object* : instance of ophyd.Signal (or subclass such as
+        EpicsMotor) independent axis to use for alignment
 
     minus
-        *float* :
-        first point of scan at this offset from starting position
+        *float* : first point of scan at this offset from starting position
 
     plus
-        *float* :
-        last point of scan at this offset from starting position
+        *float* : last point of scan at this offset from starting position
 
     npts
-        *int* :
-        number of data points in the scan
+        *int* : number of data points in the scan
 
     time_s
-        *float* :
-        Count time per step (if detectors[0] is ScalerChannel object),
-        other object types not yet supported.
-        (default: 0.1)
+        *float* : Count time per step (if detectors[0] is ScalerChannel object),
+        other object types not yet supported. (default: 0.1)
 
     peak_factor
-        *float* :
-        peak maximum must be greater than ``peak_factor*minimum``
+        *float* : peak maximum must be greater than ``peak_factor*minimum``
         (default: 4)
 
     width_factor
-        *float* :
-        fwhm must be less than ``width_factor*plot_range``
-        (default: 0.8)
+        *float* : fwhm must be less than ``width_factor*plot_range`` (default:
+        0.8)
 
     feature
-        *str* :
-        One of the parameters returned by BestEffortCallback peak stats.
-        (``cen``, ``com``, ``max``, ``min``)
-        (default: ``cen``)
+        *str* : One of the parameters returned by BestEffortCallback peak stats.
+        (``cen``, ``com``, ``max``, ``min``) (default: ``cen``)
 
     rescan
-        *bool* :
-        If first scan indicates a peak, should a second scan refine the result?
-        (default: ``True``)
+        *bool* : If first scan indicates a peak, should a second scan refine the
+        result? (default: ``True``)
 
     bec
-        *object* :
-        Instance of ``bluesky.callbacks.best_effort.BestEffortCallback``.
-        (default: ``None``, meaning look for it from global namespace)
+        *object* : Instance of
+        ``bluesky.callbacks.best_effort.BestEffortCallback``. (default:
+        ``None``, meaning look for it from global namespace)
 
     EXAMPLE::
 
@@ -219,6 +211,165 @@ def lineup(
     if scaler is not None:
         scaler.select_channels()
         scaler.stage_sigs = old_sigs
+
+
+def lineup2(
+    # fmt: off
+    detectors, mover, rel_start, rel_end, points,
+    peak_factor=2.5, width_factor=0.8,
+    feature="centroid",
+    nscans=2,
+    signal_stats=None,
+    md={},
+    # fmt: on
+):
+    """
+    Lineup and center a given mover, relative to current position.
+
+    This plan can be used in the queueserver, Jupyter notebooks, and IPython
+    consoles.  It does not require the bluesky BestEffortCallback.  Instead, it
+    uses *PySumReg*  [#pysumreg]_ to compute statistics for each signal in a 1-D
+    scan.
+
+    New in release 1.6.18
+
+    .. caution:: This is an early draft and is subject to change!
+
+    .. index:: Bluesky Plan; lineup2; lineup
+
+    PARAMETERS
+
+    detectors *Readable* or [*Readable*]:
+        Detector object or list of detector objects (each is a Device or
+        Signal). If a list, the first Signal will be used for alignment.
+
+    mover *Movable*:
+        Mover object, such as motor or other positioner.
+
+    rel_start *float*:
+        Starting point for the scan, relative to the current mover position.
+
+    rel_end *float*:
+        Ending point for the scan, relative to the current mover position.
+
+    points *int*:
+        Number of points in the scan.
+
+    peak_factor *float* :
+        peak maximum must be greater than ``peak_factor*minimum`` (default: 2.5)
+
+    width_factor *float* :
+        fwhm must be less than ``width_factor*plot_range`` (default: 0.8)
+
+    feature *str*:
+        Use this statistical measure (default: centroid) to set the mover
+        position after a peak has been found.  Must be one of these values:
+
+        ==========  ====================
+        feature     description
+        ==========  ====================
+        centroid    center of mass
+        x_at_max_y  x location of y maximum
+        x_at_min_y  x location of y minimum
+        ==========  ====================
+
+        Statistical analysis provided by *PySumReg*.  [#pysumreg]_
+
+        .. [#pysumreg] https://prjemian.github.io/pysumreg/latest/
+
+    nscans *int*:
+        Number of scans.  (default: 2)  Scanning will stop if any scan cannot
+        find a peak.
+
+    signal_stats *object*:
+        Caller could provide an object of
+        :class:`~apstools.callbacks.scan_signal_statistics.SignalStatsCallback`.
+        If ``None``, this function will search for the ``signal_stats`` signal
+        in the global namespace. If not still found, a new one will be created
+        for the brief lifetime of this function.
+
+    md *dict*:
+        User-supplied metadata for this scan.
+    """
+    from ..callbacks import SignalStatsCallback
+    from ..callbacks import factor_fwhm
+
+    if not isinstance(detectors, (tuple, list)):
+        detectors = [detectors]
+
+    _md = dict(purpose="alignment")
+    _md.update(md or {})
+
+    if signal_stats is None:
+        signal_stats = utils.ipython_shell_namespace().get("signal_stats")
+        if signal_stats is None:
+            signal_stats = SignalStatsCallback()
+            signal_stats.stop_report = True
+    else:
+        signal_stats.stop_report = False  # Turn this automation off.
+
+    # Allow for feature to be defined using a name from PeakStats.
+    xref_PeakStats = {
+        "com": "centroid",
+        "cen": "x_at_max_y",
+        "max": "x_at_max_y",
+        "min": "x_at_min_y",
+    }
+    # translate from PeakStats feature to SignalStats
+    feature = xref_PeakStats.get(feature, feature)
+
+    def get_x_by_feature():
+        """Return the X value of the specified ``feature``."""
+        stats = principal_signal_stats()
+        if strong_peak(stats) and not too_wide(stats):
+            return getattr(stats, feature)
+
+    def principal_signal_stats() -> str:
+        """Return the name of the first detector Signal."""
+        return signal_stats._registers[signal_stats._y_names[0]]
+
+    def strong_peak(stats) -> bool:
+        """Determine if the peak is strong."""
+        try:
+            value = (stats.max_y - stats.min_y) / stats.sigma
+            return value > peak_factor
+        except ZeroDivisionError:  # not enough samples
+            try:
+                value = abs(stats.max_y / stats.min_y)
+                return value > peak_factor
+            except ZeroDivisionError:
+                return False
+
+    def too_wide(stats):
+        """Does the measured peak width fill the full range of X?"""
+        try:
+            x_range = stats.max_x - stats.min_x
+            fwhm = stats.sigma * factor_fwhm
+            return fwhm > width_factor * x_range
+        except ZeroDivisionError:  # not enough samples
+            return True
+
+    @bpp.subs_decorator(signal_stats.receiver)
+    def _inner():
+        """Run the scan, collecting statistics at each step."""
+        # TODO: save signal stats into separate stream
+        yield from bp.rel_scan(detectors, mover, rel_start, rel_end, points, md=_md)
+
+    while nscans > 0:  # allow for repeated scans
+        yield from _inner()  # Run the scan.
+        nscans -= 1
+
+        target = get_x_by_feature()
+        if target is None:
+            nscans = 0  # Nothing found, no point scanning again.
+        else:
+            yield from bps.mv(mover, target)  # Move to the feature position.
+            logger.info("Moved %s to %s: %f", mover.name, feature, target)
+
+            if nscans > 0:
+                # move the end points for the next scan
+                rel_end = principal_signal_stats().sigma * factor_fwhm
+                rel_start = -rel_end
 
 
 class TuneAxis(object):

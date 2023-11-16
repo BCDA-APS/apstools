@@ -32,6 +32,7 @@ Custom Scans
    ~apstools.plans.doc_run.documentation_run
    ~apstools.plans.labels_to_streams.label_stream_decorator
    ~apstools.plans.alignment.lineup
+   ~apstools.plans.alignment.lineup2
    ~apstools.plans.nscan_support.nscan
    ~apstools.plans.sscan_support.sscan_1D
    ~apstools.plans.alignment.TuneAxis
@@ -50,6 +51,7 @@ Overall
    ~apstools.plans.command_list.execute_command_list
    ~apstools.plans.command_list.get_command_list
    ~apstools.plans.alignment.lineup
+   ~apstools.plans.alignment.lineup2
    ~apstools.plans.nscan_support.nscan
    ~apstools.plans.command_list.parse_Excel_command_file
    ~apstools.plans.command_list.parse_text_command_file
