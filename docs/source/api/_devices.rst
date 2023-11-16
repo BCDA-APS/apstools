@@ -83,8 +83,13 @@ Detector & Scaler Support
 .. autosummary::
 
     ~apstools.devices.struck3820.Struck3820
+    ~apstools.devices.measComp_usb_ctr_support.MeasCompCtr
+    ~apstools.devices.measComp_usb_ctr_support.MeasCompCtrMcs
     ~apstools.devices.scaler_support.use_EPICS_scaler_channels
     ~apstools.devices.synth_pseudo_voigt.SynPseudoVoigt
+
+.. tip:: The Measurement Computing USB-CTR08 EPICS support
+    provides a compatible EPICS scaler record.
 
 .. _devices.flyers:
 
@@ -197,6 +202,7 @@ Other Support
     ~apstools.devices.dict_device_support.dict_device_factory
     ~apstools.devices.dict_device_support.make_dict_device
     ~apstools.devices.epics_scan_id_signal.EpicsScanIdSignal
+    ~apstools.devices.measComp_usb_ctr_support.MeasCompCtr
     ~apstools.devices.kohzu_monochromator.KohzuSeqCtl_Monochromator
     ~apstools.devices.flyer_motor_scaler.SignalValueStack
     ~apstools.devices.srs570_preamplifier.SRS570_PreAmplifier
@@ -312,6 +318,12 @@ All Submodules
     :inherited-members:
 
 .. automodule:: apstools.devices.measComp_tc32_support
+    :members:
+    :private-members:
+    :show-inheritance:
+    :inherited-members:
+
+.. automodule:: apstools.devices.measComp_usb_ctr_support
     :members:
     :private-members:
     :show-inheritance:

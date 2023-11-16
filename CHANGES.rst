@@ -28,12 +28,14 @@ describe the future plans.
 1.6.18
 ******
 
-release expected by 2023-09-30
+release expected by 2023-12-01
 
 New Features
 ------------
 
-* Add ophyd device support for DG-645 digital delay/pulse generator.
+* Add (ophyd) device support for
+  * DG-645 digital delay/pulse generator
+  * Measurement Computing USB CTR08 High-Speed Counter/Timer
 * New lineup2() plan can be used in console, notebooks, and queueserver.
 
 1.6.17

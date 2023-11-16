@@ -73,6 +73,9 @@ from .linkam_controllers import Linkam_T96_Device
 
 from .measComp_tc32_support import MeasCompTc32
 
+from .measComp_usb_ctr_support import MeasCompCtr
+from .measComp_usb_ctr_support import MeasCompCtrMcs
+
 from .mixin_base import DeviceMixinBase
 
 from .motor_mixins import EpicsMotorDialMixin
