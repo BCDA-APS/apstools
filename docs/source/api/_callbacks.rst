@@ -8,6 +8,10 @@ Callbacks
 .. automodule:: apstools.callbacks.doc_collector
     :members:
 
+.. automodule:: apstools.callbacks.scan_signal_statistics
+    :members:
+    :private-members:
+
 
 File Writers
 ------------
