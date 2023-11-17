@@ -58,6 +58,7 @@ Other Utilities
 .. autosummary::
 
    ~apstools.utils.aps_data_management.dm_setup
+   ~apstools.utils.apsu_controls_subnet.warn_if_not_aps_controls_subnet
    ~apstools.utils.misc.cleanupText
    ~apstools.utils.misc.connect_pvlist
    ~apstools.utils.email.EmailNotifications
@@ -130,6 +131,9 @@ Submodules
 ---------------
 
 .. automodule:: apstools.utils.aps_data_management
+    :members:
+
+.. automodule:: apstools.utils.apsu_controls_subnet
     :members:
 
 .. automodule:: apstools.utils.catalog

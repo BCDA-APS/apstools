@@ -36,6 +36,7 @@ New Features
 * Add (ophyd) device support for
   * DG-645 digital delay/pulse generator
   * Measurement Computing USB CTR08 High-Speed Counter/Timer
+* Add subnet check for APSU beamlines.
 * New lineup2() plan can be used in console, notebooks, and queueserver.
 
 1.6.17
