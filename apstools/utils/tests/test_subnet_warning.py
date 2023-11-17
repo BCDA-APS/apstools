@@ -1,6 +1,8 @@
 import socket
 from contextlib import nullcontext as does_not_raise
 
+import pytest
+
 from ..apsu_controls_subnet import APSU_CONTROLS_SUBNET
 from ..apsu_controls_subnet import APSU_XRAY_SUBNET
 from ..apsu_controls_subnet import warn_if_not_aps_controls_subnet
