@@ -131,9 +131,6 @@ def test_digital_dios(LabJackDevice, num_dios):
         dio = getattr(device.digital_ios, f"dio{n}")
         assert isinstance(dio, labjack.DigitalIO)
     # Check read attrs
-    from pprint import pprint
-
-    pprint(list(device.hints["fields"]))
     read_attrs = ["output.desired_value", "output.output_value", "input.final_value"]
     for n in range(num_dios):
         for attr in read_attrs:
@@ -151,3 +148,22 @@ def test_digital_dios(LabJackDevice, num_dios):
         for attr in hinted_attrs:
             full_attr = f"labjack_T_digital_ios_dio{n}_{attr}"
             assert full_attr in device.hints["fields"]
+
+
+
+@pytest.mark.parametrize("LabJackDevice,num_dios", dio_params)
+def test_digital_words(LabJackDevice, num_dios):
+    """Test analog inputs for different device types."""
+    device = LabJackDevice(PV_PREFIX, name="labjack_T")
+    assert not device.connected
+    assert hasattr(device, "digital_ios")
+    # Check that the individual digital word outputs were created
+    assert hasattr(device.digital_ios, f"dio")
+    assert hasattr(device.digital_ios, f"fio")
+    assert hasattr(device.digital_ios, f"eio")
+    assert hasattr(device.digital_ios, f"cio")
+    assert hasattr(device.digital_ios, f"mio")
+    # Check read attrs
+    read_attrs = ["dio", "eio", "fio", "mio", "cio"]
+    for attr in read_attrs:
+        assert f"digital_ios.{attr}" in device.read_attrs

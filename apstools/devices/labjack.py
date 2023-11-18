@@ -12,6 +12,7 @@ from ophyd import Component as Cpt
 from ophyd import Device
 from ophyd import DynamicDeviceComponent as DCpt
 from ophyd import EpicsSignal
+from ophyd import EpicsSignalRO
 from ophyd import FormattedComponent as FCpt
 from ophyd import Kind
 
@@ -146,6 +147,12 @@ def make_digital_ios(num_dios: int):
     defn = {}
     for n in range(num_dios):
         defn[f"dio{n}"] = (DigitalIO, "", dict(ch_num=n))
+    # Add the digital word outputs
+    defn[f"dio"] = (EpicsSignalRO, "DIO", dict(kind=Kind.normal))
+    defn[f"fio"] = (EpicsSignalRO, "FIO", dict(kind=Kind.normal))
+    defn[f"eio"] = (EpicsSignalRO, "EIO", dict(kind=Kind.normal))
+    defn[f"cio"] = (EpicsSignalRO, "CIO", dict(kind=Kind.normal))
+    defn[f"mio"] = (EpicsSignalRO, "MIO", dict(kind=Kind.normal))
     return defn
 
 
