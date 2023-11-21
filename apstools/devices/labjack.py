@@ -48,9 +48,19 @@ from apstools.synApps import EpicsRecordDeviceCommonAll
 from apstools.synApps import EpicsRecordInputFields
 from apstools.synApps import EpicsRecordOutputFields
 
-
-__all__ = ["AnalogOutput", "AnalogInput", "DigitalIO", "WaveformDigitizer", "make_digitizer_waveforms",
-           "WaveformGenerator", "LabJackBase", "LabJackT4", "LabJackT7", "LabJackT7Pro", "LabJackT8"]
+__all__ = [
+    "AnalogOutput",
+    "AnalogInput",
+    "DigitalIO",
+    "WaveformDigitizer",
+    "make_digitizer_waveforms",
+    "WaveformGenerator",
+    "LabJackBase",
+    "LabJackT4",
+    "LabJackT7",
+    "LabJackT7Pro",
+    "LabJackT8",
+]
 
 
 class Input(EpicsRecordInputFields, EpicsRecordDeviceCommonAll):
@@ -60,6 +70,7 @@ class Input(EpicsRecordInputFields, EpicsRecordDeviceCommonAll):
     field is used as a trigger. This way, even if the .SCAN field is
     set to passive, the record will still update before being read.
     """
+
     process_record = Cpt(EpicsSignal, ".PROC", kind="omitted", put_complete=True, trigger_value=1)
     final_value = Cpt(EpicsSignalRO, ".VAL", kind="normal", auto_monitor=False)
 
@@ -75,13 +86,14 @@ class BinaryOutput(Output):
     Similar to a common EPICS input without the OVAL record.
 
     """
+
     output_value = None
 
 
 class AnalogOutput(Output):
     """An analog output on a labjack device."""
-    pass
 
+    pass
 
 
 class AnalogInput(Input):
@@ -96,6 +108,7 @@ class AnalogInput(Input):
     can be useful if the .SCAN field is set to passive.
 
     """
+
     differential = FCpt(
         EpicsSignal,
         "{self.base_prefix}Diff{self.ch_num}",
@@ -144,6 +157,7 @@ class DigitalIO(Device):
     (``Bo3``), and direction (``Bd3``) records.
 
     """
+
     ch_num: int
 
     input = FCpt(Input, "{prefix}Bi{ch_num}")
@@ -209,9 +223,8 @@ def make_digitizer_waveforms(num_ais: int):
 
 
 class WaveformGenerator(Device):
-    """A feature of the Labjack devices that generates output waveforms.
+    """A feature of the Labjack devices that generates output waveforms."""
 
-    """
     external_trigger = Cpt(EpicsSignal, "WaveGenExtTrigger", kind=Kind.config)  # config
     external_clock = Cpt(EpicsSignal, "WaveGenExtClock", kind=Kind.config)  # config
     continuous = Cpt(EpicsSignal, "WaveGenContinuous", kind=Kind.config)  # config
@@ -237,7 +250,7 @@ class WaveformGenerator(Device):
     internal_time_waveform = Cpt(EpicsSignal, "WaveGenIntTimeWF", kind=Kind.normal)  # normal
     internal_dwell = Cpt(EpicsSignal, "WaveGenIntDwell", kind=Kind.omitted)  # omitted
     internal_frequency = Cpt(EpicsSignal, "WaveGenIntFrequency", kind=Kind.omitted)  # omitted
-    
+
     # Waveform specific settings
     user_waveform_0 = Cpt(EpicsSignal, "WaveGenUserWF0", kind=Kind.config)  # config
     internal_waveform_0 = Cpt(EpicsSignalRO, "WaveGenInternalWF0", kind=Kind.omitted)  # omitted
@@ -253,7 +266,6 @@ class WaveformGenerator(Device):
     pulse_width_1 = Cpt(EpicsSignal, "WaveGenPulseWidth1", kind=Kind.config)  # config
     amplitude_1 = Cpt(EpicsSignal, "WaveGenAmplitude1", kind=Kind.config)  # config
     offset_1 = Cpt(EpicsSignal, "WaveGenOffset1", kind=Kind.config)  # config
-    
 
 
 def make_analog_inputs(num_ais: int):
@@ -348,11 +360,11 @@ class LabJackBase(Device):
     .. code:: python
 
         lj = LabJackT4(...)
-        
+
         # Read a waveform from the digitizer
         lj.waveform_digitizer.trigger().wait()
         lj.waveform_digitizer.read()
-        
+
         # Same thing for the waveform generator
         lj.waveform_generator.trigger().wait()
 
@@ -385,7 +397,7 @@ class LabJackT4(LabJackBase):
     analog_inputs = DCpt(make_analog_inputs(12), kind=(Kind.config | Kind.normal))
     digital_ios = DCpt(make_digital_ios(16), kind=(Kind.config | Kind.normal))
     waveform_digitizer = Cpt(WaveformDigitizer, "", kind=Kind.omitted)
-    
+
 
 class LabJackT7(LabJackBase):
     class WaveformDigitizer(WaveformDigitizer):
@@ -394,7 +406,8 @@ class LabJackT7(LabJackBase):
     analog_inputs = DCpt(make_analog_inputs(14), kind=(Kind.config | Kind.normal))
     digital_ios = DCpt(make_digital_ios(23), kind=(Kind.config | Kind.normal))
     waveform_digitizer = Cpt(WaveformDigitizer, "")
-    
+
+
 class LabJackT7Pro(LabJackBase):
     class WaveformDigitizer(WaveformDigitizer):
         waveforms = DCpt(make_digitizer_waveforms(14), kind="normal")
@@ -411,4 +424,3 @@ class LabJackT8(LabJackBase):
     analog_inputs = DCpt(make_analog_inputs(8), kind=(Kind.config | Kind.normal))
     digital_ios = DCpt(make_digital_ios(20), kind=(Kind.config | Kind.normal))
     waveform_digitizer = Cpt(WaveformDigitizer, "")
-    

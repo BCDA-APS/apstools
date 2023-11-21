@@ -39,41 +39,41 @@ def test_base_signals_device():
         "analog_in_settling_time_all",
         "analog_in_resolution_all",
         "analog_in_sampling_rate",
-        'analog_outputs',
-        'analog_outputs.ao0',
-        'analog_outputs.ao0.alarm_severity',
-        'analog_outputs.ao0.alarm_status',
-        'analog_outputs.ao0.description',
-        'analog_outputs.ao0.desired_output_location',
-        'analog_outputs.ao0.device_type',
-        'analog_outputs.ao0.disable_alarm_severity',
-        'analog_outputs.ao0.disable_value',
-        'analog_outputs.ao0.forward_link',
-        'analog_outputs.ao0.new_alarm_severity',
-        'analog_outputs.ao0.new_alarm_status',
-        'analog_outputs.ao0.output_link',
-        'analog_outputs.ao0.output_mode_select',
-        'analog_outputs.ao0.raw_value',
-        'analog_outputs.ao0.scan_disable_input_link_value',
-        'analog_outputs.ao0.scan_disable_value_input_link',
-        'analog_outputs.ao0.scanning_rate',
-        'analog_outputs.ao1',
-        'analog_outputs.ao1.alarm_severity',
-        'analog_outputs.ao1.alarm_status',
-        'analog_outputs.ao1.description',
-        'analog_outputs.ao1.desired_output_location',
-        'analog_outputs.ao1.device_type',
-        'analog_outputs.ao1.disable_alarm_severity',
-        'analog_outputs.ao1.disable_value',
-        'analog_outputs.ao1.forward_link',
-        'analog_outputs.ao1.new_alarm_severity',
-        'analog_outputs.ao1.new_alarm_status',
-        'analog_outputs.ao1.output_link',
-        'analog_outputs.ao1.output_mode_select',
-        'analog_outputs.ao1.raw_value',
-        'analog_outputs.ao1.scan_disable_input_link_value',
-        'analog_outputs.ao1.scan_disable_value_input_link',
-        'analog_outputs.ao1.scanning_rate',
+        "analog_outputs",
+        "analog_outputs.ao0",
+        "analog_outputs.ao0.alarm_severity",
+        "analog_outputs.ao0.alarm_status",
+        "analog_outputs.ao0.description",
+        "analog_outputs.ao0.desired_output_location",
+        "analog_outputs.ao0.device_type",
+        "analog_outputs.ao0.disable_alarm_severity",
+        "analog_outputs.ao0.disable_value",
+        "analog_outputs.ao0.forward_link",
+        "analog_outputs.ao0.new_alarm_severity",
+        "analog_outputs.ao0.new_alarm_status",
+        "analog_outputs.ao0.output_link",
+        "analog_outputs.ao0.output_mode_select",
+        "analog_outputs.ao0.raw_value",
+        "analog_outputs.ao0.scan_disable_input_link_value",
+        "analog_outputs.ao0.scan_disable_value_input_link",
+        "analog_outputs.ao0.scanning_rate",
+        "analog_outputs.ao1",
+        "analog_outputs.ao1.alarm_severity",
+        "analog_outputs.ao1.alarm_status",
+        "analog_outputs.ao1.description",
+        "analog_outputs.ao1.desired_output_location",
+        "analog_outputs.ao1.device_type",
+        "analog_outputs.ao1.disable_alarm_severity",
+        "analog_outputs.ao1.disable_value",
+        "analog_outputs.ao1.forward_link",
+        "analog_outputs.ao1.new_alarm_severity",
+        "analog_outputs.ao1.new_alarm_status",
+        "analog_outputs.ao1.output_link",
+        "analog_outputs.ao1.output_mode_select",
+        "analog_outputs.ao1.raw_value",
+        "analog_outputs.ao1.scan_disable_input_link_value",
+        "analog_outputs.ao1.scan_disable_value_input_link",
+        "analog_outputs.ao1.scanning_rate",
     ]
     assert sorted(t7.configuration_attrs) == sorted(cfg_names)
 
@@ -126,7 +126,6 @@ ao_params = [
     (labjack.LabJackT7Pro, 2),
     (labjack.LabJackT8, 2),
 ]
-
 
 
 @pytest.mark.parametrize("LabJackDevice,num_aos", ao_params)
@@ -244,12 +243,34 @@ def test_waveform_generator():
     generator = labjack.WaveformGenerator("LabJackT7_1:", name="labjack")
     assert not generator.connected
     # Check read attrs
-    read_attrs = ["frequency", "dwell", "dwell_actual", "total_time", "user_time_waveform",
-                  "internal_time_waveform", ]
+    read_attrs = [
+        "frequency",
+        "dwell",
+        "dwell_actual",
+        "total_time",
+        "user_time_waveform",
+        "internal_time_waveform",
+    ]
     for attr in read_attrs:
         assert attr in generator.read_attrs
     # Check read attrs
-    cfg_attrs = ["external_trigger", "external_clock", "continuous", "num_points", "user_waveform_0", "enable_0", "type_0", "pulse_width_0", "amplitude_0", "offset_0", "user_waveform_1", "enable_1", "type_1", "pulse_width_1", "amplitude_1", "offset_1"]
+    cfg_attrs = [
+        "external_trigger",
+        "external_clock",
+        "continuous",
+        "num_points",
+        "user_waveform_0",
+        "enable_0",
+        "type_0",
+        "pulse_width_0",
+        "amplitude_0",
+        "offset_0",
+        "user_waveform_1",
+        "enable_1",
+        "type_1",
+        "pulse_width_1",
+        "amplitude_1",
+        "offset_1",
+    ]
     for attr in cfg_attrs:
         assert attr in generator.configuration_attrs
-        
