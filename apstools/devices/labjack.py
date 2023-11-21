@@ -29,6 +29,10 @@ class Output(EpicsRecordOutputFields, EpicsRecordDeviceCommonAll):
     pass
 
 
+class BinaryOutput(Output):
+    output_value = None
+
+
 class AnalogInput(Input):
     differential = FCpt(
         EpicsSignal,
@@ -68,7 +72,7 @@ class DigitalIO(Device):
     ch_num: int
 
     input = FCpt(Input, "{prefix}Bi{ch_num}")
-    output = FCpt(Output, "{prefix}Bo{ch_num}")
+    output = FCpt(BinaryOutput, "{prefix}Bo{ch_num}")
     direction = FCpt(EpicsSignal, "{prefix}Bd{ch_num}", kind=Kind.config)
 
     def __init__(self, *args, ch_num, **kwargs):
@@ -124,7 +128,7 @@ def make_digitizer_waveforms(num_ais: int):
     """
     defn = {}
     for n in range(num_ais):
-        defn[f"wf{n}"] = (EpicsSignalRO, f"WaveDigTimeWF{n}", {})
+        defn[f"wf{n}"] = (EpicsSignalRO, f"WaveDigVoltWF{n}", {})
     return defn
 
 
@@ -170,17 +174,17 @@ class WaveformGenerator(Device):
     
     # Waveform specific settings
     user_waveform_0 = Cpt(EpicsSignal, "WaveGenUserWF0", kind=Kind.config)  # config
-    internal_waveform_0 = Cpt(EpicsSignalRO, "WaveGenIntWF0", kind=Kind.omitted)  # omitted
+    internal_waveform_0 = Cpt(EpicsSignalRO, "WaveGenInternalWF0", kind=Kind.omitted)  # omitted
     enable_0 = Cpt(EpicsSignal, "WaveGenEnable0", kind=Kind.config)  # config
     type_0 = Cpt(EpicsSignal, "WaveGenType0", kind=Kind.config)  # config
-    pulse_width_0 = Cpt(EpicsSignal, "WaveGenPulaseWidth0", kind=Kind.config)  # config
+    pulse_width_0 = Cpt(EpicsSignal, "WaveGenPulseWidth0", kind=Kind.config)  # config
     amplitude_0 = Cpt(EpicsSignal, "WaveGenAmplitude0", kind=Kind.config)  # config
     offset_0 = Cpt(EpicsSignal, "WaveGenOffset0", kind=Kind.config)  # config
     user_waveform_1 = Cpt(EpicsSignal, "WaveGenUserWF1", kind=Kind.config)  # config
-    internal_waveform_1 = Cpt(EpicsSignalRO, "WaveGenIntWF1", kind=Kind.omitted)  # omitted
+    internal_waveform_1 = Cpt(EpicsSignalRO, "WaveGenInternalWF1", kind=Kind.omitted)  # omitted
     enable_1 = Cpt(EpicsSignal, "WaveGenEnable1", kind=Kind.config)  # config
     type_1 = Cpt(EpicsSignal, "WaveGenType1", kind=Kind.config)  # config
-    pulse_width_1 = Cpt(EpicsSignal, "WaveGenPulaseWidth1", kind=Kind.config)  # config
+    pulse_width_1 = Cpt(EpicsSignal, "WaveGenPulseWidth1", kind=Kind.config)  # config
     amplitude_1 = Cpt(EpicsSignal, "WaveGenAmplitude1", kind=Kind.config)  # config
     offset_1 = Cpt(EpicsSignal, "WaveGenOffset1", kind=Kind.config)  # config
     
@@ -235,11 +239,11 @@ def make_digital_ios(num_dios: int):
     for n in range(num_dios):
         defn[f"dio{n}"] = (DigitalIO, "", dict(ch_num=n))
     # Add the digital word outputs
-    defn[f"dio"] = (EpicsSignalRO, "DIO", dict(kind=Kind.normal))
-    defn[f"fio"] = (EpicsSignalRO, "FIO", dict(kind=Kind.normal))
-    defn[f"eio"] = (EpicsSignalRO, "EIO", dict(kind=Kind.normal))
-    defn[f"cio"] = (EpicsSignalRO, "CIO", dict(kind=Kind.normal))
-    defn[f"mio"] = (EpicsSignalRO, "MIO", dict(kind=Kind.normal))
+    defn[f"dio"] = (EpicsSignalRO, "DIOIn", dict(kind=Kind.normal))
+    defn[f"fio"] = (EpicsSignalRO, "FIOIn", dict(kind=Kind.normal))
+    defn[f"eio"] = (EpicsSignalRO, "EIOIn", dict(kind=Kind.normal))
+    defn[f"cio"] = (EpicsSignalRO, "CIOIn", dict(kind=Kind.normal))
+    defn[f"mio"] = (EpicsSignalRO, "MIOIn", dict(kind=Kind.normal))
     return defn
 
 
@@ -265,7 +269,7 @@ class LabJackBase(Device):
     # Common sub-devices (all labjacks have 2 analog outputs)
     # NB: Analog inputs/digital I/Os are on a per-model basis
     analog_outputs = DCpt(make_analog_outputs(2), kind=(Kind.config | Kind.normal))
-    waveform_generator = Cpt(WaveformGenerator, "")
+    waveform_generator = Cpt(WaveformGenerator, "", kind=Kind.omitted)
 
 
 class LabJackT4(LabJackBase):
@@ -274,7 +278,7 @@ class LabJackT4(LabJackBase):
 
     analog_inputs = DCpt(make_analog_inputs(12), kind=(Kind.config | Kind.normal))
     digital_ios = DCpt(make_digital_ios(16), kind=(Kind.config | Kind.normal))
-    waveform_digitizer = Cpt(WaveformDigitizer, "")
+    waveform_digitizer = Cpt(WaveformDigitizer, "", kind=Kind.omitted)
     
 
 class LabJackT7(LabJackBase):
