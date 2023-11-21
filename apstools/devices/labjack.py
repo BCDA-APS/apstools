@@ -76,6 +76,58 @@ class DigitalIO(Device):
         super().__init__(*args, **kwargs)
 
 
+class WaveformDigitizer(Device):
+    """A feature of the Labjack devices that allows waveform capture.
+
+    By itself, this device does not include any actual data. It should
+    be sub-classed for the individual T-series devices to use
+    ``make_digitizer_waveforms`` to produce waveform signals based on
+    the number of inputs, using the ophyd DynamicDeviceComponent.
+
+    .. code:: python
+
+        class T7Digitizer(WaveformDigitizer):
+            waveforms = DCpt(make_digitizer_waveforms(14), kind="normal")
+
+    """
+
+    num_points = Cpt(EpicsSignal, "WaveDigNumPoints", kind=Kind.config)
+    first_chan = Cpt(EpicsSignal, "WaveDigFirstChan", kind=Kind.config)
+    num_chans = Cpt(EpicsSignal, "WaveDigNumChans", kind=Kind.config)
+    timebase_waveform = Cpt(EpicsSignal, "WaveDigTimeWF", kind=Kind.normal)
+    current_point = Cpt(EpicsSignal, "WaveDigCurrentPoint", kind=Kind.omitted)
+    dwell = Cpt(EpicsSignal, "WaveDigDwell", kind=Kind.config)
+    dwell_actual = Cpt(EpicsSignal, "WaveDigDwellActual", kind=Kind.normal)
+    total_time = Cpt(EpicsSignal, "WaveDigTotalTime", kind=Kind.normal)
+    resolution = Cpt(EpicsSignal, "WaveDigResolution", kind=Kind.config)
+    settling_time = Cpt(EpicsSignal, "WaveDigSettlingTime", kind=Kind.config)
+    ext_trigger = Cpt(EpicsSignal, "WaveDigExtTrigger", kind=Kind.omitted)
+    ext_clock = Cpt(EpicsSignal, "WaveDigExtClock", kind=Kind.omitted)
+    auto_restart = Cpt(EpicsSignal, "WaveDigAutoRestart", kind=Kind.config)
+    run = Cpt(EpicsSignal, "WaveDigRun", trigger_value=1, kind=Kind.omitted)
+    read_waveform = Cpt(EpicsSignal, "WaveDigReadWF", kind=Kind.omitted)
+
+
+def make_digitizer_waveforms(num_ais: int):
+    """Create a dictionary with volt waveforms for the digitizer.
+
+    For use with an ophyd DynamicDeviceComponent.
+
+    Each analog input on the labjack *could* be included here, and
+    probably should be unless there is a specific reason not to.
+
+    Parameters
+    ==========
+    num_ais
+      How many analog inputs to include for this Labjack device.
+
+    """
+    defn = {}
+    for n in range(num_ais):
+        defn[f"wf{n}"] = (EpicsSignalRO, f"WaveDigTimeWF{n}", {})
+    return defn
+
+
 class LabJackBase(Device):
     """A labjack T-series data acquisition unit (DAQ).
 
@@ -157,6 +209,10 @@ def make_digital_ios(num_dios: int):
 
 
 class LabJackT7(LabJackBase):
+    class WaveformDigitizer(WaveformDigitizer):
+        waveforms = DCpt(make_digitizer_waveforms(14), kind="normal")
+
     analog_inputs = DCpt(make_analog_inputs(14), kind=(Kind.config | Kind.normal))
     analog_outputs = DCpt(make_analog_outputs(2), kind=(Kind.config | Kind.normal))
     digital_ios = DCpt(make_digital_ios(23), kind=(Kind.config | Kind.normal))
+    waveform_digitizer = Cpt(WaveformDigitizer, "")

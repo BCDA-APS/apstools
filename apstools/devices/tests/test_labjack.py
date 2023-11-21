@@ -150,7 +150,6 @@ def test_digital_dios(LabJackDevice, num_dios):
             assert full_attr in device.hints["fields"]
 
 
-
 @pytest.mark.parametrize("LabJackDevice,num_dios", dio_params)
 def test_digital_words(LabJackDevice, num_dios):
     """Test analog inputs for different device types."""
@@ -167,3 +166,29 @@ def test_digital_words(LabJackDevice, num_dios):
     read_attrs = ["dio", "eio", "fio", "mio", "cio"]
     for attr in read_attrs:
         assert f"digital_ios.{attr}" in device.read_attrs
+
+
+def test_waveform_digitizer():
+    digitizer = labjack.WaveformDigitizer("LabJackT7_1:", name="labjack")
+    assert not digitizer.connected
+    # Check read attrs
+    read_attrs = ["timebase_waveform", "dwell_actual", "total_time"]
+    for attr in read_attrs:
+        assert attr in digitizer.read_attrs
+    # Check read attrs
+    cfg_attrs = ["num_points", "first_chan", "num_chans", "dwell", "resolution", "settling_time", "auto_restart"]
+    for attr in cfg_attrs:
+        assert attr in digitizer.configuration_attrs
+
+
+@pytest.mark.parametrize("LabJackDevice,num_ais", ai_params)
+def test_waveform_digitizer_waveforms(LabJackDevice, num_ais):
+    """Verify that the waveform digitizer is created for each LabJack."""
+    device = LabJackDevice(PV_PREFIX, name="labjack_T")
+    assert hasattr(device, "waveform_digitizer")
+    digitizer = device.waveform_digitizer
+    assert hasattr(digitizer, "waveforms")
+    # Check that the individual waveform signals are present
+    for n in range(num_ais):
+        assert hasattr(digitizer.waveforms, f"wf{n}")
+        assert f"waveform_digitizer.waveforms.wf{n}" in device.read_attrs
