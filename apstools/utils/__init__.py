@@ -2,6 +2,8 @@ from ._core import TableStyle
 
 from .aps_data_management import dm_setup
 
+from .apsu_controls_subnet import warn_if_not_aps_controls_subnet
+
 from .catalog import copy_filtered_catalog
 from .catalog import findCatalogsInNamespace
 from .catalog import getCatalog
