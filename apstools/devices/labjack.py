@@ -1,10 +1,29 @@
 """Ophyd definitions for Labjack T-series data acquisition devices.
 
-Currently this is limited to the Labjack T4, T7, T7-Pro, and T8.
+Supported devices:
 
-These devices are based on the v3.0.0 EPICS module. The EPICS IOC
+- T4
+- T7
+- T7Pro
+- T8
+
+These devices are **based on the v3.0.0 EPICS module**. The EPICS IOC
 database changed significantly from v2 to v3 when the module was
 rewritten to use the LJM library.
+
+There are definitions for the entire LabJack device, as well as the
+various inputs/outputs available on the LabJack T-series. These means
+that individual inputs can be used as part of other devices. Assuming
+analog input 5 is connected to a gas flow meter:
+
+.. code:: python
+    
+    from ophyd import Component as Cpt
+    from apstools.devices import labjack
+    
+    class MyBeamline(Device):
+        ...
+        gas_flow = Cpt(labjack.AnalogInput, "LabJackT7_1:Ai5")
 
 """
 
@@ -21,8 +40,19 @@ from apstools.synApps import EpicsRecordInputFields
 from apstools.synApps import EpicsRecordOutputFields
 
 
+__all__ = ["AnalogOutput", "AnalogInput", "DigitalIO", "WaveformDigitizer",
+           "WaveformGenerator", "LabJackT4", "LabJackT7", "LabJackT7Pro", "LabJackT8"]
+
+
 class Input(EpicsRecordInputFields, EpicsRecordDeviceCommonAll):
-    pass
+    """A generic input record.
+
+    Similar to synApps input records but with some changes. The .PROC
+    field is used as a trigger. This way, even if the .SCAN field is
+    set to passive, the record will still update before being read.
+    """
+    process_record = Cpt(EpicsSignal, ".PROC", kind="omitted", put_complete=True, trigger_value=1)
+    final_value = Cpt(EpicsSignalRO, ".VAL", kind="normal", auto_monitor=False)
 
 
 class Output(EpicsRecordOutputFields, EpicsRecordDeviceCommonAll):
@@ -30,10 +60,33 @@ class Output(EpicsRecordOutputFields, EpicsRecordDeviceCommonAll):
 
 
 class BinaryOutput(Output):
+
+    """A binary input on the labjack.
+
+    Similar to a common EPICS input without the OVAL record.
+
+    """
     output_value = None
 
 
+class AnalogOutput(Output):
+    """An analog output on a labjack device."""
+    pass
+
+
+
 class AnalogInput(Input):
+    """An analog input on a labjack device.
+
+    It is based on the synApps input record, but with LabJack specific
+    signals added.
+
+    The ``.trigger()`` method will retrieve a fresh value using the
+    .PROC field, though based on how EPICS support works, this is
+    likely just the most recently polled value from the device. This
+    can be useful if the .SCAN field is set to passive.
+
+    """
     differential = FCpt(
         EpicsSignal,
         "{self.base_prefix}Diff{self.ch_num}",
@@ -64,11 +117,24 @@ class AnalogInput(Input):
         return self.prefix[len(self.base_prefix) :]
 
 
-class AnalogOutput(EpicsRecordOutputFields, EpicsRecordDeviceCommonAll):
-    pass
-
-
 class DigitalIO(Device):
+    """A digital input/output channel on the labjack.
+
+    Because of the how the records are structured in EPICS, the prefix
+    must not include the "Bi{N}" portion of the prefix. Instead, the
+    prefix should be prefix for the whole labjack
+    (e.g. ``LabJackT7_1:``), and the channel number should be provided
+    using the *ch_num* property. So for the digital I/O with its input
+    available at PV ``LabJackT7_1:Bi3``, use:
+
+    .. code:: python
+
+        dio3 = DigitalIO("LabJackT7_1:", name="dio3", ch_num=3)
+
+    This will create signals for the input (``Bi3``), output
+    (``Bo3``), direction (``Bd3``) records.
+
+    """
     ch_num: int
 
     input = FCpt(Input, "{prefix}Bi{ch_num}")
@@ -249,6 +315,43 @@ def make_digital_ios(num_dios: int):
 
 class LabJackBase(Device):
     """A labjack T-series data acquisition unit (DAQ).
+
+    This device contains signals for the following:
+
+    - device information (e.g. firmware version ,etc)
+    - analog outputs
+    - analog inputs*
+    - digital input/output*
+    - waveform digitizer*
+    - waveform generator
+
+    * The number of inputs and digital outputs depends on the specific
+    LabJack T-series device being used. Therefore, the base device
+    ``LabJackBase`` does not implement these I/O signals. Instead,
+    consider using one of the subclasses, like ``LabJackT4``.
+
+    The ``.trigger()`` method does not do much. To retrieve fresh
+    values for analog inputs where .SCAN is passive, you will need to
+    trigger the individual inputs themselves.
+
+    The waveform generator and waveform digitizer are included for
+    convenience. Reading all the analog/digital inputs and outputs can
+    be done by calling the ``.read()`` method. However, it is unlikely
+    that the goal is also to trigger the digitizer and generator
+    during this read. For this reason, **the digitizer and generator
+    have kind="omitted"**. To trigger the digitizer or generator, they
+    can be used as separate devices:
+
+    .. code:: python
+
+        lj = LabJackT4(...)
+        
+        # Read a waveform from the digitizer
+        lj.waveform_digitizer.trigger().wait()
+        lj.waveform_digitizer.read()
+        
+        # Same thing for the waveform generator
+        lj.waveform_generator.trigger().wait()
 
     """
 

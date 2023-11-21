@@ -208,6 +208,7 @@ Other Support
     ~apstools.devices.srs570_preamplifier.SRS570_PreAmplifier
     ~apstools.devices.struck3820.Struck3820
     ~apstools.devices.delay.DG645Delay
+    ~apstools.devices.labjack.LabJackBase
 
 Internal Routines
 +++++++++++++++++
@@ -300,6 +301,12 @@ All Submodules
     :inherited-members:
 
 .. automodule:: apstools.devices.kohzu_monochromator
+    :members:
+    :private-members:
+    :show-inheritance:
+    :inherited-members:
+
+.. automodule:: apstools.devices.labjack
     :members:
     :private-members:
     :show-inheritance:
