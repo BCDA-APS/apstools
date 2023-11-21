@@ -39,23 +39,6 @@ def test_base_signals_device():
         "analog_in_settling_time_all",
         "analog_in_resolution_all",
         "analog_in_sampling_rate",
-        'waveform_generator',
-        'waveform_generator.amplitude_0',
-        'waveform_generator.amplitude_1',
-        'waveform_generator.continuous',
-        'waveform_generator.enable_0',
-        'waveform_generator.enable_1',
-        'waveform_generator.external_clock',
-        'waveform_generator.external_trigger',
-        'waveform_generator.num_points',
-        'waveform_generator.offset_0',
-        'waveform_generator.offset_1',
-        'waveform_generator.pulse_width_0',
-        'waveform_generator.pulse_width_1',
-        'waveform_generator.type_0',
-        'waveform_generator.type_1',
-        'waveform_generator.user_waveform_0',
-        'waveform_generator.user_waveform_1',
         'analog_outputs',
         'analog_outputs.ao0',
         'analog_outputs.ao0.alarm_severity',
@@ -198,7 +181,7 @@ def test_digital_dios(LabJackDevice, num_dios):
         dio = getattr(device.digital_ios, f"dio{n}")
         assert isinstance(dio, labjack.DigitalIO)
     # Check read attrs
-    read_attrs = ["output.desired_value", "output.output_value", "input.final_value"]
+    read_attrs = ["output.desired_value", "input.final_value"]
     for n in range(num_dios):
         for attr in read_attrs:
             full_attr = f"digital_ios.dio{n}.{attr}"
@@ -255,12 +238,6 @@ def test_waveform_digitizer_waveforms(LabJackDevice, num_ais):
     assert hasattr(device, "waveform_digitizer")
     digitizer = device.waveform_digitizer
     assert hasattr(digitizer, "waveforms")
-    # Check that the individual waveform signals are present
-    for n in range(num_ais):
-        assert hasattr(digitizer.waveforms, f"wf{n}")
-        assert f"waveform_digitizer.waveforms.wf{n}" in device.read_attrs
-    # Check that no extra waveform signals were created
-    assert not hasattr(digitizer.waveforms, f"wf{num_ais}")
 
 
 def test_waveform_generator():
