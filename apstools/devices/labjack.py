@@ -128,11 +128,65 @@ def make_digitizer_waveforms(num_ais: int):
     return defn
 
 
+class WaveformGenerator(Device):
+    """A feature of the Labjack devices that generates output waveforms.
+
+    By itself, this device does not include any actual data. It should
+    be sub-classed for the individual T-series devices to use
+    ``make_digitizer_waveforms`` to produce waveform signals based on
+    the number of inputs, using the ophyd DynamicDeviceComponent.
+
+    .. code:: python
+
+        class T7Digitizer(WaveformDigitizer):
+            waveforms = DCpt(make_digitizer_waveforms(14), kind="normal")
+
+    """
+    external_trigger = Cpt(EpicsSignal, "WaveGenExtTrigger", kind=Kind.config)  # config
+    external_clock = Cpt(EpicsSignal, "WaveGenExtClock", kind=Kind.config)  # config
+    continuous = Cpt(EpicsSignal, "WaveGenContinuous", kind=Kind.config)  # config
+    run = Cpt(EpicsSignal, "WaveGenRun", trigger_value=1, kind=Kind.omitted)  # omitted
+
+    # These signals give a readback based on whether user-defined or
+    # internal waves are used
+    num_points = Cpt(EpicsSignalRO, "WaveGenNumPoints", kind=Kind.config)  # config
+    current_point = Cpt(EpicsSignalRO, "WaveGenCurrentPoint", kind=Kind.omitted)  # omitted
+    frequency = Cpt(EpicsSignalRO, "WaveGenFrequency", kind=Kind.normal)  # normal
+    dwell = Cpt(EpicsSignalRO, "WaveGenDwell", kind=Kind.normal)  # normal
+    dwell_actual = Cpt(EpicsSignalRO, "WaveGenDwellActual", kind=Kind.normal)  # normal
+    total_time = Cpt(EpicsSignalRO, "WaveGenTotalTime", kind=Kind.normal)  # normal
+
+    # Settings for user-defined waveforms
+    user_num_points = Cpt(EpicsSignal, "WaveGenUserNumPoints", kind=Kind.omitted)  # omitted
+    user_time_waveform = Cpt(EpicsSignal, "WaveGenUserTimeWF", kind=Kind.normal)  # normal
+    user_dwell = Cpt(EpicsSignal, "WaveGenUserDwell", kind=Kind.omitted)  # omitted
+    user_frequency = Cpt(EpicsSignal, "WaveGenUserFrequency", kind=Kind.omitted)  # omitted
+
+    # Settings for internal waveforms
+    internal_num_points = Cpt(EpicsSignal, "WaveGenIntNumPoints", kind=Kind.omitted)  # omitted
+    internal_time_waveform = Cpt(EpicsSignal, "WaveGenIntTimeWF", kind=Kind.normal)  # normal
+    internal_dwell = Cpt(EpicsSignal, "WaveGenIntDwell", kind=Kind.omitted)  # omitted
+    internal_frequency = Cpt(EpicsSignal, "WaveGenIntFrequency", kind=Kind.omitted)  # omitted
+    
+    # Waveform specific settings
+    user_waveform_0 = Cpt(EpicsSignal, "WaveGenUserWF0", kind=Kind.config)  # config
+    internal_waveform_0 = Cpt(EpicsSignalRO, "WaveGenIntWF0", kind=Kind.omitted)  # omitted
+    enable_0 = Cpt(EpicsSignal, "WaveGenEnable0", kind=Kind.config)  # config
+    type_0 = Cpt(EpicsSignal, "WaveGenType0", kind=Kind.config)  # config
+    pulse_width_0 = Cpt(EpicsSignal, "WaveGenPulaseWidth0", kind=Kind.config)  # config
+    amplitude_0 = Cpt(EpicsSignal, "WaveGenAmplitude0", kind=Kind.config)  # config
+    offset_0 = Cpt(EpicsSignal, "WaveGenOffset0", kind=Kind.config)  # config
+    user_waveform_1 = Cpt(EpicsSignal, "WaveGenUserWF1", kind=Kind.config)  # config
+    internal_waveform_1 = Cpt(EpicsSignalRO, "WaveGenIntWF1", kind=Kind.omitted)  # omitted
+    enable_1 = Cpt(EpicsSignal, "WaveGenEnable1", kind=Kind.config)  # config
+    type_1 = Cpt(EpicsSignal, "WaveGenType1", kind=Kind.config)  # config
+    pulse_width_1 = Cpt(EpicsSignal, "WaveGenPulaseWidth1", kind=Kind.config)  # config
+    amplitude_1 = Cpt(EpicsSignal, "WaveGenAmplitude1", kind=Kind.config)  # config
+    offset_1 = Cpt(EpicsSignal, "WaveGenOffset1", kind=Kind.config)  # config
+    
+
 class LabJackBase(Device):
     """A labjack T-series data acquisition unit (DAQ).
-
-    This device is meant as a base for specific device subclasses. It
-    does not have any inputs or outputs.
 
     """
 
@@ -149,6 +203,7 @@ class LabJackBase(Device):
     analog_in_resolution_all = Cpt(EpicsSignal, "AiAllResolution", kind=Kind.config)
     analog_in_sampling_rate = Cpt(EpicsSignal, "AiSamplingRate", kind=Kind.config)
     device_reset = Cpt(EpicsSignal, "DeviceReset", kind=Kind.omitted)
+    waveform_generator = Cpt(WaveformGenerator, "")
 
 
 def make_analog_inputs(num_ais: int):
@@ -216,3 +271,4 @@ class LabJackT7(LabJackBase):
     analog_outputs = DCpt(make_analog_outputs(2), kind=(Kind.config | Kind.normal))
     digital_ios = DCpt(make_digital_ios(23), kind=(Kind.config | Kind.normal))
     waveform_digitizer = Cpt(WaveformDigitizer, "")
+    

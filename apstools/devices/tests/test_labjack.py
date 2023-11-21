@@ -39,6 +39,23 @@ def test_base_signals_device():
         "analog_in_settling_time_all",
         "analog_in_resolution_all",
         "analog_in_sampling_rate",
+        'waveform_generator',
+        'waveform_generator.amplitude_0',
+        'waveform_generator.amplitude_1',
+        'waveform_generator.continuous',
+        'waveform_generator.enable_0',
+        'waveform_generator.enable_1',
+        'waveform_generator.external_clock',
+        'waveform_generator.external_trigger',
+        'waveform_generator.num_points',
+        'waveform_generator.offset_0',
+        'waveform_generator.offset_1',
+        'waveform_generator.pulse_width_0',
+        'waveform_generator.pulse_width_1',
+        'waveform_generator.type_0',
+        'waveform_generator.type_1',
+        'waveform_generator.user_waveform_0',
+        'waveform_generator.user_waveform_1',
     ]
     assert sorted(t7.configuration_attrs) == sorted(cfg_names)
 
@@ -192,3 +209,18 @@ def test_waveform_digitizer_waveforms(LabJackDevice, num_ais):
     for n in range(num_ais):
         assert hasattr(digitizer.waveforms, f"wf{n}")
         assert f"waveform_digitizer.waveforms.wf{n}" in device.read_attrs
+
+
+def test_waveform_generator():
+    generator = labjack.WaveformGenerator("LabJackT7_1:", name="labjack")
+    assert not generator.connected
+    # Check read attrs
+    read_attrs = ["frequency", "dwell", "dwell_actual", "total_time", "user_time_waveform",
+                  "internal_time_waveform", ]
+    for attr in read_attrs:
+        assert attr in generator.read_attrs
+    # Check read attrs
+    cfg_attrs = ["external_trigger", "external_clock", "continuous", "num_points", "user_waveform_0", "enable_0", "type_0", "pulse_width_0", "amplitude_0", "offset_0", "user_waveform_1", "enable_1", "type_1", "pulse_width_1", "amplitude_1", "offset_1"]
+    for attr in cfg_attrs:
+        assert attr in generator.configuration_attrs
+        
