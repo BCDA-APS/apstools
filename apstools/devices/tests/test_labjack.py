@@ -56,6 +56,41 @@ def test_base_signals_device():
         'waveform_generator.type_1',
         'waveform_generator.user_waveform_0',
         'waveform_generator.user_waveform_1',
+        'analog_outputs',
+        'analog_outputs.ao0',
+        'analog_outputs.ao0.alarm_severity',
+        'analog_outputs.ao0.alarm_status',
+        'analog_outputs.ao0.description',
+        'analog_outputs.ao0.desired_output_location',
+        'analog_outputs.ao0.device_type',
+        'analog_outputs.ao0.disable_alarm_severity',
+        'analog_outputs.ao0.disable_value',
+        'analog_outputs.ao0.forward_link',
+        'analog_outputs.ao0.new_alarm_severity',
+        'analog_outputs.ao0.new_alarm_status',
+        'analog_outputs.ao0.output_link',
+        'analog_outputs.ao0.output_mode_select',
+        'analog_outputs.ao0.raw_value',
+        'analog_outputs.ao0.scan_disable_input_link_value',
+        'analog_outputs.ao0.scan_disable_value_input_link',
+        'analog_outputs.ao0.scanning_rate',
+        'analog_outputs.ao1',
+        'analog_outputs.ao1.alarm_severity',
+        'analog_outputs.ao1.alarm_status',
+        'analog_outputs.ao1.description',
+        'analog_outputs.ao1.desired_output_location',
+        'analog_outputs.ao1.device_type',
+        'analog_outputs.ao1.disable_alarm_severity',
+        'analog_outputs.ao1.disable_value',
+        'analog_outputs.ao1.forward_link',
+        'analog_outputs.ao1.new_alarm_severity',
+        'analog_outputs.ao1.new_alarm_status',
+        'analog_outputs.ao1.output_link',
+        'analog_outputs.ao1.output_mode_select',
+        'analog_outputs.ao1.raw_value',
+        'analog_outputs.ao1.scan_disable_input_link_value',
+        'analog_outputs.ao1.scan_disable_value_input_link',
+        'analog_outputs.ao1.scanning_rate',
     ]
     assert sorted(t7.configuration_attrs) == sorted(cfg_names)
 
@@ -66,7 +101,11 @@ def test_base_signals_device():
 
 
 ai_params = [
+    # (model, number of analog inputs)
+    (labjack.LabJackT4, 12),
     (labjack.LabJackT7, 14),
+    (labjack.LabJackT7Pro, 14),
+    (labjack.LabJackT8, 8),
 ]
 
 
@@ -81,6 +120,8 @@ def test_analog_inputs(LabJackDevice, num_ais):
         assert hasattr(device.analog_inputs, f"ai{n}")
         ai = getattr(device.analog_inputs, f"ai{n}")
         assert isinstance(ai, labjack.AnalogInput)
+    # Make sure there aren't any extra analog inputs
+    assert not hasattr(device.analog_inputs, f"ai{num_ais}")
     # Check read attrs
     read_attrs = ["final_value"]
     for n in range(num_ais):
@@ -96,8 +137,13 @@ def test_analog_inputs(LabJackDevice, num_ais):
 
 
 ao_params = [
+    # (model, number of analog outputs)
+    (labjack.LabJackT4, 2),
     (labjack.LabJackT7, 2),
+    (labjack.LabJackT7Pro, 2),
+    (labjack.LabJackT8, 2),
 ]
+
 
 
 @pytest.mark.parametrize("LabJackDevice,num_aos", ao_params)
@@ -132,7 +178,11 @@ def test_analog_outputs(LabJackDevice, num_aos):
 
 
 dio_params = [
+    # (model, number of digital I/Os)
+    (labjack.LabJackT4, 16),
     (labjack.LabJackT7, 23),
+    (labjack.LabJackT7Pro, 23),
+    (labjack.LabJackT8, 20),
 ]
 
 
@@ -209,6 +259,8 @@ def test_waveform_digitizer_waveforms(LabJackDevice, num_ais):
     for n in range(num_ais):
         assert hasattr(digitizer.waveforms, f"wf{n}")
         assert f"waveform_digitizer.waveforms.wf{n}" in device.read_attrs
+    # Check that no extra waveform signals were created
+    assert not hasattr(digitizer.waveforms, f"wf{num_ais}")
 
 
 def test_waveform_generator():

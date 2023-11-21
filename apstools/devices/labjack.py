@@ -1,6 +1,6 @@
 """Ophyd definitions for Labjack T-series data acquisition devices.
 
-Currently this is limited to the Labjack T7.
+Currently this is limited to the Labjack T4, T7, T7-Pro, and T8.
 
 These devices are based on the v3.0.0 EPICS module. The EPICS IOC
 database changed significantly from v2 to v3 when the module was
@@ -185,26 +185,6 @@ class WaveformGenerator(Device):
     offset_1 = Cpt(EpicsSignal, "WaveGenOffset1", kind=Kind.config)  # config
     
 
-class LabJackBase(Device):
-    """A labjack T-series data acquisition unit (DAQ).
-
-    """
-
-    model_name = Cpt(EpicsSignal, "ModelName", kind=Kind.config)
-    firmware_version = Cpt(EpicsSignal, "FirmwareVersion", kind=Kind.config)
-    serial_number = Cpt(EpicsSignal, "SerialNumber", kind=Kind.config)
-    device_temperature = Cpt(EpicsSignal, "DeviceTemperature", kind=Kind.config)
-    ljm_version = Cpt(EpicsSignal, "LJMVersion", kind=Kind.config)
-    driver_version = Cpt(EpicsSignal, "DriverVersion", kind=Kind.config)
-    last_error_message = Cpt(EpicsSignal, "LastErrorMessage", kind=Kind.config)
-    poll_sleep_ms = Cpt(EpicsSignal, "PollSleepMS", kind=Kind.config)
-    poll_time_ms = Cpt(EpicsSignal, "PollTimeMS", kind=Kind.omitted)
-    analog_in_settling_time_all = Cpt(EpicsSignal, "AiAllSettlingUS", kind=Kind.config)
-    analog_in_resolution_all = Cpt(EpicsSignal, "AiAllResolution", kind=Kind.config)
-    analog_in_sampling_rate = Cpt(EpicsSignal, "AiSamplingRate", kind=Kind.config)
-    device_reset = Cpt(EpicsSignal, "DeviceReset", kind=Kind.omitted)
-    waveform_generator = Cpt(WaveformGenerator, "")
-
 
 def make_analog_inputs(num_ais: int):
     """Create a dictionary with analog input device definitions.
@@ -263,12 +243,62 @@ def make_digital_ios(num_dios: int):
     return defn
 
 
+class LabJackBase(Device):
+    """A labjack T-series data acquisition unit (DAQ).
+
+    """
+
+    model_name = Cpt(EpicsSignal, "ModelName", kind=Kind.config)
+    firmware_version = Cpt(EpicsSignal, "FirmwareVersion", kind=Kind.config)
+    serial_number = Cpt(EpicsSignal, "SerialNumber", kind=Kind.config)
+    device_temperature = Cpt(EpicsSignal, "DeviceTemperature", kind=Kind.config)
+    ljm_version = Cpt(EpicsSignal, "LJMVersion", kind=Kind.config)
+    driver_version = Cpt(EpicsSignal, "DriverVersion", kind=Kind.config)
+    last_error_message = Cpt(EpicsSignal, "LastErrorMessage", kind=Kind.config)
+    poll_sleep_ms = Cpt(EpicsSignal, "PollSleepMS", kind=Kind.config)
+    poll_time_ms = Cpt(EpicsSignal, "PollTimeMS", kind=Kind.omitted)
+    analog_in_settling_time_all = Cpt(EpicsSignal, "AiAllSettlingUS", kind=Kind.config)
+    analog_in_resolution_all = Cpt(EpicsSignal, "AiAllResolution", kind=Kind.config)
+    analog_in_sampling_rate = Cpt(EpicsSignal, "AiSamplingRate", kind=Kind.config)
+    device_reset = Cpt(EpicsSignal, "DeviceReset", kind=Kind.omitted)
+
+    # Common sub-devices (all labjacks have 2 analog outputs)
+    # NB: Analog inputs/digital I/Os are on a per-model basis
+    analog_outputs = DCpt(make_analog_outputs(2), kind=(Kind.config | Kind.normal))
+    waveform_generator = Cpt(WaveformGenerator, "")
+
+
+class LabJackT4(LabJackBase):
+    class WaveformDigitizer(WaveformDigitizer):
+        waveforms = DCpt(make_digitizer_waveforms(12), kind="normal")
+
+    analog_inputs = DCpt(make_analog_inputs(12), kind=(Kind.config | Kind.normal))
+    digital_ios = DCpt(make_digital_ios(16), kind=(Kind.config | Kind.normal))
+    waveform_digitizer = Cpt(WaveformDigitizer, "")
+    
+
 class LabJackT7(LabJackBase):
     class WaveformDigitizer(WaveformDigitizer):
         waveforms = DCpt(make_digitizer_waveforms(14), kind="normal")
 
     analog_inputs = DCpt(make_analog_inputs(14), kind=(Kind.config | Kind.normal))
-    analog_outputs = DCpt(make_analog_outputs(2), kind=(Kind.config | Kind.normal))
     digital_ios = DCpt(make_digital_ios(23), kind=(Kind.config | Kind.normal))
+    waveform_digitizer = Cpt(WaveformDigitizer, "")
+    
+class LabJackT7Pro(LabJackBase):
+    class WaveformDigitizer(WaveformDigitizer):
+        waveforms = DCpt(make_digitizer_waveforms(14), kind="normal")
+
+    analog_inputs = DCpt(make_analog_inputs(14), kind=(Kind.config | Kind.normal))
+    digital_ios = DCpt(make_digital_ios(23), kind=(Kind.config | Kind.normal))
+    waveform_digitizer = Cpt(WaveformDigitizer, "")
+
+
+class LabJackT8(LabJackBase):
+    class WaveformDigitizer(WaveformDigitizer):
+        waveforms = DCpt(make_digitizer_waveforms(8), kind="normal")
+
+    analog_inputs = DCpt(make_analog_inputs(8), kind=(Kind.config | Kind.normal))
+    digital_ios = DCpt(make_digital_ios(20), kind=(Kind.config | Kind.normal))
     waveform_digitizer = Cpt(WaveformDigitizer, "")
     
