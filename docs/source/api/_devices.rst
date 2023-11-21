@@ -209,6 +209,11 @@ Other Support
     ~apstools.devices.struck3820.Struck3820
     ~apstools.devices.delay.DG645Delay
     ~apstools.devices.labjack.LabJackBase
+    ~apstools.devices.labjack.LabJackT4
+    ~apstools.devices.labjack.LabJackT7
+    ~apstools.devices.labjack.LabJackT7Pro
+    ~apstools.devices.labjack.LabJackT8
+
 
 Internal Routines
 +++++++++++++++++

@@ -1,6 +1,15 @@
-"""Ophyd definitions for Labjack T-series data acquisition devices.
+"""
+LabJack Data Acquisition (DAQ)
++++++++++++++++++++++++++++++++++++++++
 
-Supported devices:
+.. autosummary::
+
+   ~LabJackBase
+
+
+Ophyd definitions for Labjack T-series data acquisition devices.
+
+Supported devices, all inherit from ``LabJackBase``:
 
 - T4
 - T7
@@ -40,8 +49,8 @@ from apstools.synApps import EpicsRecordInputFields
 from apstools.synApps import EpicsRecordOutputFields
 
 
-__all__ = ["AnalogOutput", "AnalogInput", "DigitalIO", "WaveformDigitizer",
-           "WaveformGenerator", "LabJackT4", "LabJackT7", "LabJackT7Pro", "LabJackT8"]
+__all__ = ["AnalogOutput", "AnalogInput", "DigitalIO", "WaveformDigitizer", "make_digitizer_waveforms",
+           "WaveformGenerator", "LabJackBase", "LabJackT4", "LabJackT7", "LabJackT7Pro", "LabJackT8"]
 
 
 class Input(EpicsRecordInputFields, EpicsRecordDeviceCommonAll):
@@ -132,7 +141,7 @@ class DigitalIO(Device):
         dio3 = DigitalIO("LabJackT7_1:", name="dio3", ch_num=3)
 
     This will create signals for the input (``Bi3``), output
-    (``Bo3``), direction (``Bd3``) records.
+    (``Bo3``), and direction (``Bd3``) records.
 
     """
     ch_num: int
@@ -151,8 +160,9 @@ class WaveformDigitizer(Device):
 
     By itself, this device does not include any actual data. It should
     be sub-classed for the individual T-series devices to use
-    ``make_digitizer_waveforms`` to produce waveform signals based on
-    the number of inputs, using the ophyd DynamicDeviceComponent.
+    :py:func:`~apstools.devices.labjack.make_digitizer_waveforms` to
+    produce waveform signals based on the number of inputs, using the
+    ophyd DynamicDeviceComponent.
 
     .. code:: python
 
@@ -200,16 +210,6 @@ def make_digitizer_waveforms(num_ais: int):
 
 class WaveformGenerator(Device):
     """A feature of the Labjack devices that generates output waveforms.
-
-    By itself, this device does not include any actual data. It should
-    be sub-classed for the individual T-series devices to use
-    ``make_digitizer_waveforms`` to produce waveform signals based on
-    the number of inputs, using the ophyd DynamicDeviceComponent.
-
-    .. code:: python
-
-        class T7Digitizer(WaveformDigitizer):
-            waveforms = DCpt(make_digitizer_waveforms(14), kind="normal")
 
     """
     external_trigger = Cpt(EpicsSignal, "WaveGenExtTrigger", kind=Kind.config)  # config
@@ -316,14 +316,17 @@ def make_digital_ios(num_dios: int):
 class LabJackBase(Device):
     """A labjack T-series data acquisition unit (DAQ).
 
+    To use the individual components separately, consider using the
+    corresponding devices in the list below.
+
     This device contains signals for the following:
 
     - device information (e.g. firmware version ,etc)
-    - analog outputs
-    - analog inputs*
-    - digital input/output*
-    - waveform digitizer*
-    - waveform generator
+    - analog outputs (:py:class:`~apstools.devices.labjack.AnalogInput`)
+    - analog inputs* (:py:class:`~apstools.devices.labjack.AnalogOutput`)
+    - digital input/output* (:py:class:`~apstools.devices.labjack.DigitalIO`)
+    - waveform digitizer* (:py:class:`~apstools.devices.labjack.WaveformDigitizer`)
+    - waveform generator (:py:class:`~apstools.devices.labjack.WaveformGenerator`)
 
     * The number of inputs and digital outputs depends on the specific
     LabJack T-series device being used. Therefore, the base device
