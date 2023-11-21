@@ -206,11 +206,11 @@ def test_digital_words(LabJackDevice, num_dios):
     assert not device.connected
     assert hasattr(device, "digital_ios")
     # Check that the individual digital word outputs were created
-    assert hasattr(device.digital_ios, f"dio")
-    assert hasattr(device.digital_ios, f"fio")
-    assert hasattr(device.digital_ios, f"eio")
-    assert hasattr(device.digital_ios, f"cio")
-    assert hasattr(device.digital_ios, f"mio")
+    assert hasattr(device.digital_ios, "dio")
+    assert hasattr(device.digital_ios, "fio")
+    assert hasattr(device.digital_ios, "eio")
+    assert hasattr(device.digital_ios, "cio")
+    assert hasattr(device.digital_ios, "mio")
     # Check read attrs
     read_attrs = ["dio", "eio", "fio", "mio", "cio"]
     for attr in read_attrs:

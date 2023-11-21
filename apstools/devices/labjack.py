@@ -26,10 +26,10 @@ that individual inputs can be used as part of other devices. Assuming
 analog input 5 is connected to a gas flow meter:
 
 .. code:: python
-    
+
     from ophyd import Component as Cpt
     from apstools.devices import labjack
-    
+
     class MyBeamline(Device):
         ...
         gas_flow = Cpt(labjack.AnalogInput, "LabJackT7_1:Ai5")
@@ -317,11 +317,11 @@ def make_digital_ios(num_dios: int):
     for n in range(num_dios):
         defn[f"dio{n}"] = (DigitalIO, "", dict(ch_num=n))
     # Add the digital word outputs
-    defn[f"dio"] = (EpicsSignalRO, "DIOIn", dict(kind=Kind.normal))
-    defn[f"fio"] = (EpicsSignalRO, "FIOIn", dict(kind=Kind.normal))
-    defn[f"eio"] = (EpicsSignalRO, "EIOIn", dict(kind=Kind.normal))
-    defn[f"cio"] = (EpicsSignalRO, "CIOIn", dict(kind=Kind.normal))
-    defn[f"mio"] = (EpicsSignalRO, "MIOIn", dict(kind=Kind.normal))
+    defn["dio"] = (EpicsSignalRO, "DIOIn", dict(kind=Kind.normal))
+    defn["fio"] = (EpicsSignalRO, "FIOIn", dict(kind=Kind.normal))
+    defn["eio"] = (EpicsSignalRO, "EIOIn", dict(kind=Kind.normal))
+    defn["cio"] = (EpicsSignalRO, "CIOIn", dict(kind=Kind.normal))
+    defn["mio"] = (EpicsSignalRO, "MIOIn", dict(kind=Kind.normal))
     return defn
 
 
