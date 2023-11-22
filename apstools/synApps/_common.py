@@ -9,6 +9,7 @@ Public Structures
     ~EpicsRecordDeviceCommonAll
     ~EpicsRecordInputFields
     ~EpicsRecordOutputFields
+    ~EpicsRecordAnalogOutputFields
     ~EpicsRecordFloatFields
     ~EpicsSynAppsRecordEnableMixin
 
@@ -71,7 +72,6 @@ class EpicsRecordOutputFields(Device):
 
     output_link = Component(EpicsSignal, ".OUT", kind="config")
     raw_value = Component(EpicsSignal, ".RVAL", kind="config")
-    output_value = Component(EpicsSignal, ".OVAL", kind="normal")
     readback_value = Component(EpicsSignalRO, ".RBV", kind="hinted")
     desired_output_location = Component(EpicsSignal, ".DOL", kind="config")
     output_mode_select = Component(EpicsSignal, ".OMSL", kind="config")
@@ -82,6 +82,14 @@ class EpicsRecordOutputFields(Device):
     @property
     def value(self):
         return self.desired_value.get()
+
+
+class EpicsRecordAnalogOutputFields(EpicsRecordOutputFields):
+    """
+    Some fields common to EPICS analog output records, such as ``ao``.
+    """
+
+    output_value = Component(EpicsSignal, ".OVAL", kind="config")
 
 
 class EpicsRecordFloatFields(Device):
