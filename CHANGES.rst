@@ -39,6 +39,11 @@ New Features
 * Add subnet check for APSU beamlines.
 * New lineup2() plan can be used in console, notebooks, and queueserver.
 
+Maintenance
+-----------
+
+* Move ``.OVAL`` field from ``EpicsRecordOutputFields to new ``EpicsRecordAnalogOutputFields``
+
 1.6.17
 ******
 
