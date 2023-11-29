@@ -340,7 +340,7 @@ class LabJackBase(Device):
     - waveform digitizer* (:py:class:`~apstools.devices.labjack.WaveformDigitizer`)
     - waveform generator (:py:class:`~apstools.devices.labjack.WaveformGenerator`)
 
-    * The number of inputs and digital outputs depends on the specific
+    \\* The number of inputs and digital outputs depends on the specific
     LabJack T-series device being used. Therefore, the base device
     ``LabJackBase`` does not implement these I/O signals. Instead,
     consider using one of the subclasses, like ``LabJackT4``.
@@ -391,6 +391,10 @@ class LabJackBase(Device):
 
 
 class LabJackT4(LabJackBase):
+    # Inherit the docstring from the base class
+    # (needed for sphinx auto API)
+    __doc__ = LabJackBase.__doc__
+    
     class WaveformDigitizer(WaveformDigitizer):
         waveforms = DCpt(make_digitizer_waveforms(12), kind="normal")
 
@@ -400,6 +404,10 @@ class LabJackT4(LabJackBase):
 
 
 class LabJackT7(LabJackBase):
+    # Inherit the docstring from the base class
+    # (needed for sphinx auto API)
+    __doc__ = LabJackBase.__doc__
+
     class WaveformDigitizer(WaveformDigitizer):
         waveforms = DCpt(make_digitizer_waveforms(14), kind="normal")
 
@@ -409,6 +417,10 @@ class LabJackT7(LabJackBase):
 
 
 class LabJackT7Pro(LabJackBase):
+    # Inherit the docstring from the base class
+    # (needed for sphinx auto API)
+    __doc__ = LabJackBase.__doc__
+
     class WaveformDigitizer(WaveformDigitizer):
         waveforms = DCpt(make_digitizer_waveforms(14), kind="normal")
 
@@ -418,6 +430,10 @@ class LabJackT7Pro(LabJackBase):
 
 
 class LabJackT8(LabJackBase):
+    # Inherit the docstring from the base class
+    # (needed for sphinx auto API)
+    __doc__ = LabJackBase.__doc__
+
     class WaveformDigitizer(WaveformDigitizer):
         waveforms = DCpt(make_digitizer_waveforms(8), kind="normal")
 
