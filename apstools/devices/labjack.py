@@ -394,7 +394,7 @@ class LabJackT4(LabJackBase):
     # Inherit the docstring from the base class
     # (needed for sphinx auto API)
     __doc__ = LabJackBase.__doc__
-    
+
     class WaveformDigitizer(WaveformDigitizer):
         waveforms = DCpt(make_digitizer_waveforms(12), kind="normal")
 
