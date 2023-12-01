@@ -155,16 +155,30 @@ class SignalStatsCallback:
             return
         keys = "n centroid sigma x_at_max_y max_y min_y mean_y stddev_y".split()
         table = pyRestTable.Table()
-        table.labels = ["detector"] + keys
-        for yname, stats in self._registers.items():
-            row = [yname]
+        if len(keys) <= len(self._registers):
+            # statistics in the column labels
+            table.labels = ["detector"] + keys
+            for yname, stats in self._registers.items():
+                row = [yname]
+                for k in keys:
+                    try:
+                        v = getattr(stats, k)
+                    except ZeroDivisionError:
+                        v = 0
+                    row.append(v)
+                table.addRow(row)
+        else:
+            # signals in the column labels
+            table.labels = ["statistic"] + list(self._registers)
             for k in keys:
-                try:
-                    v = getattr(stats, k)
-                except ZeroDivisionError:
-                    v = 0
-                row.append(v)
-            table.addRow(row)
+                row = [k]
+                for stats in self._registers.values():
+                    try:
+                        v = getattr(stats, k)
+                    except ZeroDivisionError:
+                        v = 0
+                    row.append(v)
+                table.addRow(row)
         print(f"Motor: {self._x_name}")
         print(table)
 
