@@ -1,6 +1,7 @@
 from .alignment import TuneAxis
 from .alignment import TuneResults
 from .alignment import lineup
+from .alignment import lineup2
 from .alignment import tune_axes
 from .command_list import CommandFileReadError
 from .command_list import command_list_as_table
