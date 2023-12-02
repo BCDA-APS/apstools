@@ -126,7 +126,7 @@ class NXWriter(FileWriterCallbackBase):
     nxdata_signal_axes = None  # name of dataset for X axis on plot
     root = None  # instance of h5py.File
 
-    template_key = "nxwriter_template"  # TODO: refactor template from dict to list
+    template_key = "nxwriter_template"
     """The template (dict) is written as a JSON string to this metadata key."""
 
     _external_file_read_timeout = 20
