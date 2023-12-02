@@ -188,6 +188,90 @@ Notes:
 1. ``detectors[0]`` will be used as the ``/entry/data@signal`` attribute
 2. the *complete* list in ``positioners`` will be used as the ``/entry/data@axes`` attribute
 
+.. index:: templates
+
+.. _filewriters.templates:
+
+Templates
+~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Use templates to build NeXus base classes or application definitions with data
+already collected by the nxwriter and saved in other places in the NeXus/HDF5
+file (such as `/entry/instrument/bluesky`).  Templates are used to:
+
+* make links from existing fields or groups to new locations
+* create new groups as directed
+* create constants for attributes or fields
+
+A template is a ``[source, target]`` list, where source is a string and target
+varies depending on the type of template.  A list of templates is stored as a
+JSON string in the run's metadata under a pre-arranged key.
+
+For reasons of expediency, always use absolute HDF5 addresses. Relative
+addresses are not supported now.
+
+A *link* template makes a pointer from an existing field or group to another
+location. In a link template, the source is an existing HDF5 address.  The
+target is a NeXus class path.  If the path contains a group which is not yet
+defined, the addtional component names the NeXus class to be used. See the
+examples below.
+
+A *constant* template defines a new NeXus field.  The source string, which can be
+a class path (see above), ends with an ``=``.  The target can be a text, a
+number, or an array.  Anything that can be converted into a JSON document and
+then written to an HDF5 dataset.
+
+An *attribute* template adds a new attribute to a field or group.  Use the `@`
+symbol in the source string as shown in the examples below.  The target is the
+value of the attribute.
+
+EXAMPLE:
+
+.. code-block:: python
+    :linenos:
+
+    template_examples = [
+        # *constant* template
+        # define a constant array in a new NXdata group
+        ["/entry/example:NXdata/array=", [1, 2, 3]],
+
+        # *attribute* template
+        # set the example group "signal" attribute
+        #   (new array is the default plottable data)
+        ["/entry/example/@signal", "array"],
+
+        # *link* template
+        # link the new array into a new NXnote group as field "x"
+        ["/entry/example/array", "/entry/example/note:NXnote/x"],
+    ]
+
+    md = {
+        "title": "NeXus/HDF5 template support example",
+
+        # encode the Python dictionary as a JSON string
+        nxwriter.template_key: json.dumps(template_examples),
+    }
+
+The templates in this example add this structure to the ``/entry`` group in the
+HDF5 file:
+
+.. code-block:: text
+    :linenos:
+
+    /entry:NXentry
+        @NX_class = "NXentry"
+        ...
+        example:NXdata
+            @NX_class = "NXdata"
+            @signal = "array"
+            @target = "/entry/example"
+            array:NX_INT64[3] = [1, 2, 3]
+                @target = "/entry/example/array"
+            note:NXnote
+                @NX_class = "NXnote"
+                @target = "/entry/example/note"
+                x --> /entry/example/array
+
 NXWriterAPS
 ^^^^^^^^^^^
 
