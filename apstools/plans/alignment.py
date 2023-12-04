@@ -233,8 +233,6 @@ def lineup2(
 
     New in release 1.6.18
 
-    .. caution:: This is an early draft and is subject to change!
-
     .. index:: Bluesky Plan; lineup2; lineup
 
     PARAMETERS
