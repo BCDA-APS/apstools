@@ -28,7 +28,7 @@ describe the future plans.
 1.6.18
 ******
 
-release expected by 2023-12-01
+release expected by 2023-12-15
 
 New Features
 ------------
@@ -37,6 +37,7 @@ New Features
   * DG-645 digital delay/pulse generator
   * Measurement Computing USB CTR08 High-Speed Counter/Timer
 * Add subnet check for APSU beamlines.
+* Add template support for writing NeXus/HDF5 files.
 * New lineup2() plan can be used in console, notebooks, and queueserver.
 
 Maintenance

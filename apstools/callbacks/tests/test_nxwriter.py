@@ -1,3 +1,4 @@
+import json
 import pathlib
 import tempfile
 
@@ -14,12 +15,12 @@ from ophyd.areadetector.filestore_mixins import FileStoreHDF5IterativeWrite
 from ophyd.areadetector.plugins import HDF5Plugin_V34 as HDF5Plugin
 from ophyd.areadetector.plugins import ImagePlugin_V34 as ImagePlugin
 
-from ...devices import ensure_AD_plugin_primed
 from ...devices import CamMixin_V34 as CamMixin
 from ...devices import SingleTrigger_V34 as SingleTrigger
-from .. import NXWriter
-from ...tests import IOC_GP
+from ...devices import ensure_AD_plugin_primed
 from ...tests import IOC_AD
+from ...tests import IOC_GP
+from .. import NXWriter
 
 MOTOR_PV = f"{IOC_GP}m1"
 IMAGE_DIR = "adsimdet/%Y/%m/%d"
@@ -153,3 +154,58 @@ def test_NXWriter_with_RunEngine(camera, motor):
         assert signal in nxdata
         frames = nxdata[signal]
         assert frames.shape == (npoints, 1024, 1024)
+
+
+def test_NXWriter_templates(camera, motor):
+    test_file = pathlib.Path(tempfile.mkdtemp()) / "nxwriter.h5"
+    catalog = databroker.temp().v2
+
+    nxwriter = NXWriter()
+    nxwriter.file_name = str(test_file)
+    assert isinstance(nxwriter.file_name, pathlib.Path)
+    nxwriter.warn_on_missing_content = False
+
+    RE = RunEngine()
+    RE.subscribe(catalog.v1.insert)
+    RE.subscribe(nxwriter.receiver)
+
+    templates = [
+        ["/entry/_TEST:NXdata/array=", [1, 2, 3]],
+        ["/entry/_TEST/@signal", "array"],
+        ["/entry/_TEST/array", "/entry/_TEST/d123"],
+        ["/entry/_TEST/d123", "/entry/_TEST/note:NXnote/x"],
+    ]
+    md = {
+        "title": "NeXus/HDF5 template support",
+        nxwriter.template_key: json.dumps(templates),
+    }
+    npoints = 3
+    uids = RE(bp.scan([camera], motor, -0.1, 0, npoints, md=md))
+    assert isinstance(uids, (list, tuple))
+    assert len(uids) == 1
+    assert uids[-1] in catalog
+
+    nxwriter.wait_writer()
+    # time.sleep(1)  # wait just a bit longer
+
+    assert test_file.exists()
+    with h5py.File(test_file, "r") as root:
+        default = root.attrs.get("default", "entry")
+        assert default in root
+        nxentry = root[default]
+
+        assert "_TEST" in nxentry, f"{test_file=} {list(nxentry)=}"
+        nxdata = nxentry["_TEST"]
+
+        signal = nxdata.attrs.get("signal")
+        assert signal in nxdata
+        assert nxdata[signal].shape == (3,)
+
+        assert "d123" in nxdata
+        assert nxdata["d123"].attrs["target"] == nxdata[signal].attrs["target"]
+
+        assert "note" in nxdata
+        nxnote = nxdata["note"]
+
+        assert "x" in nxnote
+        assert nxnote["x"].attrs["target"] == nxdata[signal].attrs["target"]
