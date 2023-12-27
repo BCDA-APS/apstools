@@ -55,13 +55,14 @@ from .epics_scan_id_signal import EpicsScanIdSignal
 
 from .eurotherm_2216e import Eurotherm2216e
 
-from .flyer_motor_scaler import FlyerBase
-from .flyer_motor_scaler import ActionsFlyerBase
-from .flyer_motor_scaler import ScalerMotorFlyer
-from .flyer_motor_scaler import SignalValueStack
-from .flyer_motor_scaler import _SMFlyer_Step_1
-from .flyer_motor_scaler import _SMFlyer_Step_2
-from .flyer_motor_scaler import _SMFlyer_Step_3
+# issue #763
+# from .flyer_motor_scaler import FlyerBase
+# from .flyer_motor_scaler import ActionsFlyerBase
+# from .flyer_motor_scaler import ScalerMotorFlyer
+# from .flyer_motor_scaler import SignalValueStack
+# from .flyer_motor_scaler import _SMFlyer_Step_1
+# from .flyer_motor_scaler import _SMFlyer_Step_2
+# from .flyer_motor_scaler import _SMFlyer_Step_3
 
 from .kohzu_monochromator import KohzuSeqCtl_Monochromator
 
@@ -100,6 +101,9 @@ from .shutters import EpicsOnOffShutter
 from .shutters import OneSignalShutter
 from .shutters import ShutterBase
 from .shutters import SimulatedApsPssShutterWithStatus
+
+from .simulated_controllers import SimulatedSwaitControllerPositioner
+from .simulated_controllers import SimulatedTransformControllerPositioner
 
 from .srs570_preamplifier import SRS570_PreAmplifier
 

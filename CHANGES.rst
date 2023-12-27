@@ -33,9 +33,11 @@ release expected by 2023-12-15
 New Features
 ------------
 
-* Add (ophyd) device support for
-  * DG-645 digital delay/pulse generator
+* Add (ophyd) device support for:
+  * DG-645 digital delay/pulse generator.
   * Measurement Computing USB CTR08 High-Speed Counter/Timer
+  * Simulated process controller as positioner using EPICS swait record.
+  * Simulated process controller as positioner using EPICS transform record.
 * Add subnet check for APSU beamlines.
 * Add template support for writing NeXus/HDF5 files.
 * New lineup2() plan can be used in console, notebooks, and queueserver.
@@ -45,6 +47,11 @@ Maintenance
 
 * Move ``.OVAL`` field from ``EpicsRecordOutputFields to new ``EpicsRecordAnalogOutputFields``
 * Write tables of plot statistics in most compact form.
+
+Known Problems
+--------------
+
+* Remove ScalerMotorFlyer, pending issue #763.
 
 1.6.17
 ******

@@ -96,11 +96,14 @@ Detector & Scaler Support
 Fly Scan Support
 +++++++++++++++++++++++
 
-.. autosummary::
+.. issue #763
+    .. autosummary::
 
-    ~apstools.devices.flyer_motor_scaler.FlyerBase
-    ~apstools.devices.flyer_motor_scaler.ActionsFlyerBase
-    ~apstools.devices.flyer_motor_scaler.ScalerMotorFlyer
+        ~apstools.devices.flyer_motor_scaler.FlyerBase
+        ~apstools.devices.flyer_motor_scaler.ActionsFlyerBase
+        ~apstools.devices.flyer_motor_scaler.ScalerMotorFlyer
+
+``ScalerMotorFlyer()`` support withdrawn pending issue #763.
 
 .. _devices.motors:
 
@@ -122,6 +125,8 @@ Motors, Positioners, Axes, ...
     ~apstools.devices.positioner_soft_done.PVPositionerSoftDoneWithStop
     ~apstools.devices.shutters.EpicsMotorShutter
     ~apstools.devices.shutters.EpicsOnOffShutter
+    ~apstools.devices.simulated_controllers.SimulatedSwaitControllerPositioner
+    ~apstools.devices.simulated_controllers.SimulatedTransformControllerPositioner
 
 .. _devices.shutters:
 
@@ -175,6 +180,8 @@ Controllers
     ~apstools.devices.ptc10_controller.PTC10RtdChannel
     ~apstools.devices.ptc10_controller.PTC10TcChannel
     ~apstools.devices.ptc10_controller.PTC10PositionerMixin
+    ~apstools.devices.simulated_controllers.SimulatedSwaitControllerPositioner
+    ~apstools.devices.simulated_controllers.SimulatedTransformControllerPositioner
 
 Readers
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -204,10 +211,14 @@ Other Support
     ~apstools.devices.epics_scan_id_signal.EpicsScanIdSignal
     ~apstools.devices.measComp_usb_ctr_support.MeasCompCtr
     ~apstools.devices.kohzu_monochromator.KohzuSeqCtl_Monochromator
-    ~apstools.devices.flyer_motor_scaler.SignalValueStack
+    ~apstools.devices.simulated_controllers.SimulatedSwaitControllerPositioner
+    ~apstools.devices.simulated_controllers.SimulatedTransformControllerPositioner
     ~apstools.devices.srs570_preamplifier.SRS570_PreAmplifier
     ~apstools.devices.struck3820.Struck3820
     ~apstools.devices.delay.DG645Delay
+
+.. issue #763
+    ~apstools.devices.flyer_motor_scaler.SignalValueStack
 
 Internal Routines
 +++++++++++++++++
@@ -293,11 +304,12 @@ All Submodules
     :show-inheritance:
     :inherited-members:
 
-.. automodule:: apstools.devices.flyer_motor_scaler
-    :members:
-    :private-members:
-    :show-inheritance:
-    :inherited-members:
+.. issue #763
+    .. automodule   apstools.devices.flyer_motor_scaler
+        :members:
+        :private-members:
+        :show-inheritance:
+        :inherited-members:
 
 .. automodule:: apstools.devices.kohzu_monochromator
     :members:
@@ -366,6 +378,12 @@ All Submodules
     :inherited-members:
 
 .. automodule:: apstools.devices.shutters
+    :members:
+    :private-members:
+    :show-inheritance:
+    :inherited-members:
+
+.. automodule:: apstools.devices.simulated_controllers
     :members:
     :private-members:
     :show-inheritance:
