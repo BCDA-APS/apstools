@@ -122,6 +122,8 @@ Motors, Positioners, Axes, ...
     ~apstools.devices.positioner_soft_done.PVPositionerSoftDoneWithStop
     ~apstools.devices.shutters.EpicsMotorShutter
     ~apstools.devices.shutters.EpicsOnOffShutter
+    ~apstools.devices.simulated_controllers.SimulatedSwaitControllerPositioner
+    ~apstools.devices.simulated_controllers.SimulatedTransformControllerPositioner
 
 .. _devices.shutters:
 
@@ -175,6 +177,8 @@ Controllers
     ~apstools.devices.ptc10_controller.PTC10RtdChannel
     ~apstools.devices.ptc10_controller.PTC10TcChannel
     ~apstools.devices.ptc10_controller.PTC10PositionerMixin
+    ~apstools.devices.simulated_controllers.SimulatedSwaitControllerPositioner
+    ~apstools.devices.simulated_controllers.SimulatedTransformControllerPositioner
 
 Readers
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -205,6 +209,8 @@ Other Support
     ~apstools.devices.measComp_usb_ctr_support.MeasCompCtr
     ~apstools.devices.kohzu_monochromator.KohzuSeqCtl_Monochromator
     ~apstools.devices.flyer_motor_scaler.SignalValueStack
+    ~apstools.devices.simulated_controllers.SimulatedSwaitControllerPositioner
+    ~apstools.devices.simulated_controllers.SimulatedTransformControllerPositioner
     ~apstools.devices.srs570_preamplifier.SRS570_PreAmplifier
     ~apstools.devices.struck3820.Struck3820
     ~apstools.devices.delay.DG645Delay
@@ -366,6 +372,12 @@ All Submodules
     :inherited-members:
 
 .. automodule:: apstools.devices.shutters
+    :members:
+    :private-members:
+    :show-inheritance:
+    :inherited-members:
+
+.. automodule:: apstools.devices.simulated_controllers
     :members:
     :private-members:
     :show-inheritance:
