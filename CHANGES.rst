@@ -48,6 +48,11 @@ Maintenance
 * Move ``.OVAL`` field from ``EpicsRecordOutputFields to new ``EpicsRecordAnalogOutputFields``
 * Write tables of plot statistics in most compact form.
 
+Known Problems
+--------------
+
+* Remove ScalerMotorFlyer, pending issue #763.
+
 1.6.17
 ******
 

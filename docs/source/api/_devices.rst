@@ -305,7 +305,7 @@ All Submodules
     :inherited-members:
 
 .. issue #763
-    .. automodule:: apstools.devices.flyer_motor_scaler
+    .. automodule   apstools.devices.flyer_motor_scaler
         :members:
         :private-members:
         :show-inheritance:
