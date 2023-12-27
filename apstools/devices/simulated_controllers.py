@@ -90,7 +90,9 @@ class SimulatedTransformControllerPositioner(PVPositionerSoftDoneWithStop):
 
         controller = SimulatedTransformControllerPositioner(
             "", name="controller", loop_pv="gp:userTran1",
-        ) controller.wait_for_connection() temperature.setup(25)
+        )
+        controller.wait_for_connection()
+        controller.setup(25)
 
     .. autosummary::
 
@@ -122,7 +124,7 @@ class SimulatedTransformControllerPositioner(PVPositionerSoftDoneWithStop):
         tolerance=1,
     ):
         """
-        Configure the transform record as a temperature controller.
+        Configure the transform record as a process controller.
         """
         self.wait_for_connection()
         self.tolerance.put(tolerance)
