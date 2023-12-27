@@ -101,6 +101,9 @@ from .shutters import OneSignalShutter
 from .shutters import ShutterBase
 from .shutters import SimulatedApsPssShutterWithStatus
 
+from .simulated_controllers import SimulatedSwaitControllerPositioner
+from .simulated_controllers import SimulatedTransformControllerPositioner
+
 from .srs570_preamplifier import SRS570_PreAmplifier
 
 from .struck3820 import Struck3820
