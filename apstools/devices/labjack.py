@@ -78,7 +78,11 @@ class Input(EpicsRecordInputFields, EpicsRecordDeviceCommonAll):
 
 
 class Output(EpicsRecordOutputFields, EpicsRecordDeviceCommonAll):
-    pass
+    """A generic output record.
+
+    Intended to be sub-classed into different output types.
+
+    """
 
 
 class BinaryOutput(Output):
@@ -94,8 +98,6 @@ class BinaryOutput(Output):
 
 class AnalogOutput(Output):
     """An analog output on a labjack device."""
-
-    pass
 
 
 class AnalogInput(Input):
