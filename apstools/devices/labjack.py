@@ -16,13 +16,15 @@ Supported devices, all inherit from ``LabJackBase``:
 - T7Pro
 - T8
 
-These devices are **based on the v3.0.0 EPICS module**. The EPICS IOC
-database changed significantly from v2 to v3 when the module was
+These devices are **based on EPICS LabJack module R3.0**. The EPICS IOC
+database changed significantly from R2 to R3 when the module was
 rewritten to use the LJM library.
 
+.. see:: https://github.com/epics-modules/LabJack/releases/tag/R3-0
+
 There are definitions for the entire LabJack device, as well as the
-various inputs/outputs available on the LabJack T-series. These means
-that individual inputs can be used as part of other devices. Assuming
+various inputs/outputs available on the LabJack T-series.
+Individual inputs can be used as part of other devices. Assuming
 analog input 5 is connected to a gas flow meter:
 
 .. code:: python
@@ -340,7 +342,7 @@ class LabJackBase(Device):
     - waveform digitizer* (:py:class:`~apstools.devices.labjack.WaveformDigitizer`)
     - waveform generator (:py:class:`~apstools.devices.labjack.WaveformGenerator`)
 
-    \\* The number of inputs and digital outputs depends on the specific
+    The number of inputs and digital outputs depends on the specific
     LabJack T-series device being used. Therefore, the base device
     ``LabJackBase`` does not implement these I/O signals. Instead,
     consider using one of the subclasses, like ``LabJackT4``.
