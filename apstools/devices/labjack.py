@@ -287,7 +287,7 @@ def make_analog_inputs(num_ais: int):
     return defn
 
 
-def make_analog_outputs(num_ais: int):
+def make_analog_outputs(num_aos: int):
     """Create a dictionary with analog output device definitions.
 
     For use with an ophyd DynamicDeviceComponent.
@@ -299,7 +299,7 @@ def make_analog_outputs(num_ais: int):
 
     """
     defn = {}
-    for n in range(num_ais):
+    for n in range(num_aos):
         defn[f"ao{n}"] = (AnalogOutput, f"Ao{n}", {})
     return defn
 
