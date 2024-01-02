@@ -7,6 +7,7 @@ Miscellaneous Support
    ~cleanupText
    ~connect_pvlist
    ~count_child_devices_and_signals
+   ~count_common_subdirs
    ~dictionary_table
    ~full_dotted_name
    ~itemizer
@@ -25,6 +26,7 @@ Miscellaneous Support
 """
 
 import logging
+import pathlib
 import re
 import subprocess
 import sys
@@ -79,6 +81,22 @@ def count_child_devices_and_signals(device):
             count[which] += 1
     else:
         count["Signal"] += 1
+    return count
+
+
+def count_common_subdirs(p1, p2):
+    """Count how many subdirectories are common to both file paths."""
+    parts1 = pathlib.Path(p1).parts
+    parts2 = pathlib.Path(p2).parts
+    count = 0
+    for x, y in zip(reversed(parts1), reversed(parts2)):
+        if x != y:
+            break
+        count += 1
+    if count == 0 and min(len(parts1), len(parts2)) > 0:
+        # special case when first part of path is common
+        if parts1[0] == parts2[0]:
+            count = 1
     return count
 
 

@@ -49,6 +49,8 @@ from ophyd.areadetector.plugins import JPEGPlugin_V34 as JPEGPlugin
 from ophyd.areadetector.plugins import TIFFPlugin_V34 as TIFFPlugin
 from packaging import version
 
+from ..utils import count_common_subdirs
+
 logger = logging.getLogger(__name__)
 
 # fmt: off
@@ -332,15 +334,9 @@ def AD_full_file_name_local(plugin):
     if plugin.read_path_template == plugin.write_path_template:
         return ffname
 
-    # identify the common last parts of the file directories
     read_parts = pathlib.Path(plugin.read_path_template).parts
     write_parts = pathlib.Path(plugin.write_path_template).parts
-    icommon = 0
-    for i in range(min(len(read_parts), len(write_parts))):
-        i1 = -i - 1
-        if read_parts[i1:] != write_parts[i1:]:
-            icommon = i
-            break
+    icommon = count_common_subdirs(plugin.read_path_template, plugin.write_path_template)
 
     # fmt: off
     if icommon == 0:

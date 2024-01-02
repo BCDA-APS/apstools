@@ -16,8 +16,8 @@
 Change History
 ##############
 
-The project `milestones <https://github.com/BCDA-APS/apstools/milestones>`_
-describe the future plans.
+Project `milestones <https://github.com/BCDA-APS/apstools/milestones>`_
+describe future plans.
 
 ..
    1.6.19
@@ -42,6 +42,11 @@ New Features
 * Add template support for writing NeXus/HDF5 files.
 * New lineup2() plan can be used in console, notebooks, and queueserver.
 
+Fixes
+-----------
+
+* Fix ``AD_full_file_name_local()`` for case when the read & write paths are identical.
+
 Maintenance
 -----------
 
@@ -51,7 +56,7 @@ Maintenance
 Known Problems
 --------------
 
-* Remove ScalerMotorFlyer, pending issue #763.
+* Remove ``ScalerMotorFlyer``, pending issue #763.
 
 1.6.17
 ******
