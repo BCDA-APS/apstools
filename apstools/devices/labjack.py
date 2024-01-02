@@ -46,9 +46,9 @@ from ophyd import EpicsSignalRO
 from ophyd import FormattedComponent as FCpt
 from ophyd import Kind
 
-from apstools.synApps import EpicsRecordDeviceCommonAll
-from apstools.synApps import EpicsRecordInputFields
-from apstools.synApps import EpicsRecordOutputFields
+from ..synApps import EpicsRecordDeviceCommonAll
+from ..synApps import EpicsRecordInputFields
+from ..synApps import EpicsRecordOutputFields
 
 __all__ = [
     "AnalogOutput",
