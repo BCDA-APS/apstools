@@ -42,7 +42,7 @@ def test_simulators(sp, pv, controller_class, context, exp_info, tol):
     timed_pause()
     assert sim.connected
 
-    sim.setup(sp, tolerance=tol)
+    sim.setup(sp, tolerance=tol, noise=0.8 * tol)
     timed_pause()
 
     assert math.isclose(sim.setpoint.get(), sp, abs_tol=0.01)
