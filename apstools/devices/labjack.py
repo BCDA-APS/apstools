@@ -20,7 +20,7 @@ These devices are **based on EPICS LabJack module R3.0**. The EPICS IOC
 database changed significantly from R2 to R3 when the module was
 rewritten to use the LJM library.
 
-.. see:: https://github.com/epics-modules/LabJack/releases/tag/R3-0
+.. seealso:: https://github.com/epics-modules/LabJack/releases/tag/R3-0
 
 There are definitions for the entire LabJack device, as well as the
 various inputs/outputs available on the LabJack T-series.
@@ -64,7 +64,7 @@ __all__ = [
     "LabJackT8",
 ]
 
-KIND_CONFIG_OR_NORMAL = Kind.config + Kind.normal
+KIND_CONFIG_OR_NORMAL = 3
 """Alternative for ``Kind.config | Kind.normal``."""
 
 
