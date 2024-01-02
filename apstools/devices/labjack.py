@@ -64,6 +64,9 @@ __all__ = [
     "LabJackT8",
 ]
 
+KIND_CONFIG_OR_NORMAL = Kind.config + Kind.normal
+"""Alternative for ``Kind.config | Kind.normal``."""
+
 
 class Input(EpicsRecordInputFields, EpicsRecordDeviceCommonAll):
     """A generic input record.
@@ -390,7 +393,7 @@ class LabJackBase(Device):
 
     # Common sub-devices (all labjacks have 2 analog outputs)
     # NB: Analog inputs/digital I/Os are on a per-model basis
-    analog_outputs = DCpt(make_analog_outputs(2), kind=(Kind.config | Kind.normal))
+    analog_outputs = DCpt(make_analog_outputs(2), kind=KIND_CONFIG_OR_NORMAL)
     waveform_generator = Cpt(WaveformGenerator, "", kind=Kind.omitted)
 
 
@@ -402,8 +405,8 @@ class LabJackT4(LabJackBase):
     class WaveformDigitizer(WaveformDigitizer):
         waveforms = DCpt(make_digitizer_waveforms(12), kind="normal")
 
-    analog_inputs = DCpt(make_analog_inputs(12), kind=(Kind.config | Kind.normal))
-    digital_ios = DCpt(make_digital_ios(16), kind=(Kind.config | Kind.normal))
+    analog_inputs = DCpt(make_analog_inputs(12), kind=KIND_CONFIG_OR_NORMAL)
+    digital_ios = DCpt(make_digital_ios(16), kind=KIND_CONFIG_OR_NORMAL)
     waveform_digitizer = Cpt(WaveformDigitizer, "", kind=Kind.omitted)
 
 
@@ -415,8 +418,8 @@ class LabJackT7(LabJackBase):
     class WaveformDigitizer(WaveformDigitizer):
         waveforms = DCpt(make_digitizer_waveforms(14), kind="normal")
 
-    analog_inputs = DCpt(make_analog_inputs(14), kind=(Kind.config | Kind.normal))
-    digital_ios = DCpt(make_digital_ios(23), kind=(Kind.config | Kind.normal))
+    analog_inputs = DCpt(make_analog_inputs(14), kind=KIND_CONFIG_OR_NORMAL)
+    digital_ios = DCpt(make_digital_ios(23), kind=KIND_CONFIG_OR_NORMAL)
     waveform_digitizer = Cpt(WaveformDigitizer, "")
 
 
@@ -428,8 +431,8 @@ class LabJackT7Pro(LabJackBase):
     class WaveformDigitizer(WaveformDigitizer):
         waveforms = DCpt(make_digitizer_waveforms(14), kind="normal")
 
-    analog_inputs = DCpt(make_analog_inputs(14), kind=(Kind.config | Kind.normal))
-    digital_ios = DCpt(make_digital_ios(23), kind=(Kind.config | Kind.normal))
+    analog_inputs = DCpt(make_analog_inputs(14), kind=KIND_CONFIG_OR_NORMAL)
+    digital_ios = DCpt(make_digital_ios(23), kind=KIND_CONFIG_OR_NORMAL)
     waveform_digitizer = Cpt(WaveformDigitizer, "")
 
 
@@ -441,6 +444,6 @@ class LabJackT8(LabJackBase):
     class WaveformDigitizer(WaveformDigitizer):
         waveforms = DCpt(make_digitizer_waveforms(8), kind="normal")
 
-    analog_inputs = DCpt(make_analog_inputs(8), kind=(Kind.config | Kind.normal))
-    digital_ios = DCpt(make_digital_ios(20), kind=(Kind.config | Kind.normal))
+    analog_inputs = DCpt(make_analog_inputs(8), kind=KIND_CONFIG_OR_NORMAL)
+    digital_ios = DCpt(make_digital_ios(20), kind=KIND_CONFIG_OR_NORMAL)
     waveform_digitizer = Cpt(WaveformDigitizer, "")
