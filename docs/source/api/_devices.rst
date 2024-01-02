@@ -216,6 +216,12 @@ Other Support
     ~apstools.devices.srs570_preamplifier.SRS570_PreAmplifier
     ~apstools.devices.struck3820.Struck3820
     ~apstools.devices.delay.DG645Delay
+    ~apstools.devices.labjack.LabJackBase
+    ~apstools.devices.labjack.LabJackT4
+    ~apstools.devices.labjack.LabJackT7
+    ~apstools.devices.labjack.LabJackT7Pro
+    ~apstools.devices.labjack.LabJackT8
+
 
 .. issue #763
     ~apstools.devices.flyer_motor_scaler.SignalValueStack
@@ -312,6 +318,12 @@ All Submodules
         :inherited-members:
 
 .. automodule:: apstools.devices.kohzu_monochromator
+    :members:
+    :private-members:
+    :show-inheritance:
+    :inherited-members:
+
+.. automodule:: apstools.devices.labjack
     :members:
     :private-members:
     :show-inheritance:

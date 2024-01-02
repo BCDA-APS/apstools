@@ -69,6 +69,8 @@ from .kohzu_monochromator import KohzuSeqCtl_Monochromator
 from .lakeshore_controllers import LakeShore336Device
 from .lakeshore_controllers import LakeShore340Device
 
+from .labjack import LabJackT4, LabJackT7, LabJackT7Pro, LabJackT8
+
 from .linkam_controllers import Linkam_CI94_Device
 from .linkam_controllers import Linkam_T96_Device
 
