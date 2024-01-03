@@ -38,6 +38,7 @@ New Features
   * Measurement Computing USB CTR08 High-Speed Counter/Timer
   * Simulated process controller as positioner using EPICS swait record.
   * Simulated process controller as positioner using EPICS transform record.
+  * synApps userArrayCalcs and EPICS acalcout record.
 * Add subnet check for APSU beamlines.
 * Add template support for writing NeXus/HDF5 files.
 * New lineup2() plan can be used in console, notebooks, and queueserver.
