@@ -7,6 +7,8 @@ from ._common import EpicsRecordFloatFields
 from ._common import EpicsRecordInputFields
 from ._common import EpicsRecordOutputFields
 from ._common import EpicsSynAppsRecordEnableMixin
+from .acalcout import AcalcoutRecord
+from .acalcout import UserArrayCalcDevice
 from .asyn import AsynRecord
 from .busy import BusyRecord
 from .calcout import CalcoutRecord
