@@ -11,7 +11,6 @@ from ...tests import timed_pause
 from .. import AcalcoutRecord
 from .. import UserArrayCalcDevice
 
-
 TEST_PV = f"{IOC_GP}userArrayCalc10"
 
 
