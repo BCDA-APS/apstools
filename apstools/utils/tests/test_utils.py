@@ -515,3 +515,18 @@ def test_utils_getStreamValues_Exception(
         )
     assert str(exc.value).startswith(first_words)
 # fmt: on
+
+
+@pytest.mark.parametrize(
+    "p1, p2, expected",
+    [
+        ["/home/bl13user/images", "/home/bl13user/images", 4],
+        ["/home/bl13user/images", "/tmp/home/bl13user/images", 3],
+        ["/tmp/home/bl13user/images", "/home/bl13user/images", 3],
+        ["/a", "/home/bl13user/images", 1],
+        [r"C:\\", "/home/bl13user/images", 0],
+    ],
+)
+def test_count_common_subdirs(p1, p2, expected):
+    icommon = utils.count_common_subdirs(p1, p2)
+    assert icommon == expected, f"{p1=} {p2=}"

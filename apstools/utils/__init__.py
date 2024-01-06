@@ -29,6 +29,8 @@ from .log_utils import stream_log_handler
 from .memory import rss_mem
 from .misc import cleanupText
 from .misc import connect_pvlist
+from .misc import count_child_devices_and_signals
+from .misc import count_common_subdirs
 from .misc import dictionary_table
 from .misc import full_dotted_name
 from .misc import itemizer
