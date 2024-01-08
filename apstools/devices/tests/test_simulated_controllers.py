@@ -9,7 +9,7 @@ import pytest
 
 from ...tests import IOC_GP
 from ...tests import timed_pause
-from .. import simulated_controllers as stc
+from .. import simulated_controllers as sc
 
 PV_SWAIT = f"{IOC_GP}userCalc7"
 PV_TRANS = f"{IOC_GP}userTran7"
@@ -19,12 +19,12 @@ PV_TRANS = f"{IOC_GP}userTran7"
 @pytest.mark.parametrize(
     "pv, controller_class, context, exp_info",
     [
-        [PV_SWAIT, stc.SimulatedSwaitControllerPositioner, does_not_raise(), "None"],
-        [PV_TRANS, stc.SimulatedTransformControllerPositioner, does_not_raise(), "None"],
-        ["", stc.SimulatedSwaitControllerPositioner, pytest.raises(ValueError), "Must supply a value for"],
-        ["", stc.SimulatedTransformControllerPositioner, pytest.raises(ValueError), "Must supply a value for"],
-        ["wrong_pv", stc.SimulatedSwaitControllerPositioner, pytest.raises(TimeoutError), "Failed to connect"],
-        ["wrong_pv", stc.SimulatedTransformControllerPositioner, pytest.raises(TimeoutError), "Failed to connect"],
+        [PV_SWAIT, sc.SimulatedSwaitControllerPositioner, does_not_raise(), "None"],
+        [PV_TRANS, sc.SimulatedTransformControllerPositioner, does_not_raise(), "None"],
+        ["", sc.SimulatedSwaitControllerPositioner, pytest.raises(ValueError), "Must supply a value for"],
+        ["", sc.SimulatedTransformControllerPositioner, pytest.raises(ValueError), "Must supply a value for"],
+        ["wrong_pv", sc.SimulatedSwaitControllerPositioner, pytest.raises(TimeoutError), "Failed to connect"],
+        ["wrong_pv", sc.SimulatedTransformControllerPositioner, pytest.raises(TimeoutError), "Failed to connect"],
     ],
 )
 @pytest.mark.parametrize("tol", [0.99, 2, 5])
