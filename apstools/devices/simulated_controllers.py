@@ -7,11 +7,13 @@ Simulate process controllers as positioners using EPICS records.
     ~SimulatedTransformControllerPositioner
 """
 
-from . import PVPositionerSoftDoneWithStop
+import time
+
+from ophyd import FormattedComponent as FC
+
 from ..synApps import SwaitRecord
 from ..synApps import TransformRecord
-from ophyd import FormattedComponent as FC
-import time
+from . import PVPositionerSoftDoneWithStop
 
 
 class SimulatedSwaitControllerPositioner(PVPositionerSoftDoneWithStop):
