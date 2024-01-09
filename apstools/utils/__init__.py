@@ -27,6 +27,7 @@ from .log_utils import get_log_path
 from .log_utils import setup_IPython_console_logging
 from .log_utils import stream_log_handler
 from .memory import rss_mem
+from .misc import call_signature_decorator
 from .misc import cleanupText
 from .misc import connect_pvlist
 from .misc import count_child_devices_and_signals
