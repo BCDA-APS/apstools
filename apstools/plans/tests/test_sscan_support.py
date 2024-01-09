@@ -5,9 +5,8 @@ from bluesky.callbacks.best_effort import BestEffortCallback
 from ophyd import EpicsMotor
 from ophyd.scaler import ScalerCH
 
-from apstools.plans import sscan_1D
-from apstools.synApps import SscanDevice
-from apstools.tests import IOC_GP
+from ...synApps import SscanDevice
+from ...tests import IOC_GP
 
 from ..sscan_support import _get_sscan_data_objects
 from ..sscan_support import sscan_1D
