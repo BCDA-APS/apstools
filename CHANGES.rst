@@ -51,6 +51,7 @@ Fixes
 Maintenance
 -----------
 
+* In ``listdevice(show_pv=True)``, set ``cname=True, dname=False`` if not provided by caller.
 * Move ``.OVAL`` field from ``EpicsRecordOutputFields to new ``EpicsRecordAnalogOutputFields``
 * Write tables of plot statistics in most compact form.
 

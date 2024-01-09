@@ -10,13 +10,13 @@ from ophyd import EpicsSignal
 from ophyd import Signal
 from ophyd.signal import EpicsSignalBase
 
-from .._core import TableStyle
 from ...devices import SwaitRecord
 from ...tests import IOC_GP
-from ..device_info import _list_epics_signals
+from .._core import TableStyle
 from ..device_info import DEFAULT_COLUMN_WIDTH
-from ..device_info import listdevice
 from ..device_info import NOT_CONNECTED_VALUE
+from ..device_info import _list_epics_signals
+from ..device_info import listdevice
 
 
 class MySignals(Device):
@@ -208,3 +208,37 @@ def test_maximum_column_width(width):
     if width is not None:
         for column, content in enumerate(result[0].split()):
             assert len(content) <= (width), f"{column=} {content=}"
+
+
+@pytest.mark.parametrize(
+    "sig, has_cname, has_dname, has_PV",
+    [
+        [{}, False, True, False],
+        [{"cname": True, "dname": False}, True, False, False],
+        [{"cname": True}, True, True, False],
+        [{"show_pv": False}, False, True, False],
+        [{"show_pv": True, "cname": False, "dname": True}, False, True, True],
+        [{"show_pv": True, "cname": False}, True, False, True],
+        [{"show_pv": True, "cname": True, "dname": False}, True, False, True],
+        [{"show_pv": True, "cname": True}, True, False, True],
+        [{"show_pv": True, "dname": False}, True, False, True],
+        [{"show_pv": True, "dname": True}, True, True, True],
+        [{"show_pv": True}, True, False, True],
+    ],
+)
+def test_listdevice_show_pv(sig, has_cname, has_dname, has_PV):
+    line = str(listdevice(motor, **sig)).splitlines()[1].strip()
+    if has_cname:
+        assert line.split()[0] == "name", f"{line=}"
+    else:
+        assert line.split()[0] != "name", f"{line=}"
+
+    if has_dname:
+        assert "data name" in line, f"{line=}"
+    else:
+        assert "data name" not in line, f"{line=}"
+
+    if has_PV:
+        assert "PV" in line, f"{line=}"
+    else:
+        assert "PV" not in line, f"{line=}"

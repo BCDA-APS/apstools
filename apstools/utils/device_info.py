@@ -19,6 +19,7 @@ from ophyd.signal import ConnectionTimeoutError
 from ophyd.signal import EpicsSignalBase
 
 from ._core import TableStyle
+from .misc import call_signature_decorator
 
 logger = logging.getLogger(__name__)
 pd.set_option("display.max_rows", None)
@@ -92,6 +93,7 @@ def _list_epics_signals(obj):
         return items
 
 
+@call_signature_decorator
 def listdevice(
     obj,
     scope=None,
@@ -102,6 +104,7 @@ def listdevice(
     show_ancient=True,
     max_column_width=None,
     table_style=TableStyle.pyRestTable,
+    _call_args=None,
 ):
     """Describe the signal information from device ``obj`` in a pandas DataFrame.
 
@@ -135,6 +138,11 @@ def listdevice(
         column ``PV``.
 
         default: ``False``
+
+        .. note:: Special case when ``show_pv=True``:
+           If ``cname`` is not provided, it will be set ``True``.
+           If ``dname`` is not provided, it will be set ``False``.
+
     use_datetime *bool* :
         Show the EPICS timestamp (time of last update) in
         column ``timestamp``.
@@ -192,6 +200,9 @@ def listdevice(
     )
     # fmt: on
 
+    if show_pv:
+        cname = cname if "cname" in _call_args else True
+        dname = dname if "dname" in _call_args else False
     if not cname and not dname:
         cname = True
 

@@ -4,6 +4,7 @@ Miscellaneous Support
 
 .. autosummary::
 
+   ~call_signature_decorator
    ~cleanupText
    ~connect_pvlist
    ~count_child_devices_and_signals
@@ -25,6 +26,7 @@ Miscellaneous Support
    ~unix
 """
 
+import inspect
 import logging
 import pathlib
 import re
@@ -35,6 +37,7 @@ import time
 import warnings
 from collections import OrderedDict
 from collections import defaultdict
+from functools import wraps
 
 import databroker
 import ophyd
@@ -49,6 +52,44 @@ from ._core import TableStyle
 from .profile_support import ipython_shell_namespace
 
 logger = logging.getLogger(__name__)
+
+
+def call_signature_decorator(f):
+    """
+    Get the names of all function parameters supplied by the caller.
+
+    This is used to differentiate user-supplied parameters from as-defined
+    parameters with the same value.
+
+    HOW TO USE THIS DECORATOR:
+
+    Decorate a function or method with this decorator *and* add an additional
+    `_call_args=None` kwarg to the function. The function can test `_call_args`
+    if a specific kwarg was supplied by the caller.
+
+    EXAMPLE::
+
+        @call_signature_decorator
+        def func1(a, b=1, c=True, _call_args=None):
+            if 'c' in _call_args:  # Caller supplied this kwarg?
+                pass
+
+    .. note::  With ``call_signature_decorator``, it is not possible to get the names
+        of the positional arguments.  Since positional parameters are not specified by
+        name, such capability is not expected to become a requirement.
+
+    :see: https://stackoverflow.com/questions/14749328#58166804
+        (how-to-check-whether-optional-function-parameter-is-set)
+    """
+    key = "_call_args"
+    varnames = inspect.getfullargspec(f)[0]
+
+    @wraps(f)
+    def wrapper(*a, **kw):
+        kw[key] = set(list(varnames[: len(a)]) + list(kw.keys()))
+        return f(*a, **kw)
+
+    return wrapper
 
 
 def cleanupText(text):

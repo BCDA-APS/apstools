@@ -14,6 +14,7 @@ from ... import __version__ as APS__version__
 from ... import utils
 from .._core import MAX_EPICS_STRINGOUT_LENGTH
 from .._core import TableStyle
+from ..misc import call_signature_decorator
 
 CATALOG = "usaxs_test"
 COUNT = "555a604"  # <-- uid,  scan_id: 2
@@ -530,3 +531,36 @@ def test_utils_getStreamValues_Exception(
 def test_count_common_subdirs(p1, p2, expected):
     icommon = utils.count_common_subdirs(p1, p2)
     assert icommon == expected, f"{p1=} {p2=}"
+
+
+@pytest.mark.parametrize(
+    "args, kwargs, expect",
+    [
+        [[1], {}, (False, False, False, False)],
+        [[1], {}, (False, False, False, False)],
+        [[1, 2], {}, (True, False, False, False)],
+        [[1, 2], {"show_pv": 1}, (True, False, False, True)],
+        [[1], {"cname": 1}, (False, True, False, False)],
+        [[1], {"dname": 1}, (False, False, True, False)],
+        [[1], {"b": 1, "cname": 1}, (True, True, False, False)],
+        [[1], {"b": 1, "dname": 1}, (True, False, True, False)],
+        [[1], {"show_pv": 1, "cname": False}, (False, True, False, True)],
+        [[1], {"show_pv": 1, "cname": True}, (False, True, False, True)],
+        [[1], {"show_pv": 1, "dname": False}, (False, False, True, True)],
+        [[1], {"show_pv": 1, "dname": True}, (False, False, True, True)],
+        [[1], {"show_pv": 1, "dname": False, "cname": False}, (False, True, True, True)],
+        [[1], {"show_pv": 1, "dname": True, "cname": True}, (False, True, True, True)],
+    ],
+)
+def test_call_signature_decorator(args, kwargs, expect):
+    @call_signature_decorator
+    def func1(a, b=1, *, cname=False, dname=True, show_pv=None, _call_args=None):
+        return (
+            "b" in _call_args,
+            "cname" in _call_args,
+            "dname" in _call_args,
+            "show_pv" in _call_args,
+        )
+
+    result = func1(*args, **kwargs)
+    assert result == expect, f"{result=}  {expect=}"

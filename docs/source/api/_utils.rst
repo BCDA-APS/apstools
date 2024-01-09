@@ -76,6 +76,7 @@ General
 
 .. autosummary::
 
+   ~apstools.utils.misc.call_signature_decorator
    ~apstools.utils.misc.cleanupText
    ~apstools.plans.command_list.command_list_as_table
    ~apstools.utils.misc.connect_pvlist
