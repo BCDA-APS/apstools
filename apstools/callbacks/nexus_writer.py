@@ -224,9 +224,9 @@ class NXWriter(FileWriterCallbackBase):
         """
         return the title for this sample
 
-        default title: {plan_name}-S{scan_id}-{short_uid}
+        default title: S{scan_id}-{plan_name}-{short_uid}
         """
-        return f"{self.plan_name}-S{self.scan_id:04d}-{self.uid[:7]}"
+        return f"S{self.scan_id:04d}-{self.plan_name}-{self.uid[:7]}"
 
     def get_stream_link(self, signal, stream=None, ref=None):
         """
@@ -444,7 +444,8 @@ class NXWriter(FileWriterCallbackBase):
             if self.warn_on_missing_content:
                 logger.warning("No data for /entry/run_cycle")
 
-        nxentry["title"] = self.get_sample_title()
+        title = self.root.get("/entry/instrument/bluesky/metadata/title")
+        nxentry["title"] = title or self.get_sample_title()
         nxentry["plan_name"] = self.root["/entry/instrument/bluesky/metadata/plan_name"]
         nxentry["entry_identifier"] = self.root["/entry/instrument/bluesky/uid"]
 
