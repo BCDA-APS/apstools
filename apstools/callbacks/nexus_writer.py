@@ -226,7 +226,8 @@ class NXWriter(FileWriterCallbackBase):
 
         default title: {plan_name}-S{scan_id}-{short_uid}
         """
-        return f"{self.plan_name}-S{self.scan_id:04d}-{self.uid[:7]}"
+        title = self.metadata.get("title")
+        return title or f"{self.plan_name}-S{self.scan_id:04d}-{self.uid[:7]}"
 
     def get_stream_link(self, signal, stream=None, ref=None):
         """
