@@ -98,7 +98,7 @@ settling_times.update(
 )
 
 
-class GainSignal(EpicsSignal):
+class GainMixin():
     """A signal where the settling time depends on the pre-amp gain.
 
     Used to introduce a specific settle time when setting to account
@@ -177,6 +177,15 @@ class GainSignal(EpicsSignal):
         else:
             _settle_time = settle_time
         return super().set(value, timeout=timeout, settle_time=_settle_time)
+
+
+class GainSignal(GainMixin, EpicsSignal):
+    """A signal where the settling time depends on the pre-amp gain.
+
+    Used to introduce a specific settle time when setting to account
+    for the amp's R–C relaxation time when changing gain.
+
+    """
 
 
 class SRS570_PreAmplifier(PreamplifierBaseDevice):
