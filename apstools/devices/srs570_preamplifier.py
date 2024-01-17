@@ -98,13 +98,14 @@ settling_times.update(
 )
 
 
-class GainMixin():
+class GainMixin:
     """A signal where the settling time depends on the pre-amp gain.
 
     Used to introduce a specific settle time when setting to account
     for the amp's R–C relaxation time when changing gain.
 
     """
+
     @staticmethod
     def _settle_time(gain_value: int, gain_unit: int, gain_mode: str):
         """Determine the best settle time for a given combination of parameters.

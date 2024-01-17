@@ -146,4 +146,3 @@ def test_preamp_gain_mode_settling(mocked_setter):
     status = preamp.gain_mode.set("LOW DRIFT")
     # Check that the EpicsSignal's ``set`` was called with correct settle_time
     mocked_setter.assert_called_with("LOW DRIFT", timeout=DEFAULT_WRITE_TIMEOUT, settle_time=settle_time)
-    
