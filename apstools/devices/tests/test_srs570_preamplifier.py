@@ -116,16 +116,16 @@ def test_preamp_gain_settling(mocked_setter, gain_value, gain_unit, gain_mode):
     preamp = SRS570_PreAmplifier("prefix:", name="preamp")
     assert isinstance(preamp.sensitivity_unit, GainSignal)
     assert isinstance(preamp.sensitivity_value, GainSignal)
-    status = preamp.sensitivity_unit.get = mock.MagicMock(return_value=gain_unit)
-    status = preamp.gain_mode.get = mock.MagicMock(return_value=gain_mode)
+    preamp.sensitivity_unit.get = mock.MagicMock(return_value=gain_unit)
+    preamp.gain_mode.get = mock.MagicMock(return_value=gain_mode)
     # Set the sensitivity based on value
-    status = preamp.sensitivity_value.set(gain_value)
+    preamp.sensitivity_value.set(gain_value)
     # Check that the EpicsSignal's ``set`` was called with correct settle_time
     mocked_setter.assert_called_with(gain_value, timeout=DEFAULT_WRITE_TIMEOUT, settle_time=settle_time)
     # Set the sensitivity based on value
     mocked_setter.reset_mock()
     assert not mocked_setter.called
-    status = preamp.sensitivity_value.set(value_idx)
+    preamp.sensitivity_value.set(value_idx)
     # Check that the EpicsSignal's ``set`` was called with correct settle_time
     mocked_setter.assert_called_with(value_idx, timeout=DEFAULT_WRITE_TIMEOUT, settle_time=settle_time)
 
@@ -140,9 +140,9 @@ def test_preamp_gain_mode_settling(mocked_setter):
     gain_unit = "pA/V"
     gain_value = "500"
     settle_time = 0.5
-    status = preamp.sensitivity_unit.get = mock.MagicMock(return_value=gain_unit)
-    status = preamp.sensitivity_value.get = mock.MagicMock(return_value=gain_value)
+    preamp.sensitivity_unit.get = mock.MagicMock(return_value=gain_unit)
+    preamp.sensitivity_value.get = mock.MagicMock(return_value=gain_value)
     # Set the sensitivity based on value
-    status = preamp.gain_mode.set("LOW DRIFT")
+    preamp.gain_mode.set("LOW DRIFT")
     # Check that the EpicsSignal's ``set`` was called with correct settle_time
     mocked_setter.assert_called_with("LOW DRIFT", timeout=DEFAULT_WRITE_TIMEOUT, settle_time=settle_time)
