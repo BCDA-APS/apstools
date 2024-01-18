@@ -36,89 +36,87 @@ gain_modes = ["LOW NOISE", "HIGH BW"]
 # (sensitivity_value, sensitivity_unit, gain_mode): settle_time
 settling_times = {
     # pA/V
-    ("1", "pA/V", "HIGH BW"): 2,
-    ("2", "pA/V", "HIGH BW"): 1.75,
-    ("5", "pA/V", "HIGH BW"): 1.5,
+    ("1", "pA/V", "HIGH BW"): 3,
+    ("2", "pA/V", "HIGH BW"): 2.5,
+    ("5", "pA/V", "HIGH BW"): 2,
     ("10", "pA/V", "HIGH BW"): 0.75,
-    ("20", "pA/V", "HIGH BW"): 0.3,
-    ("50", "pA/V", "HIGH BW"): 0.3,
-    ("100", "pA/V", "HIGH BW"): 0.3,
-    ("200", "pA/V", "HIGH BW"): 0.2,
-    ("500", "pA/V", "HIGH BW"): 0.2,
-    ("1", "pA/V", "LOW NOISE"): 2.0,
-    ("2", "pA/V", "LOW NOISE"): 1.75,
-    ("5", "pA/V", "LOW NOISE"): 1.5,
-    ("10", "pA/V", "LOW NOISE"): 1.25,
-    ("20", "pA/V", "LOW NOISE"): 1.0,
-    ("50", "pA/V", "LOW NOISE"): 1.0,
-    ("100", "pA/V", "LOW NOISE"): 1.0,
-    ("200", "pA/V", "LOW NOISE"): 0.3,
-    ("500", "pA/V", "LOW NOISE"): 0.3,
+    ("20", "pA/V", "HIGH BW"): 0.75,
+    ("50", "pA/V", "HIGH BW"): 0.75,
+    ("100", "pA/V", "HIGH BW"): 0.75,
+    ("200", "pA/V", "HIGH BW"): 0.75,
+    ("500", "pA/V", "HIGH BW"): 0.75,
+    ("1", "pA/V", "LOW NOISE"): 3.0,
+    ("2", "pA/V", "LOW NOISE"): 2.5,
+    ("5", "pA/V", "LOW NOISE"): 2.0,
+    ("10", "pA/V", "LOW NOISE"): 2.0,
+    ("20", "pA/V", "LOW NOISE"): 1.75,
+    ("50", "pA/V", "LOW NOISE"): 1.5,
+    ("100", "pA/V", "LOW NOISE"): 1.25,
+    ("200", "pA/V", "LOW NOISE"): 0.75,
+    ("500", "pA/V", "LOW NOISE"): 0.75,
+    # nA/V
+    ("1", "nA/V", "HIGH BW"): 0.75,
+    ("2", "nA/V", "HIGH BW"): 0.75,
+    ("5", "nA/V", "HIGH BW"): 0.75,
+    ("10", "nA/V", "HIGH BW"): 0.75,
+    ("20", "nA/V", "HIGH BW"): 0.75,
+    ("50", "nA/V", "HIGH BW"): 0.75,
+    ("100", "nA/V", "HIGH BW"): 0.5,
+    ("200", "nA/V", "HIGH BW"): 0.5,
+    ("500", "nA/V", "HIGH BW"): 0.5,
+    ("1", "nA/V", "LOW NOISE"): 0.75,
+    ("2", "nA/V", "LOW NOISE"): 0.75,
+    ("5", "nA/V", "LOW NOISE"): 0.75,
+    ("10", "nA/V", "LOW NOISE"): 0.75,
+    ("20", "nA/V", "LOW NOISE"): 0.5,
+    ("50", "nA/V", "LOW NOISE"): 0.5,
+    ("100", "nA/V", "LOW NOISE"): 0.5,
+    ("200", "nA/V", "LOW NOISE"): 0.5,
+    ("500", "nA/V", "LOW NOISE"): 0.5,
 }
 settling_times.update(
     {
-        # nA/V
-        (gain_values[idx], "nA/V", "HIGH BW"): 0.2
-        for idx in range(9)
-    }
-)
-settling_times.update(
-    {
-        # nA/V
-        ("1", "nA/V", "LOW NOISE"): 0.3,
-        ("2", "nA/V", "LOW NOISE"): 0.2,
-        ("5", "nA/V", "LOW NOISE"): 0.2,
-        ("10", "nA/V", "LOW NOISE"): 0.2,
-        ("20", "nA/V", "LOW NOISE"): 0.2,
-        ("50", "nA/V", "LOW NOISE"): 0.2,
-        ("100", "nA/V", "LOW NOISE"): 0.2,
-        ("200", "nA/V", "LOW NOISE"): 0.2,
-        ("500", "nA/V", "LOW NOISE"): 0.2,
-    }
-)
-settling_times.update(
-    {
         # μA/V, high bandwidth
-        (gain_values[idx], "uA/V", "HIGH BW"): 0.15
+        (gain_values[idx], "uA/V", "HIGH BW"): 0.5
         for idx in range(9)
     }
 )
 settling_times.update(
     {
         # μA/V, low noise
-        (gain_values[idx], "uA/V", "LOW NOISE"): 0.15
+        (gain_values[idx], "uA/V", "LOW NOISE"): 0.5
         for idx in range(9)
     }
 )
 settling_times.update(
     {
-        ("1", "mA/V", "HIGH BW"): 0.15,
-        ("1", "mA/V", "LOW NOISE"): 0.15,
+        ("1", "mA/V", "HIGH BW"): 0.5,
+        ("1", "mA/V", "LOW NOISE"): 0.5,
     }
 )
 
 
 def calculate_settle_time(gain_value: int, gain_unit: int, gain_mode: str):
-        """Determine the best settle time for a given combination of parameters.
+    """Determine the best settle time for a given combination of parameters.
 
-        Parameters can be strings of indexes.
+    Parameters can be strings of indexes.
 
-        """
-        # Convert indexes to string values
-        try:
-            gain_value = gain_values[gain_value]
-        except (TypeError, IndexError):
-            pass
-        try:
-            gain_unit = gain_units[gain_unit]
-        except (TypeError, IndexError):
-            pass
-        try:
-            gain_mode = gain_modes[gain_mode]
-        except (TypeError, IndexError):
-            pass
-        # Get calibrated settle time, or None to use the Ophyd default
-        return settling_times.get((gain_value, gain_unit, gain_mode))
+    """
+    # Convert indexes to string values
+    try:
+        gain_value = gain_values[gain_value]
+    except (TypeError, IndexError):
+        pass
+    try:
+        gain_unit = gain_units[gain_unit]
+    except (TypeError, IndexError):
+        pass
+    try:
+        gain_mode = gain_modes[gain_mode]
+    except (TypeError, IndexError):
+        pass
+    # Get calibrated settle time, or None to use the Ophyd default
+    return settling_times.get((gain_value, gain_unit, gain_mode))
 
 
 class GainMixin:
