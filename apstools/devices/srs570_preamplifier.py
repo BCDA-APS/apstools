@@ -98,16 +98,7 @@ settling_times.update(
 )
 
 
-class GainMixin:
-    """A signal where the settling time depends on the pre-amp gain.
-
-    Used to introduce a specific settle time when setting to account
-    for the amp's R–C relaxation time when changing gain.
-
-    """
-
-    @staticmethod
-    def _settle_time(gain_value: int, gain_unit: int, gain_mode: str):
+def calculate_settle_time(gain_value: int, gain_unit: int, gain_mode: str):
         """Determine the best settle time for a given combination of parameters.
 
         Parameters can be strings of indexes.
@@ -128,6 +119,17 @@ class GainMixin:
             pass
         # Get calibrated settle time, or None to use the Ophyd default
         return settling_times.get((gain_value, gain_unit, gain_mode))
+
+
+class GainMixin:
+    """A signal where the settling time depends on the pre-amp gain.
+
+    Used to introduce a specific settle time when setting to account
+    for the amp's R–C relaxation time when changing gain.
+
+    """
+
+    _settle_time = staticmethod(calculate_settle_time)
 
     def set(self, value, *, timeout=DEFAULT_WRITE_TIMEOUT, settle_time="auto"):
         """Set the value of the Signal and return a Status object.
