@@ -1,7 +1,7 @@
 import pytest
 from unittest import mock
 
-from apstools.devices.srs570_preamplifier import SRS570_PreAmplifier, GainSignal, DEFAULT_WRITE_TIMEOUT
+from ..srs570_preamplifier import SRS570_PreAmplifier, GainSignal, DEFAULT_WRITE_TIMEOUT
 
 # Known settling times measured from the I0 SR-570 at 25-ID-C
 settling_times = {
