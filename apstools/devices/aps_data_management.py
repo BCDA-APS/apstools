@@ -224,9 +224,7 @@ class DM_WorkflowConnector(Device):
 
         @run_in_thread
         def _run_DM_workflow_thread():
-            logger.info(
-                "run DM workflow: %s with timeout=%s s", self.workflow.get(), timeout
-            )
+            logger.info("run DM workflow: %s with timeout=%s s", self.workflow.get(), timeout)
             self.job = self.api.startProcessingJob(
                 workflowOwner=self.owner.get(),
                 workflowName=workflow,
@@ -236,15 +234,9 @@ class DM_WorkflowConnector(Device):
             logger.info(f"DM workflow started: {self}")
             # wait for workflow to finish
             deadline = time.time() + timeout
-            while (
-                time.time() < deadline
-                and self.status.get() not in "done failed timeout".split()
-            ):
+            while time.time() < deadline and self.status.get() not in "done failed timeout".split():
                 self._update_processing_data()
-                if (
-                    "_report_deadline" not in dir(self)
-                    or time.time() >= self._report_deadline
-                ):
+                if "_report_deadline" not in dir(self) or time.time() >= self._report_deadline:
                     _reporter()
                 time.sleep(self.polling_period.get())
 
