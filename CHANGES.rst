@@ -23,12 +23,12 @@ describe future plans.
    1.6.19
    ******
 
-   release expected by 2023-12-31
+   release expected by 2024-02-29
 
 1.6.18
 ******
 
-release expected by 2023-12-15
+released 2024-01-23
 
 New Features
 ------------
@@ -51,6 +51,7 @@ Fixes
 Maintenance
 -----------
 
+* Avoid voltage spikes when changing gain of SRS570 preamplifier.
 * In ``listdevice(show_pv=True)``, set ``cname=True, dname=False`` if not provided by caller.
 * Move ``.OVAL`` field from ``EpicsRecordOutputFields to new ``EpicsRecordAnalogOutputFields``
 * Write tables of plot statistics in most compact form.
