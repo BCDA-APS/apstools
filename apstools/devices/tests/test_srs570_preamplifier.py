@@ -7,34 +7,34 @@ from ..srs570_preamplifier import SRS570_PreAmplifier, GainSignal, DEFAULT_WRITE
 settling_times = {
     # (sensitivity_value, sensitivity_unit, gain_mode): settle_time
     # pA/V
-    (0, 0, "HIGH BW"): 2.5,
+    (0, 0, "HIGH BW"): 2.5,  # 1 pA/V
     (1, 0, "HIGH BW"): 2.0,
     (2, 0, "HIGH BW"): 2.0,
     (3, 0, "HIGH BW"): 0.5,
     (4, 0, "HIGH BW"): 0.5,
-    (5, 0, "HIGH BW"): 0.5,
+    (5, 0, "HIGH BW"): 0.5,  # 50 pA/V
     (6, 0, "HIGH BW"): 0.5,
     (7, 0, "HIGH BW"): 0.3,
     (8, 0, "HIGH BW"): 0.3,
     # nA/V
     (0, 1, "HIGH BW"): 0.3,
-    (1, 1, "HIGH BW"): 0.3,
+    (1, 1, "HIGH BW"): 0.3,  # 2 nA/V
     (2, 1, "HIGH BW"): 0.3,
     (3, 1, "HIGH BW"): 0.3,
     (4, 1, "HIGH BW"): 0.3,
     (5, 1, "HIGH BW"): 0.3,
-    (6, 1, "HIGH BW"): 0.3,
+    (6, 1, "HIGH BW"): 0.3,  # 100 nA/V
     (7, 1, "HIGH BW"): 0.3,
     (8, 1, "HIGH BW"): 0.3,
     # μA/V
     (0, 2, "HIGH BW"): 0.3,
     (1, 2, "HIGH BW"): 0.3,
-    (2, 2, "HIGH BW"): 0.3,
+    (2, 2, "HIGH BW"): 0.3,  # 5 μA/V
     (3, 2, "HIGH BW"): 0.3,
     (4, 2, "HIGH BW"): 0.3,
     (5, 2, "HIGH BW"): 0.3,
     (6, 2, "HIGH BW"): 0.3,
-    (7, 2, "HIGH BW"): 0.3,
+    (7, 2, "HIGH BW"): 0.3,  # 200 μA/V
     (8, 2, "HIGH BW"): 0.3,
     # mA/V
     (0, 3, "HIGH BW"): 0.3,
