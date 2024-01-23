@@ -114,15 +114,13 @@ def calculate_settle_time(gain_value: int, gain_unit: int, gain_mode: str):
     return settling_times.get((gain_value, gain_unit, gain_mode))
 
 
-class GainMixin:
+class GainSignal(EpicsSignal):
     """A signal where the settling time depends on the pre-amp gain.
 
     Used to introduce a specific settle time when setting to account
     for the amp's R–C relaxation time when changing gain.
 
     """
-
-    _settle_time = staticmethod(calculate_settle_time)
 
     def set(self, value, *, timeout=DEFAULT_WRITE_TIMEOUT, settle_time="auto"):
         """Set the value of the Signal and return a Status object.
@@ -169,19 +167,10 @@ class GainMixin:
             if mode == "LOW DRIFT":
                 mode = "LOW NOISE"
             # Calculate settling time
-            _settle_time = self._settle_time(gain_value=val, gain_unit=unit, gain_mode=mode)
+            _settle_time = calculate_settle_time(gain_value=val, gain_unit=unit, gain_mode=mode)
         else:
             _settle_time = settle_time
         return super().set(value, timeout=timeout, settle_time=_settle_time)
-
-
-class GainSignal(GainMixin, EpicsSignal):
-    """A signal where the settling time depends on the pre-amp gain.
-
-    Used to introduce a specific settle time when setting to account
-    for the amp's R–C relaxation time when changing gain.
-
-    """
 
 
 class SRS570_PreAmplifier(PreamplifierBaseDevice):
