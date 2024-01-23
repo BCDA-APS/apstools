@@ -27,12 +27,14 @@ jobs:
   docs:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/setup-python@v2
 
     - name: Checkout
-      uses: actions/checkout@master
+      uses: actions/checkout@v4
       with:
-        fetch-depth: 0 # otherwise, you will failed to push refs to dest repo
+        fetch-depth: 0 # otherwise, you will get "failed to push refs to dest repo"
+
+    - name: Setup Python
+      uses: actions/setup-python@v5
 
     - name: Deploy Information
       if: ${{ github.event.inputs.deploy }}
