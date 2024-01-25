@@ -186,7 +186,7 @@ class SRS570_PreAmplifier(PreamplifierBaseDevice):
     # in the EPICS .db file.  Must cast them to ``float()`` or ``int()``
     # as desired.
     # see: https://github.com/epics-modules/ip/blob/master/ipApp/Db/SR570.db
-    sensitivity_value = Component(GainSignal, "sens_num", kind="config", string=True, put_complete=True)
+    sensitivity_value = Component(GainSignal, "sens_num", kind="config", string=True)
     sensitivity_unit = Component(GainSignal, "sens_unit", kind="config", string=True, put_complete=True)
 
     offset_on = Component(EpicsSignal, "offset_on", kind="config", string=True)
