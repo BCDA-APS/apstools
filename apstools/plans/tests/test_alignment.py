@@ -1,6 +1,7 @@
 """Test the alignment plans."""
 
 import math
+import time
 
 import bluesky.plan_stubs as bps
 import bluesky.plans as bp
@@ -14,6 +15,7 @@ from ophyd import Component
 from ophyd import Device
 from ophyd import Signal
 
+from ...callbacks.scan_signal_statistics import SignalStatsCallback
 from ...devices import SynPseudoVoigt
 from ...synApps import SwaitRecord
 from ...synApps import setup_lorentzian_swait
@@ -28,13 +30,14 @@ RE.subscribe(bec)
 bec.enable_plots()
 
 axis = ophyd.EpicsSignal(f"{IOC_GP}gp:float1", name="axis")
+calcs_enable = ophyd.EpicsSignal(f"{IOC_GP}userCalcEnable", name="calcs_enable", string=True)
 m1 = ophyd.EpicsMotor(f"{IOC_GP}m1", name="m1")
 m2 = ophyd.EpicsMotor(f"{IOC_GP}m2", name="m2")
 noisy = ophyd.EpicsSignalRO(f"{IOC_GP}userCalc1.VAL", name="noisy")
 scaler1 = ophyd.scaler.ScalerCH(f"{IOC_GP}scaler1", name="scaler1")
 swait = SwaitRecord(f"{IOC_GP}userCalc1", name="swait")
 
-for obj in (axis, m1, m2, noisy, scaler1, swait):
+for obj in (axis, m1, m2, noisy, scaler1, swait, calcs_enable):
     obj.wait_for_connection()
 
 scaler1.select_channels()
@@ -42,6 +45,7 @@ scaler1.select_channels()
 # First, must be connected to m1.
 pvoigt = SynPseudoVoigt(name="pvoigt", motor=axis, motor_field=axis.name)
 pvoigt.kind = "hinted"
+calcs_enable.put("Enable")
 
 
 def change_noisy_parameters(fwhm=0.15, peak=10000, noise=0.08):
@@ -285,3 +289,54 @@ def test_TuneResults():
         getattr(peaks, k).put(v)
     results.set_stats(peaks)
     assert results.report() is None
+
+
+@pytest.mark.parametrize(
+    "peak, base, noise, center, sigma, xlo, xhi, npts, nscans, tol, outcome",
+    [
+        [1e5, 1e6, 10, 0.1, 0.2, -0.7, 0.5, 11, 1, 0.05, False],  # signal but high background
+        [1e5, 0, 10, 0.1, 0.2, -0.7, 0.5, 11, 1, 0.05, True],  # model peak
+        [1e5, 1e4, 10, 0.1, 0.2, -0.7, 0.5, 11, 1, 0.1, True],  # high background, poor resolution
+        [1e5, 1e4, 10, 0.1, 0.2, -0.7, 0.5, 11, 2, 0.05, True],  # not much better
+        [-1e5, -1e4, 1e-8, 0.1, 0.2, -0.7, 0.5, 11, 1, 0.1, True],
+        [1e5, -10, 10, 0.1, 0.2, -0.7, 0.5, 11, 1, 0.05, True],
+        [1e-5, 0, 1e-8, 0.1, 0.2, -0.7, 0.5, 11, 1, 0.05, True],
+        [1e-5, 1e-7, 1e-8, 0.1, 0.2, -0.7, 0.5, 11, 1, 0.05, True],
+        [-1e5, 0, 1e-8, 0.1, 0.2, -0.7, 0.5, 11, 1, 0.05, True],
+        [0, 0, 1e-8, 0.1, 0.2, -0.7, 0.5, 11, 1, 0.05, False],  # only noise
+        [0, 1, 0.1, 0.1, 0.2, -0.7, 0.5, 11, 1, 0.05, False],  # bkg + noise
+        [0, 1, 100, 0.1, 0.2, -0.7, 0.5, 11, 1, 0.05, False],  # bkg + big noise
+        [0, 0, 0, 0.1, 0.2, -0.7, 0.5, 11, 1, 0.005, None],  # no signal  ZeroDivisionError
+        [0, 1, 0, 0.1, 0.2, -0.7, 0.5, 11, 1, 0.005, None],  # bkg only  ZeroDivisionError
+    ]
+)
+def test_lineup2_signal_permutations(peak, base, noise, center, sigma, xlo, xhi, npts, nscans, tol, outcome):
+    starting_position = 0.0
+    m1.move(starting_position)
+    time.sleep(1)  # without this, the test IOC crashes, sometimes
+    swait.reset()
+    swait.description.put("CI test lineup2()")
+    swait.channels.A.input_pv.put(m1.user_readback.pvname)
+    swait.channels.B.input_value.put(center)
+    swait.channels.C.input_value.put(sigma)
+    swait.channels.D.input_value.put(peak)
+    swait.channels.E.input_value.put(base)
+    swait.channels.F.input_value.put(noise)
+    swait.calculation.put("E+D/(1+((A-B)/C)^2)+F*RNDM")
+    swait.scanning_rate.put("I/O Intr")
+
+    stats = SignalStatsCallback()
+
+    detector = noisy
+    RE(alignment.lineup2(detector, m1, xlo, xhi, npts, nscans=nscans, signal_stats=stats))
+    change_noisy_parameters()
+
+    try:
+        centroid = stats._registers[detector.name].centroid
+        if outcome:
+            assert math.isclose(m1.position, centroid, abs_tol=tol)
+            assert math.isclose(center, centroid, abs_tol=tol)
+        else:
+            assert not math.isclose(center, centroid, abs_tol=tol)
+    except ZeroDivisionError:
+        assert math.isclose(m1.position, starting_position, abs_tol=tol)
