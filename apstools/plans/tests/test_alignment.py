@@ -308,7 +308,7 @@ def test_TuneResults():
         [0, 1, 100, 0.1, 0.2, -0.7, 0.5, 11, 1, 0.05, False],  # bkg + big noise
         [0, 0, 0, 0.1, 0.2, -0.7, 0.5, 11, 1, 0.005, None],  # no signal  ZeroDivisionError
         [0, 1, 0, 0.1, 0.2, -0.7, 0.5, 11, 1, 0.005, None],  # bkg only  ZeroDivisionError
-    ]
+    ],
 )
 def test_lineup2_signal_permutations(peak, base, noise, center, sigma, xlo, xhi, npts, nscans, tol, outcome):
     starting_position = 0.0
