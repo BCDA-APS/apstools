@@ -20,10 +20,20 @@ Project `milestones <https://github.com/BCDA-APS/apstools/milestones>`_
 describe future plans.
 
 ..
-   1.6.19
+   1.6.20
    ******
 
-   release expected by 2024-02-29
+   release expected by 2024-04-30
+
+1.6.19
+******
+
+release expected by 2024-02-29
+
+Fixes
+-----
+
+* lineup2() should work with low intensity peaks
 
 1.6.18
 ******
