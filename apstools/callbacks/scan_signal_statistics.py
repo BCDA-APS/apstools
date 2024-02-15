@@ -49,7 +49,7 @@ class SignalStatsCallback:
         from bluesky import plans as bp
         from bluesky import preprocessors as bpp
 
-        signal_stats = SignalStats()
+        signal_stats = SignalStatsCallback()
 
         def my_plan(detectors, mover, rel_start, rel_stop, points, md={}):
 
