@@ -255,7 +255,7 @@ def listdevice(
 # -----------------------------------------------------------------------------
 # :author:    Pete R. Jemian
 # :email:     jemian@anl.gov
-# :copyright: (c) 2017-2023, UChicago Argonne, LLC
+# :copyright: (c) 2017-2024, UChicago Argonne, LLC
 #
 # Distributed under the terms of the Argonne National Laboratory Open Source License.
 #
