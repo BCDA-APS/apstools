@@ -1,5 +1,6 @@
 """Test the alignment plans."""
 
+import collections
 import math
 import time
 
@@ -291,23 +292,45 @@ def test_TuneResults():
     assert results.report() is None
 
 
+Parameters = collections.namedtuple(
+    "Parameters",
+    "peak base noise center sigma xlo xhi npts nscans tol outcome"
+)
+parms_signal_but_high_background = Parameters(1e5, 1e6, 10, 0.1, 0.2, -0.7, 0.5, 11, 1, 0.05, False)
+parms_model_peak = Parameters(1e5, 0, 10, 0.1, 0.2, -0.7, 0.5, 11, 1, 0.05, True)
+parms_high_background_poor_resolution = Parameters(1e5, 1e4, 10, 0.1, 0.2, -0.7, 0.5, 11, 1, 0.1, True)
+parms_not_much_better = Parameters(1e5, 1e4, 10, 0.1, 0.2, -0.7, 0.5, 11, 2, 0.05, True)
+parms_neg_peak_1x_base = Parameters(-1e5, -1e4, 1e-8, 0.1, 0.2, -0.7, 0.5, 11, 1, 0.1, True)
+parms_neg_base = Parameters(1e5, -10, 10, 0.1, 0.2, -0.7, 0.5, 11, 1, 0.05, True)
+parms_small_signal_zero_base = Parameters(1e-5, 0, 1e-8, 0.1, 0.2, -0.7, 0.5, 11, 1, 0.05, True)
+parms_neg_small_signal_zero_base = Parameters(-1e5, 0, 1e-8, 0.1, 0.2, -0.7, 0.5, 11, 1, 0.05, True)
+parms_small_signal_finite_base = Parameters(1e-5, 1e-7, 1e-8, 0.1, 0.2, -0.7, 0.5, 11, 1, 0.05, True)
+parms_no_signal_only_noise = Parameters(0, 0, 1e-8, 0.1, 0.2, -0.7, 0.5, 11, 1, 0.05, False)
+parms_bkg_plus_noise = Parameters(0, 1, 0.1, 0.1, 0.2, -0.7, 0.5, 11, 1, 0.05, False)
+parms_bkg_plus_big_noise = Parameters(0, 1, 100, 0.1, 0.2, -0.7, 0.5, 11, 1, 0.05, False)
+parms_no_signal__ZeroDivisionError = Parameters(0, 0, 0, 0.1, 0.2, -0.7, 0.5, 11, 1, 0.005, None)
+parms_bkg_only__ZeroDivisionError = Parameters(0, 1, 0, 0.1, 0.2, -0.7, 0.5, 11, 1, 0.005, None)
+
+
 @pytest.mark.parametrize(
-    "peak, base, noise, center, sigma, xlo, xhi, npts, nscans, tol, outcome",
+    parms_signal_but_high_background._fields,
     [
-        [1e5, 1e6, 10, 0.1, 0.2, -0.7, 0.5, 11, 1, 0.05, False],  # signal but high background
-        [1e5, 0, 10, 0.1, 0.2, -0.7, 0.5, 11, 1, 0.05, True],  # model peak
-        [1e5, 1e4, 10, 0.1, 0.2, -0.7, 0.5, 11, 1, 0.1, True],  # high background, poor resolution
-        [1e5, 1e4, 10, 0.1, 0.2, -0.7, 0.5, 11, 2, 0.05, True],  # not much better
-        [-1e5, -1e4, 1e-8, 0.1, 0.2, -0.7, 0.5, 11, 1, 0.1, True],
-        [1e5, -10, 10, 0.1, 0.2, -0.7, 0.5, 11, 1, 0.05, True],
-        [1e-5, 0, 1e-8, 0.1, 0.2, -0.7, 0.5, 11, 1, 0.05, True],
-        [1e-5, 1e-7, 1e-8, 0.1, 0.2, -0.7, 0.5, 11, 1, 0.05, True],
-        [-1e5, 0, 1e-8, 0.1, 0.2, -0.7, 0.5, 11, 1, 0.05, True],
-        [0, 0, 1e-8, 0.1, 0.2, -0.7, 0.5, 11, 1, 0.05, False],  # only noise
-        [0, 1, 0.1, 0.1, 0.2, -0.7, 0.5, 11, 1, 0.05, False],  # bkg + noise
-        [0, 1, 100, 0.1, 0.2, -0.7, 0.5, 11, 1, 0.05, False],  # bkg + big noise
-        [0, 0, 0, 0.1, 0.2, -0.7, 0.5, 11, 1, 0.005, None],  # no signal  ZeroDivisionError
-        [0, 1, 0, 0.1, 0.2, -0.7, 0.5, 11, 1, 0.005, None],  # bkg only  ZeroDivisionError
+        list(parms) for parms  in [
+            parms_signal_but_high_background,
+            parms_model_peak,
+            parms_high_background_poor_resolution,
+            parms_not_much_better,
+            parms_neg_peak_1x_base,
+            parms_neg_base,
+            parms_small_signal_zero_base,
+            parms_neg_small_signal_zero_base,
+            parms_small_signal_finite_base,
+            parms_no_signal_only_noise,
+            parms_bkg_plus_noise,
+            parms_bkg_plus_big_noise,
+            parms_no_signal__ZeroDivisionError,
+            parms_bkg_only__ZeroDivisionError,
+        ]
     ],
 )
 def test_lineup2_signal_permutations(peak, base, noise, center, sigma, xlo, xhi, npts, nscans, tol, outcome):
