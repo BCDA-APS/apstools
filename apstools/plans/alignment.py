@@ -333,8 +333,8 @@ def lineup2(
             return abs(value) > peak_factor
         except ZeroDivisionError:  # not enough samples
             try:
-                value = abs(stats.max_y / stats.min_y)
-                return value > peak_factor
+                value = stats.max_y / stats.min_y
+                return abs(value) > peak_factor
             except ZeroDivisionError:
                 return False
 
