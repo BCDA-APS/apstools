@@ -329,12 +329,12 @@ def lineup2(
     def strong_peak(stats) -> bool:
         """Determine if the peak is strong."""
         try:
-            value = (stats.max_y - stats.min_y) / stats.sigma
-            return value > peak_factor
+            value = (stats.max_y - stats.min_y) / stats.stddev_y
+            return abs(value) > peak_factor
         except ZeroDivisionError:  # not enough samples
             try:
-                value = abs(stats.max_y / stats.min_y)
-                return value > peak_factor
+                value = stats.max_y / stats.min_y
+                return abs(value) > peak_factor
             except ZeroDivisionError:
                 return False
 
