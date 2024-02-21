@@ -1,0 +1,749 @@
+
+
+<!DOCTYPE html>
+
+
+<html lang="en" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>apstools.devices.positioner_soft_done &#8212; apstools 1.6.17 documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../../_static/styles/theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="../../../_static/styles/bootstrap.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="../../../_static/styles/pydata-sphinx-theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+
+  
+  <link href="../../../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=e353d410970836974a52" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../../_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/graphviz.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/css/custom.css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=e353d410970836974a52" />
+<link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52" />
+
+    <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+    <script src="../../../_static/jquery.js"></script>
+    <script src="../../../_static/underscore.js"></script>
+    <script src="../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="../../../_static/doctools.js"></script>
+    <script src="../../../_static/sphinx_highlight.js"></script>
+    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = '_modules/apstools/devices/positioner_soft_done';</script>
+    <script>
+        DOCUMENTATION_OPTIONS.theme_switcher_json_url = 'https://raw.githubusercontent.com/BCDA-APS/apstools/main/docs/source/_static/switcher.json';
+        DOCUMENTATION_OPTIONS.theme_switcher_version_match = '1.6.17';
+        </script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+  
+    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
+<div class="bd-header__inner bd-page-width">
+  <label class="sidebar-toggle primary-toggle" for="__primary">
+    <span class="fa-solid fa-bars"></span>
+  </label>
+  
+  <div class="navbar-header-items__start">
+    
+      <div class="navbar-item">
+  
+
+<a class="navbar-brand logo" href="../../../index.html">
+  
+  
+  
+  
+  
+    <p class="title logo__title">apstools 1.6.17 documentation</p>
+  
+</a></div>
+    
+      <div class="navbar-item">
+<script>
+document.write(`
+  <div class="version-switcher__container dropdown">
+    <button type="button" class="version-switcher__button btn btn-sm navbar-btn dropdown-toggle" data-bs-toggle="dropdown">
+      1.6.17  <!-- this text may get changed later by javascript -->
+      <span class="caret"></span>
+    </button>
+    <div class="version-switcher__menu dropdown-menu list-group-flush py-0">
+    <!-- dropdown will be populated by javascript on page load -->
+    </div>
+  </div>
+`);
+</script></div>
+    
+  </div>
+  
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item"><nav class="navbar-nav">
+  <p class="sidebar-header-items__title"
+     role="heading"
+     aria-level="1"
+     aria-label="Site Navigation">
+    Site Navigation
+  </p>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../overview.html">
+                        Overview
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../applications/index.html">
+                        Applications
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../examples/index.html">
+                        Guides
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../api/index.html">
+                        API Documentation
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../install.html">
+                        Installation
+                      </a>
+                    </li>
+                
+            <div class="nav-item dropdown">
+                <button class="btn dropdown-toggle nav-item" type="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    More
+                </button>
+                <div class="dropdown-menu">
+                    
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../changes.html">
+                        Change History
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../license.html">
+                        License
+                      </a>
+                    </li>
+                
+                </div>
+            </div>
+            
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+  </button>
+`);
+</script>
+        </div>
+      
+      
+        <div class="navbar-item">
+<script>
+document.write(`
+  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
+    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
+    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+  </button>
+`);
+</script></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+  </button>
+`);
+</script>
+    </div>
+  
+
+  
+</div>
+
+    </nav>
+  
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      <div class="bd-sidebar-primary bd-sidebar hide-on-wide">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          <div class="navbar-item"><nav class="navbar-nav">
+  <p class="sidebar-header-items__title"
+     role="heading"
+     aria-level="1"
+     aria-label="Site Navigation">
+    Site Navigation
+  </p>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../overview.html">
+                        Overview
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../applications/index.html">
+                        Applications
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../examples/index.html">
+                        Guides
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../api/index.html">
+                        API Documentation
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../install.html">
+                        Installation
+                      </a>
+                    </li>
+                
+            <div class="nav-item dropdown">
+                <button class="btn dropdown-toggle nav-item" type="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    More
+                </button>
+                <div class="dropdown-menu">
+                    
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../changes.html">
+                        Change History
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../license.html">
+                        License
+                      </a>
+                    </li>
+                
+                </div>
+            </div>
+            
+  </ul>
+</nav></div>
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+<script>
+document.write(`
+  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
+    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
+    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+  </button>
+`);
+</script></div>
+        
+      </div>
+    
+  </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+
+
+<nav aria-label="Breadcrumbs">
+  <ul class="bd-breadcrumbs" role="navigation" aria-label="Breadcrumb">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../../../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="../../index.html" class="nav-link">Module code</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page">apstools.devices.positioner_soft_done</li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article" role="main">
+                  
+  <h1>Source code for apstools.devices.positioner_soft_done</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">PVPositioner that computes ``done`` as a soft signal.</span>
+
+<span class="sd">.. autosummary::</span>
+
+<span class="sd">   ~PVPositionerSoftDone</span>
+<span class="sd">   ~PVPositionerSoftDoneWithStop</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">import</span> <span class="nn">atexit</span>
+<span class="kn">import</span> <span class="nn">logging</span>
+<span class="kn">import</span> <span class="nn">math</span>
+<span class="kn">import</span> <span class="nn">weakref</span>
+
+<span class="kn">from</span> <span class="nn">ophyd</span> <span class="kn">import</span> <span class="n">Component</span>
+<span class="kn">from</span> <span class="nn">ophyd</span> <span class="kn">import</span> <span class="n">EpicsSignal</span>
+<span class="kn">from</span> <span class="nn">ophyd</span> <span class="kn">import</span> <span class="n">EpicsSignalRO</span>
+<span class="kn">from</span> <span class="nn">ophyd</span> <span class="kn">import</span> <span class="n">FormattedComponent</span>
+<span class="kn">from</span> <span class="nn">ophyd</span> <span class="kn">import</span> <span class="n">PVPositioner</span>
+<span class="kn">from</span> <span class="nn">ophyd</span> <span class="kn">import</span> <span class="n">Signal</span>
+<span class="kn">from</span> <span class="nn">ophyd.signal</span> <span class="kn">import</span> <span class="n">EpicsSignalBase</span>
+
+<span class="kn">from</span> <span class="nn">..tests</span> <span class="kn">import</span> <span class="n">timed_pause</span>
+
+<span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="PVPositionerSoftDone"><a class="viewcode-back" href="../../../api/_devices.html#apstools.devices.eurotherm_2216e.PVPositionerSoftDone">[docs]</a><span class="k">class</span> <span class="nc">PVPositionerSoftDone</span><span class="p">(</span><span class="n">PVPositioner</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    PVPositioner that computes ``done`` as a soft signal.</span>
+
+<span class="sd">    PARAMETERS</span>
+
+<span class="sd">    prefix : str, optional</span>
+<span class="sd">        The device prefix used for all sub-positioners.</span>
+<span class="sd">        This is optional as it</span>
+<span class="sd">        may be desirable to specify full PV names for PVPositioners.</span>
+<span class="sd">    readback_pv : str, optional</span>
+<span class="sd">        PV prefix of the readback signal.</span>
+<span class="sd">        Disregarded if readback attribute is created.</span>
+<span class="sd">    setpoint_pv : str, optional</span>
+<span class="sd">        PV prefix of the setpoint signal.</span>
+<span class="sd">        Disregarded if setpoint attribute is created.</span>
+<span class="sd">    tolerance : float, optional</span>
+<span class="sd">        Motion tolerance. The motion is considered *done* when::</span>
+
+<span class="sd">            abs(readback-setpoint) &lt;= tolerance</span>
+
+<span class="sd">        Defaults to ``10^(-1*precision)``,</span>
+<span class="sd">        where ``precision = setpoint.precision``.</span>
+<span class="sd">    update_target : bool</span>
+<span class="sd">        ``True`` when this object update the ``target`` Component directly.</span>
+<span class="sd">        Use ``False`` if the ``target`` Component will be updated externally,</span>
+<span class="sd">        such as by the controller when ``target`` is an ``EpicsSignal``.</span>
+<span class="sd">        Defaults to ``True``.</span>
+<span class="sd">    kwargs :</span>
+<span class="sd">        Passed to `ophyd.PVPositioner`</span>
+
+<span class="sd">    ATTRIBUTES</span>
+
+<span class="sd">    setpoint : Signal</span>
+<span class="sd">        The setpoint (request) signal</span>
+<span class="sd">    readback : Signal or None</span>
+<span class="sd">        The readback PV (e.g., encoder position PV)</span>
+<span class="sd">    actuate : Signal or None</span>
+<span class="sd">        The actuation PV to set when movement is requested</span>
+<span class="sd">    actuate_value : any, optional</span>
+<span class="sd">        The actuation value, sent to the actuate signal when motion is</span>
+<span class="sd">        requested</span>
+<span class="sd">    stop_signal : Signal or None</span>
+<span class="sd">        The stop PV to set when motion should be stopped</span>
+<span class="sd">    stop_value : any, optional</span>
+<span class="sd">        The value sent to stop_signal when a stop is requested</span>
+<span class="sd">    target : Signal</span>
+<span class="sd">        The target value of a move request.</span>
+
+<span class="sd">        Override (in subclass) with `EpicsSignal` to connect with a PV.</span>
+
+<span class="sd">        In some controllers (such as temperature controllers), the setpoint</span>
+<span class="sd">        may be changed incrementally towards this target value (such as a</span>
+<span class="sd">        ramp or controlled trajectory).  In such cases, the ``target`` will</span>
+<span class="sd">        be final value while ``setpoint`` will be the current desired position.</span>
+
+<span class="sd">        Otherwise, both ``setpoint`` and ``target`` will be set to the same value.</span>
+
+<span class="sd">    (new in apstools 1.5.3)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1"># positioner</span>
+    <span class="c1"># fmt: off</span>
+    <span class="n">readback</span> <span class="o">=</span> <span class="n">FormattedComponent</span><span class="p">(</span>
+        <span class="n">EpicsSignalRO</span><span class="p">,</span> <span class="s2">&quot;</span><span class="si">{prefix}{_readback_pv}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;hinted&quot;</span><span class="p">,</span> <span class="n">auto_monitor</span><span class="o">=</span><span class="kc">True</span>
+    <span class="p">)</span>
+    <span class="n">setpoint</span> <span class="o">=</span> <span class="n">FormattedComponent</span><span class="p">(</span>
+        <span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">&quot;</span><span class="si">{prefix}{_setpoint_pv}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;normal&quot;</span><span class="p">,</span> <span class="n">put_complete</span><span class="o">=</span><span class="kc">True</span>
+    <span class="p">)</span>
+    <span class="c1"># fmt: on</span>
+    <span class="n">done</span> <span class="o">=</span> <span class="n">Component</span><span class="p">(</span><span class="n">Signal</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;config&quot;</span><span class="p">)</span>
+    <span class="n">done_value</span> <span class="o">=</span> <span class="kc">True</span>
+
+    <span class="n">tolerance</span> <span class="o">=</span> <span class="n">Component</span><span class="p">(</span><span class="n">Signal</span><span class="p">,</span> <span class="n">value</span><span class="o">=-</span><span class="mi">1</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;config&quot;</span><span class="p">)</span>
+    <span class="n">report_dmov_changes</span> <span class="o">=</span> <span class="n">Component</span><span class="p">(</span><span class="n">Signal</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;omitted&quot;</span><span class="p">)</span>
+
+    <span class="n">target</span> <span class="o">=</span> <span class="n">Component</span><span class="p">(</span><span class="n">Signal</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="s2">&quot;None&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;config&quot;</span><span class="p">)</span>
+
+    <span class="n">_rb_count</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">_sp_count</span> <span class="o">=</span> <span class="mi">0</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">prefix</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span>
+        <span class="o">*</span><span class="p">,</span>
+        <span class="n">readback_pv</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span>
+        <span class="n">setpoint_pv</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span>
+        <span class="n">tolerance</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">update_target</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
+    <span class="p">):</span>
+        <span class="c1"># fmt: off</span>
+        <span class="k">if</span> <span class="n">setpoint_pv</span> <span class="o">==</span> <span class="n">readback_pv</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;readback_pv (</span><span class="si">{</span><span class="n">readback_pv</span><span class="si">}</span><span class="s2">)&quot;</span>
+                <span class="sa">f</span><span class="s2">&quot; and setpoint_pv (</span><span class="si">{</span><span class="n">setpoint_pv</span><span class="si">}</span><span class="s2">)&quot;</span>
+                <span class="s2">&quot; must have different values&quot;</span>
+            <span class="p">)</span>
+        <span class="c1"># fmt: on</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_setpoint_pv</span> <span class="o">=</span> <span class="n">setpoint_pv</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_readback_pv</span> <span class="o">=</span> <span class="n">readback_pv</span>
+
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">prefix</span><span class="o">=</span><span class="n">prefix</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+        <span class="c1"># Make the default alias for the readback the name of the</span>
+        <span class="c1"># positioner itself as in EpicsMotor.</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">readback</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">update_target</span> <span class="o">=</span> <span class="n">update_target</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">readback</span><span class="o">.</span><span class="n">subscribe</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">cb_readback</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">setpoint</span><span class="o">.</span><span class="n">subscribe</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">cb_setpoint</span><span class="p">)</span>
+        <span class="c1"># cancel subscriptions before object is garbage collected</span>
+        <span class="n">weakref</span><span class="o">.</span><span class="n">finalize</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">readback</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">readback</span><span class="o">.</span><span class="n">unsubscribe_all</span><span class="p">)</span>
+        <span class="n">weakref</span><span class="o">.</span><span class="n">finalize</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">setpoint</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">setpoint</span><span class="o">.</span><span class="n">unsubscribe_all</span><span class="p">)</span>
+        <span class="n">atexit</span><span class="o">.</span><span class="n">register</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">cleanup</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">tolerance</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">tolerance</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="n">tolerance</span><span class="p">)</span>
+
+<div class="viewcode-block" id="PVPositionerSoftDone.cleanup"><a class="viewcode-back" href="../../../api/_devices.html#apstools.devices.eurotherm_2216e.PVPositionerSoftDone.cleanup">[docs]</a>    <span class="k">def</span> <span class="nf">cleanup</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Clear subscriptions on exit.&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">readback</span><span class="o">.</span><span class="n">unsubscribe_all</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">setpoint</span><span class="o">.</span><span class="n">unsubscribe_all</span><span class="p">()</span></div>
+
+    <span class="c1"># fmt: off</span>
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">actual_tolerance</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">tolerance</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">tolerance</span><span class="o">.</span><span class="n">get</span><span class="p">()</span> <span class="o">&gt;=</span> <span class="mi">0</span>
+            <span class="k">else</span> <span class="mi">10</span> <span class="o">**</span> <span class="p">(</span><span class="o">-</span><span class="mi">1</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">precision</span><span class="p">)</span>
+        <span class="p">)</span>
+    <span class="c1"># fmt: on</span>
+
+<div class="viewcode-block" id="PVPositionerSoftDone.cb_readback"><a class="viewcode-back" href="../../../api/_devices.html#apstools.devices.eurotherm_2216e.PVPositionerSoftDone.cb_readback">[docs]</a>    <span class="k">def</span> <span class="nf">cb_readback</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Called when readback changes (EPICS CA monitor event) or on-demand.</span>
+
+<span class="sd">        Responsible for determining _if_ the positioner is done moving.</span>
+<span class="sd">        Since soft positioners have no such direct indication, computes</span>
+<span class="sd">        if the positioner is in position (if a move is active).</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">idle</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">done</span><span class="o">.</span><span class="n">get</span><span class="p">()</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">done_value</span>
+        <span class="k">if</span> <span class="n">idle</span><span class="p">:</span>
+            <span class="k">return</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_rb_count</span> <span class="o">+=</span> <span class="mi">1</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">inposition</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">done</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">done_value</span><span class="p">)</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">report_dmov_changes</span><span class="o">.</span><span class="n">get</span><span class="p">():</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2"> reached: </span><span class="si">{</span><span class="kc">True</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="PVPositionerSoftDone.cb_setpoint"><a class="viewcode-back" href="../../../api/_devices.html#apstools.devices.eurotherm_2216e.PVPositionerSoftDone.cb_setpoint">[docs]</a>    <span class="k">def</span> <span class="nf">cb_setpoint</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Called when setpoint changes (EPICS CA monitor event).</span>
+
+<span class="sd">        When the setpoint is changed, force`` done=False``.  For any move, ``done``</span>
+<span class="sd">        **must** transition to ``!= done_value``, then back to ``done_value``.</span>
+
+<span class="sd">        Without this response, a small move (within tolerance) will not return.</span>
+<span class="sd">        The ``cb_readback()`` method will compute ``done``.</span>
+
+<span class="sd">        Since other code will also call this method, check the keys in kwargs</span>
+<span class="sd">        and do not react to the &quot;wrong&quot; signature.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="s2">&quot;value&quot;</span> <span class="ow">in</span> <span class="n">kwargs</span> <span class="ow">and</span> <span class="s2">&quot;status&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_sp_count</span> <span class="o">+=</span> <span class="mi">1</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">done</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">done_value</span><span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;cb_setpoint: done=</span><span class="si">%s</span><span class="s2">, setpoint=</span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">done</span><span class="o">.</span><span class="n">get</span><span class="p">(),</span> <span class="bp">self</span><span class="o">.</span><span class="n">setpoint</span><span class="o">.</span><span class="n">get</span><span class="p">())</span></div>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">inposition</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Do readback and setpoint (both from cache) agree within tolerance?</span>
+
+<span class="sd">        Returns::</span>
+
+<span class="sd">            inposition = |readback - setpoint| &lt;= tolerance</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># Since this method must execute quickly, do NOT force</span>
+        <span class="c1"># EPICS CA gets using `use_monitor=False`.</span>
+        <span class="n">rb</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">readback</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
+        <span class="n">sp</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">setpoint</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
+        <span class="n">tol</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">actual_tolerance</span>
+        <span class="n">inpos</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">isclose</span><span class="p">(</span><span class="n">rb</span><span class="p">,</span> <span class="n">sp</span><span class="p">,</span> <span class="n">abs_tol</span><span class="o">=</span><span class="n">tol</span><span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;inposition: inpos=</span><span class="si">%s</span><span class="s2"> rb=</span><span class="si">%s</span><span class="s2"> sp=</span><span class="si">%s</span><span class="s2"> tol=</span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">inpos</span><span class="p">,</span> <span class="n">rb</span><span class="p">,</span> <span class="n">sp</span><span class="p">,</span> <span class="n">tol</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">inpos</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">precision</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">setpoint</span><span class="o">.</span><span class="n">precision</span>
+
+<div class="viewcode-block" id="PVPositionerSoftDone._setup_move"><a class="viewcode-back" href="../../../api/_devices.html#apstools.devices.eurotherm_2216e.PVPositionerSoftDone._setup_move">[docs]</a>    <span class="k">def</span> <span class="nf">_setup_move</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">position</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Move and do not wait until motion is complete (asynchronous)&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">%s</span><span class="s2">.setpoint = </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">position</span><span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">update_target</span><span class="p">:</span>
+            <span class="n">kwargs</span> <span class="o">=</span> <span class="p">{}</span>
+            <span class="k">if</span> <span class="nb">issubclass</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">target</span><span class="o">.</span><span class="vm">__class__</span><span class="p">,</span> <span class="n">EpicsSignalBase</span><span class="p">):</span>
+                <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;wait&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span>  <span class="c1"># Signal.put() warns if kwargs are given</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">target</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="n">position</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">setpoint</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="n">position</span><span class="p">,</span> <span class="n">wait</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">actuate</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">%s</span><span class="s2">.actuate = </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">actuate_value</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">actuate</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">actuate_value</span><span class="p">,</span> <span class="n">wait</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+        <span class="c1"># This is needed because in a special case the setpoint.put does not</span>
+        <span class="c1"># run the &quot;sub_value&quot; subscriptions.</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">cb_setpoint</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">cb_readback</span><span class="p">()</span>  <span class="c1"># This is needed to force the first check.</span></div></div>
+
+
+<div class="viewcode-block" id="PVPositionerSoftDoneWithStop"><a class="viewcode-back" href="../../../api/_devices.html#apstools.devices.eurotherm_2216e.PVPositionerSoftDoneWithStop">[docs]</a><span class="k">class</span> <span class="nc">PVPositionerSoftDoneWithStop</span><span class="p">(</span><span class="n">PVPositionerSoftDone</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    PVPositionerSoftDone with stop() and inposition.</span>
+
+<span class="sd">    The :meth:`stop()` method sets the setpoint to the immediate readback</span>
+<span class="sd">    value (only when ``inposition`` is ``True``).  This stops the</span>
+<span class="sd">    positioner at the current position.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="PVPositionerSoftDoneWithStop.stop"><a class="viewcode-back" href="../../../api/_devices.html#apstools.devices.eurotherm_2216e.PVPositionerSoftDoneWithStop.stop">[docs]</a>    <span class="k">def</span> <span class="nf">stop</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">success</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Hold the current readback when stop() is called and not :meth:`inposition`.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">inposition</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">setpoint</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">position</span><span class="p">)</span>
+            <span class="n">timed_pause</span><span class="p">()</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">cb_readback</span><span class="p">()</span>  <span class="c1"># re-evaluate soft done Signal</span></div></div>
+
+
+<span class="c1"># -----------------------------------------------------------------------------</span>
+<span class="c1"># :author:    Pete R. Jemian</span>
+<span class="c1"># :email:     jemian@anl.gov</span>
+<span class="c1"># :copyright: (c) 2017-2023, UChicago Argonne, LLC</span>
+<span class="c1">#</span>
+<span class="c1"># Distributed under the terms of the Argonne National Laboratory Open Source License.</span>
+<span class="c1">#</span>
+<span class="c1"># The full license is in the file LICENSE.txt, distributed with this software.</span>
+<span class="c1"># -----------------------------------------------------------------------------</span>
+</pre></div>
+
+                </article>
+              
+              
+              
+                <footer class="bd-footer-article">
+                  
+<div class="footer-article-items footer-article__inner">
+  
+    <div class="footer-article-item"><!-- Previous / next buttons -->
+<div class="prev-next-area">
+</div></div>
+  
+</div>
+
+                </footer>
+              
+            </div>
+            
+            
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../../_static/scripts/bootstrap.js?digest=e353d410970836974a52"></script>
+<script src="../../../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+  <p class="copyright">
+    
+      © Copyright 2017-2023, UChicago Argonne, LLC.
+      <br/>
+    
+  </p>
+</div>
+      
+        <div class="footer-item">
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 5.3.0.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item"><p class="theme-version">
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.13.3.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>
