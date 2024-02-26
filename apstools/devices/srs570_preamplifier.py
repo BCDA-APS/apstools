@@ -115,40 +115,44 @@ def calculate_settle_time(gain_value: int, gain_unit: int, gain_mode: str):
 
 
 class GainSignal(EpicsSignal):
-    """A signal where the settling time depends on the pre-amp gain.
+    """
+    A signal where the settling time depends on the pre-amp gain.
 
     Used to introduce a specific settle time when setting to account
-    for the amp's R–C relaxation time when changing gain.
-
+    for the amp's RC relaxation time when changing gain.
     """
 
     def set(self, value, *, timeout=DEFAULT_WRITE_TIMEOUT, settle_time="auto"):
-        """Set the value of the Signal and return a Status object.
+        """
+        Set the value of the Signal and return a Status object.
 
-        If put completion is used for this EpicsSignal, the status object will
-        complete once EPICS reports the put has completed.
+        If put completion is used for this EpicsSignal, the status object
+        will complete once EPICS reports the put has completed.
 
-        Otherwise the readback will be polled until equal to the set point (as
-        in `Signal.set`)
+        Otherwise the readback will be polled until equal to the set point
+        (as in ``Signal.set``)
 
         Parameters
         ----------
+
         value : any
+            The gain value.
+
         timeout : float, optional
             Maximum time to wait.
+
         settle_time: float, optional
-            Delay after the set() has completed to indicate completion
-            to the caller. If "auto" (default), a reasonable settle
-            time will be chosen based on the gain mode on the pre-amp.
+            Delay after ``set()`` has completed to indicate completion
+            to the caller. If ``"auto"`` (default), a reasonable settle
+            time will be chosen based on the gain mode of the pre-amp.
 
         Returns
         -------
         st : Status
 
-        See Also
-        --------
-        Signal.set
-        EpicsSignal.set
+        .. seealso::
+            * Signal.set
+            * EpicsSignal.set
 
         """
         # Determine optimal settling time.
