@@ -25,21 +25,17 @@ jobs:
 
       - uses: actions/setup-python@v5
         with:
-          python-version: '3.11'
+          python-version: "3.11"
 
-      - name: Install Dependencies
+      - name: Install package
         run: |
+          set -vxeuo pipefail
           python -m pip install --upgrade pip
-          pip install flake8
-
-      - name: Run flake8
-        run: |
-          flake8
-
-      - name: Run black
-        uses: rickstaa/action-black@v1
+  
+      - name: Run ruff
+        uses: davidslusser/actions_python_ruff@v1.0.0
         with:
-          black_args: ". --check"
+          python_version: "3.11"
 
   install-catalogs:
     name: Install & cache databroker catalogs
