@@ -33,7 +33,8 @@ release expected by 2024-02-29
 Fixes
 -----
 
-* lineup2() should work with low intensity peaks
+* lineup2() should work with low intensity peaks.
+* lineup2() would raise ZeroDivideError in some cases.
 
 1.6.18
 ******
