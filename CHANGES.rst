@@ -28,12 +28,17 @@ describe future plans.
 1.6.19
 ******
 
-release expected by 2024-02-29
+release expected by 2024-04-02
 
 Fixes
 -----
 
 * lineup2() should work with low intensity peaks
+
+Maintenance
+-----------
+
+* Code format conforms to 'ruff'.
 
 1.6.18
 ******
