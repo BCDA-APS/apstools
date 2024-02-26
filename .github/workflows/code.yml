@@ -236,7 +236,7 @@ jobs:
     steps:
       - name: Gather coverage and report to Coveralls
         run: |
-        set -vxeuo pipefail
+          set -vxeuo pipefail
           echo "Finally!"
           pip3 install --upgrade coveralls
           # debug mode: output prepared json and reported files list to stdout
