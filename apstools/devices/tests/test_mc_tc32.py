@@ -1,5 +1,3 @@
-import pytest
-
 from ..measComp_tc32_support import BI_CHANNEL_LIST
 from ..measComp_tc32_support import BO_CHANNEL_LIST
 from ..measComp_tc32_support import TC_CHANNEL_LIST

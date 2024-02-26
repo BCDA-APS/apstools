@@ -10,7 +10,6 @@ import pytest
 from ophyd import EpicsSignal
 
 from ...tests import IOC_GP
-from ...utils import run_in_thread
 from .. import run_blocking_function
 
 PV = f"{IOC_GP}gp:float1"

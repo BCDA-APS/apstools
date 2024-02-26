@@ -12,7 +12,6 @@ Because fwhm is None.
 
 import dataclasses
 
-import bluesky.plan_stubs as bps
 import bluesky.preprocessors as bpp
 import databroker
 from bluesky import RunEngine
