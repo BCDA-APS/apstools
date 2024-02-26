@@ -45,6 +45,7 @@ jobs:
 
     - name: Install pandoc
       run: |
+        set -vxeuo pipefail
         sudo apt-get update && \
         sudo apt-get -y install pandoc
 
@@ -80,6 +81,7 @@ jobs:
 
     - name: Re-build the master directory (contains all documentation versions)
       run: |
+        set -vxeuo pipefail
         cp .github/index.html "${TMP_DIR}"
 
         cd "${TMP_DIR}"
@@ -110,6 +112,7 @@ jobs:
 
     - name: Info
       run: |
+        set -vxeuo pipefail        
         cd "${TMP_DIR}"
         echo "pwd=$(pwd)"
         ls -laFGh
