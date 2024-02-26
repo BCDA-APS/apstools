@@ -65,7 +65,7 @@ class HHLSlits(Device):
     v = Cpt(SlitAxis, "v")
 
     # Real motors that directly control the slits
-    pitch = FCpt(EpicsMotor, "{self.motor_prefix}:{self._pitch_motor}", labels={"motors"})
-    yaw = FCpt(EpicsMotor, "{self.motor_prefix}:{self._yaw_motor}", labels={"motors"})
-    horizontal = FCpt(EpicsMotor, "{self.motor_prefix}:{self._horizontal_motor}", labels={"motors"})
-    diagonal = FCpt(EpicsMotor, "{self.motor_prefix}:{self._diagonal_motor}", labels={"motors"})
+    pitch = FCpt(EpicsMotor, "{motor_prefix}:{pitch_motor}", labels={"motors"})
+    yaw = FCpt(EpicsMotor, "{motor_prefix}:{yaw_motor}", labels={"motors"})
+    horizontal = FCpt(EpicsMotor, "{motor_prefix}:{horizontal_motor}", labels={"motors"})
+    diagonal = FCpt(EpicsMotor, "{motor_prefix}:{diagonal_motor}", labels={"motors"})
