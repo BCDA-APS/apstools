@@ -13,7 +13,6 @@ from ophyd.signal import EpicsSignalBase
 from ...devices import SwaitRecord
 from ...tests import IOC_GP
 from .._core import TableStyle
-from ..device_info import DEFAULT_COLUMN_WIDTH
 from ..device_info import NOT_CONNECTED_VALUE
 from ..device_info import _list_epics_signals
 from ..device_info import listdevice
