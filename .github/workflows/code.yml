@@ -181,7 +181,7 @@ jobs:
           python -c "${CMD}"
 
       - name: Download catalog artifacts
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: databroker_catalogs
           path: ~/databroker_catalogs
