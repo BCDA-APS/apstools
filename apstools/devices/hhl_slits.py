@@ -5,10 +5,10 @@ from ophyd import EpicsMotor
 
 
 class HHLSlits(Device):
-    """A rotating aperture that functions like a set of slits.
+    """
+    High Heat Load Slit OPHYD Device.
 
-    Unlike the blades slits, there are no independent parts to move,
-    so each axis only has center and size.
+    There are no independent parts to move, so each axis only has center and size.
 
     Based on the 25-ID-A whitebeam slits.
 
@@ -20,40 +20,40 @@ class HHLSlits(Device):
 
     Parameters
     ==========
-    pitch_motor
-      The motor record suffix controlling the real pitch motor. Don't
-      include a field. E.g. "m3"
-    yaw_motor
-      The motor record suffix controlling the real yaw motor. Don't
-      include a field. E.g. "m3"
-    horizontal_motor
-      The motor record suffix controlling the real horizontal
-      motor. This is different from the horizontal slits
-      position. Don't include a field. E.g. "m3"
-    diagonal_motor
-      The motor record suffix controlling the real diagonal
-      motor. Don't include a field. E.g. "m3"
-
+    prefix:
+      EPICS prefix required to communicate with HHL Slit IOC, ex: "25ida:slits:US:"
+    pitch_motor:
+      The motor record suffix controlling the real pitch motor, ex "m3"
+    yaw_motor:
+      The motor record suffix controlling the real yaw motor, ex "m4"
+    horizontal_motor:
+      The motor record suffix controlling the real horizontal motor, ex: "m1"
+    diagonal_motor:
+      The motor record suffix controlling the real diagonal motor, ex: "m2"
     """
 
     def __init__(
         self,
-        # prefix: str,
+        prefix: str,
+        pitch_motor: str,
+        yaw_motor: str,
+        horizontal_motor: str,
+        diagonal_motor: str,
         *args,
         **kwargs,
     ):
 
         # Determine the prefix for the motors
-        # pieces = prefix.strip(":").split(":")
-        # self.motor_prefix = ":".join(pieces[:-1])
-        prefix = "25ida:slits:US:"
-        self.motor_prefix = "25ida:slits"  # To do
-        self._pitch_motor = "m3"  # Find name from mark of HHL Slit
-        self._yaw_motor = "m4"  # Find name from mark of HHL Slit
-        self._horizontal_motor = "m1"  # Find name from mark of HHL Slit
-        self._diagonal_motor = "m2"  # Find name from mark of HHL Slit
+        pieces = prefix.strip(":").split(":")
+        self.motor_prefix = ":".join(pieces[:-1])
+
+        self._pitch_motor = pitch_motor
+        self._yaw_motor = yaw_motor
+        self._horizontal_motor = horizontal_motor
+        self._diagonal_motor = diagonal_motor
 
         super().__init__(prefix, *args, **kwargs)
+
     class SlitAxis(Device):
         size = Cpt(EpicsMotor, "Size", labels={"motors"})
         center = Cpt(EpicsMotor, "Center", labels={"motors"})
