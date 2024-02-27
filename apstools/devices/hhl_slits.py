@@ -46,16 +46,14 @@ class HHLSlits(Device):
         # Determine the prefix for the motors
         # pieces = prefix.strip(":").split(":")
         # self.motor_prefix = ":".join(pieces[:-1])
+        prefix = "25ida:slits:US:"
+        self.motor_prefix = "25ida:slits"  # To do
+        self._pitch_motor = "m3"  # Find name from mark of HHL Slit
+        self._yaw_motor = "m4"  # Find name from mark of HHL Slit
+        self._horizontal_motor = "m1"  # Find name from mark of HHL Slit
+        self._diagonal_motor = "m2"  # Find name from mark of HHL Slit
 
-        self.motor_prefix = ""  # To do
-        self._pitch_motor = "pitch_motor"  # Find name from mark of HHL Slit
-        self._yaw_motor = "yaw_motor"  # Find name from mark of HHL Slit
-        self._horizontal_motor = "horizontal_motor"  # Find name from mark of HHL Slit
-        self._diagonal_motor = "diagonal_motor"  # Find name from mark of HHL Slit
-
-        # super().__init__(prefix, *args, **kwargs)
-        super().__init__(*args, **kwargs)  # To do
-
+        super().__init__(prefix, *args, **kwargs)
     class SlitAxis(Device):
         size = Cpt(EpicsMotor, "Size", labels={"motors"})
         center = Cpt(EpicsMotor, "Center", labels={"motors"})
@@ -65,7 +63,7 @@ class HHLSlits(Device):
     v = Cpt(SlitAxis, "v")
 
     # Real motors that directly control the slits
-    pitch = FCpt(EpicsMotor, "{motor_prefix}:{pitch_motor}", labels={"motors"})
-    yaw = FCpt(EpicsMotor, "{motor_prefix}:{yaw_motor}", labels={"motors"})
-    horizontal = FCpt(EpicsMotor, "{motor_prefix}:{horizontal_motor}", labels={"motors"})
-    diagonal = FCpt(EpicsMotor, "{motor_prefix}:{diagonal_motor}", labels={"motors"})
+    pitch = FCpt(EpicsMotor, "{motor_prefix}:{_pitch_motor}", labels={"motors"})
+    yaw = FCpt(EpicsMotor, "{motor_prefix}:{_yaw_motor}", labels={"motors"})
+    horizontal = FCpt(EpicsMotor, "{motor_prefix}:{_horizontal_motor}", labels={"motors"})
+    diagonal = FCpt(EpicsMotor, "{motor_prefix}:{_diagonal_motor}", labels={"motors"})
