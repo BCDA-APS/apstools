@@ -150,6 +150,7 @@ Slits
 
 .. autosummary::
 
+    ~apstools.devices.hhl_slits.HHLSlits
     ~apstools.devices.xia_slit.XiaSlit2D
     ~apstools.synApps.db_2slit.Optics2Slit1D
     ~apstools.synApps.db_2slit.Optics2Slit2D_HV
@@ -316,6 +317,12 @@ All Submodules
         :private-members:
         :show-inheritance:
         :inherited-members:
+
+.. automodule:: apstools.devices.hhl_slits
+    :members:
+    :private-members:
+    :show-inheritance:
+    :inherited-members:
 
 .. automodule:: apstools.devices.kohzu_monochromator
     :members:
