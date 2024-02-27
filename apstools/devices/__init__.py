@@ -63,6 +63,7 @@ from .eurotherm_2216e import Eurotherm2216e
 # from .flyer_motor_scaler import _SMFlyer_Step_1
 # from .flyer_motor_scaler import _SMFlyer_Step_2
 # from .flyer_motor_scaler import _SMFlyer_Step_3
+from .hhl_slits import HHLSlits
 
 from .kohzu_monochromator import KohzuSeqCtl_Monochromator
 
