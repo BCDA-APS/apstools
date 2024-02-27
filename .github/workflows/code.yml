@@ -91,7 +91,7 @@ jobs:
           mv /tmp/*_test ~/databroker_catalogs/
 
       - name: Archive catalog artifacts
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: databroker_catalogs
           path: ~/databroker_catalogs
