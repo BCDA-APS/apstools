@@ -28,7 +28,7 @@ describe future plans.
 1.6.19
 ******
 
-release expected by 2024-02-29
+release expected by 2024-03-31
 
 Fixes
 -----
