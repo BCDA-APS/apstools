@@ -6,7 +6,7 @@ from ophyd import EpicsMotor
 
 class HHLSlits(Device):
     """
-    High Heat Load Slit OPHYD Device.
+    High Heat Load Slit.
 
     There are no independent parts to move, so each axis only has center and size.
 
