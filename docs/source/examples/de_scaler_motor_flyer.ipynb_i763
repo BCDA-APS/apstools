@@ -166,7 +166,7 @@
    "cell_type": "markdown",
    "metadata": {},
    "source": [
-    "Augment the *standard* (a.k.a. bluesky pre-assembled) [`bp.fly()`](https://blueskyproject.io/bluesky/generated/bluesky.plans.fly.html#bluesky.plans.fly) plan to save the peak statistics to a separate stream in the run after the fly scan is complete."
+    "Augment the *standard* (a.k.a. bluesky pre-assembled) [bp.fly()](https://blueskyproject.io/bluesky/generated/bluesky.plans.fly.html#bluesky.plans.fly) plan to save the peak statistics to a separate stream in the run after the fly scan is complete."
    ]
   },
   {
