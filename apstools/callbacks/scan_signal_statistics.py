@@ -163,7 +163,7 @@ class SignalStatsCallback:
                 for k in keys:
                     try:
                         v = getattr(stats, k)
-                    except ZeroDivisionError:
+                    except (ValueError, ZeroDivisionError):
                         v = 0
                     row.append(v)
                 table.addRow(row)
@@ -175,7 +175,7 @@ class SignalStatsCallback:
                 for stats in self._registers.values():
                     try:
                         v = getattr(stats, k)
-                    except ZeroDivisionError:
+                    except (ValueError, ZeroDivisionError):
                         v = 0
                     row.append(v)
                 table.addRow(row)

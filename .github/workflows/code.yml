@@ -8,14 +8,13 @@ on:
   pull_request:
     branches:
       - main
-  workflow_dispatch:   # allow manual triggering
+  workflow_dispatch: # allow manual triggering
 
 defaults:
   run:
     shell: bash -l {0}
 
 jobs:
-
   lint:
     name: Code style
     runs-on: ubuntu-latest
@@ -48,11 +47,11 @@ jobs:
       max-parallel: 5
 
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
-      - uses: actions/setup-python@v4
+      - uses: actions/setup-python@v5
         with:
-          python-version: '3.11'
+          python-version: "3.11"
 
       - name: Create Python ${{ matrix.python-version }} environment
         uses: mamba-org/setup-micromamba@v1
@@ -66,6 +65,7 @@ jobs:
 
       - name: Unpack
         run: |
+          set -vxeuo pipefail
           which databroker-pack
           which databroker-unpack
           cd resources
@@ -74,11 +74,13 @@ jobs:
 
       - name: Directory Listings
         run: |
+          set -vxeuo pipefail
           ls -lAFghR ~/.local/
           ls -lAFghR /tmp/*_test/
 
       - name: Prepare archival content
         run: |
+          set -vxeuo pipefail
           mkdir -p ~/databroker_catalogs/
           mv ~/.local ~/databroker_catalogs/
           mv /tmp/*_test ~/databroker_catalogs/
@@ -103,114 +105,120 @@ jobs:
       max-parallel: 5
 
     steps:
-    - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
-    - name: Create Python ${{ matrix.python-version }} environment
-      uses: mamba-org/setup-micromamba@v1
-      with:
-        cache-environment: true
-        cache-environment-key: env-key-${{ matrix.python-version }}
-        condarc: |
-          channel-priority: flexible
-        environment-file: environment.yml
-        environment-name: anaconda-test-env-py-${{ matrix.python-version }}
-        create-args: >-
-          coveralls
-          pytest
-          pytest-cov
-          python=${{ matrix.python-version }}
-          setuptools-scm
+      - name: Create Python ${{ matrix.python-version }} environment
+        uses: mamba-org/setup-micromamba@v1
+        with:
+          cache-environment: true
+          cache-environment-key: env-key-${{ matrix.python-version }}
+          condarc: |
+            channel-priority: flexible
+          environment-file: environment.yml
+          environment-name: anaconda-test-env-py-${{ matrix.python-version }}
+          create-args: >-
+            coveralls
+            pytest
+            pytest-cov
+            python=${{ matrix.python-version }}
+            setuptools-scm
 
-    - name: Initial diagnostics
-      run: |
-        micromamba info
-        micromamba list
-        conda config --show-sources
-        conda config --show
-        micromamba env list
-        printenv | sort
+      - name: Initial diagnostics
+        run: |
+          set -vxeuo pipefail
+          micromamba info
+          micromamba list
+          conda config --show-sources
+          conda config --show
+          micromamba env list
+          printenv | sort
 
-    - name: Directories before Docker
-      run: ls -lAFghrt ~/
+      - name: Directories before Docker
+        run: ls -lAFghrt ~/
 
-    - name: Start EPICS IOCs in Docker
-      run: |
-        bash ./.github/scripts/iocmgr.sh start GP gp
-        bash ./.github/scripts/iocmgr.sh start ADSIM ad
-        docker ps -a
-        ls -lAFgh /tmp/docker_ioc/iocad/
-        ls -lAFgh /tmp/docker_ioc/iocgp/
+      - name: Start EPICS IOCs in Docker
+        run: |
+          set -vxeuo pipefail
+          bash ./.github/scripts/iocmgr.sh start GP gp
+          bash ./.github/scripts/iocmgr.sh start ADSIM ad
+          docker ps -a
+          ls -lAFgh /tmp/docker_ioc/iocad/
+          ls -lAFgh /tmp/docker_ioc/iocgp/
 
-    - name: Directories after Docker
-      run: ls -lAFghrt ~/
+      - name: Directories after Docker
+        run: ls -lAFghrt ~/
 
-    - name: Confirm EPICS IOC is available via caget
-      shell: bash -l {0}
-      run: |
-        docker exec iocgp grep float1 /home/iocgp/dbl-all.txt
-        docker exec iocgp /opt/base/bin/linux-x86_64/caget gp:UPTIME gp:gp:float1
-        docker exec iocad /opt/base/bin/linux-x86_64/caget ad:cam1:Acquire_RBV
-        which caget
-        caget gp:UPTIME
-        caget gp:gp:float1
-        caget ad:cam1:Acquire_RBV
+      - name: Confirm EPICS IOC is available via caget
+        shell: bash -l {0}
+        run: |
+          set -vxeuo pipefail
+          docker exec iocgp grep float1 /home/iocgp/dbl-all.txt
+          docker exec iocgp /opt/base/bin/linux-x86_64/caget gp:UPTIME gp:gp:float1
+          docker exec iocad /opt/base/bin/linux-x86_64/caget ad:cam1:Acquire_RBV
+          which caget
+          caget gp:UPTIME
+          caget gp:gp:float1
+          caget ad:cam1:Acquire_RBV
 
-    - name: Confirm EPICS IOC is available via PyEpics
-      shell: bash -l {0}
-      run: |
-        python -c "import epics; print(epics.caget('gp:UPTIME'))"
+      - name: Confirm EPICS IOC is available via PyEpics
+        shell: bash -l {0}
+        run: |
+          python -c "import epics; print(epics.caget('gp:UPTIME'))"
 
-    - name: Confirm EPICS IOC is available via ophyd
-      shell: bash -l {0}
-      run: |
-        CMD="import ophyd"
-        CMD+="; up = ophyd.EpicsSignalRO('gp:UPTIME', name='up')"
-        CMD+="; pv = ophyd.EpicsSignalRO('gp:gp:float1', name='pv')"
-        CMD+="; up.wait_for_connection()"
-        CMD+="; print(up.get(), pv.get())"
-        python -c "${CMD}"
+      - name: Confirm EPICS IOC is available via ophyd
+        shell: bash -l {0}
+        run: |
+          CMD="import ophyd"
+          CMD+="; up = ophyd.EpicsSignalRO('gp:UPTIME', name='up')"
+          CMD+="; pv = ophyd.EpicsSignalRO('gp:gp:float1', name='pv')"
+          CMD+="; up.wait_for_connection()"
+          CMD+="; print(up.get(), pv.get())"
+          python -c "${CMD}"
 
-    - name: Download catalog artifacts
-      uses: actions/download-artifact@v4
-      with:
-        name: databroker_catalogs
-        path: ~/databroker_catalogs
+      - name: Download catalog artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: databroker_catalogs
+          path: ~/databroker_catalogs
 
-    - name: Restore archival content
-      run: |
-        mkdir -p ~/.local/share/intake
-        mv ~/databroker_catalogs/.local/share/intake/* ~/.local/share/intake
-        mv ~/databroker_catalogs/*_test /tmp/
+      - name: Restore archival content
+        run: |
+          set -vxeuo pipefail
+          mkdir -p ~/.local/share/intake
+          mv ~/databroker_catalogs/.local/share/intake/* ~/.local/share/intake
+          mv ~/databroker_catalogs/*_test /tmp/
 
-    - name: Diagnostics
-      shell: bash -l {0}
-      run: |
-        df -HT
-        micromamba list
+      - name: Diagnostics
+        shell: bash -l {0}
+        run: |
+          set -vxeuo pipefail
+          df -HT
+          micromamba list
 
-    - name: Test catalog length, expect 53
-      shell: bash -l {0}
-      run: python -c "import databroker; print(len(databroker.catalog['apstools_test']))"
+      - name: Test catalog length, expect 53
+        shell: bash -l {0}
+        run: python -c "import databroker; print(len(databroker.catalog['apstools_test']))"
 
-    - name: Run tests with pytest & coverage
-      shell: bash -l {0}
-      run: |
-        # set -vxeuo pipefail
-        coverage run --concurrency=thread --parallel-mode -m pytest -vvv --exitfirst .
-        coverage combine
-        coverage report --precision 3
+      - name: Run tests with pytest & coverage
+        shell: bash -l {0}
+        run: |
+          set -vxeuo pipefail
+          coverage run --concurrency=thread --parallel-mode -m pytest -vvv --exitfirst .
+          coverage combine
+          coverage report --precision 3
 
-    - name: Upload coverage data to coveralls.io
-      shell: bash -l {0}
-      run: |
-        micromamba list coveralls
-        which coveralls
-        coveralls debug
-        coveralls --service=github
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        COVERALLS_FLAG_NAME: ${{ matrix.python-version }}
-        COVERALLS_PARALLEL: true
+      - name: Upload coverage data to coveralls.io
+        shell: bash -l {0}
+        run: |
+          set -vxeuo pipefail
+          micromamba list coveralls
+          which coveralls
+          coveralls debug
+          coveralls --service=github
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          COVERALLS_FLAG_NAME: ${{ matrix.python-version }}
+          COVERALLS_PARALLEL: true
 
   # https://coveralls-python.readthedocs.io/en/latest/usage/configuration.html#github-actions-support
   coveralls:
@@ -222,6 +230,7 @@ jobs:
     steps:
       - name: Gather coverage and report to Coveralls
         run: |
+          set -vxeuo pipefail
           echo "Finally!"
           pip3 install --upgrade coveralls
           # debug mode: output prepared json and reported files list to stdout
