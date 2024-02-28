@@ -42,7 +42,6 @@ class HHLSlits(Device):
         *args,
         **kwargs,
     ):
-
         # Determine the prefix for the motors
         pieces = prefix.strip(":").split(":")
         self.motor_prefix = ":".join(pieces[:-1])
