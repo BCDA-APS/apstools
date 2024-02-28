@@ -2,7 +2,6 @@
 test issue listplans() command
 """
 
-import pandas as pd
 import pyRestTable
 import pytest
 from bluesky import Msg
@@ -17,7 +16,6 @@ def ns():
     try:
         from IPython import get_ipython
 
-        # ns_dict = get_ipython().user_global_ns
         ns_dict = getattr(get_ipython(), "user_global_ns")
     except (ModuleNotFoundError, AttributeError):
         ns_dict = globals()

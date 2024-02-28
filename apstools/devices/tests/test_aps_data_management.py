@@ -21,7 +21,8 @@ def test_object(wf_name):
     assert wf.owner.get() == DM_STATION_NAME
 
     try:
-        import dm
+        # Force a test that dm package can be imported.
+        import dm  # noqa
 
         assert wf.api is not None
 

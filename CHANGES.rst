@@ -28,13 +28,18 @@ describe future plans.
 1.6.19
 ******
 
-release expected by 2024-03-31
+release expected by 2024-04-02
 
 Fixes
 -----
 
 * lineup2() should work with low intensity peaks.
 * lineup2() would raise ZeroDivideError in some cases.
+
+Maintenance
+-----------
+
+* Code format conforms to 'ruff'.
 
 1.6.18
 ******

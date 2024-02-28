@@ -3,7 +3,6 @@ import pathlib
 import bluesky
 import bluesky.plans as bp
 import databroker
-from ophyd import EpicsSignalWithRBV
 from ophyd import SingleTrigger
 from ophyd.areadetector import ADComponent
 from ophyd.areadetector import DetectorBase
