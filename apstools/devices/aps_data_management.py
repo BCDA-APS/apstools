@@ -38,8 +38,6 @@ from ophyd import Signal
 from ..utils import run_in_thread
 
 logger = logging.getLogger(__name__)
-logger.setLevel(logging.DEBUG)  # allow any log content at this level
-logger.info(__file__)
 
 NOT_AVAILABLE = "-n/a-"
 NOT_RUN_YET = "not_run"
