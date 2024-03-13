@@ -11,6 +11,23 @@ here.
 Utilities by Activity
 ----------------------
 
+.. _utils.aps_dm:
+
+APS Data Management
+++++++++++++++++++++++
+
+.. autosummary::
+
+   ~apstools.utils.aps_data_management.dm_setup
+   ~apstools.utils.aps_data_management.dm_api_cat
+   ~apstools.utils.aps_data_management.dm_api_daq
+   ~apstools.utils.aps_data_management.dm_api_dataset_cat
+   ~apstools.utils.aps_data_management.dm_api_ds
+   ~apstools.utils.aps_data_management.dm_api_file
+   ~apstools.utils.aps_data_management.dm_api_filecat
+   ~apstools.utils.aps_data_management.dm_api_proc
+   ~apstools.utils.aps_data_management.DM_WorkflowCache
+
 .. _utils.finding:
 
 Finding
@@ -68,6 +85,7 @@ Other Utilities
    ~apstools.utils.plot.trim_plot_lines
    ~apstools.utils.misc.trim_string_for_EPICS
    ~apstools.utils.misc.unix
+   ~apstools.utils.time_constants.ts2iso
 
 .. _utils.general:
 
@@ -133,6 +151,9 @@ Submodules
 
 .. automodule:: apstools.utils.aps_data_management
     :members:
+    :private-members:
+    :show-inheritance:
+    :inherited-members:
 
 .. automodule:: apstools.utils.apsu_controls_subnet
     :members:
@@ -183,4 +204,7 @@ Submodules
     :members:
 
 .. automodule:: apstools.utils.spreadsheet
+    :members:
+
+.. automodule:: apstools.utils.time_constants
     :members:
