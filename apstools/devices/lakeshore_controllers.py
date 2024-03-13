@@ -26,11 +26,8 @@ from ophyd import FormattedComponent
 from ophyd import Signal
 
 from ..synApps import AsynRecord
+from ..utils import HOUR
 from . import PVPositionerSoftDoneWithStop
-
-SECOND = 1
-MINUTE = 60 * SECOND
-HOUR = 60 * MINUTE
 
 
 class LakeShore336_LoopControl(PVPositionerSoftDoneWithStop):
