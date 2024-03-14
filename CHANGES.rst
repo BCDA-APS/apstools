@@ -35,11 +35,13 @@ Fixes
 
 * lineup2() should work with low intensity peaks.
 * lineup2() would raise ZeroDivideError in some cases.
+* Increase minimum aps-dm-api version to 8.
 
 Maintenance
 -----------
 
 * Code format conforms to 'ruff'.
+* Add additional support for APS Data Management API.
 
 1.6.18
 ******
