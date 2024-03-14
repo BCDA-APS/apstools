@@ -45,15 +45,21 @@ Fixes
 * lineup2() should work with low intensity peaks.
 * lineup2() would raise ZeroDivideError in some cases.
 * Increase minimum aps-dm-api version to 8.
+<<<<<<< HEAD
 * Race condition with SR570 pre-amp.
+=======
+>>>>>>> 2e612356 (DOC #932 update relase notes)
 
 Maintenance
 -----------
 
 * Code format conforms to 'ruff'.
 * Add additional support for APS Data Management API.
+<<<<<<< HEAD
 * Make the home page more concise.
 * Refactor packaging from setup.py to pyproject.toml.
+=======
+>>>>>>> 2e612356 (DOC #932 update relase notes)
 
 1.6.18
 ******
