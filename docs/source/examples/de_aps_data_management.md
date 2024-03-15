@@ -55,9 +55,17 @@ More info [here](https://git.aps.anl.gov/DM/dm-docs/-/wikis/DM/HowTos/Getting-St
 ### upload
 
 In addition to automatic file copying with a DAQ, DM provides for single file
-uploads to the experiment storage.  This can be used for files, such as
-configuration, that are not in the local data directory trees monitored by a
-DAQ.
+(or whole directory) uploads to the experiment storage.  This can be used for
+content that is not in the local data directory trees monitored by a DAQ.
+
+In *file* mode, files are processed (transfer, catalog, invoke workflow, etc)
+one by one.  In *directory* mode, there will be a single transfer of the whole
+directory, after which all files will be cataloged, etc.
+
+The advantage of the file mode is that you can keep track of progress and
+see/recover from errors easier.  The advantage of the directory mode is that it
+is more efficient, especially for large number of small files, where any new
+transfer connection is more expensive relative to the data transfer time.
 
 ## Bluesky integration
 
