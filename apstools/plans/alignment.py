@@ -28,6 +28,7 @@ from ophyd import Device
 from ophyd import Signal
 from ophyd.scaler import ScalerCH
 from ophyd.scaler import ScalerChannel
+import warnings
 
 from .. import utils
 from .doc_run import write_stream
@@ -37,8 +38,14 @@ logger = logging.getLogger(__name__)
 
 def lineup(
     # fmt: off
-    detectors, axis, minus, plus, npts,
-    time_s=0.1, peak_factor=4, width_factor=0.8,
+    detectors,
+    axis,
+    minus,
+    plus,
+    npts,
+    time_s=0.1,
+    peak_factor=4,
+    width_factor=0.8,
     feature="cen",
     rescan=True,
     bec=None,
@@ -735,7 +742,9 @@ class TuneAxis(object):
                 }
                 _md.update(md or {})
 
-                yield from self.tune(width=width, num=num, peak_factor=peak_factor, md=_md)
+                yield from self.tune(
+                    width=width, num=num, peak_factor=peak_factor, md=_md
+                )
 
                 if not self.tune_ok:
                     return
