@@ -39,6 +39,11 @@ New Features
 release expected by 2024-04-02
 >>>>>>> 562df2bb (DOC #909 update release notes)
 
+New Features
+------------
+
+* Add new plan for edge alignment called edge_align
+
 Fixes
 -----
 
