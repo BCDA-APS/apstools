@@ -7,9 +7,6 @@ It's a challenge to test since DM is only available on the APS subnet!
 import pytest
 
 from .. import DM_WorkflowConnector
-from ..aps_data_management import DM_STATION_NAME
-
-# from dm.common.exceptions.dmException import DmException
 
 
 @pytest.mark.parametrize("wf_name", ["a_workflow_name"])
@@ -18,7 +15,7 @@ def test_object(wf_name):
     assert wf is not None
 
     assert wf.workflow.get() == wf_name
-    assert wf.owner.get() == DM_STATION_NAME
+    assert wf.owner.get() in ("", None)
 
     try:
         # Force a test that dm package can be imported.
@@ -35,6 +32,8 @@ def test_object(wf_name):
             "Connection refused" in err_str
             or
             "invalid literal for int() with base 10" in err_str
+            or
+            "Invalid owner name provided" in err_str
         )
         # fmt: on
 

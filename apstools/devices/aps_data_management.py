@@ -22,7 +22,6 @@ Example::
 
     ~DM_WorkflowConnector
 
-from: https://github.com/APS-1ID-MPE/hexm-bluesky/blob/main/instrument/devices/data_management.py
 """
 
 __all__ = """
@@ -30,12 +29,7 @@ __all__ = """
 """.split()
 
 import logging
-import os
 import time
-
-logger = logging.getLogger(__name__)
-logger.setLevel(logging.DEBUG)  # allow any log content at this level
-logger.info(__file__)
 
 from ophyd import Component
 from ophyd import Device
@@ -43,13 +37,15 @@ from ophyd import Signal
 
 from ..utils import run_in_thread
 
-DM_STATION_NAME = str(os.environ.get("DM_STATION_NAME", "terrier")).lower()
+logger = logging.getLogger(__name__)
+
 NOT_AVAILABLE = "-n/a-"
 NOT_RUN_YET = "not_run"
+POLLING_PERIOD_S = 1.0
 REPORT_PERIOD_DEFAULT = 10
 REPORT_PERIOD_MIN = 1
 STARTING = "running"
-TIMEOUT_DEFAULT = 180  # TODO: Consider removing the timeout feature
+TIMEOUT_DEFAULT = 180  # TODO: Consider removing/renaming the timeout feature
 
 
 class DM_WorkflowConnector(Device):
@@ -88,9 +84,9 @@ class DM_WorkflowConnector(Device):
     """
 
     job = None  # DM processing job (must update during workflow execution)
-    _api = None  # DM common API
+    _api = None  # DM processing API
 
-    owner = Component(Signal, value=DM_STATION_NAME, kind="config")
+    owner = Component(Signal, value="", kind="config")
     workflow = Component(Signal, value="")
     workflow_args = {}
 
@@ -101,7 +97,7 @@ class DM_WorkflowConnector(Device):
     stage_id = Component(Signal, value=NOT_RUN_YET)
     status = Component(Signal, value=NOT_RUN_YET)
 
-    polling_period = Component(Signal, value=0.1, kind="config")
+    polling_period = Component(Signal, value=POLLING_PERIOD_S, kind="config")
     reporting_period = Component(Signal, value=REPORT_PERIOD_DEFAULT, kind="config")
     concise_reporting = Component(Signal, value=True, kind="config")
 
@@ -127,9 +123,11 @@ class DM_WorkflowConnector(Device):
         if name is None:
             raise KeyError("Must provide value for 'name'.")
         super().__init__(name=name)
+
         if workflow is not None:
             self.workflow.put(workflow)
         self.workflow_args.update(kwargs)
+        self.owner.put(self.api.username)
 
     def put_if_different(self, signal, value):
         """Put ophyd signal only if new value is different."""
@@ -187,7 +185,12 @@ class DM_WorkflowConnector(Device):
             self.report_processing_stages()
 
     def start_workflow(self, workflow="", timeout=TIMEOUT_DEFAULT, **kwargs):
-        """Kickoff a DM workflow with optional wait & timeout."""
+        """
+        Kickoff a DM workflow with optional reporting timeout.
+
+        The reporting process will continue until the workflow ends or the
+        timeout period is exceeded.  It does not affect the actual workflow.
+        """
         if workflow == "":
             workflow = self.workflow.get()
         else:
@@ -224,7 +227,11 @@ class DM_WorkflowConnector(Device):
 
         @run_in_thread
         def _run_DM_workflow_thread():
-            logger.info("run DM workflow: %s with timeout=%s s", self.workflow.get(), timeout)
+            logger.info(
+                "run DM workflow: %s with reporting time limit=%s s",
+                self.workflow.get(),
+                timeout,
+            )
             self.job = self.api.startProcessingJob(
                 workflowOwner=self.owner.get(),
                 workflowName=workflow,
@@ -266,7 +273,13 @@ class DM_WorkflowConnector(Device):
         self.status.subscribe(_reporter)
         _run_DM_workflow_thread()
 
-    def run_as_plan(self, workflow="", wait=True, timeout=TIMEOUT_DEFAULT, **kwargs):
+    def run_as_plan(
+        self,
+        workflow: str = "",
+        wait: bool = True,
+        timeout: int = TIMEOUT_DEFAULT,
+        **kwargs,
+    ):
         """Run the DM workflow as a bluesky plan."""
         from bluesky import plan_stubs as bps
 
