@@ -18,6 +18,8 @@ import numpy as np
 import pyRestTable
 from scipy.optimize import curve_fit
 from scipy.special import erf
+from scipy import stats
+
 
 from bluesky import plan_stubs as bps
 from bluesky import plans as bp
@@ -323,19 +325,29 @@ def edge_align(detectors, mover, start, end, points, cat=None, md={}):
 
     initial_guess = guess_erf_params(x, y)
 
-    try:
-        with warnings.catch_warnings():
-            warnings.filterwarnings(
-                "error", "Covariance of the parameters could not be estimated"
-            )
-            popt, pcov = curve_fit(erf_model, x, y, p0=initial_guess)
+##################### TODO: Find a better way to check if the signal is a good one. The below method gives false positives on ocassion
+    # try:
+    #     with warnings.catch_warnings():
+    #         warnings.filterwarnings(
+    #             "error", "Covariance of the parameters could not be estimated"
+    #         )
+    #         popt, pcov = curve_fit(erf_model, x, y, p0=initial_guess)
 
-            yield from bps.mv(mover, popt[3])
+    #         perr = np.sqrt(np.diag(pcov))
 
-    except UserWarning as e:
-        print(f"Warning caught as exception: {e}")
-        print("\n Check to see if signal is linear.\n")
+    #         print(f"guess:{initial_guess}")
+    #         print(f"perr:{perr}")
+    #         print(f"popt:{popt}")
+                
+    #         yield from bps.mv(mover, popt[3])
 
+    # except UserWarning as e:
+    #     print(f"Warning caught as exception: {e}")
+    #     print("\n Check to see if signal is linear.\n")
+###################
+  
+    popt, pcov = curve_fit(erf_model, x, y, p0=initial_guess)
+    yield from bps.mv(mover, popt[3])
 
 def lineup2(
     # fmt: off
