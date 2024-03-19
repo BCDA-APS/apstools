@@ -13,7 +13,6 @@ Alignment plans
 
 import datetime
 import logging
-import warnings
 
 import numpy as np
 import pyRestTable
