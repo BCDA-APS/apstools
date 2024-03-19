@@ -40,14 +40,8 @@ logger = logging.getLogger(__name__)
 
 def lineup(
     # fmt: off
-    detectors,
-    axis,
-    minus,
-    plus,
-    npts,
-    time_s=0.1,
-    peak_factor=4,
-    width_factor=0.8,
+    detectors, axis, minus, plus, npts,
+    time_s=0.1, peak_factor=4, width_factor=0.8,
     feature="cen",
     rescan=True,
     bec=None,
@@ -351,13 +345,8 @@ def edge_align(detectors, mover, start, end, points, cat=None, md={}):
 
 def lineup2(
     # fmt: off
-    detectors,
-    mover,
-    rel_start,
-    rel_end,
-    points,
-    peak_factor=2.5,
-    width_factor=0.8,
+    detectors, mover, rel_start, rel_end, points,
+    peak_factor=2.5, width_factor=0.8, 
     feature="centroid",
     nscans=2,
     signal_stats=None,
