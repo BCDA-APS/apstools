@@ -13,13 +13,12 @@ Alignment plans
 
 import datetime
 import logging
+import warnings
 
 import numpy as np
 import pyRestTable
 from scipy.optimize import curve_fit
 from scipy.special import erf
-from scipy import stats
-
 
 from bluesky import plan_stubs as bps
 from bluesky import plans as bp
@@ -30,7 +29,6 @@ from ophyd import Device
 from ophyd import Signal
 from ophyd.scaler import ScalerCH
 from ophyd.scaler import ScalerChannel
-import warnings
 
 from .. import utils
 from .doc_run import write_stream
