@@ -66,7 +66,7 @@ jobs:
           echo "SRC_DIR=$(pwd)" >> ${GITHUB_ENV}
           echo "TMP_DIR=$(mktemp -d)" >> ${GITHUB_ENV}
           # next step also creates _version.py file
-          echo "VERSION=$(./setup.py --version)" >> ${GITHUB_ENV}
+          echo "VERSION=$(python -m setuptools_scm)" >> ${GITHUB_ENV}
 
       - name: Show Environment variables
         run: |
@@ -111,7 +111,7 @@ jobs:
 
       - name: Info
         run: |
-          set -vxeuo pipefail        
+          set -vxeuo pipefail
           cd "${TMP_DIR}"
           echo "pwd=$(pwd)"
           ls -laFGh
