@@ -42,6 +42,7 @@ Maintenance
 
 * Code format conforms to 'ruff'.
 * Add additional support for APS Data Management API.
+* Refactor packaging from setup.py to pyproject.toml.
 
 1.6.18
 ******

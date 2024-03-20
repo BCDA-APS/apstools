@@ -5,33 +5,36 @@
 
 # -- Path setup --------------------------------------------------------------
 
-import configparser
+from importlib.metadata import version
 import json
 import pathlib
 import sys
+import tomllib
 
 sys.path.insert(0, str(pathlib.Path().absolute().parent.parent))
-import apstools
+import apstools  # noqa
 
 # -- Project information -----------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#project-information
 
 root_path = pathlib.Path(__file__).parent.parent.parent
-parser = configparser.ConfigParser()
-parser.read(root_path / "setup.cfg")
-metadata = parser["metadata"]
 
+with open(root_path / "pyproject.toml", "rb") as fp:
+    toml = tomllib.load(fp)
+metadata = toml["project"]
+
+gh_org = "BCDA-APS"
 project = metadata["name"]
-copyright = metadata["copyright"]
-author = metadata["author"]
+copyright = toml["tool"]["copyright"]["copyright"]
+author = metadata["authors"][0]["name"]
 description = metadata["description"]
 rst_prolog = f".. |author| replace:: {author}"
+github_url = f"https://github.com/{gh_org}/{project}"
 
 # -- Special handling for version numbers ------------------------------------
 # https://github.com/pypa/setuptools_scm#usage-from-sphinx
 
-gh_org = "BCDA-APS"
-release = apstools.__version__
+release = version(project)
 version = ".".join(release.split(".")[:2])
 
 # fmt: off
