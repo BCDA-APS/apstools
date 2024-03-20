@@ -49,7 +49,7 @@ Package Information
 version       |version|
 release       |release|
 published     |today|
-copyright     2017-2022, UChicago Argonne, LLC
+copyright     2017-2024, UChicago Argonne, LLC
 license       ANL OPEN SOURCE LICENSE (see LICENSE.txt file)
 author        Pete R. Jemian <jemian@anl.gov>
 ============= ========================================
