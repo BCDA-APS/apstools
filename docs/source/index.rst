@@ -2,7 +2,7 @@
 apstools
 ========
 
-Various Python tools for use with Bluesky at the APS
+Library of Python tools for use with Bluesky at the APS
 
 .. toctree::
    :maxdepth: 1
