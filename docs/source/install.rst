@@ -37,18 +37,10 @@ GitHub repository listed above::
 
     $ git clone http://github.com/BCDA-APS/apstools.git
 
-To install in the standard Python location::
+To install from the source directory using ``pip`` in editable mode::
 
     $ cd apstools
-    $ python setup.py install
-
-To install in user's home directory::
-
-    $ python setup.py install --user
-
-To install in an alternate location::
-
-    $ python setup.py install --prefix=/path/to/installation/dir
+    $ python -m pip install -e .
 
 Required Libraries
 ##################
