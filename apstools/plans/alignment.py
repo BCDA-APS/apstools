@@ -18,6 +18,7 @@ import numpy as np
 import pyRestTable
 from scipy.optimize import curve_fit
 from scipy.special import erf
+from scipy.signal import find_peaks
 
 from bluesky import plan_stubs as bps
 from bluesky import plans as bp
@@ -299,6 +300,48 @@ def edge_align(detectors, mover, start, end, points, cat=None, md={}):
         """
         return (high - low) * 0.5 * (1 - erf((x - midpoint) / width)) + low
 
+    def check_signal_change(y_data, window_size=10, std_multiplier=10):
+        """
+        Checks if the signal has a significant change or if it's just noise.
+
+        Parameters
+        ----------
+        x_data : numpy.array
+            The x-axis values of the signal.
+        y_data : numpy.array
+            The y-axis values of the signal.
+        window_size : int
+            The size of the window for the moving average filter.
+        std_multiplier : float
+            The multiplier for the standard deviation to set the threshold.
+
+        Returns
+        -------
+        bool
+            True if a significant change is detected, False otherwise.
+        """
+        # Smooth the data
+        y_smoothed = np.convolve(
+            y_data, np.ones(window_size) / window_size, mode="valid"
+        )
+
+        # Calculate the standard deviation of the smoothed data
+        std_dev = np.std(y_smoothed)
+
+        # Find peaks and troughs which are above/below the std_multiplier * std_dev
+        peaks, _ = find_peaks(
+            y_smoothed, prominence=y_smoothed[0] + std_multiplier * std_dev
+        )
+        troughs, _ = find_peaks(
+            y_smoothed, prominence=y_smoothed[0] - std_multiplier * std_dev
+        )
+
+        # Check for significant changes
+        if len(peaks) > 0 or len(troughs) > 0:
+            return True
+        else:
+            return False
+
     if not isinstance(detectors, (tuple, list)):
         detectors = [detectors]
 
@@ -313,31 +356,15 @@ def edge_align(detectors, mover, start, end, points, cat=None, md={}):
     x = ds["mover"]
     y = ds["noisy"]
 
-    initial_guess = guess_erf_params(x, y)
+    if check_signal_change(y):
+        print("Significant signal change detected; motor moving to detected edge.")
 
-    ##################### TODO: Find a better way to check if the signal is a good one. The below method gives false positives on ocassion
-    # try:
-    #     with warnings.catch_warnings():
-    #         warnings.filterwarnings(
-    #             "error", "Covariance of the parameters could not be estimated"
-    #         )
-    #         popt, pcov = curve_fit(erf_model, x, y, p0=initial_guess)
+        initial_guess = guess_erf_params(x, y)
+        popt, pcov = curve_fit(erf_model, x, y, p0=initial_guess)
 
-    #         perr = np.sqrt(np.diag(pcov))
-
-    #         print(f"guess:{initial_guess}")
-    #         print(f"perr:{perr}")
-    #         print(f"popt:{popt}")
-
-    #         yield from bps.mv(mover, popt[3])
-
-    # except UserWarning as e:
-    #     print(f"Warning caught as exception: {e}")
-    #     print("\n Check to see if signal is linear.\n")
-    ###################
-
-    popt, pcov = curve_fit(erf_model, x, y, p0=initial_guess)
-    yield from bps.mv(mover, popt[3])
+        yield from bps.mv(mover, popt[3])
+    else:
+        print("No significant signal change detected; motor movement skipped.")
 
 
 def lineup2(
