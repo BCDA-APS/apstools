@@ -187,7 +187,7 @@ class SRS570_PreAmplifier(PreamplifierBaseDevice):
     # as desired.
     # see: https://github.com/epics-modules/ip/blob/master/ipApp/Db/SR570.db
     sensitivity_value = Component(GainSignal, "sens_num", kind="config", string=True)
-    sensitivity_unit = Component(GainSignal, "sens_unit", kind="config", string=True)
+    sensitivity_unit = Component(GainSignal, "sens_unit", kind="config", string=True, put_complete=True)
 
     offset_on = Component(EpicsSignal, "offset_on", kind="config", string=True)
     offset_sign = Component(EpicsSignal, "offset_sign", kind="config", string=True)

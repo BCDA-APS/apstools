@@ -146,3 +146,32 @@ def test_preamp_gain_mode_settling(mocked_setter):
     preamp.gain_mode.set("LOW DRIFT")
     # Check that the EpicsSignal's ``set`` was called with correct settle_time
     mocked_setter.assert_called_with("LOW DRIFT", timeout=DEFAULT_WRITE_TIMEOUT, settle_time=settle_time)
+
+
+def test_sensitivity_put_complete():
+    """Test the fix for a race condition in the pre-amp EPICS database.
+
+    If the gain is set to 1 mA/V in the IOC, and you try to set it to
+    e.g. 200 µA/V, you need to set the unit first then the value since
+    "1" is the only valid "mA/V" value:
+
+    ✓ 1 mA/V -> 1 µA/V -> 200 µA/V
+    ✗ 1 mA/V -> 200 mA/V (corrects to 1 mA/V) -> 1 µA/V
+
+    Even if the order of ``set`` calls is correct in ophyd, the
+    requests may not make it through the calc/transform in the right
+    order, so we wind up at the wrong gain.
+
+    Apparently, using put_complete for the sensitivity unit fixes this
+    problem, though it's not entirely clear why.
+
+    Regardless, this test checks that put_complete is set on the given
+    signal.
+
+    """
+    preamp = SRS570_PreAmplifier("prefix:", name="preamp")
+    put_complete_signals = [
+        preamp.sensitivity_unit,
+    ]
+    for sig in put_complete_signals:
+        assert sig._put_complete is True, sig
