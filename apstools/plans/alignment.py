@@ -300,7 +300,7 @@ def edge_align(detectors, mover, start, end, points, cat=None, md={}):
         """
         return (high - low) * 0.5 * (1 - erf((x - midpoint) / width)) + low
 
-    def check_signal_change(y_data, window_size=10, std_multiplier=10):
+    def check_signal_change(y_data, window_size=5, std_multiplier=5):
         """
         Checks if the signal has a significant change or if it's just noise.
 
@@ -325,16 +325,22 @@ def edge_align(detectors, mover, start, end, points, cat=None, md={}):
             y_data, np.ones(window_size) / window_size, mode="valid"
         )
 
+        print(f"y_0: {y_smoothed[0]}")
+
         # Calculate the standard deviation of the smoothed data
         std_dev = np.std(y_smoothed)
+        print(std_dev)
 
         # Find peaks and troughs which are above/below the std_multiplier * std_dev
         peaks, _ = find_peaks(
-            y_smoothed, prominence=y_smoothed[0] + std_multiplier * std_dev
+            y_smoothed, height=y_smoothed[0] + std_multiplier * std_dev
         )
         troughs, _ = find_peaks(
-            y_smoothed, prominence=y_smoothed[0] - std_multiplier * std_dev
+            -y_smoothed, threshold=y_smoothed[0] + std_multiplier * std_dev
         )
+        print(troughs)
+        # print(f"peaks: {len(peaks)}")
+        print(f"troughs: {len(troughs)}")
 
         # Check for significant changes
         if len(peaks) > 0 or len(troughs) > 0:
