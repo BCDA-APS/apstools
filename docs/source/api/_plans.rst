@@ -29,14 +29,15 @@ Custom Scans
 
 .. autosummary::
 
-   ~apstools.plans.doc_run.documentation_run
-   ~apstools.plans.labels_to_streams.label_stream_decorator
+   ~apstools.plans.alignment.edge_align
    ~apstools.plans.alignment.lineup
    ~apstools.plans.alignment.lineup2
+   ~apstools.plans.alignment.tune_axes
+   ~apstools.plans.alignment.TuneAxis
+   ~apstools.plans.doc_run.documentation_run
+   ~apstools.plans.labels_to_streams.label_stream_decorator
    ~apstools.plans.nscan_support.nscan
    ~apstools.plans.sscan_support.sscan_1D
-   ~apstools.plans.alignment.TuneAxis
-   ~apstools.plans.alignment.tune_axes
 
 .. _plans.overall:
 
