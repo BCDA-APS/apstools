@@ -8,7 +8,7 @@ GH tag | GH release | PyPI | conda-forge
 
 Python version(s) | Unit Tests | Code Coverage | License
 --- | --- | --- | ---
-[![Python version](https://img.shields.io/pypi/pyversions/apstools.svg)](https://pypi.python.org/pypi/apstools) | [![Unit Tests](https://github.com/BCDA-APS/apstools/workflows/Unit%20Tests/badge.svg)](https://github.com/BCDA-APS/apstools/actions/workflows/unit_tests.yml) | [![Coverage Status](https://coveralls.io/repos/github/BCDA-APS/apstools/badge.svg?branch=main)](https://coveralls.io/github/BCDA-APS/apstools?branch=main) | [![license: ANL](https://img.shields.io/badge/license-ANL-brightgreen)](/LICENSE.txt)
+[![Python version](https://img.shields.io/pypi/pyversions/apstools.svg)](https://pypi.python.org/pypi/apstools) | [![Unit Tests](https://github.com/BCDA-APS/apstools/workflows/Unit%20Tests/badge.svg)](https://github.com/BCDA-APS/apstools/actions/workflows/code.yml) | [![Coverage Status](https://coveralls.io/repos/github/BCDA-APS/apstools/badge.svg?branch=main)](https://coveralls.io/github/BCDA-APS/apstools?branch=main) | [![license: ANL](https://img.shields.io/badge/license-ANL-brightgreen)](/LICENSE.txt)
 
 
 ## Package Information
