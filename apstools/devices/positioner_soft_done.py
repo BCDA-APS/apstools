@@ -228,7 +228,6 @@ class PVPositionerSoftDone(PVPositioner):
             self.log.debug("%s.actuate = %s", self.name, self.actuate_value)
             self.actuate.put(self.actuate_value, wait=False)
 
-        self.cb_setpoint()  # FIXME: review this code
         # Force the first check for done.
         self.cb_readback()
 
