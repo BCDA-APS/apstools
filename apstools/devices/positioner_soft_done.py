@@ -103,9 +103,6 @@ class PVPositionerSoftDone(PVPositioner):
 
     target = Component(Signal, value="None", kind="config")
 
-    _rb_count = 0
-    _sp_count = 0
-
     def __init__(
         self,
         prefix="",
@@ -171,8 +168,6 @@ class PVPositionerSoftDone(PVPositioner):
         if idle:
             return
 
-        self._rb_count += 1
-
         if self.inposition:
             self.done.put(self.done_value)
             if self.report_dmov_changes.get():
@@ -184,15 +179,11 @@ class PVPositionerSoftDone(PVPositioner):
 
         When the setpoint is changed, force`` done=False``.  For any move, ``done``
         **must** transition to ``!= done_value``, then back to ``done_value``.
-
         Without this response, a small move (within tolerance) will not return.
         The ``cb_readback()`` method will compute ``done``.
-
-        Since other code will also call this method, check the keys in kwargs
-        and do not react to the "wrong" signature.
         """
         if "value" in kwargs and "status" not in kwargs:
-            self._sp_count += 1
+            # Only update when the expected kwargs are received.
             self.done.put(not self.done_value)
         logger.debug("cb_setpoint: done=%s, setpoint=%s", self.done.get(), self.setpoint.get())
 
@@ -226,15 +217,20 @@ class PVPositionerSoftDone(PVPositioner):
             if issubclass(self.target.__class__, EpicsSignalBase):
                 kwargs["wait"] = True  # Signal.put() warns if kwargs are given
             self.target.put(position, **kwargs)
+
+        # Write the setpoint value.
         self.setpoint.put(position, wait=True)
-        self.done.put(not self.done_value)  # TODO: confirm
+        # A new move requires done to become unset (here).
+        # Move is finished (in cb_readback()) when done is reset.
+        self.done.put(not self.done_value)
+
         if self.actuate is not None:
             self.log.debug("%s.actuate = %s", self.name, self.actuate_value)
             self.actuate.put(self.actuate_value, wait=False)
-        # This is needed because in a special case the setpoint.put does not
-        # run the "sub_value" subscriptions.
+
         self.cb_setpoint()  # FIXME: review this code
-        self.cb_readback()  # This is needed to force the first check.
+        # Force the first check for done.
+        self.cb_readback()
 
 
 class PVPositionerSoftDoneWithStop(PVPositionerSoftDone):

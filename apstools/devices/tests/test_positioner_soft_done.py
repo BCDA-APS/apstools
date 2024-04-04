@@ -93,9 +93,8 @@ def confirm_in_position(p, dt):
     p.readback.get(use_monitor=False)  # force a read from the IOC
     p.cb_readback()  # update self.done
 
-    # collect these values at one instant (as close as possible).
-    c_rb = p._rb_count  # do not expect any new callbacks during this method
-    c_sp = p._sp_count
+    # Collect these values at one instant (as close in time as possible).
+    # Do not expect any new callbacks during this function.
     dmov = p.done.get()
     rb = p.readback.get()
     sp = p.setpoint.get()
@@ -106,18 +105,13 @@ def confirm_in_position(p, dt):
         f"{p.name=}"
         f"  {rb=:.5f} {sp=:.5f} {tol=}"
         f"  {dt=:.4f}s"
-        f"  {p._sp_count=}"
-        f"  {p._rb_count=}"
         f"  {p.done=}"
         f"  {p.done_value=}"
         f"  {time.time()=:.4f}"
     )
     # fmt: on
 
-    assert p._rb_count == c_rb, diagnostics
-    assert p._sp_count == c_sp, diagnostics
     assert dmov == p.done_value, diagnostics
-    # assert math.isclose(rb, sp, abs_tol=tol), diagnostics
 
 
 @run_in_thread
@@ -212,9 +206,7 @@ def test_put_and_stop(rbv, prec, pos):
 
     def motion(rb_initial, target, rb_mid=None):
         rbv.put(rb_initial)  # make the readback to different
-        c_sp = pos._sp_count
         pos.setpoint.put(target)
-        assert pos._sp_count == c_sp + 1
         assert math.isclose(pos.readback.get(use_monitor=False), rb_initial, abs_tol=0.02)
         assert math.isclose(pos.setpoint.get(use_monitor=False), target, abs_tol=0.02)
         assert pos.done.get() != pos.done_value
@@ -347,11 +339,9 @@ def test_position_sequence_calcpos(target, calcpos):
     def motion(p, goal):
         timed_pause(0.1)  # allow previous activities to settle down
 
-        c_sp = p._sp_count
         t0 = time.time()
         status = p.move(goal)
         dt = time.time() - t0
-        assert p._sp_count == c_sp + 1
         assert status.elapsed > 0, str(status)
         assert status.done, str(status)
 
