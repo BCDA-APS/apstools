@@ -282,7 +282,6 @@ def test_move_and_stopped_early(rbv, pos):
         arrived = math.isclose(rb_new, target, abs_tol=pos.actual_tolerance)
         # fmt: on
         if interrupt and not status.done:
-            assert not status.done
             assert not status.success
             assert not arrived, f"{dt=:.3f}"
             pos.stop()
