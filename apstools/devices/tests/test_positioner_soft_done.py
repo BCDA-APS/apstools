@@ -263,6 +263,12 @@ def test_move_and_stop_nonzero(rbv, pos):
 
 def test_move_and_stopped_early(rbv, pos):
     def motion(target, delay, interrupt=False):
+        """
+        Test moving pos to target.  Update rbv after delay.
+
+        If interrupt is True, stop the move before it is done
+        (at a time that is less than the 'delay' value).
+        """
         timed_pause(0.1)  # allow previous activities to settle down
 
         t0 = time.time()
@@ -275,7 +281,7 @@ def test_move_and_stopped_early(rbv, pos):
         rb_new = pos.readback.get(use_monitor=False)
         arrived = math.isclose(rb_new, target, abs_tol=pos.actual_tolerance)
         # fmt: on
-        if interrupt:
+        if interrupt and not status.done:
             assert not status.done
             assert not status.success
             assert not arrived, f"{dt=:.3f}"
