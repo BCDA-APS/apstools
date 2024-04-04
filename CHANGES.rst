@@ -28,7 +28,7 @@ describe future plans.
 1.6.19
 ******
 
-release expected by 2024-04-02
+release expected by 2024-04-12
 
 Fixes
 -----
@@ -36,6 +36,7 @@ Fixes
 * lineup2() should work with low intensity peaks.
 * lineup2() would raise ZeroDivideError in some cases.
 * Increase minimum aps-dm-api version to 8.
+* PVPositionerSoftDone should set 'done' to False at start of a move.
 
 Maintenance
 -----------
