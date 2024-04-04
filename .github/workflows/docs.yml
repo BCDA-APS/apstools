@@ -50,7 +50,7 @@ jobs:
 
       - name: Install Sphinx build requirements
         run: |
-          pip install -r requirements-sphinx.txt setuptools-scm
+          pip install -r docs/requirements.txt
 
       - name: Install our package
         run: |
