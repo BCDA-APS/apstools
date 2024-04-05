@@ -1,7 +1,8 @@
 .. _filewriters:
 
+============
 File Writers
-------------
+============
 
 The file writer callbacks are:
 
