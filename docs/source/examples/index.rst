@@ -10,78 +10,67 @@ for the APS.  Further, NSLS-II provides online notebooks which can be
 `executed online <https://try.nsls2.bnl.gov>`__ (in a web browser).
 See the `Bluesky home page <https://blueskyproject.io/>`__ for more details.
 
-.. Consider writing new content in one of these categories:
+.. Consider re-organizing and writing new content in one of these categories:
 
   Tutorials
   How-to guides
   Reference
   Explanation
 
-.. _examples.devices:
+.. icons: https://fonts.google.com/icons
+.. grid:: 2
 
-Devices
-++++++++++++++++++++++++++++++++++++
+    .. grid-item-card:: :material-regular:`precision_manufacturing;3em` Devices
+      :link: device_examples
+      :link-type: doc
 
-.. toctree::
-   :maxdepth: 2
-   :glob:
+      .. toctree::
+         :maxdepth: 1
+         :glob:
+         :hidden:
 
-   de_*
+         device_examples
 
-.. _examples.filewriters:
+    .. grid-item-card:: :material-regular:`save;3em` File Writers
+      :link: filewriter_examples
+      :link-type: doc
 
-File Writers
-++++++++++++++++++++++++++++++++++++
+      .. toctree::
+         :maxdepth: 1
+         :glob:
+         :hidden:
 
-.. toctree::
-   :maxdepth: 2
-   :glob:
+         filewriter_examples
 
-   fw_*
+    .. grid-item-card:: :material-regular:`how_to_reg;3em` How-To
+      :link: howto_examples
+      :link-type: doc
 
-.. _examples.howto:
+      .. toctree::
+         :maxdepth: 1
+         :glob:
+         :hidden:
 
-How-to Guides
-++++++++++++++++++++++++++++++++++++
+         howto_examples
 
-.. toctree::
-   :maxdepth: 2
-   :glob:
+    .. grid-item-card:: :material-regular:`task;3em` Plans
+      :link: plan_examples
+      :link-type: doc
 
-   ho_*
+      .. toctree::
+         :maxdepth: 1
+         :glob:
+         :hidden:
 
-.. _examples.plans:
+         plan_examples
 
-Plans
-++++++++++++++++++++++++++++++++++++
+    .. grid-item-card:: :material-regular:`download;3em` Downloads
+      :link: download_examples
+      :link-type: doc
 
-.. toctree::
-   :maxdepth: 2
-   :glob:
+      .. toctree::
+         :maxdepth: 1
+         :glob:
+         :hidden:
 
-   pl_*
-
-.. _examples_downloads:
-
-File Downloads for the Examples
-++++++++++++++++++++++++++++++++++++
-
-The jupyter notebooks and files related to this section may be downloaded from the following table.
-
-* jupyter notebook: :download:`de_0_adsim_hdf5_basic <de_0_adsim_hdf5_basic.ipynb>`
-* jupyter notebook: :download:`de_1_adsim_hdf5_custom_names <de_1_adsim_hdf5_custom_names.ipynb>`
-* jupyter notebook: :download:`de_2_adsim_hdf5_single_mode <de_2_adsim_hdf5_single_mode.ipynb>`
-
-* jupyter notebook: :download:`pl_excel_scan <pl_excel_scan.ipynb>`
-
-  * :download:`sample_example.xlsx <sample_example.xlsx>`
-
-* jupyter notebook: :download:`pl_nscan <pl_nscan.ipynb>`
-* jupyter notebook: :download:`pl_tuneaxis <pl_tuneaxis.ipynb>`
-* jupyter notebook: :download:`fw_specfile_example <fw_specfile_example.ipynb>`
-
-  * :download:`spec1.dat <../resources/spec1.dat>`
-  * :download:`spec2.dat <../resources/spec2.dat>`
-  * :download:`spec3.dat <../resources/spec3.dat>`
-  * :download:`spec_tunes.dat <../resources/spec_tunes.dat>`
-  * :download:`test_specdata.txt <../resources/test_specdata.txt>`
+         download_examples

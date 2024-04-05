@@ -68,7 +68,7 @@ See :func:`~apstools.plans.parse_text_command_file()` for more details.
 Spreadsheet Command File
 ------------------------
 
-Follow the example spreadsheet (in the :ref:`examples_downloads` section)
+Follow the example spreadsheet (in the :ref:`examples.downloads` section)
 and accompanying Jupyter notebook [#]_ to write your own ``Excel_plan()``.
 
 .. [#] https://github.com/BCDA-APS/apstools/blob/master/docs/source/resources/excel_scan.ipynb

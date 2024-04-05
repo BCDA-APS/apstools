@@ -4,10 +4,24 @@ apstools
 
 Library of Python tools for use with Bluesky at the APS.
 
+.. toctree::
+   :maxdepth: 1
+   :hidden:
+
+   overview
+   install
+   applications/index
+   api/index
+   examples/index
+   changes
+   license
+
 .. icons: https://fonts.google.com/icons
 .. grid:: 2
 
     .. grid-item-card:: :material-regular:`home;3em` Introduction
+
+      .. icon name: install_desktop
 
       Get acquainted with *apstools*.
 
@@ -22,7 +36,7 @@ Library of Python tools for use with Bluesky at the APS.
 
     .. grid-item-card:: :material-regular:`api;3em` :ref:`api_documentation`
 
-      Libraries in the *apstools* package.
+      Python building blocks for your data acquisition.
 
       * :ref:`callbacks`
       * :ref:`devices`
@@ -40,20 +54,6 @@ Library of Python tools for use with Bluesky at the APS.
       * :ref:`examples.filewriters`
       * :ref:`examples.howto`
       * :ref:`examples.plans`
-
-------------
-
-.. toctree::
-   :maxdepth: 1
-   :hidden:
-
-   overview
-   install
-   applications/index
-   api/index
-   examples/index
-   changes
-   license
 
 
 About

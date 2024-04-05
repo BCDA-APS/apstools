@@ -4,9 +4,6 @@
 Callbacks
 =========
 
-Callbacks
-------------
-
 .. automodule:: apstools.callbacks.doc_collector
     :members:
 
@@ -18,4 +15,4 @@ Callbacks
 File Writers
 ------------
 
-See the :ref:`filewriters` section.
+:ref:`filewriters` are a specialized type of callback.

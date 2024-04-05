@@ -10,59 +10,47 @@ Source <https://www.aps.anl.gov/>`__.  The support consists of a thin Python
 interface to EPICS record structures and databases not already supported in
 `ophyd <https://blueskyproject.io/ophyd>`__.  Additional support is provided for
 certain types of scans and data file writer support for common formats (such as
-`SPEC <https://certif.com/spec_manual/user_1_4_1.html>`__ and
-`NeXus <https://manual.nexusformat.org/user_manual.html>`__). See headings
-in the Summary Contents below for more information:
+`NeXus <https://manual.nexusformat.org/user_manual.html>`__ and `SPEC
+<https://certif.com/spec_manual/user_1_4_1.html>`__).
 
-Summary Contents
-----------------
+.. grid:: 2
 
-* :ref:`applications`
-* :ref:`examples`
-* :ref:`api_documentation`
+    .. grid-item-card:: :material-regular:`summarize;3em` Summary
 
-  * Devices
+      * :ref:`api_documentation`
+      * :ref:`applications`
+      * :ref:`examples`
 
-    * :ref:`devices.aps_support`
-    * :ref:`devices.area_detector`
-    * :ref:`devices.motors`
-    * :ref:`devices.scalers`
-    * :ref:`devices.shutters`
-    * :ref:`devices.slits`
-    * :ref:`synApps`
-    * :ref:`devices.temperature_controllers`
+    .. grid-item-card:: :material-regular:`precision_manufacturing;3em` Devices
 
-  * Plans
-     * :ref:`batch scanning support <plans.batch>`
-     * :ref:`custom scans <plans.custom>`
+      * :ref:`devices.aps_support`
+      * :ref:`devices.area_detector`
+      * :ref:`devices.motors`
+      * :ref:`devices.scalers`
+      * :ref:`devices.shutters`
+      * :ref:`devices.slits`
+      * :ref:`synApps`
+      * :ref:`devices.temperature_controllers`
 
-       * :func:`~apstools.plans.alignment.lineup()`
+    .. grid-item-card:: :material-regular:`task;3em` Plans
 
-  * Utilities
-     * :ref:`Finding ... <utils.finding>`
-     * :ref:`Listing ... <utils.listing>`
-     * :ref:`Reporting ... <utils.reporting>`
-     * :ref:`Other ... <utils.other>`
+      * :ref:`batch scanning support <plans.batch>`
+      * :ref:`custom scans <plans.custom>`
 
-Package Information
--------------------
+        * :func:`~apstools.plans.alignment.lineup2()`
 
-============= ========================================
-version       |version|
-release       |release|
-published     |today|
-copyright     2017-2024, UChicago Argonne, LLC
-license       ANL OPEN SOURCE LICENSE (see LICENSE.txt file)
-author        Pete R. Jemian <jemian@anl.gov>
-============= ========================================
+    .. grid-item-card:: :material-regular:`support;3em` Utilities
+
+      * :ref:`Finding ... <utils.finding>`
+      * :ref:`Listing ... <utils.listing>`
+      * :ref:`Reporting ... <utils.reporting>`
+      * :ref:`Other ... <utils.other>`
 
 See Also
 -------------------
 
-=============== ========================================
-apstools home   https://BCDA-APS.github.io/apstools/latest/
-apstools source https://github.com/BCDA-APS/apstools
-apsbss home     https://BCDA-APS.github.io/apsbss
-Bluesky home    https://blueskyproject.io/
-Bluesky source  https://github.com/bluesky
-=============== ========================================
+:apstools home:   https://BCDA-APS.github.io/apstools/latest/
+:apstools source: https://github.com/BCDA-APS/apstools
+:apsbss home:     https://BCDA-APS.github.io/apsbss
+:Bluesky home:    https://blueskyproject.io/
+:Bluesky source:  https://github.com/bluesky
