@@ -17,6 +17,8 @@ See the `Bluesky home page <https://blueskyproject.io/>`__ for more details.
   Reference
   Explanation
 
+.. _examples.devices:
+
 Devices
 ++++++++++++++++++++++++++++++++++++
 
@@ -25,6 +27,8 @@ Devices
    :glob:
 
    de_*
+
+.. _examples.filewriters:
 
 File Writers
 ++++++++++++++++++++++++++++++++++++
@@ -35,6 +39,8 @@ File Writers
 
    fw_*
 
+.. _examples.howto:
+
 How-to Guides
 ++++++++++++++++++++++++++++++++++++
 
@@ -43,6 +49,8 @@ How-to Guides
    :glob:
 
    ho_*
+
+.. _examples.plans:
 
 Plans
 ++++++++++++++++++++++++++++++++++++
