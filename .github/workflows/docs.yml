@@ -85,7 +85,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: apstools-docs
-          path: "${TMP_DIR}/build/html"
+          path: ${{ env.TMP_DIR }}/build/html
 
       # - name: Re-build the master directory (contains all documentation versions)
       #   run: |
