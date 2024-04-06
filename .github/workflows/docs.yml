@@ -78,6 +78,12 @@ jobs:
         run: |
           TZ=UTC sphinx-build -M html ./docs/source "${TMP_DIR}/build"
 
+      - name: Upload Docs ZIP file as artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: apstools-docs
+          path: "${TMP_DIR}/build/html"
+
       - name: Re-build the master directory (contains all documentation versions)
         run: |
           set -vxeuo pipefail
@@ -116,12 +122,6 @@ jobs:
           echo "pwd=$(pwd)"
           ls -laFGh
           du -shc *
-
-      - name: Upload Docs ZIP file as artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: apstools-docs
-          path: docs/build/html
 
       - name: Publish (push gh-pages branch) only on demand
         uses: peaceiris/actions-gh-pages@v3
