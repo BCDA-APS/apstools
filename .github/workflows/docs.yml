@@ -117,6 +117,12 @@ jobs:
           ls -laFGh
           du -shc *
 
+      - name: Upload Docs ZIP file as artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: apstools-docs
+          path: docs/build/html
+
       - name: Publish (push gh-pages branch) only on demand
         uses: peaceiris/actions-gh-pages@v3
         if: ${{ github.event.inputs.deploy }}
