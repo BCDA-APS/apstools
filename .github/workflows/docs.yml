@@ -87,50 +87,50 @@ jobs:
           name: apstools-docs
           path: ${{ env.TMP_DIR }}/build/html
 
-      # - name: Re-build the master directory (contains all documentation versions)
-      #   run: |
-      #     set -vxeuo pipefail
-      #     cp .github/index.html "${TMP_DIR}"
+      - name: Re-build the master directory (contains all documentation versions)
+        run: |
+          set -vxeuo pipefail
+          cp .github/index.html "${TMP_DIR}"
 
-      #     cd "${TMP_DIR}"
-      #     mv build/html "${VERSION}"
-      #     /bin/rm -rf build
-      #     ln -s "./${VERSION}" dev
+          cd "${TMP_DIR}"
+          mv build/html "${VERSION}"
+          /bin/rm -rf build
+          ln -s "./${VERSION}" dev
 
-      #     # add previous documentation (built versions)
-      #     # update the switcher.json file before a new release
-      #     wget https://github.com/BCDA-APS/apstools/archive/refs/heads/gh-pages.zip
-      #     unzip -q gh-pages.zip
-      #     /bin/rm gh-pages.zip
+          # add previous documentation (built versions)
+          # update the switcher.json file before a new release
+          wget https://github.com/BCDA-APS/apstools/archive/refs/heads/gh-pages.zip
+          unzip -q gh-pages.zip
+          /bin/rm gh-pages.zip
 
-      #     source "${SRC_DIR}/.github/scripts/define_versions.sh"
-      #     for v in ${versions}
-      #       do
-      #           if [ -d "apstools-gh-pages/${v}" ]
-      #             then
-      #                 echo "directory 'apstools-gh-pages/${v}' exists"
-      #                 mv "apstools-gh-pages/${v}" ./
-      #                 latest="${v}"
-      #             fi
-      #       done
-      #     echo "latest=${latest}"
-      #     ln -s "./${latest}" ./latest
+          source "${SRC_DIR}/.github/scripts/define_versions.sh"
+          for v in ${versions}
+            do
+                if [ -d "apstools-gh-pages/${v}" ]
+                  then
+                      echo "directory 'apstools-gh-pages/${v}' exists"
+                      mv "apstools-gh-pages/${v}" ./
+                      latest="${v}"
+                  fi
+            done
+          echo "latest=${latest}"
+          ln -s "./${latest}" ./latest
 
-      #     /bin/rm -rf apstools-gh-pages
+          /bin/rm -rf apstools-gh-pages
 
-      # - name: Info
-      #   run: |
-      #     set -vxeuo pipefail
-      #     cd "${TMP_DIR}"
-      #     echo "pwd=$(pwd)"
-      #     ls -laFGh
-      #     du -shc *
+      - name: Info
+        run: |
+          set -vxeuo pipefail
+          cd "${TMP_DIR}"
+          echo "pwd=$(pwd)"
+          ls -laFGh
+          du -shc *
 
-      # - name: Publish (push gh-pages branch) only on demand
-      #   uses: peaceiris/actions-gh-pages@v3
-      #   if: ${{ github.event.inputs.deploy }}
-      #   with:
-      #     publish_branch: gh-pages
-      #     github_token: ${{ secrets.GITHUB_TOKEN }}
-      #     publish_dir: ${{ env.TMP_DIR }}
-      #     force_orphan: true
+      - name: Publish (push gh-pages branch) only on demand
+        uses: peaceiris/actions-gh-pages@v3
+        if: ${{ github.event.inputs.deploy }}
+        with:
+          publish_branch: gh-pages
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ${{ env.TMP_DIR }}
+          force_orphan: true
