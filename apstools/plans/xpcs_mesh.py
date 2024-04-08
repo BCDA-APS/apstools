@@ -33,6 +33,9 @@ def mesh_list_grid_scan(detectors, *args, number_of_collection_points, snake_axe
         The first motor is the "slowest", the outer loop. ``position_list``'s
         are lists of positions, all lists must have the same length. Motors
         can be any 'settable' object (motor, temp controller, etc.).
+    number_of_collection_points: int
+        The total number of collection points that must be collected within the
+        grid until the scan is ready to stop.
     snake_axes: boolean or iterable, optional
         which axes should be snaked, either ``False`` (do not snake any axes),
         ``True`` (snake all axes) or a list of axes to snake. "Snaking" an axis
@@ -96,6 +99,9 @@ def mesh_scan_nd(detectors, cycler, number_of_collection_points, *, per_step=Non
     detectors : list
     cycler : Cycler
         cycler.Cycler object mapping movable interfaces to positions
+    number_of_collection_points: int
+        The total number of collection points that must be collected within the
+        grid until the scan is ready to stop.
     per_step : callable, optional
         hook for customizing action of inner loop (messages per step).
         See docstring of :func:`bluesky.plan_stubs.one_nd_step` (the default)
@@ -215,6 +221,9 @@ def mesh_scan_nd(detectors, cycler, number_of_collection_points, *, per_step=Non
     @bpp.stage_decorator(list(detectors) + motors)
     @bpp.run_decorator(md=_md)
     def scan_until_completion():
+        """
+        Scanning until the total number of required collection points is achieved
+        """
         if predeclare:
             yield from bps.declare_stream(*motors, *detectors, name="primary")
         iterations = 0
