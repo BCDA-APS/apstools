@@ -4,6 +4,8 @@
 Callbacks
 =========
 
+Receive *documents* from the bluesky RunEngine.
+
 .. automodule:: apstools.callbacks.doc_collector
     :members:
 

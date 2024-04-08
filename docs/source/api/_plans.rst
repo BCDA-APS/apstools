@@ -4,7 +4,7 @@
 Plans
 ===========
 
-Plans that might be useful at the APS when using Bluesky.
+Customize your measurement procedures.
 
 Plans and Support by Activity
 ------------------------------

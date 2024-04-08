@@ -4,7 +4,7 @@
 Utilities
 ==========
 
-Various utilities to help APS use the Bluesky framework.
+Assists measurement, data exploration, and the user experience.
 
 Also consult the :ref:`Index <genindex>` under the *apstools* heading
 for links to the Exceptions, and Utilities described

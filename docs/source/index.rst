@@ -4,56 +4,41 @@ apstools
 
 Library of Python tools for use with Bluesky at the APS.
 
+The `apstools` package provides supplemental support for data acquisition using
+the `Bluesky framework <https://blueskyproject.io>`__ at the `Advanced Photon
+Source <https://www.aps.anl.gov/>`__.  The support consists of a thin Python
+interface to `EPICS <https://epics-controls.org/>`__ hardware, record structures, and
+databases not already supported in `ophyd <https://blueskyproject.io/ophyd>`__.
+
 .. toctree::
    :maxdepth: 1
    :hidden:
 
-   overview
-   install
-   applications/index
    api/index
+   applications/index
    examples/index
+   install
    changes
    license
 
 .. icons: https://fonts.google.com/icons
 .. grid:: 2
 
-    .. grid-item-card:: :material-regular:`home;3em` Introduction
+    .. grid-item-card:: :material-regular:`subscriptions;3em` :ref:`api_documentation`
 
-      .. icon name: install_desktop
-
-      Get acquainted with *apstools*.
-
-      * :ref:`overview`
-      * :ref:`install`
+      Enhance your bluesky use with these ophyd-style devices and other support.
 
     .. grid-item-card:: :material-regular:`apps;3em` :ref:`applications`
-      :link: applications/index
-      :link-type: doc
 
       Applications provided by *apstools*.
-
-    .. grid-item-card:: :material-regular:`api;3em` :ref:`api_documentation`
-
-      Python building blocks for your data acquisition.
-
-      * :ref:`callbacks`
-      * :ref:`devices`
-      * :ref:`filewriters`
-      * :ref:`plans`
-      * :ref:`utilities`
-      * :ref:`synApps <synApps>`
 
     .. grid-item-card:: :material-regular:`alt_route;3em` :ref:`examples`
 
       Examples using the *apstools* package, many with Jupyter notebooks.
-     
 
-      * :ref:`examples.devices`
-      * :ref:`examples.filewriters`
-      * :ref:`examples.howto`
-      * :ref:`examples.plans`
+    .. grid-item-card:: :material-regular:`install_desktop;3em` :ref:`install`
+
+      How to install *apstools*.
 
 
 About

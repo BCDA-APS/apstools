@@ -4,7 +4,7 @@
 File Writers
 ============
 
-The file writer callbacks are:
+Write data files during data acquisition.  The file writer callbacks are:
 
 .. autosummary::
 
@@ -124,6 +124,8 @@ versions    instrument    documents the software versions used to collect data
 
 For more information about Bluesky *events* and document types, see
 https://blueskyproject.io/event-model/data-model.html.
+
+.. _filewriters.NXWriter:
 
 NXWriter
 ^^^^^^^^
@@ -370,6 +372,7 @@ Examples of additional structure in NeXus file added by
     :linenos:
     :language: text
 
+.. _filewriters.SpecWriterCallback:
 
 SPEC File Structure
 +++++++++++++++++++
