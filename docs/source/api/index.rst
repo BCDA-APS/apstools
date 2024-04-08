@@ -3,6 +3,8 @@
 API Documentation
 =================
 
+Ophyd-style support for EPICS & synApps structures (records and databases).
+
 .. toctree::
    :maxdepth: 2
    :glob:
@@ -14,26 +16,26 @@ API Documentation
 .. icons: https://fonts.google.com/icons
 .. grid:: 2
 
-    .. grid-item-card:: :ref:`callbacks`
+    .. grid-item-card:: :material-regular:`subscriptions;3em` :ref:`callbacks`
 
       Receive *documents* from the bluesky RunEngine.
 
-    .. grid-item-card:: :ref:`devices`
+    .. grid-item-card:: :material-regular:`precision_manufacturing;3em` :ref:`devices`
 
       Ophyd-style Devices for the APS.
 
-    .. grid-item-card:: :ref:`filewriters`
+    .. grid-item-card:: :material-regular:`save;3em` :ref:`filewriters`
 
-      Specialized callbacks to write data in custom formats.
+      Write data files during data acquisition.
 
-    .. grid-item-card:: :ref:`plans`
+    .. grid-item-card:: :material-regular:`task;3em` :ref:`plans`
 
       Customize your measurement procedures.
 
-    .. grid-item-card:: :ref:`utilities`
-
-      Python code to assist measurement, data exploration, and the user experience.
-
-    .. grid-item-card:: :ref:`synApps`
+    .. grid-item-card:: :material-regular:`support;3em` :ref:`synApps`
 
       Ophyd-style support for common EPICS structures, including *synApps*.
+
+    .. grid-item-card:: :material-regular:`plumbing;3em` :ref:`utilities`
+
+      Assists measurement, data exploration, and the user experience.

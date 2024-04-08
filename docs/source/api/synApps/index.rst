@@ -1,8 +1,8 @@
 .. _synApps:
 
-=============================================
-synApps Support: Records, Databases, ...
-=============================================
+=======
+synApps
+=======
 
 Ophyd-style support for EPICS synApps structures (records and databases).
 
