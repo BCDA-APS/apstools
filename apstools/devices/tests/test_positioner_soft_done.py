@@ -221,7 +221,7 @@ def test_put_and_stop(rbv, prec, pos):
             # force a stop now
             pos.stop()
             pos.cb_readback()
-            assert pos.setpoint.get(use_monitor=False) == rb_mid  # FIXME: fails sometimes 1.0 == 0.5
+            assert pos.setpoint.get(use_monitor=False) == rb_mid
             assert pos.readback.get(use_monitor=False) == rb_mid
             assert pos.position == rb_mid
         else:  # interrupted move
