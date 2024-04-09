@@ -37,6 +37,7 @@ Fixes
 * lineup2() would raise ZeroDivideError in some cases.
 * Increase minimum aps-dm-api version to 8.
 * PVPositionerSoftDone should set 'done' to False at start of a move.
+* Race condition with SR570 pre-amp.
 
 Maintenance
 -----------
