@@ -29,6 +29,7 @@ describe future plans.
 ******
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 release expected by 2024-04-12
 
 New Features
@@ -38,6 +39,9 @@ New Features
 =======
 release expected by 2024-04-02
 >>>>>>> 562df2bb (DOC #909 update release notes)
+=======
+release expected by 2024-04-12
+>>>>>>> 63c1db08 (DOC #955)
 
 New Features
 ------------
