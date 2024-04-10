@@ -32,13 +32,13 @@ databases not already supported in `ophyd <https://blueskyproject.io/ophyd>`__.
 
       How to install *apstools*.
 
-    .. grid-item-card:: :material-regular:`apps;3em` :ref:`applications`
-
-      Applications provided by *apstools*.
-
     .. grid-item-card:: :material-regular:`alt_route;3em` :ref:`examples`
 
       Examples using the *apstools* package, many with Jupyter notebooks.
+
+    .. grid-item-card:: :material-regular:`apps;3em` :ref:`applications`
+
+      Applications provided by *apstools*.
 
 
 About
