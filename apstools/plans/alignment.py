@@ -18,7 +18,6 @@ import numpy as np
 import pyRestTable
 from scipy.optimize import curve_fit
 from scipy.special import erf
-from scipy.signal import find_peaks
 
 from bluesky import plan_stubs as bps
 from bluesky import plans as bp
@@ -300,53 +299,6 @@ def edge_align(detectors, mover, start, end, points, cat=None, md={}):
         """
         return (high - low) * 0.5 * (1 - erf((x - midpoint) / width)) + low
 
-    def check_signal_change(y_data, window_size=5, std_multiplier=5):
-        """
-        Checks if the signal has a significant change or if it's just noise.
-
-        Parameters
-        ----------
-        x_data : numpy.array
-            The x-axis values of the signal.
-        y_data : numpy.array
-            The y-axis values of the signal.
-        window_size : int
-            The size of the window for the moving average filter.
-        std_multiplier : float
-            The multiplier for the standard deviation to set the threshold.
-
-        Returns
-        -------
-        bool
-            True if a significant change is detected, False otherwise.
-        """
-        # Smooth the data
-        y_smoothed = np.convolve(
-            y_data, np.ones(window_size) / window_size, mode="valid"
-        )
-
-        print(f"y_0: {y_smoothed[0]}")
-
-        # Calculate the standard deviation of the smoothed data
-        std_dev = np.std(y_smoothed)
-        print(std_dev)
-
-        # Find peaks and troughs which are above/below the std_multiplier * std_dev
-        peaks, _ = find_peaks(
-            y_smoothed, height=y_smoothed[0] + std_multiplier * std_dev
-        )
-        troughs, _ = find_peaks(
-            -y_smoothed, threshold=y_smoothed[0] + std_multiplier * std_dev
-        )
-        print(troughs)
-        # print(f"peaks: {len(peaks)}")
-        print(f"troughs: {len(troughs)}")
-
-        # Check for significant changes
-        if len(peaks) > 0 or len(troughs) > 0:
-            return True
-        else:
-            return False
 
     if not isinstance(detectors, (tuple, list)):
         detectors = [detectors]
@@ -362,14 +314,16 @@ def edge_align(detectors, mover, start, end, points, cat=None, md={}):
     x = ds["mover"]
     y = ds["noisy"]
 
-    if check_signal_change(y):
-        print("Significant signal change detected; motor moving to detected edge.")
-
+    try:
         initial_guess = guess_erf_params(x, y)
         popt, pcov = curve_fit(erf_model, x, y, p0=initial_guess)
-
-        yield from bps.mv(mover, popt[3])
-    else:
+        if pcov[3, 3] != np.inf:
+            print("Significant signal change detected; motor moving to detected edge.")
+            yield from bps.mv(mover, popt[3])
+        else:
+            raise Exception
+    except Exception as reason:
+        print(f"reason: {reason}")
         print("No significant signal change detected; motor movement skipped.")
 
 
