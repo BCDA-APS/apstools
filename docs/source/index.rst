@@ -14,10 +14,10 @@ databases not already supported in `ophyd <https://blueskyproject.io/ophyd>`__.
    :maxdepth: 1
    :hidden:
 
+   install
    api/index
    applications/index
    examples/index
-   install
    changes
    license
 
@@ -28,6 +28,10 @@ databases not already supported in `ophyd <https://blueskyproject.io/ophyd>`__.
 
       Enhance your bluesky use with these ophyd-style devices and other support.
 
+    .. grid-item-card:: :material-regular:`install_desktop;3em` :ref:`install`
+
+      How to install *apstools*.
+
     .. grid-item-card:: :material-regular:`apps;3em` :ref:`applications`
 
       Applications provided by *apstools*.
@@ -35,10 +39,6 @@ databases not already supported in `ophyd <https://blueskyproject.io/ophyd>`__.
     .. grid-item-card:: :material-regular:`alt_route;3em` :ref:`examples`
 
       Examples using the *apstools* package, many with Jupyter notebooks.
-
-    .. grid-item-card:: :material-regular:`install_desktop;3em` :ref:`install`
-
-      How to install *apstools*.
 
 
 About
