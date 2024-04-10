@@ -38,7 +38,7 @@ databases not already supported in `ophyd <https://blueskyproject.io/ophyd>`__.
 
     .. grid-item-card:: :material-regular:`apps;3em` :ref:`applications`
 
-      Applications provided by *apstools*.
+      Command-line or GUI programs provided by *apstools*.
 
 
 About

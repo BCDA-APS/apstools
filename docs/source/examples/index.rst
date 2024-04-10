@@ -1,9 +1,12 @@
 .. _examples:
 
-Guides
+Examples
 ========
 
-In addition to the guides presented below, there are many Jupyter notebooks
+Examples show the steps that demonstrate how something was done,
+often with minimal explanation.
+
+In addition to the examples presented below, there are many Jupyter notebooks
 online to provide additional
 `Bluesky training <https://github.com/BCDA-APS/bluesky_training#notebooks>`__
 for the APS.  Further, NSLS-II provides online notebooks which can be
