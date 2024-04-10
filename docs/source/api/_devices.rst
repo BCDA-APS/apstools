@@ -4,8 +4,7 @@
 Devices
 =======
 
-Devices (subclasses of ophyd's `Device`) that might be useful at the APS using
-Bluesky.
+Ophyd-style Devices for the APS.
 
 Also consult the :ref:`Index <genindex>` under the *Ophyd* heading for
 links to the Devices, Exceptions, Mixins, Signals, and other support

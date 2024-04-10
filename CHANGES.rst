@@ -28,7 +28,7 @@ describe future plans.
 1.6.19
 ******
 
-release expected by 2024-04-02
+release expected by 2024-04-12
 
 Fixes
 -----
@@ -43,6 +43,7 @@ Maintenance
 
 * Code format conforms to 'ruff'.
 * Add additional support for APS Data Management API.
+* Make the home page more concise.
 * Refactor packaging from setup.py to pyproject.toml.
 
 1.6.18

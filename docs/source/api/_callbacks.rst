@@ -1,9 +1,10 @@
-====================================
-Callbacks (includes File Writers)
-====================================
+.. _callbacks:
 
+=========
 Callbacks
-------------
+=========
+
+Receive *documents* from the bluesky RunEngine.
 
 .. automodule:: apstools.callbacks.doc_collector
     :members:
@@ -16,4 +17,4 @@ Callbacks
 File Writers
 ------------
 
-See the :ref:`filewriters` section.
+:ref:`filewriters` are a specialized type of callback.

@@ -3,9 +3,6 @@
 Installation
 ============
 
-Installation
-############
-
 The ``apstools`` package is available for installation
 by ``conda``, ``pip``, or from source.
 
@@ -15,9 +12,7 @@ conda
 If you are using Anaconda Python and have ``conda`` installed, install the most
 recent version with this command::
 
-    $ conda install -c conda-forge apstools
-
-..    $ conda install -c aps-anl-tag apstools
+    $ conda install conda-forge::apstools
 
 pip
 ---
@@ -43,21 +38,9 @@ To install from the source directory using ``pip`` in editable mode::
     $ python -m pip install -e .
 
 Required Libraries
-##################
+------------------
 
 The repository's ``environment.yml`` file lists the additional packages
 required by ``apstools``.  Most packages are available as conda packages
 from https://anaconda.org.  The others are available on
-https://PyPI.python.org.  Among the required packages:
-
-  - python>=3.7
-  - bluesky, databroker, ophyd
-  - h5py
-  - pandas
-  - pyEpics
-  - pyqt=5
-  - pyRestTable
-  - qt=5
-  - spec2nexus
-  - xlrd
-
+https://PyPI.python.org.
