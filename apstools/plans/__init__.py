@@ -24,6 +24,7 @@ from .run_blocking_function_plan import run_blocking_function
 from .sscan_support import sscan_1D
 from .stage_sigs_support import restorable_stage_sigs
 from .stage_sigs_support import stage_sigs_wrapper
+from .xpcs_mesh import mesh_list_grid_scan
 
 # -----------------------------------------------------------------------------
 # :author:    Pete R. Jemian
