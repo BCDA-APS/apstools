@@ -24,6 +24,12 @@ from ..tests import timed_pause
 
 logger = logging.getLogger(__name__)
 
+# Must use a data type that can be serialized as json (Python's None cannot be serialized)
+# This ValueError: Cannot determine the appropriate bluesky-friendly data type for value
+# None of Python type <class 'NoneType'>. Supported types include: int, float, str, and
+# iterables such as list, tuple, np.ndarray, and so on.
+TARGET_UNDEFINED = "undefined"
+
 
 class _EpicsPositionerSetpointSignal(EpicsSignal):
     """
@@ -46,12 +52,13 @@ class _EpicsPositionerSetpointSignal(EpicsSignal):
                 kwargs["wait"] = True  # Signal.put() warns if kwargs are given
             self.parent.target.put(value, **kwargs)
 
-    def get(self, *args, **kwargs):
-        value = super().get(*args, **kwargs)
-        if self.parent.update_target:
-            target = self.parent.target.get()
-            value = target or value
-        return value
+    # def get(self, *args, **kwargs):
+    #     value = super().get(*args, **kwargs)
+    #     if self.parent.update_target:
+    #         target = self.parent.target.get()
+    #         if target != TARGET_UNDEFINED:
+    #             value = target
+    #     return value
 
 
 class PVPositionerSoftDone(PVPositioner):
@@ -130,7 +137,7 @@ class PVPositionerSoftDone(PVPositioner):
     tolerance = Component(Signal, value=-1, kind="config")
     report_dmov_changes = Component(Signal, value=False, kind="omitted")
 
-    target = Component(Signal, value=None, kind="config")
+    target = Component(Signal, value=TARGET_UNDEFINED, kind="config")
 
     def __init__(
         self,
