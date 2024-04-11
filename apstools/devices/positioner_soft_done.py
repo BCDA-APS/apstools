@@ -25,6 +25,35 @@ from ..tests import timed_pause
 logger = logging.getLogger(__name__)
 
 
+class _EpicsPositionerSetpointSignal(EpicsSignal):
+    """
+    Special handling when PVPositionerSoftDone setpoint is changed.
+
+    When the setpoint is changed, force`` done=False``.  For any move, ``done``
+    **must** transition to ``!= done_value``, then back to ``done_value``.
+    Without this response, a small move (within tolerance) will not return.
+    The ``cb_readback()`` method will compute ``done``.
+    """
+
+    def put(self, value, *args, **kwargs):
+        """Make sure 'done' signal goes False when setpoint is changed by us."""
+        super().put(value, *args, **kwargs)
+
+        self.parent.done.put(not self.parent.done_value)
+        if self.parent.update_target:
+            kwargs = {}
+            if issubclass(self.parent.target.__class__, EpicsSignalBase):
+                kwargs["wait"] = True  # Signal.put() warns if kwargs are given
+            self.parent.target.put(value, **kwargs)
+
+    def get(self, *args, **kwargs):
+        value = super().get(*args, **kwargs)
+        if self.parent.update_target:
+            target = self.parent.target.get()
+            value = target or value
+        return value
+
+
 class PVPositionerSoftDone(PVPositioner):
     """
     PVPositioner that computes ``done`` as a soft signal.
@@ -49,7 +78,7 @@ class PVPositionerSoftDone(PVPositioner):
         Defaults to ``10^(-1*precision)``,
         where ``precision = setpoint.precision``.
     update_target : bool
-        ``True`` when this object update the ``target`` Component directly.
+        ``True`` when this object updates the ``target`` Component directly.
         Use ``False`` if the ``target`` Component will be updated externally,
         such as by the controller when ``target`` is an ``EpicsSignal``.
         Defaults to ``True``.
@@ -92,7 +121,7 @@ class PVPositionerSoftDone(PVPositioner):
         EpicsSignalRO, "{prefix}{_readback_pv}", kind="hinted", auto_monitor=True
     )
     setpoint = FormattedComponent(
-        EpicsSignal, "{prefix}{_setpoint_pv}", kind="normal", put_complete=True
+        _EpicsPositionerSetpointSignal, "{prefix}{_setpoint_pv}", kind="normal", put_complete=True
     )
     # fmt: on
     done = Component(Signal, value=True, kind="config")
@@ -101,7 +130,7 @@ class PVPositionerSoftDone(PVPositioner):
     tolerance = Component(Signal, value=-1, kind="config")
     report_dmov_changes = Component(Signal, value=False, kind="omitted")
 
-    target = Component(Signal, value="None", kind="config")
+    target = Component(Signal, value=None, kind="config")
 
     def __init__(
         self,
@@ -177,14 +206,12 @@ class PVPositionerSoftDone(PVPositioner):
         """
         Called when setpoint changes (EPICS CA monitor event).
 
-        When the setpoint is changed, force`` done=False``.  For any move, ``done``
-        **must** transition to ``!= done_value``, then back to ``done_value``.
-        Without this response, a small move (within tolerance) will not return.
-        The ``cb_readback()`` method will compute ``done``.
+        This method is called when the setpoint is changed by this code or from
+        some other EPICS client.
+
+        The 'done' signal is set to False in the custom
+        _EpicsPositionerSetpointSignal class.
         """
-        if "value" in kwargs and "status" not in kwargs:
-            # Only update when the expected kwargs are received.
-            self.done.put(not self.done_value)
         logger.debug("cb_setpoint: done=%s, setpoint=%s", self.done.get(), self.setpoint.get())
 
     @property
@@ -212,17 +239,11 @@ class PVPositionerSoftDone(PVPositioner):
     def _setup_move(self, position):
         """Move and do not wait until motion is complete (asynchronous)"""
         self.log.debug("%s.setpoint = %s", self.name, position)
-        if self.update_target:
-            kwargs = {}
-            if issubclass(self.target.__class__, EpicsSignalBase):
-                kwargs["wait"] = True  # Signal.put() warns if kwargs are given
-            self.target.put(position, **kwargs)
 
         # Write the setpoint value.
         self.setpoint.put(position, wait=True)
-        # A new move requires done to become unset (here).
-        # Move is finished (in cb_readback()) when done is reset.
-        self.done.put(not self.done_value)
+        # The 'done' and 'target' signals are handled by
+        # the custom '_EpicsPositionerSetpointSignal' class.
 
         if self.actuate is not None:
             self.log.debug("%s.actuate = %s", self.name, self.actuate_value)
