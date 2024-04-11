@@ -13,6 +13,7 @@ from ...tests import timed_pause
 from ...utils import run_in_thread
 from ..positioner_soft_done import PVPositionerSoftDone
 from ..positioner_soft_done import PVPositionerSoftDoneWithStop
+from ..positioner_soft_done import TARGET_UNDEFINED
 
 PV_PREFIX = f"{IOC_GP}gp:"
 delay_active = False
@@ -196,7 +197,7 @@ def test_structure(device, has_inposition):
     assert pos.setpoint.pvname == "v"
     assert pos.done.get() is True
     assert pos.done_value is True
-    assert pos.target.get() is None
+    assert pos.target.get() == TARGET_UNDEFINED
     assert pos.tolerance.get() == -1
 
 
