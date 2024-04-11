@@ -16,8 +16,8 @@ def test_lakeshore_336():
     assert not t336.connected
 
     # Signal components
-    assert t336.loop1.target.get() == None
-    assert t336.loop2.target.get() == None
+    assert t336.loop1.target.get() is None
+    assert t336.loop2.target.get() is None
 
     assert t336.loop1.tolerance.get() == 0.1
     assert t336.loop2.tolerance.get() == 0.1
@@ -68,8 +68,8 @@ def test_lakeshore_340():
     assert not t340.connected
 
     # Signal components
-    assert t340.control.target.get() == None
-    assert t340.sample.target.get() == None
+    assert t340.control.target.get() is None
+    assert t340.sample.target.get() is None
 
     assert t340.control.tolerance.get() == 0.1
     assert t340.sample.tolerance.get() == 0.1
