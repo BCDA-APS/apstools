@@ -735,9 +735,7 @@ class TuneAxis(object):
                 }
                 _md.update(md or {})
 
-                yield from self.tune(
-                    width=width, num=num, peak_factor=peak_factor, md=_md
-                )
+                yield from self.tune(width=width, num=num, peak_factor=peak_factor, md=_md)
 
                 if not self.tune_ok:
                     return
