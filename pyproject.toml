@@ -54,6 +54,7 @@ classifiers = [
 dependencies = [
   "area-detector-handlers",
   "bluesky>=1.6.2,!=1.11.0",
+  "cytools>=1.0.1",
   "databroker==1.2.5",
   "databroker-pack",
   "h5py",
