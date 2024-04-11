@@ -4,7 +4,7 @@ from bluesky import plan_patterns
 from bluesky import preprocessors as bpp
 
 import inspect
-from itertools import zip_longest
+from itertools import zip_longest, cycle
 from collections import defaultdict
 import os
 
@@ -17,7 +17,7 @@ except ImportError:
 
 def mesh_list_grid_scan(detectors, *args, number_of_collection_points, snake_axes=False, per_step=None, md=None):
     """
-    Scan over a mesh; each motor is on an independent trajectory.
+    Scan over a multi-dimensional mesh, collecting a total of *n* points; each motor is on an independent trajectory.
 
     Parameters
     ----------
@@ -226,12 +226,12 @@ def mesh_scan_nd(detectors, cycler, number_of_collection_points, *, per_step=Non
         """
         if predeclare:
             yield from bps.declare_stream(*motors, *detectors, name="primary")
+
         iterations = 0
-        while iterations < number_of_collection_points:
-            for step in list(cycler):
-                yield from per_step(detectors, step, pos_cache)
-                iterations += 1
-                if iterations == number_of_collection_points:
-                    break
+        for step in cycle(cycler):
+            yield from per_step(detectors, step, pos_cache)
+            iterations += 1
+            if iterations == number_of_collection_points:
+                break
 
     return (yield from scan_until_completion())
