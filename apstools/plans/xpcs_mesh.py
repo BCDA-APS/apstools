@@ -58,7 +58,7 @@ def mesh_list_grid_scan(detectors, *args, number_of_collection_points, snake_axe
     md_args = []
     motor_names = []
     motors = []
-    for (motor, pos_list) in partition(2, args):
+    for motor, pos_list in partition(2, args):
         md_args.extend([repr(motor), pos_list])
         motor_names.append(motor.name)
         motors.append(motor)
@@ -173,9 +173,7 @@ def mesh_scan_nd(detectors, cycler, number_of_collection_points, *, per_step=Non
             # inner_product_scan was renamed scan).
             dims = len(list(cycler.keys))
             if dims != 1:
-                raise TypeError(
-                    "Signature of per_step assumes 1D trajectory " "but {} motors are specified.".format(dims)
-                )
+                raise TypeError(f"Signature of per_step assumes 1D trajectory but {dims} motors are specified.")
             (motor,) = cycler.keys
             user_per_step = per_step
 
