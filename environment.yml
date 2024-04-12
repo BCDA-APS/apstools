@@ -34,7 +34,7 @@ dependencies:
   - setuptools-scm
   - spec2nexus
   - sphinx >=5
-   - toolz
+  - toolz
 
   - aps-dm-api >=8   # linux-64  osx-64
 
