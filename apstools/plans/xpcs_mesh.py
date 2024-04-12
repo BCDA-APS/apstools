@@ -150,27 +150,10 @@ def mesh_scan_nd(detectors, cycler, number_of_collection_points, *, per_step=Non
         # Ensure that the user-defined per-step has the expected signature.
         sig = inspect.signature(per_step)
 
-        def _verify_1d_step(sig):
+        def _verify_step(sig, expected_list):
             if len(sig.parameters) < 3:
                 return False
-            for name, (p_name, p) in zip_longest(["detectors", "motor", "step"], sig.parameters.items()):
-                # this is one of the first 3 positional arguements, check that the name matches
-                if name is not None:
-                    if name != p_name:
-                        return False
-                # if there are any extra arguments, check that they have a default
-                else:
-                    if p.kind is p.VAR_KEYWORD or p.kind is p.VAR_POSITIONAL:
-                        continue
-                    if p.default is p.empty:
-                        return False
-
-            return True
-
-        def _verify_nd_step(sig):
-            if len(sig.parameters) < 3:
-                return False
-            for name, (p_name, p) in zip_longest(["detectors", "step", "pos_cache"], sig.parameters.items()):
+            for name, (p_name, p) in zip_longest(expected_list, sig.parameters.items()):
                 # this is one of the first 3 positional arguements, check that the name matches
                 if name is not None:
                     if name != p_name:
@@ -186,10 +169,11 @@ def mesh_scan_nd(detectors, cycler, number_of_collection_points, *, per_step=Non
 
         if sig == inspect.signature(bps.one_nd_step):
             pass
-        elif _verify_nd_step(sig):
+        elif _verify_step(sig, ["detectors", "step", "pos_cache"]):
             # check other signature for back-compatibility
             pass
-        elif _verify_1d_step(sig):
+
+        elif _verify_step(sig, ["detectors", "motor", "step"]):
             # Accept this signature for back-compat reasons (because
             # inner_product_scan was renamed scan).
             dims = len(list(cycler.keys))
