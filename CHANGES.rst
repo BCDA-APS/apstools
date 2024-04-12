@@ -28,12 +28,7 @@ describe future plans.
 1.6.19
 ******
 
-release expected by 2024-03-31
-
-New Features
-------------
-
-* Add new plan for edge alignment called edge_align
+release expected by 2024-04-02
 
 Fixes
 -----
