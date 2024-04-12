@@ -31,9 +31,9 @@ describe future plans.
 release expected by 2024-04-12
 
 New Features
-------------
 
 * Add new plan for edge alignment called edge_align
+* Added a mesh grid scan plan that will collect until number of collection points is met
 
 Fixes
 -----

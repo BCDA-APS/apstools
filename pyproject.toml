@@ -69,6 +69,7 @@ dependencies = [
   "pysumreg",
   "scipy",
   "spec2nexus>=2021.1.7",
+  "toolz>=0.12.1",
   "xlrd",
 ]
 
