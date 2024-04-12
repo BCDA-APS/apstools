@@ -13,5 +13,6 @@ psutil
 pyepics>=3.4.2
 pyRestTable
 pysumreg
+scipy>=1.13.0
 spec2nexus>=2021.1.7
 xlrd
