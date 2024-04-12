@@ -327,13 +327,8 @@ def edge_align(detectors, mover, start, end, points, cat=None, md={}):
 
 def lineup2(
     # fmt: off
-    detectors,
-    mover,
-    rel_start,
-    rel_end,
-    points,
-    peak_factor=2.5,
-    width_factor=0.8,
+    detectors, mover, rel_start, rel_end, points,
+    peak_factor=2.5, width_factor=0.8,
     feature="centroid",
     nscans=2,
     signal_stats=None,
