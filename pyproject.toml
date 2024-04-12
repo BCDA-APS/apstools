@@ -68,6 +68,7 @@ dependencies = [
   "pyRestTable>=2020.0.8",
   "pysumreg",
   "spec2nexus>=2021.1.7",
+  "toolz>=0.12.1",
   "xlrd",
 ]
 
