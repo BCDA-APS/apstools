@@ -35,11 +35,6 @@ New Features
 
 * Add new plan for edge alignment called edge_align
 
-New Features
-------------
-
-* Add new plan for edge alignment called edge_align
-
 Fixes
 -----
 
