@@ -32,7 +32,6 @@ Custom Scans
 .. autosummary::
 
    ~apstools.plans.alignment.edge_align
-
    ~apstools.plans.alignment.lineup
    ~apstools.plans.alignment.lineup2
    ~apstools.plans.alignment.tune_axes
