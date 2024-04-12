@@ -145,8 +145,7 @@ def lineup(
 
         if det0.name not in bec.peaks[feature]:
             logger.error(
-                "No statistical analysis of scan peak for feature '%s'!"
-                "  (bec.peaks=%s, bec=%s)",
+                "No statistical analysis of scan peak for feature '%s'!" "  (bec.peaks=%s, bec=%s)",
                 feature,
                 bec.peaks,
                 bec,
@@ -284,118 +283,8 @@ def edge_align(detectors, mover, start, end, points, cat=None, md={}):
 
         # Estimate wid as a fraction of the range. This is very arbitrary and might need tuning!
         width = (
-            (high_x_data - low_x_data) / 10
-        )  # This is a guess and might need adjustment based on your data's characteristics
-
-        # Estimate the midpoint of the x values
-        midpoint = x_data[int(len(x_data) / 2)]
-
-        return [low_y_data, high_y_data, width, midpoint]
-
-    def erf_model(x, low, high, width, midpoint):
-        """
-        Create error function for fitting and simulation
-
-        Parameters
-        ----------
-        x		:	input upon which error function is evaluated
-        low		: 	min value of error function
-        high	: 	max value of error function
-        width  	:	"spread" of error function transition region
-        midpoint:	location of error function's "center"
-        """
-        return (high - low) * 0.5 * (1 - erf((x - midpoint) / width)) + low
-
-
-    if not isinstance(detectors, (tuple, list)):
-        detectors = [detectors]
-
-    _md = dict(purpose="edge_align")
-    _md.update(md or {})
-
-    uid = yield from bp.scan(detectors, mover, start, end, points, md=_md)
-    cat = cat or utils.getCatalog()
-    run = cat[uid]  # return uids
-    ds = run.primary.read()
-
-    x = ds["mover"]
-    y = ds["noisy"]
-
-    try:
-        initial_guess = guess_erf_params(x, y)
-        popt, pcov = curve_fit(erf_model, x, y, p0=initial_guess)
-        if pcov[3, 3] != np.inf:
-            print("Significant signal change detected; motor moving to detected edge.")
-            yield from bps.mv(mover, popt[3])
-        else:
-            raise Exception
-    except Exception as reason:
-        print(f"reason: {reason}")
-        print("No significant signal change detected; motor movement skipped.")
-
-
-def edge_align(detectors, mover, start, end, points, cat=None, md={}):
-    """
-    Align to the edge given mover & detector data, relative to absolute position.
-
-    This plan can be used in the queueserver, Jupyter notebooks, and IPython
-    consoles.
-
-    PARAMETERS
-    ----------
-    detectors *Readable* or [*Readable*]:
-        Detector object or list of detector objects (each is a Device or
-        Signal).
-
-    mover *Movable*:
-        Mover object, such as motor or other positioner.
-
-    start *float*:
-        Starting point for the scan. This is an absolute motor location.
-
-    end *float*:
-        Ending point for the scan. This is an absolute motor location.
-
-    points *int*:
-        Number of points in the scan.
-
-    cat *databroker.temp().v2*:
-        Catalog where bluesky data is saved and can be retrieved from.
-
-    md *dict*:
-        User-supplied metadata for this scan.
-    """
-
-    def guess_erf_params(x_data, y_data):
-        """
-        Provide an initial guess for the parameters of an error function.
-
-        Parameters
-        ----------
-        x_data : A numpy array of the values on the x_axis
-        y_data : A numpy array of the values on the y_axis
-
-        Returns
-        -------
-        guess : dict
-            A dictionary containing the guessed parameters 'low_y_data', 'high_y_data', 'width', and 'midpoint'.
-        """
-
-        # Sort data to make finding the mid-point easier and to assist in other estimations
-        y_data_sorted = np.sort(y_data)
-        x_data_sorted = np.sort(x_data)
-
-        # Estimate low and high as the first and last elements (assuming sorted data)
-        low_y_data = np.min(y_data_sorted)
-        high_y_data = np.max(y_data_sorted)
-
-        low_x_data = np.min(x_data_sorted)
-        high_x_data = np.max(x_data_sorted)
-
-        # Estimate wid as a fraction of the range. This is very arbitrary and might need tuning!
-        width = (
-            (high_x_data - low_x_data) / 10
-        )  # This is a guess and might need adjustment based on your data's characteristics
+            high_x_data - low_x_data
+        ) / 10  # This is a guess and might need adjustment based on your data's characteristics
 
         # Estimate the midpoint of the x values
         midpoint = x_data[int(len(x_data) / 2)]
@@ -441,6 +330,7 @@ def edge_align(detectors, mover, start, end, points, cat=None, md={}):
     except Exception as reason:
         print(f"reason: {reason}")
         print("No significant signal change detected; motor movement skipped.")
+
 
 def lineup2(
     # fmt: off
@@ -855,9 +745,7 @@ class TuneAxis(object):
                 }
                 _md.update(md or {})
 
-                yield from self.tune(
-                    width=width, num=num, peak_factor=peak_factor, md=_md
-                )
+                yield from self.tune(width=width, num=num, peak_factor=peak_factor, md=_md)
 
                 if not self.tune_ok:
                     return
@@ -869,9 +757,7 @@ class TuneAxis(object):
                 if snake:
                     width *= -1
 
-        return (
-            yield from _scan(width=width, step_factor=step_factor, num=num, snake=snake)
-        )
+        return (yield from _scan(width=width, step_factor=step_factor, num=num, snake=snake))
 
     def multi_pass_tune_summary(self):
         t = pyRestTable.Table()
@@ -962,10 +848,7 @@ class TuneResults(Device):
     peakstats_attrs = "x y cen com fwhm min max crossings".split()
 
     def report(self, title=None):
-        keys = (
-            self.peakstats_attrs
-            + "tune_ok center initial_position final_position".split()
-        )
+        keys = self.peakstats_attrs + "tune_ok center initial_position final_position".split()
         t = pyRestTable.Table()
         t.addLabel("key")
         t.addLabel("result")
