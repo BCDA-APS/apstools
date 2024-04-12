@@ -37,14 +37,8 @@ logger = logging.getLogger(__name__)
 
 def lineup(
     # fmt: off
-    detectors,
-    axis,
-    minus,
-    plus,
-    npts,
-    time_s=0.1,
-    peak_factor=4,
-    width_factor=0.8,
+    detectors, axis, minus, plus, npts,
+    time_s=0.1, peak_factor=4, width_factor=0.8,
     feature="cen",
     rescan=True,
     bec=None,

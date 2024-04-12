@@ -28,20 +28,12 @@ describe future plans.
 1.6.19
 ******
 
-<<<<<<< HEAD
-<<<<<<< HEAD
 release expected by 2024-04-12
 
 New Features
 ------------
 
 * Add new plan for edge alignment called edge_align
-=======
-release expected by 2024-04-02
->>>>>>> 562df2bb (DOC #909 update release notes)
-=======
-release expected by 2024-04-12
->>>>>>> 63c1db08 (DOC #955)
 
 New Features
 ------------
@@ -54,21 +46,15 @@ Fixes
 * lineup2() should work with low intensity peaks.
 * lineup2() would raise ZeroDivideError in some cases.
 * Increase minimum aps-dm-api version to 8.
-<<<<<<< HEAD
 * Race condition with SR570 pre-amp.
-=======
->>>>>>> 2e612356 (DOC #932 update relase notes)
 
 Maintenance
 -----------
 
 * Code format conforms to 'ruff'.
 * Add additional support for APS Data Management API.
-<<<<<<< HEAD
 * Make the home page more concise.
 * Refactor packaging from setup.py to pyproject.toml.
-=======
->>>>>>> 2e612356 (DOC #932 update relase notes)
 
 1.6.18
 ******
