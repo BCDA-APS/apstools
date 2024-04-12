@@ -31,7 +31,7 @@ dependencies:
   - pysumreg
   - qt =5
   - readline !=8.1.2
-  - scipy >=1.13.0
+  - scipy
   - setuptools-scm
   - spec2nexus
   - sphinx >=5
