@@ -54,7 +54,6 @@ classifiers = [
 dependencies = [
   "area-detector-handlers",
   "bluesky>=1.6.2,!=1.11.0",
-  "cytools>=1.0.1",
   "databroker==1.2.5",
   "databroker-pack",
   "h5py",
@@ -69,6 +68,7 @@ dependencies = [
   "pyRestTable>=2020.0.8",
   "pysumreg",
   "spec2nexus>=2021.1.7",
+  "toolz>=0.12.1",
   "xlrd",
 ]
 

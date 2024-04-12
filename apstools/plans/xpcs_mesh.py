@@ -8,11 +8,7 @@ from itertools import zip_longest, cycle
 from collections import defaultdict
 import os
 
-try:
-    # cytools is a drop-in replacement for toolz, implemented in Cython
-    from cytools import partition
-except ImportError:
-    from toolz import partition
+from toolz import partition
 
 
 def mesh_list_grid_scan(detectors, *args, number_of_collection_points, snake_axes=False, per_step=None, md=None):
@@ -62,11 +58,10 @@ def mesh_list_grid_scan(detectors, *args, number_of_collection_points, snake_axe
     md_args = []
     motor_names = []
     motors = []
-    for i, (motor, pos_list) in enumerate(partition(2, args)):
+    for (motor, pos_list) in partition(2, args):
         md_args.extend([repr(motor), pos_list])
         motor_names.append(motor.name)
         motors.append(motor)
-        # print("when")
     _md = {
         "shape": tuple(len(pos_list) for motor, pos_list in partition(2, args)),
         "extents": tuple([min(pos_list), max(pos_list)] for motor, pos_list in partition(2, args)),
