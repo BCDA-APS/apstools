@@ -55,7 +55,7 @@ dependencies = [
   "area-detector-handlers",
   "bluesky>=1.6.2,!=1.11.0",
   "bluesky-live",
-  "databroker==1.2",
+  "databroker==1.2.5",
   "databroker-pack",
   "entrypoints",
   "h5py",
