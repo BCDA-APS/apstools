@@ -10,10 +10,12 @@ dependencies:
   - python >=3.8, <=3.11
   - area-detector-handlers
   - bluesky >=1.6.7, !=1.11.0
-  - databroker =1.2.5
+  - bluesky-live
+  - databroker =1.2
   - databroker-pack
+  - entrypoints
   - h5py
-  - intake
+  - intake <=1
   - matplotlib-base
   - mongoquery >=1.3.6
   - openpyxl
