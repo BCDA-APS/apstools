@@ -60,7 +60,7 @@ dependencies = [
   "entrypoints",
   "h5py",
   "intake<=1",
-  "matplotlib-base",
+  "matplotlib",
   "mongoquery>=1.3.6",
   "numpy",
   "ophyd>=1.6.1",
