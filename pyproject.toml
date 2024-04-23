@@ -247,5 +247,8 @@ docstring-code-line-length = "dynamic"
 [tool.setuptools]
 py-modules = ["apstools"]
 
+[tool.setuptools.packages.find]
+include = ["apstools*"]  # package names should match these glob patterns (["*"] by default)
+
 [tool.setuptools_scm]
 write_to = "apstools/_version.py"
