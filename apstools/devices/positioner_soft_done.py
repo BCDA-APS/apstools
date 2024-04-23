@@ -20,7 +20,7 @@ from ophyd import PVPositioner
 from ophyd import Signal
 from ophyd.signal import EpicsSignalBase
 
-from ..tests import timed_pause
+# from ..tests import timed_pause
 
 logger = logging.getLogger(__name__)
 
@@ -249,9 +249,11 @@ class PVPositionerSoftDoneWithStop(PVPositionerSoftDone):
         """
         Hold the current readback when stop() is called and not :meth:`inposition`.
         """
+        import time
+
         if not self.inposition:
             self.setpoint.put(self.position)
-            timed_pause()
+            time.sleep(2.0 / 60)  # two clock ticks, allow for EPICS record processing
             self.cb_readback()  # re-evaluate soft done Signal
 
 
