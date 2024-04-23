@@ -1,0 +1,2111 @@
+
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+
+    <title>Area Detector with default HDF5 File Name &#8212; apstools 1.6</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=8d27b9dea8ad943066ae" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=8d27b9dea8ad943066ae" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=8d27b9dea8ad943066ae" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.5.1/css/all.min.css?digest=8d27b9dea8ad943066ae" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.1/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.1/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.1/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/graphviz.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/design-style.1e8bd061cd6da7fc9cf755528e8ffc24.min.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/nbsphinx-code-cells.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/css/custom.css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8d27b9dea8ad943066ae" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8d27b9dea8ad943066ae" />
+  <script src="../_static/vendor/fontawesome/6.5.1/js/all.min.js?digest=8d27b9dea8ad943066ae"></script>
+
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/sphinx_highlight.js"></script>
+    <script src="../_static/design-tabs.js"></script>
+    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'examples/de_0_adsim_hdf5_basic';</script>
+    <script>
+        DOCUMENTATION_OPTIONS.theme_version = '0.15.2';
+        DOCUMENTATION_OPTIONS.theme_switcher_json_url = 'https://raw.githubusercontent.com/BCDA-APS/apstools/main/docs/source/_static/switcher.json';
+        DOCUMENTATION_OPTIONS.theme_switcher_version_match = '1.6.19';
+        DOCUMENTATION_OPTIONS.show_version_warning_banner = false;
+        </script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Area Detector with custom HDF5 File Name" href="de_1_adsim_hdf5_custom_names.html" />
+    <link rel="prev" title="Device Examples" href="device_examples.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <a id="pst-skip-link" class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>
+    Back to top
+  </button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar">
+<div class="bd-header__inner bd-page-width">
+  <label class="sidebar-toggle primary-toggle" for="__primary">
+    <span class="fa-solid fa-bars"></span>
+  </label>
+  
+  
+  <div class="col-lg-3 navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+
+<a class="navbar-brand logo" href="../index.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">apstools 1.6</p>
+  
+</a></div>
+    
+      <div class="navbar-item">
+<script>
+document.write(`
+  <div class="version-switcher__container dropdown">
+    <button id="pst-version-switcher-button-2"
+      type="button"
+      class="version-switcher__button btn btn-sm navbar-btn dropdown-toggle"
+      data-bs-toggle="dropdown"
+      aria-haspopup="listbox"
+      aria-controls="pst-version-switcher-list-2"
+      aria-label="Version switcher list"
+    >
+      Choose version  <!-- this text may get changed later by javascript -->
+      <span class="caret"></span>
+    </button>
+    <div id="pst-version-switcher-list-2"
+      class="version-switcher__menu dropdown-menu list-group-flush py-0"
+      role="listbox" aria-labelledby="pst-version-switcher-button-2">
+      <!-- dropdown will be populated by javascript on page load -->
+    </div>
+  </div>
+`);
+</script></div>
+    
+  </div>
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav class="navbar-nav">
+  <ul class="bd-navbar-elements navbar-nav">
+    
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../install.html">
+                        Installation
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../api/index.html">
+                        API Documentation
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../applications/index.html">
+                        Applications
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item current active">
+                      <a class="nav-link nav-internal" href="index.html">
+                        Examples
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../changes.html">
+                        Change History
+                      </a>
+                    </li>
+                
+            <li class="nav-item dropdown">
+                <button class="btn dropdown-toggle nav-item" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-controls="pst-nav-more-links">
+                    More
+                </button>
+                <ul id="pst-nav-more-links" class="dropdown-menu">
+                    
+                    <li class="nav-item">
+                      <a class="nav-link dropdown-item nav-internal" href="../license.html">
+                        License
+                      </a>
+                    </li>
+                
+                </ul>
+            </li>
+            
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+ <script>
+ document.write(`
+   <button class="btn navbar-btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script>
+        </div>
+      
+      
+        <div class="navbar-item">
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch nav-link" data-mode="light"><i class="fa-solid fa-sun fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="dark"><i class="fa-solid fa-moon fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg"></i></span>
+  </button>
+`);
+</script></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+ <script>
+ document.write(`
+   <button class="btn navbar-btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script>
+    </div>
+  
+
+  
+    <label class="sidebar-toggle secondary-toggle" for="__secondary" tabindex="0">
+      <span class="fa-solid fa-outdent"></span>
+    </label>
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          <div class="navbar-item">
+<nav class="navbar-nav">
+  <ul class="bd-navbar-elements navbar-nav">
+    
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../install.html">
+                        Installation
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../api/index.html">
+                        API Documentation
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../applications/index.html">
+                        Applications
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item current active">
+                      <a class="nav-link nav-internal" href="index.html">
+                        Examples
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../changes.html">
+                        Change History
+                      </a>
+                    </li>
+                
+            <li class="nav-item dropdown">
+                <button class="btn dropdown-toggle nav-item" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-controls="pst-nav-more-links-2">
+                    More
+                </button>
+                <ul id="pst-nav-more-links-2" class="dropdown-menu">
+                    
+                    <li class="nav-item">
+                      <a class="nav-link dropdown-item nav-internal" href="../license.html">
+                        License
+                      </a>
+                    </li>
+                
+                </ul>
+            </li>
+            
+  </ul>
+</nav></div>
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch nav-link" data-mode="light"><i class="fa-solid fa-sun fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="dark"><i class="fa-solid fa-moon fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg"></i></span>
+  </button>
+`);
+</script></div>
+        
+      </div>
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+<nav class="bd-docs-nav bd-links"
+     aria-label="Section Navigation">
+  <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
+  <div class="bd-toc-item navbar-nav"><ul class="current nav bd-sidenav">
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="device_examples.html">Device Examples</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-1"><i class="fa-solid fa-chevron-down"></i></label><ul class="current">
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">Area Detector with default HDF5 File Name</a></li>
+<li class="toctree-l2"><a class="reference internal" href="de_1_adsim_hdf5_custom_names.html">Area Detector with custom HDF5 File Name</a></li>
+<li class="toctree-l2"><a class="reference internal" href="de_2_adsim_hdf5_single_mode.html">Area Detector, Single mode, HDF5 file</a></li>
+<li class="toctree-l2"><a class="reference internal" href="de_ad_pe.html">ADPerkinElmer Area Detector with default HDF5 File Name</a></li>
+<li class="toctree-l2"><a class="reference internal" href="de_ad_pilatus.html">ADPilatus Area Detector with default HDF5 File Name</a></li>
+<li class="toctree-l2"><a class="reference internal" href="de_aps_data_management.html">Integration with APS Data Management (DM)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="de_sscan.html">The synApps <code class="docutils literal notranslate"><span class="pre">sscan</span></code> and <code class="docutils literal notranslate"><span class="pre">SscanRecord</span></code></a></li>
+</ul>
+</li>
+</ul>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="filewriter_examples.html">File Writer Examples</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-2"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="fw_nxwriter.html">Output scan(s) to a NeXus/HDF5 file</a></li>
+<li class="toctree-l2"><a class="reference internal" href="fw_specfile_example.html">Output scan(s) to a SPEC data file.</a></li>
+</ul>
+</li>
+</ul>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="howto_examples.html">How-To Examples</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-3"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="ho_contingency.html">How to interrupt/stop/abort a running plan &amp; recover to safe settings</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ho_list_control_objects.html">What are the objects to control?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ho_nxwriter_templates.html">How to use NeXus/HDF5 Templates</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ho_search_databroker.html">How to Search for Bluesky Data?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ho_session_logs.html">How to setup logging</a></li>
+</ul>
+</li>
+</ul>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="plan_examples.html">Plan Examples</a><input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-4"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="pl_excel_scan.html">The <code class="docutils literal notranslate"><span class="pre">Excel_plan()</span></code> – batch scans using a spreadsheet</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pl_lineup.html">The <code class="docutils literal notranslate"><span class="pre">lineup()</span></code> plan - align an axis with a signal</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pl_nscan.html">The <code class="docutils literal notranslate"><span class="pre">nscan()</span></code> plan – scan multiple axes together</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pl_run_command_list.html">The <code class="xref py py-func docutils literal notranslate"><span class="pre">run_command_file()</span></code> plan – batch scans using a text file</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pl_tuneaxis.html">The <code class="docutils literal notranslate"><span class="pre">TuneAxis()</span></code> plan - align an axis with a signal</a></li>
+</ul>
+</li>
+</ul>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="download_examples.html">File Downloads for the Examples</a></li>
+</ul>
+</div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+
+
+<nav aria-label="Breadcrumb">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="index.html" class="nav-link">Examples</a></li>
+    
+    
+    <li class="breadcrumb-item"><a href="device_examples.html" class="nav-link">Device Examples</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page">Area...</li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section id="Area-Detector-with-default-HDF5-File-Name">
+<h1>Area Detector with default HDF5 File Name<a class="headerlink" href="#Area-Detector-with-default-HDF5-File-Name" title="Permalink to this heading">#</a></h1>
+<p><strong>Objective</strong></p>
+<p>Demonstrate and explain the setup of an <a class="reference external" href="https://areadetector.github.io/master/index.html">EPICS area detector</a> to acquire an image with <a class="reference external" href="https://blueskyproject.io/">bluesky</a> and write it to an <a class="reference external" href="https://www.hdfgroup.org/solutions/hdf5">HDF5</a> file. Use the standard <a class="reference external" href="https://blueskyproject.io/ophyd">ophyd conventions</a> for file naming and other setup. Show how to retrieve the image using the <a class="reference external" href="https://blueskyproject.io/databroker">databroker</a>.</p>
+<p><strong>Contents</strong></p>
+<ul class="simple">
+<li><p><a class="reference internal" href="#EPICS-Area-Detector-IOC"><span class="std std-ref">EPICS Area Detector IOC</span></a> is pre-built</p></li>
+<li><p><a class="reference internal" href="#File-Directories"><span class="std std-ref">File Directories</span></a> are different on IOC and bluesky workstation</p></li>
+<li><p><a class="reference internal" href="#ophyd"><span class="std std-ref">ophyd</span></a> to describe the hardware</p></li>
+<li><p><a class="reference internal" href="#bluesky"><span class="std std-ref">bluesky</span></a> for the measurement</p></li>
+<li><p><a class="reference internal" href="#databroker"><span class="std std-ref">databroker</span></a> to view the image</p></li>
+<li><p><a class="reference internal" href="#punx"><span class="std std-ref">punx</span></a> (not part of Bluesky) to look at the HDF5 file</p></li>
+<li><p><a class="reference internal" href="#Recapitulation"><span class="std std-ref">Recapitulation</span></a> - rendition with no explanations</p></li>
+</ul>
+<section id="EPICS-Area-Detector-IOC">
+<h2>EPICS Area Detector IOC<a class="headerlink" href="#EPICS-Area-Detector-IOC" title="Permalink to this heading">#</a></h2>
+<p>This notebook uses an EPICS server (IOC), with prefix <code class="docutils literal notranslate"><span class="pre">&quot;ad:&quot;</span></code>. The IOC provides a simulated EPICS area detector.</p>
+<details><p>IOC details</p>
+<p>The IOC is a prebuilt <a class="reference external" href="https://areadetector.github.io/master/ADSimDetector/simDetector.html">ADSimDetector</a> driver, packaged in a <a class="reference external" href="https://www.docker.com/">docker</a> image (<a class="reference external" href="https://hub.docker.com/r/prjemian/synapps/tags">prjemian/synapps</a>). The <a class="reference external" href="https://docs.epics-controls.org/projects/how-tos/en/latest/getting-started/creating-ioc.html">EPICS IOC</a> is configured with prefix <code class="docutils literal notranslate"><span class="pre">ad:</span></code> using the <a class="reference external" href="https://raw.githubusercontent.com/prjemian/epics-docker/main/resources/iocmgr.sh">bash shell
+script</a>:</p>
+<pre>
+$ <b>iocmgr.sh start ADSIM ad</b>
+</pre></details><div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">IOC</span> <span class="o">=</span> <span class="s2">&quot;ad:&quot;</span>
+</pre></div>
+</div>
+</div>
+</section>
+<section id="File-Directories">
+<h2>File Directories<a class="headerlink" href="#File-Directories" title="Permalink to this heading">#</a></h2>
+<p>The area detector IOC and the bluesky workstation should see the same directory where image files will be written by the IOC. However, the directory may be mounted on one path in the IOC and a different path in the bluesky workstation. That’s the case for the IOC and workstation here. The paths are shown in the next table.</p>
+<table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>system</p></th>
+<th class="head"><p>file directory</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>area detector IOC</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">/tmp</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p>bluesky</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">/tmp/docker_ioc/iocad/tmp</span></code></p></td>
+</tr>
+</tbody>
+</table>
+<p /><details><p>Typically, the file system is mounted on both the IOC and the workstation at the time of acquisition. Each may mount the filesystem at different mount points. But mounting the filesystems is not <em>strictly necessary</em> at the time the images area acquired.</p>
+<p>An alternative (to mounting the file directory on both IOC &amp; workstation) is to <em>copy the file(s)</em> written by the IOC to a directory on the workstation.</p>
+<p>The only time bluesky needs access to the image file is when a Python process (usually via databroker) has requested the image data from the file.</p>
+</details><p>For convenience now and later, define these two directories using <a class="reference external" href="https://docs.python.org/3/library/pathlib.html">pathlib</a>, from the Python standard library.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pathlib</span>
+
+<span class="n">AD_IOC_MOUNT_PATH</span> <span class="o">=</span> <span class="n">pathlib</span><span class="o">.</span><span class="n">Path</span><span class="p">(</span><span class="s2">&quot;/tmp&quot;</span><span class="p">)</span>
+<span class="n">BLUESKY_MOUNT_PATH</span> <span class="o">=</span> <span class="n">pathlib</span><span class="o">.</span><span class="n">Path</span><span class="p">(</span><span class="s2">&quot;/tmp/docker_ioc/iocad/tmp&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<p>Image files are written to a subdirectory (<em>image directory</em>) of the mount path.</p>
+<p><strong>details</strong></p>
+<p>In this case, we use a feature of the area detector <a class="reference external" href="https://areadetector.github.io/master/ADCore/NDFileHDF5.html">HDF5 file writer</a> plugin that accepts <a class="reference external" href="https://cplusplus.com/reference/ctime/strftime/">time format codes</a>, such as <code class="docutils literal notranslate"><span class="pre">%Y</span></code> for 4-digit year, to build the image directory path based on the current date. (For reference, Python’s <a class="reference external" href="https://docs.python.org/3/library/datetime.html#strftime-and-strptime-format-codes">datetime</a> package uses these same codes.)</p>
+<p>Here, we create an <code class="docutils literal notranslate"><span class="pre">example</span></code> directory with subdirectory for year, month, and day (such as: <code class="docutils literal notranslate"><span class="pre">example/2022/07/04</span></code>):</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">IMAGE_DIR</span> <span class="o">=</span> <span class="s2">&quot;example/%Y/%m/</span><span class="si">%d</span><span class="s2">&quot;</span>
+</pre></div>
+</div>
+</div>
+<p>Using the two pathlib objects created above, create two string objects for configuration of the HDF5 plugin.</p>
+<p><strong>details</strong></p>
+<p>The area detector IOC expects each string to end with a <code class="docutils literal notranslate"><span class="pre">/</span></code> character but will add it if it is not provided. But ophyd requires the value sent to EPICS to match exactly the value that the IOC reports, thus we make the correct ending here.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># MUST end with a `/`, pathlib will NOT provide it</span>
+<span class="n">WRITE_PATH_TEMPLATE</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">AD_IOC_MOUNT_PATH</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">IMAGE_DIR</span><span class="si">}</span><span class="s2">/&quot;</span>
+<span class="n">READ_PATH_TEMPLATE</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">BLUESKY_MOUNT_PATH</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">IMAGE_DIR</span><span class="si">}</span><span class="s2">/&quot;</span>
+</pre></div>
+</div>
+</div>
+</section>
+<section id="ophyd">
+<h2>ophyd<a class="headerlink" href="#ophyd" title="Permalink to this heading">#</a></h2>
+<p>In ophyd, the support for hardware involving multiple PVs is constructed as a subclass of <code class="docutils literal notranslate"><span class="pre">ophyd.Device</span></code>.</p>
+<p><strong>details</strong></p>
+<p>The EPICS area detector is described with a special <code class="docutils literal notranslate"><span class="pre">Device</span></code> subclass called <code class="docutils literal notranslate"><span class="pre">ophyd.areadetector.DetectorBase</span></code>. An area detector has a detector driver, called a <code class="docutils literal notranslate"><span class="pre">cam</span></code> in the ophyd support, which is another subclass.</p>
+<p>Before you can create an ophyd object for your ADSimDetector detector, you’ll need to create an ophyd class that describes the features of the EPICS Area Detector interface you plan to use, such as the camera (<em>ADSimDetector</em>, in this case) and any plugins such as computations or file writers.</p>
+<p>Each of the plugins (image, PVA, HDF5, …) has its own subclass. The general structure is:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>DetectorBase
+    CamBase
+    ImagePlugin
+    HDF5Plugin
+    PvaPlugin
+    ...
+</pre></div>
+</div>
+<p><strong>Which plugins are needed by bluesky?</strong></p>
+<p>In this example, we must define:</p>
+<table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>name</p></th>
+<th class="head"><p>subclass of</p></th>
+<th class="head"><p>why?</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">cam</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">CamBase</span></code></p></td>
+<td><p>generates the image data</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">hdf1</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">HDF5Plugin</span></code></p></td>
+<td><p>output to an HDF5 file</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">image1</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">ImagePlugin</span></code></p></td>
+<td><p>make the image viewable</p></td>
+</tr>
+</tbody>
+</table>
+<p>The component name <code class="docutils literal notranslate"><span class="pre">hdf1</span></code>, the <code class="docutils literal notranslate"><span class="pre">1</span></code> is customary, referring to the <code class="docutils literal notranslate"><span class="pre">HDF1:</span></code> part of the EPICS PV name for the <em>first</em> HDF5 file writer plugin in the EPICS IOC. (It is possible to create an IOC with more than one HDF5 file writer plugin.) Similar for the <code class="docutils literal notranslate"><span class="pre">image1</span></code> component.</p>
+<p>In EPICS Area Detector, an <a class="reference external" href="https://areadetector.github.io/master/ADCore/NDArray.html">NDArray</a> is the data passed from a detector <code class="docutils literal notranslate"><span class="pre">cam</span></code> to plugins. Each plugin references its input NDArray by the port name of the source.</p>
+<blockquote>
+<div><p>To connect plugin <code class="docutils literal notranslate"><span class="pre">downstream</span></code> to plugin <code class="docutils literal notranslate"><span class="pre">upstream</span></code>, set <code class="docutils literal notranslate"><span class="pre">downstream.nd_array_port</span></code> (<strong>Port</strong>) to <code class="docutils literal notranslate"><span class="pre">upstream.port_name</span></code> (<strong>Plugin name</strong>).</p>
+</div></blockquote>
+<p>In this example screen view, using the ADSimDetector, all the plugins shown are configured to receive their input from <code class="docutils literal notranslate"><span class="pre">SIM1</span></code> which is the <code class="docutils literal notranslate"><span class="pre">cam</span></code>. (While the screen view shows the PVA1 plugin enabled, we will not enable that in this example.)</p>
+<p><img alt="image0" src="../_images/2022-08-03-commonPlugins-snapshot.png" /></p>
+<p>Each <a class="reference external" href="https://blueskyproject.io/ophyd/explanations/area-detector.html?highlight=singletrigger#ports">port</a> named by the detector <strong>must</strong> have its plugin (or <code class="docutils literal notranslate"><span class="pre">cam</span></code>) defined in the ophyd detector class.</p>
+<p>You can check if you missed any plugins once you have created your detector object by calling its <code class="docutils literal notranslate"><span class="pre">.missing_plugins()</span></code> method. For example, where our example ADSimDetector IOC uses the <code class="docutils literal notranslate"><span class="pre">ad:</span></code> PV prefix:</p>
+<div class="highlight-py notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">ophyd.areadetector</span> <span class="kn">import</span> <span class="n">SimDetector</span>
+<span class="n">det</span> <span class="o">=</span> <span class="n">SimDetector</span><span class="p">(</span><span class="s2">&quot;ad:&quot;</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;det&quot;</span><span class="p">)</span>
+<span class="n">det</span><span class="o">.</span><span class="n">missing_plugins</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>We expect to see an empty list, <code class="docutils literal notranslate"><span class="pre">[]</span></code>, as the result of this last command. Otherwise, the list will describe the plugins needed.</p>
+<section id="cam">
+<h3>cam<a class="headerlink" href="#cam" title="Permalink to this heading">#</a></h3>
+<p>The <code class="docutils literal notranslate"><span class="pre">cam</span></code> Device describes the EPICS area detector camera driver for this detector.</p>
+<p><strong>details</strong></p>
+<p>The <a class="reference external" href="https://blueskyproject.io/ophyd/explanations/area-detector.html#specific-hardware">ophyd package</a> has support for many of the area detector drivers. A complete list is available in the <a class="reference external" href="https://github.com/bluesky/ophyd/blob/master/ophyd/areadetector/cam.py">ophyd source code</a>. The principle difference between area detector drivers is the <code class="docutils literal notranslate"><span class="pre">cam</span></code> support, which is specific to the detector driver being configured. All the other plugin support is independent of the <code class="docutils literal notranslate"><span class="pre">cam</span></code> support. Use
+steps similar to these to implement for a different detector driver.</p>
+<p>The ADSimDetector driver is in this list, as <code class="docutils literal notranslate"><span class="pre">SimDetectorCam</span></code>. But the ophyd support is out of date for the EPICS area detector release 3.10 used here, so we need to make modifications with a subclass, as is typical. The changes we see are current since ADSimDetector v3.1.1.</p>
+<p>In the <a class="reference external" href="https://bcda-aps.github.io/apstools/latest/">apstools</a> package, <code class="docutils literal notranslate"><span class="pre">apstools.devices.CamMixin_V34</span></code> provides the updates needed. (Eventually, these updates will be <em>hoisted</em> into the ophyd package.)</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">apstools.devices</span> <span class="kn">import</span> <span class="n">CamMixin_V34</span>
+<span class="kn">from</span> <span class="nn">ophyd.areadetector</span> <span class="kn">import</span> <span class="n">SimDetectorCam</span>
+<span class="kn">from</span> <span class="nn">ophyd</span> <span class="kn">import</span> <span class="n">ADComponent</span>
+
+<span class="k">class</span> <span class="nc">SimDetectorCam_V34</span><span class="p">(</span><span class="n">CamMixin_V34</span><span class="p">,</span> <span class="n">SimDetectorCam</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Revise SimDetectorCam for ADCore revisions.&quot;&quot;&quot;</span>
+</pre></div>
+</div>
+</div>
+</section>
+<section id="HDF5">
+<h3>HDF5<a class="headerlink" href="#HDF5" title="Permalink to this heading">#</a></h3>
+<p>The <code class="docutils literal notranslate"><span class="pre">hdf1</span></code> Device describes the HDF5 File Writing plugin for this detector.</p>
+<p><strong>details</strong></p>
+<p>Support for writing images to HDF5 files using the area detector <a class="reference external" href="https://github.com/bluesky/ophyd/blob/master/ophyd/areadetector/plugins.py">HDF5 File Writer plugin</a> comes from the <code class="docutils literal notranslate"><span class="pre">ophyd.areadetector.HDF5Plugin</span></code>. This plugin comes in different versions for different versions of area detector <code class="docutils literal notranslate"><span class="pre">ADCore</span></code>. The <code class="docutils literal notranslate"><span class="pre">HDF5Plugin</span></code> ophyd support was written for an older version of the HDF5 File Writer plugin, but there is a <code class="docutils literal notranslate"><span class="pre">HDF5Plugin_V34</span></code> version that may be used with Area Detector release 3.4
+and above. Our IOC uses release 3.10.</p>
+<p>The plugin provides supports writing HDF5 files. Some modification is needed, via a mixin class, for the manner of acquisition.</p>
+<p>Here we build a custom HDF5 plugin class with <code class="docutils literal notranslate"><span class="pre">FileStoreHDF5IterativeWrite</span></code>. This mixin class configures the HDF5 plugin to collect one or more images with the IOC, then writes file name and path and HDF5 address information of each frame in the data stream from the bluesky RunEngine.</p>
+<p>We make one modification to the <code class="docutils literal notranslate"><span class="pre">stage()</span></code> method, to move the setting of <code class="docutils literal notranslate"><span class="pre">capture</span></code> to be last in the list. If it is not last, then any HDF5 plugin settings coming after might not succeed, since they cannot be done in capture mode.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">ophyd.areadetector.filestore_mixins</span> <span class="kn">import</span> <span class="n">FileStoreHDF5IterativeWrite</span>
+<span class="kn">from</span> <span class="nn">ophyd.areadetector.plugins</span> <span class="kn">import</span> <span class="n">HDF5Plugin_V34</span> <span class="k">as</span> <span class="n">HDF5Plugin</span>
+
+<span class="k">class</span> <span class="nc">MyHDF5Plugin</span><span class="p">(</span><span class="n">FileStoreHDF5IterativeWrite</span><span class="p">,</span> <span class="n">HDF5Plugin</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Add data acquisition methods to HDF5Plugin.</span>
+
+<span class="sd">    * ``stage()`` - prepare device PVs befor data acquisition</span>
+<span class="sd">    * ``unstage()`` - restore device PVs after data acquisition</span>
+<span class="sd">    * ``generate_datum()`` - coordinate image storage metadata</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">stage</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">stage_sigs</span><span class="o">.</span><span class="n">move_to_end</span><span class="p">(</span><span class="s2">&quot;capture&quot;</span><span class="p">,</span> <span class="n">last</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">stage</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</section>
+<section id="detector">
+<h3>detector<a class="headerlink" href="#detector" title="Permalink to this heading">#</a></h3>
+<p>The detector class, a subclass of <code class="docutils literal notranslate"><span class="pre">DetectorBase</span></code>, brings together the detector driver <code class="docutils literal notranslate"><span class="pre">cam</span></code> and plugins.</p>
+<p><strong>details</strong></p>
+<p>This class will be used to build the Python object for the detector. In addition to the <code class="docutils literal notranslate"><span class="pre">cam</span></code> and HDF5 plugin, we’ll enable the image plugin (<code class="docutils literal notranslate"><span class="pre">ImagePlugin</span></code>) so that a client viewer can view the image.</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">SingleTrigger</span></code> mixin class configures the <code class="docutils literal notranslate"><span class="pre">cam</span></code> for data acquisition as <a class="reference external" href="https://blueskyproject.io/ophyd/explanations/area-detector.html?highlight=singletrigger#callbacks">explained</a>. As with the <code class="docutils literal notranslate"><span class="pre">HDF5Plugin</span></code> above, the ophyd support is not up to date with more recent developments in EPICS Area Detector. The updates are available from <code class="docutils literal notranslate"><span class="pre">apstools.devices.SingleTrigger_V34</span></code>.</p>
+<p>When configuring the custom <code class="docutils literal notranslate"><span class="pre">MyHDF5Plugin</span></code> class, we apply the two strings defined above for the file paths on the IOC (write) and on the bluesky workstation (read).</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">apstools.devices</span> <span class="kn">import</span> <span class="n">SingleTrigger_V34</span>
+<span class="kn">from</span> <span class="nn">ophyd.areadetector</span> <span class="kn">import</span> <span class="n">DetectorBase</span>
+<span class="kn">from</span> <span class="nn">ophyd.areadetector.plugins</span> <span class="kn">import</span> <span class="n">ImagePlugin_V34</span> <span class="k">as</span> <span class="n">ImagePlugin</span>
+
+<span class="k">class</span> <span class="nc">SimDetector_V34</span><span class="p">(</span><span class="n">SingleTrigger_V34</span><span class="p">,</span> <span class="n">DetectorBase</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    ADSimDetector</span>
+
+<span class="sd">    SingleTrigger:</span>
+
+<span class="sd">    * stop any current acquisition</span>
+<span class="sd">    * sets image_mode to &#39;Multiple&#39;</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">cam</span> <span class="o">=</span> <span class="n">ADComponent</span><span class="p">(</span><span class="n">SimDetectorCam_V34</span><span class="p">,</span> <span class="s2">&quot;cam1:&quot;</span><span class="p">)</span>
+    <span class="n">hdf1</span> <span class="o">=</span> <span class="n">ADComponent</span><span class="p">(</span>
+        <span class="n">MyHDF5Plugin</span><span class="p">,</span>
+        <span class="s2">&quot;HDF1:&quot;</span><span class="p">,</span>
+        <span class="n">write_path_template</span><span class="o">=</span><span class="n">WRITE_PATH_TEMPLATE</span><span class="p">,</span>
+        <span class="n">read_path_template</span><span class="o">=</span><span class="n">READ_PATH_TEMPLATE</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">image</span> <span class="o">=</span> <span class="n">ADComponent</span><span class="p">(</span><span class="n">ImagePlugin</span><span class="p">,</span> <span class="s2">&quot;image1:&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<p>With all the above setup, create the Python detector object, <code class="docutils literal notranslate"><span class="pre">adsimdet</span></code> and wait for it to connect with EPICS.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">adsimdet</span> <span class="o">=</span> <span class="n">SimDetector_V34</span><span class="p">(</span><span class="n">IOC</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;adsimdet&quot;</span><span class="p">)</span>
+<span class="n">adsimdet</span><span class="o">.</span><span class="n">wait_for_connection</span><span class="p">(</span><span class="n">timeout</span><span class="o">=</span><span class="mi">15</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<p>Check that all plugins used by the IOC have been defined in the Python structure. Expect that this function returns an empty list: <code class="docutils literal notranslate"><span class="pre">[]</span></code>.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">adsimdet</span><span class="o">.</span><span class="n">missing_plugins</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+[]
+</pre></div></div>
+</div>
+<p>We must configure <code class="docutils literal notranslate"><span class="pre">adsimdet</span></code> so the HDF5 plugin (by its attribute name <code class="docutils literal notranslate"><span class="pre">hdf1</span></code>) will be called during <code class="docutils literal notranslate"><span class="pre">adsimdet.read()</span></code>, as used by data acquisition. This plugin is already <code class="docutils literal notranslate"><span class="pre">enabled</span></code> (above) but we must change the <a class="reference external" href="https://blueskyproject.io/ophyd/user_v1/reference/signals.html#kind">kind</a> attribute. Ophyd support will check this attribute to see if the plugin should be <a class="reference external" href="https://blueskyproject.io/ophyd/user_v1/tutorials/device.html#assign-a-kind-to-components">read</a> during data
+acquisition. If we don’t change this, the area detector image(s) will not be reported in the run’s documents.</p>
+<p><strong>Note</strong>: Here, we assign the <code class="docutils literal notranslate"><span class="pre">kind</span></code> attribute by number <code class="docutils literal notranslate"><span class="pre">3</span></code>, a shorthand which is interpreted by ophyd as <code class="docutils literal notranslate"><span class="pre">ophyd.Kind.config</span> <span class="pre">|</span> <span class="pre">ophyd.Kind.normal</span></code>.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">adsimdet</span><span class="o">.</span><span class="n">hdf1</span><span class="o">.</span><span class="n">kind</span> <span class="o">=</span> <span class="mi">3</span>  <span class="c1"># config | normal</span>
+</pre></div>
+</div>
+</div>
+<p>Configure the HDF5 plugin so it will create up to 5 subdirectories for the image directory.</p>
+<p><strong>details</strong></p>
+<p>We <em>must</em> do this step before staging so the IOC is prepared when the <code class="docutils literal notranslate"><span class="pre">FilePath</span></code> PV is set during <code class="docutils literal notranslate"><span class="pre">adsimdet.stage()</span></code>.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">adsimdet</span><span class="o">.</span><span class="n">hdf1</span><span class="o">.</span><span class="n">create_directory</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="o">-</span><span class="mi">5</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<p>Wait for all plugins to finish.</p>
+<p><strong>details</strong></p>
+<p>One of the <a class="reference external" href="https://blueskyproject.io/ophyd/explanations/area-detector.html?highlight=singletrigger#callbacks">changes for the SingleTrigger mixin</a> adds the <code class="docutils literal notranslate"><span class="pre">adsimdet.cam.wait_for_plugins</span></code> signal. This enables clients to know, via the <code class="docutils literal notranslate"><span class="pre">adsimdet.cam.acquire_busy</span></code> signal, when the camera and <em>all</em> enabled plugins are finished. For this to work, each plugin has <code class="docutils literal notranslate"><span class="pre">blocking_callbacks</span></code> set to <code class="docutils literal notranslate"><span class="pre">&quot;No&quot;</span></code> and the cam has <code class="docutils literal notranslate"><span class="pre">wait_for_plugins</span></code> set to <code class="docutils literal notranslate"><span class="pre">&quot;Yes&quot;</span></code>. Then, <code class="docutils literal notranslate"><span class="pre">cam.acquire_busy</span></code> will remain
+<code class="docutils literal notranslate"><span class="pre">&quot;Acquiring&quot;</span></code> (or <code class="docutils literal notranslate"><span class="pre">1</span></code>) until all plugins have finished processing, then it goes to <code class="docutils literal notranslate"><span class="pre">&quot;Done&quot;</span></code> (or <code class="docutils literal notranslate"><span class="pre">0</span></code>).</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># override default setting from ophyd</span>
+<span class="n">adsimdet</span><span class="o">.</span><span class="n">hdf1</span><span class="o">.</span><span class="n">stage_sigs</span><span class="p">[</span><span class="s2">&quot;blocking_callbacks&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;No&quot;</span>
+<span class="n">adsimdet</span><span class="o">.</span><span class="n">cam</span><span class="o">.</span><span class="n">stage_sigs</span><span class="p">[</span><span class="s2">&quot;wait_for_plugins&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;Yes&quot;</span>
+</pre></div>
+</div>
+</div>
+<p>For good measure, also make sure the <code class="docutils literal notranslate"><span class="pre">image</span></code> plugin does not block.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">adsimdet</span><span class="o">.</span><span class="n">image</span><span class="o">.</span><span class="n">stage_sigs</span><span class="p">[</span><span class="s2">&quot;blocking_callbacks&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;No&quot;</span>
+</pre></div>
+</div>
+</div>
+<p>Consider enabling and setting any of these additional configurations, or others as appropriate to your situation.</p>
+<p><strong>details</strong></p>
+<p>Here, we accept the default acquisition time, but acquire 5 frames with <code class="docutils literal notranslate"><span class="pre">zlib</span></code> data compression.</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">&quot;LZ4&quot;</span></code> compression is good for speed and compression but requires the <a class="reference external" href="https://github.com/silx-kit/hdf5plugin">hdf5plugin</a> package to read the compressed data from the HDF5 file.</p>
+<p>But since our <a class="reference internal" href="#punx"><span class="std std-ref">last step</span></a> uses a tool that does not yet have this package, we’ll use <code class="docutils literal notranslate"><span class="pre">zlib</span></code> compression.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[14]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">adsimdet</span><span class="o">.</span><span class="n">cam</span><span class="o">.</span><span class="n">stage_sigs</span><span class="p">[</span><span class="s2">&quot;acquire_period&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.015</span>
+<span class="n">adsimdet</span><span class="o">.</span><span class="n">cam</span><span class="o">.</span><span class="n">stage_sigs</span><span class="p">[</span><span class="s2">&quot;acquire_time&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.01</span>
+<span class="n">adsimdet</span><span class="o">.</span><span class="n">cam</span><span class="o">.</span><span class="n">stage_sigs</span><span class="p">[</span><span class="s2">&quot;num_images&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">5</span>
+<span class="n">adsimdet</span><span class="o">.</span><span class="n">hdf1</span><span class="o">.</span><span class="n">stage_sigs</span><span class="p">[</span><span class="s2">&quot;num_capture&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>  <span class="c1"># capture ALL frames received</span>
+<span class="n">adsimdet</span><span class="o">.</span><span class="n">hdf1</span><span class="o">.</span><span class="n">stage_sigs</span><span class="p">[</span><span class="s2">&quot;compression&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;zlib&quot;</span>  <span class="c1"># LZ4</span>
+<span class="c1"># adsimdet.hdf1.stage_sigs[&quot;queue_size&quot;] = 20</span>
+</pre></div>
+</div>
+</div>
+<p><em>Prime</em> the HDF5 plugin, if necessary.</p>
+<p><strong>details</strong></p>
+<p>Even though area detector has a <code class="docutils literal notranslate"><span class="pre">LazyOpen</span></code> feature, ophyd needs to know how to describe the image structure before it starts saving data. If the file writing (HDF5) plugin does not have the dimensions, bit depth, color mode, … of the expected image, then ophyd does not have access to the metadata it needs.</p>
+<p>NOTE: The <code class="docutils literal notranslate"><span class="pre">adsimdet.hdf1.lazy_open</span></code> signal should remain <code class="docutils literal notranslate"><span class="pre">&quot;No&quot;</span></code> if data is to be read later from the databroker. Attempts to read the data (via <code class="docutils literal notranslate"><span class="pre">run.primary.read()</span></code>) will see this exception raised:</p>
+<blockquote>
+<div><p><code class="docutils literal notranslate"><span class="pre">event_model.EventModelError:</span> <span class="pre">Error</span> <span class="pre">instantiating</span> <span class="pre">handler</span> <span class="pre">class</span> <span class="pre">&lt;class</span> <span class="pre">'area_detector_handlers.handlers.AreaDetectorHDF5Handler'&gt;</span></code></p>
+</div></blockquote>
+<p>This code checks if the plugin is ready and, if not, makes the plugin ready by acquiring (a.k.a. <em>priming</em>) a single image into the plugin.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[15]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">apstools.devices</span> <span class="kn">import</span> <span class="n">ensure_AD_plugin_primed</span>
+
+<span class="c1"># this step is needed for ophyd</span>
+<span class="n">ensure_AD_plugin_primed</span><span class="p">(</span><span class="n">adsimdet</span><span class="o">.</span><span class="n">hdf1</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Priming hdf1
+</pre></div></div>
+</div>
+<p>Print some values as diagnostics.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[16]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">adsimdet</span><span class="o">.</span><span class="n">read_attrs</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[16]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+[&#39;hdf1&#39;]
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[17]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">adsimdet</span><span class="o">.</span><span class="n">stage_sigs</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[17]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+OrderedDict([(&#39;cam.acquire&#39;, 0), (&#39;cam.image_mode&#39;, 1)])
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[18]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">adsimdet</span><span class="o">.</span><span class="n">cam</span><span class="o">.</span><span class="n">stage_sigs</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[18]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+OrderedDict([(&#39;wait_for_plugins&#39;, &#39;Yes&#39;),
+             (&#39;acquire_period&#39;, 0.015),
+             (&#39;acquire_time&#39;, 0.01),
+             (&#39;num_images&#39;, 5)])
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[19]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">adsimdet</span><span class="o">.</span><span class="n">hdf1</span><span class="o">.</span><span class="n">stage_sigs</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[19]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+OrderedDict([(&#39;enable&#39;, 1),
+             (&#39;blocking_callbacks&#39;, &#39;No&#39;),
+             (&#39;parent.cam.array_callbacks&#39;, 1),
+             (&#39;create_directory&#39;, -3),
+             (&#39;auto_increment&#39;, &#39;Yes&#39;),
+             (&#39;array_counter&#39;, 0),
+             (&#39;auto_save&#39;, &#39;Yes&#39;),
+             (&#39;num_capture&#39;, 0),
+             (&#39;file_template&#39;, &#39;%s%s_%6.6d.h5&#39;),
+             (&#39;file_write_mode&#39;, &#39;Stream&#39;),
+             (&#39;capture&#39;, 1),
+             (&#39;compression&#39;, &#39;zlib&#39;)])
+</pre></div></div>
+</div>
+</section>
+</section>
+<section id="bluesky">
+<h2>bluesky<a class="headerlink" href="#bluesky" title="Permalink to this heading">#</a></h2>
+<p>Within the <a class="reference external" href="https://blueskyproject.io/">Bluesky framework</a>, <a class="reference external" href="https://blueskyproject.io/bluesky">bluesky</a> is the package that orchestrates the data acquisition steps, including where to direct acquired data for storage. <a class="reference internal" href="#databroker"><span class="std std-ref">Later</span></a>, we’ll use <a class="reference external" href="https://blueskyproject.io/databroker">databroker</a> to access the image data.</p>
+<p>As a first step, configure the notebook for graphics. (While <code class="docutils literal notranslate"><span class="pre">%matplotlib</span> <span class="pre">inline</span></code> works well for documentation, you might prefer the additional interactive features possible by changing to <code class="docutils literal notranslate"><span class="pre">%matplotlib</span> <span class="pre">widget</span></code>.)</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[20]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Import matplotlib for inline graphics</span>
+<span class="o">%</span><span class="k">matplotlib</span> inline
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">ion</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[20]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+&lt;contextlib.ExitStack at 0x7f7c2a7fd9c0&gt;
+</pre></div></div>
+</div>
+<p>We’ll use a temporary databroker catalog for this example and setup the RunEngine object <code class="docutils literal notranslate"><span class="pre">RE</span></code>.</p>
+<p><strong>details</strong></p>
+<p>You may wish to use your own catalog:</p>
+<div class="highlight-py notranslate"><div class="highlight"><pre><span></span><span class="n">cat</span> <span class="o">=</span> <span class="n">databroker</span><span class="o">.</span><span class="n">catalog</span><span class="p">[</span><span class="n">YOUR_CATALOG_NAME</span><span class="p">]</span>
+</pre></div>
+</div>
+<p>Then setup the bluesky run engine <code class="docutils literal notranslate"><span class="pre">RE</span></code>, connect it with the databroker catalog, and enable (via <code class="docutils literal notranslate"><span class="pre">BestEffortCallback</span></code>) some screen output during data collection.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[21]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">bluesky</span> <span class="kn">import</span> <span class="n">plans</span> <span class="k">as</span> <span class="n">bp</span>
+<span class="kn">from</span> <span class="nn">bluesky</span> <span class="kn">import</span> <span class="n">RunEngine</span>
+<span class="kn">from</span> <span class="nn">bluesky</span> <span class="kn">import</span> <span class="n">SupplementalData</span>
+<span class="kn">from</span> <span class="nn">bluesky.callbacks.best_effort</span> <span class="kn">import</span> <span class="n">BestEffortCallback</span>
+<span class="kn">import</span> <span class="nn">databroker</span>
+
+<span class="n">cat</span> <span class="o">=</span> <span class="n">databroker</span><span class="o">.</span><span class="n">temp</span><span class="p">()</span><span class="o">.</span><span class="n">v2</span>
+<span class="n">RE</span> <span class="o">=</span> <span class="n">RunEngine</span><span class="p">({})</span>
+<span class="n">RE</span><span class="o">.</span><span class="n">subscribe</span><span class="p">(</span><span class="n">cat</span><span class="o">.</span><span class="n">v1</span><span class="o">.</span><span class="n">insert</span><span class="p">)</span>
+<span class="n">RE</span><span class="o">.</span><span class="n">subscribe</span><span class="p">(</span><span class="n">BestEffortCallback</span><span class="p">())</span>
+<span class="n">RE</span><span class="o">.</span><span class="n">preprocessors</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">SupplementalData</span><span class="p">())</span>
+</pre></div>
+</div>
+</div>
+<p><strong>Take an image with the area detector</strong></p>
+<p><strong>details</strong></p>
+<p>Also, capture the list of identifiers (there will be only one item). Add custom metadata to identify the imaging run.</p>
+<p>Note that the HDF plugin will report, briefly before acquisition, (in its <code class="docutils literal notranslate"><span class="pre">WriteMessage</span></code> PV):</p>
+<blockquote>
+<div><p>ERROR: capture is not permitted in Single mode</p>
+</div></blockquote>
+<p>Ignore that.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[22]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">uids</span> <span class="o">=</span> <span class="n">RE</span><span class="p">(</span><span class="n">bp</span><span class="o">.</span><span class="n">count</span><span class="p">([</span><span class="n">adsimdet</span><span class="p">],</span> <span class="n">md</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">title</span><span class="o">=</span><span class="s2">&quot;Area Detector with default HDF5 File Name&quot;</span><span class="p">,</span> <span class="n">purpose</span><span class="o">=</span><span class="s2">&quot;image&quot;</span><span class="p">)))</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+
+
+Transient Scan ID: 1     Time: 2023-04-10 09:37:15
+Persistent Unique Scan ID: &#39;2ef5ca0d-7296-448d-a132-fa35de7e439d&#39;
+New stream: &#39;primary&#39;
++-----------+------------+
+|   seq_num |       time |
++-----------+------------+
+|         1 | 09:37:15.6 |
++-----------+------------+
+generator count [&#39;2ef5ca0d&#39;] (scan num: 1)
+
+
+
+</pre></div></div>
+</div>
+</section>
+<section id="databroker">
+<h2>databroker<a class="headerlink" href="#databroker" title="Permalink to this heading">#</a></h2>
+<p>To emphasize the decisions associated with each step to get the image data, the procedure is shown in parts.</p>
+<p><strong>Get the run from the catalog</strong></p>
+<p>The run data comes from the databroker catalog.</p>
+<p><strong>details</strong></p>
+<p>We <em>could</em> assume we want the most recent run in the catalog (<code class="docutils literal notranslate"><span class="pre">run</span> <span class="pre">=</span> <span class="pre">cat.v2[-1]</span></code>). But, since we have a list of run <em>uid</em> strings, let’s use that instead. If we wanted to access this run later, when neither of those two choices are possible, then the run could be access by its <em>Transient Scan ID</em> as reported above: <code class="docutils literal notranslate"><span class="pre">run</span> <span class="pre">=</span> <span class="pre">cat.v2[1]</span></code></p>
+<p>There are three ways to reference a run in the catalog:</p>
+<table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>argument</p></th>
+<th class="head"><p>example</p></th>
+<th class="head"><p>description</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>negative integer</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">cat.v2[-1]</span></code></p></td>
+<td><p><strong>list-like</strong>, <code class="docutils literal notranslate"><span class="pre">-1</span></code> is most recent, <code class="docutils literal notranslate"><span class="pre">-2</span></code> is 2nd most recent, …</p></td>
+</tr>
+<tr class="row-odd"><td><p>positive integer</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">cat.v2[1]</span></code></p></td>
+<td><p>argument is the <strong>Scan ID</strong> (if search is not unique, returns most recent)</p></td>
+</tr>
+<tr class="row-even"><td><p>string</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">cat.v2[&quot;a1b2c3d&quot;]</span></code></p></td>
+<td><p>argument is a <strong>``uid``</strong> (just the first few characters that make the catalog search unique are needed)</p></td>
+</tr>
+</tbody>
+</table>
+<p>We called the <code class="docutils literal notranslate"><span class="pre">RE</span></code> with <code class="docutils literal notranslate"><span class="pre">bp.count()</span></code>, which only generates a single run, so there is no assumption here using the <code class="docutils literal notranslate"><span class="pre">uids</span></code> list from this session.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[23]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">run</span> <span class="o">=</span> <span class="n">cat</span><span class="o">.</span><span class="n">v2</span><span class="p">[</span><span class="n">uids</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span>
+<span class="n">run</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[23]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+BlueskyRun
+  uid=&#39;2ef5ca0d-7296-448d-a132-fa35de7e439d&#39;
+  exit_status=&#39;success&#39;
+  2023-04-10 09:37:15.549 -- 2023-04-10 09:37:15.692
+  Streams:
+    * primary
+
+</pre></div></div>
+</div>
+<p><strong>Get the image frame from the run</strong></p>
+<p>From the run, we know the image data is in the primary stream.</p>
+<p><strong>details</strong></p>
+<p>(In fact, that is the only stream in this run.) Get the run’s data as an <a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.Dataset.html">xarray Dataset</a> object.</p>
+<p>Recall, above, we said that the <code class="docutils literal notranslate"><span class="pre">LZ4</span></code> compression needs help from the <code class="docutils literal notranslate"><span class="pre">hdf5plugin</span></code> package, all we have to do is <code class="docutils literal notranslate"><span class="pre">import</span></code> it. The package installs entry points to assist the h5py library to uncompress the data.</p>
+<p>Since we used <code class="docutils literal notranslate"><span class="pre">zlib</span></code> above, we comment the import for now.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[24]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># import hdf5plugin  # required for LZ4, Blosc, and other compression codecs</span>
+
+<span class="n">dataset</span> <span class="o">=</span> <span class="n">run</span><span class="o">.</span><span class="n">primary</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+<span class="n">dataset</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[24]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div><svg style="position: absolute; width: 0; height: 0; overflow: hidden">
+<defs>
+<symbol id="icon-database" viewBox="0 0 32 32">
+<path d="M16 0c-8.837 0-16 2.239-16 5v4c0 2.761 7.163 5 16 5s16-2.239 16-5v-4c0-2.761-7.163-5-16-5z"></path>
+<path d="M16 17c-8.837 0-16-2.239-16-5v6c0 2.761 7.163 5 16 5s16-2.239 16-5v-6c0 2.761-7.163 5-16 5z"></path>
+<path d="M16 26c-8.837 0-16-2.239-16-5v6c0 2.761 7.163 5 16 5s16-2.239 16-5v-6c0 2.761-7.163 5-16 5z"></path>
+</symbol>
+<symbol id="icon-file-text2" viewBox="0 0 32 32">
+<path d="M28.681 7.159c-0.694-0.947-1.662-2.053-2.724-3.116s-2.169-2.030-3.116-2.724c-1.612-1.182-2.393-1.319-2.841-1.319h-15.5c-1.378 0-2.5 1.121-2.5 2.5v27c0 1.378 1.122 2.5 2.5 2.5h23c1.378 0 2.5-1.122 2.5-2.5v-19.5c0-0.448-0.137-1.23-1.319-2.841zM24.543 5.457c0.959 0.959 1.712 1.825 2.268 2.543h-4.811v-4.811c0.718 0.556 1.584 1.309 2.543 2.268zM28 29.5c0 0.271-0.229 0.5-0.5 0.5h-23c-0.271 0-0.5-0.229-0.5-0.5v-27c0-0.271 0.229-0.5 0.5-0.5 0 0 15.499-0 15.5 0v7c0 0.552 0.448 1 1 1h7v19.5z"></path>
+<path d="M23 26h-14c-0.552 0-1-0.448-1-1s0.448-1 1-1h14c0.552 0 1 0.448 1 1s-0.448 1-1 1z"></path>
+<path d="M23 22h-14c-0.552 0-1-0.448-1-1s0.448-1 1-1h14c0.552 0 1 0.448 1 1s-0.448 1-1 1z"></path>
+<path d="M23 18h-14c-0.552 0-1-0.448-1-1s0.448-1 1-1h14c0.552 0 1 0.448 1 1s-0.448 1-1 1z"></path>
+</symbol>
+</defs>
+</svg>
+<style>/* CSS stylesheet for displaying xarray objects in jupyterlab.
+ *
+ */
+
+:root {
+  --xr-font-color0: var(--jp-content-font-color0, rgba(0, 0, 0, 1));
+  --xr-font-color2: var(--jp-content-font-color2, rgba(0, 0, 0, 0.54));
+  --xr-font-color3: var(--jp-content-font-color3, rgba(0, 0, 0, 0.38));
+  --xr-border-color: var(--jp-border-color2, #e0e0e0);
+  --xr-disabled-color: var(--jp-layout-color3, #bdbdbd);
+  --xr-background-color: var(--jp-layout-color0, white);
+  --xr-background-color-row-even: var(--jp-layout-color1, white);
+  --xr-background-color-row-odd: var(--jp-layout-color2, #eeeeee);
+}
+
+html[theme=dark],
+body[data-theme=dark],
+body.vscode-dark {
+  --xr-font-color0: rgba(255, 255, 255, 1);
+  --xr-font-color2: rgba(255, 255, 255, 0.54);
+  --xr-font-color3: rgba(255, 255, 255, 0.38);
+  --xr-border-color: #1F1F1F;
+  --xr-disabled-color: #515151;
+  --xr-background-color: #111111;
+  --xr-background-color-row-even: #111111;
+  --xr-background-color-row-odd: #313131;
+}
+
+.xr-wrap {
+  display: block !important;
+  min-width: 300px;
+  max-width: 700px;
+}
+
+.xr-text-repr-fallback {
+  /* fallback to plain text repr when CSS is not injected (untrusted notebook) */
+  display: none;
+}
+
+.xr-header {
+  padding-top: 6px;
+  padding-bottom: 6px;
+  margin-bottom: 4px;
+  border-bottom: solid 1px var(--xr-border-color);
+}
+
+.xr-header > div,
+.xr-header > ul {
+  display: inline;
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+.xr-obj-type,
+.xr-array-name {
+  margin-left: 2px;
+  margin-right: 10px;
+}
+
+.xr-obj-type {
+  color: var(--xr-font-color2);
+}
+
+.xr-sections {
+  padding-left: 0 !important;
+  display: grid;
+  grid-template-columns: 150px auto auto 1fr 20px 20px;
+}
+
+.xr-section-item {
+  display: contents;
+}
+
+.xr-section-item input {
+  display: none;
+}
+
+.xr-section-item input + label {
+  color: var(--xr-disabled-color);
+}
+
+.xr-section-item input:enabled + label {
+  cursor: pointer;
+  color: var(--xr-font-color2);
+}
+
+.xr-section-item input:enabled + label:hover {
+  color: var(--xr-font-color0);
+}
+
+.xr-section-summary {
+  grid-column: 1;
+  color: var(--xr-font-color2);
+  font-weight: 500;
+}
+
+.xr-section-summary > span {
+  display: inline-block;
+  padding-left: 0.5em;
+}
+
+.xr-section-summary-in:disabled + label {
+  color: var(--xr-font-color2);
+}
+
+.xr-section-summary-in + label:before {
+  display: inline-block;
+  content: '►';
+  font-size: 11px;
+  width: 15px;
+  text-align: center;
+}
+
+.xr-section-summary-in:disabled + label:before {
+  color: var(--xr-disabled-color);
+}
+
+.xr-section-summary-in:checked + label:before {
+  content: '▼';
+}
+
+.xr-section-summary-in:checked + label > span {
+  display: none;
+}
+
+.xr-section-summary,
+.xr-section-inline-details {
+  padding-top: 4px;
+  padding-bottom: 4px;
+}
+
+.xr-section-inline-details {
+  grid-column: 2 / -1;
+}
+
+.xr-section-details {
+  display: none;
+  grid-column: 1 / -1;
+  margin-bottom: 5px;
+}
+
+.xr-section-summary-in:checked ~ .xr-section-details {
+  display: contents;
+}
+
+.xr-array-wrap {
+  grid-column: 1 / -1;
+  display: grid;
+  grid-template-columns: 20px auto;
+}
+
+.xr-array-wrap > label {
+  grid-column: 1;
+  vertical-align: top;
+}
+
+.xr-preview {
+  color: var(--xr-font-color3);
+}
+
+.xr-array-preview,
+.xr-array-data {
+  padding: 0 5px !important;
+  grid-column: 2;
+}
+
+.xr-array-data,
+.xr-array-in:checked ~ .xr-array-preview {
+  display: none;
+}
+
+.xr-array-in:checked ~ .xr-array-data,
+.xr-array-preview {
+  display: inline-block;
+}
+
+.xr-dim-list {
+  display: inline-block !important;
+  list-style: none;
+  padding: 0 !important;
+  margin: 0;
+}
+
+.xr-dim-list li {
+  display: inline-block;
+  padding: 0;
+  margin: 0;
+}
+
+.xr-dim-list:before {
+  content: '(';
+}
+
+.xr-dim-list:after {
+  content: ')';
+}
+
+.xr-dim-list li:not(:last-child):after {
+  content: ',';
+  padding-right: 5px;
+}
+
+.xr-has-index {
+  font-weight: bold;
+}
+
+.xr-var-list,
+.xr-var-item {
+  display: contents;
+}
+
+.xr-var-item > div,
+.xr-var-item label,
+.xr-var-item > .xr-var-name span {
+  background-color: var(--xr-background-color-row-even);
+  margin-bottom: 0;
+}
+
+.xr-var-item > .xr-var-name:hover span {
+  padding-right: 5px;
+}
+
+.xr-var-list > li:nth-child(odd) > div,
+.xr-var-list > li:nth-child(odd) > label,
+.xr-var-list > li:nth-child(odd) > .xr-var-name span {
+  background-color: var(--xr-background-color-row-odd);
+}
+
+.xr-var-name {
+  grid-column: 1;
+}
+
+.xr-var-dims {
+  grid-column: 2;
+}
+
+.xr-var-dtype {
+  grid-column: 3;
+  text-align: right;
+  color: var(--xr-font-color2);
+}
+
+.xr-var-preview {
+  grid-column: 4;
+}
+
+.xr-index-preview {
+  grid-column: 2 / 5;
+  color: var(--xr-font-color2);
+}
+
+.xr-var-name,
+.xr-var-dims,
+.xr-var-dtype,
+.xr-preview,
+.xr-attrs dt {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  padding-right: 10px;
+}
+
+.xr-var-name:hover,
+.xr-var-dims:hover,
+.xr-var-dtype:hover,
+.xr-attrs dt:hover {
+  overflow: visible;
+  width: auto;
+  z-index: 1;
+}
+
+.xr-var-attrs,
+.xr-var-data,
+.xr-index-data {
+  display: none;
+  background-color: var(--xr-background-color) !important;
+  padding-bottom: 5px !important;
+}
+
+.xr-var-attrs-in:checked ~ .xr-var-attrs,
+.xr-var-data-in:checked ~ .xr-var-data,
+.xr-index-data-in:checked ~ .xr-index-data {
+  display: block;
+}
+
+.xr-var-data > table {
+  float: right;
+}
+
+.xr-var-name span,
+.xr-var-data,
+.xr-index-name div,
+.xr-index-data,
+.xr-attrs {
+  padding-left: 25px !important;
+}
+
+.xr-attrs,
+.xr-var-attrs,
+.xr-var-data,
+.xr-index-data {
+  grid-column: 1 / -1;
+}
+
+dl.xr-attrs {
+  padding: 0;
+  margin: 0;
+  display: grid;
+  grid-template-columns: 125px auto;
+}
+
+.xr-attrs dt,
+.xr-attrs dd {
+  padding: 0;
+  margin: 0;
+  float: left;
+  padding-right: 10px;
+  width: auto;
+}
+
+.xr-attrs dt {
+  font-weight: normal;
+  grid-column: 1;
+}
+
+.xr-attrs dt:hover span {
+  display: inline-block;
+  background: var(--xr-background-color);
+  padding-right: 10px;
+}
+
+.xr-attrs dd {
+  grid-column: 2;
+  white-space: pre-wrap;
+  word-break: break-all;
+}
+
+.xr-icon-database,
+.xr-icon-file-text2,
+.xr-no-icon {
+  display: inline-block;
+  vertical-align: middle;
+  width: 1em;
+  height: 1.5em !important;
+  stroke-width: 0;
+  stroke: currentColor;
+  fill: currentColor;
+}
+</style><pre class='xr-text-repr-fallback'>&lt;xarray.Dataset&gt;
+Dimensions:         (time: 1, dim_0: 5, dim_1: 1024, dim_2: 1024)
+Coordinates:
+  * time            (time) float64 1.681e+09
+Dimensions without coordinates: dim_0, dim_1, dim_2
+Data variables:
+    adsimdet_image  (time, dim_0, dim_1, dim_2) uint8 198 199 200 ... 199 200</pre><div class='xr-wrap' style='display:none'><div class='xr-header'><div class='xr-obj-type'>xarray.Dataset</div></div><ul class='xr-sections'><li class='xr-section-item'><input id='section-8aecff0b-5b56-4f5a-87fe-22d677d6ea2a' class='xr-section-summary-in' type='checkbox' disabled ><label for='section-8aecff0b-5b56-4f5a-87fe-22d677d6ea2a' class='xr-section-summary'  title='Expand/collapse section'>Dimensions:</label><div class='xr-section-inline-details'><ul class='xr-dim-list'><li><span class='xr-has-index'>time</span>: 1</li><li><span>dim_0</span>: 5</li><li><span>dim_1</span>: 1024</li><li><span>dim_2</span>: 1024</li></ul></div><div class='xr-section-details'></div></li><li class='xr-section-item'><input id='section-5e1c47ae-2b49-458f-9222-c51035caf783' class='xr-section-summary-in' type='checkbox'  checked><label for='section-5e1c47ae-2b49-458f-9222-c51035caf783' class='xr-section-summary' >Coordinates: <span>(1)</span></label><div class='xr-section-inline-details'></div><div class='xr-section-details'><ul class='xr-var-list'><li class='xr-var-item'><div class='xr-var-name'><span class='xr-has-index'>time</span></div><div class='xr-var-dims'>(time)</div><div class='xr-var-dtype'>float64</div><div class='xr-var-preview xr-preview'>1.681e+09</div><input id='attrs-b061dafc-6be0-476f-b2ec-cda8d8d7f42d' class='xr-var-attrs-in' type='checkbox' disabled><label for='attrs-b061dafc-6be0-476f-b2ec-cda8d8d7f42d' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-399a40af-b94e-455f-97c5-40b4da564d84' class='xr-var-data-in' type='checkbox'><label for='data-399a40af-b94e-455f-97c5-40b4da564d84' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'></dl></div><div class='xr-var-data'><pre>array([1.681137e+09])</pre></div></li></ul></div></li><li class='xr-section-item'><input id='section-ec5e8bdb-eabd-46e9-996d-bafaef182fa9' class='xr-section-summary-in' type='checkbox'  checked><label for='section-ec5e8bdb-eabd-46e9-996d-bafaef182fa9' class='xr-section-summary' >Data variables: <span>(1)</span></label><div class='xr-section-inline-details'></div><div class='xr-section-details'><ul class='xr-var-list'><li class='xr-var-item'><div class='xr-var-name'><span>adsimdet_image</span></div><div class='xr-var-dims'>(time, dim_0, dim_1, dim_2)</div><div class='xr-var-dtype'>uint8</div><div class='xr-var-preview xr-preview'>198 199 200 201 ... 197 198 199 200</div><input id='attrs-8f9a6f8b-14c1-45f9-9e1a-cf82ef859d75' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-8f9a6f8b-14c1-45f9-9e1a-cf82ef859d75' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-d35ed1ee-c9b3-4cb9-8940-4d35b2bbb061' class='xr-var-data-in' type='checkbox'><label for='data-d35ed1ee-c9b3-4cb9-8940-4d35b2bbb061' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>object :</span></dt><dd>adsimdet</dd></dl></div><div class='xr-var-data'><pre>array([[[[198, 199, 200, ..., 195, 196, 197],
+         [199, 200, 201, ..., 196, 197, 198],
+         [200, 201, 202, ..., 197, 198, 199],
+         ...,
+         [195, 196, 197, ..., 192, 193, 194],
+         [196, 197, 198, ..., 193, 194, 195],
+         [197, 198, 199, ..., 194, 195, 196]],
+
+        [[199, 200, 201, ..., 196, 197, 198],
+         [200, 201, 202, ..., 197, 198, 199],
+         [201, 202, 203, ..., 198, 199, 200],
+         ...,
+         [196, 197, 198, ..., 193, 194, 195],
+         [197, 198, 199, ..., 194, 195, 196],
+         [198, 199, 200, ..., 195, 196, 197]],
+
+        [[200, 201, 202, ..., 197, 198, 199],
+         [201, 202, 203, ..., 198, 199, 200],
+         [202, 203, 204, ..., 199, 200, 201],
+         ...,
+         [197, 198, 199, ..., 194, 195, 196],
+         [198, 199, 200, ..., 195, 196, 197],
+         [199, 200, 201, ..., 196, 197, 198]],
+
+        [[201, 202, 203, ..., 198, 199, 200],
+         [202, 203, 204, ..., 199, 200, 201],
+         [203, 204, 205, ..., 200, 201, 202],
+         ...,
+         [198, 199, 200, ..., 195, 196, 197],
+         [199, 200, 201, ..., 196, 197, 198],
+         [200, 201, 202, ..., 197, 198, 199]],
+
+        [[202, 203, 204, ..., 199, 200, 201],
+         [203, 204, 205, ..., 200, 201, 202],
+         [204, 205, 206, ..., 201, 202, 203],
+         ...,
+         [199, 200, 201, ..., 196, 197, 198],
+         [200, 201, 202, ..., 197, 198, 199],
+         [201, 202, 203, ..., 198, 199, 200]]]], dtype=uint8)</pre></div></li></ul></div></li><li class='xr-section-item'><input id='section-5461ecd0-2602-47fd-bda6-8411600f2d84' class='xr-section-summary-in' type='checkbox'  ><label for='section-5461ecd0-2602-47fd-bda6-8411600f2d84' class='xr-section-summary' >Indexes: <span>(1)</span></label><div class='xr-section-inline-details'></div><div class='xr-section-details'><ul class='xr-var-list'><li class='xr-var-item'><div class='xr-index-name'><div>time</div></div><div class='xr-index-preview'>PandasIndex</div><div></div><input id='index-e0043517-7ea8-456d-b8f8-bb7aa8d6ebb4' class='xr-index-data-in' type='checkbox'/><label for='index-e0043517-7ea8-456d-b8f8-bb7aa8d6ebb4' title='Show/Hide index repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-index-data'><pre>PandasIndex(Float64Index([1681137435.691408], dtype=&#x27;float64&#x27;, name=&#x27;time&#x27;))</pre></div></li></ul></div></li><li class='xr-section-item'><input id='section-c76668e4-f53c-4739-a02b-58654f88e521' class='xr-section-summary-in' type='checkbox' disabled ><label for='section-c76668e4-f53c-4739-a02b-58654f88e521' class='xr-section-summary'  title='Expand/collapse section'>Attributes: <span>(0)</span></label><div class='xr-section-inline-details'></div><div class='xr-section-details'><dl class='xr-attrs'></dl></div></li></ul></div></div></div>
+</div>
+<p>The image is recorded under the name <code class="docutils literal notranslate"><span class="pre">&quot;adsimdet_image&quot;</span></code>.</p>
+<p><strong>details</strong></p>
+<p>This <code class="docutils literal notranslate"><span class="pre">image</span></code> object has rank of 4 (1 timestamp and 5 frames of 1k x 1k).</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[25]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">image</span> <span class="o">=</span> <span class="n">dataset</span><span class="p">[</span><span class="s2">&quot;adsimdet_image&quot;</span><span class="p">]</span>
+<span class="c1"># image is an xarray.DataArray with 1 timestamp and 5 frames of 1k x 1k</span>
+</pre></div>
+</div>
+</div>
+<p>We just want the <code class="docutils literal notranslate"><span class="pre">image</span></code> frame (the last two indices).</p>
+<p><strong>details</strong></p>
+<p>Select the first item of each of the first two indices (time, frame number)</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[26]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">frame</span> <span class="o">=</span> <span class="n">image</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+<span class="c1"># frame is an xarray.DataArray of 1k x 1k</span>
+</pre></div>
+</div>
+</div>
+<p><strong>Visualize the image</strong></p>
+<p>The <code class="docutils literal notranslate"><span class="pre">frame</span></code> is an <a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.Dataset.html">xarray Dataset</a>, which has a method to visualize the data as shown here:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[27]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">frame</span><span class="o">.</span><span class="n">plot</span><span class="o">.</span><span class="n">pcolormesh</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[27]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+&lt;matplotlib.collections.QuadMesh at 0x7f7c28d79e40&gt;
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/examples_de_0_adsim_hdf5_basic_53_1.png" src="../_images/examples_de_0_adsim_hdf5_basic_53_1.png" />
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[28]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">run</span><span class="o">.</span><span class="n">primary</span><span class="o">.</span><span class="n">_resources</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[28]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+[Resource({&#39;path_semantics&#39;: &#39;posix&#39;,
+ &#39;resource_kwargs&#39;: {&#39;frame_per_point&#39;: 5},
+ &#39;resource_path&#39;: &#39;tmp/docker_ioc/iocad/tmp/example/2023/04/10/0a859a72-11eb-4dd7-80a1_000000.h5&#39;,
+ &#39;root&#39;: &#39;/&#39;,
+ &#39;run_start&#39;: &#39;2ef5ca0d-7296-448d-a132-fa35de7e439d&#39;,
+ &#39;spec&#39;: &#39;AD_HDF5&#39;,
+ &#39;uid&#39;: &#39;22cf9e31-22d7-4320-a42f-1f6465f37ca8&#39;})]
+</pre></div></div>
+</div>
+<p><strong>Find the image file on local disk</strong></p>
+<p>Get the name of the image file on the bluesky (local) workstation from the <code class="docutils literal notranslate"><span class="pre">adsimdet</span></code> object.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[29]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">apstools.devices</span> <span class="kn">import</span> <span class="n">AD_full_file_name_local</span>
+
+<span class="n">local_file_name</span> <span class="o">=</span> <span class="n">AD_full_file_name_local</span><span class="p">(</span><span class="n">adsimdet</span><span class="o">.</span><span class="n">hdf1</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">local_file_name</span><span class="o">.</span><span class="n">exists</span><span class="p">()</span><span class="si">=}</span><span class="se">\n</span><span class="si">{</span><span class="n">local_file_name</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+local_file_name.exists()=True
+local_file_name=PosixPath(&#39;/tmp/docker_ioc/iocad/tmp/example/2023/04/10/0a859a72-11eb-4dd7-80a1_000000.h5&#39;)
+</pre></div></div>
+</div>
+<p>Alternatively, we might get the name of the file from the run stream.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[30]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">rsrc</span> <span class="o">=</span> <span class="n">run</span><span class="o">.</span><span class="n">primary</span><span class="o">.</span><span class="n">_resources</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">fname</span> <span class="o">=</span> <span class="n">pathlib</span><span class="o">.</span><span class="n">Path</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">rsrc</span><span class="p">[</span><span class="s1">&#39;root&#39;</span><span class="p">]</span><span class="si">}{</span><span class="n">rsrc</span><span class="p">[</span><span class="s1">&#39;resource_path&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">fname</span><span class="o">.</span><span class="n">exists</span><span class="p">()</span><span class="si">=}</span><span class="se">\n</span><span class="si">{</span><span class="n">fname</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="c1"># confirm they are the same</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="p">(</span><span class="n">local_file_name</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">fname</span><span class="p">)</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+fname.exists()=True
+fname=PosixPath(&#39;/tmp/docker_ioc/iocad/tmp/example/2023/04/10/0a859a72-11eb-4dd7-80a1_000000.h5&#39;)
+(local_file_name == fname)=True
+</pre></div></div>
+</div>
+</section>
+<section id="punx">
+<h2>punx<a class="headerlink" href="#punx" title="Permalink to this heading">#</a></h2>
+<p>Next, we demonstrate access to the HDF5 image file using the <a class="reference external" href="https://punx.readthedocs.io">punx</a> program.</p>
+<p><strong>details</strong></p>
+<p>We run <code class="docutils literal notranslate"><span class="pre">punx</span></code> from within the notebook to read this HDF5 file and shows its tree structure. (Since we can’t easily pass a Python object to the notebook magic command <code class="docutils literal notranslate"><span class="pre">!</span></code> which executes a shell command, we’ll call a library routine from <a class="reference external" href="https://apstools.readthedocs.io/en/latest/api/_utils.html?highlight=unix#apstools.utils.misc.unix">apstools</a> to make this work.)</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[31]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">apstools.utils</span> <span class="kn">import</span> <span class="n">unix</span>
+
+<span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">unix</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;punx tree </span><span class="si">{</span><span class="n">local_file_name</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">line</span><span class="o">.</span><span class="n">decode</span><span class="p">()</span><span class="o">.</span><span class="n">strip</span><span class="p">())</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+!!! WARNING: this program is not ready for distribution.
+
+/tmp/docker_ioc/iocad/tmp/example/2023/04/10/0a859a72-11eb-4dd7-80a1_000000.h5 : NeXus data file
+  entry:NXentry
+    @NX_class = &#34;NXentry&#34;
+    data:NXdata
+      @NX_class = &#34;NXdata&#34;
+      data:NX_UINT8[5,1024,1024] = __array
+        __array = [
+            [
+                [198, 199, 200, &#39;...&#39;, 197]
+                [199, 200, 201, &#39;...&#39;, 198]
+                [200, 201, 202, &#39;...&#39;, 199]
+                ...
+                [197, 198, 199, &#39;...&#39;, 196]
+              ]
+            [
+                [199, 200, 201, &#39;...&#39;, 198]
+                [200, 201, 202, &#39;...&#39;, 199]
+                [201, 202, 203, &#39;...&#39;, 200]
+                ...
+                [198, 199, 200, &#39;...&#39;, 197]
+              ]
+            [
+                [200, 201, 202, &#39;...&#39;, 199]
+                [201, 202, 203, &#39;...&#39;, 200]
+                [202, 203, 204, &#39;...&#39;, 201]
+                ...
+                [199, 200, 201, &#39;...&#39;, 198]
+              ]
+            [
+                [201, 202, 203, &#39;...&#39;, 200]
+                [202, 203, 204, &#39;...&#39;, 201]
+                [203, 204, 205, &#39;...&#39;, 202]
+                ...
+                [200, 201, 202, &#39;...&#39;, 199]
+              ]
+            [
+                [202, 203, 204, &#39;...&#39;, 201]
+                [203, 204, 205, &#39;...&#39;, 202]
+                [204, 205, 206, &#39;...&#39;, 203]
+                ...
+                [201, 202, 203, &#39;...&#39;, 200]
+              ]
+          ]
+        @NDArrayDimBinning = [1 1]
+        @NDArrayDimOffset = [0 0]
+        @NDArrayDimReverse = [0 0]
+        @NDArrayNumDims = 2
+        @signal = 1
+    instrument:NXinstrument
+      @NX_class = &#34;NXinstrument&#34;
+      NDAttributes:NXcollection
+        @NX_class = &#34;NXcollection&#34;
+        @hostname = &#34;zap&#34;
+        NDArrayEpicsTSSec:NX_UINT32[5] = [1049985435, 1049985435, 1049985435, 1049985435, 1049985435]
+          @NDAttrDescription = &#34;The NDArray EPICS timestamp seconds past epoch&#34;
+          @NDAttrName = &#34;NDArrayEpicsTSSec&#34;
+          @NDAttrSource = &#34;Driver&#34;
+          @NDAttrSourceType = &#34;NDAttrSourceDriver&#34;
+        NDArrayEpicsTSnSec:NX_UINT32[5] = [604497411, 619772589, 635844558, 650919763, 666040904]
+          @NDAttrDescription = &#34;The NDArray EPICS timestamp nanoseconds&#34;
+          @NDAttrName = &#34;NDArrayEpicsTSnSec&#34;
+          @NDAttrSource = &#34;Driver&#34;
+          @NDAttrSourceType = &#34;NDAttrSourceDriver&#34;
+        NDArrayTimeStamp:NX_FLOAT64[5] = [1049985435.5943798, 1049985435.6095004, 1049985435.6256955, 1049985435.6408099, 1049985435.6558784]
+          @NDAttrDescription = &#34;The timestamp of the NDArray as float64&#34;
+          @NDAttrName = &#34;NDArrayTimeStamp&#34;
+          @NDAttrSource = &#34;Driver&#34;
+          @NDAttrSourceType = &#34;NDAttrSourceDriver&#34;
+        NDArrayUniqueId:NX_INT32[5] = [1735, 1736, 1737, 1738, 1739]
+          @NDAttrDescription = &#34;The unique ID of the NDArray&#34;
+          @NDAttrName = &#34;NDArrayUniqueId&#34;
+          @NDAttrSource = &#34;Driver&#34;
+          @NDAttrSourceType = &#34;NDAttrSourceDriver&#34;
+      detector:NXdetector
+        @NX_class = &#34;NXdetector&#34;
+        data:NX_UINT8[5,1024,1024] = __array
+          __array = [
+              [
+                  [198, 199, 200, &#39;...&#39;, 197]
+                  [199, 200, 201, &#39;...&#39;, 198]
+                  [200, 201, 202, &#39;...&#39;, 199]
+                  ...
+                  [197, 198, 199, &#39;...&#39;, 196]
+                ]
+              [
+                  [199, 200, 201, &#39;...&#39;, 198]
+                  [200, 201, 202, &#39;...&#39;, 199]
+                  [201, 202, 203, &#39;...&#39;, 200]
+                  ...
+                  [198, 199, 200, &#39;...&#39;, 197]
+                ]
+              [
+                  [200, 201, 202, &#39;...&#39;, 199]
+                  [201, 202, 203, &#39;...&#39;, 200]
+                  [202, 203, 204, &#39;...&#39;, 201]
+                  ...
+                  [199, 200, 201, &#39;...&#39;, 198]
+                ]
+              [
+                  [201, 202, 203, &#39;...&#39;, 200]
+                  [202, 203, 204, &#39;...&#39;, 201]
+                  [203, 204, 205, &#39;...&#39;, 202]
+                  ...
+                  [200, 201, 202, &#39;...&#39;, 199]
+                ]
+              [
+                  [202, 203, 204, &#39;...&#39;, 201]
+                  [203, 204, 205, &#39;...&#39;, 202]
+                  [204, 205, 206, &#39;...&#39;, 203]
+                  ...
+                  [201, 202, 203, &#39;...&#39;, 200]
+                ]
+            ]
+          @NDArrayDimBinning = [1 1]
+          @NDArrayDimOffset = [0 0]
+          @NDArrayDimReverse = [0 0]
+          @NDArrayNumDims = 2
+          @signal = 1
+        NDAttributes:NXcollection
+          @NX_class = &#34;NXcollection&#34;
+          ColorMode:NX_INT32[5] = [0, 0, 0, 0, 0]
+            @NDAttrDescription = &#34;Color mode&#34;
+            @NDAttrName = &#34;ColorMode&#34;
+            @NDAttrSource = &#34;Driver&#34;
+            @NDAttrSourceType = &#34;NDAttrSourceDriver&#34;
+      performance
+        timestamp:NX_FLOAT64[5,5] = __array
+          __array = [
+              [0.002630463, 0.148994861, 1049963466.6087971, 53.693127040133284, 0.0]
+              [0.023401726, 0.035369701, 0.023408677, 226.18229088224408, 341.75361555033635]
+              [0.012312513, 0.01237443, 0.035783107, 646.4944243896487, 447.13836615696897]
+              [0.008425541, 0.008463056, 0.044246163, 945.2850128842347, 542.4199155981051]
+              [0.006898131, 0.007997728, 0.052243891, 1000.2840806789127, 612.5118054472628]
+            ]
+
+</pre></div></div>
+</div>
+</section>
+<section id="Recapitulation">
+<h2>Recapitulation<a class="headerlink" href="#Recapitulation" title="Permalink to this heading">#</a></h2>
+<p>Let’s gather the above parts together as one would usually write code. First, all the imports, constants, and classes.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[32]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># matplotlib graphics, choices include: inline, notebook, auto</span>
+<span class="o">%</span><span class="k">matplotlib</span> inline
+
+<span class="kn">from</span> <span class="nn">apstools.devices</span> <span class="kn">import</span> <span class="n">AD_full_file_name_local</span>
+<span class="kn">from</span> <span class="nn">apstools.devices</span> <span class="kn">import</span> <span class="n">ensure_AD_plugin_primed</span>
+<span class="kn">from</span> <span class="nn">apstools.devices</span> <span class="kn">import</span> <span class="n">CamMixin_V34</span>
+<span class="kn">from</span> <span class="nn">apstools.devices</span> <span class="kn">import</span> <span class="n">SingleTrigger_V34</span>
+<span class="kn">from</span> <span class="nn">bluesky.callbacks.best_effort</span> <span class="kn">import</span> <span class="n">BestEffortCallback</span>
+<span class="kn">from</span> <span class="nn">ophyd</span> <span class="kn">import</span> <span class="n">ADComponent</span>
+<span class="kn">from</span> <span class="nn">ophyd.areadetector</span> <span class="kn">import</span> <span class="n">DetectorBase</span>
+<span class="kn">from</span> <span class="nn">ophyd.areadetector</span> <span class="kn">import</span> <span class="n">SimDetectorCam</span>
+<span class="kn">from</span> <span class="nn">ophyd.areadetector.filestore_mixins</span> <span class="kn">import</span> <span class="n">FileStoreHDF5IterativeWrite</span>
+<span class="kn">from</span> <span class="nn">ophyd.areadetector.plugins</span> <span class="kn">import</span> <span class="n">HDF5Plugin_V34</span> <span class="k">as</span> <span class="n">HDF5Plugin</span>
+<span class="kn">from</span> <span class="nn">ophyd.areadetector.plugins</span> <span class="kn">import</span> <span class="n">ImagePlugin_V34</span> <span class="k">as</span> <span class="n">ImagePlugin</span>
+<span class="kn">import</span> <span class="nn">bluesky</span>
+<span class="kn">import</span> <span class="nn">bluesky.plans</span> <span class="k">as</span> <span class="nn">bp</span>
+<span class="kn">import</span> <span class="nn">databroker</span>
+<span class="kn">import</span> <span class="nn">hdf5plugin</span>  <span class="c1"># for LZ4, Blosc, or other compression codecs (not already in h5py)</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">pathlib</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">ion</span><span class="p">()</span>  <span class="c1"># turn on matplotlib plots</span>
+<span class="n">IOC</span> <span class="o">=</span> <span class="s2">&quot;ad:&quot;</span>
+
+<span class="n">AD_IOC_MOUNT_PATH</span> <span class="o">=</span> <span class="n">pathlib</span><span class="o">.</span><span class="n">Path</span><span class="p">(</span><span class="s2">&quot;/tmp&quot;</span><span class="p">)</span>
+<span class="n">BLUESKY_MOUNT_PATH</span> <span class="o">=</span> <span class="n">pathlib</span><span class="o">.</span><span class="n">Path</span><span class="p">(</span><span class="s2">&quot;/tmp/docker_ioc/iocad/tmp&quot;</span><span class="p">)</span>
+<span class="n">IMAGE_DIR</span> <span class="o">=</span> <span class="s2">&quot;example/%Y/%m/</span><span class="si">%d</span><span class="s2">&quot;</span>
+
+<span class="c1"># MUST end with a `/`, pathlib will NOT provide it</span>
+<span class="n">WRITE_PATH_TEMPLATE</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">AD_IOC_MOUNT_PATH</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">IMAGE_DIR</span><span class="si">}</span><span class="s2">/&quot;</span>
+<span class="n">READ_PATH_TEMPLATE</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">BLUESKY_MOUNT_PATH</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">IMAGE_DIR</span><span class="si">}</span><span class="s2">/&quot;</span>
+
+<span class="k">class</span> <span class="nc">SimDetectorCam_V34</span><span class="p">(</span><span class="n">CamMixin_V34</span><span class="p">,</span> <span class="n">SimDetectorCam</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Revise SimDetectorCam for ADCore revisions.&quot;&quot;&quot;</span>
+
+<span class="k">class</span> <span class="nc">MyHDF5Plugin</span><span class="p">(</span><span class="n">FileStoreHDF5IterativeWrite</span><span class="p">,</span> <span class="n">HDF5Plugin</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Add data acquisition methods to HDF5Plugin.</span>
+
+<span class="sd">    * ``stage()`` - prepare device PVs befor data acquisition</span>
+<span class="sd">    * ``unstage()`` - restore device PVs after data acquisition</span>
+<span class="sd">    * ``generate_datum()`` - coordinate image storage metadata</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">stage</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">stage_sigs</span><span class="o">.</span><span class="n">move_to_end</span><span class="p">(</span><span class="s2">&quot;capture&quot;</span><span class="p">,</span> <span class="n">last</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">stage</span><span class="p">()</span>
+
+<span class="k">class</span> <span class="nc">SimDetector_V34</span><span class="p">(</span><span class="n">SingleTrigger_V34</span><span class="p">,</span> <span class="n">DetectorBase</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    ADSimDetector</span>
+
+<span class="sd">    SingleTrigger:</span>
+
+<span class="sd">    * stop any current acquisition</span>
+<span class="sd">    * sets image_mode to &#39;Multiple&#39;</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">cam</span> <span class="o">=</span> <span class="n">ADComponent</span><span class="p">(</span><span class="n">SimDetectorCam_V34</span><span class="p">,</span> <span class="s2">&quot;cam1:&quot;</span><span class="p">)</span>
+    <span class="n">hdf1</span> <span class="o">=</span> <span class="n">ADComponent</span><span class="p">(</span>
+        <span class="n">MyHDF5Plugin</span><span class="p">,</span>
+        <span class="s2">&quot;HDF1:&quot;</span><span class="p">,</span>
+        <span class="n">write_path_template</span><span class="o">=</span><span class="n">WRITE_PATH_TEMPLATE</span><span class="p">,</span>
+        <span class="n">read_path_template</span><span class="o">=</span><span class="n">READ_PATH_TEMPLATE</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">image</span> <span class="o">=</span> <span class="n">ADComponent</span><span class="p">(</span><span class="n">ImagePlugin</span><span class="p">,</span> <span class="s2">&quot;image1:&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<p>Next, create and configure the Python object for the detector:</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[33]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">adsimdet</span> <span class="o">=</span> <span class="n">SimDetector_V34</span><span class="p">(</span><span class="n">IOC</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;adsimdet&quot;</span><span class="p">)</span>
+<span class="n">adsimdet</span><span class="o">.</span><span class="n">wait_for_connection</span><span class="p">(</span><span class="n">timeout</span><span class="o">=</span><span class="mi">15</span><span class="p">)</span>
+<span class="n">adsimdet</span><span class="o">.</span><span class="n">missing_plugins</span><span class="p">()</span>  <span class="c1"># confirm all plugins are defined</span>
+
+<span class="n">adsimdet</span><span class="o">.</span><span class="n">read_attrs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;hdf1&quot;</span><span class="p">)</span>  <span class="c1"># include `hdf1` plugin with &#39;adsimdet.read()&#39;</span>
+<span class="n">adsimdet</span><span class="o">.</span><span class="n">hdf1</span><span class="o">.</span><span class="n">create_directory</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="o">-</span><span class="mi">5</span><span class="p">)</span>  <span class="c1"># IOC may create up to 5 new subdirectories, as needed</span>
+
+<span class="c1"># override default settings from ophyd</span>
+<span class="n">adsimdet</span><span class="o">.</span><span class="n">cam</span><span class="o">.</span><span class="n">stage_sigs</span><span class="p">[</span><span class="s2">&quot;wait_for_plugins&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;Yes&quot;</span>
+<span class="n">adsimdet</span><span class="o">.</span><span class="n">hdf1</span><span class="o">.</span><span class="n">stage_sigs</span><span class="p">[</span><span class="s2">&quot;blocking_callbacks&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;No&quot;</span>
+<span class="n">adsimdet</span><span class="o">.</span><span class="n">image</span><span class="o">.</span><span class="n">stage_sigs</span><span class="p">[</span><span class="s2">&quot;blocking_callbacks&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;No&quot;</span>
+
+<span class="c1"># apply some of our own customizations</span>
+<span class="n">NUM_FRAMES</span> <span class="o">=</span> <span class="mi">5</span>
+<span class="n">adsimdet</span><span class="o">.</span><span class="n">cam</span><span class="o">.</span><span class="n">stage_sigs</span><span class="p">[</span><span class="s2">&quot;acquire_period&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.002</span>
+<span class="n">adsimdet</span><span class="o">.</span><span class="n">cam</span><span class="o">.</span><span class="n">stage_sigs</span><span class="p">[</span><span class="s2">&quot;acquire_time&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.001</span>
+<span class="n">adsimdet</span><span class="o">.</span><span class="n">cam</span><span class="o">.</span><span class="n">stage_sigs</span><span class="p">[</span><span class="s2">&quot;num_images&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">NUM_FRAMES</span>
+<span class="n">adsimdet</span><span class="o">.</span><span class="n">hdf1</span><span class="o">.</span><span class="n">stage_sigs</span><span class="p">[</span><span class="s2">&quot;num_capture&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>  <span class="c1"># capture ALL frames received</span>
+<span class="n">adsimdet</span><span class="o">.</span><span class="n">hdf1</span><span class="o">.</span><span class="n">stage_sigs</span><span class="p">[</span><span class="s2">&quot;compression&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;zlib&quot;</span>  <span class="c1"># LZ4</span>
+<span class="c1"># adsimdet.hdf1.stage_sigs[&quot;queue_size&quot;] = 20</span>
+
+<span class="c1"># this step is needed for ophyd</span>
+<span class="n">ensure_AD_plugin_primed</span><span class="p">(</span><span class="n">adsimdet</span><span class="o">.</span><span class="n">hdf1</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<p>Prepare for data acquisition.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[34]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">cat</span> <span class="o">=</span> <span class="n">databroker</span><span class="o">.</span><span class="n">temp</span><span class="p">()</span><span class="o">.</span><span class="n">v2</span>  <span class="c1"># or use your own catalog: databroker.catalog[&quot;CATALOG_NAME&quot;]</span>
+<span class="n">RE</span> <span class="o">=</span> <span class="n">bluesky</span><span class="o">.</span><span class="n">RunEngine</span><span class="p">({})</span>
+<span class="n">RE</span><span class="o">.</span><span class="n">subscribe</span><span class="p">(</span><span class="n">cat</span><span class="o">.</span><span class="n">v1</span><span class="o">.</span><span class="n">insert</span><span class="p">)</span>
+<span class="n">RE</span><span class="o">.</span><span class="n">subscribe</span><span class="p">(</span><span class="n">BestEffortCallback</span><span class="p">())</span>
+<span class="n">RE</span><span class="o">.</span><span class="n">preprocessors</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">bluesky</span><span class="o">.</span><span class="n">SupplementalData</span><span class="p">())</span>
+</pre></div>
+</div>
+</div>
+<p>Take an image.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[35]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">uids</span> <span class="o">=</span> <span class="n">RE</span><span class="p">(</span>
+    <span class="n">bp</span><span class="o">.</span><span class="n">count</span><span class="p">(</span>
+        <span class="p">[</span><span class="n">adsimdet</span><span class="p">],</span>
+        <span class="n">md</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span>
+            <span class="n">title</span><span class="o">=</span><span class="s2">&quot;Area Detector with default HDF5 File Name&quot;</span><span class="p">,</span>
+            <span class="n">purpose</span><span class="o">=</span><span class="s2">&quot;image&quot;</span><span class="p">,</span>
+            <span class="n">image_file_name_style</span><span class="o">=</span><span class="s2">&quot;ophyd(uid)&quot;</span><span class="p">,</span>
+        <span class="p">)</span>
+    <span class="p">)</span>
+<span class="p">)</span>
+
+<span class="c1"># confirm the plugin captured the expected number of frames</span>
+<span class="k">assert</span> <span class="n">adsimdet</span><span class="o">.</span><span class="n">hdf1</span><span class="o">.</span><span class="n">num_captured</span><span class="o">.</span><span class="n">get</span><span class="p">()</span> <span class="o">==</span> <span class="n">NUM_FRAMES</span>
+
+<span class="c1"># Show the image file name on the bluesky (local) workstation</span>
+<span class="c1"># Use information from the &#39;adsimdet&#39; object</span>
+<span class="n">local_file_name</span> <span class="o">=</span> <span class="n">AD_full_file_name_local</span><span class="p">(</span><span class="n">adsimdet</span><span class="o">.</span><span class="n">hdf1</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">local_file_name</span><span class="o">.</span><span class="n">exists</span><span class="p">()</span><span class="si">=}</span><span class="s2"> </span><span class="si">{</span><span class="n">local_file_name</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+
+
+Transient Scan ID: 1     Time: 2023-04-10 09:37:18
+Persistent Unique Scan ID: &#39;9adfbe2b-2fd6-4ede-b50a-282fb6f3b7d3&#39;
+New stream: &#39;primary&#39;
++-----------+------------+
+|   seq_num |       time |
++-----------+------------+
+|         1 | 09:37:18.4 |
++-----------+------------+
+generator count [&#39;9adfbe2b&#39;] (scan num: 1)
+
+
+
+local_file_name.exists()=True local_file_name=PosixPath(&#39;/tmp/docker_ioc/iocad/tmp/example/2023/04/10/8e5dad67-f838-412c-888c_000000.h5&#39;)
+</pre></div></div>
+</div>
+<p>View the image using databroker.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[36]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">run</span> <span class="o">=</span> <span class="n">cat</span><span class="o">.</span><span class="n">v2</span><span class="p">[</span><span class="n">uids</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span>
+<span class="n">dataset</span> <span class="o">=</span> <span class="n">run</span><span class="o">.</span><span class="n">primary</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+<span class="n">dataset</span><span class="p">[</span><span class="s2">&quot;adsimdet_image&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="o">.</span><span class="n">pcolormesh</span><span class="p">()</span>
+
+<span class="c1"># Show the image file name on the bluesky (local) workstation</span>
+<span class="c1"># Use information from the databroker run</span>
+<span class="n">_r</span> <span class="o">=</span> <span class="n">run</span><span class="o">.</span><span class="n">primary</span><span class="o">.</span><span class="n">_resources</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">fname</span> <span class="o">=</span> <span class="n">pathlib</span><span class="o">.</span><span class="n">Path</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">_r</span><span class="p">[</span><span class="s1">&#39;root&#39;</span><span class="p">]</span><span class="si">}{</span><span class="n">_r</span><span class="p">[</span><span class="s1">&#39;resource_path&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">fname</span><span class="o">.</span><span class="n">exists</span><span class="p">()</span><span class="si">=}</span><span class="se">\n</span><span class="si">{</span><span class="n">fname</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="c1"># confirm the name above () is the same</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="p">(</span><span class="n">local_file_name</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">fname</span><span class="p">)</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+fname.exists()=True
+fname=PosixPath(&#39;/tmp/docker_ioc/iocad/tmp/example/2023/04/10/8e5dad67-f838-412c-888c_000000.h5&#39;)
+(local_file_name == fname)=True
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/examples_de_0_adsim_hdf5_basic_70_1.png" src="../_images/examples_de_0_adsim_hdf5_basic_70_1.png" />
+</div>
+</div>
+</section>
+</section>
+
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="device_examples.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Device Examples</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="de_1_adsim_hdf5_custom_names.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Area Detector with custom HDF5 File Name</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+<div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+  </div>
+  <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#EPICS-Area-Detector-IOC">EPICS Area Detector IOC</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#File-Directories">File Directories</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#ophyd">ophyd</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#cam">cam</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#HDF5">HDF5</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#detector">detector</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#bluesky">bluesky</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#databroker">databroker</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#punx">punx</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#Recapitulation">Recapitulation</a></li>
+</ul>
+  </nav></div>
+
+  <div class="sidebar-secondary-item">
+
+  <div class="tocsection sourcelink">
+    <a href="../_sources/examples/de_0_adsim_hdf5_basic.ipynb.txt">
+      <i class="fa-solid fa-file-lines"></i> Show Source
+    </a>
+  </div>
+</div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=8d27b9dea8ad943066ae"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=8d27b9dea8ad943066ae"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+
+  <p class="copyright">
+    
+      © Copyright 2017-2024, UChicago Argonne, LLC.
+      <br/>
+    
+  </p>
+</div>
+      
+        <div class="footer-item">
+
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 5.3.0.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item">
+<p class="theme-version">
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.15.2.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>
