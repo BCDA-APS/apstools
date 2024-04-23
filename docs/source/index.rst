@@ -45,7 +45,7 @@ databases, and and other structures not already supported in `ophyd
 
       Links to source code, license ...
 
-    .. grid-item-card:: :material-regular:`timeline;3em` :ref:`Changes <changes>`
+    .. grid-item-card:: :material-regular:`timeline;3em` :ref:`History <changes>`
 
       History of changes in *apstools*.
 
