@@ -7,8 +7,9 @@ Library of Python tools for use with Bluesky at the APS.
 The `apstools` package provides supplemental support for data acquisition using
 the `Bluesky framework <https://blueskyproject.io>`__ at the `Advanced Photon
 Source <https://www.aps.anl.gov/>`__.  The support consists of a thin Python
-interface to `EPICS <https://epics-controls.org/>`__ hardware, record structures, and
-databases not already supported in `ophyd <https://blueskyproject.io/ophyd>`__.
+interface to `EPICS <https://epics-controls.org/>`__ hardware, records,
+databases, and and other structures not already supported in `ophyd
+<https://blueskyproject.io/ophyd>`__.
 
 .. toctree::
    :maxdepth: 1
@@ -40,6 +41,16 @@ databases not already supported in `ophyd <https://blueskyproject.io/ophyd>`__.
 
       Command-line or GUI programs provided by *apstools*.
 
+    .. grid-item-card:: :material-regular:`info;3em` :ref:`about`
+
+      Links to source code, license ...
+
+    .. grid-item-card:: :material-regular:`timeline;3em` :ref:`Changes <changes>`
+
+      History of changes in *apstools*.
+
+
+.. _about:
 
 About
 -----
