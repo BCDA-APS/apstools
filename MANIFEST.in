@@ -9,6 +9,3 @@ prune *.egg-info/
 prune docs/
 prune ideas/
 prune resources/
-prune tests/
-prune apstools/tests/
-prune apstools/*/tests/
