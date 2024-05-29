@@ -66,7 +66,7 @@ class ApsMachineParametersDevice(Device):
 
     """
 
-    current = Component(EpicsSignalRO, "S:SRcurrentAI")
+    current = Component(EpicsSignalRO, "S-DCCT:CurrentM")
     lifetime = Component(EpicsSignalRO, "S:SRlifeTimeHrsCC")
     aps_cycle = Component(ApsCycleDM)
     machine_status = Component(EpicsSignalRO, "S:DesiredMode", string=True)
@@ -88,12 +88,18 @@ class ApsMachineParametersDevice(Device):
     # 'Stored Beam',
     # 'Delivered Beam',
     # 'MAINTENANCE')
-    shutter_permit = Component(EpicsSignalRO, "ACIS:ShutterPermit", string=True)
+
+    # shutter_permit = Component(EpicsSignalRO, "ACIS:ShutterPermit", string=True) # Not Found
+
+    shutter_status = Component(EpicsSignalRO, "RF-ACIS:FePermit:Sect1To35IdM.RVAL", string = True)
+    shutters_open  =  Component(EpicsSignalRO, "NoOfShuttersOpenA")
     fill_number = Component(EpicsSignalRO, "S:FillNumber")
     orbit_correction = Component(EpicsSignalRO, "S:OrbitCorrection:CC")
-    global_feedback = Component(EpicsSignalRO, "SRFB:GBL:LoopStatusBI", string=True)
-    global_feedback_h = Component(EpicsSignalRO, "SRFB:GBL:HLoopStatusBI", string=True)
-    global_feedback_v = Component(EpicsSignalRO, "SRFB:GBL:VLoopStatusBI", string=True)
+
+    # global_feedback = Component(EpicsSignalRO, "SRFB:GBL:LoopStatusBI", string=True)  # Not Found
+    # global_feedback_h = Component(EpicsSignalRO, "SRFB:GBL:HLoopStatusBI", string=True) # Not Found
+    # global_feedback_v = Component(EpicsSignalRO, "SRFB:GBL:VLoopStatusBI", string=True) # Not Found
+
     operator_messages = Component(ApsOperatorMessagesDevice)
 
     @property
