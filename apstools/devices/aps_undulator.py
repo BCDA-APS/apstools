@@ -15,6 +15,7 @@ from ophyd import EpicsSignalRO
 from ophyd import Signal
 
 from .tracking_signal import TrackingSignal
+from ..devices import PVPositionerSoftDoneWithStop
 
 
 class ApsUndulator(Device):
@@ -29,6 +30,67 @@ class ApsUndulator(Device):
     """
 
     energy = Component(
+        EpicsSignal,
+        "Energy",
+        write_pv="EnergySet",
+        put_complete=True,
+        kind="hinted",
+    )
+    energy_taper = Component(
+        EpicsSignal,
+        "TaperEnergy",
+        write_pv="TaperEnergySet",
+        kind="config",
+    )
+    gap = Component(EpicsSignal, "Gap", write_pv="GapSet")
+    gap_taper = Component(EpicsSignal, "TaperGap", write_pv="TaperGapSet", kind="config")
+    start_button = Component(EpicsSignal, "Start", put_complete=True, kind="omitted")
+    stop_button = Component(EpicsSignal, "Stop", kind="omitted")
+    harmonic_value = Component(EpicsSignal, "HarmonicValue", kind="config")
+    gap_deadband = Component(EpicsSignal, "DeadbandGap", kind="config")
+    device_limit = Component(EpicsSignal, "DeviceLimit", kind="config")
+
+    access_mode = Component(EpicsSignalRO, "AccessSecurity", kind="omitted")
+    device_status = Component(EpicsSignalRO, "Busy", kind="omitted")
+    total_power = Component(EpicsSignalRO, "TotalPower", kind="config")
+    message1 = Component(EpicsSignalRO, "Message1", kind="omitted")
+    message2 = Component(EpicsSignalRO, "Message2", kind="omitted")
+    message3 = Component(EpicsSignalRO, "Message3", kind="omitted")
+    time_left = Component(EpicsSignalRO, "ShClosedTime", kind="omitted")
+
+    device = Component(EpicsSignalRO, "Device", kind="config")
+    location = Component(EpicsSignalRO, "Location", kind="config")
+    version = Component(EpicsSignalRO, "Version", kind="config")
+
+    # Useful undulator parameters that are not EPICS PVs.
+    energy_deadband = Component(Signal, value=0.0, kind="config")
+    energy_backlash = Component(Signal, value=0.0, kind="config")
+    energy_offset = Component(Signal, value=0, kind="config")
+    tracking = Component(TrackingSignal, value=False, kind="config")
+
+
+class ApsUndulatorRevolver(Device):
+    """
+    APS Undulator Revolver
+
+    .. index:: Ophyd Device; ApsUndulatorRevolver
+
+    EXAMPLE::
+
+        revolver_undulator = ApsUndulatorRevolver("ID08ds:", name="revolver_undulator")
+    """
+
+    #  energy, energy_taper, gap, gap_taper as positioners
+    temperature = Component(
+        PVPositionerSoftDoneWithStop,
+        "",
+        readback_pv="temp",
+        setpoint_pv="setLimit",
+        tolerance=1.0,
+        kind="hinted",
+    )
+    energy = Component(PVPositionerSoftDoneWithStop, "Energy", setpoint_pv="l", readback_pv="lRB")
+    energy_old = Component(
         EpicsSignal,
         "Energy",
         write_pv="EnergySet",
