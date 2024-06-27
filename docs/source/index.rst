@@ -8,7 +8,7 @@ The `apstools` package provides supplemental support for data acquisition using
 the `Bluesky framework <https://blueskyproject.io>`__ at the `Advanced Photon
 Source <https://www.aps.anl.gov/>`__.  The support consists of a thin Python
 interface to `EPICS <https://epics-controls.org/>`__ hardware, records,
-databases, and and other structures not already supported in `ophyd
+databases, and other structures not already supported in `ophyd
 <https://blueskyproject.io/ophyd>`__.
 
 .. toctree::
