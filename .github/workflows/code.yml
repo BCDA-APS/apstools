@@ -31,11 +31,16 @@ jobs:
           set -vxeuo pipefail
           python -m pip install --upgrade pip
   
-      - name: Run ruff
-        uses: davidslusser/actions_python_ruff@v1.0.1
-        with:
-          python_version: "3.11"
+      # - name: Run ruff
+      #   uses: davidslusser/actions_python_ruff@v1.0.1
+      #   with:
+      #     python_version: "3.11"
+      # https://github.com/davidslusser/actions_python_ruff/issues/2
 
+      - run: pip install ruff
+      - run: | 
+        ruff check .
+  
   install-catalogs:
     name: Install & cache databroker catalogs
     runs-on: ubuntu-latest

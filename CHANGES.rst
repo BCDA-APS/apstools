@@ -16,6 +16,7 @@
 Change History
 ##############
 
+History of changes in the *apstools* project.
 Project `milestones <https://github.com/BCDA-APS/apstools/milestones>`_
 describe future plans.
 
