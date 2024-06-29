@@ -6,9 +6,7 @@ from ..aps_undulator import PlanarUndulator
 
 @pytest.fixture()
 def undulator():
-    undulator = instantiate_fake_device(
-        PlanarUndulator, prefix="PSS:255ID:", name="undulator"
-    )
+    undulator = instantiate_fake_device(PlanarUndulator, prefix="PSS:255ID:", name="undulator")
     return undulator
 
 

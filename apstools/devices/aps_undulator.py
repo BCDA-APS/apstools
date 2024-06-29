@@ -8,21 +8,20 @@ APS undulator
    ~ApsUndulatorDual
 """
 
+import logging
+from enum import IntEnum
+
 from ophyd import Component
+from ophyd import DerivedSignal
 from ophyd import Device
 from ophyd import EpicsSignal
 from ophyd import EpicsSignalRO
+from ophyd import PVPositioner
 from ophyd import Signal
 
 from .tracking_signal import TrackingSignal
 
-import logging
-from enum import IntEnum
-
-from ophyd import Component as Cpt
-from ophyd import DerivedSignal, Device, EpicsSignal, EpicsSignalRO, PVPositioner
-
-log = logging.getLogger(__name__)
+logger = logging.getLogger(__name__)
 
 
 class DoneStatus(IntEnum):
@@ -47,12 +46,13 @@ class UndulatorPositioner(PVPositioner):
     start and stop the device.
 
     """
-    setpoint = Cpt(EpicsSignal, "SetC.VAL")
-    readback = Cpt(EpicsSignalRO, "M.VAL")
 
-    actuate = Cpt(DerivedSignal, derived_from="parent.start_button", kind="omitted")
-    stop_signal = Cpt(DerivedSignal, derived_from="parent.stop_button", kind="omitted")
-    done = Cpt(DerivedSignal, derived_from="parent.done", kind="omitted")
+    setpoint = Component(EpicsSignal, "SetC.VAL")
+    readback = Component(EpicsSignalRO, "M.VAL")
+
+    actuate = Component(DerivedSignal, derived_from="parent.start_button", kind="omitted")
+    stop_signal = Component(DerivedSignal, derived_from="parent.stop_button", kind="omitted")
+    done = Component(DerivedSignal, derived_from="parent.done", kind="omitted")
     done_value = DoneStatus.DONE
 
 
@@ -70,30 +70,31 @@ class PlanarUndulator(Device):
         undulator = PlanarUndulator("S25ID:USID:", name="undulator")
 
     """
+
     # X-ray spectrum parameters
-    energy = Cpt(UndulatorPositioner, "Energy")
-    energy_taper = Cpt(UndulatorPositioner, "TaperEnergy")
-    gap = Cpt(UndulatorPositioner, "Gap")
-    gap_taper = Cpt(UndulatorPositioner, "TaperGap")
-    harmonic_value = Cpt(EpicsSignal, "HarmonicValueC", kind="config")
-    total_power = Cpt(EpicsSignalRO, "TotalPowerM.VAL", kind="config")
+    energy = Component(UndulatorPositioner, "Energy")
+    energy_taper = Component(UndulatorPositioner, "TaperEnergy")
+    gap = Component(UndulatorPositioner, "Gap")
+    gap_taper = Component(UndulatorPositioner, "TaperGap")
+    harmonic_value = Component(EpicsSignal, "HarmonicValueC", kind="config")
+    total_power = Component(EpicsSignalRO, "TotalPowerM.VAL", kind="config")
     # Signals for moving the undulator
-    start_button = Cpt(EpicsSignal, "StartC.VAL", put_complete=True, kind="omitted")
-    stop_button = Cpt(EpicsSignal, "StopC.VAL", kind="omitted")
-    busy = Cpt(EpicsSignalRO, "BusyM.VAL", kind="omitted")
-    done = Cpt(EpicsSignalRO, "BusyDeviceM.VAL", kind="omitted")
-    motor_drive_status = Cpt(EpicsSignalRO, "MotorDriveStatusM.VAL", kind="omitted")
+    start_button = Component(EpicsSignal, "StartC.VAL", put_complete=True, kind="omitted")
+    stop_button = Component(EpicsSignal, "StopC.VAL", kind="omitted")
+    busy = Component(EpicsSignalRO, "BusyM.VAL", kind="omitted")
+    done = Component(EpicsSignalRO, "BusyDeviceM.VAL", kind="omitted")
+    motor_drive_status = Component(EpicsSignalRO, "MotorDriveStatusM.VAL", kind="omitted")
     # Miscellaneous control signals
-    gap_deadband = Cpt(EpicsSignal, "DeadbandGapC", kind="config")
-    device_limit = Cpt(EpicsSignal, "DeviceLimitM.VAL", kind="config")
-    access_mode = Cpt(EpicsSignalRO, "AccessSecurityC", kind="omitted")
-    message1 = Cpt(EpicsSignalRO, "Message1M.VAL", kind="omitted")
-    message2 = Cpt(EpicsSignalRO, "Message2M.VAL", kind="omitted")
-    device = Cpt(EpicsSignalRO, "DeviceM", kind="config")
-    magnet = Cpt(EpicsSignalRO, "DeviceMagnetM", kind="config")
-    location = Cpt(EpicsSignalRO, "LocationM", kind="config")
-    version_plc = Cpt(EpicsSignalRO, "PLCVersionM.VAL", kind="config")
-    version_hpmu = Cpt(EpicsSignalRO, "HPMUVersionM.VAL", kind="config")
+    gap_deadband = Component(EpicsSignal, "DeadbandGapC", kind="config")
+    device_limit = Component(EpicsSignal, "DeviceLimitM.VAL", kind="config")
+    access_mode = Component(EpicsSignalRO, "AccessSecurityC", kind="omitted")
+    message1 = Component(EpicsSignalRO, "Message1M.VAL", kind="omitted")
+    message2 = Component(EpicsSignalRO, "Message2M.VAL", kind="omitted")
+    device = Component(EpicsSignalRO, "DeviceM", kind="config")
+    magnet = Component(EpicsSignalRO, "DeviceMagnetM", kind="config")
+    location = Component(EpicsSignalRO, "LocationM", kind="config")
+    version_plc = Component(EpicsSignalRO, "PLCVersionM.VAL", kind="config")
+    version_hpmu = Component(EpicsSignalRO, "HPMUVersionM.VAL", kind="config")
 
 
 # -----------------------------------------------------------------------------
