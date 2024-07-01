@@ -24,7 +24,18 @@ describe future plans.
    1.6.20
    ******
 
-   release expected by 2024-04-30
+   release expected by 2024-07-19
+
+   New Features
+   ------------
+
+   * Add new APS PlanarUndulator device.
+
+   Maintenance
+   -----------
+
+   * Pin numpy<2 because upstream dask package needs a fix.
+   * Removed ApsUndulator and ApsUndulatorDual devices.
 
 1.6.19
 ******
@@ -34,8 +45,8 @@ released 2024-04-23
 New Features
 ------------
 
-* Add new plan for edge alignment called edge_align
-* Added a mesh grid scan plan that will collect until number of collection points is met
+* Add new plan for edge alignment called edge_align.
+* Added a mesh grid scan plan that will collect until number of collection points is met.
 
 Fixes
 -----
