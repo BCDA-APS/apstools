@@ -9,12 +9,14 @@ APS cycles
 
 import datetime
 import json
+import logging
 import pathlib
 import time
 
 import yaml
 from ophyd.sim import SynSignalRO
 
+logger = logging.getLogger(__name__)
 _PATH = pathlib.Path(__file__).parent
 YAML_CYCLE_FILE = _PATH / "aps_cycle_info.yml"
 
@@ -74,13 +76,16 @@ class _ApsCycleDB:
         """
         Write the list of APS run cycles to a local file.
 
-        The file is formatted exactly as received from the
-        APS Data Management package (*aps-dm-api*).  This allows
+        The content of this file is received from the APS Data Management
+        package (*aps-dm-api*) and reformatted here for readbility.  This allows
         automatic updates as needed.
 
-        To update the LOCAL_FILE, run this code (on a workstation at the APS)::
+        MANUAL UPDATE OF CYCLE YAML FILE
 
-            from apstools._devices.aps_cycle import cycle_db
+        To update the LOCAL_FILE, run this code (on a workstation at the APS
+        configured to use the DM tools)::
+
+            from apstools.devices.aps_cycle import cycle_db
             cycle_db._write_cycle_data()
         """
         runs = self._bss_list_runs
@@ -103,11 +108,23 @@ class _ApsCycleDB:
 
     @property
     def _bss_list_runs(self):
-        try:
-            import apsbss
+        """Get the full list of APS runs via a Data Management API or 'None'."""
+        from dm import ApsDbApiFactory
+        from dm.common.exceptions.dmException import DmException
+        from ..utils.aps_data_management import dm_source_environ
 
-            return str(apsbss.api_bss.listRuns())
-        except ModuleNotFoundError:
+        # Only succeeds on workstations with DM tools installed.
+        try:
+            dm_source_environ()  # load DM OS environment variables
+        except ValueError as reason:
+            logger.info(reason)
+            return None
+
+        api = ApsDbApiFactory.getBssApsDbApi()
+        try:
+            api.listRuns()
+        except DmException as reason:
+            logger.info(reason)
             return None
 
 
