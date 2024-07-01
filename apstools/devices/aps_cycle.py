@@ -72,7 +72,7 @@ class _ApsCycleDB:
         }
         return db
 
-    def _write_cycle_data(self):
+    def _write_cycle_data(self, output_file: str = None):
         """
         Write the list of APS run cycles to a local file.
 
@@ -86,6 +86,8 @@ class _ApsCycleDB:
         configured to use the DM tools)::
 
             from apstools.devices.aps_cycle import cycle_db
+            from apstools.utils import dm_setup
+            dm_setup("/path/to/dm.setup.sh")
             cycle_db._write_cycle_data()
         """
         runs = self._bss_list_runs
@@ -103,7 +105,13 @@ class _ApsCycleDB:
                 }
                 for line in sorted(cycles, key=sorter)
             }
-            with YAML_CYCLE_FILE.open("w") as f:
+
+            if output_file is None:
+                output_file = YAML_CYCLE_FILE
+            else:
+                # Allow caller to override default location.
+                output_file = pathlib.Path(output_file)
+            with output_file.open("w") as f:
                 f.write(yaml.dump(db))
 
     @property
@@ -111,19 +119,13 @@ class _ApsCycleDB:
         """Get the full list of APS runs via a Data Management API or 'None'."""
         from dm import ApsDbApiFactory
         from dm.common.exceptions.dmException import DmException
-        from ..utils.aps_data_management import dm_source_environ
+
+        api = ApsDbApiFactory.getBssApsDbApi()
 
         # Only succeeds on workstations with DM tools installed.
         try:
-            dm_source_environ()  # load DM OS environment variables
-        except ValueError as reason:
-            logger.info(reason)
-            return None
-
-        api = ApsDbApiFactory.getBssApsDbApi()
-        try:
-            api.listRuns()
-        except DmException as reason:
+            return api.listRuns()
+        except (DmException, ValueError) as reason:
             logger.info(reason)
             return None
 
@@ -146,9 +148,9 @@ class ApsCycleDM(SynSignalRO):
     def get(self):
         self._cycle_name = cycle_db.get_cycle_name()
         if datetime.datetime.now().isoformat(sep=" ") >= self._cycle_ends:
-            self._cycle_ends = datetime.datetime.fromtimestamp(cycle_db.db[self._cycle_name]["end"]).isoformat(
-                sep=" "
-            )
+            ts_cycle_end = cycle_db.db[self._cycle_name]["end"]
+            dt_cycle_ends = datetime.datetime.fromtimestamp(ts_cycle_end)
+            self._cycle_ends = dt_cycle_ends.isoformat(sep=" ")
         return self._cycle_name
 
 
