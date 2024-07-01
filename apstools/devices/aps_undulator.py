@@ -1,11 +1,10 @@
 """
-APS undulator
-+++++++++++++++++++++++++++++++++++++++
+APS undulators
+++++++++++++++
 
 .. autosummary::
 
-   ~ApsUndulator
-   ~ApsUndulatorDual
+   ~PlanarUndulator
 """
 
 import logging
@@ -17,9 +16,7 @@ from ophyd import Device
 from ophyd import EpicsSignal
 from ophyd import EpicsSignalRO
 from ophyd import PVPositioner
-from ophyd import Signal
 
-from .tracking_signal import TrackingSignal
 
 logger = logging.getLogger(__name__)
 
