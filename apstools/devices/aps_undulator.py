@@ -1,15 +1,13 @@
 """
-APS undulator
-+++++++++++++++++++++++++++++++++++++++
+APS undulators
+++++++++++++++
 
 .. autosummary::
 
-   ~ApsUndulator
-   ~ApsUndulatorDual
+   ~PlanarUndulator
 """
 
 import logging
-from enum import IntEnum
 
 from ophyd import Component
 from ophyd import DerivedSignal
@@ -17,26 +15,11 @@ from ophyd import Device
 from ophyd import EpicsSignal
 from ophyd import EpicsSignalRO
 from ophyd import PVPositioner
-from ophyd import Signal
 
-from .tracking_signal import TrackingSignal
 
 logger = logging.getLogger(__name__)
 
-
-class DoneStatus(IntEnum):
-    MOVING = 0
-    DONE = 1
-
-
-class BusyStatus(IntEnum):
-    DONE = 0
-    BUSY = 1
-
-
-class MotorDriveStatus(IntEnum):
-    NOT_READY = 0
-    READY_TO_MOVE = 1
+POSITIONER_DONE = 1
 
 
 class UndulatorPositioner(PVPositioner):
@@ -53,7 +36,7 @@ class UndulatorPositioner(PVPositioner):
     actuate = Component(DerivedSignal, derived_from="parent.start_button", kind="omitted")
     stop_signal = Component(DerivedSignal, derived_from="parent.stop_button", kind="omitted")
     done = Component(DerivedSignal, derived_from="parent.done", kind="omitted")
-    done_value = DoneStatus.DONE
+    done_value = POSITIONER_DONE
 
 
 class PlanarUndulator(Device):
