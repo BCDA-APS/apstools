@@ -29,6 +29,14 @@ class UndulatorPositioner(PVPositioner):
     Communicates with the parent (presumably the undulator device) to
     start and stop the device.
 
+    .. autosummary::
+
+        ~setpoint
+        ~readback
+        ~actuate
+        ~stop_signal
+        ~done
+        ~done_value
     """
 
     setpoint = Component(EpicsSignal, "SetC.VAL")
@@ -48,6 +56,14 @@ class ID_Controls_Mixin(Device):
     The signals *busy* and *done* convey complementary
     information. *busy* comes from the IOC, while *done* comes
     directly from the controller.
+
+    .. autosummary::
+
+        ~start_button
+        ~stop_button
+        ~busy
+        ~done
+        ~motor_drive_status
     """
 
     # Signals for moving the undulator
@@ -62,6 +78,19 @@ class ID_Misc_Mixin(Device):
     """Common miscellaneous components for insertion devices.
 
     Works for: Planar & Revolver
+
+    .. autosummary::
+
+        ~gap_deadband
+        ~device_limit
+        ~access_mode
+        ~message1
+        ~message2
+        ~device
+        ~magnet
+        ~location
+        ~version_plc
+        ~version_hpmu
     """
 
     # Miscellaneous control signals
@@ -81,6 +110,15 @@ class ID_Spectrum_Mixin(Device):
     """Common spectrum components for insertion devices.
 
     Works for: Planar & Revolver
+
+    .. autosummary::
+
+        ~energy
+        ~energy_taper
+        ~gap
+        ~gap_taper
+        ~harmonic_value
+        ~total_power
     """
 
     # X-ray spectrum parameters
@@ -121,6 +159,7 @@ class RevolverInsertionDevice(ID_Spectrum_Mixin, ID_Controls_Mixin, ID_Misc_Mixi
     revolver_select = Component(EpicsSignal, "RevolverSelectC.VAL", kind="config")
     status_position1 = Component(EpicsSignalRO, "Position1M.VAL", kind="config")
     status_position2 = Component(EpicsSignalRO, "Position2M.VAL", kind="config")
+    status_safe_gap = Component(EpicsSignalRO, "AtSafeGapM.VAL", kind="config")
 
 
 # -----------------------------------------------------------------------------
