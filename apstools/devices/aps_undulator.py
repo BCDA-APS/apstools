@@ -8,7 +8,6 @@ APS undulators
 """
 
 import logging
-from enum import IntEnum
 
 from ophyd import Component
 from ophyd import DerivedSignal
