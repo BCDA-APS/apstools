@@ -90,7 +90,7 @@ def write_stream(devices, label):
 
     Use this within a custom plan, such as this example::
 
-        from apstools.plans import addDeviceStream
+        from apstools.plans import write_stream
         ...
         yield from bps.open_run(md={})
         # ...
