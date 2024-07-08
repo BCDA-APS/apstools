@@ -30,6 +30,8 @@ describe future plans.
    ------------
 
    * Add new APS PlanarUndulator device.
+   * Add new APS Revolver_Undulator device.
+   * Add new APS STI_Undulator device.
 
    Maintenance
    -----------

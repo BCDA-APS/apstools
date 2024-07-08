@@ -1,11 +1,12 @@
 """
-APS undulators
-++++++++++++++
+APS undulators (Insertion Devices)
+++++++++++++++++++++++++++++++++++
 
 .. autosummary::
 
    ~PlanarUndulator
-   ~RevolverInsertionDevice
+   ~Revolver_Undulator
+   ~STI_Undulator
 """
 
 import logging
@@ -143,7 +144,7 @@ class PlanarUndulator(ID_Spectrum_Mixin, ID_Controls_Mixin, ID_Misc_Mixin, Devic
     """
 
 
-class RevolverInsertionDevice(ID_Spectrum_Mixin, ID_Controls_Mixin, ID_Misc_Mixin, Device):
+class Revolver_Undulator(ID_Spectrum_Mixin, ID_Controls_Mixin, ID_Misc_Mixin, Device):
     """APS Revolver Insertion Device.
 
     .. index:: Ophyd Device; PlanarUndulator
@@ -152,7 +153,7 @@ class RevolverInsertionDevice(ID_Spectrum_Mixin, ID_Controls_Mixin, ID_Misc_Mixi
 
     EXAMPLE::
 
-        undulator = RevolverInsertionDevice("S08ID:USID:", name="undulator")
+        undulator = Revolver_Undulator("S08ID:USID:", name="undulator")
     """
 
     # Revolver control signals
@@ -160,6 +161,21 @@ class RevolverInsertionDevice(ID_Spectrum_Mixin, ID_Controls_Mixin, ID_Misc_Mixi
     status_position1 = Component(EpicsSignalRO, "Position1M.VAL", kind="config")
     status_position2 = Component(EpicsSignalRO, "Position2M.VAL", kind="config")
     status_safe_gap = Component(EpicsSignalRO, "AtSafeGapM.VAL", kind="config")
+
+
+class STI_Undulator(PlanarUndulator):
+    """APS Planar Undulator built by STI Optronics.
+
+    .. index:: 
+        Ophyd Device; PlanarUndulator
+        Ophyd Device; STI_Undulator
+
+    APS Use: 13 devices, including 4ID.
+
+    EXAMPLE::
+
+        undulator = STI_Undulator("S04ID:USID:", name="undulator")
+    """
 
 
 # -----------------------------------------------------------------------------
