@@ -7,15 +7,16 @@ from ..aps_undulator import STI_Undulator
 from ..aps_undulator import Undulator2M
 
 
-@pytest.mark.parametrize(
-    "klass, prefix",
-    [
-        [PlanarUndulator, "PSS:255ID:"],
-        [Undulator2M, "PSS:255ID:"],
-        [Revolver_Undulator, "PSS:255ID:"],
-        [STI_Undulator, "PSS:255ID:"],
-    ],
-)
+TEST_PV_PREFIX = "TEST:PREFIX:"
+TEST_CASES = [
+    [PlanarUndulator, TEST_PV_PREFIX],
+    [Revolver_Undulator, TEST_PV_PREFIX],
+    [STI_Undulator, TEST_PV_PREFIX],
+    [Undulator2M, TEST_PV_PREFIX],
+]
+
+
+@pytest.mark.parametrize("klass, prefix", TEST_CASES)
 def test_set_energy(klass, prefix):
     undulator = instantiate_fake_device(klass, prefix=prefix, name="undulator")
 
@@ -25,15 +26,7 @@ def test_set_energy(klass, prefix):
     assert undulator.start_button.get() == 1
 
 
-@pytest.mark.parametrize(
-    "klass, prefix",
-    [
-        [PlanarUndulator, "PSS:255ID:"],
-        [Undulator2M, "S01ID:DSID:"],
-        [Revolver_Undulator, "S08ID:USID:"],
-        [STI_Undulator, "S04ID:USID:"],
-    ],
-)
+@pytest.mark.parametrize("klass, prefix", TEST_CASES)
 def test_stop_energy(klass, prefix):
     undulator = instantiate_fake_device(klass, prefix=prefix, name="undulator")
 
