@@ -207,7 +207,7 @@ class Undulator2M(ID_Spectrum_Mixin, ID_Controls_Mixin, ID_Misc_Mixin, Device):
     done_value = 0
 
 
-class Undulator4M(ID_Spectrum_Mixin, ID_Controls_Mixin, ID_Misc_Mixin, Device):
+class Undulator4M(Undulator2M):
     """APS 4M Undulator.
 
     .. index::
@@ -220,16 +220,6 @@ class Undulator4M(ID_Spectrum_Mixin, ID_Controls_Mixin, ID_Misc_Mixin, Device):
 
         undulator = Undulator4M("S11ID:DSID:", name="undulator")
     """
-
-    # PVs not found
-    busy = None
-    magnet = None
-    version_plc = None
-    version_hpmu = None
-
-    done = Component(EpicsSignalRO, "BusyM.VAL", kind="omitted")
-    done_value = 0
-
 
 # -----------------------------------------------------------------------------
 # :author:    Pete R. Jemian
