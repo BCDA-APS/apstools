@@ -8,6 +8,7 @@ APS undulators (Insertion Devices)
    ~Revolver_Undulator
    ~STI_Undulator
    ~Undulator2M
+   ~Undulator4M
 """
 
 import logging
@@ -191,6 +192,30 @@ class Undulator2M(ID_Spectrum_Mixin, ID_Controls_Mixin, ID_Misc_Mixin, Device):
     EXAMPLE::
 
         undulator = Undulator2M("S01ID:DSID:", name="undulator")
+    """
+
+    # PVs not found
+    busy = None
+    magnet = None
+    version_plc = None
+    version_hpmu = None
+
+    done = Component(EpicsSignalRO, "BusyM.VAL", kind="omitted")
+    done_value = 0
+
+
+class Undulator4M(ID_Spectrum_Mixin, ID_Controls_Mixin, ID_Misc_Mixin, Device):
+    """APS 4M Undulator.
+
+    .. index::
+        Ophyd Device; PlanarUndulator
+        Ophyd Device; Undulator4M
+
+    APS Use: 11ID, downstream & upstream.
+
+    EXAMPLE::
+
+        undulator = Undulator4M("S11ID:DSID:", name="undulator")
     """
 
     # PVs not found
