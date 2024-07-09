@@ -5,6 +5,7 @@ from ..aps_undulator import PlanarUndulator
 from ..aps_undulator import Revolver_Undulator
 from ..aps_undulator import STI_Undulator
 from ..aps_undulator import Undulator2M
+from ..aps_undulator import Undulator4M
 
 
 TEST_PV_PREFIX = "TEST:PREFIX:"
@@ -13,6 +14,7 @@ TEST_CASES = [
     [Revolver_Undulator, TEST_PV_PREFIX],
     [STI_Undulator, TEST_PV_PREFIX],
     [Undulator2M, TEST_PV_PREFIX],
+    [Undulator4M, TEST_PV_PREFIX],
 ]
 
 
