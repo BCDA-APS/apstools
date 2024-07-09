@@ -24,9 +24,9 @@ versions+=" 1.6.15"
 versions+=" 1.6.16"
 versions+=" 1.6.17"
 versions+=" 1.6.18"
+versions+=" 1.6.19"
 
 # future versions (release tags that are expected)
-versions+=" 1.6.19"
 versions+=" 1.6.20"
 versions+=" 1.6.21"
 versions+=" 1.6.22"

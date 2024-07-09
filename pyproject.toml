@@ -54,20 +54,25 @@ classifiers = [
 dependencies = [
   "area-detector-handlers",
   "bluesky>=1.6.2,!=1.11.0",
+  "bluesky-live",
   "databroker==1.2.5",
   "databroker-pack",
+  "entrypoints",
   "h5py",
+  "intake<=1",
   "matplotlib",
   "mongoquery>=1.3.6",
   "numpy",
-  "ophyd>=1.5.1",
+  "ophyd>=1.6.1",
   "openpyxl",
   "pint",
   "psutil",
   "pyepics>=3.4.2",
   "pyRestTable>=2020.0.8",
   "pysumreg",
+  "scipy",
   "spec2nexus>=2021.1.7",
+  "toolz>=0.12.1",
   "xlrd",
 ]
 
@@ -241,6 +246,9 @@ docstring-code-line-length = "dynamic"
 
 [tool.setuptools]
 py-modules = ["apstools"]
+
+[tool.setuptools.packages.find]
+include = ["apstools*"]  # package names should match these glob patterns (["*"] by default)
 
 [tool.setuptools_scm]
 write_to = "apstools/_version.py"

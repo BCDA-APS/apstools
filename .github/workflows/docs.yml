@@ -50,7 +50,7 @@ jobs:
 
       - name: Install Sphinx build requirements
         run: |
-          pip install -r requirements-sphinx.txt setuptools-scm
+          pip install -r docs/requirements.txt
 
       - name: Install our package
         run: |
@@ -77,6 +77,15 @@ jobs:
       - name: Sphinx
         run: |
           TZ=UTC sphinx-build -M html ./docs/source "${TMP_DIR}/build"
+
+      - name: Build Info
+        run: ls -lAFghR "${TMP_DIR}/build/html"
+
+      - name: Upload Docs ZIP file as artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: apstools-docs
+          path: ${{ env.TMP_DIR }}/build/html
 
       - name: Re-build the master directory (contains all documentation versions)
         run: |
@@ -118,7 +127,7 @@ jobs:
           du -shc *
 
       - name: Publish (push gh-pages branch) only on demand
-        uses: peaceiris/actions-gh-pages@v3
+        uses: peaceiris/actions-gh-pages@v4
         if: ${{ github.event.inputs.deploy }}
         with:
           publish_branch: gh-pages

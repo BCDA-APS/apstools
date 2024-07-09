@@ -68,7 +68,9 @@ extensions = """
     sphinx.ext.viewcode
     nbsphinx
     myst_parser
+    sphinx_design
 """.split()
+myst_enable_extensions = ["colon_fence"]
 
 templates_path = ["_templates"]
 source_suffix = [".rst", ".md"]
@@ -81,6 +83,7 @@ html_css_files = [
 ]
 html_static_path = ["_static"]
 html_theme = "pydata_sphinx_theme"
+html_title = f"{project} {version}"
 # fmt: off
 html_theme_options = {
     "navbar_start": ["navbar-logo", "version-switcher"],
@@ -107,6 +110,8 @@ autodoc_mock_imports = """
     psutil
     pyRestTable
     pysumreg
+    scipy
     spec2nexus
+    toolz
     xarray
 """.split()

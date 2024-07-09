@@ -1,3 +1,5 @@
+.. _changes:
+
 ..
 	CHANGES
 	=======

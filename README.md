@@ -25,7 +25,6 @@ item              | description
 ## See also
 
 * https://github.com/BCDA-APS/bluesky_training
-* https://BCDA-APS.github.io/apsbss
 * https://blueskyproject.io/
 * https://github.com/bluesky/bluesky
 * https://github.com/bluesky/ophyd
