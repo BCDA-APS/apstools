@@ -11,9 +11,9 @@ from ..aps_undulator import Undulator2M
     "klass, prefix",
     [
         [PlanarUndulator, "PSS:255ID:"],
-        [Undulator2M, "S01ID:DSID:"],
-        [Revolver_Undulator, "S08ID:USID:"],
-        [STI_Undulator, "S04ID:USID:"],
+        [Undulator2M, "PSS:255ID:"],
+        [Revolver_Undulator, "PSS:255ID:"],
+        [STI_Undulator, "PSS:255ID:"],
     ],
 )
 def test_set_energy(klass, prefix):
