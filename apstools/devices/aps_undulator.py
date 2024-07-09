@@ -9,6 +9,9 @@ APS undulators (Insertion Devices)
    ~STI_Undulator
    ~Undulator2M
    ~Undulator4M
+
+.. note:: The ``ApsUndulator`` and ``ApsUndulatorDual`` device support
+    classes have been removed.  These devices are not used in the APS-U era.
 """
 
 import logging
