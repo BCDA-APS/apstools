@@ -21,29 +21,34 @@ Project `milestones <https://github.com/BCDA-APS/apstools/milestones>`_
 describe future plans.
 
 ..
-   1.6.20
+   1.6.21
    ******
 
-   release expected by 2024-07-19
+   release expected by 2024-08-09
 
-   New Features
-   ------------
+1.6.20
+******
 
-   * Add new APS PlanarUndulator device.
-   * Add new APS Revolver_Undulator device.
-   * Add new APS STI_Undulator device.
-   * Add new APS Undulator2M device.
-   * Add new APS Undulator4M device.
+released 2024-07-10
 
-   Maintenance
-   -----------
+New Features
+------------
 
-   * Describe ``.component_names`` in *What are the objects to control?*
-   * Pin numpy<2 because upstream dask package needs a fix.
-   * Removed ApsUndulator and ApsUndulatorDual devices.
-   * Removed top-level requirements files.  They were not used.
-   * Update APS cycle begin & end dates.
-   * Update device support for APS machine parameters (current, lifetime, ...).
+* Add new APS PlanarUndulator device.
+* Add new APS Revolver_Undulator device.
+* Add new APS STI_Undulator device.
+* Add new APS Undulator2M device.
+* Add new APS Undulator4M device.
+
+Maintenance
+-----------
+
+* Describe ``.component_names`` in *What are the objects to control?*
+* Pin numpy<2 because upstream dask package needs a fix.
+* Removed ApsUndulator and ApsUndulatorDual devices.
+* Removed top-level requirements files.  They were not used.
+* Update APS cycle begin & end dates.
+* Update device support for APS machine parameters (current, lifetime, ...).
 
 1.6.19
 ******
