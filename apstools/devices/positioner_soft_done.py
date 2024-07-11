@@ -31,36 +31,6 @@ logger = logging.getLogger(__name__)
 TARGET_UNDEFINED = "undefined"
 
 
-class _EpicsPositionerSetpointSignal(EpicsSignal):
-    """
-    Special handling when PVPositionerSoftDone setpoint is changed.
-
-    When the setpoint is changed, force`` done=False``.  For any move, ``done``
-    **must** transition to ``!= done_value``, then back to ``done_value``.
-    Without this response, a small move (within tolerance) will not return.
-    The ``cb_readback()`` method will compute ``done``.
-    """
-
-    def put(self, value, *args, **kwargs):
-        """Make sure 'done' signal goes False when setpoint is changed by us."""
-        super().put(value, *args, **kwargs)
-
-        self.parent.done.put(not self.parent.done_value)
-        if self.parent.update_target:
-            kwargs = {}
-            if issubclass(self.parent.target.__class__, EpicsSignalBase):
-                kwargs["wait"] = True  # Signal.put() warns if kwargs are given
-            self.parent.target.put(value, **kwargs)
-
-    # def get(self, *args, **kwargs):
-    #     value = super().get(*args, **kwargs)
-    #     if self.parent.update_target:
-    #         target = self.parent.target.get()
-    #         if target != TARGET_UNDEFINED:
-    #             value = target
-    #     return value
-
-
 class PVPositionerSoftDone(PVPositioner):
     """
     PVPositioner that computes ``done`` as a soft signal.
@@ -85,7 +55,7 @@ class PVPositionerSoftDone(PVPositioner):
         Defaults to ``10^(-1*precision)``,
         where ``precision = setpoint.precision``.
     update_target : bool
-        ``True`` when this object updates the ``target`` Component directly.
+        ``True`` when this object update the ``target`` Component directly.
         Use ``False`` if the ``target`` Component will be updated externally,
         such as by the controller when ``target`` is an ``EpicsSignal``.
         Defaults to ``True``.
@@ -128,7 +98,7 @@ class PVPositionerSoftDone(PVPositioner):
         EpicsSignalRO, "{prefix}{_readback_pv}", kind="hinted", auto_monitor=True
     )
     setpoint = FormattedComponent(
-        _EpicsPositionerSetpointSignal, "{prefix}{_setpoint_pv}", kind="normal", put_complete=True
+        EpicsSignal, "{prefix}{_setpoint_pv}", kind="normal", put_complete=True
     )
     # fmt: on
     done = Component(Signal, value=True, kind="config")
@@ -138,6 +108,9 @@ class PVPositionerSoftDone(PVPositioner):
     report_dmov_changes = Component(Signal, value=False, kind="omitted")
 
     target = Component(Signal, value=TARGET_UNDEFINED, kind="config")
+
+    _rb_count = 0
+    _sp_count = 0
 
     def __init__(
         self,
@@ -169,6 +142,7 @@ class PVPositionerSoftDone(PVPositioner):
 
         self.readback.subscribe(self.cb_readback)
         self.setpoint.subscribe(self.cb_setpoint)
+        self.setpoint.subscribe(self.cb_update_target)
         # cancel subscriptions before object is garbage collected
         weakref.finalize(self.readback, self.readback.unsubscribe_all)
         weakref.finalize(self.setpoint, self.setpoint.unsubscribe_all)
@@ -192,6 +166,9 @@ class PVPositionerSoftDone(PVPositioner):
         )
     # fmt: on
 
+    def cb_update_target(self, value, *args, **kwargs):
+        self.target.put(value, wait=True)
+
     def cb_readback(self, *args, **kwargs):
         """
         Called when readback changes (EPICS CA monitor event) or on-demand.
@@ -204,22 +181,30 @@ class PVPositionerSoftDone(PVPositioner):
         if idle:
             return
 
+        self._rb_count += 1
+
         if self.inposition:
             self.done.put(self.done_value)
-            if self.report_dmov_changes.get():
-                logger.debug(f"{self.name} reached: {True}")
+            # if self.report_dmov_changes.get():
+            #     logger.debug(f"{self.name} reached: {True}")
 
     def cb_setpoint(self, *args, **kwargs):
         """
         Called when setpoint changes (EPICS CA monitor event).
 
-        This method is called when the setpoint is changed by this code or from
-        some other EPICS client.
+        When the setpoint is changed, force`` done=False``.  For any move, ``done``
+        **must** transition to ``!= done_value``, then back to ``done_value``.
 
-        The 'done' signal is set to False in the custom
-        _EpicsPositionerSetpointSignal class.
+        Without this response, a small move (within tolerance) will not return.
+        The ``cb_readback()`` method will compute ``done``.
+
+        Since other code will also call this method, check the keys in kwargs
+        and do not react to the "wrong" signature.
         """
-        logger.debug("cb_setpoint: done=%s, setpoint=%s", self.done.get(), self.setpoint.get())
+        if "value" in kwargs and "status" not in kwargs:
+            self._sp_count += 1
+            self.done.put(not self.done_value)
+        # logger.debug("cb_setpoint: done=%s, setpoint=%s", self.done.get(), self.setpoint.get())
 
     @property
     def inposition(self):
@@ -236,7 +221,7 @@ class PVPositionerSoftDone(PVPositioner):
         sp = self.setpoint.get()
         tol = self.actual_tolerance
         inpos = math.isclose(rb, sp, abs_tol=tol)
-        logger.debug("inposition: inpos=%s rb=%s sp=%s tol=%s", inpos, rb, sp, tol)
+        # logger.debug("inposition: inpos=%s rb=%s sp=%s tol=%s", inpos, rb, sp, tol)
         return inpos
 
     @property
@@ -246,18 +231,20 @@ class PVPositionerSoftDone(PVPositioner):
     def _setup_move(self, position):
         """Move and do not wait until motion is complete (asynchronous)"""
         self.log.debug("%s.setpoint = %s", self.name, position)
-
-        # Write the setpoint value.
+        # TODO: The stuff in this if statement might not be necessary anymore.
+        # if self.update_target:
+        #     kwargs = {}
+        #     if issubclass(self.target.__class__, EpicsSignalBase):
+        #         kwargs["wait"] = True  # Signal.put() warns if kwargs are given
+        #     self.target.put(position, **kwargs)
         self.setpoint.put(position, wait=True)
-        # The 'done' and 'target' signals are handled by
-        # the custom '_EpicsPositionerSetpointSignal' class.
-
         if self.actuate is not None:
             self.log.debug("%s.actuate = %s", self.name, self.actuate_value)
             self.actuate.put(self.actuate_value, wait=False)
-
-        # Force the first check for done.
-        self.cb_readback()
+        # This is needed because in a special case the setpoint.put does not
+        # run the "sub_value" subscriptions.
+        self.cb_setpoint()
+        self.cb_readback()  # This is needed to force the first check.
 
 
 class PVPositionerSoftDoneWithStop(PVPositionerSoftDone):
@@ -279,14 +266,3 @@ class PVPositionerSoftDoneWithStop(PVPositionerSoftDone):
             self.setpoint.put(self.position)
             time.sleep(2.0 / 60)  # two clock ticks, allow for EPICS record processing
             self.cb_readback()  # re-evaluate soft done Signal
-
-
-# -----------------------------------------------------------------------------
-# :author:    Pete R. Jemian
-# :email:     jemian@anl.gov
-# :copyright: (c) 2017-2024, UChicago Argonne, LLC
-#
-# Distributed under the terms of the Argonne National Laboratory Open Source License.
-#
-# The full license is in the file LICENSE.txt, distributed with this software.
-# -----------------------------------------------------------------------------
