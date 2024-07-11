@@ -53,11 +53,11 @@ class PVPositionerSoftDone(PVPositioner):
 
         Defaults to ``10^(-1*precision)``,
         where ``precision = setpoint.precision``.
-    update_target : bool
+    use_target : bool
         ``True`` when this object update the ``target`` Component directly.
         Use ``False`` if the ``target`` Component will be updated externally,
         such as by the controller when ``target`` is an ``EpicsSignal``.
-        Defaults to ``True``.
+        Defaults to ``False``.
     kwargs :
         Passed to `ophyd.PVPositioner`
 
@@ -108,9 +108,6 @@ class PVPositionerSoftDone(PVPositioner):
 
     target = Component(Signal, value=TARGET_UNDEFINED, kind="config")
 
-    _rb_count = 0
-    _sp_count = 0
-
     def __init__(
         self,
         prefix="",
@@ -118,7 +115,7 @@ class PVPositionerSoftDone(PVPositioner):
         readback_pv="",
         setpoint_pv="",
         tolerance=None,
-        update_target=True,
+        use_target=False,
         **kwargs,
     ):
         # fmt: off
@@ -137,11 +134,12 @@ class PVPositionerSoftDone(PVPositioner):
         # Make the default alias for the readback the name of the
         # positioner itself as in EpicsMotor.
         self.readback.name = self.name
-        self.update_target = update_target
+        self.use_target = use_target
 
         self.readback.subscribe(self.cb_readback)
         self.setpoint.subscribe(self.cb_setpoint)
-        self.setpoint.subscribe(self.cb_update_target)
+        self.setpoint.subscribe(self.cb_update_target, event_type="setpoint")
+
         # cancel subscriptions before object is garbage collected
         weakref.finalize(self.readback, self.readback.unsubscribe_all)
         weakref.finalize(self.setpoint, self.setpoint.unsubscribe_all)
@@ -166,7 +164,7 @@ class PVPositionerSoftDone(PVPositioner):
     # fmt: on
 
     def cb_update_target(self, value, *args, **kwargs):
-        self.target.put(value, wait=True)
+        self.target.put(value)
 
     def cb_readback(self, *args, **kwargs):
         """
@@ -217,7 +215,7 @@ class PVPositionerSoftDone(PVPositioner):
         # Since this method must execute quickly, do NOT force
         # EPICS CA gets using `use_monitor=False`.
         rb = self.readback.get()
-        sp = self.setpoint.get()
+        sp = self.setpoint.get() if self.use_target is False else self.target.get()
         tol = self.actual_tolerance
         inpos = math.isclose(rb, sp, abs_tol=tol)
         logger.debug("inposition: inpos=%s rb=%s sp=%s tol=%s", inpos, rb, sp, tol)
@@ -230,19 +228,10 @@ class PVPositionerSoftDone(PVPositioner):
     def _setup_move(self, position):
         """Move and do not wait until motion is complete (asynchronous)"""
         self.log.debug("%s.setpoint = %s", self.name, position)
-        # TODO: The stuff in this if statement might not be necessary anymore.
-        # if self.update_target:
-        #     kwargs = {}
-        #     if issubclass(self.target.__class__, EpicsSignalBase):
-        #         kwargs["wait"] = True  # Signal.put() warns if kwargs are given
-        #     self.target.put(position, **kwargs)
         self.setpoint.put(position, wait=True)
         if self.actuate is not None:
             self.log.debug("%s.actuate = %s", self.name, self.actuate_value)
             self.actuate.put(self.actuate_value, wait=False)
-        # This is needed because in a special case the setpoint.put does not
-        # run the "sub_value" subscriptions.
-        self.cb_setpoint()
         self.cb_readback()  # This is needed to force the first check.
 
 
