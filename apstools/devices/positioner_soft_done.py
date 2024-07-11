@@ -178,8 +178,6 @@ class PVPositionerSoftDone(PVPositioner):
         if idle:
             return
 
-        self._rb_count += 1
-
         if self.inposition:
             self.done.put(self.done_value)
             if self.report_dmov_changes.get():
@@ -199,9 +197,7 @@ class PVPositionerSoftDone(PVPositioner):
         and do not react to the "wrong" signature.
         """
         if "value" in kwargs and "status" not in kwargs:
-            self._sp_count += 1
-            # self.done.put(not self.done_value)
-            self.done.put(self.inposition)
+            self.done.put(not self.done_value)
         logger.debug("cb_setpoint: done=%s, setpoint=%s", self.done.get(), self.setpoint.get())
 
     @property
