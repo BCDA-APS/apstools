@@ -184,8 +184,8 @@ class PVPositionerSoftDone(PVPositioner):
 
         if self.inposition:
             self.done.put(self.done_value)
-            # if self.report_dmov_changes.get():
-            #     logger.debug(f"{self.name} reached: {True}")
+            if self.report_dmov_changes.get():
+                logger.debug(f"{self.name} reached: {True}")
 
     def cb_setpoint(self, *args, **kwargs):
         """
@@ -203,7 +203,7 @@ class PVPositionerSoftDone(PVPositioner):
         if "value" in kwargs and "status" not in kwargs:
             self._sp_count += 1
             self.done.put(not self.done_value)
-        # logger.debug("cb_setpoint: done=%s, setpoint=%s", self.done.get(), self.setpoint.get())
+        logger.debug("cb_setpoint: done=%s, setpoint=%s", self.done.get(), self.setpoint.get())
 
     @property
     def inposition(self):
@@ -220,7 +220,7 @@ class PVPositionerSoftDone(PVPositioner):
         sp = self.setpoint.get()
         tol = self.actual_tolerance
         inpos = math.isclose(rb, sp, abs_tol=tol)
-        # logger.debug("inposition: inpos=%s rb=%s sp=%s tol=%s", inpos, rb, sp, tol)
+        logger.debug("inposition: inpos=%s rb=%s sp=%s tol=%s", inpos, rb, sp, tol)
         return inpos
 
     @property
