@@ -15,7 +15,7 @@ def test_device():
     assert not euro.connected
 
     assert euro.tolerance.get() == 1
-    assert euro.update_target is False
+    assert euro.use_target is False
     assert euro.target is None
 
     cns = """
