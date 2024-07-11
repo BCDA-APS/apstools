@@ -18,7 +18,6 @@ from ophyd import EpicsSignalRO
 from ophyd import FormattedComponent
 from ophyd import PVPositioner
 from ophyd import Signal
-from ophyd.signal import EpicsSignalBase
 
 # from ..tests import timed_pause
 
