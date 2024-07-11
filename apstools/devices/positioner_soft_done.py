@@ -200,7 +200,8 @@ class PVPositionerSoftDone(PVPositioner):
         """
         if "value" in kwargs and "status" not in kwargs:
             self._sp_count += 1
-            self.done.put(not self.done_value)
+            # self.done.put(not self.done_value)
+            self.done.put(self.inposition)
         logger.debug("cb_setpoint: done=%s, setpoint=%s", self.done.get(), self.setpoint.get())
 
     @property
