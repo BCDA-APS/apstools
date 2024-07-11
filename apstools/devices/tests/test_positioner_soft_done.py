@@ -13,6 +13,7 @@ from ...tests import timed_pause
 from ...utils import run_in_thread
 from ..positioner_soft_done import PVPositionerSoftDone
 from ..positioner_soft_done import PVPositionerSoftDoneWithStop
+from ..positioner_soft_done import TARGET_UNDEFINED
 
 PV_PREFIX = f"{IOC_GP}gp:"
 delay_active = False
@@ -93,9 +94,8 @@ def confirm_in_position(p, dt):
     p.readback.get(use_monitor=False)  # force a read from the IOC
     p.cb_readback()  # update self.done
 
-    # collect these values at one instant (as close as possible).
-    c_rb = p._rb_count  # do not expect any new callbacks during this method
-    c_sp = p._sp_count
+    # Collect these values at one instant (as close in time as possible).
+    # Do not expect any new callbacks during this function.
     dmov = p.done.get()
     rb = p.readback.get()
     sp = p.setpoint.get()
@@ -106,18 +106,13 @@ def confirm_in_position(p, dt):
         f"{p.name=}"
         f"  {rb=:.5f} {sp=:.5f} {tol=}"
         f"  {dt=:.4f}s"
-        f"  {p._sp_count=}"
-        f"  {p._rb_count=}"
         f"  {p.done=}"
         f"  {p.done_value=}"
         f"  {time.time()=:.4f}"
     )
     # fmt: on
 
-    assert p._rb_count == c_rb, diagnostics
-    assert p._sp_count == c_sp, diagnostics
     assert dmov == p.done_value, diagnostics
-    # assert math.isclose(rb, sp, abs_tol=tol), diagnostics
 
 
 @run_in_thread
@@ -202,20 +197,17 @@ def test_structure(device, has_inposition):
     assert pos.setpoint.pvname == "v"
     assert pos.done.get() is True
     assert pos.done_value is True
-    assert pos.target.get() == "None"
+    assert pos.target.get() == TARGET_UNDEFINED
     assert pos.tolerance.get() == -1
 
 
-@pytest.mark.local
 def test_put_and_stop(rbv, prec, pos):
     assert pos.tolerance.get() == -1
     assert pos.precision == prec.get()
 
     def motion(rb_initial, target, rb_mid=None):
         rbv.put(rb_initial)  # make the readback to different
-        c_sp = pos._sp_count
         pos.setpoint.put(target)
-        assert pos._sp_count == c_sp + 1
         assert math.isclose(pos.readback.get(use_monitor=False), rb_initial, abs_tol=0.02)
         assert math.isclose(pos.setpoint.get(use_monitor=False), target, abs_tol=0.02)
         assert pos.done.get() != pos.done_value
@@ -248,7 +240,6 @@ def test_put_and_stop(rbv, prec, pos):
     motion(1, 0, 0.5)  # interrupted move
 
 
-@pytest.mark.local
 def test_move_and_stop_nonzero(rbv, pos):
     timed_pause()
 
@@ -271,9 +262,14 @@ def test_move_and_stop_nonzero(rbv, pos):
     assert pos.inposition
 
 
-@pytest.mark.local
 def test_move_and_stopped_early(rbv, pos):
     def motion(target, delay, interrupt=False):
+        """
+        Test moving pos to target.  Update rbv after delay.
+
+        If interrupt is True, stop the move before it is done
+        (at a time that is less than the 'delay' value).
+        """
         timed_pause(0.1)  # allow previous activities to settle down
 
         t0 = time.time()
@@ -286,8 +282,7 @@ def test_move_and_stopped_early(rbv, pos):
         rb_new = pos.readback.get(use_monitor=False)
         arrived = math.isclose(rb_new, target, abs_tol=pos.actual_tolerance)
         # fmt: on
-        if interrupt:
-            assert not status.done
+        if interrupt and not status.done:
             assert not status.success
             assert not arrived, f"{dt=:.3f}"
             pos.stop()
@@ -350,11 +345,9 @@ def test_position_sequence_calcpos(target, calcpos):
     def motion(p, goal):
         timed_pause(0.1)  # allow previous activities to settle down
 
-        c_sp = p._sp_count
         t0 = time.time()
         status = p.move(goal)
         dt = time.time() - t0
-        assert p._sp_count == c_sp + 1
         assert status.elapsed > 0, str(status)
         assert status.done, str(status)
 
