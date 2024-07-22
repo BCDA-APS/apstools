@@ -68,7 +68,7 @@ class LakeShore336_LoopControl(PVPositionerSoftDoneWithStop):
 
     def __init__(self, *args, loop_number=None, timeout=10 * HOUR, **kwargs):
         self.loop_number = loop_number
-        super().__init__(*args, timeout=timeout, tolerance=0.1, readback_pv=f"IN{loop_number}", **kwargs)
+        super().__init__(*args, timeout=timeout, tolerance=0.1, use_target=True, readback_pv=f"IN{loop_number}", **kwargs)
         self._settle_time = 0
 
     @property
@@ -171,7 +171,7 @@ class LS340_LoopBase(PVPositionerSoftDoneWithStop):
 
     def __init__(self, *args, loop_number=None, timeout=10 * HOUR, **kwargs):
         self.loop_number = loop_number
-        super().__init__(*args, readback_pv="ignore", timeout=timeout, tolerance=0.1, **kwargs)
+        super().__init__(*args, readback_pv="ignore", timeout=timeout, use_target=True, tolerance=0.1, **kwargs)
         self._settle_time = 0
 
     @property

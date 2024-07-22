@@ -18,6 +18,10 @@ from .aps_data_management import DM_WorkflowConnector
 from .aps_machine import ApsMachineParametersDevice
 
 from .aps_undulator import PlanarUndulator
+from .aps_undulator import Revolver_Undulator
+from .aps_undulator import STI_Undulator
+from .aps_undulator import Undulator2M
+from .aps_undulator import Undulator4M
 
 from .area_detector_support import AD_EpicsFileNameMixin
 from .area_detector_support import AD_FrameType_schemes

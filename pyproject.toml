@@ -62,7 +62,7 @@ dependencies = [
   "intake<=1",
   "matplotlib",
   "mongoquery>=1.3.6",
-  "numpy",
+  "numpy<2",
   "ophyd>=1.6.1",
   "openpyxl",
   "pint",

@@ -5,7 +5,12 @@
         "url": "https://bcda-aps.github.io/apstools/dev/"
     },
     {
-        "name": "1.6.19 (latest)",
+        "name": "1.6.20 (latest)",
+        "version": "1.6.20",
+        "url": "https://bcda-aps.github.io/apstools/1.6.20/"
+    },
+    {
+        "name": "1.6.19",
         "version": "1.6.19",
         "url": "https://bcda-aps.github.io/apstools/1.6.19/"
     },
