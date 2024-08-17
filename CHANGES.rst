@@ -21,10 +21,15 @@ Project `milestones <https://github.com/BCDA-APS/apstools/milestones>`_
 describe future plans.
 
 ..
-   1.6.21
+   1.7.0
    ******
 
-   release expected by 2024-08-09
+   release expected by 2024-09-01
+
+   New Features
+   ------------
+
+   * Add SpecWriterCallback2 (writes point-by-point to file).
 
 1.6.20
 ******
