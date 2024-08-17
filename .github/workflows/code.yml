@@ -35,7 +35,7 @@ jobs:
         uses: davidslusser/actions_python_ruff@v1.0.2
         with:
           python_version: "3.11"
-          options: "--ignore F401,F403"
+          options: "--ignore F401,F403 --exclude ideas/"
 
   install-catalogs:
     name: Install & cache databroker catalogs
