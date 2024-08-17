@@ -15,6 +15,7 @@ from ... import utils
 from .._core import MAX_EPICS_STRINGOUT_LENGTH
 from .._core import TableStyle
 from ..misc import call_signature_decorator
+from ..misc import render
 
 CATALOG = "usaxs_test"
 COUNT = "555a604"  # <-- uid,  scan_id: 2
@@ -110,6 +111,26 @@ def test_utils_pairwise():
     received = list(utils.pairwise(items))
     expected = [(1.0, 1.1), (1.01, 1.001), (1.0001, 1.00001)]
     assert received == expected
+
+
+@pytest.mark.parametrize(
+    "value, sig_figs, expected",
+    [
+        [0.369340000000000063, 14, "0.36934"],
+        [0.369340000000000063, 3, "0.3693"],
+        [-3.1300000000000003, 14, "-3.13"],
+        [-0, 14, "0"],
+        [0, 14, "0"],
+        [0.0, 14, "0"],
+        [123_456, 14, "123456"],
+        [123_456, 3, "123456"],
+        [123_456.0, 14, "123456.0"],
+        [123_456.0, 3, "123500.0"],
+    ]
+)
+def test_utils_render(value, sig_figs: int, expected: str):
+    result = render(value, sig_figs)
+    assert str(result) == expected, f"{result=!r}  {expected=!r}"
 
 
 @pytest.mark.parametrize(

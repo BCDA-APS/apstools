@@ -1,6 +1,6 @@
 """
 SPEC Data File Writer Callback
-+++++++++++++++++++++++++++++++++++++++
+++++++++++++++++++++++++++++++
 
 EXAMPLE:
 
@@ -51,6 +51,7 @@ results in this SPEC file output::
 .. autosummary::
 
    ~SpecWriterCallback
+   ~SpecWriterCallback2
    ~spec_comment
 """
 
@@ -63,6 +64,8 @@ import time
 from collections import OrderedDict
 
 import numpy as np
+
+from .callback_base import FileWriterCallbackBase
 
 SPEC_TIME_FORMAT = "%a %b %d %H:%M:%S %Y"
 SCAN_ID_RESET_VALUE = 0
@@ -137,9 +140,10 @@ def _rebuild_scan_command(doc):
     return f"{scan_id}  {cmd}"
 
 
-# TODO: consider refactor to use FileWriterCallbackBase()
 class SpecWriterCallback(object):
     """
+    **Deprecated**: Use :class:`~apstools.callbacks.spec_file_writer.SpecWriterCallback2`.
+
     Collect data from Bluesky RunEngine documents to write as SPEC data.
 
     .. index:: Bluesky Callback; SpecWriterCallback
@@ -680,6 +684,408 @@ class SpecWriterCallback(object):
         self.spec_epoch = epoch
         self.spec_user = username
         return scan_id
+
+
+class SpecWriterCallback2(FileWriterCallbackBase):
+    """
+    Write SPEC data file as data is collected, line-by-line.
+
+    .. index:: Bluesky Callback; SpecWriterCallback2
+
+    This writes data from a scan as each *event* document is received. One or
+    more scans can be written to the same file.  The file format is text.
+
+    .. rubric: Override Methods from FileWriterCallbackBase
+    .. autosummary::
+        ~descriptor
+        ~event
+        ~start
+        ~stop
+        ~writer
+
+    .. rubric: New Methods
+    .. autosummary::
+        ~_cmt
+        ~_write_lines_
+        ~make_default_filename
+        ~newfile
+        ~usefile
+        ~write_file_header
+        ~write_scan_data_row
+        ~write_scan_end
+        ~write_scan_header
+
+    .. rubric: Properties
+    .. autosummary::
+        ~spec_filename
+    
+    *New in apstools 1.7.0.*
+    """
+
+    # - - - - # - - - - # - - - - # - - - - # - - - - # - - - - # - - - - #
+    # Override Methods
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+        self._file_header_motor_keys = None
+        self._motor_stream_name = "label_start_motor"
+        self.file_epoch = None
+        self.write_new_file_header = True
+
+    def descriptor(self, doc):
+        """
+        Handle *descriptor* documents of certain streams.
+        """
+        if doc["uid"] in self._streams:
+            fmt = "duplicate descriptor UID {} found"
+            raise KeyError(fmt.format(doc["uid"]))
+
+        # log descriptor documents by uid
+        # referenced by event and bulk_events documents
+        self._streams[doc["uid"]] = doc
+
+        if doc["name"] == self._motor_stream_name:
+            # list of all known positioners (motors), #O:#P lines
+            mlist = sorted(doc["object_keys"].keys())
+            if self._file_header_motor_keys != mlist:
+                self.write_new_file_header = True
+            self.motors = {k: None for k in mlist}
+            return  # nothing more to do now
+
+            # for k in self.positioners.keys():
+            #     self.positioners[k] = doc["data"][k]  # get motor values
+
+        elif doc["name"] != "primary":
+            return
+
+        super().descriptor(doc)  # process the document
+
+        def get_data_labels():
+            "Names of each of the data columns. Values in doc['data_keys'][k]"
+
+            def parse(master):
+                primary, secondary = [], []
+                for k_obj in master:
+                    hints = doc["hints"][k_obj]["fields"]
+                    for k in doc["object_keys"][k_obj]:
+                        if len(hints) > 0:
+                            if k in hints:
+                                primary.append(k)
+                            else:
+                                secondary.append(k)
+                        else:
+                            primary.append(k)
+                return primary, secondary
+
+            labels, others = parse(self.positioners)
+            labels += others + "Epoch Epoch_float".split()
+
+            dets, others = parse(self.detectors)
+            dets = others + list(reversed(dets))  # move first detector to last column
+
+            _knowns = labels + dets
+            others = [k for k in doc["data_keys"] if k not in _knowns]
+
+            return labels + others + dets
+
+        self.data_labels = get_data_labels()
+
+        self.write_new_scan_header = True
+
+    def event(self, doc):
+        super().event(doc)  # process the document
+
+        descriptor = self._streams.get(doc["descriptor"])
+        if descriptor is None:
+            raise KeyError(f"Descriptor UID {doc['descriptor']} not found.")
+
+        if descriptor["name"] == self._motor_stream_name:
+            for k in self.motors.keys():
+                self.motors[k] = doc["data"][k]  # get motor values
+            return
+
+        self.write_file_header()
+        self.write_scan_header()
+        self.write_scan_data_row(doc)
+
+    def start(self, doc):
+        """First document of the run."""
+        super().start(doc)  # process the document
+
+        self.file_epoch = self.file_epoch or self.start_time  # timestamp
+        login_id = self.metadata.get("login_id")
+        if login_id is not None:
+            self.spec_user, self.spec_host = login_id.split("@")
+        else:
+            self.spec_host = socket.gethostname() or "localhost"
+            self.spec_user = getpass.getuser() or "BlueskyUser"
+
+        # Create new file (if necessary)
+        self.file_name = self.file_name or self.make_file_name()
+
+        self.motors = {}  # names in #O, values in #P
+        self._streams = {}  # descriptor documents, keyed by uid
+
+        self.T_or_M = None  # TODO: How to learn if "T" or "M" from the document stream?
+        self.T_or_M_value = 1
+
+        self.scan_command = _rebuild_scan_command(doc)
+
+    def stop(self, doc):
+        """Last document of the run."""
+        # ... just in case these have not been written.
+        self.write_file_header()
+        self.write_scan_header()
+
+        super().stop(doc)  # process the document
+
+        self.write_scan_end(doc)
+
+    def writer(self):
+        """Output to a file completed by other methods."""
+        pass
+
+    # - - - - # - - - - # - - - - # - - - - # - - - - # - - - - # - - - - #
+    # Local Methods
+
+    def _cmt(self, text):
+        """
+        Return a SPEC-style comment.
+
+        ``#C Wed Jul 04 14:56:21 1776.  uid = abcdefg-1234-4321-8524686c-abcd1234dcba``
+        """
+        dt = datetime.datetime.fromtimestamp(self.doc_timestamp or time.time())
+        spec_time = dt.strftime(SPEC_TIME_FORMAT)
+        return f"#C {spec_time}.  {text}"
+
+    def make_default_filename(self):
+        """generate a file name to be used as default"""
+        now = datetime.datetime.now()
+        filename = datetime.datetime.strftime(now, "%Y%m%d-%H%M%S") + ".dat"
+        return pathlib.Path(filename)
+
+    def newfile(self, filename=None, scan_id=None, RE=None):
+        """
+        prepare to use a new SPEC data file
+
+        but don't create it until we have data
+        """
+        self.clear()
+        filename = pathlib.Path(filename or self.make_default_filename())
+        if filename.exists():
+            from spec2nexus.spec import SpecDataFile
+
+            sdf = SpecDataFile(filename)
+            scan_list = sdf.getScanNumbers()
+            l = len(scan_list)
+            m = max(map(float, scan_list))
+            highest = int(max(l, m) + 0.9999)  # solves issue #128
+            scan_id = max(scan_id or 0, highest)
+        self.spec_filename = filename
+        self.spec_epoch = int(time.time())  # ! no roundup here!!!
+        self.spec_host = socket.gethostname() or "localhost"
+        self.spec_user = getpass.getuser() or "BlueskyUser"
+        self.write_new_header = True  # don't write the file yet
+
+        # backwards-compatibility
+        if isinstance(scan_id, bool):
+            # True means reset the scan ID to default
+            # False means do not modify it
+            scan_id = {True: SCAN_ID_RESET_VALUE, False: None}[scan_id]
+        if scan_id is not None and RE is not None:
+            # RE is an instance of bluesky.run_engine.RunEngine
+            # (or duck type for testing)
+            RE.md["scan_id"] = scan_id
+            self.scan_id = scan_id
+        return self.spec_filename
+
+    def usefile(self, filename):
+        """read from existing SPEC data file"""
+        if not self.spec_filename.exists():
+            raise IOError(f"file {filename} does not exist")
+        scan_id = None
+        with open(filename, "r") as f:
+            key = "#F"
+            line = f.readline().strip()
+            if not line.startswith(key + " "):
+                raise ValueError(f"first line does not start with {key}")
+
+            key = "#E"
+            line = f.readline().strip()
+            if not line.startswith(key + " "):
+                raise ValueError(f"first line does not start with {key}")
+            epoch = int(line.split()[-1])
+
+            key = "#D"
+            line = f.readline().strip()
+            if not line.startswith(key + " "):
+                raise ValueError("first line does not start with " + key)
+            # ignore content, it is derived from #E line
+
+            key = "#C"
+            line = f.readline().strip()
+            if not line.startswith(key + " "):
+                raise ValueError("first line does not start with " + key)
+            p = line.split()
+            username = "BlueskyUser"
+            if len(p) > 4 and p[2] == "user":
+                username = p[4]
+
+            # find the highest scan number used
+            key = "#S"
+            scan_ids = []
+            for line in f.readlines():
+                if line.startswith(key + " ") and len(line.split()) > 1:
+                    scan_id = int(line.split()[1])
+                    scan_ids.append(scan_id)
+            scan_id = max(scan_ids)
+
+        self.spec_filename = filename
+        self.spec_epoch = epoch
+        self.spec_user = username
+        return scan_id
+
+    def write_file_header(self):
+        """Write file header to file, if needed."""
+        if not self.write_new_file_header:
+            # print(f"No new file header for {self.uid=!r}")
+            return
+
+        dt = datetime.datetime.fromtimestamp(self.file_epoch)
+
+        lines = []
+
+        if self.file_name.exists() and self.file_name.stat().st_size > 0:
+            lines.append("")
+        lines.append(f"#F {self.file_name}")
+        lines.append(f"#E {self.file_epoch}")
+        lines.append(f"#D {datetime.datetime.strftime(dt, SPEC_TIME_FORMAT)}")
+        lines.append(f"#C Bluesky  user = {self.spec_user}  host = {self.spec_host}")
+
+        self._file_header_motor_keys = sorted(self.motors.keys())
+        if len(self._file_header_motor_keys) == 0:
+            lines.append("#O0 ")  # names
+            lines.append("#o0 ")  # mnemonics
+        else:
+            delimiter = " " * 2  # two spaces between names
+            for pre in "#O #o".split():  # same list for names and mnemonics
+                values = self._file_header_motor_keys
+                r = 0
+                while len(values) > 0:
+                    lines.append(f"{pre}{r} " + delimiter.join([str(v) for v in values[:8]]))
+                    values = values[8:]
+                    r += 1
+
+        # lines.append("")
+
+        self._write_lines_(lines, mode="a+")
+        self.write_new_file_header = False
+
+    def write_scan_data_row(self, doc):
+        """Write row of scan data to file."""
+        from ..utils.misc import render
+
+        line = []
+        remarks = []
+        for label in self.data_labels:
+            if label in ("Epoch", "Epoch_float"):
+                value = doc["time"] - self.start_time
+                if label == "Epoch":
+                    value = round(value)
+            else:
+                value = doc["data"].get(label)
+            if isinstance(value, (float, int)):
+                line.append(render(value))
+            else:
+                # Scan data is expected to be numbers. This is not.  Substitute
+                # the row number and report after this line in a #U line.
+                line.append(str(doc["seq_num"]))
+                remarks.append(f"#U {label} = {value}")
+
+        lines = [" ".join(line)]
+        self._write_lines_(lines + remarks, mode="a+")
+
+    def write_scan_end(self, doc):
+        """Write scan ending to file."""
+        lines = []
+
+        if len(self.externals) > 0:
+            lines.append(f"#U externals: {self.externals!r}")
+
+        if "num_events" in doc:
+            for k, v in doc["num_events"].items():
+                lines.append(self._cmt(f"num_events_{k} = {v}"))
+
+        if "exit_status" in doc:
+            lines.append(self._cmt(f"exit_status = {doc['exit_status']}"))
+        else:
+            lines.append(self._cmt("exit_status = not available"))
+
+        self._write_lines_(lines, mode="a+")
+
+    def write_scan_header(self):
+        """Write scan header to file."""
+        from ..utils.misc import render
+
+        if not self.write_new_scan_header:
+            # print(f"Not writing new scan header. {self.scan_id=!r}")
+            return
+
+        dt = datetime.datetime.fromtimestamp(self.start_time)
+
+        lines = [""]
+        lines.append(f"#S {self.scan_command}")
+        lines.append("#D " + datetime.datetime.strftime(dt, SPEC_TIME_FORMAT))
+        if self.T_or_M is not None:
+            lines.append(f"#{self.T_or_M} {self.T_or_M_value}")
+        lines.append(self._cmt(f"uid = {self.uid}"))
+
+        if len(self.motors) == 0:
+            lines.append("#P0 ")
+        else:
+            values = list(self.motors.values())
+            r = 0
+            while len(values) > 0:
+                lines.append(f"#P{r} " + " ".join([render(v) for v in values[:8]]))
+                values = values[8:]
+                r += 1
+
+        for k, v in self.metadata.items():
+            # "#MD" is our ad hoc SPEC data tag
+            lines.append(f"#MD {k} = {v}")
+
+        lines.append("#N " + str(len(self.data_labels)))
+        if len(self.data_labels) > 0:
+            lines.append("#L " + "  ".join(self.data_labels))
+        else:
+            lines.append("#C no data column labels identified")
+
+        self._write_lines_(lines, mode="a+")
+
+        self.write_new_scan_header = False
+
+    def _write_lines_(self, lines, mode="a"):
+        """write (more) lines to the file"""
+        lines.append("")
+        with open(self.file_name, mode) as f:
+            f.write("\n".join(lines))
+
+    # - - - - # - - - - # - - - - # - - - - # - - - - # - - - - # - - - - #
+    # properties
+
+    @property
+    def spec_filename(self):
+        """
+        Synonym for 'file_name' property.
+
+        API compatibility with SpecWriterCallback.
+        """
+        return self.file_name
+
+    @spec_filename.setter
+    def spec_filename(self, file_name):
+        self.file_name = file_name
 
 
 def spec_comment(comment, doc=None, writer=None):
