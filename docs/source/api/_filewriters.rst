@@ -7,11 +7,13 @@ File Writers
 Write data files during data acquisition.  The file writer callbacks are:
 
 .. autosummary::
+    :nosignatures:
 
    ~apstools.callbacks.callback_base.FileWriterCallbackBase
    ~apstools.callbacks.nexus_writer.NXWriterAPS
    ~apstools.callbacks.nexus_writer.NXWriter
    ~apstools.callbacks.spec_file_writer.SpecWriterCallback
+   ~apstools.callbacks.spec_file_writer.SpecWriterCallback2
 
 
 Overview

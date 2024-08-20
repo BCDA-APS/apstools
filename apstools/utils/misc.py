@@ -16,6 +16,7 @@ Miscellaneous Support
    ~pairwise
    ~print_RE_md
    ~redefine_motor_position
+   ~render
    ~replay
    ~run_in_thread
    ~safe_ophyd_name
@@ -281,6 +282,24 @@ def print_RE_md(dictionary=None, fmt="simple", printing=True):
         print("RunEngine metadata dictionary:")
         print(table.reST(fmt=fmt))
     return table
+
+
+def render(value, sig_figs=12) -> str:
+    """
+    Round-off floating-point numbers to sig_figs.
+
+    Such as:
+
+    * 0.369340000000000063 becomes 0.36934
+    * -3.1300000000000003 becomes -3.13
+    * -0 becomes 0
+    * 0.0 becomes 0
+    """
+    if isinstance(value, float):
+        value = eval(f"%.{sig_figs}e" % value)
+        if value == 0:
+            value = 0  # replaces -0 and 0.0 with 0
+    return str(value)
 
 
 def replay(headers, callback=None, sort=True):

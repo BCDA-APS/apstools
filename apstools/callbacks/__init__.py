@@ -10,6 +10,7 @@ from .scan_signal_statistics import SignalStatsCallback
 from .spec_file_writer import SCAN_ID_RESET_VALUE
 from .spec_file_writer import SPEC_TIME_FORMAT
 from .spec_file_writer import SpecWriterCallback
+from .spec_file_writer import SpecWriterCallback2
 from .spec_file_writer import spec_comment
 
 # -----------------------------------------------------------------------------

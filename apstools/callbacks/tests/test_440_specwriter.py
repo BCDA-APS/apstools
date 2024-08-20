@@ -14,6 +14,7 @@ import pytest
 import yaml
 
 from .. import SpecWriterCallback
+from .. import SpecWriterCallback2
 from ..spec_file_writer import _rebuild_scan_command
 
 CAT_NAME = "packed_catalog"
@@ -79,7 +80,8 @@ def test_confirm_run_exists(catalog):
     assert UID in cat, f"{catalog=}  {cat=}  {dir(cat)=}"
 
 
-def test_specwriter_replay(tempdir, catalog):
+@pytest.mark.parametrize("callback", [SpecWriterCallback, SpecWriterCallback2])
+def test_specwriter_replay(callback, tempdir, catalog):
     # https://github.com/BCDA-APS/apstools/issues/440
     # The #440 problem does not appear when using data from the databroker.
     # This test will verify that is still the case now.
@@ -87,7 +89,7 @@ def test_specwriter_replay(tempdir, catalog):
     specfile = pathlib.Path("issue240.spec")
     if specfile.exists():
         specfile.unlink()  # remove existing file
-    specwriter = SpecWriterCallback()
+    specwriter = callback()
     specwriter.newfile(specfile)
 
     cat = intake.open_catalog(catalog)[CAT_NAME].v2
