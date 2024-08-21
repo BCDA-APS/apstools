@@ -1,8 +1,7 @@
 name: apstools-test-environment
 
 channels:
-  # - aps-anl-tag
-  - apsu
+  - apsu  # First, for compatible epics-base and aps-dm-api
   - conda-forge
   - nodefaults
 
