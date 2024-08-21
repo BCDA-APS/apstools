@@ -3,8 +3,8 @@ name: apstools-test-environment
 channels:
   - aps-anl-tag
   - conda-forge
-  - defaults
   - apsu
+  - nodefaults
 
 dependencies:
   - python >=3.8, <=3.11
