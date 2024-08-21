@@ -1,9 +1,9 @@
 name: apstools-test-environment
 
 channels:
-  - aps-anl-tag
-  - conda-forge
+  # - aps-anl-tag
   - apsu
+  - conda-forge
   - nodefaults
 
 dependencies:
