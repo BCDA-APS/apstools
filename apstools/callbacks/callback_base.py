@@ -88,6 +88,9 @@ class FileWriterCallbackBase:
         if handler is None:
             logger.error("unexpected key %s" % key)
         else:
+            ts = doc.get("time")
+            if ts is not None:
+                self.doc_timestamp = ts
             handler(doc)
 
         # - - - - - - - - - - - - - - -
@@ -100,6 +103,7 @@ class FileWriterCallbackBase:
         self.detectors = []
         self.exit_status = None
         self.externals = {}
+        self.doc_timestamp = None
         self.metadata = {}
         self.plan_name = None
         self.positioners = []

@@ -130,10 +130,20 @@
 2023-1:
   begin: '2023-01-09 08:00:00-06:00'
   end: '2023-05-01 08:00:00-05:00'
-# next entries are unofficial but allow the ophyd tool to work properly
+# next entry is unofficial but allows the ophyd tool to work properly
 APS-U:
   begin: '2023-05-01 08:00:00-05:00'
   end: '2024-05-01 08:00:00-05:00'
+# back to official entries
 2024-2:
-  begin: '2024-05-01 08:00:00-05:00'
+  begin: '2024-05-06 08:00:00-05:00'
   end: '2024-10-01 00:00:00-05:00'
+2024-3:
+  begin: '2024-10-01 00:00:00-05:00'
+  end: '2025-01-01 00:00:00-06:00'
+2025-1:
+  begin: '2025-01-01 00:00:00-06:00'
+  end: '2025-05-01 00:00:00-05:00'
+2025-2:
+  begin: '2025-05-01 00:00:00-05:00'
+  end: '2025-10-01 00:00:00-05:00'

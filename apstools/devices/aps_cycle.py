@@ -9,12 +9,14 @@ APS cycles
 
 import datetime
 import json
+import logging
 import pathlib
 import time
 
 import yaml
 from ophyd.sim import SynSignalRO
 
+logger = logging.getLogger(__name__)
 _PATH = pathlib.Path(__file__).parent
 YAML_CYCLE_FILE = _PATH / "aps_cycle_info.yml"
 
@@ -70,17 +72,22 @@ class _ApsCycleDB:
         }
         return db
 
-    def _write_cycle_data(self):
+    def _write_cycle_data(self, output_file: str = None):
         """
         Write the list of APS run cycles to a local file.
 
-        The file is formatted exactly as received from the
-        APS Data Management package (*aps-dm-api*).  This allows
+        The content of this file is received from the APS Data Management
+        package (*aps-dm-api*) and reformatted here for readbility.  This allows
         automatic updates as needed.
 
-        To update the LOCAL_FILE, run this code (on a workstation at the APS)::
+        MANUAL UPDATE OF CYCLE YAML FILE
 
-            from apstools._devices.aps_cycle import cycle_db
+        To update the LOCAL_FILE, run this code (on a workstation at the APS
+        configured to use the DM tools)::
+
+            from apstools.devices.aps_cycle import cycle_db
+            from apstools.utils import dm_setup
+            dm_setup("/path/to/dm.setup.sh")
             cycle_db._write_cycle_data()
         """
         runs = self._bss_list_runs
@@ -98,16 +105,28 @@ class _ApsCycleDB:
                 }
                 for line in sorted(cycles, key=sorter)
             }
-            with YAML_CYCLE_FILE.open("w") as f:
+
+            if output_file is None:
+                output_file = YAML_CYCLE_FILE
+            else:
+                # Allow caller to override default location.
+                output_file = pathlib.Path(output_file)
+            with output_file.open("w") as f:
                 f.write(yaml.dump(db))
 
     @property
     def _bss_list_runs(self):
-        try:
-            import apsbss
+        """Get the full list of APS runs via a Data Management API or 'None'."""
+        from dm import ApsDbApiFactory
+        from dm.common.exceptions.dmException import DmException
 
-            return str(apsbss.api_bss.listRuns())
-        except ModuleNotFoundError:
+        api = ApsDbApiFactory.getBssApsDbApi()
+
+        # Only succeeds on workstations with DM tools installed.
+        try:
+            return api.listRuns()
+        except (DmException, ValueError) as reason:
+            logger.info(reason)
             return None
 
 
@@ -129,9 +148,9 @@ class ApsCycleDM(SynSignalRO):
     def get(self):
         self._cycle_name = cycle_db.get_cycle_name()
         if datetime.datetime.now().isoformat(sep=" ") >= self._cycle_ends:
-            self._cycle_ends = datetime.datetime.fromtimestamp(cycle_db.db[self._cycle_name]["end"]).isoformat(
-                sep=" "
-            )
+            ts_cycle_end = cycle_db.db[self._cycle_name]["end"]
+            dt_cycle_ends = datetime.datetime.fromtimestamp(ts_cycle_end)
+            self._cycle_ends = dt_cycle_ends.isoformat(sep=" ")
         return self._cycle_name
 
 

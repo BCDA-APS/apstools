@@ -16,14 +16,44 @@
 Change History
 ##############
 
+History of changes in the *apstools* project.
 Project `milestones <https://github.com/BCDA-APS/apstools/milestones>`_
 describe future plans.
 
 ..
-   1.6.20
+   1.7.0
    ******
 
-   release expected by 2024-04-30
+   release expected by 2024-09-01
+
+   New Features
+   ------------
+
+   * Add SpecWriterCallback2 (writes point-by-point to file).
+
+1.6.20
+******
+
+released 2024-07-10
+
+New Features
+------------
+
+* Add new APS PlanarUndulator device.
+* Add new APS Revolver_Undulator device.
+* Add new APS STI_Undulator device.
+* Add new APS Undulator2M device.
+* Add new APS Undulator4M device.
+
+Maintenance
+-----------
+
+* Describe ``.component_names`` in *What are the objects to control?*
+* Pin numpy<2 because upstream dask package needs a fix.
+* Removed ApsUndulator and ApsUndulatorDual devices.
+* Removed top-level requirements files.  They were not used.
+* Update APS cycle begin & end dates.
+* Update device support for APS machine parameters (current, lifetime, ...).
 
 1.6.19
 ******
@@ -33,8 +63,8 @@ released 2024-04-23
 New Features
 ------------
 
-* Add new plan for edge alignment called edge_align
-* Added a mesh grid scan plan that will collect until number of collection points is met
+* Add new plan for edge alignment called edge_align.
+* Added a mesh grid scan plan that will collect until number of collection points is met.
 
 Fixes
 -----

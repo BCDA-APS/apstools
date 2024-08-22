@@ -133,6 +133,7 @@ General
    ~apstools.utils.misc.print_RE_md
    ~apstools.utils.catalog.quantify_md_key_use
    ~apstools.utils.misc.redefine_motor_position
+   ~apstools.utils.misc.render
    ~apstools.utils.misc.replay
    ~apstools.utils.memory.rss_mem
    ~apstools.utils.misc.run_in_thread

@@ -18,6 +18,7 @@ See these categories:
 * :ref:`devices.aps_support`
 * :ref:`devices.area_detector`
 * :ref:`devices.flyers`
+* :ref:`devices.insertion_devices`
 * :ref:`devices.motors`
 * :ref:`devices.scalers`
 * :ref:`devices.shutters`
@@ -103,6 +104,22 @@ Fly Scan Support
         ~apstools.devices.flyer_motor_scaler.ScalerMotorFlyer
 
 ``ScalerMotorFlyer()`` support withdrawn pending issue #763.
+
+.. _devices.insertion_devices:
+
+Insertion Devices
++++++++++++++++++
+
+.. autosummary::
+
+    ~apstools.devices.aps_undulator.PlanarUndulator
+    ~apstools.devices.aps_undulator.Revolver_Undulator
+    ~apstools.devices.aps_undulator.STI_Undulator
+    ~apstools.devices.aps_undulator.Undulator2M
+    ~apstools.devices.aps_undulator.Undulator4M
+
+.. note:: The ``ApsUndulator`` and ``ApsUndulatorDual`` device support
+    classes have been removed.  These devices are not used in the APS-U era.
 
 .. _devices.motors:
 
