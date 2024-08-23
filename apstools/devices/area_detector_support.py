@@ -14,6 +14,7 @@ Area Detector Support
    ~AD_EpicsJPEGIterativeWriter
    ~AD_EpicsTIFFFileName
    ~AD_EpicsTIFFIterativeWriter
+   ~AD_FrameType_schemes
    ~AD_full_file_name_local
    ~AD_plugin_primed
    ~AD_prime_plugin
@@ -35,19 +36,20 @@ from collections import OrderedDict
 
 import epics
 import numpy as np
-from ophyd import DetectorBase
 from ophyd import EpicsSignal
 from ophyd import EpicsSignalRO
 from ophyd import EpicsSignalWithRBV
-from ophyd.areadetector import ADComponent
-from ophyd.areadetector import CamBase
-from ophyd.areadetector import SingleTrigger
+from ophyd import ADComponent
+from ophyd import CamBase
+from ophyd import SimDetectorCam
+from ophyd import SingleTrigger
 from ophyd.areadetector.filestore_mixins import FileStoreBase
+from ophyd.areadetector.filestore_mixins import FileStoreHDF5IterativeWrite
 from ophyd.areadetector.filestore_mixins import FileStoreIterativeWrite
 from ophyd.areadetector.filestore_mixins import FileStorePluginBase
-from ophyd.areadetector.plugins import HDF5Plugin_V34 as HDF5Plugin
-from ophyd.areadetector.plugins import JPEGPlugin_V34 as JPEGPlugin
-from ophyd.areadetector.plugins import TIFFPlugin_V34 as TIFFPlugin
+from ophyd.areadetector.plugins import HDF5Plugin_V34
+from ophyd.areadetector.plugins import JPEGPlugin_V34
+from ophyd.areadetector.plugins import TIFFPlugin_V34
 from packaging import version
 
 from ..utils import count_common_subdirs
@@ -72,6 +74,7 @@ AD_FrameType_schemes = {
         TWST="/exchange/data_white",
     ),
 }
+"""Naming schemes for area detector frame types."""
 # fmt: on
 
 
@@ -532,7 +535,7 @@ class AD_EpicsHDF5IterativeWriter(AD_EpicsHdf5FileName, FileStoreIterativeWrite)
     pass
 
 
-class AD_EpicsFileNameHDF5Plugin(HDF5Plugin, AD_EpicsHDF5IterativeWriter):
+class AD_EpicsFileNameHDF5Plugin(HDF5Plugin_V34, AD_EpicsHDF5IterativeWriter):
     """
     Alternative to HDF5Plugin: EPICS area detector PV sets file name.
 
@@ -545,6 +548,7 @@ class AD_EpicsFileNameHDF5Plugin(HDF5Plugin, AD_EpicsHDF5IterativeWriter):
     EXAMPLE::
 
         from apstools.devices import CamMixin_V34
+        from apstools.devices import SimDetectorCam_V34
         from apstools.devices import SingleTrigger_V34
         from apstools.devices.area_detector_support import AD_EpicsFileNameHDF5Plugin
         from ophyd import EpicsSignalWithRBV
@@ -552,7 +556,6 @@ class AD_EpicsFileNameHDF5Plugin(HDF5Plugin, AD_EpicsHDF5IterativeWriter):
         from ophyd.areadetector import DetectorBase
         from ophyd.areadetector.plugins import ImagePlugin_V34 as ImagePlugin
         from ophyd.areadetector.plugins import PvaPlugin_V34 as PvaPlugin
-        from ophyd.areadetector import SimDetectorCam
         import datetime
         import pathlib
 
@@ -565,9 +568,6 @@ class AD_EpicsFileNameHDF5Plugin(HDF5Plugin, AD_EpicsHDF5IterativeWriter):
         # MUST end with a `/`, pathlib will NOT provide it
         WRITE_PATH_TEMPLATE = f"{AD_IOC_MOUNT_PATH / IMAGE_DIR}/"
         READ_PATH_TEMPLATE = f"{BLUESKY_MOUNT_PATH / IMAGE_DIR}/"
-
-        class SimDetectorCam_V34(CamMixin_V34, SimDetectorCam):
-            '''Revise SimDetectorCam for ADCore revisions.'''
 
         class SimDetector_V34(SingleTrigger_V34, DetectorBase):
             '''ADSimDetector'''
@@ -619,7 +619,7 @@ class AD_EpicsJPEGIterativeWriter(AD_EpicsJPEGFileName, FileStoreIterativeWrite)
     pass
 
 
-class AD_EpicsFileNameJPEGPlugin(JPEGPlugin, AD_EpicsJPEGIterativeWriter):
+class AD_EpicsFileNameJPEGPlugin(JPEGPlugin_V34, AD_EpicsJPEGIterativeWriter):
     """
     Alternative to JPEGPlugin: EPICS area detector PV sets file name.
 
@@ -632,6 +632,7 @@ class AD_EpicsFileNameJPEGPlugin(JPEGPlugin, AD_EpicsJPEGIterativeWriter):
     EXAMPLE::
 
         from apstools.devices import CamMixin_V34
+        from apstools.devices import SimDetectorCam_V34
         from apstools.devices import SingleTrigger_V34
         from apstools.devices.area_detector_support import AD_EpicsFileNameJPEGPlugin
         from ophyd import EpicsSignalWithRBV
@@ -639,7 +640,6 @@ class AD_EpicsFileNameJPEGPlugin(JPEGPlugin, AD_EpicsJPEGIterativeWriter):
         from ophyd.areadetector import DetectorBase
         from ophyd.areadetector.plugins import ImagePlugin_V34 as ImagePlugin
         from ophyd.areadetector.plugins import PvaPlugin_V34 as PvaPlugin
-        from ophyd.areadetector import SimDetectorCam
         import datetime
         import pathlib
 
@@ -652,10 +652,6 @@ class AD_EpicsFileNameJPEGPlugin(JPEGPlugin, AD_EpicsJPEGIterativeWriter):
         # MUST end with a `/`, pathlib will NOT provide it
         WRITE_PATH_TEMPLATE = f"{AD_IOC_MOUNT_PATH / IMAGE_DIR}/"
         READ_PATH_TEMPLATE = f"{BLUESKY_MOUNT_PATH / IMAGE_DIR}/"
-
-
-        class SimDetectorCam_V34(CamMixin_V34, SimDetectorCam):
-            '''Revise SimDetectorCam for ADCore revisions.'''
 
 
         class SimDetector_V34(SingleTrigger_V34, DetectorBase):
@@ -708,7 +704,7 @@ class AD_EpicsTIFFIterativeWriter(AD_EpicsTIFFFileName, FileStoreIterativeWrite)
     pass
 
 
-class AD_EpicsFileNameTIFFPlugin(TIFFPlugin, AD_EpicsTIFFIterativeWriter):
+class AD_EpicsFileNameTIFFPlugin(TIFFPlugin_V34, AD_EpicsTIFFIterativeWriter):
     """
     Alternative to TIFFPlugin: EPICS area detector PV sets file name.
 
@@ -721,6 +717,7 @@ class AD_EpicsFileNameTIFFPlugin(TIFFPlugin, AD_EpicsTIFFIterativeWriter):
     EXAMPLE::
 
         from apstools.devices import CamMixin_V34
+        from apstools.devices import SimDetectorCam_V34
         from apstools.devices import SingleTrigger_V34
         from apstools.devices.area_detector_support import AD_EpicsFileNameTIFFPlugin
         from ophyd import EpicsSignalWithRBV
@@ -741,10 +738,6 @@ class AD_EpicsFileNameTIFFPlugin(TIFFPlugin, AD_EpicsTIFFIterativeWriter):
         # MUST end with a `/`, pathlib will NOT provide it
         WRITE_PATH_TEMPLATE = f"{AD_IOC_MOUNT_PATH / IMAGE_DIR}/"
         READ_PATH_TEMPLATE = f"{BLUESKY_MOUNT_PATH / IMAGE_DIR}/"
-
-
-        class SimDetectorCam_V34(CamMixin_V34, SimDetectorCam):
-            '''Revise SimDetectorCam for ADCore revisions.'''
 
 
         class SimDetector_V34(SingleTrigger_V34, DetectorBase):
@@ -795,6 +788,17 @@ class CamMixin_V34(CamMixin_V3_1_1):
     _cam_release = "3.4"
 
 
+class SimDetectorCam_V34(CamMixin_V34, SimDetectorCam):
+    """Adds triggering configuration and AcquireBusy support."""
+
+    nd_attr_status = ADComponent(
+        EpicsSignal,
+        "NDAttributesStatus",
+        kind="omitted",
+        string=True,
+    )
+
+
 class SingleTrigger_V34(SingleTrigger):
     """
     Variation of ophyd's SingleTrigger mixin supporting AcquireBusy.
@@ -826,20 +830,6 @@ class SingleTrigger_V34(SingleTrigger):
         self._acquisition_busy_signal.clear_sub(self._acquire_changed)
 
 
-from ophyd.areadetector.filestore_mixins import FileStoreHDF5IterativeWrite
-from ophyd.areadetector.plugins import CodecPlugin_V34
-from ophyd.areadetector.plugins import HDF5Plugin_V34
-from ophyd.areadetector.plugins import ImagePlugin_V34
-from ophyd.areadetector.plugins import JPEGPlugin_V34
-from ophyd.areadetector.plugins import OverlayPlugin_V34
-from ophyd.areadetector.plugins import ProcessPlugin_V34
-from ophyd.areadetector.plugins import PvaPlugin_V34
-from ophyd.areadetector.plugins import ROIPlugin_V34
-from ophyd.areadetector.plugins import StatsPlugin_V34
-from ophyd.areadetector.plugins import TIFFPlugin_V34
-from ophyd.areadetector.plugins import TransformPlugin_V34
-
-
 class HDF5FileWriterPlugin(FileStoreHDF5IterativeWrite, HDF5Plugin_V34):
     """
     Add data acquisition methods to HDF5Plugin.  Ophyd default file names.
@@ -854,156 +844,6 @@ class HDF5FileWriterPlugin(FileStoreHDF5IterativeWrite, HDF5Plugin_V34):
     def stage(self):
         self.stage_sigs.move_to_end("capture", last=True)
         super().stage()
-
-
-def ad_class_factory(
-    cam_class,
-    cam_suffix: str = "cam1:",
-    detector_class_name: str = None,
-    codec_class=CodecPlugin_V34,
-    codec_suffix: str = "Codec1:",
-    hdf_class=HDF5FileWriterPlugin,
-    hdf_suffix: str = "HDF1:",
-    image_class=ImagePlugin_V34,
-    image_suffix: str = "image1:",
-    jpeg_class=JPEGPlugin_V34,
-    jpeg_suffix: str = "JPEG1:",
-    overlay_class=OverlayPlugin_V34,
-    overlay_suffix: str = "Over1:",
-    process_class=ProcessPlugin_V34,
-    process_suffix: str = "Proc1:",
-    pva_class=PvaPlugin_V34,
-    pva_suffix: str = "Pva1:",
-    roi_class=ROIPlugin_V34,
-    roi_suffix: str = "ROI1:",
-    stats_class=StatsPlugin_V34,
-    stats_suffix: str = "Stats1:",
-    tiff_class=TIFFPlugin_V34,
-    tiff_suffix: str = "TIFF1:",
-    transform_class=TransformPlugin_V34,
-    transform_suffix: str = "Trans1:",
-    use_codec: bool = False,
-    use_hdf: bool = True,
-    use_image: bool = True,
-    use_jpeg: bool = False,
-    use_overlay: bool = False,
-    use_process: bool = False,
-    use_pva: bool = True,
-    use_roi: bool = False,
-    use_stats: bool = False,
-    use_tiff: bool = False,
-    use_transform: bool = False,
-    # for any of the file writers: HDF, JPEG, TIFF
-    path_bluesky: str = None,
-    path_ioc: str = None,
-):
-    """Create standard area detector class with standard configuration."""
-
-    if use_hdf:
-        if path_ioc is None:
-            raise ValueError("Must define keyword: 'path_ioc'")
-        if path_bluesky is None:
-            raise ValueError("Must define keyword: 'path_bluesky'")
-
-    class FactoryAreaDetector(SingleTrigger_V34, DetectorBase):
-        cam = ADComponent(cam_class, cam_suffix)
-
-        # in alphabetical order ...
-        if use_codec:
-            codec1 = ADComponent(codec_class, codec_suffix)
-        if use_hdf:
-            hdf1 = ADComponent(
-                hdf_class,
-                hdf_suffix,
-                write_path_template=path_ioc,
-                read_path_template=path_bluesky,
-            )
-        if use_image:
-            image = ADComponent(image_class, image_suffix)
-        if use_jpeg:
-            jpeg1 = ADComponent(
-                jpeg_class,
-                jpeg_suffix,
-                write_path_template=path_ioc,
-                read_path_template=path_bluesky,
-            )
-        if use_overlay:
-            overlay1 = ADComponent(overlay_class, overlay_suffix)
-        if use_process:
-            process1 = ADComponent(process_class, process_suffix)
-        if use_pva:
-            pva = ADComponent(pva_class, pva_suffix)  # TODO: Why not 'pva1'?
-        if use_roi:
-            roi1 = ADComponent(roi_class, roi_suffix)
-        if use_stats:
-            stats1 = ADComponent(stats_class, stats_suffix)
-        if use_tiff:
-            tiff1 = ADComponent(
-                tiff_class,
-                tiff_suffix,
-                write_path_template=path_ioc,
-                read_path_template=path_bluesky,
-            )
-        if use_transform:
-            transform1 = ADComponent(transform_class, transform_suffix)
-
-    if detector_class_name is None:
-        detector_class_name = repr(cam_class).split(".")[-1]
-        detector_class_name = detector_class_name.rstrip(">").rstrip("'")
-        _p = detector_class_name.lower().rfind("cam")
-        if _p > 1:
-            detector_class_name = detector_class_name[:_p]
-
-    FactoryAreaDetector.__name__ = detector_class_name
-    FactoryAreaDetector.__qualname__ = detector_class_name
-
-    FactoryAreaDetector.__doc__ = (
-        f"{detector_class_name}, created by ad_class_factory():"
-        f" {use_codec=}"
-        f", {use_hdf=}"
-        f", {use_image=}"
-        f", {use_jpeg=}"
-        f", {use_overlay=}"
-        f", {use_process=}"
-        f", {use_pva=}"
-        f", {use_roi=}"
-        f", {use_stats=}"
-        f", {use_tiff=}"
-        f", {use_transform=}"
-    )
-    if use_hdf or use_jpeg or use_tiff:
-        FactoryAreaDetector.__doc__ += f", {path_ioc=!r}, {path_bluesky=!r}"
-    return FactoryAreaDetector
-
-
-def ad_factory(
-    prefix,
-    name: str = None,
-    cam_class: object = None,
-    ad_setup: object = None,
-    labels=("area_detector",),
-    **kwargs,
-):
-    """Create area detector with standard configuration."""
-    if name is None:
-        raise ValueError("Must define keyword: 'name'.")
-    if cam_class is None:
-        raise ValueError("Must define keyword: 'cam_class'.")
-
-    FactoryAreaDetector = ad_class_factory(cam_class, **kwargs)
-
-    try:
-        det = FactoryAreaDetector(prefix, name=name, labels=labels)
-        det.wait_for_connection(timeout=15)
-
-    except TimeoutError:
-        logger.warning("Did not connect to area detector IOC '%s'", prefix)
-        det = None
-
-    if ad_setup is not None:  # user-defined setup of the detector
-        ad_setup(det)
-
-    return det
 
 
 # -----------------------------------------------------------------------------
