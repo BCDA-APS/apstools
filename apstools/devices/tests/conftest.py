@@ -2,10 +2,7 @@ import datetime
 
 import pytest
 from ophyd.areadetector import ADComponent
-from ophyd.areadetector import DetectorBase
 from ophyd.areadetector import EpicsSignal
-from ophyd.areadetector import EpicsSignalRO
-from ophyd.areadetector import SimDetectorCam
 from ophyd.areadetector.plugins import HDF5Plugin_V34 as HDF5Plugin
 from ophyd.areadetector.plugins import ImagePlugin_V34 as ImagePlugin
 from ophyd.areadetector.plugins import PvaPlugin_V34 as PvaPlugin
@@ -17,9 +14,12 @@ from ...tests import SignalSaveRestoreCache
 from .. import AD_EpicsFileNameHDF5Plugin
 from .. import AD_EpicsFileNameJPEGPlugin
 from .. import AD_EpicsFileNameTIFFPlugin
-from .. import ensure_AD_plugin_primed
 from .. import CamMixin_V34 as CamMixin
+from .. import SimDetectorCam_V34
 from .. import SingleTrigger_V34 as SingleTrigger
+from .. import ensure_AD_plugin_primed
+from ..area_detector_factory import REMOVE_DEFAULT_KEY
+from ..area_detector_factory import ad_creator
 
 
 def pytest_addoption(parser):
@@ -52,35 +52,40 @@ def fname():
 def adsimdet():
     """EPICS ADSimDetector."""
 
-    class MyCam(CamMixin, SimDetectorCam):
-        """triggering configuration and AcquireBusy support"""
+    adsimdet = ad_creator(
+        "MySimDet",
+        IOC_AD,
+        "adsimdet",
+        [
+            {"cam": {"class": SimDetectorCam_V34}},
+            "image",
+            "pva",
+            {
+                "hdf1": {
+                    "class": AD_EpicsFileNameHDF5Plugin,
+                    "write_path_template": WRITE_PATH_TEMPLATE,
+                    "read_path_template": READ_PATH_TEMPLATE,
+                }
+            },
+            {
+                "jpeg1": {
+                    "class": AD_EpicsFileNameJPEGPlugin,
+                    "suffix": "JPEG1:",
+                    "write_path_template": WRITE_PATH_TEMPLATE,
+                    "read_path_template": READ_PATH_TEMPLATE,
+                }
+            },
+            {
+                "tiff1": {
+                    "class": AD_EpicsFileNameTIFFPlugin,
+                    "suffix": "TIFF1:",
+                    "write_path_template": WRITE_PATH_TEMPLATE,
+                    "read_path_template": READ_PATH_TEMPLATE,
+                }
+            },
+        ],
+    )
 
-    class MySimDet(SingleTrigger, DetectorBase):
-        """ADSimDetector"""
-
-        cam = ADComponent(MyCam, "cam1:")
-        hdf1 = ADComponent(
-            AD_EpicsFileNameHDF5Plugin,
-            "HDF1:",
-            write_path_template=WRITE_PATH_TEMPLATE,
-            read_path_template=READ_PATH_TEMPLATE,
-        )
-        image = ADComponent(ImagePlugin, "image1:")
-        jpeg1 = ADComponent(
-            AD_EpicsFileNameJPEGPlugin,
-            "JPEG1:",
-            write_path_template=WRITE_PATH_TEMPLATE,
-            read_path_template=READ_PATH_TEMPLATE,
-        )
-        pva = ADComponent(PvaPlugin, "Pva1:")
-        tiff1 = ADComponent(
-            AD_EpicsFileNameTIFFPlugin,
-            "TIFF1:",
-            write_path_template=WRITE_PATH_TEMPLATE,
-            read_path_template=READ_PATH_TEMPLATE,
-        )
-
-    adsimdet = MySimDet(IOC_AD, name="adsimdet")
     cache = SignalSaveRestoreCache()
 
     adsimdet.stage_sigs["cam.wait_for_plugins"] = "Yes"
@@ -125,21 +130,29 @@ def adsimdet():
 def adsingle():
     """Using mostly ophyd sources."""
 
-    class MyCam(CamMixin, SimDetectorCam):
-        nd_attr_status = ADComponent(EpicsSignalRO, "NDAttributesStatus", kind="omitted", string=True)
-
     class MyHDF5(HDF5Plugin):
         layout_filename = ADComponent(EpicsSignal, "XMLFileName", kind="config", string=True)
         layout_filename_valid = ADComponent(EpicsSignal, "XMLValid_RBV", kind="omitted", string=True)
         nd_attr_status = ADComponent(EpicsSignal, "NDAttributesStatus", kind="omitted", string=True)
 
-    class MyAdSingle(SingleTrigger, DetectorBase):
-        cam = ADComponent(MyCam, suffix="cam1:")
-        hdf1 = ADComponent(MyHDF5, suffix="HDF1:")
-        image = ADComponent(ImagePlugin, suffix="image1:")
-        pva1 = ADComponent(PvaPlugin, suffix="Pva1:")
+    det = ad_creator(
+        "MyAdSingle",
+        IOC_AD,
+        "adsingle",
+        [
+            {"cam": {"class": SimDetectorCam_V34}},
+            "image",
+            "pva",
+            {
+                "hdf1": {
+                    "class": MyHDF5,
+                    "write_path_template": REMOVE_DEFAULT_KEY,
+                    "read_path_template": REMOVE_DEFAULT_KEY,
+                }
+            },
+        ],
+    )
 
-    det = MyAdSingle(IOC_AD, name="adsingle")
     det.wait_for_connection()
 
     # Configure detector (and save any previous settings).
