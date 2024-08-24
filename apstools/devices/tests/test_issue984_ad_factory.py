@@ -9,7 +9,7 @@ from ..area_detector_factory import ad_class_factory
 
 
 def test_my_fake_area_detector():
-    ad_class = ad_class_factory("FakeAD", None, ["cam"])
+    ad_class = ad_class_factory("FakeAD")
     fake_ad = make_fake(ad_class, prefix="Fake:AD", name="fake_ad")
     assert "cam.acquire_time" not in fake_ad.stage_sigs
 

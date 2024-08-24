@@ -159,7 +159,7 @@ PLUGIN_DEFAULTS = {  # some of the common plugins
 """Default plugin configuration dictionary."""
 
 
-def ad_class_factory(name, bases, plugins, plugin_defaults=None):
+def ad_class_factory(name, bases=None, plugins=None, plugin_defaults=None):
     """
     Build an Area Detector class with specified plugins.
 
@@ -175,12 +175,14 @@ def ad_class_factory(name, bases, plugins, plugin_defaults=None):
     plugins
         *list* :
         Description of the plugins used.
+        (default: ``["cam"]`` -- Just the camera plugin.)
     plugin_defaults
         *object*:
         Plugin configuration dictionary.
         (default: ``None``, PLUGIN_DEFAULTS will be used.)
     """
     bases = bases or (SingleTrigger_V34, DetectorBase)
+    plugins = plugins or ["cam"]
     plugin_defaults = plugin_defaults or PLUGIN_DEFAULTS
 
     attributes = {}
