@@ -18,7 +18,7 @@ from .. import CamMixin_V34 as CamMixin
 from .. import SimDetectorCam_V34
 from .. import SingleTrigger_V34 as SingleTrigger
 from .. import ensure_AD_plugin_primed
-from ..area_detector_factory import REMOVE_DEFAULT_KEY
+from ..area_detector_factory import PLUGIN_DEFAULTS
 from ..area_detector_factory import ad_creator
 
 
@@ -135,6 +135,10 @@ def adsingle():
         layout_filename_valid = ADComponent(EpicsSignal, "XMLValid_RBV", kind="omitted", string=True)
         nd_attr_status = ADComponent(EpicsSignal, "NDAttributesStatus", kind="omitted", string=True)
 
+    plugin_defaults = PLUGIN_DEFAULTS.copy()
+    plugin_defaults["hdf1"].pop("read_path_template", None)
+    plugin_defaults["hdf1"].pop("write_path_template", None)
+
     det = ad_creator(
         "MyAdSingle",
         IOC_AD,
@@ -143,14 +147,9 @@ def adsingle():
             {"cam": {"class": SimDetectorCam_V34}},
             "image",
             "pva",
-            {
-                "hdf1": {
-                    "class": MyHDF5,
-                    "write_path_template": REMOVE_DEFAULT_KEY,
-                    "read_path_template": REMOVE_DEFAULT_KEY,
-                }
-            },
+            {"hdf1": {"class": MyHDF5}},  # local, custom class
         ],
+        plugin_defaults=plugin_defaults,
     )
 
     det.wait_for_connection()

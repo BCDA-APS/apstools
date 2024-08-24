@@ -25,7 +25,7 @@ from .aps_undulator import Undulator4M
 
 from .area_detector_factory import ad_creator
 from .area_detector_factory import ad_class_factory
-from .area_detector_factory import REMOVE_DEFAULT_KEY
+from .area_detector_factory import PLUGIN_DEFAULTS
 
 from .area_detector_support import AD_EpicsFileNameMixin
 from .area_detector_support import AD_FrameType_schemes

@@ -22,6 +22,7 @@ Area Detector Support
    ~AD_setup_FrameType
    ~CamMixin_V3_1_1
    ~CamMixin_V34
+   ~HDF5FileWriterPlugin
    ~SingleTrigger_V34
    ~ensure_AD_plugin_primed
 """
