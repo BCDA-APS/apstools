@@ -53,10 +53,10 @@ def adsimdet():
     """EPICS ADSimDetector."""
 
     adsimdet = ad_creator(
-        "MySimDet",
         IOC_AD,
-        "adsimdet",
-        [
+        name="adsimdet",
+        class_name="MySimDet",
+        plugins=[
             {"cam": {"class": SimDetectorCam_V34}},
             "image",
             "pva",
@@ -140,10 +140,10 @@ def adsingle():
     plugin_defaults["hdf1"].pop("write_path_template", None)
 
     det = ad_creator(
-        "MyAdSingle",
         IOC_AD,
-        "adsingle",
-        [
+        name="adsingle",
+        class_name="MyAdSingle",
+        plugins=[
             {"cam": {"class": SimDetectorCam_V34}},
             "image",
             "pva",

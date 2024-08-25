@@ -13,7 +13,7 @@ EXAMPLES
 Just the camera plugin (uses CamBase, the most basic features)::
 
     from apstools.devices import ad_creator
-    det = ad_creator("MySimpleAD", "ad:", "det", ["cam",])
+    det = ad_creator("ad:", name="det", class_name="MySimpleAD", ["cam",])
 
 View ADSimDetector image with CA and PVA::
 
@@ -21,7 +21,7 @@ View ADSimDetector image with CA and PVA::
     from apstools.devices import ad_creator
 
     det = ad_creator(
-        "MySimDetector", "ad:", "det",
+        "ad:", name="det", class_name="MySimDetector",
         [
             {"cam": {"class": SimDetectorCam}},
             "image",
@@ -36,7 +36,7 @@ the Bluesky databroker use the same filesystem mount ``/``::
     from apstools.devices import ad_creator
 
     det = ad_creator(
-        "MyEiger", "ad:", "det",
+        "ad:", name="det", class_name"MyEiger",
         [
             {"cam": {"class": EigerDetectorCam}},
             "image",
@@ -56,7 +56,7 @@ support::
     plugin_defaults["hdf1"].pop("write_path_template", None)
 
     det = ad_creator(
-        "MyEiger", "ad:", "det",
+        "ad:", name="det", class_name"MyEiger",
         [
             {"cam": {"class": EigerDetectorCam}},
             "image",
@@ -67,6 +67,7 @@ support::
 """
 
 import logging
+import uuid
 
 logger = logging.getLogger(__name__)
 
@@ -212,13 +213,14 @@ def ad_class_factory(name, bases=None, plugins=None, plugin_defaults=None):
 
 
 def ad_creator(
-    class_name: str,
-    prefix: str,
-    name: str,
-    plugins,
-    bases=None,
+    prefix:str,
+    *,
     ad_setup: object = None,
+    bases=None,
+    class_name: str=None,
+    name: str=None,
     plugin_defaults: dict = None,
+    plugins=None,
     **kwargs,
 ):
     """
@@ -226,15 +228,17 @@ def ad_creator(
 
     PARAMETERS
 
-    class_name
-        *str*:
-        Name of the class to be created.
     prefix
         *str*:
         EPICS PV prefix.
     name
         *str*:
         Name of the ophyd object.
+    class_name
+        *str*:
+        Name of the class to be created.
+        (default: ``"ADclass_HEX7"`` where HEX is a random
+        7-digit hexadecimal string)
     plugins
         *list*:
         Description of the plugins used.
@@ -254,6 +258,7 @@ def ad_creator(
         Any additional keyword arguments for the new class definition.
         (default: ``{}``)
     """
+    class_name = class_name or f"ADclass_{str(uuid.uuid4())[:7]}"
     ad_class = ad_class_factory(
         class_name,
         bases,
