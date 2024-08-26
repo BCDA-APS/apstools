@@ -36,7 +36,7 @@ def pos():
     """Test Positioner based on two analogout PVs."""
     # fmt: off
     pos = PVPositionerSoftDoneWithStop(
-        PV_PREFIX, readback_pv="float1", setpoint_pv="float2", name="pos"
+        PV_PREFIX, readback_pv="float1", setpoint_pv="float2", use_target=True, name="pos"
     )
     # fmt: on
     pos.wait_for_connection()
