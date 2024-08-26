@@ -8,12 +8,18 @@ Area Detector Factory
    ~ad_class_factory
    ~PLUGIN_DEFAULTS
 
-EXAMPLES
+*New in apstools 1.7.0.*
 
-Just the camera plugin (uses CamBase, the most basic features)::
+EXAMPLE 1: DEFAULT CAM
+
+Just the camera plugin (uses `CamBase
+<https://blueskyproject.io/ophyd/user/explanations/area-detector.html#custom-plugins-or-cameras>`_,
+the most basic features)::
 
     from apstools.devices import ad_creator
     det = ad_creator("ad:", name="det", class_name="MySimpleAD", ["cam",])
+
+EXAMPLE 2: CUSTOM CAM & IMAGING
 
 View ADSimDetector image with CA and PVA::
 
@@ -22,12 +28,14 @@ View ADSimDetector image with CA and PVA::
 
     det = ad_creator(
         "ad:", name="det", class_name="MySimDetector",
-        [
+        plugins=[
             {"cam": {"class": SimDetectorCam}},
             "image",
             "pva",
         ],
     )
+
+EXAMPLE 3: CUSTOM CAM, IMAGING, & HDF5 FILES
 
 Record HDF5 images with Eiger detector. Here, both the Eiger detector IOC and
 the Bluesky databroker use the same filesystem mount ``/``::
@@ -37,18 +45,21 @@ the Bluesky databroker use the same filesystem mount ``/``::
 
     det = ad_creator(
         "ad:", name="det", class_name"MyEiger",
-        [
+        plugins=[
             {"cam": {"class": EigerDetectorCam}},
             "image",
             {"hdf1": {"write_path_template": "/"}},
         ],
     )
 
+EXAMPLE 4: CUSTOM CAM, IMAGING, & BASIC HDF5 PLUGIN
+
 Override one of the default plugin configurations.  In this case, remove the
 ``write_path_template`` and ``read_path_template`` keys from the ``hdf1`` plugin
-support::
+support and switch to the plugin class from ophyd::
 
     from ophyd.areadetector import EigerDetectorCam
+    from ophyd.areadetector.plugins import HDF5Plugin_V34
     from apstools.devices import ad_creator, PLUGIN_DEFAULTS
 
     plugin_defaults = PLUGIN_DEFAULTS.copy()
@@ -57,10 +68,10 @@ support::
 
     det = ad_creator(
         "ad:", name="det", class_name"MyEiger",
-        [
+        plugins=[
             {"cam": {"class": EigerDetectorCam}},
             "image",
-            "hdf1",
+            {"hdf1": {"class": HDF5Plugin_V34}},
         ],
         plugin_defaults=plugin_defaults,
     )
@@ -78,6 +89,11 @@ from .area_detector_support import AD_EpicsFileNameJPEGPlugin
 from .area_detector_support import AD_EpicsFileNameTIFFPlugin
 from .area_detector_support import HDF5FileWriterPlugin
 from .area_detector_support import SingleTrigger_V34
+
+DEFAULT_DETECTOR_BASES = (
+    SingleTrigger_V34,
+    ophyd.areadetector.DetectorBase,
+)
 
 PLUGIN_DEFAULTS = {  # some of the common plugins
     # gets image from the detector
@@ -211,7 +227,13 @@ PLUGIN_DEFAULTS = {  # some of the common plugins
         "write_path_template": None,
     },
 }
-"""Default plugin configuration dictionary."""
+"""
+Default plugin configuration dictionary.
+
+These defaults could be replaced by a caller individually or in total.  For
+example, the ``"class"`` could be replaced by a newer, version-specific class.
+Another use case is to remove an existing set of defaults.
+"""
 
 
 def ad_class_factory(name, bases=None, plugins=None, plugin_defaults=None):
@@ -229,19 +251,60 @@ def ad_class_factory(name, bases=None, plugins=None, plugin_defaults=None):
         (default: ``(SingleTrigger_V34, DetectorBase)``)
     plugins
         *list* :
-        Description of the plugins used.
+        Description of the plugins used.  The list consists
+        of either strings or dictionaries.
         (default: ``["cam"]`` -- Just the camera plugin.)
     plugin_defaults
         *object*:
         Plugin configuration dictionary.
         (default: ``None``, PLUGIN_DEFAULTS will be used.)
+
+    Here are a couple examples of the ``plugins`` keyword.
+
+    EXAMPLE 1: ALL DEFAULTS
+
+    All defaults are acceptable.  In this case, the ``cam`` (``CamBase``
+    from ophyd) will only support the most general features of the detector
+    hardware::
+
+        plugins=["cam", "image", "pva"]
+
+    This is a shorthand for::
+
+        plugins=[{"cam": {}}, {"image": {}}, {"pva": {}}]
+
+    EXAMPLE 2: CUSTOM CAM CLASS
+
+    More typical is when one or more defaults need to be replaced, such as
+    the class used to provide features specific to the hardware.  The inner
+    dictionaries contain the keyword arguments to be replaced for each
+    plugin. All these dictionaries are empty, signifying all defaults are
+    acceptable.
+
+    For the ADSimDetector, replace the string ``"cam"`` with a dictionary
+    that replaces the default camera class.  Other detectors will have their
+    own camera class that provides access to the specific features of that
+    detector.
+
+    Here the Python class is imported from apstools.  Use the class as it is
+    imported or defined.  Do not use quotations around
+    ``SimDetectorCam_V34``::
+
+        from apstools.devices import SimDetectorCam_V34
+
+        plugins=[{"cam": {"class": SimDetectorCam_V34}}, "image", "pva"]
+
     """
-    bases = bases or (
-        SingleTrigger_V34,
-        ophyd.areadetector.DetectorBase,
-    )
-    plugins = plugins or ["cam"]
-    plugin_defaults = plugin_defaults or PLUGIN_DEFAULTS
+    if bases is None:
+        bases = DEFAULT_DETECTOR_BASES
+    if plugins is None:
+        plugins = ["cam"]
+    if plugin_defaults is None:
+        plugin_defaults = PLUGIN_DEFAULTS
+    if not isinstance(plugins, list):
+        raise TypeError(f"Must be a list.  Received {plugins=!r}")
+    if not isinstance(plugin_defaults, dict):
+        raise TypeError(f"Must be a dict.  Received {plugin_defaults=!r}")
 
     attributes = {}
     for spec in plugins:
@@ -311,7 +374,8 @@ def ad_creator(
         *object*:
         Plugin configuration dictionary.
         (default: ``None``, PLUGIN_DEFAULTS will be used.)
-    kwargs *dict*:
+    kwargs 
+        *dict*:
         Any additional keyword arguments for the new class definition.
         (default: ``{}``)
     """
