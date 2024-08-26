@@ -71,26 +71,8 @@ import uuid
 
 logger = logging.getLogger(__name__)
 
+import ophyd.areadetector.plugins
 from ophyd import ADComponent
-from ophyd.areadetector import CamBase
-from ophyd.areadetector import DetectorBase
-from ophyd.areadetector.plugins import AttrPlotPlugin_V34
-from ophyd.areadetector.plugins import CircularBuffPlugin_V34
-from ophyd.areadetector.plugins import CodecPlugin_V34
-from ophyd.areadetector.plugins import ColorConvPlugin_V34
-from ophyd.areadetector.plugins import FFTPlugin_V34
-from ophyd.areadetector.plugins import GatherNPlugin_V31
-from ophyd.areadetector.plugins import ImagePlugin_V34
-from ophyd.areadetector.plugins import MagickPlugin_V34
-from ophyd.areadetector.plugins import NetCDFPlugin_V34
-from ophyd.areadetector.plugins import OverlayPlugin_V34
-from ophyd.areadetector.plugins import ProcessPlugin_V34
-from ophyd.areadetector.plugins import PvaPlugin_V34
-from ophyd.areadetector.plugins import ROIPlugin_V34
-from ophyd.areadetector.plugins import ROIStatPlugin_V34
-from ophyd.areadetector.plugins import ScatterPlugin_V34
-from ophyd.areadetector.plugins import StatsPlugin_V34
-from ophyd.areadetector.plugins import TransformPlugin_V34
 
 from .area_detector_support import AD_EpicsFileNameJPEGPlugin
 from .area_detector_support import AD_EpicsFileNameTIFFPlugin
@@ -99,32 +81,104 @@ from .area_detector_support import SingleTrigger_V34
 
 PLUGIN_DEFAULTS = {  # some of the common plugins
     # gets image from the detector
-    "cam": {"suffix": "cam1:", "class": CamBase},
+    "cam": {
+        "suffix": "cam1:",
+        "class": ophyd.areadetector.CamBase,
+    },
     # for imaging
-    "image": {"suffix": "image1:", "class": ImagePlugin_V34},
-    "pva": {"suffix": "Pva1:", "class": PvaPlugin_V34},
+    "image": {
+        "suffix": "image1:",
+        "class": ophyd.areadetector.plugins.ImagePlugin_V34,
+    },
+    "pva": {
+        "suffix": "Pva1:",
+        "class": ophyd.areadetector.plugins.PvaPlugin_V34,
+    },
     # signal handling
-    "attr1": {"suffix": "Attr1:", "class": AttrPlotPlugin_V34},
-    "cb1": {"suffix": "CB1:", "class": CircularBuffPlugin_V34},
-    "cc1": {"suffix": "CC1:", "class": ColorConvPlugin_V34},
-    "cc2": {"suffix": "CC2:", "class": ColorConvPlugin_V34},
-    "codec1": {"suffix": "Codec1:", "class": CodecPlugin_V34},
-    "fft1": {"suffix": "FFT1:", "class": FFTPlugin_V34},
-    "gather1": {"suffix": "Gather1:", "class": GatherNPlugin_V31},
-    "overlay1": {"suffix": "Over1:", "class": OverlayPlugin_V34},
-    "process1": {"suffix": "Proc1:", "class": ProcessPlugin_V34},
-    "roi1": {"suffix": "ROI1:", "class": ROIPlugin_V34},
-    "roi2": {"suffix": "ROI2:", "class": ROIPlugin_V34},
-    "roi3": {"suffix": "ROI3:", "class": ROIPlugin_V34},
-    "roi4": {"suffix": "ROI4:", "class": ROIPlugin_V34},
-    "roistat1": {"suffix": "ROIStat1:", "class": ROIStatPlugin_V34},
-    "scatter1": {"suffix": "Scatter1:", "class": ScatterPlugin_V34},
-    "stats1": {"suffix": "Stats1:", "class": StatsPlugin_V34},
-    "stats2": {"suffix": "Stats2:", "class": StatsPlugin_V34},
-    "stats3": {"suffix": "Stats3:", "class": StatsPlugin_V34},
-    "stats4": {"suffix": "Stats4:", "class": StatsPlugin_V34},
-    "stats5": {"suffix": "Stats5:", "class": StatsPlugin_V34},
-    "transform1": {"suffix": "Trans1:", "class": TransformPlugin_V34},
+    "attr1": {
+        "suffix": "Attr1:",
+        "class": ophyd.areadetector.plugins.AttrPlotPlugin_V34,
+    },
+    "cb1": {
+        "suffix": "CB1:",
+        "class": ophyd.areadetector.plugins.CircularBuffPlugin_V34,
+    },
+    "cc1": {
+        "suffix": "CC1:",
+        "class": ophyd.areadetector.plugins.ColorConvPlugin_V34,
+    },
+    "cc2": {
+        "suffix": "CC2:",
+        "class": ophyd.areadetector.plugins.ColorConvPlugin_V34,
+    },
+    "codec1": {
+        "suffix": "Codec1:",
+        "class": ophyd.areadetector.plugins.CodecPlugin_V34,
+    },
+    "fft1": {
+        "suffix": "FFT1:",
+        "class": ophyd.areadetector.plugins.FFTPlugin_V34,
+    },
+    "gather1": {
+        "suffix": "Gather1:",
+        "class": ophyd.areadetector.plugins.GatherNPlugin_V31,
+    },
+    "overlay1": {
+        "suffix": "Over1:",
+        "class": ophyd.areadetector.plugins.OverlayPlugin_V34,
+    },
+    "process1": {
+        "suffix": "Proc1:",
+        "class": ophyd.areadetector.plugins.ProcessPlugin_V34,
+    },
+    "roi1": {
+        "suffix": "ROI1:",
+        "class": ophyd.areadetector.plugins.ROIPlugin_V34,
+    },
+    "roi2": {
+        "suffix": "ROI2:",
+        "class": ophyd.areadetector.plugins.ROIPlugin_V34,
+    },
+    "roi3": {
+        "suffix": "ROI3:",
+        "class": ophyd.areadetector.plugins.ROIPlugin_V34,
+    },
+    "roi4": {
+        "suffix": "ROI4:",
+        "class": ophyd.areadetector.plugins.ROIPlugin_V34,
+    },
+    "roistat1": {
+        "suffix": "ROIStat1:",
+        "class": ophyd.areadetector.plugins.ROIStatPlugin_V34,
+    },
+    "scatter1": {
+        "suffix": "Scatter1:",
+        "class": ophyd.areadetector.plugins.ScatterPlugin_V34,
+    },
+    "stats1": {
+        "suffix": "Stats1:",
+        "class": ophyd.areadetector.plugins.StatsPlugin_V34,
+    },
+    "stats2": {
+        "suffix": "Stats2:",
+        "class": ophyd.areadetector.plugins.StatsPlugin_V34,
+    },
+    "stats3": {
+        "suffix": "Stats3:",
+        "class": ophyd.areadetector.plugins.StatsPlugin_V34,
+    },
+    "stats4": {
+        "suffix": "Stats4:",
+        "class": ophyd.areadetector.plugins.StatsPlugin_V34,
+    },
+    "stats5": {
+        "suffix": "Stats5:",
+        "class": ophyd.areadetector.plugins.StatsPlugin_V34,
+    },
+    "transform1": {
+        "suffix": "Trans1:",
+        "class": ophyd.areadetector.plugins.TransformPlugin_V34,
+    },
     # file writers
     "hdf1": {
         "class": HDF5FileWriterPlugin,
@@ -139,13 +193,13 @@ PLUGIN_DEFAULTS = {  # some of the common plugins
         "write_path_template": None,
     },
     "magick1": {
-        "class": MagickPlugin_V34,
+        "class": ophyd.areadetector.plugins.MagickPlugin_V34,
         "read_path_template": None,
         "suffix": "Magick1:",
         "write_path_template": None,
     },
     "netcdf1": {
-        "class": NetCDFPlugin_V34,
+        "class": ophyd.areadetector.plugins.NetCDFPlugin_V34,
         "read_path_template": None,
         "suffix": "netCDF1:",
         "write_path_template": None,
@@ -182,7 +236,10 @@ def ad_class_factory(name, bases=None, plugins=None, plugin_defaults=None):
         Plugin configuration dictionary.
         (default: ``None``, PLUGIN_DEFAULTS will be used.)
     """
-    bases = bases or (SingleTrigger_V34, DetectorBase)
+    bases = bases or (
+        SingleTrigger_V34,
+        ophyd.areadetector.DetectorBase,
+    )
     plugins = plugins or ["cam"]
     plugin_defaults = plugin_defaults or PLUGIN_DEFAULTS
 
@@ -213,12 +270,12 @@ def ad_class_factory(name, bases=None, plugins=None, plugin_defaults=None):
 
 
 def ad_creator(
-    prefix:str,
+    prefix: str,
     *,
     ad_setup: object = None,
     bases=None,
-    class_name: str=None,
-    name: str=None,
+    class_name: str = None,
+    name: str = None,
     plugin_defaults: dict = None,
     plugins=None,
     **kwargs,
