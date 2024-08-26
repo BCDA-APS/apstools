@@ -392,3 +392,12 @@ def ad_creator(
         # user-defined setup of the detector
         ad_setup(det)
     return det
+
+
+# -----------------------------------------------------------------------------
+# :copyright: (c) 2017-2024, UChicago Argonne, LLC
+#
+# Distributed under the terms of the Argonne National Laboratory Open Source License.
+#
+# The full license is in the file LICENSE.txt, distributed with this software.
+# -----------------------------------------------------------------------------
