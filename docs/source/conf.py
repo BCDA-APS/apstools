@@ -84,12 +84,23 @@ html_css_files = [
 html_static_path = ["_static"]
 html_theme = "pydata_sphinx_theme"
 html_title = f"{project} {version}"
+html_context = {
+    "github_user": "BCDA-APS",
+    "github_repo": "apstools",
+    "github_version": "main",
+    "doc_path": "docs",
+}
+
 # fmt: off
 html_theme_options = {
+    "github_url": "https://github.com/BCDA-APS/apstools",
     "navbar_start": ["navbar-logo", "version-switcher"],
     "switcher": {
         "json_url": switcher_json_url,
-        "version_match": release if release in switcher_version_list else "dev"
+        "version_match": 
+            release 
+            if release in switcher_version_list 
+            else "dev",
     }
 }
 # fmt: on
