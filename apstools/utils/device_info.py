@@ -228,7 +228,10 @@ def listdevice(
                 # If the signal is not connected now, provide informative text
                 # and move along.
                 if signal.connected:
-                    v = signal.get()
+                    try:
+                        v = signal.get()
+                    except Exception as reason:
+                        v = str(reason)
                 else:
                     v = NOT_CONNECTED_VALUE
                 dd["value"].append(v)
