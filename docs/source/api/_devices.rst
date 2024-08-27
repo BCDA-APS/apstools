@@ -44,6 +44,11 @@ APS General Support
 Area Detector Support
 +++++++++++++++++++++
 
+.. autosummary::
+
+    ~apstools.devices.area_detector_factory.ad_creator
+    ~apstools.devices.area_detector_factory.ad_class_factory
+
 .. rubric: Plugins
 
 .. autosummary::
@@ -261,19 +266,13 @@ All Submodules
     :show-inheritance:
     :inherited-members:
 
-.. automodule:: apstools.devices.aps_data_management
-    :members:
-    :private-members:
-    :show-inheritance:
-    :inherited-members:
-
-.. automodule:: apstools.devices.area_detector_support
-    :members:
-    :private-members:
-    :show-inheritance:
-    :inherited-members:
-
 .. automodule:: apstools.devices.aps_cycle
+    :members:
+    :private-members:
+    :show-inheritance:
+    :inherited-members:
+
+.. automodule:: apstools.devices.aps_data_management
     :members:
     :private-members:
     :show-inheritance:
@@ -286,6 +285,18 @@ All Submodules
     :inherited-members:
 
 .. automodule:: apstools.devices.aps_undulator
+    :members:
+    :private-members:
+    :show-inheritance:
+    :inherited-members:
+
+.. automodule:: apstools.devices.area_detector_factory
+    :members:
+    :private-members:
+    :show-inheritance:
+    :inherited-members:
+
+.. automodule:: apstools.devices.area_detector_support
     :members:
     :private-members:
     :show-inheritance:

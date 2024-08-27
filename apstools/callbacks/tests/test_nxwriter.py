@@ -10,12 +10,11 @@ from bluesky import RunEngine
 from ophyd import Component
 from ophyd import EpicsMotor
 from ophyd.areadetector import DetectorBase
-from ophyd.areadetector import SimDetectorCam
 from ophyd.areadetector.filestore_mixins import FileStoreHDF5IterativeWrite
 from ophyd.areadetector.plugins import HDF5Plugin_V34 as HDF5Plugin
 from ophyd.areadetector.plugins import ImagePlugin_V34 as ImagePlugin
 
-from ...devices import CamMixin_V34 as CamMixin
+from ...devices import SimDetectorCam_V34
 from ...devices import SingleTrigger_V34 as SingleTrigger
 from ...devices import ensure_AD_plugin_primed
 from ...tests import IOC_AD
@@ -36,12 +35,8 @@ class HDF5PluginWithFileStore(HDF5Plugin, FileStoreHDF5IterativeWrite):
     pass
 
 
-class MySimDetectorCam(CamMixin, SimDetectorCam):
-    """triggering configuration and AcquireBusy support"""
-
-
 class MyDetector(SingleTrigger, DetectorBase):
-    cam = Component(MySimDetectorCam, "cam1:")
+    cam = Component(SimDetectorCam_V34, "cam1:")
 
     hdf1 = Component(
         HDF5PluginWithFileStore,
@@ -60,6 +55,7 @@ class MyDetector(SingleTrigger, DetectorBase):
 @pytest.fixture(scope="function")
 def camera():
     """EPICS ADSimDetector."""
+
     camera = MyDetector(IOC_AD, name="camera")
     camera.wait_for_connection(timeout=15)
 

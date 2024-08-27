@@ -14,6 +14,7 @@ Area Detector Support
    ~AD_EpicsJPEGIterativeWriter
    ~AD_EpicsTIFFFileName
    ~AD_EpicsTIFFIterativeWriter
+   ~AD_FrameType_schemes
    ~AD_full_file_name_local
    ~AD_plugin_primed
    ~AD_prime_plugin
@@ -21,6 +22,7 @@ Area Detector Support
    ~AD_setup_FrameType
    ~CamMixin_V3_1_1
    ~CamMixin_V34
+   ~HDF5FileWriterPlugin
    ~SingleTrigger_V34
    ~ensure_AD_plugin_primed
 """
@@ -38,15 +40,17 @@ import numpy as np
 from ophyd import EpicsSignal
 from ophyd import EpicsSignalRO
 from ophyd import EpicsSignalWithRBV
-from ophyd.areadetector import ADComponent
-from ophyd.areadetector import CamBase
-from ophyd.areadetector import SingleTrigger
+from ophyd import ADComponent
+from ophyd import CamBase
+from ophyd import SimDetectorCam
+from ophyd import SingleTrigger
 from ophyd.areadetector.filestore_mixins import FileStoreBase
+from ophyd.areadetector.filestore_mixins import FileStoreHDF5IterativeWrite
 from ophyd.areadetector.filestore_mixins import FileStoreIterativeWrite
 from ophyd.areadetector.filestore_mixins import FileStorePluginBase
-from ophyd.areadetector.plugins import HDF5Plugin_V34 as HDF5Plugin
-from ophyd.areadetector.plugins import JPEGPlugin_V34 as JPEGPlugin
-from ophyd.areadetector.plugins import TIFFPlugin_V34 as TIFFPlugin
+from ophyd.areadetector.plugins import HDF5Plugin_V34
+from ophyd.areadetector.plugins import JPEGPlugin_V34
+from ophyd.areadetector.plugins import TIFFPlugin_V34
 from packaging import version
 
 from ..utils import count_common_subdirs
@@ -71,6 +75,7 @@ AD_FrameType_schemes = {
         TWST="/exchange/data_white",
     ),
 }
+"""Naming schemes for area detector frame types."""
 # fmt: on
 
 
@@ -531,7 +536,7 @@ class AD_EpicsHDF5IterativeWriter(AD_EpicsHdf5FileName, FileStoreIterativeWrite)
     pass
 
 
-class AD_EpicsFileNameHDF5Plugin(HDF5Plugin, AD_EpicsHDF5IterativeWriter):
+class AD_EpicsFileNameHDF5Plugin(HDF5Plugin_V34, AD_EpicsHDF5IterativeWriter):
     """
     Alternative to HDF5Plugin: EPICS area detector PV sets file name.
 
@@ -544,6 +549,7 @@ class AD_EpicsFileNameHDF5Plugin(HDF5Plugin, AD_EpicsHDF5IterativeWriter):
     EXAMPLE::
 
         from apstools.devices import CamMixin_V34
+        from apstools.devices import SimDetectorCam_V34
         from apstools.devices import SingleTrigger_V34
         from apstools.devices.area_detector_support import AD_EpicsFileNameHDF5Plugin
         from ophyd import EpicsSignalWithRBV
@@ -551,7 +557,6 @@ class AD_EpicsFileNameHDF5Plugin(HDF5Plugin, AD_EpicsHDF5IterativeWriter):
         from ophyd.areadetector import DetectorBase
         from ophyd.areadetector.plugins import ImagePlugin_V34 as ImagePlugin
         from ophyd.areadetector.plugins import PvaPlugin_V34 as PvaPlugin
-        from ophyd.areadetector import SimDetectorCam
         import datetime
         import pathlib
 
@@ -564,9 +569,6 @@ class AD_EpicsFileNameHDF5Plugin(HDF5Plugin, AD_EpicsHDF5IterativeWriter):
         # MUST end with a `/`, pathlib will NOT provide it
         WRITE_PATH_TEMPLATE = f"{AD_IOC_MOUNT_PATH / IMAGE_DIR}/"
         READ_PATH_TEMPLATE = f"{BLUESKY_MOUNT_PATH / IMAGE_DIR}/"
-
-        class SimDetectorCam_V34(CamMixin_V34, SimDetectorCam):
-            '''Revise SimDetectorCam for ADCore revisions.'''
 
         class SimDetector_V34(SingleTrigger_V34, DetectorBase):
             '''ADSimDetector'''
@@ -618,7 +620,7 @@ class AD_EpicsJPEGIterativeWriter(AD_EpicsJPEGFileName, FileStoreIterativeWrite)
     pass
 
 
-class AD_EpicsFileNameJPEGPlugin(JPEGPlugin, AD_EpicsJPEGIterativeWriter):
+class AD_EpicsFileNameJPEGPlugin(JPEGPlugin_V34, AD_EpicsJPEGIterativeWriter):
     """
     Alternative to JPEGPlugin: EPICS area detector PV sets file name.
 
@@ -631,6 +633,7 @@ class AD_EpicsFileNameJPEGPlugin(JPEGPlugin, AD_EpicsJPEGIterativeWriter):
     EXAMPLE::
 
         from apstools.devices import CamMixin_V34
+        from apstools.devices import SimDetectorCam_V34
         from apstools.devices import SingleTrigger_V34
         from apstools.devices.area_detector_support import AD_EpicsFileNameJPEGPlugin
         from ophyd import EpicsSignalWithRBV
@@ -638,7 +641,6 @@ class AD_EpicsFileNameJPEGPlugin(JPEGPlugin, AD_EpicsJPEGIterativeWriter):
         from ophyd.areadetector import DetectorBase
         from ophyd.areadetector.plugins import ImagePlugin_V34 as ImagePlugin
         from ophyd.areadetector.plugins import PvaPlugin_V34 as PvaPlugin
-        from ophyd.areadetector import SimDetectorCam
         import datetime
         import pathlib
 
@@ -651,10 +653,6 @@ class AD_EpicsFileNameJPEGPlugin(JPEGPlugin, AD_EpicsJPEGIterativeWriter):
         # MUST end with a `/`, pathlib will NOT provide it
         WRITE_PATH_TEMPLATE = f"{AD_IOC_MOUNT_PATH / IMAGE_DIR}/"
         READ_PATH_TEMPLATE = f"{BLUESKY_MOUNT_PATH / IMAGE_DIR}/"
-
-
-        class SimDetectorCam_V34(CamMixin_V34, SimDetectorCam):
-            '''Revise SimDetectorCam for ADCore revisions.'''
 
 
         class SimDetector_V34(SingleTrigger_V34, DetectorBase):
@@ -707,7 +705,7 @@ class AD_EpicsTIFFIterativeWriter(AD_EpicsTIFFFileName, FileStoreIterativeWrite)
     pass
 
 
-class AD_EpicsFileNameTIFFPlugin(TIFFPlugin, AD_EpicsTIFFIterativeWriter):
+class AD_EpicsFileNameTIFFPlugin(TIFFPlugin_V34, AD_EpicsTIFFIterativeWriter):
     """
     Alternative to TIFFPlugin: EPICS area detector PV sets file name.
 
@@ -720,6 +718,7 @@ class AD_EpicsFileNameTIFFPlugin(TIFFPlugin, AD_EpicsTIFFIterativeWriter):
     EXAMPLE::
 
         from apstools.devices import CamMixin_V34
+        from apstools.devices import SimDetectorCam_V34
         from apstools.devices import SingleTrigger_V34
         from apstools.devices.area_detector_support import AD_EpicsFileNameTIFFPlugin
         from ophyd import EpicsSignalWithRBV
@@ -740,10 +739,6 @@ class AD_EpicsFileNameTIFFPlugin(TIFFPlugin, AD_EpicsTIFFIterativeWriter):
         # MUST end with a `/`, pathlib will NOT provide it
         WRITE_PATH_TEMPLATE = f"{AD_IOC_MOUNT_PATH / IMAGE_DIR}/"
         READ_PATH_TEMPLATE = f"{BLUESKY_MOUNT_PATH / IMAGE_DIR}/"
-
-
-        class SimDetectorCam_V34(CamMixin_V34, SimDetectorCam):
-            '''Revise SimDetectorCam for ADCore revisions.'''
 
 
         class SimDetector_V34(SingleTrigger_V34, DetectorBase):
@@ -794,6 +789,17 @@ class CamMixin_V34(CamMixin_V3_1_1):
     _cam_release = "3.4"
 
 
+class SimDetectorCam_V34(CamMixin_V34, SimDetectorCam):
+    """Adds triggering configuration and AcquireBusy support."""
+
+    nd_attr_status = ADComponent(
+        EpicsSignal,
+        "NDAttributesStatus",
+        kind="omitted",
+        string=True,
+    )
+
+
 class SingleTrigger_V34(SingleTrigger):
     """
     Variation of ophyd's SingleTrigger mixin supporting AcquireBusy.
@@ -823,6 +829,22 @@ class SingleTrigger_V34(SingleTrigger):
         """Restore device settings after data acquisition."""
         super(SingleTrigger, self).unstage()  # from grandparent
         self._acquisition_busy_signal.clear_sub(self._acquire_changed)
+
+
+class HDF5FileWriterPlugin(FileStoreHDF5IterativeWrite, HDF5Plugin_V34):
+    """
+    Add data acquisition methods to HDF5Plugin.  Ophyd default file names.
+
+    File names are based on uuid.uuid4() strings.
+
+    * ``stage()`` - prepare device PVs befor data acquisition
+    * ``unstage()`` - restore device PVs after data acquisition
+    * ``generate_datum()`` - coordinate image storage metadata
+    """
+
+    def stage(self):
+        self.stage_sigs.move_to_end("capture", last=True)
+        super().stage()
 
 
 # -----------------------------------------------------------------------------
