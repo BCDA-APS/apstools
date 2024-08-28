@@ -65,6 +65,7 @@ class PTC10AioChannel(Device):
     iotype = Component(EpicsSignalWithRBV, "ioType", kind="config", string=True)
     setpoint = Component(EpicsSignalWithRBV, "setPoint", kind="config")
     ramprate = Component(EpicsSignalWithRBV, "rampRate", kind="config")
+    ramptemp = Component(EpicsSignalRO, "rampTemp_RBV", kind="normal")
     offswitch = Component(EpicsSignal, "off", kind="config")
 
     pidmode = Component(EpicsSignalWithRBV, "pid:mode", kind="config", string=True)
@@ -121,6 +122,9 @@ class PTC10PositionerMixin(Device):
 
     # For logging when temperature is reached after a move.
     report_dmov_changes = Component(Signal, value=True, kind="omitted")
+
+    output_enable = Component(EpicsSignal, "outputEnable", kind="omitted")
+
 
     def cb_readback(self, *args, **kwargs):
         """
