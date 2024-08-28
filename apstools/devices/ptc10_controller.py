@@ -125,7 +125,6 @@ class PTC10PositionerMixin(Device):
 
     output_enable = Component(EpicsSignal, "outputEnable", kind="omitted")
 
-
     def cb_readback(self, *args, **kwargs):
         """
         Called when readback changes (EPICS CA monitor event).
