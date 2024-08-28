@@ -112,6 +112,34 @@ def listdevice(
     shown. Components that are disconnected will be skipped and a
     warning logged.
 
+    EXAMPLE::
+
+        >>> listdevice(m1)
+        ======================= ======= ==========================
+        data name               value   timestamp                 
+        ======================= ======= ==========================
+        m1                      0.0     2024-08-28 09:41:08.364137
+        m1_user_setpoint        0.0     2024-08-28 09:41:08.364137
+        m1_user_offset          0.0     2024-08-28 11:46:56.116048
+        m1_user_offset_dir      0       2024-08-28 09:41:08.364137
+        m1_offset_freeze_switch 0       2024-08-28 09:41:08.364137
+        m1_set_use_switch       0       2024-08-28 09:41:08.364137
+        m1_velocity             1.0     2024-08-28 09:41:08.364137
+        m1_acceleration         0.2     2024-08-28 09:41:08.364137
+        m1_motor_egu            degrees 2024-08-28 09:41:08.364137
+        m1_motor_is_moving      0       2024-08-28 09:41:08.364137
+        m1_motor_done_move      1       2024-08-28 11:46:56.116057
+        m1_high_limit_switch    0       2024-08-28 09:41:08.364137
+        m1_low_limit_switch     0       2024-08-28 09:41:08.364137
+        m1_high_limit_travel    1000.0  2024-08-28 11:46:56.116048
+        m1_low_limit_travel     -1000.0 2024-08-28 11:46:56.116048
+        m1_direction_of_travel  0       2024-08-28 09:41:08.364137
+        m1_motor_stop           0       2024-08-28 09:41:08.364137
+        m1_home_forward         0       2024-08-28 09:41:08.364137
+        m1_home_reverse         0       2024-08-28 09:41:08.364137
+        m1_steps_per_revolution 2000    2024-08-28 09:41:08.364137
+        ======================= ======= ==========================
+
     PARAMETERS
 
     obj
@@ -169,6 +197,7 @@ def listdevice(
         .. note:: ``pandas.DataFrame`` wll truncate long text
            to at most 50 characters.
 
+    .. seealso:: ``listdevice()`` in :doc:`/examples/ho_list_control_objects`
     """
     if max_column_width is not None:
         if table_style != TableStyle.pyRestTable:
