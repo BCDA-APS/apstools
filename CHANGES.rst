@@ -37,6 +37,11 @@ describe future plans.
 
    * Area detector image shape of (0, 0, 0) caused listdevice() to fail.
 
+   Maintenance
+   -----------
+
+   * Added two PVs to PTC10 support.
+
 1.6.20
 ******
 
