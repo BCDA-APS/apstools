@@ -100,15 +100,15 @@ def test_SynPseudoVoigt_randomize():
     assert signal.noise_multiplier == 1
 
 
-TestParameters = collections.namedtuple("TestParameters", "signal mover start finish npts feature")
-parms_slower = TestParameters(noisy, m1, -1.2, 1.2, 11, "max")
-parms_faster = TestParameters(pvoigt, axis, -1.2, 1.2, 11, "max")
-parms_cen = TestParameters(pvoigt, axis, -1.2, 1.2, 11, "cen")
-parms_com = TestParameters(pvoigt, axis, -1.2, 1.2, 51, "com")
+_TestParameters = collections.namedtuple("TestParameters", "signal mover start finish npts feature")
+parms_slower = _TestParameters(noisy, m1, -1.2, 1.2, 11, "max")
+parms_faster = _TestParameters(pvoigt, axis, -1.2, 1.2, 11, "max")
+parms_cen = _TestParameters(pvoigt, axis, -1.2, 1.2, 11, "cen")
+parms_com = _TestParameters(pvoigt, axis, -1.2, 1.2, 51, "com")
 
 
 @pytest.mark.parametrize("parms", [parms_slower, parms_faster, parms_cen, parms_com])
-def test_direct_implementation_with_rel_scan(parms: TestParameters):
+def test_direct_implementation_with_rel_scan(parms: _TestParameters):
     RE(bps.mv(parms.mover, 0))
     assert get_position(parms.mover) == 0.0
 
@@ -132,17 +132,17 @@ def test_direct_implementation_with_rel_scan(parms: TestParameters):
     assert math.isclose(position, center, abs_tol=0.001)
 
 
-TestParameters = collections.namedtuple("TestParameters", "signals mover start finish npts feature rescan")
-parms_motor_slower = TestParameters(noisy, m1, -1.2, 1.2, 11, "max", True)
-parms_ao_faster = TestParameters(pvoigt, axis, -1.2, 1.2, 11, "cen", True)
-parms_ao_max = TestParameters(pvoigt, axis, -1.2, 1.2, 11, "max", True)
-parms_det_list_of_1 = TestParameters([pvoigt], axis, -1.2, 1.2, 11, "max", True)
-parms_det_list_of_3 = TestParameters([pvoigt, noisy, scaler1], axis, -1.2, 1.2, 11, "max", True)
-parms_det_tuple = TestParameters((pvoigt), axis, -1.2, 1.2, 11, "max", True)
-parms_cen = TestParameters(pvoigt, axis, -1.2, 1.2, 11, "cen", False)
-parms_com = TestParameters(pvoigt, axis, -1.2, 1.2, 11, "com", False)
-parms_max = TestParameters(pvoigt, axis, -1.2, 1.2, 11, "max", False)
-parms_min___pathological = TestParameters(pvoigt, axis, -1.2, 1.2, 11, "min", False)
+_TestParameters = collections.namedtuple("TestParameters", "signals mover start finish npts feature rescan")
+parms_motor_slower = _TestParameters(noisy, m1, -1.2, 1.2, 11, "max", True)
+parms_ao_faster = _TestParameters(pvoigt, axis, -1.2, 1.2, 11, "cen", True)
+parms_ao_max = _TestParameters(pvoigt, axis, -1.2, 1.2, 11, "max", True)
+parms_det_list_of_1 = _TestParameters([pvoigt], axis, -1.2, 1.2, 11, "max", True)
+parms_det_list_of_3 = _TestParameters([pvoigt, noisy, scaler1], axis, -1.2, 1.2, 11, "max", True)
+parms_det_tuple = _TestParameters((pvoigt), axis, -1.2, 1.2, 11, "max", True)
+parms_cen = _TestParameters(pvoigt, axis, -1.2, 1.2, 11, "cen", False)
+parms_com = _TestParameters(pvoigt, axis, -1.2, 1.2, 11, "com", False)
+parms_max = _TestParameters(pvoigt, axis, -1.2, 1.2, 11, "max", False)
+parms_min___pathological = _TestParameters(pvoigt, axis, -1.2, 1.2, 11, "min", False)
 
 
 @pytest.mark.parametrize(
@@ -160,7 +160,7 @@ parms_min___pathological = TestParameters(pvoigt, axis, -1.2, 1.2, 11, "min", Fa
         parms_min___pathological,
     ],
 )
-def test_lineup(parms: TestParameters):
+def test_lineup(parms: _TestParameters):
     if isinstance(parms.signals, SynPseudoVoigt):
         parms.signals.randomize_parameters(scale=250_000, bkg=0.000_000_000_1)
     else:
@@ -197,17 +197,17 @@ def test_lineup(parms: TestParameters):
     #     # assert lo <= position <= hi, f"{bec=} {bec.peaks=} {position=} {center=} {width=}"
 
 
-TestParameters = collections.namedtuple("TestParameters", "signals, mover, start, finish, npts, feature, nscans")
-parms_motor_slower = TestParameters(noisy, m1, -1.2, 1.2, 11, "max", 2)
-parms_ao_faster = TestParameters(pvoigt, axis, -1.2, 1.2, 11, "cen", 2)
-parms_ao_max = TestParameters(pvoigt, axis, -1.2, 1.2, 11, "max", 2)
-parms_det_list_of_1 = TestParameters([pvoigt], axis, -1.2, 1.2, 11, "max", 2)
-parms_det_list_of_3 = TestParameters([pvoigt, noisy, scaler1], axis, -1.2, 1.2, 11, "max", 2)
-parms_det_tuple = TestParameters((pvoigt), axis, -1.2, 1.2, 11, "max", 2)
-parms_cen = TestParameters(pvoigt, axis, -1.2, 1.2, 11, "cen", 1)
-parms_com = TestParameters(pvoigt, axis, -1.2, 1.2, 11, "com", 1)
-parms_max = TestParameters(pvoigt, axis, -1.2, 1.2, 11, "max", 1)
-parms_min___pathological = TestParameters(pvoigt, axis, -1.2, 1.2, 11, "min", 1)
+_TestParameters = collections.namedtuple("TestParameters", "signals, mover, start, finish, npts, feature, nscans")
+parms_motor_slower = _TestParameters(noisy, m1, -1.2, 1.2, 11, "max", 2)
+parms_ao_faster = _TestParameters(pvoigt, axis, -1.2, 1.2, 11, "cen", 2)
+parms_ao_max = _TestParameters(pvoigt, axis, -1.2, 1.2, 11, "max", 2)
+parms_det_list_of_1 = _TestParameters([pvoigt], axis, -1.2, 1.2, 11, "max", 2)
+parms_det_list_of_3 = _TestParameters([pvoigt, noisy, scaler1], axis, -1.2, 1.2, 11, "max", 2)
+parms_det_tuple = _TestParameters((pvoigt), axis, -1.2, 1.2, 11, "max", 2)
+parms_cen = _TestParameters(pvoigt, axis, -1.2, 1.2, 11, "cen", 1)
+parms_com = _TestParameters(pvoigt, axis, -1.2, 1.2, 11, "com", 1)
+parms_max = _TestParameters(pvoigt, axis, -1.2, 1.2, 11, "max", 1)
+parms_min___pathological = _TestParameters(pvoigt, axis, -1.2, 1.2, 11, "min", 1)
 
 
 @pytest.mark.parametrize(
@@ -225,7 +225,7 @@ parms_min___pathological = TestParameters(pvoigt, axis, -1.2, 1.2, 11, "min", 1)
         parms_min___pathological,
     ],
 )
-def test_lineup2(parms: TestParameters):
+def test_lineup2(parms: _TestParameters):
     if isinstance(parms.signals, SynPseudoVoigt):
         parms.signals.randomize_parameters(scale=250_000, bkg=0.000_000_000_1)
     else:
@@ -338,23 +338,23 @@ def test_TuneResults():
     assert results.report() is None
 
 
-TestParameters = collections.namedtuple(
+_TestParameters = collections.namedtuple(
     "TestParameters", "peak base noise center sigma xlo xhi npts nscans tol outcome"
 )
-parms_signal_but_high_background = TestParameters(1e5, 1e6, 10, 0.1, 0.2, -0.7, 0.5, 11, 1, 0.05, False)
-parms_model_peak = TestParameters(1e5, 0, 10, 0.1, 0.2, -0.7, 0.5, 11, 1, 0.05, True)
-parms_high_background_poor_resolution = TestParameters(1e5, 1e4, 10, 0.1, 0.2, -0.7, 0.5, 11, 1, 0.1, True)
-parms_not_much_better = TestParameters(1e5, 1e4, 10, 0.1, 0.2, -0.7, 0.5, 11, 2, 0.05, True)
-parms_neg_peak_1x_base = TestParameters(-1e5, -1e4, 1e-8, 0.1, 0.2, -0.7, 0.5, 11, 1, 0.1, True)
-parms_neg_base = TestParameters(1e5, -10, 10, 0.1, 0.2, -0.7, 0.5, 11, 1, 0.05, True)
-parms_small_signal_zero_base = TestParameters(1e-5, 0, 1e-8, 0.1, 0.2, -0.7, 0.5, 11, 1, 0.05, True)
-parms_neg_small_signal_zero_base = TestParameters(-1e5, 0, 1e-8, 0.1, 0.2, -0.7, 0.5, 11, 1, 0.05, True)
-parms_small_signal_finite_base = TestParameters(1e-5, 1e-7, 1e-8, 0.1, 0.2, -0.7, 0.5, 11, 1, 0.05, True)
-parms_no_signal_only_noise = TestParameters(0, 0, 1e-8, 0.1, 0.2, -1.0, 0.5, 11, 1, 0.05, False)
-parms_bkg_plus_noise = TestParameters(0, 1, 0.1, 0.1, 0.2, -0.7, 0.5, 11, 1, 0.05, False)
-parms_bkg_plus_big_noise = TestParameters(0, 1, 100, 0.1, 0.2, -0.7, 0.5, 11, 1, 0.05, False)
-parms_no_signal__ZeroDivisionError = TestParameters(0, 0, 0, 0.1, 0.2, -0.7, 0.5, 11, 1, 0.005, None)
-parms_bkg_only__ZeroDivisionError = TestParameters(0, 1, 0, 0.1, 0.2, -0.7, 0.5, 11, 1, 0.005, None)
+parms_signal_but_high_background = _TestParameters(1e5, 1e6, 10, 0.1, 0.2, -0.7, 0.5, 11, 1, 0.05, False)
+parms_model_peak = _TestParameters(1e5, 0, 10, 0.1, 0.2, -0.7, 0.5, 11, 1, 0.05, True)
+parms_high_background_poor_resolution = _TestParameters(1e5, 1e4, 10, 0.1, 0.2, -0.7, 0.5, 11, 1, 0.1, True)
+parms_not_much_better = _TestParameters(1e5, 1e4, 10, 0.1, 0.2, -0.7, 0.5, 11, 2, 0.05, True)
+parms_neg_peak_1x_base = _TestParameters(-1e5, -1e4, 1e-8, 0.1, 0.2, -0.7, 0.5, 11, 1, 0.1, True)
+parms_neg_base = _TestParameters(1e5, -10, 10, 0.1, 0.2, -0.7, 0.5, 11, 1, 0.05, True)
+parms_small_signal_zero_base = _TestParameters(1e-5, 0, 1e-8, 0.1, 0.2, -0.7, 0.5, 11, 1, 0.05, True)
+parms_neg_small_signal_zero_base = _TestParameters(-1e5, 0, 1e-8, 0.1, 0.2, -0.7, 0.5, 11, 1, 0.05, True)
+parms_small_signal_finite_base = _TestParameters(1e-5, 1e-7, 1e-8, 0.1, 0.2, -0.7, 0.5, 11, 1, 0.05, True)
+parms_no_signal_only_noise = _TestParameters(0, 0, 1e-8, 0.1, 0.2, -1.0, 0.5, 11, 1, 0.05, False)
+parms_bkg_plus_noise = _TestParameters(0, 1, 0.1, 0.1, 0.2, -0.7, 0.5, 11, 1, 0.05, False)
+parms_bkg_plus_big_noise = _TestParameters(0, 1, 100, 0.1, 0.2, -0.7, 0.5, 11, 1, 0.05, False)
+parms_no_signal__ZeroDivisionError = _TestParameters(0, 0, 0, 0.1, 0.2, -0.7, 0.5, 11, 1, 0.005, None)
+parms_bkg_only__ZeroDivisionError = _TestParameters(0, 1, 0, 0.1, 0.2, -0.7, 0.5, 11, 1, 0.005, None)
 
 
 @pytest.mark.parametrize(
@@ -376,7 +376,7 @@ parms_bkg_only__ZeroDivisionError = TestParameters(0, 1, 0, 0.1, 0.2, -0.7, 0.5,
         parms_bkg_only__ZeroDivisionError,
     ],
 )
-def test_lineup2_signal_permutations(parms: TestParameters):
+def test_lineup2_signal_permutations(parms: _TestParameters):
     starting_position = 0.0
     m1.move(starting_position)
     time.sleep(1)  # without this, the test IOC crashes, sometimes
