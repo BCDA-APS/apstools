@@ -32,6 +32,11 @@ describe future plans.
    * Add ad_creator() and ad_class_factory() -- Easy to create area detector objects.
    * Add SpecWriterCallback2 (writes point-by-point to file).
 
+   Maintenance
+   -----------
+
+   * Added two PVs to PTC10 support.
+
 1.6.20
 ******
 
