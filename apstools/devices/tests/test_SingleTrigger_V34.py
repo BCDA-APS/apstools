@@ -3,20 +3,22 @@ import pathlib
 import bluesky
 import bluesky.plans as bp
 import databroker
+from ophyd import ADComponent
+from ophyd import DetectorBase
+from ophyd import EpicsSignal
+from ophyd import SimDetectorCam
 from ophyd import SingleTrigger
-from ophyd.areadetector import ADComponent
-from ophyd.areadetector import DetectorBase
-from ophyd.areadetector import SimDetectorCam
 from ophyd.areadetector.filestore_mixins import FileStoreHDF5IterativeWrite
 from ophyd.areadetector.plugins import HDF5Plugin_V34 as HDF5Plugin
 from ophyd.areadetector.plugins import ImagePlugin_V34 as ImagePlugin
 from packaging import version
 
-from .. import AD_plugin_primed
-from .. import ensure_AD_plugin_primed
-from .. import CamMixin_V34
-from .. import SingleTrigger_V34
 from ...tests import IOC_AD
+from .. import AD_plugin_primed
+from .. import CamMixin_V34
+from .. import SimDetectorCam_V34
+from .. import SingleTrigger_V34
+from .. import ensure_AD_plugin_primed
 
 IMAGE_DIR = "adsimdet/%Y/%m/%d"
 AD_IOC_MOUNT_PATH = pathlib.Path("/tmp")
@@ -25,10 +27,6 @@ BLUESKY_MOUNT_PATH = pathlib.Path("/tmp/docker_ioc/iocad/tmp")
 # MUST end with a `/`, pathlib will NOT provide it
 WRITE_PATH_TEMPLATE = f"{AD_IOC_MOUNT_PATH / IMAGE_DIR}/"
 READ_PATH_TEMPLATE = f"{BLUESKY_MOUNT_PATH / IMAGE_DIR}/"
-
-
-class SimDetectorCam_V34(CamMixin_V34, SimDetectorCam):
-    """triggering configuration and AcquireBusy support"""
 
 
 class MyHDF5Plugin(FileStoreHDF5IterativeWrite, HDF5Plugin):
@@ -73,6 +71,7 @@ def test_cam_mixin_v34_structure():
 def test_the_old_way():
     class MyFixedCam(SimDetectorCam):
         "No need to add unused, new attributes such as offset."
+
         pool_max_buffers = None
 
     class OldHDF5Plugin(FileStoreHDF5IterativeWrite, HDF5Plugin):
@@ -129,6 +128,7 @@ def test_ignore_no_WaitForPlugins():
 
     class MyFixedCam(SimDetectorCam):
         "No need to add unused, new attributes such as offset."
+
         pool_max_buffers = None
 
     class OldHDF5Plugin(FileStoreHDF5IterativeWrite, HDF5Plugin):

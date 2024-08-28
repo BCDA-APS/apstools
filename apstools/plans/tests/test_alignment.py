@@ -124,7 +124,7 @@ def test_direct_implementation_with_rel_scan(parms: TestParameters):
     # fwhm = bec.peaks["fwhm"][signal.name]
 
     # confirm center will be within scan range
-    assert min(parms.start, parms.finish) <= center
+    assert min(parms.start, parms.finish) <= round(center, 8)
     assert center <= max(parms.start, parms.finish)
 
     RE(bps.mv(parms.mover, center))  # move to the center position

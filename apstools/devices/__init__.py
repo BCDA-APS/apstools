@@ -23,6 +23,10 @@ from .aps_undulator import STI_Undulator
 from .aps_undulator import Undulator2M
 from .aps_undulator import Undulator4M
 
+from .area_detector_factory import ad_creator
+from .area_detector_factory import ad_class_factory
+from .area_detector_factory import PLUGIN_DEFAULTS
+
 from .area_detector_support import AD_EpicsFileNameMixin
 from .area_detector_support import AD_FrameType_schemes
 from .area_detector_support import AD_plugin_primed
@@ -40,6 +44,8 @@ from .area_detector_support import AD_EpicsTIFFFileName
 from .area_detector_support import AD_EpicsTIFFIterativeWriter
 from .area_detector_support import CamMixin_V34
 from .area_detector_support import CamMixin_V3_1_1
+from .area_detector_support import HDF5FileWriterPlugin
+from .area_detector_support import SimDetectorCam_V34
 from .area_detector_support import SingleTrigger_V34
 from .area_detector_support import ensure_AD_plugin_primed
 
