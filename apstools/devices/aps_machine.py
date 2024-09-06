@@ -43,12 +43,12 @@ class ApsMachineParametersDevice(Device):
 
     EXAMPLE::
 
-        import apstools.devices as APS_devices
-        APS = APS_devices.ApsMachineParametersDevice(name="APS")
-        aps_current = APS.current
+        import apstools.devices
+        aps = apstools.devices.ApsMachineParametersDevice(name="aps")
+        aps_current = aps.current
 
         # make sure these values are logged at start and stop of every scan
-        sd.baseline.append(APS)
+        sd.baseline.append(aps)
         # record storage ring current as secondary stream during scans
         # name: aps_current_monitor
         # db[-1].table("aps_current_monitor")
