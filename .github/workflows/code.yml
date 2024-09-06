@@ -76,19 +76,16 @@ jobs:
       - name: Directory Listings
         run: |
           set -vxeuo pipefail
-          ls -lAFghR ~/.local/
+          ls -lAFghR ~/.local/share/intake
           ls -lAFghR /tmp/*_test/
 
       - name: Prepare archival content
         run: |
           set -vxeuo pipefail
           mkdir -p ~/databroker_catalogs/
-          # diagnostic
-          ls -lAFhR ~/databroker_catalogs/
-          ls -lAFhR ~/.local
-          #
           mv ~/.local ~/databroker_catalogs/
           mv /tmp/*_test ~/databroker_catalogs/
+          ls -lAFghR ~/databroker_catalogs/
 
       - name: Archive catalog artifacts
         uses: actions/upload-artifact@v4
