@@ -25,11 +25,16 @@ versions+=" 1.6.16"
 versions+=" 1.6.17"
 versions+=" 1.6.18"
 versions+=" 1.6.19"
+versions+=" 1.6.20"
 
 # future versions (release tags that are expected)
-versions+=" 1.6.20"
-versions+=" 1.6.21"
-versions+=" 1.6.22"
+versions+=" 1.7.0"
+versions+=" 1.7.1"
+versions+=" 1.7.2"
+versions+=" 1.7.3"
+versions+=" 1.7.4"
+versions+=" 1.7.5"
+versions+=" 1.7.6"
 
 export versions
 
