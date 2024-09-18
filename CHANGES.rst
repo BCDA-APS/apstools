@@ -32,6 +32,11 @@ describe future plans.
    * Add ad_creator() and ad_class_factory() -- Easy to create area detector objects.
    * Add SpecWriterCallback2 (writes point-by-point to file).
 
+   Fixes
+   -----
+
+   * Area detector image shape of (0, 0, 0) caused listdevice() to fail.
+
    Maintenance
    -----------
 
