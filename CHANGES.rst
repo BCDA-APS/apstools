@@ -36,6 +36,7 @@ describe future plans.
    -----------
 
    * Added two PVs to PTC10 support.
+   * Unit tests now support Python version 3.9, 3.10, & 3.11.
 
 1.6.20
 ******
