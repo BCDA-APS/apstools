@@ -1,0 +1,94 @@
+name: Unit testing, round 2
+
+on: push
+
+defaults:
+  run:
+    shell: bash -l {0}
+
+jobs:
+  prep:
+    name: Workflow Redevelopment
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version:
+          # - "3.9"
+          # - "3.10"
+          - "3.11"
+          # - "3.12"
+      max-parallel: 5
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Create Python ${{ matrix.python-version }} environment
+        # needed for Unpack step
+        uses: mamba-org/setup-micromamba@v1
+        with:
+          cache-environment: true
+          cache-environment-key: env-key-${{ matrix.python-version }}
+          condarc: |
+            channel-priority: flexible
+          environment-file: environment.yml
+          environment-name: anaconda-test-env-py-${{ matrix.python-version }}
+          create-args: >-
+            coveralls
+            pytest
+            pytest-cov
+            python=${{ matrix.python-version }}
+            setuptools-scm
+
+      - name: Unpack
+        run: |
+          set -vxeuo pipefail
+          pip install databroker-pack
+          which databroker-pack
+          which databroker-unpack
+          cd resources
+          bash ./unpack.sh
+          cmd="import databroker;"
+          cmd+=" print(list(databroker.catalog));"
+          cmd+=" print(databroker.catalog_search_path());"
+          python -c "${cmd}"
+          cd ..
+
+      # - name: Directory Listings
+      #   run: |
+      #     set -vxeuo pipefail
+      #     ls -lAFghR ~/.local/share/intake
+      #     ls -lAFghR /tmp/*_test/
+
+      - name: Start EPICS IOCs in Docker
+        run: |
+          set -vxeuo pipefail
+          bash ./.github/scripts/iocmgr.sh start GP gp
+          bash ./.github/scripts/iocmgr.sh start ADSIM ad
+          docker ps -a
+          ls -lAFgh /tmp/docker_ioc/iocad/
+          ls -lAFgh /tmp/docker_ioc/iocgp/
+
+      - name: Confirm EPICS IOC is available via caget
+        shell: bash -l {0}
+        run: |
+          set -vxeuo pipefail
+          docker exec iocgp grep float1 /home/iocgp/dbl-all.txt
+          docker exec iocgp /opt/base/bin/linux-x86_64/caget gp:UPTIME gp:gp:float1
+          docker exec iocad /opt/base/bin/linux-x86_64/caget ad:cam1:Acquire_RBV
+          which caget
+          caget gp:UPTIME
+          caget gp:gp:float1
+          caget ad:cam1:Acquire_RBV
+
+      - name: Confirm EPICS IOC is available via PyEpics
+        shell: bash -l {0}
+        run: |
+          python -c "import epics; print(epics.caget('gp:UPTIME'))"
+
+      - name: Run tests with pytest & coverage
+        shell: bash -l {0}
+        run: |
+          set -vxeuo pipefail
+          coverage run --concurrency=thread --parallel-mode -m pytest -vvv --exitfirst .
+          coverage combine
+          coverage report --precision 3
