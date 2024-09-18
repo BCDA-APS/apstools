@@ -37,78 +37,24 @@ jobs:
           python_version: "3.11"
           # see .ruff.toml file for options
 
-  install-catalogs:
-    name: Install & cache databroker catalogs
+  test-matrix:
+    name: Python ${{ matrix.python-version }}
     runs-on: ubuntu-latest
     needs: lint
     strategy:
       matrix:
         python-version:
-          - "3.11"
-      max-parallel: 5
-
-    steps:
-      - uses: actions/checkout@v4
-
-      - uses: actions/setup-python@v5
-        with:
-          python-version: "3.11"
-
-      - name: Create Python ${{ matrix.python-version }} environment
-        uses: mamba-org/setup-micromamba@v1
-        with:
-          cache-environment: true
-          cache-environment-key: env-key-${{ matrix.python-version }}
-          condarc: |
-            channel-priority: flexible
-          environment-file: environment.yml
-          environment-name: anaconda-test-env-py-${{ matrix.python-version }}
-
-      - name: Unpack
-        run: |
-          set -vxeuo pipefail
-          which databroker-pack
-          which databroker-unpack
-          cd resources
-          bash ./unpack.sh
-          cd ..
-
-      - name: Directory Listings
-        run: |
-          set -vxeuo pipefail
-          ls -lAFghR ~/.local/
-          ls -lAFghR /tmp/*_test/
-
-      - name: Prepare archival content
-        run: |
-          set -vxeuo pipefail
-          mkdir -p ~/databroker_catalogs/
-          mv ~/.local ~/databroker_catalogs/
-          mv /tmp/*_test ~/databroker_catalogs/
-
-      - name: Archive catalog artifacts
-        uses: actions/upload-artifact@v4
-        with:
-          name: databroker_catalogs
-          path: ~/databroker_catalogs
-
-  test-matrix:
-    name: Python ${{ matrix.python-version }}
-    runs-on: ubuntu-latest
-    needs: install-catalogs
-    strategy:
-      matrix:
-        python-version:
-          - "3.8"
           - "3.9"
           - "3.10"
           - "3.11"
+          # - "3.12"
       max-parallel: 5
 
     steps:
       - uses: actions/checkout@v4
 
       - name: Create Python ${{ matrix.python-version }} environment
+        # needed for Unpack step
         uses: mamba-org/setup-micromamba@v1
         with:
           cache-environment: true
@@ -124,18 +70,25 @@ jobs:
             python=${{ matrix.python-version }}
             setuptools-scm
 
-      - name: Initial diagnostics
+      - name: Unpack
         run: |
           set -vxeuo pipefail
-          micromamba info
-          micromamba list
-          conda config --show-sources
-          conda config --show
-          micromamba env list
-          printenv | sort
+          pip install databroker-pack
+          which databroker-pack
+          which databroker-unpack
+          cd resources
+          bash ./unpack.sh
+          cmd="import databroker;"
+          cmd+=" print(list(databroker.catalog));"
+          cmd+=" print(databroker.catalog_search_path());"
+          python -c "${cmd}"
+          cd ..
 
-      - name: Directories before Docker
-        run: ls -lAFghrt ~/
+      # - name: Directory Listings
+      #   run: |
+      #     set -vxeuo pipefail
+      #     ls -lAFghR ~/.local/share/intake
+      #     ls -lAFghR /tmp/*_test/
 
       - name: Start EPICS IOCs in Docker
         run: |
@@ -145,9 +98,6 @@ jobs:
           docker ps -a
           ls -lAFgh /tmp/docker_ioc/iocad/
           ls -lAFgh /tmp/docker_ioc/iocgp/
-
-      - name: Directories after Docker
-        run: ls -lAFghrt ~/
 
       - name: Confirm EPICS IOC is available via caget
         shell: bash -l {0}
@@ -165,6 +115,9 @@ jobs:
         shell: bash -l {0}
         run: |
           python -c "import epics; print(epics.caget('gp:UPTIME'))"
+          CMD="import epics"
+          CMD+="; print(epics.caget('gp:UPTIME'))"
+          python -c "${CMD}"
 
       - name: Confirm EPICS IOC is available via ophyd
         shell: bash -l {0}
@@ -175,30 +128,13 @@ jobs:
           CMD+="; up.wait_for_connection()"
           CMD+="; print(up.get(), pv.get())"
           python -c "${CMD}"
-
-      - name: Download catalog artifacts
-        uses: actions/download-artifact@v4
-        with:
-          name: databroker_catalogs
-          path: ~/databroker_catalogs
-
-      - name: Restore archival content
-        run: |
-          set -vxeuo pipefail
-          mkdir -p ~/.local/share/intake
-          mv ~/databroker_catalogs/.local/share/intake/* ~/.local/share/intake
-          mv ~/databroker_catalogs/*_test /tmp/
-
-      - name: Diagnostics
-        shell: bash -l {0}
-        run: |
-          set -vxeuo pipefail
-          df -HT
-          micromamba list
-
+  
       - name: Test catalog length, expect 53
         shell: bash -l {0}
-        run: python -c "import databroker; print(len(databroker.catalog['apstools_test']))"
+        run: |
+          CMD="import databroker"
+          CMD+="; print(len(databroker.catalog['apstools_test']))"
+          python -c "${CMD}"
 
       - name: Run tests with pytest & coverage
         shell: bash -l {0}
