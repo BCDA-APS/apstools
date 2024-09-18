@@ -107,6 +107,26 @@ jobs:
         shell: bash -l {0}
         run: |
           python -c "import epics; print(epics.caget('gp:UPTIME'))"
+          CMD="import epics"
+          CMD+="; print(epics.caget('gp:UPTIME'))"
+          python -c "${CMD}"
+
+      - name: Confirm EPICS IOC is available via ophyd
+        shell: bash -l {0}
+        run: |
+          CMD="import ophyd"
+          CMD+="; up = ophyd.EpicsSignalRO('gp:UPTIME', name='up')"
+          CMD+="; pv = ophyd.EpicsSignalRO('gp:gp:float1', name='pv')"
+          CMD+="; up.wait_for_connection()"
+          CMD+="; print(up.get(), pv.get())"
+          python -c "${CMD}"
+  
+      - name: Test catalog length, expect 53
+        shell: bash -l {0}
+        run: |
+          CMD="import databroker"
+          CMD+="; print(len(databroker.catalog['apstools_test']))"
+          python -c "${CMD}"
 
       - name: Run tests with pytest & coverage
         shell: bash -l {0}
