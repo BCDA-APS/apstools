@@ -30,7 +30,7 @@ jobs:
           # see .ruff.toml file for options
 
   test-matrix:
-    name: Workflow Redevelopment
+    name: Python ${{ matrix.python-version }}
     runs-on: ubuntu-latest
     needs: lint
     strategy:
