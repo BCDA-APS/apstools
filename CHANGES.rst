@@ -21,27 +21,40 @@ Project `milestones <https://github.com/BCDA-APS/apstools/milestones>`_
 describe future plans.
 
 ..
-   1.7.0
+   1.7.1
    ******
 
-   release expected by 2024-09-01
+   release expected by 2024-12-31
 
-   New Features
-   ------------
+1.7.0
+******
 
-   * Add ad_creator() and ad_class_factory() -- Easy to create area detector objects.
-   * Add SpecWriterCallback2 (writes point-by-point to file).
+release expected by 2024-09-01
 
-   Fixes
-   -----
+New Features
+------------
 
-   * Area detector image shape of (0, 0, 0) caused listdevice() to fail.
+* Add ad_creator() and ad_class_factory() -- Easy to create area detector objects.
+* Add SpecWriterCallback2 (writes point-by-point to file).
+* Support for most APS-U undulators.  (All but for 29-ID.)
 
-   Maintenance
-   -----------
+Fixes
+-----
 
-   * Added two PVs to PTC10 support.
-   * Unit tests now support Python version 3.9, 3.10, & 3.11.
+* Area detector image shape of (0, 0, 0) caused listdevice() to fail.
+* PVPositionerSoftDone should set done=False at start of move.
+* RuntimeError from listdevice() with area detector object.
+* PV name typo in synApps SaveData() class.  And capitalization.
+* CI workflow artifact cache errors.
+
+Maintenance
+-----------
+
+* Add ramp temperature and output enable to PTC-10.
+* Remove Anaconda defaults channel from environment per TOS.
+* Replace unit tests marked by 'local' decorator.
+* Unit tests now support Python version 3.9, 3.10, & 3.11.
+* Update common PVs for APS-U era.
 
 1.6.20
 ******
