@@ -54,8 +54,8 @@ class DM_WorkflowConnector(Device):
 
     The DM workflow dictionary of arguments (``workflow_args``) needs special
     attention.  Python's ``dict`` structure is not compatible with MongoDB.  In
-    turn, ophyd does not support it. A custom plan can choose how to use `the
-    `workflow_args`` dictionary:
+    turn, ophyd does not support it. A custom plan can choose how to use the
+    ``workflow_args`` dictionary:
 
     - use with DM workflow, as planned
     - add ``workflow_args`` to the start metadata
