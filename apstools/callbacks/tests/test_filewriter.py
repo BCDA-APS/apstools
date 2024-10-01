@@ -268,7 +268,7 @@ def test_NXWriter_receiver_battery(cat, tempdir):
 
         assert fname.exists()
         with h5py.File(fname, "r") as nxroot:
-            assert nxroot.attrs.get("NeXus_version") == NEXUS_RELEASE
+            assert nxroot.attrs.get("NeXus_release") == NEXUS_RELEASE
             assert nxroot.attrs.get("creator") == callback.__class__.__name__
 
             nxentry = nxroot["/entry"]

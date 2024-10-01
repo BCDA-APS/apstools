@@ -573,7 +573,7 @@ class NXWriter(FileWriterCallbackBase):
         if self.instrument_name is not None:
             self.root.attrs["instrument"] = self.instrument_name
         self.root.attrs["creator"] = self.__class__.__name__
-        self.root.attrs["NeXus_version"] = self.nexus_release
+        self.root.attrs["NeXus_release"] = self.nexus_release
         self.root.attrs["HDF5_Version"] = h5py.version.hdf5_version
         self.root.attrs["h5py_version"] = h5py.version.version
         self.root.attrs["default"] = "entry"
