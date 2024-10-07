@@ -55,7 +55,7 @@ jobs:
 
       - name: Create Python ${{ matrix.python-version }} environment
         # needed for Unpack step
-        uses: mamba-org/setup-micromamba@v1
+        uses: mamba-org/setup-micromamba@v2
         with:
           cache-environment: true
           cache-environment-key: env-key-${{ matrix.python-version }}
