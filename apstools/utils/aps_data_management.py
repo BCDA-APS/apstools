@@ -34,6 +34,7 @@ FUNCTIONS
     ~dm_api_file
     ~dm_api_filecat
     ~dm_api_proc
+    ~dm_daq_wait_upload_plan
     ~dm_file_ready_to_process
     ~dm_get_daqs
     ~dm_get_experiment_datadir_active_daq
@@ -66,6 +67,7 @@ __all__ = """
     dm_api_file
     dm_api_filecat
     dm_api_proc
+    dm_daq_wait_upload_plan
     dm_file_ready_to_process
     dm_get_daqs
     dm_get_experiment_datadir_active_daq
