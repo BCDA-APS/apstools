@@ -1,0 +1,749 @@
+
+
+<!DOCTYPE html>
+
+
+<html lang="en" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+
+    <title>Guides &#8212; apstools 1.6.17 documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=e353d410970836974a52" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/graphviz.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/css/custom.css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=e353d410970836974a52" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52" />
+
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/sphinx_highlight.js"></script>
+    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'examples/index';</script>
+    <script>
+        DOCUMENTATION_OPTIONS.theme_switcher_json_url = 'https://raw.githubusercontent.com/BCDA-APS/apstools/main/docs/source/_static/switcher.json';
+        DOCUMENTATION_OPTIONS.theme_switcher_version_match = '1.6.17';
+        </script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Area Detector with default HDF5 File Name" href="de_0_adsim_hdf5_basic.html" />
+    <link rel="prev" title="spec2ophyd" href="../applications/spec2ophyd.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+  
+    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
+<div class="bd-header__inner bd-page-width">
+  <label class="sidebar-toggle primary-toggle" for="__primary">
+    <span class="fa-solid fa-bars"></span>
+  </label>
+  
+  <div class="navbar-header-items__start">
+    
+      <div class="navbar-item">
+  
+
+<a class="navbar-brand logo" href="../index.html">
+  
+  
+  
+  
+  
+    <p class="title logo__title">apstools 1.6.17 documentation</p>
+  
+</a></div>
+    
+      <div class="navbar-item">
+<script>
+document.write(`
+  <div class="version-switcher__container dropdown">
+    <button type="button" class="version-switcher__button btn btn-sm navbar-btn dropdown-toggle" data-bs-toggle="dropdown">
+      1.6.17  <!-- this text may get changed later by javascript -->
+      <span class="caret"></span>
+    </button>
+    <div class="version-switcher__menu dropdown-menu list-group-flush py-0">
+    <!-- dropdown will be populated by javascript on page load -->
+    </div>
+  </div>
+`);
+</script></div>
+    
+  </div>
+  
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item"><nav class="navbar-nav">
+  <p class="sidebar-header-items__title"
+     role="heading"
+     aria-level="1"
+     aria-label="Site Navigation">
+    Site Navigation
+  </p>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../overview.html">
+                        Overview
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../applications/index.html">
+                        Applications
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item current active">
+                      <a class="nav-link nav-internal" href="#">
+                        Guides
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../api/index.html">
+                        API Documentation
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../install.html">
+                        Installation
+                      </a>
+                    </li>
+                
+            <div class="nav-item dropdown">
+                <button class="btn dropdown-toggle nav-item" type="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    More
+                </button>
+                <div class="dropdown-menu">
+                    
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../changes.html">
+                        Change History
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../license.html">
+                        License
+                      </a>
+                    </li>
+                
+                </div>
+            </div>
+            
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+  </button>
+`);
+</script>
+        </div>
+      
+      
+        <div class="navbar-item">
+<script>
+document.write(`
+  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
+    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
+    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+  </button>
+`);
+</script></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+  </button>
+`);
+</script>
+    </div>
+  
+
+  
+    <label class="sidebar-toggle secondary-toggle" for="__secondary">
+      <span class="fa-solid fa-outdent"></span>
+    </label>
+  
+</div>
+
+    </nav>
+  
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          <div class="navbar-item"><nav class="navbar-nav">
+  <p class="sidebar-header-items__title"
+     role="heading"
+     aria-level="1"
+     aria-label="Site Navigation">
+    Site Navigation
+  </p>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../overview.html">
+                        Overview
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../applications/index.html">
+                        Applications
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item current active">
+                      <a class="nav-link nav-internal" href="#">
+                        Guides
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../api/index.html">
+                        API Documentation
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../install.html">
+                        Installation
+                      </a>
+                    </li>
+                
+            <div class="nav-item dropdown">
+                <button class="btn dropdown-toggle nav-item" type="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    More
+                </button>
+                <div class="dropdown-menu">
+                    
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../changes.html">
+                        Change History
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../license.html">
+                        License
+                      </a>
+                    </li>
+                
+                </div>
+            </div>
+            
+  </ul>
+</nav></div>
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+<script>
+document.write(`
+  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
+    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
+    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+  </button>
+`);
+</script></div>
+        
+      </div>
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item"><nav class="bd-docs-nav bd-links"
+     aria-label="Section Navigation">
+  <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
+  <div class="bd-toc-item navbar-nav"><ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="de_0_adsim_hdf5_basic.html">Area Detector with default HDF5 File Name</a></li>
+<li class="toctree-l1"><a class="reference internal" href="de_1_adsim_hdf5_custom_names.html">Area Detector with custom HDF5 File Name</a></li>
+<li class="toctree-l1"><a class="reference internal" href="de_2_adsim_hdf5_single_mode.html">Area Detector, Single mode, HDF5 file</a></li>
+<li class="toctree-l1"><a class="reference internal" href="de_ad_pe.html">ADPerkinElmer Area Detector with default HDF5 File Name</a></li>
+<li class="toctree-l1"><a class="reference internal" href="de_ad_pilatus.html">ADPilatus Area Detector with default HDF5 File Name</a></li>
+<li class="toctree-l1"><a class="reference internal" href="de_scaler_motor_flyer.html">Fly Scans with EPICS motor and scaler</a></li>
+</ul>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="fw_nxwriter.html">Output scan(s) to a NeXus/HDF5 file</a></li>
+<li class="toctree-l1"><a class="reference internal" href="fw_specfile_example.html">Output scan(s) to a SPEC data file.</a></li>
+</ul>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="ho_contingency.html">How to interrupt/stop/abort a running plan &amp; recover to safe settings</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ho_list_control_objects.html">What are the objects to control?</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ho_search_databroker.html">How to Search for Bluesky Data?</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ho_session_logs.html">How to setup logging</a></li>
+</ul>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="pl_excel_scan.html">The <code class="docutils literal notranslate"><span class="pre">Excel_plan()</span></code> – batch scans using a spreadsheet</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pl_lineup.html">The <code class="docutils literal notranslate"><span class="pre">lineup()</span></code> plan - align an axis with a signal</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pl_nscan.html">The <code class="docutils literal notranslate"><span class="pre">nscan()</span></code> plan – scan multiple axes together</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pl_run_command_list.html">The <code class="xref py py-func docutils literal notranslate"><span class="pre">run_command_file()</span></code> plan – batch scans using a text file</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pl_tuneaxis.html">The <code class="docutils literal notranslate"><span class="pre">TuneAxis()</span></code> plan - align an axis with a signal</a></li>
+</ul>
+</div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+
+
+<nav aria-label="Breadcrumbs">
+  <ul class="bd-breadcrumbs" role="navigation" aria-label="Breadcrumb">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    <li class="breadcrumb-item active" aria-current="page">Guides</li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article" role="main">
+                  
+  <section id="guides">
+<span id="examples"></span><h1>Guides<a class="headerlink" href="#guides" title="Permalink to this heading">#</a></h1>
+<p>In addition to the guides presented below, there are many Jupyter notebooks
+online to provide additional
+<a class="reference external" href="https://github.com/BCDA-APS/bluesky_training#notebooks">Bluesky training</a>
+for the APS.  Further, NSLS-II provides online notebooks which can be
+<a class="reference external" href="https://try.nsls2.bnl.gov">executed online</a> (in a web browser).
+See the <a class="reference external" href="https://blueskyproject.io/">Bluesky home page</a> for more details.</p>
+<section id="devices">
+<h2>Devices<a class="headerlink" href="#devices" title="Permalink to this heading">#</a></h2>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="de_0_adsim_hdf5_basic.html">Area Detector with default HDF5 File Name</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="de_0_adsim_hdf5_basic.html#EPICS-Area-Detector-IOC">EPICS Area Detector IOC</a></li>
+<li class="toctree-l2"><a class="reference internal" href="de_0_adsim_hdf5_basic.html#File-Directories">File Directories</a></li>
+<li class="toctree-l2"><a class="reference internal" href="de_0_adsim_hdf5_basic.html#ophyd">ophyd</a></li>
+<li class="toctree-l2"><a class="reference internal" href="de_0_adsim_hdf5_basic.html#bluesky">bluesky</a></li>
+<li class="toctree-l2"><a class="reference internal" href="de_0_adsim_hdf5_basic.html#databroker">databroker</a></li>
+<li class="toctree-l2"><a class="reference internal" href="de_0_adsim_hdf5_basic.html#punx">punx</a></li>
+<li class="toctree-l2"><a class="reference internal" href="de_0_adsim_hdf5_basic.html#Recapitulation">Recapitulation</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="de_1_adsim_hdf5_custom_names.html">Area Detector with custom HDF5 File Name</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="de_1_adsim_hdf5_custom_names.html#EPICS-Area-Detector-IOC">EPICS Area Detector IOC</a></li>
+<li class="toctree-l2"><a class="reference internal" href="de_1_adsim_hdf5_custom_names.html#ophyd">ophyd</a></li>
+<li class="toctree-l2"><a class="reference internal" href="de_1_adsim_hdf5_custom_names.html#databroker">databroker</a></li>
+<li class="toctree-l2"><a class="reference internal" href="de_1_adsim_hdf5_custom_names.html#punx">punx</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="de_2_adsim_hdf5_single_mode.html">Area Detector, Single mode, HDF5 file</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="de_2_adsim_hdf5_single_mode.html#EPICS-Area-Detector-IOC">EPICS Area Detector IOC</a></li>
+<li class="toctree-l2"><a class="reference internal" href="de_2_adsim_hdf5_single_mode.html#File-Directories">File Directories</a></li>
+<li class="toctree-l2"><a class="reference internal" href="de_2_adsim_hdf5_single_mode.html#ophyd">ophyd</a></li>
+<li class="toctree-l2"><a class="reference internal" href="de_2_adsim_hdf5_single_mode.html#bluesky">bluesky</a></li>
+<li class="toctree-l2"><a class="reference internal" href="de_2_adsim_hdf5_single_mode.html#databroker">databroker</a></li>
+<li class="toctree-l2"><a class="reference internal" href="de_2_adsim_hdf5_single_mode.html#punx">punx</a></li>
+<li class="toctree-l2"><a class="reference internal" href="de_2_adsim_hdf5_single_mode.html#Recapitulation">Recapitulation</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="de_ad_pe.html">ADPerkinElmer Area Detector with default HDF5 File Name</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="de_ad_pe.html#epics-area-detector-ioc">EPICS Area Detector IOC</a></li>
+<li class="toctree-l2"><a class="reference internal" href="de_ad_pe.html#ophyd">ophyd</a></li>
+<li class="toctree-l2"><a class="reference internal" href="de_ad_pe.html#bluesky">bluesky</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="de_ad_pilatus.html">ADPilatus Area Detector with default HDF5 File Name</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="de_ad_pilatus.html#epics-area-detector-ioc">EPICS Area Detector IOC</a></li>
+<li class="toctree-l2"><a class="reference internal" href="de_ad_pilatus.html#ophyd">ophyd</a></li>
+<li class="toctree-l2"><a class="reference internal" href="de_ad_pilatus.html#bluesky">bluesky</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="de_scaler_motor_flyer.html">Fly Scans with EPICS motor and scaler</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="de_scaler_motor_flyer.html#Overview">Overview</a></li>
+<li class="toctree-l2"><a class="reference internal" href="de_scaler_motor_flyer.html#Outline">Outline</a></li>
+<li class="toctree-l2"><a class="reference internal" href="de_scaler_motor_flyer.html#Setup">Setup</a></li>
+<li class="toctree-l2"><a class="reference internal" href="de_scaler_motor_flyer.html#Scan">Scan</a></li>
+<li class="toctree-l2"><a class="reference internal" href="de_scaler_motor_flyer.html#Visualize">Visualize</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</section>
+<section id="file-writers">
+<h2>File Writers<a class="headerlink" href="#file-writers" title="Permalink to this heading">#</a></h2>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="fw_nxwriter.html">Output scan(s) to a NeXus/HDF5 file</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="fw_nxwriter.html#Callback">Callback</a></li>
+<li class="toctree-l2"><a class="reference internal" href="fw_nxwriter.html#Export">Export</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="fw_specfile_example.html">Output scan(s) to a SPEC data file.</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="fw_specfile_example.html#Setup">Setup</a></li>
+<li class="toctree-l2"><a class="reference internal" href="fw_specfile_example.html#get-the-most-recent-scan,-by-steps">get the most recent scan, by steps</a></li>
+<li class="toctree-l2"><a class="reference internal" href="fw_specfile_example.html#Support-function:-specfile_example()">Support function: <code class="docutils literal notranslate"><span class="pre">specfile_example()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="fw_specfile_example.html#Write-the-run-as-SPEC-data">Write the run as SPEC data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="fw_specfile_example.html#a-specific-scan">a specific scan</a></li>
+<li class="toctree-l2"><a class="reference internal" href="fw_specfile_example.html#specify-a-list-of-scans-by-UID">specify a list of scans by UID</a></li>
+<li class="toctree-l2"><a class="reference internal" href="fw_specfile_example.html#Find-specific-plans-within-a-range-of-dates">Find specific plans within a range of dates</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</section>
+<section id="how-to-guides">
+<h2>How-to Guides<a class="headerlink" href="#how-to-guides" title="Permalink to this heading">#</a></h2>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="ho_contingency.html">How to interrupt/stop/abort a running plan &amp; recover to safe settings</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="ho_contingency.html#Terminate-or-Interrupt">Terminate or Interrupt</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ho_contingency.html#Handle-Exceptions">Handle Exceptions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ho_contingency.html#Suspending-the-RunEngine">Suspending the RunEngine</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ho_contingency.html#Recover-Safe-Settings">Recover Safe Settings</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ho_contingency.html#Summary">Summary</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="ho_list_control_objects.html">What are the objects to control?</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="ho_list_control_objects.html#listobjects()-function"><code class="docutils literal notranslate"><span class="pre">listobjects()</span></code> function</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ho_list_control_objects.html#listdevice()-function"><code class="docutils literal notranslate"><span class="pre">listdevice()</span></code> function</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ho_list_control_objects.html#.summary()-method"><code class="docutils literal notranslate"><span class="pre">.summary()</span></code> method</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ho_list_control_objects.html#%wa-magic-command"><code class="docutils literal notranslate"><span class="pre">%wa</span></code> magic command</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ho_list_control_objects.html#listplans()-function"><code class="docutils literal notranslate"><span class="pre">listplans()</span></code> function</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ho_list_control_objects.html#findCatalogsInNamespace()-function"><code class="docutils literal notranslate"><span class="pre">findCatalogsInNamespace()</span></code> function</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="ho_search_databroker.html">How to Search for Bluesky Data?</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="ho_search_databroker.html#What-is-a-catalog?">What is a catalog?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ho_search_databroker.html#What-is-a-run?">What is a run?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ho_search_databroker.html#How-to-retrieve-a-run?">How to retrieve a run?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ho_search_databroker.html#Search-with-listruns()">Search with <code class="docutils literal notranslate"><span class="pre">listruns()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ho_search_databroker.html#Search-with-a-Filtered-catalog">Search with a Filtered catalog</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ho_search_databroker.html#Other-searches:">Other searches:</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="ho_session_logs.html">How to setup logging</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="ho_session_logs.html#handlers">Handlers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ho_session_logs.html#what-are-the-logging-levels">What are the logging levels?</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</section>
+<section id="plans">
+<h2>Plans<a class="headerlink" href="#plans" title="Permalink to this heading">#</a></h2>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="pl_excel_scan.html">The <code class="docutils literal notranslate"><span class="pre">Excel_plan()</span></code> – batch scans using a spreadsheet</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="pl_excel_scan.html#Excel-plan-and-infrastructure">Excel plan and infrastructure</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="pl_lineup.html">The <code class="docutils literal notranslate"><span class="pre">lineup()</span></code> plan - align an axis with a signal</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="pl_lineup.html#Setup">Setup</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pl_lineup.html#Scan">Scan</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pl_lineup.html#Validate">Validate</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="pl_nscan.html">The <code class="docutils literal notranslate"><span class="pre">nscan()</span></code> plan – scan multiple axes together</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="pl_nscan.html#Setup">Setup</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pl_nscan.html#Scan">Scan</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="pl_run_command_list.html">The <code class="xref py py-func docutils literal notranslate"><span class="pre">run_command_file()</span></code> plan – batch scans using a text file</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="pl_run_command_list.html#the-command-file">The Command File</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pl_run_command_list.html#the-actions">The <em>Actions</em></a></li>
+<li class="toctree-l2"><a class="reference internal" href="pl_run_command_list.html#register-our-own-execute-command-list">Register our own <code class="docutils literal notranslate"><span class="pre">execute_command_list</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="pl_run_command_list.html#testing-the-command-file">Testing the command file</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pl_run_command_list.html#running-the-command-file">Running the command file</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pl_run_command_list.html#appendix-other-spreadsheet-examples">Appendix: Other spreadsheet examples</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="pl_tuneaxis.html">The <code class="docutils literal notranslate"><span class="pre">TuneAxis()</span></code> plan - align an axis with a signal</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="pl_tuneaxis.html#Setup-the-simulated-detector-signal.">Setup the simulated detector signal.</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pl_tuneaxis.html#Set-up-the-tuner">Set up the tuner</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pl_tuneaxis.html#Multi-pass-tune">Multi-pass tune</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pl_tuneaxis.html#Single-pass-tune">Single-pass tune</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</section>
+<section id="file-downloads-for-the-examples">
+<span id="examples-downloads"></span><h2>File Downloads for the Examples<a class="headerlink" href="#file-downloads-for-the-examples" title="Permalink to this heading">#</a></h2>
+<p>The jupyter notebooks and files related to this section may be downloaded from the following table.</p>
+<ul class="simple">
+<li><p>jupyter notebook: <a class="reference download internal" download="" href="../_downloads/777e86c48a0d36da11bc935c051cc7cf/de_0_adsim_hdf5_basic.ipynb"><code class="xref download docutils literal notranslate"><span class="pre">de_0_adsim_hdf5_basic</span></code></a></p></li>
+<li><p>jupyter notebook: <a class="reference download internal" download="" href="../_downloads/e80cfbbe181b6cdf21573639b43edfa7/de_1_adsim_hdf5_custom_names.ipynb"><code class="xref download docutils literal notranslate"><span class="pre">de_1_adsim_hdf5_custom_names</span></code></a></p></li>
+<li><p>jupyter notebook: <a class="reference download internal" download="" href="../_downloads/6a9e62befaef1b2405bf13833c7f1175/de_2_adsim_hdf5_single_mode.ipynb"><code class="xref download docutils literal notranslate"><span class="pre">de_2_adsim_hdf5_single_mode</span></code></a></p></li>
+<li><p>jupyter notebook: <a class="reference download internal" download="" href="../_downloads/1910b6fa602cece4a3f661636dfb4c26/pl_excel_scan.ipynb"><code class="xref download docutils literal notranslate"><span class="pre">pl_excel_scan</span></code></a></p>
+<ul>
+<li><p><a class="reference download internal" download="" href="../_downloads/14db246ac0da58e69f8cd67d3d0ed30e/sample_example.xlsx"><code class="xref download docutils literal notranslate"><span class="pre">sample_example.xlsx</span></code></a></p></li>
+</ul>
+</li>
+<li><p>jupyter notebook: <a class="reference download internal" download="" href="../_downloads/625ccc137094c096a34ec8191ab2650c/pl_nscan.ipynb"><code class="xref download docutils literal notranslate"><span class="pre">pl_nscan</span></code></a></p></li>
+<li><p>jupyter notebook: <a class="reference download internal" download="" href="../_downloads/a9c6b9bf15c8c1bf55a88217ebf05d82/pl_tuneaxis.ipynb"><code class="xref download docutils literal notranslate"><span class="pre">pl_tuneaxis</span></code></a></p></li>
+<li><p>jupyter notebook: <a class="reference download internal" download="" href="../_downloads/f17b8e0a93a3320dd138fafad7376767/fw_specfile_example.ipynb"><code class="xref download docutils literal notranslate"><span class="pre">fw_specfile_example</span></code></a></p>
+<ul>
+<li><p><a class="reference download internal" download="" href="../_downloads/72f9c8a2da7bb63c04aaf1d0c66c828c/spec1.dat"><code class="xref download docutils literal notranslate"><span class="pre">spec1.dat</span></code></a></p></li>
+<li><p><a class="reference download internal" download="" href="../_downloads/42005c025a2db75a3863375d2bb26d64/spec2.dat"><code class="xref download docutils literal notranslate"><span class="pre">spec2.dat</span></code></a></p></li>
+<li><p><a class="reference download internal" download="" href="../_downloads/2b7ae88d0782f503632f7678bbb4ba34/spec3.dat"><code class="xref download docutils literal notranslate"><span class="pre">spec3.dat</span></code></a></p></li>
+<li><p><a class="reference download internal" download="" href="../_downloads/7b750a919c02bb88aadec9f08dd862ca/spec_tunes.dat"><code class="xref download docutils literal notranslate"><span class="pre">spec_tunes.dat</span></code></a></p></li>
+<li><p><a class="reference download internal" download="" href="../_downloads/82b561890edc39f853e4887ec9457781/test_specdata.txt"><code class="xref download docutils literal notranslate"><span class="pre">test_specdata.txt</span></code></a></p></li>
+</ul>
+</li>
+</ul>
+</section>
+</section>
+
+
+                </article>
+              
+              
+              
+                <footer class="bd-footer-article">
+                  
+<div class="footer-article-items footer-article__inner">
+  
+    <div class="footer-article-item"><!-- Previous / next buttons -->
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="../applications/spec2ophyd.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">spec2ophyd</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="de_0_adsim_hdf5_basic.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Area Detector with default HDF5 File Name</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div></div>
+  
+</div>
+
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#devices">Devices</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#file-writers">File Writers</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#how-to-guides">How-to Guides</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#plans">Plans</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#file-downloads-for-the-examples">File Downloads for the Examples</a></li>
+</ul>
+  </nav></div>
+
+  <div class="sidebar-secondary-item">
+  <div class="tocsection sourcelink">
+    <a href="../_sources/examples/index.rst.txt">
+      <i class="fa-solid fa-file-lines"></i> Show Source
+    </a>
+  </div>
+</div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=e353d410970836974a52"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+  <p class="copyright">
+    
+      © Copyright 2017-2023, UChicago Argonne, LLC.
+      <br/>
+    
+  </p>
+</div>
+      
+        <div class="footer-item">
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 5.3.0.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item"><p class="theme-version">
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.13.3.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>
