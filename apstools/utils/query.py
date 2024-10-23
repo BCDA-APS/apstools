@@ -7,8 +7,6 @@ Searching databroker catalogs
    ~db_query
 """
 
-import databroker
-
 from ._core import FIRST_DATA
 from ._core import LAST_DATA
 
@@ -37,6 +35,7 @@ def db_query(db, query):
 
        :func:`databroker.catalog.search`
     """
+    from databroker.queries import TimeRange
 
     if query is None:
         return db
@@ -50,11 +49,8 @@ def db_query(db, query):
         if not until:
             until = LAST_DATA
 
-        # fmt: off
-        _db = db.v2.search(
-            databroker.queries.TimeRange(since=since, until=until)
-        )
-        # fmt: on
+        time_span = TimeRange(since=since, until=until)
+        _db = db.v2.search(time_span)
     else:
         _db = db
 

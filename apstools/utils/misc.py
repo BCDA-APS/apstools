@@ -40,7 +40,6 @@ from collections import OrderedDict
 from collections import defaultdict
 from functools import wraps
 
-import databroker
 import ophyd
 import pyRestTable
 from bluesky import plan_stubs as bps
@@ -329,6 +328,8 @@ def replay(headers, callback=None, sort=True):
 
     (new in apstools release 1.1.11)
     """
+    from databroker import Header
+
     # fmt: off
     callback = callback or ipython_shell_namespace().get(
         "bec",  # get from IPython shell
@@ -363,7 +364,7 @@ def replay(headers, callback=None, sort=True):
     # fmt: on
 
     for h in sorted(runs, key=sorter):
-        if not isinstance(h, databroker.Header):
+        if not isinstance(h, Header):
             # fmt: off
             raise TypeError(
                 f"Must be a databroker Header: received: {type(h)}: |{h}|"

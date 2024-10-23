@@ -16,8 +16,6 @@ Working with databroker catalogs
 
 import logging
 
-# import databroker
-import databroker.queries
 import pandas as pd
 import pyRestTable
 
@@ -390,6 +388,9 @@ def quantify_md_key_use(
         tune_mr                    1
         ========================== =====
     """
+    from databroker import catalog
+    from databroker.queries import TimeRange
+
     key = key or "plan_name"
     catalog_name = catalog_name or "mongodb_config"
     query = query or {}
@@ -397,8 +398,8 @@ def quantify_md_key_use(
     until = until or "2100-12-31"
 
     cat = (
-        (db or databroker.catalog[catalog_name])
-        .v2.search(databroker.queries.TimeRange(since=since, until=until))
+        (db or catalog[catalog_name])
+        .v2.search(TimeRange(since=since, until=until))
         .search(query)
     )
 
