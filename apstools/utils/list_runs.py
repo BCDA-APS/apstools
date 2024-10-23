@@ -27,7 +27,6 @@ import databroker.queries
 
 from ._core import FIRST_DATA
 from ._core import LAST_DATA
-from ._core import MONGO_CATALOG_CLASSES
 from ._core import TableStyle
 from .query import db_query
 
@@ -385,6 +384,10 @@ class ListRuns:
                         exc,
                     )
         else:
+            from databroker import Broker
+            from databroker._drivers.mongo_normalized import BlueskyMongoCatalog
+
+            MONGO_CATALOG_CLASSES = (Broker, BlueskyMongoCatalog)
             if isinstance(cat, MONGO_CATALOG_CLASSES) and self.sortby == "time":
                 if self.reverse:
                     # the default rendering: from MongoDB in reverse time order

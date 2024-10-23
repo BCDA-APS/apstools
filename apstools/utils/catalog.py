@@ -16,14 +16,11 @@ Working with databroker catalogs
 
 import logging
 
-import databroker
-import databroker._drivers.mongo_normalized
-import databroker._drivers.msgpack
+# import databroker
 import databroker.queries
 import pandas as pd
 import pyRestTable
 
-from ._core import CATALOG_CLASSES
 from .list_runs import getRunData
 from .profile_support import getDefaultNamespace
 from .profile_support import ipython_shell_namespace
@@ -191,6 +188,12 @@ def getDefaultDatabase():
 
     (new in release 1.4.0)
     """
+    from databroker import Broker
+    from databroker._drivers.mongo_normalized import BlueskyMongoCatalog
+    from databroker._drivers.msgpack import BlueskyMsgpackCatalog
+    from intake import Catalog
+
+    CATALOG_CLASSES = (Broker, BlueskyMongoCatalog, BlueskyMsgpackCatalog, Catalog)
     # look through the console namespace
     g = ipython_shell_namespace()
     if len(g) == 0:
