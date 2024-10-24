@@ -16,14 +16,9 @@ Working with databroker catalogs
 
 import logging
 
-import databroker
-import databroker._drivers.mongo_normalized
-import databroker._drivers.msgpack
-import databroker.queries
 import pandas as pd
 import pyRestTable
 
-from ._core import CATALOG_CLASSES
 from .list_runs import getRunData
 from .profile_support import getDefaultNamespace
 from .profile_support import ipython_shell_namespace
@@ -85,8 +80,11 @@ def findCatalogsInNamespace():
 
 
 def getCatalog(ref=None):
+    """Return a catalog object."""
+    from databroker import catalog
+
     if isinstance(ref, str):  # and ref in databroker.catalog:
-        return databroker.catalog[ref]
+        return catalog[ref]
     if ref is not None and hasattr(ref, "v2"):
         return ref.v2
 
@@ -120,23 +118,28 @@ def getDatabase(db=None, catalog_name=None):
 
     (new in release 1.4.0)
     """
+    from databroker import catalog
+
     if not hasattr(db, "v2"):
         # fmt: off
         if (
             hasattr(catalog_name, "name")
-            and catalog_name in databroker.catalog
+            and catalog_name in catalog
         ):
             # in case a catalog was passed as catalog_name
             db = catalog_name
         elif catalog_name is None:
             db = getDefaultDatabase()
         else:
-            db = databroker.catalog[catalog_name]
+            db = catalog[catalog_name]
         # fmt: on
     return db.v2
 
 
 def getDefaultCatalog():
+    """Return the default databroker catalog."""
+    from databroker import catalog
+
     cats = findCatalogsInNamespace()
     if len(cats) == 1:
         return cats[list(cats.keys())[0]]
@@ -151,11 +154,11 @@ def getDefaultCatalog():
             "No catalog defined.  Multiple catalog objects available.  Specify one of these: {choices}"
         )
 
-    cats = list(databroker.catalog)
+    cats = list(catalog)
     if len(cats) == 1:
-        return databroker.catalog[cats[0]]
+        return catalog[cats[0]]
     if len(cats) > 1:
-        choices = "   ".join([f'databroker.catalog["{k}"]' for k in cats])
+        choices = "   ".join([f'catalog["{k}"]' for k in cats])
         raise ValueError(
             "No catalog defined.  "
             "Multiple catalog configurations available."
@@ -191,6 +194,13 @@ def getDefaultDatabase():
 
     (new in release 1.4.0)
     """
+    from databroker import Broker
+    from databroker import catalog as db_catalog
+    from databroker._drivers.mongo_normalized import BlueskyMongoCatalog
+    from databroker._drivers.msgpack import BlueskyMsgpackCatalog
+    from intake import Catalog
+
+    CATALOG_CLASSES = (Broker, BlueskyMongoCatalog, BlueskyMsgpackCatalog, Catalog)
     # look through the console namespace
     g = ipython_shell_namespace()
     if len(g) == 0:
@@ -211,8 +221,8 @@ def getDefaultDatabase():
 
     # get the most recent run from each
     time_ref = {}
-    for cat_name in list(databroker.catalog):
-        cat = databroker.catalog[cat_name]
+    for cat_name in list(db_catalog):
+        cat = db_catalog[cat_name]
         if cat in db_list:
             if len(cat) > 0:
                 run = cat.v2[-1]
@@ -387,6 +397,9 @@ def quantify_md_key_use(
         tune_mr                    1
         ========================== =====
     """
+    from databroker import catalog
+    from databroker.queries import TimeRange
+
     key = key or "plan_name"
     catalog_name = catalog_name or "mongodb_config"
     query = query or {}
@@ -394,8 +407,8 @@ def quantify_md_key_use(
     until = until or "2100-12-31"
 
     cat = (
-        (db or databroker.catalog[catalog_name])
-        .v2.search(databroker.queries.TimeRange(since=since, until=until))
+        (db or catalog[catalog_name])
+        .v2.search(TimeRange(since=since, until=until))
         .search(query)
     )
 

@@ -35,8 +35,6 @@ from ophyd import Component
 from ophyd import Device
 from ophyd import Signal
 
-from ..utils import run_in_thread
-
 logger = logging.getLogger(__name__)
 
 NOT_AVAILABLE = "-n/a-"
@@ -191,6 +189,8 @@ class DM_WorkflowConnector(Device):
         The reporting process will continue until the workflow ends or the
         timeout period is exceeded.  It does not affect the actual workflow.
         """
+        from ..utils import run_in_thread
+
         if workflow == "":
             workflow = self.workflow.get()
         else:

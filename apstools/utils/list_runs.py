@@ -20,14 +20,8 @@ import typing
 import warnings
 from collections import defaultdict
 
-import databroker
-import databroker._drivers.mongo_normalized
-import databroker._drivers.msgpack
-import databroker.queries
-
 from ._core import FIRST_DATA
 from ._core import LAST_DATA
-from ._core import MONGO_CATALOG_CLASSES
 from ._core import TableStyle
 from .query import db_query
 
@@ -345,11 +339,13 @@ class ListRuns:
 
     def _apply_search_filters(self):
         """Search for runs from the catalog."""
+        from databroker.queries import TimeRange
+
         since = self.since or FIRST_DATA
         until = self.until or LAST_DATA
         self._check_cat()
         query = {}
-        query.update(databroker.queries.TimeRange(since=since, until=until))
+        query.update(TimeRange(since=since, until=until))
         query.update(self.query or {})
         cat = self.cat.v2.search(query)
         return cat
@@ -385,6 +381,10 @@ class ListRuns:
                         exc,
                     )
         else:
+            from databroker import Broker
+            from databroker._drivers.mongo_normalized import BlueskyMongoCatalog
+
+            MONGO_CATALOG_CLASSES = (Broker, BlueskyMongoCatalog)
             if isinstance(cat, MONGO_CATALOG_CLASSES) and self.sortby == "time":
                 if self.reverse:
                     # the default rendering: from MongoDB in reverse time order
@@ -586,12 +586,13 @@ def summarize_runs(since=None, db=None):
         Instance of ``databroker.Broker()``
         (default: ``db`` from the IPython shell)
     """
+    from databroker.queries import TimeRange
     from . import ipython_shell_namespace
 
     db = db or ipython_shell_namespace()["db"]
     # no APS X-ray experiment data before 1995!
     since = since or "1995"
-    cat = db.v2.search(databroker.queries.TimeRange(since=since))
+    cat = db.v2.search(TimeRange(since=since))
     plans = defaultdict(list)
     t0 = time.time()
     for n, uid in enumerate(cat):
