@@ -26,6 +26,12 @@ describe future plans.
 
    release expected by 2024-12-31
 
+   Fixes
+   -----
+
+   - Allow imports to succeed when developing or testing with databroker v2.0+.
+   - In SpecWriterCallback2, set spec_filename in constructor.
+
 1.7.0
 ******
 
