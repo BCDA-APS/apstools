@@ -153,15 +153,13 @@ class PVPositionerSoftDone(PVPositioner):
         self.readback.unsubscribe_all()
         self.setpoint.unsubscribe_all()
 
-    # fmt: off
     @property
     def actual_tolerance(self):
-        return (
-            self.tolerance.get()
-            if self.tolerance.get() >= 0
-            else 10 ** (-1 * self.precision)
-        )
-    # fmt: on
+        tolerance = self.tolerance.get() 
+        if tolerance < 0:
+            # Use EPICS-defined precision.
+            tolerance = 10 ** (-1 * self.precision) 
+        return tolerance
 
     def cb_update_target(self, value, *args, **kwargs):
         self.target.put(value)
