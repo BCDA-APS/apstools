@@ -731,6 +731,7 @@ class SpecWriterCallback2(FileWriterCallbackBase):
         self._file_header_motor_keys = None
         self._motor_stream_name = "label_start_motor"
         self.file_epoch = None
+        self.spec_filename = None
         self.write_new_file_header = True
 
     def descriptor(self, doc):
@@ -1085,7 +1086,7 @@ class SpecWriterCallback2(FileWriterCallbackBase):
 
     @spec_filename.setter
     def spec_filename(self, file_name):
-        self.file_name = file_name
+        self.file_name = file_name or self.make_default_filename()
 
 
 def spec_comment(comment, doc=None, writer=None):
