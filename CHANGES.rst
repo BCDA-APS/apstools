@@ -24,7 +24,18 @@ describe future plans.
    1.7.1
    ******
 
-   release expected by 2024-12-31
+   Bugfix release expected by 2024-11-01.
+
+   Fixes
+   -----
+
+   - Allow imports to succeed when developing or testing with databroker v2.0+.
+   - In SpecWriterCallback2, set spec_filename in constructor.
+
+   Maintenance
+   -----------
+
+   - Use 'NeXus_release' file attribute in 'nxwriter' callback.
 
    Deprecations
    ------------
