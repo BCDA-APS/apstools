@@ -42,7 +42,6 @@ class EpicsDescriptionMixin(DeviceMixinBase):
 
         class EpicsMotorWithMore(
             EpicsDescriptionMixin,
-            EpicsMotorLimitsMixin,
             EpicsMotorDialMixin,
             EpicsMotorRawMixin,
             EpicsMotor

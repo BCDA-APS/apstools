@@ -93,7 +93,6 @@ from .mixin_base import DeviceMixinBase
 
 from .motor_mixins import EpicsMotorDialMixin
 from .motor_mixins import EpicsMotorEnableMixin
-from .motor_mixins import EpicsMotorLimitsMixin
 from .motor_mixins import EpicsMotorRawMixin
 from .motor_mixins import EpicsMotorResolutionMixin
 from .motor_mixins import EpicsMotorServoMixin

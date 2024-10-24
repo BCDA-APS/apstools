@@ -138,7 +138,6 @@ Motors, Positioners, Axes, ...
     ~apstools.devices.description_mixin.EpicsDescriptionMixin
     ~apstools.devices.motor_mixins.EpicsMotorDialMixin
     ~apstools.devices.motor_mixins.EpicsMotorEnableMixin
-    ~apstools.devices.motor_mixins.EpicsMotorLimitsMixin
     ~apstools.devices.motor_mixins.EpicsMotorRawMixin
     ~apstools.devices.motor_mixins.EpicsMotorResolutionMixin
     ~apstools.devices.motor_mixins.EpicsMotorServoMixin
