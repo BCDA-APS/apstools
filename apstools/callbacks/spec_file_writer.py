@@ -601,7 +601,7 @@ class SpecWriterCallback(object):
     def make_default_filename(self):
         """generate a file name to be used as default"""
         now = datetime.datetime.now()
-        filename = datetime.datetime.strftime(now, "%Y%m%d-%H%M%S") + ".dat"
+        filename = now.strftime("%Y%m%d-%H%M%S") + ".dat"
         return pathlib.Path(filename)
 
     def newfile(self, filename=None, scan_id=None, RE=None):
@@ -718,7 +718,7 @@ class SpecWriterCallback2(FileWriterCallbackBase):
     .. rubric: Properties
     .. autosummary::
         ~spec_filename
-    
+
     *New in apstools 1.7.0.*
     """
 
@@ -731,6 +731,7 @@ class SpecWriterCallback2(FileWriterCallbackBase):
         self._file_header_motor_keys = None
         self._motor_stream_name = "label_start_motor"
         self.file_epoch = None
+        self.spec_filename = None
         self.write_new_file_header = True
 
     def descriptor(self, doc):
@@ -862,7 +863,7 @@ class SpecWriterCallback2(FileWriterCallbackBase):
     def make_default_filename(self):
         """generate a file name to be used as default"""
         now = datetime.datetime.now()
-        filename = datetime.datetime.strftime(now, "%Y%m%d-%H%M%S") + ".dat"
+        filename = now.strftime("%Y%m%d-%H%M%S") + ".dat"
         return pathlib.Path(filename)
 
     def newfile(self, filename=None, scan_id=None, RE=None):
@@ -1085,7 +1086,7 @@ class SpecWriterCallback2(FileWriterCallbackBase):
 
     @spec_filename.setter
     def spec_filename(self, file_name):
-        self.file_name = file_name
+        self.file_name = file_name or self.make_default_filename()
 
 
 def spec_comment(comment, doc=None, writer=None):
