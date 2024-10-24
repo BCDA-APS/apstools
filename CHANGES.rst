@@ -26,6 +26,11 @@ describe future plans.
 
    release expected by 2024-12-31
 
+   Deprecations
+   ------------
+
+   - 'EpicsMotorLimitsMixin' features are now part of 'ophyd.EpicsMotor'.
+
 1.7.0
 ******
 
