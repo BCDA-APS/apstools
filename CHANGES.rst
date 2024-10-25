@@ -29,7 +29,7 @@ describe future plans.
 1.7.1
 ******
 
-Bugfix release expected by 2024-10-25.
+Bugfix released 2024-10-25.
 
 Fixes
 -----
