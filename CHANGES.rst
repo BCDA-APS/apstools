@@ -21,26 +21,31 @@ Project `milestones <https://github.com/BCDA-APS/apstools/milestones>`_
 describe future plans.
 
 ..
-   1.7.1
+   1.7.2
    ******
 
-   Bugfix release expected by 2024-11-01.
+   Release expected by 2024-12-31.
 
-   Fixes
-   -----
+1.7.1
+******
 
-   - Allow imports to succeed when developing or testing with databroker v2.0+.
-   - In SpecWriterCallback2, set spec_filename in constructor.
+Bugfix release expected by 2024-10-25.
 
-   Maintenance
-   -----------
+Fixes
+-----
 
-   - Use 'NeXus_release' file attribute in 'nxwriter' callback.
+- Allow imports to succeed when developing or testing with databroker v2.0+.
+- In SpecWriterCallback2, set spec_filename in constructor.
 
-   Deprecations
-   ------------
+Maintenance
+-----------
 
-   - 'EpicsMotorLimitsMixin' features are now part of 'ophyd.EpicsMotor'.
+- Use 'NeXus_release' file attribute in 'nxwriter' callback.
+
+Deprecations
+------------
+
+- 'EpicsMotorLimitsMixin' features are now part of 'ophyd.EpicsMotor'.
 
 1.7.0
 ******
