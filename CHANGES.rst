@@ -37,6 +37,11 @@ describe future plans.
 
    - Use 'NeXus_release' file attribute in 'nxwriter' callback.
 
+   Deprecations
+   ------------
+
+   - 'EpicsMotorLimitsMixin' features are now part of 'ophyd.EpicsMotor'.
+
 1.7.0
 ******
 
