@@ -733,6 +733,7 @@ class SpecWriterCallback2(FileWriterCallbackBase):
         self.file_epoch = None
         self.spec_filename = None
         self.write_new_file_header = True
+        self.write_new_scan_header = False
 
     def descriptor(self, doc):
         """
@@ -887,7 +888,6 @@ class SpecWriterCallback2(FileWriterCallbackBase):
         self.spec_epoch = int(time.time())  # ! no roundup here!!!
         self.spec_host = socket.gethostname() or "localhost"
         self.spec_user = getpass.getuser() or "BlueskyUser"
-        self.write_new_header = True  # don't write the file yet
 
         # backwards-compatibility
         if isinstance(scan_id, bool):
