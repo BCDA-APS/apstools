@@ -138,10 +138,10 @@ class PVPositionerSoftDone(PVPositioner):
 
         self.readback.subscribe(self.cb_readback)
         self.setpoint.subscribe(self.cb_setpoint)
+        options = {}
         if "setpoint" in self.event_types:
-            self.setpoint.subscribe(self.cb_update_target, event_type="setpoint")
-        else:
-            logger.debug("Could not subscribe 'cb_update_target'.  Ignoring.")
+            options["event_type"] = "setpoint"
+        self.setpoint.subscribe(self.cb_update_target, **options)
 
         # cancel subscriptions before object is garbage collected
         weakref.finalize(self.readback, self.readback.unsubscribe_all)
