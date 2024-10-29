@@ -26,6 +26,12 @@ describe future plans.
 
    Release expected by 2024-12-31.
 
+   Fixes
+   -----
+
+   - PVPositionerSoftDone used an invalid subscription event type
+     in unusual cases (with fake ophyd simulated devices).
+
 1.7.1
 ******
 
