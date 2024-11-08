@@ -124,7 +124,7 @@ def dm_setup(setup_file):
     """
     Name the APS Data Management bash script that activates its conda environment.
 
-    The return result defines the ``BDP_WORKFLOW_OWNER`` symbol.
+    The return result is the 'owner' of the DM workflows.
     """
     global DM_SETUP_FILE
 
@@ -134,10 +134,10 @@ def dm_setup(setup_file):
     DM_SETUP_FILE = setup_file
 
     dm_source_environ()
-    bdp_workflow_owner = environ["DM_STATION_NAME"].lower()
+    workflow_owner = environ["DM_STATION_NAME"].lower()
 
-    logger.info("APS DM workflow owner: %s", bdp_workflow_owner)
-    return bdp_workflow_owner
+    logger.info("APS DM workflow owner: %s", workflow_owner)
+    return workflow_owner
 
 
 def build_run_metadata_dict(user_md: dict, **dm_kwargs) -> dict:
