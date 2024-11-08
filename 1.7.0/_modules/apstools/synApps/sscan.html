@@ -1,0 +1,882 @@
+
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>apstools.synApps.sscan &#8212; apstools 1.7</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../../../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../../../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../../../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/graphviz.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/sphinx-design.5ea377869091fd0449014c60fc090103.min.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/css/custom.css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+    <script src="../../../_static/jquery.js"></script>
+    <script src="../../../_static/underscore.js"></script>
+    <script src="../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="../../../_static/doctools.js"></script>
+    <script src="../../../_static/sphinx_highlight.js"></script>
+    <script src="../../../_static/design-tabs.js"></script>
+    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = '_modules/apstools/synApps/sscan';</script>
+    <script>
+        DOCUMENTATION_OPTIONS.theme_version = '0.15.4';
+        DOCUMENTATION_OPTIONS.theme_switcher_json_url = 'https://raw.githubusercontent.com/BCDA-APS/apstools/main/docs/source/_static/switcher.json';
+        DOCUMENTATION_OPTIONS.theme_switcher_version_match = '1.7.0';
+        DOCUMENTATION_OPTIONS.show_version_warning_banner = false;
+        </script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-3 navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../../../index.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">apstools 1.7</p>
+  
+</a></div>
+    
+      <div class="navbar-item">
+<script>
+document.write(`
+  <div class="version-switcher__container dropdown">
+    <button id="pst-version-switcher-button-2"
+      type="button"
+      class="version-switcher__button btn btn-sm dropdown-toggle"
+      data-bs-toggle="dropdown"
+      aria-haspopup="listbox"
+      aria-controls="pst-version-switcher-list-2"
+      aria-label="Version switcher list"
+    >
+      Choose version  <!-- this text may get changed later by javascript -->
+      <span class="caret"></span>
+    </button>
+    <div id="pst-version-switcher-list-2"
+      class="version-switcher__menu dropdown-menu list-group-flush py-0"
+      role="listbox" aria-labelledby="pst-version-switcher-button-2">
+      <!-- dropdown will be populated by javascript on page load -->
+    </div>
+  </div>
+`);
+</script></div>
+    
+  </div>
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../install.html">
+    Installation
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../api/index.html">
+    API Documentation
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../applications/index.html">
+    Applications
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../examples/index.html">
+    Examples
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../changes.html">
+    Change History
+  </a>
+</li>
+
+            <li class="nav-item dropdown">
+                <button class="btn dropdown-toggle nav-item" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-controls="pst-nav-more-links">
+                    More
+                </button>
+                <ul id="pst-nav-more-links" class="dropdown-menu">
+                    
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../../license.html">
+    License
+  </a>
+</li>
+
+                </ul>
+            </li>
+            
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script>
+        </div>
+      
+      
+        <div class="navbar-item">
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script></div>
+      
+        <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/BCDA-APS/apstools" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script>
+    </div>
+  
+
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+        
+      
+      <div class="bd-sidebar-primary bd-sidebar hide-on-wide">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../install.html">
+    Installation
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../api/index.html">
+    API Documentation
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../applications/index.html">
+    Applications
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../examples/index.html">
+    Examples
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../changes.html">
+    Change History
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../license.html">
+    License
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script></div>
+        
+          <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/BCDA-APS/apstools" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+        
+      </div>
+    
+  </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+
+
+<nav aria-label="Breadcrumb" class="d-print-none">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../../../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="../../index.html" class="nav-link">Module code</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page">apstools.syn...</li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <h1>Source code for apstools.synApps.sscan</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Ophyd support for the EPICS synApps sscan record</span>
+
+<span class="sd">see:  https://epics.anl.gov/bcda/synApps/sscan/SscanRecord.html</span>
+
+<span class="sd">EXAMPLE::</span>
+
+<span class="sd">    import apstools.synApps</span>
+<span class="sd">    scans = apstools.synApps.SscanDevice(&quot;xxx:&quot;, name=&quot;scans&quot;)</span>
+<span class="sd">    scans.select_channels()     # only the channels configured in EPICS</span>
+
+
+<span class="sd">Public Structures</span>
+
+<span class="sd">.. autosummary::</span>
+
+<span class="sd">    ~SscanRecord</span>
+<span class="sd">    ~SscanDevice</span>
+
+<span class="sd">Private Structures</span>
+
+<span class="sd">.. autosummary::</span>
+
+<span class="sd">    ~sscanPositioner</span>
+<span class="sd">    ~sscanDetector</span>
+<span class="sd">    ~sscanTrigger</span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+
+
+<span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">OrderedDict</span>
+
+<span class="kn">from</span> <span class="nn">ophyd</span> <span class="kn">import</span> <span class="n">Component</span> <span class="k">as</span> <span class="n">Cpt</span>
+<span class="kn">from</span> <span class="nn">ophyd</span> <span class="kn">import</span> <span class="n">Device</span>
+<span class="kn">from</span> <span class="nn">ophyd</span> <span class="kn">import</span> <span class="n">DynamicDeviceComponent</span> <span class="k">as</span> <span class="n">DDC</span>
+<span class="kn">from</span> <span class="nn">ophyd</span> <span class="kn">import</span> <span class="n">EpicsSignal</span>
+<span class="kn">from</span> <span class="nn">ophyd</span> <span class="kn">import</span> <span class="n">EpicsSignalRO</span>
+<span class="kn">from</span> <span class="nn">ophyd</span> <span class="kn">import</span> <span class="n">FormattedComponent</span> <span class="k">as</span> <span class="n">FC</span>
+<span class="kn">from</span> <span class="nn">ophyd.status</span> <span class="kn">import</span> <span class="n">DeviceStatus</span>
+
+<span class="kn">from</span> <span class="nn">..</span> <span class="kn">import</span> <span class="n">utils</span> <span class="k">as</span> <span class="n">APS_utils</span>
+
+
+<div class="viewcode-block" id="sscanPositioner"><a class="viewcode-back" href="../../../api/synApps/_sscan.html#apstools.synApps.sscan.sscanPositioner">[docs]</a><span class="k">class</span> <span class="nc">sscanPositioner</span><span class="p">(</span><span class="n">Device</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    positioner of an EPICS sscan record</span>
+
+<span class="sd">    .. index:: Ophyd Device; synApps sscanPositioner</span>
+
+<span class="sd">    .. autosummary::</span>
+
+<span class="sd">        ~defined_in_EPICS</span>
+<span class="sd">        ~reset</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">readback_pv</span> <span class="o">=</span> <span class="n">FC</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">&quot;</span><span class="si">{self.prefix}</span><span class="s2">.R</span><span class="si">{self._ch_num}</span><span class="s2">PV&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;config&quot;</span><span class="p">)</span>
+    <span class="n">readback_value</span> <span class="o">=</span> <span class="n">FC</span><span class="p">(</span><span class="n">EpicsSignalRO</span><span class="p">,</span> <span class="s2">&quot;</span><span class="si">{self.prefix}</span><span class="s2">.R</span><span class="si">{self._ch_num}</span><span class="s2">CV&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;hinted&quot;</span><span class="p">)</span>
+    <span class="n">array</span> <span class="o">=</span> <span class="n">FC</span><span class="p">(</span>
+        <span class="n">EpicsSignalRO</span><span class="p">,</span>
+        <span class="s2">&quot;</span><span class="si">{self.prefix}</span><span class="s2">.P</span><span class="si">{self._ch_num}</span><span class="s2">CA&quot;</span><span class="p">,</span>
+        <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;normal&quot;</span><span class="p">,</span>  <span class="c1"># TODO: which kind here?</span>
+    <span class="p">)</span>
+    <span class="n">setpoint_pv</span> <span class="o">=</span> <span class="n">FC</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">&quot;</span><span class="si">{self.prefix}</span><span class="s2">.P</span><span class="si">{self._ch_num}</span><span class="s2">PV&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;config&quot;</span><span class="p">)</span>
+    <span class="n">setpoint_value</span> <span class="o">=</span> <span class="n">FC</span><span class="p">(</span><span class="n">EpicsSignalRO</span><span class="p">,</span> <span class="s2">&quot;</span><span class="si">{self.prefix}</span><span class="s2">.P</span><span class="si">{self._ch_num}</span><span class="s2">DV&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;normal&quot;</span><span class="p">)</span>
+    <span class="n">start</span> <span class="o">=</span> <span class="n">FC</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">&quot;</span><span class="si">{self.prefix}</span><span class="s2">.P</span><span class="si">{self._ch_num}</span><span class="s2">SP&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;config&quot;</span><span class="p">)</span>
+    <span class="n">center</span> <span class="o">=</span> <span class="n">FC</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">&quot;</span><span class="si">{self.prefix}</span><span class="s2">.P</span><span class="si">{self._ch_num}</span><span class="s2">CP&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;config&quot;</span><span class="p">)</span>
+    <span class="n">end</span> <span class="o">=</span> <span class="n">FC</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">&quot;</span><span class="si">{self.prefix}</span><span class="s2">.P</span><span class="si">{self._ch_num}</span><span class="s2">EP&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;config&quot;</span><span class="p">)</span>
+    <span class="n">step_size</span> <span class="o">=</span> <span class="n">FC</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">&quot;</span><span class="si">{self.prefix}</span><span class="s2">.P</span><span class="si">{self._ch_num}</span><span class="s2">SI&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;config&quot;</span><span class="p">)</span>
+    <span class="n">width</span> <span class="o">=</span> <span class="n">FC</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">&quot;</span><span class="si">{self.prefix}</span><span class="s2">.P</span><span class="si">{self._ch_num}</span><span class="s2">WD&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;config&quot;</span><span class="p">)</span>
+    <span class="n">abs_rel</span> <span class="o">=</span> <span class="n">FC</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">&quot;</span><span class="si">{self.prefix}</span><span class="s2">.P</span><span class="si">{self._ch_num}</span><span class="s2">AR&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;config&quot;</span><span class="p">)</span>
+    <span class="n">mode</span> <span class="o">=</span> <span class="n">FC</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">&quot;</span><span class="si">{self.prefix}</span><span class="s2">.P</span><span class="si">{self._ch_num}</span><span class="s2">SM&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;config&quot;</span><span class="p">)</span>
+    <span class="n">units</span> <span class="o">=</span> <span class="n">FC</span><span class="p">(</span><span class="n">EpicsSignalRO</span><span class="p">,</span> <span class="s2">&quot;</span><span class="si">{self.prefix}</span><span class="s2">.P</span><span class="si">{self._ch_num}</span><span class="s2">EU&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;config&quot;</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">prefix</span><span class="p">,</span> <span class="n">num</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_ch_num</span> <span class="o">=</span> <span class="n">num</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">prefix</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+<div class="viewcode-block" id="sscanPositioner.reset"><a class="viewcode-back" href="../../../api/synApps/_sscan.html#apstools.synApps.sscan.sscanPositioner.reset">[docs]</a>    <span class="k">def</span> <span class="nf">reset</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;set all fields to default values&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">readback_pv</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">setpoint_pv</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">start</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">center</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">end</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">step_size</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">width</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">abs_rel</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="s2">&quot;ABSOLUTE&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">mode</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="s2">&quot;LINEAR&quot;</span><span class="p">)</span></div>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">defined_in_EPICS</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;True if defined in EPICS&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">setpoint_pv</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">strip</span><span class="p">())</span> <span class="o">&gt;</span> <span class="mi">0</span></div>
+
+
+<div class="viewcode-block" id="sscanDetector"><a class="viewcode-back" href="../../../api/synApps/_sscan.html#apstools.synApps.sscan.sscanDetector">[docs]</a><span class="k">class</span> <span class="nc">sscanDetector</span><span class="p">(</span><span class="n">Device</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    detector of an EPICS sscan record</span>
+
+<span class="sd">    .. index:: Ophyd Device; synApps sscanDetector</span>
+
+<span class="sd">    .. autosummary::</span>
+
+<span class="sd">        ~defined_in_EPICS</span>
+<span class="sd">        ~reset</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">input_pv</span> <span class="o">=</span> <span class="n">FC</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">&quot;</span><span class="si">{self.prefix}</span><span class="s2">.D</span><span class="si">{self._ch_num}</span><span class="s2">PV&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;config&quot;</span><span class="p">)</span>
+    <span class="n">current_value</span> <span class="o">=</span> <span class="n">FC</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">&quot;</span><span class="si">{self.prefix}</span><span class="s2">.D</span><span class="si">{self._ch_num}</span><span class="s2">CV&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;hinted&quot;</span><span class="p">)</span>
+    <span class="n">array</span> <span class="o">=</span> <span class="n">FC</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">&quot;</span><span class="si">{self.prefix}</span><span class="s2">.D</span><span class="si">{self._ch_num}</span><span class="s2">CA&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;omitted&quot;</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">prefix</span><span class="p">,</span> <span class="n">num</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_ch_num</span> <span class="o">=</span> <span class="n">num</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">prefix</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+<div class="viewcode-block" id="sscanDetector.reset"><a class="viewcode-back" href="../../../api/synApps/_sscan.html#apstools.synApps.sscan.sscanDetector.reset">[docs]</a>    <span class="k">def</span> <span class="nf">reset</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;set all fields to default values&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">input_pv</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">)</span></div>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">defined_in_EPICS</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;True if defined in EPICS&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">input_pv</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">strip</span><span class="p">())</span> <span class="o">&gt;</span> <span class="mi">0</span></div>
+
+
+<div class="viewcode-block" id="sscanTrigger"><a class="viewcode-back" href="../../../api/synApps/_sscan.html#apstools.synApps.sscan.sscanTrigger">[docs]</a><span class="k">class</span> <span class="nc">sscanTrigger</span><span class="p">(</span><span class="n">Device</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    detector trigger of an EPICS sscan record</span>
+
+<span class="sd">    .. index:: Ophyd Device; synApps sscanTrigger</span>
+
+<span class="sd">    .. autosummary::</span>
+
+<span class="sd">        ~reset</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">trigger_pv</span> <span class="o">=</span> <span class="n">FC</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">&quot;</span><span class="si">{self.prefix}</span><span class="s2">.T</span><span class="si">{self._ch_num}</span><span class="s2">PV&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;config&quot;</span><span class="p">)</span>
+    <span class="n">trigger_value</span> <span class="o">=</span> <span class="n">FC</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">&quot;</span><span class="si">{self.prefix}</span><span class="s2">.T</span><span class="si">{self._ch_num}</span><span class="s2">CD&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;config&quot;</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">prefix</span><span class="p">,</span> <span class="n">num</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_ch_num</span> <span class="o">=</span> <span class="n">num</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">prefix</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+<div class="viewcode-block" id="sscanTrigger.reset"><a class="viewcode-back" href="../../../api/synApps/_sscan.html#apstools.synApps.sscan.sscanTrigger.reset">[docs]</a>    <span class="k">def</span> <span class="nf">reset</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;set all fields to default values&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">trigger_pv</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">trigger_value</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span></div>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">defined_in_EPICS</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;True if defined in EPICS&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">trigger_pv</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">strip</span><span class="p">())</span> <span class="o">&gt;</span> <span class="mi">0</span></div>
+
+
+<span class="k">def</span> <span class="nf">_sscan_positioners</span><span class="p">(</span><span class="n">channel_list</span><span class="p">):</span>
+    <span class="n">defn</span> <span class="o">=</span> <span class="n">OrderedDict</span><span class="p">()</span>
+    <span class="k">for</span> <span class="n">chan</span> <span class="ow">in</span> <span class="n">channel_list</span><span class="p">:</span>
+        <span class="n">attr</span> <span class="o">=</span> <span class="s2">&quot;p</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">chan</span><span class="p">)</span>
+        <span class="n">defn</span><span class="p">[</span><span class="n">attr</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">sscanPositioner</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="p">{</span><span class="s2">&quot;num&quot;</span><span class="p">:</span> <span class="n">chan</span><span class="p">})</span>
+    <span class="k">return</span> <span class="n">defn</span>
+
+
+<span class="k">def</span> <span class="nf">_sscan_detectors</span><span class="p">(</span><span class="n">channel_list</span><span class="p">):</span>
+    <span class="n">defn</span> <span class="o">=</span> <span class="n">OrderedDict</span><span class="p">()</span>
+    <span class="k">for</span> <span class="n">chan</span> <span class="ow">in</span> <span class="n">channel_list</span><span class="p">:</span>
+        <span class="n">attr</span> <span class="o">=</span> <span class="s2">&quot;d</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">chan</span><span class="p">)</span>
+        <span class="n">defn</span><span class="p">[</span><span class="n">attr</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">sscanDetector</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="p">{</span><span class="s2">&quot;num&quot;</span><span class="p">:</span> <span class="n">chan</span><span class="p">})</span>
+    <span class="k">return</span> <span class="n">defn</span>
+
+
+<span class="k">def</span> <span class="nf">_sscan_triggers</span><span class="p">(</span><span class="n">channel_list</span><span class="p">):</span>
+    <span class="n">defn</span> <span class="o">=</span> <span class="n">OrderedDict</span><span class="p">()</span>
+    <span class="k">for</span> <span class="n">chan</span> <span class="ow">in</span> <span class="n">channel_list</span><span class="p">:</span>
+        <span class="n">attr</span> <span class="o">=</span> <span class="s2">&quot;t</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">chan</span><span class="p">)</span>
+        <span class="n">defn</span><span class="p">[</span><span class="n">attr</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">sscanTrigger</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="p">{</span><span class="s2">&quot;num&quot;</span><span class="p">:</span> <span class="n">chan</span><span class="p">})</span>
+    <span class="k">return</span> <span class="n">defn</span>
+
+
+<div class="viewcode-block" id="SscanRecord"><a class="viewcode-back" href="../../../api/synApps/_sscan.html#apstools.synApps.sscan.SscanRecord">[docs]</a><span class="k">class</span> <span class="nc">SscanRecord</span><span class="p">(</span><span class="n">Device</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    EPICS synApps sscan record: used as ``$(P):scan(N)``</span>
+
+<span class="sd">    .. index:: Ophyd Device; synApps SscanRecord</span>
+
+<span class="sd">    .. autosummary::</span>
+
+<span class="sd">        ~defined_in_EPICS</span>
+<span class="sd">        ~reset</span>
+<span class="sd">        ~select_channels</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">desc</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">&quot;.DESC&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;config&quot;</span><span class="p">)</span>
+    <span class="n">scan_phase</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignalRO</span><span class="p">,</span> <span class="s2">&quot;.FAZE&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;config&quot;</span><span class="p">)</span>
+    <span class="n">data_state</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignalRO</span><span class="p">,</span> <span class="s2">&quot;.DSTATE&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;config&quot;</span><span class="p">)</span>
+    <span class="n">data_ready</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignalRO</span><span class="p">,</span> <span class="s2">&quot;.DATA&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;config&quot;</span><span class="p">)</span>
+    <span class="n">scan_busy</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignalRO</span><span class="p">,</span> <span class="s2">&quot;.BUSY&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;config&quot;</span><span class="p">)</span>
+    <span class="n">alert_flag</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignalRO</span><span class="p">,</span> <span class="s2">&quot;.ALRT&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;config&quot;</span><span class="p">)</span>
+    <span class="n">alert_message</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignalRO</span><span class="p">,</span> <span class="s2">&quot;.SMSG&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;config&quot;</span><span class="p">)</span>
+    <span class="n">number_points</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">&quot;.NPTS&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;config&quot;</span><span class="p">)</span>
+    <span class="n">maximum_number_points</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">&quot;.MPTS&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;config&quot;</span><span class="p">)</span>
+    <span class="n">current_point</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignalRO</span><span class="p">,</span> <span class="s2">&quot;.CPT&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;normal&quot;</span><span class="p">)</span>
+    <span class="n">pasm</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">&quot;.PASM&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;config&quot;</span><span class="p">)</span>
+    <span class="n">execute_scan</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">&quot;.EXSC&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;omitted&quot;</span><span class="p">)</span>
+    <span class="n">bspv</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">&quot;.BSPV&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;config&quot;</span><span class="p">)</span>
+    <span class="n">bscd</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">&quot;.BSCD&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;omitted&quot;</span><span class="p">)</span>
+    <span class="n">bswait</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">&quot;.BSWAIT&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;omitted&quot;</span><span class="p">)</span>
+    <span class="n">cmnd</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">&quot;.CMND&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;omitted&quot;</span><span class="p">)</span>
+    <span class="n">detector_delay</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">&quot;.DDLY&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;config&quot;</span><span class="p">)</span>
+    <span class="n">positioner_delay</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">&quot;.PDLY&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;config&quot;</span><span class="p">)</span>
+    <span class="n">reference_detector</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">&quot;.REFD&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;config&quot;</span><span class="p">)</span>
+    <span class="n">wait</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">&quot;.WAIT&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;config&quot;</span><span class="p">)</span>
+    <span class="n">wcnt</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignalRO</span><span class="p">,</span> <span class="s2">&quot;.WCNT&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;config&quot;</span><span class="p">)</span>
+    <span class="n">awct</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">&quot;.AWCT&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;config&quot;</span><span class="p">)</span>
+    <span class="n">acqt</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">&quot;.ACQT&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;config&quot;</span><span class="p">)</span>
+    <span class="n">acqm</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">&quot;.ACQM&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;config&quot;</span><span class="p">)</span>
+    <span class="n">atime</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">&quot;.ATIME&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;config&quot;</span><span class="p">)</span>
+    <span class="n">copyto</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">&quot;.COPYTO&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;config&quot;</span><span class="p">)</span>
+    <span class="n">a1pv</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">&quot;.A1PV&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;config&quot;</span><span class="p">)</span>
+    <span class="n">a1nv</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">&quot;.A1NV&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;config&quot;</span><span class="p">)</span>
+    <span class="n">a1cd</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">&quot;.A1CD&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;config&quot;</span><span class="p">)</span>
+    <span class="n">aspv</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">&quot;.ASPV&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;config&quot;</span><span class="p">)</span>
+    <span class="n">ascd</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">&quot;.ASCD&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;config&quot;</span><span class="p">)</span>
+
+    <span class="n">positioners</span> <span class="o">=</span> <span class="n">DDC</span><span class="p">(</span><span class="n">_sscan_positioners</span><span class="p">(</span><span class="s2">&quot;1 2 3 4&quot;</span><span class="o">.</span><span class="n">split</span><span class="p">()))</span>
+    <span class="n">detectors</span> <span class="o">=</span> <span class="n">DDC</span><span class="p">(</span><span class="n">_sscan_detectors</span><span class="p">(</span><span class="n">APS_utils</span><span class="o">.</span><span class="n">itemizer</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">%02d</span><span class="s2">&quot;</span><span class="p">,</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">71</span><span class="p">))))</span>
+    <span class="n">triggers</span> <span class="o">=</span> <span class="n">DDC</span><span class="p">(</span><span class="n">_sscan_triggers</span><span class="p">(</span><span class="s2">&quot;1 2 3 4&quot;</span><span class="o">.</span><span class="n">split</span><span class="p">()))</span>
+
+<div class="viewcode-block" id="SscanRecord.set"><a class="viewcode-back" href="../../../api/synApps/_sscan.html#apstools.synApps.sscan.SscanRecord.set">[docs]</a>    <span class="k">def</span> <span class="nf">set</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;interface to use bps.mv()&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">value</span> <span class="o">!=</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="k">return</span>
+
+        <span class="n">working_status</span> <span class="o">=</span> <span class="n">DeviceStatus</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+        <span class="n">started</span> <span class="o">=</span> <span class="kc">False</span>
+
+        <span class="k">def</span> <span class="nf">execute_scan_cb</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">timestamp</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+            <span class="n">value</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">started</span> <span class="ow">and</span> <span class="n">value</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="n">working_status</span><span class="o">.</span><span class="n">_finished</span><span class="p">()</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">execute_scan</span><span class="o">.</span><span class="n">subscribe</span><span class="p">(</span><span class="n">execute_scan_cb</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">execute_scan</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+        <span class="n">started</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="k">return</span> <span class="n">working_status</span></div>
+
+<div class="viewcode-block" id="SscanRecord.reset"><a class="viewcode-back" href="../../../api/synApps/_sscan.html#apstools.synApps.sscan.SscanRecord.reset">[docs]</a>    <span class="k">def</span> <span class="nf">reset</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;set all fields to default values&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">desc</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">desc</span><span class="o">.</span><span class="n">pvname</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;.&quot;</span><span class="p">)[</span><span class="mi">0</span><span class="p">])</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">number_points</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="mi">1000</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">part</span> <span class="ow">in</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">positioners</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">detectors</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">triggers</span><span class="p">):</span>
+            <span class="k">for</span> <span class="n">ch_name</span> <span class="ow">in</span> <span class="n">part</span><span class="o">.</span><span class="n">component_names</span><span class="p">:</span>
+                <span class="n">channel</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">part</span><span class="p">,</span> <span class="n">ch_name</span><span class="p">)</span>
+                <span class="n">channel</span><span class="o">.</span><span class="n">reset</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">a1pv</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">acqm</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="s2">&quot;NORMAL&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s2">&quot;scanH&quot;</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">acqt</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="s2">&quot;1D ARRAY&quot;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">acqt</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="s2">&quot;SCALAR&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">aspv</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">bspv</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">pasm</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="s2">&quot;STAY&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">bswait</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="s2">&quot;Wait&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">a1cd</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ascd</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">bscd</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">reference_detector</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">atime</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">awct</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">copyto</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">detector_delay</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">positioner_delay</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+        <span class="k">while</span> <span class="bp">self</span><span class="o">.</span><span class="n">wcnt</span><span class="o">.</span><span class="n">get</span><span class="p">()</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">wait</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="SscanRecord.select_channels"><a class="viewcode-back" href="../../../api/synApps/_sscan.html#apstools.synApps.sscan.SscanRecord.select_channels">[docs]</a>    <span class="k">def</span> <span class="nf">select_channels</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Select channels that are configured in EPICS</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">for</span> <span class="n">part</span> <span class="ow">in</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">positioners</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">detectors</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">triggers</span><span class="p">):</span>
+            <span class="n">channel_names</span> <span class="o">=</span> <span class="p">[]</span>  <span class="c1"># part.get_configured_channels()</span>
+            <span class="c1"># fmt: off</span>
+            <span class="n">channel_names</span> <span class="o">=</span> <span class="p">[</span>
+                <span class="n">ch</span>
+                <span class="k">for</span> <span class="n">ch</span> <span class="ow">in</span> <span class="n">part</span><span class="o">.</span><span class="n">component_names</span>
+                <span class="k">if</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">part</span><span class="p">,</span> <span class="n">ch</span><span class="p">)</span><span class="o">.</span><span class="n">defined_in_EPICS</span>
+            <span class="p">]</span>
+            <span class="c1"># fmt: on</span>
+
+            <span class="n">part</span><span class="o">.</span><span class="n">configuration_attrs</span> <span class="o">=</span> <span class="n">channel_names</span>
+            <span class="n">part</span><span class="o">.</span><span class="n">read_attrs</span> <span class="o">=</span> <span class="n">channel_names</span>
+            <span class="n">part</span><span class="o">.</span><span class="n">kind</span> <span class="o">=</span> <span class="s2">&quot;normal&quot;</span></div>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">defined_in_EPICS</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;True if will be used in EPICS&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">select_channels</span><span class="p">()</span>
+        <span class="n">channels</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">positioners</span><span class="o">.</span><span class="n">read_attrs</span><span class="p">)</span>
+        <span class="n">channels</span> <span class="o">+=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">detectors</span><span class="o">.</span><span class="n">read_attrs</span><span class="p">)</span>
+        <span class="c1"># channels += len(self.triggers.read_attrs)</span>
+        <span class="k">return</span> <span class="n">channels</span> <span class="o">&gt;</span> <span class="mi">0</span></div>
+
+
+<div class="viewcode-block" id="SscanDevice"><a class="viewcode-back" href="../../../api/synApps/_sscan.html#apstools.synApps.sscan.SscanDevice">[docs]</a><span class="k">class</span> <span class="nc">SscanDevice</span><span class="p">(</span><span class="n">Device</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    EPICS synApps XXX IOC setup of sscan records: ``$(P):scan$(N)``</span>
+
+<span class="sd">    .. index:: Ophyd Device; synApps SscanDevice</span>
+
+<span class="sd">    .. autosummary::</span>
+
+<span class="sd">        ~reset</span>
+<span class="sd">        ~select_channels</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">scan_dimension</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignalRO</span><span class="p">,</span> <span class="s2">&quot;ScanDim&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;config&quot;</span><span class="p">)</span>
+    <span class="n">scan_pause</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">&quot;scanPause&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;omitted&quot;</span><span class="p">)</span>
+    <span class="n">abort_scans</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">&quot;AbortScans&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;omitted&quot;</span><span class="p">)</span>
+    <span class="n">scan1</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">SscanRecord</span><span class="p">,</span> <span class="s2">&quot;scan1&quot;</span><span class="p">)</span>
+    <span class="n">scan2</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">SscanRecord</span><span class="p">,</span> <span class="s2">&quot;scan2&quot;</span><span class="p">)</span>
+    <span class="n">scan3</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">SscanRecord</span><span class="p">,</span> <span class="s2">&quot;scan3&quot;</span><span class="p">)</span>
+    <span class="n">scan4</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">SscanRecord</span><span class="p">,</span> <span class="s2">&quot;scan4&quot;</span><span class="p">)</span>
+    <span class="n">scanH</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">SscanRecord</span><span class="p">,</span> <span class="s2">&quot;scanH&quot;</span><span class="p">)</span>
+    <span class="n">resume_delay</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">&quot;scanResumeSEQ.DLY1&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;config&quot;</span><span class="p">)</span>
+
+<div class="viewcode-block" id="SscanDevice.reset"><a class="viewcode-back" href="../../../api/synApps/_sscan.html#apstools.synApps.sscan.SscanDevice.reset">[docs]</a>    <span class="k">def</span> <span class="nf">reset</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;set all fields to default values&quot;&quot;&quot;</span>
+        <span class="k">for</span> <span class="n">chnum</span> <span class="ow">in</span> <span class="s2">&quot;1 2 3 4 H&quot;</span><span class="o">.</span><span class="n">split</span><span class="p">():</span>
+            <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">&quot;scan&quot;</span> <span class="o">+</span> <span class="n">chnum</span><span class="p">)</span><span class="o">.</span><span class="n">reset</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="SscanDevice.select_channels"><a class="viewcode-back" href="../../../api/synApps/_sscan.html#apstools.synApps.sscan.SscanDevice.select_channels">[docs]</a>    <span class="k">def</span> <span class="nf">select_channels</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Select only the scans that are configured in EPICS</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">scans</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;scan&quot;</span> <span class="o">+</span> <span class="n">ch</span> <span class="k">for</span> <span class="n">ch</span> <span class="ow">in</span> <span class="s2">&quot;1 2 3 4 H&quot;</span><span class="o">.</span><span class="n">split</span><span class="p">()]</span>
+        <span class="n">attrs</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">nm</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">component_names</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">nm</span> <span class="ow">in</span> <span class="n">scans</span> <span class="ow">and</span> <span class="ow">not</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">nm</span><span class="p">)</span><span class="o">.</span><span class="n">defined_in_EPICS</span><span class="p">:</span>
+                <span class="k">continue</span>
+            <span class="n">attrs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">nm</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">read_attrs</span> <span class="o">=</span> <span class="n">attrs</span></div></div>
+
+
+<span class="c1"># -----------------------------------------------------------------------------</span>
+<span class="c1"># :author:    Pete R. Jemian</span>
+<span class="c1"># :email:     jemian@anl.gov</span>
+<span class="c1"># :copyright: (c) 2017-2024, UChicago Argonne, LLC</span>
+<span class="c1">#</span>
+<span class="c1"># Distributed under the terms of the Argonne National Laboratory Open Source License.</span>
+<span class="c1">#</span>
+<span class="c1"># The full license is in the file LICENSE.txt, distributed with this software.</span>
+<span class="c1"># -----------------------------------------------------------------------------</span>
+</pre></div>
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+
+  <p class="copyright">
+    
+      © Copyright 2017-2024, UChicago Argonne, LLC.
+      <br/>
+    
+  </p>
+</div>
+      
+        <div class="footer-item">
+
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 5.3.0.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item">
+<p class="theme-version">
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.15.4.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>
