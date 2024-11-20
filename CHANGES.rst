@@ -31,6 +31,12 @@ describe future plans.
 
    - Add 'dynamic_import()' (support 'ad_creator()' from device file).
 
+   Fixes
+   -----
+
+   - 'PVPositionerSoftDone' used an invalid subscription event type
+     in unusual cases (with fake ophyd simulated devices).
+
    Maintenance
    -----------
 

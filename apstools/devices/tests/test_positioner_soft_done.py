@@ -1,9 +1,11 @@
 import math
 import time
+from contextlib import nullcontext as does_not_raise
 
 import pytest
 from ophyd import Component
 from ophyd import EpicsSignal
+from ophyd.sim import instantiate_fake_device
 
 from ...synApps.swait import UserCalcsDevice
 from ...tests import IOC_GP
@@ -11,9 +13,9 @@ from ...tests import common_attribute_quantities_test
 from ...tests import rand
 from ...tests import timed_pause
 from ...utils import run_in_thread
+from ..positioner_soft_done import TARGET_UNDEFINED
 from ..positioner_soft_done import PVPositionerSoftDone
 from ..positioner_soft_done import PVPositionerSoftDoneWithStop
-from ..positioner_soft_done import TARGET_UNDEFINED
 
 PV_PREFIX = f"{IOC_GP}gp:"
 delay_active = False
@@ -365,3 +367,19 @@ def test_position_sequence_calcpos(target, calcpos):
     motion(calcpos, round(rand(-1.1, 0.2), 4))  # known starting position
     motion(calcpos, target)
     motion(calcpos, target)  # issue #725, repeated move to same target
+
+
+def test_issue_1022():
+    """
+    PVPositionerSoftDone should work with simulated fake devices.
+
+    'instantiate_fake_device()' produces a device that does not
+    have the 'setpoint' event_type.
+    """
+    with does_not_raise():
+        d = instantiate_fake_device(
+            PVPositionerSoftDone,
+            readback_pv="spam:",
+            setpoint_pv="eggs:",
+        )
+    assert d is not None
