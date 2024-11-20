@@ -80,6 +80,7 @@ Other Utilities
    ~apstools.utils.apsu_controls_subnet.warn_if_not_aps_controls_subnet
    ~apstools.utils.misc.cleanupText
    ~apstools.utils.misc.connect_pvlist
+   ~apstools.utils.misc.dynamic_import
    ~apstools.utils.email.EmailNotifications
    ~apstools.utils.plot.select_live_plot
    ~apstools.utils.plot.select_mpl_figure
@@ -103,6 +104,7 @@ General
    ~apstools.utils.catalog.copy_filtered_catalog
    ~apstools.utils.query.db_query
    ~apstools.utils.misc.dictionary_table
+   ~apstools.utils.misc.dynamic_import
    ~apstools.utils.email.EmailNotifications
    ~apstools.utils.spreadsheet.ExcelDatabaseFileBase
    ~apstools.utils.spreadsheet.ExcelDatabaseFileGeneric

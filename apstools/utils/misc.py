@@ -10,6 +10,7 @@ Miscellaneous Support
    ~count_child_devices_and_signals
    ~count_common_subdirs
    ~dictionary_table
+   ~dynamic_import
    ~full_dotted_name
    ~itemizer
    ~listobjects
@@ -92,20 +93,22 @@ def call_signature_decorator(f):
     return wrapper
 
 
-def cleanupText(text):
+def cleanupText(text, replace="_"):
     """
-    convert text so it can be used as a dictionary key
+    Convert text so it can be used as a dictionary key.
 
     Given some input text string, return a clean version
     remove troublesome characters, perhaps other cleanup as well.
     This is best done with regular expression pattern matching.
     """
     pattern = "[a-zA-Z0-9_]"
+    if replace is None:
+        replace = "_"
 
     def mapper(c):
         if re.match(pattern, c) is not None:
             return c
-        return "_"
+        return replace
 
     return "".join([mapper(c) for c in text])
 
@@ -190,6 +193,48 @@ def dictionary_table(dictionary, **kwargs):
     for k, v in sorted(dictionary.items()):
         t.addRow((k, str(v)))
     return t
+
+
+def dynamic_import(full_path: str) -> type:
+    """
+    Import the object given its import path as text.
+
+    Motivated by specification of class names for plugins
+    when using ``apstools.devices.ad_creator()``.
+
+    EXAMPLES::
+
+        obj = dynamic_import("ophyd.EpicsMotor")
+        m1 = obj("gp:m1", name="m1")
+
+        IocStats = dynamic_import("instrument.devices.ioc_stats.IocInfoDevice")
+        gp_stats = IocStats("gp:", name="gp_stats")
+    """
+    from importlib import import_module
+
+    import_object = None
+
+    if "." not in full_path:
+        # fmt: off
+        raise ValueError(
+            "Must use a dotted path, no local imports."
+            f" Received: {full_path!r}"
+        )
+        # fmt: on
+
+    if full_path.startswith("."):
+        # fmt: off
+        raise ValueError(
+            "Must use absolute path, no relative imports."
+            f" Received: {full_path!r}"
+        )
+        # fmt: on
+
+    module_name, object_name = full_path.rsplit(".", 1)
+    module_object = import_module(module_name)
+    import_object = getattr(module_object, object_name)
+
+    return import_object
 
 
 def full_dotted_name(obj):

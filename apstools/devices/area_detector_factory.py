@@ -85,6 +85,7 @@ logger = logging.getLogger(__name__)
 import ophyd.areadetector.plugins
 from ophyd import ADComponent
 
+from ..utils import dynamic_import
 from .area_detector_support import AD_EpicsFileNameJPEGPlugin
 from .area_detector_support import AD_EpicsFileNameTIFFPlugin
 from .area_detector_support import HDF5FileWriterPlugin
@@ -324,6 +325,10 @@ def ad_class_factory(name, bases=None, plugins=None, plugin_defaults=None):
         if "suffix" not in kwargs:
             raise KeyError(f"Must define 'suffix': {kwargs}")
         component_class = kwargs.pop("class")
+        if isinstance(component_class, str):
+            # Convert text class into object, such as:
+            #    "apstools.devices.area_detector_support.SimDetectorCam_V34"
+            component_class = dynamic_import(component_class)
         suffix = kwargs.pop("suffix")
 
         # if "write_path_template" in defaults
@@ -374,7 +379,7 @@ def ad_creator(
         *object*:
         Plugin configuration dictionary.
         (default: ``None``, PLUGIN_DEFAULTS will be used.)
-    kwargs 
+    kwargs
         *dict*:
         Any additional keyword arguments for the new class definition.
         (default: ``{}``)
