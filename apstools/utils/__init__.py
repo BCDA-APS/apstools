@@ -59,6 +59,7 @@ from .misc import connect_pvlist
 from .misc import count_child_devices_and_signals
 from .misc import count_common_subdirs
 from .misc import dictionary_table
+from .misc import dynamic_import
 from .misc import full_dotted_name
 from .misc import itemizer
 from .misc import listobjects

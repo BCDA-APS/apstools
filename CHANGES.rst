@@ -26,6 +26,16 @@ describe future plans.
 
    Release expected by 2024-12-31.
 
+   Enhancements
+   ------------
+
+   - Add 'dynamic_import()' (support 'ad_creator()' from device file).
+
+   Maintenance
+   -----------
+
+   - In 'ad_creator()', convert text class name to class object.
+
 1.7.1
 ******
 
