@@ -66,8 +66,8 @@ Reporting
    ~apstools.utils.log_utils.file_log_handler
    ~apstools.utils.log_utils.get_log_path
    ~apstools.utils.log_utils.setup_IPython_console_logging
-   ~apstools.utils.log_utils.stream_log_handler
    ~apstools.utils.slit_core.SlitGeometry
+   ~apstools.utils.log_utils.stream_log_handler
 
 .. _utils.other:
 
@@ -76,19 +76,23 @@ Other Utilities
 
 .. autosummary::
 
-   ~apstools.utils.aps_data_management.dm_setup
-   ~apstools.utils.apsu_controls_subnet.warn_if_not_aps_controls_subnet
+   ~apstools.utils.statistics.array_index
+   ~apstools.utils.statistics.array_statistics
    ~apstools.utils.misc.cleanupText
    ~apstools.utils.misc.connect_pvlist
+   ~apstools.utils.aps_data_management.dm_setup
    ~apstools.utils.misc.dynamic_import
    ~apstools.utils.email.EmailNotifications
+   ~apstools.utils.statistics.factor_fwhm
+   ~apstools.utils.statistics.peak_full_width
    ~apstools.utils.plot.select_live_plot
    ~apstools.utils.plot.select_mpl_figure
    ~apstools.utils.plot.trim_plot_by_name
    ~apstools.utils.plot.trim_plot_lines
    ~apstools.utils.misc.trim_string_for_EPICS
-   ~apstools.utils.misc.unix
    ~apstools.utils.time_constants.ts2iso
+   ~apstools.utils.misc.unix
+   ~apstools.utils.apsu_controls_subnet.warn_if_not_aps_controls_subnet
 
 .. _utils.general:
 
@@ -129,6 +133,7 @@ General
    ~apstools.utils.list_runs.listRunKeys
    ~apstools.utils.list_runs.ListRuns
    ~apstools.utils.list_runs.listruns
+   ~apstools.utils.mmap_dict.MMap
    ~apstools.utils.override_parameters.OverrideParameters
    ~apstools.utils.misc.pairwise
    ~apstools.utils.plot.plotxy
@@ -190,6 +195,9 @@ Submodules
 .. automodule:: apstools.utils.misc
     :members:
 
+.. automodule:: apstools.utils.mmap_dict
+    :members:
+
 .. automodule:: apstools.utils.override_parameters
     :members:
 
@@ -209,6 +217,9 @@ Submodules
     :members:
 
 .. automodule:: apstools.utils.spreadsheet
+    :members:
+
+.. automodule:: apstools.utils.statistics
     :members:
 
 .. automodule:: apstools.utils.time_constants
