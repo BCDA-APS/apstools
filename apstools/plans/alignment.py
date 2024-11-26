@@ -430,14 +430,16 @@ def lineup2(
     signal_stats *object*:
         Caller could provide an object of
         :class:`~apstools.callbacks.scan_signal_statistics.SignalStatsCallback`.
-        If ``None``, this function will search for the ``signal_stats`` signal
-        in the global namespace. If not still found, a new one will be created
-        for the brief lifetime of this function.
+
+        When ``signal_stats`` is not provided, this function will search for the
+        ``signal_stats`` signal in the global (``__main__``) namespace. If not
+        still found, a new ``signal_stats`` will be created and then added to
+        the global namespace.
 
         Results of the analysis are available in ``signal_stats.analysis``.  The
         data used for the analysis are available in ``signal_stats._data``. The
         PySumReg analysis remains available (for now)
-        in``signal_stats._registers``.
+        in ``signal_stats._registers``.
 
     md *dict*:
         User-supplied metadata for this scan.
