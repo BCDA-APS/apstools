@@ -1,0 +1,26 @@
+# OK for analysis
+#
+# statistics:
+#    min_x = 1.0
+#    max_x = 11.0
+#    min_y = 0.0
+#    max_y = 50.0
+#    n = 11
+#    x_at_max_y = 7.0
+#    centroid = 7.5
+#    fwhm = 2.0
+#    sigma = 0.5
+#    variance = 0.25
+#
+# x y
+1 0
+2 0
+3 0
+4 0
+5 0
+6 0
+7 50
+8 50
+9 0
+10 0
+11 0
