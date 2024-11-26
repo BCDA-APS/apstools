@@ -34,6 +34,7 @@ class SignalStatsCallback:
 
         from bluesky import plans as bp
         from bluesky import preprocessors as bpp
+        from apstools.callbacks import SignalStatsCallback
 
         signal_stats = SignalStatsCallback()
 
