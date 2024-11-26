@@ -353,18 +353,35 @@ def lineup2(
     # fmt: on
 ):
     """
-    Lineup and center a given mover, relative to current position.
+    Lineup and center a given mover, relative to the current position.
 
-    This plan can be used in the queueserver, Jupyter notebooks, and IPython
-    consoles.  It does not require the bluesky BestEffortCallback.  Instead, it
-    uses *PySumReg*  [#pysumreg]_ to compute statistics for each signal in a 1-D
-    scan.
+    Step scan ``mover`` and measure ``detectors`` at each step. Peak analysis is
+    based on data collected during the scan for the **first** detector (in the
+    list of ``detectors``) *vs.* ``mover``.  If a peak is detected, move the
+    ``mover`` to the feature position (default is ``"centroid"``). If
+    ``nscans>1``, adjust the scan range based on the apparent FWHM and rescan.
+    At most, a total of ``nscans`` will be run.
 
-    New in release 1.6.18
+    If unable to identify a peak, ``lineup2()`` returns ``mover`` to its
+    original position and returns (no more rescans).  If ``lineup2()`` fails to
+    identify a peak that you can observe, consider re-running with increased
+    ``points``, changed range(``rel_start`` and ``rel_end``), and/or changed
+    terms (``peak_factor`` and ``width_factor``).
+
+    Increase ``nscans`` for additional fine-tuning of the ``centroid`` and
+    ``fwhm`` parameters.  It is probably not necessary to set ``nscans>5``.
 
     .. index:: Bluesky Plan; lineup2; lineup
 
-    PARAMETERS
+    This plan can be used in the queueserver, Jupyter notebooks, and IPython
+    consoles.  It does not require the bluesky BestEffortCallback.  Instead, it
+    uses *numpy*  [#numpy]_ to compute statistics for each signal in a 1-D
+    scan.
+
+    - New in release 1.6.18.
+    - Changed from PySumReg to numpy in release 1.7.2.
+
+    .. rubric::  PARAMETERS
 
     detectors *Readable* or [*Readable*]:
         Detector object or list of detector objects (each is a Device or
@@ -400,8 +417,10 @@ def lineup2(
         x_at_min_y  x location of y minimum
         ==========  ====================
 
-        Statistical analysis provided by *PySumReg*.  [#pysumreg]_
+        Statistical analysis provided by *numpy*.  [#numpy]_
+        (Previous versions used *PySumReg*.  [#pysumreg]_)
 
+        .. [#numpy] https://numpy.org/
         .. [#pysumreg] https://prjemian.github.io/pysumreg/latest/
 
     nscans *int*:
@@ -415,8 +434,28 @@ def lineup2(
         in the global namespace. If not still found, a new one will be created
         for the brief lifetime of this function.
 
+        Results of the analysis are available in ``signal_stats.analysis``.  The
+        data used for the analysis are available in ``signal_stats._data``. The
+        PySumReg analysis remains available (for now)
+        in``signal_stats._registers``.
+
     md *dict*:
         User-supplied metadata for this scan.
+
+    ----
+
+    In addition to the many keys provided in `signal_stats.analysis` by
+    :class:`~apstools.callbacks.scan_signal_statistics.SignalStatsCallback`,
+    this plan adds two keys as follows:
+
+    .. rubric::  Keys added to signal_stats.analysis dictionary
+
+    success : bool
+        Did ``lineup2()`` identify a peak and set the mover to its value?
+
+    reason : [str]
+        If ``success=False``, this is a list of the reasons why ``lineup2()``
+        did not identify a peak.
     """
     from ..callbacks import SignalStatsCallback
     from .. import utils

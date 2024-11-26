@@ -35,6 +35,21 @@ class MMap(MutableMapping):
         MMap(a=2, b=2)
         >>> mmap["clear"] = 5
         KeyError: "key='clear' is a reserved name."
+
+    You can retrieve the value of a key by any of these dictionary methods::
+
+        mmap["a"]
+        mmap.get("a")
+        # Or supply a default if the key does not exist.
+        # Here, the default is 1.2345
+        mmap.get("a", 1.2345)
+        
+    and by any attribute method::
+        
+        mmap.a
+        getattr(mmap, "a")
+        # Or supply a default if the key does not exist.
+        getattr(mmap, "a", 1.2345)
     """
 
     _db = {}
