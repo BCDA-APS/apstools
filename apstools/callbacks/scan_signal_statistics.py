@@ -52,7 +52,7 @@ class SignalStatsCallback:
         ~receiver
         ~report
         ~data_stream
-        ~stop_report
+        ~reporting
 
     .. rubric:: Internal API
     .. autosummary::
@@ -71,7 +71,7 @@ class SignalStatsCallback:
     data_stream: str = "primary"
     """RunEngine document with signals to to watch."""
 
-    stop_report: bool = True
+    reporting: bool = True
     """If ``True`` (default), call the ``report()`` method when a ``stop`` document is received."""
 
     _scanning: bool = False
@@ -200,5 +200,5 @@ class SignalStatsCallback:
             self._data[self._detectors[0]],
         )
 
-        if self.stop_report:
+        if self.reporting:
             self.report()

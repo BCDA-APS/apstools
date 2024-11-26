@@ -13,6 +13,7 @@ Alignment plans
 
 import datetime
 import logging
+import sys
 
 import numpy as np
 import pyRestTable
@@ -33,12 +34,19 @@ from .. import utils
 from .doc_run import write_stream
 
 logger = logging.getLogger(__name__)
+MAIN = sys.modules["__main__"]
 
 
 def lineup(
     # fmt: off
-    detectors, axis, minus, plus, npts,
-    time_s=0.1, peak_factor=4, width_factor=0.8,
+    detectors,
+    axis,
+    minus,
+    plus,
+    npts,
+    time_s=0.1,
+    peak_factor=4,
+    width_factor=0.8,
     feature="cen",
     rescan=True,
     bec=None,
@@ -104,9 +112,12 @@ def lineup(
 
         RE(lineup(diode, foemirror.theta, -30, 30, 30, 1.0))
     """
-    bec = bec or utils.ipython_shell_namespace().get("bec")
     if bec is None:
-        raise ValueError("Cannot find BestEffortCallback() instance.")
+        if "bec" in dir(MAIN):
+            # get from __main__ namespace
+            bec = getattr(MAIN, "bec")
+        else:
+            raise ValueError("Cannot find BestEffortCallback() instance.")
     bec.enable_plots()
 
     if not isinstance(detectors, (tuple, list)):
@@ -327,11 +338,17 @@ def edge_align(detectors, mover, start, end, points, cat=None, md={}):
 
 def lineup2(
     # fmt: off
-    detectors, mover, rel_start, rel_end, points,
-    peak_factor=2.5, width_factor=0.8,
+    detectors,
+    mover,
+    rel_start,
+    rel_end,
+    points,
+    peak_factor=1.5,
+    width_factor=0.8,
     feature="centroid",
     nscans=2,
     signal_stats=None,
+    reporting=None,
     md={},
     # fmt: on
 ):
@@ -402,7 +419,7 @@ def lineup2(
         User-supplied metadata for this scan.
     """
     from ..callbacks import SignalStatsCallback
-    from ..callbacks import factor_fwhm
+    from .. import utils
 
     if not isinstance(detectors, (tuple, list)):
         detectors = [detectors]
@@ -410,13 +427,28 @@ def lineup2(
     _md = dict(purpose="alignment")
     _md.update(md or {})
 
+    # Do not move the positioner outside the limits of the first scan.
+    try:
+        m_pos = mover.position
+    except AttributeError:
+        m_pos = mover.get()
+    m_lo = m_pos + rel_start
+    m_hi = m_pos + rel_end
+
     if signal_stats is None:
-        signal_stats = utils.ipython_shell_namespace().get("signal_stats")
-        if signal_stats is None:
+        # Print report() when stop document is received.
+        if "signal_stats" in dir(MAIN):
+            # get from __main__ namespace
+            signal_stats = getattr(MAIN, "signal_stats")
+        else:
             signal_stats = SignalStatsCallback()
-            signal_stats.stop_report = True
+            # Add signal_stats to __main__ namespace.  Users have requested
+            # a way to determine if a lineup failed and why.
+            setattr(MAIN, "signal_stats", signal_stats)
+        signal_stats.reporting = True if reporting is None else reporting
     else:
-        signal_stats.stop_report = False  # Turn this automation off.
+        # Do not print report() when stop document is received.
+        signal_stats.reporting = False if reporting is None else reporting
 
     # Allow for feature to be defined using a name from PeakStats.
     xref_PeakStats = {
@@ -428,36 +460,65 @@ def lineup2(
     # translate from PeakStats feature to SignalStats
     feature = xref_PeakStats.get(feature, feature)
 
-    def get_x_by_feature():
-        """Return the X value of the specified ``feature``."""
-        stats = principal_signal_stats()
-        if strong_peak(stats) and not too_wide(stats):
+    def find_peak_position():
+        """Return the X value of the specified 'feature'."""
+        stats = signal_stats.analysis
+        logging.debug("stats: %s", stats)
+        peak_is_strong = strong_peak(stats)
+        peak_too_wide = too_wide(stats)
+        peak_width_zero = stats.fwhm == 0
+        peak_sigma_zero = stats.get("sigma", 0) == 0
+        findings = [
+            peak_is_strong,
+            not peak_too_wide,
+            not peak_width_zero,
+            not peak_sigma_zero,
+        ]
+        if all(findings):
+            stats["success"] = True
             return getattr(stats, feature)
 
-    def principal_signal_stats() -> str:
-        """Return the name of the first detector Signal."""
-        return signal_stats._registers[signal_stats._y_names[0]]
+        # Save these into stats for the caller to find.
+        stats["success"] = False
+        stats["reasons"] = []
+        if not peak_is_strong:
+            stats["reasons"].append("No strong peak found.")
+        if peak_too_wide:
+            stats["reasons"].append("Peak is too wide.")
+        if peak_width_zero:
+            stats["reasons"].append("FWHM is zero.")
+        if peak_sigma_zero:
+            stats["reasons"].append("Computed peak sigma is zero.")
+        print(" ".join(stats["reasons"]))
+        logger.debug("No peak found.  Reasons: %s", stats["reasons"])
+        logger.debug("stats: %s", stats)
 
     def strong_peak(stats) -> bool:
         """Determine if the peak is strong."""
         try:
-            value = (stats.max_y - stats.min_y) / stats.stddev_y
-            return abs(value) > peak_factor
-        except ZeroDivisionError:  # not enough samples
-            try:
-                value = stats.max_y / stats.min_y
-                return abs(value) > peak_factor
-            except ZeroDivisionError:
-                return False
+            denominator = stats.mean_y - stats.min_y
+            if denominator == 0:
+                raise ZeroDivisionError()
+            return abs((stats.max_y - stats.min_y)/denominator) > peak_factor
+        except (AttributeError, ZeroDivisionError):
+            return False
 
     def too_wide(stats):
         """Does the measured peak width fill the full range of X?"""
+        fallback_errors = (
+            AttributeError,  # no statistics available
+            ValueError,  # math domain error: variance<0 (noise, no clear peak)
+            ZeroDivisionError,  # not enough samples
+        )
         try:
-            x_range = stats.max_x - stats.min_x
-            fwhm = stats.sigma * factor_fwhm
-            return fwhm > width_factor * x_range
-        except ZeroDivisionError:  # not enough samples
+            return stats.fwhm > width_factor * (stats.max_x - stats.min_x)
+        except fallback_errors as reason:
+            logger.warning("Cannot detect width: %s", reason)
+            logger.debug("Statistics: %s", stats)
             return True
+
+    if "plan_name" not in _md:
+        _md["plan_name"] = "lineup2"
 
     @bpp.subs_decorator(signal_stats.receiver)
     def _inner():
@@ -469,17 +530,23 @@ def lineup2(
         yield from _inner()  # Run the scan.
         nscans -= 1
 
-        target = get_x_by_feature()
+        target = find_peak_position()
         if target is None:
             nscans = 0  # Nothing found, no point scanning again.
+            yield from bps.mv(mover, m_pos)  # back to starting position
+            logger.debug("Moved %s to %s: %f", mover.name, "original position", m_pos)
         else:
+            # Maintain absolute range: m_lo <= target <= m_hi
+            target = min(max(m_lo, target), m_hi)
             yield from bps.mv(mover, target)  # Move to the feature position.
             logger.info("Moved %s to %s: %f", mover.name, feature, target)
 
             if nscans > 0:
                 # move the end points for the next scan
-                rel_end = principal_signal_stats().sigma * factor_fwhm
-                rel_start = -rel_end
+                offset = 2 * signal_stats.analysis.fwhm
+                # Can't move outside absolute range of m_lo..m_hi
+                rel_start = max(m_lo - target, -offset)
+                rel_end = min(m_hi - target, offset)
 
 
 class TuneAxis(object):
