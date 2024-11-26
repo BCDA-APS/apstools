@@ -1,8 +1,8 @@
 import pytest
 
-from ..misc import connect_pvlist
 from ...tests import IOC_AD
 from ...tests import IOC_GP
+from ..misc import connect_pvlist
 
 
 @pytest.mark.parametrize(
