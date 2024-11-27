@@ -77,7 +77,6 @@ Other Utilities
 .. autosummary::
 
    ~apstools.utils.statistics.array_index
-   ~apstools.utils.statistics.array_statistics
    ~apstools.utils.misc.cleanupText
    ~apstools.utils.misc.connect_pvlist
    ~apstools.utils.aps_data_management.dm_setup
@@ -93,6 +92,7 @@ Other Utilities
    ~apstools.utils.time_constants.ts2iso
    ~apstools.utils.misc.unix
    ~apstools.utils.apsu_controls_subnet.warn_if_not_aps_controls_subnet
+   ~apstools.utils.statistics.xy_statistics
 
 .. _utils.general:
 

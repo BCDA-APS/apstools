@@ -29,7 +29,7 @@ describe future plans.
    Enhancements
    ------------
 
-   - Add 'utils.array_statistics()' (support 'plans.lineup2()').
+   - Add 'utils.xy_statistics()' (support 'plans.lineup2()').
    - Add 'utils.dynamic_import()' (support 'devices.ad_creator()' from device file).
    - Add 'utils.MMap' (support 'plans.lineup2()').
    - Add 'utils.peak_full_width' (support 'plans.lineup2()').
