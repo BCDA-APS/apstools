@@ -1,11 +1,11 @@
 """Test the utils.statistics module."""
 
 import pathlib
+from contextlib import nullcontext as does_not_raise
 
-import h5py
 import pytest
 
-from ..statistics import array_statistics
+from ..statistics import xy_statistics
 
 DATA_PATH = pathlib.Path(__file__).parent / "data"
 
@@ -15,7 +15,7 @@ def get_x_y_data(path):
     Read ordered pairs from file.
 
     The header of the file (in comments) can contain key=value comments which
-    represent keys in the result from 'array_statistics()'.  Each such key found
+    represent keys in the result from 'xy_statistics()'.  Each such key found
     will be tested.
 
     EXAMPLE::
@@ -63,14 +63,31 @@ def ok_sample_data():
 
 
 @pytest.mark.parametrize("data", ok_sample_data())
-def test_array_statistics(data):
+def test_xy_statistics(data):
     assert DATA_PATH.exists()
     assert data is not None
     assert isinstance(data, dict)
 
-    stats = array_statistics(data["x"], data["y"])
+    stats = xy_statistics(data["x"], data["y"])
     assert stats is not None
     unknown = object()
     for key, expected in data["advice"].items():
         received = stats.get(key, unknown)
         assert f"{received}" == expected, f"{key=} {expected=} {stats=} {data['file']=!r}"
+
+
+@pytest.mark.parametrize(
+    "x, y, xcept, text",
+    [
+        [[], None, ValueError, "cannot be empty"],
+        [[1, 2], [], ValueError, "Unequal shapes:"],
+        [[1, 2], [1, 2, 3], ValueError, "Unequal shapes:"],
+        [[1, 2], [1, 2], None, str(None)],
+    ],
+)
+def test_xy_statistics_errors(x, y, xcept, text):
+    """Test known exceptions raised by xy_statistics()."""
+    context = does_not_raise() if xcept is None else pytest.raises(xcept)
+    with context as reason:
+        xy_statistics(x, y)
+    assert text in str(reason)

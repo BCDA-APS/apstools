@@ -4,10 +4,10 @@ Statistics
 
 .. autosummary::
 
-    ~factor_fwhm
-    ~array_statistics
     ~array_index
+    ~factor_fwhm
     ~peak_full_width
+    ~xy_statistics
 
 """
 
@@ -95,127 +95,123 @@ def peak_full_width(x, y, positive=True) -> float:
     return fwhm
 
 
-def array_statistics(x: list, y: list = None) -> MMap:
+def xy_statistics(x: list, y: list = None) -> MMap:
     r"""
-    Common statistical measures of a 1-D array, using numpy.
+    Compute statistical measures of a 1-D array (or weighted array), using *numpy*.
 
-    Results are returned as a :class:`~apstools.utils.mmap_dict.MMap` dictionary.
+    Results are returned in :class:`~apstools.utils.mmap_dict.MMap` dictionary.
     When suppplied, :math:`\vec{y}` will be used as the weights of :math:`\vec{x}`.
     Uses *numpy* [#numpy]_ as an alternative to *PySumReg*. [#PySumReg]_
 
     .. [#numpy] https://numpy.org/
     .. [#PySumReg] https://prjemian.github.io/pysumreg/index.html
 
-    .. rubric:: Dictionary Keys
+    PARAMETERS
 
-    max_x : float
-        Maximum value of :math:`\vec{x}`.
-    mean_x : float
-        :math:`\bar{x}` : Mean (average) value of :math:`\vec{x}`.
-    min_x : float
-        Minimum value of :math:`\vec{x}`.
-    n : int
-        Number of values (length of :math:`\vec{x}`).
-    stddev_x : float
-        :math:`\sigma_x` : Standard deviation of :math:`\vec{x}`.
+    x : list | numpy.ndarray
+        :math:`\vec{x}`: 1-D array of numbers.
+    y : list | numpy.ndarray
+        :math:`\vec{y}`: (optional) 1-D array of numbers.
+        :math:`\vec{x}` and :math:`\vec{y}` must be of the same length.
+        Used as weights for :math:`\vec{x}` in fitting analyses.
 
-    .. rubric:: Dictionary Keys when 'y' array is provided
+    .. rubric:: MMap Dictionary Keys
 
+    These keys are always defined.
+
+    ==============  ======  ==============================================
+    key             type    description
+    ==============  ======  ==============================================
+    ``max_x``       float   Maximum value of :math:`\vec{x}`.
+    ``mean_x``      float   :math:`\bar{x}`: Mean value of :math:`\vec{x}`.
+    ``median_x``    float   Median value of :math:`\vec{x}`.
+    ``min_x``       float   Minmum value of :math:`\vec{x}`.
+    ``n``           int     :math:`n`: Length of :math:`\vec{x}`.
+    ``range_x``     float   Difference between maximum and minimum values of :math:`\vec{x}`.
+    ``stddev_x``    float   :math:`\sigma_x` : Standard deviation of :math:`\vec{x}`.
+    ==============  ======  ==============================================
+
+    These keys are added when :math:`\vec{y}` is provided.
     Requires :math:`\vec{x}` & :math:`\vec{y}` to be the same length.
 
-    centroid : float
-        :math:`\mu` : Average of :math:`\vec{x}`, weighted by :math:`\vec{y}`.
+    ==============  ======  ==============================================
+    key             type    description
+    ==============  ======  ==============================================
+    ``centroid``    float   :math:`\mu` : Average of :math:`\vec{x}`, weighted by :math:`\vec{y}`. [#centroid]_
+    ``fwhm``        float   Apparent width of the peak at half the maximum value of :math:`\vec{y}`. [#fwhm]_
+    ``max_y``       float   Maximum value of :math:`\vec{y}`.
+    ``mean_y``      float   :math:`\bar{y}`: Mean value of :math:`\vec{y}`.
+    ``median_y``    float   Median value of :math:`\vec{y}`.
+    ``min_y``       float   Minmum value of :math:`\vec{y}`.
+    ``range_y``     float   Difference between maximum and minimum values of :math:`\vec{y}`.
+    ``stddev_y``    float   :math:`\sigma_y` : Standard deviation of :math:`\vec{y}`.
+    ==============  ======  ==============================================
 
-        .. math::
-
-          \mu = {{\sum_i^n{x_i \cdot y_i}} \over {\sum_i^n{y_i}}}
+    .. [#centroid] centroid:  :math:`\mu = {{\sum_i^n{x_i \cdot y_i}} / {\sum_i^n{y_i}}}`
 
         In the special case when all of :math:`\vec{y}` is zero, :math:`\mu` is
         set to halfway between ``min_x`` and ``max_x``.
 
         .. seealso:: https://en.wikipedia.org/wiki/Weighted_arithmetic_mean
 
-    fwhm : float
-        Apparent width of the peak at half the maximum value of :math:`\vec{y}`.
-
-        In the special case when all of :math:`\vec{y}` is zero, ``fwhm`` is set
+    .. [#fwhm] FWHM: In the special case when all of :math:`\vec{y}` is zero, ``fwhm`` is set
         to the positive difference of ``max_x`` &  ``min_x``.
 
-    max_y : float
-        Maximum value of :math:`\vec{y}` array.
-    mean_y : float
-        :math:`\bar{y}` : Mean (average) value of :math:`\vec{y}` array.
-    min_y : float
-        Minimum value of :math:`\vec{y}` array.
-    stddev_x : float
-        :math:`\sigma_y` : Standard deviation of :math:`\vec{y}` array.
+    These keys are added when :math:`\vec{y}` is not constant.
 
-    .. rubric:: Dictionary Keys when 'y' array is not constant
+    ==============  ======  ==============================================
+    key             type    description
+    ==============  ======  ==============================================
+    ``sigma``       float   :math:`\sigma_c` : Standard error of :math:`\mu`, a statistical measure of the peak width.  See ``variance``.  [#variance]_
+    ``variance``    float   :math:`\sigma_c^2`  [#variance]_
+    ``x_at_max_y``  float   ``x`` value at maximum of :math:`\vec{y}` array.  For positive-going peaks, this is the "peak position".
+    ``x_at_min_y``  float   ``x`` value at minimum of :math:`\vec{y}` array.  For negative-going peaks, this is the "peak position".
+    ==============  ======  ==============================================
 
-    sigma : float
-        :math:`\sigma_c` : Standard error of :math:`\mu`, a statistical measure
-        of the peak width.  See ``variance``.
-
-    x_at_max_y : float
-        ``x`` value at maximum of :math:`\vec{y}` array.
-        For positive-going peaks, this is the "peak position".
-
-    x_at_min_y : float
-        ``x`` value at minimum of :math:`\vec{y}` array.
-        For negative-going peaks, this is the "peak position".
-
-    variance : float
-        :math:`\sigma_c^2`
-
-        .. math::
-
-          \sigma_c^2 = {{\sum_i^n{(x_i - \mu)^2 \cdot y_i}} \over {\sum_i^n{y_i}}}
+    .. [#variance] variance: :math:`\sigma_c^2 = {{\sum_i^n{(x_i - \mu)^2 \cdot y_i}} / {\sum_i^n{y_i}}}`
 
         .. seealso:: https://en.wikipedia.org/wiki/Weighted_arithmetic_mean
 
-    .. rubric:: Dictionary Keys when covariance matrix can be computed
-
-    These keys are present when a fit of :math:`\vec{y}` *vs.* :math:`\vec{x}`
-    to a first-order polynomial (straight line) and its covariance matrix can be
+    These keys are added when a fit of :math:`\vec{y}` *vs.* :math:`\vec{x}` to
+    a first-order polynomial (straight line) and its covariance matrix can be
     computed.
 
-    correlation : float
-        Correlation coefficient :math:`r`.
-
-    intercept : float
-        Computed y-axis intercept when fitting (x,y) to a straight line.
-
-    slope : float
-        Computed slope when fitting (x,y) to a straight line.
-
-    stddev_intercept : float
-        Standard deviation of intercept, from covariance matrix  when fitting
-        (x,y) to a straight line.
-
-    stddev_slope : float
-        Standard deviation of slope, from covariance matrix  when fitting (x,y)
-        to a straight line.
-
+    ======================  ======  ==============================================
+    key                     type    description
+    ======================  ======  ==============================================
+    ``correlation``         float   Correlation coefficient :math:`r`.  Measure of the goodness of fit.
+    ``intercept``           float   Computed y-axis intercept when fitting (x,y) to a straight line.
+    ``slope``               float   Computed y-axis slope when fitting (x,y) to a straight line.
+    ``stddev_intercept``    float   Standard deviation of intercept, from covariance matrix when fitting (x,y) to a straight line.
+    ``stddev_slope``        float   Standard deviation of slope, from covariance matrix when fitting (x,y) to a straight line.
+    ======================  ======  ==============================================
     """
 
     x = np.array(x)
+    if len(x) == 0:
+        raise ValueError("Array x cannot be empty.")
+
     results = MMap(
         max_x=x.max(),
         mean_x=x.mean(),
+        median_x=(x.max() + x.min()) / 2,
         min_x=x.min(),
         n=len(x),
+        range_x=x.max() - x.min(),
         stddev_x=x.std(),
     )
     if y is not None:
         y = np.array(y)
         if len(x) != len(y):
-            raise ValueError(f"Unequal shapes: {x.shape()=} {y.shape()=}")
+            raise ValueError(f"Unequal shapes: {x.shape=} {y.shape=}")
 
         results.update(
             {
                 "max_y": y.max(),
                 "mean_y": y.mean(),
+                "median_y": (y.max() + y.min()) / 2,
                 "min_y": y.min(),
+                "range_y": y.max() - y.min(),
                 "stddev_y": y.std(),
             }
         )
@@ -232,12 +228,14 @@ def array_statistics(x: list, y: list = None) -> MMap:
             center_of_mass = results["centroid"] = np.average(x, weights=y)
             results["fwhm"] = peak_full_width(x, y)
             try:
-                variance = max(0.0, np.average((x - center_of_mass) ** 2, weights=y))
-                results["variance"] = variance
-                results["sigma"] = math.sqrt(variance)
+                results["variance"] = max(
+                    0.0,
+                    np.average((x - center_of_mass) ** 2, weights=y),
+                )
+                results["sigma"] = math.sqrt(results["variance"])
             except ValueError as reason:
                 logger.warning("Cannot compute variance: %s", reason)
-                results["variance"] = 0.0
+                results["variance"] = 0.0  # define anyway
                 results["sigma"] = 0.0
 
             try:
