@@ -93,7 +93,7 @@ from .spreadsheet import ExcelDatabaseFileBase
 from .spreadsheet import ExcelDatabaseFileGeneric
 from .spreadsheet import ExcelReadError
 from .statistics import array_index
-from .statistics import array_statistics
+from .statistics import xy_statistics
 from .statistics import factor_fwhm
 from .statistics import peak_full_width
 from .time_constants import DAY

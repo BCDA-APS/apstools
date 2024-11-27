@@ -190,13 +190,13 @@ class SignalStatsCallback:
 
     def stop(self, doc):
         """Receives 'stop' documents from the RunEngine."""
-        from ..utils.statistics import array_statistics
+        from ..utils.statistics import xy_statistics
 
         if not self._scanning:
             return
         self._scanning = False
 
-        self.analysis = array_statistics(
+        self.analysis = xy_statistics(
             self._data[self._x_name],
             self._data[self._detectors[0]],
         )
