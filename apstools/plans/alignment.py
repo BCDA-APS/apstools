@@ -285,10 +285,9 @@ def edge_align(detectors, mover, start, end, points, cat=None, md={}):
         low_x_data = np.min(x_data_sorted)
         high_x_data = np.max(x_data_sorted)
 
-        # Estimate wid as a fraction of the range. This is very arbitrary and might need tuning!
-        width = (
-            high_x_data - low_x_data
-        ) / 10  # This is a guess and might need adjustment based on your data's characteristics
+        # Estimate width as a fraction of the range. This is very arbitrary and might need tuning!
+        # This is a guess and might need adjustment based on your data's characteristics.
+        width = (high_x_data - low_x_data) / 10
 
         # Estimate the midpoint of the x values
         midpoint = x_data[int(len(x_data) / 2)]
@@ -540,7 +539,7 @@ def lineup2(
             denominator = stats.mean_y - stats.min_y
             if denominator == 0:
                 raise ZeroDivisionError()
-            return abs((stats.max_y - stats.min_y)/denominator) > peak_factor
+            return abs((stats.max_y - stats.min_y) / denominator) > peak_factor
         except (AttributeError, ZeroDivisionError):
             return False
 
@@ -588,6 +587,9 @@ def lineup2(
                 # Can't move outside absolute range of m_lo..m_hi
                 rel_start = max(m_lo - target, -offset)
                 rel_end = min(m_hi - target, offset)
+
+    if signal_stats.reporting:  # Final report
+        signal_stats.report()
 
 
 class TuneAxis(object):
