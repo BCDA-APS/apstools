@@ -75,6 +75,7 @@ from .misc import text_encode
 from .misc import to_unicode_or_bust
 from .misc import trim_string_for_EPICS
 from .misc import unix
+from .mmap_dict import MMap
 from .override_parameters import OverrideParameters
 from .plot import plotxy
 from .plot import select_live_plot
@@ -91,6 +92,10 @@ from .slit_core import SlitGeometry
 from .spreadsheet import ExcelDatabaseFileBase
 from .spreadsheet import ExcelDatabaseFileGeneric
 from .spreadsheet import ExcelReadError
+from .statistics import array_index
+from .statistics import xy_statistics
+from .statistics import factor_fwhm
+from .statistics import peak_full_width
 from .time_constants import DAY
 from .time_constants import HOUR
 from .time_constants import MINUTE

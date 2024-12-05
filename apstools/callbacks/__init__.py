@@ -5,7 +5,6 @@ from .nexus_writer import NEXUS_FILE_EXTENSION
 from .nexus_writer import NEXUS_RELEASE
 from .nexus_writer import NXWriter
 from .nexus_writer import NXWriterAPS
-from .scan_signal_statistics import factor_fwhm
 from .scan_signal_statistics import SignalStatsCallback
 from .spec_file_writer import SCAN_ID_RESET_VALUE
 from .spec_file_writer import SPEC_TIME_FORMAT

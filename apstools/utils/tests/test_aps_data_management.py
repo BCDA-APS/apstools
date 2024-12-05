@@ -2,14 +2,15 @@
 Test the APS Data Management utility functions.
 """
 
-import pytest
 import pathlib
 import tempfile
 import uuid
 
+import pytest
+
+from .. import aps_data_management as adm
 from .. import dm_setup
 from .. import dm_source_environ
-from .. import aps_data_management as adm
 
 
 @pytest.fixture()

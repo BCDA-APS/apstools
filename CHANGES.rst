@@ -29,18 +29,30 @@ describe future plans.
    Enhancements
    ------------
 
-   - Add 'dynamic_import()' (support 'ad_creator()' from device file).
+   - Add 'utils.xy_statistics()' (support 'plans.lineup2()').
+   - Add 'utils.dynamic_import()' (support 'devices.ad_creator()' from device file).
+   - Add 'utils.MMap' (support 'plans.lineup2()').
+   - Add 'utils.peak_full_width' (support 'plans.lineup2()').
 
    Fixes
    -----
 
-   - 'PVPositionerSoftDone' used an invalid subscription event type
-     in unusual cases (with fake ophyd simulated devices).
+   - In some cases, 'plans.lineup2()' appeared to succeed but motor was not in
+     aligned position.
+   - In unusual cases (with fake ophyd simulated devices),
+     'devices.PVPositionerSoftDone' used an invalid subscription event type.
 
    Maintenance
    -----------
 
    - In 'ad_creator()', convert text class name to class object.
+   - Refactor 'plans.lineup2()': new statistics computations & improve
+     diagnostics.
+
+   Deprecations
+   -----------
+
+   - Use of 'PySumReg.SummationRegisters' to be removed in next major release.
 
 1.7.1
 ******

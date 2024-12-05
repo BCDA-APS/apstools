@@ -1,4 +1,7 @@
 """
+TIME CONSTANTS
+==============
+
 Define symbols used by other modules to define time (seconds).
 
 .. autosummary::

@@ -1,33 +1,19 @@
 """
-Collect statistics on the signals used in 1-D scans.
-====================================================
+Collect statistics on the first detector used in 1-D scans.
+===========================================================
 
 .. autosummary::
 
-    ~factor_fwhm
     ~SignalStatsCallback
 """
 
-__all__ = """
-factor_fwhm
-SignalStatsCallback
-""".split()
-
-import math
 import logging
 
 import pyRestTable
-import pysumreg
+import pysumreg  # deprecate, will remove in next major version bump
 
 logger = logging.getLogger(__name__)
 logger.info(__file__)
-
-factor_fwhm = 2 * math.sqrt(2 * math.log(2))
-r"""
-FWHM :math:`=2\sqrt{2\ln{2}}\cdot\sigma_c`
-
-see: https://statproofbook.github.io/P/norm-fwhm.html
-"""
 
 
 class SignalStatsCallback:
@@ -48,6 +34,7 @@ class SignalStatsCallback:
 
         from bluesky import plans as bp
         from bluesky import preprocessors as bpp
+        from apstools.callbacks import SignalStatsCallback
 
         signal_stats = SignalStatsCallback()
 
@@ -66,7 +53,7 @@ class SignalStatsCallback:
         ~receiver
         ~report
         ~data_stream
-        ~stop_report
+        ~reporting
 
     .. rubric:: Internal API
     .. autosummary::
@@ -76,6 +63,8 @@ class SignalStatsCallback:
         ~event
         ~start
         ~stop
+        ~analysis
+        ~_data
         ~_scanning
         ~_registers
     """
@@ -83,14 +72,24 @@ class SignalStatsCallback:
     data_stream: str = "primary"
     """RunEngine document with signals to to watch."""
 
-    stop_report: bool = True
+    reporting: bool = True
     """If ``True`` (default), call the ``report()`` method when a ``stop`` document is received."""
 
     _scanning: bool = False
     """Is a run *in progress*?"""
 
     _registers: dict = {}
-    """Dictionary (keyed on Signal name) of ``SummationRegister()`` objects."""
+    """
+    Deprecated: Use 'analysis' instead, will remove in next major release.
+
+    Dictionary (keyed on Signal name) of ``SummationRegister()`` objects.
+    """
+
+    _data: dict = {}
+    """Arrays of x & y data"""
+
+    analysis: object = None
+    """Dictionary of statistical array analyses."""
 
     # TODO: What happens when the run is paused?
 
@@ -105,10 +104,11 @@ class SignalStatsCallback:
         self._scanning = False
         self._detectors = []
         self._motor = ""
-        self._registers = {}
+        self._registers = {}  # deprecated, for removal
         self._descriptor_uid = None
         self._x_name = None
         self._y_names = []
+        self._data = {}
 
     def descriptor(self, doc):
         """Receives 'descriptor' documents from the RunEngine."""
@@ -122,11 +122,16 @@ class SignalStatsCallback:
 
         # Pick the first motor signal.
         self._x_name = doc["hints"][self._motor]["fields"][0]
+        self._data[self._x_name] = []
+
         # Get the signals for each detector object.s
         for d in self._detectors:
-            self._y_names += doc["hints"][d]["fields"]
+            for y_name in doc["hints"][d]["fields"]:
+                self._y_names.append(y_name)
+                self._data[y_name] = []
 
         # Keep statistics for each of the Y signals (vs. the one X signal).
+        # deprecated, for removal
         self._registers = {y: pysumreg.SummationRegisters() for y in self._y_names}
 
     def event(self, doc):
@@ -138,8 +143,12 @@ class SignalStatsCallback:
 
         # Collect the data for the signals.
         x = doc["data"][self._x_name]
+        self._data[self._x_name].append(x)
+
         for yname in self._y_names:
-            self._registers[yname].add(x, doc["data"][yname])
+            y = doc["data"][yname]
+            self._registers[yname].add(x, y)  # deprecated, for removal
+            self._data[yname].append(y)
 
     def receiver(self, key, document):
         """Client method used to subscribe to the RunEngine."""
@@ -151,35 +160,24 @@ class SignalStatsCallback:
 
     def report(self):
         """Print a table with the collected statistics for each signal."""
-        if len(self._registers) == 0:
+        if len(self._data) == 0:
             return
-        keys = "n centroid sigma x_at_max_y max_y min_y mean_y stddev_y".split()
+
+        x_name = self._x_name
+        y_name = self._detectors[0]
+
+        keys = """
+            n centroid x_at_max_y
+            fwhm variance sigma
+            min_x mean_x max_x
+            min_y mean_y max_y
+            success reasons
+        """.split()
+
         table = pyRestTable.Table()
-        if len(keys) <= len(self._registers):
-            # statistics in the column labels
-            table.labels = ["detector"] + keys
-            for yname, stats in self._registers.items():
-                row = [yname]
-                for k in keys:
-                    try:
-                        v = getattr(stats, k)
-                    except (ValueError, ZeroDivisionError):
-                        v = 0
-                    row.append(v)
-                table.addRow(row)
-        else:
-            # signals in the column labels
-            table.labels = ["statistic"] + list(self._registers)
-            for k in keys:
-                row = [k]
-                for stats in self._registers.values():
-                    try:
-                        v = getattr(stats, k)
-                    except (ValueError, ZeroDivisionError):
-                        v = 0
-                    row.append(v)
-                table.addRow(row)
-        print(f"Motor: {self._x_name}")
+        table.labels = "statistic value".split()
+        table.rows = [(k, self.analysis.get(k, "--")) for k in keys if k in self.analysis]
+        print(f"Motor: {x_name!r}  Detector: {y_name!r}")
         print(table)
 
     def start(self, doc):
@@ -192,8 +190,16 @@ class SignalStatsCallback:
 
     def stop(self, doc):
         """Receives 'stop' documents from the RunEngine."""
+        from ..utils.statistics import xy_statistics
+
         if not self._scanning:
             return
         self._scanning = False
-        if self.stop_report:
+
+        self.analysis = xy_statistics(
+            self._data[self._x_name],
+            self._data[self._detectors[0]],
+        )
+
+        if self.reporting:
             self.report()
