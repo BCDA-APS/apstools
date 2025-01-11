@@ -1,0 +1,817 @@
+
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+
+    <title>EPICS synApps optics 2slit.db &#8212; apstools 1.7</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/graphviz.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.5ea377869091fd0449014c60fc090103.min.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/css/custom.css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/jquery.js"></script>
+    <script src="../../_static/underscore.js"></script>
+    <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/sphinx_highlight.js"></script>
+    <script src="../../_static/design-tabs.js"></script>
+    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'api/synApps/_db_2slit';</script>
+    <script>
+        DOCUMENTATION_OPTIONS.theme_version = '0.15.4';
+        DOCUMENTATION_OPTIONS.theme_switcher_json_url = 'https://raw.githubusercontent.com/BCDA-APS/apstools/main/docs/source/_static/switcher.json';
+        DOCUMENTATION_OPTIONS.theme_switcher_version_match = '1.7.0';
+        DOCUMENTATION_OPTIONS.show_version_warning_banner = false;
+        </script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="synApps epid record" href="_epid.html" />
+    <link rel="prev" title="EPICS base calcout record" href="_calcout.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-3 navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../../index.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">apstools 1.7</p>
+  
+</a></div>
+    
+      <div class="navbar-item">
+<script>
+document.write(`
+  <div class="version-switcher__container dropdown">
+    <button id="pst-version-switcher-button-2"
+      type="button"
+      class="version-switcher__button btn btn-sm dropdown-toggle"
+      data-bs-toggle="dropdown"
+      aria-haspopup="listbox"
+      aria-controls="pst-version-switcher-list-2"
+      aria-label="Version switcher list"
+    >
+      Choose version  <!-- this text may get changed later by javascript -->
+      <span class="caret"></span>
+    </button>
+    <div id="pst-version-switcher-list-2"
+      class="version-switcher__menu dropdown-menu list-group-flush py-0"
+      role="listbox" aria-labelledby="pst-version-switcher-button-2">
+      <!-- dropdown will be populated by javascript on page load -->
+    </div>
+  </div>
+`);
+</script></div>
+    
+  </div>
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../install.html">
+    Installation
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="../index.html">
+    API Documentation
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../applications/index.html">
+    Applications
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../examples/index.html">
+    Examples
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../changes.html">
+    Change History
+  </a>
+</li>
+
+            <li class="nav-item dropdown">
+                <button class="btn dropdown-toggle nav-item" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-controls="pst-nav-more-links">
+                    More
+                </button>
+                <ul id="pst-nav-more-links" class="dropdown-menu">
+                    
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../license.html">
+    License
+  </a>
+</li>
+
+                </ul>
+            </li>
+            
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script>
+        </div>
+      
+      
+        <div class="navbar-item">
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script></div>
+      
+        <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/BCDA-APS/apstools" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script>
+    </div>
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../install.html">
+    Installation
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="../index.html">
+    API Documentation
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../applications/index.html">
+    Applications
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../examples/index.html">
+    Examples
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../changes.html">
+    Change History
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../license.html">
+    License
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script></div>
+        
+          <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/BCDA-APS/apstools" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+        
+      </div>
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+<nav class="bd-docs-nav bd-links"
+     aria-label="Section Navigation">
+  <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
+  <div class="bd-toc-item navbar-nav"><ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../_callbacks.html">Callbacks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../_devices.html">Devices</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../_filewriters.html">File Writers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../_plans.html">Plans</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../_utils.html">Utilities</a></li>
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="index.html">synApps</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="__common.html">EPICS Record support: common structures</a></li>
+<li class="toctree-l2"><a class="reference internal" href="_acalcout.html">EPICS base aCalcout record</a></li>
+<li class="toctree-l2"><a class="reference internal" href="_asyn.html">synApps asyn record</a></li>
+<li class="toctree-l2"><a class="reference internal" href="_busy.html">synApps busy record</a></li>
+<li class="toctree-l2"><a class="reference internal" href="_calcout.html">EPICS base calcout record</a></li>
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">EPICS synApps optics 2slit.db</a></li>
+<li class="toctree-l2"><a class="reference internal" href="_epid.html">synApps epid record</a></li>
+<li class="toctree-l2"><a class="reference internal" href="_iocstats.html">synApps IOC statistics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="_luascript.html">synApps luascript record</a></li>
+<li class="toctree-l2"><a class="reference internal" href="_save_data.html">synApps save data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="_scalcout.html">EPICS synApps calc scalcout record</a></li>
+<li class="toctree-l2"><a class="reference internal" href="_sscan.html">synApps sscan record</a></li>
+<li class="toctree-l2"><a class="reference internal" href="_sseq.html">synApps sseq record</a></li>
+<li class="toctree-l2"><a class="reference internal" href="_sub.html">EPICS base sub record &amp; synApps userAve records</a></li>
+<li class="toctree-l2"><a class="reference internal" href="_swait.html">synApps swait record</a></li>
+<li class="toctree-l2"><a class="reference internal" href="_transform.html">synApps transform record</a></li>
+</ul>
+</details></li>
+</ul>
+</div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+
+
+<nav aria-label="Breadcrumb" class="d-print-none">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="../index.html" class="nav-link">API Documentation</a></li>
+    
+    
+    <li class="breadcrumb-item"><a href="index.html" class="nav-link">synApps</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page">EPICS...</li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section id="module-apstools.synApps.db_2slit">
+<span id="epics-synapps-optics-2slit-db"></span><h1>EPICS synApps optics 2slit.db<a class="headerlink" href="#module-apstools.synApps.db_2slit" title="Permalink to this heading">#</a></h1>
+<p>db_2slit: synApps optics 2slit.db</p>
+<p>There are two implementations, corresponding to differing and competing
+opinions of how the support should be implemented.</p>
+<p>Coordinates of <code class="docutils literal notranslate"><span class="pre">Optics2Slit2D_InbOutBotTop</span></code> (viewing from detector towards source):</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>   <span class="n">top</span>
+<span class="n">inb</span>   <span class="n">out</span>
+   <span class="n">bot</span>
+</pre></div>
+</div>
+<p>Coordinates of <code class="docutils literal notranslate"><span class="pre">Optics2Slit2D_HV</span></code> (viewing from detector towards source):</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>    <span class="n">v</span><span class="o">.</span><span class="n">xp</span>
+<span class="n">h</span><span class="o">.</span><span class="n">xn</span>    <span class="n">h</span><span class="o">.</span><span class="n">xp</span>
+    <span class="n">v</span><span class="o">.</span><span class="n">xn</span>
+</pre></div>
+</div>
+<p>Each blade <a class="footnote-reference brackets" href="#id2" id="id1" role="doc-noteref"><span class="fn-bracket">[</span>1<span class="fn-bracket">]</span></a> (in the XIA slit controller) travels in a _cartesian_ coordinate
+system.  Positive motion moves a blade <strong>outwards</strong> (towards the <code class="docutils literal notranslate"><span class="pre">p</span></code> suffix).
+Negative motion moves towards the <code class="docutils literal notranslate"><span class="pre">n</span></code> suffix.  Size and center are computed
+by the underlying EPICS support.</p>
+<blockquote>
+<div><p>hsize = out - inb
+vsize = top - bot</p>
+</div></blockquote>
+<aside class="footnote-list brackets">
+<aside class="footnote brackets" id="id2" role="note">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id1">1</a><span class="fn-bracket">]</span></span>
+<p>Note that the blade names here may be different than the EPICS support.
+The difference is to make the names of the blades consistent with other
+slits with the Bluesky framework.</p>
+</aside>
+</aside>
+<p>USAGE:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">slit1</span> <span class="o">=</span> <span class="n">Optics2Slit2D_HV</span><span class="p">(</span><span class="s2">&quot;gp:Slit1&quot;</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;slit1&quot;</span><span class="p">)</span>
+<span class="n">slit1</span><span class="o">.</span><span class="n">geometry</span> <span class="o">=</span> <span class="mf">0.1</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span>  <span class="c1"># moves the slits</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">slit1</span><span class="o">.</span><span class="n">geometry</span><span class="p">)</span>
+
+<span class="n">slit2</span> <span class="o">=</span> <span class="n">Optics2Slit_InbOutBotTop</span><span class="p">(</span><span class="s2">&quot;gp:Slit2&quot;</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;slit2&quot;</span><span class="p">)</span>
+<span class="n">slit2</span><span class="o">.</span><span class="n">geometry</span> <span class="o">=</span> <span class="mf">0.1</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span>  <span class="c1"># moves the slits</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">slit2</span><span class="o">.</span><span class="n">geometry</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Public Structures</p>
+<div class="pst-scrollable-table-container"><table class="autosummary longtable table autosummary">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#apstools.synApps.db_2slit.Optics2Slit1D" title="apstools.synApps.db_2slit.Optics2Slit1D"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Optics2Slit1D</span></code></a>(*args, **kwargs)</p></td>
+<td><p>EPICS synApps optics 2slit.db 1D support: xn, xp, size, center, sync</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#apstools.synApps.db_2slit.Optics2Slit2D_HV" title="apstools.synApps.db_2slit.Optics2Slit2D_HV"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Optics2Slit2D_HV</span></code></a>(*args, **kwargs)</p></td>
+<td><p>EPICS synApps optics 2slit.db 2D support: h.xn, h.xp, v.xn, v.xp</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#apstools.synApps.db_2slit.Optics2Slit2D_InbOutBotTop" title="apstools.synApps.db_2slit.Optics2Slit2D_InbOutBotTop"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Optics2Slit2D_InbOutBotTop</span></code></a>(*args, **kwargs)</p></td>
+<td><p>EPICS synApps optics 2slit.db 2D support: inb, out, bot, top</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">see<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="github reference external" href="https://github.com/epics-modules/optics">epics-modules/optics</a></p>
+</dd>
+</dl>
+<p>new in release 1.6.0</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="apstools.synApps.db_2slit.Optics2Slit1D">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">apstools.synApps.db_2slit.</span></span><span class="sig-name descname"><span class="pre">Optics2Slit1D</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/apstools/synApps/db_2slit.html#Optics2Slit1D"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#apstools.synApps.db_2slit.Optics2Slit1D" title="Permalink to this definition">#</a></dt>
+<dd><p>EPICS synApps optics 2slit.db 1D support: xn, xp, size, center, sync</p>
+<p>“sync” is used to tell the EPICS 2slit database to synchronize the
+virtual slit values with the actual motor positions.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="apstools.synApps.db_2slit.Optics2Slit1D.center">
+<span class="sig-name descname"><span class="pre">center</span></span><a class="headerlink" href="#apstools.synApps.db_2slit.Optics2Slit1D.center" title="Permalink to this definition">#</a></dt>
+<dd><p>alias of <a class="reference internal" href="../_devices.html#apstools.devices.positioner_soft_done.PVPositionerSoftDone" title="apstools.devices.positioner_soft_done.PVPositionerSoftDone"><code class="xref py py-class docutils literal notranslate"><span class="pre">PVPositionerSoftDone</span></code></a></p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="apstools.synApps.db_2slit.Optics2Slit1D.size">
+<span class="sig-name descname"><span class="pre">size</span></span><a class="headerlink" href="#apstools.synApps.db_2slit.Optics2Slit1D.size" title="Permalink to this definition">#</a></dt>
+<dd><p>alias of <a class="reference internal" href="../_devices.html#apstools.devices.positioner_soft_done.PVPositionerSoftDone" title="apstools.devices.positioner_soft_done.PVPositionerSoftDone"><code class="xref py py-class docutils literal notranslate"><span class="pre">PVPositionerSoftDone</span></code></a></p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="apstools.synApps.db_2slit.Optics2Slit1D.xn">
+<span class="sig-name descname"><span class="pre">xn</span></span><a class="headerlink" href="#apstools.synApps.db_2slit.Optics2Slit1D.xn" title="Permalink to this definition">#</a></dt>
+<dd><p>alias of <a class="reference internal" href="../_devices.html#apstools.devices.positioner_soft_done.PVPositionerSoftDone" title="apstools.devices.positioner_soft_done.PVPositionerSoftDone"><code class="xref py py-class docutils literal notranslate"><span class="pre">PVPositionerSoftDone</span></code></a></p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="apstools.synApps.db_2slit.Optics2Slit1D.xp">
+<span class="sig-name descname"><span class="pre">xp</span></span><a class="headerlink" href="#apstools.synApps.db_2slit.Optics2Slit1D.xp" title="Permalink to this definition">#</a></dt>
+<dd><p>alias of <a class="reference internal" href="../_devices.html#apstools.devices.positioner_soft_done.PVPositionerSoftDone" title="apstools.devices.positioner_soft_done.PVPositionerSoftDone"><code class="xref py py-class docutils literal notranslate"><span class="pre">PVPositionerSoftDone</span></code></a></p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="apstools.synApps.db_2slit.Optics2Slit2D_HV">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">apstools.synApps.db_2slit.</span></span><span class="sig-name descname"><span class="pre">Optics2Slit2D_HV</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/apstools/synApps/db_2slit.html#Optics2Slit2D_HV"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#apstools.synApps.db_2slit.Optics2Slit2D_HV" title="Permalink to this definition">#</a></dt>
+<dd><p>EPICS synApps optics 2slit.db 2D support: h.xn, h.xp, v.xn, v.xp</p>
+<dl class="py property">
+<dt class="sig sig-object py" id="apstools.synApps.db_2slit.Optics2Slit2D_HV.geometry">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">geometry</span></span><a class="headerlink" href="#apstools.synApps.db_2slit.Optics2Slit2D_HV.geometry" title="Permalink to this definition">#</a></dt>
+<dd><p>Return the slit 2D size and center as a namedtuple.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="apstools.synApps.db_2slit.Optics2Slit2D_HV.h">
+<span class="sig-name descname"><span class="pre">h</span></span><a class="headerlink" href="#apstools.synApps.db_2slit.Optics2Slit2D_HV.h" title="Permalink to this definition">#</a></dt>
+<dd><p>alias of <a class="reference internal" href="#apstools.synApps.db_2slit.Optics2Slit1D" title="apstools.synApps.db_2slit.Optics2Slit1D"><code class="xref py py-class docutils literal notranslate"><span class="pre">Optics2Slit1D</span></code></a></p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="apstools.synApps.db_2slit.Optics2Slit2D_HV.v">
+<span class="sig-name descname"><span class="pre">v</span></span><a class="headerlink" href="#apstools.synApps.db_2slit.Optics2Slit2D_HV.v" title="Permalink to this definition">#</a></dt>
+<dd><p>alias of <a class="reference internal" href="#apstools.synApps.db_2slit.Optics2Slit1D" title="apstools.synApps.db_2slit.Optics2Slit1D"><code class="xref py py-class docutils literal notranslate"><span class="pre">Optics2Slit1D</span></code></a></p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="apstools.synApps.db_2slit.Optics2Slit2D_InbOutBotTop">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">apstools.synApps.db_2slit.</span></span><span class="sig-name descname"><span class="pre">Optics2Slit2D_InbOutBotTop</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/apstools/synApps/db_2slit.html#Optics2Slit2D_InbOutBotTop"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#apstools.synApps.db_2slit.Optics2Slit2D_InbOutBotTop" title="Permalink to this definition">#</a></dt>
+<dd><p>EPICS synApps optics 2slit.db 2D support: inb, out, bot, top</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="apstools.synApps.db_2slit.Optics2Slit2D_InbOutBotTop.bot">
+<span class="sig-name descname"><span class="pre">bot</span></span><a class="headerlink" href="#apstools.synApps.db_2slit.Optics2Slit2D_InbOutBotTop.bot" title="Permalink to this definition">#</a></dt>
+<dd><p>alias of <a class="reference internal" href="../_devices.html#apstools.devices.positioner_soft_done.PVPositionerSoftDone" title="apstools.devices.positioner_soft_done.PVPositionerSoftDone"><code class="xref py py-class docutils literal notranslate"><span class="pre">PVPositionerSoftDone</span></code></a></p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="apstools.synApps.db_2slit.Optics2Slit2D_InbOutBotTop.geometry">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">geometry</span></span><a class="headerlink" href="#apstools.synApps.db_2slit.Optics2Slit2D_InbOutBotTop.geometry" title="Permalink to this definition">#</a></dt>
+<dd><p>Return the slit 2D size and center as a namedtuple.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="apstools.synApps.db_2slit.Optics2Slit2D_InbOutBotTop.hcenter">
+<span class="sig-name descname"><span class="pre">hcenter</span></span><a class="headerlink" href="#apstools.synApps.db_2slit.Optics2Slit2D_InbOutBotTop.hcenter" title="Permalink to this definition">#</a></dt>
+<dd><p>alias of <a class="reference internal" href="../_devices.html#apstools.devices.positioner_soft_done.PVPositionerSoftDone" title="apstools.devices.positioner_soft_done.PVPositionerSoftDone"><code class="xref py py-class docutils literal notranslate"><span class="pre">PVPositionerSoftDone</span></code></a></p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="apstools.synApps.db_2slit.Optics2Slit2D_InbOutBotTop.hsize">
+<span class="sig-name descname"><span class="pre">hsize</span></span><a class="headerlink" href="#apstools.synApps.db_2slit.Optics2Slit2D_InbOutBotTop.hsize" title="Permalink to this definition">#</a></dt>
+<dd><p>alias of <a class="reference internal" href="../_devices.html#apstools.devices.positioner_soft_done.PVPositionerSoftDone" title="apstools.devices.positioner_soft_done.PVPositionerSoftDone"><code class="xref py py-class docutils literal notranslate"><span class="pre">PVPositionerSoftDone</span></code></a></p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="apstools.synApps.db_2slit.Optics2Slit2D_InbOutBotTop.inb">
+<span class="sig-name descname"><span class="pre">inb</span></span><a class="headerlink" href="#apstools.synApps.db_2slit.Optics2Slit2D_InbOutBotTop.inb" title="Permalink to this definition">#</a></dt>
+<dd><p>alias of <a class="reference internal" href="../_devices.html#apstools.devices.positioner_soft_done.PVPositionerSoftDone" title="apstools.devices.positioner_soft_done.PVPositionerSoftDone"><code class="xref py py-class docutils literal notranslate"><span class="pre">PVPositionerSoftDone</span></code></a></p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="apstools.synApps.db_2slit.Optics2Slit2D_InbOutBotTop.out">
+<span class="sig-name descname"><span class="pre">out</span></span><a class="headerlink" href="#apstools.synApps.db_2slit.Optics2Slit2D_InbOutBotTop.out" title="Permalink to this definition">#</a></dt>
+<dd><p>alias of <a class="reference internal" href="../_devices.html#apstools.devices.positioner_soft_done.PVPositionerSoftDone" title="apstools.devices.positioner_soft_done.PVPositionerSoftDone"><code class="xref py py-class docutils literal notranslate"><span class="pre">PVPositionerSoftDone</span></code></a></p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="apstools.synApps.db_2slit.Optics2Slit2D_InbOutBotTop.top">
+<span class="sig-name descname"><span class="pre">top</span></span><a class="headerlink" href="#apstools.synApps.db_2slit.Optics2Slit2D_InbOutBotTop.top" title="Permalink to this definition">#</a></dt>
+<dd><p>alias of <a class="reference internal" href="../_devices.html#apstools.devices.positioner_soft_done.PVPositionerSoftDone" title="apstools.devices.positioner_soft_done.PVPositionerSoftDone"><code class="xref py py-class docutils literal notranslate"><span class="pre">PVPositionerSoftDone</span></code></a></p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="apstools.synApps.db_2slit.Optics2Slit2D_InbOutBotTop.vcenter">
+<span class="sig-name descname"><span class="pre">vcenter</span></span><a class="headerlink" href="#apstools.synApps.db_2slit.Optics2Slit2D_InbOutBotTop.vcenter" title="Permalink to this definition">#</a></dt>
+<dd><p>alias of <a class="reference internal" href="../_devices.html#apstools.devices.positioner_soft_done.PVPositionerSoftDone" title="apstools.devices.positioner_soft_done.PVPositionerSoftDone"><code class="xref py py-class docutils literal notranslate"><span class="pre">PVPositionerSoftDone</span></code></a></p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="apstools.synApps.db_2slit.Optics2Slit2D_InbOutBotTop.vsize">
+<span class="sig-name descname"><span class="pre">vsize</span></span><a class="headerlink" href="#apstools.synApps.db_2slit.Optics2Slit2D_InbOutBotTop.vsize" title="Permalink to this definition">#</a></dt>
+<dd><p>alias of <a class="reference internal" href="../_devices.html#apstools.devices.positioner_soft_done.PVPositionerSoftDone" title="apstools.devices.positioner_soft_done.PVPositionerSoftDone"><code class="xref py py-class docutils literal notranslate"><span class="pre">PVPositionerSoftDone</span></code></a></p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="_calcout.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">EPICS base calcout record</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="_epid.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">synApps epid record</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+<div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+  </div>
+  <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#apstools.synApps.db_2slit.Optics2Slit1D"><code class="docutils literal notranslate"><span class="pre">Optics2Slit1D</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#apstools.synApps.db_2slit.Optics2Slit1D.center"><code class="docutils literal notranslate"><span class="pre">Optics2Slit1D.center</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#apstools.synApps.db_2slit.Optics2Slit1D.size"><code class="docutils literal notranslate"><span class="pre">Optics2Slit1D.size</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#apstools.synApps.db_2slit.Optics2Slit1D.xn"><code class="docutils literal notranslate"><span class="pre">Optics2Slit1D.xn</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#apstools.synApps.db_2slit.Optics2Slit1D.xp"><code class="docutils literal notranslate"><span class="pre">Optics2Slit1D.xp</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#apstools.synApps.db_2slit.Optics2Slit2D_HV"><code class="docutils literal notranslate"><span class="pre">Optics2Slit2D_HV</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#apstools.synApps.db_2slit.Optics2Slit2D_HV.geometry"><code class="docutils literal notranslate"><span class="pre">Optics2Slit2D_HV.geometry</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#apstools.synApps.db_2slit.Optics2Slit2D_HV.h"><code class="docutils literal notranslate"><span class="pre">Optics2Slit2D_HV.h</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#apstools.synApps.db_2slit.Optics2Slit2D_HV.v"><code class="docutils literal notranslate"><span class="pre">Optics2Slit2D_HV.v</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#apstools.synApps.db_2slit.Optics2Slit2D_InbOutBotTop"><code class="docutils literal notranslate"><span class="pre">Optics2Slit2D_InbOutBotTop</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#apstools.synApps.db_2slit.Optics2Slit2D_InbOutBotTop.bot"><code class="docutils literal notranslate"><span class="pre">Optics2Slit2D_InbOutBotTop.bot</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#apstools.synApps.db_2slit.Optics2Slit2D_InbOutBotTop.geometry"><code class="docutils literal notranslate"><span class="pre">Optics2Slit2D_InbOutBotTop.geometry</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#apstools.synApps.db_2slit.Optics2Slit2D_InbOutBotTop.hcenter"><code class="docutils literal notranslate"><span class="pre">Optics2Slit2D_InbOutBotTop.hcenter</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#apstools.synApps.db_2slit.Optics2Slit2D_InbOutBotTop.hsize"><code class="docutils literal notranslate"><span class="pre">Optics2Slit2D_InbOutBotTop.hsize</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#apstools.synApps.db_2slit.Optics2Slit2D_InbOutBotTop.inb"><code class="docutils literal notranslate"><span class="pre">Optics2Slit2D_InbOutBotTop.inb</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#apstools.synApps.db_2slit.Optics2Slit2D_InbOutBotTop.out"><code class="docutils literal notranslate"><span class="pre">Optics2Slit2D_InbOutBotTop.out</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#apstools.synApps.db_2slit.Optics2Slit2D_InbOutBotTop.top"><code class="docutils literal notranslate"><span class="pre">Optics2Slit2D_InbOutBotTop.top</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#apstools.synApps.db_2slit.Optics2Slit2D_InbOutBotTop.vcenter"><code class="docutils literal notranslate"><span class="pre">Optics2Slit2D_InbOutBotTop.vcenter</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#apstools.synApps.db_2slit.Optics2Slit2D_InbOutBotTop.vsize"><code class="docutils literal notranslate"><span class="pre">Optics2Slit2D_InbOutBotTop.vsize</span></code></a></li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+  <div class="sidebar-secondary-item">
+
+  <div class="tocsection sourcelink">
+    <a href="../../_sources/api/synApps/_db_2slit.rst.txt">
+      <i class="fa-solid fa-file-lines"></i> Show Source
+    </a>
+  </div>
+</div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+
+  <p class="copyright">
+    
+      © Copyright 2017-2024, UChicago Argonne, LLC.
+      <br/>
+    
+  </p>
+</div>
+      
+        <div class="footer-item">
+
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 5.3.0.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item">
+<p class="theme-version">
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.15.4.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

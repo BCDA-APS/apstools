@@ -1,0 +1,733 @@
+
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+
+    <title>ADPilatus Area Detector with default HDF5 File Name &#8212; apstools 1.6.18 documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=8d27b9dea8ad943066ae" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=8d27b9dea8ad943066ae" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=8d27b9dea8ad943066ae" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.5.1/css/all.min.css?digest=8d27b9dea8ad943066ae" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.1/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.1/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.1/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/graphviz.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/css/custom.css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8d27b9dea8ad943066ae" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8d27b9dea8ad943066ae" />
+  <script src="../_static/vendor/fontawesome/6.5.1/js/all.min.js?digest=8d27b9dea8ad943066ae"></script>
+
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/sphinx_highlight.js"></script>
+    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'examples/de_ad_pilatus';</script>
+    <script>
+        DOCUMENTATION_OPTIONS.theme_version = '0.15.2';
+        DOCUMENTATION_OPTIONS.theme_switcher_json_url = 'https://raw.githubusercontent.com/BCDA-APS/apstools/main/docs/source/_static/switcher.json';
+        DOCUMENTATION_OPTIONS.theme_switcher_version_match = '1.6.18';
+        DOCUMENTATION_OPTIONS.show_version_warning_banner = false;
+        </script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Output scan(s) to a NeXus/HDF5 file" href="fw_nxwriter.html" />
+    <link rel="prev" title="ADPerkinElmer Area Detector with default HDF5 File Name" href="de_ad_pe.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <a id="pst-skip-link" class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>
+    Back to top
+  </button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar">
+<div class="bd-header__inner bd-page-width">
+  <label class="sidebar-toggle primary-toggle" for="__primary">
+    <span class="fa-solid fa-bars"></span>
+  </label>
+  
+  
+  <div class="col-lg-3 navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+
+<a class="navbar-brand logo" href="../index.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">apstools 1.6.18 documentation</p>
+  
+</a></div>
+    
+      <div class="navbar-item">
+<script>
+document.write(`
+  <div class="version-switcher__container dropdown">
+    <button id="pst-version-switcher-button-2"
+      type="button"
+      class="version-switcher__button btn btn-sm navbar-btn dropdown-toggle"
+      data-bs-toggle="dropdown"
+      aria-haspopup="listbox"
+      aria-controls="pst-version-switcher-list-2"
+      aria-label="Version switcher list"
+    >
+      Choose version  <!-- this text may get changed later by javascript -->
+      <span class="caret"></span>
+    </button>
+    <div id="pst-version-switcher-list-2"
+      class="version-switcher__menu dropdown-menu list-group-flush py-0"
+      role="listbox" aria-labelledby="pst-version-switcher-button-2">
+      <!-- dropdown will be populated by javascript on page load -->
+    </div>
+  </div>
+`);
+</script></div>
+    
+  </div>
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav class="navbar-nav">
+  <ul class="bd-navbar-elements navbar-nav">
+    
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../overview.html">
+                        Overview
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../applications/index.html">
+                        Applications
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item current active">
+                      <a class="nav-link nav-internal" href="index.html">
+                        Guides
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../api/index.html">
+                        API Documentation
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../install.html">
+                        Installation
+                      </a>
+                    </li>
+                
+            <li class="nav-item dropdown">
+                <button class="btn dropdown-toggle nav-item" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-controls="pst-nav-more-links">
+                    More
+                </button>
+                <ul id="pst-nav-more-links" class="dropdown-menu">
+                    
+                    <li class="nav-item">
+                      <a class="nav-link dropdown-item nav-internal" href="../changes.html">
+                        Change History
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link dropdown-item nav-internal" href="../license.html">
+                        License
+                      </a>
+                    </li>
+                
+                </ul>
+            </li>
+            
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+ <script>
+ document.write(`
+   <button class="btn navbar-btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script>
+        </div>
+      
+      
+        <div class="navbar-item">
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch nav-link" data-mode="light"><i class="fa-solid fa-sun fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="dark"><i class="fa-solid fa-moon fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg"></i></span>
+  </button>
+`);
+</script></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+ <script>
+ document.write(`
+   <button class="btn navbar-btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script>
+    </div>
+  
+
+  
+    <label class="sidebar-toggle secondary-toggle" for="__secondary" tabindex="0">
+      <span class="fa-solid fa-outdent"></span>
+    </label>
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          <div class="navbar-item">
+<nav class="navbar-nav">
+  <ul class="bd-navbar-elements navbar-nav">
+    
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../overview.html">
+                        Overview
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../applications/index.html">
+                        Applications
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item current active">
+                      <a class="nav-link nav-internal" href="index.html">
+                        Guides
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../api/index.html">
+                        API Documentation
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../install.html">
+                        Installation
+                      </a>
+                    </li>
+                
+            <li class="nav-item dropdown">
+                <button class="btn dropdown-toggle nav-item" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-controls="pst-nav-more-links-2">
+                    More
+                </button>
+                <ul id="pst-nav-more-links-2" class="dropdown-menu">
+                    
+                    <li class="nav-item">
+                      <a class="nav-link dropdown-item nav-internal" href="../changes.html">
+                        Change History
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link dropdown-item nav-internal" href="../license.html">
+                        License
+                      </a>
+                    </li>
+                
+                </ul>
+            </li>
+            
+  </ul>
+</nav></div>
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch nav-link" data-mode="light"><i class="fa-solid fa-sun fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="dark"><i class="fa-solid fa-moon fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg"></i></span>
+  </button>
+`);
+</script></div>
+        
+      </div>
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+<nav class="bd-docs-nav bd-links"
+     aria-label="Section Navigation">
+  <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
+  <div class="bd-toc-item navbar-nav"><ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="de_0_adsim_hdf5_basic.html">Area Detector with default HDF5 File Name</a></li>
+<li class="toctree-l1"><a class="reference internal" href="de_1_adsim_hdf5_custom_names.html">Area Detector with custom HDF5 File Name</a></li>
+<li class="toctree-l1"><a class="reference internal" href="de_2_adsim_hdf5_single_mode.html">Area Detector, Single mode, HDF5 file</a></li>
+<li class="toctree-l1"><a class="reference internal" href="de_ad_pe.html">ADPerkinElmer Area Detector with default HDF5 File Name</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">ADPilatus Area Detector with default HDF5 File Name</a></li>
+</ul>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="fw_nxwriter.html">Output scan(s) to a NeXus/HDF5 file</a></li>
+<li class="toctree-l1"><a class="reference internal" href="fw_specfile_example.html">Output scan(s) to a SPEC data file.</a></li>
+</ul>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="ho_contingency.html">How to interrupt/stop/abort a running plan &amp; recover to safe settings</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ho_list_control_objects.html">What are the objects to control?</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ho_nxwriter_templates.html">How to use NeXus/HDF5 Templates</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ho_search_databroker.html">How to Search for Bluesky Data?</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ho_session_logs.html">How to setup logging</a></li>
+</ul>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="pl_excel_scan.html">The <code class="docutils literal notranslate"><span class="pre">Excel_plan()</span></code> – batch scans using a spreadsheet</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pl_lineup.html">The <code class="docutils literal notranslate"><span class="pre">lineup()</span></code> plan - align an axis with a signal</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pl_nscan.html">The <code class="docutils literal notranslate"><span class="pre">nscan()</span></code> plan – scan multiple axes together</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pl_run_command_list.html">The <code class="xref py py-func docutils literal notranslate"><span class="pre">run_command_file()</span></code> plan – batch scans using a text file</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pl_tuneaxis.html">The <code class="docutils literal notranslate"><span class="pre">TuneAxis()</span></code> plan - align an axis with a signal</a></li>
+</ul>
+</div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+
+
+<nav aria-label="Breadcrumb">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="index.html" class="nav-link">Guides</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page">ADPilatus...</li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section id="adpilatus-area-detector-with-default-hdf5-file-name">
+<h1>ADPilatus Area Detector with default HDF5 File Name<a class="headerlink" href="#adpilatus-area-detector-with-default-hdf5-file-name" title="Permalink to this heading">#</a></h1>
+<p><strong>Objective</strong></p>
+<p>Demonstrate the setup of an
+<a class="reference external" href="https://github.com/areaDetector/ADPilatus">ADPilatus</a> camera driver
+(part of <a class="reference external" href="https://areadetector.github.io/master/index.html">EPICS area detector</a>)
+to acquire an image with <a class="reference external" href="https://blueskyproject.io/">bluesky</a> and write it to an <a class="reference external" href="https://www.hdfgroup.org/solutions/hdf5">HDF5</a> file.</p>
+<section id="epics-area-detector-ioc">
+<h2>EPICS Area Detector IOC<a class="headerlink" href="#epics-area-detector-ioc" title="Permalink to this heading">#</a></h2>
+<p>The Pilatus detector computer collects images to its own file system.  These
+files are read by the ADPilatus driver in the IOC.  There is a feature in the
+HDF5 plugin to select if the driver file file should be deleted after the HDF5
+file is written by the IOC.  This is a good idea to avoid filling up the Pilatus
+computer’s file system with old files.</p>
+<p>Both the IOC and Bluesky should be able to see the HDF5 files.  Whatever the
+method to accomplish this goal (shared file system, such as NFS, or file
+transfer from Pilatus computer to Bluesky computer), the file path on the IOC
+(<code class="docutils literal notranslate"><span class="pre">AD_IOC_MOUNT_PATH</span></code>) will likely be different than on the Bluesky (local)
+workstation (<code class="docutils literal notranslate"><span class="pre">BLUESKY_MOUNT_PATH</span></code>).  Following the setup in the <em>File-Directories</em>
+section of the <a class="reference internal" href="de_0_adsim_hdf5_basic.html"><span class="std std-doc">basic example</span></a>:</p>
+<div class="highlight-py notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pathlib</span>
+
+<span class="n">IOC</span> <span class="o">=</span> <span class="s2">&quot;pilatus:&quot;</span>  <span class="c1"># TODO: replace with your IOC&#39;s prefix</span>
+
+<span class="n">AD_IOC_MOUNT_PATH</span> <span class="o">=</span> <span class="n">pathlib</span><span class="o">.</span><span class="n">Path</span><span class="p">(</span><span class="s2">&quot;/mnt/fileserver/data&quot;</span><span class="p">)</span>  <span class="c1"># TODO: use yours</span>
+<span class="n">BLUESKY_MOUNT_PATH</span> <span class="o">=</span> <span class="n">pathlib</span><span class="o">.</span><span class="n">Path</span><span class="p">(</span><span class="s2">&quot;/export/raid5/fileshare/data&quot;</span><span class="p">)</span>  <span class="c1"># TODO: use yours</span>
+<span class="n">IMAGE_DIR</span> <span class="o">=</span> <span class="s2">&quot;example/%Y/%m/</span><span class="si">%d</span><span class="s2">&quot;</span>
+
+<span class="c1"># MUST end with a `/`, pathlib will NOT provide it</span>
+<span class="n">WRITE_PATH_TEMPLATE</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">AD_IOC_MOUNT_PATH</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">IMAGE_DIR</span><span class="si">}</span><span class="s2">/&quot;</span>
+<span class="n">READ_PATH_TEMPLATE</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">BLUESKY_MOUNT_PATH</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">IMAGE_DIR</span><span class="si">}</span><span class="s2">/&quot;</span>
+</pre></div>
+</div>
+</section>
+<section id="ophyd">
+<h2>ophyd<a class="headerlink" href="#ophyd" title="Permalink to this heading">#</a></h2>
+<p>The <strong>ADPilatus</strong> driver is supported by <code class="docutils literal notranslate"><span class="pre">ophyd.areadetector</span></code>’s
+<a class="reference external" href="https://blueskyproject.io/ophyd/generated/ophyd.areadetector.cam.PilatusDetectorCam.html">PilatusDetectorCam</a>
+class.  We’ll use that class here since we want to update that class for changes
+in area detector’s <code class="docutils literal notranslate"><span class="pre">ADCore</span></code>.</p>
+<p>Note that ophyd makes a distinction (using the Pilatus here as an
+example) between <code class="docutils literal notranslate"><span class="pre">PilatusDetector</span></code> and <code class="docutils literal notranslate"><span class="pre">PilatusDetectorCam</span></code>.  The <code class="docutils literal notranslate"><span class="pre">PilatusDetector</span></code> includes <code class="docutils literal notranslate"><span class="pre">PilatusDetectorCam</span></code> as a component to build a useful detector.  We must customize the <code class="docutils literal notranslate"><span class="pre">PilatusDetectorCam</span></code> class with updates, so we can’t use the stock <code class="docutils literal notranslate"><span class="pre">PilatusDetector</span></code>.</p>
+<div class="highlight-py notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">apstools.devices</span> <span class="kn">import</span> <span class="n">CamMixin_V34</span>
+<span class="kn">from</span> <span class="nn">ophyd.areadetector</span> <span class="kn">import</span> <span class="n">PilatusDetectorCam</span>
+
+<span class="k">class</span> <span class="nc">PilatusDetectorCam_V34</span><span class="p">(</span><span class="n">CamMixin_V34</span><span class="p">,</span> <span class="n">PilatusDetectorCam</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Update PilatusDetectorCam to ADCore 3.4+.&quot;&quot;&quot;</span>
+</pre></div>
+</div>
+<p>Build a class which configures the HDF5 plugin with the data acquisition methods we need:</p>
+<div class="highlight-py notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">ophyd.areadetector.filestore_mixins</span> <span class="kn">import</span> <span class="n">FileStoreHDF5IterativeWrite</span>
+<span class="kn">from</span> <span class="nn">ophyd.areadetector.plugins</span> <span class="kn">import</span> <span class="n">HDF5Plugin_V34</span> <span class="k">as</span> <span class="n">HDF5Plugin</span>
+
+<span class="k">class</span> <span class="nc">MyHDF5Plugin</span><span class="p">(</span><span class="n">FileStoreHDF5IterativeWrite</span><span class="p">,</span> <span class="n">HDF5Plugin</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Add data acquisition methods to HDF5Plugin.</span>
+
+<span class="sd">    * ``stage()`` - prepare device PVs befor data acquisition</span>
+<span class="sd">    * ``unstage()`` - restore device PVs after data acquisition</span>
+<span class="sd">    * ``generate_datum()`` - coordinate image storage metadata</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">stage</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">stage_sigs</span><span class="o">.</span><span class="n">move_to_end</span><span class="p">(</span><span class="s2">&quot;capture&quot;</span><span class="p">,</span> <span class="n">last</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">stage</span><span class="p">()</span>
+</pre></div>
+</div>
+<p><strong>NOTE</strong>: If you want to control the HDF5 file naming with EPICS PVs (in area
+detector), then replace the <code class="docutils literal notranslate"><span class="pre">MyHDF5Plugin</span></code> class with <code class="docutils literal notranslate"><span class="pre">AD_EpicsFileNameHDF5Plugin</span></code>
+when creating the detector class below and follow the additional instructions
+and cautions in the <em>HDF5: AD_EpicsFileNameHDF5Plugin</em> section of the
+<a class="reference internal" href="de_1_adsim_hdf5_custom_names.html"><span class="std std-doc">custom HDF5 image file names example</span></a>. You’ll
+need this import:</p>
+<div class="highlight-py notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">apstools.devices</span> <span class="kn">import</span> <span class="n">AD_EpicsFileNameHDF5Plugin</span>
+</pre></div>
+</div>
+<p>Then, build the detector class which puts it all together:</p>
+<div class="highlight-py notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">apstools.devices</span> <span class="kn">import</span> <span class="n">SingleTrigger_V34</span>
+<span class="kn">from</span> <span class="nn">ophyd</span> <span class="kn">import</span> <span class="n">ADComponent</span>
+<span class="kn">from</span> <span class="nn">ophyd.areadetector</span> <span class="kn">import</span> <span class="n">DetectorBase</span>
+
+<span class="k">class</span> <span class="nc">PilatusDetector_V34</span><span class="p">(</span><span class="n">SingleTrigger_V34</span><span class="p">,</span> <span class="n">DetectorBase</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    ADSimDetector</span>
+
+<span class="sd">    SingleTrigger:</span>
+
+<span class="sd">    * stop any current acquisition</span>
+<span class="sd">    * sets image_mode to &#39;Multiple&#39;</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">cam</span> <span class="o">=</span> <span class="n">ADComponent</span><span class="p">(</span><span class="n">PilatusDetectorCam_V34</span><span class="p">,</span> <span class="s2">&quot;cam1:&quot;</span><span class="p">)</span>
+    <span class="n">hdf1</span> <span class="o">=</span> <span class="n">ADComponent</span><span class="p">(</span>
+        <span class="n">MyHDF5Plugin</span><span class="p">,</span>
+        <span class="s2">&quot;HDF1:&quot;</span><span class="p">,</span>
+        <span class="n">write_path_template</span><span class="o">=</span><span class="n">WRITE_PATH_TEMPLATE</span><span class="p">,</span>
+        <span class="n">read_path_template</span><span class="o">=</span><span class="n">READ_PATH_TEMPLATE</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">image</span> <span class="o">=</span> <span class="n">ADComponent</span><span class="p">(</span><span class="n">ImagePlugin</span><span class="p">,</span> <span class="s2">&quot;image1:&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Create the Python object for the detector:</p>
+<div class="highlight-py notranslate"><div class="highlight"><pre><span></span><span class="n">pilatus</span> <span class="o">=</span> <span class="n">PilatusDetector_V34</span><span class="p">(</span><span class="n">IOC</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;pilatus&quot;</span><span class="p">)</span>
+<span class="n">pilatus</span><span class="o">.</span><span class="n">wait_for_connection</span><span class="p">(</span><span class="n">timeout</span><span class="o">=</span><span class="mi">15</span><span class="p">)</span>
+
+<span class="n">pilatus</span><span class="o">.</span><span class="n">missing_plugins</span><span class="p">()</span>  <span class="c1"># confirm all plugins are defined</span>
+<span class="n">pilatus</span><span class="o">.</span><span class="n">read_attrs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;hdf1&quot;</span><span class="p">)</span>  <span class="c1"># include `hdf1` plugin with &#39;pilatus.read()&#39;</span>
+
+<span class="c1"># override default settings from ophyd</span>
+<span class="c1"># Plugins will tell the camera driver when acquisition is finished.</span>
+<span class="c1"># RunEngine will wait until `pilatus:cam1:AcquireBusy_RBV` PV goes to zero.</span>
+<span class="n">pilatus</span><span class="o">.</span><span class="n">cam</span><span class="o">.</span><span class="n">stage_sigs</span><span class="p">[</span><span class="s2">&quot;wait_for_plugins&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;Yes&quot;</span>
+<span class="n">pilatus</span><span class="o">.</span><span class="n">hdf1</span><span class="o">.</span><span class="n">stage_sigs</span><span class="p">[</span><span class="s2">&quot;blocking_callbacks&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;No&quot;</span>
+<span class="n">pilatus</span><span class="o">.</span><span class="n">image</span><span class="o">.</span><span class="n">stage_sigs</span><span class="p">[</span><span class="s2">&quot;blocking_callbacks&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;No&quot;</span>
+</pre></div>
+</div>
+<p>Consider staging any customizations you wish for data acquisition:</p>
+<div class="highlight-py notranslate"><div class="highlight"><pre><span></span><span class="c1"># IOC may create up to 5 new subdirectories, as needed</span>
+<span class="n">pilatus</span><span class="o">.</span><span class="n">hdf1</span><span class="o">.</span><span class="n">create_directory</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="o">-</span><span class="mi">5</span><span class="p">)</span>
+
+<span class="n">NUM_FRAMES</span> <span class="o">=</span> <span class="mi">5</span>
+<span class="n">pilatus</span><span class="o">.</span><span class="n">cam</span><span class="o">.</span><span class="n">stage_sigs</span><span class="p">[</span><span class="s2">&quot;acquire_period&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.1</span>
+<span class="n">pilatus</span><span class="o">.</span><span class="n">cam</span><span class="o">.</span><span class="n">stage_sigs</span><span class="p">[</span><span class="s2">&quot;acquire_time&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.01</span>
+<span class="n">pilatus</span><span class="o">.</span><span class="n">cam</span><span class="o">.</span><span class="n">stage_sigs</span><span class="p">[</span><span class="s2">&quot;num_images&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">5</span>
+<span class="n">pilatus</span><span class="o">.</span><span class="n">hdf1</span><span class="o">.</span><span class="n">stage_sigs</span><span class="p">[</span><span class="s2">&quot;num_capture&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>  <span class="c1"># capture ALL frames received</span>
+<span class="n">pilatus</span><span class="o">.</span><span class="n">hdf1</span><span class="o">.</span><span class="n">stage_sigs</span><span class="p">[</span><span class="s2">&quot;compression&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;zlib&quot;</span>  <span class="c1"># LZ4</span>
+<span class="c1"># pilatus.hdf1.stage_sigs[&quot;queue_size&quot;] = 20</span>
+</pre></div>
+</div>
+</section>
+<section id="bluesky">
+<h2>bluesky<a class="headerlink" href="#bluesky" title="Permalink to this heading">#</a></h2>
+<p>Use with the bluesky RunEngine <code class="docutils literal notranslate"><span class="pre">RE</span></code> like any other detector in a plan, such as:</p>
+<div class="highlight-py notranslate"><div class="highlight"><pre><span></span><span class="n">RE</span><span class="p">(</span><span class="n">bp</span><span class="o">.</span><span class="n">count</span><span class="p">([</span><span class="n">pilatus</span><span class="p">]))</span>
+</pre></div>
+</div>
+<p>See the <em>bluesky</em> section of the
+<a class="reference internal" href="de_0_adsim_hdf5_basic.html"><span class="std std-doc">basic example</span></a> for
+more information.</p>
+</section>
+</section>
+
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="de_ad_pe.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">ADPerkinElmer Area Detector with default HDF5 File Name</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="fw_nxwriter.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Output scan(s) to a NeXus/HDF5 file</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+<div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+  </div>
+  <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#epics-area-detector-ioc">EPICS Area Detector IOC</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#ophyd">ophyd</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#bluesky">bluesky</a></li>
+</ul>
+  </nav></div>
+
+  <div class="sidebar-secondary-item">
+
+  <div class="tocsection sourcelink">
+    <a href="../_sources/examples/de_ad_pilatus.md.txt">
+      <i class="fa-solid fa-file-lines"></i> Show Source
+    </a>
+  </div>
+</div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=8d27b9dea8ad943066ae"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=8d27b9dea8ad943066ae"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+
+  <p class="copyright">
+    
+      © Copyright 2017-2023, UChicago Argonne, LLC.
+      <br/>
+    
+  </p>
+</div>
+      
+        <div class="footer-item">
+
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 5.3.0.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item">
+<p class="theme-version">
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.15.2.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

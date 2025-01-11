@@ -1,0 +1,1154 @@
+
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+
+    <title>The TuneAxis() plan - align an axis with a signal &#8212; apstools 1.7</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/graphviz.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.5ea377869091fd0449014c60fc090103.min.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/nbsphinx-code-cells.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/css/custom.css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/sphinx_highlight.js"></script>
+    <script src="../_static/design-tabs.js"></script>
+    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'examples/pl_tuneaxis';</script>
+    <script>
+        DOCUMENTATION_OPTIONS.theme_version = '0.15.4';
+        DOCUMENTATION_OPTIONS.theme_switcher_json_url = 'https://raw.githubusercontent.com/BCDA-APS/apstools/main/docs/source/_static/switcher.json';
+        DOCUMENTATION_OPTIONS.theme_switcher_version_match = '1.7.1';
+        DOCUMENTATION_OPTIONS.show_version_warning_banner = false;
+        </script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="File Downloads for the Examples" href="download_examples.html" />
+    <link rel="prev" title="The run_command_file() plan – batch scans using a text file" href="pl_run_command_list.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-3 navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../index.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">apstools 1.7</p>
+  
+</a></div>
+    
+      <div class="navbar-item">
+<script>
+document.write(`
+  <div class="version-switcher__container dropdown">
+    <button id="pst-version-switcher-button-2"
+      type="button"
+      class="version-switcher__button btn btn-sm dropdown-toggle"
+      data-bs-toggle="dropdown"
+      aria-haspopup="listbox"
+      aria-controls="pst-version-switcher-list-2"
+      aria-label="Version switcher list"
+    >
+      Choose version  <!-- this text may get changed later by javascript -->
+      <span class="caret"></span>
+    </button>
+    <div id="pst-version-switcher-list-2"
+      class="version-switcher__menu dropdown-menu list-group-flush py-0"
+      role="listbox" aria-labelledby="pst-version-switcher-button-2">
+      <!-- dropdown will be populated by javascript on page load -->
+    </div>
+  </div>
+`);
+</script></div>
+    
+  </div>
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../install.html">
+    Installation
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../api/index.html">
+    API Documentation
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../applications/index.html">
+    Applications
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="index.html">
+    Examples
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../changes.html">
+    Change History
+  </a>
+</li>
+
+            <li class="nav-item dropdown">
+                <button class="btn dropdown-toggle nav-item" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-controls="pst-nav-more-links">
+                    More
+                </button>
+                <ul id="pst-nav-more-links" class="dropdown-menu">
+                    
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../license.html">
+    License
+  </a>
+</li>
+
+                </ul>
+            </li>
+            
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script>
+        </div>
+      
+      
+        <div class="navbar-item">
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script></div>
+      
+        <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/BCDA-APS/apstools" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script>
+    </div>
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../install.html">
+    Installation
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../api/index.html">
+    API Documentation
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../applications/index.html">
+    Applications
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="index.html">
+    Examples
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../changes.html">
+    Change History
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../license.html">
+    License
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script></div>
+        
+          <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/BCDA-APS/apstools" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+        
+      </div>
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+<nav class="bd-docs-nav bd-links"
+     aria-label="Section Navigation">
+  <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
+  <div class="bd-toc-item navbar-nav"><ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="device_examples.html">Device Examples</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="de_0_adsim_hdf5_basic.html">Area Detector with default HDF5 File Name</a></li>
+<li class="toctree-l2"><a class="reference internal" href="de_1_adsim_hdf5_custom_names.html">Area Detector with custom HDF5 File Name</a></li>
+<li class="toctree-l2"><a class="reference internal" href="de_2_adsim_hdf5_single_mode.html">Area Detector, Single mode, HDF5 file</a></li>
+<li class="toctree-l2"><a class="reference internal" href="de_ad_pe.html">ADPerkinElmer Area Detector with default HDF5 File Name</a></li>
+<li class="toctree-l2"><a class="reference internal" href="de_ad_pilatus.html">ADPilatus Area Detector with default HDF5 File Name</a></li>
+<li class="toctree-l2"><a class="reference internal" href="de_aps_data_management.html">Integration with APS Data Management (DM)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="de_sscan.html">The synApps <code class="docutils literal notranslate"><span class="pre">sscan</span></code> and <code class="docutils literal notranslate"><span class="pre">SscanRecord</span></code></a></li>
+</ul>
+</details></li>
+</ul>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="filewriter_examples.html">File Writer Examples</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="fw_nxwriter.html">Callback</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="fw_specfile_example.html">Output scan(s) to a SPEC data file.</a></li>
+</ul>
+</details></li>
+</ul>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="howto_examples.html">How-To Examples</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="ho_contingency.html">How to interrupt/stop/abort a running plan &amp; recover to safe settings</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ho_list_control_objects.html">What are the objects to control?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ho_nxwriter_templates.html">How to use NeXus/HDF5 Templates</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ho_search_databroker.html">How to Search for Bluesky Data?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ho_session_logs.html">How to setup logging</a></li>
+</ul>
+</details></li>
+</ul>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="plan_examples.html">Plan Examples</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="pl_excel_scan.html">The <code class="docutils literal notranslate"><span class="pre">Excel_plan()</span></code> – batch scans using a spreadsheet</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pl_lineup.html">The <code class="docutils literal notranslate"><span class="pre">lineup()</span></code> plan - align an axis with a signal</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pl_nscan.html">The <code class="docutils literal notranslate"><span class="pre">nscan()</span></code> plan – scan multiple axes together</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pl_run_command_list.html">The <code class="xref py py-func docutils literal notranslate"><span class="pre">run_command_file()</span></code> plan – batch scans using a text file</a></li>
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">The <code class="docutils literal notranslate"><span class="pre">TuneAxis()</span></code> plan - align an axis with a signal</a></li>
+</ul>
+</details></li>
+</ul>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="download_examples.html">File Downloads for the Examples</a></li>
+</ul>
+</div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+
+
+<nav aria-label="Breadcrumb" class="d-print-none">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="index.html" class="nav-link">Examples</a></li>
+    
+    
+    <li class="breadcrumb-item"><a href="plan_examples.html" class="nav-link">Plan Examples</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page">The <code...</li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section id="The-TuneAxis()-plan---align-an-axis-with-a-signal">
+<h1>The <code class="docutils literal notranslate"><span class="pre">TuneAxis()</span></code> plan - align an axis with a signal<a class="headerlink" href="#The-TuneAxis()-plan---align-an-axis-with-a-signal" title="Permalink to this heading">#</a></h1>
+<p>In this example, we demonstrate the <code class="docutils literal notranslate"><span class="pre">apstools.plans.TuneAxis()</span></code> plan. The <code class="docutils literal notranslate"><span class="pre">TuneAxis()</span></code> support may be used to align (a.k.a. <em>tune</em>) a signal against an axis.</p>
+<p>We’ll use a software-only (not connected to hardware) motor as a positioner. Here, we prepare a signal that is a computation based on the value of our positioner. The computed signal is a model of a realistic diffraction peak (<a class="reference external" href="https://en.wikipedia.org/wiki/Voigt_profile">pseudo-Voigt</a>, a mixture of a Gaussian and a Lorentzian) one might encounter in a powder diffraction scan. The model peak is a pseudo-voigt function to which some noise has been added. Random numbers are used to modify the
+ideal pseudo-voigt function so as to simulate a realistic signal.</p>
+<p>For this demo, we do not need the databroker since we do not plan to review any of this data after collection. We’ll display the data during the scan using a <code class="docutils literal notranslate"><span class="pre">LiveTable()</span></code> subscription to the <code class="docutils literal notranslate"><span class="pre">bluesky.RunEngine()</span></code>.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">apstools.devices</span> <span class="kn">import</span> <span class="n">SynPseudoVoigt</span>
+<span class="kn">from</span> <span class="nn">apstools.plans</span> <span class="kn">import</span> <span class="n">TuneAxis</span>
+<span class="kn">from</span> <span class="nn">bluesky</span> <span class="kn">import</span> <span class="n">RunEngine</span>
+<span class="kn">from</span> <span class="nn">bluesky</span> <span class="kn">import</span> <span class="n">plans</span> <span class="k">as</span> <span class="n">bp</span>
+<span class="kn">from</span> <span class="nn">bluesky.callbacks</span> <span class="kn">import</span> <span class="n">LiveTable</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">ophyd</span> <span class="kn">import</span> <span class="n">EpicsMotor</span>
+
+<span class="n">RE</span> <span class="o">=</span> <span class="n">RunEngine</span><span class="p">({})</span>
+<br/></pre></div>
+</div>
+</div>
+<p>Set the IOC prefix.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">IOC</span> <span class="o">=</span> <span class="s2">&quot;gp:&quot;</span>
+</pre></div>
+</div>
+</div>
+<p>Connect to our motor <em>before</em> we create the simulated detector signal.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">m1</span> <span class="o">=</span> <span class="n">EpicsMotor</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">IOC</span><span class="si">}</span><span class="s2">m1&quot;</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;m1&quot;</span><span class="p">)</span>
+<span class="n">m1</span><span class="o">.</span><span class="n">wait_for_connection</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<p>Define a starting position, we’ll use this later in the demo.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">m1</span><span class="o">.</span><span class="n">move</span><span class="p">(</span><span class="o">-</span><span class="mf">1.5</span><span class="p">)</span>
+<span class="n">starting_position</span> <span class="o">=</span> <span class="n">m1</span><span class="o">.</span><span class="n">position</span>
+</pre></div>
+</div>
+</div>
+<section id="Setup-the-simulated-detector-signal.">
+<h2>Setup the simulated detector signal.<a class="headerlink" href="#Setup-the-simulated-detector-signal." title="Permalink to this heading">#</a></h2>
+<p>Make a simple scan with a simulated motor and the <code class="docutils literal notranslate"><span class="pre">SynPseudoVoigt()</span></code> signal.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">ophyd.sim</span> <span class="kn">import</span> <span class="n">motor</span>
+
+<span class="n">det</span> <span class="o">=</span> <span class="n">SynPseudoVoigt</span><span class="p">(</span><span class="s1">&#39;det&#39;</span><span class="p">,</span> <span class="n">motor</span><span class="p">,</span> <span class="s1">&#39;motor&#39;</span><span class="p">,</span>
+    <span class="n">center</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">eta</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">sigma</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">bkg</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+
+<span class="n">live_table</span> <span class="o">=</span> <span class="n">LiveTable</span><span class="p">([</span><span class="s2">&quot;motor&quot;</span><span class="p">,</span> <span class="s2">&quot;det&quot;</span><span class="p">])</span>
+
+<span class="n">RE</span><span class="p">(</span><span class="n">bp</span><span class="o">.</span><span class="n">scan</span><span class="p">([</span><span class="n">det</span><span class="p">],</span> <span class="n">motor</span><span class="p">,</span> <span class="o">-</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">19</span><span class="p">),</span> <span class="n">live_table</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+
+
++-----------+------------+------------+------------+
+|   seq_num |       time |      motor |        det |
++-----------+------------+------------+------------+
+|         1 | 00:33:31.9 |     -3.000 |      0.056 |
+|         2 | 00:33:31.9 |     -2.667 |      0.076 |
+|         3 | 00:33:31.9 |     -2.333 |      0.110 |
+|         4 | 00:33:31.9 |     -2.000 |      0.168 |
+|         5 | 00:33:31.9 |     -1.667 |      0.257 |
+|         6 | 00:33:32.0 |     -1.333 |      0.386 |
+|         7 | 00:33:32.0 |     -1.000 |      0.553 |
+|         8 | 00:33:32.0 |     -0.667 |      0.747 |
+|         9 | 00:33:32.0 |     -0.333 |      0.923 |
+|        10 | 00:33:32.0 |      0.000 |      1.000 |
+|        11 | 00:33:32.0 |      0.333 |      0.923 |
+|        12 | 00:33:32.0 |      0.667 |      0.747 |
+|        13 | 00:33:32.0 |      1.000 |      0.553 |
+|        14 | 00:33:32.0 |      1.333 |      0.386 |
+|        15 | 00:33:32.0 |      1.667 |      0.257 |
+|        16 | 00:33:32.0 |      2.000 |      0.168 |
+|        17 | 00:33:32.0 |      2.333 |      0.110 |
+|        18 | 00:33:32.0 |      2.667 |      0.076 |
+|        19 | 00:33:32.0 |      3.000 |      0.056 |
++-----------+------------+------------+------------+
+generator scan [&#39;f7d1a4f9&#39;] (scan num: 1)
+
+
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+(&#39;f7d1a4f9-de81-4e9d-b253-28d7f6c0e5a8&#39;,)
+</pre></div></div>
+</div>
+<p>Make a new signal with randomized values so that we have something interesting to find with <code class="docutils literal notranslate"><span class="pre">TuneAxis()</span></code>.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">spvoigt</span> <span class="o">=</span> <span class="n">SynPseudoVoigt</span><span class="p">(</span>
+    <span class="s1">&#39;spvoigt&#39;</span><span class="p">,</span> <span class="n">m1</span><span class="p">,</span> <span class="s1">&#39;m1&#39;</span><span class="p">,</span>
+    <span class="n">center</span><span class="o">=-</span><span class="mf">1.5</span> <span class="o">+</span> <span class="mf">0.4</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">uniform</span><span class="p">(),</span>
+    <span class="n">eta</span><span class="o">=</span><span class="mf">0.2</span> <span class="o">+</span> <span class="mf">0.5</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">uniform</span><span class="p">(),</span>
+    <span class="n">sigma</span><span class="o">=</span><span class="mf">0.001</span> <span class="o">+</span> <span class="mf">0.05</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">uniform</span><span class="p">(),</span>
+    <span class="n">scale</span><span class="o">=</span><span class="mf">1e5</span><span class="p">,</span>
+    <span class="n">bkg</span><span class="o">=</span><span class="mf">0.01</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">uniform</span><span class="p">())</span>
+</pre></div>
+</div>
+</div>
+<p>Reveal the actual values. These are the answers we expect to discover.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">spvoigt</span><span class="o">.</span><span class="n">scale</span><span class="w"> </span><span class="si">= }</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">spvoigt</span><span class="o">.</span><span class="n">center</span><span class="w"> </span><span class="si">= }</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">spvoigt</span><span class="o">.</span><span class="n">sigma</span><span class="w"> </span><span class="si">= }</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">spvoigt</span><span class="o">.</span><span class="n">eta</span><span class="w"> </span><span class="si">= }</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">spvoigt</span><span class="o">.</span><span class="n">bkg</span><span class="w"> </span><span class="si">= }</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+spvoigt.scale = 100000.0
+spvoigt.center = -1.3232789849401074
+spvoigt.sigma = 0.025854531457453644
+spvoigt.eta = 0.6200793404520202
+spvoigt.bkg = 0.002625081504664745
+</pre></div></div>
+</div>
+<p>We will add the actual values as metadata to these scans.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">md</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span>
+    <span class="n">activity</span> <span class="o">=</span> <span class="s2">&quot;TuneAxis development and testing&quot;</span><span class="p">,</span>
+    <span class="n">peak_model</span> <span class="o">=</span> <span class="s2">&quot;pseudo Voigt&quot;</span><span class="p">,</span>
+    <span class="n">peak_scale</span> <span class="o">=</span> <span class="n">spvoigt</span><span class="o">.</span><span class="n">scale</span><span class="p">,</span>
+    <span class="n">peak_center</span> <span class="o">=</span> <span class="n">spvoigt</span><span class="o">.</span><span class="n">center</span><span class="p">,</span>
+    <span class="n">peak_sigma</span> <span class="o">=</span> <span class="n">spvoigt</span><span class="o">.</span><span class="n">sigma</span><span class="p">,</span>
+    <span class="n">peak_eta</span> <span class="o">=</span> <span class="n">spvoigt</span><span class="o">.</span><span class="n">eta</span><span class="p">,</span>
+    <span class="n">peak_bkg</span> <span class="o">=</span> <span class="n">spvoigt</span><span class="o">.</span><span class="n">bkg</span>
+    <span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</section>
+<section id="Set-up-the-tuner">
+<h2>Set up the tuner<a class="headerlink" href="#Set-up-the-tuner" title="Permalink to this heading">#</a></h2>
+<p>Create a <em>TuneAxis()</em> object. The <em>tuner</em> needs to know the positioner, what range to scan to find the peak, <em>and</em> it needs the name of the signal to be scanned (since the signal list may have more than one signal).</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">tuner</span> <span class="o">=</span> <span class="n">TuneAxis</span><span class="p">([</span><span class="n">spvoigt</span><span class="p">],</span> <span class="n">m1</span><span class="p">,</span> <span class="n">signal_name</span><span class="o">=</span><span class="n">spvoigt</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+<span class="n">tuner</span><span class="o">.</span><span class="n">width</span> <span class="o">=</span> <span class="mf">2.5</span>
+<span class="n">tuner</span><span class="o">.</span><span class="n">step_factor</span> <span class="o">=</span> <span class="n">tuner</span><span class="o">.</span><span class="n">num</span><span class="o">/</span><span class="mf">2.5</span>
+</pre></div>
+</div>
+</div>
+<p>Reconfigure the <em>LiveTable</em> to also show the simulated detector signal.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">live_table</span> <span class="o">=</span> <span class="n">LiveTable</span><span class="p">([</span><span class="s2">&quot;m1&quot;</span><span class="p">,</span> <span class="s2">&quot;spvoigt&quot;</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+</section>
+<section id="Multi-pass-tune">
+<h2>Multi-pass tune<a class="headerlink" href="#Multi-pass-tune" title="Permalink to this heading">#</a></h2>
+<p>Execute multiple passes to refine the centroid determination. Each subsequent pass will reduce the width of the next scan by <code class="docutils literal notranslate"><span class="pre">step_factor</span></code>.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">RE</span><span class="p">(</span><span class="n">tuner</span><span class="o">.</span><span class="n">multi_pass_tune</span><span class="p">(),</span> <span class="n">live_table</span><span class="p">,</span> <span class="n">md</span><span class="o">=</span><span class="n">md</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+
+
++-----------+------------+------------+------------+
+|   seq_num |       time |         m1 |    spvoigt |
++-----------+------------+------------+------------+
+|         1 | 00:33:33.6 |   -2.75000 |    282.864 |
+|         2 | 00:33:34.1 |   -2.47000 |    294.014 |
+|         3 | 00:33:34.6 |   -2.19000 |    317.637 |
+|         4 | 00:33:35.1 |   -1.92000 |    378.697 |
+|         5 | 00:33:35.6 |   -1.64000 |    672.979 |
+|         6 | 00:33:36.1 |   -1.36000 |  34670.358 |
+|         7 | 00:33:36.6 |   -1.08000 |    955.031 |
+|         8 | 00:33:37.1 |   -0.81000 |    419.441 |
+|         9 | 00:33:37.6 |   -0.53000 |    328.305 |
+|        10 | 00:33:38.1 |   -0.25000 |    298.470 |
++-----------+------------+------------+------------+
+generator TuneAxis.multi_pass_tune [&#39;973d07fd&#39;] (scan num: 2)
+
+
+PeakStats
+================ =================================
+key              result
+================ =================================
+x                m1
+y                spvoigt
+cen              -1.3594076832102968
+com              -1.367257432898917
+fwhm             0.2843975895677082
+min              [ -2.75       282.86449968]
+max              [-1.36000000e+00  3.46703584e+04]
+crossings        [-1.50160648 -1.21720889]
+tune_ok          True
+center           -1.3594076832102968
+initial_position -1.5
+final_position   -1.3594076832102968
+================ =================================
+
+
+
++-----------+------------+------------+------------+
+|   seq_num |       time |         m1 |    spvoigt |
++-----------+------------+------------+------------+
+|         1 | 00:33:40.3 |   -1.08000 |    955.031 |
+|         2 | 00:33:40.5 |   -1.14000 |   1472.376 |
+|         3 | 00:33:40.8 |   -1.20000 |   2875.401 |
+|         4 | 00:33:41.1 |   -1.27000 |  16626.547 |
+|         5 | 00:33:41.4 |   -1.33000 |  95075.221 |
+|         6 | 00:33:41.7 |   -1.39000 |   9717.986 |
+|         7 | 00:33:42.0 |   -1.45000 |   2740.795 |
+|         8 | 00:33:42.3 |   -1.52000 |   1315.395 |
+|         9 | 00:33:42.7 |   -1.58000 |    885.117 |
+|        10 | 00:33:43.0 |   -1.64000 |    672.979 |
++-----------+------------+------------+------------+
+generator TuneAxis.multi_pass_tune [&#39;4c9af76b&#39;] (scan num: 3)
+
+
+PeakStats
+================ =================================
+key              result
+================ =================================
+x                m1
+y                spvoigt
+cen              -1.3285390504163415
+com              -1.327930971864717
+fwhm             0.06927988898350734
+min              [ -1.64       672.97908343]
+max              [-1.33000000e+00  9.50752206e+04]
+crossings        [-1.29389911 -1.36317899]
+tune_ok          True
+center           -1.3285390504163415
+initial_position -1.36
+final_position   -1.3285390504163415
+================ =================================
+
+
+
++-----------+------------+------------+------------+
+|   seq_num |       time |         m1 |    spvoigt |
++-----------+------------+------------+------------+
+|         1 | 00:33:44.0 |   -1.40000 |   7051.436 |
+|         2 | 00:33:44.2 |   -1.38000 |  14353.903 |
+|         3 | 00:33:44.4 |   -1.37000 |  22222.839 |
+|         4 | 00:33:44.6 |   -1.35000 |  52516.186 |
+|         5 | 00:33:44.8 |   -1.34000 |  74805.966 |
+|         6 | 00:33:45.0 |   -1.32000 |  98976.619 |
+|         7 | 00:33:45.2 |   -1.31000 |  82625.135 |
+|         8 | 00:33:45.4 |   -1.29000 |  40194.994 |
+|         9 | 00:33:45.6 |   -1.28000 |  25930.433 |
+|        10 | 00:33:45.8 |   -1.26000 |  11033.875 |
++-----------+------------+------------+------------+
+generator TuneAxis.multi_pass_tune [&#39;87e51c91&#39;] (scan num: 4)
+
+
+PeakStats
+================ =================================
+key              result
+================ =================================
+x                m1
+y                spvoigt
+cen              -1.3229095343527337
+com              -1.322524379127855
+fwhm             0.053734231185460946
+min              [-1.40000000e+00  7.05143645e+03]
+max              [-1.32000000e+00  9.89766194e+04]
+crossings        [-1.34977665 -1.29604242]
+tune_ok          True
+center           -1.3229095343527337
+initial_position -1.33
+final_position   -1.3229095343527337
+================ =================================
+
+
+
++-----------+------------+------------+------------+
+|   seq_num |       time |         m1 |    spvoigt |
++-----------+------------+------------+------------+
+|         1 | 00:33:46.5 |   -1.27000 |  16626.547 |
+|         2 | 00:33:46.7 |   -1.28000 |  25930.433 |
+|         3 | 00:33:46.9 |   -1.29000 |  40194.994 |
+|         4 | 00:33:47.1 |   -1.30000 |  59839.071 |
+|         5 | 00:33:47.3 |   -1.31000 |  82625.135 |
+|         6 | 00:33:47.5 |   -1.33000 |  95075.221 |
+|         7 | 00:33:47.7 |   -1.34000 |  74805.966 |
+|         8 | 00:33:47.9 |   -1.35000 |  52516.186 |
+|         9 | 00:33:48.1 |   -1.36000 |  34670.358 |
+|        10 | 00:33:48.3 |   -1.37000 |  22222.839 |
++-----------+------------+------------+------------+
+generator TuneAxis.multi_pass_tune [&#39;4727cff7&#39;] (scan num: 5)
+
+
+PeakStats
+================ =================================
+key              result
+================ =================================
+x                m1
+y                spvoigt
+cen              -1.3232368550566802
+com              -1.324568875024918
+fwhm             0.050534157776581434
+min              [-1.27000000e+00  1.66265473e+04]
+max              [-1.33000000e+00  9.50752206e+04]
+crossings        [-1.29796978 -1.34850393]
+tune_ok          True
+center           -1.3232368550566802
+initial_position -1.32
+final_position   -1.3232368550566802
+================ =================================
+
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+(&#39;973d07fd-c9eb-46fe-91f9-8f5c91e2a8f9&#39;,
+ &#39;4c9af76b-4c24-453a-bfab-4a25ad93f5de&#39;,
+ &#39;87e51c91-7865-4d53-aade-cd83a702b704&#39;,
+ &#39;4727cff7-8811-4ac4-9ae5-4a4f81c0d8f5&#39;)
+</pre></div></div>
+</div>
+<p>Show the results from the multi-pass tuning.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;final: &quot;</span><span class="p">,</span> <span class="n">tuner</span><span class="o">.</span><span class="n">center</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;max&quot;</span><span class="p">,</span> <span class="n">tuner</span><span class="o">.</span><span class="n">peaks</span><span class="o">.</span><span class="n">max</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;min&quot;</span><span class="p">,</span> <span class="n">tuner</span><span class="o">.</span><span class="n">peaks</span><span class="o">.</span><span class="n">min</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">stat</span> <span class="ow">in</span> <span class="n">tuner</span><span class="o">.</span><span class="n">stats</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;--&quot;</span><span class="p">,</span> <span class="n">stat</span><span class="o">.</span><span class="n">cen</span><span class="p">,</span> <span class="n">stat</span><span class="o">.</span><span class="n">fwhm</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">m1</span><span class="o">.</span><span class="n">position</span><span class="si">=}</span><span class="s2">  det=</span><span class="si">{</span><span class="n">spvoigt</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+final:  -1.3232368550566802
+max (-1.33, 95075.22058003367)
+min (-1.27, 16626.54728728527)
+-- Signal(name=&#39;PeakStats_cen&#39;, parent=&#39;PeakStats&#39;, value=-1.3594076832102968, timestamp=1657085618.1954212) Signal(name=&#39;PeakStats_fwhm&#39;, parent=&#39;PeakStats&#39;, value=0.2843975895677082, timestamp=1657085618.195451)
+-- Signal(name=&#39;PeakStats_cen&#39;, parent=&#39;PeakStats&#39;, value=-1.3285390504163415, timestamp=1657085623.0134842) Signal(name=&#39;PeakStats_fwhm&#39;, parent=&#39;PeakStats&#39;, value=0.06927988898350734, timestamp=1657085623.0135126)
+-- Signal(name=&#39;PeakStats_cen&#39;, parent=&#39;PeakStats&#39;, value=-1.3229095343527337, timestamp=1657085625.8175142) Signal(name=&#39;PeakStats_fwhm&#39;, parent=&#39;PeakStats&#39;, value=0.053734231185460946, timestamp=1657085625.8175213)
+-- Signal(name=&#39;PeakStats_cen&#39;, parent=&#39;PeakStats&#39;, value=-1.3232368550566802, timestamp=1657085628.3260303) Signal(name=&#39;PeakStats_fwhm&#39;, parent=&#39;PeakStats&#39;, value=0.050534157776581434, timestamp=1657085628.326058)
+m1.position=-1.32  det=22222.839021509993
+</pre></div></div>
+</div>
+<p>Compare the final position (just printed) with the expected value shown a couple steps back.</p>
+</section>
+<section id="Single-pass-tune">
+<h2>Single-pass tune<a class="headerlink" href="#Single-pass-tune" title="Permalink to this heading">#</a></h2>
+<p>Repeat but with only one pass. Reset the motor to the starting position and increase the number of steps by a factor of three.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">m1</span><span class="o">.</span><span class="n">move</span><span class="p">(</span><span class="n">starting_position</span><span class="p">)</span>
+<span class="n">tuner</span><span class="o">.</span><span class="n">num</span> <span class="o">*=</span> <span class="mi">3</span>
+<span class="n">RE</span><span class="p">(</span><span class="n">tuner</span><span class="o">.</span><span class="n">tune</span><span class="p">(),</span> <span class="n">live_table</span><span class="p">,</span> <span class="n">md</span><span class="o">=</span><span class="n">md</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+
+
++-----------+------------+------------+------------+
+|   seq_num |       time |         m1 |    spvoigt |
++-----------+------------+------------+------------+
+|         1 | 00:33:50.6 |   -2.75000 |    282.864 |
+|         2 | 00:33:50.9 |   -2.66000 |    285.697 |
+|         3 | 00:33:51.2 |   -2.58000 |    288.742 |
+|         4 | 00:33:51.5 |   -2.49000 |    292.943 |
+|         5 | 00:33:51.8 |   -2.41000 |    297.586 |
+|         6 | 00:33:52.1 |   -2.32000 |    304.203 |
+|         7 | 00:33:52.4 |   -2.23000 |    312.884 |
+|         8 | 00:33:52.7 |   -2.15000 |    323.095 |
+|         9 | 00:33:53.0 |   -2.06000 |    338.783 |
+|        10 | 00:33:53.3 |   -1.97000 |    361.453 |
+|        11 | 00:33:53.6 |   -1.89000 |    391.297 |
+|        12 | 00:33:53.9 |   -1.80000 |    444.359 |
+|        13 | 00:33:54.2 |   -1.72000 |    524.755 |
+|        14 | 00:33:54.5 |   -1.63000 |    699.989 |
+|        15 | 00:33:54.8 |   -1.54000 |   1132.632 |
+|        16 | 00:33:55.1 |   -1.46000 |   2403.413 |
+|        17 | 00:33:55.4 |   -1.37000 |  22222.839 |
+|        18 | 00:33:55.7 |   -1.28000 |  25930.433 |
+|        19 | 00:33:56.0 |   -1.20000 |   2875.401 |
+|        20 | 00:33:56.3 |   -1.11000 |   1160.534 |
+|        21 | 00:33:56.6 |   -1.03000 |    740.694 |
+|        22 | 00:33:56.9 |   -0.94000 |    543.387 |
+|        23 | 00:33:57.2 |   -0.85000 |    447.006 |
+|        24 | 00:33:57.5 |   -0.77000 |    397.617 |
+|        25 | 00:33:57.8 |   -0.68000 |    362.513 |
+|        26 | 00:33:58.1 |   -0.59000 |    339.500 |
+|        27 | 00:33:58.4 |   -0.51000 |    325.112 |
+|        28 | 00:33:58.7 |   -0.42000 |    313.268 |
+|        29 | 00:33:59.0 |   -0.34000 |    305.350 |
+|        30 | 00:33:59.3 |   -0.25000 |    298.470 |
++-----------+------------+------------+------------+
+generator TuneAxis.tune [&#39;8ee3fd77&#39;] (scan num: 6)
+
+
+PeakStats
+================ =================================
+key              result
+================ =================================
+x                m1
+y                spvoigt
+cen              -1.3234493073606397
+com              -1.3447636766612034
+fwhm             0.17589460960483438
+min              [ -2.75       282.86449968]
+max              [-1.28000000e+00  2.59304333e+04]
+crossings        [-1.41139661 -1.235502  ]
+tune_ok          True
+center           -1.3234493073606397
+initial_position -1.5
+final_position   -1.3234493073606397
+================ =================================
+
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+(&#39;8ee3fd77-5217-4b5c-8e00-65b694c9e83a&#39;,)
+</pre></div></div>
+</div>
+<p>Compare the single-pass scan with the previous multi-pass scan. Each used the same number of points overall.</p>
+<p>The results are comparable but we already knew the position of the peak approximately.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[14]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;final: &quot;</span><span class="p">,</span> <span class="n">tuner</span><span class="o">.</span><span class="n">center</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;max&quot;</span><span class="p">,</span> <span class="n">tuner</span><span class="o">.</span><span class="n">peaks</span><span class="o">.</span><span class="n">max</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;min&quot;</span><span class="p">,</span> <span class="n">tuner</span><span class="o">.</span><span class="n">peaks</span><span class="o">.</span><span class="n">min</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;centroid&quot;</span><span class="p">,</span> <span class="n">tuner</span><span class="o">.</span><span class="n">peaks</span><span class="o">.</span><span class="n">cen</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;FWHM&quot;</span><span class="p">,</span> <span class="n">tuner</span><span class="o">.</span><span class="n">peaks</span><span class="o">.</span><span class="n">fwhm</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">m1</span><span class="o">.</span><span class="n">position</span><span class="si">=}</span><span class="s2">  det=</span><span class="si">{</span><span class="n">spvoigt</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+final:  -1.3234493073606397
+max (-1.28, 25930.433258016637)
+min (-2.75, 282.86449968250383)
+centroid -1.3234493073606397
+FWHM 0.17589460960483438
+m1.position=-1.32  det=298.47011500137876
+</pre></div></div>
+</div>
+</section>
+</section>
+
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="pl_run_command_list.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">The <code class="xref py py-func docutils literal notranslate"><span class="pre">run_command_file()</span></code> plan – batch scans using a text file</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="download_examples.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">File Downloads for the Examples</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+<div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+  </div>
+  <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#Setup-the-simulated-detector-signal.">Setup the simulated detector signal.</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#Set-up-the-tuner">Set up the tuner</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#Multi-pass-tune">Multi-pass tune</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#Single-pass-tune">Single-pass tune</a></li>
+</ul>
+  </nav></div>
+
+  <div class="sidebar-secondary-item">
+
+  <div class="tocsection sourcelink">
+    <a href="../_sources/examples/pl_tuneaxis.ipynb.txt">
+      <i class="fa-solid fa-file-lines"></i> Show Source
+    </a>
+  </div>
+</div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+
+  <p class="copyright">
+    
+      © Copyright 2017-2024, UChicago Argonne, LLC.
+      <br/>
+    
+  </p>
+</div>
+      
+        <div class="footer-item">
+
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 5.3.0.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item">
+<p class="theme-version">
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.15.4.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>
