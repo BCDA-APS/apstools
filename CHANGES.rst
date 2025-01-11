@@ -29,7 +29,7 @@ describe future plans.
 1.7.2
 *****
 
-Release expected by 2025-01-13.
+Released 2025-01-11.
 
 Enhancements
 ------------
