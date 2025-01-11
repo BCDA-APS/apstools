@@ -21,38 +21,43 @@ Project `milestones <https://github.com/BCDA-APS/apstools/milestones>`_
 describe future plans.
 
 ..
-   1.7.2
-   ******
+   1.7.3
+   *****
 
-   Release expected by 2024-12-31.
+   Release expected by 2025-02-28.
 
-   Enhancements
-   ------------
+1.7.2
+*****
 
-   - Add 'utils.xy_statistics()' (support 'plans.lineup2()').
-   - Add 'utils.dynamic_import()' (support 'devices.ad_creator()' from device file).
-   - Add 'utils.MMap' (support 'plans.lineup2()').
-   - Add 'utils.peak_full_width' (support 'plans.lineup2()').
+Release expected by 2025-01-13.
 
-   Fixes
-   -----
+Enhancements
+------------
 
-   - In some cases, 'plans.lineup2()' appeared to succeed but motor was not in
-     aligned position.
-   - In unusual cases (with fake ophyd simulated devices),
-     'devices.PVPositionerSoftDone' used an invalid subscription event type.
+- Add 'utils.xy_statistics()' (support 'plans.lineup2()').
+- Add 'utils.dynamic_import()' (support 'devices.ad_creator()' from device file).
+- Add 'utils.MMap' (support 'plans.lineup2()').
+- Add 'utils.peak_full_width' (support 'plans.lineup2()').
 
-   Maintenance
-   -----------
+Fixes
+-----
 
-   - In 'ad_creator()', convert text class name to class object.
-   - Refactor 'plans.lineup2()': new statistics computations & improve
-     diagnostics.
+- In some cases, 'plans.lineup2()' appeared to succeed but motor was not in
+   aligned position.
+- In unusual cases (with fake ophyd simulated devices),
+   'devices.PVPositionerSoftDone' used an invalid subscription event type.
 
-   Deprecations
-   -----------
+Maintenance
+-----------
 
-   - Use of 'PySumReg.SummationRegisters' to be removed in next major release.
+- In 'ad_creator()', convert text class name to class object.
+- Refactor 'plans.lineup2()': new statistics computations & improve
+   diagnostics.
+
+Deprecations
+-----------
+
+- Use of 'PySumReg.SummationRegisters' to be removed in next major release.
 
 1.7.1
 ******
