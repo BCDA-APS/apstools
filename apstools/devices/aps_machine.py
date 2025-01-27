@@ -67,7 +67,7 @@ class ApsMachineParametersDevice(Device):
     """
 
     current = Component(EpicsSignalRO, "S-DCCT:CurrentM")
-    lifetime = Component(EpicsSignalRO, "S:SRlifeTimeHrsCC")
+    # lifetime = Component(EpicsSignalRO, "S:SRlifeTimeHrsCC")
     aps_cycle = Component(ApsCycleDM)
     machine_status = Component(EpicsSignalRO, "S:DesiredMode", string=True)
     # In [3]: APS.machine_status.enum_strs
