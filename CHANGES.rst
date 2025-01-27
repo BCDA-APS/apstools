@@ -26,6 +26,11 @@ describe future plans.
 
    Release expected by 2025-02-28.
 
+   Maintenance
+   -----------
+
+   * Removed 'lifetime' component from 'aps_machine' device.
+
 1.7.2
 *****
 
