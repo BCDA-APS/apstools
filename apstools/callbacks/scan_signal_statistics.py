@@ -124,11 +124,13 @@ class SignalStatsCallback:
         self._x_name = doc["hints"][self._motor]["fields"][0]
         self._data[self._x_name] = []
 
-        # Get the signals for each detector object.s
+        # Get the signals for each detector object(s)
         for d in self._detectors:
-            for y_name in doc["hints"][d]["fields"]:
-                self._y_names.append(y_name)
-                self._data[y_name] = []
+            hint = doc["hints"].get(d, {"fields": [d]})
+            for y_name in hint["fields"]:
+                if y_name not in self._y_names:
+                    self._y_names.append(y_name)
+                    self._data[y_name] = []
 
         # Keep statistics for each of the Y signals (vs. the one X signal).
         # deprecated, for removal
@@ -198,7 +200,7 @@ class SignalStatsCallback:
 
         self.analysis = xy_statistics(
             self._data[self._x_name],
-            self._data[self._detectors[0]],
+            self._data[self._y_names[0]],
         )
 
         if self.reporting:
