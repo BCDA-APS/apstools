@@ -31,11 +31,6 @@ describe future plans.
 
    * Fix problem with detector selection for lineup2() reported by USAXS.
 
-   Maintenance
-   -----------
-
-   * Add ophyd-registry package.
-
 1.7.2
 *****
 
