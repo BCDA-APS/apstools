@@ -41,7 +41,8 @@ dependencies:
 
   - aps-dm-api >=8   # linux-64  osx-64
 
-  # - pip:
+  - pip:
     # - bluesky_live
     # - ipython-genutils==0.2.0
     # - prompt-toolkit==1.0.15
+    - ophyd-registry
