@@ -198,10 +198,15 @@ class SignalStatsCallback:
             return
         self._scanning = False
 
-        self.analysis = xy_statistics(
-            self._data[self._x_name],
-            self._data[self._y_names[0]],
-        )
+        if self._x_name is None:
+            logger.warning("No XY statistics: no X axis name found.")
+        elif len(self._y_names) == 0:
+            logger.warning("No XY statistics: no Y axis names found.")
+        else:
+            self.analysis = xy_statistics(
+                self._data[self._x_name],
+                self._data[self._y_names[0]],
+            )
 
-        if self.reporting:
-            self.report()
+            if self.reporting:
+                self.report()
