@@ -769,10 +769,10 @@ class SpecWriterCallback2(FileWriterCallbackBase):
             def parse(master):
                 primary, secondary = [], []
                 for k_obj in master:
-                    hints = doc["hints"][k_obj]["fields"]
-                    for k in doc["object_keys"][k_obj]:
-                        if len(hints) > 0:
-                            if k in hints:
+                    fields = doc["hints"].get(k_obj, {"fields": [k_obj]})["fields"]
+                    for k in doc["object_keys"].get(k_obj, []):
+                        if len(fields) > 0:
+                            if k in fields:
                                 primary.append(k)
                             else:
                                 secondary.append(k)
