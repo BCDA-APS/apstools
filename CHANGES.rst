@@ -31,6 +31,11 @@ describe future plans.
 
    * Fix problem with detector selection for lineup2() reported by USAXS.
 
+   Maintenance
+   -----------
+
+   * Removed 'lifetime' component from 'aps_machine' device.
+
 1.7.2
 *****
 
