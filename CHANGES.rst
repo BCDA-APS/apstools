@@ -26,6 +26,11 @@ describe future plans.
 
    Release expected by 2025-02-28.
 
+   Fixes
+   -----
+
+   * Fix problem with detector selection for lineup2() reported by USAXS.
+
    Maintenance
    -----------
 

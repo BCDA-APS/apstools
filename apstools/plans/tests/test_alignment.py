@@ -17,11 +17,13 @@ from ophyd import Device
 from ophyd import Signal
 
 from ...callbacks.scan_signal_statistics import SignalStatsCallback
+from ...callbacks.spec_file_writer import SpecWriterCallback2
 from ...devices import SynPseudoVoigt
 from ...synApps import SwaitRecord
 from ...synApps import setup_lorentzian_swait
 from ...tests import IOC_GP
 from .. import alignment
+from ._scaler import ScalerCH
 
 bec = best_effort.BestEffortCallback()
 cat = databroker.temp()
@@ -35,19 +37,21 @@ calcs_enable = ophyd.EpicsSignal(f"{IOC_GP}userCalcEnable", name="calcs_enable",
 m1 = ophyd.EpicsMotor(f"{IOC_GP}m1", name="m1")
 m2 = ophyd.EpicsMotor(f"{IOC_GP}m2", name="m2")
 noisy = ophyd.EpicsSignalRO(f"{IOC_GP}userCalc1.VAL", name="noisy")
-scaler1 = ophyd.scaler.ScalerCH(f"{IOC_GP}scaler1", name="scaler1")
+# scaler1 = ophyd.scaler.ScalerCH(f"{IOC_GP}scaler1", name="scaler1")
+scaler1 = ScalerCH(f"{IOC_GP}scaler1", name="scaler1")
 swait = SwaitRecord(f"{IOC_GP}userCalc1", name="swait")
 
 for obj in (axis, m1, m2, noisy, scaler1, swait, calcs_enable):
     obj.wait_for_connection()
 
 scaler1.select_channels()
-
+I0 = scaler1.channels.chan02.s
+I0.parent.override_signal_name.put("noisy")
 
 # TODO: Refactor 'pvoigt' as Python-only noisy pseudo-voigt signal,
-# a la 'ophyd.sim.noisy_det' to speed up testing of alignment plans.  
+# a la 'ophyd.sim.noisy_det' to speed up testing of alignment plans.
 # Use 'ophyd.sim.motor' as its positioner.
-# Currently, the 14 tests of 'lineup2()' take ~1m 40s.
+# Until, 14 tests of 'lineup2()' take ~1m 40s.
 
 # First, must be connected to m1.
 pvoigt = SynPseudoVoigt(name="pvoigt", motor=axis, motor_field=axis.name)
@@ -253,6 +257,26 @@ def test_lineup2(parms: _TestParameters):
     )
 
 
+@pytest.mark.parametrize("detectors", [[noisy], [I0], [scaler1], [I0, scaler1]])
+def test_lineup2_issue_1049(detectors):
+    scaler1.select_channels(["I0"])
+    assert len(scaler1.read_attrs) == 4, f"{scaler1.read_attrs=}"
+
+    assert I0.name == "I0"
+    assert I0.read().get("I0") is not None
+    assert scaler1.read().get("I0") is not None
+
+    uids = RE(alignment.lineup2(detectors, m1, -0.1, 0.1, 11, nscans=1))
+    assert len(uids) == 1, f"{detectors=} {uids=}"
+
+    specwriter = SpecWriterCallback2()
+    uids = RE(
+        alignment.lineup2(detectors, m1, -0.1, 0.1, 11, nscans=1),
+        specwriter.receiver,
+    )
+    assert len(uids) == 1, f"{detectors=} {uids=}"
+
+
 def test_TuneAxis():
     signal = SynPseudoVoigt(name="signal", motor=m1, motor_field=m1.name)
     signal.kind = "hinted"
@@ -348,14 +372,14 @@ _TestParameters = collections.namedtuple(
     "TestParameters", "peak base noise center sigma xlo xhi npts nscans tol outcome"
 )
 parms_signal_but_high_background = _TestParameters(1e5, 1e6, 10, 0.1, 0.2, -0.7, 0.5, 11, 1, 0.05, False)
-parms_model_peak = _TestParameters(1e5, 0, 10, 0.1, 0.2, -0.7, 0.5, 11, 1, 0.06, True) #
+parms_model_peak = _TestParameters(1e5, 0, 10, 0.1, 0.2, -0.7, 0.5, 11, 1, 0.06, True)  #
 parms_high_background_poor_resolution = _TestParameters(1e5, 1e4, 10, 0.1, 0.2, -0.7, 0.5, 11, 1, 0.1, True)
 parms_not_much_better = _TestParameters(1e5, 1e4, 10, 0.1, 0.2, -0.7, 0.5, 11, 2, 0.08, True)
 parms_neg_peak_1x_base = _TestParameters(-1e5, -1e4, 1e-8, 0.1, 0.2, -0.7, 0.5, 11, 1, 0.1, True)
-parms_neg_base = _TestParameters(1e5, -10, 10, 0.1, 0.2, -0.7, 0.5, 11, 1, 0.06, True) #
-parms_small_signal_zero_base = _TestParameters(1e-5, 0, 1e-8, 0.1, 0.2, -0.7, 0.5, 11, 1, 0.06, True) #
+parms_neg_base = _TestParameters(1e5, -10, 10, 0.1, 0.2, -0.7, 0.5, 11, 1, 0.06, True)  #
+parms_small_signal_zero_base = _TestParameters(1e-5, 0, 1e-8, 0.1, 0.2, -0.7, 0.5, 11, 1, 0.06, True)  #
 parms_neg_small_signal_zero_base = _TestParameters(-1e5, 0, 1e-8, 0.1, 0.2, -0.7, 0.5, 11, 1, 0.06, True)
-parms_small_signal_finite_base = _TestParameters(1e-5, 1e-7, 1e-8, 0.1, 0.2, -0.7, 0.5, 11, 1, 0.06, True) #
+parms_small_signal_finite_base = _TestParameters(1e-5, 1e-7, 1e-8, 0.1, 0.2, -0.7, 0.5, 11, 1, 0.06, True)  #
 parms_no_signal_only_noise = _TestParameters(0, 0, 1e-8, 0.1, 0.2, -1.0, 0.5, 11, 1, 0.05, False)
 parms_bkg_plus_noise = _TestParameters(0, 1, 0.1, 0.1, 0.2, -0.7, 0.5, 11, 1, 0.05, False)
 parms_bkg_plus_big_noise = _TestParameters(0, 1, 100, 0.1, 0.2, -0.7, 0.5, 11, 1, 0.05, False)
