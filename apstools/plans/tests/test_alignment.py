@@ -17,6 +17,7 @@ from ophyd import Device
 from ophyd import Signal
 
 from ...callbacks.scan_signal_statistics import SignalStatsCallback
+from ...callbacks.spec_file_writer import SpecWriterCallback2
 from ...devices import SynPseudoVoigt
 from ...synApps import SwaitRecord
 from ...synApps import setup_lorentzian_swait
@@ -256,7 +257,7 @@ def test_lineup2(parms: _TestParameters):
     )
 
 
-@pytest.mark.parametrize("detectors", [[I0], [scaler1], [I0, scaler1]])
+@pytest.mark.parametrize("detectors", [[noisy], [I0], [scaler1], [I0, scaler1]])
 def test_lineup2_issue_1049(detectors):
     scaler1.select_channels(["I0"])
     assert len(scaler1.read_attrs) == 4, f"{scaler1.read_attrs=}"
@@ -266,6 +267,13 @@ def test_lineup2_issue_1049(detectors):
     assert scaler1.read().get("I0") is not None
 
     uids = RE(alignment.lineup2(detectors, m1, -0.1, 0.1, 11, nscans=1))
+    assert len(uids) == 1, f"{detectors=} {uids=}"
+
+    specwriter = SpecWriterCallback2()
+    uids = RE(
+        alignment.lineup2(detectors, m1, -0.1, 0.1, 11, nscans=1),
+        specwriter.receiver,
+    )
     assert len(uids) == 1, f"{detectors=} {uids=}"
 
 
