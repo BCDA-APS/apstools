@@ -155,8 +155,7 @@ class ApsCycleDM(SynSignalRO):
 
 
 # -----------------------------------------------------------------------------
-# :author:    Pete R. Jemian
-# :email:     jemian@anl.gov
+# :author:    BCDA
 # :copyright: (c) 2017-2024, UChicago Argonne, LLC
 #
 # Distributed under the terms of the Argonne National Laboratory Open Source License.

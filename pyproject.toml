@@ -10,10 +10,7 @@ name = "apstools"
 dynamic = ["version"]
 description = "Library of Python tools for use with the Bluesky Framework at the APS."
 authors = [
-  { name="Pete R. Jemian" },
-  { name="Fanny Rodolakis" },
-  { name="Max Wyman" },
-  { name="Eric Codrea" },
+  { name="BCDA" },
 ]
 maintainers = [
   { name="Pete Jemian" },
