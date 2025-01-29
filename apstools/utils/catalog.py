@@ -434,7 +434,7 @@ def quantify_md_key_use(
 
 # -----------------------------------------------------------------------------
 # :author:    BCDA
-# :copyright: (c) 2017-2024, UChicago Argonne, LLC
+# :copyright: (c) 2017-2025, UChicago Argonne, LLC
 #
 # Distributed under the terms of the Argonne National Laboratory Open Source License.
 #

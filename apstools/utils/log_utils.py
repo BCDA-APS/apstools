@@ -176,7 +176,7 @@ def stream_log_handler(formatter=None, level="INFO"):
 
 # -----------------------------------------------------------------------------
 # :author:    BCDA
-# :copyright: (c) 2017-2024, UChicago Argonne, LLC
+# :copyright: (c) 2017-2025, UChicago Argonne, LLC
 #
 # Distributed under the terms of the Argonne National Laboratory Open Source License.
 #

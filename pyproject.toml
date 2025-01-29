@@ -108,7 +108,7 @@ exclude = '''
 '''
 
 [tool.copyright]
-copyright = "2017-2024, UChicago Argonne, LLC"
+copyright = "2017-2025, UChicago Argonne, LLC"
 
 [tool.coverage.run]
 concurrency = [

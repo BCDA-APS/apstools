@@ -16,7 +16,7 @@ Python version(s) | Unit Tests | Code Coverage | License
 item              | description
 ------------------|--------------------------------
 **author**        | BCDA
-**copyright**     | 2017-2024, UChicago Argonne, LLC
+**copyright**     | 2017-2025, UChicago Argonne, LLC
 **documentation** | versions: [latest tagged release](https://bcda-aps.github.io/apstools/latest/) or [development (main branch)](https://bcda-aps.github.io/apstools/dev/)
 **source**        | https://github.com/BCDA-APS/apstools
 
