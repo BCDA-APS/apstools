@@ -67,7 +67,7 @@ Maintenance
    diagnostics.
 
 Deprecations
------------
+------------
 
 - Use of 'PySumReg.SummationRegisters' to be removed in next major release.
 
