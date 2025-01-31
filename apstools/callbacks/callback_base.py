@@ -43,6 +43,7 @@ class FileWriterCallbackBase:
     .. autosummary::
 
        ~clear
+       ~get_hklpy_configurations
        ~make_file_name
        ~writer
 
@@ -101,6 +102,7 @@ class FileWriterCallbackBase:
         """
         self.acquisitions = {}
         self.detectors = []
+        self.diffractometers = {}
         self.exit_status = None
         self.externals = {}
         self.doc_timestamp = None
@@ -130,6 +132,20 @@ class FileWriterCallbackBase:
     @file_path.setter
     def file_path(self, value):
         self._file_path = pathlib.Path(value)
+
+    def get_hklpy_configurations(self, doc: dict) -> dict:
+        """Diffractometer details (from hklpy) in RE descriptor documents."""
+        configurations = {}  # zero, one, or more diffractometers are possible
+        for diffractometer_name in doc.get("configuration", {}):
+            record = doc["configuration"][diffractometer_name].get("data", {})
+            attrs = record.get(f"{diffractometer_name}_orientation_attrs")
+            if attrs is not None:
+                configurations[diffractometer_name] = {
+                    # empty when no orientation_attrs
+                    attr: record[f"{diffractometer_name}_{attr}"]
+                    for attr in attrs
+                }
+        return configurations
 
     def make_file_name(self):
         """
@@ -271,6 +287,9 @@ class FileWriterCallbackBase:
             dd["time"] = []  # entry time stamps here
             dd["external"] = entry.get("external") is not None
             # logger.debug("dd %s: %s", k, data[k])
+        
+        # Gather any available diffractometer configurations.
+        self.diffractometers.update(self.get_hklpy_configurations(doc))
 
     def event(self, doc):
         """
