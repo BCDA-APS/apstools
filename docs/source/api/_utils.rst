@@ -148,6 +148,7 @@ General
    ~apstools.utils.plot.select_live_plot
    ~apstools.utils.plot.select_mpl_figure
    ~apstools.utils.misc.split_quoted_line
+   ~apstools.utils.stored_dict.StoredDict
    ~apstools.utils.list_runs.summarize_runs
    ~apstools.utils.misc.text_encode
    ~apstools.utils.misc.to_unicode_or_bust
@@ -220,6 +221,9 @@ Submodules
     :members:
 
 .. automodule:: apstools.utils.statistics
+    :members:
+
+.. automodule:: apstools.utils.stored_dict
     :members:
 
 .. automodule:: apstools.utils.time_constants
