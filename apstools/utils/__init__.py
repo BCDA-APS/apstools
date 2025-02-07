@@ -96,6 +96,7 @@ from .statistics import array_index
 from .statistics import xy_statistics
 from .statistics import factor_fwhm
 from .statistics import peak_full_width
+from .stored_dict import StoredDict
 from .time_constants import DAY
 from .time_constants import HOUR
 from .time_constants import MINUTE
