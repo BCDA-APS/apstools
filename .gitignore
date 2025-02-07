@@ -41,3 +41,6 @@ build_log.txt
 
 # setuptools-scm : generated version number
 _version.py
+
+# bs_model_instrument
+.re_md_dict.yml

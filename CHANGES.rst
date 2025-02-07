@@ -26,6 +26,11 @@ describe future plans.
 
    Release expected by 2025-02-28.
 
+   Enhancements
+   -------------
+
+   * Recover diffractometer configurations in FileWriterCallbackBase.
+
    Fixes
    -----
 

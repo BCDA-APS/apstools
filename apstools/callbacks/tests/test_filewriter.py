@@ -2,6 +2,7 @@
 unit tests for the filewriters
 """
 
+import json
 import pathlib
 import tempfile
 
@@ -22,6 +23,15 @@ from ..callback_base import FileWriterCallbackBase
 CATALOG = "usaxs_test"
 TUNE_AR = 103  # <-- scan_id,  uid: "3554003"
 TUNE_MR = 108  # <-- scan_id,  uid: "2ffe4d8"
+
+DATA_PATH = pathlib.Path(__file__).parent
+
+
+def load_descriptor_json(filename):
+    """Load a descriptor document from a file."""
+    with open(filename) as f:
+        docs = json.loads(f.read())
+    return docs
 
 
 @pytest.fixture(scope="function")
@@ -462,3 +472,46 @@ def test_SpecWriterCallback_spec_comment(cat, tempdir):
     expected = dict(start=2, stop=5, event=0, descriptor=0)
     for k, v in expected.items():
         assert len(specwriter.comments[k]) == v
+
+
+@pytest.mark.parametrize(
+    "filename, dnames, ndocs, doc_num",
+    [
+        [DATA_PATH / "hklpy-7ab721bd.json", ["sim4c"], 6, 1],
+        [DATA_PATH / "hklpy-26aac337.json", ["sim6c", "simk4c", "simk6c"], 6, 1],
+    ],
+)
+def test_hklpy_diffractometer_configuration(filename, dnames, ndocs, doc_num):
+    """Recover diffractometer configuration from a run's descriptor docs."""
+    assert filename.exists()
+
+    documents = load_descriptor_json(filename)
+    assert isinstance(documents, list)
+    assert len(documents) == ndocs
+    assert documents[doc_num][0] == "descriptor"
+
+    callback = FileWriterCallbackBase()
+    assert isinstance(callback.diffractometers, dict)
+    assert len(callback.diffractometers) == 0
+
+    # Look directly for the diffractometer configuration.
+    diffractometers = callback.get_hklpy_configurations(documents[doc_num][-1])
+    assert isinstance(diffractometers, dict)
+    assert len(diffractometers) == len(dnames)
+
+    for nm in dnames:
+        config = diffractometers.get(nm)
+        assert config is not None
+        attrs = config.get("orientation_attrs")
+        assert attrs is not None
+        for attr in attrs:
+            assert attr in config, f"{attr=} {config=}"
+
+    # Simulate normal document processing.
+    callback.clear()
+    for key, doc in documents:
+        callback.receiver(key, doc)
+    assert isinstance(callback.diffractometers, dict)
+    assert len(callback.diffractometers) == len(dnames)
+    for nm in dnames:
+        assert nm in callback.diffractometers
