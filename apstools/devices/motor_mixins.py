@@ -88,11 +88,11 @@ class EpicsMotorEnableMixin(DeviceMixinBase):
 class EpicsMotorLimitsMixin(DeviceMixinBase):
     """
     add motor record HLM & LLM fields & compatibility get_lim() and set_lim()
-    
+
     .. caution:: Deprecated.  Now part of 'ophyd.EpicsMotor' class.
        Will be removed in a future release of apstools.
 
-    .. 
+    ..
         index:: Ophyd Device Mixin; EpicsMotorLimitsMixin
     """
 

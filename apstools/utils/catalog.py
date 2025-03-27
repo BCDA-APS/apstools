@@ -406,11 +406,7 @@ def quantify_md_key_use(
     since = since or "1995-01-01"
     until = until or "2100-12-31"
 
-    cat = (
-        (db or catalog[catalog_name])
-        .v2.search(TimeRange(since=since, until=until))
-        .search(query)
-    )
+    cat = (db or catalog[catalog_name]).v2.search(TimeRange(since=since, until=until)).search(query)
 
     items = []
     while True:

@@ -158,10 +158,10 @@ class PVPositionerSoftDone(PVPositioner):
 
     @property
     def actual_tolerance(self):
-        tolerance = self.tolerance.get() 
+        tolerance = self.tolerance.get()
         if tolerance < 0:
             # Use EPICS-defined precision.
-            tolerance = 10 ** (-1 * self.precision) 
+            tolerance = 10 ** (-1 * self.precision)
         return tolerance
 
     def cb_update_target(self, value, *args, **kwargs):

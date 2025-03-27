@@ -135,49 +135,49 @@ def test_FileWriterCallbackBase(cat, capsys):
 def test_callback_base():
     """Test file name and path handling in FileWriterCallbackBase."""
     callback = FileWriterCallbackBase()
-    
+
     # Test initial state
     assert callback.file_name is None
     assert callback.file_path is None
-    
+
     # Test file_name property
     # Test with string
     callback.file_name = "test.dat"
     assert isinstance(callback.file_name, pathlib.Path)
     assert callback.file_name.name == "test.dat"
-    
+
     # Test with pathlib.Path
     test_path = pathlib.Path("another_test.dat")
     callback.file_name = test_path
     assert isinstance(callback.file_name, pathlib.Path)
     assert callback.file_name == test_path
-    
+
     # Test with None
     callback.file_name = None
     assert callback.file_name is None
-    
+
     # Test file_path property
     # Test with string
     callback.file_path = "/tmp/test"
     assert isinstance(callback.file_path, pathlib.Path)
     assert str(callback.file_path) == "/tmp/test"
-    
+
     # Test with pathlib.Path
     test_dir = pathlib.Path("/tmp/another_test")
     callback.file_path = test_dir
     assert isinstance(callback.file_path, pathlib.Path)
     assert callback.file_path == test_dir
-    
+
     # Test with None
     callback.file_path = None
     assert callback.file_path is None
-    
+
     # Test make_file_name with file_path set
     callback.file_path = "/tmp/test"
     callback.start_time = 1621451234.123456  # Set a known timestamp
     callback.scan_id = 123
     callback.uid = "test-uid-12345"
-    
+
     fname = callback.make_file_name()
     assert isinstance(fname, pathlib.Path)
     assert fname.parent == pathlib.Path("/tmp/test")

@@ -1,4 +1,4 @@
-#List of sample scans to be run              
+#List of sample scans to be run
 # pound sign starts a comment (through end of line)
 
 # action  x y width height

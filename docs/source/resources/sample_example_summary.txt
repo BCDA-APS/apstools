@@ -1,9 +1,9 @@
 Command file: sample_example.txt
 ====== ========== ===========================================================
-line # action     parameters                                                 
+line # action     parameters
 ====== ========== ===========================================================
-3      step_scan  5.07, 8.3, 0.0, Water Blank, deionized                     
-4      other_scan 5.07, 8.3, 0.0, Water Blank, deionized                     
+3      step_scan  5.07, 8.3, 0.0, Water Blank, deionized
+4      other_scan 5.07, 8.3, 0.0, Water Blank, deionized
 8      this       line, will, not, be, recognized, by, execute_command_list()
 ====== ========== ===========================================================
 

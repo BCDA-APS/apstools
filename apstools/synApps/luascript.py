@@ -17,7 +17,6 @@ EXAMPLES::
 :see: https://epics-lua.readthedocs.io/en/latest/luascriptRecord.html
 """
 
-
 from collections import OrderedDict
 
 from ophyd import Component as Cpt

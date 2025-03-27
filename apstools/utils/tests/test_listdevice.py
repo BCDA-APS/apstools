@@ -147,21 +147,29 @@ def test_listdevice_filters(device, scope, ancient, length):
     "device, scope, cnames",
     # fmt: off
     [
-        (calcs, "full", [
-            "calcs.signals.allowed",
-            "calcs.signals.background",
-            "calcs.signals.message",
-            "calcs.signals.tolerance",
-            "calcs.signals.visible",
-        ]),
+        (
+            calcs,
+            "full",
+            [
+                "calcs.signals.allowed",
+                "calcs.signals.background",
+                "calcs.signals.message",
+                "calcs.signals.tolerance",
+                "calcs.signals.visible",
+            ],
+        ),
         # This is the case that produced issue 640
-        (calcs.signals, "full", [
-            "calcs.signals.allowed",
-            "calcs.signals.background",
-            "calcs.signals.message",
-            "calcs.signals.tolerance",
-            "calcs.signals.visible",
-        ]),
+        (
+            calcs.signals,
+            "full",
+            [
+                "calcs.signals.allowed",
+                "calcs.signals.background",
+                "calcs.signals.message",
+                "calcs.signals.tolerance",
+                "calcs.signals.visible",
+            ],
+        ),
     ],
     # fmt: on
 )

@@ -2,57 +2,40 @@ from bluesky import plan_stubs as bps
 from bluesky import utils
 from bluesky import plan_patterns
 from bluesky import preprocessors as bpp
+from cycler import Cycler
 
 import inspect
 from itertools import zip_longest, cycle
 from collections import defaultdict
 import os
+from typing import Any, Callable, Dict, Generator, List, Optional, Tuple, Union
 
 from toolz import partition
+from ophyd import Device, Signal
 
 
-def mesh_list_grid_scan(detectors, *args, number_of_collection_points, snake_axes=False, per_step=None, md=None):
+def mesh_list_grid_scan(
+    detectors: List[Device],
+    *args: Union[Signal, List[float]],
+    number_of_collection_points: int,
+    snake_axes: Union[bool, List[Signal]] = False,
+    per_step: Optional[Callable[[List[Device], Dict[Signal, float], Dict[Signal, float]], Generator[None, None, None]]] = None,
+    md: Optional[Dict[str, Any]] = None,
+) -> Generator[None, None, None]:
     """
-    Scan over a multi-dimensional mesh, collecting a total of *n* points; each motor is on an independent trajectory.
+    Scan over a multi-dimensional mesh, collecting a total of n points.
 
-    Parameters
-    ----------
-    detectors: list
-        list of 'readable' objects
-    args: list
-        patterned like (``motor1, position_list1,``
-                        ``motor2, position_list2,``
-                        ``motor3, position_list3,``
-                        ``...,``
-                        ``motorN, position_listN``)
+    Args:
+        detectors: list of 'readable' objects
+        *args: patterned like (motor1, position_list1, motor2, position_list2, ...)
+        number_of_collection_points: total number of collection points
+        snake_axes: which axes should be snaked (default: False)
+        per_step: hook for customizing action of inner loop (default: None)
+        md: metadata dictionary (default: None)
 
-        The first motor is the "slowest", the outer loop. ``position_list``'s
-        are lists of positions, all lists must have the same length. Motors
-        can be any 'settable' object (motor, temp controller, etc.).
-    number_of_collection_points: int
-        The total number of collection points that must be collected within the
-        grid until the scan is ready to stop.
-    snake_axes: boolean or iterable, optional
-        which axes should be snaked, either ``False`` (do not snake any axes),
-        ``True`` (snake all axes) or a list of axes to snake. "Snaking" an axis
-        is defined as following snake-like, winding trajectory instead of a
-        simple left-to-right trajectory.The elements of the list are motors
-        that are listed in `args`. The list must not contain the slowest
-        (first) motor, since it can't be snaked.
-    per_step: callable, optional
-        hook for customizing action of inner loop (messages per step).
-        See docstring of :func:`bluesky.plan_stubs.one_nd_step` (the default)
-        for details.
-    md: dict, optional
-        metadata
-
-    See Also
-    --------
-    :func:`bluesky.plans.rel_list_grid_scan`
-    :func:`bluesky.plans.list_scan`
-    :func:`bluesky.plans.rel_list_scan`
+    Returns:
+        Generator yielding None
     """
-
     full_cycler = plan_patterns.outer_list_product(args, snake_axes)
 
     md_args = []
@@ -78,42 +61,33 @@ def mesh_list_grid_scan(detectors, *args, number_of_collection_points, snake_axe
     try:
         _md["hints"].setdefault("dimensions", [(m.hints["fields"], "primary") for m in motors])
     except (AttributeError, KeyError):
-        ...
+        pass
 
     return (
         yield from mesh_scan_nd(detectors, full_cycler, number_of_collection_points, per_step=per_step, md=_md)
     )
 
 
-def mesh_scan_nd(detectors, cycler, number_of_collection_points, *, per_step=None, md=None):
+def mesh_scan_nd(
+    detectors: List[Device],
+    cycler: Cycler,
+    number_of_collection_points: int,
+    *,
+    per_step: Optional[Callable[[List[Device], Dict[Signal, float], Dict[Signal, float]], Generator[None, None, None]]] = None,
+    md: Optional[Dict[str, Any]] = None,
+) -> Generator[None, None, None]:
     """
     Scan over an arbitrary N-dimensional trajectory.
 
-    Parameters
-    ----------
-    detectors : list
-    cycler : Cycler
-        cycler.Cycler object mapping movable interfaces to positions
-    number_of_collection_points: int
-        The total number of collection points that must be collected within the
-        grid until the scan is ready to stop.
-    per_step : callable, optional
-        hook for customizing action of inner loop (messages per step).
-        See docstring of :func:`bluesky.plan_stubs.one_nd_step` (the default)
-        for details.
-    md : dict, optional
-        metadata
+    Args:
+        detectors: list of 'readable' objects
+        cycler: Cycler object mapping movable interfaces to positions
+        number_of_collection_points: total number of collection points
+        per_step: hook for customizing action of inner loop (default: None)
+        md: metadata dictionary (default: None)
 
-    See Also
-    --------
-    :func:`bluesky.plans.inner_product_scan`
-    :func:`bluesky.plans.grid_scan`
-
-    Examples
-    --------
-    >>> from cycler import cycler
-    >>> cy = cycler(motor1, [1, 2, 3]) * cycler(motor2, [4, 5, 6])
-    >>> scan_nd([sensor], cy)
+    Returns:
+        Generator yielding None
     """
     _md = {
         "detectors": [det.name for det in detectors],
@@ -128,58 +102,42 @@ def mesh_scan_nd(detectors, cycler, number_of_collection_points, *, per_step=Non
     try:
         dimensions = [(motor.hints["fields"], "primary") for motor in cycler.keys]
     except (AttributeError, KeyError):
-        # Not all motors provide a 'fields' hint, so we have to skip it.
         pass
     else:
-        # We know that hints exists. Either:
-        #  - the user passed it in and we are extending it
-        #  - the user did not pass it in and we got the default {}
-        # If the user supplied hints includes a dimension entry, do not
-        # change it, else set it to the one generated above
         _md["hints"].setdefault("dimensions", dimensions)
 
     predeclare = per_step is None and os.environ.get("BLUESKY_PREDECLARE", False)
     if per_step is None:
         per_step = bps.one_nd_step
     else:
-        # Ensure that the user-defined per-step has the expected signature.
         sig = inspect.signature(per_step)
 
-        def _verify_step(sig, expected_list):
+        def _verify_step(sig: inspect.Signature, expected_list: List[str]) -> bool:
             if len(sig.parameters) < 3:
                 return False
             for name, (p_name, p) in zip_longest(expected_list, sig.parameters.items()):
-                # this is one of the first 3 positional arguements, check that the name matches
                 if name is not None:
                     if name != p_name:
                         return False
-                # if there are any extra arguments, check that they have a default
                 else:
                     if p.kind is p.VAR_KEYWORD or p.kind is p.VAR_POSITIONAL:
                         continue
                     if p.default is p.empty:
                         return False
-
             return True
 
         if sig == inspect.signature(bps.one_nd_step):
             pass
         elif _verify_step(sig, ["detectors", "step", "pos_cache"]):
-            # check other signature for back-compatibility
             pass
-
         elif _verify_step(sig, ["detectors", "motor", "step"]):
-            # Accept this signature for back-compat reasons (because
-            # inner_product_scan was renamed scan).
             dims = len(list(cycler.keys))
             if dims != 1:
                 raise TypeError(f"Signature of per_step assumes 1D trajectory but {dims} motors are specified.")
             (motor,) = cycler.keys
             user_per_step = per_step
 
-            def adapter(detectors, step, pos_cache):
-                # one_nd_step 'step' parameter is a dict; one_id_step 'step'
-                # parameter is a value
+            def adapter(detectors: List[Device], step: Dict[Signal, float], pos_cache: Dict[Signal, float]) -> Generator[None, None, None]:
                 (step,) = step.values()
                 return (yield from user_per_step(detectors, motor, step))
 
@@ -191,13 +149,13 @@ def mesh_scan_nd(detectors, cycler, number_of_collection_points, *, per_step=Non
                 "<Signature (detectors, motor, step)>. \n"
                 "per_step signature received: {}".format(sig)
             )
-    pos_cache = defaultdict(lambda: None)  # where last position is stashed
+    pos_cache: Dict[Signal, float] = defaultdict(lambda: None)  # where last position is stashed
     cycler = utils.merge_cycler(cycler)
     motors = list(cycler.keys)
 
     @bpp.stage_decorator(list(detectors) + motors)
     @bpp.run_decorator(md=_md)
-    def scan_until_completion():
+    def scan_until_completion() -> Generator[None, None, None]:
         """
         Scanning until the total number of required collection points is achieved
         """

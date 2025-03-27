@@ -7,7 +7,6 @@ Base Class for File Writer Callbacks
    ~FileWriterCallbackBase
 """
 
-
 import datetime
 import logging
 from typing import Any, Dict, List, Optional, Union
@@ -62,8 +61,8 @@ class FileWriterCallbackBase:
     """
 
     file_extension: str = "dat"
-    _file_name: Optional[Union[pathlib.Path,str]] = None #TODO: CHECK TESTS
-    _file_path: Optional[Union[pathlib.Path,str]] = None #TODO: CHECK TESTS
+    _file_name: Optional[Union[pathlib.Path, str]] = None  # TODO: CHECK TESTS
+    _file_path: Optional[Union[pathlib.Path, str]] = None  # TODO: CHECK TESTS
 
     # convention: methods written in alphabetical order
 

@@ -99,7 +99,7 @@ class SynPseudoVoigt(ophyd.sim.SynSignal):  # lgtm [py/missing-call-to-init]
         bkg: float = 0,
         noise: Optional[str] = None,
         noise_multiplier: float = 1,
-        **kwargs: Any
+        **kwargs: Any,
         # fmt: on
     ) -> None:
         if eta < 0.0 or eta > 1.0:

@@ -93,7 +93,9 @@ settling_times.update(
 )
 
 
-def calculate_settle_time(gain_value: Union[int, str], gain_unit: Union[int, str], gain_mode: Union[int, str]) -> Optional[float]:
+def calculate_settle_time(
+    gain_value: Union[int, str], gain_unit: Union[int, str], gain_mode: Union[int, str]
+) -> Optional[float]:
     """
     Determine the best settle time for a given combination of parameters.
 
@@ -188,7 +190,9 @@ class SRS570_PreAmplifier(PreamplifierBaseDevice):
     # as desired.
     # see: https://github.com/epics-modules/ip/blob/master/ipApp/Db/SR570.db
     sensitivity_value: GainSignal = Component(GainSignal, "sens_num", kind="config", string=True)
-    sensitivity_unit: GainSignal = Component(GainSignal, "sens_unit", kind="config", string=True, put_complete=True)
+    sensitivity_unit: GainSignal = Component(
+        GainSignal, "sens_unit", kind="config", string=True, put_complete=True
+    )
 
     offset_on: EpicsSignal = Component(EpicsSignal, "offset_on", kind="config", string=True)
     offset_sign: EpicsSignal = Component(EpicsSignal, "offset_sign", kind="config", string=True)

@@ -229,7 +229,9 @@ class NXWriter(FileWriterCallbackBase):
         """
         return f"S{self.scan_id:04d}-{self.plan_name}-{self.uid[:7]}"
 
-    def get_stream_link(self, signal: str, stream: Optional[str] = None, ref: Optional[str] = None) -> h5py.Dataset:
+    def get_stream_link(
+        self, signal: str, stream: Optional[str] = None, ref: Optional[str] = None
+    ) -> h5py.Dataset:
         """
         return the h5 object for ``signal``
 

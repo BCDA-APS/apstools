@@ -126,7 +126,7 @@ def test_utils_pairwise():
         [123_456, 3, "123456"],
         [123_456.0, 14, "123456.0"],
         [123_456.0, 3, "123500.0"],
-    ]
+    ],
 )
 def test_utils_render(value, sig_figs: int, expected: str):
     result = render(value, sig_figs)

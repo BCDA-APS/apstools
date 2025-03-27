@@ -27,7 +27,6 @@ Private Structures
 
 """
 
-
 from collections import OrderedDict
 
 from ophyd import Component as Cpt

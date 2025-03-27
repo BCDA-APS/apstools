@@ -28,7 +28,6 @@ with the EPICS scaler record.
    ~MeasCompCtrDevicePulseGenChannel
 """
 
-
 import logging
 from typing import Any
 
@@ -121,19 +120,13 @@ class MeasCompCtr(Device):
     # https://github.com/epics-modules/measComp/blob/master/measCompApp/Db/measCompDevice.template
     model_name: EpicsSignalRO = Component(EpicsSignalRO, "ModelName", kind="config", string=True)
     model_number: EpicsSignalRO = Component(EpicsSignalRO, "ModelNumber", kind="config")
-    firmware_version: EpicsSignalRO = Component(
-        EpicsSignalRO, "FirmwareVersion", kind="config", string=True
-    )
+    firmware_version: EpicsSignalRO = Component(EpicsSignalRO, "FirmwareVersion", kind="config", string=True)
     unique_id: EpicsSignalRO = Component(EpicsSignalRO, "UniqueID", kind="config", string=True)
     ul_version: EpicsSignalRO = Component(EpicsSignalRO, "ULVersion", kind="config", string=True)
-    driver_version: EpicsSignalRO = Component(
-        EpicsSignalRO, "DriverVersion", kind="config", string=True
-    )
+    driver_version: EpicsSignalRO = Component(EpicsSignalRO, "DriverVersion", kind="config", string=True)
     poll_time_ms: EpicsSignalRO = Component(EpicsSignalRO, "PollTimeMS", kind="config")
     poll_sleep_ms: EpicsSignalRO = Component(EpicsSignalRO, "PollSleepMS", kind="config")
-    last_error_message: EpicsSignalRO = Component(
-        EpicsSignalRO, "LastErrorMessage", kind="config", string=True
-    )
+    last_error_message: EpicsSignalRO = Component(EpicsSignalRO, "LastErrorMessage", kind="config", string=True)
 
     # https://github.com/epics-modules/measComp/blob/master/measCompApp/Db/USBCTR.substitutions
     long_in: EpicsSignalRO = Component(EpicsSignalRO, "Li")

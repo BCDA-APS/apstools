@@ -89,7 +89,6 @@ class Output(EpicsRecordOutputFields, EpicsRecordDeviceCommonAll):
 
 
 class BinaryOutput(Output):
-
     """A binary input on the labjack.
 
     Similar to a common EPICS input without the OVAL record.

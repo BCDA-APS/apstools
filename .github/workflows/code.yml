@@ -30,7 +30,7 @@ jobs:
         run: |
           set -vxeuo pipefail
           python -m pip install --upgrade pip
-  
+
       - name: Run ruff
         uses: davidslusser/actions_python_ruff@v1.0.2
         with:
@@ -129,7 +129,7 @@ jobs:
           CMD+="; up.wait_for_connection()"
           CMD+="; print(up.get(), pv.get())"
           python -c "${CMD}"
-  
+
       - name: Test catalog length, expect 53
         shell: bash -l {0}
         run: |
