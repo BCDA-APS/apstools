@@ -2,8 +2,6 @@
 
 """Configuration of apstools package."""
 
-from typing import Optional
-
 try:
     from setuptools_scm import get_version
 

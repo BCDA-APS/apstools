@@ -227,22 +227,22 @@ class PTC10PositionerMixin(Device):
     @property
     def inposition(self) -> bool:
         """
-        Report (boolean) if positioner is done.
+        Check if the device is in position.
 
         Returns:
-            bool: True if the positioner is at its target position
+            bool: True if the device is in position
         """
-        return self.done.get() == self.done_value
+        return self.done.get()
 
     def stop(self, *, success: bool = False) -> None:
         """
-        Hold the current readback when the stop() method is called and not done.
+        Stop the device.
 
         Args:
             success: Whether the stop was successful
         """
-        if not self.done.get():
-            self.setpoint.put(self.position)
+        self.output_enable.put(0)
+        self.done.put(True)
 
 
 # -----------------------------------------------------------------------------

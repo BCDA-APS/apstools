@@ -17,24 +17,26 @@ https://htmlpreview.github.io/?https://raw.githubusercontent.com/epics-modules/i
 """
 
 import logging
+from typing import Any, Dict, Optional, Union
 
 import pint
 from ophyd import Component
 from ophyd import EpicsSignal
 from ophyd.signal import DEFAULT_WRITE_TIMEOUT
+from ophyd.status import Status
 
 from .preamp_base import PreamplifierBaseDevice
 
 logger = logging.getLogger(__name__)
 
 
-gain_units = ["pA/V", "nA/V", "uA/V", "mA/V"]
-gain_values = ["1", "2", "5", "10", "20", "50", "100", "200", "500"]
-gain_modes = ["LOW NOISE", "HIGH BW"]
+gain_units: list[str] = ["pA/V", "nA/V", "uA/V", "mA/V"]
+gain_values: list[str] = ["1", "2", "5", "10", "20", "50", "100", "200", "500"]
+gain_modes: list[str] = ["LOW NOISE", "HIGH BW"]
 
 # Settling times measured from the 25-ID-C upstream I0 chamber's SR-570
 # (sensitivity_value, sensitivity_unit, gain_mode): settle_time
-settling_times = {
+settling_times: Dict[tuple[str, str, str], float] = {
     # pA/V
     ("1", "pA/V", "HIGH BW"): 2.5,
     ("2", "pA/V", "HIGH BW"): 2,
@@ -91,11 +93,17 @@ settling_times.update(
 )
 
 
-def calculate_settle_time(gain_value: int, gain_unit: int, gain_mode: str):
-    """Determine the best settle time for a given combination of parameters.
+def calculate_settle_time(gain_value: Union[int, str], gain_unit: Union[int, str], gain_mode: Union[int, str]) -> Optional[float]:
+    """
+    Determine the best settle time for a given combination of parameters.
 
-    Parameters can be strings of indexes.
+    Args:
+        gain_value: The gain value or its index
+        gain_unit: The gain unit or its index
+        gain_mode: The gain mode or its index
 
+    Returns:
+        Optional[float]: The settling time in seconds, or None if not found
     """
     # Convert indexes to string values
     try:
@@ -122,7 +130,13 @@ class GainSignal(EpicsSignal):
     for the amp's RC relaxation time when changing gain.
     """
 
-    def set(self, value, *, timeout=DEFAULT_WRITE_TIMEOUT, settle_time="auto"):
+    def set(
+        self,
+        value: Any,
+        *,
+        timeout: float = DEFAULT_WRITE_TIMEOUT,
+        settle_time: Union[float, str] = "auto",
+    ) -> Status:
         """
         Set the value of the Signal and return a Status object.
 
@@ -132,28 +146,15 @@ class GainSignal(EpicsSignal):
         Otherwise the readback will be polled until equal to the set point
         (as in ``Signal.set``)
 
-        Parameters
-        ----------
+        Args:
+            value: The gain value
+            timeout: Maximum time to wait
+            settle_time: Delay after ``set()`` has completed to indicate completion
+                to the caller. If ``"auto"`` (default), a reasonable settle
+                time will be chosen based on the gain mode of the pre-amp.
 
-        value : any
-            The gain value.
-
-        timeout : float, optional
-            Maximum time to wait.
-
-        settle_time: float, optional
-            Delay after ``set()`` has completed to indicate completion
-            to the caller. If ``"auto"`` (default), a reasonable settle
-            time will be chosen based on the gain mode of the pre-amp.
-
-        Returns
-        -------
-        st : Status
-
-        .. seealso::
-            * Signal.set
-            * EpicsSignal.set
-
+        Returns:
+            Status: A status object that can be used to track the operation
         """
         # Determine optimal settling time.
         if settle_time == "auto":
@@ -186,45 +187,60 @@ class SRS570_PreAmplifier(PreamplifierBaseDevice):
     # in the EPICS .db file.  Must cast them to ``float()`` or ``int()``
     # as desired.
     # see: https://github.com/epics-modules/ip/blob/master/ipApp/Db/SR570.db
-    sensitivity_value = Component(GainSignal, "sens_num", kind="config", string=True)
-    sensitivity_unit = Component(GainSignal, "sens_unit", kind="config", string=True, put_complete=True)
+    sensitivity_value: GainSignal = Component(GainSignal, "sens_num", kind="config", string=True)
+    sensitivity_unit: GainSignal = Component(GainSignal, "sens_unit", kind="config", string=True, put_complete=True)
 
-    offset_on = Component(EpicsSignal, "offset_on", kind="config", string=True)
-    offset_sign = Component(EpicsSignal, "offset_sign", kind="config", string=True)
-    offset_value = Component(EpicsSignal, "offset_num", kind="config", string=True)
-    offset_unit = Component(EpicsSignal, "offset_unit", kind="config", string=True)
-    offset_fine = Component(EpicsSignal, "off_u_put", kind="config", string=True)
-    offset_cal = Component(EpicsSignal, "offset_cal", kind="config", string=True)
+    offset_on: EpicsSignal = Component(EpicsSignal, "offset_on", kind="config", string=True)
+    offset_sign: EpicsSignal = Component(EpicsSignal, "offset_sign", kind="config", string=True)
+    offset_value: EpicsSignal = Component(EpicsSignal, "offset_num", kind="config", string=True)
+    offset_unit: EpicsSignal = Component(EpicsSignal, "offset_unit", kind="config", string=True)
+    offset_fine: EpicsSignal = Component(EpicsSignal, "off_u_put", kind="config", string=True)
+    offset_cal: EpicsSignal = Component(EpicsSignal, "offset_cal", kind="config", string=True)
 
-    set_all = Component(GainSignal, "init.PROC", kind="config")
+    set_all: GainSignal = Component(GainSignal, "init.PROC", kind="config")
 
-    bias_value = Component(EpicsSignal, "bias_put", kind="config", string=True)
-    bias_on = Component(EpicsSignal, "bias_on", kind="config", string=True)
+    bias_value: EpicsSignal = Component(EpicsSignal, "bias_put", kind="config", string=True)
+    bias_on: EpicsSignal = Component(EpicsSignal, "bias_on", kind="config", string=True)
 
-    filter_type = Component(EpicsSignal, "filter_type", kind="config", string=True)
-    filter_lowpass = Component(EpicsSignal, "low_freq", kind="config", string=True)
-    filter_highpass = Component(EpicsSignal, "high_freq", kind="config", string=True)
+    filter_type: EpicsSignal = Component(EpicsSignal, "filter_type", kind="config", string=True)
+    filter_lowpass: EpicsSignal = Component(EpicsSignal, "low_freq", kind="config", string=True)
+    filter_highpass: EpicsSignal = Component(EpicsSignal, "high_freq", kind="config", string=True)
 
-    gain_mode = Component(GainSignal, "gain_mode", kind="config", string=True)
-    invert = Component(EpicsSignal, "invert_on", kind="config", string=True)
-    blank = Component(EpicsSignal, "blank_on", kind="config", string=True)
+    gain_mode: GainSignal = Component(GainSignal, "gain_mode", kind="config", string=True)
+    invert: EpicsSignal = Component(EpicsSignal, "invert_on", kind="config", string=True)
+    blank: EpicsSignal = Component(EpicsSignal, "blank_on", kind="config", string=True)
 
     @property
-    def computed_gain(self):
+    def computed_gain(self) -> float:
         """
-        Amplifier gain (A/V), as floating-point number.
-        """
-        return pint.Quantity(float(self.sensitivity_value.get()), self.sensitivity_unit.get()).to("A/V").magnitude
+        Compute the actual gain value from the sensitivity settings.
 
-    def cb_gain(self, *args, **kwargs):
+        Returns:
+            float: The computed gain value
         """
-        Called when sensitivity changes (EPICS CA monitor event).
+        return float(self.sensitivity_value.get()) * float(self.sensitivity_unit.get())
+
+    def cb_gain(self, *args: Any, **kwargs: Any) -> None:
+        """
+        Callback function to update the gain when sensitivity changes.
+
+        Args:
+            *args: Variable length argument list
+            **kwargs: Arbitrary keyword arguments
         """
         self.gain.put(self.computed_gain)
 
-    def __init__(self, *args, **kwargs):
+    def __init__(
+        self,
+        *args: Any,
+        **kwargs: Any,
+    ) -> None:
         """
-        Update the gain when the sensitivity changes.
+        Initialize the SRS570 preamplifier.
+
+        Args:
+            *args: Variable length argument list
+            **kwargs: Additional keyword arguments to pass to the parent class
         """
         super().__init__(*args, **kwargs)
         self.sensitivity_value.subscribe(self.cb_gain)

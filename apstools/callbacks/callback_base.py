@@ -62,8 +62,8 @@ class FileWriterCallbackBase:
     """
 
     file_extension: str = "dat"
-    _file_name: Optional[pathlib.Path] = None
-    _file_path: Optional[pathlib.Path] = None
+    _file_name: Optional[Union[pathlib.Path,str]] = None #TODO: CHECK TESTS
+    _file_path: Optional[Union[pathlib.Path,str]] = None #TODO: CHECK TESTS
 
     # convention: methods written in alphabetical order
 

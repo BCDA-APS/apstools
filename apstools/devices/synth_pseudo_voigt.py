@@ -40,6 +40,8 @@ EXAMPLES:
 """
 
 import numpy as np
+from typing import Any, Dict, Optional, Union
+
 import ophyd.sim
 
 
@@ -87,12 +89,19 @@ class SynPseudoVoigt(ophyd.sim.SynSignal):  # lgtm [py/missing-call-to-init]
     def __init__(
         # fmt: off
         self,
-        name, motor, motor_field,
-        center=0, eta=0.5, scale=1, sigma=1, bkg=0,
-        noise=None, noise_multiplier=1,
-        **kwargs
+        name: str,
+        motor: Any,
+        motor_field: str,
+        center: float = 0,
+        eta: float = 0.5,
+        scale: float = 1,
+        sigma: float = 1,
+        bkg: float = 0,
+        noise: Optional[str] = None,
+        noise_multiplier: float = 1,
+        **kwargs: Any
         # fmt: on
-    ):
+    ) -> None:
         if eta < 0.0 or eta > 1.0:
             raise ValueError("eta={} must be between 0 and 1".format(eta))
         if scale < 1.0:
@@ -103,27 +112,27 @@ class SynPseudoVoigt(ophyd.sim.SynSignal):  # lgtm [py/missing-call-to-init]
             raise ValueError("bkg must be >= 0")
 
         # remember these terms for later access by user
-        self.name = name
-        self.motor = motor
-        self.motor_field = motor_field
-        self.center = center
-        self.eta = eta
-        self.scale = scale
-        self.sigma = sigma
-        self.bkg = bkg
-        self.noise = noise
-        self.noise_multiplier = noise_multiplier
+        self.name: str = name
+        self.motor: Any = motor
+        self.motor_field: str = motor_field
+        self.center: float = center
+        self.eta: float = eta
+        self.scale: float = scale
+        self.sigma: float = sigma
+        self.bkg: float = bkg
+        self.noise: Optional[str] = noise
+        self.noise_multiplier: float = noise_multiplier
 
-        def f_lorentzian(x, gamma):
+        def f_lorentzian(x: float, gamma: float) -> float:
             # return gamma / np.pi / (x**2 + gamma**2)
             return 1 / np.pi / gamma / (1 + (x / gamma) ** 2)
 
-        def f_gaussian(x, sigma):
+        def f_gaussian(x: float, sigma: float) -> float:
             numerator = np.exp(-0.5 * (x / sigma) ** 2)
             denominator = sigma * np.sqrt(2 * np.pi)
             return numerator / denominator
 
-        def pvoigt():
+        def pvoigt() -> Union[float, int]:
             m = motor.read()[self.motor_field]["value"]
             g_max = f_gaussian(0, self.sigma)  # peak normalization
             l_max = f_lorentzian(0, self.sigma)
@@ -141,9 +150,13 @@ class SynPseudoVoigt(ophyd.sim.SynSignal):  # lgtm [py/missing-call-to-init]
 
         ophyd.sim.SynSignal.__init__(self, name=name, func=pvoigt, **kwargs)
 
-    def randomize_parameters(self, scale=100_000, bkg=0.01):
+    def randomize_parameters(self, scale: float = 100_000, bkg: float = 0.01) -> None:
         """
         Set random parameters. -1 <= center < 1, 0.001 <= sigma < 0.051, 95k <= scale <= 105k
+
+        Args:
+            scale: The base scale value to randomize around
+            bkg: The base background value to randomize around
         """
         self.center = -1.0 + 2 * np.random.uniform()
         self.eta = 0.2 + 0.5 * np.random.uniform()

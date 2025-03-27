@@ -11,6 +11,7 @@ Mixin classes for Motor Devices
    ~EpicsMotorServoMixin
 """
 
+from typing import Any, Dict, Optional, Union, Generator
 import warnings
 
 from bluesky import plan_stubs as bps
@@ -37,7 +38,7 @@ class EpicsMotorDialMixin(DeviceMixinBase):
 
     """
 
-    dial = Component(EpicsSignal, ".DRBV", write_pv=".DVAL")
+    dial: EpicsSignal = Component(EpicsSignal, ".DRBV", write_pv=".DVAL")
 
 
 class EpicsMotorEnableMixin(DeviceMixinBase):
@@ -64,21 +65,22 @@ class EpicsMotorEnableMixin(DeviceMixinBase):
 
     """
 
-    enable_disable = Component(EpicsSignal, "_able", kind="omitted")
+    enable_disable: EpicsSignal = Component(EpicsSignal, "_able", kind="omitted")
 
     # constants for internal use
-    MOTOR_ENABLE = 0
-    MOTOR_DISABLE = 1
+    MOTOR_ENABLE: int = 0
+    MOTOR_DISABLE: int = 1
 
     @property
-    def enabled(self):
+    def enabled(self) -> bool:
+        """Return whether motor is enabled."""
         return self.enable_disable.get() in (self.MOTOR_ENABLE, "Enabled")
 
-    def enable_motor(self):
+    def enable_motor(self) -> None:
         """BLOCKING call to enable motor axis"""
         self.enable_disable.put(self.MOTOR_ENABLE)
 
-    def disable_motor(self):
+    def disable_motor(self) -> None:
         """BLOCKING call to disable motor axis"""
         self.enable_disable.put(self.MOTOR_DISABLE)
 
@@ -94,10 +96,10 @@ class EpicsMotorLimitsMixin(DeviceMixinBase):
         index:: Ophyd Device Mixin; EpicsMotorLimitsMixin
     """
 
-    soft_limit_lo = Component(EpicsSignal, ".LLM", kind="omitted")
-    soft_limit_hi = Component(EpicsSignal, ".HLM", kind="omitted")
+    soft_limit_lo: EpicsSignal = Component(EpicsSignal, ".LLM", kind="omitted")
+    soft_limit_hi: EpicsSignal = Component(EpicsSignal, ".HLM", kind="omitted")
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self, *args: Any, **kwargs: Any) -> None:
         # fmt: off
         warnings.warn(
             "'EpicsMotorLimitsMixin' class is deprecated."
@@ -106,7 +108,7 @@ class EpicsMotorLimitsMixin(DeviceMixinBase):
         # fmt: on
         super().__init__(*args, **kwargs)
 
-        def cb_limit_changed(value, old_value, **kwargs):
+        def cb_limit_changed(value: Any, old_value: Any, **kwargs: Any) -> None:
             """
             update EpicsSignal object when a limit CA monitor received
             """
@@ -121,7 +123,7 @@ class EpicsMotorLimitsMixin(DeviceMixinBase):
         self.soft_limit_lo.subscribe(cb_limit_changed)
         self.soft_limit_hi.subscribe(cb_limit_changed)
 
-    def get_lim(self, flag):
+    def get_lim(self, flag: int) -> Optional[float]:
         """
         Returns the user limit of motor
 
@@ -135,8 +137,9 @@ class EpicsMotorLimitsMixin(DeviceMixinBase):
             return self.soft_limit_hi.get()
         elif flag < 0:
             return self.soft_limit_lo.get()
+        return None
 
-    def set_lim(self, low, high):
+    def set_lim(self, low: float, high: float) -> Generator:
         """
         Sets the low and high limits of motor
 
@@ -174,7 +177,7 @@ class EpicsMotorServoMixin(DeviceMixinBase):
     """
 
     # values: "Enable" or "Disable"
-    servo = Component(EpicsSignal, ".CNEN", string=True)
+    servo: EpicsSignal = Component(EpicsSignal, ".CNEN", string=True)
 
 
 class EpicsMotorRawMixin(DeviceMixinBase):
@@ -193,7 +196,7 @@ class EpicsMotorRawMixin(DeviceMixinBase):
         print(m1.raw.read())
     """
 
-    raw = Component(EpicsSignal, ".RRBV", write_pv=".RVAL")
+    raw: EpicsSignal = Component(EpicsSignal, ".RRBV", write_pv=".RVAL")
 
 
 class EpicsMotorResolutionMixin(DeviceMixinBase):
@@ -222,9 +225,9 @@ class EpicsMotorResolutionMixin(DeviceMixinBase):
         print(f"units_per_rev={m1.units_per_rev.read()}")
     """
 
-    resolution = Component(EpicsSignal, ".MRES", kind="omitted")
-    steps_per_rev = Component(EpicsSignal, ".SREV", kind="omitted")
-    units_per_rev = Component(EpicsSignal, ".UREV", kind="omitted")
+    resolution: EpicsSignal = Component(EpicsSignal, ".MRES", kind="omitted")
+    steps_per_rev: EpicsSignal = Component(EpicsSignal, ".SREV", kind="omitted")
+    units_per_rev: EpicsSignal = Component(EpicsSignal, ".UREV", kind="omitted")
 
 
 # -----------------------------------------------------------------------------
