@@ -15,6 +15,7 @@ Public Structures
 """
 
 from collections import OrderedDict
+from typing import Any, Dict, List, Optional, Union
 
 from ophyd import Component as Cpt
 from ophyd import Device
@@ -52,12 +53,12 @@ class AcalcoutRecordChannel(Device):
     ]
     hints = {"fields": read_attrs}
 
-    def __init__(self, prefix, letter, **kwargs):
+    def __init__(self, prefix: str, letter: str, **kwargs: Any) -> None:
         self._ch_letter = letter
         super().__init__(prefix, **kwargs)
 
-    def reset(self):
-        """set all fields to default values"""
+    def reset(self) -> None:
+        """Set all fields to default values."""
         self.input_pv.put("")
         self.input_value.put(0)
 
@@ -81,17 +82,18 @@ class AcalcoutArrayRecordChannel(Device):
     ]
     hints = {"fields": read_attrs}
 
-    def __init__(self, prefix, letter, **kwargs):
+    def __init__(self, prefix: str, letter: str, **kwargs: Any) -> None:
         self._ch_letters = letter + letter
         super().__init__(prefix, **kwargs)
 
-    def reset(self):
-        """set all fields to default values"""
+    def reset(self) -> None:
+        """Set all fields to default values."""
         self.input_pv.put("")
         self.input_value.put([])
 
 
-def _channels(channel_list):
+def _channels(channel_list: List[str]) -> Dict[str, tuple]:
+    """Create channel definitions."""
     defn = OrderedDict()
     for chan in channel_list:
         defn[chan] = (AcalcoutRecordChannel, "", {"letter": chan})
@@ -146,11 +148,12 @@ class AcalcoutRecord(EpicsRecordFloatFields, EpicsRecordDeviceCommonAll):
     hints = {"fields": read_attrs}
 
     @property
-    def value(self):
+    def value(self) -> Any:
+        """Get calculated value."""
         return self.calculated_value.get()
 
-    def reset(self):
-        """set all fields to default values"""
+    def reset(self) -> None:
+        """Set all fields to default values."""
         pvname = self.description.pvname.split(".")[0]
         self.scanning_rate.put("Passive")
         self.description.put(pvname)
@@ -210,8 +213,8 @@ class UserArrayCalcDevice(Device):
     acalcout9 = Cpt(UserArrayCalcN, "userArrayCalc9")
     acalcout10 = Cpt(UserArrayCalcN, "userArrayCalc10")
 
-    def reset(self):
-        """set all fields to default values"""
+    def reset(self) -> None:
+        """Set all fields to default values."""
         for i in range(10):
             getattr(self, f"acalcout{i+1}").reset()
         self.read_attrs = ["acalcout%d" % (c + 1) for c in range(10)]

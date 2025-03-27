@@ -14,6 +14,7 @@ Public Structures
 """
 
 from collections import OrderedDict
+from typing import Any, Dict, List, Optional, Union
 
 from ophyd import Component as Cpt
 from ophyd import Device
@@ -43,17 +44,18 @@ class SubRecordChannel(Device):
     input_value = FC(EpicsSignal, "{prefix}.{_ch}", kind="config")
     input_pv = FC(EpicsSignal, "{prefix}.INP{_ch}", kind="config", string=True)
 
-    def __init__(self, prefix, letter, **kwargs):
+    def __init__(self, prefix: str, letter: str, **kwargs: Any) -> None:
         self._ch = letter
         super().__init__(prefix, **kwargs)
 
-    def reset(self):
-        """set all fields to default values"""
+    def reset(self) -> None:
+        """Set all fields to default values."""
         self.input_pv.put("")
         self.input_value.put(0)
 
 
-def _channels(input_list):
+def _channels(input_list: List[str]) -> Dict[str, tuple]:
+    """Create channel definitions."""
     defn = OrderedDict()
     for nsym in input_list:
         defn[nsym] = (SubRecordChannel, "", {"letter": nsym})
@@ -87,11 +89,12 @@ class SubRecord(EpicsRecordFloatFields, EpicsRecordDeviceCommonAll):
     hints = {"fields": read_attrs}
 
     @property
-    def value(self):
+    def value(self) -> Any:
+        """Get calculated value."""
         return self.calculated_value.get()
 
-    def reset(self):
-        """set all fields to default values"""
+    def reset(self) -> None:
+        """Set all fields to default values."""
         pvname = self.description.pvname.split(".")[0]
         self.scanning_rate.put("Passive")
         self.description.put(pvname)
@@ -146,8 +149,8 @@ class UserAverageN(EpicsRecordFloatFields, EpicsRecordDeviceCommonAll):
     acquire = Cpt(EpicsSignal, "_acquire", kind="omitted", put_complete=True)
     busy = Cpt(EpicsSignal, "_busy", kind="omitted")
 
-    def reset(self):
-        """set all fields to default values"""
+    def reset(self) -> None:
+        """Set all fields to default values."""
         self.enable.put(self.enable.enum_strs[1])  # enable
         pvname = self.description.pvname.split(".")[0]
         self.description.put(pvname)
@@ -183,8 +186,8 @@ class UserAverageDevice(Device):
     average9 = Cpt(UserAverageN, "userAve9")
     average10 = Cpt(UserAverageN, "userAve10")
 
-    def reset(self):  # lgtm [py/similar-function]
-        """set all fields to default values"""
+    def reset(self) -> None:  # lgtm [py/similar-function]
+        """Set all fields to default values."""
         self.average1.reset()
         self.average2.reset()
         self.average3.reset()

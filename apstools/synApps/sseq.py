@@ -13,6 +13,7 @@ Public Structures
 """
 
 from collections import OrderedDict
+from typing import Any, Dict, List, Optional, Union
 
 from ophyd import Component as Cpt
 from ophyd import Device
@@ -52,13 +53,13 @@ class sseqRecordStep(Device):
     wait_completion = FC(EpicsSignal, "{self.prefix}.WAIT{self._step}", kind="config")
     wait_error = FC(EpicsSignalRO, "{self.prefix}.WERR{self._step}", kind="config")
 
-    def __init__(self, prefix, step, **kwargs):
+    def __init__(self, prefix: str, step: int, **kwargs: Any) -> None:
         names = "_123456789A"  # step #10 (1-based) is called "A"
         self._step = names[step]
         super().__init__(prefix, **kwargs)
 
-    def reset(self):
-        """set all fields to default values"""
+    def reset(self) -> None:
+        """Set all fields to default values."""
         self.input_pv.put("")
         self.delay.put(0)
         self.numeric_value.put(0)  # EPICS will set string_value from this
@@ -66,7 +67,8 @@ class sseqRecordStep(Device):
         self.wait_completion.put("NoWait")
 
 
-def _steps(step_list):
+def _steps(step_list: List[str]) -> Dict[str, tuple]:
+    """Create step definitions."""
     defn = OrderedDict()
     for step in step_list:
         step_number = int(step[4:])
@@ -98,7 +100,7 @@ class SseqRecord(EpicsRecordDeviceCommonAll):
 
     steps = DDC(_steps(STEP_LIST))
 
-    def abort(self):
+    def abort(self) -> None:
         """
         .ABORT is a push button.  Send a 1 to the PV to "push" it.
 
@@ -106,8 +108,8 @@ class SseqRecord(EpicsRecordDeviceCommonAll):
         """
         self._abort.put(1, use_complete=False, force=True)
 
-    def reset(self):
-        """set all fields to default values"""
+    def reset(self) -> None:
+        """Set all fields to default values."""
         self.scanning_rate.put("Passive")
         self.description.put(self.description.pvname.split(".")[0])
         self.forward_link.put("")
@@ -152,8 +154,8 @@ class UserStringSequenceDevice(Device):
     sseq9 = Cpt(UserStringSequenceN, "userStringSeq9")
     sseq10 = Cpt(UserStringSequenceN, "userStringSeq10")
 
-    def reset(self):  # lgtm [py/similar-function]
-        """set all fields to default values"""
+    def reset(self) -> None:  # lgtm [py/similar-function]
+        """Set all fields to default values."""
         for c in self.component_names:
             if not c.startswith("sseq"):
                 continue
