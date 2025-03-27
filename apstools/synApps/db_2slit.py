@@ -52,6 +52,8 @@ Public Structures
 new in release 1.6.0
 """
 
+from typing import Any, Tuple, Union
+
 from ophyd import Component
 from ophyd import Device
 from ophyd import EpicsSignal
@@ -85,7 +87,7 @@ class Optics2Slit2D_HV(Device):
     v = Component(Optics2Slit1D, "V")
 
     @property
-    def geometry(self):
+    def geometry(self) -> SlitGeometry:
         """Return the slit 2D size and center as a namedtuple."""
         pppp = [
             round(obj.position, obj.precision) for obj in (self.h.size, self.v.size, self.h.center, self.v.center)
@@ -94,7 +96,7 @@ class Optics2Slit2D_HV(Device):
         return SlitGeometry(*pppp)
 
     @geometry.setter
-    def geometry(self, value):
+    def geometry(self, value: Union[Tuple[float, float, float, float], SlitGeometry]) -> None:
         # first, test the input by assigning it to local vars
         width, height, x, y = value
 
@@ -123,14 +125,14 @@ class Optics2Slit2D_InbOutBotTop(Device):
     vsync = Component(EpicsSignal, "Vsync", put_complete=True, kind="omitted")
 
     @property
-    def geometry(self):
+    def geometry(self) -> SlitGeometry:
         """Return the slit 2D size and center as a namedtuple."""
         pppp = [round(obj.position, obj.precision) for obj in (self.hsize, self.vsize, self.hcenter, self.vcenter)]
 
         return SlitGeometry(*pppp)
 
     @geometry.setter
-    def geometry(self, value):
+    def geometry(self, value: Union[Tuple[float, float, float, float], SlitGeometry]) -> None:
         # first, test the input by assigning it to local vars
         width, height, x, y = value
 

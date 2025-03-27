@@ -17,6 +17,8 @@ Public Structures
    (https://github.com/epics-modules/optics/issues/10)
 """
 
+from typing import Any, Union
+
 from ophyd import Component
 from ophyd import EpicsSignal
 from ophyd import EpicsSignalRO
@@ -70,7 +72,8 @@ class EpidRecord(EpicsRecordFloatFields, EpicsRecordDeviceCommonAll):
     low_limit = Component(EpicsSignal, ".DRVL", kind="config")
 
     @property
-    def value(self):
+    def value(self) -> Any:
+        """Get output value."""
         return self.output_value.get()
 
 
@@ -95,8 +98,9 @@ class Fb_EpidDatabase(EpidRecord):
     outpv = Component(SseqRecord, ":outpv")
 
     @property
-    def is_feedback_on(self):
-        return str(self.feedback_on.get()).lower() in ("on", 1)
+    def is_feedback_on(self) -> bool:
+        """Return True if feedback is on."""
+        return str(self.feedback_on.get()).lower() in ("on", "1")
 
 
 class Fb_EpidDatabaseHeaterSimulator(Fb_EpidDatabase):
@@ -106,7 +110,16 @@ class Fb_EpidDatabaseHeaterSimulator(Fb_EpidDatabase):
 
     sim_calc = Component(SwaitRecord, ":sim")
 
-    def setup(self, scan=".2 second", Kp=0.0004, Ki=0.5, T0=25.5):
+    def setup(self, scan: str = ".2 second", Kp: float = 0.0004, Ki: float = 0.5, T0: float = 25.5) -> None:
+        """
+        Set up the heater simulator.
+
+        Args:
+            scan: Scan rate, default = ".2 second"
+            Kp: Proportional gain, default = 0.0004
+            Ki: Integral gain, default = 0.5
+            T0: Initial temperature, default = 25.5
+        """
         for obj in (
             self.enable_calc,
             self.in_calc,
@@ -128,7 +141,8 @@ class Fb_EpidDatabaseHeaterSimulator(Fb_EpidDatabase):
         self.setpoint.put(T0)
         self.on.put("on")  # turn on the temperature control
 
-    def reset(self):
+    def reset(self) -> None:
+        """Reset the heater simulator."""
         self.on.put("off")  # turn off the temperature control
         for obj in (
             self.enable_calc,
