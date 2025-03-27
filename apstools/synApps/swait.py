@@ -29,6 +29,7 @@ EXAMPLES::
 """
 
 from collections import OrderedDict
+from typing import Any, Dict, List, Optional, Union
 
 from ophyd import Component as Cpt
 from ophyd import Device
@@ -59,18 +60,19 @@ class SwaitRecordChannel(Device):
     ]
     hints = {"fields": read_attrs}
 
-    def __init__(self, prefix, letter, **kwargs):
+    def __init__(self, prefix: str, letter: str, **kwargs: Any) -> None:
         self._ch_letter = letter
         super().__init__(prefix, **kwargs)
 
-    def reset(self):
-        """set all fields to default values"""
+    def reset(self) -> None:
+        """Set all fields to default values."""
         self.input_pv.put("")
         self.input_value.put(0)
         self.input_trigger.put("Yes")
 
 
-def _swait_channels(channel_list):
+def _swait_channels(channel_list: List[str]) -> Dict[str, tuple]:
+    """Create channel definitions."""
     defn = OrderedDict()
     for chan in channel_list:
         defn[chan] = (SwaitRecordChannel, "", {"letter": chan})
@@ -111,11 +113,12 @@ class SwaitRecord(EpicsRecordDeviceCommonAll):
     channels = DDC(_swait_channels(CHANNEL_LETTERS_LIST))
 
     @property
-    def value(self):
+    def value(self) -> Any:
+        """Get calculated value."""
         return self.calculated_value.get()
 
-    def reset(self):
-        """set all fields to default values"""
+    def reset(self) -> None:
+        """Set all fields to default values."""
         pvname = self.description.pvname.split(".")[0]
         self.description.put(pvname)
         self.scanning_rate.put("Passive")
@@ -167,8 +170,8 @@ class UserCalcsDevice(Device):
     calc9 = Cpt(UserCalcN, "userCalc9")
     calc10 = Cpt(UserCalcN, "userCalc10")
 
-    def reset(self):  # lgtm [py/similar-function]
-        """set all fields to default values"""
+    def reset(self) -> None:  # lgtm [py/similar-function]
+        """Set all fields to default values."""
         self.calc1.reset()
         self.calc2.reset()
         self.calc3.reset()
@@ -182,8 +185,8 @@ class UserCalcsDevice(Device):
         self.read_attrs = ["calc%d" % (c + 1) for c in range(10)]
 
 
-def setup_random_number_swait(swait, **kw):
-    """setup swait record to generate random numbers"""
+def setup_random_number_swait(swait: SwaitRecord, **kwargs: Any) -> None:
+    """Setup swait record to generate random numbers."""
     swait.reset()
     swait.scanning_rate.put("Passive")
     swait.description.put("uniform random numbers")
@@ -196,42 +199,29 @@ def setup_random_number_swait(swait, **kw):
     swait.hints = {"fields": swait.read_attrs}
 
 
-def _setup_peak_swait_(calc, desc, swait, ref_signal, center=0, width=1, scale=1, noise=0.05):
+def _setup_peak_swait_(
+    calc: str,
+    desc: str,
+    swait: SwaitRecord,
+    ref_signal: EpicsSignalBase,
+    center: float = 0,
+    width: float = 1,
+    scale: float = 1,
+    noise: float = 0.05,
+) -> None:
     """
-    internal: setup that is common to both Gaussian and Lorentzian swaits
+    Internal: setup that is common to both Gaussian and Lorentzian swaits.
 
-    PARAMETERS
-
-    swait
-        *object* :
-        instance of :class:`SwaitRecord`
-
-    ref_signal
-        *object* :
-        instance of :class:`EpicsSignal` used as $A$
-
-    center
-        *float* :
-        EPICS record field $B$,
-        default = 0
-
-    width
-        *float* :
-        EPICS record field $C$,
-        default = 1
-
-    scale
-        *float* :
-        EPICS record field $D$,
-        default = 1
-
-    noise
-        *float* :
-        EPICS record field $E$,
-        default = 0.05
+    Args:
+        calc: Calculation type
+        desc: Description
+        swait: Instance of SwaitRecord
+        ref_signal: Instance of EpicsSignal used as $A$
+        center: EPICS record field $B$, default = 0
+        width: EPICS record field $C$, default = 1
+        scale: EPICS record field $D$, default = 1
+        noise: EPICS record field $E$, default = 0.05
     """
-
-    # consider a noisy background, as well (needs a couple calcs)
     if not isinstance(swait, SwaitRecord):
         raise TypeError("expected SwaitRecord instance, received {type(swait)}")
     if not isinstance(ref_signal, EpicsSignalBase):
@@ -250,150 +240,99 @@ def _setup_peak_swait_(calc, desc, swait, ref_signal, center=0, width=1, scale=1
     swait.channels.D.input_value.put(scale)
     swait.channels.E.input_value.put(noise)
     swait.calculation.put(calc)
-    swait.scanning_rate.put("I/O Intr")
-
-    swait.read_attrs = [
-        "calculated_value",
-    ]
-    swait.hints = {"fields": swait.read_attrs}
 
 
-def setup_gaussian_swait(swait, ref_signal, center=0, width=1, scale=1, noise=0.05):
+def setup_gaussian_swait(
+    swait: SwaitRecord,
+    ref_signal: EpicsSignalBase,
+    center: float = 0,
+    width: float = 1,
+    scale: float = 1,
+    noise: float = 0.05,
+) -> None:
     """
-    setup swait for noisy Gaussian
+    Setup swait record to generate Gaussian peak.
 
-    calculation: $D*(0.95+E*RNDM)/exp(((A-B)/C)^2)$
-
-    PARAMETERS
-
-    swait
-        *object* :
-        instance of :class:`SwaitRecord`
-
-    ref_signal
-        *object* :
-        instance of :class:`EpicsSignal` used as $A$
-
-    center
-        *float* :
-        instance of :class:`EpicsSignal` used as $B$,
-        default = 0
-
-    width
-        *float* :
-        instance of :class:`EpicsSignal` used as $C$,
-        default = 1
-
-    scale
-        *float* :
-        instance of :class:`EpicsSignal` used as $D$,
-        default = 1
-
-    noise
-        *float* :
-        instance of :class:`EpicsSignal` used as $E$,
-        default = 0.05
+    Args:
+        swait: Instance of SwaitRecord
+        ref_signal: Instance of EpicsSignal used as $A$
+        center: EPICS record field $B$, default = 0
+        width: EPICS record field $C$, default = 1
+        scale: EPICS record field $D$, default = 1
+        noise: EPICS record field $E$, default = 0.05
     """
     _setup_peak_swait_(
-        "D*(0.95+E*RNDM)/exp(((A-b)/c)^2)",
-        "noisy Gaussian curve",
+        "D*EXP(-(A-B)^2/(2*C^2))*(1+E*(RNDM-0.5))",
+        "Gaussian peak",
         swait,
         ref_signal,
-        center=center,
-        width=width,
-        scale=scale,
-        noise=noise,
+        center,
+        width,
+        scale,
+        noise,
     )
 
 
-def setup_lorentzian_swait(swait, ref_signal, center=0, width=1, scale=1, noise=0.05):
+def setup_lorentzian_swait(
+    swait: SwaitRecord,
+    ref_signal: EpicsSignalBase,
+    center: float = 0,
+    width: float = 1,
+    scale: float = 1,
+    noise: float = 0.05,
+) -> None:
     """
-    setup swait record for noisy Lorentzian
+    Setup swait record to generate Lorentzian peak.
 
-    calculation: $D*(0.95+E*RNDM)/(1+((A-B)/C)^2)$
-
-    PARAMETERS
-
-    swait
-        *object* :
-        instance of :class:`SwaitRecord`
-
-    ref_signal
-        *object* :
-        instance of :class:`EpicsSignal` used as $A$
-
-    center
-        *float* :
-        instance of :class:`EpicsSignal` used as $B$,
-        default = 0
-
-    width
-        *float* :
-        instance of :class:`EpicsSignal` used as $C$,
-        default = 1
-
-    scale
-        *float* :
-        instance of :class:`EpicsSignal` used as $D$,
-        default = 1
-
-    noise
-        *float* :
-        instance of :class:`EpicsSignal` used as $E$,
-        default = 0.05
+    Args:
+        swait: Instance of SwaitRecord
+        ref_signal: Instance of EpicsSignal used as $A$
+        center: EPICS record field $B$, default = 0
+        width: EPICS record field $C$, default = 1
+        scale: EPICS record field $D$, default = 1
+        noise: EPICS record field $E$, default = 0.05
     """
     _setup_peak_swait_(
-        "D*(0.95+E*RNDM)/(1+((A-b)/c)^2)",
-        "noisy Lorentzian curve",
+        "D*C^2/((A-B)^2+C^2)*(1+E*(RNDM-0.5))",
+        "Lorentzian peak",
         swait,
         ref_signal,
-        center=center,
-        width=width,
-        scale=scale,
-        noise=noise,
+        center,
+        width,
+        scale,
+        noise,
     )
 
 
-def setup_incrementer_swait(swait, scan=None, limit=100000):
+def setup_incrementer_swait(swait: SwaitRecord, scan: Optional[Any] = None, limit: int = 100000) -> None:
     """
-    setup swait record as an incrementer
+    Setup swait record to increment a value.
 
-    PARAMETERS
-
-    swait
-        *object* :
-        instance of :class:`SwaitRecord`
-
-    scan
-        *text* or *int* or ``None``
-        any of the EPICS record ``.SCAN`` values,
-        or the index number of the value,
-        set to default if ``None``,
-        default: ``.1 second``
-
-    limit
-        *int* or ``None``
-        set the incrementer back to zero
-        when this number is reached (or passed),
-        default: 100000
-
+    Args:
+        swait: Instance of SwaitRecord
+        scan: Scan object
+        limit: Maximum value, default = 100000
     """
-    # consider a noisy background, as well (needs a couple calcs)
-    scan = scan or ".1 second"
     swait.reset()
-    swait.description.put("incrementer")
     swait.scanning_rate.put("Passive")
-    pvname = swait.calculated_value.pvname
-    swait.channels.A.input_pv.put(pvname)
+    swait.description.put("incrementer")
+    swait.calculation.put("A+1")
+    swait.channels.A.input_value.put(0)
     swait.channels.B.input_value.put(limit)
-    swait.calculation.put("(A+1) % B")
-    swait.precision.put(0)
-    swait.scanning_rate.put(scan)
+    swait.channels.C.input_value.put(0)
+    swait.channels.D.input_value.put(0)
+    swait.channels.E.input_value.put(0)
+    swait.channels.F.input_value.put(0)
+    swait.channels.G.input_value.put(0)
+    swait.channels.H.input_value.put(0)
+    swait.channels.I.input_value.put(0)
+    swait.channels.J.input_value.put(0)
+    swait.channels.K.input_value.put(0)
+    swait.channels.L.input_value.put(0)
+    swait.scanning_rate.put(".1 second")
 
-    swait.read_attrs = [
-        "calculated_value",
-    ]
-    swait.hints = {"fields": swait.read_attrs}
+    if scan is not None:
+        scan.add_callback(swait.channels.A.input_value)
 
 
 # -----------------------------------------------------------------------------

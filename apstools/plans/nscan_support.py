@@ -21,7 +21,9 @@ def nscan(
     detectors: List[Device],
     *motor_sets: Union[Signal, float],
     num: int = 11,
-    per_step: Optional[Callable[[List[Device], Dict[Signal, float], Dict[Signal, float]], Generator[None, None, None]]] = None,
+    per_step: Optional[
+        Callable[[List[Device], Dict[Signal, float], Dict[Signal, float]], Generator[None, None, None]]
+    ] = None,
     md: Optional[Dict[str, Any]] = None,
 ) -> Generator[None, None, None]:
     """
@@ -37,6 +39,7 @@ def nscan(
     Returns:
         Generator yielding None
     """
+
     def take_n_at_a_time(args: List[Any], n: int = 2) -> Generator[Tuple[Any, ...], None, None]:
         yield from zip(*[iter(args)] * n)
 

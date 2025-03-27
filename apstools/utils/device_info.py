@@ -10,6 +10,7 @@ Device information
 import datetime
 import logging
 from collections import defaultdict
+from typing import Any, Dict, List, Optional, Union
 
 import pandas as pd
 from ophyd import Device
@@ -30,7 +31,16 @@ TRUNCATION_TEXT = " ..."
 NOT_CONNECTED_VALUE = "-n/c-"
 
 
-def _all_signals(base):
+def _all_signals(base: Union[Signal, Device]) -> List[Signal]:
+    """
+    Get all signals from a device.
+
+    Args:
+        base: Signal or Device instance
+
+    Returns:
+        List of signals
+    """
     if isinstance(base, Signal):
         return [base]
     items = []
@@ -47,9 +57,16 @@ def _all_signals(base):
     return items
 
 
-def _get_named_child(obj, nm):
+def _get_named_child(obj: Device, nm: str) -> Union[Any, str]:
     """
-    return named child of ``obj`` or None
+    Return named child of obj or None.
+
+    Args:
+        obj: Device instance
+        nm: Child name
+
+    Returns:
+        Child object or "TIMEOUT" string
     """
     try:
         child = getattr(obj, nm)
@@ -59,25 +76,33 @@ def _get_named_child(obj, nm):
         return "TIMEOUT"
 
 
-def _get_pv(obj):
+def _get_pv(obj: Any) -> Optional[str]:
     """
     Return PV name, prefix, or None from ophyd object.
+
+    Args:
+        obj: Ophyd object
+
+    Returns:
+        PV name or prefix if available, None otherwise
     """
     if hasattr(obj, "pvname"):
         return obj.pvname
     elif hasattr(obj, "prefix"):
         return obj.prefix
+    return None
 
 
-def _list_epics_signals(obj):
+def _list_epics_signals(obj: Union[EpicsSignalBase, Device]) -> Optional[List[EpicsSignalBase]]:
     """
     Return a list of the EPICS signals in obj.
 
-    RETURNS
+    Args:
+        obj: EpicsSignalBase or Device instance
 
-    list of ophyd objects that are children of ``obj``
+    Returns:
+        List of EPICS signals or None
     """
-    # import pdb; pdb.set_trace()
     if isinstance(obj, EpicsSignalBase):
         return [obj]
     elif isinstance(obj, Device):
@@ -90,113 +115,39 @@ def _list_epics_signals(obj):
             if result is not None:
                 items.extend(result)
         return items
+    return None
 
 
 @call_signature_decorator
 def listdevice(
-    obj,
-    scope=None,
-    cname=False,
-    dname=True,
-    show_pv=False,
-    use_datetime=True,
-    show_ancient=True,
-    max_column_width=None,
-    table_style=TableStyle.pyRestTable,
-    _call_args=None,
-):
-    """Describe the signal information from device ``obj`` in a pandas DataFrame.
+    obj: Union[Signal, Device],
+    scope: Optional[str] = None,
+    cname: bool = False,
+    dname: bool = True,
+    show_pv: bool = False,
+    use_datetime: bool = True,
+    show_ancient: bool = True,
+    max_column_width: Optional[int] = None,
+    table_style: Any = TableStyle.pyRestTable,
+    _call_args: Optional[Dict[str, Any]] = None,
+) -> Union[pd.DataFrame, Any]:
+    """
+    Describe the signal information from device obj in a pandas DataFrame.
 
-    Look through all subcomponents to find all the signals to be
-    shown. Components that are disconnected will be skipped and a
-    warning logged.
+    Args:
+        obj: Instance of ophyd Signal or Device
+        scope: Scope of content to show ("full", "epics", "read")
+        cname: Show control name in column "name"
+        dname: Show data name in column "data name"
+        show_pv: Show EPICS PV name in column "PV"
+        use_datetime: Show EPICS timestamp
+        show_ancient: Show uninitialized EPICS PVs
+        max_column_width: Truncate long columns
+        table_style: Table formatting style
+        _call_args: Internal call arguments
 
-    EXAMPLE::
-
-        >>> listdevice(m1)
-        ======================= ======= ==========================
-        data name               value   timestamp
-        ======================= ======= ==========================
-        m1                      0.0     2024-08-28 09:41:08.364137
-        m1_user_setpoint        0.0     2024-08-28 09:41:08.364137
-        m1_user_offset          0.0     2024-08-28 11:46:56.116048
-        m1_user_offset_dir      0       2024-08-28 09:41:08.364137
-        m1_offset_freeze_switch 0       2024-08-28 09:41:08.364137
-        m1_set_use_switch       0       2024-08-28 09:41:08.364137
-        m1_velocity             1.0     2024-08-28 09:41:08.364137
-        m1_acceleration         0.2     2024-08-28 09:41:08.364137
-        m1_motor_egu            degrees 2024-08-28 09:41:08.364137
-        m1_motor_is_moving      0       2024-08-28 09:41:08.364137
-        m1_motor_done_move      1       2024-08-28 11:46:56.116057
-        m1_high_limit_switch    0       2024-08-28 09:41:08.364137
-        m1_low_limit_switch     0       2024-08-28 09:41:08.364137
-        m1_high_limit_travel    1000.0  2024-08-28 11:46:56.116048
-        m1_low_limit_travel     -1000.0 2024-08-28 11:46:56.116048
-        m1_direction_of_travel  0       2024-08-28 09:41:08.364137
-        m1_motor_stop           0       2024-08-28 09:41:08.364137
-        m1_home_forward         0       2024-08-28 09:41:08.364137
-        m1_home_reverse         0       2024-08-28 09:41:08.364137
-        m1_steps_per_revolution 2000    2024-08-28 09:41:08.364137
-        ======================= ======= ==========================
-
-    PARAMETERS
-
-    obj
-        *object* : Instance of ophyd Signal or Device.
-    scope
-        *str* or None : Scope of content to be shown.
-
-        - ``"full"`` (or ``None``) shows all Signal components
-        - ``"epics"`` shows only EPICS-based Signals
-        - ``"read"`` shows only the signals returned by ``obj.read()``
-
-        default: ``None``
-    cname
-        *bool* : Show the _control_ (Python, dotted) name in column ``name``.
-
-        default: ``False``
-    dname
-        *bool* : Show the _data_ (databroker, with underlines) name in
-        column ``data name``.
-
-        default: ``True``
-    show_pv
-        *bool* : Show the EPICS process variable (PV) name in
-        column ``PV``.
-
-        default: ``False``
-
-        .. note:: Special case when ``show_pv=True``:
-           If ``cname`` is not provided, it will be set ``True``.
-           If ``dname`` is not provided, it will be set ``False``.
-
-    use_datetime *bool* :
-        Show the EPICS timestamp (time of last update) in
-        column ``timestamp``.
-
-        default: ``True``
-    show_ancient *bool* :
-        Show uninitialized EPICS process variables.
-
-        In EPICS, an uninitialized PV has a timestamp of 1990-01-01 UTC.
-        This option enables or suppresses ancient values identified
-        by timestamp from 1989.  These are values only defined in
-        the original ``.db`` file.
-
-        default: ``True``
-    max_column_width *int* or *None* :
-        Truncate long columns to no more than this length.  If not default,
-        then table will be formatted using pyRestTable.
-
-        default: ``None`` (will use ``50``)
-    table_style *object* :
-        Either ``apstools.utils.TableStyle.pandas`` (default) or
-        using values from :class:`apstools.utils.TableStyle`.
-
-        .. note:: ``pandas.DataFrame`` wll truncate long text
-           to at most 50 characters.
-
-    .. seealso:: ``listdevice()`` in :doc:`/examples/ho_list_control_objects`
+    Returns:
+        DataFrame with device information
     """
     if max_column_width is not None:
         if table_style != TableStyle.pyRestTable:
@@ -214,19 +165,10 @@ def listdevice(
         reading = obj.read()
         signals = [s for s in signals if s.name in reading]
     else:
-        # fmt: off
-        raise KeyError(
-            f"Unknown scope='{scope}'."
-            " Must be one of None, 'full', 'epics', 'read'"
-        )
-        # fmt: on
+        raise KeyError(f"Unknown scope='{scope}'." " Must be one of None, 'full', 'epics', 'read'")
 
     # in EPICS, an uninitialized PV has a timestamp of 1990-01-01 UTC
-    # fmt: off
-    UNINITIALIZED = datetime.datetime.timestamp(
-        datetime.datetime.fromisoformat("1990-06-01")
-    )
-    # fmt: on
+    UNINITIALIZED = datetime.datetime.timestamp(datetime.datetime.fromisoformat("1990-06-01"))
 
     if show_pv:
         cname = cname if "cname" in _call_args else True
@@ -248,39 +190,37 @@ def listdevice(
                 if dname:
                     dd["data name"].append(signal.name)
                 if show_pv:
-                    dd["PV"].append(_get_pv(signal) or "")
-                # At this point, either the Signal has connected or it may never
-                # connect.  It's much too slow to wait for a connection timeout
-                # on each signal, in series.  The default connection timeout has
-                # already been set.
-                # If the signal is not connected now, provide informative text
-                # and move along.
-                if signal.connected:
-                    try:
-                        v = signal.get()
-                    except Exception as reason:
-                        v = str(reason)
-                else:
-                    v = NOT_CONNECTED_VALUE
-                dd["value"].append(v)
+                    dd["PV"].append(_get_pv(signal) or NOT_CONNECTED_VALUE)
                 if use_datetime:
-                    dd["timestamp"].append(datetime.datetime.fromtimestamp(ts))
+                    dd["timestamp"].append(datetime.datetime.fromtimestamp(ts) if ts > 0 else NOT_CONNECTED_VALUE)
+                dd["value"].append(getattr(signal, "value", NOT_CONNECTED_VALUE))
 
-    def truncate(value, width, pad):
-        """Ensure that str(value) fits into column of 'width'."""
-        value = str(value)
-        if len(value) > width:
-            value = value[: width - len(pad)] + pad
+    df = pd.DataFrame(dd)
+    if limit_width:
+        for col in df.columns:
+            if df[col].dtype == "object":
+                df[col] = df[col].apply(lambda x: truncate(str(x), max_column_width, TRUNCATION_TEXT))
+
+    if table_style == TableStyle.pyRestTable:
+        return df.to_string()
+    return df
+
+
+def truncate(value: str, width: int, pad: str) -> str:
+    """
+    Truncate string to specified width.
+
+    Args:
+        value: String to truncate
+        width: Maximum width
+        pad: Padding text
+
+    Returns:
+        Truncated string
+    """
+    if len(value) <= width:
         return value
-
-    if limit_width:  # check if column widths need to be truncated
-        for k in dd:
-            vv = []
-            for v in dd[k]:
-                vv.append(truncate(v, max_column_width, TRUNCATION_TEXT))
-            dd[k] = vv  # replace the row with (maybe) truncated content
-
-    return table_style.value(dd)
+    return value[: width - len(pad)] + pad
 
 
 # -----------------------------------------------------------------------------

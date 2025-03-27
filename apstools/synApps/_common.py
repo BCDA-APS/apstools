@@ -17,6 +17,8 @@ Public Structures
 :see: https://wiki-ext.aps.anl.gov/epics/index.php/RRM_3-14_Common
 """
 
+from typing import Any
+
 from ophyd import EpicsSignal
 from ophyd import EpicsSignalRO
 from ophyd.device import Component
@@ -61,7 +63,8 @@ class EpicsRecordInputFields(Device):
     # will ignore simulation mode fields
 
     @property
-    def value(self):
+    def value(self) -> Any:
+        """Get final value."""
         return self.final_value.get()
 
 
@@ -80,7 +83,8 @@ class EpicsRecordOutputFields(Device):
     # will ignore simulation mode fields
 
     @property
-    def value(self):
+    def value(self) -> Any:
+        """Get desired value."""
         return self.desired_value.get()
 
 
@@ -122,8 +126,8 @@ class EpicsSynAppsRecordEnableMixin(Device):
 
     enable = Component(EpicsSignal, "Enable", kind="config")
 
-    def reset(self):
-        """set all fields to default values"""
+    def reset(self) -> None:
+        """Set all fields to default values."""
         self.enable.put(self.enable.enum_strs[1])  # Enable
         super().reset()
 

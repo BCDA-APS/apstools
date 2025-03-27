@@ -18,6 +18,7 @@ EXAMPLES::
 """
 
 from collections import OrderedDict
+from typing import Any, Dict, List, Optional, Union
 
 from ophyd import Component as Cpt
 from ophyd import Device
@@ -43,12 +44,12 @@ class _LuascriptRecordInputBase(Device):
     # ]
     # hints = {"fields": read_attrs}
 
-    def __init__(self, prefix, letter, **kwargs):
+    def __init__(self, prefix: str, letter: str, **kwargs: Any) -> None:
         self._ch = letter
         super().__init__(prefix, **kwargs)
 
-    def reset(self):
-        """set all fields to default values"""
+    def reset(self) -> None:
+        """Set all fields to default values."""
         raise NotImplementedError("Must define reset() method in subclass.")
 
 
@@ -63,8 +64,8 @@ class LuascriptRecordNumberInput(_LuascriptRecordInputBase):
     input_value = FC(EpicsSignal, "{prefix}.{_ch}", kind="config")
     description = FC(EpicsSignal, "{prefix}.{_ch}DSC", kind="config", string=True)
 
-    def reset(self):
-        """set all fields to default values"""
+    def reset(self) -> None:
+        """Set all fields to default values."""
         self.pv_link.put("")
         self.input_value.put(0)
         self.description.put("")
@@ -81,14 +82,15 @@ class LuascriptRecordStringInput(_LuascriptRecordInputBase):
     input_value = FC(EpicsSignal, "{prefix}.{_ch}", kind="config", string=True)
     description = FC(EpicsSignal, "{prefix}.{_ch}DN", kind="config", string=True)
 
-    def reset(self):
-        """set all fields to default values"""
+    def reset(self) -> None:
+        """Set all fields to default values."""
         self.pv_link.put("")
         self.input_value.put("")
         self.description.put("")
 
 
-def _inputs(input_list):
+def _inputs(input_list: List[str]) -> Dict[str, tuple]:
+    """Create input definitions."""
     defn = OrderedDict()
     for nsym in input_list:
         defn[nsym] = (LuascriptRecordNumberInput, "", {"letter": nsym})
@@ -127,8 +129,8 @@ class LuascriptRecord(EpicsRecordDeviceCommonAll):
 
     inputs = DDC(_inputs(INPUT_LETTERS_LIST))
 
-    def reset(self):
-        """set all fields to default values"""
+    def reset(self) -> None:
+        """Set all fields to default values."""
         pvname = self.description.pvname.split(".")[0]
         self.description.put(pvname)
         self.scanning_rate.put("Passive")
@@ -176,8 +178,8 @@ class UserScriptsDevice(Device):
     script8 = Cpt(LuascriptRecord, "userScript8")
     script9 = Cpt(LuascriptRecord, "userScript9")
 
-    def reset(self):  # lgtm [py/similar-function]
-        """set all fields to default values"""
+    def reset(self) -> None:  # lgtm [py/similar-function]
+        """Set all fields to default values."""
         enable = self.enable.get()
         self.enable.put("Enable")
         self.script0.reset()

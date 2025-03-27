@@ -10,6 +10,8 @@ Public Structures
 
 """
 
+from typing import Any
+
 from ophyd import EpicsSignal
 from ophyd.device import Component
 from ophyd.device import Device

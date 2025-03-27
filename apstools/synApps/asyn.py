@@ -10,6 +10,8 @@ Public Structures
 :see: https://github.com/epics-modules/asyn
 """
 
+from typing import Any
+
 from ophyd import EpicsSignal
 from ophyd import EpicsSignalRO
 from ophyd.device import Component

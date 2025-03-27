@@ -19,7 +19,9 @@ def mesh_list_grid_scan(
     *args: Union[Signal, List[float]],
     number_of_collection_points: int,
     snake_axes: Union[bool, List[Signal]] = False,
-    per_step: Optional[Callable[[List[Device], Dict[Signal, float], Dict[Signal, float]], Generator[None, None, None]]] = None,
+    per_step: Optional[
+        Callable[[List[Device], Dict[Signal, float], Dict[Signal, float]], Generator[None, None, None]]
+    ] = None,
     md: Optional[Dict[str, Any]] = None,
 ) -> Generator[None, None, None]:
     """
@@ -73,7 +75,9 @@ def mesh_scan_nd(
     cycler: Cycler,
     number_of_collection_points: int,
     *,
-    per_step: Optional[Callable[[List[Device], Dict[Signal, float], Dict[Signal, float]], Generator[None, None, None]]] = None,
+    per_step: Optional[
+        Callable[[List[Device], Dict[Signal, float], Dict[Signal, float]], Generator[None, None, None]]
+    ] = None,
     md: Optional[Dict[str, Any]] = None,
 ) -> Generator[None, None, None]:
     """
@@ -137,7 +141,9 @@ def mesh_scan_nd(
             (motor,) = cycler.keys
             user_per_step = per_step
 
-            def adapter(detectors: List[Device], step: Dict[Signal, float], pos_cache: Dict[Signal, float]) -> Generator[None, None, None]:
+            def adapter(
+                detectors: List[Device], step: Dict[Signal, float], pos_cache: Dict[Signal, float]
+            ) -> Generator[None, None, None]:
                 (step,) = step.values()
                 return (yield from user_per_step(detectors, motor, step))
 

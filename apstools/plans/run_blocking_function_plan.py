@@ -27,6 +27,7 @@ def run_blocking_function(
     Returns:
         Generator yielding None
     """
+
     @run_in_thread
     def internal() -> None:
         result = function(*args, **kwargs)

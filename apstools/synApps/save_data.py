@@ -17,6 +17,8 @@ Public Structures
 
 """
 
+from typing import Any
+
 from ophyd import Component
 from ophyd import Device
 from ophyd import EpicsSignal
@@ -58,7 +60,8 @@ class SaveData(Device):
     write_count_total = Component(EpicsSignalRO, "totalRetries", kind="config")
     write_count_abandoned = Component(EpicsSignalRO, "abandonedWrites", kind="config")
 
-    def reset(self):
+    def reset(self) -> None:
+        """Set all fields to default values."""
         self.file_system.put("")
         self.subdirectory.put("")
         self.base_name.put("")
