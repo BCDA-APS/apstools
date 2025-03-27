@@ -13,6 +13,7 @@ import json
 import logging
 import pathlib
 import time
+from typing import Any, Dict, List, Optional, Union
 
 import h5py
 import numpy as np
@@ -117,25 +118,25 @@ class NXWriter(FileWriterCallbackBase):
     Update in release 1.6.11 to wait for area detector HDF5 files.
     """
 
-    warn_on_missing_content = True
-    file_extension = NEXUS_FILE_EXTENSION
-    instrument_name = None  # name of this instrument
+    warn_on_missing_content: bool = True
+    file_extension: str = NEXUS_FILE_EXTENSION
+    instrument_name: Optional[str] = None  # name of this instrument
     # NeXus release to which this file is written
-    nexus_release = NEXUS_RELEASE
-    nxdata_signal = None  # name of dataset for Y axis on plot
-    nxdata_signal_axes = None  # name of dataset for X axis on plot
-    root = None  # instance of h5py.File
+    nexus_release: str = NEXUS_RELEASE
+    nxdata_signal: Optional[str] = None  # name of dataset for Y axis on plot
+    nxdata_signal_axes: Optional[str] = None  # name of dataset for X axis on plot
+    root: Optional[h5py.File] = None  # instance of h5py.File
 
-    template_key = "nxwriter_template"
+    template_key: str = "nxwriter_template"
     """The template (dict) is written as a JSON string to this metadata key."""
 
-    _external_file_read_timeout = 20
-    _external_file_read_retry_delay = 0.5
-    _writer_active = False
+    _external_file_read_timeout: float = 20
+    _external_file_read_retry_delay: float = 0.5
+    _writer_active: bool = False
 
     # convention: methods written in alphabetical order
 
-    def add_dataset_attributes(self, ds, v, long_name=None):
+    def add_dataset_attributes(self, ds: h5py.Dataset, v: Dict[str, Any], long_name: Optional[str] = None) -> None:
         """
         add attributes from v dictionary to dataset ds
         """
@@ -146,14 +147,14 @@ class NXWriter(FileWriterCallbackBase):
         if v["dtype"] not in ("string",):
             ds.attrs["precision"] = v["precision"]
 
-            def cautious_set(key):
+            def cautious_set(key: str) -> None:
                 if v[key] is not None:
                     ds.attrs[key] = v[key]
 
             cautious_set("lower_ctrl_limit")
             cautious_set("upper_ctrl_limit")
 
-    def assign_signal_type(self):
+    def assign_signal_type(self) -> None:
         """
         decide if a signal in the primary stream is a detector or a positioner
         """
@@ -187,7 +188,7 @@ class NXWriter(FileWriterCallbackBase):
                 if self.warn_on_missing_content:
                     logger.warning("Could not assign %s as signal type %s", k, signal_type)
 
-    def create_NX_group(self, parent, specification):
+    def create_NX_group(self, parent: h5py.Group, specification: str) -> h5py.Group:
         """
         create an h5 group with named NeXus class (specification)
         """
@@ -204,7 +205,7 @@ class NXWriter(FileWriterCallbackBase):
         group.attrs["target"] = group.name  # for use as NeXus link
         return group
 
-    def getResourceFile(self, resource_id):
+    def getResourceFile(self, resource_id: str) -> pathlib.Path:
         """
         full path to the resource file specified by uid ``resource_id``
 
@@ -220,7 +221,7 @@ class NXWriter(FileWriterCallbackBase):
         fname = pathlib.Path(resource["root"]) / resource["resource_path"]
         return fname
 
-    def get_sample_title(self):
+    def get_sample_title(self) -> str:
         """
         return the title for this sample
 
@@ -228,7 +229,7 @@ class NXWriter(FileWriterCallbackBase):
         """
         return f"S{self.scan_id:04d}-{self.plan_name}-{self.uid[:7]}"
 
-    def get_stream_link(self, signal, stream=None, ref=None):
+    def get_stream_link(self, signal: str, stream: Optional[str] = None, ref: Optional[str] = None) -> h5py.Dataset:
         """
         return the h5 object for ``signal``
 
@@ -245,14 +246,13 @@ class NXWriter(FileWriterCallbackBase):
         # return the h5 object, to make a link
         return self.root[h5_addr]
 
-    def h5string(self, text):
+    def h5string(self, text: Union[str, List[str], tuple]) -> str:
         """Format string for h5py interface."""
         if isinstance(text, (tuple, list)):
-            return [self.h5string(str(t)) for t in text]
-        text = text or ""
-        return text.encode("utf8")
+            return " ".join(str(t) for t in text)
+        return str(text)
 
-    def resolve_class_path(self, class_path):
+    def resolve_class_path(self, class_path: str) -> str:
         """
         Parse the class path, make any groups, return the HDF5 address.
 

@@ -10,8 +10,9 @@ Base Class for File Writer Callbacks
 
 import datetime
 import logging
-import pathlib
+from typing import Any, Dict, List, Optional, Union
 
+import pathlib
 import pyRestTable
 
 logger = logging.getLogger(__name__)
@@ -60,16 +61,16 @@ class FileWriterCallbackBase:
        ~stop
     """
 
-    file_extension = "dat"
-    _file_name = None
-    _file_path = None
+    file_extension: str = "dat"
+    _file_name: Optional[pathlib.Path] = None
+    _file_path: Optional[pathlib.Path] = None
 
     # convention: methods written in alphabetical order
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self, *args: Any, **kwargs: Any) -> None:
         """Initialize: clear and reset."""
         self.clear()
-        self.xref = dict(
+        self.xref: Dict[str, Any] = dict(
             bulk_events=self.bulk_events,
             datum=self.datum,
             descriptor=self.descriptor,
@@ -79,7 +80,7 @@ class FileWriterCallbackBase:
             stop=self.stop,
         )
 
-    def receiver(self, key, doc):
+    def receiver(self, key: str, doc: Dict[str, Any]) -> None:
         """
         bluesky callback (handles a stream of documents)
 
@@ -96,46 +97,46 @@ class FileWriterCallbackBase:
 
         # - - - - - - - - - - - - - - -
 
-    def clear(self):
+    def clear(self) -> None:
         """
         delete any saved data from the cache and reinitialize
         """
-        self.acquisitions = {}
-        self.detectors = []
-        self.diffractometers = {}
-        self.exit_status = None
-        self.externals = {}
-        self.doc_timestamp = None
-        self.metadata = {}
-        self.plan_name = None
-        self.positioners = []
-        self.scanning = False
-        self.scan_id = None
-        self.streams = {}
-        self.start_time = None
-        self.stop_reason = None
-        self.stop_time = None
-        self.uid = None
+        self.acquisitions: Dict[str, Any] = {}
+        self.detectors: List[str] = []
+        self.diffractometers: Dict[str, Any] = {}
+        self.exit_status: Optional[str] = None
+        self.externals: Dict[str, Any] = {}
+        self.doc_timestamp: Optional[float] = None
+        self.metadata: Dict[str, Any] = {}
+        self.plan_name: Optional[str] = None
+        self.positioners: List[str] = []
+        self.scanning: bool = False
+        self.scan_id: Optional[int] = None
+        self.streams: Dict[str, List[str]] = {}
+        self.start_time: Optional[float] = None
+        self.stop_reason: Optional[str] = None
+        self.stop_time: Optional[float] = None
+        self.uid: Optional[str] = None
 
     @property
-    def file_name(self):
+    def file_name(self) -> Optional[pathlib.Path]:
         return self._file_name
 
     @file_name.setter
-    def file_name(self, value):
+    def file_name(self, value: Union[str, pathlib.Path]) -> None:
         self._file_name = pathlib.Path(value)
 
     @property
-    def file_path(self):
+    def file_path(self) -> Optional[pathlib.Path]:
         return self._file_path
 
     @file_path.setter
-    def file_path(self, value):
+    def file_path(self, value: Union[str, pathlib.Path]) -> None:
         self._file_path = pathlib.Path(value)
 
-    def get_hklpy_configurations(self, doc: dict) -> dict:
+    def get_hklpy_configurations(self, doc: Dict[str, Any]) -> Dict[str, Dict[str, Any]]:
         """Diffractometer details (from hklpy) in RE descriptor documents."""
-        configurations = {}  # zero, one, or more diffractometers are possible
+        configurations: Dict[str, Dict[str, Any]] = {}  # zero, one, or more diffractometers are possible
         for diffractometer_name in doc.get("configuration", {}):
             record = doc["configuration"][diffractometer_name].get("data", {})
             attrs = record.get(f"{diffractometer_name}_orientation_attrs")
@@ -147,7 +148,7 @@ class FileWriterCallbackBase:
                 }
         return configurations
 
-    def make_file_name(self):
+    def make_file_name(self) -> pathlib.Path:
         """
         generate a file name to be used as default
 
@@ -170,7 +171,7 @@ class FileWriterCallbackBase:
         path = self.file_path or pathlib.Path(".")
         return path / fname
 
-    def writer(self):
+    def writer(self) -> None:
         """
         print summary of run as diagnostic
 
@@ -189,7 +190,7 @@ class FileWriterCallbackBase:
             tbl.addRow((k, getattr(self, k)))
         print(tbl)
 
-        def trim(value, length=60):
+        def trim(value: Any, length: int = 60) -> str:
             text = str(value)
             if len(text) > length:
                 text = text[: length - 3] + "..."
@@ -228,7 +229,7 @@ class FileWriterCallbackBase:
 
     # - - - - - - - - - - - - - - -
 
-    def bulk_events(self, doc):
+    def bulk_events(self, doc: Dict[str, Any]) -> None:
         """Deprecated. Use EventPage instead."""
         if not self.scanning:
             return
@@ -236,7 +237,7 @@ class FileWriterCallbackBase:
         logger.info(doc)
         logger.info("-" * 40)
 
-    def datum(self, doc):
+    def datum(self, doc: Dict[str, Any]) -> None:
         """
         Like an event, but for data recorded outside of bluesky.
 
@@ -248,110 +249,125 @@ class FileWriterCallbackBase:
             datum_kwargs    :
             HDF5_file_name  : /mnt/usaxscontrol/USAXS_data/2020-06/06_10_Minjee_waxs/AGIX3N1_0699.hdf
             point_number    : 0
-            resource        : 621caa0f-70f1-4e3d-8718-b5123d434502
         """
         if not self.scanning:
             return
-        # stash the whole thing (sort this out in the writer)
-        ext = self.externals[doc["datum_id"]] = dict(doc)
-        ext["_document_type_"] = "datum"
+        logger.info("datum document")
+        logger.info(doc)
+        logger.info("-" * 40)
 
-    def descriptor(self, doc):
+    def descriptor(self, doc: Dict[str, Any]) -> None:
         """
-        description of the data stream to be acquired
+        Process a descriptor document.
+
+        Example::
+
+            Descriptor
+            =========
+            configuration  : {}
+            data_keys     : {}
+            hints        : {}
+            name         : primary
+            object_keys  : {}
+            run_metadata : {}
+            time         : 1621451234.123456
+            uid          : 621caa0f-70f1-4e3d-8718-b5123d434502
         """
         if not self.scanning:
             return
-        stream = doc["name"]
-        uid = doc["uid"]
+        logger.info("descriptor document")
+        logger.info(doc)
+        logger.info("-" * 40)
 
-        if stream not in self.streams:
-            self.streams[stream] = []
-        self.streams[stream].append(uid)
-
-        if uid not in self.acquisitions:
-            self.acquisitions[uid] = dict(stream=stream, data={})
-        data = self.acquisitions[uid]["data"]
-        for k, entry in doc["data_keys"].items():
-            # logger.debug("entry %s: %s", k, entry)
-            dd = data[k] = {}
-            dd["source"] = entry.get("source", "local")
-            dd["dtype"] = entry.get("dtype", "")
-            dd["shape"] = entry.get("shape", [])
-            dd["units"] = entry.get("units", "")
-            dd["lower_ctrl_limit"] = entry.get("lower_ctrl_limit", "")
-            dd["upper_ctrl_limit"] = entry.get("upper_ctrl_limit", "")
-            dd["precision"] = entry.get("precision", 0)
-            dd["object_name"] = entry.get("object_name", k)
-            dd["data"] = []  # entry data goes here
-            dd["time"] = []  # entry time stamps here
-            dd["external"] = entry.get("external") is not None
-            # logger.debug("dd %s: %s", k, data[k])
-        
-        # Gather any available diffractometer configurations.
-        self.diffractometers.update(self.get_hklpy_configurations(doc))
-
-    def event(self, doc):
+    def event(self, doc: Dict[str, Any]) -> None:
         """
-        a single "row" of data
+        Process an event document.
+
+        Example::
+
+            Event
+            =====
+            data         : {}
+            descriptor   : 621caa0f-70f1-4e3d-8718-b5123d434502
+            filled       : {}
+            seq_num      : 1
+            time         : 1621451234.123456
+            uid          : 621caa0f-70f1-4e3d-8718-b5123d434502/1
         """
         if not self.scanning:
             return
-        # uid = doc["uid"]
-        descriptor_uid = doc["descriptor"]
-        # seq_num = doc["seq_num"]
+        logger.info("event document")
+        logger.info(doc)
+        logger.info("-" * 40)
 
-        # gather the data by streams
-        descriptor = self.acquisitions.get(descriptor_uid)
-        if descriptor is not None:
-            for k, v in doc["data"].items():
-                data = descriptor["data"].get(k)
-                if data is None:
-                    print(f"entry key {k} not found in descriptor of {descriptor['stream']}")
-                else:
-                    data["data"].append(v)
-                    data["time"].append(doc["timestamps"][k])
-
-    def resource(self, doc):
+    def resource(self, doc: Dict[str, Any]) -> None:
         """
-        like a descriptor, but for data recorded outside of bluesky
+        Process a resource document.
+
+        Example::
+
+            Resource
+            ========
+            path_semantics : posix
+            resource_kwargs : {}
+            resource_path   : /mnt/usaxscontrol/USAXS_data/2020-06/06_10_Minjee_waxs/AGIX3N1_0699.hdf
+            root           : /mnt/usaxscontrol/USAXS_data
+            run_start      : 621caa0f-70f1-4e3d-8718-b5123d434502
+            spec           : AD_HDF5
+            uid            : 621caa0f-70f1-4e3d-8718-b5123d434502/0
         """
         if not self.scanning:
             return
-        # stash the whole thing (sort this out in the writer)
-        ext = self.externals[doc["uid"]] = dict(doc)
-        ext["_document_type_"] = "resource"
+        logger.info("resource document")
+        logger.info(doc)
+        logger.info("-" * 40)
 
-    def start(self, doc):
+    def start(self, doc: Dict[str, Any]) -> None:
         """
-        beginning of a run, clear cache and collect metadata
+        Process a start document.
+
+        Example::
+
+            Start
+            =====
+            plan_args     : {}
+            plan_name     : count
+            scan_id       : 1
+            time          : 1621451234.123456
+            uid           : 621caa0f-70f1-4e3d-8718-b5123d434502
         """
-        self.clear()
-        self.plan_name = doc["plan_name"]
         self.scanning = True
-        self.scan_id = doc["scan_id"] or 0
-        self.start_time = doc["time"]
-        self.uid = doc["uid"]
-        self.detectors = doc.get("detectors", [])
-        self.positioners = doc.get("positioners") or doc.get("motors") or []
+        self.start_time = doc.get("time")
+        self.scan_id = doc.get("scan_id")
+        self.uid = doc.get("uid")
+        self.plan_name = doc.get("plan_name")
+        self.metadata = doc.get("run_metadata", {})
+        logger.info("start document")
+        logger.info(doc)
+        logger.info("-" * 40)
 
-        # gather the metadata
-        for k, v in doc.items():
-            if k in "scan_id time uid".split():
-                continue
-            self.metadata[k] = v
+    def stop(self, doc: Dict[str, Any]) -> None:
+        """
+        Process a stop document.
 
-    def stop(self, doc):
+        Example::
+
+            Stop
+            ====
+            exit_status   : success
+            num_events    : {}
+            reason        : None
+            run_start     : 621caa0f-70f1-4e3d-8718-b5123d434502
+            time          : 1621451234.123456
+            uid           : 621caa0f-70f1-4e3d-8718-b5123d434502
         """
-        end of the run, end collection and initiate the ``writer()`` method
-        """
-        if not self.scanning:
-            return
-        self.exit_status = doc["exit_status"]
-        self.stop_reason = doc.get("reason", "not available")
-        self.stop_time = doc["time"]
         self.scanning = False
-
+        self.stop_time = doc.get("time")
+        self.exit_status = doc.get("exit_status")
+        self.stop_reason = doc.get("reason")
+        logger.info("stop document")
+        logger.info(doc)
+        logger.info("-" * 40)
         self.writer()
 
 

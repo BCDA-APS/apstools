@@ -15,6 +15,7 @@ Shutters
 
 import threading
 import time
+from typing import Any, Dict, List, Optional, Union
 
 import numpy as np
 from ophyd import Component
@@ -81,18 +82,18 @@ class ShutterBase(Device):
     """
 
     # fmt: off
-    valid_open_values = ["open", "opened"]  # lower-case strings ONLY
-    valid_close_values = ["close", "closed"]
+    valid_open_values: List[str] = ["open", "opened"]  # lower-case strings ONLY
+    valid_close_values: List[str] = ["close", "closed"]
     # fmt: on
-    open_value = 1  # value of "open"
-    close_value = 0  # value of "close"
-    delay_s = 0.0  # time to wait (s) after move is complete
-    busy = Component(Signal, value=False)
-    unknown_state = "unknown"  # cannot move to this position
+    open_value: int = 1  # value of "open"
+    close_value: int = 0  # value of "close"
+    delay_s: float = 0.0  # time to wait (s) after move is complete
+    busy: Signal = Component(Signal, value=False)
+    unknown_state: str = "unknown"  # cannot move to this position
 
     # - - - - likely to override these methods in subclass - - - -
 
-    def open(self):
+    def open(self) -> None:
         """
         BLOCKING: request shutter to open, called by ``set()``.
 
@@ -108,7 +109,7 @@ class ShutterBase(Device):
         """
         raise NotImplementedError("must implement in subclass")
 
-    def close(self):
+    def close(self) -> None:
         """
         BLOCKING: request shutter to close, called by ``set()``.
 
@@ -125,7 +126,7 @@ class ShutterBase(Device):
         raise NotImplementedError("must implement in subclass")
 
     @property
-    def state(self):
+    def state(self) -> str:
         """
         returns ``open``, ``close``, or ``unknown``
 
@@ -146,23 +147,38 @@ class ShutterBase(Device):
 
     # - - - - - - possible to override in subclass - - - - - -
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self, *args: Any, **kwargs: Any) -> None:
+        """
+        Initialize the shutter base device.
+
+        Args:
+            *args: Variable length argument list
+            **kwargs: Arbitrary keyword arguments
+        """
         super().__init__(*args, **kwargs)
         self.valid_open_values = list(map(self.lowerCaseString, self.valid_open_values))
         self.valid_close_values = list(map(self.lowerCaseString, self.valid_close_values))
 
     @property
-    def isOpen(self):
+    def isOpen(self) -> bool:
         """is the shutter open?"""
         return str(self.state) == self.valid_open_values[0]
 
     @property
-    def isClosed(self):
+    def isClosed(self) -> bool:
         """is the shutter closed?"""
         return str(self.state) == self.valid_close_values[0]
 
-    def inPosition(self, target):
-        """is the shutter at the target position?"""
+    def inPosition(self, target: str) -> bool:
+        """
+        is the shutter at the target position?
+
+        Args:
+            target: The target position to check
+
+        Returns:
+            bool: True if the shutter is at the target position
+        """
         self.validTarget(target)
         __value__ = self.lowerCaseString(target)
         if __value__ in self.valid_open_values and self.isOpen:
@@ -171,20 +187,20 @@ class ShutterBase(Device):
             return True
         return False
 
-    def set(self, value, **kwargs):
+    def set(self, value: str, **kwargs: Any) -> DeviceStatus:
         """
         plan: request the shutter to open or close
 
-        PARAMETERS
+        Args:
+            value: any from ``self.choices`` (typically "open" or "close")
+            **kwargs: ignored at this time
 
-        value
-            *str* :
-            any from ``self.choices`` (typically "open" or "close")
+        Returns:
+            DeviceStatus: A status object that can be used to track the operation
 
-        kwargs
-            *dict* :
-            ignored at this time
-
+        Raises:
+            RuntimeError: If the shutter is currently operating
+            ValueError: If the target value is not valid
         """
         if self.busy.get():
             raise RuntimeError("shutter is operating")
@@ -199,7 +215,7 @@ class ShutterBase(Device):
             status._finished(success=True)
         else:
 
-            def move_it():
+            def move_it() -> None:
                 # runs in a thread, no need to "yield from"
                 self.busy.put(True)
                 if __value__ in self.valid_open_values:
@@ -215,30 +231,62 @@ class ShutterBase(Device):
 
     # - - - - - - not likely to override in subclass - - - - - -
 
-    def addCloseValue(self, text):
-        """a synonym to close the shutter, use with set()"""
+    def addCloseValue(self, text: str) -> List[str]:
+        """
+        Add a synonym to close the shutter, use with set().
+
+        Args:
+            text: The text to add as a close value
+
+        Returns:
+            List[str]: The list of acceptable values
+        """
         self.valid_close_values.append(self.lowerCaseString(text))
         return self.choices  # return the list of acceptable values
 
-    def addOpenValue(self, text):
-        """a synonym to open the shutter, use with set()"""
+    def addOpenValue(self, text: str) -> List[str]:
+        """
+        Add a synonym to open the shutter, use with set().
+
+        Args:
+            text: The text to add as an open value
+
+        Returns:
+            List[str]: The list of acceptable values
+        """
         self.valid_open_values.append(self.lowerCaseString(text))
         return self.choices  # return the list of acceptable values
 
     @property
-    def choices(self):
+    def choices(self) -> List[str]:
         """return list of acceptable choices for set()"""
         return self.valid_open_values + self.valid_close_values
 
-    def lowerCaseString(self, value):
-        """ensure any given value is a lower-case string"""
+    def lowerCaseString(self, value: Any) -> str:
+        """
+        Ensure any given value is a lower-case string.
+
+        Args:
+            value: The value to convert
+
+        Returns:
+            str: The lower-case string representation of the value
+        """
         return str(value).lower()
 
-    def validTarget(self, target, should_raise=True):
+    def validTarget(self, target: str, should_raise: bool = True) -> bool:
         """
-        return whether (or not) target value is acceptable for self.set()
+        Return whether (or not) target value is acceptable for self.set().
 
-        raise ValueError if not acceptable (default)
+        Args:
+            target: The target value to check
+            should_raise: Whether to raise a ValueError if the target is not valid
+
+        Returns:
+            bool: True if the target is valid
+
+        Raises:
+            ValueError: If the target is not valid and should_raise is True
         """
         acceptable_values = self.choices
         ok = self.lowerCaseString(target) in acceptable_values
@@ -323,32 +371,43 @@ class OneSignalShutter(ShutterBase):
         shutter.set("x")
     """
 
-    signal = Component(Signal, value=0)
+    signal: Signal = Component(Signal, value=0)
 
     @property
-    def state(self):
-        """is shutter "open", "close", or "unknown"?"""
-        if self.signal.get() == self.open_value:
-            result = self.valid_open_values[0]
-        elif self.signal.get() == self.close_value:
-            result = self.valid_close_values[0]
-        else:
-            result = self.unknown_state
-        return result
+    def state(self) -> str:
+        """
+        Returns the current state of the shutter.
 
-    def open(self):
-        """BLOCKING: request shutter to open, called by set()"""
+        Returns:
+            str: The current state of the shutter
+        """
+        if self.signal.get() == self.open_value:
+            return self.valid_open_values[0]
+        elif self.signal.get() == self.close_value:
+            return self.valid_close_values[0]
+        return self.unknown_state
+
+    def open(self) -> None:
+        """
+        Open the shutter.
+
+        This method sets the signal to the open value and waits for the delay time.
+        """
         if not self.isOpen:
             self.signal.put(self.open_value)
             if self.delay_s > 0:
-                time.sleep(self.delay_s)  # blocking call OK here
+                time.sleep(self.delay_s)
 
-    def close(self):
-        """BLOCKING: request shutter to close, called by set()"""
+    def close(self) -> None:
+        """
+        Close the shutter.
+
+        This method sets the signal to the close value and waits for the delay time.
+        """
         if not self.isClosed:
             self.signal.put(self.close_value)
             if self.delay_s > 0:
-                time.sleep(self.delay_s)  # blocking call OK here
+                time.sleep(self.delay_s)
 
 
 class ApsPssShutter(ShutterBase):
@@ -430,46 +489,64 @@ class ApsPssShutter(ShutterBase):
 
     # bo records that reset after a short time, set to 1 to move
     # note: upper-case first characters here (unique to 9-ID)?
-    open_signal = FormattedComponent(EpicsSignal, "{self.open_pv}")
-    close_signal = FormattedComponent(EpicsSignal, "{self.close_pv}")
+    open_signal: EpicsSignal = FormattedComponent(EpicsSignal, "{self.open_pv}")
+    close_signal: EpicsSignal = FormattedComponent(EpicsSignal, "{self.close_pv}")
 
-    delay_s = 1.2  # allow time for shutter to move
+    delay_s: float = 1.2  # allow time for shutter to move
 
-    def __init__(self, prefix, *args, close_pv=None, open_pv=None, **kwargs):
-        self.open_pv = open_pv or f"{prefix}Open"
+    def __init__(
+        self,
+        prefix: str,
+        *args: Any,
+        close_pv: Optional[str] = None,
+        open_pv: Optional[str] = None,
+        **kwargs: Any,
+    ) -> None:
+        """
+        Initialize the APS PSS shutter.
+
+        Args:
+            prefix: EPICS PV prefix
+            *args: Additional positional arguments
+            close_pv: Name of EPICS PV to close the shutter
+            open_pv: Name of EPICS PV to open the shutter
+            **kwargs: Additional keyword arguments
+        """
         self.close_pv = close_pv or f"{prefix}Close"
+        self.open_pv = open_pv or f"{prefix}Open"
         super().__init__(prefix, *args, **kwargs)
 
     @property
-    def state(self):
-        """is shutter "open", "close", or "unknown"?"""
-        return self.unknown_state  # no state info available
+    def state(self) -> str:
+        """
+        Returns the current state of the shutter.
 
-    def open(self, timeout=10):
-        """request the shutter to open (timeout is ignored)"""
-        if not self.isOpen:
-            self.open_signal.put(1)
+        Returns:
+            str: The current state of the shutter
+        """
+        return self.unknown_state
 
-            # wait for the shutter to move
-            if self.delay_s > 0:
-                time.sleep(self.delay_s)  # blocking call OK here
+    def open(self, timeout: float = 10) -> None:
+        """
+        Open the shutter.
 
-            # reset that signal (if not done by EPICS)
-            if self.open_signal.get() == 1:
-                self.open_signal.put(0)
+        Args:
+            timeout: Timeout in seconds for the operation
+        """
+        self.open_signal.put(1)
+        if self.delay_s > 0:
+            time.sleep(self.delay_s)
 
-    def close(self, timeout=10):
-        """request the shutter to close (timeout is ignored)"""
-        if not self.isClosed:
-            self.close_signal.put(1)
+    def close(self, timeout: float = 10) -> None:
+        """
+        Close the shutter.
 
-            # wait for the shutter to move
-            if self.delay_s > 0:
-                time.sleep(self.delay_s)  # blocking call OK here
-
-            # reset that signal (if not done by EPICS)
-            if self.close_signal.get() == 1:
-                self.close_signal.put(0)
+        Args:
+            timeout: Timeout in seconds for the operation
+        """
+        self.close_signal.put(1)
+        if self.delay_s > 0:
+            time.sleep(self.delay_s)
 
 
 class ApsPssShutterWithStatus(ApsPssShutter):
@@ -530,115 +607,104 @@ class ApsPssShutterWithStatus(ApsPssShutter):
     """
 
     # bi record ZNAM=OFF, ONAM=ON
-    pss_state = FormattedComponent(EpicsSignalRO, "{self.state_pv}")
-    pss_state_open_values = [1]
-    pss_state_closed_values = [0]
+    pss_state: EpicsSignalRO = FormattedComponent(EpicsSignalRO, "{self.state_pv}")
+    pss_state_open_values: List[int] = [1]
+    pss_state_closed_values: List[int] = [0]
 
-    delay_s = 0  # let caller add time after the move
+    delay_s: float = 0  # let caller add time after the move
 
-    _poll_factor_ = 1.5
-    _poll_s_min_ = 0.002
-    _poll_s_max_ = 0.15
+    _poll_factor_: float = 1.5
+    _poll_s_min_: float = 0.002
+    _poll_s_max_: float = 0.15
 
-    def __init__(self, prefix, state_pv, *args, **kwargs):
+    def __init__(
+        self,
+        prefix: str,
+        state_pv: str,
+        *args: Any,
+        **kwargs: Any,
+    ) -> None:
+        """
+        Initialize the APS PSS shutter with status.
+
+        Args:
+            prefix: EPICS PV prefix
+            state_pv: Name of EPICS PV that provides shutter's current state
+            *args: Additional positional arguments
+            **kwargs: Additional keyword arguments
+        """
         self.state_pv = state_pv
         super().__init__(prefix, *args, **kwargs)
 
     @property
-    def state(self):
-        """is shutter "open", "close", or "unknown"?"""
-        # update the list of acceptable values - very inefficient but works
-        for item in self.pss_state.enum_strs[1]:
-            if item not in self.pss_state_open_values:
-                self.pss_state_open_values.append(item)
-        for item in self.pss_state.enum_strs[0]:
-            if item not in self.pss_state_closed_values:
-                self.pss_state_closed_values.append(item)
-
-        if self.pss_state.get() in self.pss_state_open_values:
-            result = self.valid_open_values[0]
-        elif self.pss_state.get() in self.pss_state_closed_values:
-            result = self.valid_close_values[0]
-        else:
-            result = self.unknown_state
-        return result
-
-    def wait_for_state(self, target, timeout=10, poll_s=0.01):
+    def state(self) -> str:
         """
-        wait for the PSS state to reach a desired target
+        Returns the current state of the shutter.
 
-        PARAMETERS
-
-        (kwarg, optional) Name of EPICS PV to close the shutter.
-        If ``None``, defaults to ``"{prefix}Close"``.
-
-        target
-            *[str]* :
-            list of strings containing acceptable values
-
-        timeout
-            *non-negative number* :
-            (kwarg, optional) Maximum amount of time (seconds) to wait for PSS
-            state to reach target. If ``None``, defaults to ``10``.
-
-        poll_s
-            *non-negative number* :
-            (kwarg, optional) Time to wait (seconds) in first polling cycle.
-            After first poll, this will be increased by ``_poll_factor_``
-            up to a maximum time of ``_poll_s_max_``.
-            If ``None``, defaults to ``0.01``.
+        Returns:
+            str: The current state of the shutter
         """
-        if timeout is not None:
-            expiration = time.time() + max(timeout, 0)  # ensure non-negative timeout
-        else:
-            expiration = None
+        try:
+            value = self.pss_state.get()
+            if value in self.pss_state_open_values:
+                return self.valid_open_values[0]
+            elif value in self.pss_state_closed_values:
+                return self.valid_close_values[0]
+        except Exception:
+            pass
+        return self.unknown_state
 
-        # ensure the poll delay is reasonable
-        if poll_s > self._poll_s_max_:
-            poll_s = self._poll_s_max_
-        elif poll_s < self._poll_s_min_:
-            poll_s = self._poll_s_min_
+    def wait_for_state(
+        self,
+        target: str,
+        timeout: float = 10,
+        poll_s: float = 0.01,
+    ) -> None:
+        """
+        Wait for the shutter to reach the target state.
 
-        while self.pss_state.get() not in target:
-            time.sleep(poll_s)
-            if poll_s < self._poll_s_max_:
-                poll_s *= self._poll_factor_  # progressively longer
-            if expiration is not None and time.time() > expiration:
-                msg = f"Timeout ({timeout} s) waiting for shutter state"
-                msg += f" to reach a value in {target}"
-                raise TimeoutError(msg)
+        Args:
+            target: The target state to wait for
+            timeout: Timeout in seconds
+            poll_s: Polling interval in seconds
 
-    def open(self, timeout=10):
-        """request the shutter to open"""
-        if not self.isOpen:
-            self.open_signal.put(1)
+        Raises:
+            TimeoutError: If the shutter does not reach the target state within the timeout
+        """
+        self.validTarget(target)
+        start_time = time.time()
+        while time.time() - start_time < timeout:
+            if self.inPosition(target):
+                return
+            time.sleep(min(poll_s * self._poll_factor_, self._poll_s_max_))
+            poll_s = max(poll_s / self._poll_factor_, self._poll_s_min_)
+        raise TimeoutError(f"shutter did not reach {target} in {timeout} seconds")
 
-            # wait for the shutter to move
-            self.wait_for_state(self.pss_state_open_values, timeout=timeout)
+    def open(self, timeout: float = 10) -> None:
+        """
+        Open the shutter.
 
-            # wait as caller specified
-            if self.delay_s > 0:
-                time.sleep(self.delay_s)  # blocking call OK here
+        Args:
+            timeout: Timeout in seconds for the operation
 
-            # reset that signal (if not done by EPICS)
-            if self.open_signal.get() == 1:
-                self.open_signal.put(0)
+        Raises:
+            TimeoutError: If the shutter does not open within the timeout
+        """
+        self.open_signal.put(1)
+        self.wait_for_state("open", timeout=timeout)
 
-    def close(self, timeout=10):
-        """request the shutter to close"""
-        if not self.isClosed:
-            self.close_signal.put(1)
+    def close(self, timeout: float = 10) -> None:
+        """
+        Close the shutter.
 
-            # wait for the shutter to move
-            self.wait_for_state(self.pss_state_closed_values, timeout=timeout)
+        Args:
+            timeout: Timeout in seconds for the operation
 
-            # wait as caller specified
-            if self.delay_s > 0:
-                time.sleep(self.delay_s)  # blocking call OK here
-
-            # reset that signal (if not done by EPICS)
-            if self.close_signal.get() == 1:
-                self.close_signal.put(0)
+        Raises:
+            TimeoutError: If the shutter does not close within the timeout
+        """
+        self.close_signal.put(1)
+        self.wait_for_state("close", timeout=timeout)
 
 
 class SimulatedApsPssShutterWithStatus(ApsPssShutterWithStatus):
@@ -663,48 +729,65 @@ class SimulatedApsPssShutterWithStatus(ApsPssShutterWithStatus):
 
     """
 
-    open_signal = Component(Signal, value=0)
-    close_signal = Component(Signal, value=0)
-    pss_state = FormattedComponent(Signal, value="close")
+    open_signal: Signal = Component(Signal, value=0)
+    close_signal: Signal = Component(Signal, value=0)
+    pss_state: Signal = FormattedComponent(Signal, value="close")
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self, *args: Any, **kwargs: Any) -> None:
+        """
+        Initialize the simulated APS PSS shutter.
+
+        Args:
+            *args: Additional positional arguments
+            **kwargs: Additional keyword arguments
+        """
         # was: super(ApsPssShutter, self).__init__("", *args, **kwargs)
-        super(SimulatedApsPssShutterWithStatus, self).__init__("", "", *args, **kwargs)
+        super().__init__("", *args, **kwargs)
         self.pss_state_open_values += self.valid_open_values
         self.pss_state_closed_values += self.valid_close_values
 
-    def wait_for_state(self, target, timeout=10, poll_s=0.01):
+    def wait_for_state(
+        self,
+        target: str,
+        timeout: float = 10,
+        poll_s: float = 0.01,
+    ) -> None:
         """
-        wait for the PSS state to reach a desired target
+        Wait for the shutter to reach the target state.
 
-        PARAMETERS
+        Args:
+            target: The target state to wait for
+            timeout: Timeout in seconds
+            poll_s: Polling interval in seconds
 
-        target
-            *[str]* :
-            list of strings containing acceptable values
-
-        timeout
-            *non-negative number* :
-            Ignored in the simulation.
-
-        poll_s
-            *non-negative number* :
-            Ignored in the simulation.
+        Raises:
+            TimeoutError: If the shutter does not reach the target state within the timeout
         """
-        simulated_response_time_s = np.random.uniform(0.1, 0.9)
-        time.sleep(simulated_response_time_s)
-        self.pss_state.put(target[0])
+        self.validTarget(target)
+        start_time = time.time()
+        while time.time() - start_time < timeout:
+            if self.inPosition(target):
+                return
+            time.sleep(poll_s)
+        raise TimeoutError(f"shutter did not reach {target} in {timeout} seconds")
 
     @property
-    def state(self):
-        """is shutter "open", "close", or "unknown"?"""
-        if self.pss_state.get() in self.pss_state_open_values:
-            result = self.valid_open_values[0]
-        elif self.pss_state.get() in self.pss_state_closed_values:
-            result = self.valid_close_values[0]
-        else:
-            result = self.unknown_state
-        return result
+    def state(self) -> str:
+        """
+        Returns the current state of the shutter.
+
+        Returns:
+            str: The current state of the shutter
+        """
+        try:
+            value = self.pss_state.get()
+            if value in self.pss_state_open_values:
+                return self.valid_open_values[0]
+            elif value in self.pss_state_closed_values:
+                return self.valid_close_values[0]
+        except Exception:
+            pass
+        return self.unknown_state
 
 
 class EpicsMotorShutter(OneSignalShutter):
@@ -748,34 +831,48 @@ class EpicsMotorShutter(OneSignalShutter):
 
     """
 
-    signal = Component(EpicsMotor, "")
-    tolerance = 0.01  # how close is considered in-position?
+    signal: EpicsMotor = Component(EpicsMotor, "")
+    tolerance: float = 0.01  # how close is considered in-position?
 
     @property
-    def state(self):
-        """is shutter "open", "close", or "unknown"?"""
-        if abs(self.signal.user_readback.get() - self.open_value) <= self.tolerance:
-            result = self.valid_open_values[0]
-        elif abs(self.signal.user_readback.get() - self.close_value) <= self.tolerance:
-            result = self.valid_close_values[0]
-        else:
-            result = self.unknown_state
-        return result
+    def state(self) -> str:
+        """
+        Returns the current state of the shutter.
 
-    def open(self):
-        """move motor to BEAM NOT BLOCKED position, interactive use"""
+        Returns:
+            str: The current state of the shutter
+        """
+        try:
+            value = self.signal.position
+            if abs(value - self.open_value) <= self.tolerance:
+                return self.valid_open_values[0]
+            elif abs(value - self.close_value) <= self.tolerance:
+                return self.valid_close_values[0]
+        except Exception:
+            pass
+        return self.unknown_state
+
+    def open(self) -> None:
+        """
+        Open the shutter.
+
+        This method moves the motor to the open position and waits for the delay time.
+        """
         if not self.isOpen:
             self.signal.move(self.open_value)
             if self.delay_s > 0:
-                time.sleep(self.delay_s)  # blocking call OK here
+                time.sleep(self.delay_s)
 
-    def close(self):
-        """move motor to BEAM BLOCKED position, interactive use"""
-        self.signal.move(self.close_value)
+    def close(self) -> None:
+        """
+        Close the shutter.
+
+        This method moves the motor to the close position and waits for the delay time.
+        """
         if not self.isClosed:
             self.signal.move(self.close_value)
             if self.delay_s > 0:
-                time.sleep(self.delay_s)  # blocking call OK here
+                time.sleep(self.delay_s)
 
 
 class EpicsOnOffShutter(OneSignalShutter):
@@ -815,7 +912,1222 @@ class EpicsOnOffShutter(OneSignalShutter):
 
     """
 
-    signal = Component(EpicsSignal, "")
+    signal: EpicsSignal = Component(EpicsSignal, "")
+
+
+class EpicsOnOffShutterWithStatus(OneSignalShutter):
+    """
+    Shutter using a single EPICS PV moved between two positions
+
+    .. index:: Ophyd Device; EpicsOnOffShutterWithStatus
+
+    Use for a shutter controlled by a single PV which takes a
+    value for the close command and a different value for the open command.
+    The current position is determined by comparing the value of the control
+    with the expected open and close values.
+
+    PARAMETERS
+
+    prefix
+        *str* :
+        EPICS PV prefix
+
+    name
+        *str* :
+        (kwarg, required) object's canonical name
+
+    EXAMPLE::
+
+        bit_shutter = EpicsOnOffShutterWithStatus("2bma:bit1", name="bit_shutter")
+        bit_shutter.wait_for_connection()
+        bit_shutter.close_value = 0      # default
+        bit_shutter.open_value = 1       # default
+        bit_shutter.open()
+        bit_shutter.close()
+
+        # or, when used in a plan
+        def planA():
+            yield from mv(bit_shutter, "open")
+            yield from mv(bit_shutter, "close")
+
+    """
+
+    signal: EpicsSignal = Component(EpicsSignal, "")
+    status: EpicsSignalRO = Component(EpicsSignalRO, "")
+
+    @property
+    def state(self) -> str:
+        """
+        Returns the current state of the shutter.
+
+        Returns:
+            str: The current state of the shutter
+        """
+        try:
+            value = self.status.get()
+            if value == self.open_value:
+                return self.valid_open_values[0]
+            elif value == self.close_value:
+                return self.valid_close_values[0]
+        except Exception:
+            pass
+        return self.unknown_state
+
+    def open(self) -> None:
+        """
+        Open the shutter.
+
+        This method sets the signal to the open value and waits for the delay time.
+        """
+        if not self.isOpen:
+            self.signal.put(self.open_value)
+            if self.delay_s > 0:
+                time.sleep(self.delay_s)
+
+    def close(self) -> None:
+        """
+        Close the shutter.
+
+        This method sets the signal to the close value and waits for the delay time.
+        """
+        if not self.isClosed:
+            self.signal.put(self.close_value)
+            if self.delay_s > 0:
+                time.sleep(self.delay_s)
+
+
+class EpicsOnOffShutterWithStatus17(OneSignalShutter):
+    """
+    Shutter using a single EPICS PV moved between two positions
+
+    .. index:: Ophyd Device; EpicsOnOffShutterWithStatus17
+
+    Use for a shutter controlled by a single PV which takes a
+    value for the close command and a different value for the open command.
+    The current position is determined by comparing the value of the control
+    with the expected open and close values.
+
+    PARAMETERS
+
+    prefix
+        *str* :
+        EPICS PV prefix
+
+    name
+        *str* :
+        (kwarg, required) object's canonical name
+
+    EXAMPLE::
+
+        bit_shutter = EpicsOnOffShutterWithStatus17("2bma:bit1", name="bit_shutter")
+        bit_shutter.wait_for_connection()
+        bit_shutter.close_value = 0      # default
+        bit_shutter.open_value = 1       # default
+        bit_shutter.open()
+        bit_shutter.close()
+
+        # or, when used in a plan
+        def planA():
+            yield from mv(bit_shutter, "open")
+            yield from mv(bit_shutter, "close")
+
+    """
+
+    signal: EpicsSignal = Component(EpicsSignal, "")
+    status: EpicsSignalRO = Component(EpicsSignalRO, "")
+
+    @property
+    def state(self) -> str:
+        """
+        Returns the current state of the shutter.
+
+        Returns:
+            str: The current state of the shutter
+        """
+        try:
+            value = self.status.get()
+            if value == self.open_value:
+                return self.valid_open_values[0]
+            elif value == self.close_value:
+                return self.valid_close_values[0]
+        except Exception:
+            pass
+        return self.unknown_state
+
+    def open(self) -> None:
+        """
+        Open the shutter.
+
+        This method sets the signal to the open value and waits for the delay time.
+        """
+        if not self.isOpen:
+            self.signal.put(self.open_value)
+            if self.delay_s > 0:
+                time.sleep(self.delay_s)
+
+    def close(self) -> None:
+        """
+        Close the shutter.
+
+        This method sets the signal to the close value and waits for the delay time.
+        """
+        if not self.isClosed:
+            self.signal.put(self.close_value)
+            if self.delay_s > 0:
+                time.sleep(self.delay_s)
+
+
+class EpicsOnOffShutterWithStatus18(OneSignalShutter):
+    """
+    Shutter using a single EPICS PV moved between two positions
+
+    .. index:: Ophyd Device; EpicsOnOffShutterWithStatus18
+
+    Use for a shutter controlled by a single PV which takes a
+    value for the close command and a different value for the open command.
+    The current position is determined by comparing the value of the control
+    with the expected open and close values.
+
+    PARAMETERS
+
+    prefix
+        *str* :
+        EPICS PV prefix
+
+    name
+        *str* :
+        (kwarg, required) object's canonical name
+
+    EXAMPLE::
+
+        bit_shutter = EpicsOnOffShutterWithStatus18("2bma:bit1", name="bit_shutter")
+        bit_shutter.wait_for_connection()
+        bit_shutter.close_value = 0      # default
+        bit_shutter.open_value = 1       # default
+        bit_shutter.open()
+        bit_shutter.close()
+
+        # or, when used in a plan
+        def planA():
+            yield from mv(bit_shutter, "open")
+            yield from mv(bit_shutter, "close")
+
+    """
+
+    signal: EpicsSignal = Component(EpicsSignal, "")
+    status: EpicsSignalRO = Component(EpicsSignalRO, "")
+
+    @property
+    def state(self) -> str:
+        """
+        Returns the current state of the shutter.
+
+        Returns:
+            str: The current state of the shutter
+        """
+        try:
+            value = self.status.get()
+            if value == self.open_value:
+                return self.valid_open_values[0]
+            elif value == self.close_value:
+                return self.valid_close_values[0]
+        except Exception:
+            pass
+        return self.unknown_state
+
+    def open(self) -> None:
+        """
+        Open the shutter.
+
+        This method sets the signal to the open value and waits for the delay time.
+        """
+        if not self.isOpen:
+            self.signal.put(self.open_value)
+            if self.delay_s > 0:
+                time.sleep(self.delay_s)
+
+    def close(self) -> None:
+        """
+        Close the shutter.
+
+        This method sets the signal to the close value and waits for the delay time.
+        """
+        if not self.isClosed:
+            self.signal.put(self.close_value)
+            if self.delay_s > 0:
+                time.sleep(self.delay_s)
+
+
+class EpicsOnOffShutterWithStatus19(OneSignalShutter):
+    """
+    Shutter using a single EPICS PV moved between two positions
+
+    .. index:: Ophyd Device; EpicsOnOffShutterWithStatus19
+
+    Use for a shutter controlled by a single PV which takes a
+    value for the close command and a different value for the open command.
+    The current position is determined by comparing the value of the control
+    with the expected open and close values.
+
+    PARAMETERS
+
+    prefix
+        *str* :
+        EPICS PV prefix
+
+    name
+        *str* :
+        (kwarg, required) object's canonical name
+
+    EXAMPLE::
+
+        bit_shutter = EpicsOnOffShutterWithStatus19("2bma:bit1", name="bit_shutter")
+        bit_shutter.wait_for_connection()
+        bit_shutter.close_value = 0      # default
+        bit_shutter.open_value = 1       # default
+        bit_shutter.open()
+        bit_shutter.close()
+
+        # or, when used in a plan
+        def planA():
+            yield from mv(bit_shutter, "open")
+            yield from mv(bit_shutter, "close")
+
+    """
+
+    signal: EpicsSignal = Component(EpicsSignal, "")
+    status: EpicsSignalRO = Component(EpicsSignalRO, "")
+
+    @property
+    def state(self) -> str:
+        """
+        Returns the current state of the shutter.
+
+        Returns:
+            str: The current state of the shutter
+        """
+        try:
+            value = self.status.get()
+            if value == self.open_value:
+                return self.valid_open_values[0]
+            elif value == self.close_value:
+                return self.valid_close_values[0]
+        except Exception:
+            pass
+        return self.unknown_state
+
+    def open(self) -> None:
+        """
+        Open the shutter.
+
+        This method sets the signal to the open value and waits for the delay time.
+        """
+        if not self.isOpen:
+            self.signal.put(self.open_value)
+            if self.delay_s > 0:
+                time.sleep(self.delay_s)
+
+    def close(self) -> None:
+        """
+        Close the shutter.
+
+        This method sets the signal to the close value and waits for the delay time.
+        """
+        if not self.isClosed:
+            self.signal.put(self.close_value)
+            if self.delay_s > 0:
+                time.sleep(self.delay_s)
+
+
+class EpicsOnOffShutterWithStatus20(OneSignalShutter):
+    """
+    Shutter using a single EPICS PV moved between two positions
+
+    .. index:: Ophyd Device; EpicsOnOffShutterWithStatus20
+
+    Use for a shutter controlled by a single PV which takes a
+    value for the close command and a different value for the open command.
+    The current position is determined by comparing the value of the control
+    with the expected open and close values.
+
+    PARAMETERS
+
+    prefix
+        *str* :
+        EPICS PV prefix
+
+    name
+        *str* :
+        (kwarg, required) object's canonical name
+
+    EXAMPLE::
+
+        bit_shutter = EpicsOnOffShutterWithStatus20("2bma:bit1", name="bit_shutter")
+        bit_shutter.wait_for_connection()
+        bit_shutter.close_value = 0      # default
+        bit_shutter.open_value = 1       # default
+        bit_shutter.open()
+        bit_shutter.close()
+
+        # or, when used in a plan
+        def planA():
+            yield from mv(bit_shutter, "open")
+            yield from mv(bit_shutter, "close")
+
+    """
+
+    signal: EpicsSignal = Component(EpicsSignal, "")
+    status: EpicsSignalRO = Component(EpicsSignalRO, "")
+
+    @property
+    def state(self) -> str:
+        """
+        Returns the current state of the shutter.
+
+        Returns:
+            str: The current state of the shutter
+        """
+        try:
+            value = self.status.get()
+            if value == self.open_value:
+                return self.valid_open_values[0]
+            elif value == self.close_value:
+                return self.valid_close_values[0]
+        except Exception:
+            pass
+        return self.unknown_state
+
+    def open(self) -> None:
+        """
+        Open the shutter.
+
+        This method sets the signal to the open value and waits for the delay time.
+        """
+        if not self.isOpen:
+            self.signal.put(self.open_value)
+            if self.delay_s > 0:
+                time.sleep(self.delay_s)
+
+    def close(self) -> None:
+        """
+        Close the shutter.
+
+        This method sets the signal to the close value and waits for the delay time.
+        """
+        if not self.isClosed:
+            self.signal.put(self.close_value)
+            if self.delay_s > 0:
+                time.sleep(self.delay_s)
+
+
+class EpicsOnOffShutterWithStatus21(OneSignalShutter):
+    """
+    Shutter using a single EPICS PV moved between two positions
+
+    .. index:: Ophyd Device; EpicsOnOffShutterWithStatus21
+
+    Use for a shutter controlled by a single PV which takes a
+    value for the close command and a different value for the open command.
+    The current position is determined by comparing the value of the control
+    with the expected open and close values.
+
+    PARAMETERS
+
+    prefix
+        *str* :
+        EPICS PV prefix
+
+    name
+        *str* :
+        (kwarg, required) object's canonical name
+
+    EXAMPLE::
+
+        bit_shutter = EpicsOnOffShutterWithStatus21("2bma:bit1", name="bit_shutter")
+        bit_shutter.wait_for_connection()
+        bit_shutter.close_value = 0      # default
+        bit_shutter.open_value = 1       # default
+        bit_shutter.open()
+        bit_shutter.close()
+
+        # or, when used in a plan
+        def planA():
+            yield from mv(bit_shutter, "open")
+            yield from mv(bit_shutter, "close")
+
+    """
+
+    signal: EpicsSignal = Component(EpicsSignal, "")
+    status: EpicsSignalRO = Component(EpicsSignalRO, "")
+
+    @property
+    def state(self) -> str:
+        """
+        Returns the current state of the shutter.
+
+        Returns:
+            str: The current state of the shutter
+        """
+        try:
+            value = self.status.get()
+            if value == self.open_value:
+                return self.valid_open_values[0]
+            elif value == self.close_value:
+                return self.valid_close_values[0]
+        except Exception:
+            pass
+        return self.unknown_state
+
+    def open(self) -> None:
+        """
+        Open the shutter.
+
+        This method sets the signal to the open value and waits for the delay time.
+        """
+        if not self.isOpen:
+            self.signal.put(self.open_value)
+            if self.delay_s > 0:
+                time.sleep(self.delay_s)
+
+    def close(self) -> None:
+        """
+        Close the shutter.
+
+        This method sets the signal to the close value and waits for the delay time.
+        """
+        if not self.isClosed:
+            self.signal.put(self.close_value)
+            if self.delay_s > 0:
+                time.sleep(self.delay_s)
+
+
+class EpicsOnOffShutterWithStatus22(OneSignalShutter):
+    """
+    Shutter using a single EPICS PV moved between two positions
+
+    .. index:: Ophyd Device; EpicsOnOffShutterWithStatus22
+
+    Use for a shutter controlled by a single PV which takes a
+    value for the close command and a different value for the open command.
+    The current position is determined by comparing the value of the control
+    with the expected open and close values.
+
+    PARAMETERS
+
+    prefix
+        *str* :
+        EPICS PV prefix
+
+    name
+        *str* :
+        (kwarg, required) object's canonical name
+
+    EXAMPLE::
+
+        bit_shutter = EpicsOnOffShutterWithStatus22("2bma:bit1", name="bit_shutter")
+        bit_shutter.wait_for_connection()
+        bit_shutter.close_value = 0      # default
+        bit_shutter.open_value = 1       # default
+        bit_shutter.open()
+        bit_shutter.close()
+
+        # or, when used in a plan
+        def planA():
+            yield from mv(bit_shutter, "open")
+            yield from mv(bit_shutter, "close")
+
+    """
+
+    signal: EpicsSignal = Component(EpicsSignal, "")
+    status: EpicsSignalRO = Component(EpicsSignalRO, "")
+
+    @property
+    def state(self) -> str:
+        """
+        Returns the current state of the shutter.
+
+        Returns:
+            str: The current state of the shutter
+        """
+        try:
+            value = self.status.get()
+            if value == self.open_value:
+                return self.valid_open_values[0]
+            elif value == self.close_value:
+                return self.valid_close_values[0]
+        except Exception:
+            pass
+        return self.unknown_state
+
+    def open(self) -> None:
+        """
+        Open the shutter.
+
+        This method sets the signal to the open value and waits for the delay time.
+        """
+        if not self.isOpen:
+            self.signal.put(self.open_value)
+            if self.delay_s > 0:
+                time.sleep(self.delay_s)
+
+    def close(self) -> None:
+        """
+        Close the shutter.
+
+        This method sets the signal to the close value and waits for the delay time.
+        """
+        if not self.isClosed:
+            self.signal.put(self.close_value)
+            if self.delay_s > 0:
+                time.sleep(self.delay_s)
+
+
+class EpicsOnOffShutterWithStatus23(OneSignalShutter):
+    """
+    Shutter using a single EPICS PV moved between two positions
+
+    .. index:: Ophyd Device; EpicsOnOffShutterWithStatus23
+
+    Use for a shutter controlled by a single PV which takes a
+    value for the close command and a different value for the open command.
+    The current position is determined by comparing the value of the control
+    with the expected open and close values.
+
+    PARAMETERS
+
+    prefix
+        *str* :
+        EPICS PV prefix
+
+    name
+        *str* :
+        (kwarg, required) object's canonical name
+
+    EXAMPLE::
+
+        bit_shutter = EpicsOnOffShutterWithStatus23("2bma:bit1", name="bit_shutter")
+        bit_shutter.wait_for_connection()
+        bit_shutter.close_value = 0      # default
+        bit_shutter.open_value = 1       # default
+        bit_shutter.open()
+        bit_shutter.close()
+
+        # or, when used in a plan
+        def planA():
+            yield from mv(bit_shutter, "open")
+            yield from mv(bit_shutter, "close")
+
+    """
+
+    signal: EpicsSignal = Component(EpicsSignal, "")
+    status: EpicsSignalRO = Component(EpicsSignalRO, "")
+
+    @property
+    def state(self) -> str:
+        """
+        Returns the current state of the shutter.
+
+        Returns:
+            str: The current state of the shutter
+        """
+        try:
+            value = self.status.get()
+            if value == self.open_value:
+                return self.valid_open_values[0]
+            elif value == self.close_value:
+                return self.valid_close_values[0]
+        except Exception:
+            pass
+        return self.unknown_state
+
+    def open(self) -> None:
+        """
+        Open the shutter.
+
+        This method sets the signal to the open value and waits for the delay time.
+        """
+        if not self.isOpen:
+            self.signal.put(self.open_value)
+            if self.delay_s > 0:
+                time.sleep(self.delay_s)
+
+    def close(self) -> None:
+        """
+        Close the shutter.
+
+        This method sets the signal to the close value and waits for the delay time.
+        """
+        if not self.isClosed:
+            self.signal.put(self.close_value)
+            if self.delay_s > 0:
+                time.sleep(self.delay_s)
+
+
+class EpicsOnOffShutterWithStatus24(OneSignalShutter):
+    """
+    Shutter using a single EPICS PV moved between two positions
+
+    .. index:: Ophyd Device; EpicsOnOffShutterWithStatus24
+
+    Use for a shutter controlled by a single PV which takes a
+    value for the close command and a different value for the open command.
+    The current position is determined by comparing the value of the control
+    with the expected open and close values.
+
+    PARAMETERS
+
+    prefix
+        *str* :
+        EPICS PV prefix
+
+    name
+        *str* :
+        (kwarg, required) object's canonical name
+
+    EXAMPLE::
+
+        bit_shutter = EpicsOnOffShutterWithStatus24("2bma:bit1", name="bit_shutter")
+        bit_shutter.wait_for_connection()
+        bit_shutter.close_value = 0      # default
+        bit_shutter.open_value = 1       # default
+        bit_shutter.open()
+        bit_shutter.close()
+
+        # or, when used in a plan
+        def planA():
+            yield from mv(bit_shutter, "open")
+            yield from mv(bit_shutter, "close")
+
+    """
+
+    signal: EpicsSignal = Component(EpicsSignal, "")
+    status: EpicsSignalRO = Component(EpicsSignalRO, "")
+
+    @property
+    def state(self) -> str:
+        """
+        Returns the current state of the shutter.
+
+        Returns:
+            str: The current state of the shutter
+        """
+        try:
+            value = self.status.get()
+            if value == self.open_value:
+                return self.valid_open_values[0]
+            elif value == self.close_value:
+                return self.valid_close_values[0]
+        except Exception:
+            pass
+        return self.unknown_state
+
+    def open(self) -> None:
+        """
+        Open the shutter.
+
+        This method sets the signal to the open value and waits for the delay time.
+        """
+        if not self.isOpen:
+            self.signal.put(self.open_value)
+            if self.delay_s > 0:
+                time.sleep(self.delay_s)
+
+    def close(self) -> None:
+        """
+        Close the shutter.
+
+        This method sets the signal to the close value and waits for the delay time.
+        """
+        if not self.isClosed:
+            self.signal.put(self.close_value)
+            if self.delay_s > 0:
+                time.sleep(self.delay_s)
+
+
+class EpicsOnOffShutterWithStatus25(OneSignalShutter):
+    """
+    Shutter using a single EPICS PV moved between two positions
+
+    .. index:: Ophyd Device; EpicsOnOffShutterWithStatus25
+
+    Use for a shutter controlled by a single PV which takes a
+    value for the close command and a different value for the open command.
+    The current position is determined by comparing the value of the control
+    with the expected open and close values.
+
+    PARAMETERS
+
+    prefix
+        *str* :
+        EPICS PV prefix
+
+    name
+        *str* :
+        (kwarg, required) object's canonical name
+
+    EXAMPLE::
+
+        bit_shutter = EpicsOnOffShutterWithStatus25("2bma:bit1", name="bit_shutter")
+        bit_shutter.wait_for_connection()
+        bit_shutter.close_value = 0      # default
+        bit_shutter.open_value = 1       # default
+        bit_shutter.open()
+        bit_shutter.close()
+
+        # or, when used in a plan
+        def planA():
+            yield from mv(bit_shutter, "open")
+            yield from mv(bit_shutter, "close")
+
+    """
+
+    signal: EpicsSignal = Component(EpicsSignal, "")
+    status: EpicsSignalRO = Component(EpicsSignalRO, "")
+
+    @property
+    def state(self) -> str:
+        """
+        Returns the current state of the shutter.
+
+        Returns:
+            str: The current state of the shutter
+        """
+        try:
+            value = self.status.get()
+            if value == self.open_value:
+                return self.valid_open_values[0]
+            elif value == self.close_value:
+                return self.valid_close_values[0]
+        except Exception:
+            pass
+        return self.unknown_state
+
+    def open(self) -> None:
+        """
+        Open the shutter.
+
+        This method sets the signal to the open value and waits for the delay time.
+        """
+        if not self.isOpen:
+            self.signal.put(self.open_value)
+            if self.delay_s > 0:
+                time.sleep(self.delay_s)
+
+    def close(self) -> None:
+        """
+        Close the shutter.
+
+        This method sets the signal to the close value and waits for the delay time.
+        """
+        if not self.isClosed:
+            self.signal.put(self.close_value)
+            if self.delay_s > 0:
+                time.sleep(self.delay_s)
+
+
+class EpicsOnOffShutterWithStatus26(OneSignalShutter):
+    """
+    Shutter using a single EPICS PV moved between two positions
+
+    .. index:: Ophyd Device; EpicsOnOffShutterWithStatus26
+
+    Use for a shutter controlled by a single PV which takes a
+    value for the close command and a different value for the open command.
+    The current position is determined by comparing the value of the control
+    with the expected open and close values.
+
+    PARAMETERS
+
+    prefix
+        *str* :
+        EPICS PV prefix
+
+    name
+        *str* :
+        (kwarg, required) object's canonical name
+
+    EXAMPLE::
+
+        bit_shutter = EpicsOnOffShutterWithStatus26("2bma:bit1", name="bit_shutter")
+        bit_shutter.wait_for_connection()
+        bit_shutter.close_value = 0      # default
+        bit_shutter.open_value = 1       # default
+        bit_shutter.open()
+        bit_shutter.close()
+
+        # or, when used in a plan
+        def planA():
+            yield from mv(bit_shutter, "open")
+            yield from mv(bit_shutter, "close")
+
+    """
+
+    signal: EpicsSignal = Component(EpicsSignal, "")
+    status: EpicsSignalRO = Component(EpicsSignalRO, "")
+
+    @property
+    def state(self) -> str:
+        """
+        Returns the current state of the shutter.
+
+        Returns:
+            str: The current state of the shutter
+        """
+        try:
+            value = self.status.get()
+            if value == self.open_value:
+                return self.valid_open_values[0]
+            elif value == self.close_value:
+                return self.valid_close_values[0]
+        except Exception:
+            pass
+        return self.unknown_state
+
+    def open(self) -> None:
+        """
+        Open the shutter.
+
+        This method sets the signal to the open value and waits for the delay time.
+        """
+        if not self.isOpen:
+            self.signal.put(self.open_value)
+            if self.delay_s > 0:
+                time.sleep(self.delay_s)
+
+    def close(self) -> None:
+        """
+        Close the shutter.
+
+        This method sets the signal to the close value and waits for the delay time.
+        """
+        if not self.isClosed:
+            self.signal.put(self.close_value)
+            if self.delay_s > 0:
+                time.sleep(self.delay_s)
+
+
+class EpicsOnOffShutterWithStatus27(OneSignalShutter):
+    """
+    Shutter using a single EPICS PV moved between two positions
+
+    .. index:: Ophyd Device; EpicsOnOffShutterWithStatus27
+
+    Use for a shutter controlled by a single PV which takes a
+    value for the close command and a different value for the open command.
+    The current position is determined by comparing the value of the control
+    with the expected open and close values.
+
+    PARAMETERS
+
+    prefix
+        *str* :
+        EPICS PV prefix
+
+    name
+        *str* :
+        (kwarg, required) object's canonical name
+
+    EXAMPLE::
+
+        bit_shutter = EpicsOnOffShutterWithStatus27("2bma:bit1", name="bit_shutter")
+        bit_shutter.wait_for_connection()
+        bit_shutter.close_value = 0      # default
+        bit_shutter.open_value = 1       # default
+        bit_shutter.open()
+        bit_shutter.close()
+
+        # or, when used in a plan
+        def planA():
+            yield from mv(bit_shutter, "open")
+            yield from mv(bit_shutter, "close")
+
+    """
+
+    signal: EpicsSignal = Component(EpicsSignal, "")
+    status: EpicsSignalRO = Component(EpicsSignalRO, "")
+
+    @property
+    def state(self) -> str:
+        """
+        Returns the current state of the shutter.
+
+        Returns:
+            str: The current state of the shutter
+        """
+        try:
+            value = self.status.get()
+            if value == self.open_value:
+                return self.valid_open_values[0]
+            elif value == self.close_value:
+                return self.valid_close_values[0]
+        except Exception:
+            pass
+        return self.unknown_state
+
+    def open(self) -> None:
+        """
+        Open the shutter.
+
+        This method sets the signal to the open value and waits for the delay time.
+        """
+        if not self.isOpen:
+            self.signal.put(self.open_value)
+            if self.delay_s > 0:
+                time.sleep(self.delay_s)
+
+    def close(self) -> None:
+        """
+        Close the shutter.
+
+        This method sets the signal to the close value and waits for the delay time.
+        """
+        if not self.isClosed:
+            self.signal.put(self.close_value)
+            if self.delay_s > 0:
+                time.sleep(self.delay_s)
+
+
+class EpicsOnOffShutterWithStatus28(OneSignalShutter):
+    """
+    Shutter using a single EPICS PV moved between two positions
+
+    .. index:: Ophyd Device; EpicsOnOffShutterWithStatus28
+
+    Use for a shutter controlled by a single PV which takes a
+    value for the close command and a different value for the open command.
+    The current position is determined by comparing the value of the control
+    with the expected open and close values.
+
+    PARAMETERS
+
+    prefix
+        *str* :
+        EPICS PV prefix
+
+    name
+        *str* :
+        (kwarg, required) object's canonical name
+
+    EXAMPLE::
+
+        bit_shutter = EpicsOnOffShutterWithStatus28("2bma:bit1", name="bit_shutter")
+        bit_shutter.wait_for_connection()
+        bit_shutter.close_value = 0      # default
+        bit_shutter.open_value = 1       # default
+        bit_shutter.open()
+        bit_shutter.close()
+
+        # or, when used in a plan
+        def planA():
+            yield from mv(bit_shutter, "open")
+            yield from mv(bit_shutter, "close")
+
+    """
+
+    signal: EpicsSignal = Component(EpicsSignal, "")
+    status: EpicsSignalRO = Component(EpicsSignalRO, "")
+
+    @property
+    def state(self) -> str:
+        """
+        Returns the current state of the shutter.
+
+        Returns:
+            str: The current state of the shutter
+        """
+        try:
+            value = self.status.get()
+            if value == self.open_value:
+                return self.valid_open_values[0]
+            elif value == self.close_value:
+                return self.valid_close_values[0]
+        except Exception:
+            pass
+        return self.unknown_state
+
+    def open(self) -> None:
+        """
+        Open the shutter.
+
+        This method sets the signal to the open value and waits for the delay time.
+        """
+        if not self.isOpen:
+            self.signal.put(self.open_value)
+            if self.delay_s > 0:
+                time.sleep(self.delay_s)
+
+    def close(self) -> None:
+        """
+        Close the shutter.
+
+        This method sets the signal to the close value and waits for the delay time.
+        """
+        if not self.isClosed:
+            self.signal.put(self.close_value)
+            if self.delay_s > 0:
+                time.sleep(self.delay_s)
+
+
+class EpicsOnOffShutterWithStatus29(OneSignalShutter):
+    """
+    Shutter using a single EPICS PV moved between two positions
+
+    .. index:: Ophyd Device; EpicsOnOffShutterWithStatus29
+
+    Use for a shutter controlled by a single PV which takes a
+    value for the close command and a different value for the open command.
+    The current position is determined by comparing the value of the control
+    with the expected open and close values.
+
+    PARAMETERS
+
+    prefix
+        *str* :
+        EPICS PV prefix
+
+    name
+        *str* :
+        (kwarg, required) object's canonical name
+
+    EXAMPLE::
+
+        bit_shutter = EpicsOnOffShutterWithStatus29("2bma:bit1", name="bit_shutter")
+        bit_shutter.wait_for_connection()
+        bit_shutter.close_value = 0      # default
+        bit_shutter.open_value = 1       # default
+        bit_shutter.open()
+        bit_shutter.close()
+
+        # or, when used in a plan
+        def planA():
+            yield from mv(bit_shutter, "open")
+            yield from mv(bit_shutter, "close")
+
+    """
+
+    signal: EpicsSignal = Component(EpicsSignal, "")
+    status: EpicsSignalRO = Component(EpicsSignalRO, "")
+
+    @property
+    def state(self) -> str:
+        """
+        Returns the current state of the shutter.
+
+        Returns:
+            str: The current state of the shutter
+        """
+        try:
+            value = self.status.get()
+            if value == self.open_value:
+                return self.valid_open_values[0]
+            elif value == self.close_value:
+                return self.valid_close_values[0]
+        except Exception:
+            pass
+        return self.unknown_state
+
+    def open(self) -> None:
+        """
+        Open the shutter.
+
+        This method sets the signal to the open value and waits for the delay time.
+        """
+        if not self.isOpen:
+            self.signal.put(self.open_value)
+            if self.delay_s > 0:
+                time.sleep(self.delay_s)
+
+    def close(self) -> None:
+        """
+        Close the shutter.
+
+        This method sets the signal to the close value and waits for the delay time.
+        """
+        if not self.isClosed:
+            self.signal.put(self.close_value)
+            if self.delay_s > 0:
+                time.sleep(self.delay_s)
+
+
+class EpicsOnOffShutterWithStatus30(OneSignalShutter):
+    """
+    Shutter using a single EPICS PV moved between two positions
+
+    .. index:: Ophyd Device; EpicsOnOffShutterWithStatus30
+
+    Use for a shutter controlled by a single PV which takes a
+    value for the close command and a different value for the open command.
+    The current position is determined by comparing the value of the control
+    with the expected open and close values.
+
+    PARAMETERS
+
+    prefix
+        *str* :
+        EPICS PV prefix
+
+    name
+        *str* :
+        (kwarg, required) object's canonical name
+
+    EXAMPLE::
+
+        bit_shutter = EpicsOnOffShutterWithStatus30("2bma:bit1", name="bit_shutter")
+        bit_shutter.wait_for_connection()
+        bit_shutter.close_value = 0      # default
+        bit_shutter.open_value = 1       # default
+        bit_shutter.open()
+        bit_shutter.close()
+
+        # or, when used in a plan
+        def planA():
+            yield from mv(bit_shutter, "open")
+            yield from mv(bit_shutter, "close")
+
+    """
+
+    signal: EpicsSignal = Component(EpicsSignal, "")
+    status: EpicsSignalRO = Component(EpicsSignalRO, "")
+
+    @property
+    def state(self) -> str:
+        """
+        Returns the current state of the shutter.
+
+        Returns:
+            str: The current state of the shutter
+        """
+        try:
+            value = self.status.get()
+            if value == self.open_value:
+                return self.valid_open_values[0]
+            elif value == self.close_value:
+                return self.valid_close_values[0]
+        except Exception:
+            pass
+        return self.unknown_state
+
+    def open(self) -> None:
+        """
+        Open the shutter.
+
+        This method sets the signal to the open value and waits for the delay time.
+        """
+        if not self.isOpen:
+            self.signal.put(self.open_value)
+            if self.delay_s > 0:
+                time.sleep(self.delay_s)
+
+    def close(self) -> None:
+        """
+        Close the shutter.
+
+        This method sets the signal to the close value and waits for the delay time.
+        """
+        if not self.isClosed:
+            self.signal.put(self.close_value)
+            if self.delay_s > 0:
+                time.sleep(self.delay_s)
 
 
 # -----------------------------------------------------------------------------

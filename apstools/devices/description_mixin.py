@@ -7,6 +7,8 @@ Mixin to add EPICS .DESC field
    ~EpicsDescriptionMixin
 """
 
+from typing import Any, Dict, Optional, Union
+
 from ophyd import Component
 from ophyd import EpicsSignal
 
@@ -15,9 +17,16 @@ from .mixin_base import DeviceMixinBase
 
 class EpicsDescriptionMixin(DeviceMixinBase):
     """
-    add a record's description field to a Device, such as EpicsMotor
+    Add a record's description field to a Device, such as EpicsMotor.
 
     .. index:: Ophyd Device Mixin; EpicsDescriptionMixin
+
+    This mixin adds a description field to EPICS devices by connecting to the
+    .DESC field of the EPICS record.
+
+    Attributes:
+        desc: An EpicsSignal component that connects to the .DESC field of the
+            EPICS record.
 
     EXAMPLE::
 
@@ -56,7 +65,28 @@ class EpicsDescriptionMixin(DeviceMixinBase):
             '''
     """
 
-    desc = Component(EpicsSignal, ".DESC")
+    desc: EpicsSignal = Component(EpicsSignal, ".DESC")
+
+    def __init__(
+        self,
+        name: str,
+        *,
+        parent: Optional[DeviceMixinBase] = None,
+        kind: str = "normal",
+        labels: Optional[list[str]] = None,
+        **kwargs: Any,
+    ) -> None:
+        """
+        Initialize the EPICS description mixin.
+
+        Args:
+            name: The name of the device
+            parent: The parent device, if any
+            kind: The kind of device
+            labels: List of labels associated with the device
+            **kwargs: Additional keyword arguments to pass to the parent class
+        """
+        super().__init__(name=name, parent=parent, kind=kind, labels=labels, **kwargs)
 
 
 # -----------------------------------------------------------------------------
