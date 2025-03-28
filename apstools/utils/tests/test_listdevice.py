@@ -2,6 +2,8 @@
 Unit tests for :mod:`~apstools._utils.device_info`.
 """
 
+from typing import Any, List, Optional, Tuple, Union
+
 import pytest
 from ophyd import Component
 from ophyd import Device
@@ -45,7 +47,7 @@ calcs.wait_for_connection()
 motor.wait_for_connection()
 
 
-def test_calcs():
+def test_calcs() -> None:
     assert calcs.connected
     assert calcs is not None
     assert isinstance(calcs, Device)
@@ -61,7 +63,7 @@ def test_calcs():
         (motor.user_setpoint, 1),
     ],
 )
-def test_listdevice(obj, length):
+def test_listdevice(obj: Any, length: int) -> None:
     result = listdevice(obj, scope="read")
     assert isinstance(result, TableStyle.pyRestTable.value)
     assert len(result.rows) == length
@@ -82,7 +84,7 @@ def test_listdevice(obj, length):
         (motor.user_setpoint, 1, EpicsSignalBase),
     ],
 )
-def test__list_epics_signals(obj, length, ref):
+def test__list_epics_signals(obj: Any, length: Optional[int], ref: Optional[type]) -> None:
     result = _list_epics_signals(obj)
     if length is None:
         assert result is None
@@ -112,7 +114,7 @@ def test__list_epics_signals(obj, length, ref):
         ("read", 0, "value", 0.0),
     ],
 )  # scope: full epics read
-def test_spotchecks(scope, row, column, value):
+def test_spotchecks(scope: Optional[str], row: int, column: str, value: Union[str, float, int]) -> None:
     assert calcs.connected
     if round(motor.position, 2) != 0:
         motor.move(0)
@@ -138,7 +140,7 @@ def test_spotchecks(scope, row, column, value):
         (calcs, None, True, 131),
     ],
 )
-def test_listdevice_filters(device, scope, ancient, length):
+def test_listdevice_filters(device: Device, scope: Optional[str], ancient: bool, length: int) -> None:
     result = listdevice(device, scope, show_ancient=ancient)
     assert len(result.rows) == length
 
@@ -173,7 +175,7 @@ def test_listdevice_filters(device, scope, ancient, length):
     ],
     # fmt: on
 )
-def test_listdevice_cname(device, scope, cnames):
+def test_listdevice_cname(device: Device, scope: str, cnames: List[str]) -> None:
     result = listdevice(device, scope, show_ancient=False, cname=True)
 
     col_num = result.labels.index("name")
@@ -188,7 +190,7 @@ def test_listdevice_cname(device, scope, cnames):
         [MyDevice, 135, 130],
     ],
 )
-def test_unconnectable(class_, num_lines, nc_item):
+def test_unconnectable(class_: type, num_lines: int, nc_item: int) -> None:
     device = class_("", name="device")
     assert not device.connected
 
@@ -202,7 +204,7 @@ def test_unconnectable(class_, num_lines, nc_item):
     "width",
     [None, 10, 20, 40, 80, 98, 99, 100, 101, 102, 120],
 )
-def test_maximum_column_width(width):
+def test_maximum_column_width(width: Optional[int]) -> None:
     device = MySignals(name="device")
     device.message.put("0123456789" * 10)
     assert len(device.message.get()) == 100
@@ -233,7 +235,7 @@ def test_maximum_column_width(width):
         [{"show_pv": True}, True, False, True],
     ],
 )
-def test_listdevice_show_pv(sig, has_cname, has_dname, has_PV):
+def test_listdevice_show_pv(sig: dict, has_cname: bool, has_dname: bool, has_PV: bool) -> None:
     line = str(listdevice(motor, **sig)).splitlines()[1].strip()
     if has_cname:
         assert line.split()[0] == "name", f"{line=}"
