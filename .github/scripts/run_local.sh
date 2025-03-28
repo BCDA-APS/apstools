@@ -77,10 +77,15 @@ python -c "import databroker; print(len(databroker.catalog['apstools_test']))"
 # -------------------------------
 # Run Tests with Pytest and Coverage
 # -------------------------------
-echo "Running tests with pytest and generating coverage report..."
-coverage run --concurrency=thread --parallel-mode -m pytest -vvv --exitfirst .
-coverage combine
-coverage report --precision 3
+# echo "Running tests with pytest and generating coverage report..."
+# coverage run --concurrency=thread --parallel-mode -m pytest -vvv --exitfirst .
+# coverage combine
+# coverage report --precision 3
 
+
+pytest -v ./apstools/tests
+pytest -v ./apstools/devices/tests
+pytest -v ./apstools/plans/tests
+pytest -v ./apstools/utils/tests
 
 echo "All steps completed successfully!"

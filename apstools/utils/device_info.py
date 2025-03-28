@@ -191,6 +191,14 @@ def listdevice(
                     dd["data name"].append(signal.name)
                 if show_pv:
                     dd["PV"].append(_get_pv(signal) or NOT_CONNECTED_VALUE)
+                if signal.connected:
+                    try:
+                        v = signal.get()
+                    except Exception as reason:
+                        v = str(reason)
+                else:
+                    v = NOT_CONNECTED_VALUE
+                dd["value"].append(v)
                 if use_datetime:
                     dd["timestamp"].append(datetime.datetime.fromtimestamp(ts) if ts > 0 else NOT_CONNECTED_VALUE)
                 dd["value"].append(getattr(signal, "value", NOT_CONNECTED_VALUE))
