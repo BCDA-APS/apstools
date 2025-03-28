@@ -734,15 +734,8 @@ class SimulatedApsPssShutterWithStatus(ApsPssShutterWithStatus):
     pss_state: Signal = FormattedComponent(Signal, value="close")
 
     def __init__(self, *args: Any, **kwargs: Any) -> None:
-        """
-        Initialize the simulated APS PSS shutter.
-
-        Args:
-            *args: Additional positional arguments
-            **kwargs: Additional keyword arguments
-        """
-        # was: super(ApsPssShutter, self).__init__("", *args, **kwargs)
-        super().__init__("", *args, **kwargs)
+        """Initialize the simulated shutter."""
+        super().__init__("sim:", "sim:state", *args, **kwargs)
         self.pss_state_open_values += self.valid_open_values
         self.pss_state_closed_values += self.valid_close_values
 

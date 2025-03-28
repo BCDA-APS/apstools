@@ -15,7 +15,7 @@ from typing import Any, Dict, Generator, List, Optional, Union
 
 from bluesky import plan_stubs as bps
 from bluesky import preprocessors as bpp
-from bluesky.callbacks import BestEffortCallback
+from bluesky.callbacks.best_effort import BestEffortCallback
 from ophyd import Device, Signal
 
 from ..utils import ipython_shell_namespace

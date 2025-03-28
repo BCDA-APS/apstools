@@ -24,7 +24,7 @@ from scipy.special import erf
 from bluesky import plan_stubs as bps
 from bluesky import plans as bp
 from bluesky import preprocessors as bpp
-from bluesky.callbacks import BestEffortCallback
+from bluesky.callbacks.best_effort import BestEffortCallback
 from bluesky.callbacks.fitting import PeakStats
 from ophyd import Component
 from ophyd import Device
