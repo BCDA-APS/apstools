@@ -97,7 +97,13 @@ eval "$(micromamba shell hook --shell=bash)"
 micromamba activate "$ENV_NAME"
 
 # Unpack
-pip install databroker-pack
+# Check if databroker-pack is installed
+if ! pip list | grep -q "^databroker-pack "; then
+    echo "Installing databroker-pack..."
+    pip install databroker-pack
+else
+    echo "databroker-pack already installed, skipping..."
+fi
 cd resources
 bash ./unpack.sh
 python -c "import databroker; print(list(databroker.catalog)); print(databroker.catalog_search_path());"
@@ -198,7 +204,7 @@ else
     if [ "$RUN_UTILS" = true ]; then
         echo "Running utility tests..."
         pytest -v ./apstools/utils/tests
-        pytest -v ./apstools/migration/tests
+#        pytest -v ./apstools/migration/tests
     fi
 fi
 

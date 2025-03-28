@@ -36,27 +36,6 @@ class EpicsScanIdSignal(EpicsSignal):
     (new in release 1.6.3)
     """
 
-    def __init__(
-        self,
-        name: str,
-        *,
-        parent: Optional[Any] = None,
-        kind: str = "normal",
-        labels: Optional[list[str]] = None,
-        **kwargs: Any,
-    ) -> None:
-        """
-        Initialize the EPICS scan ID signal.
-
-        Args:
-            name: The name of the signal
-            parent: The parent device, if any
-            kind: The kind of device
-            labels: List of labels associated with the device
-            **kwargs: Additional keyword arguments to pass to the parent class
-        """
-        super().__init__(name=name, parent=parent, kind=kind, labels=labels, **kwargs)
-
     def cb_scan_id_source(self, *args: Any, **kwargs: Any) -> int:
         """
         Callback function for RunEngine. Returns *next* scan_id to be used.
