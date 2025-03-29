@@ -27,7 +27,6 @@ Private Structures
 
 """
 
-
 from collections import OrderedDict
 
 from ophyd import Component as Cpt
@@ -39,7 +38,7 @@ from ophyd import FormattedComponent as FC
 from ophyd.status import DeviceStatus
 
 from .. import utils as APS_utils
-
+from typing import Any, Dict, Tuple, Type, Union
 
 class sscanPositioner(Device):
     """
@@ -72,11 +71,11 @@ class sscanPositioner(Device):
     mode = FC(EpicsSignal, "{self.prefix}.P{self._ch_num}SM", kind="config")
     units = FC(EpicsSignalRO, "{self.prefix}.P{self._ch_num}EU", kind="config")
 
-    def __init__(self, prefix, num, **kwargs):
+    def __init__(self, prefix: str, num: Union[int, str], **kwargs: Any) -> None:
         self._ch_num = num
         super().__init__(prefix, **kwargs)
 
-    def reset(self):
+    def reset(self) -> None:
         """set all fields to default values"""
         self.readback_pv.put("")
         self.setpoint_pv.put("")
@@ -89,7 +88,7 @@ class sscanPositioner(Device):
         self.mode.put("LINEAR")
 
     @property
-    def defined_in_EPICS(self):
+    def defined_in_EPICS(self) -> bool:
         """True if defined in EPICS"""
         return len(self.setpoint_pv.get().strip()) > 0
 
@@ -111,16 +110,16 @@ class sscanDetector(Device):
     current_value = FC(EpicsSignal, "{self.prefix}.D{self._ch_num}CV", kind="hinted")
     array = FC(EpicsSignal, "{self.prefix}.D{self._ch_num}CA", kind="omitted")
 
-    def __init__(self, prefix, num, **kwargs):
+    def __init__(self, prefix: str, num: Union[int, str], **kwargs: Any) -> None:
         self._ch_num = num
         super().__init__(prefix, **kwargs)
 
-    def reset(self):
+    def reset(self) -> None:
         """set all fields to default values"""
         self.input_pv.put("")
 
     @property
-    def defined_in_EPICS(self):
+    def defined_in_EPICS(self) -> bool:
         """True if defined in EPICS"""
         return len(self.input_pv.get().strip()) > 0
 
@@ -139,39 +138,39 @@ class sscanTrigger(Device):
     trigger_pv = FC(EpicsSignal, "{self.prefix}.T{self._ch_num}PV", kind="config")
     trigger_value = FC(EpicsSignal, "{self.prefix}.T{self._ch_num}CD", kind="config")
 
-    def __init__(self, prefix, num, **kwargs):
+    def __init__(self, prefix: str, num: Union[int, str], **kwargs: Any) -> None:
         self._ch_num = num
         super().__init__(prefix, **kwargs)
 
-    def reset(self):
+    def reset(self) -> None:
         """set all fields to default values"""
         self.trigger_pv.put("")
         self.trigger_value.put(1)
 
     @property
-    def defined_in_EPICS(self):
+    def defined_in_EPICS(self) -> bool:
         """True if defined in EPICS"""
         return len(self.trigger_pv.get().strip()) > 0
 
 
-def _sscan_positioners(channel_list):
-    defn = OrderedDict()
+def _sscan_positioners(channel_list: list[str]) -> OrderedDict[str, Tuple[Type[Device], str, Dict[str, Any]]]:
+    defn: OrderedDict[str, Tuple[Type[Device], str, Dict[str, Any]]] = OrderedDict()
     for chan in channel_list:
         attr = "p{}".format(chan)
         defn[attr] = (sscanPositioner, "", {"num": chan})
     return defn
 
 
-def _sscan_detectors(channel_list):
-    defn = OrderedDict()
+def _sscan_detectors(channel_list: list[str]) -> OrderedDict[str, Tuple[Type[Device], str, Dict[str, Any]]]:
+    defn: OrderedDict[str, Tuple[Type[Device], str, Dict[str, Any]]] = OrderedDict()
     for chan in channel_list:
         attr = "d{}".format(chan)
         defn[attr] = (sscanDetector, "", {"num": chan})
     return defn
 
 
-def _sscan_triggers(channel_list):
-    defn = OrderedDict()
+def _sscan_triggers(channel_list: list[str]) -> OrderedDict[str, Tuple[Type[Device], str, Dict[str, Any]]]:
+    defn: OrderedDict[str, Tuple[Type[Device], str, Dict[str, Any]]] = OrderedDict()
     for chan in channel_list:
         attr = "t{}".format(chan)
         defn[attr] = (sscanTrigger, "", {"num": chan})
@@ -228,17 +227,17 @@ class SscanRecord(Device):
     detectors = DDC(_sscan_detectors(APS_utils.itemizer("%02d", range(1, 71))))
     triggers = DDC(_sscan_triggers("1 2 3 4".split()))
 
-    def set(self, value, **kwargs):
+    def set(self, value: int, **kwargs: Any) -> Union[DeviceStatus, None]:
         """interface to use bps.mv()"""
         if value != 1:
             return
 
-        working_status = DeviceStatus(self)
-        started = False
+        working_status: DeviceStatus = DeviceStatus(self)
+        started: bool = False
 
-        def execute_scan_cb(value, timestamp, **kwargs):
-            value = int(value)
-            if started and value == 0:
+        def execute_scan_cb(value: Any, timestamp: Any, **kwargs: Any) -> None:
+            conv_value = int(value)
+            if started and conv_value == 0:
                 working_status._finished()
 
         self.execute_scan.subscribe(execute_scan_cb)
@@ -246,7 +245,7 @@ class SscanRecord(Device):
         started = True
         return working_status
 
-    def reset(self):
+    def reset(self) -> None:
         """set all fields to default values"""
         self.desc.put(self.desc.pvname.split(".")[0])
         self.number_points.put(1000)
@@ -276,12 +275,12 @@ class SscanRecord(Device):
         while self.wcnt.get() > 0:
             self.wait.put(0)
 
-    def select_channels(self):
+    def select_channels(self) -> None:
         """
         Select channels that are configured in EPICS
         """
         for part in (self.positioners, self.detectors, self.triggers):
-            channel_names = []  # part.get_configured_channels()
+            channel_names: list[str] = []  # part.get_configured_channels()
             # fmt: off
             channel_names = [
                 ch
@@ -295,10 +294,10 @@ class SscanRecord(Device):
             part.kind = "normal"
 
     @property
-    def defined_in_EPICS(self):
+    def defined_in_EPICS(self) -> bool:
         """True if will be used in EPICS"""
         self.select_channels()
-        channels = len(self.positioners.read_attrs)
+        channels: int = len(self.positioners.read_attrs)
         channels += len(self.detectors.read_attrs)
         # channels += len(self.triggers.read_attrs)
         return channels > 0
@@ -327,17 +326,17 @@ class SscanDevice(Device):
     scanH = Cpt(SscanRecord, "scanH")
     resume_delay = Cpt(EpicsSignal, "scanResumeSEQ.DLY1", kind="config")
 
-    def reset(self):
+    def reset(self) -> None:
         """set all fields to default values"""
         for chnum in "1 2 3 4 H".split():
             getattr(self, "scan" + chnum).reset()
 
-    def select_channels(self):
+    def select_channels(self) -> None:
         """
         Select only the scans that are configured in EPICS
         """
-        scans = ["scan" + ch for ch in "1 2 3 4 H".split()]
-        attrs = []
+        scans: list[str] = ["scan" + ch for ch in "1 2 3 4 H".split()]
+        attrs: list[str] = []
         for nm in self.component_names:
             if nm in scans and not getattr(self, nm).defined_in_EPICS:
                 continue
