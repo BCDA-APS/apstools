@@ -30,6 +30,7 @@ output of ophyd configuration to stdout
 """
 
 import re
+import argparse
 from collections import OrderedDict
 from typing import Union, Tuple, Optional, Dict, List, Any
 

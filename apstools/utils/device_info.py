@@ -7,7 +7,6 @@ Device information
    ~listdevice
 """
 
-
 import datetime
 from collections import defaultdict
 import logging
@@ -117,7 +116,7 @@ def listdevice(
 
         >>> listdevice(m1)
         ======================= ======= ==========================
-        data name               value   timestamp                 
+        data name               value   timestamp
         ======================= ======= ==========================
         m1                      0.0     2024-08-28 09:41:08.364137
         m1_user_setpoint        0.0     2024-08-28 09:41:08.364137

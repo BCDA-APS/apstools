@@ -436,7 +436,9 @@ class ApsPssShutter(ShutterBase):
 
     delay_s = 1.2  # allow time for shutter to move
 
-    def __init__(self, prefix: str, *args: Any, close_pv: Optional[str] = None, open_pv: Optional[str] = None, **kwargs: Any) -> None:
+    def __init__(
+        self, prefix: str, *args: Any, close_pv: Optional[str] = None, open_pv: Optional[str] = None, **kwargs: Any
+    ) -> None:
         self.open_pv = open_pv or f"{prefix}Open"
         self.close_pv = close_pv or f"{prefix}Close"
         super().__init__(prefix, *args, **kwargs)

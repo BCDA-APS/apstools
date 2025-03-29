@@ -35,11 +35,11 @@ CHANNEL_LETTERS_LIST: List[str] = "A B C D E F G H I J K L".split()
 class AcalcoutRecordChannel(Device):
     """
     Float channel of a acalcout record: A-L.
-    
+
     .. index:: Ophyd Device; synApps AcalcoutRecordChannel
-    
+
     .. autosummary::
-    
+
         ~reset
     """
 
@@ -75,11 +75,11 @@ class AcalcoutRecordChannel(Device):
 class AcalcoutArrayRecordChannel(Device):
     """
     Array channel of a acalcout record: A-L.
-    
+
     .. index:: Ophyd Device; synApps AcalcoutArrayRecordChannel
-    
+
     .. autosummary::
-    
+
         ~reset
     """
 
@@ -113,7 +113,7 @@ class AcalcoutArrayRecordChannel(Device):
 def _channels(channel_list: List[str]) -> OrderedDict[str, Tuple[Type[Device], str, Dict[str, Any]]]:
     """
     Create an OrderedDict mapping channels to their corresponding channel classes and parameters.
-    
+
     :param channel_list: List of channel letters.
     :return: OrderedDict with channel configurations.
     """

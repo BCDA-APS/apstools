@@ -189,18 +189,18 @@ else
         echo "Running main tests..."
         pytest -v ./apstools/tests
     fi
-    
+
     if [ "$RUN_DEVICES" = true ]; then
         echo "Running device tests..."
         pytest -v ./apstools/devices/tests
         pytest -v ./apstools/synApps/tests
     fi
-    
+
     if [ "$RUN_PLANS" = true ]; then
         echo "Running plan tests..."
         pytest -v ./apstools/plans/tests
     fi
-    
+
     if [ "$RUN_UTILS" = true ]; then
         echo "Running utility tests..."
         pytest -v ./apstools/utils/tests

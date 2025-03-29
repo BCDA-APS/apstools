@@ -199,7 +199,7 @@ def _setup_peak_calcout_(
     center: float = 0,
     width: float = 1,
     scale: float = 1,
-    noise: float = 0.05
+    noise: float = 0.05,
     # fmt: on
 ) -> None:
     """
@@ -269,7 +269,7 @@ def setup_gaussian_calcout(
     center: float = 0,
     width: float = 1,
     scale: float = 1,
-    noise: float = 0.05
+    noise: float = 0.05,
 ) -> None:
     """
     setup calcout for noisy Gaussian
@@ -326,7 +326,7 @@ def setup_lorentzian_calcout(
     center: float = 0,
     width: float = 1,
     scale: float = 1,
-    noise: float = 0.05
+    noise: float = 0.05,
 ) -> None:  # lgtm [py/similar-function]
     """
     setup calcout record for noisy Lorentzian
@@ -378,9 +378,7 @@ def setup_lorentzian_calcout(
 
 
 def setup_incrementer_calcout(
-    calcout: CalcoutRecord,
-    scan: Union[str, int, None] = None,
-    limit: int = 100000
+    calcout: CalcoutRecord, scan: Union[str, int, None] = None, limit: int = 100000
 ) -> None:
     """
     setup calcout record as an incrementer

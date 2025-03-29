@@ -63,6 +63,7 @@ def run_blocking_function(function: Callable[..., Any], *args: Any, **kwargs: An
 
     (new in release 1.6.3)
     """
+
     @run_in_thread
     def internal() -> threading.Thread:
         """
@@ -73,6 +74,7 @@ def run_blocking_function(function: Callable[..., Any], *args: Any, **kwargs: An
         """
         result: Any = function(*args, **kwargs)
         logger.debug("%s() result=%s", result)
+
     thread: threading.Thread = internal()
     while thread.is_alive():
         yield from bps.sleep(POLL_DELAY)

@@ -7,7 +7,6 @@ Base Class for File Writer Callbacks
    ~FileWriterCallbackBase
 """
 
-
 import datetime
 import logging
 import pathlib
@@ -288,7 +287,7 @@ class FileWriterCallbackBase:
             dd["time"] = []  # entry time stamps here
             dd["external"] = entry.get("external") is not None
             # logger.debug("dd %s: %s", k, data[k])
-        
+
         # Gather any available diffractometer configurations.
         self.diffractometers.update(self.get_hklpy_configurations(doc))
 

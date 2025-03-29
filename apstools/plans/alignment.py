@@ -634,7 +634,7 @@ class TuneAxis(object):
     or the :meth:`tune()` could be part of a plan with other steps.
 
     Example::
-    
+
         tuner = TuneAxis([det], axis)
         live_table = LiveTable(["axis", "det"])
         RE(tuner.multi_pass_tune(width=2, num=9), live_table)
@@ -859,7 +859,9 @@ class TuneAxis(object):
 
         self.stats = []
 
-        def _scan(width: float = 1, step_factor: float = 10, num: int = 10, snake: bool = True) -> Generator[Any, None, None]:
+        def _scan(
+            width: float = 1, step_factor: float = 10, num: int = 10, snake: bool = True
+        ) -> Generator[Any, None, None]:
             for _pass_number in range(pass_max):
                 logger.info("Multipass tune %d of %d", _pass_number + 1, pass_max)
                 _md: Dict[str, Any] = {
