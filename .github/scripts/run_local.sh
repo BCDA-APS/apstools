@@ -79,7 +79,7 @@ echo "Running tests:"
 cd $MAIN_DIR
 
 # Create a temp environment name
-ENV_NAME="bits_test1"
+ENV_NAME="bits_test"
 PYVER="3.11"
 
 # Check if environment exists
