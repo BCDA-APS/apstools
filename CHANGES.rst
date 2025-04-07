@@ -35,6 +35,7 @@ describe future plans.
    -----
 
    * Fix problem with detector selection for lineup2() reported by USAXS.
+   * Fix unit test involving package version string length.
 
    Maintenance
    -----------
