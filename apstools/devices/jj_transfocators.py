@@ -103,9 +103,8 @@ class JJtransfocator1x(JJtransfocator):
 
         self._pitch1_motor = pitch1_motor
         self._yaw1_motor = yaw1_motor
-        self._x1_motor = z1_motor
+        self._x1_motor = x1_motor
         self._y1_motor = y1_motor
-        self._z1_motor = z1_motor
 
         super().__init__(prefix, *args, **kwargs)
 
@@ -142,9 +141,8 @@ class JJtransfocator2x(JJtransfocator1x):
 
         self._pitch2_motor = pitch2_motor
         self._yaw2_motor = yaw2_motor
-        self._x2_motor = z2_motor
+        self._x2_motor = x2_motor
         self._y2_motor = y2_motor
-        self._z2_motor = z2_motor
 
         super().__init__(prefix, *args, **kwargs)
     
