@@ -74,6 +74,39 @@ dependencies = [
   "xlrd",
 ]
 
+[project.optional-dependencies]
+dev = [
+  "build",
+  "coverage",
+  "coveralls",
+  "isort",
+  "mypy",
+  "pre-commit",
+  "pytest",
+  "ruff",
+  # databroker 2.0.0b57 needs
+  "doct",
+  "humanize",
+  "mongomock",
+  "pymongo",
+  # tiled 0.1.0b19 needs
+  # "suitcase-mongo",
+]
+doc = [
+  "ipython",
+  "jinja2 >=3.0",
+  "markupsafe ==2.0.1",
+  "myst-parser",
+  "nbsphinx",
+  "pydata-sphinx-theme",
+  "pygments >=2.12",
+  "pygments-ipython-console",
+  "setuptools-scm",
+  "sphinx",
+  "sphinx-design",
+]
+all = ["apstools[dev,doc]"]
+
 [project.scripts]
 spec2ophyd = "apstools.migration.spec2ophyd:main"
 

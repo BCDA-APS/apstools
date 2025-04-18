@@ -49,6 +49,7 @@ from .area_detector_support import SimDetectorCam_V34
 from .area_detector_support import SingleTrigger_V34
 from .area_detector_support import ensure_AD_plugin_primed
 
+from .avs_filters import AVSfilters
 
 from .axis_tuner import AxisTunerException
 from .axis_tuner import AxisTunerMixin
@@ -72,7 +73,13 @@ from .eurotherm_2216e import Eurotherm2216e
 # from .flyer_motor_scaler import _SMFlyer_Step_1
 # from .flyer_motor_scaler import _SMFlyer_Step_2
 # from .flyer_motor_scaler import _SMFlyer_Step_3
+
+from .hhl_apertures import HHLAperture
+
 from .hhl_slits import HHLSlits
+
+from .jj_transfocators import JJtransfocator1x, JJtransfocator2x
+from .jj_transfocators import JJtransfocator1xZ, JJtransfocator2xZ
 
 from .kohzu_monochromator import KohzuSeqCtl_Monochromator
 

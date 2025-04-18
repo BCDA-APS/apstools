@@ -42,6 +42,7 @@ describe future plans.
    * Now testing with Python versions 3.9 - Py3.12.
      (Can't use with Py3.13 yet due to databroker 1.2.5 pin.)
    * Removed 'lifetime' component from 'aps_machine' device.
+   * Refactor unit test for change in upstream ophydregistry findall().
 
 1.7.2
 *****

@@ -40,11 +40,11 @@ class OverrideSourceRO(ophyd.EpicsSignalRO):
 
     def get(self, **kwargs):
         """."""
-        signal = oregistry.find(
-            name=self.parent.override_signal_name.get(),
-            allow_none=True,
-        )
-        return (signal or super()).get()
+        pvname = self.parent.override_signal_name.get()
+        signals = oregistry.findall(pvname, allow_none=True)
+        # Multiple signals for identical PV name are ok here.
+        signal = super() if len(signals) == 0 else signals[0]
+        return signal.get()
 
 
 class ScalerChannel(ophyd.scaler.ScalerChannel):
