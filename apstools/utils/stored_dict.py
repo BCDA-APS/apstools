@@ -54,11 +54,12 @@ import json
 import pathlib
 import threading
 import time
+from typing import Any, Dict, Iterator, Optional, Union
 
 import yaml
 
 
-class StoredDict(collections.abc.MutableMapping):
+class StoredDict(collections.abc.MutableMapping[str, Any]):
     """
     A MutableMapping which syncs it contents to storage.
 
@@ -93,7 +94,13 @@ class StoredDict(collections.abc.MutableMapping):
         ~reload
     """
 
-    def __init__(self, file, delay=5, title=None, serializable=True):
+    def __init__(
+        self, 
+        file: Union[str, pathlib.Path], 
+        delay: float = 5, 
+        title: Optional[str] = None, 
+        serializable: bool = True
+    ) -> None:
         """
         StoredDict : Dictionary that syncs to storage
 
@@ -120,34 +127,34 @@ class StoredDict(collections.abc.MutableMapping):
         self._sync_key = f"sync_agent_{id(self):x}"
         self._sync_loop_period = 0.005
 
-        self._cache = {}
+        self._cache: Dict[str, Any] = {}
         self.reload()
 
         # Write to storage (as needed) when process exits.
         atexit.register(self.flush)
 
-    def __delitem__(self, key):
+    def __delitem__(self, key: str) -> None:
         """Delete dictionary value by key."""
         del self._cache[key]
         self._queue_storage()
 
-    def __getitem__(self, key):
+    def __getitem__(self, key: str) -> Any:
         """Get dictionary value by key."""
         return self._cache[key]
 
-    def __iter__(self):
+    def __iter__(self) -> Iterator[str]:
         """Iterate over the dictionary keys."""
         yield from self._cache
 
-    def __len__(self):
+    def __len__(self) -> int:
         """Number of keys in the dictionary."""
         return len(self._cache)
 
-    def __repr__(self):
+    def __repr__(self) -> str:
         """representation of this object."""
         return f"<{self.__class__.__name__} {dict(self)!r}>"
 
-    def __setitem__(self, key, value):
+    def __setitem__(self, key: str, value: Any) -> None:
         """Write to the dictionary."""
         if self.test_serializable:
             json.dumps({key: value})
@@ -155,7 +162,7 @@ class StoredDict(collections.abc.MutableMapping):
         self._cache[key] = value  # Store the new (or revised) content.
         self._queue_storage()
 
-    def _delayed_sync_to_storage(self):
+    def _delayed_sync_to_storage(self) -> None:
         """
         Sync the metadata to storage.
 
@@ -163,7 +170,7 @@ class StoredDict(collections.abc.MutableMapping):
         extend the deadline.  Sync once the deadline is reached.
         """
 
-        def sync_agent():
+        def sync_agent() -> None:
             """Threaded task."""
             self.sync_in_progress = True
             while time.time() < self._sync_deadline:
@@ -175,7 +182,7 @@ class StoredDict(collections.abc.MutableMapping):
         thred = threading.Thread(target=sync_agent)
         thred.start()
 
-    def _queue_storage(self):
+    def _queue_storage(self) -> None:
         """Set timer to store the revised dict."""
         # Reset the deadline.
         self._sync_deadline = time.time() + self._delay
@@ -184,14 +191,14 @@ class StoredDict(collections.abc.MutableMapping):
             # Start the sync_agent (thread).
             self._delayed_sync_to_storage()
 
-    def flush(self):
+    def flush(self) -> None:
         """Force a write of the dictionary to disk"""
         if not self.sync_in_progress:
             StoredDict.dump(self._file, self._cache, title=self._title)
         self._sync_deadline = time.time()
         self.sync_in_progress = False
 
-    def popitem(self):
+    def popitem(self) -> tuple[str, Any]:
         """
         Remove and return a (key, value) pair as a 2-tuple.
 
@@ -201,12 +208,12 @@ class StoredDict(collections.abc.MutableMapping):
         # self._queue_storage()  will be called by self.__delitem__()
         return self._cache.popitem()
 
-    def reload(self):
+    def reload(self) -> None:
         """Read dictionary from storage."""
         self._cache = StoredDict.load(self._file)
 
     @staticmethod
-    def dump(file, contents, title=None):
+    def dump(file: Union[str, pathlib.Path], contents: Dict[str, Any], title: Optional[str] = None) -> None:
         """Write dictionary to YAML file."""
         with open(file, "w") as f:
             if isinstance(title, str) and len(title) > 0:
@@ -215,7 +222,7 @@ class StoredDict(collections.abc.MutableMapping):
             f.write(yaml.dump(contents.copy(), indent=2))
 
     @staticmethod
-    def load(file):
+    def load(file: Union[str, pathlib.Path]) -> Dict[str, Any]:
         """Read dictionary from YAML file."""
         file = pathlib.Path(file)
         md = None

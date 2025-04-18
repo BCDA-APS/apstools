@@ -6,11 +6,11 @@ APS-U controls are on private subnets.  Check and advise as applicable.
     ~warn_if_not_aps_controls_subnet
 """
 
-APSU_CONTROLS_SUBNET = "10.54."
-APSU_XRAY_SUBNET = ".xray.aps.anl.gov"
+APSU_CONTROLS_SUBNET: str = "10.54."
+APSU_XRAY_SUBNET: str = ".xray.aps.anl.gov"
 
 
-def warn_if_not_aps_controls_subnet():
+def warn_if_not_aps_controls_subnet() -> None:
     """
     APS-U controls are on private subnets.  Check and advise as applicable.
 
@@ -24,9 +24,9 @@ def warn_if_not_aps_controls_subnet():
     import socket
     import warnings
 
-    host_name = socket.gethostname()
+    host_name: str = socket.gethostname()
     if host_name.endswith(APSU_XRAY_SUBNET):
-        host_ip_addr = socket.gethostbyname(host_name)
+        host_ip_addr: str = socket.gethostbyname(host_name)
         if not host_ip_addr.startswith(APSU_CONTROLS_SUBNET):
             warnings.warn(
                 f"Your APS workstation ({host_name}) has IP {host_ip_addr!r}."

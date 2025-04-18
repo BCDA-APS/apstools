@@ -17,6 +17,7 @@ Public Structures
 """
 
 from collections import OrderedDict
+from typing import Any, Type, Union
 
 from ophyd import Component as Cpt
 from ophyd import Device
@@ -45,28 +46,28 @@ class CalcoutRecordChannel(Device):
         ~reset
     """
 
-    input_value = FC(EpicsSignal, "{self.prefix}.{self._ch_letter}", kind="config")
-    last_value = FC(EpicsSignalRO, "{self.prefix}.L{self._ch_letter}", kind="config")
-    input_pv = FC(EpicsSignal, "{self.prefix}.INP{self._ch_letter}", kind="config")
-    input_pv_valid = FC(EpicsSignalRO, "{self.prefix}.IN{self._ch_letter}V", kind="config")
+    input_value: FC[EpicsSignal] = FC(EpicsSignal, "{self.prefix}.{self._ch_letter}", kind="config")
+    last_value: FC[EpicsSignalRO] = FC(EpicsSignalRO, "{self.prefix}.L{self._ch_letter}", kind="config")
+    input_pv: FC[EpicsSignal] = FC(EpicsSignal, "{self.prefix}.INP{self._ch_letter}", kind="config")
+    input_pv_valid: FC[EpicsSignalRO] = FC(EpicsSignalRO, "{self.prefix}.IN{self._ch_letter}V", kind="config")
 
-    read_attrs = [
+    read_attrs: list[str] = [
         "input_value",
     ]
-    hints = {"fields": read_attrs}
+    hints: dict[str, list[str]] = {"fields": read_attrs}
 
-    def __init__(self, prefix, letter, **kwargs):
+    def __init__(self, prefix: str, letter: str, **kwargs: Any) -> None:
         self._ch_letter = letter
         super().__init__(prefix, **kwargs)
 
-    def reset(self):
+    def reset(self) -> None:
         """set all fields to default values"""
         self.input_pv.put("")
         self.input_value.put(0)
 
 
-def _channels(channel_list):
-    defn = OrderedDict()
+def _channels(channel_list: list[str]) -> OrderedDict[str, tuple[Type[CalcoutRecordChannel], str, dict[str, Any]]]:
+    defn: OrderedDict[str, tuple[Type[CalcoutRecordChannel], str, dict[str, Any]]] = OrderedDict()
     for chan in channel_list:
         defn[chan] = (CalcoutRecordChannel, "", {"letter": chan})
     return defn
@@ -85,39 +86,39 @@ class CalcoutRecord(EpicsRecordFloatFields, EpicsRecordDeviceCommonAll):
     :see: https://wiki-ext.aps.anl.gov/epics/index.php/RRM_3-14_Calcout
     """
 
-    units = Cpt(EpicsSignal, ".EGU", kind="config")
-    precision = Cpt(EpicsSignal, ".PREC", kind="config")
+    units: Cpt[EpicsSignal] = Cpt(EpicsSignal, ".EGU", kind="config")
+    precision: Cpt[EpicsSignal] = Cpt(EpicsSignal, ".PREC", kind="config")
 
-    calculated_value = Cpt(EpicsSignal, ".VAL", kind="normal")
-    calculation = Cpt(EpicsSignal, ".CALC", kind="config")
+    calculated_value: Cpt[EpicsSignal] = Cpt(EpicsSignal, ".VAL", kind="normal")
+    calculation: Cpt[EpicsSignal] = Cpt(EpicsSignal, ".CALC", kind="config")
 
-    output_pv = Cpt(EpicsSignal, ".OUT", kind="config")
-    output_execute_option = Cpt(EpicsSignal, ".OOPT", kind="config")
-    output_execution_delay = Cpt(EpicsSignal, ".ODLY", kind="config")
-    output_data_option = Cpt(EpicsSignal, ".DOPT", kind="config")
-    output_calculation = Cpt(EpicsSignal, ".OCAL", kind="config")
-    output_value = Cpt(EpicsSignal, ".OVAL", kind="hinted")
-    invalid_output_action = Cpt(EpicsSignal, ".IVOA", kind="config")
-    invalid_output_value = Cpt(EpicsSignal, ".IVOV", kind="config")
-    event_to_issue = Cpt(EpicsSignal, ".OEVT", kind="config")
+    output_pv: Cpt[EpicsSignal] = Cpt(EpicsSignal, ".OUT", kind="config")
+    output_execute_option: Cpt[EpicsSignal] = Cpt(EpicsSignal, ".OOPT", kind="config")
+    output_execution_delay: Cpt[EpicsSignal] = Cpt(EpicsSignal, ".ODLY", kind="config")
+    output_data_option: Cpt[EpicsSignal] = Cpt(EpicsSignal, ".DOPT", kind="config")
+    output_calculation: Cpt[EpicsSignal] = Cpt(EpicsSignal, ".OCAL", kind="config")
+    output_value: Cpt[EpicsSignal] = Cpt(EpicsSignal, ".OVAL", kind="hinted")
+    invalid_output_action: Cpt[EpicsSignal] = Cpt(EpicsSignal, ".IVOA", kind="config")
+    invalid_output_value: Cpt[EpicsSignal] = Cpt(EpicsSignal, ".IVOV", kind="config")
+    event_to_issue: Cpt[EpicsSignal] = Cpt(EpicsSignal, ".OEVT", kind="config")
 
-    output_pv_status = Cpt(EpicsSignal, ".OUTV", kind="config")
-    calculation_valid = Cpt(EpicsSignal, ".CLCV", kind="config")
-    output_calculation_valid = Cpt(EpicsSignal, ".OCLV", kind="config")
-    output_delay_active = Cpt(EpicsSignal, ".DLYA", kind="config")
+    output_pv_status: Cpt[EpicsSignal] = Cpt(EpicsSignal, ".OUTV", kind="config")
+    calculation_valid: Cpt[EpicsSignal] = Cpt(EpicsSignal, ".CLCV", kind="config")
+    output_calculation_valid: Cpt[EpicsSignal] = Cpt(EpicsSignal, ".OCLV", kind="config")
+    output_delay_active: Cpt[EpicsSignal] = Cpt(EpicsSignal, ".DLYA", kind="config")
 
-    channels = DDC(_channels(CHANNEL_LETTERS_LIST))
+    channels: DDC = DDC(_channels(CHANNEL_LETTERS_LIST))
 
-    read_attrs = APS_utils.itemizer("channels.%s", CHANNEL_LETTERS_LIST)
-    hints = {"fields": read_attrs}
+    read_attrs: list[str] = APS_utils.itemizer("channels.%s", CHANNEL_LETTERS_LIST)
+    hints: dict[str, list[str]] = {"fields": read_attrs}
 
     @property
-    def value(self):
+    def value(self) -> float:
         return self.calculated_value.get()
 
-    def reset(self):
+    def reset(self) -> None:
         """set all fields to default values"""
-        pvname = self.description.pvname.split(".")[0]
+        pvname: str = self.description.pvname.split(".")[0]
         self.scanning_rate.put("Passive")
         self.description.put(pvname)
         self.units.put("")
@@ -161,19 +162,19 @@ class UserCalcoutDevice(Device):
 
     """
 
-    enable = Cpt(EpicsSignal, "userCalcOutEnable", kind="omitted")
-    calcout1 = Cpt(UserCalcoutN, "userCalcOut1")
-    calcout2 = Cpt(UserCalcoutN, "userCalcOut2")
-    calcout3 = Cpt(UserCalcoutN, "userCalcOut3")
-    calcout4 = Cpt(UserCalcoutN, "userCalcOut4")
-    calcout5 = Cpt(UserCalcoutN, "userCalcOut5")
-    calcout6 = Cpt(UserCalcoutN, "userCalcOut6")
-    calcout7 = Cpt(UserCalcoutN, "userCalcOut7")
-    calcout8 = Cpt(UserCalcoutN, "userCalcOut8")
-    calcout9 = Cpt(UserCalcoutN, "userCalcOut9")
-    calcout10 = Cpt(UserCalcoutN, "userCalcOut10")
+    enable: Cpt[EpicsSignal] = Cpt(EpicsSignal, "userCalcOutEnable", kind="omitted")
+    calcout1: Cpt[UserCalcoutN] = Cpt(UserCalcoutN, "userCalcOut1")
+    calcout2: Cpt[UserCalcoutN] = Cpt(UserCalcoutN, "userCalcOut2")
+    calcout3: Cpt[UserCalcoutN] = Cpt(UserCalcoutN, "userCalcOut3")
+    calcout4: Cpt[UserCalcoutN] = Cpt(UserCalcoutN, "userCalcOut4")
+    calcout5: Cpt[UserCalcoutN] = Cpt(UserCalcoutN, "userCalcOut5")
+    calcout6: Cpt[UserCalcoutN] = Cpt(UserCalcoutN, "userCalcOut6")
+    calcout7: Cpt[UserCalcoutN] = Cpt(UserCalcoutN, "userCalcOut7")
+    calcout8: Cpt[UserCalcoutN] = Cpt(UserCalcoutN, "userCalcOut8")
+    calcout9: Cpt[UserCalcoutN] = Cpt(UserCalcoutN, "userCalcOut9")
+    calcout10: Cpt[UserCalcoutN] = Cpt(UserCalcoutN, "userCalcOut10")
 
-    def reset(self):  # lgtm [py/similar-function]
+    def reset(self) -> None:  # lgtm [py/similar-function]
         """set all fields to default values"""
         self.calcout1.reset()
         self.calcout2.reset()
@@ -191,10 +192,16 @@ class UserCalcoutDevice(Device):
 
 def _setup_peak_calcout_(
     # fmt: off
-    calc, desc, calcout, ref_signal,
-    center=0, width=1, scale=1, noise=0.05
+    calc: str,
+    desc: str,
+    calcout: CalcoutRecord,
+    ref_signal: Signal,
+    center: float = 0,
+    width: float = 1,
+    scale: float = 1,
+    noise: float = 0.05,
     # fmt: on
-):
+) -> None:
     """
     internal: setup that is common to both Gaussian and Lorentzian calcouts
 
@@ -256,7 +263,14 @@ def _setup_peak_calcout_(
     calcout.hints = {"fields": calcout.read_attrs}
 
 
-def setup_gaussian_calcout(calcout, ref_signal, center=0, width=1, scale=1, noise=0.05):
+def setup_gaussian_calcout(
+    calcout: CalcoutRecord,
+    ref_signal: Signal,
+    center: float = 0,
+    width: float = 1,
+    scale: float = 1,
+    noise: float = 0.05,
+) -> None:
     """
     setup calcout for noisy Gaussian
 
@@ -307,8 +321,13 @@ def setup_gaussian_calcout(calcout, ref_signal, center=0, width=1, scale=1, nois
 
 
 def setup_lorentzian_calcout(
-    calcout, ref_signal, center=0, width=1, scale=1, noise=0.05
-):  # lgtm [py/similar-function]
+    calcout: CalcoutRecord,
+    ref_signal: Signal,
+    center: float = 0,
+    width: float = 1,
+    scale: float = 1,
+    noise: float = 0.05,
+) -> None:  # lgtm [py/similar-function]
     """
     setup calcout record for noisy Lorentzian
 
@@ -358,7 +377,9 @@ def setup_lorentzian_calcout(
     )
 
 
-def setup_incrementer_calcout(calcout, scan=None, limit=100000):
+def setup_incrementer_calcout(
+    calcout: CalcoutRecord, scan: Union[str, int, None] = None, limit: int = 100000
+) -> None:
     """
     setup calcout record as an incrementer
 
@@ -387,7 +408,7 @@ def setup_incrementer_calcout(calcout, scan=None, limit=100000):
     calcout.reset()
     calcout.scanning_rate.put("Passive")
     calcout.description.put("incrementer")
-    pvname = calcout.calculated_value.pvname.split(".")[0]
+    pvname: str = calcout.calculated_value.pvname.split(".")[0]
     calcout.channels.A.input_pv.put(pvname)
     calcout.channels.B.input_value.put(limit)
     calcout.calculation.put("(A+1) % B")

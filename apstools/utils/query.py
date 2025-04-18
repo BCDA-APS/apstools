@@ -7,11 +7,13 @@ Searching databroker catalogs
    ~db_query
 """
 
+from typing import Any, Optional
+
 from ._core import FIRST_DATA
 from ._core import LAST_DATA
 
 
-def db_query(db, query):
+def db_query(db: Any, query: Optional[dict[str, Any]] = None) -> Any:
     """
     Searches the databroker v2 database.
 

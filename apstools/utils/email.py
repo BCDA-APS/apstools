@@ -9,11 +9,12 @@ email Support
 
 import smtplib
 from email.mime.text import MIMEText
+from typing import List, Optional
 
 from .misc import run_in_thread
 
 
-class EmailNotifications(object):
+class EmailNotifications:
     """
     send email notifications when requested
 
@@ -48,19 +49,44 @@ class EmailNotifications(object):
             email_notices.send(subject, message)
     """
 
-    def __init__(self, sender=None):
-        self.addresses = []
-        self.notify_on_feedback = True
-        self.sender = sender or "nobody@localhost"
-        self.smtp_host = "localhost"
+    def __init__(self, sender: Optional[str] = None) -> None:
+        """
+        Initialize the email notifications system.
 
-    def add_addresses(self, *args):
+        Parameters
+        ----------
+        sender : Optional[str]
+            The email address to send from. If None, defaults to "nobody@localhost".
+        """
+        self.addresses: List[str] = []
+        self.notify_on_feedback: bool = True
+        self.sender: str = sender or "nobody@localhost"
+        self.smtp_host: str = "localhost"
+
+    def add_addresses(self, *args: str) -> None:
+        """
+        Add email addresses to the notification list.
+
+        Parameters
+        ----------
+        *args : str
+            One or more email addresses to add to the notification list.
+        """
         for address in args:
             self.addresses.append(address)
 
     @run_in_thread
-    def send(self, subject, message):
-        """send ``message`` to all addresses"""
+    def send(self, subject: str, message: str) -> None:
+        """
+        Send an email message to all registered addresses.
+
+        Parameters
+        ----------
+        subject : str
+            The email subject line.
+        message : str
+            The email message body.
+        """
         msg = MIMEText(message)
         msg["Subject"] = subject
         msg["From"] = self.sender

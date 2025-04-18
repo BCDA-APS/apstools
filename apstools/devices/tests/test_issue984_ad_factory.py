@@ -3,6 +3,7 @@ Test the area detector factory class with an ophyd fake device.
 
 .. see: https://github.com/BCDA-APS/apstools/issues/984#issuecomment-2195201893
 """
+
 from ophyd.sim import instantiate_fake_device as make_fake
 
 from ..area_detector_factory import ad_class_factory

@@ -1,26 +1,31 @@
+"""
+Core utilities and constants for apstools.
+"""
+
 from enum import Enum
+from typing import Any, Type
 
 import pandas
 import pyRestTable
 
-FIRST_DATA = "1995-01-01"
-LAST_DATA = "2100-12-31"
+FIRST_DATA: str = "1995-01-01"
+LAST_DATA: str = "2100-12-31"
 
-MAX_EPICS_STRINGOUT_LENGTH = 40
+MAX_EPICS_STRINGOUT_LENGTH: int = 40
 
 
 class PRT_Table(pyRestTable.Table):
     """Change the default from pyRestTable."""
 
-    def __repr__(self):
+    def __repr__(self) -> str:
         return str(self)
 
 
 class TableStyle(Enum):
     """Describes what table style to use."""
 
-    pandas = pandas.DataFrame
-    pyRestTable = PRT_Table  # pyRestTable.Table
+    pandas: Type[pandas.DataFrame] = pandas.DataFrame
+    pyRestTable: Type[PRT_Table] = PRT_Table  # pyRestTable.Table
 
 
 # -----------------------------------------------------------------------------

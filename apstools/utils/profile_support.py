@@ -10,11 +10,12 @@ Support for IPython profiles
 """
 
 import logging
+from typing import Any, Optional
 
 logger = logging.getLogger(__name__)
 
 
-def getDefaultNamespace(attr="user_ns"):
+def getDefaultNamespace(attr: str = "user_ns") -> dict[str, Any]:
     """
     get the IPython shell's namespace dictionary (or globals() if not found)
     """
@@ -27,7 +28,7 @@ def getDefaultNamespace(attr="user_ns"):
     return ns
 
 
-def ipython_profile_name():
+def ipython_profile_name() -> Optional[str]:
     """
     return the name of the current ipython profile or ``None``
 
@@ -42,7 +43,7 @@ def ipython_profile_name():
     return get_ipython().profile
 
 
-def ipython_shell_namespace():
+def ipython_shell_namespace() -> dict[str, Any]:
     """
     get the IPython shell's namespace dictionary (or empty if not found)
     """
