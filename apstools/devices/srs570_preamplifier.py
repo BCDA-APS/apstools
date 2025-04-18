@@ -17,7 +17,7 @@ https://htmlpreview.github.io/?https://raw.githubusercontent.com/epics-modules/i
 """
 
 import logging
-from typing import Any, Dict, Optional, Union
+from typing import Any, Optional, Union
 
 import pint
 from ophyd import Component
@@ -36,7 +36,7 @@ gain_modes: list[str] = ["LOW NOISE", "HIGH BW"]
 
 # Settling times measured from the 25-ID-C upstream I0 chamber's SR-570
 # (sensitivity_value, sensitivity_unit, gain_mode): settle_time
-settling_times: Dict[tuple[str, str, str], float] = {
+settling_times: dict[tuple[str, str, str], float] = {
     # pA/V
     ("1", "pA/V", "HIGH BW"): 2.5,
     ("2", "pA/V", "HIGH BW"): 2,
@@ -248,10 +248,6 @@ class SRS570_PreAmplifier(PreamplifierBaseDevice):
         """
         super().__init__(*args, **kwargs)
         self.sensitivity_value.subscribe(self.cb_gain)
-        self.sensitivity_unit.subscribe(self.cb_gain)
-
-        # amplifier gain is the most relevant value
-        self.gain.name = self.name
 
 
 # -----------------------------------------------------------------------------

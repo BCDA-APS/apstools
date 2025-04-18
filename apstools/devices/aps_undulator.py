@@ -137,20 +137,22 @@ class ID_Spectrum_Mixin(Device):
 
 
 class PlanarUndulator(ID_Spectrum_Mixin, ID_Controls_Mixin, ID_Misc_Mixin, Device):
-    """APS Planar Undulator.
+    """
+    APS Planar Insertion Device.
 
     .. index:: Ophyd Device; PlanarUndulator
 
-    APS Use: 34 devices, including 20ID.
+    APS Use: Most common undulator in the APS.
 
     EXAMPLE::
 
-        undulator = PlanarUndulator("S25ID:USID:", name="undulator")
+        undulator = PlanarUndulator("S01ID:USID:", name="undulator")
     """
 
 
 class Revolver_Undulator(ID_Spectrum_Mixin, ID_Controls_Mixin, ID_Misc_Mixin, Device):
-    """APS Revolver Insertion Device.
+    """
+    APS Revolver Insertion Device.
 
     .. index:: Ophyd Device; PlanarUndulator
 
@@ -169,22 +171,22 @@ class Revolver_Undulator(ID_Spectrum_Mixin, ID_Controls_Mixin, ID_Misc_Mixin, De
 
 
 class STI_Undulator(PlanarUndulator):
-    """APS Planar Undulator built by STI Optronics.
+    """
+    APS STI Insertion Device.
 
-    .. index::
-        Ophyd Device; PlanarUndulator
-        Ophyd Device; STI_Undulator
+    .. index:: Ophyd Device; PlanarUndulator
 
-    APS Use: 13 devices, including 4ID.
+    APS Use: Only 07ID.
 
     EXAMPLE::
 
-        undulator = STI_Undulator("S04ID:USID:", name="undulator")
+        undulator = STI_Undulator("S07ID:USID:", name="undulator")
     """
 
 
 class Undulator2M(ID_Spectrum_Mixin, ID_Controls_Mixin, ID_Misc_Mixin, Device):
-    """APS 2M Undulator.
+    """
+    APS 2M Undulator.
 
     .. index::
         Ophyd Device; PlanarUndulator
@@ -208,17 +210,18 @@ class Undulator2M(ID_Spectrum_Mixin, ID_Controls_Mixin, ID_Misc_Mixin, Device):
 
 
 class Undulator4M(Undulator2M):
-    """APS 4M Undulator.
+    """
+    APS 4M Undulator.
 
     .. index::
         Ophyd Device; PlanarUndulator
         Ophyd Device; Undulator4M
 
-    APS Use: 11ID, downstream & upstream.
+    APS Use: 1ID, upstream.
 
     EXAMPLE::
 
-        undulator = Undulator4M("S11ID:DSID:", name="undulator")
+        undulator = Undulator4M("S01ID:USID:", name="undulator")
     """
 
 

@@ -11,6 +11,7 @@ EPICS PV Registry
 
 import logging
 from collections import defaultdict
+from typing import Any, Optional, Union
 
 import ophyd
 
@@ -28,7 +29,7 @@ class PVRegistry:
     Cross-reference EPICS PVs with ophyd EpicsSignalBase objects.
     """
 
-    def __init__(self, ns=None):
+    def __init__(self, ns: Optional[dict[str, Any]] = None) -> None:
         """
         Search ophyd objects for PV or ophyd names.
 
@@ -40,10 +41,10 @@ class PVRegistry:
 
         ns *dict* or `None`: namespace dictionary
         """
-        self._pvdb = defaultdict(lambda: defaultdict(list))
-        self._odb = {}
-        self._device_name = None
-        self._known_device_names = []
+        self._pvdb: dict[str, dict[str, list[str]]] = defaultdict(lambda: defaultdict(list))
+        self._odb: dict[str, str] = {}
+        self._device_name: Optional[list[str]] = None
+        self._known_device_names: list[str] = []
         g = ns or ipython_shell_namespace() or globals()
 
         # kickoff the registration process
@@ -54,7 +55,7 @@ class PVRegistry:
         # fmt: on
         self._ophyd_epicsobject_walker(g)
 
-    def _ophyd_epicsobject_walker(self, parent):
+    def _ophyd_epicsobject_walker(self, parent: Any) -> None:
         """
         Walk through the parent object for ophyd Devices & EpicsSignals.
 
@@ -92,11 +93,11 @@ class PVRegistry:
                     self._known_device_names.append(v.name)
                     self._ophyd_epicsobject_walker(v)
 
-    def _ref_dict(self, parent, key):
+    def _ref_dict(self, parent: dict[str, Any], key: str) -> Any:
         """Accessor used by ``_ophyd_epicsobject_walker()``"""
         return parent[key]
 
-    def _ref_object_attribute(self, parent, key):
+    def _ref_object_attribute(self, parent: Any, key: str) -> Optional[Any]:
         """Accessor used by ``_ophyd_epicsobject_walker()``"""
         try:
             obj = getattr(parent, key, None)
@@ -109,37 +110,37 @@ class PVRegistry:
             )
             # fmt: on
 
-    def _register_signal(self, signal, pv, mode):
+    def _register_signal(self, signal: Any, pv: str, mode: str) -> None:
         """Register a signal with the given mode."""
         fdn = full_dotted_name(signal)
         if fdn not in self._pvdb[pv][mode]:
             self._pvdb[pv][mode].append(fdn)
 
-    def _signal_processor(self, signal):
+    def _signal_processor(self, signal: Any) -> None:
         """Register a signal's read & write PVs."""
         self._register_signal(signal, signal._read_pv.pvname, "R")
         if hasattr(signal, "_write_pv"):
             self._register_signal(signal, signal._write_pv.pvname, "W")
 
-    def search_by_mode(self, pvname, mode="R"):
+    def search_by_mode(self, pvname: str, mode: str = "R") -> list[str]:
         """Search for PV in specified mode."""
         if mode not in ["R", "W"]:
             raise ValueError(f"Incorrect mode given ({mode}.  Must be either `R` or `W`.")
         return self._pvdb[pvname][mode]
 
-    def search(self, pvname):
+    def search(self, pvname: str) -> dict[str, list[str]]:
         """Search for PV in both read & write modes."""
         return dict(
             read=self.search_by_mode(pvname, "R"),
             write=self.search_by_mode(pvname, "W"),
         )
 
-    def ophyd_search(self, oname):
+    def ophyd_search(self, oname: str) -> Optional[str]:
         """Search for ophyd object by ophyd name."""
         return self._odb.get(oname)
 
 
-def _get_pv_registry(force_rebuild, ns):
+def _get_pv_registry(force_rebuild: bool, ns: Optional[dict[str, Any]]) -> PVRegistry:
     """
     Check if need to build/rebuild the PV registry.
 
@@ -160,7 +161,7 @@ def _get_pv_registry(force_rebuild, ns):
     return _findpv_registry
 
 
-def findbyname(oname, force_rebuild=False, ns=None):
+def findbyname(oname: str, force_rebuild: bool = False, ns: Optional[dict[str, Any]] = None) -> Optional[str]:
     """
     Find the ophyd (dotted name) object associated with the given ophyd name.
 
@@ -192,7 +193,7 @@ def findbyname(oname, force_rebuild=False, ns=None):
     return _get_pv_registry(force_rebuild, ns).ophyd_search(oname)
 
 
-def findbypv(pvname, force_rebuild=False, ns=None):
+def findbypv(pvname: str, force_rebuild: bool = False, ns: Optional[dict[str, Any]] = None) -> dict[str, list[str]]:
     """
     Find all ophyd objects associated with the given EPICS PV.
 

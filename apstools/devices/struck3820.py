@@ -7,7 +7,7 @@ Struck 3820
    ~Struck3820
 """
 
-from typing import Any, Dict, Optional, Union
+from typing import Any, Optional
 
 from ophyd import Component
 from ophyd import Device

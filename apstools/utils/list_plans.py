@@ -9,7 +9,9 @@ Directory of the known plans
 
 import inspect
 import logging
+from typing import Any, Optional, Union
 
+import pandas as pd
 from ophyd.ophydobj import OphydObject
 
 from ._core import TableStyle
@@ -18,7 +20,11 @@ from .profile_support import getDefaultNamespace
 logger = logging.getLogger(__name__)
 
 
-def listplans(base=None, trunc=50, table_style=TableStyle.pyRestTable):
+def listplans(
+    base: Optional[Any] = None,
+    trunc: int = 50,
+    table_style: TableStyle = TableStyle.pyRestTable,
+) -> Union[pd.DataFrame, Any]:
     """
     List all plans.  (Actually, lists all generator functions).
 
@@ -28,19 +34,26 @@ def listplans(base=None, trunc=50, table_style=TableStyle.pyRestTable):
     a decorator that identifies a generator function
     as a bluesky plan.
 
-    PARAMETERS
-
-    base *object* or *None* :
-        Object that contains plan methods (if ``None``, use global namespace.)
-        (default: ``None``)
-    trunc *int* :
-        Truncate long docstrings to no more than ``trunc`` characters.
-        (default: 50)
-    table_style *object* :
-        Either ``TableStyle.pyRestTable`` (default) or ``TableStyle.pandas``,
+    Parameters
+    ----------
+    base : Optional[Any], optional
+        Object that contains plan methods (if None, use global namespace).
+        Default: None
+    trunc : int, optional
+        Truncate long docstrings to no more than trunc characters.
+        Default: 50
+    table_style : TableStyle, optional
+        Either TableStyle.pyRestTable (default) or TableStyle.pandas,
         using values from :class:`apstools.utils.TableStyle`.
 
-        .. note:: ``pandas.DataFrame`` wll truncate long text to at most 50 characters.
+        Note: pandas.DataFrame will truncate long text to at most 50 characters.
+        Default: TableStyle.pyRestTable
+
+    Returns
+    -------
+    Union[pd.DataFrame, Any]
+        A table containing the list of plans and their docstrings.
+        The type depends on the table_style parameter.
     """
     if base is None:
         base = getDefaultNamespace(attr="user_global_ns")
@@ -62,7 +75,7 @@ def listplans(base=None, trunc=50, table_style=TableStyle.pyRestTable):
     else:
         prefix = ""
 
-    dd = dict(plan=[], doc=[])
+    dd: dict[str, list[str]] = dict(plan=[], doc=[])
 
     for key, obj in _gg.items():
         if inspect.isgeneratorfunction(obj):  # TODO: bluesky.isplan(obj)

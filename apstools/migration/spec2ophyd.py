@@ -32,19 +32,19 @@ output of ophyd configuration to stdout
 import re
 import argparse
 from collections import OrderedDict
-from typing import Union, Tuple, Optional, Dict, List, Any
+from typing import Union, Optional, Any
 
-KNOWN_DEVICES: List[str] = "PSE_MAC_MOT VM_EPICS_M1 VM_EPICS_PV VM_EPICS_SC".split()
+KNOWN_DEVICES: list[str] = "PSE_MAC_MOT VM_EPICS_M1 VM_EPICS_PV VM_EPICS_SC".split()
 
 
 class Spec2ophydBase(object):
-    str_keys: List[str] = []
+    str_keys: list[str] = []
     mne: str = ""
     name: str = ""
 
-    def obj_keys_to_list(self) -> List[str]:
-        items: List[str] = []
-        keys: List[str] = list(self.str_keys)
+    def obj_keys_to_list(self) -> list[str]:
+        items: list[str] = []
+        keys: list[str] = list(self.str_keys)
 
         if (
             "mne" in keys
@@ -62,7 +62,7 @@ class Spec2ophydBase(object):
         return items
 
     def __str__(self) -> str:
-        items: List[str] = self.obj_keys_to_list()
+        items: list[str] = self.obj_keys_to_list()
         return f"{self.__class__.__name__}({', '.join(items)})"
 
 
@@ -90,7 +90,7 @@ class SpecDevice(Spec2ophydBase):
 
 class ItemNameBase(Spec2ophydBase):
     ignore: bool = False
-    str_keys: List[str] = "mne config_line name".split()
+    str_keys: list[str] = "mne config_line name".split()
 
     def item_name_value(self, item: str) -> Optional[str]:
         if hasattr(self, item):
@@ -115,9 +115,9 @@ class SpecSignal(ItemNameBase):
         self.device: Optional[Any] = None
         self.signal_name: str = "EpicsSignal"
 
-        lr: List[str] = config_text.split(sep="=", maxsplit=1)
+        lr: list[str] = config_text.split(sep="=", maxsplit=1)
 
-        def pop_word(line: str, int_result: bool = False) -> Tuple[Union[int, str], str]:
+        def pop_word(line: str, int_result: bool = False) -> tuple[Union[int, str], str]:
             line = line.strip()
             pos = line.find(" ")
             l: Union[int, str] = line[:pos].strip()
@@ -133,9 +133,9 @@ class SpecSignal(ItemNameBase):
         self.flags = pop_word(r)[0]
 
         self.str_keys = "mne config_line name pvname signal_name".split()
-        self.cntpar: Dict[str, str] = {}
+        self.cntpar: dict[str, str] = {}
 
-    def setDevice(self, devices: Dict[str, List[Any]]) -> None:
+    def setDevice(self, devices: dict[str, list[Any]]) -> None:
         if self.ctrl.startswith("EPICS_PV"):
             device_list = devices.get("VM_EPICS_PV")
             if device_list is not None:
@@ -173,10 +173,10 @@ class SpecMotor(ItemNameBase):
         # Motor    ctrl steps sign slew base backl accel nada  flags   mne  name
         # MOT002 = EPICS_M2:0/3   2000  1  2000  200   50  125    0 0x003       my  my
         # MOT022 = MAC_MOT:1/0/0   2000  1  2000  200   50  125    0 0x003   suvgap  SlitUpVGap
-        lr: List[str] = config_text.split(sep="=", maxsplit=1)
+        lr: list[str] = config_text.split(sep="=", maxsplit=1)
         self.config_line: int = int(lr[0].strip("MOT"))
 
-        def pop_word(line: str, int_result: bool = False) -> Tuple[Union[int, str], str]:
+        def pop_word(line: str, int_result: bool = False) -> tuple[Union[int, str], str]:
             line = line.strip()
             pos = line.find(" ")
             l: Union[int, str] = line[:pos].strip()
@@ -197,19 +197,19 @@ class SpecMotor(ItemNameBase):
         self.mne, self.name = pop_word(r)
         self.device: Optional[Any] = None
         self.pvname: Optional[str] = None
-        self.motpar: Dict[str, str] = {}
+        self.motpar: dict[str, str] = {}
         self.mac_parms: Optional[Any] = None
         self.macro_prefix: Optional[str] = None
         self.str_keys = "mne config_line name macro_prefix mac_parms".split()
 
     def __str__(self) -> str:
-        items: List[str] = self.obj_keys_to_list()
+        items: list[str] = self.obj_keys_to_list()
         txt: Optional[str] = self.item_name_value("pvname") or self.item_name_value("ctrl")
         if not txt.endswith("=None"):  # type: ignore
             items.append(txt)
         return f"{self.__class__.__name__}({', '.join(items)})"
 
-    def setDevice(self, devices: Dict[str, List[Any]]) -> None:
+    def setDevice(self, devices: dict[str, list[Any]]) -> None:
         if self.ctrl.startswith("EPICS_M2"):
             device_list = devices.get("VM_EPICS_M1")
             if device_list is not None:
@@ -265,7 +265,7 @@ class SpecCounter(ItemNameBase):
         # # Counter   ctrl unit chan scale flags    mne  name
         # CNT000 = EPICS_SC  0  0 10000000 0x001      sec  seconds
 
-        def pop_word(line: str, int_result: bool = False) -> Tuple[Union[int, str], str]:
+        def pop_word(line: str, int_result: bool = False) -> tuple[Union[int, str], str]:
             line = line.strip()
             pos = line.find(" ")
             l: Union[int, str] = line[:pos].strip()
@@ -285,12 +285,12 @@ class SpecCounter(ItemNameBase):
         self.mne, self.name = pop_word(r)
         self.device: Optional[Any] = None
         self.pvname: Optional[str] = None
-        self.reported_pvs: List[str] = []
+        self.reported_pvs: list[str] = []
         self.str_keys = "mne config_line name unit chan".split()
-        self.cntpar: Dict[str, str] = {}
+        self.cntpar: dict[str, str] = {}
 
     def __str__(self) -> str:
-        items: List[str] = self.obj_keys_to_list()
+        items: list[str] = self.obj_keys_to_list()
         txt: Optional[str] = self.item_name_value("pvname")
         if txt is not None:
             items.append(txt)
@@ -298,7 +298,7 @@ class SpecCounter(ItemNameBase):
             items.append(self.item_name_value("ctrl") or "")
         return f"{self.__class__.__name__}({', '.join(items)})"
 
-    def setDevice(self, devices: Dict[str, List[Any]]) -> None:
+    def setDevice(self, devices: dict[str, list[Any]]) -> None:
         if self.ctrl.startswith("EPICS_SC"):
             device_list = devices.get("VM_EPICS_SC")
             if device_list is not None:
@@ -345,9 +345,9 @@ class SpecConfig(object):
     def __init__(self, config_file: str) -> None:
         self.config_file: str = config_file
         self.devices: OrderedDict = OrderedDict()
-        self.scalers: List[str] = []
-        self.collection: List[Any] = []
-        self.unhandled: List[str] = []
+        self.scalers: list[str] = []
+        self.collection: list[Any] = []
+        self.unhandled: list[str] = []
 
     def find_pv_in_collection(self, pv: str) -> Optional[Any]:
         for obj in self.collection:

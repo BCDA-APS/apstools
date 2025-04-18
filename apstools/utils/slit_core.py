@@ -7,9 +7,16 @@ Common support of slits
 """
 
 from collections import namedtuple
+from typing import NamedTuple
 
-SlitGeometry = namedtuple("SlitGeometry", "width height x y")
-"Slit size and center as a named tuple"
+
+class SlitGeometry(NamedTuple):
+    """Slit size and center as a named tuple."""
+    width: float
+    height: float
+    x: float
+    y: float
+
 
 # -----------------------------------------------------------------------------
 # :author:    BCDA

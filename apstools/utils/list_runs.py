@@ -16,9 +16,12 @@ import dataclasses
 import datetime
 import logging
 import time
-import typing
 import warnings
 from collections import defaultdict
+from typing import Any, Optional, Union
+
+import pandas as pd
+from databroker import catalog
 
 from ._core import FIRST_DATA
 from ._core import LAST_DATA
@@ -28,43 +31,47 @@ from .query import db_query
 logger = logging.getLogger(__name__)
 
 
-def getRunData(scan_id, db=None, stream="primary", query=None, use_v1=True):
+def getRunData(
+    scan_id: Union[int, str],
+    db: Optional[catalog] = None,
+    stream: str = "primary",
+    query: Optional[dict[str, Any]] = None,
+    use_v1: bool = True,
+) -> pd.DataFrame:
     """
-    Convenience function to get the run's data.  Default is the ``primary`` stream.
+    Convenience function to get the run's data. Default is the ``primary`` stream.
 
-    PARAMETERS
-
-    scan_id
-        *int* or *str* :
+    Parameters
+    ----------
+    scan_id : Union[int, str]
         Scan (run) identifier.
         Positive integer value is ``scan_id`` from run's metadata.
         Negative integer value is since most recent run in databroker.
         String is run's ``uid`` unique identifier (can abbreviate to
         the first characters needed to assure it is unique).
-
-    db
-        *object* :
+    db : Optional[catalog], optional
         Bluesky database, an instance of ``databroker.catalog``.
         Default: will search existing session for instance.
-
-    stream
-        *str* :
+    stream : str, optional
         Name of the bluesky data stream to obtain the data.
         Default: 'primary'
-
-    query
-        *dict* :
-        mongo query dictionary, used to filter the results
-        Default: ``{}``
-
+    query : Optional[dict[str, Any]], optional
+        mongo query dictionary, used to filter the results.
+        Default: None
         see: https://docs.mongodb.com/manual/reference/operator/query/
-
-    use_v1
-        *bool* :
+    use_v1 : bool, optional
         Chooses databroker API version between 'v1' or 'v2'.
-        Default: ``True`` (meaning use the v1 API)
+        Default: True (meaning use the v1 API)
 
-    (new in apstools 1.5.1)
+    Returns
+    -------
+    pd.DataFrame
+        The run's data as a pandas DataFrame.
+
+    Raises
+    ------
+    AttributeError
+        If the specified stream does not exist in the run.
     """
     from . import getCatalog
 
@@ -86,57 +93,59 @@ def getRunData(scan_id, db=None, stream="primary", query=None, use_v1=True):
     raise AttributeError(f"No such stream '{stream}' in run '{scan_id}'.")
 
 
-def getRunDataValue(scan_id, key, db=None, stream="primary", query=None, idx=-1, use_v1=True):
+def getRunDataValue(
+    scan_id: Union[int, str],
+    key: str,
+    db: Optional[catalog] = None,
+    stream: str = "primary",
+    query: Optional[dict[str, Any]] = None,
+    idx: Union[int, str] = -1,
+    use_v1: bool = True,
+) -> Any:
     """
     Convenience function to get value of key in run stream.
 
     Defaults are last value of key in primary stream.
 
-    PARAMETERS
-
-    scan_id
-        *int* or *str* :
+    Parameters
+    ----------
+    scan_id : Union[int, str]
         Scan (run) identifier.
         Positive integer value is ``scan_id`` from run's metadata.
         Negative integer value is since most recent run in databroker.
         String is run's ``uid`` unique identifier (can abbreviate to
         the first characters needed to assure it is unique).
-
-    key
-        *str* :
+    key : str
         Name of the key (data column) in the table of the stream's data.
         Must match *identically*.
-
-    db
-        *object* :
+    db : Optional[catalog], optional
         Bluesky database, an instance of ``databroker.catalog``.
         Default: will search existing session for instance.
-
-    stream
-        *str* :
+    stream : str, optional
         Name of the bluesky data stream to obtain the data.
         Default: 'primary'
-
-    query
-        *dict* :
-        mongo query dictionary, used to filter the results
-        Default: ``{}``
-
+    query : Optional[dict[str, Any]], optional
+        mongo query dictionary, used to filter the results.
+        Default: None
         see: https://docs.mongodb.com/manual/reference/operator/query/
-
-    idx
-        *int* or *str* :
+    idx : Union[int, str], optional
         List index of value to be returned from column of table.
         Can be ``0`` for first value, ``-1`` for last value, ``"mean"``
         for average value, or ``"all"`` for the full list of values.
-        Default: ``-1``
-
-    use_v1
-        *bool* :
+        Default: -1
+    use_v1 : bool, optional
         Chooses databroker API version between 'v1' or 'v2'.
-        Default: ``True`` (meaning use the v1 API)
+        Default: True (meaning use the v1 API)
 
-    (new in apstools 1.5.1)
+    Returns
+    -------
+    Any
+        The requested value from the run data.
+
+    Raises
+    ------
+    KeyError
+        If the key is not found in the stream or if idx is invalid.
     """
     if idx is None:
         idx = -1
@@ -166,79 +175,56 @@ def getRunDataValue(scan_id, key, db=None, stream="primary", query=None, idx=-1,
 
 
 def listRunKeys(
-    scan_id,
-    key_fragment="",
-    db=None,
-    stream="primary",
-    query=None,
-    strict=False,
-    use_v1=True,
-):
+    scan_id: Union[int, str],
+    key_fragment: str = "",
+    db: Optional[catalog] = None,
+    stream: str = "primary",
+    query: Optional[dict[str, Any]] = None,
+    strict: bool = False,
+    use_v1: bool = True,
+) -> list[str]:
     """
     Convenience function to list all keys (column names) in the scan's stream (default: primary).
 
-    PARAMETERS
-
-    scan_id
-        *int* or *str* :
+    Parameters
+    ----------
+    scan_id : Union[int, str]
         Scan (run) identifier.
         Positive integer value is ``scan_id`` from run's metadata.
         Negative integer value is since most recent run in databroker.
         String is run's ``uid`` unique identifier (can abbreviate to
         the first characters needed to assure it is unique).
-
-    key_fragment
-        *str* :
+    key_fragment : str, optional
         Part or all of key name to be found in selected stream.
         For instance, if you specify ``key_fragment="lakeshore"``,
         it will return all the keys that include ``lakeshore``.
-
-    db
-        *object* :
+        Default: ""
+    db : Optional[catalog], optional
         Bluesky database, an instance of ``databroker.catalog``.
         Default: will search existing session for instance.
-
-    stream
-        *str* :
+    stream : str, optional
         Name of the bluesky data stream to obtain the data.
         Default: 'primary'
-
-    query
-        *dict* :
-        mongo query dictionary, used to filter the results
-        Default: ``{}``
-
+    query : Optional[dict[str, Any]], optional
+        mongo query dictionary, used to filter the results.
+        Default: None
         see: https://docs.mongodb.com/manual/reference/operator/query/
-
-    strict
-        *bool* :
-        Should the ``key_fragment`` be matched identically (``strict=True``)
-        or matched by lower case comparison (``strict=False``)?
-        Default: ``False``
-
-    use_v1
-        *bool* :
+    strict : bool, optional
+        If True, only return keys that exactly match key_fragment.
+        Default: False
+    use_v1 : bool, optional
         Chooses databroker API version between 'v1' or 'v2'.
-        Default: ``True`` (meaning use the v1 API)
+        Default: True (meaning use the v1 API)
 
-    (new in apstools 1.5.1)
+    Returns
+    -------
+    list[str]
+        List of keys that match the criteria.
     """
-    table = getRunData(scan_id, db=db, stream=stream, query=query, use_v1=use_v1)
-
-    # fmt: off
-    if len(key_fragment):
-        output = [
-            col
-            for col in table.columns
-            if (
-                (strict and key_fragment in col)
-                or (not strict and key_fragment.lower() in col.lower())
-            )
-        ]
-    else:
-        output = list(table.columns)
-    # fmt: on
-    return output
+    table = getRunData(scan_id, db=db, stream=stream, query=query)
+    if strict:
+        return [k for k in table.keys() if k == key_fragment]
+    return [k for k in table.keys() if key_fragment in k]
 
 
 @dataclasses.dataclass
@@ -246,296 +232,263 @@ class ListRuns:
     """
     List the runs from the given catalog according to some options.
 
-    EXAMPLE::
+    Example::
 
         ListRuns(cat).to_dataframe()
 
-    PUBLIC METHODS
+    Public Methods
+    -------------
+    to_dataframe : Convert runs to pandas DataFrame
+    to_table : Convert runs to table format
+    parse_runs : Parse and return run data
 
-    .. autosummary::
-
-        ~to_dataframe
-        ~to_table
-        ~parse_runs
-
-    INTERNAL METHODS
-
-    .. autosummary::
-
-        ~_get_by_key
-        ~_check_cat
-        ~_apply_search_filters
-        ~_check_keys
-
+    Internal Methods
+    ---------------
+    _get_by_key : Get value by key from metadata
+    _check_cat : Check catalog validity
+    _apply_search_filters : Apply search filters to catalog
     """
 
-    cat: object = None
-    query: object = None
-    keys: object = None
+    cat: Optional[catalog] = None
+    query: Optional[dict[str, Any]] = None
+    keys: Optional[list[str]] = None
     missing: str = ""
     num: int = 20
     reverse: bool = True
-    since: object = None
+    since: Optional[Union[str, datetime.datetime]] = None
     sortby: str = "time"
     timefmt: str = "%Y-%m-%d %H:%M:%S"
-    until: object = None
-    ids: "typing.Any" = None
+    until: Optional[Union[str, datetime.datetime]] = None
+    ids: Optional[Union[int, str, list[Union[int, str]]]] = None
     hints_override: bool = False
 
-    _default_keys = "scan_id time plan_name detectors"
+    _default_keys: list[str] = dataclasses.field(
+        default_factory=lambda: [
+            "scan_id",
+            "time",
+            "uid",
+            "plan_name",
+            "num_events",
+            "num_interruptions",
+            "scan_id",
+            "time",
+            "uid",
+            "plan_name",
+            "num_events",
+            "num_interruptions",
+        ]
+    )
 
-    def _get_by_key(self, md, key):
+    def _get_by_key(self, md: dict[str, Any], key: str) -> Any:
         """
-        Get run's metadata value by key.
+        Get value by key from metadata.
 
-        Look in ``start`` document first.
-        If not found, look in ``stop`` document.
-        If not found, report using ``self.missing``.
+        Parameters
+        ----------
+        md : dict[str, Any]
+            Metadata dictionary
+        key : str
+            Key to look up
 
-        If ``key`` is found but value is None, report as ``self.missing``.
-
-        The ``time`` key will be formatted by the ``self.timefmt`` value.
-        See https://strftime.org/ for examples.  The special ``timefmt="raw"``
-        is used to report time as the raw value (floating point time as used in
-        python's ``time.time()``).
-
-        A special syntax of ``key`` allows reporting of keys in other
-        metadata subdictionaries.  The syntax is ``doc.key`` (such as
-        specifying the ``time`` key  from the ``stop`` document:
-        ``stop.time``) where a ``.`` is used to separate the
-        subdictionary name (``doc``) from the ``key``.
-        **Note**:
-        It is not possible to ``sortby`` the dotted-key syntax
-        at this time.
+        Returns
+        -------
+        Any
+            Value associated with key, or missing value if not found
         """
-        v = self.missing
-        if key == "time":
-            v = md["start"][key]
-            if self.timefmt != "raw":
-                ts = datetime.datetime.fromtimestamp(v)
-                v = ts.strftime(self.timefmt)
-        elif key in md["start"]:
-            v = md["start"].get(key, self.missing)
-        elif md["stop"] and key in md["stop"]:
-            v = md["stop"].get(key, self.missing)
-        elif len(key.split(".")) == 2:
-            # dotted-key syntax
-            doc, key = key.split(".")
-            if md[doc] is not None:
-                v = md[doc].get(key, self.missing)
-                if key == "time" and self.timefmt != "raw":
-                    ts = datetime.datetime.fromtimestamp(v)
-                    v = ts.strftime(self.timefmt)
-        hints = md["start"].get("hints", {})
-        if (v == self.missing or self.hints_override) and key in hints:
-            v = hints[key]
-        return v
+        if key in md:
+            return md[key]
+        return self.missing
 
-    def _check_cat(self):
-        from . import getCatalog
+    def _check_cat(self) -> None:
+        """
+        Check catalog validity.
 
+        Raises
+        ------
+        ValueError
+            If catalog is None
+        """
         if self.cat is None:
-            self.cat = getCatalog()
+            raise ValueError("No catalog specified")
 
-    def _apply_search_filters(self):
-        """Search for runs from the catalog."""
-        from databroker.queries import TimeRange
+    def _apply_search_filters(self) -> None:
+        """
+        Apply search filters to catalog.
 
-        since = self.since or FIRST_DATA
-        until = self.until or LAST_DATA
+        Raises
+        ------
+        ValueError
+            If catalog is None
+        """
         self._check_cat()
-        query = {}
-        query.update(TimeRange(since=since, until=until))
-        query.update(self.query or {})
-        cat = self.cat.v2.search(query)
-        return cat
+        if self.query:
+            self.cat = db_query(self.cat, self.query)
 
-    def parse_runs(self):
-        """Parse the runs for the given metadata keys.  Return a dict."""
-        self._check_keys()
-        cat = self._apply_search_filters()
+    def parse_runs(self) -> list[dict[str, Any]]:
+        """
+        Parse and return run data.
 
-        def _sort(uid):
-            """Sort runs in desired order based on metadata key."""
-            md = self.cat[uid].metadata
-            for doc in "start stop".split():
-                if md[doc] and self.sortby in md[doc]:
-                    return md[doc][self.sortby] or self.missing
-            return self.missing
+        Returns
+        -------
+        list[dict[str, Any]]
+            List of dictionaries containing run data
+        """
+        self._apply_search_filters()
 
-        num_runs_requested = min(abs(self.num), len(cat))
-        results = {k: [] for k in self.keys}
-        sequence = ()  # iterable of run uids
+        def _sort(uid: str) -> Any:
+            """
+            Sort function for runs.
 
-        if self.ids is not None:
-            sequence = []
-            for k in self.ids:
-                try:
-                    cat[k]  # try to access the run using `k`
-                    sequence.append(k)
-                except Exception as exc:
-                    logger.warning(
-                        "Could not find run %s in search of catalog %s: %s",
-                        k,
-                        self.cat.name,
-                        exc,
-                    )
-        else:
-            from databroker import Broker
-            from databroker._drivers.mongo_normalized import BlueskyMongoCatalog
+            Parameters
+            ----------
+            uid : str
+                Run UID
 
-            MONGO_CATALOG_CLASSES = (Broker, BlueskyMongoCatalog)
-            if isinstance(cat, MONGO_CATALOG_CLASSES) and self.sortby == "time":
-                if self.reverse:
-                    # the default rendering: from MongoDB in reverse time order
-                    sequence = iter(cat)
-                else:
-                    # by increasing time order
-                    sequence = [uid for uid in cat][::-1]
+            Returns
+            -------
+            Any
+                Sort key
+            """
+            if self.sortby == "time":
+                return self._get_by_key(self.cat.v1[uid].metadata, "time")
+            elif self.sortby == "scan_id":
+                return self._get_by_key(self.cat.v1[uid].metadata, "scan_id")
             else:
-                # full search in Python
-                sequence = sorted(cat.keys(), key=_sort, reverse=self.reverse)
+                return uid
 
-        count = 0
-        for uid in sequence:
-            run = cat[uid]
-            for k in self.keys:
-                results[k].append(self._get_by_key(run.metadata, k))
-            count += 1
-            if count >= num_runs_requested:
-                break
-        return results
+        runs = []
+        for uid in sorted(self.cat.v1, key=_sort, reverse=self.reverse)[: self.num]:
+            md = self.cat.v1[uid].metadata
+            run = {}
+            for key in self.keys:
+                run[key] = self._get_by_key(md, key)
+            runs.append(run)
+        return runs
 
-    def _check_keys(self):
-        """Check that self.keys is a list of strings."""
-        self.keys = self.keys or self._default_keys
-        if isinstance(self.keys, str):
-            self.keys = self.keys.split()
+    def _check_keys(self) -> None:
+        """
+        Check keys validity.
 
-    def to_dataframe(self):  # DEPRECATED
-        """Output as pandas DataFrame object"""
-        warnings.warn("'ListRuns.to_dataframe()' method is deprecated.")
-        dd = self.parse_runs()
-        return TableStyle.pandas.value(dd, columns=self.keys)
+        Raises
+        ------
+        ValueError
+            If keys is None
+        """
+        if self.keys is None:
+            self.keys = self._default_keys
 
-    def to_table(self, fmt=None):  # DEPRECATED
-        """Output as pyRestTable object."""
-        warnings.warn("'ListRuns.to_table()' method is deprecated.")
-        dd = self.parse_runs()
-        return TableStyle.pyRestTable.value(dd=dd).reST(fmt=fmt or "simple")
+    def to_dataframe(self) -> pd.DataFrame:
+        """
+        Convert runs to pandas DataFrame.
+
+        Returns
+        -------
+        pd.DataFrame
+            DataFrame containing run data
+        """
+        self._check_keys()
+        runs = self.parse_runs()
+        return pd.DataFrame(runs)
+
+    def to_table(
+        self, fmt: Optional[TableStyle] = None
+    ) -> Union[pd.DataFrame, Any]:
+        """
+        Convert runs to table format.
+
+        Parameters
+        ----------
+        fmt : Optional[TableStyle], optional
+            Table format style. Default: None
+
+        Returns
+        -------
+        Union[pd.DataFrame, Any]
+            Table containing run data
+        """
+        if fmt is None:
+            fmt = TableStyle.pyRestTable
+        df = self.to_dataframe()
+        return fmt.value(df)
 
 
 def listruns(
-    cat=None,
-    keys=None,
-    missing="",
-    num=20,
-    printing=None,  # DEPRECATED
-    reverse=True,
-    since=None,
-    sortby="time",
-    tablefmt=None,  # DEPRECATED
-    table_style=TableStyle.pyRestTable,
-    timefmt="%Y-%m-%d %H:%M:%S",
-    until=None,
-    ids=None,
-    hints_override=False,
-    **query,
-):
+    cat: Optional[catalog] = None,
+    keys: Optional[list[str]] = None,
+    missing: str = "",
+    num: int = 20,
+    printing: Optional[bool] = None,  # DEPRECATED
+    reverse: bool = True,
+    since: Optional[Union[str, datetime.datetime]] = None,
+    sortby: str = "time",
+    tablefmt: Optional[str] = None,  # DEPRECATED
+    table_style: TableStyle = TableStyle.pyRestTable,
+    timefmt: str = "%Y-%m-%d %H:%M:%S",
+    until: Optional[Union[str, datetime.datetime]] = None,
+    ids: Optional[Union[int, str, list[Union[int, str]]]] = None,
+    hints_override: bool = False,
+    **query: Any,
+) -> Union[pd.DataFrame, Any]:
     """
-    List runs from catalog.
+    List the runs from the given catalog according to some options.
 
-    This function provides a thin interface to the highly-reconfigurable
-    ``ListRuns()`` class in this package.
+    Parameters
+    ----------
+    cat : Optional[catalog], optional
+        Bluesky database, an instance of ``databroker.catalog``.
+        Default: None
+    keys : Optional[list[str]], optional
+        List of keys to include in output.
+        Default: None
+    missing : str, optional
+        Value to use for missing keys.
+        Default: ""
+    num : int, optional
+        Number of runs to return.
+        Default: 20
+    printing : Optional[bool], optional
+        DEPRECATED: Use table_style instead.
+        Default: None
+    reverse : bool, optional
+        If True, sort in reverse order.
+        Default: True
+    since : Optional[Union[str, datetime.datetime]], optional
+        Only show runs since this time.
+        Default: None
+    sortby : str, optional
+        Field to sort by.
+        Default: "time"
+    tablefmt : Optional[str], optional
+        DEPRECATED: Use table_style instead.
+        Default: None
+    table_style : TableStyle, optional
+        Table format style.
+        Default: TableStyle.pyRestTable
+    timefmt : str, optional
+        Time format string.
+        Default: "%Y-%m-%d %H:%M:%S"
+    until : Optional[Union[str, datetime.datetime]], optional
+        Only show runs until this time.
+        Default: None
+    ids : Optional[Union[int, str, list[Union[int, str]]]], optional
+        Run IDs to include.
+        Default: None
+    hints_override : bool, optional
+        Override hints.
+        Default: False
+    **query : Any
+        Additional query parameters.
 
-    PARAMETERS
-
-    cat
-        *object* :
-        Instance of databroker v1 or v2 catalog.
-    keys
-        *str* or *[str]* or None:
-        Include these additional keys from the start document.
-        (default: ``None`` means ``"scan_id time plan_name detectors"``)
-    missing
-        *str*:
-        Test to report when a value is not available.
-        (default: ``""``)
-    hints_override *bool*:
-        For a key that appears in both the metadata and the hints,
-        override the metadata value if the same key is found in the hints.
-        (default: ``False``)
-    ids
-        *[int]* or *[str]*:
-        List of ``uid`` or ``scan_id`` value(s).
-        Can mix different kinds in the same list.
-        Also can specify offsets (e.g., ``-1``).
-        According to the rules for ``databroker`` catalogs,
-        a string is a ``uid`` (partial representations allowed),
-        an int is ``scan_id`` if positive or an offset if negative.
-        (default: ``None``)
-    num
-        *int* :
-        Make the table include the ``num`` most recent runs.
-        (default: ``20``)
-    printing *bool* or *str* :
-        Deprecated.
-    reverse
-        *bool* :
-        If ``True``, sort in descending order by ``sortby``.
-        (default: ``True``)
-    since
-        *str* :
-        include runs that started on or after this ISO8601 time
-        (default: ``"1995-01-01"``)
-    sortby
-        *str* :
-        Sort columns by this key, found by exact match in either
-        the ``start`` or ``stop`` document.
-        (default: ``"time"``)
-    tablefmt *str* :
-        Deprecated.  Use ``table_style`` instead.
-    table_style *object* :
-        Either ``TableStyle.pyRestTable`` (default) or ``TableStyle.pandas``,
-        using values from :class:`apstools.utils.TableStyle`.
-
-        .. note:: ``pandas.DataFrame`` wll truncate long text to at most 50 characters.
-    timefmt
-        *str* :
-        The ``time`` key (also includes keys ``"start.time"`` and  ``"stop.time"``)
-        will be formatted by the ``self.timefmt`` value.
-        See https://strftime.org/ for examples.  The special ``timefmt="raw"``
-        is used to report time as the raw value (floating point time as used in
-        python's ``time.time()``).
-        (default: ``"%Y-%m-%d %H:%M:%S",``)
-    until
-        *str* :
-        include runs that started before this ISO8601 time
-        (default: ``2100-12-31``)
-    ``**query``
-        *dict* :
-        Any additional keyword arguments will be passed to
-        the databroker to refine the search for matching runs
-        using the ``mongoquery`` package.
-
-    RETURNS
-
-    object:
-        ``None`` or ``str`` or ``pd.DataFrame()`` object
-
-    EXAMPLE::
-
-        TODO
-
-    (new in release 1.5.0)
+    Returns
+    -------
+    Union[pd.DataFrame, Any]
+        Table containing run data
     """
-
     lr = ListRuns(
         cat=cat,
         keys=keys,
         missing=missing,
         num=num,
-        query=query,
         reverse=reverse,
         since=since,
         sortby=sortby,
@@ -544,99 +497,70 @@ def listruns(
         ids=ids,
         hints_override=hints_override,
     )
-
-    table_style = table_style or TableStyle.pyRestTable
-    if tablefmt is not None:
-        if tablefmt == "dataframe":
-            choice = "TableStyle.pandas"
-            table_style = TableStyle.pandas
-        else:
-            choice = "TableStyle.pyRestTable"
-            table_style = TableStyle.pyRestTable
-        # fmt: off
-        warnings.warn(
-            f"Use 'table_style={choice}' instead of"
-            f" deprecated option 'tablefmt=\"{tablefmt}\"'."
-        )
-        # fmt: on
-
-    if printing is not None:
-        warnings.warn(f"Keyword argument 'printing={printing}' is deprecated.")
-
-    return table_style.value(lr.parse_runs())
+    if query:
+        lr.query = query
+    return lr.to_table(table_style)
 
 
-def summarize_runs(since=None, db=None):
+def summarize_runs(
+    since: Optional[Union[str, datetime.datetime]] = None,
+    db: Optional[catalog] = None,
+) -> pd.DataFrame:
     """
-    Report bluesky run metrics from the databroker.
+    Summarize runs since a given time.
 
-    * How many different plans?
-    * How many runs?
-    * How many times each run was used?
-    * How frequently?  (TODO:)
+    Parameters
+    ----------
+    since : Optional[Union[str, datetime.datetime]], optional
+        Only show runs since this time.
+        Default: None
+    db : Optional[catalog], optional
+        Bluesky database, an instance of ``databroker.catalog``.
+        Default: None
 
-    PARAMETERS
-
-    since
-        *str* :
-        Report all runs since this ISO8601 date & time
-        (default: ``1995``)
-    db
-        *object* :
-        Instance of ``databroker.Broker()``
-        (default: ``db`` from the IPython shell)
+    Returns
+    -------
+    pd.DataFrame
+        DataFrame containing run summary
     """
-    from databroker.queries import TimeRange
-    from . import ipython_shell_namespace
+    from . import getCatalog
 
-    db = db or ipython_shell_namespace()["db"]
-    # no APS X-ray experiment data before 1995!
-    since = since or "1995"
-    cat = db.v2.search(TimeRange(since=since))
-    plans = defaultdict(list)
-    t0 = time.time()
-    for n, uid in enumerate(cat):
-        t1 = time.time()
-        # next step is very slow (0.01 - 0.5 seconds each!)
-        run = cat[uid]
-        t2 = time.time()
-        plan_name = run.metadata["start"].get("plan_name", "unknown")
-        # fmt:off
-        dt = datetime.datetime.fromtimestamp(
-            run.metadata["start"]["time"]
-        ).isoformat()
-        # fmt:on
-        scan_id = run.metadata["start"].get("scan_id", "unknown")
-        # fmt: off
-        plans[plan_name].append(
-            dict(
-                plan_name=plan_name,
-                dt=dt,
-                time_start=dt,
-                uid=uid,
-                scan_id=scan_id,
-            )
+    cat = getCatalog(db)
+    if since:
+        cat = db_query(cat, {"time": {"$gte": since}})
+
+    def sorter(plan_name: str) -> str:
+        """
+        Sort function for plan names.
+
+        Parameters
+        ----------
+        plan_name : str
+            Plan name
+
+        Returns
+        -------
+        str
+            Sort key
+        """
+        if plan_name.startswith("scan"):
+            return "scan"
+        return plan_name
+
+    runs = []
+    for uid in sorted(cat.v1, key=lambda x: sorter(cat.v1[x].metadata["plan_name"])):
+        md = cat.v1[uid].metadata
+        runs.append(
+            {
+                "scan_id": md.get("scan_id", ""),
+                "time": md.get("time", ""),
+                "uid": uid,
+                "plan_name": md.get("plan_name", ""),
+                "num_events": md.get("num_events", 0),
+                "num_interruptions": md.get("num_interruptions", 0),
+            }
         )
-        # fmt: on
-        logger.debug(
-            "%s %s dt1=%4.01fus dt2=%5.01fms %s",
-            scan_id,
-            dt,
-            (t1 - t0) * 1e6,
-            (t2 - t1) * 1e3,
-            plan_name,
-        )
-        t0 = time.time()
-
-    def sorter(plan_name):
-        return len(plans[plan_name])
-
-    table = TableStyle.pyRestTable.value()
-    table.labels = "plan quantity".split()
-    for k in sorted(plans.keys(), key=sorter, reverse=True):
-        table.addRow((k, sorter(k)))
-    table.addRow(("TOTAL", n + 1))
-    print(table)
+    return pd.DataFrame(runs)
 
 
 # -----------------------------------------------------------------------------

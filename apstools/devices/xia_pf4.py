@@ -12,7 +12,7 @@ XIA PF4 Filters
    ~DualPf4FilterBox
 """
 
-from typing import Any, Dict, Optional, Union
+from typing import Any, Optional, Union
 
 from ophyd import Component
 from ophyd import Device

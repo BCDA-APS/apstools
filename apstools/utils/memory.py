@@ -8,13 +8,26 @@ Diagnostic Support for Memory
 """
 
 import os
-
 import psutil
 
 
-def rss_mem():
-    """return memory used by this process"""
-    return psutil.Process(os.getpid()).memory_info()
+def rss_mem() -> dict[str, int]:
+    """
+    Return memory used by this process.
+
+    Returns
+    -------
+    dict[str, int]
+        Dictionary containing memory information with keys:
+        - rss: Resident Set Size (physical memory used)
+        - vms: Virtual Memory Size (total virtual memory)
+        - shared: Shared memory size
+        - text: Text segment size
+        - lib: Library size
+        - data: Data segment size
+        - dirty: Dirty pages size
+    """
+    return psutil.Process(os.getpid()).memory_info()._asdict()
 
 
 # -----------------------------------------------------------------------------

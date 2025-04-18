@@ -14,11 +14,21 @@ Plot Support
 import datetime
 import logging
 import math
+from typing import Any, Dict, List, Optional, Tuple, Union
 
 logger = logging.getLogger(__name__)
 
 
-def plotxy(runs, xname, yname, append=False, cat=None, stats=True, stream="primary", title=None):
+def plotxy(
+    runs: Union[Any, List[Any]],
+    xname: str,
+    yname: str,
+    append: bool = False,
+    cat: Optional[Any] = None,
+    stats: bool = True,
+    stream: str = "primary",
+    title: Optional[str] = None,
+) -> Optional[Dict[str, Any]]:
     """
     Plot y vs x from a bluesky run.
 
@@ -26,38 +36,39 @@ def plotxy(runs, xname, yname, append=False, cat=None, stats=True, stream="prima
 
     PARAMETERS
 
-    ``runs`` : *[run]* or *run*:
+    runs : Union[Any, List[Any]]
         List or runs or single ``run``.  A ``run`` is either a
         ``bluesky.core.BlueskyRun`` object or a reference (uid, scan_id,
         relative to most recent) to a BlueskyRun in the catalog.
-    ``xname`` : *str*:
+    xname : str
         Name of the signal to plot on the **x** axis.
-    ``yname`` : *str*:
+    yname : str
         Name of the signal to plot on the **y** axis.
-    ``append`` : *bool*:
-        (optional) If ``True``, append to existing plot window.
+    append : bool
+        If ``True``, append to existing plot window.
         Default: ``append=False``
-    ``cat`` : *object*:
-        (optional) Catalog to be used for finding a run by reference.
+    cat : Optional[Any]
+        Catalog to be used for finding a run by reference.
         Default: return value from ``apstools.utils.getCatalog()``
-    ``stats`` : *bool*:
-        (optional) If ``True``, compute and plot centroid and FWHM
+    stats : bool
+        If ``True``, compute and plot centroid and FWHM
         (computed from sigma).
         Default: ``stats=True``
-    ``stream`` : *str*:
-        (optional) Name of the data stream in which to find "xname"
+    stream : str
+        Name of the data stream in which to find "xname"
         and "yname".
         Default: ``stream="primary"``
-    ``title`` : *str*:
-        (optional) Title to show on this plot.
+    title : Optional[str]
+        Title to show on this plot.
         Default: Metadata "title" keyword of first run (if found)
         or scan_id and starting date/time of first run.
 
     RETURNS
 
-    Returns a *dict* of statistics for each run indexed by ``scan_id``,
-    if ``stats=True``, else ``None``.  A computed ``fwhm`` key is added
-    to the statistics.
+    Optional[Dict[str, Any]]
+        Returns a dictionary of statistics for each run indexed by ``scan_id``,
+        if ``stats=True``, else ``None``.  A computed ``fwhm`` key is added
+        to the statistics.
 
     New in release 1.6.10.
     """
@@ -142,23 +153,21 @@ def plotxy(runs, xname, yname, append=False, cat=None, stats=True, stream="prima
         return statistics
 
 
-def select_mpl_figure(x, y):
+def select_mpl_figure(x: Any, y: Any) -> Optional[Any]:
     """
     Get the MatPlotLib Figure window for y vs x.
 
     PARAMETERS
 
-    x
-        *object*:
+    x : Any
         X axis object (an ``ophyd.Signal``)
-    y
-        ophyd object:
-        X axis object (an ``ophyd.Signal``)
+    y : Any
+        Y axis object (an ``ophyd.Signal``)
 
     RETURNS
 
-    object or ``None``:
-        Instance of ``matplotlib.pyplot.Figure()``
+    Optional[Any]
+        Instance of ``matplotlib.pyplot.Figure()`` or None if not found
     """
     import matplotlib.pyplot as plt
 
@@ -167,22 +176,20 @@ def select_mpl_figure(x, y):
         return plt.figure(figure_name)
 
 
-def select_live_plot(bec, signal):
+def select_live_plot(bec: Any, signal: Any) -> Optional[Any]:
     """
     Get the *first* live plot that matches ``signal``.
 
     PARAMETERS
 
-    bec
-        *object*:
+    bec : Any
         instance of ``bluesky.callbacks.best_effort.BestEffortCallback``
-    signal
-        *object*:
+    signal : Any
         The Y axis object (an ``ophyd.Signal``)
 
     RETURNS
 
-    *object*:
+    Optional[Any]
         Instance of ``bluesky.callbacks.best_effort.LivePlotPlusPeaks()``
         or ``None``
     """
@@ -192,7 +199,7 @@ def select_live_plot(bec, signal):
             return live_plot
 
 
-def trim_plot_lines(bec, n, x, y):
+def trim_plot_lines(bec: Any, n: int, x: Any, y: Any) -> None:
     """
     Find the plot with axes x and y and replot with at most the last *n* lines.
 
@@ -205,21 +212,17 @@ def trim_plot_lines(bec, n, x, y):
 
     PARAMETERS
 
-    bec
-        *object* :
+    bec : Any
         instance of BestEffortCallback
 
-    n
-        *int* :
+    n : int
         number of plots to keep
 
-    x
-        *object* :
+    x : Any
         instance of ophyd.Signal (or subclass),
         independent (x) axis
 
-    y
-        *object* :
+    y : Any
         instance of ophyd.Signal (or subclass),
         dependent (y) axis
 
@@ -255,56 +258,19 @@ def trim_plot_lines(bec, n, x, y):
     logger.debug("trim complete")
 
 
-def trim_plot_by_name(n=3, plots=None):
+def trim_plot_by_name(n: int = 3, plots: Optional[Union[str, List[str]]] = None) -> None:
     """
-    Find the plot(s) by name and replot with at most the last *n* lines.
-
-    Note: this is not a bluesky plan.  Call it as normal Python function.
-
-    It is recommended to call :func:`~trim_plot_by_name()` *before* the
-    scan(s) that generate plots.  Plots are generated from a RunEngine
-    callback, executed *after* the scan completes.
+    Find the plot with axes x and y and replot with at most the last *n* lines.
 
     PARAMETERS
 
-    n
-        *int* :
+    n : int
         number of plots to keep
+        Default: 3
 
-    plots
-        *str*, [*str*], or *None* :
-        name(s) of plot windows to trim
-        (default: all plot windows)
-
-    EXAMPLES::
-
-        trim_plot_by_name()   # default of n=3, apply to all plots
-        trim_plot_by_name(5)  # change from default of n=3
-        trim_plot_by_name(5, "noisy_det vs motor")  # just this plot
-        trim_plot_by_name(
-            5,
-            ["noisy_det vs motor", "det noisy_det vs motor"]]
-        )
-
-    EXAMPLE::
-
-        # use simulators from ophyd
-        from bluesky import plans as bp
-        from bluesky import plan_stubs as bps
-        from ophyd.sim import *
-
-        snooze = 0.25
-
-        def scan_set():
-            trim_plot_by_name()
-            yield from bp.scan([noisy_det], motor, -1, 1, 5)
-            yield from bp.scan([noisy_det, det], motor, -2, 1, motor2, 3, 1, 6)
-            yield from bps.sleep(snooze)
-
-        # repeat the_scans 15 times
-        uids = RE(bps.repeat(scan_set, 15))
-
-    (new in release 1.3.5)
+    plots : Optional[Union[str, List[str]]]
+        name(s) of plot(s) to trim
+        Default: None (all plots)
     """
     import matplotlib.pyplot as plt
 

@@ -13,6 +13,7 @@ Statistics
 
 import logging
 import math
+from typing import Any, Optional
 
 import numpy as np
 
@@ -33,12 +34,12 @@ standard deviation, :math:`\sigma_c`, of the center of mass (centroid),
 """
 
 
-def array_index(arr, value) -> int:
+def array_index(arr: np.ndarray, value: Any) -> int:
     """Return the index for the first occurence of value in arr."""
     return np.where(arr == value)[0][0]
 
 
-def peak_full_width(x, y, positive=True) -> float:
+def peak_full_width(x: np.ndarray, y: np.ndarray, positive: bool = True) -> float:
     """
     Assess *apparent* FWHM by inspecting the data.
 
@@ -81,7 +82,7 @@ def peak_full_width(x, y, positive=True) -> float:
             i_hi += 1
             logger.debug(f"{i_lo=} {i_hi=} {len(y)=}")
 
-    def interpolate_2_point(value, lo, hi):
+    def interpolate_2_point(value: float, lo: int, hi: int) -> float:
         """Could fail if y2 == y1: ZeroDivisionError."""
         lo, hi = sorted([lo, hi])  # take no chances
         x1, x2 = x[lo], x[hi]
@@ -95,7 +96,7 @@ def peak_full_width(x, y, positive=True) -> float:
     return fwhm
 
 
-def xy_statistics(x: list, y: list = None) -> MMap:
+def xy_statistics(x: list[float], y: Optional[list[float]] = None) -> MMap:
     r"""
     Compute statistical measures of a 1-D array (or weighted array), using *numpy*.
 

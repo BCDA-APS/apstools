@@ -14,7 +14,7 @@ Public Structures
 """
 
 from collections import OrderedDict
-from typing import Any, Dict, List, Optional, Union
+from typing import Any
 
 from ophyd import Component as Cpt
 from ophyd import Device
@@ -54,7 +54,7 @@ class SubRecordChannel(Device):
         self.input_value.put(0)
 
 
-def _channels(input_list: List[str]) -> Dict[str, tuple]:
+def _channels(input_list: list[str]) -> dict[str, tuple]:
     """Create channel definitions."""
     defn = OrderedDict()
     for nsym in input_list:

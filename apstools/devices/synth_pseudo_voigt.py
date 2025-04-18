@@ -40,7 +40,7 @@ EXAMPLES:
 """
 
 import numpy as np
-from typing import Any, Dict, Optional, Union
+from typing import Any, Optional, Union
 
 import ophyd.sim
 
@@ -125,12 +125,10 @@ class SynPseudoVoigt(ophyd.sim.SynSignal):  # lgtm [py/missing-call-to-init]
 
         def f_lorentzian(x: float, gamma: float) -> float:
             # return gamma / np.pi / (x**2 + gamma**2)
-            return 1 / np.pi / gamma / (1 + (x / gamma) ** 2)
+            return 1 / (1 + (x / gamma) ** 2)
 
         def f_gaussian(x: float, sigma: float) -> float:
-            numerator = np.exp(-0.5 * (x / sigma) ** 2)
-            denominator = sigma * np.sqrt(2 * np.pi)
-            return numerator / denominator
+            return np.exp(-(x / sigma) ** 2)
 
         def pvoigt() -> Union[float, int]:
             m = motor.read()[self.motor_field]["value"]
@@ -148,22 +146,21 @@ class SynPseudoVoigt(ophyd.sim.SynSignal):  # lgtm [py/missing-call-to-init]
                 v += np.random.uniform(-1, 1) * self.noise_multiplier
             return v
 
-        ophyd.sim.SynSignal.__init__(self, name=name, func=pvoigt, **kwargs)
+        super().__init__(name=name, func=pvoigt, **kwargs)
 
     def randomize_parameters(self, scale: float = 100_000, bkg: float = 0.01) -> None:
         """
-        Set random parameters. -1 <= center < 1, 0.001 <= sigma < 0.051, 95k <= scale <= 105k
+        Randomize the parameters of the pseudo-Voigt function.
 
         Args:
-            scale: The base scale value to randomize around
-            bkg: The base background value to randomize around
+            scale: The scale factor to use (default: 100,000)
+            bkg: The background level to use (default: 0.01)
         """
-        self.center = -1.0 + 2 * np.random.uniform()
+        self.center = -1.5 + 0.5 * np.random.uniform()
         self.eta = 0.2 + 0.5 * np.random.uniform()
         self.sigma = 0.001 + 0.05 * np.random.uniform()
-        self.scale = scale * (0.95 + 0.1 * np.random.uniform())
+        self.scale = scale
         self.bkg = bkg * np.random.uniform()
-        self.noise = "poisson"
 
 
 # -----------------------------------------------------------------------------

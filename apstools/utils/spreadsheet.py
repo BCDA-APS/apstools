@@ -12,6 +12,7 @@ Spreadsheet Support
 import math
 import pathlib
 from collections import OrderedDict
+from typing import Any, Optional, Union
 
 import openpyxl
 import openpyxl.utils.exceptions
@@ -65,9 +66,9 @@ class ExcelDatabaseFileBase(object):
     # EXCEL_FILE = pathlib.Path("abstracts") / "index of abstracts.xlsx"
     LABELS_ROW = 3  # labels are on line LABELS_ROW+1 in the Excel file
 
-    def __init__(self, ignore_extra=True):
-        self.db = OrderedDict()
-        self.data_labels = None
+    def __init__(self, ignore_extra: bool = True) -> None:
+        self.db: OrderedDict[str, Any] = OrderedDict()
+        self.data_labels: Optional[list[str]] = None
         if self.EXCEL_FILE is None:
             raise ValueError("subclass must define EXCEL_FILE")
         self.fname = pathlib.Path(".") / self.EXCEL_FILE
@@ -76,14 +77,14 @@ class ExcelDatabaseFileBase(object):
 
         self.parse(ignore_extra=ignore_extra)
 
-    def handle_single_entry(self, entry):  # subclass MUST override
+    def handle_single_entry(self, entry: OrderedDict[str, Any]) -> None:  # subclass MUST override
         # fmt: off
         raise NotImplementedError(
             "subclass must override handle_single_entry() method"
         )
         # fmt: on
 
-    def handleExcelRowEntry(self, entry):  # subclass MUST override
+    def handleExcelRowEntry(self, entry: OrderedDict[str, Any]) -> None:  # subclass MUST override
         # fmt: off
         raise NotImplementedError(
             "subclass must override handleExcelRowEntry() method"
@@ -92,10 +93,10 @@ class ExcelDatabaseFileBase(object):
 
     def parse(
         self,
-        labels_row_num=None,
-        data_start_row_num=None,
-        ignore_extra=True,
-    ):
+        labels_row_num: Optional[int] = None,
+        data_start_row_num: Optional[int] = None,
+        ignore_extra: bool = True,
+    ) -> None:
         labels_row_num = labels_row_num or self.LABELS_ROW
         try:
             wb = openpyxl.load_workbook(self.fname)
@@ -131,7 +132,7 @@ class ExcelDatabaseFileBase(object):
                 self.handle_single_entry(entry)
             self.handleExcelRowEntry(entry)
 
-    def _getExcelColumnValue(self, row_data, col):
+    def _getExcelColumnValue(self, row_data: Any, col: int) -> Optional[str]:
         v = row_data[col]
         if self._isExcel_nan(v):
             v = None
@@ -141,7 +142,7 @@ class ExcelDatabaseFileBase(object):
                 v = v.strip()
         return v
 
-    def _isExcel_nan(self, value):
+    def _isExcel_nan(self, value: Any) -> bool:
         if not isinstance(value, float):
             return False
         return math.isnan(value)
@@ -267,13 +268,12 @@ class ExcelDatabaseFileGeneric(ExcelDatabaseFileBase):
 
     """
 
-    def __init__(self, filename, labels_row=3, ignore_extra=True):
-        self._index_ = 0
-        self.EXCEL_FILE = self.EXCEL_FILE or filename
-        self.LABELS_ROW = labels_row
-        ExcelDatabaseFileBase.__init__(self, ignore_extra=ignore_extra)
+    def __init__(self, filename: Union[str, pathlib.Path], labels_row: int = 3, ignore_extra: bool = True) -> None:
+        self.EXCEL_FILE = filename
+        super().__init__(ignore_extra=ignore_extra)
 
-    def handle_single_entry(self, entry):
+    def handle_single_entry(self, entry: OrderedDict[str, Any]) -> None:
+        """No special handling needed for generic case."""
         pass
 
     def handleExcelRowEntry(self, entry):

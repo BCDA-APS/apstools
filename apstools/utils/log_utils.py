@@ -13,52 +13,56 @@ There is a guide describing :ref:`howto_session_logs`.
 """
 
 import pathlib
-from logging import DEBUG
-from logging import FileHandler
-from logging import Formatter
-from logging import StreamHandler
+from logging import DEBUG, FileHandler, Formatter, Logger, StreamHandler
 from logging.handlers import RotatingFileHandler
+from typing import Optional, Union
 
 
 def file_log_handler(
-    file_name_base,
-    maxBytes=0,
-    backupCount=0,
-    log_path=None,
-    level=None,
-):
+    file_name_base: str,
+    maxBytes: int = 0,
+    backupCount: int = 0,
+    log_path: Optional[Union[str, pathlib.Path]] = None,
+    level: Optional[int] = None,
+) -> Union[FileHandler, RotatingFileHandler]:
     """
     Record logging output to a file.
 
-    PARAMETERS
-
-    file_name_base : *str*
+    Parameters
+    ----------
+    file_name_base : str
         Part of the name to store the log file. Full name is
         ``f"<log_path>/{file_name_base}.log"`` in present working directory.
-    log_path : *str*
-        Part of the name to store the log file. Full name is
-        ``f"<log_path>/{file_name_base}.log"`` in present working directory.
-        default: (the present working directory)/LOG_DIR_BASE
-    level : *int*
-        Threshold for reporting messages with this logger. Logging messages
-        which are less severe than ``level`` will be ignored.
-        default: 10 (``logging.DEBUG`` or ``DEBUG``)
-        see: https://docs.python.org/3/library/logging.html#levels
-    maxBytes : (optional) *int*
-        Log file *rollover* begins whenever the current log file is nearly
-        *maxBytes* in length.  A new file is written when the current line will
+    maxBytes : int, optional
+        Log file rollover begins whenever the current log file is nearly
+        maxBytes in length. A new file is written when the current line will
         push the current file beyond this limit.
-        default: 0
-    backupCount : (optional) *int*
-        When *backupCount* is non-zero, the system will keep up to *backupCount*
-        numbered log files (with added extensions `.1`, '.2`, ...).  The current
-        log file always has no numbered extension.  The previous log file is the
+        Default: 0
+    backupCount : int, optional
+        When backupCount is non-zero, the system will keep up to backupCount
+        numbered log files (with added extensions `.1`, '.2', ...). The current
+        log file always has no numbered extension. The previous log file is the
         one with the lowest extension number.
-        default: 0
+        Default: 0
+    log_path : Optional[Union[str, pathlib.Path]], optional
+        Part of the name to store the log file. Full name is
+        ``f"<log_path>/{file_name_base}.log"`` in present working directory.
+        Default: (the present working directory)/LOG_DIR_BASE
+    level : Optional[int], optional
+        Threshold for reporting messages with this logger. Logging messages
+        which are less severe than level will be ignored.
+        Default: 10 (logging.DEBUG or DEBUG)
+        See: https://docs.python.org/3/library/logging.html#levels
 
-    .. note::  When either ``maxBytes`` or ``backupCount`` are zero,
-        log file rollover never occurs, so you generally want to set
-        ``backupCount`` to at least 1, and have a non-zero ``maxBytes``.
+    Returns
+    -------
+    Union[FileHandler, RotatingFileHandler]
+        Configured file handler for logging.
+
+    Notes
+    -----
+    When either maxBytes or backupCount are zero, log file rollover never occurs,
+    so you generally want to set backupCount to at least 1, and have a non-zero maxBytes.
     """
     log_path = log_path or get_log_path()
     log_file = log_path / f"{file_name_base}.log"
@@ -90,9 +94,14 @@ def file_log_handler(
     return handler
 
 
-def get_log_path():
+def get_log_path() -> pathlib.Path:
     """
     Return a path to `./.logs`. Create directory if it does not exist.
+
+    Returns
+    -------
+    pathlib.Path
+        Path to the logs directory.
     """
     path = pathlib.Path().cwd() / ".logs"
     if not path.exists():
@@ -100,23 +109,26 @@ def get_log_path():
     return path
 
 
-def setup_IPython_console_logging(logger=None, filename="ipython_console.log", log_path=None):
+def setup_IPython_console_logging(
+    logger: Optional[Logger] = None,
+    filename: str = "ipython_console.log",
+    log_path: Optional[Union[str, pathlib.Path]] = None,
+) -> None:
     """
-    Record all input (``In``) and output (``Out``) from IPython console.
+    Record all input (In) and output (Out) from IPython console.
 
-    PARAMETERS
-
-    logger
-        *object*:
-        Instance of ``logging.Logger``.
-    filename
-        *str*:
+    Parameters
+    ----------
+    logger : Optional[Logger], optional
+        Instance of logging.Logger.
+        Default: None
+    filename : str, optional
         Name of the log file.
-        (default: ``ipython_console.log``)
-    log_path : *str*
+        Default: "ipython_console.log"
+    log_path : Optional[Union[str, pathlib.Path]], optional
         Directory to store the log file. Full name is
         ``f"<log_path>/{file_name_base}.log"``.
-        default: (the present working directory)/LOG_DIR_BASE
+        Default: (the present working directory)/LOG_DIR_BASE
     """
     try:
         from IPython import get_ipython
@@ -137,19 +149,26 @@ def setup_IPython_console_logging(logger=None, filename="ipython_console.log", l
             print(f"Could not setup console logging: {exc}")
 
 
-def stream_log_handler(formatter=None, level="INFO"):
+def stream_log_handler(
+    formatter: Optional[Formatter] = None,
+    level: str = "INFO",
+) -> StreamHandler:
     """
     Record logging output to a stream (such as the console).
 
-    PARAMETERS
-
-    formatter
-        *object*:
-        Instance of ``logging.Formatter``.
-    level
-        *str*:
+    Parameters
+    ----------
+    formatter : Optional[Formatter], optional
+        Instance of logging.Formatter.
+        Default: None
+    level : str, optional
         Name of the logging level to report.
-        (default: ``INFO``)
+        Default: "INFO"
+
+    Returns
+    -------
+    StreamHandler
+        Configured stream handler for logging.
     """
     handler = StreamHandler()
 

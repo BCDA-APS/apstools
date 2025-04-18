@@ -29,7 +29,7 @@ EXAMPLES::
 """
 
 from collections import OrderedDict
-from typing import Any, Dict, List, Optional, Union
+from typing import Any, Optional
 
 from ophyd import Component as Cpt
 from ophyd import Device
@@ -71,7 +71,7 @@ class SwaitRecordChannel(Device):
         self.input_trigger.put("Yes")
 
 
-def _swait_channels(channel_list: List[str]) -> Dict[str, tuple]:
+def _swait_channels(channel_list: list[str]) -> dict[str, tuple]:
     """Create channel definitions."""
     defn = OrderedDict()
     for chan in channel_list:

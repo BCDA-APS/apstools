@@ -7,7 +7,7 @@ Tracking Signal for Device coordination
    ~TrackingSignal
 """
 
-from typing import Any, Dict, Optional, Union
+from typing import Any, Optional
 
 from ophyd import Signal
 

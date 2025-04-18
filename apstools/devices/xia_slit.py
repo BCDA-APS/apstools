@@ -31,7 +31,7 @@ USAGE:
    ~XiaSlit2D
 """
 
-from typing import Any, Dict, Optional, Tuple, Union
+from typing import Any, Optional, Tuple, Union
 
 from ophyd import Component
 from ophyd import Device
@@ -145,7 +145,7 @@ class XiaSlit2D(Device):
         return SlitGeometry(*pppp)
 
     @geometry.setter
-    def geometry(self, value: Tuple[float, float, float, float]) -> None:
+    def geometry(self, value: tuple[float, float, float, float]) -> None:
         """
         Set the slit geometry (size and center).
 

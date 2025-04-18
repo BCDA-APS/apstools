@@ -17,21 +17,35 @@ __all__ = """
 """.split()
 
 import logging
+from typing import Dict, List, Optional, Tuple, Union
 
 import numpy as np
+from numpy.typing import NDArray
 from pysumreg import SummationRegisters
 
 logger = logging.getLogger(__name__)
 logger.info(__file__)
 
 
-def analyze_1D(y_arr, x_arr=None):
+def analyze_1D(y_arr: Union[List[float], NDArray[np.float64]], x_arr: Optional[Union[List[float], NDArray[np.float64]]] = None) -> Dict[str, float]:
     """
     Measures of 1D data peak center & width.
 
     Return result is a dictionary prepared by the
     ``to_dict(use_registers=True)`` method of the
     ``pysumreg.SummationRegisters()`` class.
+
+    Parameters
+    ----------
+    y_arr : Union[List[float], NDArray[np.float64]]
+        Array of y values.
+    x_arr : Optional[Union[List[float], NDArray[np.float64]]], optional
+        Array of x values. If None, uses indices of y_arr, by default None.
+
+    Returns
+    -------
+    Dict[str, float]
+        Dictionary containing statistical analysis results.
 
     Example::
 
@@ -43,6 +57,11 @@ def analyze_1D(y_arr, x_arr=None):
         'x_at_max_y': 2,
         'n': 5, 'X': 10, 'Y': 36, 'XX': 30, 'XY': 72,
         'XXY': 192, 'YY': 304}
+
+    Raises
+    ------
+    ValueError
+        If x_arr and y_arr are not of the same length.
     """
     if x_arr is None:
         x_arr = list(range(len(y_arr)))
@@ -57,15 +76,22 @@ def analyze_1D(y_arr, x_arr=None):
     return regs.to_dict(use_registers=True)
 
 
-def analyze_2D(image):
+def analyze_2D(image: Union[List[List[float]], NDArray[np.float64]]) -> Dict[str, Union[Tuple[float, float], int]]:
     """
     Analyze 2-D (image) data.
 
-    Return result is a dictionary with the statistical results for a peak
-    analysis, grouped in pairs (row, column) as it makes sense given
-    ``frame[rows][columns]``.
-    The :math:`x` values are the index number along the respective axis.
+    Parameters
+    ----------
+    image : Union[List[List[float]], NDArray[np.float64]]
+        2D array of image data.
 
+    Returns
+    -------
+    Dict[str, Union[Tuple[float, float], int]]
+        Dictionary containing statistical analysis results for both dimensions.
+
+    Example
+    -------
     For this image data::
 
         [

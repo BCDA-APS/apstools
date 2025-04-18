@@ -18,7 +18,7 @@ EXAMPLES::
 """
 
 from collections import OrderedDict
-from typing import Any, Dict, List, Optional, Union
+from typing import Any
 
 from ophyd import Component as Cpt
 from ophyd import Device
@@ -89,7 +89,7 @@ class LuascriptRecordStringInput(_LuascriptRecordInputBase):
         self.description.put("")
 
 
-def _inputs(input_list: List[str]) -> Dict[str, tuple]:
+def _inputs(input_list: list[str]) -> dict[str, tuple]:
     """Create input definitions."""
     defn = OrderedDict()
     for nsym in input_list:

@@ -52,7 +52,7 @@ Public Structures
 new in release 1.6.0
 """
 
-from typing import Any, Tuple, Union
+from typing import Union
 
 from ophyd import Component
 from ophyd import Device
@@ -96,7 +96,7 @@ class Optics2Slit2D_HV(Device):
         return SlitGeometry(*pppp)
 
     @geometry.setter
-    def geometry(self, value: Union[Tuple[float, float, float, float], SlitGeometry]) -> None:
+    def geometry(self, value: Union[tuple[float, float, float, float], SlitGeometry]) -> None:
         # first, test the input by assigning it to local vars
         width, height, x, y = value
 
@@ -132,7 +132,7 @@ class Optics2Slit2D_InbOutBotTop(Device):
         return SlitGeometry(*pppp)
 
     @geometry.setter
-    def geometry(self, value: Union[Tuple[float, float, float, float], SlitGeometry]) -> None:
+    def geometry(self, value: Union[tuple[float, float, float, float], SlitGeometry]) -> None:
         # first, test the input by assigning it to local vars
         width, height, x, y = value
 

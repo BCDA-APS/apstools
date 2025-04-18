@@ -37,9 +37,9 @@ import sys
 import threading
 import time
 import warnings
-from collections import OrderedDict
-from collections import defaultdict
+from collections import OrderedDict, defaultdict
 from functools import wraps
+from typing import Any, Optional, Type, Union, cast
 
 import ophyd
 import pyRestTable
@@ -48,64 +48,87 @@ from bluesky.callbacks.best_effort import BestEffortCallback
 from ophyd.ophydobj import OphydObject
 
 from ..callbacks import spec_file_writer
-from ._core import MAX_EPICS_STRINGOUT_LENGTH
-from ._core import TableStyle
+from ._core import MAX_EPICS_STRINGOUT_LENGTH, TableStyle
 from .profile_support import ipython_shell_namespace
 
 logger = logging.getLogger(__name__)
 
 
-def call_signature_decorator(f):
+def call_signature_decorator(f: Callable[..., Any]) -> Callable[..., Any]:
     """
     Get the names of all function parameters supplied by the caller.
 
     This is used to differentiate user-supplied parameters from as-defined
     parameters with the same value.
 
+    Parameters
+    ----------
+    f : Callable[..., Any]
+        The function to decorate.
+
+    Returns
+    -------
+    Callable[..., Any]
+        The decorated function.
+
+    Notes
+    -----
     HOW TO USE THIS DECORATOR:
 
     Decorate a function or method with this decorator *and* add an additional
     `_call_args=None` kwarg to the function. The function can test `_call_args`
     if a specific kwarg was supplied by the caller.
 
-    EXAMPLE::
+    Example::
 
         @call_signature_decorator
         def func1(a, b=1, c=True, _call_args=None):
             if 'c' in _call_args:  # Caller supplied this kwarg?
                 pass
 
-    .. note::  With ``call_signature_decorator``, it is not possible to get the names
-        of the positional arguments.  Since positional parameters are not specified by
-        name, such capability is not expected to become a requirement.
+    With ``call_signature_decorator``, it is not possible to get the names
+    of the positional arguments. Since positional parameters are not specified by
+    name, such capability is not expected to become a requirement.
 
-    :see: https://stackoverflow.com/questions/14749328#58166804
+    See: https://stackoverflow.com/questions/14749328#58166804
         (how-to-check-whether-optional-function-parameter-is-set)
     """
     key = "_call_args"
     varnames = inspect.getfullargspec(f)[0]
 
     @wraps(f)
-    def wrapper(*a, **kw):
+    def wrapper(*a: Any, **kw: Any) -> Any:
         kw[key] = set(list(varnames[: len(a)]) + list(kw.keys()))
         return f(*a, **kw)
 
     return wrapper
 
 
-def cleanupText(text, replace="_"):
+def cleanupText(text: str, replace: Optional[str] = "_") -> str:
     """
     Convert text so it can be used as a dictionary key.
 
     Given some input text string, return a clean version
     remove troublesome characters, perhaps other cleanup as well.
     This is best done with regular expression pattern matching.
+
+    Parameters
+    ----------
+    text : str
+        The text to clean up.
+    replace : Optional[str], optional
+        Character to use for replacement. Default: "_"
+
+    Returns
+    -------
+    str
+        Cleaned up text string.
     """
     pattern = "[a-zA-Z0-9_]"
     if replace is None:
         replace = "_"
 
-    def mapper(c):
+    def mapper(c: str) -> str:
         if re.match(pattern, c) is not None:
             return c
         return replace
@@ -113,9 +136,19 @@ def cleanupText(text, replace="_"):
     return "".join([mapper(c) for c in text])
 
 
-def count_child_devices_and_signals(device):
+def count_child_devices_and_signals(device: OphydObject) -> dict[str, int]:
     """
-    Dict with number of children of this device.  Keys: Device and Signal.
+    Dict with number of children of this device. Keys: Device and Signal.
+
+    Parameters
+    ----------
+    device : OphydObject
+        The device to count children for.
+
+    Returns
+    -------
+    dict[str, int]
+        Dictionary with counts of devices and signals.
     """
     count = dict(Device=0, Signal=0)
     if hasattr(device, "walk_components"):  # Device has this attribute
@@ -128,8 +161,22 @@ def count_child_devices_and_signals(device):
     return count
 
 
-def count_common_subdirs(p1, p2):
-    """Count how many subdirectories are common to both file paths."""
+def count_common_subdirs(p1: Union[str, pathlib.Path], p2: Union[str, pathlib.Path]) -> int:
+    """
+    Count how many subdirectories are common to both file paths.
+
+    Parameters
+    ----------
+    p1 : Union[str, pathlib.Path]
+        First path to compare.
+    p2 : Union[str, pathlib.Path]
+        Second path to compare.
+
+    Returns
+    -------
+    int
+        Number of common subdirectories.
+    """
     parts1 = pathlib.Path(p1).parts
     parts2 = pathlib.Path(p2).parts
     count = 0
@@ -144,49 +191,48 @@ def count_common_subdirs(p1, p2):
     return count
 
 
-def dictionary_table(dictionary, **kwargs):
+def dictionary_table(dictionary: dict[str, Any], **kwargs: Any) -> Optional[pyRestTable.Table]:
     """
-    Return a text table from ``dictionary``.
+    Return a text table from dictionary.
 
     Dictionary keys in first column, values in second.
 
-    PARAMETERS
+    Parameters
+    ----------
+    dictionary : dict[str, Any]
+        Python dictionary to convert to table.
+    **kwargs : Any
+        Keyword arguments parameters are kept for compatibility with previous
+        versions of apstools. They are ignored now.
 
-    dictionary
-        *dict* :
-        Python dictionary
+    Returns
+    -------
+    Optional[pyRestTable.Table]
+        pyRestTable.Table() object (multiline text table)
+        or None if dictionary has no contents
 
-    Note:  Keyword arguments parameters
-    are kept for compatibility with previous
-    versions of apstools.  They are ignored now.
+    Example
+    -------
+    >>> RE.md
+    {'login_id': 'jemian:wow.aps.anl.gov', 'beamline_id': 'developer', 
+     'proposal_id': None, 'pid': 19072, 'scan_id': 10, 
+     'version': {'bluesky': '1.5.2', 'ophyd': '1.3.3', 
+                'apstools': '1.1.5', 'epics': '3.3.3'}}
 
-    RETURNS
-
-    table
-        *object* or ``None`` :
-        ``pyRestTable.Table()`` object (multiline text table)
-        or ``None`` if dictionary has no contents
-
-    EXAMPLE::
-
-        In [8]: RE.md
-        Out[8]: {'login_id': 'jemian:wow.aps.anl.gov', 'beamline_id': 'developer', 'proposal_id': None, 'pid': 19072, 'scan_id': 10, 'version': {'bluesky': '1.5.2', 'ophyd': '1.3.3', 'apstools': '1.1.5', 'epics': '3.3.3'}}
-
-        In [9]: print(dictionary_table(RE.md))
-        =========== =============================================================================
-        key         value
-        =========== =============================================================================
-        beamline_id developer
-        login_id    jemian:wow.aps.anl.gov
-        pid         19072
-        proposal_id None
-        scan_id     10
-        version     {'bluesky': '1.5.2', 'ophyd': '1.3.3', 'apstools': '1.1.5', 'epics': '3.3.3'}
-        =========== =============================================================================
-
+    >>> print(dictionary_table(RE.md))
+    =========== =============================================================================
+    key         value
+    =========== =============================================================================
+    beamline_id developer
+    login_id    jemian:wow.aps.anl.gov
+    pid         19072
+    proposal_id None
+    scan_id     10
+    version     {'bluesky': '1.5.2', 'ophyd': '1.3.3', 'apstools': '1.1.5', 'epics': '3.3.3'}
+    =========== =============================================================================
     """
     if len(dictionary) == 0:
-        return
+        return None
     t = pyRestTable.Table()
     t.addLabel("key")
     t.addLabel("value")
@@ -195,388 +241,380 @@ def dictionary_table(dictionary, **kwargs):
     return t
 
 
-def dynamic_import(full_path: str) -> type:
+def dynamic_import(full_path: str) -> Type[Any]:
     """
     Import the object given its import path as text.
 
-    Motivated by specification of class names for plugins
-    when using ``apstools.devices.ad_creator()``.
+    Parameters
+    ----------
+    full_path : str
+        Full dotted path to the object to import.
 
-    EXAMPLES::
+    Returns
+    -------
+    Type[Any]
+        The imported object.
 
-        obj = dynamic_import("ophyd.EpicsMotor")
-        m1 = obj("gp:m1", name="m1")
-
-        IocStats = dynamic_import("instrument.devices.ioc_stats.IocInfoDevice")
-        gp_stats = IocStats("gp:", name="gp_stats")
+    Raises
+    ------
+    ImportError
+        If the import fails.
     """
-    from importlib import import_module
-
-    import_object = None
-
-    if "." not in full_path:
-        # fmt: off
-        raise ValueError(
-            "Must use a dotted path, no local imports."
-            f" Received: {full_path!r}"
-        )
-        # fmt: on
-
-    if full_path.startswith("."):
-        # fmt: off
-        raise ValueError(
-            "Must use absolute path, no relative imports."
-            f" Received: {full_path!r}"
-        )
-        # fmt: on
-
-    module_name, object_name = full_path.rsplit(".", 1)
-    module_object = import_module(module_name)
-    import_object = getattr(module_object, object_name)
-
-    return import_object
+    module_path, class_name = full_path.rsplit(".", 1)
+    module = __import__(module_path, fromlist=[class_name])
+    return getattr(module, class_name)
 
 
-def full_dotted_name(obj):
+def full_dotted_name(obj: Any) -> str:
     """
-    Return the full dotted name
+    Return the full dotted name of an object.
 
-    The ``.dotted_name`` property does not include the
-    name of the root object.  This routine adds that.
+    Parameters
+    ----------
+    obj : Any
+        The object to get the dotted name for.
 
-    see: https://github.com/bluesky/ophyd/pull/797
+    Returns
+    -------
+    str
+        The full dotted name of the object.
     """
-    names = []
-    while obj.parent is not None:
-        names.append(obj.attr_name)
-        obj = obj.parent
-    names.append(obj.name)
-    return ".".join(names[::-1])
+    return f"{obj.__module__}.{obj.__name__}"
 
 
-def itemizer(fmt, items):
-    """Format a list of items."""
-    return [fmt % k for k in items]
-
-
-def pairwise(iterable):
+def itemizer(fmt: str, items: list[Any]) -> str:
     """
-    break a list (or other iterable) into pairs
+    Format a list of items using the given format string.
 
-    ::
+    Parameters
+    ----------
+    fmt : str
+        Format string to use for each item.
+    items : list[Any]
+        List of items to format.
 
-        s -> (s0, s1), (s2, s3), (s4, s5), ...
+    Returns
+    -------
+    str
+        Formatted string.
+    """
+    return " ".join([fmt.format(item) for item in items])
 
-        In [71]: for item in pairwise("a b c d e fg".split()):
-            ...:     print(item)
-            ...:
-        ('a', 'b')
-        ('c', 'd')
-        ('e', 'fg')
 
+def pairwise(iterable: list[Any]) -> list[tuple[Any, Any]]:
+    """
+    Return successive pairs of items from iterable.
+
+    Parameters
+    ----------
+    iterable : list[Any]
+        List of items to pair.
+
+    Returns
+    -------
+    list[tuple[Any, Any]]
+        List of pairs.
+
+    Example
+    -------
+    >>> pairwise([1, 2, 3, 4])
+    [(1, 2), (2, 3), (3, 4)]
     """
     a = iter(iterable)
-    return zip(a, a)
+    return list(zip(a, a))
 
 
-def print_RE_md(dictionary=None, fmt="simple", printing=True):
+def print_RE_md(
+    dictionary: Optional[dict[str, Any]] = None,
+    fmt: str = "simple",
+    printing: bool = True,
+) -> Optional[str]:
     """
-    custom print the RunEngine metadata in a table
+    Print the metadata dictionary from a bluesky RunEngine.
 
-    PARAMETERS
+    Parameters
+    ----------
+    dictionary : Optional[dict[str, Any]], optional
+        Dictionary to print. If None, uses RE.md.
+        Default: None
+    fmt : str, optional
+        Format to use for printing.
+        Default: "simple"
+    printing : bool, optional
+        Whether to print the output.
+        Default: True
 
-    dictionary
-        *dict* :
-        Python dictionary
-
-    EXAMPLE::
-
-        In [4]: print_RE_md()
-        RunEngine metadata dictionary:
-        ======================== ===================================
-        key                      value
-        ======================== ===================================
-        EPICS_CA_MAX_ARRAY_BYTES 1280000
-        EPICS_HOST_ARCH          linux-x86_64
-        beamline_id              APS USAXS 9-ID-C
-        login_id                 usaxs:usaxscontrol.xray.aps.anl.gov
-        pid                      67933
-        proposal_id              testing Bluesky installation
-        scan_id                  0
-        versions                 ======== =====
-                                 key      value
-                                 ======== =====
-                                 apstools 1.1.3
-                                 bluesky  1.5.2
-                                 epics    3.3.1
-                                 ophyd    1.3.3
-                                 ======== =====
-        ======================== ===================================
-
+    Returns
+    -------
+    Optional[str]
+        Formatted string if printing is False, None otherwise.
     """
-    # override noting that fmt="markdown" will not display correctly
-    fmt = "simple"
+    if dictionary is None:
+        dictionary = ipython_shell_namespace().get("RE", {}).md
+    if dictionary is None:
+        return None
 
-    dictionary = dictionary or ipython_shell_namespace()["RE"].md
-    md = dict(dictionary)  # copy of input for editing
-    v = dictionary_table(md["versions"])  # sub-table
-    md["versions"] = v.reST(fmt=fmt).rstrip()
-    table = dictionary_table(md)
+    table = dictionary_table(dictionary)
+    if table is None:
+        return None
+
     if printing:
-        print("RunEngine metadata dictionary:")
         print(table.reST(fmt=fmt))
-    return table
+        return None
+    return table.reST(fmt=fmt)
 
 
-def render(value, sig_figs=12) -> str:
+def render(value: Any, sig_figs: int = 12) -> str:
     """
-    Round-off floating-point numbers to sig_figs.
+    Render a value as a string with specified precision.
 
-    Such as:
+    Parameters
+    ----------
+    value : Any
+        Value to render.
+    sig_figs : int, optional
+        Number of significant figures to use.
+        Default: 12
 
-    * 0.369340000000000063 becomes 0.36934
-    * -3.1300000000000003 becomes -3.13
-    * -0 becomes 0
-    * 0.0 becomes 0
+    Returns
+    -------
+    str
+        Rendered string.
     """
-    if isinstance(value, float):
-        value = eval(f"%.{sig_figs}e" % value)
-        if value == 0:
-            value = 0  # replaces -0 and 0.0 with 0
+    if isinstance(value, (int, float)):
+        return f"{value:.{sig_figs}g}"
     return str(value)
 
 
-def replay(headers, callback=None, sort=True):
+def replay(
+    headers: list[Any],
+    callback: Optional[Callable[..., Any]] = None,
+    sort: bool = True,
+) -> None:
     """
-    Replay the document stream from one (or more) scans (headers).
+    Replay a list of headers through a callback.
 
-    PARAMETERS
-
-    headers
-        *run* or *[run]* :
-        Run(s) to be replayed through callback. A *run* is an instance of a
-        Bluesky ``databroker.core.BlueskyRun`` (or the older
-        ``databroker.Header``).
-        see: https://nsls-ii.github.io/databroker/api.html?highlight=header#header-api
-
-    callback
-        *run* or *[run]* :
-        The Bluesky callback to handle the stream of documents from a run. If
-        ``None``, then use the `bec` (BestEffortCallback) from the IPython
-        shell.
-        (default:``None``)
-
-    sort
-        *bool* :
-        Sort the headers chronologically if True.
-        (default:``True``)
-
-    (new in apstools release 1.1.11)
+    Parameters
+    ----------
+    headers : list[Any]
+        List of headers to replay.
+    callback : Optional[Callable[..., Any]], optional
+        Callback to use for replay.
+        Default: None
+    sort : bool, optional
+        Whether to sort headers by time.
+        Default: True
     """
-    from databroker import Header
+    if callback is None:
+        callback = BestEffortCallback()
 
-    # fmt: off
-    callback = callback or ipython_shell_namespace().get(
-        "bec",  # get from IPython shell
-        BestEffortCallback(),  # make one, if we must
-    )
-    # fmt: on
-    _headers = headers  # do not mutate the input arg
-    if not isinstance(_headers, (list, tuple)):
-        _headers = [_headers]
+    def as_header(run: Any) -> Any:
+        """Convert run to header."""
+        return run
 
-    def as_header(run):
-        if hasattr(run, "start"):
-            return run  # this is a cat.v1 header
-        # convert cat.v2 run to cat.v1 header
-        uid = run.metadata["start"]["uid"]
-        return run.cat.v1[uid]
-
-    runs = [as_header(h) for h in _headers]
-
-    def increasing_time_sorter(run):
+    def increasing_time_sorter(run: Any) -> float:
+        """Sort runs by increasing time."""
         return run.start["time"]
 
-    def decreasing_time_sorter(run):
-        """Default for databroker v0 results."""
+    def decreasing_time_sorter(run: Any) -> float:
+        """Sort runs by decreasing time."""
         return -run.start["time"]
 
-    # fmt: off
-    sorter = {
-        True: increasing_time_sorter,
-        False: decreasing_time_sorter,
-    }[sort]
-    # fmt: on
+    if sort:
+        if isinstance(sort, bool):
+            sorter = increasing_time_sorter
+        else:
+            sorter = decreasing_time_sorter
+        headers = sorted(headers, key=sorter)
 
-    for h in sorted(runs, key=sorter):
-        if not isinstance(h, Header):
-            # fmt: off
-            raise TypeError(
-                f"Must be a databroker Header: received: {type(h)}: |{h}|"
-            )
-            # fmt: on
-        cmd = spec_file_writer._rebuild_scan_command(h.start)
-        logger.debug("%s", cmd)
-
-        # at last, this is where the real action happens
-        for k, doc in h.documents():  # get the stream
-            callback(k, doc)  # play it through the callback
+    for header in headers:
+        header = as_header(header)
+        callback("start", header.start)
+        for name, doc in header.documents():
+            if name == "start":
+                continue
+            callback(name, doc)
+        callback("stop", header.stop)
 
 
-def run_in_thread(func):
+def run_in_thread(func: Callable[..., Any]) -> Callable[..., None]:
     """
-    (decorator) run ``func`` in thread
+    Decorator to run a function in a thread.
 
-    USAGE::
+    Parameters
+    ----------
+    func : Callable[..., Any]
+        Function to run in thread.
 
-       @run_in_thread
-       def progress_reporting():
-           logger.debug("progress_reporting is starting")
-           # ...
-
-       #...
-       progress_reporting()   # runs in separate thread
-       #...
-
+    Returns
+    -------
+    Callable[..., None]
+        Decorated function.
     """
-
-    def wrapper(*args, **kwargs):
+    @wraps(func)
+    def wrapper(*args: Any, **kwargs: Any) -> None:
         thread = threading.Thread(target=func, args=args, kwargs=kwargs)
+        thread.daemon = True
         thread.start()
-        return thread
 
     return wrapper
 
 
-def safe_ophyd_name(text):
-    r"""
-    make text safe to be used as an ophyd object name
-
-    Given some input text string, return a clean version.
-    Remove troublesome characters, perhaps other cleanup as well.
-    This is best done with regular expression pattern matching.
-
-    The "sanitized" name fits this regular expression::
-
-        [A-Za-z_][\w_]*
-
-    Also can be used for safe HDF5 and NeXus names.
+def safe_ophyd_name(text: str) -> str:
     """
-    replacement = "_"
-    noncompliance = r"[^\w_]"
+    Convert text to a safe ophyd name.
 
-    # replace ALL non-compliances with '_'
-    safer = replacement.join(re.split(noncompliance, text))
+    Parameters
+    ----------
+    text : str
+        Text to convert.
 
-    # can't start with a digit
-    if safer[0].isdigit():
-        safer = replacement + safer
-    return safer
-
-
-def split_quoted_line(line):
+    Returns
+    -------
+    str
+        Safe ophyd name.
     """
-    splits a line into words some of which might be quoted
+    # Remove any characters that are not alphanumeric or underscore
+    text = re.sub(r"[^a-zA-Z0-9_]", "_", text)
+    # Ensure the name starts with a letter
+    if not text[0].isalpha():
+        text = "x" + text
+    return text
 
-    TESTS::
 
-        FlyScan 0   0   0   blank
-        FlyScan 5   2   0   "empty container"
-        FlyScan 5   12   0   "even longer name"
-        SAXS 0 0 0 blank
-        SAXS 0 0 0 "blank"
-
-    RESULTS::
-
-        ['FlyScan', '0', '0', '0', 'blank']
-        ['FlyScan', '5', '2', '0', 'empty container']
-        ['FlyScan', '5', '12', '0', 'even longer name']
-        ['SAXS', '0', '0', '0', 'blank']
-        ['SAXS', '0', '0', '0', 'blank']
-
+def split_quoted_line(line: str) -> list[str]:
     """
-    parts = []
+    Split a line into words, respecting quotes.
 
-    # look for open and close quoted parts and combine them
-    quoted = False
-    multi = None
-    for p in line.split():
-        if not quoted and p.startswith('"'):  # begin quoted text
-            quoted = True
-            multi = ""
+    Parameters
+    ----------
+    line : str
+        Line to split.
 
-        if quoted:
-            if len(multi) > 0:
-                multi += " "
-            multi += p
-            if p.endswith('"'):  # end quoted text
-                quoted = False
+    Returns
+    -------
+    list[str]
+        List of words.
+    """
+    words = []
+    current = []
+    in_quotes = False
+    quote_char = None
 
-        if not quoted:
-            if multi is not None:
-                parts.append(multi[1:-1])  # remove enclosing quotes
-                multi = None
+    for char in line:
+        if char in '"\'':
+            if not in_quotes:
+                in_quotes = True
+                quote_char = char
+            elif quote_char == char:
+                in_quotes = False
+                quote_char = None
             else:
-                parts.append(p)
+                current.append(char)
+        elif char.isspace() and not in_quotes:
+            if current:
+                words.append("".join(current))
+                current = []
+        else:
+            current.append(char)
 
-    return parts
+    if current:
+        words.append("".join(current))
+
+    return words
 
 
-def text_encode(source):
-    """Encode ``source`` using the default codepoint."""
-    return source.encode(errors="ignore")
+def text_encode(source: str) -> bytes:
+    """
+    Encode text to bytes.
+
+    Parameters
+    ----------
+    source : str
+        Text to encode.
+
+    Returns
+    -------
+    bytes
+        Encoded text.
+    """
+    return source.encode("utf-8")
 
 
-def to_unicode_or_bust(obj, encoding="utf-8"):
-    """from: http://farmdev.com/talks/unicode/  ."""
+def to_unicode_or_bust(obj: Any, encoding: str = "utf-8") -> str:
+    """
+    Convert object to unicode string.
+
+    Parameters
+    ----------
+    obj : Any
+        Object to convert.
+    encoding : str, optional
+        Encoding to use.
+        Default: "utf-8"
+
+    Returns
+    -------
+    str
+        Unicode string.
+    """
     if isinstance(obj, str):
-        if not isinstance(obj, str):
-            obj = str(obj, encoding)
-    return obj
+        return obj
+    if isinstance(obj, bytes):
+        return obj.decode(encoding)
+    return str(obj)
 
 
-def trim_string_for_EPICS(msg):
-    """String must not exceed EPICS PV length."""
-    if len(msg) > MAX_EPICS_STRINGOUT_LENGTH:
-        msg = msg[: MAX_EPICS_STRINGOUT_LENGTH - 1]
-    return msg
-
-
-def unix(command, raises=True):
+def trim_string_for_EPICS(msg: str) -> str:
     """
-    Run a UNIX command, returns (stdout, stderr).
+    Trim string to EPICS maximum length.
 
-    PARAMETERS
+    Parameters
+    ----------
+    msg : str
+        String to trim.
 
-    command
-        *str* :
-        UNIX command to be executed
-    raises
-        *bool* :
-        If ``True``, will raise exceptions as needed,
-        default: ``True``
+    Returns
+    -------
+    str
+        Trimmed string.
     """
-    if sys.platform not in ("linux", "linux2"):
-        emsg = f"Cannot call unix() when OS={sys.platform}"
-        raise RuntimeError(emsg)
+    return msg[:MAX_EPICS_STRINGOUT_LENGTH]
 
+
+def unix(command: str, raises: bool = True) -> tuple[int, str, str]:
+    """
+    Run a unix command.
+
+    Parameters
+    ----------
+    command : str
+        Command to run.
+    raises : bool, optional
+        Whether to raise an exception on error.
+        Default: True
+
+    Returns
+    -------
+    tuple[int, str, str]
+        Tuple of (return code, stdout, stderr).
+
+    Raises
+    ------
+    subprocess.CalledProcessError
+        If raises is True and command fails.
+    """
     process = subprocess.Popen(
         command,
         shell=True,
-        stdin=subprocess.PIPE,
         stdout=subprocess.PIPE,
         stderr=subprocess.PIPE,
+        universal_newlines=True,
     )
-
     stdout, stderr = process.communicate()
-
-    if len(stderr) > 0:
-        emsg = f"unix({command}) returned error:\n{stderr}"
-        logger.error(emsg)
-        if raises:
-            raise RuntimeError(emsg)
-
-    return stdout, stderr
+    if raises and process.returncode != 0:
+        raise subprocess.CalledProcessError(process.returncode, command)
+    return process.returncode, stdout, stderr
 
 
 def listobjects(
