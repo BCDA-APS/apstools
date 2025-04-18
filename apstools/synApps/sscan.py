@@ -40,6 +40,7 @@ from ophyd.status import DeviceStatus
 from .. import utils as APS_utils
 from typing import Any, Dict, Tuple, Type, Union
 
+
 class sscanPositioner(Device):
     """
     positioner of an EPICS sscan record
