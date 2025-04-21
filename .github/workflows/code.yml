@@ -70,6 +70,7 @@ jobs:
           environment-name: anaconda-test-env-py-${{ matrix.python-version }}
           create-args: >-
             python=${{ matrix.python-version }}
+            pyepics
           # aps-dm-api
           # coveralls
           # ophyd
