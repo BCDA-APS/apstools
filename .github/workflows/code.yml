@@ -44,11 +44,11 @@ jobs:
     strategy:
       matrix:
         python-version:
-          - "3.9"
-          - "3.10"
-          - "3.11"
-          - "3.12"
-          # - "3.13"  # databroker and h5py
+          # - "3.9"
+          # - "3.10"
+          # - "3.11"
+          # - "3.12"
+          - "3.13"
       max-parallel: 5
 
     steps:
@@ -61,15 +61,20 @@ jobs:
           cache-environment: true
           cache-environment-key: env-key-${{ matrix.python-version }}
           condarc: |
-            channel-priority: flexible
-          environment-file: environment.yml
+            channels:
+              - conda-forge
+              - nodefaults
+          channel-priority: flexible
+          # environment-file: environment.yml
           environment-name: anaconda-test-env-py-${{ matrix.python-version }}
           create-args: >-
-            coveralls
-            pytest
-            pytest-cov
             python=${{ matrix.python-version }}
-            setuptools-scm
+            apsu::aps-dm-api
+            pyepics
+            # coveralls
+            # pytest
+            # pytest-cov
+            # setuptools-scm
 
       - name: Unpack
         run: |
