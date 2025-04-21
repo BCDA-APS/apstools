@@ -44,18 +44,17 @@ jobs:
     strategy:
       matrix:
         python-version:
-          # - "3.9"
-          # - "3.10"
-          # - "3.11"
-          # - "3.13"
+          - "3.9"
+          - "3.10"
+          - "3.11"
           - "3.12"
+          - "3.13"
       max-parallel: 5
 
     steps:
       - uses: actions/checkout@v4
 
       - name: Create Python ${{ matrix.python-version }} environment
-        # needed for Unpack step
         uses: mamba-org/setup-micromamba@v2.0.4
         with:
           cache-environment: true
@@ -65,19 +64,11 @@ jobs:
               - conda-forge
               - nodefaults
               - apsu
-          # channel-priority: flexible
-          # environment-file: environment.yml
           environment-name: anaconda-test-env-py-${{ matrix.python-version }}
           create-args: >-
             python=${{ matrix.python-version }}
             pyepics
             aps-dm-api
-          # coveralls
-          # ophyd
-          # pyepics
-          # pytest
-          # pytest-cov
-          # setuptools-scm
 
       - name: Install project code and developer dependencies
         run: |
