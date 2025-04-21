@@ -71,7 +71,7 @@ jobs:
           create-args: >-
             python=${{ matrix.python-version }}
             pyepics
-          # aps-dm-api
+            aps-dm-api
           # coveralls
           # ophyd
           # pyepics
