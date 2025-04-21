@@ -28,4 +28,3 @@ item              | description
 * https://github.com/bluesky/bluesky
 * https://github.com/bluesky/ophyd
 * https://github.com/bluesky/databroker
-* https://github.com/bluesky/hklpy
