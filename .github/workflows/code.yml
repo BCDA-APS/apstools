@@ -56,7 +56,7 @@ jobs:
 
       - name: Create Python ${{ matrix.python-version }} environment
         # needed for Unpack step
-        uses: mamba-org/setup-micromamba@v2
+        uses: mamba-org/setup-micromamba@v2.0.4
         with:
           cache-environment: true
           cache-environment-key: env-key-${{ matrix.python-version }}
@@ -64,17 +64,18 @@ jobs:
             channels:
               - conda-forge
               - nodefaults
+              - apsu
           # channel-priority: flexible
           # environment-file: environment.yml
           environment-name: anaconda-test-env-py-${{ matrix.python-version }}
           create-args: >-
             python=${{ matrix.python-version }}
-            apsu::aps-dm-api
+            aps-dm-api
             pyepics
-            # coveralls
-            # pytest
-            # pytest-cov
-            # setuptools-scm
+      # coveralls
+      # pytest
+      # pytest-cov
+      # setuptools-scm
 
       - name: Unpack
         run: |
