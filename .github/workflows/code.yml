@@ -71,12 +71,12 @@ jobs:
           create-args: >-
             python=${{ matrix.python-version }}
             aps-dm-api
+            coveralls
             ophyd
             pyepics
-      # coveralls
-      # pytest
-      # pytest-cov
-      # setuptools-scm
+            pytest
+            pytest-cov
+            setuptools-scm
 
       - name: Unpack
         run: |
