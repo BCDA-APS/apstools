@@ -155,6 +155,10 @@ parms_max = _TestParameters(pvoigt, axis, -1.2, 1.2, 11, "max", False)
 parms_min___pathological = _TestParameters(pvoigt, axis, -1.2, 1.2, 11, "min", False)
 
 
+@pytest.mark.skipif(
+    in_gha_workflow(),
+    reason="Deprecated code. Slow to run.  Don't bother testing in GHA.",
+)
 @pytest.mark.parametrize(
     "parms",
     [
