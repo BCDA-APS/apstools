@@ -42,6 +42,7 @@ from .area_detector_support import AD_EpicsJPEGFileName
 from .area_detector_support import AD_EpicsJPEGIterativeWriter
 from .area_detector_support import AD_EpicsTIFFFileName
 from .area_detector_support import AD_EpicsTIFFIterativeWriter
+from .area_detector_support import BadPixelPlugin
 from .area_detector_support import CamMixin_V34
 from .area_detector_support import CamMixin_V3_1_1
 from .area_detector_support import HDF5FileWriterPlugin

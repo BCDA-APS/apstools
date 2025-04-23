@@ -29,6 +29,7 @@ describe future plans.
    Enhancements
    -------------
 
+   * Hoist area detector 'BadPixelPlugin' from USAXS.  (It's not in ophyd yet.)
    * Recover diffractometer configurations in FileWriterCallbackBase.
 
    Fixes
