@@ -768,10 +768,11 @@ class BadPixelPlugin(PluginBase):
 
     (new in apstools release 1.7.3)
     """
+
     _html_docs = ["NDBadPixelDoc.html"]
-    
+
     file_name = ADComponent(EpicsSignal, "FileName", string=True)
-    
+
 
 class CamMixin_V3_1_1(CamBase):
     """

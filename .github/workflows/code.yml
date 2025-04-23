@@ -74,7 +74,7 @@ jobs:
         run: |
           set -vxeuo pipefail
           pip install -e .[dev]
-    
+
       - name: Unpack
         run: |
           set -vxeuo pipefail
