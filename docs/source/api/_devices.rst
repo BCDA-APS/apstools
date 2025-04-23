@@ -68,6 +68,7 @@ Area Detector Support
     ~apstools.devices.area_detector_support.AD_EpicsTIFFFileName
     ~apstools.devices.area_detector_support.AD_EpicsTIFFIterativeWriter
     ~apstools.devices.area_detector_support.AD_setup_FrameType
+    ~apstools.devices.area_detector_support.BadPixelPlugin
     ~apstools.devices.area_detector_support.CamMixin_V34
     ~apstools.devices.area_detector_support.CamMixin_V3_1_1
     ~apstools.devices.area_detector_support.SingleTrigger_V34

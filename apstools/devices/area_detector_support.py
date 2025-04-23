@@ -763,7 +763,11 @@ class AD_EpicsFileNameTIFFPlugin(TIFFPlugin_V34, AD_EpicsTIFFIterativeWriter):
 
 
 class BadPixelPlugin(PluginBase):
-    """ADCore NDBadPixel, new in AD 3.13"""
+    """
+    ADCore NDBadPixel, new in AD 3.13.
+
+    (new in apstools release 1.7.3)
+    """
     _html_docs = ["NDBadPixelDoc.html"]
     
     file_name = ADComponent(EpicsSignal, "FileName", string=True)
