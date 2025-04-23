@@ -3,14 +3,15 @@ file: /tmp/kohzu.py
 """
 
 import time
-import pytest
 
+import pytest
 from bluesky import RunEngine
 from bluesky import plan_stubs as bps
 from ophyd import Component
 from ophyd import EpicsMotor
 
-from ...tests import IOC_GP, in_gha_workflow
+from ...tests import IOC_GP
+from ...tests import in_gha_workflow
 from .. import KohzuSeqCtl_Monochromator
 
 

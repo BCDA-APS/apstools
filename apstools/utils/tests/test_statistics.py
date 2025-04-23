@@ -77,7 +77,7 @@ def test_xy_statistics(data):
         if isinstance(received, str):
             assert f"{received}" == expected, f"{key=} {expected=} {stats=} {data['file']=!r}"
         elif isinstance(received, float):
-            assert math.isclose(received, expected, abs_tol=1e-6)
+            assert math.isclose(received, float(expected), abs_tol=1e-6), f"{key=} {received=} {expected=}"
 
 
 @pytest.mark.parametrize(

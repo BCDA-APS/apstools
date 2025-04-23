@@ -1,14 +1,14 @@
 import databroker
+import pytest
 from bluesky import RunEngine
 from bluesky import SupplementalData
 from bluesky.callbacks.best_effort import BestEffortCallback
 from ophyd import EpicsMotor
 from ophyd.scaler import ScalerCH
-import pytest
 
 from ...synApps import SscanDevice
-from ...tests import IOC_GP, in_gha_workflow
-
+from ...tests import IOC_GP
+from ...tests import in_gha_workflow
 from ..sscan_support import _get_sscan_data_objects
 from ..sscan_support import sscan_1D
 

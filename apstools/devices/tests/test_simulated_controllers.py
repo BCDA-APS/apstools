@@ -7,7 +7,8 @@ from contextlib import nullcontext as does_not_raise
 
 import pytest
 
-from ...tests import IOC_GP, in_gha_workflow
+from ...tests import IOC_GP
+from ...tests import in_gha_workflow
 from ...tests import timed_pause
 from .. import simulated_controllers as sc
 

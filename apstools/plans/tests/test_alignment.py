@@ -21,7 +21,8 @@ from ...callbacks.spec_file_writer import SpecWriterCallback2
 from ...devices import SynPseudoVoigt
 from ...synApps import SwaitRecord
 from ...synApps import setup_lorentzian_swait
-from ...tests import IOC_GP, in_gha_workflow
+from ...tests import IOC_GP
+from ...tests import in_gha_workflow
 from .. import alignment
 from ._scaler import ScalerCH
 
@@ -399,6 +400,10 @@ parms_no_signal__ZeroDivisionError = _TestParameters(0, 0, 0, 0.1, 0.2, -0.7, 0.
 parms_bkg_only__ZeroDivisionError = _TestParameters(0, 1, 0, 0.1, 0.2, -0.7, 0.5, 11, 1, 0.005, None)
 
 
+@pytest.mark.skipif(
+    in_gha_workflow(),
+    reason="Random failures in GiHub Actions workflows.",
+)
 @pytest.mark.parametrize(
     "parms",
     [

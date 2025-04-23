@@ -6,7 +6,8 @@ import time
 import pytest
 
 from ...tests import IOC_GP
-from ...tests import common_attribute_quantities_test, in_gha_workflow
+from ...tests import common_attribute_quantities_test
+from ...tests import in_gha_workflow
 from ...tests import timed_pause
 from .. import AcalcoutRecord
 from .. import UserArrayCalcDevice
