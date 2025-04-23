@@ -92,6 +92,7 @@ def common_attribute_quantities_test(device, pv, connect, attr, expected):
         l = len(getattr(obj, attr))
     assert l == expected, f"{attr}: {l} != {expected}"
 
+
 def in_gha_workflow():
     """Return True if running in a workflow on GitHub Actions."""
     import os
