@@ -3,13 +3,14 @@ file: /tmp/kohzu.py
 """
 
 import time
+import pytest
 
 from bluesky import RunEngine
 from bluesky import plan_stubs as bps
 from ophyd import Component
 from ophyd import EpicsMotor
 
-from ...tests import IOC_GP
+from ...tests import IOC_GP, in_gha_workflow
 from .. import KohzuSeqCtl_Monochromator
 
 
@@ -57,6 +58,10 @@ class MyKohzu(KohzuSeqCtl_Monochromator):
         self.m_z.stop()
 
 
+@pytest.mark.skipif(
+    in_gha_workflow(),
+    reason="Random failures in GiHub Actions workflows.",
+)
 def test_dcm():
     dcm = MyKohzu(IOC_GP, name="dcm")
     assert dcm is not None

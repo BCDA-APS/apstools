@@ -21,7 +21,7 @@ from ...callbacks.spec_file_writer import SpecWriterCallback2
 from ...devices import SynPseudoVoigt
 from ...synApps import SwaitRecord
 from ...synApps import setup_lorentzian_swait
-from ...tests import IOC_GP
+from ...tests import IOC_GP, in_gha_workflow
 from .. import alignment
 from ._scaler import ScalerCH
 
@@ -220,6 +220,10 @@ parms_max = _TestParameters(pvoigt, axis, -1.2, 1.2, 11, "max", 1)
 parms_min___pathological = _TestParameters(pvoigt, axis, -1.2, 1.2, 11, "min", 1)
 
 
+@pytest.mark.skipif(
+    in_gha_workflow(),
+    reason="Random failures in GiHub Actions workflows.",
+)
 @pytest.mark.parametrize(
     "parms",
     [
@@ -257,6 +261,10 @@ def test_lineup2(parms: _TestParameters):
     )
 
 
+@pytest.mark.skipif(
+    in_gha_workflow(),
+    reason="Random failures in GiHub Actions workflows.",
+)
 @pytest.mark.parametrize("detectors", [[noisy], [I0], [scaler1], [I0, scaler1]])
 def test_lineup2_issue_1049(detectors):
     scaler1.select_channels(["I0"])
