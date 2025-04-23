@@ -20,6 +20,7 @@ Area Detector Support
    ~AD_prime_plugin
    ~AD_prime_plugin2
    ~AD_setup_FrameType
+   ~BadPixelPlugin
    ~CamMixin_V3_1_1
    ~CamMixin_V34
    ~HDF5FileWriterPlugin
@@ -50,6 +51,7 @@ from ophyd.areadetector.filestore_mixins import FileStoreIterativeWrite
 from ophyd.areadetector.filestore_mixins import FileStorePluginBase
 from ophyd.areadetector.plugins import HDF5Plugin_V34
 from ophyd.areadetector.plugins import JPEGPlugin_V34
+from ophyd.areadetector.plugins import PluginBase
 from ophyd.areadetector.plugins import TIFFPlugin_V34
 from packaging import version
 
@@ -759,6 +761,17 @@ class AD_EpicsFileNameTIFFPlugin(TIFFPlugin_V34, AD_EpicsTIFFIterativeWriter):
 
     pass
 
+
+class BadPixelPlugin(PluginBase):
+    """
+    ADCore NDBadPixel, new in AD 3.13.
+
+    (new in apstools release 1.7.3)
+    """
+    _html_docs = ["NDBadPixelDoc.html"]
+    
+    file_name = ADComponent(EpicsSignal, "FileName", string=True)
+    
 
 class CamMixin_V3_1_1(CamBase):
     """
