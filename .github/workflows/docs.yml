@@ -35,7 +35,7 @@ jobs:
       - name: Setup Python
         uses: actions/setup-python@v5
         with:
-          python-version: "3.11"
+          python-version: "3.13"
 
       - name: Deploy Information
         if: ${{ github.event.inputs.deploy }}
@@ -48,13 +48,10 @@ jobs:
           sudo apt-get update && \
           sudo apt-get -y install pandoc
 
-      - name: Install Sphinx build requirements
+      - name: Install our package and Sphinx build requirements
         run: |
-          pip install -r docs/requirements.txt
-
-      - name: Install our package
-        run: |
-          pip install --no-deps -e .
+          set -vxeuo pipefail
+          pip install -e .[doc]
 
       - name: Diagnostic
         run: |
@@ -76,6 +73,7 @@ jobs:
 
       - name: Sphinx
         run: |
+          set -vxeuo pipefail
           TZ=UTC sphinx-build -M html ./docs/source "${TMP_DIR}/build"
 
       - name: Build Info

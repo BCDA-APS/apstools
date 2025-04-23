@@ -24,7 +24,7 @@ jobs:
 
       - uses: actions/setup-python@v5
         with:
-          python-version: "3.11"
+          python-version: "3.13"
 
       - name: Install package
         run: |
@@ -34,7 +34,7 @@ jobs:
       - name: Run ruff
         uses: davidslusser/actions_python_ruff@v1.0.2
         with:
-          python_version: "3.11"
+          python_version: "3.13"
           # see .ruff.toml file for options
 
   test-matrix:
@@ -48,33 +48,36 @@ jobs:
           - "3.10"
           - "3.11"
           - "3.12"
-          # - "3.13"  # databroker and h5py
+          - "3.13"
       max-parallel: 5
 
     steps:
       - uses: actions/checkout@v4
 
       - name: Create Python ${{ matrix.python-version }} environment
-        # needed for Unpack step
-        uses: mamba-org/setup-micromamba@v2
+        uses: mamba-org/setup-micromamba@v2.0.4
         with:
           cache-environment: true
           cache-environment-key: env-key-${{ matrix.python-version }}
           condarc: |
-            channel-priority: flexible
-          environment-file: environment.yml
+            channels:
+              - conda-forge
+              - nodefaults
+              - apsu
           environment-name: anaconda-test-env-py-${{ matrix.python-version }}
           create-args: >-
-            coveralls
-            pytest
-            pytest-cov
             python=${{ matrix.python-version }}
-            setuptools-scm
+            pyepics
+            aps-dm-api
 
+      - name: Install project code and developer dependencies
+        run: |
+          set -vxeuo pipefail
+          pip install -e .[dev]
+    
       - name: Unpack
         run: |
           set -vxeuo pipefail
-          pip install databroker-pack
           which databroker-pack
           which databroker-unpack
           cd resources

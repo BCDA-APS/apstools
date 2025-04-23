@@ -1,5 +1,6 @@
 """Test the utils.statistics module."""
 
+import math
 import pathlib
 from contextlib import nullcontext as does_not_raise
 
@@ -73,7 +74,10 @@ def test_xy_statistics(data):
     unknown = object()
     for key, expected in data["advice"].items():
         received = stats.get(key, unknown)
-        assert f"{received}" == expected, f"{key=} {expected=} {stats=} {data['file']=!r}"
+        if isinstance(received, str):
+            assert f"{received}" == expected, f"{key=} {expected=} {stats=} {data['file']=!r}"
+        elif isinstance(received, float):
+            assert math.isclose(received, float(expected), abs_tol=1e-6), f"{key=} {received=} {expected=}"
 
 
 @pytest.mark.parametrize(

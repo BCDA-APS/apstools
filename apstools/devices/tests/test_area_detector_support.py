@@ -7,11 +7,12 @@ import pathlib
 import random
 import tempfile
 import time
+from contextlib import nullcontext as does_not_raise
 
 import bluesky
-import bluesky.plan_stubs as bps
-import bluesky.plans as bp
 import pytest
+from bluesky import plan_stubs as bps
+from bluesky import plans as bp
 
 from ...tests import READ_PATH_TEMPLATE
 from ...tests import MonitorCache
@@ -21,6 +22,7 @@ from .. import AD_EpicsFileNameJPEGPlugin
 from .. import AD_EpicsFileNameMixin
 from .. import AD_EpicsFileNameTIFFPlugin
 from .. import AD_full_file_name_local
+from .. import BadPixelPlugin
 
 
 @pytest.mark.parametrize(
@@ -292,3 +294,21 @@ def test_single_mode(adsingle):
     plugin.write_message.unsubscribe_all()
     assert len(mcache.messages) == 0
     plugin.unstage()
+
+
+@pytest.mark.parametrize(
+    "Klass, setup, attrs, context, expected",
+    [
+        [BadPixelPlugin, {}, ["file_name"], does_not_raise(), None],
+    ],
+)
+def test_plugin(Klass, setup, attrs, context, expected):
+    """Basic unit testing of plugin classes, no connection needed."""
+    with context as exinfo:
+        obj = Klass("test:", name="test", **setup)
+        knowns = dir(obj)
+        for attr in attrs:
+            assert attr in knowns  # hasattr() needs connection
+
+    if expected is not None:
+        assert expected in str(exinfo)

@@ -29,20 +29,24 @@ describe future plans.
    Enhancements
    -------------
 
+   * Add 'validate_ports' kwarg to 'ad_creator'.
+   * Hoist area detector 'BadPixelPlugin' from USAXS.  (It's not in ophyd yet.)
    * Recover diffractometer configurations in FileWriterCallbackBase.
 
    Fixes
    -----
 
    * Fix problem with detector selection for lineup2() reported by USAXS.
+   * Fix unit test involving package version string length.
 
    Maintenance
    -----------
 
-   * Now testing with Python versions 3.9 - Py3.12.
-     (Can't use with Py3.13 yet due to databroker 1.2.5 pin.)
+   * Now testing with Python versions 3.9 - Py3.13. (still pinning databroker)
    * Removed 'lifetime' component from 'aps_machine' device.
    * Refactor unit test for change in upstream ophydregistry findall().
+   * Unit testing was taking ~1/2 hour to complete.
+   * Update project packaging and installation procedures.
 
 1.7.2
 *****

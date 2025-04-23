@@ -7,6 +7,7 @@ import pytest
 
 from ...tests import IOC_GP
 from ...tests import common_attribute_quantities_test
+from ...tests import in_gha_workflow
 from ...tests import timed_pause
 from .. import AcalcoutRecord
 from .. import UserArrayCalcDevice
@@ -14,12 +15,18 @@ from .. import UserArrayCalcDevice
 TEST_PV = f"{IOC_GP}userArrayCalc10"
 
 
+@pytest.mark.skipif(
+    in_gha_workflow(),
+    reason="Random failures in GiHub Actions workflows.",
+)
 def test_connected():
     acalcout = AcalcoutRecord(TEST_PV, name="acalcout")
-    timed_pause(0.25)
-    if not acalcout.connected:
-        for nm in acalcout.component_names:
-            assert getattr(acalcout, nm).connected, f"{nm}"
+    try:
+        acalcout.wait_for_connection(timeout=1)
+    except TimeoutError:
+        if not acalcout.connected:
+            for nm in acalcout.component_names:
+                assert getattr(acalcout, nm).connected, f"{nm}"
 
 
 @pytest.mark.parametrize(

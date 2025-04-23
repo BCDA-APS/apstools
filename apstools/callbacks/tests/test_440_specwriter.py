@@ -4,6 +4,7 @@ test issue #440: specwriter
 # https://github.com/BCDA-APS/apstools/issues/440
 """
 
+import os
 import pathlib
 import tempfile
 import zipfile
@@ -85,7 +86,7 @@ def test_specwriter_replay(callback, tempdir, catalog):
     # https://github.com/BCDA-APS/apstools/issues/440
     # The #440 problem does not appear when using data from the databroker.
     # This test will verify that is still the case now.
-    pathlib.os.chdir(tempdir)
+    os.chdir(tempdir)
     specfile = pathlib.Path("issue240.spec")
     if specfile.exists():
         specfile.unlink()  # remove existing file
