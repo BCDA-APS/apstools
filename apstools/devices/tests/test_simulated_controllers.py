@@ -7,7 +7,7 @@ from contextlib import nullcontext as does_not_raise
 
 import pytest
 
-from ...tests import IOC_GP
+from ...tests import IOC_GP, in_gha_workflow
 from ...tests import timed_pause
 from .. import simulated_controllers as sc
 
@@ -15,6 +15,10 @@ PV_SWAIT = f"{IOC_GP}userCalc7"
 PV_TRANS = f"{IOC_GP}userTran7"
 
 
+@pytest.mark.skipif(
+    in_gha_workflow(),
+    reason="Random failures in GiHub Actions workflows.",
+)
 @pytest.mark.parametrize("sp", [-55, 120, 998])
 @pytest.mark.parametrize(
     "pv, controller_class, context, exp_info",

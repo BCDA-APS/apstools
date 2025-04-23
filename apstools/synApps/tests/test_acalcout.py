@@ -6,19 +6,12 @@ import time
 import pytest
 
 from ...tests import IOC_GP
-from ...tests import common_attribute_quantities_test
+from ...tests import common_attribute_quantities_test, in_gha_workflow
 from ...tests import timed_pause
 from .. import AcalcoutRecord
 from .. import UserArrayCalcDevice
 
 TEST_PV = f"{IOC_GP}userArrayCalc10"
-
-
-def in_gha_workflow():
-    """Return True if running in a workflow on GitHub Actions."""
-    import os
-
-    return "/home/runner/" in os.environ.get("MAMBA_EXE", "")
 
 
 @pytest.mark.skipif(

@@ -92,6 +92,15 @@ def common_attribute_quantities_test(device, pv, connect, attr, expected):
         l = len(getattr(obj, attr))
     assert l == expected, f"{attr}: {l} != {expected}"
 
+def in_gha_workflow():
+    """Return True if running in a workflow on GitHub Actions."""
+    import os
+
+    # https://stackoverflow.com/a/73973555/1046449
+    keys = "GITHUB_ACTIONS TRAVIS CIRCLECI GITLAB_CI".split()
+    indicators = [os.getenv(key) for key in keys]
+    return "true" in indicators
+
 
 def rand(base, scale):
     return base + scale * random.random()
