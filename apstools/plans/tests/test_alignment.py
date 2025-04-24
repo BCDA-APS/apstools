@@ -47,7 +47,7 @@ for obj in (axis, m1, m2, noisy, scaler1, swait, calcs_enable):
 
 scaler1.select_channels()
 I0 = scaler1.channels.chan02.s
-I0.parent.override_signal_name.put("noisy")
+I0.parent.override_signal = noisy
 
 # TODO: Refactor 'pvoigt' as Python-only noisy pseudo-voigt signal,
 # a la 'ophyd.sim.noisy_det' to speed up testing of alignment plans.
@@ -156,10 +156,10 @@ parms_max = _TestParameters(pvoigt, axis, -1.2, 1.2, 11, "max", False)
 parms_min___pathological = _TestParameters(pvoigt, axis, -1.2, 1.2, 11, "min", False)
 
 
-@pytest.mark.skipif(
-    in_gha_workflow(),
-    reason="Deprecated code. Slow to run.  Don't bother testing in GHA.",
-)
+# @pytest.mark.skipif(
+#     in_gha_workflow(),
+#     reason="Deprecated code. Slow to run.  Don't bother testing in GHA.",
+# )
 @pytest.mark.parametrize(
     "parms",
     [
@@ -225,10 +225,10 @@ parms_max = _TestParameters(pvoigt, axis, -1.2, 1.2, 11, "max", 1)
 parms_min___pathological = _TestParameters(pvoigt, axis, -1.2, 1.2, 11, "min", 1)
 
 
-@pytest.mark.skipif(
-    in_gha_workflow(),
-    reason="Random failures in GiHub Actions workflows.",
-)
+# @pytest.mark.skipif(
+#     in_gha_workflow(),
+#     reason="Random failures in GiHub Actions workflows.",
+# )
 @pytest.mark.parametrize(
     "parms",
     [
@@ -266,10 +266,10 @@ def test_lineup2(parms: _TestParameters):
     )
 
 
-@pytest.mark.skipif(
-    in_gha_workflow(),
-    reason="Random failures in GiHub Actions workflows.",
-)
+# @pytest.mark.skipif(
+#     in_gha_workflow(),
+#     reason="Random failures in GiHub Actions workflows.",
+# )
 @pytest.mark.parametrize("detectors", [[noisy], [I0], [scaler1], [I0, scaler1]])
 def test_lineup2_issue_1049(detectors):
     scaler1.select_channels(["I0"])
@@ -400,10 +400,10 @@ parms_no_signal__ZeroDivisionError = _TestParameters(0, 0, 0, 0.1, 0.2, -0.7, 0.
 parms_bkg_only__ZeroDivisionError = _TestParameters(0, 1, 0, 0.1, 0.2, -0.7, 0.5, 11, 1, 0.005, None)
 
 
-@pytest.mark.skipif(
-    in_gha_workflow(),
-    reason="Random failures in GiHub Actions workflows.",
-)
+# @pytest.mark.skipif(
+#     in_gha_workflow(),
+#     reason="Random failures in GiHub Actions workflows.",
+# )
 @pytest.mark.parametrize(
     "parms",
     [

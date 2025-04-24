@@ -64,7 +64,6 @@ dependencies = [
   "numpy<2",
   "openpyxl",
   "ophyd>=1.6.1",
-  "ophyd-registry",
   "pandas",
   "pint",
   "psutil",

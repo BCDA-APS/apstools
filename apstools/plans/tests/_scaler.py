@@ -8,10 +8,10 @@ provide for such.  This support code allows for a separate ophyd SignalRO
 
 EXAMPLE::
 
-    # 'noisy' is an EpicsSignalRO known to oregistry
+    # 'noisy' is a known EpicsSignalRO
     # It uses an swait record that updates when 'm1' moves.
     scaler1.select_channels(["I0"])
-    scaler1.channels.chan02.override_signal_name.put("noisy")
+    scaler1.channels.chan02.override_signal = noisy
 
     # demo:
     RE(bp.rel_scan([scaler1], m1, -1, 1, 37))
@@ -30,31 +30,23 @@ import ophyd.scaler
 from ophyd import DynamicDeviceComponent as DDCpt
 from ophyd import FormattedComponent as FCpt
 
-from .__init__ import oregistry
-
 MAX_CHANNELS = 32
 
 
 class OverrideSourceRO(ophyd.EpicsSignalRO):
     """Get this signal's value from another signal."""
 
+    override_signal = None
+
     def get(self, **kwargs):
         """."""
-        pvname = self.parent.override_signal_name.get()
-        signals = oregistry.findall(pvname, allow_none=True)
-        # Multiple signals for identical PV name are ok here.
-        signal = super() if len(signals) == 0 else signals[0]
+        signal = self.override_signal or super()
         return signal.get()
 
 
 class ScalerChannel(ophyd.scaler.ScalerChannel):
     """Override this channel's 's' component."""
 
-    override_signal_name = ophyd.Component(
-        ophyd.Signal,
-        value="default: scaler channel's 'counts' value",
-        kind=ophyd.Kind.config,
-    )
     s = FCpt(
         OverrideSourceRO,
         "{self.prefix}.S{self._ch_num}",
