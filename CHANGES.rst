@@ -44,7 +44,7 @@ describe future plans.
 
    * Now testing with Python versions 3.9 - Py3.13. (still pinning databroker)
    * Removed 'lifetime' component from 'aps_machine' device.
-   * Refactor unit test for change in upstream ophydregistry findall().
+   * Refactor unit test for change in upstream ophyd-registry findall().
    * Remove testing requirement of ophyd-registry package.
    * Unit testing was taking ~1/2 hour to complete.
    * Update project packaging and installation procedures.
