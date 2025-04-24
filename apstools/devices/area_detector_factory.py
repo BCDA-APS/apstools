@@ -90,6 +90,7 @@ from .area_detector_support import AD_EpicsFileNameJPEGPlugin
 from .area_detector_support import AD_EpicsFileNameTIFFPlugin
 from .area_detector_support import BadPixelPlugin
 from .area_detector_support import HDF5FileWriterPlugin
+from .area_detector_support import SimDetectorCam_V34
 from .area_detector_support import SingleTrigger_V34
 
 DEFAULT_DETECTOR_BASES = (
@@ -101,7 +102,7 @@ PLUGIN_DEFAULTS = {  # some of the common plugins
     # gets image from the detector
     "cam": {
         "suffix": "cam1:",
-        "class": ophyd.areadetector.CamBase,
+        "class": SimDetectorCam_V34,
     },
     # for imaging
     "image": {
