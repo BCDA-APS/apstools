@@ -63,7 +63,7 @@ def test_calcs() -> None:
         (motor.user_setpoint, 1),
     ],
 )
-def test_listdevice(obj: Any, length: int) -> None:
+def test_listdevice(obj: Device, length: int) -> None:
     result = listdevice(obj, scope="read")
     assert isinstance(result, TableStyle.pyRestTable.value)
     assert len(result.rows) == length
