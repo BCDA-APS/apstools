@@ -18,6 +18,7 @@ from ...tests import IOC_AD
 from ...tests import READ_PATH_TEMPLATE
 from ...tests import WRITE_PATH_TEMPLATE
 from ...tests import MonitorCache
+from ...tests import in_gha_workflow
 from ...tests import timed_pause
 from .. import AD_EpicsFileNameHDF5Plugin
 from .. import AD_EpicsFileNameJPEGPlugin
@@ -61,21 +62,91 @@ def custom_ad_creator(plugin_name):
 
 
 @pytest.mark.parametrize(
-    # fmt: off
     "plugin_name, spec",
     [
         ["hdf1", "AD_HDF5"],
         ["jpeg1", "AD_JPEG"],
         ["tiff1", "AD_TIFF"],
     ],
-    # fmt: on
 )
-def test_AD_EpicsFileNameMixin(plugin_name, spec):
+@pytest.mark.parametrize(
+    "presets, context, expected",
+    [
+        [
+            dict(
+                create_directory=-5,
+                file_template="%s%s_%2.2d.ad_data",
+                file_name="test",
+                file_path="/tmp/",
+            ),
+            does_not_raise(),
+            None,
+        ],
+    ],
+)
+def test_replacement(plugin_name, spec, presets, context, expected):
     import epics
 
-    adsimdet = custom_ad_creator(plugin_name)
+    def caput(signal, value):
+        epics.caput(signal._write_pv.pvname, value)
+
+    with context as exinfo:
+        det = custom_ad_creator(plugin_name)
+
+        plugin = getattr(det, plugin_name)
+        assert AD_EpicsFileNameMixin is not None
+        assert isinstance(plugin, AD_EpicsFileNameMixin)
+        assert "filestore_spec" in dir(plugin)
+        assert plugin.filestore_spec == spec
+        assert isinstance(plugin.stage_sigs, dict)
+        assert len(plugin.stage_sigs) >= 4
+        assert "capture" in plugin.stage_sigs
+
+        settings = presets.copy()  # Do NOT change the 'presets' parameter.
+        if plugin_name == "hdf1":
+            settings["compression"] = "zlib"
+
+        for attr, value in settings.items():
+            if attr in dir(plugin):
+                caput(getattr(plugin, attr), value)
+
+        RE = bluesky.RunEngine()
+        (uid,) = RE(bp.count([det]))
+        assert isinstance(uid, str)
+
+    if expected is not None:
+        assert expected in str(exinfo)
+
+
+@pytest.mark.skipif(
+    in_gha_workflow(),
+    reason="Random failures in GiHub Actions workflows.",
+)
+@pytest.mark.parametrize(
+    "plugin_name, spec",
+    [
+        ["hdf1", "AD_HDF5"],
+        ["jpeg1", "AD_JPEG"],
+        ["tiff1", "AD_TIFF"],
+    ],
+)
+def test_AD_EpicsFileNameMixin(plugin_name, spec, adsimdet):
+    import epics
+
+    def caput(signal, value):
+        epics.caput(signal._write_pv.pvname, value)
+
+    # adsimdet = custom_ad_creator(plugin_name)
     assert adsimdet is not None
     assert plugin_name in dir(adsimdet)
+
+    # Preset some plugin values required for staging.
+    for key in "hdf jpeg tiff".split():
+        plugin = getattr(adsimdet, f"{key}1")
+        caput(plugin.create_directory, -5)
+        caput(plugin.file_name, f"test_{key}")
+        caput(plugin.file_path, f"/tmp/test_{key}/")
+        caput(plugin.file_template, f"%s%s_%3.3d.{key}/")
 
     # basic plugin tests
     plugin = getattr(adsimdet, plugin_name)
@@ -105,8 +176,7 @@ def test_AD_EpicsFileNameMixin(plugin_name, spec):
 
     # add the settings
     for attr, value in user_settings.items():
-        sig = getattr(plugin, attr)
-        epics.caput(sig._write_pv.pvname, value)
+        caput(getattr(plugin, attr), value)
     timed_pause(0.1)
 
     adsimdet.stage()
