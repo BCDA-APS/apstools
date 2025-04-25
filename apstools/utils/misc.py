@@ -93,7 +93,7 @@ def call_signature_decorator(f):
     return wrapper
 
 
-def cleanupText(text, replace="_"):
+def cleanupText(text, replace=None):
     """
     Convert text so it can be used as a dictionary key.
 
@@ -101,16 +101,7 @@ def cleanupText(text, replace="_"):
     remove troublesome characters, perhaps other cleanup as well.
     This is best done with regular expression pattern matching.
     """
-    pattern = "[a-zA-Z0-9_]"
-    if replace is None:
-        replace = "_"
-
-    def mapper(c):
-        if re.match(pattern, c) is not None:
-            return c
-        return replace
-
-    return "".join([mapper(c) for c in text])
+    return re.sub("[^a-zA-Z0-9_]", replace or "_", text)
 
 
 def count_child_devices_and_signals(device):

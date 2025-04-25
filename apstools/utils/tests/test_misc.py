@@ -27,6 +27,7 @@ class CustomClass:
 )
 def test_cleaupText(original, expected, replacement):
     result = cleanupText(original, replace=replacement)
+    assert isinstance(result, str)
     assert result == expected, f"{original=!r}  {result=!r}  {expected=!r}"
 
 
