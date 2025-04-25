@@ -74,10 +74,12 @@ def custom_ad_creator(plugin_name):
     [
         [
             dict(
+                auto_save="No",
+                lazy_open="No",
                 create_directory=-5,
                 file_template="%s%s_%2.2d.ad_data",
-                file_name="test",
                 file_path="/tmp/",
+                file_name="test",
             ),
             does_not_raise(),
             None,
@@ -100,7 +102,14 @@ def test_replacement(plugin_name, spec, presets, context, expected):
         assert plugin.filestore_spec == spec
         assert isinstance(plugin.stage_sigs, dict)
         assert len(plugin.stage_sigs) >= 4
-        assert "capture" in plugin.stage_sigs
+        assert plugin.stage_sigs.get("file_write_mode") == "Stream"
+        assert plugin.stage_sigs.get("capture") in (1, "Capture")
+        plugin.stage_sigs.move_to_end("capture", last=True)
+        assert list(plugin.stage_sigs)[-1] == "capture"
+
+        if not AD_plugin_primed(plugin):
+            AD_prime_plugin2(plugin)
+            assert AD_plugin_primed(plugin)
 
         settings = presets.copy()  # Do NOT change the 'presets' parameter.
         if plugin_name == "hdf1":
