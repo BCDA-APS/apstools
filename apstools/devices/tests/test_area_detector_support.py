@@ -93,10 +93,11 @@ def test_AD_EpicsFileNameMixin(plugin_name, spec):
         auto_increment=1,  # Yes
         auto_save=0,  # No
         create_directory=-5,
+        # file_template before file_name & file_path
+        file_template=f"%s%s_%2.2d.{plugin_name}",
         file_name="flotsam",
         file_number=1 + int(10 * random.random()),
         file_path=f"{pathlib.Path(tempfile.mkdtemp())}/",  # ALWAYS ends with "/"
-        file_template=f"%s%s_%2.2d.{plugin_name}",
         num_capture=1 + int(10 * random.random()),
     )
     if plugin_name == "hdf1":
