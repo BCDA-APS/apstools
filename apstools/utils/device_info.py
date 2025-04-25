@@ -17,6 +17,7 @@ from typing import Union
 import pandas as pd
 from ophyd import Device
 from ophyd import Signal
+from ophyd import OphydObject
 from ophyd.signal import ConnectionTimeoutError
 from ophyd.signal import EpicsSignalBase
 
