@@ -145,7 +145,7 @@ def unprime_AD_plugin(plugin):
     ],
 )
 def test_AD_EpicsFileNameMixin(plugin_name, spec, presets, prime, context, expected):
-
+    """Test the mixin with stage/unstage."""
     with context as exinfo:
         det = custom_ad_creator(plugin_name)
 
@@ -183,8 +183,6 @@ def test_AD_EpicsFileNameMixin(plugin_name, spec, presets, prime, context, expec
             for k, v in settings.items():
                 assert getattr(plugin, k).get(use_monitor=False) == v, f"{plugin_name=} {k=}  {v=}"
 
-            # assert plugin.get_frames_per_point() == settings["num_capture"]
-
             filename, read_path, write_path = plugin.make_filename()
             assert isinstance(filename, str)
             assert isinstance(read_path, str)
@@ -195,10 +193,6 @@ def test_AD_EpicsFileNameMixin(plugin_name, spec, presets, prime, context, expec
 
         finally:
             det.unstage()
-
-        # RE = bluesky.RunEngine()
-        # (uid,) = RE(bp.count([det]))
-        # assert isinstance(uid, str)
 
     if expected is not None:
         assert expected in str(exinfo)
