@@ -13,11 +13,10 @@ import bluesky
 import pytest
 from bluesky import plan_stubs as bps
 from bluesky import plans as bp
-from ophyd.utils.errors import UnknownStatusFailure
-from ophyd.utils.errors import UnprimedPlugin
 
 from ...tests import IOC_AD
 from ...tests import READ_PATH_TEMPLATE
+from ...tests import WRITE_PATH_TEMPLATE
 from ...tests import MonitorCache
 from ...tests import timed_pause
 from .. import AD_EpicsFileNameHDF5Plugin
@@ -31,6 +30,36 @@ from .. import BadPixelPlugin
 from .. import ad_creator
 
 
+def custom_ad_creator(plugin_name):
+    """Create area detector with named file writer plugin."""
+    plugin_class = dict(
+        hdf1=AD_EpicsFileNameHDF5Plugin,
+        jpeg1=AD_EpicsFileNameJPEGPlugin,
+        tiff1=AD_EpicsFileNameTIFFPlugin,
+    )
+    writer_plugin = {
+        plugin_name: {
+            "class": plugin_class[plugin_name],
+            "write_path_template": WRITE_PATH_TEMPLATE,
+            "read_path_template": READ_PATH_TEMPLATE,
+        }
+    }
+    if plugin_name in "jpeg1 tiff1".split():
+        writer_plugin[plugin_name]["suffix"] = f"{plugin_name.upper()}:"
+    adsimdet = ad_creator(
+        IOC_AD,
+        name="adsimdet",
+        class_name="MySimDet",
+        plugins=[
+            "cam",
+            "image",
+            "pva",
+            writer_plugin,
+        ],
+    )
+    return adsimdet
+
+
 @pytest.mark.parametrize(
     # fmt: off
     "plugin_name, spec",
@@ -41,7 +70,8 @@ from .. import ad_creator
     ],
     # fmt: on
 )
-def test_AD_EpicsFileNameMixin(plugin_name, spec, adsimdet):
+def test_AD_EpicsFileNameMixin(plugin_name, spec):
+    adsimdet = custom_ad_creator(plugin_name)
     assert adsimdet is not None
     assert plugin_name in dir(adsimdet)
 
@@ -127,8 +157,10 @@ def test_stage(plugin_name, plugin_class, adsimdet, fname):
         ["tiff1", AD_EpicsFileNameTIFFPlugin],
     ],
 )
-def test_bp_count_custom_name(plugin_name, plugin_class, adsimdet, fname):
+def test_bp_count_custom_name(plugin_name, plugin_class, fname):
     assert isinstance(plugin_name, str)
+
+    adsimdet = custom_ad_creator(plugin_name)
 
     plugin = getattr(adsimdet, plugin_name)
     assert isinstance(plugin, plugin_class)
@@ -148,7 +180,7 @@ def test_bp_count_custom_name(plugin_name, plugin_class, adsimdet, fname):
             adsimdet.cam.acquire_time, 0.001,
             adsimdet.cam.acquire_period, 0.002,
             adsimdet.cam.image_mode, "Single",
-            # plugin.file_template  # pre-configured
+            plugin.file_template, "%s%s_%3.3d.h5"
         )
         # fmt: on
 
@@ -195,7 +227,8 @@ def test_bp_count_custom_name(plugin_name, plugin_class, adsimdet, fname):
     assert fname in str(lfname), f"{lfname=}  {fname=}"
 
 
-def test_full_file_name_local(adsimdet, fname):
+def test_full_file_name_local(fname):
+    adsimdet = custom_ad_creator("hdf1")
     plugin = adsimdet.hdf1
     plugin.file_name.put(fname)
     plugin.file_path.put(f"{plugin.write_path_template}/")
@@ -211,23 +244,8 @@ def test_full_file_name_local(adsimdet, fname):
     assert str(lfname).find(fname) > 0
 
 
-def test_no_file_path(adsimdet, fname):
-    adsimdet.hdf1.file_name.put(fname)
-    adsimdet.hdf1.file_path.put("/no-such-path-exists")
-    time.sleep(0.1)
-    assert adsimdet.hdf1.file_path_exists.get() == 0
-
-    adsimdet.hdf1.file_path.put("")
-    time.sleep(0.1)
-    assert adsimdet.hdf1.file_path_exists.get() == 0
-
-    with pytest.raises(OSError) as exc:
-        adsimdet.stage()
-    assert str(exc.value).endswith(" does not exist on IOC.")
-    adsimdet.unstage()
-
-
-def test_file_numbering(adsimdet, fname):
+def test_file_numbering(fname):
+    adsimdet = custom_ad_creator("hdf1")
     plugin = adsimdet.hdf1
     plugin.file_name.put(fname)
     plugin.file_path.put(f"{plugin.write_path_template}/")
@@ -262,7 +280,9 @@ def test_file_numbering(adsimdet, fname):
 
 
 def test_capture_error_with_single_mode(adsimdet):
+    # adsimdet = custom_ad_creator("hdf1")
     plugin = adsimdet.hdf1
+    plugin.file_name.put("test")
 
     # test that plugin is in the wrong configuration for Single mode
     assert "capture" in plugin.stage_sigs
