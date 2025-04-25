@@ -15,7 +15,6 @@ Public Structures
 """
 
 from collections import OrderedDict
-from typing import Any, Dict, List, Optional, Union
 
 from ophyd import Component as Cpt
 from ophyd import Device
@@ -45,12 +44,12 @@ class ScalcoutRecordNumberChannel(Device):
     input_value = FC(EpicsSignal, "{prefix}.{_ch}", kind="config")
     input_pv = FC(EpicsSignal, "{prefix}.INP{_ch}", kind="config")
 
-    def __init__(self, prefix: str, letter: str, **kwargs: Any) -> None:
+    def __init__(self, prefix, letter, **kwargs):
         self._ch = letter
         super().__init__(prefix, **kwargs)
 
-    def reset(self) -> None:
-        """Set all fields to default values."""
+    def reset(self):
+        """set all fields to default values"""
         self.input_pv.put("")
         self.input_value.put(0)
 
@@ -69,18 +68,17 @@ class ScalcoutRecordStringChannel(Device):
     input_value = FC(EpicsSignal, "{prefix}.{_ch}", kind="config")
     input_pv = FC(EpicsSignal, "{prefix}.IN{_ch}", kind="config")
 
-    def __init__(self, prefix: str, letter: str, **kwargs: Any) -> None:
+    def __init__(self, prefix, letter, **kwargs):
         self._ch = letter
         super().__init__(prefix, **kwargs)
 
-    def reset(self) -> None:
-        """Set all fields to default values."""
+    def reset(self):
+        """set all fields to default values"""
         self.input_pv.put("")
         self.input_value.put("")
 
 
-def _channels(input_list: List[str]) -> Dict[str, tuple]:
-    """Create channel definitions."""
+def _channels(input_list):
     defn = OrderedDict()
     for nsym in input_list:
         defn[nsym] = (ScalcoutRecordNumberChannel, "", {"letter": nsym})
@@ -135,12 +133,11 @@ class ScalcoutRecord(EpicsRecordFloatFields, EpicsRecordDeviceCommonAll):
     hints = {"fields": read_attrs}
 
     @property
-    def value(self) -> Any:
-        """Get calculated value."""
+    def value(self):
         return self.calculated_value.get()
 
-    def reset(self) -> None:
-        """Set all fields to default values."""
+    def reset(self):
+        """set all fields to default values"""
         pvname = self.description.pvname.split(".")[0]
         self.enable.put("E")
         self.scanning_rate.put("Passive")
@@ -200,8 +197,8 @@ class UserScalcoutDevice(Device):
     scalcout9 = Cpt(UserScalcoutN, "userStringCalc9")
     scalcout10 = Cpt(UserScalcoutN, "userStringCalc10")
 
-    def reset(self) -> None:  # lgtm [py/similar-function]
-        """Set all fields to default values."""
+    def reset(self):  # lgtm [py/similar-function]
+        """set all fields to default values"""
         self.scalcout1.reset()
         self.scalcout2.reset()
         self.scalcout3.reset()

@@ -17,7 +17,6 @@ Public Structures
 """
 
 from collections import OrderedDict
-from typing import Any, Union, List, Tuple, Type
 
 from ophyd import Component as Cpt
 from ophyd import Device
@@ -56,18 +55,18 @@ class CalcoutRecordChannel(Device):
     ]
     hints = {"fields": read_attrs}
 
-    def __init__(self, prefix: str, letter: str, **kwargs: Any) -> None:
+    def __init__(self, prefix, letter, **kwargs):
         self._ch_letter = letter
         super().__init__(prefix, **kwargs)
 
-    def reset(self) -> None:
+    def reset(self):
         """set all fields to default values"""
         self.input_pv.put("")
         self.input_value.put(0)
 
 
-def _channels(channel_list: List[str]) -> OrderedDict[str, Tuple[Type[CalcoutRecordChannel], str, dict]]:
-    defn: OrderedDict[str, Tuple[Type[CalcoutRecordChannel], str, dict]] = OrderedDict()
+def _channels(channel_list):
+    defn = OrderedDict()
     for chan in channel_list:
         defn[chan] = (CalcoutRecordChannel, "", {"letter": chan})
     return defn
@@ -113,12 +112,12 @@ class CalcoutRecord(EpicsRecordFloatFields, EpicsRecordDeviceCommonAll):
     hints = {"fields": read_attrs}
 
     @property
-    def value(self) -> float:
+    def value(self):
         return self.calculated_value.get()
 
-    def reset(self) -> None:
+    def reset(self):
         """set all fields to default values"""
-        pvname: str = self.description.pvname.split(".")[0]
+        pvname = self.description.pvname.split(".")[0]
         self.scanning_rate.put("Passive")
         self.description.put(pvname)
         self.units.put("")
@@ -174,7 +173,7 @@ class UserCalcoutDevice(Device):
     calcout9 = Cpt(UserCalcoutN, "userCalcOut9")
     calcout10 = Cpt(UserCalcoutN, "userCalcOut10")
 
-    def reset(self) -> None:  # lgtm [py/similar-function]
+    def reset(self):  # lgtm [py/similar-function]
         """set all fields to default values"""
         self.calcout1.reset()
         self.calcout2.reset()
@@ -192,16 +191,10 @@ class UserCalcoutDevice(Device):
 
 def _setup_peak_calcout_(
     # fmt: off
-    calc: str,
-    desc: str,
-    calcout: CalcoutRecord,
-    ref_signal: Signal,
-    center: float = 0,
-    width: float = 1,
-    scale: float = 1,
-    noise: float = 0.05,
+    calc, desc, calcout, ref_signal,
+    center=0, width=1, scale=1, noise=0.05
     # fmt: on
-) -> None:
+):
     """
     internal: setup that is common to both Gaussian and Lorentzian calcouts
 
@@ -263,14 +256,7 @@ def _setup_peak_calcout_(
     calcout.hints = {"fields": calcout.read_attrs}
 
 
-def setup_gaussian_calcout(
-    calcout: CalcoutRecord,
-    ref_signal: Signal,
-    center: float = 0,
-    width: float = 1,
-    scale: float = 1,
-    noise: float = 0.05,
-) -> None:
+def setup_gaussian_calcout(calcout, ref_signal, center=0, width=1, scale=1, noise=0.05):
     """
     setup calcout for noisy Gaussian
 
@@ -321,13 +307,8 @@ def setup_gaussian_calcout(
 
 
 def setup_lorentzian_calcout(
-    calcout: CalcoutRecord,
-    ref_signal: Signal,
-    center: float = 0,
-    width: float = 1,
-    scale: float = 1,
-    noise: float = 0.05,
-) -> None:  # lgtm [py/similar-function]
+    calcout, ref_signal, center=0, width=1, scale=1, noise=0.05
+):  # lgtm [py/similar-function]
     """
     setup calcout record for noisy Lorentzian
 
@@ -377,9 +358,7 @@ def setup_lorentzian_calcout(
     )
 
 
-def setup_incrementer_calcout(
-    calcout: CalcoutRecord, scan: Union[str, int, None] = None, limit: int = 100000
-) -> None:
+def setup_incrementer_calcout(calcout, scan=None, limit=100000):
     """
     setup calcout record as an incrementer
 
@@ -408,7 +387,7 @@ def setup_incrementer_calcout(
     calcout.reset()
     calcout.scanning_rate.put("Passive")
     calcout.description.put("incrementer")
-    pvname: str = calcout.calculated_value.pvname.split(".")[0]
+    pvname = calcout.calculated_value.pvname.split(".")[0]
     calcout.channels.A.input_pv.put(pvname)
     calcout.channels.B.input_value.put(limit)
     calcout.calculation.put("(A+1) % B")

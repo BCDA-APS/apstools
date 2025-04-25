@@ -17,8 +17,6 @@ Public Structures
    (https://github.com/epics-modules/optics/issues/10)
 """
 
-from typing import Any, Union
-
 from ophyd import Component
 from ophyd import EpicsSignal
 from ophyd import EpicsSignalRO
@@ -38,42 +36,41 @@ class EpidRecord(EpicsRecordFloatFields, EpicsRecordDeviceCommonAll):
     :see: https://epics.anl.gov/bcda/synApps/std/epidRecord.html
     """
 
-    controlled_value_link: Component[EpicsSignal] = Component(EpicsSignal, ".INP", kind="config")
-    controlled_value: Component[EpicsSignalRO] = Component(EpicsSignalRO, ".CVAL", kind="config")
+    controlled_value_link = Component(EpicsSignal, ".INP", kind="config")
+    controlled_value = Component(EpicsSignalRO, ".CVAL", kind="config")
 
-    readback_trigger_link: Component[EpicsSignal] = Component(EpicsSignal, ".TRIG", kind="config")
-    readback_trigger_link_value: Component[EpicsSignal] = Component(EpicsSignal, ".TVAL", kind="config")
+    readback_trigger_link = Component(EpicsSignal, ".TRIG", kind="config")
+    readback_trigger_link_value = Component(EpicsSignal, ".TVAL", kind="config")
 
-    setpoint_location: Component[EpicsSignal] = Component(EpicsSignal, ".STPL", kind="config")
-    setpoint_mode_select: Component[EpicsSignal] = Component(EpicsSignal, ".SMSL", kind="config")
+    setpoint_location = Component(EpicsSignal, ".STPL", kind="config")
+    setpoint_mode_select = Component(EpicsSignal, ".SMSL", kind="config")
 
-    output_location: Component[EpicsSignal] = Component(EpicsSignal, ".OUTL", kind="config")
-    feedback_on: Component[EpicsSignal] = Component(EpicsSignal, ".FBON", kind="config")
+    output_location = Component(EpicsSignal, ".OUTL", kind="config")
+    feedback_on = Component(EpicsSignal, ".FBON", kind="config")
 
-    proportional_gain: Component[EpicsSignal] = Component(EpicsSignal, ".KP", kind="config")
-    integral_gain: Component[EpicsSignal] = Component(EpicsSignal, ".KI", kind="config")
-    derivative_gain: Component[EpicsSignal] = Component(EpicsSignal, ".KD", kind="config")
+    proportional_gain = Component(EpicsSignal, ".KP", kind="config")
+    integral_gain = Component(EpicsSignal, ".KI", kind="config")
+    derivative_gain = Component(EpicsSignal, ".KD", kind="config")
 
-    following_error: Component[EpicsSignalRO] = Component(EpicsSignalRO, ".ERR", kind="config")
-    output_value: Component[EpicsSignalRO] = Component(EpicsSignalRO, ".OVAL", kind="config")
-    final_value: Component[EpicsSignalRO] = Component(EpicsSignalRO, ".VAL", kind="normal")
+    following_error = Component(EpicsSignalRO, ".ERR", kind="config")
+    output_value = Component(EpicsSignalRO, ".OVAL", kind="config")
+    final_value = Component(EpicsSignalRO, ".VAL", kind="normal")
 
-    calculated_P: Component[EpicsSignalRO] = Component(EpicsSignalRO, ".P", kind="config")
-    calculated_I: Component[EpicsSignal] = Component(EpicsSignal, ".I", kind="config")
-    calculated_D: Component[EpicsSignalRO] = Component(EpicsSignalRO, ".D", kind="config")
+    calculated_P = Component(EpicsSignalRO, ".P", kind="config")
+    calculated_I = Component(EpicsSignal, ".I", kind="config")
+    calculated_D = Component(EpicsSignalRO, ".D", kind="config")
 
-    time_difference: Component[EpicsSignal] = Component(EpicsSignal, ".DT", kind="config")
-    minimum_delta_time: Component[EpicsSignal] = Component(EpicsSignal, ".MDT", kind="config")
+    time_difference = Component(EpicsSignal, ".DT", kind="config")
+    minimum_delta_time = Component(EpicsSignal, ".MDT", kind="config")
 
     # limits imposed by the record support:
     #     .LOPR <= .OVAL <= .HOPR
     #     .LOPR <= .I <= .HOPR
-    high_limit: Component[EpicsSignal] = Component(EpicsSignal, ".DRVH", kind="config")
-    low_limit: Component[EpicsSignal] = Component(EpicsSignal, ".DRVL", kind="config")
+    high_limit = Component(EpicsSignal, ".DRVH", kind="config")
+    low_limit = Component(EpicsSignal, ".DRVL", kind="config")
 
     @property
-    def value(self) -> Any:
-        """Get output value."""
+    def value(self):
         return self.output_value.get()
 
 
@@ -85,22 +82,21 @@ class Fb_EpidDatabase(EpidRecord):
     """
 
     final_value = None  # replace final_value (RO) with setpoint (R/W)
-    setpoint: Component[EpicsSignal] = Component(EpicsSignal, ".VAL", kind="config")
+    setpoint = Component(EpicsSignal, ".VAL", kind="config")
 
-    on: Component[EpicsSignal] = Component(EpicsSignal, ":on", string=True, kind="config")
-    feedback_on: Component[EpicsSignalRO] = Component(EpicsSignalRO, ".FBON", string=True, kind="omitted")
+    on = Component(EpicsSignal, ":on", string=True, kind="config")
+    feedback_on = Component(EpicsSignalRO, ".FBON", string=True, kind="omitted")
 
-    enable_calc: Component[SwaitRecord] = Component(SwaitRecord, ":enable")
-    in_calc: Component[SwaitRecord] = Component(SwaitRecord, ":in")
-    obuf_calc: Component[SwaitRecord] = Component(SwaitRecord, ":obuf")
-    out_calc: Component[SwaitRecord] = Component(SwaitRecord, ":out")
-    resume_calc: Component[SwaitRecord] = Component(SwaitRecord, ":resume")
-    outpv: Component[SseqRecord] = Component(SseqRecord, ":outpv")
+    enable_calc = Component(SwaitRecord, ":enable")
+    in_calc = Component(SwaitRecord, ":in")
+    obuf_calc = Component(SwaitRecord, ":obuf")
+    out_calc = Component(SwaitRecord, ":out")
+    resume_calc = Component(SwaitRecord, ":resume")
+    outpv = Component(SseqRecord, ":outpv")
 
     @property
-    def is_feedback_on(self) -> bool:
-        """Return True if feedback is on."""
-        return str(self.feedback_on.get()).lower() in ("on", "1")
+    def is_feedback_on(self):
+        return str(self.feedback_on.get()).lower() in ("on", 1)
 
 
 class Fb_EpidDatabaseHeaterSimulator(Fb_EpidDatabase):
@@ -108,18 +104,9 @@ class Fb_EpidDatabaseHeaterSimulator(Fb_EpidDatabase):
     Heater simulator in EPICS synApps optics fb_epid database.
     """
 
-    sim_calc: Component[SwaitRecord] = Component(SwaitRecord, ":sim")
+    sim_calc = Component(SwaitRecord, ":sim")
 
-    def setup(self, scan: str = ".2 second", Kp: float = 0.0004, Ki: float = 0.5, T0: float = 25.5) -> None:
-        """
-        Set up the heater simulator.
-
-        Args:
-            scan: Scan rate, default = ".2 second"
-            Kp: Proportional gain, default = 0.0004
-            Ki: Integral gain, default = 0.5
-            T0: Initial temperature, default = 25.5
-        """
+    def setup(self, scan=".2 second", Kp=0.0004, Ki=0.5, T0=25.5):
         for obj in (
             self.enable_calc,
             self.in_calc,
@@ -141,8 +128,7 @@ class Fb_EpidDatabaseHeaterSimulator(Fb_EpidDatabase):
         self.setpoint.put(T0)
         self.on.put("on")  # turn on the temperature control
 
-    def reset(self) -> None:
-        """Reset the heater simulator."""
+    def reset(self):
         self.on.put("off")  # turn off the temperature control
         for obj in (
             self.enable_calc,

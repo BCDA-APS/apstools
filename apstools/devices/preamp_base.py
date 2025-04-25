@@ -22,7 +22,7 @@ class PreamplifierBaseDevice(Device):
     :see: https://github.com/BCDA-APS/apstools/issues/544
     """
 
-    gain: Signal = Component(Signal, kind="normal", value=1)
+    gain = Component(Signal, kind="normal", value=1)
 
 
 # -----------------------------------------------------------------------------

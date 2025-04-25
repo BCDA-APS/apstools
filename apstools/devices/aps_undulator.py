@@ -221,7 +221,6 @@ class Undulator4M(Undulator2M):
         undulator = Undulator4M("S11ID:DSID:", name="undulator")
     """
 
-
 # -----------------------------------------------------------------------------
 # :author:    BCDA
 # :copyright: (c) 2017-2025, UChicago Argonne, LLC

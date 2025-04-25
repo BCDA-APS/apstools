@@ -15,7 +15,6 @@ Public Structures
 """
 
 from collections import OrderedDict
-from typing import Any, Tuple, Type, Dict, List
 
 from ophyd import Component as Cpt
 from ophyd import Device
@@ -29,7 +28,7 @@ from ._common import EpicsRecordDeviceCommonAll
 from ._common import EpicsRecordFloatFields
 from ._common import EpicsSynAppsRecordEnableMixin
 
-CHANNEL_LETTERS_LIST: List[str] = "A B C D E F G H I J K L".split()
+CHANNEL_LETTERS_LIST = "A B C D E F G H I J K L".split()
 
 
 class AcalcoutRecordChannel(Device):
@@ -53,21 +52,12 @@ class AcalcoutRecordChannel(Device):
     ]
     hints = {"fields": read_attrs}
 
-    def __init__(self, prefix: str, letter: str, **kwargs: Any) -> None:
-        """
-        Initialize the AcalcoutRecordChannel.
-
-        :param prefix: Prefix string for the record.
-        :param letter: Channel letter.
-        :param kwargs: Additional keyword arguments.
-        """
+    def __init__(self, prefix, letter, **kwargs):
         self._ch_letter = letter
         super().__init__(prefix, **kwargs)
 
-    def reset(self) -> None:
-        """
-        Set all fields to default values.
-        """
+    def reset(self):
+        """set all fields to default values"""
         self.input_pv.put("")
         self.input_value.put(0)
 
@@ -91,33 +81,18 @@ class AcalcoutArrayRecordChannel(Device):
     ]
     hints = {"fields": read_attrs}
 
-    def __init__(self, prefix: str, letter: str, **kwargs: Any) -> None:
-        """
-        Initialize the AcalcoutArrayRecordChannel.
-
-        :param prefix: Prefix string for the record.
-        :param letter: Channel letter.
-        :param kwargs: Additional keyword arguments.
-        """
+    def __init__(self, prefix, letter, **kwargs):
         self._ch_letters = letter + letter
         super().__init__(prefix, **kwargs)
 
-    def reset(self) -> None:
-        """
-        Set all fields to default values.
-        """
+    def reset(self):
+        """set all fields to default values"""
         self.input_pv.put("")
         self.input_value.put([])
 
 
-def _channels(channel_list: List[str]) -> OrderedDict[str, Tuple[Type[Device], str, Dict[str, Any]]]:
-    """
-    Create an OrderedDict mapping channels to their corresponding channel classes and parameters.
-
-    :param channel_list: List of channel letters.
-    :return: OrderedDict with channel configurations.
-    """
-    defn: OrderedDict[str, Tuple[Type[Device], str, Dict[str, Any]]] = OrderedDict()
+def _channels(channel_list):
+    defn = OrderedDict()
     for chan in channel_list:
         defn[chan] = (AcalcoutRecordChannel, "", {"letter": chan})
     for chan in channel_list:
@@ -171,19 +146,12 @@ class AcalcoutRecord(EpicsRecordFloatFields, EpicsRecordDeviceCommonAll):
     hints = {"fields": read_attrs}
 
     @property
-    def value(self) -> Any:
-        """
-        Return the calculated value.
-
-        :return: The current calculated value.
-        """
+    def value(self):
         return self.calculated_value.get()
 
-    def reset(self) -> None:
-        """
-        Set all fields to default values.
-        """
-        pvname: str = self.description.pvname.split(".")[0]
+    def reset(self):
+        """set all fields to default values"""
+        pvname = self.description.pvname.split(".")[0]
         self.scanning_rate.put("Passive")
         self.description.put(pvname)
         self.units.put("")
@@ -207,7 +175,7 @@ class AcalcoutRecord(EpicsRecordFloatFields, EpicsRecordDeviceCommonAll):
         self.array_size_choice.put("NELM")
 
         for letter in self.channels.read_attrs:
-            channel: Any = getattr(self.channels, letter)
+            channel = getattr(self.channels, letter)
             if isinstance(channel, (AcalcoutRecordChannel, AcalcoutArrayRecordChannel)):
                 channel.reset()
         self.hints = {"fields": ["channels.%s" % c for c in CHANNEL_LETTERS_LIST]}
@@ -242,10 +210,8 @@ class UserArrayCalcDevice(Device):
     acalcout9 = Cpt(UserArrayCalcN, "userArrayCalc9")
     acalcout10 = Cpt(UserArrayCalcN, "userArrayCalc10")
 
-    def reset(self) -> None:
-        """
-        Set all fields to default values.
-        """
+    def reset(self):
+        """set all fields to default values"""
         for i in range(10):
             getattr(self, f"acalcout{i+1}").reset()
         self.read_attrs = ["acalcout%d" % (c + 1) for c in range(10)]

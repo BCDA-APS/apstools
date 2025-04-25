@@ -16,12 +16,12 @@ record(bo, "pss:Open") {
     field(DESC, "open PSS shutter")
     field(VAL, 0)
 }
-
+    
 record(bo, "pss:Close") {
     field(DESC, "close PSS shutter")
     field(VAL, 0)
 }
-
+    
 record(bo, "pss:state") {
     field(DESC, "PSS shutter state")
     field(ZNAM, "OFF")	# closed

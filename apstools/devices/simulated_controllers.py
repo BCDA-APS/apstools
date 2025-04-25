@@ -8,7 +8,6 @@ Simulate process controllers as positioners using EPICS records.
 """
 
 import time
-from typing import Any, Dict, Optional, Union
 
 from ophyd import FormattedComponent as FC
 
@@ -39,25 +38,9 @@ class SimulatedSwaitControllerPositioner(PVPositionerSoftDoneWithStop):
         ~setup
     """
 
-    loop: SwaitRecord = FC(SwaitRecord, "{loop_pv}", kind="config")
+    loop = FC(SwaitRecord, "{loop_pv}", kind="config")
 
-    def __init__(
-        self,
-        *args: Any,
-        loop_pv: str = "",
-        **kwargs: Any,
-    ) -> None:
-        """
-        Initialize the simulated swait controller positioner.
-
-        Args:
-            *args: Variable length argument list
-            loop_pv: The EPICS PV prefix for the swait record
-            **kwargs: Additional keyword arguments to pass to the parent class
-
-        Raises:
-            ValueError: If loop_pv is empty
-        """
+    def __init__(self, *args, loop_pv="", **kwargs):
         if len(loop_pv.strip()) == 0:
             raise ValueError("Must supply a value for 'loop_pv'.")
 
@@ -70,23 +53,15 @@ class SimulatedSwaitControllerPositioner(PVPositionerSoftDoneWithStop):
 
     def setup(
         self,
-        setpoint: float,
-        label: str = "controller",
-        noise: float = 1,
-        period: str = "1 second",
-        max_change: float = 1,
-        tolerance: float = 1,
-    ) -> None:
+        setpoint,
+        label="controller",
+        noise=1,
+        period="1 second",
+        max_change=1,
+        tolerance=1,
+    ):
         """
         Configure the swait record as a process controller.
-
-        Args:
-            setpoint: The target value for the controller
-            label: A descriptive label for the controller
-            noise: The amount of random noise to add
-            period: The update period for the controller
-            max_change: The maximum allowed change per update
-            tolerance: The tolerance for considering the controller "in position"
         """
         self.tolerance.put(tolerance)
 
@@ -126,25 +101,9 @@ class SimulatedTransformControllerPositioner(PVPositionerSoftDoneWithStop):
         ~setup
     """
 
-    loop: TransformRecord = FC(TransformRecord, "{loop_pv}", kind="config")
+    loop = FC(TransformRecord, "{loop_pv}", kind="config")
 
-    def __init__(
-        self,
-        *args: Any,
-        loop_pv: str = "",
-        **kwargs: Any,
-    ) -> None:
-        """
-        Initialize the simulated transform controller positioner.
-
-        Args:
-            *args: Variable length argument list
-            loop_pv: The EPICS PV prefix for the transform record
-            **kwargs: Additional keyword arguments to pass to the parent class
-
-        Raises:
-            ValueError: If loop_pv is empty
-        """
+    def __init__(self, *args, loop_pv="", **kwargs):
         if len(loop_pv.strip()) == 0:
             raise ValueError("Must supply a value for 'loop_pv'.")
 
@@ -159,23 +118,15 @@ class SimulatedTransformControllerPositioner(PVPositionerSoftDoneWithStop):
 
     def setup(
         self,
-        setpoint: float,
-        label: str = "controller",
-        noise: float = 2,
-        period: str = "1 second",
-        max_change: float = 2,
-        tolerance: float = 1,
-    ) -> None:
+        setpoint,
+        label="controller",
+        noise=2,
+        period="1 second",
+        max_change=2,
+        tolerance=1,
+    ):
         """
         Configure the transform record as a process controller.
-
-        Args:
-            setpoint: The target value for the controller
-            label: A descriptive label for the controller
-            noise: The amount of random noise to add
-            period: The update period for the controller
-            max_change: The maximum allowed change per update
-            tolerance: The tolerance for considering the controller "in position"
         """
         self.wait_for_connection()
         self.tolerance.put(tolerance)

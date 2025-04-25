@@ -10,8 +10,6 @@ Public Structures
 
 """
 
-from typing import Any
-
 from ophyd import Component
 from ophyd import Device
 from ophyd import EpicsSignalRO
@@ -60,54 +58,39 @@ class IocStatsDevice(Device):
     memory_used_percentage = Component(Signal, value=0)
     startup_script = Component(Signal, value="")
 
-    def __init__(self, *args: Any, **kwargs: Any) -> None:
+    def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
 
-        def ad_update(value: Any, *args: Any, **kwargs: Any) -> None:
+        def ad_update(value, *args, **kwargs):
             """
-            Update ``application_directory`` Signal.
+            update ``application_directory`` Signal
 
             Instead of a @property, keep a Signal updated
             so it will be recorded with a Device.read()
-
-            Args:
-                value: Signal value
-                *args: Variable length argument list
-                **kwargs: Arbitrary keyword arguments
             """
             self.application_directory.put(self._app_dir1.get() + self._app_dir2.get())
 
         self._app_dir1.subscribe(ad_update)
         self._app_dir2.subscribe(ad_update)
 
-        def ss_update(value: Any, *args: Any, **kwargs: Any) -> None:
+        def ss_update(value, *args, **kwargs):
             """
-            Update ``startup_script`` Signal.
+            update ``startup_script`` Signal
 
             Instead of a @property, keep a Signal updated
             so it will be recorded with a Device.read()
-
-            Args:
-                value: Signal value
-                *args: Variable length argument list
-                **kwargs: Arbitrary keyword arguments
             """
             self.startup_script.put(self._startup_script1.get() + self._startup_script2.get())
 
         self._startup_script1.subscribe(ss_update)
         self._startup_script2.subscribe(ss_update)
 
-        def mem_used_update(value: Any, *args: Any, **kwargs: Any) -> None:
+        def mem_used_update(value, *args, **kwargs):
             """
-            Update ``memory_used_percentage`` Signal.
+            update ``memory_used_percentage`` Signal
 
             Instead of a @property, keep a Signal updated
             so it will be recorded with a Device.read()
-
-            Args:
-                value: Signal value
-                *args: Variable length argument list
-                **kwargs: Arbitrary keyword arguments
             """
             self.memory_used_percentage.put(100 * self.memory_used.get() / self.memory_max.get())
 

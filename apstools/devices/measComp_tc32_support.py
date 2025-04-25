@@ -27,8 +27,6 @@ the 32 thermocouple channels and the various digital (binary) I/O bits.
    ~_channels
 """
 
-from typing import Any, Dict, List, Type
-
 from ophyd import Device
 from ophyd import DynamicDeviceComponent as DDC
 from ophyd import EpicsSignal
@@ -36,9 +34,9 @@ from ophyd import EpicsSignalRO
 from ophyd import EpicsSignalWithRBV
 from ophyd import FormattedComponent as FC
 
-BI_CHANNEL_LIST: List[str] = [f"Bi{i}" for i in range(8)]
-BO_CHANNEL_LIST: List[str] = [f"Bo{i}" for i in range(32)]  # note Bo31 is not writable
-TC_CHANNEL_LIST: List[str] = [f"Ti{i}" for i in range(32)]
+BI_CHANNEL_LIST = [f"Bi{i}" for i in range(8)]
+BO_CHANNEL_LIST = [f"Bo{i}" for i in range(32)]  # note Bo31 is not writable
+TC_CHANNEL_LIST = [f"Ti{i}" for i in range(32)]
 
 
 class _MC_TC32_BaseClass(Device):
@@ -51,8 +49,7 @@ class _MC_TC32_BaseClass(Device):
     Users will not need to call this class directly.
     """
 
-    def __init__(self, prefix: str, R: str, **kwargs: Any) -> None:
-        """Initialize base class."""
+    def __init__(self, prefix, R, **kwargs):
         self.R = R
         super().__init__(prefix, **kwargs)
 
@@ -65,7 +62,7 @@ class Tc32BinaryInput(_MC_TC32_BaseClass):
     * Users will not need to call this class directly.
     """
 
-    bit: EpicsSignalRO = FC(EpicsSignalRO, "{self.prefix}{self.R}", kind="hinted")
+    bit = FC(EpicsSignalRO, "{self.prefix}{self.R}", kind="hinted")
 
 
 class Tc32BinaryOutput(_MC_TC32_BaseClass):
@@ -76,7 +73,7 @@ class Tc32BinaryOutput(_MC_TC32_BaseClass):
     * Users will not need to call this class directly.
     """
 
-    bit: EpicsSignalWithRBV = FC(EpicsSignalWithRBV, "{self.prefix}.{self.R}", kind="hinted")
+    bit = FC(EpicsSignalWithRBV, "{self.prefix}.{self.R}", kind="hinted")
 
 
 class Tc32ThermocoupleChannel(_MC_TC32_BaseClass):
@@ -87,14 +84,14 @@ class Tc32ThermocoupleChannel(_MC_TC32_BaseClass):
     * Users will not need to call this class directly.
     """
 
-    temperature: EpicsSignalRO = FC(EpicsSignalRO, "{self.prefix}{self.R}", kind="hinted")
-    filter: EpicsSignal = FC(EpicsSignal, "{self.prefix}{self.R}Filter", kind="config")
-    open_detect: EpicsSignal = FC(EpicsSignal, "{self.prefix}{self.R}OpenTCDetect", kind="config")
-    scale: EpicsSignal = FC(EpicsSignal, "{self.prefix}{self.R}Scale", kind="config")
-    thermocouple_type: EpicsSignal = FC(EpicsSignal, "{self.prefix}.{self.R}TCType", kind="config")
+    temperature = FC(EpicsSignalRO, "{self.prefix}{self.R}", kind="hinted")
+    filter = FC(EpicsSignal, "{self.prefix}{self.R}Filter", kind="config")
+    open_detect = FC(EpicsSignal, "{self.prefix}{self.R}OpenTCDetect", kind="config")
+    scale = FC(EpicsSignal, "{self.prefix}{self.R}Scale", kind="config")
+    thermocouple_type = FC(EpicsSignal, "{self.prefix}.{self.R}TCType", kind="config")
 
 
-def _channels(dev_class: Type[_MC_TC32_BaseClass], channel_list: List[str]) -> Dict[str, tuple]:
+def _channels(dev_class, channel_list):
     """Create the channels for the I/O interface."""
     # fmt: off
     defn = {
@@ -110,6 +107,6 @@ class MeasCompTc32(Device):
     Measurement Computing TC-32 32-channel Thermocouple reader.
     """
 
-    binary_inputs: DDC = DDC(_channels(Tc32BinaryInput, BI_CHANNEL_LIST))
-    binary_outputs: DDC = DDC(_channels(Tc32BinaryOutput, BO_CHANNEL_LIST))
-    thermocouples: DDC = DDC(_channels(Tc32ThermocoupleChannel, TC_CHANNEL_LIST))
+    binary_inputs = DDC(_channels(Tc32BinaryInput, BI_CHANNEL_LIST))
+    binary_outputs = DDC(_channels(Tc32BinaryOutput, BO_CHANNEL_LIST))
+    thermocouples = DDC(_channels(Tc32ThermocoupleChannel, TC_CHANNEL_LIST))

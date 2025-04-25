@@ -43,7 +43,6 @@ New in apstools 1.5.3.
 
 import logging
 import weakref
-from typing import Any, Dict, Optional, Union
 
 from ophyd import Component
 from ophyd import Device
@@ -57,104 +56,54 @@ logger = logging.getLogger(__name__)
 
 class PTC10AioChannel(Device):
     """
-    SRS PTC10 AIO module.
-
-    This class represents an Analog Input/Output module for the PTC10 temperature controller.
-    It provides control and monitoring of voltage, limits, I/O type, setpoint, and PID parameters.
-
-    Attributes:
-        voltage: Read-only signal for voltage value
-        highlimit: Signal with readback for high limit
-        lowlimit: Signal with readback for low limit
-        iotype: Signal with readback for I/O type
-        setpoint: Signal with readback for setpoint
-        ramprate: Signal with readback for ramp rate
-        ramptemp: Read-only signal for ramp temperature
-        offswitch: Signal for off switch
-        pidmode: Signal with readback for PID mode
-        P: Signal with readback for proportional gain
-        I: Signal with readback for integral gain
-        D: Signal with readback for derivative gain
-        inputchoice: Signal with readback for input choice
-        tunelag: Signal with readback for tune lag
-        tunestep: Signal with readback for tune step
-        tunemode: Signal with readback for tune mode
-        tunetype: Signal with readback for tune type
+    SRS PTC10 AIO module
     """
 
-    voltage: EpicsSignalRO = Component(EpicsSignalRO, "voltage_RBV", kind="config")
-    highlimit: EpicsSignalWithRBV = Component(EpicsSignalWithRBV, "highLimit", kind="config")
-    lowlimit: EpicsSignalWithRBV = Component(EpicsSignalWithRBV, "lowLimit", kind="config")
-    iotype: EpicsSignalWithRBV = Component(EpicsSignalWithRBV, "ioType", kind="config", string=True)
-    setpoint: EpicsSignalWithRBV = Component(EpicsSignalWithRBV, "setPoint", kind="config")
-    ramprate: EpicsSignalWithRBV = Component(EpicsSignalWithRBV, "rampRate", kind="config")
-    ramptemp: EpicsSignalRO = Component(EpicsSignalRO, "rampTemp_RBV", kind="normal")
-    offswitch: EpicsSignal = Component(EpicsSignal, "off", kind="config")
+    voltage = Component(EpicsSignalRO, "voltage_RBV", kind="config")
+    highlimit = Component(EpicsSignalWithRBV, "highLimit", kind="config")
+    lowlimit = Component(EpicsSignalWithRBV, "lowLimit", kind="config")
+    iotype = Component(EpicsSignalWithRBV, "ioType", kind="config", string=True)
+    setpoint = Component(EpicsSignalWithRBV, "setPoint", kind="config")
+    ramprate = Component(EpicsSignalWithRBV, "rampRate", kind="config")
+    ramptemp = Component(EpicsSignalRO, "rampTemp_RBV", kind="normal")
+    offswitch = Component(EpicsSignal, "off", kind="config")
 
-    pidmode: EpicsSignalWithRBV = Component(EpicsSignalWithRBV, "pid:mode", kind="config", string=True)
-    P: EpicsSignalWithRBV = Component(EpicsSignalWithRBV, "pid:P", kind="config")
-    I: EpicsSignalWithRBV = Component(EpicsSignalWithRBV, "pid:I", kind="config")
-    D: EpicsSignalWithRBV = Component(EpicsSignalWithRBV, "pid:D", kind="config")
+    pidmode = Component(EpicsSignalWithRBV, "pid:mode", kind="config", string=True)
+    P = Component(EpicsSignalWithRBV, "pid:P", kind="config")
+    I = Component(EpicsSignalWithRBV, "pid:I", kind="config")
+    D = Component(EpicsSignalWithRBV, "pid:D", kind="config")
 
-    inputchoice: EpicsSignalWithRBV = Component(EpicsSignalWithRBV, "pid:input", kind="config", string=True)
-    tunelag: EpicsSignalWithRBV = Component(EpicsSignalWithRBV, "tune:lag", kind="config")
-    tunestep: EpicsSignalWithRBV = Component(EpicsSignalWithRBV, "tune:step", kind="config")
-    tunemode: EpicsSignalWithRBV = Component(EpicsSignalWithRBV, "tune:mode", kind="config", string=True)
-    tunetype: EpicsSignalWithRBV = Component(EpicsSignalWithRBV, "tune:type", kind="config", string=True)
+    inputchoice = Component(EpicsSignalWithRBV, "pid:input", kind="config", string=True)
+    tunelag = Component(EpicsSignalWithRBV, "tune:lag", kind="config")
+    tunestep = Component(EpicsSignalWithRBV, "tune:step", kind="config")
+    tunemode = Component(EpicsSignalWithRBV, "tune:mode", kind="config", string=True)
+    tunetype = Component(EpicsSignalWithRBV, "tune:type", kind="config", string=True)
 
 
 class PTC10RtdChannel(Device):
     """
-    SRS PTC10 RTD module channel.
-
-    This class represents a Resistance Temperature Detector (RTD) module channel
-    for the PTC10 temperature controller. It provides monitoring of temperature
-    and control of sensor parameters.
-
-    Attributes:
-        temperature: Read-only signal for temperature value
-        units: Read-only signal for temperature units
-        sensor: Signal with readback for sensor type
-        channelrange: Signal with readback for channel range
-        current: Signal with readback for current setting
-        power: Signal with readback for power setting
+    SRS PTC10 RTD module channel
     """
 
-    temperature: EpicsSignalRO = Component(EpicsSignalRO, "temperature", kind="normal")
-    units: EpicsSignalRO = Component(EpicsSignalRO, "units_RBV", kind="config", string=True)
-    sensor: EpicsSignalWithRBV = Component(EpicsSignalWithRBV, "sensor", kind="config", string=True)
-    channelrange: EpicsSignalWithRBV = Component(EpicsSignalWithRBV, "range", kind="config", string=True)
-    current: EpicsSignalWithRBV = Component(EpicsSignalWithRBV, "current", kind="config", string=True)
-    power: EpicsSignalWithRBV = Component(EpicsSignalWithRBV, "power", kind="config", string=True)
+    temperature = Component(EpicsSignalRO, "temperature", kind="normal")
+    units = Component(EpicsSignalRO, "units_RBV", kind="config", string=True)
+    sensor = Component(EpicsSignalWithRBV, "sensor", kind="config", string=True)
+    channelrange = Component(EpicsSignalWithRBV, "range", kind="config", string=True)
+    current = Component(EpicsSignalWithRBV, "current", kind="config", string=True)
+    power = Component(EpicsSignalWithRBV, "power", kind="config", string=True)
 
 
 class PTC10TcChannel(Device):
     """
-    SRS PTC10 Tc (thermocouple) module channel.
-
-    This class represents a thermocouple module channel for the PTC10 temperature
-    controller. It provides monitoring of temperature.
-
-    Attributes:
-        temperature: Read-only signal for temperature value
+    SRS PTC10 Tc (thermocouple) module channel
     """
 
-    temperature: EpicsSignalRO = Component(EpicsSignalRO, "temperature", kind="normal")
+    temperature = Component(EpicsSignalRO, "temperature", kind="normal")
 
 
 class PTC10PositionerMixin(Device):
     """
     Mixin so SRS PTC10 can be used as a (temperature) positioner.
-
-    This mixin provides functionality to use the PTC10 as a temperature positioner,
-    including position monitoring, movement completion detection, and stopping.
-
-    Attributes:
-        done: Signal indicating if movement is complete
-        done_value: The value indicating completion (True)
-        tolerance: Signal for position tolerance
-        report_dmov_changes: Signal for reporting movement changes
-        output_enable: Signal for enabling output
 
     .. autosummary::
 
@@ -164,25 +113,21 @@ class PTC10PositionerMixin(Device):
        ~stop
     """
 
-    done: Signal = Component(Signal, value=True, kind="omitted")
-    done_value: bool = True
+    done = Component(Signal, value=True, kind="omitted")
+    done_value = True
 
     # for computation of soft `done` signal
     # default +/- 1 degree for "at temperature"
-    tolerance: Signal = Component(Signal, value=1, kind="config")
+    tolerance = Component(Signal, value=1, kind="config")
 
     # For logging when temperature is reached after a move.
-    report_dmov_changes: Signal = Component(Signal, value=True, kind="omitted")
+    report_dmov_changes = Component(Signal, value=True, kind="omitted")
 
-    output_enable: EpicsSignal = Component(EpicsSignal, "outputEnable", kind="omitted")
+    output_enable = Component(EpicsSignal, "outputEnable", kind="omitted")
 
-    def cb_readback(self, *args: Any, **kwargs: Any) -> None:
+    def cb_readback(self, *args, **kwargs):
         """
         Called when readback changes (EPICS CA monitor event).
-
-        Args:
-            *args: Variable length argument list
-            **kwargs: Arbitrary keyword arguments
         """
         diff = self.readback.get() - self.setpoint.get()
         dmov = abs(diff) <= self.tolerance.get()
@@ -190,7 +135,7 @@ class PTC10PositionerMixin(Device):
             logger.debug(f"{self.name} reached: {dmov}")
         self.done.put(dmov)
 
-    def cb_setpoint(self, *args: Any, **kwargs: Any) -> None:
+    def cb_setpoint(self, *args, **kwargs):
         """
         Called when setpoint changes (EPICS CA monitor event).
 
@@ -199,21 +144,10 @@ class PTC10PositionerMixin(Device):
         ``done_value (True)``.  Without this response, a small move
         (within tolerance) will not return.  Next update of readback
         will compute ``self.done``.
-
-        Args:
-            *args: Variable length argument list
-            **kwargs: Arbitrary keyword arguments
         """
         self.done.put(not self.done_value)
 
-    def __init__(self, *args: Any, **kwargs: Any) -> None:
-        """
-        Initialize the PTC10 positioner mixin.
-
-        Args:
-            *args: Variable length argument list
-            **kwargs: Arbitrary keyword arguments
-        """
+    def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.readback.name = self.name
 
@@ -225,24 +159,18 @@ class PTC10PositionerMixin(Device):
         weakref.finalize(self.setpoint, self.setpoint.unsubscribe_all)
 
     @property
-    def inposition(self) -> bool:
+    def inposition(self):
         """
-        Check if the device is in position.
+        Report (boolean) if positioner is done.
+        """
+        return self.done.get() == self.done_value
 
-        Returns:
-            bool: True if the device is in position
+    def stop(self, *, success=False):
         """
-        return self.done.get()
-
-    def stop(self, *, success: bool = False) -> None:
+        Hold the current readback when the stop() method is called and not done.
         """
-        Stop the device.
-
-        Args:
-            success: Whether the stop was successful
-        """
-        self.output_enable.put(0)
-        self.done.put(True)
+        if not self.done.get():
+            self.setpoint.put(self.position)
 
 
 # -----------------------------------------------------------------------------
