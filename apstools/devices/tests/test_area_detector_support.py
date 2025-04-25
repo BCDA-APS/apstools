@@ -31,6 +31,13 @@ from .. import BadPixelPlugin
 from .. import ad_creator
 
 
+def caput_AD(signal, value):
+    """Low-level caput to AD Component (avoids failing Status objects)."""
+    import epics
+
+    epics.caput(signal._write_pv.pvname, value)
+
+
 def custom_ad_creator(plugin_name):
     """Create area detector with named file writer plugin."""
     plugin_class = dict(
@@ -61,7 +68,7 @@ def custom_ad_creator(plugin_name):
     return adsimdet
 
 
-def AD_unprime_plugin(plugin):
+def unprime_AD_plugin(plugin):
     """
     Make area detector plugin require priming again.
 
@@ -97,7 +104,7 @@ def AD_unprime_plugin(plugin):
                 auto_save=0,  # "No"
                 lazy_open="No",
                 create_directory=0,
-                file_write_mode=2, # "Single"
+                file_write_mode=2,  # "Single"
                 file_template="%s%s_%d.trouble",
                 file_path="/tmp/",
                 file_name="test",
@@ -137,11 +144,7 @@ def AD_unprime_plugin(plugin):
         ],
     ],
 )
-def test_replacement(plugin_name, spec, presets, prime, context, expected):
-    import epics
-
-    def caput(signal, value):
-        epics.caput(signal._write_pv.pvname, value)
+def test_AD_EpicsFileNameMixin(plugin_name, spec, presets, prime, context, expected):
 
     with context as exinfo:
         det = custom_ad_creator(plugin_name)
@@ -159,7 +162,7 @@ def test_replacement(plugin_name, spec, presets, prime, context, expected):
         plugin.stage_sigs.move_to_end("capture", last=True)
         assert list(plugin.stage_sigs)[-1] == "capture"
 
-        AD_unprime_plugin(plugin)
+        unprime_AD_plugin(plugin)
 
         if prime and not AD_plugin_primed(plugin):
             AD_prime_plugin2(plugin)
@@ -171,7 +174,7 @@ def test_replacement(plugin_name, spec, presets, prime, context, expected):
 
         for attr, value in settings.items():
             if attr in dir(plugin):
-                caput(getattr(plugin, attr), value)
+                caput_AD(getattr(plugin, attr), value)
 
         try:
             det.stage()
@@ -199,86 +202,6 @@ def test_replacement(plugin_name, spec, presets, prime, context, expected):
 
     if expected is not None:
         assert expected in str(exinfo)
-
-
-@pytest.mark.skipif(
-    in_gha_workflow(),
-    reason="Random failures in GiHub Actions workflows.",
-)
-@pytest.mark.parametrize(
-    "plugin_name, spec",
-    [
-        ["hdf1", "AD_HDF5"],
-        ["jpeg1", "AD_JPEG"],
-        ["tiff1", "AD_TIFF"],
-    ],
-)
-def test_AD_EpicsFileNameMixin(plugin_name, spec, adsimdet):
-    import epics
-
-    def caput(signal, value):
-        epics.caput(signal._write_pv.pvname, value)
-
-    # adsimdet = custom_ad_creator(plugin_name)
-    assert adsimdet is not None
-    assert plugin_name in dir(adsimdet)
-
-    # Preset some plugin values required for staging.
-    for key in "hdf jpeg tiff".split():
-        plugin = getattr(adsimdet, f"{key}1")
-        caput(plugin.create_directory, -5)
-        caput(plugin.file_name, f"test_{key}")
-        caput(plugin.file_path, f"/tmp/test_{key}/")
-        caput(plugin.file_template, f"%s%s_%3.3d.{key}/")
-
-    # basic plugin tests
-    plugin = getattr(adsimdet, plugin_name)
-    assert AD_EpicsFileNameMixin is not None
-    assert isinstance(plugin, AD_EpicsFileNameMixin)
-    assert "filestore_spec" in dir(plugin)
-    assert plugin.filestore_spec == spec
-    assert isinstance(plugin.stage_sigs, dict)
-    assert len(plugin.stage_sigs) >= 4
-    assert "capture" in plugin.stage_sigs
-
-    # configuration prescribed for the user
-    user_settings = dict(
-        array_counter=0,
-        auto_increment=1,  # Yes
-        auto_save=0,  # No
-        create_directory=-5,
-        file_template=f"%s%s_%2.2d.{plugin_name}",
-        # file_template before file_name, number, & path
-        file_name="flotsam",
-        file_number=1 + int(10 * random.random()),
-        file_path=f"{pathlib.Path(tempfile.mkdtemp())}/",  # ALWAYS ends with "/"
-        num_capture=1 + int(10 * random.random()),
-    )
-    if plugin_name == "hdf1":
-        user_settings["compression"] = "zlib"
-
-    # add the settings
-    for attr, value in user_settings.items():
-        caput(getattr(plugin, attr), value)
-    timed_pause(0.1)
-
-    adsimdet.stage()
-    if plugin_name == "hdf1":  # Why special case?
-        user_settings["file_number"] += 1  # the IOC will do the same
-    assert list(plugin.stage_sigs.keys())[-1] == "capture"
-    for k, v in user_settings.items():
-        assert getattr(plugin, k).get() == v, f"{plugin_name=} {k=}  {v=}"
-
-    assert plugin.get_frames_per_point() == user_settings["num_capture"]
-
-    filename, read_path, write_path = plugin.make_filename()
-    assert isinstance(filename, str)
-    assert isinstance(read_path, str)
-    assert isinstance(write_path, str)
-    assert filename == user_settings["file_name"]
-    assert read_path.startswith(datetime.datetime.now().strftime(READ_PATH_TEMPLATE))
-    assert write_path == user_settings["file_path"]
-    adsimdet.unstage()
 
 
 @pytest.mark.parametrize(
@@ -581,8 +504,6 @@ def test_plugin(Klass, setup, attrs, context, expected):
 )
 def test_HDF5plugin_i1062(setup, attrs, context, expected):
     """Issue #1062, Unconfigured HDF plugin."""
-    import epics
-
     with context as exinfo:
         det = ad_creator(IOC_AD, name="det", **setup)
 
@@ -595,7 +516,7 @@ def test_HDF5plugin_i1062(setup, attrs, context, expected):
             assert AD_plugin_primed(det.hdf1)
 
         for attr, value in attrs.items():
-            epics.caput(getattr(det.hdf1, attr)._write_pv.pvname, value)
+            caput_AD(getattr(det.hdf1, attr), value)
 
         RE = bluesky.RunEngine()
         (uid,) = RE(bp.count([det]))
