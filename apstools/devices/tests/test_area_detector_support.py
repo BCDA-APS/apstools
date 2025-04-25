@@ -71,19 +71,21 @@ def custom_ad_creator(plugin_name):
     # fmt: on
 )
 def test_AD_EpicsFileNameMixin(plugin_name, spec):
+    import epics
+
     adsimdet = custom_ad_creator(plugin_name)
     assert adsimdet is not None
     assert plugin_name in dir(adsimdet)
 
     # basic plugin tests
-    mixin = getattr(adsimdet, plugin_name)
+    plugin = getattr(adsimdet, plugin_name)
     assert AD_EpicsFileNameMixin is not None
-    assert isinstance(mixin, AD_EpicsFileNameMixin)
-    assert "filestore_spec" in dir(mixin)
-    assert mixin.filestore_spec == spec
-    assert isinstance(mixin.stage_sigs, dict)
-    assert len(mixin.stage_sigs) >= 4
-    assert "capture" in mixin.stage_sigs
+    assert isinstance(plugin, AD_EpicsFileNameMixin)
+    assert "filestore_spec" in dir(plugin)
+    assert plugin.filestore_spec == spec
+    assert isinstance(plugin.stage_sigs, dict)
+    assert len(plugin.stage_sigs) >= 4
+    assert "capture" in plugin.stage_sigs
 
     # configuration prescribed for the user
     user_settings = dict(
@@ -101,20 +103,21 @@ def test_AD_EpicsFileNameMixin(plugin_name, spec):
         user_settings["compression"] = "zlib"
 
     # add the settings
-    for k, v in user_settings.items():
-        getattr(mixin, k).put(v)
+    for attr, value in user_settings.items():
+        sig = getattr(plugin, attr)
+        epics.caput(sig._write_pv.pvname, value)
     timed_pause()
 
     adsimdet.stage()
     if plugin_name == "hdf1":  # Why special case?
         user_settings["file_number"] += 1  # the IOC will do the same
-    assert list(mixin.stage_sigs.keys())[-1] == "capture"
+    assert list(plugin.stage_sigs.keys())[-1] == "capture"
     for k, v in user_settings.items():
-        assert getattr(mixin, k).get() == v, f"{plugin_name=} {k=}  {v=}"
+        assert getattr(plugin, k).get() == v, f"{plugin_name=} {k=}  {v=}"
 
-    assert mixin.get_frames_per_point() == user_settings["num_capture"]
+    assert plugin.get_frames_per_point() == user_settings["num_capture"]
 
-    filename, read_path, write_path = mixin.make_filename()
+    filename, read_path, write_path = plugin.make_filename()
     assert isinstance(filename, str)
     assert isinstance(read_path, str)
     assert isinstance(write_path, str)
