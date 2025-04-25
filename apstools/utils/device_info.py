@@ -62,7 +62,7 @@ def _get_named_child(obj: Device, nm: str) -> Optional[Union[Device, str]]:
         return "TIMEOUT"
 
 
-def _get_pv(obj: Any) -> Optional[str]:
+def _get_pv(obj: Union[Device, EpicsSignalBase]) -> Optional[str]:
     """
     Return PV name, prefix, or None from ophyd object.
     """
