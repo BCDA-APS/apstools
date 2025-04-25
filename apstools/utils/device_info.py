@@ -51,7 +51,7 @@ def _all_signals(base: Union[OphydObject]) -> list[Signal]:
     return items
 
 
-def _get_named_child(obj: Device, nm: str) -> Optional[Union[Device, str]]:
+def _get_named_child(obj: Device, nm: str) -> Union[OphydObject, NoneType]:
     """
     return named child of ``obj`` or None
     """
