@@ -12,3 +12,4 @@ MOT003 =    NONE   2000  1  2000  200   50  125    0 0x003      phi  Phi
 CNT000 =  SFTWARE  0  0   1000 0x001      sec  Seconds
 CNT001 =     NONE  0  1      1 0x002      mon  Monitor
 CNT002 =     NONE  0  2      1 0x000      det  Detector
+
