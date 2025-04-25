@@ -1,16 +1,14 @@
 import logging
-import threading
-from typing import Any, Callable, Generator
 
 import bluesky.plan_stubs as bps
 
 from ..utils import run_in_thread
 
 logger = logging.getLogger(__name__)
-POLL_DELAY: float = 0.000_05
+POLL_DELAY = 0.000_05
 
 
-def run_blocking_function(function: Callable[..., Any], *args: Any, **kwargs: Any) -> Generator[Any, None, None]:
+def run_blocking_function(function, *args, **kwargs):
     """
     Run a blocking function as a bluesky plan, in a thread.
 
@@ -65,16 +63,20 @@ def run_blocking_function(function: Callable[..., Any], *args: Any, **kwargs: An
     """
 
     @run_in_thread
-    def internal() -> threading.Thread:
-        """
-        Internal function to run the blocking function in a separate thread.
-
-        Returns:
-            threading.Thread: The thread running the blocking function.
-        """
-        result: Any = function(*args, **kwargs)
+    def internal():
+        result = function(*args, **kwargs)
         logger.debug("%s() result=%s", result)
 
-    thread: threading.Thread = internal()
+    thread = internal()
     while thread.is_alive():
         yield from bps.sleep(POLL_DELAY)
+
+
+# -----------------------------------------------------------------------------
+# :author:    BCDA
+# :copyright: (c) 2017-2025, UChicago Argonne, LLC
+#
+# Distributed under the terms of the Argonne National Laboratory Open Source License.
+#
+# The full license is in the file LICENSE.txt, distributed with this software.
+# -----------------------------------------------------------------------------

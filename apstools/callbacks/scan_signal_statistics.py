@@ -8,7 +8,6 @@ Collect statistics on the first detector used in 1-D scans.
 """
 
 import logging
-from typing import Any, Dict, List, Optional, Union
 
 import pyRestTable
 import pysumreg  # deprecate, will remove in next major version bump
@@ -79,39 +78,39 @@ class SignalStatsCallback:
     _scanning: bool = False
     """Is a run *in progress*?"""
 
-    _registers: Dict[str, Any] = {}
+    _registers: dict = {}
     """
     Deprecated: Use 'analysis' instead, will remove in next major release.
 
     Dictionary (keyed on Signal name) of ``SummationRegister()`` objects.
     """
 
-    _data: Dict[str, List[float]] = {}
+    _data: dict = {}
     """Arrays of x & y data"""
 
-    analysis: Optional[Dict[str, Any]] = None
+    analysis: object = None
     """Dictionary of statistical array analyses."""
 
     # TODO: What happens when the run is paused?
 
-    def __repr__(self) -> str:
+    def __repr__(self):
         if "_motor" not in dir(self):  # not initialized
             self.clear()
         args = f"motor={self._motor!r},  detectors={self._detectors!r}"
         return f"{self.__class__.__name__}({args})"
 
-    def clear(self) -> None:
+    def clear(self):
         """Clear the internal memory for the next run."""
         self._scanning = False
-        self._detectors: List[str] = []
-        self._motor: str = ""
+        self._detectors = []
+        self._motor = ""
         self._registers = {}  # deprecated, for removal
-        self._descriptor_uid: Optional[str] = None
-        self._x_name: Optional[str] = None
-        self._y_names: List[str] = []
+        self._descriptor_uid = None
+        self._x_name = None
+        self._y_names = []
         self._data = {}
 
-    def descriptor(self, doc: Dict[str, Any]) -> None:
+    def descriptor(self, doc):
         """Receives 'descriptor' documents from the RunEngine."""
         if not self._scanning:
             return
@@ -137,7 +136,7 @@ class SignalStatsCallback:
         # deprecated, for removal
         self._registers = {y: pysumreg.SummationRegisters() for y in self._y_names}
 
-    def event(self, doc: Dict[str, Any]) -> None:
+    def event(self, doc):
         """Receives 'event' documents from the RunEngine."""
         if not self._scanning:
             return
@@ -153,7 +152,7 @@ class SignalStatsCallback:
             self._registers[yname].add(x, y)  # deprecated, for removal
             self._data[yname].append(y)
 
-    def receiver(self, key: str, document: Dict[str, Any]) -> None:
+    def receiver(self, key, document):
         """Client method used to subscribe to the RunEngine."""
         handlers = "start stop descriptor event".split()
         if key in handlers:
@@ -161,7 +160,7 @@ class SignalStatsCallback:
         else:
             logger.debug("%s: unhandled document type: %s", self.__class__.__name__, key)
 
-    def report(self) -> None:
+    def report(self):
         """Print a table with the collected statistics for each signal."""
         if len(self._data) == 0:
             return
@@ -183,7 +182,7 @@ class SignalStatsCallback:
         print(f"Motor: {x_name!r}  Detector: {y_name!r}")
         print(table)
 
-    def start(self, doc: Dict[str, Any]) -> None:
+    def start(self, doc):
         """Receives 'start' documents from the RunEngine."""
         self.clear()
         self._scanning = True
@@ -191,7 +190,7 @@ class SignalStatsCallback:
         self._detectors = doc["detectors"]
         self._motor = doc["motors"][0]  # just keep the first one
 
-    def stop(self, doc: Dict[str, Any]) -> None:
+    def stop(self, doc):
         """Receives 'stop' documents from the RunEngine."""
         from ..utils.statistics import xy_statistics
 

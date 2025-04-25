@@ -97,9 +97,9 @@ html_theme_options = {
     "navbar_start": ["navbar-logo", "version-switcher"],
     "switcher": {
         "json_url": switcher_json_url,
-        "version_match":
-            release
-            if release in switcher_version_list
+        "version_match": 
+            release 
+            if release in switcher_version_list 
             else "dev",
     }
 }

@@ -3,6 +3,6 @@
 step_scan 5.07  8.3   0.0  "Water Blank, deionized"
 other_scan 5.07  8.3  0.0  "Water Blank, deionized"
 
-# all comment lines will be ignored
+# all comment lines will be ignored                                       
 
 this line will not be recognized by execute_command_list()

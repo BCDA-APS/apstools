@@ -17,7 +17,6 @@ nscan plan
 
 import logging
 import pathlib
-from typing import Any, Dict, Generator, List, Optional, Tuple, Union
 
 import pyRestTable
 from bluesky import plan_stubs as bps
@@ -36,10 +35,7 @@ class CommandFileReadError(IOError):
     """
 
 
-def command_list_as_table(
-    commands: List[Tuple[str, List[Any], int, Union[str, List[str]]]],
-    show_raw: bool = False,
-) -> pyRestTable.Table:
+def command_list_as_table(commands, show_raw=False):
     """
     format a command list as a pyRestTable.Table object
     """
@@ -58,11 +54,7 @@ def command_list_as_table(
     return tbl
 
 
-def execute_command_list(
-    filename: str,
-    commands: List[Tuple[str, List[Any], int, Union[str, List[str]]]],
-    md: Optional[Dict[str, Any]] = None,
-) -> Generator[None, None, None]:
+def execute_command_list(filename, commands, md=None):
     """
     plan: execute the command list
 
@@ -158,7 +150,7 @@ def execute_command_list(
             print(f"no handling for line {i}: {raw_command}")
 
 
-def get_command_list(filename: str) -> List[Tuple[str, List[Any], int, Union[str, List[str]]]]:
+def get_command_list(filename):
     """
     return command list from either text or Excel file
 
@@ -194,10 +186,10 @@ class _HandlerRegistrar:
     Internal use, allows redefinition of execute_command_list().
     """
 
-    command: Optional[Any] = None
+    command = None
 
 
-def parse_Excel_command_file(filename: str) -> List[Tuple[str, List[Any], int, Union[str, List[str]]]]:
+def parse_Excel_command_file(filename):
     """
     parse an Excel spreadsheet with commands, return as command list
 
@@ -263,7 +255,7 @@ def parse_Excel_command_file(filename: str) -> List[Tuple[str, List[Any], int, U
     return commands
 
 
-def parse_text_command_file(filename: str) -> List[Tuple[str, List[Any], int, Union[str, List[str]]]]:
+def parse_text_command_file(filename):
     """
     parse a text file with commands, return as command list
 
@@ -343,7 +335,7 @@ def parse_text_command_file(filename: str) -> List[Tuple[str, List[Any], int, Un
     return commands
 
 
-def register_command_handler(handler: Optional[Any] = None) -> None:
+def register_command_handler(handler=None):
     """
     Define the function called to execute the command list
 
@@ -372,7 +364,7 @@ def register_command_handler(handler: Optional[Any] = None) -> None:
     COMMAND_LIST_REGISTRY.command = handler or execute_command_list
 
 
-def run_command_file(filename: str, md: Optional[Dict[str, Any]] = None) -> Generator[None, None, None]:
+def run_command_file(filename, md=None):
     """
     plan: execute a list of commands from a text or Excel file
 
@@ -400,7 +392,7 @@ def run_command_file(filename: str, md: Optional[Dict[str, Any]] = None) -> Gene
     yield from COMMAND_LIST_REGISTRY.command(filename, commands, md=_md)
 
 
-def summarize_command_file(filename: str) -> None:
+def summarize_command_file(filename):
     """
     print the command list from a text or Excel file
 

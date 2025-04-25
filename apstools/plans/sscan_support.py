@@ -9,26 +9,26 @@ sscan Record plans
 
 import time
 from collections import OrderedDict
-from typing import Any, Dict, Generator, Optional, Union
 
 from bluesky import plan_stubs as bps
-from ophyd import Device, DeviceStatus
+from ophyd import DeviceStatus
 
 from .doc_run import write_stream
 
-new_data: bool = False  # sscan has new data, boolean
-inactive_deadline: float = 0  # sscan timeout, absolute time.time()
+new_data = False  # sscan has new data, boolean
+inactive_deadline = 0  # sscan timeout, absolute time.time()
 
 
-def _get_sscan_data_objects(sscan: Device) -> OrderedDict[str, Any]:
+def _get_sscan_data_objects(sscan):
     """
     prepare a dictionary of the "interesting" ophyd data objects for this sscan
 
-    Args:
-        sscan: one EPICS sscan record (instance of `apstools.synApps.sscanRecord`)
+    PARAMETERS
 
-    Returns:
-        OrderedDict of data objects
+    sscan
+        *Device* :
+        one EPICS sscan record (instance of `apstools.synApps.sscanRecord`)
+
     """
     scan_data_objects = OrderedDict()
     for part in (sscan.positioners, sscan.detectors):
@@ -42,28 +42,72 @@ def _get_sscan_data_objects(sscan: Device) -> OrderedDict[str, Any]:
 
 
 def sscan_1D(
-    sscan: Device,
-    poll_delay_s: float = 0.001,
-    phase_timeout_s: Optional[float] = 60.0,
-    running_stream: Optional[str] = "primary",
-    final_array_stream: Optional[str] = None,
-    device_settings_stream: Optional[str] = "settings",
-    md: Optional[Dict[str, Any]] = None,
-) -> Generator[None, None, str]:
+    sscan,
+    poll_delay_s=0.001,
+    phase_timeout_s=60.0,
+    running_stream="primary",
+    final_array_stream=None,
+    device_settings_stream="settings",
+    md=None,
+):
     """
     simple 1-D scan using EPICS synApps sscan record
 
-    Args:
-        sscan: one EPICS sscan record (instance of `apstools.synApps.sscanRecord`)
-        poll_delay_s: How long to sleep during each polling loop (default: 0.001)
-        phase_timeout_s: How long to wait after last update of the sscan.FAZE (default: 60.0)
-        running_stream: Name of document stream for running data (default: "primary")
-        final_array_stream: Name of document stream for final data (default: None)
-        device_settings_stream: Name of document stream for device settings (default: "settings")
-        md: Metadata dictionary (default: None)
+    .. index:: Bluesky Plan; sscan_1D
 
-    Returns:
-        Generator yielding the run UID
+    assumes the sscan record has already been setup properly for a scan
+
+    PARAMETERS
+
+    sscan *Device* :
+        one EPICS sscan record (instance of `apstools.synApps.sscanRecord`)
+    running_stream *str* : or `None`
+        (default: ``"primary"``)
+        Name of document stream to write positioners and detectors data
+        made available while the sscan is running.  This is typically
+        the scan data, row by row.
+        If set to `None`, this stream will not be written.
+    final_array_stream *str*  or ``None`` :
+        Name of document stream to write positioners and detectors data
+        posted *after* the sscan has ended.
+        If set to `None`, this stream will not be written.
+        (default: ``None``)
+    device_settings_stream *str*  or ``None`` :
+        Name of document stream to write *settings* of the sscan device.
+        This is all the information returned by ``sscan.read()``.
+        If set to `None`, this stream will not be written.
+        (default: ``"settings"``)
+    poll_delay_s *float* :
+        How long to sleep during each polling loop while collecting
+        interim data values and waiting for sscan to complete.
+        Must be a number between zero and 0.1 seconds.
+        (default: 0.001 seconds)
+    phase_timeout_s *float* :
+        How long to wait after last update of the ``sscan.FAZE``.
+        When scanning, we expect the scan phase to update regularly
+        as positioners move and detectors are triggered.  If the scan
+        hangs for some reason, this is a way to end the plan early.
+        To cancel this feature, set it to ``None``.
+        (default: 60 seconds)
+
+    NOTE about the document stream names
+
+    Make certain the names for the document streams are different from
+    each other.  If you make them all the same (such as ``primary``),
+    you will have difficulty when reading your data later on.
+
+    *Don't cross the streams!*
+
+    EXAMPLE
+
+    Assume that the chosen sscan record has already been setup.
+
+        from apstools.devices import sscanDevice
+        scans = sscanDevice(P, name="scans")
+
+        from apstools.plans import sscan_1D
+        RE(sscan_1D(scans.scan1), md=dict(purpose="demo"))
+
     """
     global new_data, inactive_deadline
 
@@ -83,14 +127,14 @@ def sscan_1D(
     if phase_timeout_s is not None:
         inactive_deadline += phase_timeout_s
 
-    def execute_cb(value: Union[int, str], timestamp: float, **kwargs: Any) -> None:
+    def execute_cb(value, timestamp, **kwargs):
         """watch for sscan to complete"""
         if started and value in (0, "IDLE"):
             sscan_status._finished()
             sscan.execute_scan.unsubscribe_all()
             sscan.scan_phase.unsubscribe_all()
 
-    def phase_cb(value: Union[int, str], timestamp: float, **kwargs: Any) -> None:
+    def phase_cb(value, timestamp, **kwargs):
         """watch for new data"""
         global new_data, inactive_deadline
         if phase_timeout_s is not None:

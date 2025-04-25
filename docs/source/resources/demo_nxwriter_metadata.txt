@@ -16,7 +16,7 @@
     motors:NX_CHAR = b'- m_stage_r\n'
       @target = /entry/instrument/bluesky/metadata/motors
       @text_format = yaml
-    pid:NX_INT64[] =
+    pid:NX_INT64[] = 
       @target = /entry/instrument/bluesky/metadata/pid
     plan_name:NX_CHAR = b'tune_mr'
       @target = /entry/instrument/bluesky/metadata/plan_name

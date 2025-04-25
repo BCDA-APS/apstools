@@ -9,17 +9,10 @@ Request user input in a plan
 Wrap ``bps.input_plan()`` to *ask* the user a question.
 """
 
-from typing import Union, List, Generator
-
 import bluesky.plan_stubs as bps
 
 
-def request_input(
-    msg: str = "",
-    default: str = "n",
-    agree: Union[str, List[str]] = "y",
-    bypass: bool = False,
-) -> Generator[None, None, bool]:
+def request_input(msg="", default="n", agree="y", bypass=False):
     """
     Request input from the user.  Returns ``True`` if confirmed.
 

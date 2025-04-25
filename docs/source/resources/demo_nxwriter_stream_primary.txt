@@ -25,5 +25,5 @@
         @signal_type = detector
         @source = PV:9idcLAX:vsc:c0.S2
         @target = /entry/instrument/bluesky/streams/primary/I0_USAXS/value
-        @units =
+        @units = 
         @upper_ctrl_limit = 0.0

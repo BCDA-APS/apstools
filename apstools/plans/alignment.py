@@ -14,7 +14,6 @@ Alignment plans
 import datetime
 import logging
 import sys
-from typing import Any, Dict, Generator, List, Optional, Union
 
 import numpy as np
 import pyRestTable
@@ -40,20 +39,20 @@ MAIN = sys.modules["__main__"]
 
 def lineup(
     # fmt: off
-    detectors: Union[Any, List[Any]],
-    axis: Any,
-    minus: float,
-    plus: float,
-    npts: int,
-    time_s: float = 0.1,
-    peak_factor: float = 4,
-    width_factor: float = 0.8,
-    feature: str = "cen",
-    rescan: bool = True,
-    bec: Optional[Any] = None,
-    md: Optional[Dict[str, Any]] = None,
+    detectors,
+    axis,
+    minus,
+    plus,
+    npts,
+    time_s=0.1,
+    peak_factor=4,
+    width_factor=0.8,
+    feature="cen",
+    rescan=True,
+    bec=None,
+    md=None,
     # fmt: on
-) -> Generator[Any, None, None]:
+):
     """
     (use ``lineup2()`` now) Lineup and center a given axis, relative to current position.
 
@@ -127,7 +126,7 @@ def lineup(
     logger.info("Using detector '%s' for lineup()", det0.name)
 
     # first, determine if det0 is part of a ScalerCH device
-    scaler: Optional[Any] = None
+    scaler = None
     obj = det0.parent
     if isinstance(det0.parent, ScalerChannel):
         if hasattr(obj, "parent") and obj.parent is not None:
@@ -145,12 +144,7 @@ def lineup(
     else:
         old_position = axis.get()
 
-    def peak_analysis() -> Generator[Any, None, None]:
-        """
-        Analyze peak from scan data and move the axis accordingly.
-
-        Yields commands to move axis.
-        """
+    def peak_analysis():
         aligned = False
 
         if det0.name not in bec.peaks[feature]:
@@ -216,7 +210,7 @@ def lineup(
         bec.peaks.aligned = aligned
         bec.peaks.ATTRS = ("com", "cen", "max", "min", "fwhm")
 
-    _md: Dict[str, Any] = dict(purpose="alignment")
+    _md = dict(purpose="alignment")
     _md.update(md or {})
     yield from bp.rel_scan([det0], axis, minus, plus, npts, md=_md)
     yield from peak_analysis()
@@ -233,15 +227,7 @@ def lineup(
         scaler.stage_sigs = old_sigs
 
 
-def edge_align(
-    detectors: Union[Any, List[Any]],
-    mover: Any,
-    start: float,
-    end: float,
-    points: int,
-    cat: Optional[Any] = None,
-    md: Optional[Dict[str, Any]] = None,
-) -> Generator[Any, None, None]:
+def edge_align(detectors, mover, start, end, points, cat=None, md={}):
     """
     Align to the edge given mover & detector data, relative to absolute position.
 
@@ -273,7 +259,7 @@ def edge_align(
         User-supplied metadata for this scan.
     """
 
-    def guess_erf_params(x_data: np.ndarray, y_data: np.ndarray) -> List[float]:
+    def guess_erf_params(x_data, y_data):
         """
         Provide an initial guess for the parameters of an error function.
 
@@ -284,8 +270,8 @@ def edge_align(
 
         Returns
         -------
-        guess : list
-            A list containing the guessed parameters [low_y_data, high_y_data, width, midpoint].
+        guess : dict
+            A dictionary containing the guessed parameters 'low_y_data', 'high_y_data', 'width', and 'midpoint'.
         """
 
         # Sort data to make finding the mid-point easier and to assist in other estimations
@@ -308,30 +294,24 @@ def edge_align(
 
         return [low_y_data, high_y_data, width, midpoint]
 
-    def erf_model(
-        x: Union[float, np.ndarray],
-        low: float,
-        high: float,
-        width: float,
-        midpoint: float,
-    ) -> Union[float, np.ndarray]:
+    def erf_model(x, low, high, width, midpoint):
         """
         Create error function for fitting and simulation
 
         Parameters
         ----------
-        x       :   input upon which error function is evaluated
-        low     :   min value of error function
-        high    :   max value of error function
-        width   :   "spread" of error function transition region
-        midpoint:   location of error function's "center"
+        x		:	input upon which error function is evaluated
+        low		: 	min value of error function
+        high	: 	max value of error function
+        width  	:	"spread" of error function transition region
+        midpoint:	location of error function's "center"
         """
         return (high - low) * 0.5 * (1 - erf((x - midpoint) / width)) + low
 
     if not isinstance(detectors, (tuple, list)):
         detectors = [detectors]
 
-    _md: Dict[str, Any] = dict(purpose="edge_align")
+    _md = dict(purpose="edge_align")
     _md.update(md or {})
 
     uid = yield from bp.scan(detectors, mover, start, end, points, md=_md)
@@ -357,20 +337,20 @@ def edge_align(
 
 def lineup2(
     # fmt: off
-    detectors: Union[Any, List[Any]],
-    mover: Any,
-    rel_start: float,
-    rel_end: float,
-    points: int,
-    peak_factor: float = 1.5,
-    width_factor: float = 0.8,
-    feature: str = "centroid",
-    nscans: int = 2,
-    signal_stats: Optional[Any] = None,
-    reporting: Optional[Any] = None,
-    md: Optional[Dict[str, Any]] = None,
+    detectors,
+    mover,
+    rel_start,
+    rel_end,
+    points,
+    peak_factor=1.5,
+    width_factor=0.8,
+    feature="centroid",
+    nscans=2,
+    signal_stats=None,
+    reporting=None,
+    md={},
     # fmt: on
-) -> Generator[Any, None, None]:
+):
     """
     Lineup and center a given mover, relative to the current position.
 
@@ -484,7 +464,7 @@ def lineup2(
     if not isinstance(detectors, (tuple, list)):
         detectors = [detectors]
 
-    _md: Dict[str, Any] = dict(purpose="alignment")
+    _md = dict(purpose="alignment")
     _md.update(md or {})
 
     # Do not move the positioner outside the limits of the first scan.
@@ -492,8 +472,8 @@ def lineup2(
         m_pos = mover.position
     except AttributeError:
         m_pos = mover.get()
-    m_lo: float = m_pos + rel_start
-    m_hi: float = m_pos + rel_end
+    m_lo = m_pos + rel_start
+    m_hi = m_pos + rel_end
 
     if signal_stats is None:
         # Print report() when stop document is received.
@@ -511,7 +491,7 @@ def lineup2(
         signal_stats.reporting = False if reporting is None else reporting
 
     # Allow for feature to be defined using a name from PeakStats.
-    xref_PeakStats: Dict[str, str] = {
+    xref_PeakStats = {
         "com": "centroid",
         "cen": "x_at_max_y",
         "max": "x_at_max_y",
@@ -520,7 +500,7 @@ def lineup2(
     # translate from PeakStats feature to SignalStats
     feature = xref_PeakStats.get(feature, feature)
 
-    def find_peak_position() -> Optional[float]:
+    def find_peak_position():
         """Return the X value of the specified 'feature'."""
         stats = signal_stats.analysis
         logging.debug("stats: %s", stats)
@@ -552,9 +532,8 @@ def lineup2(
         print(" ".join(stats["reasons"]))
         logger.debug("No peak found.  Reasons: %s", stats["reasons"])
         logger.debug("stats: %s", stats)
-        return None
 
-    def strong_peak(stats: Any) -> bool:
+    def strong_peak(stats) -> bool:
         """Determine if the peak is strong."""
         try:
             denominator = stats.mean_y - stats.min_y
@@ -564,7 +543,7 @@ def lineup2(
         except (AttributeError, ZeroDivisionError):
             return False
 
-    def too_wide(stats: Any) -> bool:
+    def too_wide(stats):
         """Does the measured peak width fill the full range of X?"""
         fallback_errors = (
             AttributeError,  # no statistics available
@@ -582,7 +561,7 @@ def lineup2(
         _md["plan_name"] = "lineup2"
 
     @bpp.subs_decorator(signal_stats.receiver)
-    def _inner() -> Generator[Any, None, None]:
+    def _inner():
         """Run the scan, collecting statistics at each step."""
         # TODO: save signal stats into separate stream
         yield from bp.rel_scan(detectors, mover, rel_start, rel_end, points, md=_md)
@@ -654,35 +633,30 @@ class TuneAxis(object):
     .. autosummary::
 
        ~tune_axes
+
     """
 
     _peak_choices_ = "cen com".split()
 
-    def __init__(self, signals: List[Any], axis: Any, signal_name: Optional[str] = None) -> None:
-        self.signals: List[Any] = signals
-        self.signal_name: str = signal_name or signals[0].name
-        self.axis: Any = axis
-        self.tune_ok: bool = False
-        self.peaks: Optional[Any] = None
-        self.peak_choice: str = self._peak_choices_[0]
-        self.center: Optional[float] = None
-        self.stats: List[Any] = []
+    def __init__(self, signals, axis, signal_name=None):
+        self.signals = signals
+        self.signal_name = signal_name or signals[0].name
+        self.axis = axis
+        self.tune_ok = False
+        self.peaks = None
+        self.peak_choice = self._peak_choices_[0]
+        self.center = None
+        self.stats = []
 
         # defaults
-        self.width: float = 1
-        self.num: int = 10
-        self.step_factor: float = 4
-        self.peak_factor: float = 4
-        self.pass_max: int = 4
-        self.snake: bool = True
+        self.width = 1
+        self.num = 10
+        self.step_factor = 4
+        self.peak_factor = 4
+        self.pass_max = 4
+        self.snake = True
 
-    def tune(
-        self,
-        width: Optional[float] = None,
-        num: Optional[int] = None,
-        peak_factor: Optional[float] = None,
-        md: Optional[Dict[str, Any]] = None,
-    ) -> Generator[Any, None, None]:
+    def tune(self, width=None, num=None, peak_factor=None, md=None):
         """
         Bluesky plan to execute one pass through the current scan range
 
@@ -723,12 +697,12 @@ class TuneAxis(object):
         finish = initial_position + width / 2
         self.tune_ok = False
 
-        tune_md: Dict[str, Any] = dict(
+        tune_md = dict(
             width=width,
             initial_position=self.axis.position,
             time_iso8601=str(datetime.datetime.now()),
         )
-        _md: Dict[str, Any] = {
+        _md = {
             "tune_md": tune_md,
             "plan_name": self.__class__.__name__ + ".tune",
             "tune_parameters": dict(
@@ -749,7 +723,7 @@ class TuneAxis(object):
         self.peaks = PeakStats(x=self.axis.name, y=self.signal_name)
 
         @bpp.subs_decorator(self.peaks)
-        def _scan(md: Optional[Dict[str, Any]] = None) -> Generator[Any, None, None]:
+        def _scan(md=None):
             yield from bps.open_run(md)
 
             position_list = np.linspace(start, finish, num)
@@ -802,14 +776,14 @@ class TuneAxis(object):
 
     def multi_pass_tune(
         self,
-        width: Optional[float] = None,
-        step_factor: Optional[float] = None,
-        num: Optional[int] = None,
-        pass_max: Optional[int] = None,
-        peak_factor: Optional[float] = None,
-        snake: Optional[bool] = None,
-        md: Optional[Dict[str, Any]] = None,
-    ) -> Generator[Any, None, None]:
+        width=None,
+        step_factor=None,
+        num=None,
+        pass_max=None,
+        peak_factor=None,
+        snake=None,
+        md=None,
+    ):
         """
         Bluesky plan for tuning this axis with this signal
 
@@ -853,18 +827,16 @@ class TuneAxis(object):
         width = width or self.width
         num = num or self.num
         step_factor = step_factor or self.step_factor
-        snake = snake if snake is not None else self.snake
+        snake = snake or self.snake
         pass_max = pass_max or self.pass_max
         peak_factor = peak_factor or self.peak_factor
 
         self.stats = []
 
-        def _scan(
-            width: float = 1, step_factor: float = 10, num: int = 10, snake: bool = True
-        ) -> Generator[Any, None, None]:
+        def _scan(width=1, step_factor=10, num=10, snake=True):
             for _pass_number in range(pass_max):
                 logger.info("Multipass tune %d of %d", _pass_number + 1, pass_max)
-                _md: Dict[str, Any] = {
+                _md = {
                     "pass": _pass_number + 1,
                     "pass_max": pass_max,
                     "plan_name": f"{self.__class__.__name__}.multi_pass_tune",
@@ -882,11 +854,10 @@ class TuneAxis(object):
                 width = sign * 2 * self.stats[-1].fwhm.get()
                 if snake:
                     width *= -1
-            return
 
         return (yield from _scan(width=width, step_factor=step_factor, num=num, snake=snake))
 
-    def multi_pass_tune_summary(self) -> pyRestTable.Table:
+    def multi_pass_tune_summary(self):
         t = pyRestTable.Table()
         t.labels = "pass Ok? center width max.X max.Y".split()
         for i, stat in enumerate(self.stats):
@@ -901,7 +872,7 @@ class TuneAxis(object):
             t.addRow(row)
         return t
 
-    def peak_detected(self, peak_factor: Optional[float] = None) -> bool:
+    def peak_detected(self, peak_factor=None):
         """
         returns True if a peak was detected, otherwise False
 
@@ -925,7 +896,7 @@ class TuneAxis(object):
         return ok
 
 
-def tune_axes(axes: List[Any]) -> Generator[Any, None, None]:
+def tune_axes(axes):
     """
     Bluesky plan to tune a list of axes in sequence.
 
@@ -974,7 +945,7 @@ class TuneResults(Device):
     crossings = Component(Signal)
     peakstats_attrs = "x y cen com fwhm min max crossings".split()
 
-    def report(self, title: Optional[str] = None) -> None:
+    def report(self, title=None):
         keys = self.peakstats_attrs + "tune_ok center initial_position final_position".split()
         t = pyRestTable.Table()
         t.addLabel("key")
@@ -986,7 +957,7 @@ class TuneResults(Device):
             print(title)
         print(t)
 
-    def set_stats(self, peaks: Any) -> None:
+    def set_stats(self, peaks):
         for key in self.peakstats_attrs:
             v = getattr(peaks, key)
             if v is None:  # None cannot be mapped into json
@@ -1003,4 +974,4 @@ class TuneResults(Device):
 # Distributed under the terms of the Argonne National Laboratory Open Source License.
 #
 # The full license is in the file LICENSE.txt, distributed with this software.
-#
+# -----------------------------------------------------------------------------

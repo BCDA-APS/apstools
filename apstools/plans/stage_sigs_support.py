@@ -32,20 +32,13 @@ their original ``.stage_sigs`` dictionaries.
 """
 
 import logging
-from typing import Any, Dict, Generator, List, TypeVar, cast
 
 from bluesky.utils import make_decorator
-from ophyd import Device
 
 logger = logging.getLogger(__name__)
 
-T = TypeVar("T")
 
-
-def stage_sigs_wrapper(
-    user_plan: Generator[None, None, T],
-    devices: List[Device],
-) -> Generator[None, None, T]:
+def stage_sigs_wrapper(user_plan, devices):
     """
     Save stage_sigs from each device and restore after the user_plan.
 
@@ -53,25 +46,24 @@ def stage_sigs_wrapper(
     without further need to preserve original values.
     """
 
-    def display(preface: str) -> None:
+    def display(preface):
         for device in devices:
             logger.debug("%s: %s.stage_sigs: %s", preface, device.name, device.stage_sigs)
 
-    def _restore() -> None:
+    def _restore():
         for device in reversed(devices):
             device.stage_sigs = original[device].copy()
         display("AFTER restore")
 
-    original: Dict[Device, Dict[str, Any]] = {}
+    original = {}
     display("ORIGINAL")
     for device in devices:
         original[device] = device.stage_sigs.copy()
 
     try:
         display("BEFORE plan")
-        result = yield from user_plan
+        yield from user_plan
         display("AFTER plan")
-        return cast(T, result)
     finally:
         _restore()
 

@@ -7,10 +7,10 @@ Base Class for File Writer Callbacks
    ~FileWriterCallbackBase
 """
 
+
 import datetime
 import logging
 import pathlib
-from typing import Any, Dict, List, Optional, Union
 
 import pyRestTable
 
@@ -60,16 +60,16 @@ class FileWriterCallbackBase:
        ~stop
     """
 
-    file_extension: str = "dat"
-    _file_name: Optional[pathlib.Path] = None
-    _file_path: Optional[pathlib.Path] = None
+    file_extension = "dat"
+    _file_name = None
+    _file_path = None
 
     # convention: methods written in alphabetical order
 
-    def __init__(self, *args: Any, **kwargs: Any) -> None:
+    def __init__(self, *args, **kwargs):
         """Initialize: clear and reset."""
         self.clear()
-        self.xref: Dict[str, Any] = dict(
+        self.xref = dict(
             bulk_events=self.bulk_events,
             datum=self.datum,
             descriptor=self.descriptor,
@@ -79,7 +79,7 @@ class FileWriterCallbackBase:
             stop=self.stop,
         )
 
-    def receiver(self, key: str, doc: Dict[str, Any]) -> None:
+    def receiver(self, key, doc):
         """
         bluesky callback (handles a stream of documents)
 
@@ -96,44 +96,44 @@ class FileWriterCallbackBase:
 
         # - - - - - - - - - - - - - - -
 
-    def clear(self) -> None:
+    def clear(self):
         """
         delete any saved data from the cache and reinitialize
         """
-        self.acquisitions: Dict[str, Any] = {}
-        self.detectors: List[str] = []
-        self.diffractometers: Dict[str, Any] = {}
-        self.exit_status: Optional[str] = None
-        self.externals: Dict[str, Any] = {}
-        self.doc_timestamp: Optional[float] = None
-        self.metadata: Dict[str, Any] = {}
-        self.plan_name: Optional[str] = None
-        self.positioners: List[str] = []
-        self.scanning: bool = False
-        self.scan_id: Optional[int] = None
-        self.streams: Dict[str, List[str]] = {}
-        self.start_time: Optional[float] = None
-        self.stop_reason: Optional[str] = None
-        self.stop_time: Optional[float] = None
-        self.uid: Optional[str] = None
+        self.acquisitions = {}
+        self.detectors = []
+        self.diffractometers = {}
+        self.exit_status = None
+        self.externals = {}
+        self.doc_timestamp = None
+        self.metadata = {}
+        self.plan_name = None
+        self.positioners = []
+        self.scanning = False
+        self.scan_id = None
+        self.streams = {}
+        self.start_time = None
+        self.stop_reason = None
+        self.stop_time = None
+        self.uid = None
 
     @property
-    def file_name(self) -> Optional[pathlib.Path]:
+    def file_name(self):
         return self._file_name
 
     @file_name.setter
-    def file_name(self, value: Union[str, pathlib.Path]) -> None:
+    def file_name(self, value):
         self._file_name = pathlib.Path(value)
 
     @property
-    def file_path(self) -> Optional[pathlib.Path]:
+    def file_path(self):
         return self._file_path
 
     @file_path.setter
-    def file_path(self, value: Union[str, pathlib.Path]) -> None:
+    def file_path(self, value):
         self._file_path = pathlib.Path(value)
 
-    def get_hklpy_configurations(self, doc: Dict[str, Any]) -> Dict[str, Any]:
+    def get_hklpy_configurations(self, doc: dict) -> dict:
         """Diffractometer details (from hklpy) in RE descriptor documents."""
         configurations = {}  # zero, one, or more diffractometers are possible
         for diffractometer_name in doc.get("configuration", {}):
@@ -147,7 +147,7 @@ class FileWriterCallbackBase:
                 }
         return configurations
 
-    def make_file_name(self) -> pathlib.Path:
+    def make_file_name(self):
         """
         generate a file name to be used as default
 
@@ -170,7 +170,7 @@ class FileWriterCallbackBase:
         path = self.file_path or pathlib.Path(".")
         return path / fname
 
-    def writer(self) -> None:
+    def writer(self):
         """
         print summary of run as diagnostic
 
@@ -189,7 +189,7 @@ class FileWriterCallbackBase:
             tbl.addRow((k, getattr(self, k)))
         print(tbl)
 
-        def trim(value: Any, length: int = 60) -> str:
+        def trim(value, length=60):
             text = str(value)
             if len(text) > length:
                 text = text[: length - 3] + "..."
@@ -228,7 +228,7 @@ class FileWriterCallbackBase:
 
     # - - - - - - - - - - - - - - -
 
-    def bulk_events(self, doc: Dict[str, Any]) -> None:
+    def bulk_events(self, doc):
         """Deprecated. Use EventPage instead."""
         if not self.scanning:
             return
@@ -236,7 +236,7 @@ class FileWriterCallbackBase:
         logger.info(doc)
         logger.info("-" * 40)
 
-    def datum(self, doc: Dict[str, Any]) -> None:
+    def datum(self, doc):
         """
         Like an event, but for data recorded outside of bluesky.
 
@@ -256,7 +256,7 @@ class FileWriterCallbackBase:
         ext = self.externals[doc["datum_id"]] = dict(doc)
         ext["_document_type_"] = "datum"
 
-    def descriptor(self, doc: Dict[str, Any]) -> None:
+    def descriptor(self, doc):
         """
         description of the data stream to be acquired
         """
@@ -287,11 +287,11 @@ class FileWriterCallbackBase:
             dd["time"] = []  # entry time stamps here
             dd["external"] = entry.get("external") is not None
             # logger.debug("dd %s: %s", k, data[k])
-
+        
         # Gather any available diffractometer configurations.
         self.diffractometers.update(self.get_hklpy_configurations(doc))
 
-    def event(self, doc: Dict[str, Any]) -> None:
+    def event(self, doc):
         """
         a single "row" of data
         """
@@ -312,7 +312,7 @@ class FileWriterCallbackBase:
                     data["data"].append(v)
                     data["time"].append(doc["timestamps"][k])
 
-    def resource(self, doc: Dict[str, Any]) -> None:
+    def resource(self, doc):
         """
         like a descriptor, but for data recorded outside of bluesky
         """
@@ -322,7 +322,7 @@ class FileWriterCallbackBase:
         ext = self.externals[doc["uid"]] = dict(doc)
         ext["_document_type_"] = "resource"
 
-    def start(self, doc: Dict[str, Any]) -> None:
+    def start(self, doc):
         """
         beginning of a run, clear cache and collect metadata
         """
@@ -341,7 +341,7 @@ class FileWriterCallbackBase:
                 continue
             self.metadata[k] = v
 
-    def stop(self, doc: Dict[str, Any]) -> None:
+    def stop(self, doc):
         """
         end of the run, end collection and initiate the ``writer()`` method
         """

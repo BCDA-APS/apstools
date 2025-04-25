@@ -1,18 +1,18 @@
 =================== ========= == ======================== ===============================================================
-date/time           short_uid id plan                     args
+date/time           short_uid id plan                     args                                                           
 =================== ========= == ======================== ===============================================================
 2019-02-19 17:04:56 f1caf5aa  1  scan                     detectors=['scaler'], num=15, args=['m1', -5, 5], per_step=None
 2019-02-19 17:09:23 adbfd046  1  scan                     detectors=['scaler'], num=15, args=['m1', -5, 5], per_step=None
-2019-02-19 17:10:38 481a04b2  1  TuneAxis.multi_pass_tune
-2019-02-19 17:10:45 0d45103a  2  TuneAxis.multi_pass_tune
-2019-02-19 17:10:49 30d80cb1  3  TuneAxis.multi_pass_tune
-2019-02-19 17:10:52 c354fe37  4  TuneAxis.tune
+2019-02-19 17:10:38 481a04b2  1  TuneAxis.multi_pass_tune                                                                
+2019-02-19 17:10:45 0d45103a  2  TuneAxis.multi_pass_tune                                                                
+2019-02-19 17:10:49 30d80cb1  3  TuneAxis.multi_pass_tune                                                                
+2019-02-19 17:10:52 c354fe37  4  TuneAxis.tune                                                                           
 2019-02-19 17:11:20 225eef4b  1  scan                     detectors=['scaler'], num=15, args=['m1', -5, 5], per_step=None
-2019-02-19 17:12:08 7f7884bf  1  TuneAxis.multi_pass_tune
-2019-02-19 17:12:15 f0658421  2  TuneAxis.multi_pass_tune
-2019-02-19 17:12:19 37c188c0  3  TuneAxis.multi_pass_tune
-2019-02-19 17:12:22 44f573de  4  TuneAxis.multi_pass_tune
-2019-02-19 17:12:23 957d83c1  5  TuneAxis.tune
+2019-02-19 17:12:08 7f7884bf  1  TuneAxis.multi_pass_tune                                                                
+2019-02-19 17:12:15 f0658421  2  TuneAxis.multi_pass_tune                                                                
+2019-02-19 17:12:19 37c188c0  3  TuneAxis.multi_pass_tune                                                                
+2019-02-19 17:12:22 44f573de  4  TuneAxis.multi_pass_tune                                                                
+2019-02-19 17:12:23 957d83c1  5  TuneAxis.tune                                                                           
 =================== ========= == ======================== ===============================================================
 
 Found 12 plans (start documents)

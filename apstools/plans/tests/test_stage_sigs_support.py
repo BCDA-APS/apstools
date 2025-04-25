@@ -46,7 +46,7 @@ def test_device(device):
     [
         [rewrites_stage_sigs, 1],
         [preserves_original_stage_sigs, 0],
-    ],
+    ]
     # fmt: on
 )
 def test_plans(plan, expected, device):

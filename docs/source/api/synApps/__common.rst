@@ -10,3 +10,4 @@ mixin classes for the various ophyd-style devices.
 
 .. automodule:: apstools.synApps._common
     :members:
+

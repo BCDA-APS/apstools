@@ -62,7 +62,6 @@ import pathlib
 import socket
 import time
 from collections import OrderedDict
-from typing import Any, Dict, List, Optional, Union
 
 import numpy as np
 
@@ -72,26 +71,31 @@ SPEC_TIME_FORMAT = "%a %b %d %H:%M:%S %Y"
 SCAN_ID_RESET_VALUE = 0
 
 
-def _rebuild_scan_command(doc: Dict[str, Any]) -> str:
+def _rebuild_scan_command(doc):
     """
-    Reconstruct the scan command for SPEC data file #S line.
+    reconstruct the scan command for SPEC data file #S line
 
-    Args:
-        doc: Instance of a bluesky start document
+    PARAMETERS
 
-    Returns:
+    doc
+        *object* :
+        instance of a bluesky ``start`` document
+
+    RETURNS
+
+    *str* :
         "scan_number reconstructed_scan_command"
     """
 
-    def get_name(src: Any) -> str:
+    def get_name(src):
         """
-        Get name field from object representation.
+        get name field from object representation
 
-        Args:
-            src: Object to extract name from
-
-        Returns:
-            Name string
+        given: EpicsMotor(prefix='xxx:m1', name='m1', settle_time=0.0,
+                    timeout=None, read_attrs=['user_readback', 'user_setpoint'],
+                    configuration_attrs=['motor_egu', 'velocity', 'acceleration',
+                    'user_offset', 'user_offset_dir'])
+        return: "m1"
         """
         s = str(src)
         p = s.find("(")
@@ -106,16 +110,8 @@ def _rebuild_scan_command(doc: Dict[str, Any]) -> str:
                     break
         return s
 
-    def struct_to_str(struct: Any) -> str:
-        """
-        Convert given structure into string representation.
-
-        Args:
-            struct: Structure to convert
-
-        Returns:
-            String representation
-        """
+    def struct_to_str(struct):
+        """Convert given structure into string representation."""
         if isinstance(struct, list):
             return "[" + ", ".join([struct_to_str(v) for v in struct]) + "]"
         elif isinstance(struct, dict):
@@ -144,20 +140,76 @@ def _rebuild_scan_command(doc: Dict[str, Any]) -> str:
     return f"{scan_id}  {cmd}"
 
 
-class SpecWriterCallback:
+class SpecWriterCallback(object):
     """
     **Deprecated**: Use :class:`~apstools.callbacks.spec_file_writer.SpecWriterCallback2`.
 
     Collect data from Bluesky RunEngine documents to write as SPEC data.
+
+    .. index:: Bluesky Callback; SpecWriterCallback
+
+    This gathers data from all documents in a scan and appends scan to the file
+    when the ``stop`` document is received.  One or more scans can be written to
+    the same file.  The file format is text.
+
+    .. note:: ``SpecWriterCallback()`` does **not** inherit
+       from ``FileWriterCallbackBase()``.
+
+    PARAMETERS
+
+    filename
+        *string* :
+        (optional)
+        Local, relative or absolute name of SPEC data file to be used.
+        If ``filename=None``, defaults to format of ``YYYmmdd-HHMMSS.dat``
+        derived from the current system time.
+
+    auto_write
+        *boolean* :
+        (optional)
+        If ``True`` (default), ``write_scan()`` is called when *stop* document
+        is received.
+        If ``False``, the caller is responsible for calling ``write_scan()``
+        before the next ``start`` document is received.
+
+    RE
+        *object* :
+        Instance of ``bluesky.RunEngine`` or ``None``.
+
+    reset_scan_id
+        *boolean* :
+        (optional)
+        If True, and filename exists, then sets ``RE.md.scan_id`` to
+        highest scan number in existing SPEC data file.
+        default: False
+
+    User Interface methods
+
+    .. autosummary::
+
+       ~receiver
+       ~newfile
+       ~usefile
+       ~make_default_filename
+       ~clear
+       ~prepare_scan_contents
+       ~write_scan
+
+    Internal methods
+
+    .. autosummary::
+
+       ~write_header
+       ~start
+       ~descriptor
+       ~event
+       ~bulk_events
+       ~datum
+       ~resource
+       ~stop
     """
 
-    def __init__(
-        self,
-        filename: Optional[Union[str, pathlib.Path]] = None,
-        auto_write: bool = True,
-        RE: Optional[Any] = None,
-        reset_scan_id: Union[bool, int] = False,
-    ) -> None:
+    def __init__(self, filename=None, auto_write=True, RE=None, reset_scan_id=False):
         self.clear()
         self.buffered_comments = self._empty_comments_dict()
         self.auto_write = auto_write
@@ -186,8 +238,8 @@ class SpecWriterCallback:
                 RE.md["scan_id"] = max_scan_id
         self.spec_filename = filename
 
-    def clear(self) -> None:
-        """Reset all scan data defaults."""
+    def clear(self):
+        """reset all scan data defaults"""
         self.uid = None
         self.scan_epoch = None  # absolute epoch to report in scan #D line
         self.time = None  # full time from document
@@ -208,25 +260,18 @@ class SpecWriterCallback:
         self.scan_command = None  # #S line
         self.scanning = False
 
-    def _empty_comments_dict(self) -> Dict[str, List[str]]:
-        """Return empty comments dictionary."""
-        return {
-            "start": [],
-            "event": [],
-            "descriptor": [],
-            "resource": [],
-            "datum": [],
-            "stop": [],
-        }
+    def _empty_comments_dict(self):
+        return dict(
+            start=[],
+            event=[],
+            descriptor=[],
+            resource=[],
+            datum=[],
+            stop=[],
+        )
 
-    def _cmt(self, key: str, text: str) -> None:
-        """
-        Add comment to buffer.
-
-        Args:
-            key: Comment type
-            text: Comment text
-        """
+    def _cmt(self, key, text):
+        """enter a comment"""
         dt = self._datetime or datetime.datetime.now()
         ts = datetime.datetime.strftime(dt, SPEC_TIME_FORMAT)
         if self.scanning:
@@ -235,13 +280,11 @@ class SpecWriterCallback:
             dest = self.buffered_comments
         dest[key].append(f"{ts}.  {text}")
 
-    def receiver(self, key: str, document: Dict[str, Any]) -> None:
+    def receiver(self, key, document):
         """
-        Handle document from RunEngine.
+        Bluesky callback: receive all documents for handling
 
-        Args:
-            key: Document type
-            document: Document content
+        .. index:: Bluesky Callback; SpecWriterCallback.receiver
         """
         xref = dict(
             start=self.start,
@@ -268,16 +311,19 @@ class SpecWriterCallback:
             # raise ValueError(msg)
             logger.warning(msg)
 
-    def start(self, doc: Dict[str, Any]) -> None:
-        """
-        Handle start document.
+    def start(self, doc):
+        """handle *start* documents"""
 
-        Args:
-            doc: Start document
-        """
+        known_properties = """
+            uid time project sample scan_id group owner
+            hints
+            plan_type plan_name plan_args
+        """.split()
+
         self.clear()
         self.scanning = True
         self.uid = doc["uid"]
+
         self._cmt("start", f"uid = {self.uid}")
         self.metadata["uid"] = f"{self.uid}"
         for d, cl in self.buffered_comments.items():
@@ -297,10 +343,7 @@ class SpecWriterCallback:
 
         # metadata
         for key in sorted(doc.keys()):
-            if (
-                key
-                not in "uid time project sample scan_id group owner hints plan_type plan_name plan_args".split()
-            ):
+            if key not in known_properties:
                 self.metadata[key] = doc[key]
 
         self.start_hints = doc.get("hints", {})
@@ -317,12 +360,11 @@ class SpecWriterCallback:
         self.comments["start"].insert(0, f"{ts}.  {cmt}")
         self.scan_command = _rebuild_scan_command(doc)
 
-    def descriptor(self, doc: Dict[str, Any]) -> None:
+    def descriptor(self, doc):
         """
-        Handle descriptor document.
+        handle *descriptor* documents
 
-        Args:
-            doc: Descriptor document
+        prepare for primary scan data, ignore any other data stream
         """
         if doc["uid"] in self._streams:
             fmt = "duplicate descriptor UID {} found"
@@ -364,12 +406,9 @@ class SpecWriterCallback:
 
         self.data.update({k: [] for k in first_keys + epoch_keys + middle_keys + last_keys})
 
-    def event(self, doc: Dict[str, Any]) -> None:
+    def event(self, doc):
         """
-        Handle event document.
-
-        Args:
-            doc: Event document
+        handle *event* documents
         """
         descriptor = self._streams.get(doc["descriptor"])
         if descriptor is None:
@@ -394,40 +433,20 @@ class SpecWriterCallback:
                 self.data[k].append(v)
             self.num_primary_data += 1
 
-    def bulk_events(self, doc: Dict[str, Any]) -> None:
-        """
-        Handle bulk events document.
-
-        Args:
-            doc: Bulk events document
-        """
+    def bulk_events(self, doc):
+        """handle *bulk_events* documents"""
         pass
 
-    def datum(self, doc: Dict[str, Any]) -> None:
-        """
-        Handle datum document.
-
-        Args:
-            doc: Datum document
-        """
+    def datum(self, doc):
+        """handle *datum* documents"""
         self._cmt("datum", "datum " + str(doc))
 
-    def resource(self, doc: Dict[str, Any]) -> None:
-        """
-        Handle resource document.
-
-        Args:
-            doc: Resource document
-        """
+    def resource(self, doc):
+        """handle *resource* documents"""
         self._cmt("resource", "resource " + str(doc))
 
-    def stop(self, doc: Dict[str, Any]) -> None:
-        """
-        Handle stop document.
-
-        Args:
-            doc: Stop document
-        """
+    def stop(self, doc):
+        """handle *stop* documents"""
         if "num_events" in doc:
             for k, v in doc["num_events"].items():
                 self._cmt("stop", f"num_events_{k} = {v}")
@@ -441,12 +460,11 @@ class SpecWriterCallback:
 
         self.scanning = False
 
-    def prepare_scan_contents(self) -> List[str]:
+    def prepare_scan_contents(self):
         """
-        Prepare scan contents for writing.
+        format the scan for a SPEC data file
 
-        Returns:
-            List of lines to write
+        :returns: [str] a list of lines to append to the data file
         """
         dt = datetime.datetime.fromtimestamp(self.scan_epoch)
         lines = []
@@ -514,18 +532,12 @@ class SpecWriterCallback:
 
         return lines
 
-    def _write_lines_(self, lines: List[str], mode: str = "a") -> None:
-        """
-        Write lines to file.
-
-        Args:
-            lines: Lines to write
-            mode: File mode
-        """
+    def _write_lines_(self, lines, mode="a"):
+        """write (more) lines to the file"""
         with open(self.spec_filename, mode) as f:
             f.write("\n".join(lines))
 
-    def write_header(self) -> None:
+    def write_header(self):
         """Write the (initial) header section of a SPEC data file."""
         dt = datetime.datetime.fromtimestamp(self.spec_epoch)
         lines = []
@@ -555,7 +567,7 @@ class SpecWriterCallback:
         self._write_lines_(lines, mode="a+")
         self.write_new_header = False
 
-    def write_scan(self) -> None:
+    def write_scan(self):
         """
         write the most recent (completed) scan to the file
 
@@ -586,15 +598,13 @@ class SpecWriterCallback:
                 self.spec_filename,
             )
 
-    def make_default_filename(self) -> pathlib.Path:
+    def make_default_filename(self):
         """generate a file name to be used as default"""
         now = datetime.datetime.now()
         filename = now.strftime("%Y%m%d-%H%M%S") + ".dat"
         return pathlib.Path(filename)
 
-    def newfile(
-        self, filename: Optional[pathlib.Path] = None, scan_id: Optional[int] = None, RE: Optional[Any] = None
-    ) -> pathlib.Path:
+    def newfile(self, filename=None, scan_id=None, RE=None):
         """
         prepare to use a new SPEC data file
 
@@ -629,7 +639,7 @@ class SpecWriterCallback:
             self.scan_id = scan_id
         return self.spec_filename
 
-    def usefile(self, filename: pathlib.Path) -> int:
+    def usefile(self, filename):
         """read from existing SPEC data file"""
         if not self.spec_filename.exists():
             raise IOError(f"file {filename} does not exist")
@@ -715,8 +725,7 @@ class SpecWriterCallback2(FileWriterCallbackBase):
     # - - - - # - - - - # - - - - # - - - - # - - - - # - - - - # - - - - #
     # Override Methods
 
-    def __init__(self, *args: Any, **kwargs: Any) -> None:
-        """Initialize."""
+    def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
 
         self._file_header_motor_keys = None
@@ -726,7 +735,7 @@ class SpecWriterCallback2(FileWriterCallbackBase):
         self.write_new_file_header = True
         self.write_new_scan_header = False
 
-    def descriptor(self, doc: Dict[str, Any]) -> None:
+    def descriptor(self, doc):
         """
         Handle *descriptor* documents of certain streams.
         """
@@ -754,32 +763,39 @@ class SpecWriterCallback2(FileWriterCallbackBase):
 
         super().descriptor(doc)  # process the document
 
-        def get_data_labels() -> List[str]:
-            """Get data labels."""
+        def get_data_labels():
+            "Names of each of the data columns. Values in doc['data_keys'][k]"
 
-            def parse(master: Dict[str, Any]) -> List[str]:
-                """Parse master dictionary."""
-                labels = []
-                for key, value in master.items():
-                    if isinstance(value, dict):
-                        labels.extend(parse(value))
-                    else:
-                        labels.append(key)
-                return labels
+            def parse(master):
+                primary, secondary = [], []
+                for k_obj in master:
+                    fields = doc["hints"].get(k_obj, {"fields": [k_obj]})["fields"]
+                    for k in doc["object_keys"].get(k_obj, []):
+                        if len(fields) > 0:
+                            if k in fields:
+                                primary.append(k)
+                            else:
+                                secondary.append(k)
+                        else:
+                            primary.append(k)
+                return primary, secondary
 
-            labels = []
-            for key, value in doc["data_keys"].items():
-                if isinstance(value, dict):
-                    labels.extend(parse(value))
-                else:
-                    labels.append(key)
-            return labels
+            labels, others = parse(self.positioners)
+            labels += others + "Epoch Epoch_float".split()
+
+            dets, others = parse(self.detectors)
+            dets = others + list(reversed(dets))  # move first detector to last column
+
+            _knowns = labels + dets
+            others = [k for k in doc["data_keys"] if k not in _knowns]
+
+            return labels + others + dets
 
         self.data_labels = get_data_labels()
 
         self.write_new_scan_header = True
 
-    def event(self, doc: Dict[str, Any]) -> None:
+    def event(self, doc):
         super().event(doc)  # process the document
 
         descriptor = self._streams.get(doc["descriptor"])
@@ -795,7 +811,7 @@ class SpecWriterCallback2(FileWriterCallbackBase):
         self.write_scan_header()
         self.write_scan_data_row(doc)
 
-    def start(self, doc: Dict[str, Any]) -> None:
+    def start(self, doc):
         """First document of the run."""
         super().start(doc)  # process the document
 
@@ -818,7 +834,7 @@ class SpecWriterCallback2(FileWriterCallbackBase):
 
         self.scan_command = _rebuild_scan_command(doc)
 
-    def stop(self, doc: Dict[str, Any]) -> None:
+    def stop(self, doc):
         """Last document of the run."""
         # ... just in case these have not been written.
         self.write_file_header()
@@ -828,14 +844,14 @@ class SpecWriterCallback2(FileWriterCallbackBase):
 
         self.write_scan_end(doc)
 
-    def writer(self) -> None:
+    def writer(self):
         """Output to a file completed by other methods."""
         pass
 
     # - - - - # - - - - # - - - - # - - - - # - - - - # - - - - # - - - - #
     # Local Methods
 
-    def _cmt(self, text: str) -> None:
+    def _cmt(self, text):
         """
         Return a SPEC-style comment.
 
@@ -845,15 +861,13 @@ class SpecWriterCallback2(FileWriterCallbackBase):
         spec_time = dt.strftime(SPEC_TIME_FORMAT)
         return f"#C {spec_time}.  {text}"
 
-    def make_default_filename(self) -> pathlib.Path:
+    def make_default_filename(self):
         """generate a file name to be used as default"""
         now = datetime.datetime.now()
         filename = now.strftime("%Y%m%d-%H%M%S") + ".dat"
         return pathlib.Path(filename)
 
-    def newfile(
-        self, filename: Optional[pathlib.Path] = None, scan_id: Optional[int] = None, RE: Optional[Any] = None
-    ) -> pathlib.Path:
+    def newfile(self, filename=None, scan_id=None, RE=None):
         """
         prepare to use a new SPEC data file
 
@@ -887,7 +901,7 @@ class SpecWriterCallback2(FileWriterCallbackBase):
             self.scan_id = scan_id
         return self.spec_filename
 
-    def usefile(self, filename: pathlib.Path) -> int:
+    def usefile(self, filename):
         """read from existing SPEC data file"""
         if not self.spec_filename.exists():
             raise IOError(f"file {filename} does not exist")
@@ -933,7 +947,7 @@ class SpecWriterCallback2(FileWriterCallbackBase):
         self.spec_user = username
         return scan_id
 
-    def write_file_header(self) -> None:
+    def write_file_header(self):
         """Write file header to file, if needed."""
         if not self.write_new_file_header:
             # print(f"No new file header for {self.uid=!r}")
@@ -969,7 +983,7 @@ class SpecWriterCallback2(FileWriterCallbackBase):
         self._write_lines_(lines, mode="a+")
         self.write_new_file_header = False
 
-    def write_scan_data_row(self, doc: Dict[str, Any]) -> None:
+    def write_scan_data_row(self, doc):
         """Write row of scan data to file."""
         from ..utils.misc import render
 
@@ -993,7 +1007,7 @@ class SpecWriterCallback2(FileWriterCallbackBase):
         lines = [" ".join(line)]
         self._write_lines_(lines + remarks, mode="a+")
 
-    def write_scan_end(self, doc: Dict[str, Any]) -> None:
+    def write_scan_end(self, doc):
         """Write scan ending to file."""
         lines = []
 
@@ -1011,7 +1025,7 @@ class SpecWriterCallback2(FileWriterCallbackBase):
 
         self._write_lines_(lines, mode="a+")
 
-    def write_scan_header(self) -> None:
+    def write_scan_header(self):
         """Write scan header to file."""
         from ..utils.misc import render
 
@@ -1052,7 +1066,7 @@ class SpecWriterCallback2(FileWriterCallbackBase):
 
         self.write_new_scan_header = False
 
-    def _write_lines_(self, lines: List[str], mode: str = "a") -> None:
+    def _write_lines_(self, lines, mode="a"):
         """write (more) lines to the file"""
         lines.append("")
         with open(self.file_name, mode) as f:
@@ -1062,7 +1076,7 @@ class SpecWriterCallback2(FileWriterCallbackBase):
     # properties
 
     @property
-    def spec_filename(self) -> Optional[pathlib.Path]:
+    def spec_filename(self):
         """
         Synonym for 'file_name' property.
 
@@ -1071,11 +1085,11 @@ class SpecWriterCallback2(FileWriterCallbackBase):
         return self.file_name
 
     @spec_filename.setter
-    def spec_filename(self, file_name: Union[str, pathlib.Path]) -> None:
+    def spec_filename(self, file_name):
         self.file_name = file_name or self.make_default_filename()
 
 
-def spec_comment(comment: str, doc: Optional[str] = None, writer: Optional[Any] = None) -> None:
+def spec_comment(comment, doc=None, writer=None):
     """
     make it easy to add spec-style comments in a custom plan
 

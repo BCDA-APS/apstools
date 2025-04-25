@@ -11,19 +11,17 @@ Documentation of batch runs
 
 import logging
 import warnings
-from typing import Any, Dict, Generator, List, Optional, Union
 
 from bluesky import plan_stubs as bps
 from bluesky import preprocessors as bpp
-from bluesky.callbacks.best_effort import BestEffortCallback
-from ophyd import Device, Signal
+from ophyd import Signal
 
 from ..utils import ipython_shell_namespace
 
 logger = logging.getLogger(__name__)
 
 
-def addDeviceDataAsStream(devices: Union[Device, List[Device]], label: str) -> Generator[None, None, None]:
+def addDeviceDataAsStream(devices, label):
     """Renamed to write_stream().  Will remove with relase 1.7+."""
     # fmt: off
     warnings.warn(
@@ -35,12 +33,7 @@ def addDeviceDataAsStream(devices: Union[Device, List[Device]], label: str) -> G
     yield from write_stream(devices, label)
 
 
-def documentation_run(
-    text: str,
-    stream: Optional[str] = None,
-    bec: Optional[BestEffortCallback] = None,
-    md: Optional[Dict[str, Any]] = None,
-) -> Generator[None, None, str]:
+def documentation_run(text, stream=None, bec=None, md=None):
     """
     Save text as a bluesky run.
 
@@ -73,7 +66,7 @@ def documentation_run(
     _md.update(md or {})
 
     @bpp.run_decorator(md=_md)
-    def inner() -> Generator[None, None, str]:
+    def inner():
         yield from write_stream(text_signal, stream)
 
     if bec is not None:
@@ -89,7 +82,7 @@ def documentation_run(
     return uid
 
 
-def write_stream(devices: Union[Device, List[Device]], label: str) -> Generator[None, None, None]:
+def write_stream(devices, label):
     """
     add an ophyd Device as an additional document stream
 
