@@ -84,7 +84,7 @@ def test_listdevice(obj: Device, length: int) -> None:
         (motor.user_setpoint, 1, EpicsSignalBase),
     ],
 )
-def test__list_epics_signals(obj: Any, length: Optional[int], ref: Optional[type]) -> None:
+def test__list_epics_signals(obj: Union[Device, EpicsSignalBase], length: Optional[int], ref: Optional[type]) -> None:
     result = _list_epics_signals(obj)
     if length is None:
         assert result is None
