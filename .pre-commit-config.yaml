@@ -4,11 +4,9 @@ repos:
   - repo: https://github.com/pre-commit/pre-commit-hooks
     rev: v5.0.0
     hooks:
-      # exclude_types: [jupyter]
       - id: check-yaml
       - id: check-toml
-      - id: check-ast
-      # - id: check-docstring-first  # let variables have docstrings
+      - id: check-docstring-first  # let variables have docstrings
       - id: check-merge-conflict
       - id: check-added-large-files
       - id: mixed-line-ending
@@ -17,21 +15,16 @@ repos:
           LICENSE.txt
       - id: end-of-file-fixer
         exclude: |
+          apstools/utils/tests/data/*
           apstools/migration/config.*
           LICENSE.txt
       - id: trailing-whitespace
         exclude: |
+          apstools/utils/tests/data/*
           apstools/migration/config.*
           LICENSE.txt
       - id: check-case-conflict
-      # - id: check-json
-      # - id: check-symlinks
       - id: check-executables-have-shebangs
-  # Don't strip output from jupyter notebooks ATM.
-  # - repo: https://github.com/kynan/nbstripout
-  #   rev: 0.7.1
-  #   hooks:
-  #     - id: nbstripout
   - repo: https://github.com/astral-sh/ruff-pre-commit
     rev: v0.4.8
     hooks:
@@ -39,9 +32,11 @@ repos:
         args:
           - --fix
         exclude: |
+          apstools/utils/tests/data/*
           apstools/migration/config.*
           LICENSE.txt
       - id: ruff-format # replaces Black
         exclude: |
+          apstools/utils/tests/data/*
           apstools/migration/config.*
           LICENSE.txt
