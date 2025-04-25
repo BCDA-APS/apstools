@@ -61,6 +61,26 @@ def custom_ad_creator(plugin_name):
     return adsimdet
 
 
+def AD_unprime_plugin(plugin):
+    """
+    Make area detector plugin require priming again.
+
+    One way is to prime the plugin with a different data type.
+    """
+    cam = plugin.parent.cam
+    original_type = cam.data_type.get(use_monitor=False, as_string=True)
+    assert original_type != "Int8"
+
+    cam.data_type.put("Int8")  # change it
+    AD_prime_plugin2(plugin)
+    timed_pause(0.1)
+    assert AD_plugin_primed(plugin)
+
+    cam.data_type.put(original_type)  # restore it
+    timed_pause(0.1)
+    assert not AD_plugin_primed(plugin)
+
+
 @pytest.mark.parametrize(
     "plugin_name, spec",
     [
@@ -70,23 +90,54 @@ def custom_ad_creator(plugin_name):
     ],
 )
 @pytest.mark.parametrize(
-    "presets, context, expected",
+    "presets, prime, context, expected",
     [
         [
             dict(
-                auto_save="No",
+                auto_save=0,  # "No"
                 lazy_open="No",
-                create_directory=-5,
-                file_template="%s%s_%2.2d.ad_data",
+                create_directory=0,
+                file_write_mode=2, # "Single"
+                file_template="%s%s_%d.trouble",
                 file_path="/tmp/",
                 file_name="test",
+                file_number=1 + int(9 * random.random()),
             ),
+            False,
+            does_not_raise(),
+            None,
+        ],
+        [
+            dict(
+                auto_save=0,  # "No"
+                lazy_open="No",
+                create_directory=0,
+                file_template="",
+                file_path="",
+                file_name="",
+                file_number=1 + int(9 * random.random()),
+            ),
+            True,
+            pytest.raises(ValueError),
+            ":FileName' is an empty string.",
+        ],
+        [
+            dict(
+                auto_save=0,  # "No"
+                lazy_open="No",
+                create_directory=-5,
+                file_template="%s%s_%2.2d.ad_image",
+                file_path="/tmp/",
+                file_name="test",
+                file_number=1 + int(9 * random.random()),
+            ),
+            True,
             does_not_raise(),
             None,
         ],
     ],
 )
-def test_replacement(plugin_name, spec, presets, context, expected):
+def test_replacement(plugin_name, spec, presets, prime, context, expected):
     import epics
 
     def caput(signal, value):
@@ -104,10 +155,13 @@ def test_replacement(plugin_name, spec, presets, context, expected):
         assert len(plugin.stage_sigs) >= 4
         assert plugin.stage_sigs.get("file_write_mode") == "Stream"
         assert plugin.stage_sigs.get("capture") in (1, "Capture")
+
         plugin.stage_sigs.move_to_end("capture", last=True)
         assert list(plugin.stage_sigs)[-1] == "capture"
 
-        if not AD_plugin_primed(plugin):
+        AD_unprime_plugin(plugin)
+
+        if prime and not AD_plugin_primed(plugin):
             AD_prime_plugin2(plugin)
             assert AD_plugin_primed(plugin)
 
@@ -119,9 +173,29 @@ def test_replacement(plugin_name, spec, presets, context, expected):
             if attr in dir(plugin):
                 caput(getattr(plugin, attr), value)
 
-        RE = bluesky.RunEngine()
-        (uid,) = RE(bp.count([det]))
-        assert isinstance(uid, str)
+        try:
+            det.stage()
+
+            assert list(plugin.stage_sigs.keys())[-1] == "capture"
+            for k, v in settings.items():
+                assert getattr(plugin, k).get(use_monitor=False) == v, f"{plugin_name=} {k=}  {v=}"
+
+            # assert plugin.get_frames_per_point() == settings["num_capture"]
+
+            filename, read_path, write_path = plugin.make_filename()
+            assert isinstance(filename, str)
+            assert isinstance(read_path, str)
+            assert isinstance(write_path, str)
+            assert filename == settings["file_name"]
+            assert read_path.startswith(datetime.datetime.now().strftime(READ_PATH_TEMPLATE))
+            assert write_path == settings["file_path"]
+
+        finally:
+            det.unstage()
+
+        # RE = bluesky.RunEngine()
+        # (uid,) = RE(bp.count([det]))
+        # assert isinstance(uid, str)
 
     if expected is not None:
         assert expected in str(exinfo)
