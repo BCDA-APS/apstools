@@ -89,7 +89,7 @@ def test_AD_EpicsFileNameMixin(plugin_name, spec):
     user_settings = dict(
         array_counter=0,
         auto_increment=1,  # Yes
-        auto_save=1,  # Yes
+        auto_save=0,  # No
         create_directory=-5,
         file_name="flotsam",
         file_number=1 + int(10 * random.random()),
@@ -426,18 +426,6 @@ def test_HDF5plugin_i1062(setup, attrs, context, expected):
     """Issue #1062, Unconfigured HDF plugin."""
     import epics
 
-    # Caller is responsible for setting values of these Components:
-    # * array_counter
-    # * auto_increment
-    # * auto_save
-    # * compression (only HDF)
-    # * create_directory
-    # * file_name
-    # * file_number
-    # * file_path
-    # * file_template
-    # * num_capture
-
     with context as exinfo:
         det = ad_creator(IOC_AD, name="det", **setup)
 
@@ -445,28 +433,12 @@ def test_HDF5plugin_i1062(setup, attrs, context, expected):
         for attr in "file_name file_path file_template".split():
             assert attr not in det.hdf1.stage_sigs
 
-        # # un-prime the HDF5 plugin
-        # det.cam.data_type.put("Int8")
-        # AD_prime_plugin2(det.hdf1)
-        # det.cam.data_type.put("UInt8")
-        # time.sleep(0.1)
-        # assert not AD_plugin_primed(det.hdf1)
-
         if not AD_plugin_primed(det.hdf1):
             AD_prime_plugin2(det.hdf1)
             assert AD_plugin_primed(det.hdf1)
 
         for attr, value in attrs.items():
             epics.caput(getattr(det.hdf1, attr)._write_pv.pvname, value)
-
-        # # This happens during det.hdf1.stage()
-        # filename, read_path, write_path = det.hdf1.make_filename()
-        # # Test its results.
-        # formatter = datetime.datetime.now().strftime
-        # assert filename == det.hdf1.file_name.get()
-        # assert read_path == setup["plugins"][1]["hdf1"]["read_path_template"]
-        # assert read_path == formatter(det.hdf1.read_path_template)
-        # assert write_path == formatter(det.hdf1.file_path.get())
 
         RE = bluesky.RunEngine()
         (uid,) = RE(bp.count([det]))
