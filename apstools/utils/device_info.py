@@ -33,7 +33,7 @@ TRUNCATION_TEXT = " ..."
 NOT_CONNECTED_VALUE = "-n/c-"
 
 
-def _all_signals(base: Union[Signal, Device]) -> list[Signal]:
+def _all_signals(base: Union[OphydObject]) -> list[Signal]:
     if isinstance(base, Signal):
         return [base]
     items: list[Signal] = []
