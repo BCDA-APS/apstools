@@ -12,11 +12,17 @@ repos:
       - id: check-merge-conflict
       - id: check-added-large-files
       - id: mixed-line-ending
-        exclude: apstools/migration/config.*
+        exclude: |
+          apstools/migration/config.*
+          LICENSE.txt
       - id: end-of-file-fixer
-        exclude: apstools/migration/config.*
-
+        exclude: |
+          apstools/migration/config.*
+          LICENSE.txt
       - id: trailing-whitespace
+        exclude: |
+          apstools/migration/config.*
+          LICENSE.txt
       - id: check-case-conflict
       # - id: check-json
       # - id: check-symlinks
@@ -32,6 +38,10 @@ repos:
       - id: ruff # replaces Flake8, isort, pydocstyle, pyupgrade
         args:
           - --fix
-        exclude: apstools/migration/config.*
+        exclude: |
+          apstools/migration/config.*
+          LICENSE.txt
       - id: ruff-format # replaces Black
-        exclude: apstools/migration/config.*
+        exclude: |
+          apstools/migration/config.*
+          LICENSE.txt
