@@ -13,6 +13,7 @@ from collections import defaultdict
 from typing import Any
 from typing import Optional
 from typing import Union
+from typing import NoneType
 
 import pandas as pd
 from ophyd import Device
