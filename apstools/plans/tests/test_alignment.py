@@ -47,7 +47,7 @@ for obj in (axis, m1, m2, noisy, scaler1, swait, calcs_enable):
 
 scaler1.select_channels()
 I0 = scaler1.channels.chan02.s
-I0.parent.override_signal_name.put("noisy")
+I0.parent.override_signal = noisy
 
 # TODO: Refactor 'pvoigt' as Python-only noisy pseudo-voigt signal,
 # a la 'ophyd.sim.noisy_det' to speed up testing of alignment plans.
