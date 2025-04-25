@@ -13,7 +13,10 @@ import bluesky
 import pytest
 from bluesky import plan_stubs as bps
 from bluesky import plans as bp
+from ophyd.utils.errors import UnknownStatusFailure
+from ophyd.utils.errors import UnprimedPlugin
 
+from ...tests import IOC_AD
 from ...tests import READ_PATH_TEMPLATE
 from ...tests import MonitorCache
 from ...tests import timed_pause
@@ -22,7 +25,10 @@ from .. import AD_EpicsFileNameJPEGPlugin
 from .. import AD_EpicsFileNameMixin
 from .. import AD_EpicsFileNameTIFFPlugin
 from .. import AD_full_file_name_local
+from .. import AD_plugin_primed
+from .. import AD_prime_plugin2
 from .. import BadPixelPlugin
+from .. import ad_creator
 
 
 @pytest.mark.parametrize(
@@ -309,6 +315,142 @@ def test_plugin(Klass, setup, attrs, context, expected):
         knowns = dir(obj)
         for attr in attrs:
             assert attr in knowns  # hasattr() needs connection
+
+    if expected is not None:
+        assert expected in str(exinfo)
+
+
+@pytest.mark.parametrize(
+    "setup",
+    [
+        dict(
+            plugins=[
+                "cam",
+                dict(
+                    hdf1={
+                        "class": AD_EpicsFileNameHDF5Plugin,
+                        "read_path_template": "/tmp/docker_ioc/iocad/tmp/",
+                        "write_path_template": "/tmp/",
+                    }
+                ),
+            ]
+        ),
+    ],
+)
+@pytest.mark.parametrize(
+    "attrs, context, expected",
+    [
+        [
+            dict(
+                auto_save="No",
+                create_directory=0,
+                file_name="",
+                file_number=1,
+                file_path="",
+                file_template="",
+            ),
+            pytest.raises(ValueError),
+            "'ad:HDF1:FileName' is an empty string.",
+        ],
+        [
+            dict(
+                auto_save="No",
+                create_directory=-5,
+                file_template="",
+                file_name="test",
+                file_number=1,
+                file_path="",
+            ),
+            pytest.raises(ValueError),
+            "'ad:HDF1:FilePath' is an empty string.",
+        ],
+        [
+            dict(
+                auto_save="No",
+                create_directory=-5,
+                file_template="",
+                file_name="test",
+                file_number=1,
+                file_path="/tmp/",
+            ),
+            pytest.raises(ValueError),
+            "'ad:HDF1:FileTemplate' is an empty string.",
+        ],
+        [
+            dict(
+                auto_save="No",
+                create_directory=-5,
+                file_template="%s%s_%6.6d.h5",
+                file_name="test",
+                file_number=1,
+                file_path="/tmp/",
+            ),
+            does_not_raise(),
+            None,
+        ],
+        [
+            dict(
+                auto_save="No",
+                create_directory=-5,
+                file_template="%s%s_%6.6d.h5",
+                file_name="test",
+                file_number=1,
+                file_path="/",
+            ),
+            pytest.raises(OSError),
+            "Path '/' does not exist on IOC",
+        ],
+    ],
+)
+def test_HDF5plugin_i1062(setup, attrs, context, expected):
+    """Issue #1062, Unconfigured HDF plugin."""
+    import epics
+
+    # Caller is responsible for setting values of these Components:
+    # * array_counter
+    # * auto_increment
+    # * auto_save
+    # * compression (only HDF)
+    # * create_directory
+    # * file_name
+    # * file_number
+    # * file_path
+    # * file_template
+    # * num_capture
+
+    with context as exinfo:
+        det = ad_creator(IOC_AD, name="det", **setup)
+
+        # Confirm these attributes are not staged.
+        for attr in "file_name file_path file_template".split():
+            assert attr not in det.hdf1.stage_sigs
+
+        # # un-prime the HDF5 plugin
+        # det.cam.data_type.put("Int8")
+        # AD_prime_plugin2(det.hdf1)
+        # det.cam.data_type.put("UInt8")
+        # time.sleep(0.1)
+        # assert not AD_plugin_primed(det.hdf1)
+
+        if not AD_plugin_primed(det.hdf1):
+            AD_prime_plugin2(det.hdf1)
+            assert AD_plugin_primed(det.hdf1)
+
+        for attr, value in attrs.items():
+            epics.caput(getattr(det.hdf1, attr)._write_pv.pvname, value)
+
+        # # This happens during det.hdf1.stage()
+        # filename, read_path, write_path = det.hdf1.make_filename()
+        # # Test its results.
+        # formatter = datetime.datetime.now().strftime
+        # assert filename == det.hdf1.file_name.get()
+        # assert read_path == setup["plugins"][1]["hdf1"]["read_path_template"]
+        # assert read_path == formatter(det.hdf1.read_path_template)
+        # assert write_path == formatter(det.hdf1.file_path.get())
+
+        RE = bluesky.RunEngine()
+        (uid,) = RE(bp.count([det]))
+        assert isinstance(uid, str)
 
     if expected is not None:
         assert expected in str(exinfo)

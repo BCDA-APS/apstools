@@ -38,11 +38,11 @@ from collections import OrderedDict
 
 import epics
 import numpy as np
+from ophyd import ADComponent
+from ophyd import CamBase
 from ophyd import EpicsSignal
 from ophyd import EpicsSignalRO
 from ophyd import EpicsSignalWithRBV
-from ophyd import ADComponent
-from ophyd import CamBase
 from ophyd import SimDetectorCam
 from ophyd import SingleTrigger
 from ophyd.areadetector.filestore_mixins import FileStoreBase
@@ -413,7 +413,7 @@ class AD_EpicsFileNameMixin(FileStorePluginBase):
     """
 
     def _remove_caller_stage_sigs(self):
-        """Caller is responsible for setting these stage_sigs."""
+        """Caller is responsible for setting these, pop from stage_sigs."""
         caller_sets_these = """
             array_counter
             auto_increment
@@ -427,8 +427,7 @@ class AD_EpicsFileNameMixin(FileStorePluginBase):
             num_capture
         """.split()
         for key in caller_sets_these:
-            if key in self.stage_sigs:
-                self.stage_sigs.pop(key)
+            self.stage_sigs.pop(key, None)
 
     def make_filename(self):
         """
@@ -464,6 +463,12 @@ class AD_EpicsFileNameMixin(FileStorePluginBase):
         Set EPICS items before device is staged, then copy EPICS
         naming template (and other items) to ophyd after staging.
         """
+        # Validate!
+        for attr in "file_name file_path file_template".split():
+            signal = getattr(self, attr)
+            if len(signal.get()) == 0:
+                raise ValueError(f"{signal._write_pv.pvname!r} is an empty string.")
+
         if "capture" in self.stage_sigs:
             self.stage_sigs.move_to_end("capture", last=True)
 
