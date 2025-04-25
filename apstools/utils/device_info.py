@@ -8,9 +8,11 @@ Device information
 """
 
 import datetime
-from collections import defaultdict
 import logging
-from typing import Any, Dict, List, Optional, Union
+from collections import defaultdict
+from typing import Any
+from typing import Optional
+from typing import Union
 
 import pandas as pd
 from ophyd import Device
@@ -31,10 +33,10 @@ TRUNCATION_TEXT = " ..."
 NOT_CONNECTED_VALUE = "-n/c-"
 
 
-def _all_signals(base: Union[Signal, Device]) -> List[Signal]:
+def _all_signals(base: Union[Signal, Device]) -> list[Signal]:
     if isinstance(base, Signal):
         return [base]
-    items: List[Signal] = []
+    items: list[Signal] = []
     if hasattr(base, "component_names"):
         for k in base.component_names:
             # Check for lazy components that may not be connected
@@ -70,7 +72,7 @@ def _get_pv(obj: Any) -> Optional[str]:
         return obj.prefix
 
 
-def _list_epics_signals(obj: Union[Device, EpicsSignalBase]) -> Optional[List[EpicsSignalBase]]:
+def _list_epics_signals(obj: Union[Device, EpicsSignalBase]) -> Optional[list[EpicsSignalBase]]:
     """
     Return a list of the EPICS signals in obj.
 
@@ -82,7 +84,7 @@ def _list_epics_signals(obj: Union[Device, EpicsSignalBase]) -> Optional[List[Ep
     if isinstance(obj, EpicsSignalBase):
         return [obj]
     elif isinstance(obj, Device):
-        items: List[EpicsSignalBase] = []
+        items: list[EpicsSignalBase] = []
         for nm in obj.component_names:
             child = _get_named_child(obj, nm)
             if child in (None, "TIMEOUT"):
@@ -104,7 +106,7 @@ def listdevice(
     show_ancient: bool = True,
     max_column_width: Optional[int] = None,
     table_style: TableStyle = TableStyle.pyRestTable,
-    _call_args: Optional[Dict[str, Any]] = None,
+    _call_args: Optional[dict[str, Any]] = None,
 ) -> Any:
     """Describe the signal information from device ``obj`` in a pandas DataFrame.
 

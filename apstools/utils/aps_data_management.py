@@ -99,7 +99,6 @@ import time
 from os import environ
 
 import pyRestTable
-
 from bluesky import plan_stubs as bps
 
 from .time_constants import MINUTE

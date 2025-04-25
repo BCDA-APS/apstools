@@ -54,8 +54,11 @@ which returns this table::
    ~OverrideParameters
 """
 
+from typing import Any
+from typing import Optional
+from typing import Union
+
 import pandas as pd
-from typing import Any, Dict, List, Optional, Union
 
 
 class OverrideParameters:
@@ -68,7 +71,7 @@ class OverrideParameters:
     def __init__(self) -> None:
         # ALWAYS use ``overrides.undefined`` for comparisons and resets.
         self.undefined: object = object()
-        self._parameters: Dict[str, Any] = {}
+        self._parameters: dict[str, Any] = {}
 
     def register(self, parameter_name: str) -> None:
         """
@@ -118,8 +121,8 @@ class OverrideParameters:
         Parameter names that have no override value will be reported
         as ``--undefined--``.
         """
-        parameters: List[str] = []
-        values: List[Any] = []
+        parameters: list[str] = []
+        values: list[Any] = []
         for parm in sorted(self._parameters.keys()):
             parameters.append(parm)
             values.append(self.pick(parm, "--undefined--"))

@@ -6,9 +6,11 @@ A dictionary where the keys are also accessible as attributes.
 """
 
 from collections.abc import MutableMapping
+from typing import Any
+from typing import Iterator
 
 
-class MMap(MutableMapping):
+class MMap(MutableMapping[str, Any]):
     """
     Dictionary with keys accessible as attributes (read-only).
 
@@ -52,47 +54,47 @@ class MMap(MutableMapping):
         getattr(mmap, "a", 1.2345)
     """
 
-    _db = {}
-    attribute_names = dir(dict) + "_db".split()
+    _db: dict[str, Any] = {}
+    attribute_names: list[str] = dir(dict) + "_db".split()
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         self.clear()
         self.update(**kwargs)
 
-    def clear(self):
+    def clear(self) -> None:
         self._db = {}
 
-    def __delitem__(self, key):
+    def __delitem__(self, key: str) -> None:
         del self._db[key]
 
-    def __dir__(self):
+    def __dir__(self) -> list[str]:
         all = dir(super())
         all += "_db clear update keys items values get pop popitem".split()
         all += list(self)
         return sorted(set(all))
 
-    def __getattr__(self, key):
+    def __getattr__(self, key: str) -> Any:
         return self._db[key]
 
-    def __getitem__(self, key):
+    def __getitem__(self, key: str) -> Any:
         return self._db[key]
 
-    def __iter__(self):
+    def __iter__(self) -> Iterator[str]:
         yield from self._db
 
-    def __len__(self):
+    def __len__(self) -> int:
         return len(self._db)
 
-    def __repr__(self):
+    def __repr__(self) -> str:
         d = ", ".join([f"{k}={v!r}" for k, v in self._db.items()])
         return f"{self.__class__.__name__}({d})"
 
-    def __setattr__(self, attribute, value):
+    def __setattr__(self, attribute: str, value: Any) -> None:
         if attribute not in self.attribute_names:
             raise AttributeError(f"Unknown: {attribute=!r}")
         super().__setattr__(attribute, value)
 
-    def __setitem__(self, key, value):
+    def __setitem__(self, key: str, value: Any) -> None:
         if key in self.attribute_names:
             raise KeyError(f"{key=!r} is a reserved name.")
         self._db[key] = value

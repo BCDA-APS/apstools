@@ -1,5 +1,7 @@
 from ._core import TableStyle
-from .aps_data_management import dm_setup
+from .aps_data_management import DEFAULT_UPLOAD_POLL_PERIOD
+from .aps_data_management import DEFAULT_UPLOAD_TIMEOUT
+from .aps_data_management import DM_WorkflowCache
 from .aps_data_management import build_run_metadata_dict
 from .aps_data_management import dm_add_workflow
 from .aps_data_management import dm_api_cat
@@ -16,6 +18,7 @@ from .aps_data_management import dm_get_experiment_file
 from .aps_data_management import dm_get_experiment_path
 from .aps_data_management import dm_get_experiments
 from .aps_data_management import dm_get_workflow
+from .aps_data_management import dm_setup
 from .aps_data_management import dm_source_environ
 from .aps_data_management import dm_start_daq
 from .aps_data_management import dm_station_name
@@ -26,9 +29,6 @@ from .aps_data_management import get_workflow_last_stage
 from .aps_data_management import share_bluesky_metadata_with_dm
 from .aps_data_management import validate_experiment_dataDirectory
 from .aps_data_management import wait_dm_upload
-from .aps_data_management import DEFAULT_UPLOAD_TIMEOUT
-from .aps_data_management import DEFAULT_UPLOAD_POLL_PERIOD
-from .aps_data_management import DM_WorkflowCache
 from .apsu_controls_subnet import warn_if_not_aps_controls_subnet
 from .catalog import copy_filtered_catalog
 from .catalog import findCatalogsInNamespace
@@ -93,9 +93,9 @@ from .spreadsheet import ExcelDatabaseFileBase
 from .spreadsheet import ExcelDatabaseFileGeneric
 from .spreadsheet import ExcelReadError
 from .statistics import array_index
-from .statistics import xy_statistics
 from .statistics import factor_fwhm
 from .statistics import peak_full_width
+from .statistics import xy_statistics
 from .stored_dict import StoredDict
 from .time_constants import DAY
 from .time_constants import HOUR

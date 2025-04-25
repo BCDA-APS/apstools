@@ -15,17 +15,21 @@ Working with databroker catalogs
 """
 
 import logging
-from typing import Any, Dict, List, Optional, Union
+from typing import Any
+from typing import Optional
+from typing import Union
 
 import pandas as pd
 import pyRestTable
-from databroker import Broker, catalog as db_catalog
+from databroker import Broker
+from databroker import catalog as db_catalog
 from databroker._drivers.mongo_normalized import BlueskyMongoCatalog
 from databroker._drivers.msgpack import BlueskyMsgpackCatalog
 from intake import Catalog
 
 from .list_runs import getRunData
-from .profile_support import getDefaultNamespace, ipython_shell_namespace
+from .profile_support import getDefaultNamespace
+from .profile_support import ipython_shell_namespace
 
 logger = logging.getLogger(__name__)
 
@@ -33,7 +37,7 @@ logger = logging.getLogger(__name__)
 def copy_filtered_catalog(
     source_cat: Union[Broker, Any],
     target_cat: Union[Broker, Any],
-    query: Optional[Dict[str, Any]] = None,
+    query: Optional[dict[str, Any]] = None,
 ) -> None:
     """
     Copy filtered runs from source_cat to target_cat.
@@ -51,7 +55,7 @@ def copy_filtered_catalog(
             target_cat.v1.insert(key, doc)
 
 
-def findCatalogsInNamespace() -> Dict[str, Any]:
+def findCatalogsInNamespace() -> dict[str, Any]:
     """
     Return a dictionary of databroker catalogs in the default namespace.
 
@@ -192,7 +196,7 @@ def getStreamValues(
     key_fragment: str = "",
     db: Optional[Any] = None,
     stream: str = "baseline",
-    query: Optional[Dict[str, Any]] = None,
+    query: Optional[dict[str, Any]] = None,
     use_v1: bool = True,
 ) -> pd.DataFrame:
     """
@@ -243,7 +247,7 @@ def quantify_md_key_use(
     catalog_name: Optional[str] = None,
     since: Optional[float] = None,
     until: Optional[float] = None,
-    query: Optional[Dict[str, Any]] = None,
+    query: Optional[dict[str, Any]] = None,
 ) -> pd.DataFrame:
     """
     Quantify metadata key usage in a database.

@@ -40,3 +40,12 @@ repos:
           apstools/utils/tests/data/*
           apstools/migration/config.*
           LICENSE.txt
+  - repo: https://github.com/pycqa/isort
+    rev: 5.13.2
+    hooks:
+      - id: isort
+        args: ["--sl"]
+        exclude: |
+          apstools/utils/tests/data/*
+          apstools/migration/config.*
+          LICENSE.txt

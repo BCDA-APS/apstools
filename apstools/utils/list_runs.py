@@ -587,6 +587,7 @@ def summarize_runs(since=None, db=None):
         (default: ``db`` from the IPython shell)
     """
     from databroker.queries import TimeRange
+
     from . import ipython_shell_namespace
 
     db = db or ipython_shell_namespace()["db"]
