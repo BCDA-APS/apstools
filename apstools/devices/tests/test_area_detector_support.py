@@ -93,8 +93,8 @@ def test_AD_EpicsFileNameMixin(plugin_name, spec):
         auto_increment=1,  # Yes
         auto_save=0,  # No
         create_directory=-5,
-        # file_template before file_name & file_path
         file_template=f"%s%s_%2.2d.{plugin_name}",
+        # file_template before file_name, number, & path
         file_name="flotsam",
         file_number=1 + int(10 * random.random()),
         file_path=f"{pathlib.Path(tempfile.mkdtemp())}/",  # ALWAYS ends with "/"
@@ -107,7 +107,7 @@ def test_AD_EpicsFileNameMixin(plugin_name, spec):
     for attr, value in user_settings.items():
         sig = getattr(plugin, attr)
         epics.caput(sig._write_pv.pvname, value)
-    timed_pause()
+    timed_pause(0.1)
 
     adsimdet.stage()
     if plugin_name == "hdf1":  # Why special case?
