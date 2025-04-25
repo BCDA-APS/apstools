@@ -99,7 +99,7 @@ def _list_epics_signals(obj: Union[Device, EpicsSignalBase]) -> Optional[list[Ep
 
 @call_signature_decorator
 def listdevice(
-    obj: Union[Device, Signal],
+    obj: OphydObject,
     scope: Optional[str] = None,
     cname: bool = False,
     dname: bool = True,
