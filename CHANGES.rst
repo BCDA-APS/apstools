@@ -36,6 +36,7 @@ describe future plans.
    Fixes
    -----
 
+   * Fix area detector staging of unconfigured HDF5 plugin.
    * Fix problem with detector selection for lineup2() reported by USAXS.
    * Fix unit test involving package version string length.
 
