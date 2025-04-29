@@ -9,3 +9,5 @@ prune *.egg-info/
 prune docs/
 prune ideas/
 prune resources/
+recursive-exclude */tests *
+recursive-exclude */*/tests *
