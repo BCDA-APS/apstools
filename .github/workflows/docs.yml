@@ -40,7 +40,7 @@ jobs:
       - name: Deploy Information
         if: ${{ github.event.inputs.deploy }}
         run: |
-          echo "The will be published from this workflow run."
+          echo "The docs will be published from this workflow run."
 
       - name: Install pandoc
         run: |
