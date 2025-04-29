@@ -21,35 +21,40 @@ Project `milestones <https://github.com/BCDA-APS/apstools/milestones>`_
 describe future plans.
 
 ..
-   1.7.3
+   1.7.4
    *****
 
-   Release expected by 2025-02-28.
+   Release expected by 2025-07.
 
-   Enhancements
-   -------------
+1.7.3
+*****
 
-   * Add 'validate_ports' kwarg to 'ad_creator'.
-   * Hoist area detector 'BadPixelPlugin' from USAXS.  (It's not in ophyd yet.)
-   * Recover diffractometer configurations in FileWriterCallbackBase.
+Release expected by 2025-04-29.
 
-   Fixes
-   -----
+Enhancements
+-------------
 
-   * Fix area detector staging of unconfigured HDF5 plugin.
-   * Fix problem with detector selection for lineup2() reported by USAXS.
-   * Fix unit test involving package version string length.
+* Add 'validate_ports' kwarg to 'ad_creator'.
+* Hoist area detector 'BadPixelPlugin' from USAXS.  (It's not in ophyd yet.)
+* Recover diffractometer configurations in FileWriterCallbackBase.
 
-   Maintenance
-   -----------
+Fixes
+-----
 
-   * Now testing with Python versions 3.9 - Py3.13. (still pinning databroker)
-   * Removed 'lifetime' component from 'aps_machine' device.
-   * Refactor cleanupText.
-   * Refactor unit test for change in upstream ophyd-registry findall().
-   * Remove testing requirement of ophyd-registry package.
-   * Unit testing was taking ~1/2 hour to complete.
-   * Update project packaging and installation procedures.
+* Fix area detector staging of unconfigured HDF5 plugin.
+* Fix problem with detector selection for lineup2() reported by USAXS.
+* Fix unit test involving package version string length.
+
+Maintenance
+-----------
+
+* Now testing with Python versions 3.9 - Py3.13. (still pinning databroker)
+* Removed 'lifetime' component from 'aps_machine' device.
+* Refactor cleanupText.
+* Refactor unit test for change in upstream ophyd-registry findall().
+* Remove testing requirement of ophyd-registry package.
+* Unit testing was taking ~1/2 hour to complete.
+* Update project packaging and installation procedures.
 
 1.7.2
 *****
