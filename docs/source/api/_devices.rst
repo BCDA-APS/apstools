@@ -17,6 +17,7 @@ See these categories:
 
 * :ref:`devices.aps_support`
 * :ref:`devices.area_detector`
+* :ref:`devices.factories`
 * :ref:`devices.flyers`
 * :ref:`devices.insertion_devices`
 * :ref:`devices.motors`
@@ -97,6 +98,31 @@ Detector & Scaler Support
 .. tip:: The Measurement Computing USB-CTR08 EPICS support
     provides a compatible EPICS scaler record.
 
+.. _devices.factories:
+
+Factory Functions
++++++++++++++++++
+
+.. rubric:: Object Factories
+
+Object factories create ophyd objects.
+
+.. autosummary::
+
+    ~apstools.devices.area_detector_factory.ad_creator
+    ~apstools.devices.dict_device_support.make_dict_device
+    ~apstools.devices.motor_factory.mb_creator
+
+.. rubric:: Class Factories
+
+Class factories create ophyd Device classes.
+
+.. autosummary::
+
+    ~apstools.devices.area_detector_factory.ad_class_factory
+    ~apstools.devices.dict_device_support.dict_device_factory
+    ~apstools.devices.motor_factory.mb_class_factory
+
 .. _devices.flyers:
 
 Fly Scan Support
@@ -137,6 +163,8 @@ Motors, Positioners, Axes, ...
     ~apstools.devices.axis_tuner.AxisTunerException
     ~apstools.devices.axis_tuner.AxisTunerMixin
     ~apstools.devices.description_mixin.EpicsDescriptionMixin
+    ~apstools.devices.motor_factory.mb_class_factory
+    ~apstools.devices.motor_factory.mb_creator
     ~apstools.devices.motor_mixins.EpicsMotorDialMixin
     ~apstools.devices.motor_mixins.EpicsMotorEnableMixin
     ~apstools.devices.motor_mixins.EpicsMotorRawMixin
@@ -388,6 +416,12 @@ All Submodules
     :inherited-members:
 
 .. automodule:: apstools.devices.mixin_base
+    :members:
+    :private-members:
+    :show-inheritance:
+    :inherited-members:
+
+.. automodule:: apstools.devices.motor_factory
     :members:
     :private-members:
     :show-inheritance:
