@@ -79,7 +79,8 @@ def test_axis_component(
     class_str: str, 
     raises: Union[None, Exception], 
     expected: str,
-):
+) -> None:
+    """Test axis_component for various parameter and error scenarios."""
     context = does_not_raise() if raises is None else pytest.raises(raises)
     with context as reason:
         cpt: Component = axis_component(parms)
@@ -122,7 +123,8 @@ def test_motor_device_class_factory(
     structure: Dict[str, Any], 
     raises: Union[None, Exception], 
     expected: str,
-):
+) -> None:
+    """Test mb_class_factory for correct class creation and error handling."""
     context = does_not_raise() if raises is None else pytest.raises(raises)
     with context as reason:
         Bundle: Type = mb_class_factory(**structure)
@@ -258,7 +260,8 @@ def test_motor_device_factory(
     pvnames: Dict[Any, str], 
     raises: Union[None, Exception], 
     expected: str,
-):
+) -> None:
+    """Test mb_creator for correct device creation, attribute assignment, and error handling."""
     context = does_not_raise() if raises is None else pytest.raises(raises)
     with context as reason:
         device: Device = mb_creator(**structure)

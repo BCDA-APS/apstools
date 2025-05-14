@@ -158,6 +158,10 @@ Insertion Devices
 Motors, Positioners, Axes, ...
 +++++++++++++++++++++++++++++++
 
+.. note::
+
+   For a quick introduction to grouping motors with `mb_creator`, see the :doc:`Quickstart <../examples/ho_motor_factory_quickstart>` notebook. For advanced usage, see the :doc:`full example <../examples/ho_motor_factory>`.
+
 .. autosummary::
 
     ~apstools.devices.axis_tuner.AxisTunerException
