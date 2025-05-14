@@ -11,7 +11,7 @@ import pytest
 from ophyd import Component
 from ophyd import Device
 from ophyd import MotorBundle
-from ophyd import ophydobj
+from ophyd import OphydObject
 
 from ..motor_factory import axis_component
 from ..motor_factory import mb_class_factory
@@ -275,7 +275,7 @@ def test_mb_creator(
         for attr in config:
             assert attr in device.configuration_attrs
         for attr, pv in pvnames.items():
-            obj: ophydobj = getattr(device, attr)
+            obj: OphydObject = getattr(device, attr)
             if hasattr(obj, "pvname"):
                 assert obj.pvname == pv, f"{obj=}"
             elif hasattr(obj, "prefix"):

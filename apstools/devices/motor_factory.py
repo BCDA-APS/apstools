@@ -39,7 +39,6 @@ from collections.abc import Sequence
 from typing import Any
 from typing import Callable
 from typing import Dict
-from typing import List
 from typing import Optional
 from typing import Type
 from typing import Union
@@ -50,7 +49,6 @@ from ophyd import EpicsMotor
 from ophyd import Kind
 from ophyd import MotorBundle
 from ophyd import SoftPositioner
-from ophyd import OphydObject
 
 from apstools.utils import dynamic_import
 
