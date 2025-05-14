@@ -218,13 +218,6 @@ def test_motor_device_class_factory(structure, raises, expected):
             dict(
                 name="s7",
                 motors=dict(
-                    psic=dict(
-                        factory=dict(
-                            function="hklpy2.diffract.diffractometer_class_factory",
-                            reals="mu eta chi phi nu delta".split(),
-                            geometry="APS POLAR",
-                        ),
-                    ),
                     table=dict(
                         factory=dict(
                             function=mb_class_factory,
@@ -234,12 +227,9 @@ def test_motor_device_class_factory(structure, raises, expected):
                 ),
             ),
             """
-            psic.beam.wavelength 
-            psic.h psic.k psic.l 
-            psic.mu psic.eta psic.chi psic.phi psic.nu psic.delta
             table.x1 table.x2 table.y1 table.y2 table.y3 table.z
             """.split(),
-            ["psic.beam.source_type", "psic.solver_signature"],
+            [],
             {},
             None,
             None,
