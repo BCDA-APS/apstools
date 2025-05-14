@@ -1,7 +1,7 @@
 """Test the motor bundle factories."""
 
 from contextlib import nullcontext as does_not_raise
-from typing import Any, LiteralString
+from typing import Any
 from typing import Dict, Callable
 from typing import List
 from typing import Optional
@@ -141,43 +141,43 @@ def test_axis_component(
 )
 def test_motor_device_class_factory(
     structure: (
-        List[Dict[str, List[LiteralString]] | None]
+        List[Dict[str, List[str]] | None]
         | List[Dict[str, Dict[str, None]] | None]
         | List[Dict[str, Dict[str, Dict[Any, Any]]] | None]
         | List[Dict[str, set[str]] | type[AttributeError] | str]
         | List[Dict[str, str] | type[AttributeError] | str]
-        | List[Dict[str, List[LiteralString] | str] | type[TypeError] | str]
-        | List[Dict[str, List[LiteralString]] | type[ValueError] | str]
-        | List[Dict[str, List[LiteralString]] | type[ModuleNotFoundError] | str]
-        | List[Dict[str, List[LiteralString] | List[type[Mixin]]] | None]
-        | List[Dict[str, List[LiteralString] | List[type[Mixin] | MotorBundle]] | None]
-        | List[Dict[str, List[LiteralString] | str] | None]
+        | List[Dict[str, List[str] | str] | type[TypeError] | str]
+        | List[Dict[str, List[str]] | type[ValueError] | str]
+        | List[Dict[str, List[str]] | type[ModuleNotFoundError] | str]
+        | List[Dict[str, List[str] | List[type[Mixin]]] | None]
+        | List[Dict[str, List[str] | List[type[Mixin] | MotorBundle]] | None]
+        | List[Dict[str, List[str] | str] | None]
     ),
     raises: (
-        List[Dict[str, List[LiteralString]] | None]
+        List[Dict[str, List[str]] | None]
         | List[Dict[str, Dict[str, None]] | None]
         | List[Dict[str, Dict[str, Dict[Any, Any]]] | None]
         | List[Dict[str, set[str]] | type[AttributeError] | str]
         | List[Dict[str, str] | type[AttributeError] | str]
-        | List[Dict[str, List[LiteralString] | str] | type[TypeError] | str]
-        | List[Dict[str, List[LiteralString]] | type[ValueError] | str]
-        | List[Dict[str, List[LiteralString]] | type[ModuleNotFoundError] | str]
-        | List[Dict[str, List[LiteralString] | List[type[Mixin]]] | None]
-        | List[Dict[str, List[LiteralString] | List[type[Mixin] | MotorBundle]] | None]
-        | List[Dict[str, List[LiteralString] | str] | None]
+        | List[Dict[str, List[str] | str] | type[TypeError] | str]
+        | List[Dict[str, List[str]] | type[ValueError] | str]
+        | List[Dict[str, List[str]] | type[ModuleNotFoundError] | str]
+        | List[Dict[str, List[str] | List[type[Mixin]]] | None]
+        | List[Dict[str, List[str] | List[type[Mixin] | MotorBundle]] | None]
+        | List[Dict[str, List[str] | str] | None]
     ),
     expected: (
-        List[Dict[str, List[LiteralString]] | None]
+        List[Dict[str, List[str]] | None]
         | List[Dict[str, Dict[str, None]] | None]
         | List[Dict[str, Dict[str, Dict[Any, Any]]] | None]
         | List[Dict[str, set[str]] | type[AttributeError] | str]
         | List[Dict[str, str] | type[AttributeError] | str]
-        | List[Dict[str, List[LiteralString] | str] | type[TypeError] | str]
-        | List[Dict[str, List[LiteralString]] | type[ValueError] | str]
-        | List[Dict[str, List[LiteralString]] | type[ModuleNotFoundError] | str]
-        | List[Dict[str, List[LiteralString] | List[type[Mixin]]] | None]
-        | List[Dict[str, List[LiteralString] | List[type[Mixin] | MotorBundle]] | None]
-        | List[Dict[str, List[LiteralString] | str] | None]
+        | List[Dict[str, List[str] | str] | type[TypeError] | str]
+        | List[Dict[str, List[str]] | type[ValueError] | str]
+        | List[Dict[str, List[str]] | type[ModuleNotFoundError] | str]
+        | List[Dict[str, List[str] | List[type[Mixin]]] | None]
+        | List[Dict[str, List[str] | List[type[Mixin] | MotorBundle]] | None]
+        | List[Dict[str, List[str] | str] | None]
     ),
 ):
     context = does_not_raise() if raises is None else pytest.raises(raises)
@@ -322,7 +322,7 @@ def test_motor_device_factory(
     structure: (
         List[type[TypeError] | str | Dict[Any, Any] | List[Any]]
         | List[Dict[str, str] | None | List[Any]]
-        | List[Dict[str, str | List[LiteralString]] | None | List[Any]]
+        | List[Dict[str, str | List[str]] | None | List[Any]]
         | List[Dict[str, str] | type[TypeError] | str | List[Any]]
         | List[Dict[str, str | Dict[str, str]] | Dict[str, str] | None | List[Any]]
         | List[Dict[str, str | List[str]] | Dict[str, str] | None | List[Any]]
@@ -337,12 +337,12 @@ def test_motor_device_factory(
                     | Dict[str, List[int] | str | List[str]],
                 ],
             ]
-            | List[LiteralString]
+            | List[str]
             | Dict[str, str]
             | None
         ]
         | List[
-            Dict[str, str | Dict[str, str | None | Dict[str, str]]] | List[LiteralString] | Dict[str, str] | None
+            Dict[str, str | Dict[str, str | None | Dict[str, str]]] | List[str] | Dict[str, str] | None
         ]
         | List[
             Dict[
@@ -350,11 +350,11 @@ def test_motor_device_factory(
                 str
                 | Dict[
                     str,
-                    Dict[str, Dict[str, str | List[LiteralString]]]
-                    | Dict[str, Dict[str, Callable[..., Type] | List[LiteralString]]],
+                    Dict[str, Dict[str, str | List[str]]]
+                    | Dict[str, Dict[str, Callable[..., Type] | List[str]]],
                 ],
             ]
-            | List[LiteralString]
+            | List[str]
             | List[str]
             | None
         ]
@@ -362,7 +362,7 @@ def test_motor_device_factory(
     read: (
         List[type[TypeError] | str | Dict[Any, Any] | List[Any]]
         | List[Dict[str, str] | None | List[Any]]
-        | List[Dict[str, str | List[LiteralString]] | None | List[Any]]
+        | List[Dict[str, str | List[str]] | None | List[Any]]
         | List[Dict[str, str] | type[TypeError] | str | List[Any]]
         | List[Dict[str, str | Dict[str, str]] | Dict[str, str] | None | List[Any]]
         | List[Dict[str, str | List[str]] | Dict[str, str] | None | List[Any]]
@@ -377,12 +377,12 @@ def test_motor_device_factory(
                     | Dict[str, List[int] | str | List[str]],
                 ],
             ]
-            | List[LiteralString]
+            | List[str]
             | Dict[str, str]
             | None
         ]
         | List[
-            Dict[str, str | Dict[str, str | None | Dict[str, str]]] | List[LiteralString] | Dict[str, str] | None
+            Dict[str, str | Dict[str, str | None | Dict[str, str]]] | List[str] | Dict[str, str] | None
         ]
         | List[
             Dict[
@@ -390,11 +390,11 @@ def test_motor_device_factory(
                 str
                 | Dict[
                     str,
-                    Dict[str, Dict[str, str | List[LiteralString]]]
-                    | Dict[str, Dict[str, Callable[..., Type] | List[LiteralString]]],
+                    Dict[str, Dict[str, str | List[str]]]
+                    | Dict[str, Dict[str, Callable[..., Type] | List[str]]],
                 ],
             ]
-            | List[LiteralString]
+            | List[str]
             | List[str]
             | None
         ]
@@ -402,7 +402,7 @@ def test_motor_device_factory(
     config: (
         List[type[TypeError] | str | Dict[Any, Any] | List[Any]]
         | List[Dict[str, str] | None | List[Any]]
-        | List[Dict[str, str | List[LiteralString]] | None | List[Any]]
+        | List[Dict[str, str | List[str]] | None | List[Any]]
         | List[Dict[str, str] | type[TypeError] | str | List[Any]]
         | List[Dict[str, str | Dict[str, str]] | Dict[str, str] | None | List[Any]]
         | List[Dict[str, str | List[str]] | Dict[str, str] | None | List[Any]]
@@ -417,12 +417,12 @@ def test_motor_device_factory(
                     | Dict[str, List[int] | str | List[str]],
                 ],
             ]
-            | List[LiteralString]
+            | List[str]
             | Dict[str, str]
             | None
         ]
         | List[
-            Dict[str, str | Dict[str, str | None | Dict[str, str]]] | List[LiteralString] | Dict[str, str] | None
+            Dict[str, str | Dict[str, str | None | Dict[str, str]]] | List[str] | Dict[str, str] | None
         ]
         | List[
             Dict[
@@ -430,11 +430,11 @@ def test_motor_device_factory(
                 str
                 | Dict[
                     str,
-                    Dict[str, Dict[str, str | List[LiteralString]]]
-                    | Dict[str, Dict[str, Callable[..., Type] | List[LiteralString]]],
+                    Dict[str, Dict[str, str | List[str]]]
+                    | Dict[str, Dict[str, Callable[..., Type] | List[str]]],
                 ],
             ]
-            | List[LiteralString]
+            | List[str]
             | List[str]
             | None
         ]
@@ -442,7 +442,7 @@ def test_motor_device_factory(
     pvnames: (
         List[type[TypeError] | str | Dict[Any, Any] | List[Any]]
         | List[Dict[str, str] | None | List[Any]]
-        | List[Dict[str, str | List[LiteralString]] | None | List[Any]]
+        | List[Dict[str, str | List[str]] | None | List[Any]]
         | List[Dict[str, str] | type[TypeError] | str | List[Any]]
         | List[Dict[str, str | Dict[str, str]] | Dict[str, str] | None | List[Any]]
         | List[Dict[str, str | List[str]] | Dict[str, str] | None | List[Any]]
@@ -457,12 +457,12 @@ def test_motor_device_factory(
                     | Dict[str, List[int] | str | List[str]],
                 ],
             ]
-            | List[LiteralString]
+            | List[str]
             | Dict[str, str]
             | None
         ]
         | List[
-            Dict[str, str | Dict[str, str | None | Dict[str, str]]] | List[LiteralString] | Dict[str, str] | None
+            Dict[str, str | Dict[str, str | None | Dict[str, str]]] | List[str] | Dict[str, str] | None
         ]
         | List[
             Dict[
@@ -470,11 +470,11 @@ def test_motor_device_factory(
                 str
                 | Dict[
                     str,
-                    Dict[str, Dict[str, str | List[LiteralString]]]
-                    | Dict[str, Dict[str, Callable[..., Type] | List[LiteralString]]],
+                    Dict[str, Dict[str, str | List[str]]]
+                    | Dict[str, Dict[str, Callable[..., Type] | List[str]]],
                 ],
             ]
-            | List[LiteralString]
+            | List[str]
             | List[str]
             | None
         ]
@@ -482,7 +482,7 @@ def test_motor_device_factory(
     raises: (
         List[type[TypeError] | str | Dict[Any, Any] | List[Any]]
         | List[Dict[str, str] | None | List[Any]]
-        | List[Dict[str, str | List[LiteralString]] | None | List[Any]]
+        | List[Dict[str, str | List[str]] | None | List[Any]]
         | List[Dict[str, str] | type[TypeError] | str | List[Any]]
         | List[Dict[str, str | Dict[str, str]] | Dict[str, str] | None | List[Any]]
         | List[Dict[str, str | List[str]] | Dict[str, str] | None | List[Any]]
@@ -497,12 +497,12 @@ def test_motor_device_factory(
                     | Dict[str, List[int] | str | List[str]],
                 ],
             ]
-            | List[LiteralString]
+            | List[str]
             | Dict[str, str]
             | None
         ]
         | List[
-            Dict[str, str | Dict[str, str | None | Dict[str, str]]] | List[LiteralString] | Dict[str, str] | None
+            Dict[str, str | Dict[str, str | None | Dict[str, str]]] | List[str] | Dict[str, str] | None
         ]
         | List[
             Dict[
@@ -510,11 +510,11 @@ def test_motor_device_factory(
                 str
                 | Dict[
                     str,
-                    Dict[str, Dict[str, str | List[LiteralString]]]
-                    | Dict[str, Dict[str, Callable[..., Type] | List[LiteralString]]],
+                    Dict[str, Dict[str, str | List[str]]]
+                    | Dict[str, Dict[str, Callable[..., Type] | List[str]]],
                 ],
             ]
-            | List[LiteralString]
+            | List[str]
             | List[str]
             | None
         ]
@@ -522,7 +522,7 @@ def test_motor_device_factory(
     expected: (
         List[type[TypeError] | str | Dict[Any, Any] | List[Any]]
         | List[Dict[str, str] | None | List[Any]]
-        | List[Dict[str, str | List[LiteralString]] | None | List[Any]]
+        | List[Dict[str, str | List[str]] | None | List[Any]]
         | List[Dict[str, str] | type[TypeError] | str | List[Any]]
         | List[Dict[str, str | Dict[str, str]] | Dict[str, str] | None | List[Any]]
         | List[Dict[str, str | List[str]] | Dict[str, str] | None | List[Any]]
@@ -537,12 +537,12 @@ def test_motor_device_factory(
                     | Dict[str, List[int] | str | List[str]],
                 ],
             ]
-            | List[LiteralString]
+            | List[str]
             | Dict[str, str]
             | None
         ]
         | List[
-            Dict[str, str | Dict[str, str | None | Dict[str, str]]] | List[LiteralString] | Dict[str, str] | None
+            Dict[str, str | Dict[str, str | None | Dict[str, str]]] | List[str] | Dict[str, str] | None
         ]
         | List[
             Dict[
@@ -550,11 +550,11 @@ def test_motor_device_factory(
                 str
                 | Dict[
                     str,
-                    Dict[str, Dict[str, str | List[LiteralString]]]
-                    | Dict[str, Dict[str, Callable[..., Type] | List[LiteralString]]],
+                    Dict[str, Dict[str, str | List[str]]]
+                    | Dict[str, Dict[str, Callable[..., Type] | List[str]]],
                 ],
             ]
-            | List[LiteralString]
+            | List[str]
             | List[str]
             | None
         ]
