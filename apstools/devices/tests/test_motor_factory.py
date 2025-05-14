@@ -48,7 +48,7 @@ class Mixin(Device):
             },
             None,
             ValueError,
-            "Unsupported configuration",
+            "Cannot be used together",
         ],
         [  # specify a class
             {
@@ -75,11 +75,11 @@ class Mixin(Device):
     ],
 )
 def test_axis_component(
-    parms: Dict[str, Any], 
+    parms: Union[None, str, Dict[str, Any]], 
     class_str: str, 
     raises: Union[None, Exception], 
     expected: str,
-):
+) -> None:
     context = does_not_raise() if raises is None else pytest.raises(raises)
     with context as reason:
         cpt: Component = axis_component(parms)
@@ -93,10 +93,11 @@ def test_axis_component(
 @pytest.mark.parametrize(
     "structure, raises, expected",
     [
-        [dict(motors="m1 m2".split()), None, None],
+        [dict(motors=("m1", "m2")), None, None],
+        [dict(motors=["m1", "m2"]), None, None],
+        [dict(motors={"m1", "m2"}), None, None],
         [dict(motors=dict(m1=None, m2=None)), None, None],
         [dict(motors=dict(m1={}, m2={})), None, None],
-        [dict(motors={"m1", "m2"}), AttributeError, "object has no attribute 'items'"],
         [dict(motors="m1"), AttributeError, "object has no attribute 'items'"],
         [
             dict(motors="m1 m2".split(), class_bases="Abcdefg"),
@@ -118,11 +119,11 @@ def test_axis_component(
         [dict(motors="m1 m2".split(), class_name="Abcdefg"), None, None],
     ],
 )
-def test_motor_device_class_factory(
+def test_mb_class_factory(
     structure: Dict[str, Any], 
     raises: Union[None, Exception], 
     expected: str,
-):
+) -> None:
     context = does_not_raise() if raises is None else pytest.raises(raises)
     with context as reason:
         Bundle: Type = mb_class_factory(**structure)
@@ -147,7 +148,9 @@ def test_motor_device_class_factory(
     [
         [{}, [], [], {}, TypeError, "Must provide a 'name'"],
         [dict(name="empty"), [], [], {}, None, None],
-        [dict(name="s1", motors="m1 m2 m3".split()), [], [], {}, None, None],
+        [dict(name="s1", motors=["m1", "m2", "m3"]), [], [], {}, None, None],
+        [dict(name="s1_1", motors=("m1", "m2", "m3")), [], [], {}, None, None],
+        [dict(name="s1_1", motors={"m1", "m2", "m3"}), [], [], {}, None, None],
         [
             dict(
                 motors="not a dict or list",
@@ -251,14 +254,14 @@ def test_motor_device_class_factory(
         ],
     ],
 )
-def test_motor_device_factory(
+def test_mb_creator(
     structure: Dict[str, Any], 
     read: List[str], 
     config: List[str], 
     pvnames: Dict[Any, str], 
     raises: Union[None, Exception], 
     expected: str,
-):
+) -> None:
     context = does_not_raise() if raises is None else pytest.raises(raises)
     with context as reason:
         device: Device = mb_creator(**structure)
