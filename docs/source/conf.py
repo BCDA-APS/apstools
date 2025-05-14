@@ -13,6 +13,7 @@ import tomllib
 
 sys.path.insert(0, str(pathlib.Path().absolute().parent.parent))
 import apstools  # noqa
+import apstools.devices  # noqa
 
 # -- Project information -----------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#project-information
