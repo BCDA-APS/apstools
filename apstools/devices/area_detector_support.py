@@ -306,7 +306,7 @@ def ensure_AD_plugin_primed(plugin, allow=False):
     Even with ``lazy_open=1``, ophyd (via ``area_detector_handlers``) checks
     if the area detector file writing plugin has been *primed*.
 
-    .. see: ``ophyd.areadetector.plugins.UnprimedPlugin``:
+    .. seealso:: ``ophyd.areadetector.plugins.UnprimedPlugin``:
        https://github.com/bluesky/ophyd/blob/7612b2c9de9d5bc16cf28eea79ba5c12553f3cc2/ophyd/areadetector/plugins.py#L999-L1004
 
     (new in apstools release 1.6.16)
