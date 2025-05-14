@@ -1,11 +1,17 @@
 """Test the motor bundle factories."""
 
 from contextlib import nullcontext as does_not_raise
+from typing import Any
+from typing import Dict
+from typing import List
+from typing import Type
+from typing import Union
 
 import pytest
 from ophyd import Component
 from ophyd import Device
 from ophyd import MotorBundle
+from ophyd import ophydobj
 
 from ..motor_factory import axis_component
 from ..motor_factory import mb_class_factory
@@ -68,10 +74,15 @@ class Mixin(Device):
         ],
     ],
 )
-def test_axis_component(parms, class_str, raises, expected):
+def test_axis_component(
+    parms: Dict[str, Any], 
+    class_str: str, 
+    raises: Union[None, Exception], 
+    expected: str,
+):
     context = does_not_raise() if raises is None else pytest.raises(raises)
     with context as reason:
-        cpt = axis_component(parms)
+        cpt: Component = axis_component(parms)
         assert isinstance(cpt, Component)
         assert class_str in str(cpt.cls)
 
@@ -107,10 +118,14 @@ def test_axis_component(parms, class_str, raises, expected):
         [dict(motors="m1 m2".split(), class_name="Abcdefg"), None, None],
     ],
 )
-def test_motor_device_class_factory(structure, raises, expected):
+def test_motor_device_class_factory(
+    structure: Dict[str, Any], 
+    raises: Union[None, Exception], 
+    expected: str,
+):
     context = does_not_raise() if raises is None else pytest.raises(raises)
     with context as reason:
-        Bundle = mb_class_factory(**structure)
+        Bundle: Type = mb_class_factory(**structure)
         assert Bundle is not None
 
         for base in structure.get("class_bases", []):
@@ -119,7 +134,7 @@ def test_motor_device_class_factory(structure, raises, expected):
         if issubclass(Bundle, Mixin):
             assert Bundle._mixin
 
-        cname = structure.get("class_name")
+        cname: Union[None, str] = structure.get("class_name")
         if cname is not None:
             assert cname in str(Bundle)
 
@@ -236,10 +251,17 @@ def test_motor_device_class_factory(structure, raises, expected):
         ],
     ],
 )
-def test_motor_device_factory(structure, read, config, pvnames, raises, expected):
+def test_motor_device_factory(
+    structure: Dict[str, Any], 
+    read: List[str], 
+    config: List[str], 
+    pvnames: Dict[Any, str], 
+    raises: Union[None, Exception], 
+    expected: str,
+):
     context = does_not_raise() if raises is None else pytest.raises(raises)
     with context as reason:
-        device = mb_creator(**structure)
+        device: Device = mb_creator(**structure)
         assert device is not None
 
         for attr in read:
@@ -247,7 +269,7 @@ def test_motor_device_factory(structure, read, config, pvnames, raises, expected
         for attr in config:
             assert attr in device.configuration_attrs
         for attr, pv in pvnames.items():
-            obj = getattr(device, attr)
+            obj: ophydobj = getattr(device, attr)
             if hasattr(obj, "pvname"):
                 assert obj.pvname == pv, f"{obj=}"
             elif hasattr(obj, "prefix"):
