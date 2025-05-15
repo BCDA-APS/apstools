@@ -5,10 +5,10 @@ import pytest
 
 
 @pytest.fixture()
-def tempdir():
+def tempdir() -> pathlib.Path:
     """Temporary directory for testing."""
-    tempdir = tempfile.mkdtemp()
-    path = pathlib.Path(tempdir)
+    tempdir: str = tempfile.mkdtemp()
+    path: pathlib.Path = pathlib.Path(tempdir)
     yield path
 
     # empty tempdir, then delete it
