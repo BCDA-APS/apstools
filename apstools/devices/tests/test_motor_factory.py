@@ -101,7 +101,7 @@ def test_axis_component(
         [dict(motors=dict(m1={}, m2={})), None, None],
         [dict(motors="m1"), AttributeError, "object has no attribute 'items'"],
         [
-            dict(motors="m1 m2".split(), class_bases="Abcdefg"),
+            dict(motors="m1 m2".split(), class_bases="xyz.Abcdefg"),
             TypeError,
             "Must be a list,",
         ],
