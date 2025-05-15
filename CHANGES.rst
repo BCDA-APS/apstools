@@ -31,6 +31,11 @@ describe future plans.
 
    * Added mb_creator()
 
+   Fixes
+   -------------
+
+   * Would raise ValueError when appending to SPEC file that has no runs.
+
    Maintenance
    -------------
 
