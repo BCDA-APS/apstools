@@ -99,6 +99,10 @@ from .measComp_usb_ctr_support import MeasCompCtrMcs
 
 from .mixin_base import DeviceMixinBase
 
+from .motor_factory import axis_component
+from .motor_factory import mb_class_factory
+from .motor_factory import mb_creator
+
 from .motor_mixins import EpicsMotorDialMixin
 from .motor_mixins import EpicsMotorEnableMixin
 from .motor_mixins import EpicsMotorRawMixin

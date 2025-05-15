@@ -26,6 +26,16 @@ describe future plans.
 
    Release expected by 2025-07.
 
+   Enhancements
+   -------------
+
+   * Added mb_creator()
+
+   Maintenance
+   -------------
+
+   * Switch to use numpy >= 2
+
 1.7.3
 *****
 

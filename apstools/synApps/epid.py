@@ -78,7 +78,7 @@ class Fb_EpidDatabase(EpidRecord):
     """
     EPICS synApps optics fb_epid database support in ophyd.
 
-    .. see: https://github.com/epics-modules/optics/blob/master/opticsApp/Db/fb_epid.db
+    .. seealso:: https://github.com/epics-modules/optics/blob/master/opticsApp/Db/fb_epid.db
     """
 
     final_value = None  # replace final_value (RO) with setpoint (R/W)
