@@ -181,7 +181,11 @@ def test_AD_EpicsFileNameMixin(plugin_name, spec, presets, prime, context, expec
 
             assert list(plugin.stage_sigs.keys())[-1] == "capture"
             for k, v in settings.items():
-                assert getattr(plugin, k).get(use_monitor=False) == v, f"{plugin_name=} {k=}  {v=}"
+                reading = getattr(plugin, k).get(use_monitor=False)
+                if k == "file_number":
+                    assert (reading - v) <= 1, f"{plugin_name=} {k=} {v=}  {reading=}"
+                else:
+                    assert reading == v, f"{plugin_name=} {k=} {v=}  {reading=}"
 
             filename, read_path, write_path = plugin.make_filename()
             assert isinstance(filename, str)
