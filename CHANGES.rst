@@ -26,6 +26,11 @@ describe future plans.
 
    Release expected by 2025-07.
 
+   Enhancements
+   -------------
+
+   * Added mb_creator()
+
 1.7.3
 *****
 
