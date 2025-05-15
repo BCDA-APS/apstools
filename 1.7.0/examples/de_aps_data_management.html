@@ -1,0 +1,930 @@
+
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+
+    <title>Integration with APS Data Management (DM) &#8212; apstools 1.7</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/graphviz.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.5ea377869091fd0449014c60fc090103.min.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/css/custom.css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/sphinx_highlight.js"></script>
+    <script src="../_static/design-tabs.js"></script>
+    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'examples/de_aps_data_management';</script>
+    <script>
+        DOCUMENTATION_OPTIONS.theme_version = '0.15.4';
+        DOCUMENTATION_OPTIONS.theme_switcher_json_url = 'https://raw.githubusercontent.com/BCDA-APS/apstools/main/docs/source/_static/switcher.json';
+        DOCUMENTATION_OPTIONS.theme_switcher_version_match = '1.7.0';
+        DOCUMENTATION_OPTIONS.show_version_warning_banner = false;
+        </script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="The synApps sscan and SscanRecord" href="de_sscan.html" />
+    <link rel="prev" title="ADPilatus Area Detector with default HDF5 File Name" href="de_ad_pilatus.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-3 navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../index.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">apstools 1.7</p>
+  
+</a></div>
+    
+      <div class="navbar-item">
+<script>
+document.write(`
+  <div class="version-switcher__container dropdown">
+    <button id="pst-version-switcher-button-2"
+      type="button"
+      class="version-switcher__button btn btn-sm dropdown-toggle"
+      data-bs-toggle="dropdown"
+      aria-haspopup="listbox"
+      aria-controls="pst-version-switcher-list-2"
+      aria-label="Version switcher list"
+    >
+      Choose version  <!-- this text may get changed later by javascript -->
+      <span class="caret"></span>
+    </button>
+    <div id="pst-version-switcher-list-2"
+      class="version-switcher__menu dropdown-menu list-group-flush py-0"
+      role="listbox" aria-labelledby="pst-version-switcher-button-2">
+      <!-- dropdown will be populated by javascript on page load -->
+    </div>
+  </div>
+`);
+</script></div>
+    
+  </div>
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../install.html">
+    Installation
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../api/index.html">
+    API Documentation
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../applications/index.html">
+    Applications
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="index.html">
+    Examples
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../changes.html">
+    Change History
+  </a>
+</li>
+
+            <li class="nav-item dropdown">
+                <button class="btn dropdown-toggle nav-item" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-controls="pst-nav-more-links">
+                    More
+                </button>
+                <ul id="pst-nav-more-links" class="dropdown-menu">
+                    
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../license.html">
+    License
+  </a>
+</li>
+
+                </ul>
+            </li>
+            
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script>
+        </div>
+      
+      
+        <div class="navbar-item">
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script></div>
+      
+        <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/BCDA-APS/apstools" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script>
+    </div>
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../install.html">
+    Installation
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../api/index.html">
+    API Documentation
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../applications/index.html">
+    Applications
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="index.html">
+    Examples
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../changes.html">
+    Change History
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../license.html">
+    License
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script></div>
+        
+          <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/BCDA-APS/apstools" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+        
+      </div>
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+<nav class="bd-docs-nav bd-links"
+     aria-label="Section Navigation">
+  <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
+  <div class="bd-toc-item navbar-nav"><ul class="current nav bd-sidenav">
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="device_examples.html">Device Examples</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="de_0_adsim_hdf5_basic.html">Area Detector with default HDF5 File Name</a></li>
+<li class="toctree-l2"><a class="reference internal" href="de_1_adsim_hdf5_custom_names.html">Area Detector with custom HDF5 File Name</a></li>
+<li class="toctree-l2"><a class="reference internal" href="de_2_adsim_hdf5_single_mode.html">Area Detector, Single mode, HDF5 file</a></li>
+<li class="toctree-l2"><a class="reference internal" href="de_ad_pe.html">ADPerkinElmer Area Detector with default HDF5 File Name</a></li>
+<li class="toctree-l2"><a class="reference internal" href="de_ad_pilatus.html">ADPilatus Area Detector with default HDF5 File Name</a></li>
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">Integration with APS Data Management (DM)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="de_sscan.html">The synApps <code class="docutils literal notranslate"><span class="pre">sscan</span></code> and <code class="docutils literal notranslate"><span class="pre">SscanRecord</span></code></a></li>
+</ul>
+</details></li>
+</ul>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="filewriter_examples.html">File Writer Examples</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="fw_nxwriter.html">Callback</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="fw_specfile_example.html">Output scan(s) to a SPEC data file.</a></li>
+</ul>
+</details></li>
+</ul>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="howto_examples.html">How-To Examples</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="ho_contingency.html">How to interrupt/stop/abort a running plan &amp; recover to safe settings</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ho_list_control_objects.html">What are the objects to control?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ho_nxwriter_templates.html">How to use NeXus/HDF5 Templates</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ho_search_databroker.html">How to Search for Bluesky Data?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ho_session_logs.html">How to setup logging</a></li>
+</ul>
+</details></li>
+</ul>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="plan_examples.html">Plan Examples</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="pl_excel_scan.html">The <code class="docutils literal notranslate"><span class="pre">Excel_plan()</span></code> – batch scans using a spreadsheet</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pl_lineup.html">The <code class="docutils literal notranslate"><span class="pre">lineup()</span></code> plan - align an axis with a signal</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pl_nscan.html">The <code class="docutils literal notranslate"><span class="pre">nscan()</span></code> plan – scan multiple axes together</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pl_run_command_list.html">The <code class="xref py py-func docutils literal notranslate"><span class="pre">run_command_file()</span></code> plan – batch scans using a text file</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pl_tuneaxis.html">The <code class="docutils literal notranslate"><span class="pre">TuneAxis()</span></code> plan - align an axis with a signal</a></li>
+</ul>
+</details></li>
+</ul>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="download_examples.html">File Downloads for the Examples</a></li>
+</ul>
+</div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+
+
+<nav aria-label="Breadcrumb" class="d-print-none">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="index.html" class="nav-link">Examples</a></li>
+    
+    
+    <li class="breadcrumb-item"><a href="device_examples.html" class="nav-link">Device Examples</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page">Integration...</li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section id="integration-with-aps-data-management-dm">
+<h1>Integration with APS Data Management (DM)<a class="headerlink" href="#integration-with-aps-data-management-dm" title="Permalink to this heading">#</a></h1>
+<blockquote>
+<div><p>The APS Data Management System is a system for gathering together experimental
+data, metadata about the experiment and providing users access to the data
+based on a users role.</p>
+</div></blockquote>
+<p>APS beamlines have been using DM to process acquired data (with DM workflows).
+See the <a class="reference external" href="https://git.aps.anl.gov/DM/dm-docs/-/wikis/DM/HowTos/Getting-Started">documentation</a> for more details.  This document describes a way to integrate DM with the Bluesky framework.  Before the integration is described, a brief overview of DM…</p>
+<section id="dm-overview">
+<h2>DM Overview<a class="headerlink" href="#dm-overview" title="Permalink to this heading">#</a></h2>
+<p>For integration with the Bluesky framework, we provide a minimal explanation for these parts of DM:</p>
+<ul class="simple">
+<li><p>experiment</p></li>
+<li><p>DAQ</p></li>
+<li><p>workflow</p></li>
+<li><p>upload</p></li>
+</ul>
+<section id="experiment">
+<h3>experiment<a class="headerlink" href="#experiment" title="Permalink to this heading">#</a></h3>
+<blockquote>
+<div><p>The experiment is the central object for creating entries in the Data
+Management System.</p>
+</div></blockquote>
+<p>Typically, a DM experiment will manage all data for a single proposal/ESAF at a
+beamline.  Beamline staff will create the DM experiments they will need.</p>
+<p>The <strong>name</strong> of the experiment will be used by bluesky to coordinate acquired data and runs with DM.</p>
+<p>An experiment will create data storage with permissions for the beamline data
+acquisition account and all the users listed in the proposal.</p>
+<p>More info <a class="reference external" href="https://git.aps.anl.gov/DM/dm-docs/-/wikis/DM/HowTos/Getting-Started#getting-some-data-into-the-system">here</a></p>
+</section>
+<section id="daq">
+<h3>DAQ<a class="headerlink" href="#daq" title="Permalink to this heading">#</a></h3>
+<blockquote>
+<div><p>… overall purpose of this system is to get data into the system and provide
+access control to that data.</p>
+</div></blockquote>
+<p>In DM, a <em>DAQ</em> monitors a local file directory tree (on a specific workstation)
+and copies any new content to the DM experiment’s data storage.</p>
+<p>More info <a class="reference external" href="https://git.aps.anl.gov/DM/dm-docs/-/wikis/DM/HowTos/Getting-Started#getting-files-into-data-management">here</a></p>
+</section>
+<section id="workflow">
+<h3>workflow<a class="headerlink" href="#workflow" title="Permalink to this heading">#</a></h3>
+<blockquote>
+<div><p>A workflow is simply a set of defined steps that will process data.</p>
+</div></blockquote>
+<p>The steps to process data: move acquired data to
+computation hosts (local or remote), run the computation applications, then move
+any results to a final destination.  A workflow is capable of other activities,
+such as communicating back to EPICS.</p>
+<p>More info <a class="reference external" href="https://git.aps.anl.gov/DM/dm-docs/-/wikis/DM/HowTos/Getting-Started#workflows-and-processing-data">here</a></p>
+</section>
+<section id="upload">
+<h3>upload<a class="headerlink" href="#upload" title="Permalink to this heading">#</a></h3>
+<p>In addition to automatic file copying with a DAQ, DM provides for single file
+(or whole directory) uploads to the experiment storage.  This can be used for
+content that is not in the local data directory trees monitored by a DAQ.</p>
+<p>In <em>file</em> mode, files are processed (transfer, catalog, invoke workflow, etc)
+one by one.  In <em>directory</em> mode, there will be a single transfer of the whole
+directory, after which all files will be cataloged, etc.</p>
+<p>The advantage of the file mode is that you can keep track of progress and
+see/recover from errors easier.  The advantage of the directory mode is that it
+is more efficient, especially for large number of small files, where any new
+transfer connection is more expensive relative to the data transfer time.</p>
+</section>
+</section>
+<section id="bluesky-integration">
+<h2>Bluesky integration<a class="headerlink" href="#bluesky-integration" title="Permalink to this heading">#</a></h2>
+<p>Many beamlines operate with software that provides some general setup for the next user group.  Then, the user runs various plans to align
+the instrument and sample, then to collect the scientific data.</p>
+<section id="setup-user">
+<h3>Setup User<a class="headerlink" href="#setup-user" title="Permalink to this heading">#</a></h3>
+<p>Activities could include creating local storage directories, identifying
+proposal and/or ESAF numbers, …</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">setup_user()</span></code> procedure is a convenient place to enter the name of the DM
+<code class="docutils literal notranslate"><span class="pre">experiment</span></code> to be used for the user’s data collection.  Bluesky should remember
+this name so that the user does not need to supply for any of their data
+collection activities.  For example:</p>
+<div class="highlight-py notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">setup_user</span><span class="p">(</span><span class="n">dm_experiment_name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">):</span>
+    <span class="k">yield from</span> <span class="n">bps</span><span class="o">.</span><span class="n">mv</span><span class="p">(</span><span class="n">dm_experiment</span><span class="p">,</span> <span class="n">dm_experiment_name</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>where</p>
+<div class="highlight-py notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">ophyd</span> <span class="kn">import</span> <span class="n">Signal</span>
+<span class="n">dm_experiment</span> <span class="o">=</span> <span class="n">Signal</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;dm_experiment&quot;</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<section id="start-a-daq-if-needed">
+<h4>Start a DAQ if needed<a class="headerlink" href="#start-a-daq-if-needed" title="Permalink to this heading">#</a></h4>
+<p>Bluesky might direct some data acquisition to write data into local file storage
+(such as area detector image files).  A DAQ can be started by <code class="docutils literal notranslate"><span class="pre">setup_user()</span></code> to
+copy new files to the DM experiment.  For example:</p>
+<div class="highlight-py notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">apstools.utils</span> <span class="kn">import</span> <span class="n">dm_get_experiment_datadir_active_daq</span><span class="p">,</span> <span class="n">dm_start_daq</span>
+
+<span class="k">def</span> <span class="nf">setup_user</span><span class="p">(</span><span class="n">dm_experiment_name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">):</span>
+    <span class="k">yield from</span> <span class="n">bps</span><span class="o">.</span><span class="n">mv</span><span class="p">(</span><span class="n">dm_experiment</span><span class="p">,</span> <span class="n">dm_experiment_name</span><span class="p">)</span>
+
+    <span class="c1"># local directory tree to monitor</span>
+    <span class="n">data_directory</span> <span class="o">=</span> <span class="s2">&quot;/some/path/to/data/&quot;</span>
+    <span class="c1"># DM experiment subdirectory for upload</span>
+    <span class="n">dm_daq_directory</span> <span class="o">=</span> <span class="s2">&quot;something&quot;</span>
+    <span class="n">daq</span> <span class="o">=</span> <span class="n">dm_get_experiment_datadir_active_daq</span><span class="p">(</span>
+        <span class="n">dm_experiment_name</span><span class="p">,</span> <span class="n">data_directory</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">daq</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">daq</span> <span class="o">=</span> <span class="n">dm_start_daq</span><span class="p">(</span>
+            <span class="n">dm_experiment_name</span><span class="p">,</span>
+            <span class="n">data_directory</span><span class="p">,</span>
+            <span class="n">destDirectory</span><span class="o">=</span><span class="n">dm_daq_directory</span>
+        <span class="p">)</span>
+    <span class="c1"># remember this for later</span>
+    <span class="k">yield from</span> <span class="n">bps</span><span class="o">.</span><span class="n">mv</span><span class="p">(</span><span class="n">dm_daq_id</span><span class="p">,</span> <span class="n">daq</span><span class="p">[</span><span class="s2">&quot;id])</span>
+</pre></div>
+</div>
+<p>where</p>
+<div class="highlight-py notranslate"><div class="highlight"><pre><span></span><span class="n">dm_daq_id</span> <span class="o">=</span> <span class="n">Signal</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;dm_daq_id&quot;</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Quickly, this can become more complicated if more than one DAQ is needed.</p>
+<p>The value for <code class="docutils literal notranslate"><span class="pre">dm_daq_directory</span></code> is to be decided by the software (called in the
+workflow) that processes the data.</p>
+</section>
+<section id="upload-a-file-if-needed">
+<h4>Upload a file if needed<a class="headerlink" href="#upload-a-file-if-needed" title="Permalink to this heading">#</a></h4>
+<p>It may be needed to upload a file during the <code class="docutils literal notranslate"><span class="pre">setup_user()</span></code> plan.  Here’s an example:</p>
+<div class="highlight-py notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pathlib</span>
+<span class="kn">from</span> <span class="nn">apstools.utils</span> <span class="kn">import</span> <span class="n">dm_upload</span>
+
+<span class="k">def</span> <span class="nf">setup_user</span><span class="p">(</span>
+    <span class="n">dm_experiment_name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+    <span class="n">upload_file</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+<span class="p">):</span>
+    <span class="k">yield from</span> <span class="n">bps</span><span class="o">.</span><span class="n">mv</span><span class="p">(</span><span class="n">dm_experiment</span><span class="p">,</span> <span class="n">dm_experiment_name</span><span class="p">)</span>
+
+    <span class="c1"># upload a file</span>
+    <span class="c1"># DM experiment subdirectory for upload</span>
+    <span class="n">p</span> <span class="o">=</span> <span class="n">pathlib</span><span class="o">.</span><span class="n">Path</span><span class="p">(</span><span class="n">upload_file</span><span class="p">)</span>
+    <span class="n">dm_upload_directory</span> <span class="o">=</span> <span class="s2">&quot;something&quot;</span>
+    <span class="n">dm_upload</span><span class="p">(</span>
+        <span class="n">dm_experiment_name</span><span class="p">,</span>
+        <span class="nb">str</span><span class="p">(</span><span class="n">p</span><span class="o">.</span><span class="n">parent</span><span class="p">),</span>  <span class="c1"># the directory name</span>
+        <span class="n">experimentFilePath</span><span class="o">=</span><span class="n">p</span><span class="o">.</span><span class="n">name</span>  <span class="c1"># the file name</span>
+        <span class="n">destDirectory</span><span class="o">=</span><span class="n">dm_upload_directory</span><span class="p">,</span>
+    <span class="p">)</span>
+</pre></div>
+</div>
+<p>Like <code class="docutils literal notranslate"><span class="pre">dm_daq_directory</span></code> above, the value for <code class="docutils literal notranslate"><span class="pre">dm_upload_directory</span></code> is to be
+decided by the software (called in the workflow) that processes the data.</p>
+</section>
+</section>
+<section id="data-collection-plan-s">
+<h3>Data collection plan(s)<a class="headerlink" href="#data-collection-plan-s" title="Permalink to this heading">#</a></h3>
+<p>Integration of DM with bluesky plans is dependent on the type of scan to be
+executed and how the workflow will interact.</p>
+<p>Two general possibilities come to mind:</p>
+<ul class="simple">
+<li><p>file-based collection and workflow</p></li>
+<li><p>streaming-based collection and workflow</p></li>
+</ul>
+<p>In either case, the <code class="docutils literal notranslate"><span class="pre">apstools.devices.DM_WorkflowConnector</span></code> is an ophyd-style
+<code class="docutils literal notranslate"><span class="pre">Device</span></code> that is used to coordinate with a DM workflow.  Create a connector:</p>
+<div class="highlight-py notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">apstools.devices</span> <span class="kn">import</span> <span class="n">DM_WorkflowConnector</span>
+
+    <span class="c1"># ... later, in the bluesky plan ...</span>
+    <span class="c1"># REPLACE &quot;dm_workflow&quot; with the name of the workflow to be used.</span>
+    <span class="c1"># This could be a keyword argument to the plan!</span>
+    <span class="c1"># The reporting settings could also be user-selectable keyword arguments.</span>
+    <span class="n">dm_workflow</span> <span class="o">=</span> <span class="n">DM_WorkflowConnector</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;dm_workflow&quot;</span><span class="p">)</span>
+    <span class="k">yield from</span> <span class="n">bps</span><span class="o">.</span><span class="n">mv</span><span class="p">(</span>
+        <span class="n">dm_workflow</span><span class="o">.</span><span class="n">concise_reporting</span><span class="p">,</span> <span class="kc">False</span><span class="p">,</span>  <span class="c1"># True: for less details</span>
+        <span class="n">dm_workflow</span><span class="o">.</span><span class="n">reporting_period</span><span class="p">,</span> <span class="mi">60</span><span class="p">,</span>  <span class="c1"># for periodic reports (s)</span>
+    <span class="p">)</span>
+</pre></div>
+</div>
+<p>Start the workflow (with the <code class="docutils literal notranslate"><span class="pre">dm_workflow</span></code> object) in the data acquisition plan
+as if it is a bluesky plan.  This way, the startup does not block the RunEngine
+from its periodic responsibilities.</p>
+<div class="highlight-py notranslate"><div class="highlight"><pre><span></span>    <span class="k">yield from</span> <span class="n">dm_workflow</span><span class="o">.</span><span class="n">run_as_plan</span><span class="p">(</span>
+        <span class="n">workflow</span><span class="o">=</span><span class="n">workflow_name</span><span class="p">,</span>
+        <span class="n">wait</span><span class="o">=</span><span class="n">dm_wait</span><span class="p">,</span>
+        <span class="n">timeout</span><span class="o">=</span><span class="mi">999_999_999</span><span class="p">,</span> <span class="c1"># seconds (aka forever)</span>
+        <span class="c1"># all kwargs after this line are DM argsDict content</span>
+        <span class="n">filePath</span><span class="o">=</span><span class="n">dm_directory</span><span class="p">,</span>  <span class="c1"># like dm_daq_directory</span>
+        <span class="n">experiment</span><span class="o">=</span><span class="n">dm_experiment</span><span class="o">.</span><span class="n">get</span><span class="p">(),</span>
+        <span class="c1"># ... any other keyword args needed by the plan ...</span>
+    <span class="p">)</span>
+</pre></div>
+</div>
+<p>Here <code class="docutils literal notranslate"><span class="pre">dm_directory</span></code> is (like <code class="docutils literal notranslate"><span class="pre">dm_daq_directory</span></code> and <code class="docutils literal notranslate"><span class="pre">dm_upload_directory</span></code>
+above) the experiment subdirectory where the workflow expects to find the files.</p>
+<p>Note that the <code class="docutils literal notranslate"><span class="pre">timeout</span></code> parameter is for the background process that watches the
+workflow’s progress.  If the timeout is reached, the reporting stops but the
+workflow itself is unaffected.</p>
+<p>Any keywords expected by the plan should be included as user-selectable
+arguments of the data collection plan, or determined by the plan itself.</p>
+<section id="file-based">
+<h4>File-based<a class="headerlink" href="#file-based" title="Permalink to this heading">#</a></h4>
+<p>In a <em>file</em> data collection and workflow, data is acquired first and stored
+into files on local storage.  Upload of the files is managed either by a DAQ or
+by direct call(s) to <code class="docutils literal notranslate"><span class="pre">apstools.utils.dm_upload()</span></code>.  If a DAQ is used, the
+bluesky plan should wait until the DAQ reports the expected file(s) upload have
+completed.  Then, bluesky tells DM to start the workflow and monitors it until
+it completes.</p>
+<p>It is a choice of the workflow if more than one of the same kind of workflow can
+execute at the same time.  Some workflows expect specific files to exist and may
+not tolerate their manipulation by another workflow running at the same time. DM
+can be configured to control this with a scheduling queue.  Alternatively, this
+decision process could be built into the bluesky plan.</p>
+<p>The general outline:</p>
+<ol class="arabic simple">
+<li><p>Bluesky plan</p>
+<ol class="arabic simple">
+<li><p>assembles run metadata dictionary</p></li>
+<li><p>prepares instrument for streaming data collection</p></li>
+<li><p>initiates data collection</p></li>
+<li><p>waits for data collection to finish</p></li>
+<li><p>waits for any DAQs to complete expected uploads (if required)</p></li>
+<li><p>waits for any existing workflows to finish (if required)</p></li>
+<li><p>starts DM workflow</p></li>
+<li><p>monitors workflow in the background (periodic reports)</p></li>
+<li><p>uploads run metadata to DM</p></li>
+</ol>
+</li>
+<li><p>DM workflow</p>
+<ol class="arabic simple">
+<li><p>execute workflow steps as programmed</p></li>
+</ol>
+</li>
+</ol>
+<p>See this example file-based bluesky data acquisition <a class="reference external" href="https://github.com/APS-1ID-MPE/hexm-bluesky/blob/a0b12fcf392b12b3d498dab070aee1f535614b24/instrument/plans/bdp202403.py#L77-L248">plan</a>.</p>
+</section>
+<section id="streaming-based">
+<h4>Streaming-based<a class="headerlink" href="#streaming-based" title="Permalink to this heading">#</a></h4>
+<p>In a <em>streaming</em> data collection and workflow, the workflow must be started
+first so it can setup the tools to receive data that will be streamed.  A common
+tool to use for this interprocess communication is EPICS PVAccess.  PVAccess is
+preferred since it can comunicate structured data.  It may be easier to
+communicate across network boundaries than EPICS ChannelAccess.</p>
+<p>Without a detailed description or code, here is an outline of a possible
+streaming-based data collection and workflow with bluesky and DM.</p>
+<ol class="arabic simple">
+<li><p>Bluesky plan</p>
+<ol class="arabic simple">
+<li><p>creates a PVA object for reports from the workflow</p></li>
+<li><p>starts DM workflow, passing the name of its PVA object</p></li>
+<li><p>assembles run metadata dictionary</p></li>
+<li><p>prepares instrument for streaming data collection</p></li>
+<li><p>connects with any PVA objects from workflow, as needed</p></li>
+<li><p>waits for DM workflow to become ready</p></li>
+</ol>
+</li>
+<li><p>DM workflow</p>
+<ol class="arabic simple">
+<li><p>execute workflow steps as programmed</p>
+<ol class="arabic simple">
+<li><p>connects with bluesky PVA object</p></li>
+<li><p>creates its own PVA object for commands from workflow</p></li>
+<li><p>prepares itself for streaming data</p></li>
+<li><p>signals to bluesky that it is ready</p></li>
+</ol>
+</li>
+</ol>
+</li>
+<li><p>data acquisition stream(s)</p>
+<ol class="arabic simple">
+<li><p>bluesky initiates data collection</p></li>
+<li><p>DM workflow receives data</p></li>
+<li><p>either process signals the other while data is being collected</p></li>
+</ol>
+</li>
+<li><p>data collection finishes</p>
+<ol class="arabic simple">
+<li><p>Either DM workflow signals or Bluesky signals</p></li>
+<li><p>bluesky reports on further progress of workflow</p></li>
+</ol>
+</li>
+<li><p>DM workflow finishes</p></li>
+<li><p>Bluesky uploads run metadata to DM</p></li>
+</ol>
+</section>
+</section>
+</section>
+</section>
+
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="de_ad_pilatus.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">ADPilatus Area Detector with default HDF5 File Name</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="de_sscan.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">The synApps <code class="docutils literal notranslate"><span class="pre">sscan</span></code> and <code class="docutils literal notranslate"><span class="pre">SscanRecord</span></code></p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+<div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+  </div>
+  <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#dm-overview">DM Overview</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#experiment">experiment</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#daq">DAQ</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#workflow">workflow</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#upload">upload</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#bluesky-integration">Bluesky integration</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#setup-user">Setup User</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#start-a-daq-if-needed">Start a DAQ if needed</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#upload-a-file-if-needed">Upload a file if needed</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#data-collection-plan-s">Data collection plan(s)</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#file-based">File-based</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#streaming-based">Streaming-based</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+  <div class="sidebar-secondary-item">
+
+  <div class="tocsection sourcelink">
+    <a href="../_sources/examples/de_aps_data_management.md.txt">
+      <i class="fa-solid fa-file-lines"></i> Show Source
+    </a>
+  </div>
+</div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+
+  <p class="copyright">
+    
+      © Copyright 2017-2024, UChicago Argonne, LLC.
+      <br/>
+    
+  </p>
+</div>
+      
+        <div class="footer-item">
+
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 5.3.0.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item">
+<p class="theme-version">
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.15.4.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

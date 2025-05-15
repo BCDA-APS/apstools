@@ -1,0 +1,197 @@
+{
+ "cells": [
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "# Quick Start: Grouping Motors with `mb_creator`\n",
+    "\n",
+    "The {func}`~apstools.devices.mb_creator` function from {mod}`apstools.devices`\n",
+    "lets you quickly create an ophyd Device that groups any number of motors, either\n",
+    "real or simulated, without writing a custom class.\n"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## Basic Usage\n",
+    "\n",
+    "Create an ophyd Device structure (such as an\n",
+    "[ophyd.MotorBundle](https://blueskyproject.io/ophyd/generated/ophyd.epics_motor.MotorBundle.html))\n",
+    "from a set of motor specifications."
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "### 1. Empty Device\n",
+    "\n",
+    "Create a device with no motors (just a container):"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 1,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "MB_Device(prefix='', name='empty', read_attrs=[], configuration_attrs=[])"
+      ]
+     },
+     "execution_count": 1,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "from apstools.devices import mb_creator\n",
+    "\n",
+    "empty = mb_creator(name=\"empty\")\n",
+    "empty"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "### 2. Simulated Axes\n",
+    "\n",
+    "Create a device with simulated (SoftPositioner) axes by providing a list of names:"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 2,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "SoftPositioner(name='sim_x', parent='sim', settle_time=0.0, timeout=None, egu='', limits=(0, 0), source='computed')"
+      ]
+     },
+     "execution_count": 2,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "sim = mb_creator(name=\"sim\", motors=[\"x\", \"y\"])\n",
+    "sim.x"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "### 3. Mixed Real and Simulated Motors\n",
+    "\n",
+    "Mix real (EpicsMotor) and simulated axes by using a dict and setting some to `None`:"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 3,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "(EpicsMotor(prefix='gp:m1', name='bundle_x', parent='bundle', settle_time=0.0, timeout=None, read_attrs=['user_readback', 'user_setpoint'], configuration_attrs=['user_offset', 'user_offset_dir', 'velocity', 'acceleration', 'motor_egu']),\n",
+       " SoftPositioner(name='bundle_roll', parent='bundle', settle_time=0.0, timeout=None, egu='', limits=(0, 0), source='computed'))"
+      ]
+     },
+     "execution_count": 3,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "combo = mb_creator(\n",
+    "    name=\"bundle\",\n",
+    "    prefix=\"gp:\",\n",
+    "    motors={\n",
+    "        \"x\": \"m1\",\n",
+    "        \"y\": \"m2\",\n",
+    "        \"z\": \"m3\",\n",
+    "        \"roll\": None,  # Simulated\n",
+    "        \"pitch\": None, # Simulated\n",
+    "        \"yaw\": None, # Simulated\n",
+    "    }\n",
+    ")\n",
+    "combo.x, combo.roll"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "### 4. Custom Labels\n",
+    "\n",
+    "Add custom labels to your device for organization or registry lookup:"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 4,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "{'motors', 'mygroup'}"
+      ]
+     },
+     "execution_count": 4,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "labeled = mb_creator(\n",
+    "    name=\"labeled\",\n",
+    "    motors={\"x\": \"m1\"},\n",
+    "    labels=[\"mygroup\", \"motors\"]\n",
+    ")\n",
+    "labeled._ophyd_labels_"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "---\n",
+    "\n",
+    "**For more information:**\n",
+    "\n",
+    "* {doc}`How to use 'mb_creator()' <ho_motor_factory>`\n",
+    "* {func}`~apstools.devices.mb_creator()`"
+   ]
+  }
+ ],
+ "metadata": {
+  "kernelspec": {
+   "display_name": "Python 3",
+   "language": "python",
+   "name": "python3"
+  },
+  "language_info": {
+   "codemirror_mode": {
+    "name": "ipython",
+    "version": 3
+   },
+   "file_extension": ".py",
+   "mimetype": "text/x-python",
+   "name": "python",
+   "nbconvert_exporter": "python",
+   "pygments_lexer": "ipython3",
+   "version": "3.13.3"
+  }
+ },
+ "nbformat": 4,
+ "nbformat_minor": 2
+}

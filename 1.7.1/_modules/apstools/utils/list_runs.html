@@ -1,0 +1,1176 @@
+
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>apstools.utils.list_runs &#8212; apstools 1.7</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../../../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../../../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../../../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/graphviz.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/sphinx-design.5ea377869091fd0449014c60fc090103.min.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/css/custom.css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+    <script src="../../../_static/jquery.js"></script>
+    <script src="../../../_static/underscore.js"></script>
+    <script src="../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="../../../_static/doctools.js"></script>
+    <script src="../../../_static/sphinx_highlight.js"></script>
+    <script src="../../../_static/design-tabs.js"></script>
+    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = '_modules/apstools/utils/list_runs';</script>
+    <script>
+        DOCUMENTATION_OPTIONS.theme_version = '0.15.4';
+        DOCUMENTATION_OPTIONS.theme_switcher_json_url = 'https://raw.githubusercontent.com/BCDA-APS/apstools/main/docs/source/_static/switcher.json';
+        DOCUMENTATION_OPTIONS.theme_switcher_version_match = '1.7.1';
+        DOCUMENTATION_OPTIONS.show_version_warning_banner = false;
+        </script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-3 navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../../../index.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">apstools 1.7</p>
+  
+</a></div>
+    
+      <div class="navbar-item">
+<script>
+document.write(`
+  <div class="version-switcher__container dropdown">
+    <button id="pst-version-switcher-button-2"
+      type="button"
+      class="version-switcher__button btn btn-sm dropdown-toggle"
+      data-bs-toggle="dropdown"
+      aria-haspopup="listbox"
+      aria-controls="pst-version-switcher-list-2"
+      aria-label="Version switcher list"
+    >
+      Choose version  <!-- this text may get changed later by javascript -->
+      <span class="caret"></span>
+    </button>
+    <div id="pst-version-switcher-list-2"
+      class="version-switcher__menu dropdown-menu list-group-flush py-0"
+      role="listbox" aria-labelledby="pst-version-switcher-button-2">
+      <!-- dropdown will be populated by javascript on page load -->
+    </div>
+  </div>
+`);
+</script></div>
+    
+  </div>
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../install.html">
+    Installation
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../api/index.html">
+    API Documentation
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../applications/index.html">
+    Applications
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../examples/index.html">
+    Examples
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../changes.html">
+    Change History
+  </a>
+</li>
+
+            <li class="nav-item dropdown">
+                <button class="btn dropdown-toggle nav-item" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-controls="pst-nav-more-links">
+                    More
+                </button>
+                <ul id="pst-nav-more-links" class="dropdown-menu">
+                    
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../../license.html">
+    License
+  </a>
+</li>
+
+                </ul>
+            </li>
+            
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script>
+        </div>
+      
+      
+        <div class="navbar-item">
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script></div>
+      
+        <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/BCDA-APS/apstools" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script>
+    </div>
+  
+
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+        
+      
+      <div class="bd-sidebar-primary bd-sidebar hide-on-wide">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../install.html">
+    Installation
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../api/index.html">
+    API Documentation
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../applications/index.html">
+    Applications
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../examples/index.html">
+    Examples
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../changes.html">
+    Change History
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../license.html">
+    License
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script></div>
+        
+          <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/BCDA-APS/apstools" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+        
+      </div>
+    
+  </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+
+
+<nav aria-label="Breadcrumb" class="d-print-none">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../../../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="../../index.html" class="nav-link">Module code</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page">apstools.uti...</li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <h1>Source code for apstools.utils.list_runs</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Directory of bluesky runs</span>
+<span class="sd">+++++++++++++++++++++++++++++++++++++++</span>
+
+<span class="sd">.. autosummary::</span>
+
+<span class="sd">   ~getRunData</span>
+<span class="sd">   ~getRunDataValue</span>
+<span class="sd">   ~listRunKeys</span>
+<span class="sd">   ~ListRuns</span>
+<span class="sd">   ~listruns</span>
+<span class="sd">   ~summarize_runs</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">import</span> <span class="nn">dataclasses</span>
+<span class="kn">import</span> <span class="nn">datetime</span>
+<span class="kn">import</span> <span class="nn">logging</span>
+<span class="kn">import</span> <span class="nn">time</span>
+<span class="kn">import</span> <span class="nn">typing</span>
+<span class="kn">import</span> <span class="nn">warnings</span>
+<span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">defaultdict</span>
+
+<span class="kn">from</span> <span class="nn">._core</span> <span class="kn">import</span> <span class="n">FIRST_DATA</span>
+<span class="kn">from</span> <span class="nn">._core</span> <span class="kn">import</span> <span class="n">LAST_DATA</span>
+<span class="kn">from</span> <span class="nn">._core</span> <span class="kn">import</span> <span class="n">TableStyle</span>
+<span class="kn">from</span> <span class="nn">.query</span> <span class="kn">import</span> <span class="n">db_query</span>
+
+<span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="getRunData"><a class="viewcode-back" href="../../../api/_utils.html#apstools.utils.list_runs.getRunData">[docs]</a><span class="k">def</span> <span class="nf">getRunData</span><span class="p">(</span><span class="n">scan_id</span><span class="p">,</span> <span class="n">db</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">stream</span><span class="o">=</span><span class="s2">&quot;primary&quot;</span><span class="p">,</span> <span class="n">query</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">use_v1</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Convenience function to get the run&#39;s data.  Default is the ``primary`` stream.</span>
+
+<span class="sd">    PARAMETERS</span>
+
+<span class="sd">    scan_id</span>
+<span class="sd">        *int* or *str* :</span>
+<span class="sd">        Scan (run) identifier.</span>
+<span class="sd">        Positive integer value is ``scan_id`` from run&#39;s metadata.</span>
+<span class="sd">        Negative integer value is since most recent run in databroker.</span>
+<span class="sd">        String is run&#39;s ``uid`` unique identifier (can abbreviate to</span>
+<span class="sd">        the first characters needed to assure it is unique).</span>
+
+<span class="sd">    db</span>
+<span class="sd">        *object* :</span>
+<span class="sd">        Bluesky database, an instance of ``databroker.catalog``.</span>
+<span class="sd">        Default: will search existing session for instance.</span>
+
+<span class="sd">    stream</span>
+<span class="sd">        *str* :</span>
+<span class="sd">        Name of the bluesky data stream to obtain the data.</span>
+<span class="sd">        Default: &#39;primary&#39;</span>
+
+<span class="sd">    query</span>
+<span class="sd">        *dict* :</span>
+<span class="sd">        mongo query dictionary, used to filter the results</span>
+<span class="sd">        Default: ``{}``</span>
+
+<span class="sd">        see: https://docs.mongodb.com/manual/reference/operator/query/</span>
+
+<span class="sd">    use_v1</span>
+<span class="sd">        *bool* :</span>
+<span class="sd">        Chooses databroker API version between &#39;v1&#39; or &#39;v2&#39;.</span>
+<span class="sd">        Default: ``True`` (meaning use the v1 API)</span>
+
+<span class="sd">    (new in apstools 1.5.1)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">getCatalog</span>
+
+    <span class="n">cat</span> <span class="o">=</span> <span class="n">getCatalog</span><span class="p">(</span><span class="n">db</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">query</span><span class="p">:</span>
+        <span class="n">cat</span> <span class="o">=</span> <span class="n">db_query</span><span class="p">(</span><span class="n">cat</span><span class="p">,</span> <span class="n">query</span><span class="p">)</span>
+
+    <span class="n">stream</span> <span class="o">=</span> <span class="n">stream</span> <span class="ow">or</span> <span class="s2">&quot;primary&quot;</span>
+
+    <span class="k">if</span> <span class="n">use_v1</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">use_v1</span><span class="p">:</span>
+        <span class="n">run</span> <span class="o">=</span> <span class="n">cat</span><span class="o">.</span><span class="n">v1</span><span class="p">[</span><span class="n">scan_id</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">stream</span> <span class="ow">in</span> <span class="n">run</span><span class="o">.</span><span class="n">stream_names</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">run</span><span class="o">.</span><span class="n">table</span><span class="p">(</span><span class="n">stream_name</span><span class="o">=</span><span class="n">stream</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">run</span> <span class="o">=</span> <span class="n">cat</span><span class="o">.</span><span class="n">v2</span><span class="p">[</span><span class="n">scan_id</span><span class="p">]</span>
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">run</span><span class="p">,</span> <span class="n">stream</span><span class="p">):</span>
+            <span class="k">return</span> <span class="n">run</span><span class="p">[</span><span class="n">stream</span><span class="p">]</span><span class="o">.</span><span class="n">read</span><span class="p">()</span><span class="o">.</span><span class="n">to_dataframe</span><span class="p">()</span>
+
+    <span class="k">raise</span> <span class="ne">AttributeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;No such stream &#39;</span><span class="si">{</span><span class="n">stream</span><span class="si">}</span><span class="s2">&#39; in run &#39;</span><span class="si">{</span><span class="n">scan_id</span><span class="si">}</span><span class="s2">&#39;.&quot;</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="getRunDataValue"><a class="viewcode-back" href="../../../api/_utils.html#apstools.utils.list_runs.getRunDataValue">[docs]</a><span class="k">def</span> <span class="nf">getRunDataValue</span><span class="p">(</span><span class="n">scan_id</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">db</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">stream</span><span class="o">=</span><span class="s2">&quot;primary&quot;</span><span class="p">,</span> <span class="n">query</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">idx</span><span class="o">=-</span><span class="mi">1</span><span class="p">,</span> <span class="n">use_v1</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Convenience function to get value of key in run stream.</span>
+
+<span class="sd">    Defaults are last value of key in primary stream.</span>
+
+<span class="sd">    PARAMETERS</span>
+
+<span class="sd">    scan_id</span>
+<span class="sd">        *int* or *str* :</span>
+<span class="sd">        Scan (run) identifier.</span>
+<span class="sd">        Positive integer value is ``scan_id`` from run&#39;s metadata.</span>
+<span class="sd">        Negative integer value is since most recent run in databroker.</span>
+<span class="sd">        String is run&#39;s ``uid`` unique identifier (can abbreviate to</span>
+<span class="sd">        the first characters needed to assure it is unique).</span>
+
+<span class="sd">    key</span>
+<span class="sd">        *str* :</span>
+<span class="sd">        Name of the key (data column) in the table of the stream&#39;s data.</span>
+<span class="sd">        Must match *identically*.</span>
+
+<span class="sd">    db</span>
+<span class="sd">        *object* :</span>
+<span class="sd">        Bluesky database, an instance of ``databroker.catalog``.</span>
+<span class="sd">        Default: will search existing session for instance.</span>
+
+<span class="sd">    stream</span>
+<span class="sd">        *str* :</span>
+<span class="sd">        Name of the bluesky data stream to obtain the data.</span>
+<span class="sd">        Default: &#39;primary&#39;</span>
+
+<span class="sd">    query</span>
+<span class="sd">        *dict* :</span>
+<span class="sd">        mongo query dictionary, used to filter the results</span>
+<span class="sd">        Default: ``{}``</span>
+
+<span class="sd">        see: https://docs.mongodb.com/manual/reference/operator/query/</span>
+
+<span class="sd">    idx</span>
+<span class="sd">        *int* or *str* :</span>
+<span class="sd">        List index of value to be returned from column of table.</span>
+<span class="sd">        Can be ``0`` for first value, ``-1`` for last value, ``&quot;mean&quot;``</span>
+<span class="sd">        for average value, or ``&quot;all&quot;`` for the full list of values.</span>
+<span class="sd">        Default: ``-1``</span>
+
+<span class="sd">    use_v1</span>
+<span class="sd">        *bool* :</span>
+<span class="sd">        Chooses databroker API version between &#39;v1&#39; or &#39;v2&#39;.</span>
+<span class="sd">        Default: ``True`` (meaning use the v1 API)</span>
+
+<span class="sd">    (new in apstools 1.5.1)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">idx</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">idx</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">_idx</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">idx</span><span class="p">)</span>
+    <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
+        <span class="n">_idx</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">idx</span><span class="p">)</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">_idx</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span> <span class="ow">and</span> <span class="n">_idx</span> <span class="ow">not</span> <span class="ow">in</span> <span class="s2">&quot;all mean&quot;</span><span class="o">.</span><span class="n">split</span><span class="p">():</span>
+        <span class="k">raise</span> <span class="ne">KeyError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Did not understand &#39;idx=</span><span class="si">{</span><span class="n">idx</span><span class="si">}</span><span class="s2">&#39;, use integer, &#39;all&#39;, or &#39;mean&#39;.&quot;</span><span class="p">)</span>
+
+    <span class="n">stream</span> <span class="o">=</span> <span class="n">stream</span> <span class="ow">or</span> <span class="s2">&quot;primary&quot;</span>
+
+    <span class="n">table</span> <span class="o">=</span> <span class="n">getRunData</span><span class="p">(</span><span class="n">scan_id</span><span class="p">,</span> <span class="n">db</span><span class="o">=</span><span class="n">db</span><span class="p">,</span> <span class="n">stream</span><span class="o">=</span><span class="n">stream</span><span class="p">,</span> <span class="n">query</span><span class="o">=</span><span class="n">query</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">key</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">table</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">KeyError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;&#39;</span><span class="si">{</span><span class="n">key</span><span class="si">}</span><span class="s2">&#39; not found in scan </span><span class="si">{</span><span class="n">scan_id</span><span class="si">}</span><span class="s2"> stream &#39;</span><span class="si">{</span><span class="n">stream</span><span class="si">}</span><span class="s2">&#39;.&quot;</span><span class="p">)</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="n">table</span><span class="p">[</span><span class="n">key</span><span class="p">]</span>
+
+    <span class="k">if</span> <span class="n">_idx</span> <span class="o">==</span> <span class="s2">&quot;all&quot;</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">data</span><span class="o">.</span><span class="n">values</span>
+    <span class="k">elif</span> <span class="n">_idx</span> <span class="o">==</span> <span class="s2">&quot;mean&quot;</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">data</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+    <span class="k">elif</span> <span class="p">(</span><span class="mi">0</span> <span class="o">&lt;=</span> <span class="n">_idx</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">))</span> <span class="ow">or</span> <span class="p">(</span><span class="n">_idx</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">data</span><span class="o">.</span><span class="n">values</span><span class="p">[</span><span class="n">_idx</span><span class="p">]</span>
+    <span class="k">raise</span> <span class="ne">KeyError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Cannot reference idx=</span><span class="si">{</span><span class="n">idx</span><span class="si">}</span><span class="s2"> in scan </span><span class="si">{</span><span class="n">scan_id</span><span class="si">}</span><span class="s2"> stream&#39;</span><span class="si">{</span><span class="n">stream</span><span class="si">}</span><span class="s2">&#39; key=</span><span class="si">{</span><span class="n">key</span><span class="si">}</span><span class="s2">.&quot;</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="listRunKeys"><a class="viewcode-back" href="../../../api/_utils.html#apstools.utils.list_runs.listRunKeys">[docs]</a><span class="k">def</span> <span class="nf">listRunKeys</span><span class="p">(</span>
+    <span class="n">scan_id</span><span class="p">,</span>
+    <span class="n">key_fragment</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span>
+    <span class="n">db</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">stream</span><span class="o">=</span><span class="s2">&quot;primary&quot;</span><span class="p">,</span>
+    <span class="n">query</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">strict</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+    <span class="n">use_v1</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+<span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Convenience function to list all keys (column names) in the scan&#39;s stream (default: primary).</span>
+
+<span class="sd">    PARAMETERS</span>
+
+<span class="sd">    scan_id</span>
+<span class="sd">        *int* or *str* :</span>
+<span class="sd">        Scan (run) identifier.</span>
+<span class="sd">        Positive integer value is ``scan_id`` from run&#39;s metadata.</span>
+<span class="sd">        Negative integer value is since most recent run in databroker.</span>
+<span class="sd">        String is run&#39;s ``uid`` unique identifier (can abbreviate to</span>
+<span class="sd">        the first characters needed to assure it is unique).</span>
+
+<span class="sd">    key_fragment</span>
+<span class="sd">        *str* :</span>
+<span class="sd">        Part or all of key name to be found in selected stream.</span>
+<span class="sd">        For instance, if you specify ``key_fragment=&quot;lakeshore&quot;``,</span>
+<span class="sd">        it will return all the keys that include ``lakeshore``.</span>
+
+<span class="sd">    db</span>
+<span class="sd">        *object* :</span>
+<span class="sd">        Bluesky database, an instance of ``databroker.catalog``.</span>
+<span class="sd">        Default: will search existing session for instance.</span>
+
+<span class="sd">    stream</span>
+<span class="sd">        *str* :</span>
+<span class="sd">        Name of the bluesky data stream to obtain the data.</span>
+<span class="sd">        Default: &#39;primary&#39;</span>
+
+<span class="sd">    query</span>
+<span class="sd">        *dict* :</span>
+<span class="sd">        mongo query dictionary, used to filter the results</span>
+<span class="sd">        Default: ``{}``</span>
+
+<span class="sd">        see: https://docs.mongodb.com/manual/reference/operator/query/</span>
+
+<span class="sd">    strict</span>
+<span class="sd">        *bool* :</span>
+<span class="sd">        Should the ``key_fragment`` be matched identically (``strict=True``)</span>
+<span class="sd">        or matched by lower case comparison (``strict=False``)?</span>
+<span class="sd">        Default: ``False``</span>
+
+<span class="sd">    use_v1</span>
+<span class="sd">        *bool* :</span>
+<span class="sd">        Chooses databroker API version between &#39;v1&#39; or &#39;v2&#39;.</span>
+<span class="sd">        Default: ``True`` (meaning use the v1 API)</span>
+
+<span class="sd">    (new in apstools 1.5.1)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">table</span> <span class="o">=</span> <span class="n">getRunData</span><span class="p">(</span><span class="n">scan_id</span><span class="p">,</span> <span class="n">db</span><span class="o">=</span><span class="n">db</span><span class="p">,</span> <span class="n">stream</span><span class="o">=</span><span class="n">stream</span><span class="p">,</span> <span class="n">query</span><span class="o">=</span><span class="n">query</span><span class="p">,</span> <span class="n">use_v1</span><span class="o">=</span><span class="n">use_v1</span><span class="p">)</span>
+
+    <span class="c1"># fmt: off</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">key_fragment</span><span class="p">):</span>
+        <span class="n">output</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="n">col</span>
+            <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">table</span><span class="o">.</span><span class="n">columns</span>
+            <span class="k">if</span> <span class="p">(</span>
+                <span class="p">(</span><span class="n">strict</span> <span class="ow">and</span> <span class="n">key_fragment</span> <span class="ow">in</span> <span class="n">col</span><span class="p">)</span>
+                <span class="ow">or</span> <span class="p">(</span><span class="ow">not</span> <span class="n">strict</span> <span class="ow">and</span> <span class="n">key_fragment</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="ow">in</span> <span class="n">col</span><span class="o">.</span><span class="n">lower</span><span class="p">())</span>
+            <span class="p">)</span>
+        <span class="p">]</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">output</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">table</span><span class="o">.</span><span class="n">columns</span><span class="p">)</span>
+    <span class="c1"># fmt: on</span>
+    <span class="k">return</span> <span class="n">output</span></div>
+
+
+<div class="viewcode-block" id="ListRuns"><a class="viewcode-back" href="../../../api/_utils.html#apstools.utils.list_runs.ListRuns">[docs]</a><span class="nd">@dataclasses</span><span class="o">.</span><span class="n">dataclass</span>
+<span class="k">class</span> <span class="nc">ListRuns</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    List the runs from the given catalog according to some options.</span>
+
+<span class="sd">    EXAMPLE::</span>
+
+<span class="sd">        ListRuns(cat).to_dataframe()</span>
+
+<span class="sd">    PUBLIC METHODS</span>
+
+<span class="sd">    .. autosummary::</span>
+
+<span class="sd">        ~to_dataframe</span>
+<span class="sd">        ~to_table</span>
+<span class="sd">        ~parse_runs</span>
+
+<span class="sd">    INTERNAL METHODS</span>
+
+<span class="sd">    .. autosummary::</span>
+
+<span class="sd">        ~_get_by_key</span>
+<span class="sd">        ~_check_cat</span>
+<span class="sd">        ~_apply_search_filters</span>
+<span class="sd">        ~_check_keys</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">cat</span><span class="p">:</span> <span class="nb">object</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">query</span><span class="p">:</span> <span class="nb">object</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">keys</span><span class="p">:</span> <span class="nb">object</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">missing</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+    <span class="n">num</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">20</span>
+    <span class="n">reverse</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span>
+    <span class="n">since</span><span class="p">:</span> <span class="nb">object</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">sortby</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;time&quot;</span>
+    <span class="n">timefmt</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;%Y-%m-</span><span class="si">%d</span><span class="s2"> %H:%M:%S&quot;</span>
+    <span class="n">until</span><span class="p">:</span> <span class="nb">object</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">ids</span><span class="p">:</span> <span class="s2">&quot;typing.Any&quot;</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">hints_override</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
+
+    <span class="n">_default_keys</span> <span class="o">=</span> <span class="s2">&quot;scan_id time plan_name detectors&quot;</span>
+
+    <span class="k">def</span> <span class="nf">_get_by_key</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">md</span><span class="p">,</span> <span class="n">key</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Get run&#39;s metadata value by key.</span>
+
+<span class="sd">        Look in ``start`` document first.</span>
+<span class="sd">        If not found, look in ``stop`` document.</span>
+<span class="sd">        If not found, report using ``self.missing``.</span>
+
+<span class="sd">        If ``key`` is found but value is None, report as ``self.missing``.</span>
+
+<span class="sd">        The ``time`` key will be formatted by the ``self.timefmt`` value.</span>
+<span class="sd">        See https://strftime.org/ for examples.  The special ``timefmt=&quot;raw&quot;``</span>
+<span class="sd">        is used to report time as the raw value (floating point time as used in</span>
+<span class="sd">        python&#39;s ``time.time()``).</span>
+
+<span class="sd">        A special syntax of ``key`` allows reporting of keys in other</span>
+<span class="sd">        metadata subdictionaries.  The syntax is ``doc.key`` (such as</span>
+<span class="sd">        specifying the ``time`` key  from the ``stop`` document:</span>
+<span class="sd">        ``stop.time``) where a ``.`` is used to separate the</span>
+<span class="sd">        subdictionary name (``doc``) from the ``key``.</span>
+<span class="sd">        **Note**:</span>
+<span class="sd">        It is not possible to ``sortby`` the dotted-key syntax</span>
+<span class="sd">        at this time.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">v</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">missing</span>
+        <span class="k">if</span> <span class="n">key</span> <span class="o">==</span> <span class="s2">&quot;time&quot;</span><span class="p">:</span>
+            <span class="n">v</span> <span class="o">=</span> <span class="n">md</span><span class="p">[</span><span class="s2">&quot;start&quot;</span><span class="p">][</span><span class="n">key</span><span class="p">]</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">timefmt</span> <span class="o">!=</span> <span class="s2">&quot;raw&quot;</span><span class="p">:</span>
+                <span class="n">ts</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">fromtimestamp</span><span class="p">(</span><span class="n">v</span><span class="p">)</span>
+                <span class="n">v</span> <span class="o">=</span> <span class="n">ts</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">timefmt</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">md</span><span class="p">[</span><span class="s2">&quot;start&quot;</span><span class="p">]:</span>
+            <span class="n">v</span> <span class="o">=</span> <span class="n">md</span><span class="p">[</span><span class="s2">&quot;start&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">missing</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">md</span><span class="p">[</span><span class="s2">&quot;stop&quot;</span><span class="p">]</span> <span class="ow">and</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">md</span><span class="p">[</span><span class="s2">&quot;stop&quot;</span><span class="p">]:</span>
+            <span class="n">v</span> <span class="o">=</span> <span class="n">md</span><span class="p">[</span><span class="s2">&quot;stop&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">missing</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="nb">len</span><span class="p">(</span><span class="n">key</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;.&quot;</span><span class="p">))</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
+            <span class="c1"># dotted-key syntax</span>
+            <span class="n">doc</span><span class="p">,</span> <span class="n">key</span> <span class="o">=</span> <span class="n">key</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;.&quot;</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">md</span><span class="p">[</span><span class="n">doc</span><span class="p">]</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">v</span> <span class="o">=</span> <span class="n">md</span><span class="p">[</span><span class="n">doc</span><span class="p">]</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">missing</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">key</span> <span class="o">==</span> <span class="s2">&quot;time&quot;</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">timefmt</span> <span class="o">!=</span> <span class="s2">&quot;raw&quot;</span><span class="p">:</span>
+                    <span class="n">ts</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">fromtimestamp</span><span class="p">(</span><span class="n">v</span><span class="p">)</span>
+                    <span class="n">v</span> <span class="o">=</span> <span class="n">ts</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">timefmt</span><span class="p">)</span>
+        <span class="n">hints</span> <span class="o">=</span> <span class="n">md</span><span class="p">[</span><span class="s2">&quot;start&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;hints&quot;</span><span class="p">,</span> <span class="p">{})</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">v</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">missing</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">hints_override</span><span class="p">)</span> <span class="ow">and</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">hints</span><span class="p">:</span>
+            <span class="n">v</span> <span class="o">=</span> <span class="n">hints</span><span class="p">[</span><span class="n">key</span><span class="p">]</span>
+        <span class="k">return</span> <span class="n">v</span>
+
+    <span class="k">def</span> <span class="nf">_check_cat</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">getCatalog</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">cat</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">cat</span> <span class="o">=</span> <span class="n">getCatalog</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">_apply_search_filters</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Search for runs from the catalog.&quot;&quot;&quot;</span>
+        <span class="kn">from</span> <span class="nn">databroker.queries</span> <span class="kn">import</span> <span class="n">TimeRange</span>
+
+        <span class="n">since</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">since</span> <span class="ow">or</span> <span class="n">FIRST_DATA</span>
+        <span class="n">until</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">until</span> <span class="ow">or</span> <span class="n">LAST_DATA</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_check_cat</span><span class="p">()</span>
+        <span class="n">query</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="n">query</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">TimeRange</span><span class="p">(</span><span class="n">since</span><span class="o">=</span><span class="n">since</span><span class="p">,</span> <span class="n">until</span><span class="o">=</span><span class="n">until</span><span class="p">))</span>
+        <span class="n">query</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">query</span> <span class="ow">or</span> <span class="p">{})</span>
+        <span class="n">cat</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">cat</span><span class="o">.</span><span class="n">v2</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="n">query</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">cat</span>
+
+<div class="viewcode-block" id="ListRuns.parse_runs"><a class="viewcode-back" href="../../../api/_utils.html#apstools.utils.list_runs.ListRuns.parse_runs">[docs]</a>    <span class="k">def</span> <span class="nf">parse_runs</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Parse the runs for the given metadata keys.  Return a dict.&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_check_keys</span><span class="p">()</span>
+        <span class="n">cat</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_apply_search_filters</span><span class="p">()</span>
+
+        <span class="k">def</span> <span class="nf">_sort</span><span class="p">(</span><span class="n">uid</span><span class="p">):</span>
+<span class="w">            </span><span class="sd">&quot;&quot;&quot;Sort runs in desired order based on metadata key.&quot;&quot;&quot;</span>
+            <span class="n">md</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">cat</span><span class="p">[</span><span class="n">uid</span><span class="p">]</span><span class="o">.</span><span class="n">metadata</span>
+            <span class="k">for</span> <span class="n">doc</span> <span class="ow">in</span> <span class="s2">&quot;start stop&quot;</span><span class="o">.</span><span class="n">split</span><span class="p">():</span>
+                <span class="k">if</span> <span class="n">md</span><span class="p">[</span><span class="n">doc</span><span class="p">]</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">sortby</span> <span class="ow">in</span> <span class="n">md</span><span class="p">[</span><span class="n">doc</span><span class="p">]:</span>
+                    <span class="k">return</span> <span class="n">md</span><span class="p">[</span><span class="n">doc</span><span class="p">][</span><span class="bp">self</span><span class="o">.</span><span class="n">sortby</span><span class="p">]</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">missing</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">missing</span>
+
+        <span class="n">num_runs_requested</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">num</span><span class="p">),</span> <span class="nb">len</span><span class="p">(</span><span class="n">cat</span><span class="p">))</span>
+        <span class="n">results</span> <span class="o">=</span> <span class="p">{</span><span class="n">k</span><span class="p">:</span> <span class="p">[]</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">keys</span><span class="p">}</span>
+        <span class="n">sequence</span> <span class="o">=</span> <span class="p">()</span>  <span class="c1"># iterable of run uids</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">ids</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">sequence</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">ids</span><span class="p">:</span>
+                <span class="k">try</span><span class="p">:</span>
+                    <span class="n">cat</span><span class="p">[</span><span class="n">k</span><span class="p">]</span>  <span class="c1"># try to access the run using `k`</span>
+                    <span class="n">sequence</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">k</span><span class="p">)</span>
+                <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">exc</span><span class="p">:</span>
+                    <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span>
+                        <span class="s2">&quot;Could not find run </span><span class="si">%s</span><span class="s2"> in search of catalog </span><span class="si">%s</span><span class="s2">: </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span>
+                        <span class="n">k</span><span class="p">,</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">cat</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
+                        <span class="n">exc</span><span class="p">,</span>
+                    <span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="kn">from</span> <span class="nn">databroker</span> <span class="kn">import</span> <span class="n">Broker</span>
+            <span class="kn">from</span> <span class="nn">databroker._drivers.mongo_normalized</span> <span class="kn">import</span> <span class="n">BlueskyMongoCatalog</span>
+
+            <span class="n">MONGO_CATALOG_CLASSES</span> <span class="o">=</span> <span class="p">(</span><span class="n">Broker</span><span class="p">,</span> <span class="n">BlueskyMongoCatalog</span><span class="p">)</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">cat</span><span class="p">,</span> <span class="n">MONGO_CATALOG_CLASSES</span><span class="p">)</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">sortby</span> <span class="o">==</span> <span class="s2">&quot;time&quot;</span><span class="p">:</span>
+                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">reverse</span><span class="p">:</span>
+                    <span class="c1"># the default rendering: from MongoDB in reverse time order</span>
+                    <span class="n">sequence</span> <span class="o">=</span> <span class="nb">iter</span><span class="p">(</span><span class="n">cat</span><span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="c1"># by increasing time order</span>
+                    <span class="n">sequence</span> <span class="o">=</span> <span class="p">[</span><span class="n">uid</span> <span class="k">for</span> <span class="n">uid</span> <span class="ow">in</span> <span class="n">cat</span><span class="p">][::</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="c1"># full search in Python</span>
+                <span class="n">sequence</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">cat</span><span class="o">.</span><span class="n">keys</span><span class="p">(),</span> <span class="n">key</span><span class="o">=</span><span class="n">_sort</span><span class="p">,</span> <span class="n">reverse</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">reverse</span><span class="p">)</span>
+
+        <span class="n">count</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">for</span> <span class="n">uid</span> <span class="ow">in</span> <span class="n">sequence</span><span class="p">:</span>
+            <span class="n">run</span> <span class="o">=</span> <span class="n">cat</span><span class="p">[</span><span class="n">uid</span><span class="p">]</span>
+            <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">keys</span><span class="p">:</span>
+                <span class="n">results</span><span class="p">[</span><span class="n">k</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_get_by_key</span><span class="p">(</span><span class="n">run</span><span class="o">.</span><span class="n">metadata</span><span class="p">,</span> <span class="n">k</span><span class="p">))</span>
+            <span class="n">count</span> <span class="o">+=</span> <span class="mi">1</span>
+            <span class="k">if</span> <span class="n">count</span> <span class="o">&gt;=</span> <span class="n">num_runs_requested</span><span class="p">:</span>
+                <span class="k">break</span>
+        <span class="k">return</span> <span class="n">results</span></div>
+
+    <span class="k">def</span> <span class="nf">_check_keys</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Check that self.keys is a list of strings.&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">keys</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">keys</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">_default_keys</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">keys</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">keys</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">keys</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
+
+<div class="viewcode-block" id="ListRuns.to_dataframe"><a class="viewcode-back" href="../../../api/_utils.html#apstools.utils.list_runs.ListRuns.to_dataframe">[docs]</a>    <span class="k">def</span> <span class="nf">to_dataframe</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>  <span class="c1"># DEPRECATED</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Output as pandas DataFrame object&quot;&quot;&quot;</span>
+        <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s2">&quot;&#39;ListRuns.to_dataframe()&#39; method is deprecated.&quot;</span><span class="p">)</span>
+        <span class="n">dd</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">parse_runs</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">TableStyle</span><span class="o">.</span><span class="n">pandas</span><span class="o">.</span><span class="n">value</span><span class="p">(</span><span class="n">dd</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">keys</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="ListRuns.to_table"><a class="viewcode-back" href="../../../api/_utils.html#apstools.utils.list_runs.ListRuns.to_table">[docs]</a>    <span class="k">def</span> <span class="nf">to_table</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fmt</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>  <span class="c1"># DEPRECATED</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Output as pyRestTable object.&quot;&quot;&quot;</span>
+        <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s2">&quot;&#39;ListRuns.to_table()&#39; method is deprecated.&quot;</span><span class="p">)</span>
+        <span class="n">dd</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">parse_runs</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">TableStyle</span><span class="o">.</span><span class="n">pyRestTable</span><span class="o">.</span><span class="n">value</span><span class="p">(</span><span class="n">dd</span><span class="o">=</span><span class="n">dd</span><span class="p">)</span><span class="o">.</span><span class="n">reST</span><span class="p">(</span><span class="n">fmt</span><span class="o">=</span><span class="n">fmt</span> <span class="ow">or</span> <span class="s2">&quot;simple&quot;</span><span class="p">)</span></div></div>
+
+
+<div class="viewcode-block" id="listruns"><a class="viewcode-back" href="../../../api/_utils.html#apstools.utils.list_runs.listruns">[docs]</a><span class="k">def</span> <span class="nf">listruns</span><span class="p">(</span>
+    <span class="n">cat</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">keys</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">missing</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span>
+    <span class="n">num</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span>
+    <span class="n">printing</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>  <span class="c1"># DEPRECATED</span>
+    <span class="n">reverse</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="n">since</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">sortby</span><span class="o">=</span><span class="s2">&quot;time&quot;</span><span class="p">,</span>
+    <span class="n">tablefmt</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>  <span class="c1"># DEPRECATED</span>
+    <span class="n">table_style</span><span class="o">=</span><span class="n">TableStyle</span><span class="o">.</span><span class="n">pyRestTable</span><span class="p">,</span>
+    <span class="n">timefmt</span><span class="o">=</span><span class="s2">&quot;%Y-%m-</span><span class="si">%d</span><span class="s2"> %H:%M:%S&quot;</span><span class="p">,</span>
+    <span class="n">until</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">ids</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">hints_override</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+    <span class="o">**</span><span class="n">query</span><span class="p">,</span>
+<span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    List runs from catalog.</span>
+
+<span class="sd">    This function provides a thin interface to the highly-reconfigurable</span>
+<span class="sd">    ``ListRuns()`` class in this package.</span>
+
+<span class="sd">    PARAMETERS</span>
+
+<span class="sd">    cat</span>
+<span class="sd">        *object* :</span>
+<span class="sd">        Instance of databroker v1 or v2 catalog.</span>
+<span class="sd">    keys</span>
+<span class="sd">        *str* or *[str]* or None:</span>
+<span class="sd">        Include these additional keys from the start document.</span>
+<span class="sd">        (default: ``None`` means ``&quot;scan_id time plan_name detectors&quot;``)</span>
+<span class="sd">    missing</span>
+<span class="sd">        *str*:</span>
+<span class="sd">        Test to report when a value is not available.</span>
+<span class="sd">        (default: ``&quot;&quot;``)</span>
+<span class="sd">    hints_override *bool*:</span>
+<span class="sd">        For a key that appears in both the metadata and the hints,</span>
+<span class="sd">        override the metadata value if the same key is found in the hints.</span>
+<span class="sd">        (default: ``False``)</span>
+<span class="sd">    ids</span>
+<span class="sd">        *[int]* or *[str]*:</span>
+<span class="sd">        List of ``uid`` or ``scan_id`` value(s).</span>
+<span class="sd">        Can mix different kinds in the same list.</span>
+<span class="sd">        Also can specify offsets (e.g., ``-1``).</span>
+<span class="sd">        According to the rules for ``databroker`` catalogs,</span>
+<span class="sd">        a string is a ``uid`` (partial representations allowed),</span>
+<span class="sd">        an int is ``scan_id`` if positive or an offset if negative.</span>
+<span class="sd">        (default: ``None``)</span>
+<span class="sd">    num</span>
+<span class="sd">        *int* :</span>
+<span class="sd">        Make the table include the ``num`` most recent runs.</span>
+<span class="sd">        (default: ``20``)</span>
+<span class="sd">    printing *bool* or *str* :</span>
+<span class="sd">        Deprecated.</span>
+<span class="sd">    reverse</span>
+<span class="sd">        *bool* :</span>
+<span class="sd">        If ``True``, sort in descending order by ``sortby``.</span>
+<span class="sd">        (default: ``True``)</span>
+<span class="sd">    since</span>
+<span class="sd">        *str* :</span>
+<span class="sd">        include runs that started on or after this ISO8601 time</span>
+<span class="sd">        (default: ``&quot;1995-01-01&quot;``)</span>
+<span class="sd">    sortby</span>
+<span class="sd">        *str* :</span>
+<span class="sd">        Sort columns by this key, found by exact match in either</span>
+<span class="sd">        the ``start`` or ``stop`` document.</span>
+<span class="sd">        (default: ``&quot;time&quot;``)</span>
+<span class="sd">    tablefmt *str* :</span>
+<span class="sd">        Deprecated.  Use ``table_style`` instead.</span>
+<span class="sd">    table_style *object* :</span>
+<span class="sd">        Either ``TableStyle.pyRestTable`` (default) or ``TableStyle.pandas``,</span>
+<span class="sd">        using values from :class:`apstools.utils.TableStyle`.</span>
+
+<span class="sd">        .. note:: ``pandas.DataFrame`` wll truncate long text to at most 50 characters.</span>
+<span class="sd">    timefmt</span>
+<span class="sd">        *str* :</span>
+<span class="sd">        The ``time`` key (also includes keys ``&quot;start.time&quot;`` and  ``&quot;stop.time&quot;``)</span>
+<span class="sd">        will be formatted by the ``self.timefmt`` value.</span>
+<span class="sd">        See https://strftime.org/ for examples.  The special ``timefmt=&quot;raw&quot;``</span>
+<span class="sd">        is used to report time as the raw value (floating point time as used in</span>
+<span class="sd">        python&#39;s ``time.time()``).</span>
+<span class="sd">        (default: ``&quot;%Y-%m-%d %H:%M:%S&quot;,``)</span>
+<span class="sd">    until</span>
+<span class="sd">        *str* :</span>
+<span class="sd">        include runs that started before this ISO8601 time</span>
+<span class="sd">        (default: ``2100-12-31``)</span>
+<span class="sd">    ``**query``</span>
+<span class="sd">        *dict* :</span>
+<span class="sd">        Any additional keyword arguments will be passed to</span>
+<span class="sd">        the databroker to refine the search for matching runs</span>
+<span class="sd">        using the ``mongoquery`` package.</span>
+
+<span class="sd">    RETURNS</span>
+
+<span class="sd">    object:</span>
+<span class="sd">        ``None`` or ``str`` or ``pd.DataFrame()`` object</span>
+
+<span class="sd">    EXAMPLE::</span>
+
+<span class="sd">        TODO</span>
+
+<span class="sd">    (new in release 1.5.0)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">lr</span> <span class="o">=</span> <span class="n">ListRuns</span><span class="p">(</span>
+        <span class="n">cat</span><span class="o">=</span><span class="n">cat</span><span class="p">,</span>
+        <span class="n">keys</span><span class="o">=</span><span class="n">keys</span><span class="p">,</span>
+        <span class="n">missing</span><span class="o">=</span><span class="n">missing</span><span class="p">,</span>
+        <span class="n">num</span><span class="o">=</span><span class="n">num</span><span class="p">,</span>
+        <span class="n">query</span><span class="o">=</span><span class="n">query</span><span class="p">,</span>
+        <span class="n">reverse</span><span class="o">=</span><span class="n">reverse</span><span class="p">,</span>
+        <span class="n">since</span><span class="o">=</span><span class="n">since</span><span class="p">,</span>
+        <span class="n">sortby</span><span class="o">=</span><span class="n">sortby</span><span class="p">,</span>
+        <span class="n">timefmt</span><span class="o">=</span><span class="n">timefmt</span><span class="p">,</span>
+        <span class="n">until</span><span class="o">=</span><span class="n">until</span><span class="p">,</span>
+        <span class="n">ids</span><span class="o">=</span><span class="n">ids</span><span class="p">,</span>
+        <span class="n">hints_override</span><span class="o">=</span><span class="n">hints_override</span><span class="p">,</span>
+    <span class="p">)</span>
+
+    <span class="n">table_style</span> <span class="o">=</span> <span class="n">table_style</span> <span class="ow">or</span> <span class="n">TableStyle</span><span class="o">.</span><span class="n">pyRestTable</span>
+    <span class="k">if</span> <span class="n">tablefmt</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">tablefmt</span> <span class="o">==</span> <span class="s2">&quot;dataframe&quot;</span><span class="p">:</span>
+            <span class="n">choice</span> <span class="o">=</span> <span class="s2">&quot;TableStyle.pandas&quot;</span>
+            <span class="n">table_style</span> <span class="o">=</span> <span class="n">TableStyle</span><span class="o">.</span><span class="n">pandas</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">choice</span> <span class="o">=</span> <span class="s2">&quot;TableStyle.pyRestTable&quot;</span>
+            <span class="n">table_style</span> <span class="o">=</span> <span class="n">TableStyle</span><span class="o">.</span><span class="n">pyRestTable</span>
+        <span class="c1"># fmt: off</span>
+        <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;Use &#39;table_style=</span><span class="si">{</span><span class="n">choice</span><span class="si">}</span><span class="s2">&#39; instead of&quot;</span>
+            <span class="sa">f</span><span class="s2">&quot; deprecated option &#39;tablefmt=</span><span class="se">\&quot;</span><span class="si">{</span><span class="n">tablefmt</span><span class="si">}</span><span class="se">\&quot;</span><span class="s2">&#39;.&quot;</span>
+        <span class="p">)</span>
+        <span class="c1"># fmt: on</span>
+
+    <span class="k">if</span> <span class="n">printing</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Keyword argument &#39;printing=</span><span class="si">{</span><span class="n">printing</span><span class="si">}</span><span class="s2">&#39; is deprecated.&quot;</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">table_style</span><span class="o">.</span><span class="n">value</span><span class="p">(</span><span class="n">lr</span><span class="o">.</span><span class="n">parse_runs</span><span class="p">())</span></div>
+
+
+<div class="viewcode-block" id="summarize_runs"><a class="viewcode-back" href="../../../api/_utils.html#apstools.utils.list_runs.summarize_runs">[docs]</a><span class="k">def</span> <span class="nf">summarize_runs</span><span class="p">(</span><span class="n">since</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">db</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Report bluesky run metrics from the databroker.</span>
+
+<span class="sd">    * How many different plans?</span>
+<span class="sd">    * How many runs?</span>
+<span class="sd">    * How many times each run was used?</span>
+<span class="sd">    * How frequently?  (TODO:)</span>
+
+<span class="sd">    PARAMETERS</span>
+
+<span class="sd">    since</span>
+<span class="sd">        *str* :</span>
+<span class="sd">        Report all runs since this ISO8601 date &amp; time</span>
+<span class="sd">        (default: ``1995``)</span>
+<span class="sd">    db</span>
+<span class="sd">        *object* :</span>
+<span class="sd">        Instance of ``databroker.Broker()``</span>
+<span class="sd">        (default: ``db`` from the IPython shell)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="kn">from</span> <span class="nn">databroker.queries</span> <span class="kn">import</span> <span class="n">TimeRange</span>
+    <span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">ipython_shell_namespace</span>
+
+    <span class="n">db</span> <span class="o">=</span> <span class="n">db</span> <span class="ow">or</span> <span class="n">ipython_shell_namespace</span><span class="p">()[</span><span class="s2">&quot;db&quot;</span><span class="p">]</span>
+    <span class="c1"># no APS X-ray experiment data before 1995!</span>
+    <span class="n">since</span> <span class="o">=</span> <span class="n">since</span> <span class="ow">or</span> <span class="s2">&quot;1995&quot;</span>
+    <span class="n">cat</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="n">v2</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="n">TimeRange</span><span class="p">(</span><span class="n">since</span><span class="o">=</span><span class="n">since</span><span class="p">))</span>
+    <span class="n">plans</span> <span class="o">=</span> <span class="n">defaultdict</span><span class="p">(</span><span class="nb">list</span><span class="p">)</span>
+    <span class="n">t0</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+    <span class="k">for</span> <span class="n">n</span><span class="p">,</span> <span class="n">uid</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">cat</span><span class="p">):</span>
+        <span class="n">t1</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+        <span class="c1"># next step is very slow (0.01 - 0.5 seconds each!)</span>
+        <span class="n">run</span> <span class="o">=</span> <span class="n">cat</span><span class="p">[</span><span class="n">uid</span><span class="p">]</span>
+        <span class="n">t2</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+        <span class="n">plan_name</span> <span class="o">=</span> <span class="n">run</span><span class="o">.</span><span class="n">metadata</span><span class="p">[</span><span class="s2">&quot;start&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;plan_name&quot;</span><span class="p">,</span> <span class="s2">&quot;unknown&quot;</span><span class="p">)</span>
+        <span class="c1"># fmt:off</span>
+        <span class="n">dt</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">fromtimestamp</span><span class="p">(</span>
+            <span class="n">run</span><span class="o">.</span><span class="n">metadata</span><span class="p">[</span><span class="s2">&quot;start&quot;</span><span class="p">][</span><span class="s2">&quot;time&quot;</span><span class="p">]</span>
+        <span class="p">)</span><span class="o">.</span><span class="n">isoformat</span><span class="p">()</span>
+        <span class="c1"># fmt:on</span>
+        <span class="n">scan_id</span> <span class="o">=</span> <span class="n">run</span><span class="o">.</span><span class="n">metadata</span><span class="p">[</span><span class="s2">&quot;start&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;scan_id&quot;</span><span class="p">,</span> <span class="s2">&quot;unknown&quot;</span><span class="p">)</span>
+        <span class="c1"># fmt: off</span>
+        <span class="n">plans</span><span class="p">[</span><span class="n">plan_name</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+            <span class="nb">dict</span><span class="p">(</span>
+                <span class="n">plan_name</span><span class="o">=</span><span class="n">plan_name</span><span class="p">,</span>
+                <span class="n">dt</span><span class="o">=</span><span class="n">dt</span><span class="p">,</span>
+                <span class="n">time_start</span><span class="o">=</span><span class="n">dt</span><span class="p">,</span>
+                <span class="n">uid</span><span class="o">=</span><span class="n">uid</span><span class="p">,</span>
+                <span class="n">scan_id</span><span class="o">=</span><span class="n">scan_id</span><span class="p">,</span>
+            <span class="p">)</span>
+        <span class="p">)</span>
+        <span class="c1"># fmt: on</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span>
+            <span class="s2">&quot;</span><span class="si">%s</span><span class="s2"> </span><span class="si">%s</span><span class="s2"> dt1=</span><span class="si">%4.01f</span><span class="s2">us dt2=</span><span class="si">%5.01f</span><span class="s2">ms </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span>
+            <span class="n">scan_id</span><span class="p">,</span>
+            <span class="n">dt</span><span class="p">,</span>
+            <span class="p">(</span><span class="n">t1</span> <span class="o">-</span> <span class="n">t0</span><span class="p">)</span> <span class="o">*</span> <span class="mf">1e6</span><span class="p">,</span>
+            <span class="p">(</span><span class="n">t2</span> <span class="o">-</span> <span class="n">t1</span><span class="p">)</span> <span class="o">*</span> <span class="mf">1e3</span><span class="p">,</span>
+            <span class="n">plan_name</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="n">t0</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">sorter</span><span class="p">(</span><span class="n">plan_name</span><span class="p">):</span>
+        <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="n">plans</span><span class="p">[</span><span class="n">plan_name</span><span class="p">])</span>
+
+    <span class="n">table</span> <span class="o">=</span> <span class="n">TableStyle</span><span class="o">.</span><span class="n">pyRestTable</span><span class="o">.</span><span class="n">value</span><span class="p">()</span>
+    <span class="n">table</span><span class="o">.</span><span class="n">labels</span> <span class="o">=</span> <span class="s2">&quot;plan quantity&quot;</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
+    <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">plans</span><span class="o">.</span><span class="n">keys</span><span class="p">(),</span> <span class="n">key</span><span class="o">=</span><span class="n">sorter</span><span class="p">,</span> <span class="n">reverse</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+        <span class="n">table</span><span class="o">.</span><span class="n">addRow</span><span class="p">((</span><span class="n">k</span><span class="p">,</span> <span class="n">sorter</span><span class="p">(</span><span class="n">k</span><span class="p">)))</span>
+    <span class="n">table</span><span class="o">.</span><span class="n">addRow</span><span class="p">((</span><span class="s2">&quot;TOTAL&quot;</span><span class="p">,</span> <span class="n">n</span> <span class="o">+</span> <span class="mi">1</span><span class="p">))</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">table</span><span class="p">)</span></div>
+
+
+<span class="c1"># -----------------------------------------------------------------------------</span>
+<span class="c1"># :author:    Pete R. Jemian</span>
+<span class="c1"># :email:     jemian@anl.gov</span>
+<span class="c1"># :copyright: (c) 2017-2024, UChicago Argonne, LLC</span>
+<span class="c1">#</span>
+<span class="c1"># Distributed under the terms of the Argonne National Laboratory Open Source License.</span>
+<span class="c1">#</span>
+<span class="c1"># The full license is in the file LICENSE.txt, distributed with this software.</span>
+<span class="c1"># -----------------------------------------------------------------------------</span>
+</pre></div>
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+
+  <p class="copyright">
+    
+      © Copyright 2017-2024, UChicago Argonne, LLC.
+      <br/>
+    
+  </p>
+</div>
+      
+        <div class="footer-item">
+
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 5.3.0.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item">
+<p class="theme-version">
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.15.4.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

@@ -1,0 +1,815 @@
+
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+
+    <title>How to setup logging &#8212; apstools 1.7</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/graphviz.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.5ea377869091fd0449014c60fc090103.min.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/css/custom.css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/sphinx_highlight.js"></script>
+    <script src="../_static/design-tabs.js"></script>
+    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'examples/ho_session_logs';</script>
+    <script>
+        DOCUMENTATION_OPTIONS.theme_version = '0.15.4';
+        DOCUMENTATION_OPTIONS.theme_switcher_json_url = 'https://raw.githubusercontent.com/BCDA-APS/apstools/main/docs/source/_static/switcher.json';
+        DOCUMENTATION_OPTIONS.theme_switcher_version_match = 'dev';
+        DOCUMENTATION_OPTIONS.show_version_warning_banner = false;
+        </script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Plan Examples" href="plan_examples.html" />
+    <link rel="prev" title="How to Search for Bluesky Data?" href="ho_search_databroker.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-3 navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../index.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">apstools 1.7</p>
+  
+</a></div>
+    
+      <div class="navbar-item">
+<script>
+document.write(`
+  <div class="version-switcher__container dropdown">
+    <button id="pst-version-switcher-button-2"
+      type="button"
+      class="version-switcher__button btn btn-sm dropdown-toggle"
+      data-bs-toggle="dropdown"
+      aria-haspopup="listbox"
+      aria-controls="pst-version-switcher-list-2"
+      aria-label="Version switcher list"
+    >
+      Choose version  <!-- this text may get changed later by javascript -->
+      <span class="caret"></span>
+    </button>
+    <div id="pst-version-switcher-list-2"
+      class="version-switcher__menu dropdown-menu list-group-flush py-0"
+      role="listbox" aria-labelledby="pst-version-switcher-button-2">
+      <!-- dropdown will be populated by javascript on page load -->
+    </div>
+  </div>
+`);
+</script></div>
+    
+  </div>
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../install.html">
+    Installation
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../api/index.html">
+    API Documentation
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../applications/index.html">
+    Applications
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="index.html">
+    Examples
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../changes.html">
+    Change History
+  </a>
+</li>
+
+            <li class="nav-item dropdown">
+                <button class="btn dropdown-toggle nav-item" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-controls="pst-nav-more-links">
+                    More
+                </button>
+                <ul id="pst-nav-more-links" class="dropdown-menu">
+                    
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../license.html">
+    License
+  </a>
+</li>
+
+                </ul>
+            </li>
+            
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script>
+        </div>
+      
+      
+        <div class="navbar-item">
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script></div>
+      
+        <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/BCDA-APS/apstools" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script>
+    </div>
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../install.html">
+    Installation
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../api/index.html">
+    API Documentation
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../applications/index.html">
+    Applications
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="index.html">
+    Examples
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../changes.html">
+    Change History
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../license.html">
+    License
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script></div>
+        
+          <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/BCDA-APS/apstools" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+        
+      </div>
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+<nav class="bd-docs-nav bd-links"
+     aria-label="Section Navigation">
+  <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
+  <div class="bd-toc-item navbar-nav"><ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="device_examples.html">Device Examples</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="de_0_adsim_hdf5_basic.html">Area Detector with default HDF5 File Name</a></li>
+<li class="toctree-l2"><a class="reference internal" href="de_1_adsim_hdf5_custom_names.html">Area Detector with custom HDF5 File Name</a></li>
+<li class="toctree-l2"><a class="reference internal" href="de_2_adsim_hdf5_single_mode.html">Area Detector, Single mode, HDF5 file</a></li>
+<li class="toctree-l2"><a class="reference internal" href="de_ad_pe.html">ADPerkinElmer Area Detector with default HDF5 File Name</a></li>
+<li class="toctree-l2"><a class="reference internal" href="de_ad_pilatus.html">ADPilatus Area Detector with default HDF5 File Name</a></li>
+<li class="toctree-l2"><a class="reference internal" href="de_aps_data_management.html">Integration with APS Data Management (DM)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="de_sscan.html">The synApps <code class="docutils literal notranslate"><span class="pre">sscan</span></code> and <code class="docutils literal notranslate"><span class="pre">SscanRecord</span></code></a></li>
+</ul>
+</details></li>
+</ul>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="filewriter_examples.html">File Writer Examples</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="fw_nxwriter.html">Callback</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="fw_specfile_example.html">Output scan(s) to a SPEC data file.</a></li>
+</ul>
+</details></li>
+</ul>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="howto_examples.html">How-To Examples</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="ho_contingency.html">How to interrupt/stop/abort a running plan &amp; recover to safe settings</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ho_list_control_objects.html">What are the objects to control?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ho_nxwriter_templates.html">How to use NeXus/HDF5 Templates</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ho_search_databroker.html">How to Search for Bluesky Data?</a></li>
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">How to setup logging</a></li>
+</ul>
+</details></li>
+</ul>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="plan_examples.html">Plan Examples</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="pl_excel_scan.html">The <code class="docutils literal notranslate"><span class="pre">Excel_plan()</span></code> – batch scans using a spreadsheet</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pl_lineup.html">The <code class="docutils literal notranslate"><span class="pre">lineup()</span></code> plan - align an axis with a signal</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pl_nscan.html">The <code class="docutils literal notranslate"><span class="pre">nscan()</span></code> plan – scan multiple axes together</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pl_run_command_list.html">The <code class="xref py py-func docutils literal notranslate"><span class="pre">run_command_file()</span></code> plan – batch scans using a text file</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pl_tuneaxis.html">The <code class="docutils literal notranslate"><span class="pre">TuneAxis()</span></code> plan - align an axis with a signal</a></li>
+</ul>
+</details></li>
+</ul>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="download_examples.html">File Downloads for the Examples</a></li>
+</ul>
+</div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+
+
+<nav aria-label="Breadcrumb" class="d-print-none">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="index.html" class="nav-link">Examples</a></li>
+    
+    
+    <li class="breadcrumb-item"><a href="howto_examples.html" class="nav-link">How-To Examples</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page">How to setup logging</li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section id="how-to-setup-logging">
+<span id="howto-session-logs"></span><h1>How to setup logging<a class="headerlink" href="#how-to-setup-logging" title="Permalink to this heading">#</a></h1>
+<p>Using functions from <a class="reference internal" href="../api/_utils.html#module-apstools.utils.log_utils" title="apstools.utils.log_utils"><code class="xref py py-mod docutils literal notranslate"><span class="pre">apstools.utils.log_utils</span></code></a>, it is easy to setup
+logging <a class="footnote-reference brackets" href="#logging" id="id1" role="doc-noteref"><span class="fn-bracket">[</span>5<span class="fn-bracket">]</span></a> reports to either the console or a file. Refer to the logging
+levels, as described in the section <a class="reference internal" href="#logging-levels"><span class="std std-ref">What are the logging levels?</span></a> below.</p>
+<p>To setup for logging in your code:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="linenos">1</span><span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
+<span class="linenos">2</span><span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>You can use this code in any module to create a <code class="docutils literal notranslate"><span class="pre">logger</span></code> object. Use one of
+the levels such as <code class="docutils literal notranslate"><span class="pre">logger.warning(&quot;a</span> <span class="pre">warning</span> <span class="pre">message&quot;)</span></code> or
+<code class="docutils literal notranslate"><span class="pre">logger.debug(&quot;some</span> <span class="pre">detail&quot;)</span></code> to add messages for logging.  <code class="docutils literal notranslate"><span class="pre">INFO</span></code> and
+<code class="docutils literal notranslate"><span class="pre">DEBUG</span></code> level messages will not be reported unless you adjust the level to
+allow this level of detail. To set the level:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="linenos">1</span><span class="n">logger</span><span class="o">.</span><span class="n">setLevel</span><span class="p">(</span><span class="n">logging</span><span class="o">.</span><span class="n">DEBUG</span><span class="p">)</span>  <span class="c1"># allow any log content at this level</span>
+</pre></div>
+</div>
+<p>Yet still, you may not see any output on your console unless you provide a
+<em>handler</em> which tells the logger what to do with each message.  A logger has its
+own reporting level which determines which messages to report.</p>
+<div class="admonition tip">
+<p class="admonition-title">Tip</p>
+<p>Set the logger level to the lowest level of any of the handlers you will use.</p>
+</div>
+<p>In the next sections, we show you how to add handlers.  You can add multiple
+handlers to a <code class="docutils literal notranslate"><span class="pre">logger</span></code> for different types of reporting.</p>
+<section id="handlers">
+<h2>Handlers<a class="headerlink" href="#handlers" title="Permalink to this heading">#</a></h2>
+<p>Logging handlers describe when, where, and how to report a logging message. The
+sections below show how to report to the console and to files. The logging
+documentation (<a class="footnote-reference brackets" href="#logging" id="id2" role="doc-noteref"><span class="fn-bracket">[</span>5<span class="fn-bracket">]</span></a>) shows how to report to more places. The bluesky
+documentation <a class="footnote-reference brackets" href="#bluesky-logging" id="id3" role="doc-noteref"><span class="fn-bracket">[</span>1<span class="fn-bracket">]</span></a> provides debugging and logging guidance.</p>
+<section id="reporting-to-the-console-streamhandler">
+<h3>Reporting to the console (<code class="docutils literal notranslate"><span class="pre">StreamHandler</span></code>)<a class="headerlink" href="#reporting-to-the-console-streamhandler" title="Permalink to this heading">#</a></h3>
+<p>Starting with the <code class="docutils literal notranslate"><span class="pre">logger</span></code> from <a class="reference internal" href="#howto-session-logs"><span class="std std-ref">How to setup logging</span></a>, add a handler for
+reporting <code class="docutils literal notranslate"><span class="pre">INFO</span></code> (and higher) messages to the console.  You can change the
+level with a keyword argument, see
+<a class="reference internal" href="../api/_utils.html#apstools.utils.log_utils.stream_log_handler" title="apstools.utils.log_utils.stream_log_handler"><code class="xref py py-func docutils literal notranslate"><span class="pre">stream_log_handler()</span></code></a>.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="linenos">1</span><span class="n">logger</span><span class="o">.</span><span class="n">addHandler</span><span class="p">(</span><span class="n">stream_log_handler</span><span class="p">())</span>  <span class="c1"># logger to the console</span>
+</pre></div>
+</div>
+</section>
+<section id="reporting-to-a-file-filehandler-or-rotatingfilehandler">
+<h3>Reporting to a file (<code class="docutils literal notranslate"><span class="pre">FileHandler</span></code> or <code class="docutils literal notranslate"><span class="pre">RotatingFileHandler</span></code>)<a class="headerlink" href="#reporting-to-a-file-filehandler-or-rotatingfilehandler" title="Permalink to this heading">#</a></h3>
+<p>Starting with the <code class="docutils literal notranslate"><span class="pre">logger</span></code> from <a class="reference internal" href="#howto-session-logs"><span class="std std-ref">How to setup logging</span></a>, add a handler for
+reporting <code class="docutils literal notranslate"><span class="pre">DEBUG</span></code> (and higher) messages to the file.  The log file
+will be named <code class="docutils literal notranslate"><span class="pre">.logs/my_log_file.log</span></code> with up to 9 older
+files, each no larger than 1 MB.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span><span class="n">BYTE</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="linenos"> 2</span><span class="n">kB</span> <span class="o">=</span> <span class="mi">1024</span> <span class="o">*</span> <span class="n">BYTE</span>
+<span class="linenos"> 3</span><span class="n">MB</span> <span class="o">=</span> <span class="mi">1024</span> <span class="o">*</span> <span class="n">kB</span>
+<span class="linenos"> 4</span>
+<span class="linenos"> 5</span><span class="n">logger</span><span class="o">.</span><span class="n">addHandler</span><span class="p">(</span>
+<span class="linenos"> 6</span>    <span class="n">file_log_handler</span><span class="p">(</span>  <span class="c1"># logger to a file</span>
+<span class="linenos"> 7</span>        <span class="s2">&quot;my_log_file,</span>
+<span class="linenos"> 8</span>        <span class="n">maxBytes</span><span class="o">=</span><span class="mi">1</span> <span class="o">*</span> <span class="n">MB</span><span class="p">,</span>
+<span class="linenos"> 9</span>        <span class="n">backupCount</span><span class="o">=</span><span class="mi">9</span><span class="p">,</span>
+<span class="linenos">10</span>        <span class="n">level</span><span class="o">=</span><span class="s2">&quot;DEBUG&quot;</span><span class="p">,</span>
+<span class="linenos">11</span>    <span class="p">)</span>
+<span class="linenos">12</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="reporting-from-included-packages">
+<h3>Reporting from included packages<a class="headerlink" href="#reporting-from-included-packages" title="Permalink to this heading">#</a></h3>
+<p>Some of the packages included might report via Python’s <code class="docutils literal notranslate"><span class="pre">logging</span></code> package. For
+example, <code class="docutils literal notranslate"><span class="pre">bluesky</span></code> <a class="footnote-reference brackets" href="#bluesky-logging-names" id="id4" role="doc-noteref"><span class="fn-bracket">[</span>2<span class="fn-bracket">]</span></a> and <code class="docutils literal notranslate"><span class="pre">ophyd</span></code>
+<a class="footnote-reference brackets" href="#ophyd-logging-names" id="id5" role="doc-noteref"><span class="fn-bracket">[</span>4<span class="fn-bracket">]</span></a> have several logger names that report messages.  Here,
+we enable reporting from the top-level logger names in both these packages:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span><span class="n">BYTE</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="linenos"> 2</span><span class="n">kB</span> <span class="o">=</span> <span class="mi">1024</span> <span class="o">*</span> <span class="n">BYTE</span>
+<span class="linenos"> 3</span><span class="n">MB</span> <span class="o">=</span> <span class="mi">1024</span> <span class="o">*</span> <span class="n">kB</span>
+<span class="linenos"> 4</span>
+<span class="linenos"> 5</span><span class="n">log_these_names</span> <span class="o">=</span> <span class="p">{</span>
+<span class="linenos"> 6</span>    <span class="s2">&quot;bluesky&quot;</span><span class="p">:</span> <span class="s2">&quot;INFO&quot;</span><span class="p">,</span>
+<span class="linenos"> 7</span>    <span class="s2">&quot;ophyd&quot;</span><span class="p">:</span> <span class="s2">&quot;INFO&quot;</span><span class="p">,</span>
+<span class="linenos"> 8</span><span class="p">}</span>
+<span class="linenos"> 9</span><span class="k">for</span> <span class="n">logger_name</span><span class="p">,</span> <span class="n">level</span> <span class="ow">in</span> <span class="n">log_these_names</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+<span class="linenos">10</span>    <span class="n">_l</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="n">logger_name</span><span class="p">)</span>
+<span class="linenos">11</span>    <span class="n">_l</span><span class="o">.</span><span class="n">setLevel</span><span class="p">(</span><span class="n">logging</span><span class="o">.</span><span class="n">DEBUG</span><span class="p">)</span>  <span class="c1"># allow any log content at this level</span>
+<span class="linenos">12</span>    <span class="n">_l</span><span class="o">.</span><span class="n">addHandler</span><span class="p">(</span>
+<span class="linenos">13</span>        <span class="n">file_log_handler</span><span class="p">(</span>  <span class="c1"># logger to a file</span>
+<span class="linenos">14</span>            <span class="n">logger_name</span><span class="p">,</span>
+<span class="linenos">15</span>            <span class="n">logger_name</span><span class="p">,</span>
+<span class="linenos">16</span>            <span class="n">maxBytes</span><span class="o">=</span><span class="mi">1</span> <span class="o">*</span> <span class="n">MB</span><span class="p">,</span>
+<span class="linenos">17</span>            <span class="n">backupCount</span><span class="o">=</span><span class="mi">9</span><span class="p">,</span>
+<span class="linenos">18</span>            <span class="n">level</span><span class="o">=</span><span class="n">level</span><span class="p">,</span>  <span class="c1"># filter reporting to this level</span>
+<span class="linenos">19</span>        <span class="p">)</span>
+<span class="linenos">20</span>    <span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="recording-ipython-console-input-and-output">
+<h3>Recording IPython console Input and Output<a class="headerlink" href="#recording-ipython-console-input-and-output" title="Permalink to this heading">#</a></h3>
+<p>IPython offers its own logging process for recording the input (<code class="docutils literal notranslate"><span class="pre">IN</span></code>) and
+output (<code class="docutils literal notranslate"><span class="pre">OUT</span></code>) messages.  When diagnosing problems, or for education reasons,
+it is useful to record this content to a file for later review.</p>
+<p>This will create a file <code class="docutils literal notranslate"><span class="pre">.logs/ipython_console.log</span></code> (relative to
+the current working directory) for this log.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="linenos">1</span><span class="n">setup_IPython_console_logging</span><span class="p">()</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="what-are-the-logging-levels">
+<span id="logging-levels"></span><h2>What are the logging levels?<a class="headerlink" href="#what-are-the-logging-levels" title="Permalink to this heading">#</a></h2>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>text</p></th>
+<th class="head"><p>symbol</p></th>
+<th class="head"><p>remarks</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">&quot;CRITICAL&quot;</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">logging.CRITICAL</span></code></p></td>
+<td><p>rare for any messages</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">&quot;ERROR&quot;</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">logging.ERROR</span></code></p></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">&quot;WARNING&quot;</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">logging.WARNING</span></code></p></td>
+<td><p>default reporting level</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">&quot;INFO&quot;</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">logging.INFO</span></code></p></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">&quot;DEBUG&quot;</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">logging.DEBUG</span></code></p></td>
+<td><p>the most verbose level</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>A logging <em>handler</em> will report any messages it receives at its current level or
+<em>higher</em> as shown in this table.  With the default level (<code class="docutils literal notranslate"><span class="pre">WARNING</span></code>), you will
+only receive messages from <code class="docutils literal notranslate"><span class="pre">logger.critical()</span></code>,  <code class="docutils literal notranslate"><span class="pre">logger.error()</span></code>,
+and  <code class="docutils literal notranslate"><span class="pre">logger.warning()</span></code> calls.</p>
+<p>Simply put, <cite>WARNING</cite> level only reports when something has gone wrong.</p>
+<p>The usual practice is to set the <code class="docutils literal notranslate"><span class="pre">logger</span></code> (instance of <code class="docutils literal notranslate"><span class="pre">logging.Logger</span></code>)
+to the lowest level used by any handler.</p>
+<p>The bluesky documentation (<a class="footnote-reference brackets" href="#flowchart" id="id6" role="doc-noteref"><span class="fn-bracket">[</span>3<span class="fn-bracket">]</span></a>) provides a flowchart
+illustrating how a log message will be reported by a handler.</p>
+<hr class="docutils" />
+<p>References</p>
+<aside class="footnote-list brackets">
+<aside class="footnote brackets" id="bluesky-logging" role="note">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id3">1</a><span class="fn-bracket">]</span></span>
+<p>Bluesky debugging &amp; logging guidance:
+<a class="reference external" href="https://blueskyproject.io/bluesky/debugging.html">https://blueskyproject.io/bluesky/debugging.html</a></p>
+</aside>
+<aside class="footnote brackets" id="bluesky-logging-names" role="note">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id4">2</a><span class="fn-bracket">]</span></span>
+<p>Bluesky logger names:
+<a class="reference external" href="https://blueskyproject.io/bluesky/debugging.html">https://blueskyproject.io/bluesky/debugging.html</a></p>
+</aside>
+<aside class="footnote brackets" id="flowchart" role="note">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id6">3</a><span class="fn-bracket">]</span></span>
+<p>Flowchart for loggers and handlers:
+<a class="reference external" href="https://blueskyproject.io/bluesky/debugging.html#advanced-example">https://blueskyproject.io/bluesky/debugging.html#advanced-example</a></p>
+</aside>
+<aside class="footnote brackets" id="ophyd-logging-names" role="note">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id5">4</a><span class="fn-bracket">]</span></span>
+<p>Ophyd logger names:
+<a class="reference external" href="https://blueskyproject.io/bluesky/debugging.html">https://blueskyproject.io/bluesky/debugging.html</a></p>
+</aside>
+<aside class="footnote brackets" id="logging" role="note">
+<span class="label"><span class="fn-bracket">[</span>5<span class="fn-bracket">]</span></span>
+<span class="backrefs">(<a role="doc-backlink" href="#id1">1</a>,<a role="doc-backlink" href="#id2">2</a>)</span>
+<p>Python’s <em>Logging HOWTO</em>:
+<a class="reference external" href="https://docs.python.org/3/howto/logging.html">https://docs.python.org/3/howto/logging.html</a></p>
+</aside>
+</aside>
+</section>
+</section>
+
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="ho_search_databroker.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">How to Search for Bluesky Data?</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="plan_examples.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Plan Examples</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+<div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+  </div>
+  <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#handlers">Handlers</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#reporting-to-the-console-streamhandler">Reporting to the console (<code class="docutils literal notranslate"><span class="pre">StreamHandler</span></code>)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#reporting-to-a-file-filehandler-or-rotatingfilehandler">Reporting to a file (<code class="docutils literal notranslate"><span class="pre">FileHandler</span></code> or <code class="docutils literal notranslate"><span class="pre">RotatingFileHandler</span></code>)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#reporting-from-included-packages">Reporting from included packages</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#recording-ipython-console-input-and-output">Recording IPython console Input and Output</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#what-are-the-logging-levels">What are the logging levels?</a></li>
+</ul>
+  </nav></div>
+
+  <div class="sidebar-secondary-item">
+
+  <div class="tocsection sourcelink">
+    <a href="../_sources/examples/ho_session_logs.rst.txt">
+      <i class="fa-solid fa-file-lines"></i> Show Source
+    </a>
+  </div>
+</div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+
+  <p class="copyright">
+    
+      © Copyright 2017-2024, UChicago Argonne, LLC.
+      <br/>
+    
+  </p>
+</div>
+      
+        <div class="footer-item">
+
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 5.3.0.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item">
+<p class="theme-version">
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.15.4.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>
