@@ -47,6 +47,7 @@ def test_issue_1059(tempdir: pytest.fixture):
     with does_not_raise() as exinfo:
         specwriter: FileWriterCallbackBase = SpecWriterCallback2()
         specwriter.newfile(data_file)
+        assert hasattr(specwriter, "data_labels")
 
         RE: RunEngine = RunEngine()
         RE.subscribe(specwriter.receiver)
