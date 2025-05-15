@@ -50,7 +50,7 @@ def copy_filtered_catalog(
     query = query or {}
     for i, uid in enumerate(source_cat.v2.search(query)):
         run = source_cat.v1[uid]
-        logger.debug("%d  %s  #docs=%d", i + 1, uid, len(list(run.documents())))
+        logger.debug("%d  %s  #docs=%d", i + 1, uid, len(list(run.documents())),)
         for key, doc in run.documents():
             target_cat.v1.insert(key, doc)
 
