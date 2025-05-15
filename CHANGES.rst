@@ -34,7 +34,8 @@ describe future plans.
    Fixes
    -------------
 
-   * Would raise ValueError when appending to SPEC file that has no runs.
+   * SpecWriterCallback2 raised AttributeError about 'data_labels'.
+   * SpecWriterCallback2 raised ValueError when appending to SPEC file that has no runs.
 
    Maintenance
    -------------
