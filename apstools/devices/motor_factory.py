@@ -32,6 +32,8 @@ Factory for creating bundles with any number of positioners.
 
    * :doc:`Quick Start </examples/ho_motor_factory_quickstart>`
    * :doc:`How to use 'mb_creator()' </examples/ho_motor_factory>`
+
+*new in apstools release 1.7.4*
 """
 
 from collections.abc import Mapping
