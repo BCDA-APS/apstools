@@ -183,6 +183,7 @@ def test_AD_EpicsFileNameMixin(plugin_name, spec, presets, prime, context, expec
             for k, v in settings.items():
                 reading = getattr(plugin, k).get(use_monitor=False)
                 if k == "file_number":
+                    # Staging can increment the file number, based on auto_increment.
                     assert (reading - v) <= 1, f"{plugin_name=} {k=} {v=}  {reading=}"
                 else:
                     assert reading == v, f"{plugin_name=} {k=} {v=}  {reading=}"
