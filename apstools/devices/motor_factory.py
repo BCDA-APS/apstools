@@ -78,9 +78,13 @@ def axis_component(
     Component:
         An ophyd Component for the axis.
     """
-    _parms = parms or {}
-    if isinstance(_parms, str):
-        _parms = dict(prefix=_parms)
+    if parms is None:
+        _parms = {}
+    elif isinstance(parms, str):
+        _parms = dict(prefix=parms)
+    else:
+        _parms = {**parms}
+
     attrs: Dict[str, Any] = dict(kind=DEFAULT_KIND, labels=DEFAULT_MOTOR_LABELS)
     has_prefix: bool = _parms.get("prefix") is not None
     axis_class_name: Optional[str] = _parms.pop("class", None)
