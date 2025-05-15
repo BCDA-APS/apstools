@@ -881,7 +881,7 @@ class SpecWriterCallback2(FileWriterCallbackBase):
             sdf = SpecDataFile(filename)
             scan_list = sdf.getScanNumbers()
             l = len(scan_list)
-            m = max(map(float, scan_list))
+            m = 0 if l == 0 else max(map(float, scan_list))
             highest = int(max(l, m) + 0.9999)  # solves issue #128
             scan_id = max(scan_id or 0, highest)
         self.spec_filename = filename
