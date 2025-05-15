@@ -1,12 +1,14 @@
-from contextlib import nullcontext as does_not_raise
 import pathlib
+from contextlib import nullcontext as does_not_raise
+
 import pytest
-from bluesky import RunEngine, plans as bp
+from bluesky import RunEngine
+from bluesky import plans as bp
 from ophyd import SoftPositioner
 
+from ..callback_base import FileWriterCallbackBase
 from ..spec_file_writer import SpecWriterCallback
 from ..spec_file_writer import SpecWriterCallback2
-from ..callback_base import FileWriterCallbackBase
 
 DATA_ISSUE_1083 = """
 #F spec.dat
@@ -34,12 +36,12 @@ def test_issue_1059(tempdir: pytest.fixture):
     """
     data_file: pathlib.Path = tempdir / "issue_1059.dat"
     sig: SoftPositioner = SoftPositioner(name="sig", init_pos=0)
-    
+
     documents: list = []
-    
+
     def doc_collector(*args) -> None:
         nonlocal documents
-        
+
         documents.append(args)
 
     with does_not_raise() as exinfo:
