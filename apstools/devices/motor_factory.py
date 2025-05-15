@@ -30,7 +30,7 @@ Factory for creating bundles with any number of positioners.
 
 .. seealso::
 
-   * :doc:`Quickstart </examples/ho_motor_factory_quickstart>`
+   * :doc:`Quick Start </examples/ho_motor_factory_quickstart>`
    * :doc:`How to use 'mb_creator()' </examples/ho_motor_factory>`
 """
 
