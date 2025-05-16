@@ -147,7 +147,6 @@ def test_listdevice_filters(device: Device, scope: Optional[str], ancient: bool,
 
 @pytest.mark.parametrize(
     "device, scope, cnames",
-    # fmt: off
     [
         (
             calcs,
@@ -173,7 +172,6 @@ def test_listdevice_filters(device: Device, scope: Optional[str], ancient: bool,
             ],
         ),
     ],
-    # fmt: on
 )
 def test_listdevice_cname(device: Device, scope: str, cnames: List[str]) -> None:
     result = listdevice(device, scope, show_ancient=False, cname=True)
