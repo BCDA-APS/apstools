@@ -40,12 +40,12 @@ def procedure(signal, target_value):
     # fmt:off
     "target, expected, random_start",
     [
-        [.1, .1, True],
-        [.1, .2, False],
-        [.2, .4, False],
-        [.3, .3, False],
-        [.1, .1, False],
-    ]
+        [0.1, 0.1, True],
+        [0.1, 0.2, False],
+        [0.2, 0.4, False],
+        [0.3, 0.3, False],
+        [0.1, 0.1, False],
+    ],
     # fmt:on
 )
 def test_direct(target, expected, random_start):
@@ -67,12 +67,12 @@ def test_direct(target, expected, random_start):
     # fmt:off
     "target, expected, random_start",
     [
-        [.1, .1, True],
-        [.1, .2, False],
-        [.2, .4, False],
-        [.3, .3, False],
-        [.1, .1, False],
-    ]
+        [0.1, 0.1, True],
+        [0.1, 0.2, False],
+        [0.2, 0.4, False],
+        [0.3, 0.3, False],
+        [0.1, 0.1, False],
+    ],
     # fmt:on
 )
 def test_bluesky(target, expected, random_start):

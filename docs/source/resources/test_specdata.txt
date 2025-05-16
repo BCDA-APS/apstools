@@ -2,8 +2,8 @@
 #E 1642725624
 #D Thu Jan 20 18:40:24 2022
 #C Bluesky  user = prjemian  host = zap
-#O0 
-#o0 
+#O0
+#o0
 
 #S 1  scan(detectors=['det'], num=41, args='['motor', -1.2, 1.2]', per_step='None')
 #D Thu Jan 20 18:39:05 2022
@@ -18,7 +18,7 @@
 #MD plan_pattern_args = {'num': 41, 'args': ["EpicsMotor(prefix='gp:m1', name='motor', settle_time=0.0, timeout=None, read_attrs=['user_readback', 'user_setpoint'], configuration_attrs=['user_offset', 'user_offset_dir', 'velocity', 'acceleration', 'motor_egu'])", -1.2, 1.2]}
 #MD plan_pattern_module = bluesky.plan_patterns
 #MD versions = {'ophyd': '1.6.3', 'bluesky': '1.8.1'}
-#P0 
+#P0
 #N 5
 #L motor  Epoch_float  Epoch  motor_user_setpoint  det
 -1.2 1.5562517642974854 2 -1.2 6.208826368332781e-58

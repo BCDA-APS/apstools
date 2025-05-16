@@ -12,6 +12,7 @@ Public Structures
 """
 
 from collections import OrderedDict
+from typing import Any, Dict, List, Optional, Union
 
 from ophyd import Component as Cpt
 from ophyd import Device
@@ -50,12 +51,12 @@ class transformRecordChannel(Device):
 
     read_attrs = ["current_value"]
 
-    def __init__(self, prefix, letter, **kwargs):
+    def __init__(self, prefix: str, letter: str, **kwargs: Any) -> None:
         self._ch_letter = letter
         super().__init__(prefix, **kwargs)
 
-    def reset(self):
-        """set all fields to default values"""
+    def reset(self) -> None:
+        """Set all fields to default values."""
         self.comment.put(self._ch_letter.lower())
         self.input_pv.put("")
         self.expression.put("")
@@ -63,7 +64,8 @@ class transformRecordChannel(Device):
         self.output_pv.put("")
 
 
-def _channels(channel_list):
+def _channels(channel_list: List[str]) -> Dict[str, tuple]:
+    """Create channel definitions."""
     defn = OrderedDict()
     for chan in channel_list:
         defn[chan] = (transformRecordChannel, "", {"letter": chan})
@@ -96,8 +98,8 @@ class TransformRecord(EpicsRecordDeviceCommonAll):
 
     channels = DDC(_channels(CHANNEL_LETTERS_LIST))
 
-    def reset(self):
-        """set all fields to default values"""
+    def reset(self) -> None:
+        """Set all fields to default values."""
         self.scanning_rate.put("Passive")
         self.description.put(self.description.pvname.split(".")[0])
         self.units.put("")
@@ -135,8 +137,8 @@ class UserTransformsDevice(Device):
     transform9 = Cpt(UserTransformN, "userTran9")
     transform10 = Cpt(UserTransformN, "userTran10")
 
-    def reset(self):  # lgtm [py/similar-function]
-        """set all fields to default values"""
+    def reset(self) -> None:  # lgtm [py/similar-function]
+        """Set all fields to default values."""
         self.transform1.reset()
         self.transform2.reset()
         self.transform3.reset()

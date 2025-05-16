@@ -9,12 +9,13 @@ Document Collector
 """
 
 import logging
+from typing import Any, Dict, List, Union
 
 logger = logging.getLogger(__name__)
 logger.addHandler(logging.NullHandler())
 
 
-def document_contents_callback(key, doc):
+def document_contents_callback(key: str, doc: Dict[str, Any]) -> None:
     """
     prints document contents -- use for diagnosing a document stream
     """
@@ -43,13 +44,13 @@ class DocumentCollectorCallback(object):
 
     """
 
-    data_event_names = "descriptor event resource datum bulk_events".split()
+    data_event_names: List[str] = "descriptor event resource datum bulk_events".split()
 
-    def __init__(self):
-        self.documents = {}  # key: name, value: document
-        self.uids = []  # chronological list of UIDs as-received
+    def __init__(self) -> None:
+        self.documents: Dict[str, Union[Dict[str, Any], List[Dict[str, Any]]]] = {}  # key: name, value: document
+        self.uids: List[str] = []  # chronological list of UIDs as-received
 
-    def receiver(self, key, document):
+    def receiver(self, key: str, document: Dict[str, Any]) -> None:
         """keep all documents from recent plan in memory"""
         token = document.get("uid") or document.get("datum_id")
         if token is None:
