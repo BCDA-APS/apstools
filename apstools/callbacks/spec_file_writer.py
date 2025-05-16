@@ -62,7 +62,7 @@ import pathlib
 import socket
 import time
 from collections import OrderedDict
-from typing import Any, Dict, List, Optional, Union
+from typing import Any, Optional, Union
 
 import numpy as np
 
@@ -72,7 +72,7 @@ SPEC_TIME_FORMAT = "%a %b %d %H:%M:%S %Y"
 SCAN_ID_RESET_VALUE = 0
 
 
-def _rebuild_scan_command(doc: Dict[str, Any]) -> str:
+def _rebuild_scan_command(doc: dict[str, Any]) -> str:
     """
     Reconstruct the scan command for SPEC data file #S line.
 
@@ -208,7 +208,7 @@ class SpecWriterCallback:
         self.scan_command = None  # #S line
         self.scanning = False
 
-    def _empty_comments_dict(self) -> Dict[str, List[str]]:
+    def _empty_comments_dict(self) -> dict[str, list[str]]:
         """Return empty comments dictionary."""
         return {
             "start": [],
@@ -235,7 +235,7 @@ class SpecWriterCallback:
             dest = self.buffered_comments
         dest[key].append(f"{ts}.  {text}")
 
-    def receiver(self, key: str, document: Dict[str, Any]) -> None:
+    def receiver(self, key: str, document: dict[str, Any]) -> None:
         """
         Handle document from RunEngine.
 
@@ -268,7 +268,7 @@ class SpecWriterCallback:
             # raise ValueError(msg)
             logger.warning(msg)
 
-    def start(self, doc: Dict[str, Any]) -> None:
+    def start(self, doc: dict[str, Any]) -> None:
         """
         Handle start document.
 
@@ -317,7 +317,7 @@ class SpecWriterCallback:
         self.comments["start"].insert(0, f"{ts}.  {cmt}")
         self.scan_command = _rebuild_scan_command(doc)
 
-    def descriptor(self, doc: Dict[str, Any]) -> None:
+    def descriptor(self, doc: dict[str, Any]) -> None:
         """
         Handle descriptor document.
 
@@ -364,7 +364,7 @@ class SpecWriterCallback:
 
         self.data.update({k: [] for k in first_keys + epoch_keys + middle_keys + last_keys})
 
-    def event(self, doc: Dict[str, Any]) -> None:
+    def event(self, doc: dict[str, Any]) -> None:
         """
         Handle event document.
 
@@ -394,7 +394,7 @@ class SpecWriterCallback:
                 self.data[k].append(v)
             self.num_primary_data += 1
 
-    def bulk_events(self, doc: Dict[str, Any]) -> None:
+    def bulk_events(self, doc: dict[str, Any]) -> None:
         """
         Handle bulk events document.
 
@@ -403,7 +403,7 @@ class SpecWriterCallback:
         """
         pass
 
-    def datum(self, doc: Dict[str, Any]) -> None:
+    def datum(self, doc: dict[str, Any]) -> None:
         """
         Handle datum document.
 
@@ -412,7 +412,7 @@ class SpecWriterCallback:
         """
         self._cmt("datum", "datum " + str(doc))
 
-    def resource(self, doc: Dict[str, Any]) -> None:
+    def resource(self, doc: dict[str, Any]) -> None:
         """
         Handle resource document.
 
@@ -421,7 +421,7 @@ class SpecWriterCallback:
         """
         self._cmt("resource", "resource " + str(doc))
 
-    def stop(self, doc: Dict[str, Any]) -> None:
+    def stop(self, doc: dict[str, Any]) -> None:
         """
         Handle stop document.
 
@@ -441,7 +441,7 @@ class SpecWriterCallback:
 
         self.scanning = False
 
-    def prepare_scan_contents(self) -> List[str]:
+    def prepare_scan_contents(self) -> list[str]:
         """
         Prepare scan contents for writing.
 
@@ -514,7 +514,7 @@ class SpecWriterCallback:
 
         return lines
 
-    def _write_lines_(self, lines: List[str], mode: str = "a") -> None:
+    def _write_lines_(self, lines: list[str], mode: str = "a") -> None:
         """
         Write lines to file.
 
@@ -726,7 +726,7 @@ class SpecWriterCallback2(FileWriterCallbackBase):
         self.write_new_file_header = True
         self.write_new_scan_header = False
 
-    def descriptor(self, doc: Dict[str, Any]) -> None:
+    def descriptor(self, doc: dict[str, Any]) -> None:
         """
         Handle *descriptor* documents of certain streams.
         """
@@ -754,10 +754,10 @@ class SpecWriterCallback2(FileWriterCallbackBase):
 
         super().descriptor(doc)  # process the document
 
-        def get_data_labels() -> List[str]:
+        def get_data_labels() -> list[str]:
             """Get data labels."""
 
-            def parse(master: Dict[str, Any]) -> List[str]:
+            def parse(master: dict[str, Any]) -> list[str]:
                 """Parse master dictionary."""
                 labels = []
                 for key, value in master.items():
@@ -779,7 +779,7 @@ class SpecWriterCallback2(FileWriterCallbackBase):
 
         self.write_new_scan_header = True
 
-    def event(self, doc: Dict[str, Any]) -> None:
+    def event(self, doc: dict[str, Any]) -> None:
         super().event(doc)  # process the document
 
         descriptor = self._streams.get(doc["descriptor"])
@@ -795,7 +795,7 @@ class SpecWriterCallback2(FileWriterCallbackBase):
         self.write_scan_header()
         self.write_scan_data_row(doc)
 
-    def start(self, doc: Dict[str, Any]) -> None:
+    def start(self, doc: dict[str, Any]) -> None:
         """First document of the run."""
         super().start(doc)  # process the document
 
@@ -818,7 +818,7 @@ class SpecWriterCallback2(FileWriterCallbackBase):
 
         self.scan_command = _rebuild_scan_command(doc)
 
-    def stop(self, doc: Dict[str, Any]) -> None:
+    def stop(self, doc: dict[str, Any]) -> None:
         """Last document of the run."""
         # ... just in case these have not been written.
         self.write_file_header()
@@ -969,7 +969,7 @@ class SpecWriterCallback2(FileWriterCallbackBase):
         self._write_lines_(lines, mode="a+")
         self.write_new_file_header = False
 
-    def write_scan_data_row(self, doc: Dict[str, Any]) -> None:
+    def write_scan_data_row(self, doc: dict[str, Any]) -> None:
         """Write row of scan data to file."""
         from ..utils.misc import render
 
@@ -993,7 +993,7 @@ class SpecWriterCallback2(FileWriterCallbackBase):
         lines = [" ".join(line)]
         self._write_lines_(lines + remarks, mode="a+")
 
-    def write_scan_end(self, doc: Dict[str, Any]) -> None:
+    def write_scan_end(self, doc: dict[str, Any]) -> None:
         """Write scan ending to file."""
         lines = []
 
@@ -1052,7 +1052,7 @@ class SpecWriterCallback2(FileWriterCallbackBase):
 
         self.write_new_scan_header = False
 
-    def _write_lines_(self, lines: List[str], mode: str = "a") -> None:
+    def _write_lines_(self, lines: list[str], mode: str = "a") -> None:
         """write (more) lines to the file"""
         lines.append("")
         with open(self.file_name, mode) as f:
