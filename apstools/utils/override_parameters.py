@@ -54,6 +54,9 @@ which returns this table::
    ~OverrideParameters
 """
 
+from typing import Any
+from typing import Optional
+from typing import Union
 
 import pandas as pd
 
@@ -74,46 +77,47 @@ class OverrideParameters:
        ~summary
 
     (new in apstools 1.5.2)
+
     """
 
-    def __init__(self):
+    def __init__(self) -> None:
         # ALWAYS use ``overrides.undefined`` for comparisons and resets.
-        self.undefined = object()
-        self._parameters = {}
+        self.undefined: object = object()
+        self._parameters: dict[str, Any] = {}
 
-    def register(self, parameter_name):
+    def register(self, parameter_name: str) -> None:
         """
         Register a new parameter name to be supported by user overrides.
         """
         if parameter_name not in self._parameters:
             self._parameters[parameter_name] = self.undefined
 
-    def _check_known(self, parameter_name):
+    def _check_known(self, parameter_name: str) -> None:
         if parameter_name not in self._parameters:
             raise KeyError(f"Unknown parameter {parameter_name}.  First call register().")
 
-    def set(self, parameter_name, value):
+    def set(self, parameter_name: str, value: Any) -> None:
         """
         Define an override value for a known parameter.
         """
         self._check_known(parameter_name)
         self._parameters[parameter_name] = value
 
-    def reset(self, parameter_name):
+    def reset(self, parameter_name: str) -> None:
         """
         Remove an override value for a known parameter.  (sets it to undefined)
         """
         self._check_known(parameter_name)
         self._parameters[parameter_name] = self.undefined
 
-    def reset_all(self):
+    def reset_all(self) -> None:
         """
         Remove override values for all known parameters. (sets all to undefined)
         """
         for parm in self._parameters.keys():
             self.reset(parm)
 
-    def pick(self, parameter, default):
+    def pick(self, parameter: str, default: Any) -> Any:
         """
         Return either the override parameter value if defined, or the default.
         """
@@ -122,15 +126,15 @@ class OverrideParameters:
             value = default
         return value
 
-    def summary(self):
+    def summary(self) -> pd.DataFrame:
         """
         Return a pandas DataFrame with all overrides.
 
         Parameter names that have no override value will be reported
         as ``--undefined--``.
         """
-        parameters = []
-        values = []
+        parameters: list[str] = []
+        values: list[Any] = []
         for parm in sorted(self._parameters.keys()):
             parameters.append(parm)
             values.append(self.pick(parm, "--undefined--"))
