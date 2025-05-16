@@ -9,7 +9,7 @@ Document Collector
 """
 
 import logging
-from typing import Any, Dict, List, Union
+from typing import Any, Union
 
 logger = logging.getLogger(__name__)
 logger.addHandler(logging.NullHandler())

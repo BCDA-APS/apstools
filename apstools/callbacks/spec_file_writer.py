@@ -783,6 +783,7 @@ class SpecWriterCallback2(FileWriterCallbackBase):
 
         self._file_header_motor_keys = None
         self._motor_stream_name = "label_start_motor"
+        self.data_labels: list = []
         self.file_epoch = None
         self.spec_filename = None
         self.write_new_file_header = True
