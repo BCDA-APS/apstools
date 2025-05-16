@@ -47,19 +47,24 @@ def copy_filtered_catalog(
         target_cat: instance of `databroker.Broker` or `databroker.catalog[name]`
         query: mongo query dictionary to filter results (default: None)
 
-        see: https://docs.mongodb.com/manual/reference/operator/query/	
+        see: https://docs.mongodb.com/manual/reference/operator/query/
 
-    example::	
+    example::
 
-        copy_filtered_catalog(	
+        copy_filtered_catalog(
             databroker.Broker.named("mongodb_config"),
-            databroker.catalog["test1"],	
+            databroker.catalog["test1"],
             {'plan_name': 'snapshot'})
     """
     query = query or {}
     for i, uid in enumerate(source_cat.v2.search(query)):
         run = source_cat.v1[uid]
-        logger.debug("%d  %s  #docs=%d", i + 1, uid, len(list(run.documents())),)
+        logger.debug(
+            "%d  %s  #docs=%d",
+            i + 1,
+            uid,
+            len(list(run.documents())),
+        )
         for key, doc in run.documents():
             target_cat.v1.insert(key, doc)
 
@@ -167,23 +172,23 @@ def getDefaultDatabase() -> Optional[Any]:
     Returns:
         Bluesky database instance or None
 
-    Note that here, *database* and *catalog* mean the same.	 
+    Note that here, *database* and *catalog* mean the same.
 
     This routine looks at all the database instances defined in the
-    current session (console or notebook).  If there is only one or no	
-    database instances defined as objects in the current session, the	
-    choice is simple.  When there is more than one database instance in	
-    the current session, then the one with the most recent run timestamp	
-    is selected.  In the case (as happens when starting with a new	
-    database) that the current database has **no** runs *and* another	
-    database instance is defined in the session *and* that additional	
-    database has runs in it (such as the previous database), then the	
-    database with the newest run timestamp (and not the newer empty	
-    database) will be chosen.	
-	
-    (new in release 1.4.0)   
+    current session (console or notebook).  If there is only one or no
+    database instances defined as objects in the current session, the
+    choice is simple.  When there is more than one database instance in
+    the current session, then the one with the most recent run timestamp
+    is selected.  In the case (as happens when starting with a new
+    database) that the current database has **no** runs *and* another
+    database instance is defined in the session *and* that additional
+    database has runs in it (such as the previous database), then the
+    database with the newest run timestamp (and not the newer empty
+    database) will be chosen.
+
+    (new in release 1.4.0)
     """
-    
+
     CATALOG_CLASSES = (Broker, BlueskyMongoCatalog, BlueskyMsgpackCatalog, Catalog)
     # look through the console namespace
     g = ipython_shell_namespace()
@@ -220,7 +225,7 @@ def getDefaultDatabase() -> Optional[Any]:
     choices = [v[1] for v in time_ref.values() if v[0] == highest]
     if len(choices) == 0:
         return None
-    # return the catalog with the most recent timestamp	
+    # return the catalog with the most recent timestamp
     return sorted(choices)[-1]
 
 
@@ -246,7 +251,7 @@ def getStreamValues(
     Returns:
         DataFrame containing stream values
 
-    see: https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.html	
+    see: https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.html
 
     (new in apstools 1.5.1)
     """
@@ -300,38 +305,38 @@ def quantify_md_key_use(
     Returns:
         DataFrame with key usage statistics
 
-    EXAMPLES::	
-        quantify_md_key_use(key="proposal_id")	
-        quantify_md_key_use(key="plan_name", catalog_name="9idc", since="2020-07")	
-        quantify_md_key_use(key="beamline_id", catalog_name="9idc")	
-        quantify_md_key_use(key="beamline_id",	
-                            catalog_name="9idc",	
-                            query={'plan_name': 'Flyscan'},	
-                            since="2020",	
-                            until="2020-06-21 21:51")	
-        quantify_md_key_use(catalog_name="8id", since="2020-01", until="2020-03")	
-        In [8]: quantify_md_key_use(catalog_name="apstools_test")	
-        ========= =====	
-        plan_name #runs	
-        ========= =====	
-        count     26	
-        scan      27	
-        ========= =====	
-        In [9]: quantify_md_key_use(catalog_name="usaxs_test")	
-        ========================== =====	
-        plan_name                  #runs	
-        ========================== =====	
-        Flyscan                    1	
-        TuneAxis.tune              1	
-        count                      1	
-        measure_USAXS_Transmission 1	
-        run_Excel_file             1	
-        snapshot                   1	
-        tune_a2rp                  1	
-        tune_ar                    1	
-        tune_m2rp                  1	
-        tune_mr                    1	
-        ========================== =====    
+    EXAMPLES::
+        quantify_md_key_use(key="proposal_id")
+        quantify_md_key_use(key="plan_name", catalog_name="9idc", since="2020-07")
+        quantify_md_key_use(key="beamline_id", catalog_name="9idc")
+        quantify_md_key_use(key="beamline_id",
+                            catalog_name="9idc",
+                            query={'plan_name': 'Flyscan'},
+                            since="2020",
+                            until="2020-06-21 21:51")
+        quantify_md_key_use(catalog_name="8id", since="2020-01", until="2020-03")
+        In [8]: quantify_md_key_use(catalog_name="apstools_test")
+        ========= =====
+        plan_name #runs
+        ========= =====
+        count     26
+        scan      27
+        ========= =====
+        In [9]: quantify_md_key_use(catalog_name="usaxs_test")
+        ========================== =====
+        plan_name                  #runs
+        ========================== =====
+        Flyscan                    1
+        TuneAxis.tune              1
+        count                      1
+        measure_USAXS_Transmission 1
+        run_Excel_file             1
+        snapshot                   1
+        tune_a2rp                  1
+        tune_ar                    1
+        tune_m2rp                  1
+        tune_mr                    1
+        ========================== =====
     """
     from databroker.queries import TimeRange
 

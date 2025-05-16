@@ -233,7 +233,7 @@ def test_maximum_column_width(width: Optional[int]) -> None:
         [{"show_pv": True}, True, False, True],
     ],
 )
-def test_listdevice_show_pv(sig: Dict[str, Any], has_cname: bool, has_dname: bool, has_PV: bool) -> None:
+def test_listdevice_show_pv(sig: dict[str, Any], has_cname: bool, has_dname: bool, has_PV: bool) -> None:
     line = str(listdevice(motor, **sig)).splitlines()[1].strip()
     if has_cname:
         assert line.split()[0] == "name", f"{line=}"

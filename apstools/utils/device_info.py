@@ -13,12 +13,11 @@ from collections import defaultdict
 from typing import Any
 from typing import Optional
 from typing import Union
-from typing import NoneType
 
 import pandas as pd
 from ophyd import Device
-from ophyd import Signal
 from ophyd import OphydObject
+from ophyd import Signal
 from ophyd.signal import ConnectionTimeoutError
 from ophyd.signal import EpicsSignalBase
 
@@ -33,6 +32,8 @@ DEFAULT_COLUMN_WIDTH = 50
 TRUNCATION_TEXT = " ..."
 # Use NOT_CONNECTED_VALUE in tables for signals that are not connected.
 NOT_CONNECTED_VALUE = "-n/c-"
+
+NoneType = type(None)
 
 
 def _all_signals(base: Union[OphydObject]) -> list[Signal]:

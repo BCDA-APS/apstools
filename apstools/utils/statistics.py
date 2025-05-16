@@ -21,16 +21,18 @@ from .mmap_dict import MMap
 logger = logging.getLogger(__name__)
 logger.info(__file__)
 
-factor_fwhm = 2 * math.sqrt(2 * math.log(2))
-r"""
-FWHM :math:`=2\sqrt{2\ln{2}}\cdot\sigma_c`
 
-Conversion factor between full-width at half-maximum peak value and the computed
-standard deviation, :math:`\sigma_c`, of the center of mass (centroid),
-:math:`\mu`, of the peak.
+def factor_fwhm() -> float:
+    """
+    FWHM :math:`=2\sqrt{2\ln{2}}\cdot\sigma_c`
 
-.. seealso:: https://statproofbook.github.io/P/norm-fwhm.html
-"""
+    Conversion factor between full-width at half-maximum peak value and the computed
+    standard deviation, :math:`\sigma_c`, of the center of mass (centroid),
+    :math:`\mu`, of the peak.
+
+    .. seealso:: https://statproofbook.github.io/P/norm-fwhm.html
+    """
+    return 2 * math.sqrt(2 * math.log(2))
 
 
 def array_index(arr, value) -> int:
