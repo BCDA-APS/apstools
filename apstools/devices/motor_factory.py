@@ -101,6 +101,8 @@ def axis_component(
         base: Device = EpicsMotor if has_prefix else SoftPositioner
         if base == EpicsMotor and "prefix" not in _parms:
             _parms["prefix"] = ""
+        elif base == SoftPositioner and "init_pos" not in _parms:
+            _parms["init_pos"] = 0
     else:
         # Allow for any positioner type or factory function.
         base: Callable = dynamic_import(axis_class_name)

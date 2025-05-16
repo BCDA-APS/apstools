@@ -280,6 +280,11 @@ def test_mb_creator(
                 assert obj.pvname == pv, f"{obj=}"
             elif hasattr(obj, "prefix"):
                 assert obj.prefix == pv, f"{obj=}"
+        for attr in device.component_names:
+            cpt: OphydObject = getattr(device, attr)
+            if cpt.connected and hasattr(cpt, "position"):
+                # Some test configurations are not expected to connect.
+                assert getattr(cpt, "position") is not None
 
     if raises is not None and expected is not None:
         assert expected in str(reason)
