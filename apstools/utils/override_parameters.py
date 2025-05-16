@@ -66,6 +66,17 @@ class OverrideParameters:
     Define parameters that can be overridden from a user configuration file.
 
     NOTE: This is a pure Python object, not using ophyd.
+
+    .. autosummary::
+
+       ~pick
+       ~register
+       ~reset
+       ~reset_all
+       ~set
+       ~summary
+    (new in apstools 1.5.2)
+
     """
 
     def __init__(self) -> None:
