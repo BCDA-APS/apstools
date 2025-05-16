@@ -8,9 +8,7 @@ from ..image_analysis import analyze_2D
     "data, expected, ndigits",
     [
         [
-            # fmt: off
             dict(x=[0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0, 1.1], y=[0, 1, 2, 3, 4, 5, 4, 3, 2, 1, 0]),
-            # fmt: on
             dict(
                 n=11,
                 centroid=0.6,
@@ -33,7 +31,6 @@ from ..image_analysis import analyze_2D
         [
             # fmt: off
             dict(y=[0, 1, 2, 3, 4, 5, 4, 3, 2, 1, 0]),
-            # fmt: on
             dict(
                 n=11,
                 mean_x=5.0,
@@ -83,11 +80,9 @@ def test_analyze_1D(data, expected, ndigits):
     assert isinstance(results, dict)
 
     for k in expected.keys():
-        # fmt: off
         assert (
             round(results[k], ndigits) == round(expected[k], ndigits)
         ), f"{k=} {results=} {expected=}"
-        # fmt: on
 
 
 @pytest.mark.parametrize(
