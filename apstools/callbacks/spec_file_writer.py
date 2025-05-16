@@ -756,44 +756,52 @@ class SpecWriterCallback2(FileWriterCallbackBase):
             self.motors = {k: None for k in mlist}
             return  # nothing more to do now
 
-            # for k in self.positioners.keys():
-            #     self.positioners[k] = doc["data"][k]  # get motor values
-
         elif doc["name"] != "primary":
             return
 
         super().descriptor(doc)  # process the document
 
-        def get_data_labels():
-            "Names of each of the data columns. Values in doc['data_keys'][k]"
+        data_keys: dict = doc["data_keys"]
+        hints: dict = doc["hints"]
+        object_keys: dict = doc["object_keys"]
+        labels_d: list = []  # detectors
+        labels_p: list = []  # positioners
+        labels_s: list = []  # signals
+        labels_o: list = "Epoch Epoch_float".split()  # other
 
-            def parse(master):
-                primary, secondary = [], []
-                for k_obj in master:
-                    fields = doc["hints"].get(k_obj, {"fields": [k_obj]})["fields"]
-                    for k in doc["object_keys"].get(k_obj, []):
-                        if len(fields) > 0:
-                            if k in fields:
-                                primary.append(k)
-                            else:
-                                secondary.append(k)
+        # Get the data labels for SPEC's "#L " control line.
+        for o_key in hints:
+            hinted_fields: list = hints[o_key].get("fields", [])
+            object_fields: list | None = object_keys.get(o_key)
+            if object_fields is None:
+                raise ValueError(
+                    # .
+                    f"Hinted key={o_key!r} not in descriptor 'object_keys'."
+                )
+            for field in object_fields:
+                if field in data_keys:  # No data if not in data_keys
+                    if field in hinted_fields:
+                        if o_key in self.detectors:
+                            labels_d.append(field)
+                        elif o_key in self.positioners:
+                            labels_p.append(field)
                         else:
-                            primary.append(k)
-                return primary, secondary
+                            labels_s.append(field)
+                    else:
+                        labels_o.append(field)
+                else:
+                    raise KeyError(
+                        # .
+                        f"Hinted key {o_key!r}: {field=!r} not in {data_keys=}"
+                    )
 
-            labels, others = parse(self.positioners)
-            labels += others + "Epoch Epoch_float".split()
+        if len(labels_d) > 1:
+            # First detector assumed to be the most important one.
+            # Move first "detector" to last column per SPEC convention.
+            labels_d.append(labels_d.pop(0))
 
-            dets, others = parse(self.detectors)
-            dets = others + list(reversed(dets))  # move first detector to last column
-
-            _knowns = labels + dets
-            others = [k for k in doc["data_keys"] if k not in _knowns]
-
-            return labels + others + dets
-
-        self.data_labels = get_data_labels()
-
+        # Per SPEC convention, write the labels in this order:
+        self.data_labels = labels_p + labels_s + labels_o + labels_d
         self.write_new_scan_header = True
 
     def event(self, doc):

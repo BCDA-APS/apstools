@@ -34,13 +34,14 @@ describe future plans.
    Fixes
    -------------
 
-   * SpecWriterCallback2 raised AttributeError about 'data_labels'.
+   * SpecWriterCallback2 attribute 'data_labels' was never initialized.
    * SpecWriterCallback2 raised ValueError when appending to SPEC file that has no runs.
 
    Maintenance
    -------------
 
-   * Switch to use numpy >= 2
+   * SpecWriterCallback2: refactor how to get SPEC data labels.
+   * Switch to use numpy >= 2.
 
 1.7.3
 *****

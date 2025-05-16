@@ -1,0 +1,881 @@
+[
+    [
+        "start",
+        {
+            "uid": "34c84a1b-3f05-4b84-b803-6b092b296139",
+            "time": 1747421885.6355433,
+            "versions": {
+                "ophyd": "1.10.6",
+                "bluesky": "1.14.0"
+            },
+            "scan_id": 1,
+            "plan_type": "generator",
+            "plan_name": "scan",
+            "detectors": [
+                "sscan"
+            ],
+            "motors": [
+                "bundle_m1",
+                "bundle_m2"
+            ],
+            "num_points": 3,
+            "num_intervals": 2,
+            "plan_args": {
+                "detectors": [
+                    "SscanRecord(prefix='gp:scan1', name='sscan', read_attrs=['current_point', 'positioners', 'positioners.p1', 'positioners.p1.readback_value', 'positioners.p1.setpoint_value', 'detectors', 'detectors.d01', 'detectors.d01.current_value', 'detectors.d02', 'detectors.d02.current_value', 'detectors.d03', 'detectors.d03.current_value', 'detectors.d04', 'detectors.d04.current_value', 'detectors.d05', 'detectors.d05.current_value', 'detectors.d06', 'detectors.d06.current_value', 'triggers', 'triggers.t1'], configuration_attrs=['desc', 'scan_phase', 'data_state', 'data_ready', 'scan_busy', 'alert_flag', 'alert_message', 'number_points', 'maximum_number_points', 'pasm', 'bspv', 'detector_delay', 'positioner_delay', 'reference_detector', 'wait', 'wcnt', 'awct', 'acqt', 'acqm', 'atime', 'copyto', 'a1pv', 'a1nv', 'a1cd', 'aspv', 'ascd', 'positioners', 'positioners.p1', 'positioners.p1.readback_pv', 'positioners.p1.setpoint_pv', 'positioners.p1.start', 'positioners.p1.center', 'positioners.p1.end', 'positioners.p1.step_size', 'positioners.p1.width', 'positioners.p1.abs_rel', 'positioners.p1.mode', 'positioners.p1.units', 'detectors', 'detectors.d01', 'detectors.d01.input_pv', 'detectors.d02', 'detectors.d02.input_pv', 'detectors.d03', 'detectors.d03.input_pv', 'detectors.d04', 'detectors.d04.input_pv', 'detectors.d05', 'detectors.d05.input_pv', 'detectors.d06', 'detectors.d06.input_pv', 'triggers', 'triggers.t1', 'triggers.t1.trigger_pv', 'triggers.t1.trigger_value'])"
+                ],
+                "num": 3,
+                "args": [
+                    "SoftPositioner(name='bundle_m1', parent='bundle', settle_time=0.0, timeout=None, egu='', limits=(0, 0), source='computed')",
+                    -1,
+                    1,
+                    "SoftPositioner(name='bundle_m2', parent='bundle', settle_time=0.0, timeout=None, egu='', limits=(0, 0), source='computed')",
+                    -2,
+                    2
+                ],
+                "per_step": "None"
+            },
+            "hints": {
+                "dimensions": [
+                    [
+                        [
+                            "bundle_m1",
+                            "bundle_m2"
+                        ],
+                        "primary"
+                    ]
+                ]
+            },
+            "plan_pattern": "inner_product",
+            "plan_pattern_module": "bluesky.plan_patterns",
+            "plan_pattern_args": {
+                "num": 3,
+                "args": [
+                    "SoftPositioner(name='bundle_m1', parent='bundle', settle_time=0.0, timeout=None, egu='', limits=(0, 0), source='computed')",
+                    -1,
+                    1,
+                    "SoftPositioner(name='bundle_m2', parent='bundle', settle_time=0.0, timeout=None, egu='', limits=(0, 0), source='computed')",
+                    -2,
+                    2
+                ]
+            }
+        }
+    ],
+    [
+        "descriptor",
+        {
+            "configuration": {
+                "bundle_m1": {
+                    "data": {},
+                    "timestamps": {},
+                    "data_keys": {}
+                },
+                "sscan": {
+                    "data": {
+                        "sscan_desc": "gp:scan1",
+                        "sscan_scan_phase": 0,
+                        "sscan_data_state": 7,
+                        "sscan_data_ready": 1,
+                        "sscan_scan_busy": 0,
+                        "sscan_alert_flag": 0,
+                        "sscan_alert_message": "SCAN Complete",
+                        "sscan_number_points": 3,
+                        "sscan_maximum_number_points": 1000,
+                        "sscan_pasm": 0,
+                        "sscan_bspv": "",
+                        "sscan_detector_delay": 0.0,
+                        "sscan_positioner_delay": 0.0,
+                        "sscan_reference_detector": 1,
+                        "sscan_wait": 0,
+                        "sscan_wcnt": 0,
+                        "sscan_awct": 0,
+                        "sscan_acqt": 0,
+                        "sscan_acqm": 0,
+                        "sscan_atime": 0.0,
+                        "sscan_copyto": 0,
+                        "sscan_a1pv": "",
+                        "sscan_a1nv": 1,
+                        "sscan_a1cd": 1.0,
+                        "sscan_aspv": "",
+                        "sscan_ascd": 1.0,
+                        "sscan_positioners_p1_readback_pv": "gp:m1.RBV",
+                        "sscan_positioners_p1_setpoint_pv": "gp:m1.VAL",
+                        "sscan_positioners_p1_start": -0.1,
+                        "sscan_positioners_p1_center": -0.05,
+                        "sscan_positioners_p1_end": 0.0,
+                        "sscan_positioners_p1_step_size": 0.05,
+                        "sscan_positioners_p1_width": 0.1,
+                        "sscan_positioners_p1_abs_rel": 0,
+                        "sscan_positioners_p1_mode": 0,
+                        "sscan_positioners_p1_units": "degrees",
+                        "sscan_detectors_d01_input_pv": "gp:scaler1.S1",
+                        "sscan_detectors_d02_input_pv": "gp:scaler1.S2",
+                        "sscan_detectors_d03_input_pv": "gp:scaler1.S3",
+                        "sscan_detectors_d04_input_pv": "gp:scaler1.S4",
+                        "sscan_detectors_d05_input_pv": "gp:scaler1.S5",
+                        "sscan_detectors_d06_input_pv": "gp:scaler1.S6",
+                        "sscan_triggers_t1_trigger_pv": "gp:scaler1.CNT",
+                        "sscan_triggers_t1_trigger_value": 1.0
+                    },
+                    "timestamps": {
+                        "sscan_desc": 1747350300.115551,
+                        "sscan_scan_phase": 1747350300.115551,
+                        "sscan_data_state": 1747350300.115551,
+                        "sscan_data_ready": 1747350300.115551,
+                        "sscan_scan_busy": 1747350300.115551,
+                        "sscan_alert_flag": 1747350300.115551,
+                        "sscan_alert_message": 1747350300.115551,
+                        "sscan_number_points": 1747350300.115551,
+                        "sscan_maximum_number_points": 1747350300.115551,
+                        "sscan_pasm": 1747350300.115551,
+                        "sscan_bspv": 1747350300.115551,
+                        "sscan_detector_delay": 1747350300.115551,
+                        "sscan_positioner_delay": 1747350300.115551,
+                        "sscan_reference_detector": 1747350300.115551,
+                        "sscan_wait": 1747350300.115551,
+                        "sscan_wcnt": 1747350300.115551,
+                        "sscan_awct": 1747350300.115551,
+                        "sscan_acqt": 1747350300.115551,
+                        "sscan_acqm": 1747350300.115551,
+                        "sscan_atime": 1747350300.115551,
+                        "sscan_copyto": 1747350300.115551,
+                        "sscan_a1pv": 1747350300.115551,
+                        "sscan_a1nv": 1747350300.115551,
+                        "sscan_a1cd": 1747350300.115551,
+                        "sscan_aspv": 1747350300.115551,
+                        "sscan_ascd": 1747350300.115551,
+                        "sscan_positioners_p1_readback_pv": 1747350300.115551,
+                        "sscan_positioners_p1_setpoint_pv": 1747350300.115551,
+                        "sscan_positioners_p1_start": 1747350300.115551,
+                        "sscan_positioners_p1_center": 1747350300.115551,
+                        "sscan_positioners_p1_end": 1747350300.115551,
+                        "sscan_positioners_p1_step_size": 1747350300.115551,
+                        "sscan_positioners_p1_width": 1747350300.115551,
+                        "sscan_positioners_p1_abs_rel": 1747350300.115551,
+                        "sscan_positioners_p1_mode": 1747350300.115551,
+                        "sscan_positioners_p1_units": 1747350300.115551,
+                        "sscan_detectors_d01_input_pv": 1747350300.115551,
+                        "sscan_detectors_d02_input_pv": 1747350300.115551,
+                        "sscan_detectors_d03_input_pv": 1747350300.115551,
+                        "sscan_detectors_d04_input_pv": 1747350300.115551,
+                        "sscan_detectors_d05_input_pv": 1747350300.115551,
+                        "sscan_detectors_d06_input_pv": 1747350300.115551,
+                        "sscan_triggers_t1_trigger_pv": 1747350300.115551,
+                        "sscan_triggers_t1_trigger_value": 1747350300.115551
+                    },
+                    "data_keys": {
+                        "sscan_desc": {
+                            "source": "PV:gp:scan1.DESC",
+                            "dtype": "string",
+                            "shape": [],
+                            "units": null,
+                            "lower_ctrl_limit": null,
+                            "upper_ctrl_limit": null
+                        },
+                        "sscan_scan_phase": {
+                            "source": "PV:gp:scan1.FAZE",
+                            "dtype": "integer",
+                            "shape": [],
+                            "units": null,
+                            "lower_ctrl_limit": null,
+                            "upper_ctrl_limit": null,
+                            "enum_strs": [
+                                "IDLE",
+                                "INIT_SCAN",
+                                "DO:BEFORE_SCAN",
+                                "WAIT:BEFORE_SCAN",
+                                "MOVE_MOTORS",
+                                "WAIT:MOTORS",
+                                "TRIG_DETCTRS",
+                                "WAIT:DETCTRS",
+                                "RETRACE_MOVE",
+                                "WAIT:RETRACE",
+                                "DO:AFTER_SCAN",
+                                "WAIT:AFTER_SCAN",
+                                "SCAN_DONE",
+                                "SCAN_PENDING",
+                                "PREVIEW",
+                                "RECORD SCALAR DATA"
+                            ]
+                        },
+                        "sscan_data_state": {
+                            "source": "PV:gp:scan1.DSTATE",
+                            "dtype": "integer",
+                            "shape": [],
+                            "units": null,
+                            "lower_ctrl_limit": null,
+                            "upper_ctrl_limit": null,
+                            "enum_strs": [
+                                "UNPACKED",
+                                "TRIG_ARRAY_READ",
+                                "ARRAY_READ_WAIT",
+                                "ARRAY_GET_CALLBACK_WAIT",
+                                "RECORD_ARRAY_DATA",
+                                "SAVE_DATA_WAIT",
+                                "PACKED",
+                                "POSTED"
+                            ]
+                        },
+                        "sscan_data_ready": {
+                            "source": "PV:gp:scan1.DATA",
+                            "dtype": "integer",
+                            "shape": [],
+                            "units": "",
+                            "lower_ctrl_limit": -32768,
+                            "upper_ctrl_limit": 32767
+                        },
+                        "sscan_scan_busy": {
+                            "source": "PV:gp:scan1.BUSY",
+                            "dtype": "integer",
+                            "shape": [],
+                            "units": "",
+                            "lower_ctrl_limit": 0,
+                            "upper_ctrl_limit": -1
+                        },
+                        "sscan_alert_flag": {
+                            "source": "PV:gp:scan1.ALRT",
+                            "dtype": "integer",
+                            "shape": [],
+                            "units": "",
+                            "lower_ctrl_limit": 0,
+                            "upper_ctrl_limit": -1
+                        },
+                        "sscan_alert_message": {
+                            "source": "PV:gp:scan1.SMSG",
+                            "dtype": "string",
+                            "shape": [],
+                            "units": null,
+                            "lower_ctrl_limit": null,
+                            "upper_ctrl_limit": null
+                        },
+                        "sscan_number_points": {
+                            "source": "PV:gp:scan1.NPTS",
+                            "dtype": "integer",
+                            "shape": [],
+                            "units": "",
+                            "lower_ctrl_limit": -2147483648,
+                            "upper_ctrl_limit": 2147483647
+                        },
+                        "sscan_maximum_number_points": {
+                            "source": "PV:gp:scan1.MPTS",
+                            "dtype": "integer",
+                            "shape": [],
+                            "units": "",
+                            "lower_ctrl_limit": -2147483648,
+                            "upper_ctrl_limit": 2147483647
+                        },
+                        "sscan_pasm": {
+                            "source": "PV:gp:scan1.PASM",
+                            "dtype": "integer",
+                            "shape": [],
+                            "units": null,
+                            "lower_ctrl_limit": null,
+                            "upper_ctrl_limit": null,
+                            "enum_strs": [
+                                "STAY",
+                                "START POS",
+                                "PRIOR POS",
+                                "PEAK POS",
+                                "VALLEY POS",
+                                "+EDGE POS",
+                                "-EDGE POS",
+                                "CNTR OF MASS"
+                            ]
+                        },
+                        "sscan_bspv": {
+                            "source": "PV:gp:scan1.BSPV",
+                            "dtype": "string",
+                            "shape": [],
+                            "units": null,
+                            "lower_ctrl_limit": null,
+                            "upper_ctrl_limit": null
+                        },
+                        "sscan_detector_delay": {
+                            "source": "PV:gp:scan1.DDLY",
+                            "dtype": "number",
+                            "shape": [],
+                            "units": "",
+                            "lower_ctrl_limit": -1.0000000150474662e+30,
+                            "upper_ctrl_limit": 1.0000000150474662e+30,
+                            "precision": 3
+                        },
+                        "sscan_positioner_delay": {
+                            "source": "PV:gp:scan1.PDLY",
+                            "dtype": "number",
+                            "shape": [],
+                            "units": "",
+                            "lower_ctrl_limit": -1.0000000150474662e+30,
+                            "upper_ctrl_limit": 1.0000000150474662e+30,
+                            "precision": 3
+                        },
+                        "sscan_reference_detector": {
+                            "source": "PV:gp:scan1.REFD",
+                            "dtype": "integer",
+                            "shape": [],
+                            "units": "",
+                            "lower_ctrl_limit": -32768,
+                            "upper_ctrl_limit": 32767
+                        },
+                        "sscan_wait": {
+                            "source": "PV:gp:scan1.WAIT",
+                            "dtype": "integer",
+                            "shape": [],
+                            "units": "",
+                            "lower_ctrl_limit": -32768,
+                            "upper_ctrl_limit": 32767
+                        },
+                        "sscan_wcnt": {
+                            "source": "PV:gp:scan1.WCNT",
+                            "dtype": "integer",
+                            "shape": [],
+                            "units": "",
+                            "lower_ctrl_limit": -32768,
+                            "upper_ctrl_limit": 32767
+                        },
+                        "sscan_awct": {
+                            "source": "PV:gp:scan1.AWCT",
+                            "dtype": "integer",
+                            "shape": [],
+                            "units": "",
+                            "lower_ctrl_limit": -32768,
+                            "upper_ctrl_limit": 32767
+                        },
+                        "sscan_acqt": {
+                            "source": "PV:gp:scan1.ACQT",
+                            "dtype": "integer",
+                            "shape": [],
+                            "units": null,
+                            "lower_ctrl_limit": null,
+                            "upper_ctrl_limit": null,
+                            "enum_strs": [
+                                "SCALAR",
+                                "1D ARRAY"
+                            ]
+                        },
+                        "sscan_acqm": {
+                            "source": "PV:gp:scan1.ACQM",
+                            "dtype": "integer",
+                            "shape": [],
+                            "units": null,
+                            "lower_ctrl_limit": null,
+                            "upper_ctrl_limit": null,
+                            "enum_strs": [
+                                "NORMAL",
+                                "ACCUMULATE",
+                                "ADD TO PREV"
+                            ]
+                        },
+                        "sscan_atime": {
+                            "source": "PV:gp:scan1.ATIME",
+                            "dtype": "number",
+                            "shape": [],
+                            "units": "",
+                            "lower_ctrl_limit": -1.0000000150474662e+30,
+                            "upper_ctrl_limit": 1.0000000150474662e+30,
+                            "precision": 1
+                        },
+                        "sscan_copyto": {
+                            "source": "PV:gp:scan1.COPYTO",
+                            "dtype": "integer",
+                            "shape": [],
+                            "units": "",
+                            "lower_ctrl_limit": -2147483648,
+                            "upper_ctrl_limit": 2147483647
+                        },
+                        "sscan_a1pv": {
+                            "source": "PV:gp:scan1.A1PV",
+                            "dtype": "string",
+                            "shape": [],
+                            "units": null,
+                            "lower_ctrl_limit": null,
+                            "upper_ctrl_limit": null
+                        },
+                        "sscan_a1nv": {
+                            "source": "PV:gp:scan1.A1NV",
+                            "dtype": "integer",
+                            "shape": [],
+                            "units": null,
+                            "lower_ctrl_limit": null,
+                            "upper_ctrl_limit": null,
+                            "enum_strs": [
+                                "PV OK",
+                                "No PV",
+                                "PV NoRead",
+                                "PV illegal1",
+                                "PV NoWrite",
+                                "PV illegal2",
+                                "PV BAD"
+                            ]
+                        },
+                        "sscan_a1cd": {
+                            "source": "PV:gp:scan1.A1CD",
+                            "dtype": "number",
+                            "shape": [],
+                            "units": "",
+                            "lower_ctrl_limit": -1.0000000150474662e+30,
+                            "upper_ctrl_limit": 1.0000000150474662e+30,
+                            "precision": 3
+                        },
+                        "sscan_aspv": {
+                            "source": "PV:gp:scan1.ASPV",
+                            "dtype": "string",
+                            "shape": [],
+                            "units": null,
+                            "lower_ctrl_limit": null,
+                            "upper_ctrl_limit": null
+                        },
+                        "sscan_ascd": {
+                            "source": "PV:gp:scan1.ASCD",
+                            "dtype": "number",
+                            "shape": [],
+                            "units": "",
+                            "lower_ctrl_limit": -1.0000000150474662e+30,
+                            "upper_ctrl_limit": 1.0000000150474662e+30,
+                            "precision": 3
+                        },
+                        "sscan_positioners_p1_readback_pv": {
+                            "source": "PV:gp:scan1.R1PV",
+                            "dtype": "string",
+                            "shape": [],
+                            "units": null,
+                            "lower_ctrl_limit": null,
+                            "upper_ctrl_limit": null
+                        },
+                        "sscan_positioners_p1_setpoint_pv": {
+                            "source": "PV:gp:scan1.P1PV",
+                            "dtype": "string",
+                            "shape": [],
+                            "units": null,
+                            "lower_ctrl_limit": null,
+                            "upper_ctrl_limit": null
+                        },
+                        "sscan_positioners_p1_start": {
+                            "source": "PV:gp:scan1.P1SP",
+                            "dtype": "number",
+                            "shape": [],
+                            "units": "degrees",
+                            "lower_ctrl_limit": -1000.0,
+                            "upper_ctrl_limit": 1000.0,
+                            "precision": 4
+                        },
+                        "sscan_positioners_p1_center": {
+                            "source": "PV:gp:scan1.P1CP",
+                            "dtype": "number",
+                            "shape": [],
+                            "units": "degrees",
+                            "lower_ctrl_limit": -1000.0,
+                            "upper_ctrl_limit": 1000.0,
+                            "precision": 4
+                        },
+                        "sscan_positioners_p1_end": {
+                            "source": "PV:gp:scan1.P1EP",
+                            "dtype": "number",
+                            "shape": [],
+                            "units": "degrees",
+                            "lower_ctrl_limit": -1000.0,
+                            "upper_ctrl_limit": 1000.0,
+                            "precision": 4
+                        },
+                        "sscan_positioners_p1_step_size": {
+                            "source": "PV:gp:scan1.P1SI",
+                            "dtype": "number",
+                            "shape": [],
+                            "units": "degrees",
+                            "lower_ctrl_limit": -1000.0,
+                            "upper_ctrl_limit": 1000.0,
+                            "precision": 4
+                        },
+                        "sscan_positioners_p1_width": {
+                            "source": "PV:gp:scan1.P1WD",
+                            "dtype": "number",
+                            "shape": [],
+                            "units": "degrees",
+                            "lower_ctrl_limit": -1000.0,
+                            "upper_ctrl_limit": 1000.0,
+                            "precision": 4
+                        },
+                        "sscan_positioners_p1_abs_rel": {
+                            "source": "PV:gp:scan1.P1AR",
+                            "dtype": "integer",
+                            "shape": [],
+                            "units": null,
+                            "lower_ctrl_limit": null,
+                            "upper_ctrl_limit": null,
+                            "enum_strs": [
+                                "ABSOLUTE",
+                                "RELATIVE"
+                            ]
+                        },
+                        "sscan_positioners_p1_mode": {
+                            "source": "PV:gp:scan1.P1SM",
+                            "dtype": "integer",
+                            "shape": [],
+                            "units": null,
+                            "lower_ctrl_limit": null,
+                            "upper_ctrl_limit": null,
+                            "enum_strs": [
+                                "LINEAR",
+                                "TABLE",
+                                "FLY"
+                            ]
+                        },
+                        "sscan_positioners_p1_units": {
+                            "source": "PV:gp:scan1.P1EU",
+                            "dtype": "string",
+                            "shape": [],
+                            "units": null,
+                            "lower_ctrl_limit": null,
+                            "upper_ctrl_limit": null
+                        },
+                        "sscan_detectors_d01_input_pv": {
+                            "source": "PV:gp:scan1.D01PV",
+                            "dtype": "string",
+                            "shape": [],
+                            "units": null,
+                            "lower_ctrl_limit": null,
+                            "upper_ctrl_limit": null
+                        },
+                        "sscan_detectors_d02_input_pv": {
+                            "source": "PV:gp:scan1.D02PV",
+                            "dtype": "string",
+                            "shape": [],
+                            "units": null,
+                            "lower_ctrl_limit": null,
+                            "upper_ctrl_limit": null
+                        },
+                        "sscan_detectors_d03_input_pv": {
+                            "source": "PV:gp:scan1.D03PV",
+                            "dtype": "string",
+                            "shape": [],
+                            "units": null,
+                            "lower_ctrl_limit": null,
+                            "upper_ctrl_limit": null
+                        },
+                        "sscan_detectors_d04_input_pv": {
+                            "source": "PV:gp:scan1.D04PV",
+                            "dtype": "string",
+                            "shape": [],
+                            "units": null,
+                            "lower_ctrl_limit": null,
+                            "upper_ctrl_limit": null
+                        },
+                        "sscan_detectors_d05_input_pv": {
+                            "source": "PV:gp:scan1.D05PV",
+                            "dtype": "string",
+                            "shape": [],
+                            "units": null,
+                            "lower_ctrl_limit": null,
+                            "upper_ctrl_limit": null
+                        },
+                        "sscan_detectors_d06_input_pv": {
+                            "source": "PV:gp:scan1.D06PV",
+                            "dtype": "string",
+                            "shape": [],
+                            "units": null,
+                            "lower_ctrl_limit": null,
+                            "upper_ctrl_limit": null
+                        },
+                        "sscan_triggers_t1_trigger_pv": {
+                            "source": "PV:gp:scan1.T1PV",
+                            "dtype": "string",
+                            "shape": [],
+                            "units": null,
+                            "lower_ctrl_limit": null,
+                            "upper_ctrl_limit": null
+                        },
+                        "sscan_triggers_t1_trigger_value": {
+                            "source": "PV:gp:scan1.T1CD",
+                            "dtype": "number",
+                            "shape": [],
+                            "units": "",
+                            "lower_ctrl_limit": -1.0000000150474662e+30,
+                            "upper_ctrl_limit": 1.0000000150474662e+30,
+                            "precision": 3
+                        }
+                    }
+                },
+                "bundle_m2": {
+                    "data": {},
+                    "timestamps": {},
+                    "data_keys": {}
+                }
+            },
+            "data_keys": {
+                "bundle_m1": {
+                    "source": "computed",
+                    "dtype": "number",
+                    "shape": [],
+                    "units": "",
+                    "lower_ctrl_limit": 0,
+                    "upper_ctrl_limit": 0,
+                    "object_name": "bundle_m1"
+                },
+                "sscan_current_point": {
+                    "source": "PV:gp:scan1.CPT",
+                    "dtype": "integer",
+                    "shape": [],
+                    "units": "",
+                    "lower_ctrl_limit": -2147483648,
+                    "upper_ctrl_limit": 2147483647,
+                    "object_name": "sscan"
+                },
+                "sscan_positioners_p1_readback_value": {
+                    "source": "PV:gp:scan1.R1CV",
+                    "dtype": "number",
+                    "shape": [],
+                    "units": "degrees",
+                    "lower_ctrl_limit": -1000.0,
+                    "upper_ctrl_limit": 1000.0,
+                    "precision": 4,
+                    "object_name": "sscan"
+                },
+                "sscan_positioners_p1_setpoint_value": {
+                    "source": "PV:gp:scan1.P1DV",
+                    "dtype": "number",
+                    "shape": [],
+                    "units": "degrees",
+                    "lower_ctrl_limit": -1000.0,
+                    "upper_ctrl_limit": 1000.0,
+                    "precision": 4,
+                    "object_name": "sscan"
+                },
+                "sscan_detectors_d01_current_value": {
+                    "source": "PV:gp:scan1.D01CV",
+                    "dtype": "number",
+                    "shape": [],
+                    "units": "",
+                    "lower_ctrl_limit": -1.0000000150474662e+30,
+                    "upper_ctrl_limit": 1.0000000150474662e+30,
+                    "precision": 3,
+                    "object_name": "sscan"
+                },
+                "sscan_detectors_d02_current_value": {
+                    "source": "PV:gp:scan1.D02CV",
+                    "dtype": "number",
+                    "shape": [],
+                    "units": "",
+                    "lower_ctrl_limit": -1.0000000150474662e+30,
+                    "upper_ctrl_limit": 1.0000000150474662e+30,
+                    "precision": 3,
+                    "object_name": "sscan"
+                },
+                "sscan_detectors_d03_current_value": {
+                    "source": "PV:gp:scan1.D03CV",
+                    "dtype": "number",
+                    "shape": [],
+                    "units": "",
+                    "lower_ctrl_limit": -1.0000000150474662e+30,
+                    "upper_ctrl_limit": 1.0000000150474662e+30,
+                    "precision": 3,
+                    "object_name": "sscan"
+                },
+                "sscan_detectors_d04_current_value": {
+                    "source": "PV:gp:scan1.D04CV",
+                    "dtype": "number",
+                    "shape": [],
+                    "units": "",
+                    "lower_ctrl_limit": -1.0000000150474662e+30,
+                    "upper_ctrl_limit": 1.0000000150474662e+30,
+                    "precision": 3,
+                    "object_name": "sscan"
+                },
+                "sscan_detectors_d05_current_value": {
+                    "source": "PV:gp:scan1.D05CV",
+                    "dtype": "number",
+                    "shape": [],
+                    "units": "",
+                    "lower_ctrl_limit": -1.0000000150474662e+30,
+                    "upper_ctrl_limit": 1.0000000150474662e+30,
+                    "precision": 3,
+                    "object_name": "sscan"
+                },
+                "sscan_detectors_d06_current_value": {
+                    "source": "PV:gp:scan1.D06CV",
+                    "dtype": "number",
+                    "shape": [],
+                    "units": "",
+                    "lower_ctrl_limit": -1.0000000150474662e+30,
+                    "upper_ctrl_limit": 1.0000000150474662e+30,
+                    "precision": 3,
+                    "object_name": "sscan"
+                },
+                "bundle_m2": {
+                    "source": "computed",
+                    "dtype": "number",
+                    "shape": [],
+                    "units": "",
+                    "lower_ctrl_limit": 0,
+                    "upper_ctrl_limit": 0,
+                    "object_name": "bundle_m2"
+                }
+            },
+            "name": "primary",
+            "object_keys": {
+                "bundle_m1": [
+                    "bundle_m1"
+                ],
+                "sscan": [
+                    "sscan_current_point",
+                    "sscan_positioners_p1_readback_value",
+                    "sscan_positioners_p1_setpoint_value",
+                    "sscan_detectors_d01_current_value",
+                    "sscan_detectors_d02_current_value",
+                    "sscan_detectors_d03_current_value",
+                    "sscan_detectors_d04_current_value",
+                    "sscan_detectors_d05_current_value",
+                    "sscan_detectors_d06_current_value"
+                ],
+                "bundle_m2": [
+                    "bundle_m2"
+                ]
+            },
+            "run_start": "34c84a1b-3f05-4b84-b803-6b092b296139",
+            "time": 1747421885.6623247,
+            "uid": "33308b8e-6f22-4cf6-9188-3bca3bcbe716",
+            "hints": {
+                "bundle_m1": {
+                    "fields": [
+                        "bundle_m1"
+                    ]
+                },
+                "sscan": {
+                    "fields": [
+                        "sscan_positioners_p1_readback_value",
+                        "sscan_detectors_d01_current_value",
+                        "sscan_detectors_d02_current_value",
+                        "sscan_detectors_d03_current_value",
+                        "sscan_detectors_d04_current_value",
+                        "sscan_detectors_d05_current_value",
+                        "sscan_detectors_d06_current_value"
+                    ]
+                },
+                "bundle_m2": {
+                    "fields": [
+                        "bundle_m2"
+                    ]
+                }
+            }
+        }
+    ],
+    [
+        "event",
+        {
+            "uid": "db7c8642-5dfb-45a0-b892-2a4b59431096",
+            "time": 1747421885.674658,
+            "data": {
+                "sscan_current_point": 3,
+                "sscan_positioners_p1_readback_value": 0.0,
+                "sscan_positioners_p1_setpoint_value": 0.0,
+                "sscan_detectors_d01_current_value": 3000000.0,
+                "sscan_detectors_d02_current_value": 1.0,
+                "sscan_detectors_d03_current_value": 1.0,
+                "sscan_detectors_d04_current_value": 1.0,
+                "sscan_detectors_d05_current_value": 1.0,
+                "sscan_detectors_d06_current_value": 1.0,
+                "bundle_m1": -1.0,
+                "bundle_m2": -2.0
+            },
+            "timestamps": {
+                "sscan_current_point": 1747350300.115551,
+                "sscan_positioners_p1_readback_value": 1747350300.115551,
+                "sscan_positioners_p1_setpoint_value": 1747350300.115551,
+                "sscan_detectors_d01_current_value": 1747350300.115551,
+                "sscan_detectors_d02_current_value": 1747350300.115551,
+                "sscan_detectors_d03_current_value": 1747350300.115551,
+                "sscan_detectors_d04_current_value": 1747350300.115551,
+                "sscan_detectors_d05_current_value": 1747350300.115551,
+                "sscan_detectors_d06_current_value": 1747350300.115551,
+                "bundle_m1": 1747421885.660937,
+                "bundle_m2": 1747421885.6616132
+            },
+            "seq_num": 1,
+            "filled": {},
+            "descriptor": "33308b8e-6f22-4cf6-9188-3bca3bcbe716"
+        }
+    ],
+    [
+        "event",
+        {
+            "uid": "b8020bfd-8f82-4064-99d4-cd27d95c3f14",
+            "time": 1747421885.6810508,
+            "data": {
+                "sscan_current_point": 3,
+                "sscan_positioners_p1_readback_value": 0.0,
+                "sscan_positioners_p1_setpoint_value": 0.0,
+                "sscan_detectors_d01_current_value": 3000000.0,
+                "sscan_detectors_d02_current_value": 1.0,
+                "sscan_detectors_d03_current_value": 1.0,
+                "sscan_detectors_d04_current_value": 1.0,
+                "sscan_detectors_d05_current_value": 1.0,
+                "sscan_detectors_d06_current_value": 1.0,
+                "bundle_m1": 0.0,
+                "bundle_m2": 0.0
+            },
+            "timestamps": {
+                "sscan_current_point": 1747350300.115551,
+                "sscan_positioners_p1_readback_value": 1747350300.115551,
+                "sscan_positioners_p1_setpoint_value": 1747350300.115551,
+                "sscan_detectors_d01_current_value": 1747350300.115551,
+                "sscan_detectors_d02_current_value": 1747350300.115551,
+                "sscan_detectors_d03_current_value": 1747350300.115551,
+                "sscan_detectors_d04_current_value": 1747350300.115551,
+                "sscan_detectors_d05_current_value": 1747350300.115551,
+                "sscan_detectors_d06_current_value": 1747350300.115551,
+                "bundle_m1": 1747421885.6804059,
+                "bundle_m2": 1747421885.6806996
+            },
+            "seq_num": 2,
+            "filled": {},
+            "descriptor": "33308b8e-6f22-4cf6-9188-3bca3bcbe716"
+        }
+    ],
+    [
+        "event",
+        {
+            "uid": "a610d9c3-3781-4b49-9e71-945e0d5c6da2",
+            "time": 1747421885.6868424,
+            "data": {
+                "sscan_current_point": 3,
+                "sscan_positioners_p1_readback_value": 0.0,
+                "sscan_positioners_p1_setpoint_value": 0.0,
+                "sscan_detectors_d01_current_value": 3000000.0,
+                "sscan_detectors_d02_current_value": 1.0,
+                "sscan_detectors_d03_current_value": 1.0,
+                "sscan_detectors_d04_current_value": 1.0,
+                "sscan_detectors_d05_current_value": 1.0,
+                "sscan_detectors_d06_current_value": 1.0,
+                "bundle_m1": 1.0,
+                "bundle_m2": 2.0
+            },
+            "timestamps": {
+                "sscan_current_point": 1747350300.115551,
+                "sscan_positioners_p1_readback_value": 1747350300.115551,
+                "sscan_positioners_p1_setpoint_value": 1747350300.115551,
+                "sscan_detectors_d01_current_value": 1747350300.115551,
+                "sscan_detectors_d02_current_value": 1747350300.115551,
+                "sscan_detectors_d03_current_value": 1747350300.115551,
+                "sscan_detectors_d04_current_value": 1747350300.115551,
+                "sscan_detectors_d05_current_value": 1747350300.115551,
+                "sscan_detectors_d06_current_value": 1747350300.115551,
+                "bundle_m1": 1747421885.6862175,
+                "bundle_m2": 1747421885.68652
+            },
+            "seq_num": 3,
+            "filled": {},
+            "descriptor": "33308b8e-6f22-4cf6-9188-3bca3bcbe716"
+        }
+    ],
+    [
+        "stop",
+        {
+            "uid": "cb9e8fb6-097c-4d2c-b5a4-eca5e2404a8d",
+            "time": 1747421885.6873999,
+            "run_start": "34c84a1b-3f05-4b84-b803-6b092b296139",
+            "exit_status": "success",
+            "reason": "",
+            "num_events": {
+                "primary": 3
+            }
+        }
+    ]
+]
