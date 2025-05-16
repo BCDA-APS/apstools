@@ -8,7 +8,12 @@ from ..image_analysis import analyze_2D
     "data, expected, ndigits",
     [
         [
-            dict(x=[0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0, 1.1], y=[0, 1, 2, 3, 4, 5, 4, 3, 2, 1, 0]),
+            # fmt: off
+            dict(
+                x=[.1, .2, .3, .4, .5, .6, .7, .8, .9, 1.0, 1.1],
+                y=[0, 1, 2, 3, 4, 5, 4, 3, 2, 1, 0]
+            ),
+            # fmt: on
             dict(
                 n=11,
                 centroid=0.6,
