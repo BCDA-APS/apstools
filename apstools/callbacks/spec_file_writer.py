@@ -658,9 +658,24 @@ class SpecWriterCallback:
         self, filename: Optional[pathlib.Path] = None, scan_id: Optional[int] = None, RE: Optional[Any] = None
     ) -> pathlib.Path:
         """
-        prepare to use a new SPEC data file
+        Prepare to use a new SPEC data file.
 
-        but don't create it until we have data
+        If the file exists, determine the next scan_id based on existing scans.
+        Handles the case where the file contains no runs (empty scan list).
+
+        Parameters
+        ----------
+        filename : Optional[pathlib.Path]
+            The path to the SPEC data file. If None, a default filename is generated.
+        scan_id : Optional[int]
+            The scan ID to use. If None, it is determined from the file.
+        RE : Optional[Any]
+            The RunEngine instance (optional).
+
+        Returns
+        -------
+        pathlib.Path
+            The path to the SPEC data file to be used.
         """
         self.clear()
         filename = pathlib.Path(filename or self.make_default_filename())
@@ -669,10 +684,14 @@ class SpecWriterCallback:
 
             sdf = SpecDataFile(filename)
             scan_list = sdf.getScanNumbers()
-            l = len(scan_list)
-            m = max(map(float, scan_list))
-            highest = int(max(l, m) + 0.9999)  # solves issue #128
-            scan_id = max(scan_id or 0, highest)
+            if scan_list:
+                l = len(scan_list)
+                m = max(map(float, scan_list))
+                highest = int(max(l, m) + 0.9999)  # solves issue #128
+                scan_id = max(scan_id or 0, highest)
+            else:
+                # No scans in file, use provided scan_id or default to 1
+                scan_id = scan_id or 1
         self.spec_filename = filename
         self.spec_epoch = int(time.time())  # ! no roundup here!!!
         self.spec_host = socket.gethostname() or "localhost"
@@ -918,9 +937,24 @@ class SpecWriterCallback2(FileWriterCallbackBase):
         self, filename: Optional[pathlib.Path] = None, scan_id: Optional[int] = None, RE: Optional[Any] = None
     ) -> pathlib.Path:
         """
-        prepare to use a new SPEC data file
+        Prepare to use a new SPEC data file.
 
-        but don't create it until we have data
+        If the file exists, determine the next scan_id based on existing scans.
+        Handles the case where the file contains no runs (empty scan list).
+
+        Parameters
+        ----------
+        filename : Optional[pathlib.Path]
+            The path to the SPEC data file. If None, a default filename is generated.
+        scan_id : Optional[int]
+            The scan ID to use. If None, it is determined from the file.
+        RE : Optional[Any]
+            The RunEngine instance (optional).
+
+        Returns
+        -------
+        pathlib.Path
+            The path to the SPEC data file to be used.
         """
         self.clear()
         filename = pathlib.Path(filename or self.make_default_filename())
@@ -929,10 +963,14 @@ class SpecWriterCallback2(FileWriterCallbackBase):
 
             sdf = SpecDataFile(filename)
             scan_list = sdf.getScanNumbers()
-            l = len(scan_list)
-            m = max(map(float, scan_list))
-            highest = int(max(l, m) + 0.9999)  # solves issue #128
-            scan_id = max(scan_id or 0, highest)
+            if scan_list:
+                l = len(scan_list)
+                m = max(map(float, scan_list))
+                highest = int(max(l, m) + 0.9999)  # solves issue #128
+                scan_id = max(scan_id or 0, highest)
+            else:
+                # No scans in file, use provided scan_id or default to 1
+                scan_id = scan_id or 1
         self.spec_filename = filename
         self.spec_epoch = int(time.time())  # ! no roundup here!!!
         self.spec_host = socket.gethostname() or "localhost"
