@@ -17,7 +17,7 @@ from ...tests import IOC_GP
 from .._core import TableStyle
 from ..device_info import NOT_CONNECTED_VALUE
 from ..device_info import _list_epics_signals
-from ..device_info import listdevice
+from ..device_info import listdevice, TABLE_TYPE
 
 
 class MySignals(Device):
@@ -64,8 +64,10 @@ def test_calcs() -> None:
     ],
 )
 def test_listdevice(obj: Device, length: int) -> None:
+    """Test that listdevice returns correct number of rows and columns for given device."""
     result = listdevice(obj, scope="read")
-    assert isinstance(result, TableStyle.pyRestTable.value)
+    assert isinstance(result, TABLE_TYPE)
+    assert hasattr(result, "rows")
     assert len(result.rows) == length
     if length > 0:
         assert len(result.labels) == 3
@@ -115,12 +117,13 @@ def test__list_epics_signals(obj: Union[Device, EpicsSignalBase], length: Option
     ],
 )  # scope: full epics read
 def test_spotchecks(scope: Optional[str], row: int, column: str, value: Union[str, float, int]) -> None:
+    """Spotcheck values in the table returned by listdevice for various scopes and columns."""
     assert calcs.connected
     if round(motor.position, 2) != 0:
         motor.move(0)
 
     result = listdevice(motor, scope=scope)
-    assert isinstance(result, TableStyle.pyRestTable.value)
+    assert isinstance(result, TABLE_TYPE)
     assert column in result.labels
 
     assert row < len(result.rows)
@@ -141,7 +144,9 @@ def test_spotchecks(scope: Optional[str], row: int, column: str, value: Union[st
     ],
 )
 def test_listdevice_filters(device: Device, scope: Optional[str], ancient: bool, length: int) -> None:
+    """Test filtering options for listdevice (scope and show_ancient)."""
     result = listdevice(device, scope, show_ancient=ancient)
+    assert hasattr(result, "rows")
     assert len(result.rows) == length
 
 
@@ -174,6 +179,7 @@ def test_listdevice_filters(device: Device, scope: Optional[str], ancient: bool,
     ],
 )
 def test_listdevice_cname(device: Device, scope: str, cnames: List[str]) -> None:
+    """Test that the cname column in listdevice matches expected values."""
     result = listdevice(device, scope, show_ancient=False, cname=True)
 
     col_num = result.labels.index("name")
