@@ -21,6 +21,7 @@ from ophyd import Signal
 from ophyd.signal import ConnectionTimeoutError
 from ophyd.signal import EpicsSignalBase
 
+from ._core import PRT_Table
 from ._core import TableStyle
 from .misc import call_signature_decorator
 
@@ -98,6 +99,10 @@ def _list_epics_signals(obj: Union[Device, EpicsSignalBase]) -> Optional[list[Ep
         return items
 
 
+# Type alias for table return type
+TABLE_TYPE = Union[pd.DataFrame, PRT_Table]
+
+
 @call_signature_decorator
 def listdevice(
     obj: OphydObject,
@@ -110,12 +115,15 @@ def listdevice(
     max_column_width: Optional[int] = None,
     table_style: TableStyle = TableStyle.pyRestTable,
     _call_args: Optional[dict[str, Any]] = None,
-) -> Any:
-    """Describe the signal information from device ``obj`` in a pandas DataFrame.
+) -> TABLE_TYPE:
+    """Describe the signal information from device ``obj`` in a pandas DataFrame or PRT_Table.
 
     Look through all subcomponents to find all the signals to be
     shown. Components that are disconnected will be skipped and a
     warning logged.
+
+    Returns:
+        TABLE_TYPE: Either a pandas DataFrame or a PRT_Table, depending on table_style.
 
     EXAMPLE::
 
