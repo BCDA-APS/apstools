@@ -11,13 +11,14 @@ from ophyd import EpicsMotor
 from ophyd import EpicsSignal
 from ophyd import Signal
 from ophyd.signal import EpicsSignalBase
+import pandas as pd
 
 from ...devices import SwaitRecord
 from ...tests import IOC_GP
-from .._core import TableStyle
+from .._core import  PRT_Table
 from ..device_info import NOT_CONNECTED_VALUE
 from ..device_info import _list_epics_signals
-from ..device_info import listdevice, TABLE_TYPE
+from ..device_info import listdevice
 
 
 class MySignals(Device):
@@ -66,7 +67,7 @@ def test_calcs() -> None:
 def test_listdevice(obj: Device, length: int) -> None:
     """Test that listdevice returns correct number of rows and columns for given device."""
     result = listdevice(obj, scope="read")
-    assert isinstance(result, TABLE_TYPE)
+    assert isinstance(result, (pd.DataFrame, PRT_Table))
     assert hasattr(result, "rows")
     assert len(result.rows) == length
     if length > 0:
@@ -123,7 +124,7 @@ def test_spotchecks(scope: Optional[str], row: int, column: str, value: Union[st
         motor.move(0)
 
     result = listdevice(motor, scope=scope)
-    assert isinstance(result, TABLE_TYPE)
+    assert isinstance(result, (pd.DataFrame, PRT_Table))
     assert column in result.labels
 
     assert row < len(result.rows)
