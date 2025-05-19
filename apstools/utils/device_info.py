@@ -7,17 +7,21 @@ Device information
    ~listdevice
 """
 
-
 import datetime
 import logging
 from collections import defaultdict
+from typing import Any
+from typing import Optional
+from typing import Union
 
 import pandas as pd
 from ophyd import Device
+from ophyd import OphydObject
 from ophyd import Signal
 from ophyd.signal import ConnectionTimeoutError
 from ophyd.signal import EpicsSignalBase
 
+from ._core import PRT_Table
 from ._core import TableStyle
 from .misc import call_signature_decorator
 
@@ -30,11 +34,13 @@ TRUNCATION_TEXT = " ..."
 # Use NOT_CONNECTED_VALUE in tables for signals that are not connected.
 NOT_CONNECTED_VALUE = "-n/c-"
 
+NoneType = type(None)
 
-def _all_signals(base):
+
+def _all_signals(base: Union[OphydObject]) -> list[Signal]:
     if isinstance(base, Signal):
         return [base]
-    items = []
+    items: list[Signal] = []
     if hasattr(base, "component_names"):
         for k in base.component_names:
             # Check for lazy components that may not be connected
@@ -48,7 +54,7 @@ def _all_signals(base):
     return items
 
 
-def _get_named_child(obj, nm):
+def _get_named_child(obj: Device, nm: str) -> Union[OphydObject, NoneType]:
     """
     return named child of ``obj`` or None
     """
@@ -60,7 +66,7 @@ def _get_named_child(obj, nm):
         return "TIMEOUT"
 
 
-def _get_pv(obj):
+def _get_pv(obj: Union[Device, EpicsSignalBase]) -> Optional[str]:
     """
     Return PV name, prefix, or None from ophyd object.
     """
@@ -70,7 +76,7 @@ def _get_pv(obj):
         return obj.prefix
 
 
-def _list_epics_signals(obj):
+def _list_epics_signals(obj: Union[Device, EpicsSignalBase]) -> Optional[list[EpicsSignalBase]]:
     """
     Return a list of the EPICS signals in obj.
 
@@ -82,7 +88,7 @@ def _list_epics_signals(obj):
     if isinstance(obj, EpicsSignalBase):
         return [obj]
     elif isinstance(obj, Device):
-        items = []
+        items: list[EpicsSignalBase] = []
         for nm in obj.component_names:
             child = _get_named_child(obj, nm)
             if child in (None, "TIMEOUT"):
@@ -93,30 +99,37 @@ def _list_epics_signals(obj):
         return items
 
 
+# Type alias for table return type
+TABLE_TYPE = Union[pd.DataFrame, PRT_Table]
+
+
 @call_signature_decorator
 def listdevice(
-    obj,
-    scope=None,
-    cname=False,
-    dname=True,
-    show_pv=False,
-    use_datetime=True,
-    show_ancient=True,
-    max_column_width=None,
-    table_style=TableStyle.pyRestTable,
-    _call_args=None,
-):
-    """Describe the signal information from device ``obj`` in a pandas DataFrame.
+    obj: OphydObject,
+    scope: Optional[str] = None,
+    cname: Optional[bool] = False,
+    dname: Optional[bool] = True,
+    show_pv: Optional[bool] = False,
+    use_datetime: Optional[bool] = True,
+    show_ancient: Optional[bool] = True,
+    max_column_width: Optional[int] = None,
+    table_style: TableStyle = TableStyle.pyRestTable,
+    _call_args: Optional[dict[str, Any]] = None,
+) -> TABLE_TYPE:
+    """Describe the signal information from device ``obj`` in a pandas DataFrame or PRT_Table.
 
     Look through all subcomponents to find all the signals to be
     shown. Components that are disconnected will be skipped and a
     warning logged.
 
+    Returns:
+        TABLE_TYPE: Either a pandas DataFrame or a PRT_Table, depending on table_style.
+
     EXAMPLE::
 
         >>> listdevice(m1)
         ======================= ======= ==========================
-        data name               value   timestamp                 
+        data name               value   timestamp
         ======================= ======= ==========================
         m1                      0.0     2024-08-28 09:41:08.364137
         m1_user_setpoint        0.0     2024-08-28 09:41:08.364137
@@ -267,7 +280,7 @@ def listdevice(
                 if use_datetime:
                     dd["timestamp"].append(datetime.datetime.fromtimestamp(ts))
 
-    def truncate(value, width, pad):
+    def truncate(value: Any, width: int, pad: str) -> str:
         """Ensure that str(value) fits into column of 'width'."""
         value = str(value)
         if len(value) > width:

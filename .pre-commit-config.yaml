@@ -1,0 +1,51 @@
+# hint: pre-commit run --all-files
+
+repos:
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v5.0.0
+    hooks:
+      - id: check-yaml
+      - id: check-toml
+      - id: check-docstring-first  # let variables have docstrings
+      - id: check-merge-conflict
+      - id: check-added-large-files
+      - id: mixed-line-ending
+        exclude: |
+          apstools/migration/config.*
+          LICENSE.txt
+      - id: end-of-file-fixer
+        exclude: |
+          apstools/utils/tests/data/*
+          apstools/migration/config.*
+          LICENSE.txt
+      - id: trailing-whitespace
+        exclude: |
+          apstools/utils/tests/data/*
+          apstools/migration/config.*
+          LICENSE.txt
+      - id: check-case-conflict
+      - id: check-executables-have-shebangs
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    rev: v0.4.8
+    hooks:
+      - id: ruff # replaces Flake8, isort, pydocstyle, pyupgrade
+        args:
+          - --fix
+        exclude: |
+          apstools/utils/tests/data/*
+          apstools/migration/config.*
+          LICENSE.txt
+      - id: ruff-format # replaces Black
+        exclude: |
+          apstools/utils/tests/data/*
+          apstools/migration/config.*
+          LICENSE.txt
+  - repo: https://github.com/pycqa/isort
+    rev: 5.13.2
+    hooks:
+      - id: isort
+        args: ["--sl"]
+        exclude: |
+          apstools/utils/tests/data/*
+          apstools/migration/config.*
+          LICENSE.txt
