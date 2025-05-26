@@ -40,7 +40,7 @@ jobs:
         with:
           python_version: "3.13"
           # see .ruff.toml file for options
-          command: ruff check . apstools .github
+          command: ruff check .
 
   test-matrix:
     name: Python ${{ matrix.python-version }}
