@@ -36,10 +36,11 @@ jobs:
           python -m pip install --upgrade pip
 
       - name: Run ruff
-        uses: davidslusser/actions_python_ruff@v1.0.2
+        uses: davidslusser/actions_python_ruff@v1.0.3
         with:
           python_version: "3.13"
           # see .ruff.toml file for options
+          command: ruff check .
 
   test-matrix:
     name: Python ${{ matrix.python-version }}
