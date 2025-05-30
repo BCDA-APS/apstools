@@ -9,6 +9,8 @@ from .positioner_soft_done import PVPositionerSoftDone
 from .positioner_soft_done import PVPositionerSoftDoneWithStop
 
 # other imports
+from .acs_motors import AcsMotor
+
 from .aps_bss_user import ApsBssUserInfoDevice
 
 from .aps_cycle import ApsCycleDM
