@@ -94,6 +94,7 @@ doc = [
   "ipython",
   "jinja2 >=3.0",
   "markupsafe ==2.0.1",
+  "myst-nb",
   "myst-parser",
   "nbsphinx",
   "pydata-sphinx-theme",

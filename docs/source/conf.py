@@ -68,7 +68,7 @@ extensions = """
     sphinx.ext.todo
     sphinx.ext.viewcode
     nbsphinx
-    myst_parser
+    myst_nb
     sphinx_design
 """.split()
 myst_enable_extensions = ["colon_fence"]
@@ -76,6 +76,10 @@ myst_enable_extensions = ["colon_fence"]
 templates_path = ["_templates"]
 source_suffix = [".rst", ".md"]
 exclude_patterns = ["**.ipynb_checkpoints"]
+
+myst_enable_extensions = ["colon_fence"]
+# myst-nb notebook execution when building docs
+nb_execution_mode = "off"
 
 today_fmt = "%Y-%m-%d %H:%M"
 

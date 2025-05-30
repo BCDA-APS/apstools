@@ -1,16 +1,31 @@
+"""
+High Heat-Load Apertures
+=============================
+
+.. autosummary::
+
+  ~HHLApertureBase
+  ~HHLAperture
+  ~HHLApertureACS
+  ~HHLApertureWBA
+"""
+
 import logging
 
 from ophyd import Component as Cpt
 from ophyd import Device
-from ophyd import FormattedComponent as FCpt
 from ophyd import EpicsMotor
-from ophyd import EpicsSignal, EpicsSignalRO
-from .acsMotors import AcsMotor
+from ophyd import EpicsSignalRO
+from ophyd import FormattedComponent as FCpt
+
+from .acs_motors import AcsMotor
 
 logger = logging.getLogger(__name__)
 logger.info(__file__)
 
+
 class HHLApertureBase(Device):
+    """Base class for HHLAperture classes, 2-axis slit."""
 
     class SlitAxis(Device):
         size = Cpt(EpicsMotor, "Size", labels={"motors"})
@@ -18,8 +33,8 @@ class HHLApertureBase(Device):
 
     # Individual slit directions
     h = Cpt(SlitAxis, "h")
-    v = Cpt(SlitAxis, "v")    
-    
+    v = Cpt(SlitAxis, "v")
+
 
 class HHLAperture(HHLApertureBase):
     """
@@ -44,6 +59,7 @@ class HHLAperture(HHLApertureBase):
     diagonal_motor:
       The motor record PV controlling the real diagonal motor, ex: "9ida:CR9A1:m2"
     """
+
     def __init__(
         self,
         prefix: str,
@@ -60,7 +76,6 @@ class HHLAperture(HHLApertureBase):
         self._horizontal_motor = horizontal_motor
         self._diagonal_motor = diagonal_motor
 
-        
         super().__init__(prefix, *args, **kwargs)
 
     pitch = FCpt(EpicsMotor, "{_pitch_motor}", labels={"motors"})
@@ -71,7 +86,7 @@ class HHLAperture(HHLApertureBase):
 
 class HHLApertureACS(HHLApertureBase):
     """
-    High Heat Load Aperture.
+    High Heat Load Aperture for ACS motors.
 
     There are no independent parts to move, so each axis only has center and size.
 
@@ -92,6 +107,7 @@ class HHLApertureACS(HHLApertureBase):
     diagonal_motor:
       The motor record PV controlling the real diagonal motor, ex: "9ida:CR9A1:m2"
     """
+
     def __init__(
         self,
         prefix: str,
@@ -108,7 +124,6 @@ class HHLApertureACS(HHLApertureBase):
         self._horizontal_motor = horizontal_motor
         self._diagonal_motor = diagonal_motor
 
-        
         super().__init__(prefix, *args, **kwargs)
 
     pitch = FCpt(AcsMotor, "{_pitch_motor}", labels={"motors"})
@@ -118,18 +133,13 @@ class HHLApertureACS(HHLApertureBase):
 
 
 class HHLApertureWBA(HHLApertureACS):
+    """High Heat-Load Apertures White Beam"""
 
-    pitch_zeroed  = Cpt(EpicsSignalRO, "PITCH:zeroed", kind="config", string = True)
-    pitch_indexed = Cpt(EpicsSignalRO, "PITCH:indexed", kind="config", string = True)
-    yaw_zeroed  = Cpt(EpicsSignalRO, "YAW:zeroed", kind="config", string = True)
-    yaw_indexed = Cpt(EpicsSignalRO, "YAW:indexed", kind="config", string = True)
-    hor_zeroed  = Cpt(EpicsSignalRO, "HOR:zeroed", kind="config", string = True)
-    hor_indexed = Cpt(EpicsSignalRO, "HOR:indexed", kind="config", string = True)
-    diag_zeroed  = Cpt(EpicsSignalRO, "VERT:zeroed", kind="config", string = True)
-    diag_indexed = Cpt(EpicsSignalRO, "VERT:indexed", kind="config", string = True)
-
-
-
-        
-        
-        
+    pitch_zeroed = Cpt(EpicsSignalRO, "PITCH:zeroed", kind="config", string=True)
+    pitch_indexed = Cpt(EpicsSignalRO, "PITCH:indexed", kind="config", string=True)
+    yaw_zeroed = Cpt(EpicsSignalRO, "YAW:zeroed", kind="config", string=True)
+    yaw_indexed = Cpt(EpicsSignalRO, "YAW:indexed", kind="config", string=True)
+    hor_zeroed = Cpt(EpicsSignalRO, "HOR:zeroed", kind="config", string=True)
+    hor_indexed = Cpt(EpicsSignalRO, "HOR:indexed", kind="config", string=True)
+    diag_zeroed = Cpt(EpicsSignalRO, "VERT:zeroed", kind="config", string=True)
+    diag_indexed = Cpt(EpicsSignalRO, "VERT:indexed", kind="config", string=True)

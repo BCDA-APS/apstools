@@ -26,6 +26,12 @@ describe future plans.
 
    Release expected by 2025-07.
 
+   New Features
+   -------------
+
+   * Added AcsMotor for AcsMotionControl motor support.
+   * Added HHLApertureACS High Heat Load Aperture.
+
    Enhancements
    -------------
 
@@ -40,6 +46,7 @@ describe future plans.
    Maintenance
    -------------
 
+   * Added HHLApertureBase for high heat-load apertures.
    * SpecWriterCallback2: refactor how to get SPEC data labels.
    * Switch to use numpy >= 2.
 

@@ -160,6 +160,7 @@ Motors, Positioners, Axes, ...
 
 .. autosummary::
 
+    ~apstools.devices.acs_motors.AcsMotor
     ~apstools.devices.axis_tuner.AxisTunerException
     ~apstools.devices.axis_tuner.AxisTunerMixin
     ~apstools.devices.description_mixin.EpicsDescriptionMixin
@@ -288,6 +289,12 @@ Internal Routines
 All Submodules
 --------------
 
+.. automodule:: apstools.devices.acs_motors
+    :members:
+    :private-members:
+    :show-inheritance:
+    :inherited-members:
+
 .. automodule:: apstools.devices.aps_bss_user
     :members:
     :private-members:
@@ -372,6 +379,12 @@ All Submodules
         :private-members:
         :show-inheritance:
         :inherited-members:
+
+.. automodule:: apstools.devices.hhl_apertures
+    :members:
+    :private-members:
+    :show-inheritance:
+    :inherited-members:
 
 .. automodule:: apstools.devices.hhl_slits
     :members:
