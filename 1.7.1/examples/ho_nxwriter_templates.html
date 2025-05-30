@@ -1,0 +1,1277 @@
+
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+
+    <title>How to use NeXus/HDF5 Templates &#8212; apstools 1.7</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/graphviz.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.5ea377869091fd0449014c60fc090103.min.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/nbsphinx-code-cells.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/css/custom.css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/sphinx_highlight.js"></script>
+    <script src="../_static/design-tabs.js"></script>
+    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'examples/ho_nxwriter_templates';</script>
+    <script>
+        DOCUMENTATION_OPTIONS.theme_version = '0.15.4';
+        DOCUMENTATION_OPTIONS.theme_switcher_json_url = 'https://raw.githubusercontent.com/BCDA-APS/apstools/main/docs/source/_static/switcher.json';
+        DOCUMENTATION_OPTIONS.theme_switcher_version_match = '1.7.1';
+        DOCUMENTATION_OPTIONS.show_version_warning_banner = false;
+        </script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="How to Search for Bluesky Data?" href="ho_search_databroker.html" />
+    <link rel="prev" title="What are the objects to control?" href="ho_list_control_objects.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-3 navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../index.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">apstools 1.7</p>
+  
+</a></div>
+    
+      <div class="navbar-item">
+<script>
+document.write(`
+  <div class="version-switcher__container dropdown">
+    <button id="pst-version-switcher-button-2"
+      type="button"
+      class="version-switcher__button btn btn-sm dropdown-toggle"
+      data-bs-toggle="dropdown"
+      aria-haspopup="listbox"
+      aria-controls="pst-version-switcher-list-2"
+      aria-label="Version switcher list"
+    >
+      Choose version  <!-- this text may get changed later by javascript -->
+      <span class="caret"></span>
+    </button>
+    <div id="pst-version-switcher-list-2"
+      class="version-switcher__menu dropdown-menu list-group-flush py-0"
+      role="listbox" aria-labelledby="pst-version-switcher-button-2">
+      <!-- dropdown will be populated by javascript on page load -->
+    </div>
+  </div>
+`);
+</script></div>
+    
+  </div>
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../install.html">
+    Installation
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../api/index.html">
+    API Documentation
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../applications/index.html">
+    Applications
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="index.html">
+    Examples
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../changes.html">
+    Change History
+  </a>
+</li>
+
+            <li class="nav-item dropdown">
+                <button class="btn dropdown-toggle nav-item" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-controls="pst-nav-more-links">
+                    More
+                </button>
+                <ul id="pst-nav-more-links" class="dropdown-menu">
+                    
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../license.html">
+    License
+  </a>
+</li>
+
+                </ul>
+            </li>
+            
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script>
+        </div>
+      
+      
+        <div class="navbar-item">
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script></div>
+      
+        <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/BCDA-APS/apstools" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script>
+    </div>
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../install.html">
+    Installation
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../api/index.html">
+    API Documentation
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../applications/index.html">
+    Applications
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="index.html">
+    Examples
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../changes.html">
+    Change History
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../license.html">
+    License
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script></div>
+        
+          <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/BCDA-APS/apstools" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+        
+      </div>
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+<nav class="bd-docs-nav bd-links"
+     aria-label="Section Navigation">
+  <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
+  <div class="bd-toc-item navbar-nav"><ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="device_examples.html">Device Examples</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="de_0_adsim_hdf5_basic.html">Area Detector with default HDF5 File Name</a></li>
+<li class="toctree-l2"><a class="reference internal" href="de_1_adsim_hdf5_custom_names.html">Area Detector with custom HDF5 File Name</a></li>
+<li class="toctree-l2"><a class="reference internal" href="de_2_adsim_hdf5_single_mode.html">Area Detector, Single mode, HDF5 file</a></li>
+<li class="toctree-l2"><a class="reference internal" href="de_ad_pe.html">ADPerkinElmer Area Detector with default HDF5 File Name</a></li>
+<li class="toctree-l2"><a class="reference internal" href="de_ad_pilatus.html">ADPilatus Area Detector with default HDF5 File Name</a></li>
+<li class="toctree-l2"><a class="reference internal" href="de_aps_data_management.html">Integration with APS Data Management (DM)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="de_sscan.html">The synApps <code class="docutils literal notranslate"><span class="pre">sscan</span></code> and <code class="docutils literal notranslate"><span class="pre">SscanRecord</span></code></a></li>
+</ul>
+</details></li>
+</ul>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="filewriter_examples.html">File Writer Examples</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="fw_nxwriter.html">Callback</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="fw_specfile_example.html">Output scan(s) to a SPEC data file.</a></li>
+</ul>
+</details></li>
+</ul>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="howto_examples.html">How-To Examples</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="ho_contingency.html">How to interrupt/stop/abort a running plan &amp; recover to safe settings</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ho_list_control_objects.html">What are the objects to control?</a></li>
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">How to use NeXus/HDF5 Templates</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ho_search_databroker.html">How to Search for Bluesky Data?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ho_session_logs.html">How to setup logging</a></li>
+</ul>
+</details></li>
+</ul>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="plan_examples.html">Plan Examples</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="pl_excel_scan.html">The <code class="docutils literal notranslate"><span class="pre">Excel_plan()</span></code> – batch scans using a spreadsheet</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pl_lineup.html">The <code class="docutils literal notranslate"><span class="pre">lineup()</span></code> plan - align an axis with a signal</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pl_nscan.html">The <code class="docutils literal notranslate"><span class="pre">nscan()</span></code> plan – scan multiple axes together</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pl_run_command_list.html">The <code class="xref py py-func docutils literal notranslate"><span class="pre">run_command_file()</span></code> plan – batch scans using a text file</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pl_tuneaxis.html">The <code class="docutils literal notranslate"><span class="pre">TuneAxis()</span></code> plan - align an axis with a signal</a></li>
+</ul>
+</details></li>
+</ul>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="download_examples.html">File Downloads for the Examples</a></li>
+</ul>
+</div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+
+
+<nav aria-label="Breadcrumb" class="d-print-none">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="index.html" class="nav-link">Examples</a></li>
+    
+    
+    <li class="breadcrumb-item"><a href="howto_examples.html" class="nav-link">How-To Examples</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page">How to use...</li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section id="How-to-use-NeXus/HDF5-Templates">
+<h1>How to use NeXus/HDF5 Templates<a class="headerlink" href="#How-to-use-NeXus/HDF5-Templates" title="Permalink to this heading">#</a></h1>
+<p>Show how to use templates to write powder diffraction data using the NeXus <a class="reference external" href="https://manual.nexusformat.org/classes/applications/NXmonopd.html#nxmonopd">NXmonopd</a> application definition. Templates are used to:</p>
+<ul class="simple">
+<li><p>make links from existing fields or groups to new locations</p></li>
+<li><p>create new groups as directed</p></li>
+<li><p>create constants for attributes or fields</p></li>
+</ul>
+<section id="Overview">
+<h2>Overview<a class="headerlink" href="#Overview" title="Permalink to this heading">#</a></h2>
+<p>This powder diffraction experiment positions a sample on a rotation stage (called <code class="docutils literal notranslate"><span class="pre">th</span></code>, or <span class="math notranslate nohighlight">\(\theta\)</span>) and a detector at some distance on a second rotation axis (called <code class="docutils literal notranslate"><span class="pre">tth</span></code>, or <span class="math notranslate nohighlight">\(2\theta\)</span>). The experiment moves <span class="math notranslate nohighlight">\(2\theta\)</span> through an angular range while synchronizing <span class="math notranslate nohighlight">\(\theta\)</span> to half of the <span class="math notranslate nohighlight">\(2\theta\)</span> value. The intensity of incident (<code class="docutils literal notranslate"><span class="pre">I0</span></code>) and scattered radiation (<code class="docutils literal notranslate"><span class="pre">sensor</span></code>) are sampled at discrete angular intervals. The <code class="docutils literal notranslate"><span class="pre">I0</span></code> detector is positioned before the
+sample. It does not move during the experiment. The <code class="docutils literal notranslate"><span class="pre">sensor</span></code> detector is mounted on a long arm projecting from the <span class="math notranslate nohighlight">\(2\theta\)</span> rotation.</p>
+</section>
+<section id="Build-the-powder-diffraction-instrument">
+<h2>Build the powder diffraction instrument<a class="headerlink" href="#Build-the-powder-diffraction-instrument" title="Permalink to this heading">#</a></h2>
+<p>We simulate a powder diffraction instrument with a monochromatic source with a Bluesky hardware setup similar to the <a class="reference external" href="https://bcda-aps.github.io/apstools/latest/examples/fw_nxwriter.html">guide</a> to output scans(s) to a NeXus HDF5 file. These are the modifications of that setup:</p>
+<ul class="simple">
+<li><p>Continue to use EPICS PVs for the simulation</p></li>
+<li><p>Change <code class="docutils literal notranslate"><span class="pre">motor</span></code> to <code class="docutils literal notranslate"><span class="pre">tth</span></code> (<span class="math notranslate nohighlight">\(2\theta\)</span>)</p></li>
+<li><p>Add <code class="docutils literal notranslate"><span class="pre">th</span></code> (<span class="math notranslate nohighlight">\(\theta\)</span>) motor</p></li>
+<li><p>Change sensor to a simulated Lorentzian</p>
+<ul>
+<li><p>based on <code class="docutils literal notranslate"><span class="pre">tth</span></code> readback value</p>
+<ul>
+<li><p>calculation will re-compute as motor position changes</p></li>
+</ul>
+</li>
+<li><p>center: randomly placed between 3 .. 8 degrees</p></li>
+<li><p>width: random between 0.01 .. 0.51 degrees</p></li>
+<li><p>height: random (~10,000)</p></li>
+</ul>
+</li>
+<li><p>Add <code class="docutils literal notranslate"><span class="pre">I0</span></code> signal</p>
+<ul>
+<li><p>Constant value: <code class="docutils literal notranslate"><span class="pre">100,000</span></code></p></li>
+</ul>
+</li>
+</ul>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%</span><span class="k">matplotlib</span> inline
+<span class="kn">import</span> <span class="nn">random</span>
+<span class="kn">from</span> <span class="nn">apstools.synApps</span> <span class="kn">import</span> <span class="n">setup_lorentzian_swait</span>
+<span class="kn">from</span> <span class="nn">apstools.synApps</span> <span class="kn">import</span> <span class="n">setup_random_number_swait</span>
+<span class="kn">from</span> <span class="nn">apstools.synApps</span> <span class="kn">import</span> <span class="n">SwaitRecord</span>
+<span class="kn">from</span> <span class="nn">bluesky</span> <span class="kn">import</span> <span class="n">RunEngine</span>
+<span class="kn">from</span> <span class="nn">bluesky</span> <span class="kn">import</span> <span class="n">plans</span> <span class="k">as</span> <span class="n">bp</span>
+<span class="kn">from</span> <span class="nn">bluesky</span> <span class="kn">import</span> <span class="n">plan_stubs</span> <span class="k">as</span> <span class="n">bps</span>
+<span class="kn">from</span> <span class="nn">bluesky.callbacks.best_effort</span> <span class="kn">import</span> <span class="n">BestEffortCallback</span>
+<span class="kn">from</span> <span class="nn">matplotlib</span> <span class="kn">import</span> <span class="n">pyplot</span> <span class="k">as</span> <span class="n">plt</span>
+<span class="kn">from</span> <span class="nn">ophyd</span> <span class="kn">import</span> <span class="n">EpicsMotor</span>
+<span class="kn">from</span> <span class="nn">ophyd</span> <span class="kn">import</span> <span class="n">EpicsSignalRO</span>
+<span class="kn">from</span> <span class="nn">ophyd</span> <span class="kn">import</span> <span class="n">Signal</span>
+<span class="kn">import</span> <span class="nn">databroker</span>
+
+<span class="c1"># bluesky-level</span>
+<span class="n">best_effort_callback</span> <span class="o">=</span> <span class="n">BestEffortCallback</span><span class="p">()</span>
+<span class="n">cat</span> <span class="o">=</span> <span class="n">databroker</span><span class="o">.</span><span class="n">temp</span><span class="p">()</span><span class="o">.</span><span class="n">v2</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ion</span><span class="p">()</span>  <span class="c1"># enables matplotlib graphics</span>
+<span class="n">RE</span> <span class="o">=</span> <span class="n">RunEngine</span><span class="p">({})</span>
+<span class="n">RE</span><span class="o">.</span><span class="n">subscribe</span><span class="p">(</span><span class="n">cat</span><span class="o">.</span><span class="n">v1</span><span class="o">.</span><span class="n">insert</span><span class="p">)</span>
+<span class="n">RE</span><span class="o">.</span><span class="n">subscribe</span><span class="p">(</span><span class="n">best_effort_callback</span><span class="p">)</span>  <span class="c1"># LivePlot &amp; LiveTable</span>
+
+<span class="n">IOC</span> <span class="o">=</span> <span class="s2">&quot;gp:&quot;</span>
+
+<span class="c1"># ophyd-level</span>
+<span class="n">th</span> <span class="o">=</span> <span class="n">EpicsMotor</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">IOC</span><span class="si">}</span><span class="s2">m9&quot;</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;th&quot;</span><span class="p">)</span>
+<span class="n">tth</span> <span class="o">=</span> <span class="n">EpicsMotor</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">IOC</span><span class="si">}</span><span class="s2">m10&quot;</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;tth&quot;</span><span class="p">)</span>
+<span class="n">calc10</span> <span class="o">=</span> <span class="n">SwaitRecord</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">IOC</span><span class="si">}</span><span class="s2">userCalc10&quot;</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;calc10&quot;</span><span class="p">)</span>
+<span class="n">I0</span> <span class="o">=</span> <span class="n">Signal</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;I0&quot;</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="mi">100_000</span><span class="p">)</span>
+<span class="n">sensor</span> <span class="o">=</span> <span class="n">EpicsSignalRO</span><span class="p">(</span><span class="n">calc10</span><span class="o">.</span><span class="n">calculated_value</span><span class="o">.</span><span class="n">pvname</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;sensor&quot;</span><span class="p">)</span>
+
+<span class="c1"># set up calc10, updating at 10Hz</span>
+<span class="n">calc10</span><span class="o">.</span><span class="n">wait_for_connection</span><span class="p">()</span>
+<span class="n">tth</span><span class="o">.</span><span class="n">wait_for_connection</span><span class="p">()</span>
+<span class="n">setup_lorentzian_swait</span><span class="p">(</span>
+    <span class="n">calc10</span><span class="p">,</span>
+    <span class="n">tth</span><span class="o">.</span><span class="n">user_readback</span><span class="p">,</span>
+    <span class="n">center</span><span class="o">=</span><span class="mi">3</span> <span class="o">+</span> <span class="mi">5</span> <span class="o">*</span> <span class="n">random</span><span class="o">.</span><span class="n">random</span><span class="p">(),</span>
+    <span class="n">width</span><span class="o">=</span><span class="mf">0.01</span> <span class="o">+</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="n">random</span><span class="o">.</span><span class="n">random</span><span class="p">(),</span>
+    <span class="n">scale</span><span class="o">=</span><span class="mi">10_000</span> <span class="o">*</span> <span class="p">(</span><span class="mf">0.98</span> <span class="o">+</span> <span class="mf">0.04</span> <span class="o">*</span> <span class="n">random</span><span class="o">.</span><span class="n">random</span><span class="p">()),</span>
+    <span class="n">noise</span><span class="o">=</span><span class="mf">0.02</span>
+<span class="p">)</span>
+
+<span class="c1"># wait for the other connections</span>
+<span class="n">th</span><span class="o">.</span><span class="n">wait_for_connection</span><span class="p">()</span>
+<span class="n">sensor</span><span class="o">.</span><span class="n">wait_for_connection</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</section>
+<section id="Write-data-to-a-NeXus/HDF5-file">
+<h2>Write data to a NeXus/HDF5 file<a class="headerlink" href="#Write-data-to-a-NeXus/HDF5-file" title="Permalink to this heading">#</a></h2>
+<p>Use the <code class="docutils literal notranslate"><span class="pre">NXWriter()</span></code> from <code class="docutils literal notranslate"><span class="pre">apstools</span></code>. Choose where to write the HDF5 file.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">apstools.callbacks</span> <span class="kn">import</span> <span class="n">NXWriter</span>
+<span class="kn">import</span> <span class="nn">json</span>
+<span class="kn">import</span> <span class="nn">pathlib</span>
+
+<span class="n">h5_file</span> <span class="o">=</span> <span class="n">pathlib</span><span class="o">.</span><span class="n">Path</span><span class="p">(</span><span class="s2">&quot;/tmp/nxwriter.h5&quot;</span><span class="p">)</span>
+
+<span class="n">nxwriter</span> <span class="o">=</span> <span class="n">NXWriter</span><span class="p">()</span>
+<span class="n">RE</span><span class="o">.</span><span class="n">subscribe</span><span class="p">(</span><span class="n">nxwriter</span><span class="o">.</span><span class="n">receiver</span><span class="p">)</span>
+<span class="n">nxwriter</span><span class="o">.</span><span class="n">file_name</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">h5_file</span><span class="p">)</span>
+<span class="n">nxwriter</span><span class="o">.</span><span class="n">warn_on_missing_content</span> <span class="o">=</span> <span class="kc">False</span>
+</pre></div>
+</div>
+</div>
+</section>
+<section id="Use-the-NXmonopd-application-definition">
+<h2>Use the NXmonopd application definition<a class="headerlink" href="#Use-the-NXmonopd-application-definition" title="Permalink to this heading">#</a></h2>
+<p>Steps to configure the NXWriter to write raw data using the NeXus <a class="reference external" href="https://manual.nexusformat.org/classes/applications/NXmonopd.html#nxmonopd">NXmonopd</a> powder diffraction application definition.</p>
+<ol class="arabic simple">
+<li><p>Review the definition. Note what are the required groups and fields.</p></li>
+<li><p>Write them as comments into a prototype of the template structure to be used.</p></li>
+<li><p>Collect data from a <span class="math notranslate nohighlight">\(2\theta:\theta\)</span> scan.</p></li>
+<li><p>Examine the HDF5 file.</p></li>
+<li><p>Create templates to connect existing data with NXmonopd definition.</p></li>
+<li><p>Add constants and attributes as appropriate.</p></li>
+<li><p>Collect data again with revised template and compare with the NXmonopd definition.</p></li>
+</ol>
+<section id="Decisions-when-making-the-template.">
+<h3>Decisions when making the template.<a class="headerlink" href="#Decisions-when-making-the-template." title="Permalink to this heading">#</a></h3>
+<p>To write data according to the <em>NXmonopd</em> definition, we must make some decisions about linking to existing data and creating any new required structures.</p>
+<p>First decision is where to write the structure of the application definition ( whether or not to use a <a class="reference external" href="https://manual.nexusformat.org/classes/base_classes/NXsubentry.html#nxsubentry">NXsubentry</a> group). The <em>NXsubentry</em> group is used for <em>multi-modal</em> experiments (such as SAXS/WAXS). Here, we are only writing raw monochromatic powder diffraction data. We do not need to use a <em>NXsubentry</em> group. We will write the structure into the NXentry group.</p>
+<p>A NeXus file that uses an <a class="reference external" href="https://manual.nexusformat.org/classes/applications/index.html#application-definitions">application definition</a> needs a <code class="docutils literal notranslate"><span class="pre">definition</span></code> field with the name of the application definition. In this case, the name is <code class="docutils literal notranslate"><span class="pre">&quot;NXmonopd&quot;</span></code>. We write this with a <em>constant</em> template:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>[&quot;/entry/definition=&quot;, &quot;NXmonopd&quot;]
+</pre></div>
+</div>
+<p>The <em>NXmonopd</em> definition requires the <em>NXentry</em> group contain these fields: <code class="docutils literal notranslate"><span class="pre">title</span></code> and <code class="docutils literal notranslate"><span class="pre">start_time</span></code>. These fields are already provided by <code class="docutils literal notranslate"><span class="pre">NXWriter()</span></code>. Nothing more needs to be done.</p>
+<p><em>NXmonopd</em> requires a <em>NXcrystal</em> group with a <code class="docutils literal notranslate"><span class="pre">wavelength</span></code> field. This is a simulation, we can use any wavelength. It is convenient here to pass the wavelength as run metadata. (If it was available as an ophyd signal, it could be recorded in the <code class="docutils literal notranslate"><span class="pre">baseline</span></code> stream.) We’ll call it <code class="docutils literal notranslate"><span class="pre">mono_wavelength</span></code> in the metadata. <code class="docutils literal notranslate"><span class="pre">NXWriter()</span></code> writes this metadata to the HDF5 address: <code class="docutils literal notranslate"><span class="pre">/entry/instrument/bluesky/metadata/mono_wavelength</span></code></p>
+<p>The <em>NXcrystal</em> group is not created in the standard <code class="docutils literal notranslate"><span class="pre">NXWriter()</span></code> file. We can create it and give it the name of <code class="docutils literal notranslate"><span class="pre">crystal</span></code> by using a <em>class path</em>: <code class="docutils literal notranslate"><span class="pre">crystal:NXcrystal</span></code> which specifies both the group name and the NeXus base class for the new group. The next template connects the run metadata <code class="docutils literal notranslate"><span class="pre">wavelength</span></code> with the location required by <em>NXmonopd</em> (note that the name of the target field does not have to be the same as the source):</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>[
+    &quot;/entry/instrument/bluesky/metadata/mono_wavelength&quot;,
+    &quot;/entry/instrument/crystal:NXcrystal/wavelength&quot;
+]
+</pre></div>
+</div>
+<p>A <em>NXdetector</em> group is required with fields <code class="docutils literal notranslate"><span class="pre">polar_angle</span></code> and <code class="docutils literal notranslate"><span class="pre">data</span></code>. These two fields correspond to <code class="docutils literal notranslate"><span class="pre">tth</span></code> and <code class="docutils literal notranslate"><span class="pre">sensor</span></code>. We use a class path for <em>NXdetector</em> in case the group does not already exist. These templates provide the links:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>[
+    &quot;/entry/instrument/bluesky/streams/primary/tth/value&quot;,
+    &quot;/entry/instrument/detector:NXdetector/polar_angle&quot;
+],
+[
+    &quot;/entry/instrument/bluesky/streams/primary/sensor/value&quot;,
+    &quot;/entry/instrument/detector:NXdetector/data&quot;
+],
+</pre></div>
+</div>
+<p>A sample name is required in a <em>NXsample</em> group. We’ll give the sample name in the metadata, then link it with a template:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>[
+    &quot;/entry/instrument/bluesky/metadata/sample_name&quot;,
+    &quot;/entry/instrument/sample:NXsample/name&quot;
+]
+</pre></div>
+</div>
+<p>The <em>NXmonopd</em> definition is unclear whether or not a <code class="docutils literal notranslate"><span class="pre">rotation_angle</span></code> field is required. The text says it is optional but the presence of <code class="docutils literal notranslate"><span class="pre">&quot;(required)&quot;</span></code> means it must be provided. We’ll set it to a constant of zero:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>[&quot;/entry/sample:NXsample/rotation_angle=&quot;, 0],
+</pre></div>
+</div>
+<p>A <em>NXmonitor</em> group is required with fields <code class="docutils literal notranslate"><span class="pre">mode</span></code>, <code class="docutils literal notranslate"><span class="pre">preset</span></code>, and <code class="docutils literal notranslate"><span class="pre">integral</span></code>. This simulation uses a constant monitor count (<code class="docutils literal notranslate"><span class="pre">I0</span></code>), not a counting time. The <code class="docutils literal notranslate"><span class="pre">preset</span></code> field is the number of counts required for <code class="docutils literal notranslate"><span class="pre">I0</span></code> at each collection. These are the templates for the <em>NXmonitor</em> group:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>[&quot;/entry/monitor:NXmonitor/mode=&quot;, &quot;monitor&quot;],
+[&quot;/entry/monitor:NXmonitor/preset=&quot;, I0.get()],
+[
+    &quot;/entry/instrument/bluesky/streams/primary/I0/value&quot;,
+    &quot;/entry/monitor:NXmonitor/integral&quot;
+],
+</pre></div>
+</div>
+<p>The NeXus NXmonitor group acts like a <em>NXdata</em> group. We add a <code class="docutils literal notranslate"><span class="pre">&#64;signal=&quot;integral&quot;</span></code> attribute that names <code class="docutils literal notranslate"><span class="pre">integral</span></code> as the default field in that group to be plotted. This is not required but is of great assistance when using visualization software such as <a class="reference external" href="https://nexpy.github.io/nexpy/">NeXPy</a>.</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>[&quot;/entry/monitor:NXmonitor/@signal&quot;, &quot;integral&quot;],
+</pre></div>
+</div>
+<p>The <em>NXmonopd</em> definition specifies a <code class="docutils literal notranslate"><span class="pre">DATA:NXdata</span></code> group. The <code class="docutils literal notranslate"><span class="pre">NXWriter()</span></code> creates a <code class="docutils literal notranslate"><span class="pre">data:NXdata</span></code> group and links all the detector and motor fields into this group. Since <em>NXmonopd</em> requres some different names, we choose to create an additional <em>NXdata</em> group. In a NeXus definition, a field name that is given in all upper case, such as <code class="docutils literal notranslate"><span class="pre">DATA</span></code> means that the name can be chosen by us. We’ll use <code class="docutils literal notranslate"><span class="pre">monopd</span></code> as this group’s name. The <code class="docutils literal notranslate"><span class="pre">&#64;signal</span></code> attribute names the ordinate (<span class="math notranslate nohighlight">\(y\)</span>)
+axis to be plotted, the <code class="docutils literal notranslate"><span class="pre">&#64;axes</span></code> attribute names any abcissae (<span class="math notranslate nohighlight">\(x\)</span>). In this case, we only use <span class="math notranslate nohighlight">\(2\theta\)</span> (mapped to <code class="docutils literal notranslate"><span class="pre">polar_angle</span></code>) as the <span class="math notranslate nohighlight">\(x\)</span> axis, as customary for powder diffraction data.</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>[&quot;/entry/instrument/bluesky/streams/primary/tth/value&quot;, &quot;/entry/monopd:NXdata/polar_angle&quot;],
+[&quot;/entry/instrument/bluesky/streams/primary/sensor/value&quot;, &quot;/entry/monopd:NXdata/data&quot;],
+[&quot;/entry/monopd/@signal&quot;, &quot;data&quot;],
+[&quot;/entry/monopd/@axes&quot;, [&quot;polar_angle&quot;, ]],
+</pre></div>
+</div>
+<p>Finally, we change the default data group to point to our new <code class="docutils literal notranslate"><span class="pre">monopd</span></code> group:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>[&quot;/entry/@default&quot;, &quot;monopd&quot;],
+</pre></div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">templates</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="p">[</span><span class="s2">&quot;/entry/definition=&quot;</span><span class="p">,</span> <span class="s2">&quot;NXmonopd&quot;</span><span class="p">],</span>  <span class="c1"># satisfy the NXmonopd definnition</span>
+    <span class="c1"># /entry/title  already defined</span>
+    <span class="c1"># /entry/start_time  already defined</span>
+    <span class="c1"># /entry/instrument/source/type  already defined</span>
+    <span class="c1"># /entry/instrument/source/name  already defined</span>
+    <span class="c1"># /entry/instrument/source/probe  already defined</span>
+    <span class="p">[</span><span class="s2">&quot;/entry/instrument/bluesky/metadata/mono_wavelength&quot;</span><span class="p">,</span> <span class="s2">&quot;/entry/instrument/crystal:NXcrystal/wavelength&quot;</span><span class="p">],</span>
+    <span class="p">[</span><span class="s2">&quot;/entry/instrument/bluesky/streams/primary/tth/value&quot;</span><span class="p">,</span> <span class="s2">&quot;/entry/instrument/detector:NXdetector/polar_angle&quot;</span><span class="p">],</span>
+    <span class="p">[</span><span class="s2">&quot;/entry/instrument/bluesky/streams/primary/sensor/value&quot;</span><span class="p">,</span> <span class="s2">&quot;/entry/instrument/detector:NXdetector/data&quot;</span><span class="p">],</span>
+    <span class="p">[</span><span class="s2">&quot;/entry/instrument/bluesky/metadata/sample_name&quot;</span><span class="p">,</span> <span class="s2">&quot;/entry/sample:NXsample/name&quot;</span><span class="p">],</span>
+    <span class="p">[</span><span class="s2">&quot;/entry/sample:NXsample/rotation_angle=&quot;</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>  <span class="c1"># sample has not been rotated</span>
+    <span class="p">[</span><span class="s2">&quot;/entry/monitor:NXmonitor/mode=&quot;</span><span class="p">,</span> <span class="s2">&quot;monitor&quot;</span><span class="p">],</span>  <span class="c1"># in this simulation</span>
+    <span class="p">[</span><span class="s2">&quot;/entry/monitor:NXmonitor/preset=&quot;</span><span class="p">,</span> <span class="n">I0</span><span class="o">.</span><span class="n">get</span><span class="p">()],</span>  <span class="c1"># constant</span>
+    <span class="p">[</span><span class="s2">&quot;/entry/instrument/bluesky/streams/primary/I0/value&quot;</span><span class="p">,</span> <span class="s2">&quot;/entry/monitor:NXmonitor/integral&quot;</span><span class="p">],</span>
+    <span class="p">[</span><span class="s2">&quot;/entry/instrument/bluesky/streams/primary/tth/value&quot;</span><span class="p">,</span> <span class="s2">&quot;/entry/monopd:NXdata/polar_angle&quot;</span><span class="p">],</span>
+    <span class="p">[</span><span class="s2">&quot;/entry/instrument/bluesky/streams/primary/sensor/value&quot;</span><span class="p">,</span> <span class="s2">&quot;/entry/monopd:NXdata/data&quot;</span><span class="p">],</span>
+    <span class="p">[</span><span class="s2">&quot;/entry/monopd/@signal&quot;</span><span class="p">,</span> <span class="s2">&quot;data&quot;</span><span class="p">],</span>
+    <span class="p">[</span><span class="s2">&quot;/entry/monopd/@axes&quot;</span><span class="p">,</span> <span class="p">[</span><span class="s2">&quot;polar_angle&quot;</span><span class="p">,</span> <span class="p">]],</span>
+    <span class="p">[</span><span class="s2">&quot;/entry/@default&quot;</span><span class="p">,</span> <span class="s2">&quot;monopd&quot;</span><span class="p">],</span>  <span class="c1"># change the default plot group</span>
+    <span class="p">[</span><span class="s2">&quot;/entry/monitor:NXmonitor/@signal&quot;</span><span class="p">,</span> <span class="s2">&quot;integral&quot;</span><span class="p">],</span>  <span class="c1"># in NXmonitor, same as for NXdata groups</span>
+<span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">md</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">&quot;title&quot;</span><span class="p">:</span> <span class="s2">&quot;Demonstrate NeXus/HDF5 template support&quot;</span><span class="p">,</span>
+    <span class="n">nxwriter</span><span class="o">.</span><span class="n">template_key</span><span class="p">:</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">templates</span><span class="p">),</span>
+    <span class="s2">&quot;mono_wavelength&quot;</span><span class="p">:</span> <span class="mf">1.0</span><span class="p">,</span>  <span class="c1"># simulation</span>
+    <span class="s2">&quot;sample_name&quot;</span><span class="p">:</span> <span class="s2">&quot;simulation&quot;</span><span class="p">,</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+</section>
+</section>
+<section id="Run-a-2\theta:\theta-scan">
+<h2>Run a <span class="math notranslate nohighlight">\(2\theta:\theta\)</span> scan<a class="headerlink" href="#Run-a-2\theta:\theta-scan" title="Permalink to this heading">#</a></h2>
+<ol class="arabic simple">
+<li><p>Make a bluesky plan</p></li>
+<li><p>Run the plan with the <code class="docutils literal notranslate"><span class="pre">RE</span></code>, stepping <code class="docutils literal notranslate"><span class="pre">tth</span></code> across the range where the Lorentzian peak is expected.</p>
+<ol class="arabic simple">
+<li><p>Print a table of the data as it is measured.</p></li>
+<li><p>Plot the <code class="docutils literal notranslate"><span class="pre">sensor</span></code> and <code class="docutils literal notranslate"><span class="pre">I0</span></code> signals, separately.</p></li>
+</ol>
+</li>
+<li><p>Verify the NeXus/HDF5 file has been saved.</p></li>
+</ol>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">th2th</span><span class="p">(</span><span class="n">detectors</span><span class="p">,</span> <span class="n">tth</span><span class="p">,</span> <span class="n">th</span><span class="p">,</span> <span class="n">start</span><span class="p">,</span> <span class="n">finish</span><span class="p">,</span> <span class="n">num</span><span class="p">,</span> <span class="n">md</span><span class="o">=</span><span class="p">{}):</span>
+    <span class="c1"># Since x2x is a relative scan, first move to the absolute start positions.</span>
+    <span class="k">yield from</span> <span class="n">bps</span><span class="o">.</span><span class="n">mv</span><span class="p">(</span><span class="n">tth</span><span class="p">,</span> <span class="n">start</span><span class="p">,</span> <span class="n">th</span><span class="p">,</span> <span class="n">start</span><span class="o">/</span><span class="mi">2</span><span class="p">)</span>
+    <span class="k">yield from</span> <span class="n">bp</span><span class="o">.</span><span class="n">x2x_scan</span><span class="p">(</span><span class="n">detectors</span><span class="p">,</span> <span class="n">tth</span><span class="p">,</span> <span class="n">th</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">finish</span><span class="o">-</span><span class="n">start</span><span class="p">,</span> <span class="n">num</span><span class="p">,</span> <span class="n">md</span><span class="o">=</span><span class="n">md</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">h5_file</span><span class="o">.</span><span class="n">exists</span><span class="p">()</span><span class="si">=}</span><span class="s2">  </span><span class="si">{</span><span class="n">h5_file</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="n">RE</span><span class="p">(</span><span class="n">th2th</span><span class="p">([</span><span class="n">sensor</span><span class="p">,</span> <span class="n">I0</span><span class="p">],</span> <span class="n">tth</span><span class="p">,</span> <span class="n">th</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">11</span><span class="p">,</span> <span class="n">md</span><span class="o">=</span><span class="n">md</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+
+
+Transient Scan ID: 1     Time: 2023-12-02 13:15:51
+Persistent Unique Scan ID: &#39;90acae1f-2475-406a-b86f-05b7ca2bb7d2&#39;
+New stream: &#39;primary&#39;
++-----------+------------+------------+------------+------------+------------+
+|   seq_num |       time |        tth |         th |     sensor |         I0 |
++-----------+------------+------------+------------+------------+------------+
+|         1 | 13:15:51.7 |     2.0000 |     1.0000 |    0.00000 |     100000 |
+|         2 | 13:15:52.8 |     2.8000 |     1.4000 |  182.83233 |     100000 |
+|         3 | 13:15:53.9 |     3.6000 |     1.8000 |  390.07416 |     100000 |
+|         4 | 13:15:55.0 |     4.4000 |     2.2000 | 1233.82536 |     100000 |
+|         5 | 13:15:56.1 |     5.2000 |     2.6000 | 8820.36874 |     100000 |
+|         6 | 13:15:57.3 |     6.0000 |     3.0000 | 1987.91262 |     100000 |
+|         7 | 13:15:58.5 |     6.8000 |     3.4000 |  503.62617 |     100000 |
+|         8 | 13:15:59.8 |     7.6000 |     3.8000 |  222.62671 |     100000 |
+|         9 | 13:16:00.9 |     8.4000 |     4.2000 |  122.16422 |     100000 |
+|        10 | 13:16:02.1 |     9.2000 |     4.6000 |   77.89379 |     100000 |
+|        11 | 13:16:03.3 |    10.0000 |     5.0000 |   53.29990 |     100000 |
++-----------+------------+------------+------------+------------+------------+
+generator x2x_scan [&#39;90acae1f&#39;] (scan num: 1)
+
+
+
+h5_file.exists()=True  h5_file=PosixPath(&#39;/tmp/nxwriter.h5&#39;)
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+(&#39;90acae1f-2475-406a-b86f-05b7ca2bb7d2&#39;,)
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/examples_ho_nxwriter_templates_9_2.png" src="../_images/examples_ho_nxwriter_templates_9_2.png" />
+</div>
+</div>
+</section>
+<section id="Look-at-the-NeXus/HDF5-NXmonopd-file">
+<h2>Look at the NeXus/HDF5 <em>NXmonopd</em> file<a class="headerlink" href="#Look-at-the-NeXus/HDF5-NXmonopd-file" title="Permalink to this heading">#</a></h2>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">apstools.utils</span> <span class="kn">import</span> <span class="n">unix</span>
+
+<span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">unix</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;punx tree </span><span class="si">{</span><span class="n">nxwriter</span><span class="o">.</span><span class="n">file_name</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">line</span><span class="o">.</span><span class="n">decode</span><span class="p">()</span><span class="o">.</span><span class="n">strip</span><span class="p">())</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+!!! WARNING: this program is not ready for distribution.
+
+/tmp/nxwriter.h5 : NeXus data file
+  @HDF5_Version = &#34;1.14.0&#34;
+  @NeXus_release = &#34;v2020.1&#34;
+  @creator = &#34;NXWriter&#34;
+  @default = &#34;entry&#34;
+  @file_name = &#34;/tmp/nxwriter.h5&#34;
+  @file_time = &#34;2023-12-02T13:16:03.536788&#34;
+  @h5py_version = &#34;3.9.0&#34;
+  entry:NXentry
+    @NX_class = &#34;NXentry&#34;
+    @default = &#34;monopd&#34;
+    @target = &#34;/entry&#34;
+    definition:NX_CHAR = b&#39;NXmonopd&#39;
+      @target = &#34;/entry/definition&#34;
+    duration:NX_FLOAT64[] =
+      @units = &#34;s&#34;
+    end_time:NX_CHAR = b&#39;2023-12-02T13:16:03.365098&#39;
+    entry_identifier --&gt; /entry/instrument/bluesky/metadata/run_start_uid
+    plan_name --&gt; /entry/instrument/bluesky/metadata/plan_name
+    program_name:NX_CHAR = b&#39;bluesky&#39;
+    start_time:NX_CHAR = b&#39;2023-12-02T13:15:51.630091&#39;
+    title:NX_CHAR = b&#39;x2x_scan-S0001-90acae1&#39;
+    data:NXdata
+      @NX_class = &#34;NXdata&#34;
+      @axes = [&#34;tth&#34;, &#34;th&#34;]
+      @signal = &#34;sensor&#34;
+      @target = &#34;/entry/data&#34;
+      EPOCH --&gt; /entry/instrument/bluesky/streams/primary/tth_user_setpoint/time
+      I0 --&gt; /entry/instrument/bluesky/streams/primary/I0/value
+      sensor --&gt; /entry/instrument/bluesky/streams/primary/sensor/value
+      th --&gt; /entry/instrument/bluesky/streams/primary/th/value
+      th_user_setpoint --&gt; /entry/instrument/bluesky/streams/primary/th_user_setpoint/value
+      tth --&gt; /entry/instrument/bluesky/streams/primary/tth/value
+      tth_user_setpoint --&gt; /entry/instrument/bluesky/streams/primary/tth_user_setpoint/value
+    instrument:NXinstrument
+      @NX_class = &#34;NXinstrument&#34;
+      @target = &#34;/entry/instrument&#34;
+      bluesky:NXnote
+        @NX_class = &#34;NXnote&#34;
+        @target = &#34;/entry/instrument/bluesky&#34;
+        plan_name --&gt; /entry/instrument/bluesky/metadata/plan_name
+        uid --&gt; /entry/instrument/bluesky/metadata/run_start_uid
+        metadata:NXnote
+          @NX_class = &#34;NXnote&#34;
+          @target = &#34;/entry/instrument/bluesky/metadata&#34;
+          detectors:NX_CHAR = b&#39;- sensor\n- I0\n&#39;
+            @target = &#34;/entry/instrument/bluesky/metadata/detectors&#34;
+            @text_format = &#34;yaml&#34;
+          hints:NX_CHAR = b&#39;dimensions:\n- !!python/tuple\n  - - tth\n    - th\n  - primary\n&#39;
+            @target = &#34;/entry/instrument/bluesky/metadata/hints&#34;
+            @text_format = &#34;yaml&#34;
+          mono_wavelength:NX_FLOAT64[] =
+            @target = &#34;/entry/instrument/bluesky/metadata/mono_wavelength&#34;
+          motors:NX_CHAR = b&#39;!!python/tuple\n- tth\n- th\n&#39;
+            @target = &#34;/entry/instrument/bluesky/metadata/motors&#34;
+            @text_format = &#34;yaml&#34;
+          num_intervals:NX_INT64[] =
+            @target = &#34;/entry/instrument/bluesky/metadata/num_intervals&#34;
+          num_points:NX_INT64[] =
+            @target = &#34;/entry/instrument/bluesky/metadata/num_points&#34;
+          nxwriter_template:NX_CHAR = b&#39;[[&#34;/entry/definition=&#34;, &#34;NXmonopd&#34;], [&#34;/entry/instrument/bluesky/metadata/mono_wavelength&#34;, &#34;/entry/instrument/crystal:NXcrystal/wavelength&#34;], [&#34;/entry/instrument/bluesky/streams/primary/tth/value&#34;, &#34;/entry/instrument/detector:NXdetector/polar_angle&#34;], [&#34;/entry/instrument/bluesky/streams/primary/sensor/value&#34;, &#34;/entry/instrument/detector:NXdetector/data&#34;], [&#34;/entry/instrument/bluesky/metadata/sample_name&#34;, &#34;/entry/sample:NXsample/name&#34;], [&#34;/entry/sample:NXsample/rotation_angle=&#34;, 0], [&#34;/entry/monitor:NXmonitor/mode=&#34;, &#34;monitor&#34;], [&#34;/entry/monitor:NXmonitor/preset=&#34;, 100000], [&#34;/entry/instrument/bluesky/streams/primary/I0/value&#34;, &#34;/entry/monitor:NXmonitor/integral&#34;], [&#34;/entry/instrument/bluesky/streams/primary/tth/value&#34;, &#34;/entry/monopd:NXdata/polar_angle&#34;], [&#34;/entry/instrument/bluesky/streams/primary/sensor/value&#34;, &#34;/entry/monopd:NXdata/data&#34;], [&#34;/entry/monopd/@signal&#34;, &#34;data&#34;], [&#34;/entry/monopd/@axes&#34;, [&#34;polar_angle&#34;]], [&#34;/entry/@default&#34;, &#34;monopd&#34;], [&#34;/entry/monitor:NXmonitor/@signal&#34;, &#34;integral&#34;]]&#39;
+            @target = &#34;/entry/instrument/bluesky/metadata/nxwriter_template&#34;
+          plan_args:NX_CHAR = b&#34;detectors:\n- EpicsSignalRO(read_pv=&#39;gp:userCalc10.VAL&#39;, name=&#39;sensor&#39;, value=0.0, timestamp=1701544551.572926,\n  auto_monitor=True, string=False)\n- Signal(name=&#39;I0&#39;, value=100000, timestamp=1701544551.4371457)\nmotor1: tth\nmotor2: th\nnum: 11\nper_step: None\nstart: 0\nstop: 8\n&#34;
+            @target = &#34;/entry/instrument/bluesky/metadata/plan_args&#34;
+            @text_format = &#34;yaml&#34;
+          plan_name:NX_CHAR = b&#39;x2x_scan&#39;
+            @target = &#34;/entry/instrument/bluesky/metadata/plan_name&#34;
+          plan_pattern:NX_CHAR = b&#39;inner_product&#39;
+            @target = &#34;/entry/instrument/bluesky/metadata/plan_pattern&#34;
+          plan_pattern_args:NX_CHAR = b&#34;args:\n- EpicsMotor(prefix=&#39;gp:m10&#39;, name=&#39;tth&#39;, settle_time=0.0, timeout=None, read_attrs=[&#39;user_readback&#39;,\n  &#39;user_setpoint&#39;], configuration_attrs=[&#39;user_offset&#39;, &#39;user_offset_dir&#39;, &#39;velocity&#39;,\n  &#39;acceleration&#39;, &#39;motor_egu&#39;])\n- 0\n- 8\n- EpicsMotor(prefix=&#39;gp:m9&#39;, name=&#39;th&#39;, settle_time=0.0, timeout=None, read_attrs=[&#39;user_readback&#39;,\n  &#39;user_setpoint&#39;], configuration_attrs=[&#39;user_offset&#39;, &#39;user_offset_dir&#39;, &#39;velocity&#39;,\n  &#39;acceleration&#39;, &#39;motor_egu&#39;])\n- 0.0\n- 4.0\nnum: 11\n&#34;
+            @target = &#34;/entry/instrument/bluesky/metadata/plan_pattern_args&#34;
+            @text_format = &#34;yaml&#34;
+          plan_pattern_module:NX_CHAR = b&#39;bluesky.plan_patterns&#39;
+            @target = &#34;/entry/instrument/bluesky/metadata/plan_pattern_module&#34;
+          plan_type:NX_CHAR = b&#39;generator&#39;
+            @target = &#34;/entry/instrument/bluesky/metadata/plan_type&#34;
+          run_start_uid:NX_CHAR = b&#39;90acae1f-2475-406a-b86f-05b7ca2bb7d2&#39;
+            @long_name = &#34;bluesky run uid&#34;
+            @target = &#34;/entry/instrument/bluesky/metadata/run_start_uid&#34;
+          sample_name:NX_CHAR = b&#39;simulation&#39;
+            @target = &#34;/entry/instrument/bluesky/metadata/sample_name&#34;
+          title:NX_CHAR = b&#39;Demonstrate NeXus/HDF5 template support&#39;
+            @target = &#34;/entry/instrument/bluesky/metadata/title&#34;
+          versions:NX_CHAR = b&#39;bluesky: 1.10.0\nophyd: 1.9.0\n&#39;
+            @target = &#34;/entry/instrument/bluesky/metadata/versions&#34;
+            @text_format = &#34;yaml&#34;
+        streams:NXnote
+          @NX_class = &#34;NXnote&#34;
+          @target = &#34;/entry/instrument/bluesky/streams&#34;
+          primary:NXnote
+            @NX_class = &#34;NXnote&#34;
+            @target = &#34;/entry/instrument/bluesky/streams/primary&#34;
+            @uid = &#34;175a60a2-aec7-4307-bd24-ffe206ffc3ae&#34;
+            I0:NXdata
+              @NX_class = &#34;NXdata&#34;
+              @axes = [&#34;time&#34;]
+              @signal = &#34;value&#34;
+              @signal_type = &#34;detector&#34;
+              @target = &#34;/entry/instrument/bluesky/streams/primary/I0&#34;
+              EPOCH:NX_FLOAT64[11] = [1701544551.4371457, 1701544551.4371457, 1701544551.4371457, &#39;...&#39;, 1701544551.4371457]
+                @long_name = &#34;epoch time (s)&#34;
+                @target = &#34;/entry/instrument/bluesky/streams/primary/I0/EPOCH&#34;
+                @units = &#34;s&#34;
+              time:NX_FLOAT64[11] = [0.0, 0.0, 0.0, &#39;...&#39;, 0.0]
+                @long_name = &#34;time since first data (s)&#34;
+                @start_time = 1701544551.4371457
+                @start_time_iso = &#34;2023-12-02T13:15:51.437146&#34;
+                @target = &#34;/entry/instrument/bluesky/streams/primary/I0/time&#34;
+                @units = &#34;s&#34;
+              value:NX_INT64[11] = [100000, 100000, 100000, &#39;...&#39;, 100000]
+                @long_name = &#34;I0&#34;
+                @lower_ctrl_limit = &#34;&#34;
+                @precision = 0
+                @signal_type = &#34;detector&#34;
+                @source = &#34;SIM:I0&#34;
+                @target = &#34;/entry/instrument/bluesky/streams/primary/I0/value&#34;
+                @units = &#34;&#34;
+                @upper_ctrl_limit = &#34;&#34;
+            sensor:NXdata
+              @NX_class = &#34;NXdata&#34;
+              @axes = [&#34;time&#34;]
+              @signal = &#34;value&#34;
+              @signal_type = &#34;detector&#34;
+              @target = &#34;/entry/instrument/bluesky/streams/primary/sensor&#34;
+              EPOCH:NX_FLOAT64[11] = [1701544551.572926, 1701544552.871271, 1701544553.974374, &#39;...&#39;, 1701544563.299544]
+                @long_name = &#34;epoch time (s)&#34;
+                @target = &#34;/entry/instrument/bluesky/streams/primary/sensor/EPOCH&#34;
+                @units = &#34;s&#34;
+              time:NX_FLOAT64[11] = [0.0, 1.2983448505401611, 2.4014480113983154, &#39;...&#39;, 11.72661805152893]
+                @long_name = &#34;time since first data (s)&#34;
+                @start_time = 1701544551.572926
+                @start_time_iso = &#34;2023-12-02T13:15:51.572926&#34;
+                @target = &#34;/entry/instrument/bluesky/streams/primary/sensor/time&#34;
+                @units = &#34;s&#34;
+              value:NX_FLOAT64[11] = [0.0, 182.83233136804841, 390.0741582405076, &#39;...&#39;, 53.2999002115527]
+                @long_name = &#34;sensor&#34;
+                @lower_ctrl_limit = 0.0
+                @precision = 5
+                @signal_type = &#34;detector&#34;
+                @source = &#34;PV:gp:userCalc10.VAL&#34;
+                @target = &#34;/entry/instrument/bluesky/streams/primary/sensor/value&#34;
+                @units = &#34;&#34;
+                @upper_ctrl_limit = 0.0
+            th:NXdata
+              @NX_class = &#34;NXdata&#34;
+              @axes = [&#34;time&#34;]
+              @signal = &#34;value&#34;
+              @signal_type = &#34;positioner&#34;
+              @target = &#34;/entry/instrument/bluesky/streams/primary/th&#34;
+              EPOCH:NX_FLOAT64[11] = [1701543761.161202, 1701544552.469743, 1701544553.573023, &#39;...&#39;, 1701544562.898525]
+                @long_name = &#34;epoch time (s)&#34;
+                @target = &#34;/entry/instrument/bluesky/streams/primary/th/EPOCH&#34;
+                @units = &#34;s&#34;
+              time:NX_FLOAT64[11] = [0.0, 791.308541059494, 792.4118211269379, &#39;...&#39;, 801.7373230457306]
+                @long_name = &#34;time since first data (s)&#34;
+                @start_time = 1701543761.161202
+                @start_time_iso = &#34;2023-12-02T13:02:41.161202&#34;
+                @target = &#34;/entry/instrument/bluesky/streams/primary/th/time&#34;
+                @units = &#34;s&#34;
+              value:NX_FLOAT64[11] = [1.0, 1.4000000000000001, 1.8, &#39;...&#39;, 5.0]
+                @long_name = &#34;th&#34;
+                @lower_ctrl_limit = -1000.0
+                @precision = 4
+                @signal_type = &#34;positioner&#34;
+                @source = &#34;PV:gp:m9.RBV&#34;
+                @target = &#34;/entry/instrument/bluesky/streams/primary/th/value&#34;
+                @units = &#34;degrees&#34;
+                @upper_ctrl_limit = 1000.0
+            th_user_setpoint:NXdata
+              @NX_class = &#34;NXdata&#34;
+              @axes = [&#34;time&#34;]
+              @signal = &#34;value&#34;
+              @signal_type = &#34;other&#34;
+              @target = &#34;/entry/instrument/bluesky/streams/primary/th_user_setpoint&#34;
+              EPOCH:NX_FLOAT64[11] = [1701544551.636257, 1701544551.786764, 1701544552.965123, &#39;...&#39;, 1701544562.2169707]
+                @long_name = &#34;epoch time (s)&#34;
+                @target = &#34;/entry/instrument/bluesky/streams/primary/th_user_setpoint/EPOCH&#34;
+                @units = &#34;s&#34;
+              time:NX_FLOAT64[11] = [0.0, 0.15050697326660156, 1.3288660049438477, &#39;...&#39;, 10.580713748931885]
+                @long_name = &#34;time since first data (s)&#34;
+                @start_time = 1701544551.636257
+                @start_time_iso = &#34;2023-12-02T13:15:51.636257&#34;
+                @target = &#34;/entry/instrument/bluesky/streams/primary/th_user_setpoint/time&#34;
+                @units = &#34;s&#34;
+              value:NX_FLOAT64[11] = [1.0, 1.4, 1.8, &#39;...&#39;, 5.0]
+                @long_name = &#34;th_user_setpoint&#34;
+                @lower_ctrl_limit = -1000.0
+                @precision = 4
+                @signal_type = &#34;other&#34;
+                @source = &#34;PV:gp:m9.VAL&#34;
+                @target = &#34;/entry/instrument/bluesky/streams/primary/th_user_setpoint/value&#34;
+                @units = &#34;degrees&#34;
+                @upper_ctrl_limit = 1000.0
+            tth:NXdata
+              @NX_class = &#34;NXdata&#34;
+              @axes = [&#34;time&#34;]
+              @signal = &#34;value&#34;
+              @signal_type = &#34;positioner&#34;
+              @target = &#34;/entry/instrument/bluesky/streams/primary/tth&#34;
+              EPOCH:NX_FLOAT64[11] = [1701543761.160919, 1701544552.871001, 1701544553.974129, &#39;...&#39;, 1701544563.299386]
+                @long_name = &#34;epoch time (s)&#34;
+                @target = &#34;/entry/instrument/bluesky/streams/primary/tth/EPOCH&#34;
+                @units = &#34;s&#34;
+              time:NX_FLOAT64[11] = [0.0, 791.7100820541382, 792.8132100105286, &#39;...&#39;, 802.1384670734406]
+                @long_name = &#34;time since first data (s)&#34;
+                @start_time = 1701543761.160919
+                @start_time_iso = &#34;2023-12-02T13:02:41.160919&#34;
+                @target = &#34;/entry/instrument/bluesky/streams/primary/tth/time&#34;
+                @units = &#34;s&#34;
+              value:NX_FLOAT64[11] = [2.0, 2.8000000000000003, 3.6, &#39;...&#39;, 10.0]
+                @long_name = &#34;tth&#34;
+                @lower_ctrl_limit = -1000.0
+                @precision = 4
+                @signal_type = &#34;positioner&#34;
+                @source = &#34;PV:gp:m10.RBV&#34;
+                @target = &#34;/entry/instrument/bluesky/streams/primary/tth/value&#34;
+                @units = &#34;degrees&#34;
+                @upper_ctrl_limit = 1000.0
+            tth_user_setpoint:NXdata
+              @NX_class = &#34;NXdata&#34;
+              @axes = [&#34;time&#34;]
+              @signal = &#34;value&#34;
+              @signal_type = &#34;other&#34;
+              @target = &#34;/entry/instrument/bluesky/streams/primary/tth_user_setpoint&#34;
+              EPOCH:NX_FLOAT64[11] = [1701544551.6354487, 1701544551.785843, 1701544552.964422, &#39;...&#39;, 1701544562.215509]
+                @long_name = &#34;epoch time (s)&#34;
+                @target = &#34;/entry/instrument/bluesky/streams/primary/tth_user_setpoint/EPOCH&#34;
+                @units = &#34;s&#34;
+              time:NX_FLOAT64[11] = [0.0, 0.15039420127868652, 1.3289732933044434, &#39;...&#39;, 10.580060243606567]
+                @long_name = &#34;time since first data (s)&#34;
+                @start_time = 1701544551.6354487
+                @start_time_iso = &#34;2023-12-02T13:15:51.635449&#34;
+                @target = &#34;/entry/instrument/bluesky/streams/primary/tth_user_setpoint/time&#34;
+                @units = &#34;s&#34;
+              value:NX_FLOAT64[11] = [2.0, 2.8, 3.6, &#39;...&#39;, 10.0]
+                @long_name = &#34;tth_user_setpoint&#34;
+                @lower_ctrl_limit = -1000.0
+                @precision = 4
+                @signal_type = &#34;other&#34;
+                @source = &#34;PV:gp:m10.VAL&#34;
+                @target = &#34;/entry/instrument/bluesky/streams/primary/tth_user_setpoint/value&#34;
+                @units = &#34;degrees&#34;
+                @upper_ctrl_limit = 1000.0
+      crystal:NXcrystal
+        @NX_class = &#34;NXcrystal&#34;
+        @target = &#34;/entry/instrument/crystal&#34;
+        wavelength --&gt; /entry/instrument/bluesky/metadata/mono_wavelength
+      detector:NXdetector
+        @NX_class = &#34;NXdetector&#34;
+        @target = &#34;/entry/instrument/detector&#34;
+        data --&gt; /entry/instrument/bluesky/streams/primary/sensor/value
+        polar_angle --&gt; /entry/instrument/bluesky/streams/primary/tth/value
+      detectors:NXnote
+        @NX_class = &#34;NXnote&#34;
+        @target = &#34;/entry/instrument/detectors&#34;
+        I0:NXdetector
+          @NX_class = &#34;NXdetector&#34;
+          @target = &#34;/entry/instrument/detectors/I0&#34;
+          data --&gt; /entry/instrument/bluesky/streams/primary/I0
+        sensor:NXdetector
+          @NX_class = &#34;NXdetector&#34;
+          @target = &#34;/entry/instrument/detectors/sensor&#34;
+          data --&gt; /entry/instrument/bluesky/streams/primary/sensor
+      positioners:NXnote
+        @NX_class = &#34;NXnote&#34;
+        @target = &#34;/entry/instrument/positioners&#34;
+        th:NXpositioner
+          @NX_class = &#34;NXpositioner&#34;
+          @target = &#34;/entry/instrument/positioners/th&#34;
+          value --&gt; /entry/instrument/bluesky/streams/primary/th
+        tth:NXpositioner
+          @NX_class = &#34;NXpositioner&#34;
+          @target = &#34;/entry/instrument/positioners/tth&#34;
+          value --&gt; /entry/instrument/bluesky/streams/primary/tth
+      source:NXsource
+        @NX_class = &#34;NXsource&#34;
+        @target = &#34;/entry/instrument/source&#34;
+        name:NX_CHAR = b&#39;Bluesky framework&#39;
+          @short_name = &#34;bluesky&#34;
+        probe:NX_CHAR = b&#39;x-ray&#39;
+        type:NX_CHAR = b&#39;Synchrotron X-ray Source&#39;
+    monitor:NXmonitor
+      @NX_class = &#34;NXmonitor&#34;
+      @signal = &#34;integral&#34;
+      @target = &#34;/entry/monitor&#34;
+      integral --&gt; /entry/instrument/bluesky/streams/primary/I0/value
+      mode:NX_CHAR = b&#39;monitor&#39;
+        @target = &#34;/entry/monitor/mode&#34;
+      preset:NX_INT64 = 100000
+        @target = &#34;/entry/monitor/preset&#34;
+    monopd:NXdata
+      @NX_class = &#34;NXdata&#34;
+      @axes = [&#34;polar_angle&#34;]
+      @signal = &#34;data&#34;
+      @target = &#34;/entry/monopd&#34;
+      data --&gt; /entry/instrument/bluesky/streams/primary/sensor/value
+      polar_angle --&gt; /entry/instrument/bluesky/streams/primary/tth/value
+    sample:NXsample
+      @NX_class = &#34;NXsample&#34;
+      @target = &#34;/entry/sample&#34;
+      name --&gt; /entry/instrument/bluesky/metadata/sample_name
+      rotation_angle:NX_INT64 = 0
+        @target = &#34;/entry/sample/rotation_angle&#34;
+
+</pre></div></div>
+</div>
+</section>
+</section>
+
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="ho_list_control_objects.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">What are the objects to control?</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="ho_search_databroker.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">How to Search for Bluesky Data?</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+<div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+  </div>
+  <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#Overview">Overview</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#Build-the-powder-diffraction-instrument">Build the powder diffraction instrument</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#Write-data-to-a-NeXus/HDF5-file">Write data to a NeXus/HDF5 file</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#Use-the-NXmonopd-application-definition">Use the NXmonopd application definition</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#Decisions-when-making-the-template.">Decisions when making the template.</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#Run-a-2\theta:\theta-scan">Run a <span class="math notranslate nohighlight">\(2\theta:\theta\)</span> scan</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#Look-at-the-NeXus/HDF5-NXmonopd-file">Look at the NeXus/HDF5 <em>NXmonopd</em> file</a></li>
+</ul>
+  </nav></div>
+
+  <div class="sidebar-secondary-item">
+
+  <div class="tocsection sourcelink">
+    <a href="../_sources/examples/ho_nxwriter_templates.ipynb.txt">
+      <i class="fa-solid fa-file-lines"></i> Show Source
+    </a>
+  </div>
+</div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+
+  <p class="copyright">
+    
+      © Copyright 2017-2024, UChicago Argonne, LLC.
+      <br/>
+    
+  </p>
+</div>
+      
+        <div class="footer-item">
+
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 5.3.0.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item">
+<p class="theme-version">
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.15.4.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>
