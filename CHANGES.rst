@@ -24,7 +24,7 @@ describe future plans.
    1.7.4
    *****
 
-   Release expected by 2025-07.
+   Release expected by 2025-06-06.
 
    New Features
    -------------
@@ -40,6 +40,7 @@ describe future plans.
    Fixes
    -------------
 
+   * KeyError from callback caused failure of lineup2() plan.
    * SpecWriterCallback2 attribute 'data_labels' was never initialized.
    * SpecWriterCallback2 raised ValueError when appending to SPEC file that has no runs.
 
