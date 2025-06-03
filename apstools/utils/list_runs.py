@@ -19,6 +19,7 @@ import time
 import typing
 import warnings
 from collections import defaultdict
+from deprecated import deprecated
 
 from ._core import FIRST_DATA
 from ._core import LAST_DATA
@@ -412,14 +413,16 @@ class ListRuns:
         if isinstance(self.keys, str):
             self.keys = self.keys.split()
 
-    def to_dataframe(self):  # DEPRECATED
-        """Output as pandas DataFrame object"""
+    @deprecated
+    def to_dataframe(self):
+        """**Deprecated**: Output as pandas DataFrame object"""
         warnings.warn("'ListRuns.to_dataframe()' method is deprecated.")
         dd = self.parse_runs()
         return TableStyle.pandas.value(dd, columns=self.keys)
 
-    def to_table(self, fmt=None):  # DEPRECATED
-        """Output as pyRestTable object."""
+    @deprecated
+    def to_table(self, fmt=None):
+        """**Deprecated**: Output as pyRestTable object."""
         warnings.warn("'ListRuns.to_table()' method is deprecated.")
         dd = self.parse_runs()
         return TableStyle.pyRestTable.value(dd=dd).reST(fmt=fmt or "simple")
@@ -547,18 +550,18 @@ def listruns(
 
     table_style = table_style or TableStyle.pyRestTable
     if tablefmt is not None:
-        if tablefmt == "dataframe":
-            choice = "TableStyle.pandas"
-            table_style = TableStyle.pandas
-        else:
-            choice = "TableStyle.pyRestTable"
-            table_style = TableStyle.pyRestTable
         # fmt: off
         warnings.warn(
             f"Use 'table_style={choice}' instead of"
             f" deprecated option 'tablefmt=\"{tablefmt}\"'."
         )
         # fmt: on
+        if tablefmt == "dataframe":
+            choice = "TableStyle.pandas"
+            table_style = TableStyle.pandas
+        else:
+            choice = "TableStyle.pyRestTable"
+            table_style = TableStyle.pyRestTable
 
     if printing is not None:
         warnings.warn(f"Keyword argument 'printing={printing}' is deprecated.")

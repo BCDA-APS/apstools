@@ -11,9 +11,8 @@ Mixin classes for Motor Devices
    ~EpicsMotorServoMixin
 """
 
-import warnings
-
 from bluesky import plan_stubs as bps
+from deprecated import deprecated
 from ophyd import Component
 from ophyd import EpicsSignal
 
@@ -83,9 +82,10 @@ class EpicsMotorEnableMixin(DeviceMixinBase):
         self.enable_disable.put(self.MOTOR_DISABLE)
 
 
+@deprecated(reason="Now part of ophyd.EpicsMotor")
 class EpicsMotorLimitsMixin(DeviceMixinBase):
     """
-    add motor record HLM & LLM fields & compatibility get_lim() and set_lim()
+    **Deprecated** Add motor record HLM & LLM fields & compatibility get_lim() and set_lim()
     
     .. caution:: Deprecated.  Now part of 'ophyd.EpicsMotor' class.
        Will be removed in a future release of apstools.
@@ -98,12 +98,6 @@ class EpicsMotorLimitsMixin(DeviceMixinBase):
     soft_limit_hi = Component(EpicsSignal, ".HLM", kind="omitted")
 
     def __init__(self, *args, **kwargs):
-        # fmt: off
-        warnings.warn(
-            "'EpicsMotorLimitsMixin' class is deprecated."
-            " These features are now part of 'ophyd.EpicsMotor'."
-        )
-        # fmt: on
         super().__init__(*args, **kwargs)
 
         def cb_limit_changed(value, old_value, **kwargs):
