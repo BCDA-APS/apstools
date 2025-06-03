@@ -64,7 +64,7 @@ import time
 from collections import OrderedDict
 
 import numpy as np
-
+from deprecated import deprecated
 from .callback_base import FileWriterCallbackBase
 
 SPEC_TIME_FORMAT = "%a %b %d %H:%M:%S %Y"
@@ -140,6 +140,7 @@ def _rebuild_scan_command(doc):
     return f"{scan_id}  {cmd}"
 
 
+@deprecated(version="1.7.0", reason="Use SpecWriterCallback2()")
 class SpecWriterCallback(object):
     """
     **Deprecated**: Use :class:`~apstools.callbacks.spec_file_writer.SpecWriterCallback2`.

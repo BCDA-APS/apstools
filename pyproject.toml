@@ -49,6 +49,7 @@ dependencies = [
   "bluesky>=1.6.2,!=1.11.0",
   "databroker-pack",
   "databroker<=1.999",
+  "Deprecated",
   "entrypoints",
   "h5py",
   "intake<=1",

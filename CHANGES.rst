@@ -47,6 +47,7 @@ describe future plans.
    -------------
 
    * Added HHLApertureBase for high heat-load apertures.
+   * Apply @deprecated decorator to make these markings more visible.
    * SpecWriterCallback2: refactor how to get SPEC data labels.
    * Switch to use numpy >= 2.
 
