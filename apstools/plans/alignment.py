@@ -459,7 +459,6 @@ def lineup2(
         did not identify a peak.
     """
     from ..callbacks import SignalStatsCallback
-    from .. import utils
 
     if not isinstance(detectors, (tuple, list)):
         detectors = [detectors]
