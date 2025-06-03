@@ -122,7 +122,7 @@ General
    ~apstools.utils.catalog.getDefaultCatalog
    ~apstools.utils.catalog.getDefaultDatabase
    ~apstools.utils.profile_support.getDefaultNamespace
-   ~apstools.utils.descriptor_support.get_stream_data_keys
+   ~apstools.utils.descriptor_support.get_stream_data_map
    ~apstools.utils.list_runs.getRunData
    ~apstools.utils.list_runs.getRunDataValue
    ~apstools.utils.catalog.getStreamValues

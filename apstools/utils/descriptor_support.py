@@ -4,7 +4,7 @@ Parsing descriptor documents
 
 .. autosummary::
 
-   ~get_stream_data_keys
+   ~get_stream_data_map
 """
 
 import logging
@@ -12,7 +12,7 @@ import logging
 logger = logging.getLogger(__name__)
 
 
-def get_stream_data_keys(
+def get_stream_data_map(
     start_detectors: list[str],
     start_motors: list[str],
     descriptor: dict,

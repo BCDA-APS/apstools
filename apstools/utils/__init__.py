@@ -37,7 +37,7 @@ from .catalog import getDatabase
 from .catalog import getDefaultCatalog
 from .catalog import getDefaultDatabase
 from .catalog import getStreamValues
-from .descriptor_support import get_stream_data_keys
+from .descriptor_support import get_stream_data_map
 from .device_info import listdevice
 from .email import EmailNotifications
 from .image_analysis import analyze_1D

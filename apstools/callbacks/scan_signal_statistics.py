@@ -94,14 +94,14 @@ class SignalStatsCallback:
     def __repr__(self):
         if "_motor" not in dir(self):  # not initialized
             self.clear()
-        args = f"motors={self._motors!r},  detectors={self._detectors!r}"
+        args = f"motors={self.positioners!r},  detectors={self.detectors!r}"
         return f"{self.__class__.__name__}({args})"
 
     def clear(self):
         """Clear the internal memory for the next run."""
         self._scanning = False
-        self._detectors: list[str] = []
-        self._motors: list[str] = []
+        self.detectors: list[str] = []
+        self.positioners: list[str] = []
         self._registers = {}  # deprecated, for removal
         self._descriptor_uid = None
         self._x_name = None
@@ -110,7 +110,7 @@ class SignalStatsCallback:
 
     def descriptor(self, doc):
         """Receives 'descriptor' documents from the RunEngine."""
-        from ..utils.descriptor_support import get_stream_data_keys
+        from ..utils.descriptor_support import get_stream_data_map
 
         if not self._scanning:
             return
@@ -120,20 +120,20 @@ class SignalStatsCallback:
         # Remember now, to match with later events.
         self._descriptor_uid = doc["uid"]
         
-        data_keys = get_stream_data_keys(self._detectors, self._motors, doc)
-        if len(data_keys.get("detectors", [])) == 0:
+        data_map = get_stream_data_map(self.detectors, self.positioners, doc)
+        if len(data_map.get("detectors", [])) == 0:
             logger.warning("No detector signals available.  No statistics.")
             return
-        if len(data_keys.get("motors", [])) == 0:
+        if len(data_map.get("motors", [])) == 0:
             logger.warning("No motor signals available.  No statistics.")
             return
 
         # Pick the first motor signal.
-        self._x_name = data_keys["motors"][0]
+        self._x_name = data_map["motors"][0]
         self._data[self._x_name] = []
 
         # Get the signals for each detector object(s)
-        for y_name in data_keys["detectors"]:
+        for y_name in data_map["detectors"]:
             if y_name not in self._y_names:
                 self._y_names.append(y_name)
                 self._data[y_name] = []
@@ -172,7 +172,7 @@ class SignalStatsCallback:
             return
 
         x_name = self._x_name
-        y_name = self._detectors[0]
+        y_name = self.detectors[0]
 
         keys = """
             n centroid x_at_max_y
@@ -193,8 +193,8 @@ class SignalStatsCallback:
         self.clear()
         self._scanning = True
         # These command arguments might each have many signals.
-        self._detectors = doc["detectors"]
-        self._motors = doc["motors"]
+        self.detectors = doc["detectors"]
+        self.positioners = doc["motors"]
 
     def stop(self, doc):
         """Receives 'stop' documents from the RunEngine."""
