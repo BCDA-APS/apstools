@@ -752,7 +752,7 @@ class SpecWriterCallback2(FileWriterCallbackBase):
 
         if doc["name"] == self._motor_stream_name:
             # list of all known positioners (motors), #O:#P lines
-            mlist = sorted(doc["object_keys"].keys())  # TODO: "data_keys"?
+            mlist = sorted(doc["configuration"])
             if self._file_header_motor_keys != mlist:
                 self.write_new_file_header = True
             self.motors = {k: None for k in mlist}
