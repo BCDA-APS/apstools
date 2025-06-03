@@ -1,0 +1,652 @@
+[
+    [
+      "start",
+      {
+        "uid": "b31e8698-f842-4397-b2ef-acd4cb74fdd4",
+        "time": 1748199101.4671407,
+        "beamline_id": "12IDE",
+        "conda_prefix": "/home/beams/USAXS/.conda/envs/bits_usaxs",
+        "databroker_catalog": "usaxs",
+        "iconfig": {
+          "ICONFIG_VERSION": "2.0.0",
+          "DATABROKER_CATALOG": "usaxs",
+          "RUN_ENGINE": {
+            "DEFAULT_METADATA": {
+              "beamline_id": "12IDE",
+              "instrument_name": "APS USAXS/SAXS/WAXS",
+              "proposal_id": "Beamline",
+              "databroker_catalog": "usaxs"
+            },
+            "MD_STORAGE_HANDLER": "StoredDict",
+            "MD_PATH": ".re_md_dict.yml",
+            "USE_PROGRESS_BAR": false
+          },
+          "USE_BLUESKY_MAGICS": true,
+          "BEC": {
+            "BASELINE": true,
+            "HEADING": true,
+            "PLOTS": false,
+            "TABLE": true
+          },
+          "NEXUS_DATA_FILES": {
+            "ENABLE": false,
+            "FILE_EXTENSION": "hdf"
+          },
+          "SPEC_DATA_FILES": {
+            "ENABLE": true,
+            "FILE_EXTENSION": "dat"
+          },
+          "DM_SETUP_FILE": "/home/dm/etc/dm.setup.sh",
+          "DEVICES_FILES": [
+            "devices.yml",
+            "ad_devices.yml",
+            "shutters_sim.yml"
+          ],
+          "APS_DEVICES_FILES": [
+            "devices_aps_only.yml"
+          ],
+          "MAKE_DEVICES": {
+            "LOG_LEVEL": "info"
+          },
+          "SCALER_PV_NAMES": {
+            "SCALER0_NAME": "usxLAX:vsc:c0",
+            "SCALER1_NAME": "usxLAX:vsc:c1"
+          },
+          "USAXS_FLY_SCAN_SETTINGS": {
+            "FALLBACK_DIR": "/share1/USAXS_data",
+            "SAVE_FLY_DATA_HDF5_DIR": "/share1/USAXS_data/test",
+            "SAVE_FLY_DATA_HDF5_FILE": "sfs.h5"
+          },
+          "OPHYD": {
+            "CONTROL_LAYER": "PyEpics",
+            "TIMEOUTS": {
+              "PV_READ": 5,
+              "PV_WRITE": 5,
+              "PV_CONNECTION": 5
+            }
+          },
+          "XMODE_DEBUG_LEVEL": "Plain",
+          "ICONFIG_PATH": "/home/beams11/USAXS/bits_usaxs/src/usaxs/configs/iconfig.yml",
+          "INSTRUMENT_PATH": "/home/beams11/USAXS/bits_usaxs/src/usaxs/configs",
+          "INSTRUMENT_FOLDER": "configs"
+        },
+        "instrument_name": "APS USAXS/SAXS/WAXS",
+        "login_id": "usaxs@usaxscontrol.xray.aps.anl.gov",
+        "pid": 2158491,
+        "proposal_id": "Beamline",
+        "scan_id": 20,
+        "versions": {
+          "apsbits": "1.0.3",
+          "apstools": "1.7.2",
+          "bluesky": "1.13.1",
+          "databroker": "1.2.5",
+          "epics": "3.5.7",
+          "h5py": "3.13.0",
+          "intake": "0.6.4",
+          "matplotlib": "3.10.1",
+          "numpy": "1.26.4",
+          "ophyd": "1.10.5",
+          "pyRestTable": "2020.0.10",
+          "pysumreg": "1.0.7",
+          "python": "3.11.12",
+          "spec2nexus": "2021.2.6"
+        },
+        "plan_type": "generator",
+        "plan_name": "tune_ar",
+        "detectors": [
+          "UPD_SIGNAL",
+          "scaler0"
+        ],
+        "motors": [
+          "a_stage_r"
+        ],
+        "num_points": 31,
+        "num_intervals": 30,
+        "plan_args": {
+          "detectors": [
+            "ScalerChannel(prefix='usxLAX:vsc:c0', name='UPD_SIGNAL', parent='scaler0_channels', read_attrs=['s'], configuration_attrs=['chname', 'preset', 'gate'])",
+            "ScalerCH(prefix='usxLAX:vsc:c0', name='scaler0', read_attrs=['channels', 'channels.chan04', 'channels.chan04.s', 'time'], configuration_attrs=['channels', 'channels.chan04', 'channels.chan04.chname', 'channels.chan04.preset', 'channels.chan04.gate', 'count_mode', 'delay', 'auto_count_delay', 'freq', 'preset_time', 'auto_count_time', 'egu'])"
+          ],
+          "num": 31,
+          "args": [
+            "TunableEpicsMotor2WTolerance(prefix='usxAERO:m6', name='a_stage_r', parent='a_stage', settle_time=0.0, timeout=None, read_attrs=['user_readback', 'user_setpoint'], configuration_attrs=['user_offset', 'user_offset_dir', 'velocity', 'acceleration', 'motor_egu', 'tolerance'])",
+            -0.0008,
+            0.0008
+          ],
+          "per_step": "None"
+        },
+        "hints": {
+          "dimensions": [
+            [
+              [
+                "a_stage_r"
+              ],
+              "primary"
+            ]
+          ]
+        },
+        "plan_pattern": "inner_product",
+        "plan_pattern_module": "bluesky.plan_patterns",
+        "plan_pattern_args": {
+          "num": 31,
+          "args": [
+            "TunableEpicsMotor2WTolerance(prefix='usxAERO:m6', name='a_stage_r', parent='a_stage', settle_time=0.0, timeout=None, read_attrs=['user_readback', 'user_setpoint'], configuration_attrs=['user_offset', 'user_offset_dir', 'velocity', 'acceleration', 'motor_egu', 'tolerance'])",
+            -0.0008,
+            0.0008
+          ]
+        },
+        "purpose": "alignment"
+      }
+    ],
+    [
+      "descriptor",
+      {
+        "configuration": {
+          "a_stage_r": {
+            "data": {
+              "a_stage_r_user_offset": 1.2412700877429,
+              "a_stage_r_user_offset_dir": 0,
+              "a_stage_r_velocity": 4.0,
+              "a_stage_r_acceleration": 0.5,
+              "a_stage_r_motor_egu": "deg",
+              "a_stage_r_tolerance": 6e-06
+            },
+            "timestamps": {
+              "a_stage_r_user_offset": 1748199085.823059,
+              "a_stage_r_user_offset_dir": 1748199085.823059,
+              "a_stage_r_velocity": 1748199085.823059,
+              "a_stage_r_acceleration": 1748199085.823059,
+              "a_stage_r_motor_egu": 1748199086.857174,
+              "a_stage_r_tolerance": 1748199086.47855
+            },
+            "data_keys": {
+              "a_stage_r_user_offset": {
+                "source": "PV:usxAERO:m6.OFF",
+                "dtype": "number",
+                "shape": [],
+                "units": "deg",
+                "lower_ctrl_limit": -1e+300,
+                "upper_ctrl_limit": 1e+300,
+                "precision": 7
+              },
+              "a_stage_r_user_offset_dir": {
+                "source": "PV:usxAERO:m6.DIR",
+                "dtype": "integer",
+                "shape": [],
+                "units": null,
+                "lower_ctrl_limit": null,
+                "upper_ctrl_limit": null,
+                "enum_strs": [
+                  "Pos",
+                  "Neg"
+                ]
+              },
+              "a_stage_r_velocity": {
+                "source": "PV:usxAERO:m6.VELO",
+                "dtype": "number",
+                "shape": [],
+                "units": "deg/sec",
+                "lower_ctrl_limit": 0.0,
+                "upper_ctrl_limit": 20.0,
+                "precision": 7
+              },
+              "a_stage_r_acceleration": {
+                "source": "PV:usxAERO:m6.ACCL",
+                "dtype": "number",
+                "shape": [],
+                "units": "sec",
+                "lower_ctrl_limit": -1e+300,
+                "upper_ctrl_limit": 1e+300,
+                "precision": 7
+              },
+              "a_stage_r_motor_egu": {
+                "source": "PV:usxAERO:m6.EGU",
+                "dtype": "string",
+                "shape": [],
+                "units": null,
+                "lower_ctrl_limit": null,
+                "upper_ctrl_limit": null
+              },
+              "a_stage_r_tolerance": {
+                "source": "SIM:a_stage_r_tolerance",
+                "dtype": "number",
+                "shape": []
+              }
+            }
+          },
+          "scaler0": {
+            "data": {
+              "scaler0_channels_chan04_chname": "PD_USAXS",
+              "scaler0_channels_chan04_preset": 0.0,
+              "scaler0_channels_chan04_gate": "N",
+              "scaler0_count_mode": "OneShot",
+              "scaler0_delay": 0.019999999552965164,
+              "scaler0_auto_count_delay": 0.25,
+              "scaler0_freq": 10000000.0,
+              "scaler0_preset_time": 0.1,
+              "scaler0_auto_count_time": 0.05,
+              "scaler0_egu": ""
+            },
+            "timestamps": {
+              "scaler0_channels_chan04_chname": 1748199082.000876,
+              "scaler0_channels_chan04_preset": 1748199082.000876,
+              "scaler0_channels_chan04_gate": 1748199082.000876,
+              "scaler0_count_mode": 1748199101.43421,
+              "scaler0_delay": 1748199101.317543,
+              "scaler0_auto_count_delay": 1748199082.900876,
+              "scaler0_freq": 1748199082.900876,
+              "scaler0_preset_time": 1748199101.317543,
+              "scaler0_auto_count_time": 1748199082.900876,
+              "scaler0_egu": 1748199082.900876
+            },
+            "data_keys": {
+              "scaler0_channels_chan04_chname": {
+                "source": "PV:usxLAX:vsc:c0.NM4",
+                "dtype": "string",
+                "shape": [],
+                "units": null,
+                "lower_ctrl_limit": null,
+                "upper_ctrl_limit": null
+              },
+              "scaler0_channels_chan04_preset": {
+                "source": "PV:usxLAX:vsc:c0.PR4",
+                "dtype": "number",
+                "shape": [],
+                "units": "",
+                "lower_ctrl_limit": 0.0,
+                "upper_ctrl_limit": 0.0,
+                "precision": 0
+              },
+              "scaler0_channels_chan04_gate": {
+                "source": "PV:usxLAX:vsc:c0.G4",
+                "dtype": "string",
+                "shape": [],
+                "units": null,
+                "lower_ctrl_limit": null,
+                "upper_ctrl_limit": null,
+                "enum_strs": [
+                  "N",
+                  "Y"
+                ]
+              },
+              "scaler0_count_mode": {
+                "source": "PV:usxLAX:vsc:c0.CONT",
+                "dtype": "string",
+                "shape": [],
+                "units": null,
+                "lower_ctrl_limit": null,
+                "upper_ctrl_limit": null,
+                "enum_strs": [
+                  "OneShot",
+                  "AutoCount"
+                ]
+              },
+              "scaler0_delay": {
+                "source": "PV:usxLAX:vsc:c0.DLY",
+                "dtype": "number",
+                "shape": [],
+                "units": "",
+                "lower_ctrl_limit": 0.0,
+                "upper_ctrl_limit": 0.0,
+                "precision": 3
+              },
+              "scaler0_auto_count_delay": {
+                "source": "PV:usxLAX:vsc:c0.DLY1",
+                "dtype": "number",
+                "shape": [],
+                "units": "",
+                "lower_ctrl_limit": 0.0,
+                "upper_ctrl_limit": 0.0,
+                "precision": 3
+              },
+              "scaler0_freq": {
+                "source": "PV:usxLAX:vsc:c0.FREQ",
+                "dtype": "number",
+                "shape": [],
+                "units": "",
+                "lower_ctrl_limit": 0.0,
+                "upper_ctrl_limit": 0.0,
+                "precision": 3
+              },
+              "scaler0_preset_time": {
+                "source": "PV:usxLAX:vsc:c0.TP",
+                "dtype": "number",
+                "shape": [],
+                "units": "",
+                "lower_ctrl_limit": 0.0,
+                "upper_ctrl_limit": 0.0,
+                "precision": 3
+              },
+              "scaler0_auto_count_time": {
+                "source": "PV:usxLAX:vsc:c0.TP1",
+                "dtype": "number",
+                "shape": [],
+                "units": "",
+                "lower_ctrl_limit": 0.0,
+                "upper_ctrl_limit": 0.0,
+                "precision": 3
+              },
+              "scaler0_egu": {
+                "source": "PV:usxLAX:vsc:c0.EGU",
+                "dtype": "string",
+                "shape": [],
+                "units": null,
+                "lower_ctrl_limit": null,
+                "upper_ctrl_limit": null
+              }
+            }
+          }
+        },
+        "data_keys": {
+          "a_stage_r": {
+            "source": "PV:usxAERO:m6.RBV",
+            "dtype": "number",
+            "shape": [],
+            "units": "deg",
+            "lower_ctrl_limit": -19.7587640779741,
+            "upper_ctrl_limit": 30.2412359220259,
+            "precision": 7,
+            "object_name": "a_stage_r"
+          },
+          "a_stage_r_user_setpoint": {
+            "source": "PV:usxAERO:m6.VAL",
+            "dtype": "number",
+            "shape": [],
+            "units": "deg",
+            "lower_ctrl_limit": -19.7587640779741,
+            "upper_ctrl_limit": 30.2412359220259,
+            "precision": 7,
+            "object_name": "a_stage_r"
+          },
+          "PD_USAXS": {
+            "source": "PV:usxLAX:vsc:c0.S4",
+            "dtype": "number",
+            "shape": [],
+            "units": "",
+            "lower_ctrl_limit": 0.0,
+            "upper_ctrl_limit": 0.0,
+            "precision": 0,
+            "object_name": "scaler0"
+          },
+          "scaler0_time": {
+            "source": "PV:usxLAX:vsc:c0.T",
+            "dtype": "number",
+            "shape": [],
+            "units": "",
+            "lower_ctrl_limit": 0.0,
+            "upper_ctrl_limit": 0.0,
+            "precision": 3,
+            "object_name": "scaler0"
+          }
+        },
+        "name": "primary",
+        "object_keys": {
+          "a_stage_r": [
+            "a_stage_r",
+            "a_stage_r_user_setpoint"
+          ],
+          "scaler0": [
+            "PD_USAXS",
+            "scaler0_time"
+          ]
+        },
+        "run_start": "b31e8698-f842-4397-b2ef-acd4cb74fdd4",
+        "time": 1748199101.808957,
+        "uid": "1ee80035-5de4-4398-aae1-626db0714245",
+        "hints": {
+          "a_stage_r": {
+            "fields": [
+              "a_stage_r"
+            ]
+          },
+          "scaler0": {
+            "fields": [
+              "PD_USAXS"
+            ]
+          }
+        }
+      }
+    ],
+    [
+      "descriptor",
+      {
+        "configuration": {
+          "waxsx": {
+            "data": {
+              "waxsx_user_offset": 3.947885,
+              "waxsx_user_offset_dir": 0,
+              "waxsx_velocity": 150.0,
+              "waxsx_acceleration": 0.5,
+              "waxsx_motor_egu": "mm"
+            },
+            "timestamps": {
+              "waxsx_user_offset": 1748199085.815167,
+              "waxsx_user_offset_dir": 1748199085.815167,
+              "waxsx_velocity": 1748199085.815167,
+              "waxsx_acceleration": 1748199085.815167,
+              "waxsx_motor_egu": 1748199086.849208
+            },
+            "data_keys": {
+              "waxsx_user_offset": {
+                "source": "PV:usxAERO:m3.OFF",
+                "dtype": "number",
+                "shape": [],
+                "units": "mm",
+                "lower_ctrl_limit": -1e+300,
+                "upper_ctrl_limit": 1e+300,
+                "precision": 6
+              },
+              "waxsx_user_offset_dir": {
+                "source": "PV:usxAERO:m3.DIR",
+                "dtype": "integer",
+                "shape": [],
+                "units": null,
+                "lower_ctrl_limit": null,
+                "upper_ctrl_limit": null,
+                "enum_strs": [
+                  "Pos",
+                  "Neg"
+                ]
+              },
+              "waxsx_velocity": {
+                "source": "PV:usxAERO:m3.VELO",
+                "dtype": "number",
+                "shape": [],
+                "units": "mm/sec",
+                "lower_ctrl_limit": 0.0,
+                "upper_ctrl_limit": 0.0,
+                "precision": 6
+              },
+              "waxsx_acceleration": {
+                "source": "PV:usxAERO:m3.ACCL",
+                "dtype": "number",
+                "shape": [],
+                "units": "sec",
+                "lower_ctrl_limit": -1e+300,
+                "upper_ctrl_limit": 1e+300,
+                "precision": 6
+              },
+              "waxsx_motor_egu": {
+                "source": "PV:usxAERO:m3.EGU",
+                "dtype": "string",
+                "shape": [],
+                "units": null,
+                "lower_ctrl_limit": null,
+                "upper_ctrl_limit": null
+              }
+            }
+          },
+          "waxs2x": {
+            "data": {
+              "waxs2x_user_offset": 0.0,
+              "waxs2x_user_offset_dir": 0,
+              "waxs2x_velocity": 50.0,
+              "waxs2x_acceleration": 0.2,
+              "waxs2x_motor_egu": "mm"
+            },
+            "timestamps": {
+              "waxs2x_user_offset": 1748199085.825135,
+              "waxs2x_user_offset_dir": 1748199085.825135,
+              "waxs2x_velocity": 1748199085.825135,
+              "waxs2x_acceleration": 1748199085.825135,
+              "waxs2x_motor_egu": 1748199086.85922
+            },
+            "data_keys": {
+              "waxs2x_user_offset": {
+                "source": "PV:usxAERO:m7.OFF",
+                "dtype": "number",
+                "shape": [],
+                "units": "mm",
+                "lower_ctrl_limit": -1e+300,
+                "upper_ctrl_limit": 1e+300,
+                "precision": 6
+              },
+              "waxs2x_user_offset_dir": {
+                "source": "PV:usxAERO:m7.DIR",
+                "dtype": "integer",
+                "shape": [],
+                "units": null,
+                "lower_ctrl_limit": null,
+                "upper_ctrl_limit": null,
+                "enum_strs": [
+                  "Pos",
+                  "Neg"
+                ]
+              },
+              "waxs2x_velocity": {
+                "source": "PV:usxAERO:m7.VELO",
+                "dtype": "number",
+                "shape": [],
+                "units": "mm/sec",
+                "lower_ctrl_limit": 0.0,
+                "upper_ctrl_limit": 0.0,
+                "precision": 6
+              },
+              "waxs2x_acceleration": {
+                "source": "PV:usxAERO:m7.ACCL",
+                "dtype": "number",
+                "shape": [],
+                "units": "sec",
+                "lower_ctrl_limit": -1e+300,
+                "upper_ctrl_limit": 1e+300,
+                "precision": 6
+              },
+              "waxs2x_motor_egu": {
+                "source": "PV:usxAERO:m7.EGU",
+                "dtype": "string",
+                "shape": [],
+                "units": null,
+                "lower_ctrl_limit": null,
+                "upper_ctrl_limit": null
+              }
+            }
+          }
+        },
+        "data_keys": {
+          "waxsx": {
+            "source": "PV:usxAERO:m3.RBV",
+            "dtype": "number",
+            "shape": [],
+            "units": "mm",
+            "lower_ctrl_limit": -430.0,
+            "upper_ctrl_limit": 0.0,
+            "precision": 6,
+            "object_name": "waxsx"
+          },
+          "waxsx_user_setpoint": {
+            "source": "PV:usxAERO:m3.VAL",
+            "dtype": "number",
+            "shape": [],
+            "units": "mm",
+            "lower_ctrl_limit": -430.0,
+            "upper_ctrl_limit": 0.0,
+            "precision": 6,
+            "object_name": "waxsx"
+          },
+          "waxs2x": {
+            "source": "PV:usxAERO:m7.RBV",
+            "dtype": "number",
+            "shape": [],
+            "units": "mm",
+            "lower_ctrl_limit": -5.0,
+            "upper_ctrl_limit": 25.0,
+            "precision": 6,
+            "object_name": "waxs2x"
+          },
+          "waxs2x_user_setpoint": {
+            "source": "PV:usxAERO:m7.VAL",
+            "dtype": "number",
+            "shape": [],
+            "units": "mm",
+            "lower_ctrl_limit": -5.0,
+            "upper_ctrl_limit": 25.0,
+            "precision": 6,
+            "object_name": "waxs2x"
+          }
+        },
+        "name": "label_start_motor",
+        "object_keys": {
+          "waxsx": [
+            "waxsx",
+            "waxsx_user_setpoint"
+          ],
+          "waxs2x": [
+            "waxs2x",
+            "waxs2x_user_setpoint"
+          ]
+        },
+        "run_start": "b31e8698-f842-4397-b2ef-acd4cb74fdd4",
+        "time": 1748199101.5024395,
+        "uid": "983b41dc-5aed-4e69-b31e-58708d66e7e5",
+        "hints": {
+          "waxsx": {
+            "fields": [
+              "waxsx"
+            ]
+          },
+          "waxs2x": {
+            "fields": [
+              "waxs2x"
+            ]
+          }
+        }
+      }
+    ],
+    [
+      "event",
+      {
+        "descriptor": "983b41dc-5aed-4e69-b31e-58708d66e7e5",
+        "uid": "367d76d8-7ef9-4553-bf5f-741d740bccd7",
+        "time": 1748199101.5187688,
+        "seq_num": 1,
+        "data": {
+          "waxs2x": -3.185178,
+          "waxs2x_user_setpoint": 0.0,
+          "waxsx": -10.000005,
+          "waxsx_user_setpoint": -10.0
+        },
+        "timestamps": {
+          "waxs2x": 1748199100.301159,
+          "waxs2x_user_setpoint": 1748199085.825135,
+          "waxsx": 1748199101.325151,
+          "waxsx_user_setpoint": 1748199085.815167
+        },
+        "filled": {}
+      }
+    ],
+    [
+      "stop",
+      {
+        "uid": "11d86f20-ad97-414e-afcd-e5204cc2b02b",
+        "time": 1748199101.8223827,
+        "run_start": "b31e8698-f842-4397-b2ef-acd4cb74fdd4",
+        "exit_status": "fail",
+        "reason": "'UPD_SIGNAL'",
+        "num_events": {
+          "label_start_motor": 1,
+          "primary": 0
+        }
+      }
+    ]
+  ]
+  
