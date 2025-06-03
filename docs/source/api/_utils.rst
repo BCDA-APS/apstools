@@ -122,6 +122,7 @@ General
    ~apstools.utils.catalog.getDefaultCatalog
    ~apstools.utils.catalog.getDefaultDatabase
    ~apstools.utils.profile_support.getDefaultNamespace
+   ~apstools.utils.descriptor_support.get_stream_data_keys
    ~apstools.utils.list_runs.getRunData
    ~apstools.utils.list_runs.getRunDataValue
    ~apstools.utils.catalog.getStreamValues
@@ -170,6 +171,9 @@ Submodules
     :members:
 
 .. automodule:: apstools.utils.catalog
+    :members:
+
+.. automodule:: apstools.utils.descriptor_support
     :members:
 
 .. automodule:: apstools.utils.device_info
