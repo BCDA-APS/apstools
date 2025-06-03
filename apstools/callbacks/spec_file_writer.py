@@ -65,6 +65,7 @@ from collections import OrderedDict
 
 import numpy as np
 from deprecated import deprecated
+
 from .callback_base import FileWriterCallbackBase
 
 SPEC_TIME_FORMAT = "%a %b %d %H:%M:%S %Y"
