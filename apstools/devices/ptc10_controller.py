@@ -37,13 +37,12 @@ EXAMPLE::
     ptc10 = MyPTC10("IOC_PREFIX:ptc10:", name="ptc10")
     ptc10.report_dmov_changes.put(True)  # a diagnostic
     ptc10.tolerance.put(1.0)  # done when |readback-setpoint|<=tolerance
-
-New in apstools 1.5.3.
 """
 
 import logging
 import weakref
 
+from deprecated.sphinx import versionadded
 from ophyd import Component
 from ophyd import Device
 from ophyd import EpicsSignal
@@ -54,6 +53,7 @@ from ophyd import Signal
 logger = logging.getLogger(__name__)
 
 
+@versionadded(version="1.5.3")
 class PTC10AioChannel(Device):
     """
     SRS PTC10 AIO module
@@ -80,6 +80,7 @@ class PTC10AioChannel(Device):
     tunetype = Component(EpicsSignalWithRBV, "tune:type", kind="config", string=True)
 
 
+@versionadded(version="1.5.3")
 class PTC10RtdChannel(Device):
     """
     SRS PTC10 RTD module channel
@@ -93,6 +94,7 @@ class PTC10RtdChannel(Device):
     power = Component(EpicsSignalWithRBV, "power", kind="config", string=True)
 
 
+@versionadded(version="1.5.3")
 class PTC10TcChannel(Device):
     """
     SRS PTC10 Tc (thermocouple) module channel
@@ -101,6 +103,7 @@ class PTC10TcChannel(Device):
     temperature = Component(EpicsSignalRO, "temperature", kind="normal")
 
 
+@versionadded(version="1.5.3")
 class PTC10PositionerMixin(Device):
     """
     Mixin so SRS PTC10 can be used as a (temperature) positioner.

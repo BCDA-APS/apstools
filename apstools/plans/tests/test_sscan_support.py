@@ -15,7 +15,7 @@ from ..sscan_support import sscan_1D
 
 @pytest.mark.skipif(
     in_gha_workflow(),
-    reason="Random failures in GiHub Actions workflows.",
+    reason="Random failures in GHA workflows.",
 )
 def test_i108():
     cat = databroker.temp().v2

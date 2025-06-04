@@ -17,18 +17,21 @@ import sys
 
 import numpy as np
 import pyRestTable
-from scipy.optimize import curve_fit
-from scipy.special import erf
-
 from bluesky import plan_stubs as bps
 from bluesky import plans as bp
 from bluesky import preprocessors as bpp
 from bluesky.callbacks.fitting import PeakStats
+from bluesky.utils import plan
+from deprecated.sphinx import deprecated
+from deprecated.sphinx import versionadded
+from deprecated.sphinx import versionchanged
 from ophyd import Component
 from ophyd import Device
 from ophyd import Signal
 from ophyd.scaler import ScalerCH
 from ophyd.scaler import ScalerChannel
+from scipy.optimize import curve_fit
+from scipy.special import erf
 
 from .. import utils
 from .doc_run import write_stream
@@ -37,6 +40,8 @@ logger = logging.getLogger(__name__)
 MAIN = sys.modules["__main__"]
 
 
+@deprecated(version="1.7.2", reason="use lineup2()")
+@plan
 def lineup(
     # fmt: off
     detectors,
@@ -54,11 +59,11 @@ def lineup(
     # fmt: on
 ):
     """
-    (use ``lineup2()`` now) Lineup and center a given axis, relative to current position.
+    **Deprecated** Lineup and center a given axis, relative to current position.
 
     If first run identifies a peak, makes a second run to fine tune the result.
 
-    ..caution:: ``lineup()`` does not work in the queueserver.  Use
+    .. caution:: ``lineup()`` does not work in the queueserver.  Use
         :func:`~apstools.plans.alignment.lineup2()` instead.
 
     .. index:: Bluesky Plan; lineup
@@ -227,6 +232,7 @@ def lineup(
         scaler.stage_sigs = old_sigs
 
 
+@plan
 def edge_align(detectors, mover, start, end, points, cat=None, md={}):
     """
     Align to the edge given mover & detector data, relative to absolute position.
@@ -335,6 +341,9 @@ def edge_align(detectors, mover, start, end, points, cat=None, md={}):
         print("No significant signal change detected; motor movement skipped.")
 
 
+@versionchanged(version="1.7.2", reason="Changed from PySumReg to numpy")
+@versionadded(version="1.6.18")
+@plan
 def lineup2(
     # fmt: off
     detectors,
@@ -376,9 +385,6 @@ def lineup2(
     consoles.  It does not require the bluesky BestEffortCallback.  Instead, it
     uses *numpy*  [#numpy]_ to compute statistics for each signal in a 1-D
     scan.
-
-    - New in release 1.6.18.
-    - Changed from PySumReg to numpy in release 1.7.2.
 
     .. rubric::  PARAMETERS
 
@@ -618,8 +624,8 @@ class TuneAxis(object):
         RE(tuner.multi_pass_tune(width=2, num=9), live_table)
         RE(tuner.tune(width=0.05, num=9), live_table)
 
-    Also see the jupyter notebook tited **Demonstrate TuneAxis()**
-    in the :ref:`examples` section.
+    Also see the :doc:`The TuneAxis() plan </examples/pl_tuneaxis>` (jupyter
+    notebook).
 
     .. autosummary::
 

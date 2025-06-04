@@ -13,6 +13,7 @@ import logging
 from collections import defaultdict
 
 import ophyd
+from deprecated.sphinx import versionadded
 
 from . import full_dotted_name
 from . import ipython_shell_namespace
@@ -160,6 +161,7 @@ def _get_pv_registry(force_rebuild, ns):
     return _findpv_registry
 
 
+@versionadded(version="1.5.0")
 def findbyname(oname, force_rebuild=False, ns=None):
     """
     Find the ophyd (dotted name) object associated with the given ophyd name.
@@ -186,8 +188,6 @@ def findbyname(oname, force_rebuild=False, ns=None):
 
         In [45]: findbyname("adsimdet_cam_acquire")
         Out[45]: 'adsimdet.cam.acquire'
-
-    (new in apstools 1.5.0)
     """
     return _get_pv_registry(force_rebuild, ns).ophyd_search(oname)
 

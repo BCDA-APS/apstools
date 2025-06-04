@@ -17,6 +17,8 @@ import time
 import h5py
 import numpy as np
 import yaml
+from deprecated.sphinx import versionadded
+from deprecated.sphinx import versionchanged
 
 from .callback_base import FileWriterCallbackBase
 
@@ -25,6 +27,8 @@ NEXUS_RELEASE = "v2020.1"  # NeXus release to which this file is written
 logger = logging.getLogger(__name__)
 
 
+@versionchanged(version="1.6.11", reason="wait for area detector HDF5 files")
+@versionadded(version="1.3.0")
 class NXWriter(FileWriterCallbackBase):
     """
     General class for writing HDF5/NeXus file (using only NeXus base classes).
@@ -810,11 +814,10 @@ class NXWriter(FileWriterCallbackBase):
 
         return bluesky
 
+    @versionadded(version="1.6.18")
     def write_templates(self):
         """
         Process any link templates provided as run metadata.
-
-        New in v1.6.18.
         """
         addr = f"/entry/instrument/bluesky/metadata/{self.template_key}"
         if addr not in self.root:

@@ -80,7 +80,7 @@ class SignalStatsCallback:
 
     _registers: dict = {}
     """
-    Deprecated: Use 'analysis' instead, will remove in next major release.
+    **Deprecated**: Use 'analysis' instead, will remove in next major release.
 
     Dictionary (keyed on Signal name) of ``SummationRegister()`` objects.
     """

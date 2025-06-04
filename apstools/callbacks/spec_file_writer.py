@@ -64,6 +64,9 @@ import time
 from collections import OrderedDict
 
 import numpy as np
+from deprecated.sphinx import deprecated
+from deprecated.sphinx import versionadded
+from deprecated.sphinx import versionchanged
 
 from .callback_base import FileWriterCallbackBase
 
@@ -140,6 +143,7 @@ def _rebuild_scan_command(doc):
     return f"{scan_id}  {cmd}"
 
 
+@deprecated(version="1.7.0", reason="Use SpecWriterCallback2()")
 class SpecWriterCallback(object):
     """
     **Deprecated**: Use :class:`~apstools.callbacks.spec_file_writer.SpecWriterCallback2`.
@@ -686,6 +690,9 @@ class SpecWriterCallback(object):
         return scan_id
 
 
+@versionchanged(version="1.7.4", reason="refactor how labels are gathered")
+@versionchanged(version="1.7.1", reason="set spec_filename in constructor")
+@versionadded(version="1.7.0")
 class SpecWriterCallback2(FileWriterCallbackBase):
     """
     Write SPEC data file as data is collected, line-by-line.
@@ -718,8 +725,6 @@ class SpecWriterCallback2(FileWriterCallbackBase):
     .. rubric: Properties
     .. autosummary::
         ~spec_filename
-
-    *New in apstools 1.7.0.*
     """
 
     # - - - - # - - - - # - - - - # - - - - # - - - - # - - - - # - - - - #
@@ -1070,6 +1075,7 @@ class SpecWriterCallback2(FileWriterCallbackBase):
         self.file_name = file_name or self.make_default_filename()
 
 
+@versionadded(version="1.7.1")
 def spec_comment(comment, doc=None, writer=None):
     """
     make it easy to add spec-style comments in a custom plan

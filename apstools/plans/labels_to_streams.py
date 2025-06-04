@@ -87,8 +87,6 @@ values record at both *start* and *end*, then use **two** decorators::
    ~label_stream_stub
    ~label_stream_wrapper
    ~When
-
-*new in apstools release 1.6.11*
 """
 
 from enum import Enum
@@ -97,11 +95,13 @@ from bluesky import preprocessors as bpp
 from bluesky.magics import get_labeled_devices
 from bluesky.utils import make_decorator
 from bluesky.utils import single_gen
+from deprecated.sphinx import versionadded
 
 from ..utils import getDefaultNamespace
 from .doc_run import write_stream
 
 
+@versionadded(version="1.6.11")
 def label_stream_stub(labels=None, fmt=None, bec=None):
     """
     Writes ophyd-labeled objects to open bluesky run streams. One stream per label.
@@ -122,8 +122,6 @@ def label_stream_stub(labels=None, fmt=None, bec=None):
         *obj*:
         Instance of bluesky BestEffortCallback.
         Default: selected from default namespace, if available.
-
-    *new in apstools release 1.6.11*
     """
     from bluesky.callbacks.best_effort import BestEffortCallback
 
@@ -152,6 +150,7 @@ def label_stream_stub(labels=None, fmt=None, bec=None):
     # fmt: on
 
 
+@versionadded(version="1.6.11")
 class When(Enum):
     """Describes what point of the run the stream(s) should be written."""
 
@@ -159,6 +158,7 @@ class When(Enum):
     END = "end"
 
 
+@versionadded(version="1.6.11")
 def label_stream_wrapper(plan, labels, fmt=None, when="start"):
     """
     Decorator support: Write labeled device(s) to stream(s).  Either at "start" or "end".
@@ -193,8 +193,6 @@ def label_stream_wrapper(plan, labels, fmt=None, when="start"):
         The ``str`` value can be expressed in either upper or lower case.
 
         Default: ``"start"``
-
-    *new in apstools release 1.6.11*
     """
     try:
         if isinstance(when, str):

@@ -227,7 +227,7 @@ parms_min___pathological = _TestParameters(pvoigt, axis, -1.2, 1.2, 11, "min", 1
 
 @pytest.mark.skipif(
     in_gha_workflow(),
-    reason="Random failures in GiHub Actions workflows.",
+    reason="Random failures in GHA workflows.",
 )
 @pytest.mark.parametrize(
     "parms",
@@ -268,7 +268,7 @@ def test_lineup2(parms: _TestParameters):
 
 @pytest.mark.skipif(
     in_gha_workflow(),
-    reason="Random failures in GiHub Actions workflows.",
+    reason="Random failures in GHA workflows.",
 )
 @pytest.mark.parametrize("detectors", [[noisy], [I0], [scaler1], [I0, scaler1]])
 def test_lineup2_issue_1049(detectors):
@@ -402,7 +402,7 @@ parms_bkg_only__ZeroDivisionError = _TestParameters(0, 1, 0, 0.1, 0.2, -0.7, 0.5
 
 @pytest.mark.skipif(
     in_gha_workflow(),
-    reason="Random failures in GiHub Actions workflows.",
+    reason="Random failures in GHA workflows.",
 )
 @pytest.mark.parametrize(
     "parms",

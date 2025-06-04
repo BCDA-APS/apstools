@@ -17,7 +17,7 @@ TEST_PV = f"{IOC_GP}userArrayCalc10"
 
 @pytest.mark.skipif(
     in_gha_workflow(),
-    reason="Random failures in GiHub Actions workflows.",
+    reason="Random failures in GHA workflows.",
 )
 def test_connected():
     acalcout = AcalcoutRecord(TEST_PV, name="acalcout")
