@@ -62,7 +62,7 @@ def lineup(
 
     If first run identifies a peak, makes a second run to fine tune the result.
 
-    ..caution:: ``lineup()`` does not work in the queueserver.  Use
+    .. caution:: ``lineup()`` does not work in the queueserver.  Use
         :func:`~apstools.plans.alignment.lineup2()` instead.
 
     .. index:: Bluesky Plan; lineup
