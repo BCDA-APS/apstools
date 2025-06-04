@@ -13,6 +13,7 @@ import logging
 from collections import defaultdict
 
 import ophyd
+from deprecated.sphinx import versionadded
 
 from . import full_dotted_name
 from . import ipython_shell_namespace
