@@ -1,0 +1,1036 @@
+[
+  [
+    "start",
+    {
+      "uid": "3ab777ae-53f8-4723-8727-e6aeb36d9916",
+      "time": 1748332666.1788123,
+      "beamline_id": "gpBits",
+      "conda_prefix": "/home/prjemian/.conda/envs/gpBits",
+      "databroker_catalog": "training",
+      "iconfig": {
+        "ICONFIG_VERSION": "2.0.0",
+        "DATABROKER_CATALOG": "training",
+        "RUN_ENGINE": {
+          "DEFAULT_METADATA": {
+            "beamline_id": "gpBits",
+            "instrument_name": "Bluesky Instrument for gp & ad IOCs",
+            "proposal_id": "developer",
+            "databroker_catalog": "training"
+          },
+          "SCAN_ID_PV": "gp:gp:int20",
+          "MD_STORAGE_HANDLER": "StoredDict",
+          "MD_PATH": ".re_md_dict.yml",
+          "USE_PROGRESS_BAR": false
+        },
+        "USE_BLUESKY_MAGICS": true,
+        "BEC": {
+          "BASELINE": true,
+          "HEADING": true,
+          "PLOTS": true,
+          "TABLE": true
+        },
+        "NEXUS_DATA_FILES": {
+          "ENABLE": false,
+          "FILE_EXTENSION": "hdf"
+        },
+        "SPEC_DATA_FILES": {
+          "ENABLE": false,
+          "FILE_EXTENSION": "dat"
+        },
+        "OPHYD": {
+          "CONTROL_LAYER": "PyEpics",
+          "TIMEOUTS": {
+            "PV_READ": 5,
+            "PV_WRITE": 5,
+            "PV_CONNECTION": 10
+          }
+        },
+        "XMODE_DEBUG_LEVEL": "Plain",
+        "ICONFIG_PATH": "/home/prjemian/gpBits/src/instrument/configs/iconfig.yml",
+        "INSTRUMENT_PATH": "/home/prjemian/gpBits/src/instrument/configs",
+        "INSTRUMENT_FOLDER": "configs"
+      },
+      "instrument_name": "Bluesky Instrument for gp & ad IOCs",
+      "login_id": "prjemian@zap",
+      "pid": 1565266,
+      "proposal_id": "developer",
+      "scan_id": 10014,
+      "scan_id_pv": "gp:gp:int20",
+      "versions": {
+        "apsbits": "1.0.4",
+        "apstools": "1.7.4.dev45+g9b9e1d21",
+        "bluesky": "1.14.1",
+        "databroker": "1.2.5",
+        "epics": "3.5.7",
+        "h5py": "3.13.0",
+        "intake": "0.6.4",
+        "matplotlib": "3.10.3",
+        "numpy": "1.26.4",
+        "ophyd": "1.10.6",
+        "pyRestTable": "2020.0.10",
+        "pysumreg": "1.0.7",
+        "python": "3.12.10",
+        "spec2nexus": "2021.2.6"
+      },
+      "plan_type": "generator",
+      "plan_name": "lineup2",
+      "detectors": [
+        "I0",
+        "scaler1"
+      ],
+      "motors": [
+        "m1"
+      ],
+      "num_points": 11,
+      "num_intervals": 10,
+      "plan_args": {
+        "detectors": [
+          "SubstituteScalerChannelCounts(read_pv='gp:scaler1.S2', name='I0', parent='scaler1_channels_chan02', timestamp=1748323179.297916, auto_monitor=False, string=False)",
+          "ScalerCH(prefix='gp:scaler1', name='scaler1', read_attrs=['channels', 'channels.chan01', 'channels.chan01.s', 'channels.chan02', 'channels.chan02.s', 'channels.chan03', 'channels.chan03.s', 'channels.chan04', 'channels.chan04.s', 'channels.chan05', 'channels.chan05.s', 'channels.chan06', 'channels.chan06.s', 'time'], configuration_attrs=['channels', 'channels.chan01', 'channels.chan01.chname', 'channels.chan01.preset', 'channels.chan01.gate', 'channels.chan01.override_signal_name', 'channels.chan02', 'channels.chan02.chname', 'channels.chan02.preset', 'channels.chan02.gate', 'channels.chan02.override_signal_name', 'channels.chan03', 'channels.chan03.chname', 'channels.chan03.preset', 'channels.chan03.gate', 'channels.chan03.override_signal_name', 'channels.chan04', 'channels.chan04.chname', 'channels.chan04.preset', 'channels.chan04.gate', 'channels.chan04.override_signal_name', 'channels.chan05', 'channels.chan05.chname', 'channels.chan05.preset', 'channels.chan05.gate', 'channels.chan05.override_signal_name', 'channels.chan06', 'channels.chan06.chname', 'channels.chan06.preset', 'channels.chan06.gate', 'channels.chan06.override_signal_name', 'count_mode', 'delay', 'auto_count_delay', 'freq', 'preset_time', 'auto_count_time', 'egu'])"
+        ],
+        "num": 11,
+        "args": [
+          "EpicsMotor_SREV(prefix='gp:m1', name='m1', settle_time=0.0, timeout=None, read_attrs=['user_readback', 'user_setpoint'], configuration_attrs=['user_offset', 'user_offset_dir', 'velocity', 'acceleration', 'motor_egu', 'steps_per_revolution'])",
+          -1,
+          1
+        ],
+        "per_step": "None"
+      },
+      "hints": {
+        "dimensions": [
+          [
+            [
+              "m1"
+            ],
+            "primary"
+          ]
+        ]
+      },
+      "plan_pattern": "inner_product",
+      "plan_pattern_module": "bluesky.plan_patterns",
+      "plan_pattern_args": {
+        "num": 11,
+        "args": [
+          "EpicsMotor_SREV(prefix='gp:m1', name='m1', settle_time=0.0, timeout=None, read_attrs=['user_readback', 'user_setpoint'], configuration_attrs=['user_offset', 'user_offset_dir', 'velocity', 'acceleration', 'motor_egu', 'steps_per_revolution'])",
+          -1,
+          1
+        ]
+      },
+      "purpose": "alignment"
+    }
+  ],
+  [
+    "descriptor",
+    {
+      "configuration": {
+        "m1": {
+          "data": {
+            "m1_user_offset": 0.0,
+            "m1_user_offset_dir": 0,
+            "m1_velocity": 1.0,
+            "m1_acceleration": 0.2,
+            "m1_motor_egu": "degrees",
+            "m1_steps_per_revolution": 2000
+          },
+          "timestamps": {
+            "m1_user_offset": 1748323179.322337,
+            "m1_user_offset_dir": 1748323179.322337,
+            "m1_velocity": 1748323179.322337,
+            "m1_acceleration": 1748323179.322337,
+            "m1_motor_egu": 1748323179.322337,
+            "m1_steps_per_revolution": 1748323179.322337
+          },
+          "data_keys": {
+            "m1_user_offset": {
+              "source": "PV:gp:m1.OFF",
+              "dtype": "number",
+              "shape": [],
+              "units": "degrees",
+              "lower_ctrl_limit": -1e+300,
+              "upper_ctrl_limit": 1e+300,
+              "precision": 4
+            },
+            "m1_user_offset_dir": {
+              "source": "PV:gp:m1.DIR",
+              "dtype": "integer",
+              "shape": [],
+              "units": null,
+              "lower_ctrl_limit": null,
+              "upper_ctrl_limit": null,
+              "enum_strs": [
+                "Pos",
+                "Neg"
+              ]
+            },
+            "m1_velocity": {
+              "source": "PV:gp:m1.VELO",
+              "dtype": "number",
+              "shape": [],
+              "units": "degrees",
+              "lower_ctrl_limit": 0.1,
+              "upper_ctrl_limit": 0.0,
+              "precision": 4
+            },
+            "m1_acceleration": {
+              "source": "PV:gp:m1.ACCL",
+              "dtype": "number",
+              "shape": [],
+              "units": "sec",
+              "lower_ctrl_limit": -1e+300,
+              "upper_ctrl_limit": 1e+300,
+              "precision": 4
+            },
+            "m1_motor_egu": {
+              "source": "PV:gp:m1.EGU",
+              "dtype": "string",
+              "shape": [],
+              "units": null,
+              "lower_ctrl_limit": null,
+              "upper_ctrl_limit": null
+            },
+            "m1_steps_per_revolution": {
+              "source": "PV:gp:m1.SREV",
+              "dtype": "integer",
+              "shape": [],
+              "units": "steps/r",
+              "lower_ctrl_limit": -2147483648,
+              "upper_ctrl_limit": 2147483647
+            }
+          }
+        },
+        "scaler1": {
+          "data": {
+            "scaler1_channels_chan01_chname": "clock",
+            "scaler1_channels_chan01_preset": 10000000.0,
+            "scaler1_channels_chan01_gate": "Y",
+            "scaler1_channels_chan01_override_signal_name": "default: scaler channel's 'counts' value",
+            "scaler1_channels_chan02_chname": "I0",
+            "scaler1_channels_chan02_preset": 0.0,
+            "scaler1_channels_chan02_gate": "N",
+            "scaler1_channels_chan02_override_signal_name": "noisy",
+            "scaler1_channels_chan03_chname": "scint",
+            "scaler1_channels_chan03_preset": 0.0,
+            "scaler1_channels_chan03_gate": "N",
+            "scaler1_channels_chan03_override_signal_name": "default: scaler channel's 'counts' value",
+            "scaler1_channels_chan04_chname": "diode",
+            "scaler1_channels_chan04_preset": 0.0,
+            "scaler1_channels_chan04_gate": "N",
+            "scaler1_channels_chan04_override_signal_name": "default: scaler channel's 'counts' value",
+            "scaler1_channels_chan05_chname": "I000",
+            "scaler1_channels_chan05_preset": 0.0,
+            "scaler1_channels_chan05_gate": "N",
+            "scaler1_channels_chan05_override_signal_name": "default: scaler channel's 'counts' value",
+            "scaler1_channels_chan06_chname": "I00",
+            "scaler1_channels_chan06_preset": 0.0,
+            "scaler1_channels_chan06_gate": "N",
+            "scaler1_channels_chan06_override_signal_name": "default: scaler channel's 'counts' value",
+            "scaler1_count_mode": "OneShot",
+            "scaler1_delay": 0.0,
+            "scaler1_auto_count_delay": 0.0,
+            "scaler1_freq": 10000000.0,
+            "scaler1_preset_time": 1.0,
+            "scaler1_auto_count_time": 1.0,
+            "scaler1_egu": ""
+          },
+          "timestamps": {
+            "scaler1_channels_chan01_chname": 1748323179.297916,
+            "scaler1_channels_chan01_preset": 1748323179.297916,
+            "scaler1_channels_chan01_gate": 1748323179.297916,
+            "scaler1_channels_chan01_override_signal_name": 1748323199.7502458,
+            "scaler1_channels_chan02_chname": 1748323179.297916,
+            "scaler1_channels_chan02_preset": 1748323179.297916,
+            "scaler1_channels_chan02_gate": 1748323179.297916,
+            "scaler1_channels_chan02_override_signal_name": 1748323210.4571483,
+            "scaler1_channels_chan03_chname": 1748323179.297916,
+            "scaler1_channels_chan03_preset": 1748323179.297916,
+            "scaler1_channels_chan03_gate": 1748323179.297916,
+            "scaler1_channels_chan03_override_signal_name": 1748323205.347051,
+            "scaler1_channels_chan04_chname": 1748323179.297916,
+            "scaler1_channels_chan04_preset": 1748323179.297916,
+            "scaler1_channels_chan04_gate": 1748323179.297916,
+            "scaler1_channels_chan04_override_signal_name": 1748323205.3748991,
+            "scaler1_channels_chan05_chname": 1748323179.297916,
+            "scaler1_channels_chan05_preset": 1748323179.297916,
+            "scaler1_channels_chan05_gate": 1748323179.297916,
+            "scaler1_channels_chan05_override_signal_name": 1748323205.4048197,
+            "scaler1_channels_chan06_chname": 1748323179.297916,
+            "scaler1_channels_chan06_preset": 1748323179.297916,
+            "scaler1_channels_chan06_gate": 1748323179.297916,
+            "scaler1_channels_chan06_override_signal_name": 1748323205.4320014,
+            "scaler1_count_mode": 1748323179.297916,
+            "scaler1_delay": 1748323179.297916,
+            "scaler1_auto_count_delay": 1748323179.297916,
+            "scaler1_freq": 1748323179.297916,
+            "scaler1_preset_time": 1748323179.297916,
+            "scaler1_auto_count_time": 1748323179.297916,
+            "scaler1_egu": 1748323179.297916
+          },
+          "data_keys": {
+            "scaler1_channels_chan01_chname": {
+              "source": "PV:gp:scaler1.NM1",
+              "dtype": "string",
+              "shape": [],
+              "units": null,
+              "lower_ctrl_limit": null,
+              "upper_ctrl_limit": null
+            },
+            "scaler1_channels_chan01_preset": {
+              "source": "PV:gp:scaler1.PR1",
+              "dtype": "number",
+              "shape": [],
+              "units": "",
+              "lower_ctrl_limit": 0.0,
+              "upper_ctrl_limit": 0.0,
+              "precision": 0
+            },
+            "scaler1_channels_chan01_gate": {
+              "source": "PV:gp:scaler1.G1",
+              "dtype": "string",
+              "shape": [],
+              "units": null,
+              "lower_ctrl_limit": null,
+              "upper_ctrl_limit": null,
+              "enum_strs": [
+                "N",
+                "Y"
+              ]
+            },
+            "scaler1_channels_chan01_override_signal_name": {
+              "source": "SIM:scaler1_channels_chan01_override_signal_name",
+              "dtype": "string",
+              "shape": []
+            },
+            "scaler1_channels_chan02_chname": {
+              "source": "PV:gp:scaler1.NM2",
+              "dtype": "string",
+              "shape": [],
+              "units": null,
+              "lower_ctrl_limit": null,
+              "upper_ctrl_limit": null
+            },
+            "scaler1_channels_chan02_preset": {
+              "source": "PV:gp:scaler1.PR2",
+              "dtype": "number",
+              "shape": [],
+              "units": "",
+              "lower_ctrl_limit": 0.0,
+              "upper_ctrl_limit": 0.0,
+              "precision": 0
+            },
+            "scaler1_channels_chan02_gate": {
+              "source": "PV:gp:scaler1.G2",
+              "dtype": "string",
+              "shape": [],
+              "units": null,
+              "lower_ctrl_limit": null,
+              "upper_ctrl_limit": null,
+              "enum_strs": [
+                "N",
+                "Y"
+              ]
+            },
+            "scaler1_channels_chan02_override_signal_name": {
+              "source": "SIM:scaler1_channels_chan02_override_signal_name",
+              "dtype": "string",
+              "shape": []
+            },
+            "scaler1_channels_chan03_chname": {
+              "source": "PV:gp:scaler1.NM3",
+              "dtype": "string",
+              "shape": [],
+              "units": null,
+              "lower_ctrl_limit": null,
+              "upper_ctrl_limit": null
+            },
+            "scaler1_channels_chan03_preset": {
+              "source": "PV:gp:scaler1.PR3",
+              "dtype": "number",
+              "shape": [],
+              "units": "",
+              "lower_ctrl_limit": 0.0,
+              "upper_ctrl_limit": 0.0,
+              "precision": 0
+            },
+            "scaler1_channels_chan03_gate": {
+              "source": "PV:gp:scaler1.G3",
+              "dtype": "string",
+              "shape": [],
+              "units": null,
+              "lower_ctrl_limit": null,
+              "upper_ctrl_limit": null,
+              "enum_strs": [
+                "N",
+                "Y"
+              ]
+            },
+            "scaler1_channels_chan03_override_signal_name": {
+              "source": "SIM:scaler1_channels_chan03_override_signal_name",
+              "dtype": "string",
+              "shape": []
+            },
+            "scaler1_channels_chan04_chname": {
+              "source": "PV:gp:scaler1.NM4",
+              "dtype": "string",
+              "shape": [],
+              "units": null,
+              "lower_ctrl_limit": null,
+              "upper_ctrl_limit": null
+            },
+            "scaler1_channels_chan04_preset": {
+              "source": "PV:gp:scaler1.PR4",
+              "dtype": "number",
+              "shape": [],
+              "units": "",
+              "lower_ctrl_limit": 0.0,
+              "upper_ctrl_limit": 0.0,
+              "precision": 0
+            },
+            "scaler1_channels_chan04_gate": {
+              "source": "PV:gp:scaler1.G4",
+              "dtype": "string",
+              "shape": [],
+              "units": null,
+              "lower_ctrl_limit": null,
+              "upper_ctrl_limit": null,
+              "enum_strs": [
+                "N",
+                "Y"
+              ]
+            },
+            "scaler1_channels_chan04_override_signal_name": {
+              "source": "SIM:scaler1_channels_chan04_override_signal_name",
+              "dtype": "string",
+              "shape": []
+            },
+            "scaler1_channels_chan05_chname": {
+              "source": "PV:gp:scaler1.NM5",
+              "dtype": "string",
+              "shape": [],
+              "units": null,
+              "lower_ctrl_limit": null,
+              "upper_ctrl_limit": null
+            },
+            "scaler1_channels_chan05_preset": {
+              "source": "PV:gp:scaler1.PR5",
+              "dtype": "number",
+              "shape": [],
+              "units": "",
+              "lower_ctrl_limit": 0.0,
+              "upper_ctrl_limit": 0.0,
+              "precision": 0
+            },
+            "scaler1_channels_chan05_gate": {
+              "source": "PV:gp:scaler1.G5",
+              "dtype": "string",
+              "shape": [],
+              "units": null,
+              "lower_ctrl_limit": null,
+              "upper_ctrl_limit": null,
+              "enum_strs": [
+                "N",
+                "Y"
+              ]
+            },
+            "scaler1_channels_chan05_override_signal_name": {
+              "source": "SIM:scaler1_channels_chan05_override_signal_name",
+              "dtype": "string",
+              "shape": []
+            },
+            "scaler1_channels_chan06_chname": {
+              "source": "PV:gp:scaler1.NM6",
+              "dtype": "string",
+              "shape": [],
+              "units": null,
+              "lower_ctrl_limit": null,
+              "upper_ctrl_limit": null
+            },
+            "scaler1_channels_chan06_preset": {
+              "source": "PV:gp:scaler1.PR6",
+              "dtype": "number",
+              "shape": [],
+              "units": "",
+              "lower_ctrl_limit": 0.0,
+              "upper_ctrl_limit": 0.0,
+              "precision": 0
+            },
+            "scaler1_channels_chan06_gate": {
+              "source": "PV:gp:scaler1.G6",
+              "dtype": "string",
+              "shape": [],
+              "units": null,
+              "lower_ctrl_limit": null,
+              "upper_ctrl_limit": null,
+              "enum_strs": [
+                "N",
+                "Y"
+              ]
+            },
+            "scaler1_channels_chan06_override_signal_name": {
+              "source": "SIM:scaler1_channels_chan06_override_signal_name",
+              "dtype": "string",
+              "shape": []
+            },
+            "scaler1_count_mode": {
+              "source": "PV:gp:scaler1.CONT",
+              "dtype": "string",
+              "shape": [],
+              "units": null,
+              "lower_ctrl_limit": null,
+              "upper_ctrl_limit": null,
+              "enum_strs": [
+                "OneShot",
+                "AutoCount"
+              ]
+            },
+            "scaler1_delay": {
+              "source": "PV:gp:scaler1.DLY",
+              "dtype": "number",
+              "shape": [],
+              "units": "",
+              "lower_ctrl_limit": 0.0,
+              "upper_ctrl_limit": 0.0,
+              "precision": 3
+            },
+            "scaler1_auto_count_delay": {
+              "source": "PV:gp:scaler1.DLY1",
+              "dtype": "number",
+              "shape": [],
+              "units": "",
+              "lower_ctrl_limit": 0.0,
+              "upper_ctrl_limit": 0.0,
+              "precision": 3
+            },
+            "scaler1_freq": {
+              "source": "PV:gp:scaler1.FREQ",
+              "dtype": "number",
+              "shape": [],
+              "units": "",
+              "lower_ctrl_limit": 0.0,
+              "upper_ctrl_limit": 0.0,
+              "precision": 3
+            },
+            "scaler1_preset_time": {
+              "source": "PV:gp:scaler1.TP",
+              "dtype": "number",
+              "shape": [],
+              "units": "",
+              "lower_ctrl_limit": 0.0,
+              "upper_ctrl_limit": 0.0,
+              "precision": 3
+            },
+            "scaler1_auto_count_time": {
+              "source": "PV:gp:scaler1.TP1",
+              "dtype": "number",
+              "shape": [],
+              "units": "",
+              "lower_ctrl_limit": 0.0,
+              "upper_ctrl_limit": 0.0,
+              "precision": 3
+            },
+            "scaler1_egu": {
+              "source": "PV:gp:scaler1.EGU",
+              "dtype": "string",
+              "shape": [],
+              "units": null,
+              "lower_ctrl_limit": null,
+              "upper_ctrl_limit": null
+            }
+          }
+        }
+      },
+      "data_keys": {
+        "m1": {
+          "source": "PV:gp:m1.RBV",
+          "dtype": "number",
+          "shape": [],
+          "units": "degrees",
+          "lower_ctrl_limit": -1000.0,
+          "upper_ctrl_limit": 1000.0,
+          "precision": 4,
+          "object_name": "m1"
+        },
+        "m1_user_setpoint": {
+          "source": "PV:gp:m1.VAL",
+          "dtype": "number",
+          "shape": [],
+          "units": "degrees",
+          "lower_ctrl_limit": -1000.0,
+          "upper_ctrl_limit": 1000.0,
+          "precision": 4,
+          "object_name": "m1"
+        },
+        "clock": {
+          "source": "PV:gp:scaler1.S1",
+          "dtype": "number",
+          "shape": [],
+          "units": "",
+          "lower_ctrl_limit": 0.0,
+          "upper_ctrl_limit": 0.0,
+          "precision": 0,
+          "object_name": "scaler1"
+        },
+        "I0": {
+          "source": "PV:gp:scaler1.S2",
+          "dtype": "number",
+          "shape": [],
+          "units": "",
+          "lower_ctrl_limit": 0.0,
+          "upper_ctrl_limit": 0.0,
+          "precision": 0,
+          "object_name": "scaler1"
+        },
+        "scint": {
+          "source": "PV:gp:scaler1.S3",
+          "dtype": "number",
+          "shape": [],
+          "units": "",
+          "lower_ctrl_limit": 0.0,
+          "upper_ctrl_limit": 0.0,
+          "precision": 0,
+          "object_name": "scaler1"
+        },
+        "diode": {
+          "source": "PV:gp:scaler1.S4",
+          "dtype": "number",
+          "shape": [],
+          "units": "",
+          "lower_ctrl_limit": 0.0,
+          "upper_ctrl_limit": 0.0,
+          "precision": 0,
+          "object_name": "scaler1"
+        },
+        "I000": {
+          "source": "PV:gp:scaler1.S5",
+          "dtype": "number",
+          "shape": [],
+          "units": "",
+          "lower_ctrl_limit": 0.0,
+          "upper_ctrl_limit": 0.0,
+          "precision": 0,
+          "object_name": "scaler1"
+        },
+        "I00": {
+          "source": "PV:gp:scaler1.S6",
+          "dtype": "number",
+          "shape": [],
+          "units": "",
+          "lower_ctrl_limit": 0.0,
+          "upper_ctrl_limit": 0.0,
+          "precision": 0,
+          "object_name": "scaler1"
+        },
+        "scaler1_time": {
+          "source": "PV:gp:scaler1.T",
+          "dtype": "number",
+          "shape": [],
+          "units": "",
+          "lower_ctrl_limit": 0.0,
+          "upper_ctrl_limit": 0.0,
+          "precision": 3,
+          "object_name": "scaler1"
+        }
+      },
+      "name": "primary",
+      "object_keys": {
+        "m1": [
+          "m1",
+          "m1_user_setpoint"
+        ],
+        "scaler1": [
+          "clock",
+          "I0",
+          "scint",
+          "diode",
+          "I000",
+          "I00",
+          "scaler1_time"
+        ]
+      },
+      "run_start": "3ab777ae-53f8-4723-8727-e6aeb36d9916",
+      "time": 1748332668.6766973,
+      "uid": "081fe1b1-ef2a-4565-a868-5d5e207e79bc",
+      "hints": {
+        "m1": {
+          "fields": [
+            "m1"
+          ]
+        },
+        "scaler1": {
+          "fields": [
+            "clock",
+            "I0",
+            "scint",
+            "diode",
+            "I000",
+            "I00"
+          ]
+        }
+      }
+    }
+  ],
+  [
+    "event",
+    {
+      "descriptor": "081fe1b1-ef2a-4565-a868-5d5e207e79bc",
+      "uid": "ca91cf62-cc47-4c32-bd3f-b03fda7d5e95",
+      "time": 1748332668.689747,
+      "seq_num": 1,
+      "data": {
+        "clock": 11000000.0,
+        "I0": 2960.4305607908645,
+        "scint": 4.0,
+        "diode": 6.0,
+        "I000": 7.0,
+        "I00": 6.0,
+        "scaler1_time": 1.1,
+        "m1": -1.0,
+        "m1_user_setpoint": -1.0
+      },
+      "timestamps": {
+        "clock": 1748332668.67105,
+        "I0": 1748323179.297916,
+        "scint": 1748332668.67105,
+        "diode": 1748332668.67105,
+        "I000": 1748332668.67105,
+        "I00": 1748332668.67105,
+        "scaler1_time": 1748332615.869701,
+        "m1": 1748332667.425533,
+        "m1_user_setpoint": 1748332666.18616
+      },
+      "filled": {}
+    }
+  ],
+  [
+    "event",
+    {
+      "descriptor": "081fe1b1-ef2a-4565-a868-5d5e207e79bc",
+      "uid": "b3826397-334f-4a22-b705-961505e9d689",
+      "time": 1748332670.3889759,
+      "seq_num": 2,
+      "data": {
+        "clock": 11000000.0,
+        "I0": 5298.845614466653,
+        "scint": 7.0,
+        "diode": 5.0,
+        "I000": 4.0,
+        "I00": 5.0,
+        "scaler1_time": 1.1,
+        "m1": -0.8,
+        "m1_user_setpoint": -0.8
+      },
+      "timestamps": {
+        "clock": 1748332670.375067,
+        "I0": 1748323179.297916,
+        "scint": 1748332670.375067,
+        "diode": 1748332670.375067,
+        "I000": 1748332670.375067,
+        "I00": 1748332670.375067,
+        "scaler1_time": 1748332668.67105,
+        "m1": 1748332669.127999,
+        "m1_user_setpoint": 1748332668.707104
+      },
+      "filled": {}
+    }
+  ],
+  [
+    "event",
+    {
+      "descriptor": "081fe1b1-ef2a-4565-a868-5d5e207e79bc",
+      "uid": "0bdf10d5-2ba0-4397-aba7-d229ea6bdf6b",
+      "time": 1748332672.0844965,
+      "seq_num": 3,
+      "data": {
+        "clock": 11000000.0,
+        "I0": 10500.532811219127,
+        "scint": 5.0,
+        "diode": 6.0,
+        "I000": 4.0,
+        "I00": 4.0,
+        "scaler1_time": 1.1,
+        "m1": -0.6000000000000001,
+        "m1_user_setpoint": -0.6
+      },
+      "timestamps": {
+        "clock": 1748332672.071617,
+        "I0": 1748323179.297916,
+        "scint": 1748332672.071617,
+        "diode": 1748332672.071617,
+        "I000": 1748332672.071617,
+        "I00": 1748332672.071617,
+        "scaler1_time": 1748332670.375067,
+        "m1": 1748332670.830499,
+        "m1_user_setpoint": 1748332670.401573
+      },
+      "filled": {}
+    }
+  ],
+  [
+    "event",
+    {
+      "descriptor": "081fe1b1-ef2a-4565-a868-5d5e207e79bc",
+      "uid": "11ea978c-8edc-4c7f-af60-8147f9e33b29",
+      "time": 1748332673.7860043,
+      "seq_num": 4,
+      "data": {
+        "clock": 11000000.0,
+        "I0": 32116.243623550705,
+        "scint": 5.0,
+        "diode": 6.0,
+        "I000": 4.0,
+        "I00": 6.0,
+        "scaler1_time": 1.1,
+        "m1": -0.4,
+        "m1_user_setpoint": -0.3999999999999999
+      },
+      "timestamps": {
+        "clock": 1748332673.77847,
+        "I0": 1748323179.297916,
+        "scint": 1748332673.77847,
+        "diode": 1748332673.77847,
+        "I000": 1748332673.77847,
+        "I00": 1748332673.77847,
+        "scaler1_time": 1748332672.071617,
+        "m1": 1748332672.533018,
+        "m1_user_setpoint": 1748332672.104277
+      },
+      "filled": {}
+    }
+  ],
+  [
+    "event",
+    {
+      "descriptor": "081fe1b1-ef2a-4565-a868-5d5e207e79bc",
+      "uid": "2f0b3f8f-8ceb-43c8-9ba3-7c75d53a8df4",
+      "time": 1748332675.4953432,
+      "seq_num": 5,
+      "data": {
+        "clock": 11000000.0,
+        "I0": 99097.74538734264,
+        "scint": 4.0,
+        "diode": 5.0,
+        "I000": 5.0,
+        "I00": 5.0,
+        "scaler1_time": 1.1,
+        "m1": -0.2,
+        "m1_user_setpoint": -0.19999999999999996
+      },
+      "timestamps": {
+        "clock": 1748332675.482689,
+        "I0": 1748323179.297916,
+        "scint": 1748332675.482689,
+        "diode": 1748332675.482689,
+        "I000": 1748332675.482689,
+        "I00": 1748332675.482689,
+        "scaler1_time": 1748332673.77847,
+        "m1": 1748332674.235959,
+        "m1_user_setpoint": 1748332673.789981
+      },
+      "filled": {}
+    }
+  ],
+  [
+    "event",
+    {
+      "descriptor": "081fe1b1-ef2a-4565-a868-5d5e207e79bc",
+      "uid": "c9b47ab9-6bc7-41a7-9234-f18216025263",
+      "time": 1748332677.1834366,
+      "seq_num": 6,
+      "data": {
+        "clock": 11000000.0,
+        "I0": 35224.99067799436,
+        "scint": 6.0,
+        "diode": 4.0,
+        "I000": 4.0,
+        "I00": 5.0,
+        "scaler1_time": 1.1,
+        "m1": 0.0,
+        "m1_user_setpoint": 0.0
+      },
+      "timestamps": {
+        "clock": 1748332677.179666,
+        "I0": 1748323179.297916,
+        "scint": 1748332677.179666,
+        "diode": 1748332677.179666,
+        "I000": 1748332677.179666,
+        "I00": 1748332677.179666,
+        "scaler1_time": 1748332675.482689,
+        "m1": 1748332675.938831,
+        "m1_user_setpoint": 1748332675.503928
+      },
+      "filled": {}
+    }
+  ],
+  [
+    "event",
+    {
+      "descriptor": "081fe1b1-ef2a-4565-a868-5d5e207e79bc",
+      "uid": "0987dd44-cfe1-48e4-8e61-8077f6829eec",
+      "time": 1748332678.8050272,
+      "seq_num": 7,
+      "data": {
+        "clock": 10000000.0,
+        "I0": 11531.13213471953,
+        "scint": 6.0,
+        "diode": 4.0,
+        "I000": 3.0,
+        "I00": 5.0,
+        "scaler1_time": 1.0,
+        "m1": 0.2,
+        "m1_user_setpoint": 0.20000000000000018
+      },
+      "timestamps": {
+        "clock": 1748332678.791841,
+        "I0": 1748323179.297916,
+        "scint": 1748332678.791841,
+        "diode": 1748332678.791841,
+        "I000": 1748332678.791841,
+        "I00": 1748332678.791841,
+        "scaler1_time": 1748332677.179666,
+        "m1": 1748332677.641128,
+        "m1_user_setpoint": 1748332677.185363
+      },
+      "filled": {}
+    }
+  ],
+  [
+    "event",
+    {
+      "descriptor": "081fe1b1-ef2a-4565-a868-5d5e207e79bc",
+      "uid": "56690874-cb19-4f24-9a75-7096f83f7053",
+      "time": 1748332680.3958154,
+      "seq_num": 8,
+      "data": {
+        "clock": 10000000.0,
+        "I0": 5613.713158828332,
+        "scint": 4.0,
+        "diode": 5.0,
+        "I000": 3.0,
+        "I00": 3.0,
+        "scaler1_time": 1.0,
+        "m1": 0.4,
+        "m1_user_setpoint": 0.40000000000000013
+      },
+      "timestamps": {
+        "clock": 1748332680.391133,
+        "I0": 1748323179.297916,
+        "scint": 1748332680.391133,
+        "diode": 1748332680.391133,
+        "I000": 1748332680.391133,
+        "I00": 1748332680.391133,
+        "scaler1_time": 1748332678.791841,
+        "m1": 1748332679.243518,
+        "m1_user_setpoint": 1748332678.829395
+      },
+      "filled": {}
+    }
+  ],
+  [
+    "event",
+    {
+      "descriptor": "081fe1b1-ef2a-4565-a868-5d5e207e79bc",
+      "uid": "2a475bd3-4fb2-4180-a176-2542c7b9c0d9",
+      "time": 1748332682.0091648,
+      "seq_num": 9,
+      "data": {
+        "clock": 10000000.0,
+        "I0": 3215.9930431589805,
+        "scint": 4.0,
+        "diode": 4.0,
+        "I000": 5.0,
+        "I00": 6.0,
+        "scaler1_time": 1.0,
+        "m1": 0.6000000000000001,
+        "m1_user_setpoint": 0.6000000000000001
+      },
+      "timestamps": {
+        "clock": 1748332681.994281,
+        "I0": 1748323179.297916,
+        "scint": 1748332681.994281,
+        "diode": 1748332681.994281,
+        "I000": 1748332681.994281,
+        "I00": 1748332681.994281,
+        "scaler1_time": 1748332680.391133,
+        "m1": 1748332680.845924,
+        "m1_user_setpoint": 1748332680.398522
+      },
+      "filled": {}
+    }
+  ],
+  [
+    "event",
+    {
+      "descriptor": "081fe1b1-ef2a-4565-a868-5d5e207e79bc",
+      "uid": "bd08577e-5e65-46f8-a1e8-dd7009df7468",
+      "time": 1748332683.6072884,
+      "seq_num": 10,
+      "data": {
+        "clock": 10000000.0,
+        "I0": 2025.7660971385078,
+        "scint": 3.0,
+        "diode": 6.0,
+        "I000": 5.0,
+        "I00": 5.0,
+        "scaler1_time": 1.0,
+        "m1": 0.8,
+        "m1_user_setpoint": 0.8
+      },
+      "timestamps": {
+        "clock": 1748332683.594398,
+        "I0": 1748323179.297916,
+        "scint": 1748332683.594398,
+        "diode": 1748332683.594398,
+        "I000": 1748332683.594398,
+        "I00": 1748332683.594398,
+        "scaler1_time": 1748332681.994281,
+        "m1": 1748332682.448359,
+        "m1_user_setpoint": 1748332682.016895
+      },
+      "filled": {}
+    }
+  ],
+  [
+    "event",
+    {
+      "descriptor": "081fe1b1-ef2a-4565-a868-5d5e207e79bc",
+      "uid": "e1f23daa-1a44-4ce2-a1a5-099a15f13844",
+      "time": 1748332685.2058778,
+      "seq_num": 11,
+      "data": {
+        "clock": 11000000.0,
+        "I0": 1379.6576350426749,
+        "scint": 4.0,
+        "diode": 5.0,
+        "I000": 6.0,
+        "I00": 6.0,
+        "scaler1_time": 1.1,
+        "m1": 1.0,
+        "m1_user_setpoint": 1.0
+      },
+      "timestamps": {
+        "clock": 1748332685.202191,
+        "I0": 1748323179.297916,
+        "scint": 1748332685.202191,
+        "diode": 1748332685.202191,
+        "I000": 1748332685.202191,
+        "I00": 1748332685.202191,
+        "scaler1_time": 1748332683.594398,
+        "m1": 1748332684.050668,
+        "m1_user_setpoint": 1748332683.619589
+      },
+      "filled": {}
+    }
+  ],
+  [
+    "stop",
+    {
+      "uid": "ffd16cbf-b50d-49d4-bdfd-60f5007d54aa",
+      "time": 1748332685.207382,
+      "run_start": "3ab777ae-53f8-4723-8727-e6aeb36d9916",
+      "exit_status": "success",
+      "reason": "",
+      "num_events": {
+        "primary": 11
+      }
+    }
+  ]
+]

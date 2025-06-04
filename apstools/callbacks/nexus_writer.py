@@ -121,14 +121,30 @@ class NXWriter(FileWriterCallbackBase):
     Update in release 1.6.11 to wait for area detector HDF5 files.
     """
 
-    warn_on_missing_content = True
-    file_extension = NEXUS_FILE_EXTENSION
-    instrument_name = None  # name of this instrument
-    # NeXus release to which this file is written
-    nexus_release = NEXUS_RELEASE
-    nxdata_signal = None  # name of dataset for Y axis on plot
-    nxdata_signal_axes = None  # name of dataset for X axis on plot
-    root = None  # instance of h5py.File
+    warn_on_missing_content: bool = True
+    """
+    Warn when expected NeXus content is missing.
+
+    Set False (default: True) to ignore warnings.
+    """
+
+    file_extension: str = NEXUS_FILE_EXTENSION
+    """File extension to be used.  Default: 'hdf'."""
+
+    instrument_name: str = None
+    """Name of this instrument."""
+
+    nexus_release: str = NEXUS_RELEASE
+    """NeXus release to which this data file is written."""
+
+    nxdata_signal: str = None
+    """Caller can declare name of dataset for Y axis on plot."""
+
+    nxdata_signal_axes: list[str] = None
+    """Caller can declare names of datasets for X axes on plot."""
+
+    root = None
+    """Instance of h5py.File."""
 
     template_key = "nxwriter_template"
     """The template (dict) is written as a JSON string to this metadata key."""
@@ -174,9 +190,9 @@ class NXWriter(FileWriterCallbackBase):
         for k, v in primary.items():
             # logger.debug(v.name)
             # logger.debug(v.keys())
-            if k in self.detectors:
+            if k in self.data_map.get("detectors", []):
                 signal_type = "detector"
-            elif k in self.positioners:
+            elif k in self.data_map.get("motors", []):
                 signal_type = "positioner"
             else:
                 if v["value"].attrs.get("source", "").find(".S") > 0:
@@ -349,14 +365,15 @@ class NXWriter(FileWriterCallbackBase):
 
         signal_attribute = self.nxdata_signal
         if signal_attribute is None:
-            if len(self.detectors) > 0:
-                # arbitrary but consistent choice
-                signal_attribute = self.detectors[0]
+            detectors = self.data_map.get("detectors", [])
+            if len(detectors) > 0:
+                signal_attribute = detectors[0]  # default choice
         axes_attribute = self.nxdata_signal_axes
         if axes_attribute is None:
-            if len(self.positioners) > 0:
+            positioners = self.data_map.get("motors", [])
+            if len(positioners) > 0:
                 # TODO: what if wrong shape here?
-                axes_attribute = self.positioners
+                axes_attribute = positioners
 
         # TODO: rabbit-hole alert!  simplify
         # this code is convoluted (like the selection logic)

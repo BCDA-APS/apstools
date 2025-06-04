@@ -7,7 +7,6 @@ Base Class for File Writer Callbacks
    ~FileWriterCallbackBase
 """
 
-
 import datetime
 import logging
 import pathlib
@@ -102,14 +101,15 @@ class FileWriterCallbackBase:
         delete any saved data from the cache and reinitialize
         """
         self.acquisitions = {}
-        self.detectors = []
+        self.data_map: dict[str, list[str]] = {}
+        self.detectors: list[str] = []
         self.diffractometers = {}
         self.exit_status = None
         self.externals = {}
         self.doc_timestamp = None
         self.metadata = {}
         self.plan_name = None
-        self.positioners = []
+        self.positioners: list[str] = []
         self.scanning = False
         self.scan_id = None
         self.streams = {}
@@ -262,6 +262,8 @@ class FileWriterCallbackBase:
         """
         description of the data stream to be acquired
         """
+        from ..utils.descriptor_support import get_stream_data_map
+
         if not self.scanning:
             return
         stream = doc["name"]
@@ -270,6 +272,13 @@ class FileWriterCallbackBase:
         if stream not in self.streams:
             self.streams[stream] = []
         self.streams[stream].append(uid)
+
+        if stream == "primary":
+            self.data_map = get_stream_data_map(
+                self.detectors,
+                self.positioners,
+                doc,
+            )
 
         if uid not in self.acquisitions:
             self.acquisitions[uid] = dict(stream=stream, data={})
@@ -289,7 +298,7 @@ class FileWriterCallbackBase:
             dd["time"] = []  # entry time stamps here
             dd["external"] = entry.get("external") is not None
             # logger.debug("dd %s: %s", k, data[k])
-        
+
         # Gather any available diffractometer configurations.
         self.diffractometers.update(self.get_hklpy_configurations(doc))
 
@@ -329,13 +338,13 @@ class FileWriterCallbackBase:
         beginning of a run, clear cache and collect metadata
         """
         self.clear()
-        self.plan_name = doc["plan_name"]
+        self.plan_name = doc.get("plan_name", "")
         self.scanning = True
-        self.scan_id = doc["scan_id"] or 0
+        self.scan_id = doc.get("scan_id") or 0
         self.start_time = doc["time"]
         self.uid = doc["uid"]
         self.detectors = doc.get("detectors", [])
-        self.positioners = doc.get("positioners") or doc.get("motors") or []
+        self.positioners = doc.get("positioners") or doc.get("motors", [])
 
         # gather the metadata
         for k, v in doc.items():
