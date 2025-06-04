@@ -725,8 +725,6 @@ class SpecWriterCallback2(FileWriterCallbackBase):
     .. rubric: Properties
     .. autosummary::
         ~spec_filename
-
-    *New in apstools 1.7.0.*
     """
 
     # - - - - # - - - - # - - - - # - - - - # - - - - # - - - - # - - - - #
