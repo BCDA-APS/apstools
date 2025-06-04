@@ -463,7 +463,6 @@ def lineup2(
         If ``success=False``, this is a list of the reasons why ``lineup2()``
         did not identify a peak.
     """
-    from .. import utils
     from ..callbacks import SignalStatsCallback
 
     if not isinstance(detectors, (tuple, list)):

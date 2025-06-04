@@ -65,10 +65,10 @@ class DocumentCollectorCallback(object):
             self.documents[key].append(document)
         elif key == "stop":
             self.documents[key] = document
-            print("exit status:", document["exit_status"])
+            logger.debug("exit status: %s", document["exit_status"])
             for item in self.data_event_names:
                 if item in self.documents:
-                    print(f"# {len(self.documents[item])}(s):")
+                    logger.debug("#documents=%d:", len(self.documents[item]))
         else:
             txt = "custom_callback encountered: %s\n%s"
             logger.warning(txt, key, document)

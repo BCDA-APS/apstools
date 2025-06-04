@@ -742,6 +742,8 @@ class SpecWriterCallback2(FileWriterCallbackBase):
         """
         Handle *descriptor* documents of certain streams.
         """
+        from ..utils.descriptor_support import get_stream_data_map
+
         if doc["uid"] in self._streams:
             fmt = "duplicate descriptor UID {} found"
             raise KeyError(fmt.format(doc["uid"]))
@@ -752,7 +754,7 @@ class SpecWriterCallback2(FileWriterCallbackBase):
 
         if doc["name"] == self._motor_stream_name:
             # list of all known positioners (motors), #O:#P lines
-            mlist = sorted(doc["object_keys"].keys())
+            mlist = sorted(doc["configuration"])
             if self._file_header_motor_keys != mlist:
                 self.write_new_file_header = True
             self.motors = {k: None for k in mlist}
@@ -763,47 +765,16 @@ class SpecWriterCallback2(FileWriterCallbackBase):
 
         super().descriptor(doc)  # process the document
 
-        data_keys: dict = doc["data_keys"]
-        hints: dict = doc["hints"]
-        object_keys: dict = doc["object_keys"]
-        labels_d: list = []  # detectors
-        labels_p: list = []  # positioners
-        labels_s: list = []  # signals
-        labels_o: list = "Epoch Epoch_float".split()  # other
-
-        # Get the data labels for SPEC's "#L " control line.
-        for o_key in hints:
-            hinted_fields: list = hints[o_key].get("fields", [])
-            object_fields: list | None = object_keys.get(o_key)
-            if object_fields is None:
-                raise ValueError(
-                    # .
-                    f"Hinted key={o_key!r} not in descriptor 'object_keys'."
-                )
-            for field in object_fields:
-                if field in data_keys:  # No data if not in data_keys
-                    if field in hinted_fields:
-                        if o_key in self.detectors:
-                            labels_d.append(field)
-                        elif o_key in self.positioners:
-                            labels_p.append(field)
-                        else:
-                            labels_s.append(field)
-                    else:
-                        labels_o.append(field)
-                else:
-                    raise KeyError(
-                        # .
-                        f"Hinted key {o_key!r}: {field=!r} not in {data_keys=}"
-                    )
-
-        if len(labels_d) > 1:
+        detectors = self.data_map.get("detectors", [])
+        motors =  self.data_map.get("motors", [])
+        others = self.data_map.get("unassigned", [])
+        if len(detectors) > 1:
             # First detector assumed to be the most important one.
             # Move first "detector" to last column per SPEC convention.
-            labels_d.append(labels_d.pop(0))
+            detectors.append(detectors.pop(0))
 
         # Per SPEC convention, write the labels in this order:
-        self.data_labels = labels_p + labels_s + labels_o + labels_d
+        self.data_labels = motors + "Epoch Epoch_float".split() + others + detectors
         self.write_new_scan_header = True
 
     def event(self, doc):

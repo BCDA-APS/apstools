@@ -82,10 +82,12 @@ def peak_full_width(x, y, positive=True) -> float:
             logger.debug(f"{i_lo=} {i_hi=} {len(y)=}")
 
     def interpolate_2_point(value, lo, hi):
-        """Could fail if y2 == y1: ZeroDivisionError."""
+        """Linear interpolation."""
         lo, hi = sorted([lo, hi])  # take no chances
         x1, x2 = x[lo], x[hi]
         y1, y2 = y[lo], y[hi]
+        if y2 == y1:
+            return value  # cannot interpolate
         return (value - y1) * (x2 - x1) / (y2 - y1) + x1
 
     x_hi = interpolate_2_point(goal, i_hi - 1, i_hi)
