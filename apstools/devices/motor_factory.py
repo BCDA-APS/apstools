@@ -32,8 +32,6 @@ Factory for creating bundles with any number of positioners.
 
    * :doc:`Quick Start </examples/ho_motor_factory_quickstart>`
    * :doc:`How to use 'mb_creator()' </examples/ho_motor_factory>`
-
-*new in apstools release 1.7.4*
 """
 
 from collections.abc import Mapping
@@ -45,6 +43,7 @@ from typing import Optional
 from typing import Type
 from typing import Union
 
+from deprecated.sphinx import versionadded
 from ophyd import Component
 from ophyd import Device
 from ophyd import EpicsMotor
@@ -115,6 +114,7 @@ def axis_component(
     return Component(*args, **attrs)
 
 
+@versionadded(version="1.7.4")
 def mb_class_factory(
     motors: Union[MOTORS_TYPE, None] = None,
     class_bases: Sequence[Union[str, Type]] = DEFAULT_DEVICE_BASE_CLASSES,
@@ -166,6 +166,7 @@ def mb_class_factory(
     return type(class_name, tuple(bases), factory_class_attributes)
 
 
+@versionadded(version="1.7.4")
 def mb_creator(
     *,
     prefix: str = "",
@@ -180,23 +181,23 @@ def mb_creator(
 
     PARAMETERS
 
-        prefix:
-            The prefix for the device.
+    prefix str:
+        The prefix for the device.
 
-        name:
-            The name of the device (required).
+    name str:
+        The name of the device (required).
 
-        motors:
-            List or dictionary of motor specifications to include in the bundle.
+    motors list | dict:
+        List or dictionary of motor specifications to include in the bundle.
 
-        class_bases:
-            List of base classes for the bundle.
+    class_bases:
+        List of base classes for the bundle.
 
-        class_name:
-            Name of the generated class.
+    class_name str:
+        Name of the generated class.
 
-        labels:
-            List of labels for the device.
+    labels list:
+        List of labels for the device.
 
     RETURNS
 

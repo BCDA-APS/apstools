@@ -45,6 +45,7 @@ import ophyd
 import pyRestTable
 from bluesky import plan_stubs as bps
 from bluesky.callbacks.best_effort import BestEffortCallback
+from deprecated.sphinx import versionadded
 from ophyd.ophydobj import OphydObject
 
 from ..callbacks import spec_file_writer
@@ -337,6 +338,7 @@ def render(value, sig_figs=12) -> str:
     return str(value)
 
 
+@versionadded(version="1.1.11")
 def replay(headers, callback=None, sort=True):
     """
     Replay the document stream from one (or more) scans (headers).
@@ -361,8 +363,6 @@ def replay(headers, callback=None, sort=True):
         *bool* :
         Sort the headers chronologically if True.
         (default:``True``)
-
-    (new in apstools release 1.1.11)
     """
     from databroker import Header
 
@@ -570,6 +570,7 @@ def unix(command, raises=True):
     return stdout, stderr
 
 
+@versionadded(version="1.1.8")
 def listobjects(
     show_pv=True,
     printing=None,  # DEPRECATED
@@ -642,8 +643,6 @@ def listobjects(
         Out[1]: <pyRestTable.rest_table.Table at 0x7fa4398c7cf8>
 
         In [2]:
-
-    (new in apstools release 1.1.8)
     """
     if symbols is None:
         g = ipython_shell_namespace()  # the default choice

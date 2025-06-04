@@ -48,10 +48,9 @@ Public Structures
     ~Optics2Slit2D_InbOutBotTop
 
 :see: https://github.com/epics-modules/optics
-
-new in release 1.6.0
 """
 
+from deprecated.sphinx import versionadded
 from ophyd import Component
 from ophyd import Device
 from ophyd import EpicsSignal
@@ -60,6 +59,7 @@ from ..devices import PVPositionerSoftDone
 from ..utils import SlitGeometry
 
 
+@versionadded(version="1.6.0")
 class Optics2Slit1D(Device):
     """
     EPICS synApps optics 2slit.db 1D support: xn, xp, size, center, sync
@@ -76,6 +76,7 @@ class Optics2Slit1D(Device):
     sync = Component(EpicsSignal, "sync", put_complete=True, kind="omitted")
 
 
+@versionadded(version="1.6.0")
 class Optics2Slit2D_HV(Device):
     """
     EPICS synApps optics 2slit.db 2D support: h.xn, h.xp, v.xn, v.xp
@@ -104,6 +105,7 @@ class Optics2Slit2D_HV(Device):
         self.v.center.move(y)
 
 
+@versionadded(version="1.6.0")
 class Optics2Slit2D_InbOutBotTop(Device):
     """
     EPICS synApps optics 2slit.db 2D support: inb, out, bot, top

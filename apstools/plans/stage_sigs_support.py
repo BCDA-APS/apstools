@@ -27,17 +27,17 @@ their original ``.stage_sigs`` dictionaries.
         yield from bp.rel_scan([scaler], motor, start, finish, npts)
 
     RE(my_plan(-1, 1, 11, ct=0.5, v=2))
-
-(new in apstools release 1.6.9)
 """
 
 import logging
 
 from bluesky.utils import make_decorator
+from deprecated.sphinx import versionadded
 
 logger = logging.getLogger(__name__)
 
 
+@versionadded(version="1.6.9")
 def stage_sigs_wrapper(user_plan, devices):
     """
     Save stage_sigs from each device and restore after the user_plan.

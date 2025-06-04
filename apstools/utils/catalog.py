@@ -18,6 +18,7 @@ import logging
 
 import pandas as pd
 import pyRestTable
+from deprecated.sphinx import versionadded
 
 from .list_runs import getRunData
 from .profile_support import getDefaultNamespace
@@ -94,6 +95,7 @@ def getCatalog(ref=None):
     return cat
 
 
+@versionadded(version="1.4.0")
 def getDatabase(db=None, catalog_name=None):
     """
     Return Bluesky database using keyword guides or default choice.
@@ -115,8 +117,6 @@ def getDatabase(db=None, catalog_name=None):
 
     object or ``None``:
         Bluesky database, an instance of ``databroker.catalog``
-
-    (new in release 1.4.0)
     """
     from databroker import catalog
 
@@ -169,6 +169,7 @@ def getDefaultCatalog():
     raise ValueError("No catalogs available.")
 
 
+@versionadded(version="1.4.0")
 def getDefaultDatabase():
     """
     Find the "default" database (has the most recent run).
@@ -191,8 +192,6 @@ def getDefaultDatabase():
 
     object or ``None``:
         Bluesky database, an instance of ``databroker.catalog``
-
-    (new in release 1.4.0)
     """
     from databroker import Broker
     from databroker import catalog as db_catalog
@@ -240,6 +239,7 @@ def getDefaultDatabase():
     return sorted(choices)[-1]
 
 
+@versionadded(version="1.5.1")
 def getStreamValues(scan_id, key_fragment="", db=None, stream="baseline", query=None, use_v1=True):
     """
     Get values from a previous scan stream in a databroker catalog.
@@ -296,8 +296,6 @@ def getStreamValues(scan_id, key_fragment="", db=None, stream="baseline", query=
         pandas DataFrame with values from selected stream, search_string, and query
 
         see: https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.html
-
-    (new in apstools 1.5.1)
     """
     if key_fragment is None:
         key_fragment = ""

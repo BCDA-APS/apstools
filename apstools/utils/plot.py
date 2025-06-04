@@ -15,9 +15,12 @@ import datetime
 import logging
 import math
 
+from deprecated.sphinx import versionadded
+
 logger = logging.getLogger(__name__)
 
 
+@versionadded(version="1.6.10")
 def plotxy(runs, xname, yname, append=False, cat=None, stats=True, stream="primary", title=None):
     """
     Plot y vs x from a bluesky run.
@@ -58,8 +61,6 @@ def plotxy(runs, xname, yname, append=False, cat=None, stats=True, stream="prima
     Returns a *dict* of statistics for each run indexed by ``scan_id``,
     if ``stats=True``, else ``None``.  A computed ``fwhm`` key is added
     to the statistics.
-
-    New in release 1.6.10.
     """
     import matplotlib.pyplot as plt
 
@@ -192,6 +193,7 @@ def select_live_plot(bec, signal):
             return live_plot
 
 
+@versionadded(version="1.3.5")
 def trim_plot_lines(bec, n, x, y):
     """
     Find the plot with axes x and y and replot with at most the last *n* lines.
@@ -222,8 +224,6 @@ def trim_plot_lines(bec, n, x, y):
         *object* :
         instance of ophyd.Signal (or subclass),
         dependent (y) axis
-
-    (new in release 1.3.5)
     """
     liveplot = select_live_plot(bec, y)
     if liveplot is None:
@@ -255,6 +255,7 @@ def trim_plot_lines(bec, n, x, y):
     logger.debug("trim complete")
 
 
+@versionadded(version="1.3.5")
 def trim_plot_by_name(n=3, plots=None):
     """
     Find the plot(s) by name and replot with at most the last *n* lines.
@@ -303,8 +304,6 @@ def trim_plot_by_name(n=3, plots=None):
 
         # repeat the_scans 15 times
         uids = RE(bps.repeat(scan_set, 15))
-
-    (new in release 1.3.5)
     """
     import matplotlib.pyplot as plt
 

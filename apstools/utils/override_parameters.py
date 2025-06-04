@@ -54,10 +54,11 @@ which returns this table::
    ~OverrideParameters
 """
 
-
 import pandas as pd
+from deprecated.sphinx import versionadded
 
 
+@versionadded(version="1.5.2")
 class OverrideParameters:
     """
     Define parameters that can be overridden from a user configuration file.
@@ -72,8 +73,6 @@ class OverrideParameters:
        ~reset_all
        ~set
        ~summary
-
-    (new in apstools 1.5.2)
     """
 
     def __init__(self):

@@ -13,8 +13,6 @@ Underlying support: https://github.com/epics-modules/measComp
 The EPICS support provides for an optional scaler, compatible
 with the EPICS scaler record.
 
-*new in apstools release 1.6.18*
-
 .. rubric:: Public class(es)
 .. autosummary::
 
@@ -35,9 +33,15 @@ logger = logging.getLogger(__name__)
 
 logger.info(__file__)
 
-from ophyd import Component, Device, EpicsSignal, EpicsSignalRO, EpicsSignalWithRBV
+from deprecated.sphinx import versionadded
+from ophyd import Component
+from ophyd import Device
+from ophyd import EpicsSignal
+from ophyd import EpicsSignalRO
+from ophyd import EpicsSignalWithRBV
 
 
+@versionadded(version="1.6.18")
 class MeasCompCtrMcs(Device):
     """Measurement Computing USB CTR08 Multi-Channel Scaler Controls."""
 
@@ -90,6 +94,7 @@ class MeasCompCtrMcs(Device):
     mca8 = Component(EpicsSignalRO, "mca8", labels=["MCA"])
 
 
+@versionadded(version="1.6.18")
 class MeasCompCtrDeviceCounterChannel(Device):
     """Measurement Computing USB CTR08 Pulse Counter channel."""
 
@@ -97,6 +102,7 @@ class MeasCompCtrDeviceCounterChannel(Device):
     reset = Component(EpicsSignal, "Reset", kind="omitted")
 
 
+@versionadded(version="1.6.18")
 class MeasCompCtrDevicePulseGenChannel(Device):
     """Measurement Computing USB CTR08 Pulse Generator channel."""
 
@@ -114,6 +120,7 @@ class MeasCompCtrDevicePulseGenChannel(Device):
     width = Component(EpicsSignalWithRBV, "Width")
 
 
+@versionadded(version="1.6.18")
 class MeasCompCtr(Device):
     """Measurement Computing USB CTR08 high-speed counter/timer."""
 

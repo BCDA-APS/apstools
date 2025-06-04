@@ -5,8 +5,6 @@ read SPEC config file and convert to ophyd setup commands
 
 output of ophyd configuration to stdout
 
-*new in apstools release 1.1.7*
-
 **USAGE**
 
 .. code-block:: bash
@@ -32,9 +30,12 @@ output of ophyd configuration to stdout
 import re
 from collections import OrderedDict
 
+from deprecated.sphinx import versionadded
+
 KNOWN_DEVICES = "PSE_MAC_MOT VM_EPICS_M1 VM_EPICS_PV VM_EPICS_SC".split()
 
 
+@versionadded(version="1.1.7")
 class Spec2ophydBase(object):
     str_keys = []
     mne = ""
@@ -64,6 +65,7 @@ class Spec2ophydBase(object):
         return f"{self.__class__.__name__}({', '.join(items)})"
 
 
+@versionadded(version="1.1.7")
 class SpecDevice(Spec2ophydBase):
     """
     SPEC configuration of a device, e.g. multi-channel motor controller
@@ -86,6 +88,7 @@ class SpecDevice(Spec2ophydBase):
         self.str_keys = "config_line name index, prefix num_channels".split()
 
 
+@versionadded(version="1.1.7")
 class ItemNameBase(Spec2ophydBase):
     ignore = False
     str_keys = "mne config_line name"
@@ -98,6 +101,7 @@ class ItemNameBase(Spec2ophydBase):
         return f"{self.mne} = {self} # FIXME: not valid ophyd"
 
 
+@versionadded(version="1.1.7")
 class SpecSignal(ItemNameBase):
     """
     SPEC configuration of a single EPICS PV
@@ -158,6 +162,7 @@ class SpecSignal(ItemNameBase):
         return s
 
 
+@versionadded(version="1.1.7")
 class SpecMotor(ItemNameBase):
     """
     SPEC configuration of a motor channel
@@ -244,6 +249,7 @@ class SpecMotor(ItemNameBase):
         return s
 
 
+@versionadded(version="1.1.7")
 class SpecCounter(ItemNameBase):
     """
     SPEC configuration of a counter channel
@@ -329,6 +335,7 @@ class SpecCounter(ItemNameBase):
         return s
 
 
+@versionadded(version="1.1.7")
 class SpecConfig(object):
     """
     SPEC configuration
@@ -419,6 +426,7 @@ class SpecConfig(object):
                     self.unhandled.append(line)
 
 
+@versionadded(version="1.1.7")
 def create_ophyd_setup(spec_config):
     print('"""')
     print("ophyd commands from SPEC config file")
@@ -444,6 +452,7 @@ def create_ophyd_setup(spec_config):
             print(device)
 
 
+@versionadded(version="1.1.7")
 def get_apstools_version():
     """Get the version string from the parent package."""
     from .. import __version__
@@ -451,6 +460,7 @@ def get_apstools_version():
     return __version__
 
 
+@versionadded(version="1.1.7")
 def get_options():
     """Handle command line arguments."""
     import argparse

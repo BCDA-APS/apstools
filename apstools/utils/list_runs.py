@@ -19,7 +19,10 @@ import time
 import typing
 import warnings
 from collections import defaultdict
+
 from deprecated import deprecated
+from deprecated.sphinx import versionadded
+from deprecated.sphinx import versionchanged
 
 from ._core import FIRST_DATA
 from ._core import LAST_DATA
@@ -29,6 +32,7 @@ from .query import db_query
 logger = logging.getLogger(__name__)
 
 
+@versionadded(version="1.5.1")
 def getRunData(scan_id, db=None, stream="primary", query=None, use_v1=True):
     """
     Convenience function to get the run's data.  Default is the ``primary`` stream.
@@ -64,8 +68,6 @@ def getRunData(scan_id, db=None, stream="primary", query=None, use_v1=True):
         *bool* :
         Chooses databroker API version between 'v1' or 'v2'.
         Default: ``True`` (meaning use the v1 API)
-
-    (new in apstools 1.5.1)
     """
     from . import getCatalog
 
@@ -87,6 +89,7 @@ def getRunData(scan_id, db=None, stream="primary", query=None, use_v1=True):
     raise AttributeError(f"No such stream '{stream}' in run '{scan_id}'.")
 
 
+@versionadded(version="1.5.1")
 def getRunDataValue(scan_id, key, db=None, stream="primary", query=None, idx=-1, use_v1=True):
     """
     Convenience function to get value of key in run stream.
@@ -136,8 +139,6 @@ def getRunDataValue(scan_id, key, db=None, stream="primary", query=None, idx=-1,
         *bool* :
         Chooses databroker API version between 'v1' or 'v2'.
         Default: ``True`` (meaning use the v1 API)
-
-    (new in apstools 1.5.1)
     """
     if idx is None:
         idx = -1
@@ -166,6 +167,7 @@ def getRunDataValue(scan_id, key, db=None, stream="primary", query=None, idx=-1,
     raise KeyError(f"Cannot reference idx={idx} in scan {scan_id} stream'{stream}' key={key}.")
 
 
+@versionadded(version="1.5.1")
 def listRunKeys(
     scan_id,
     key_fragment="",
@@ -221,8 +223,6 @@ def listRunKeys(
         *bool* :
         Chooses databroker API version between 'v1' or 'v2'.
         Default: ``True`` (meaning use the v1 API)
-
-    (new in apstools 1.5.1)
     """
     table = getRunData(scan_id, db=db, stream=stream, query=query, use_v1=use_v1)
 
@@ -428,6 +428,7 @@ class ListRuns:
         return TableStyle.pyRestTable.value(dd=dd).reST(fmt=fmt or "simple")
 
 
+@versionadded(version="1.5.0")
 def listruns(
     cat=None,
     keys=None,
@@ -526,11 +527,9 @@ def listruns(
     object:
         ``None`` or ``str`` or ``pd.DataFrame()`` object
 
-    EXAMPLE::
+    .. EXAMPLE
 
         TODO
-
-    (new in release 1.5.0)
     """
 
     lr = ListRuns(
@@ -590,6 +589,7 @@ def summarize_runs(since=None, db=None):
         (default: ``db`` from the IPython shell)
     """
     from databroker.queries import TimeRange
+
     from . import ipython_shell_namespace
 
     db = db or ipython_shell_namespace()["db"]

@@ -1,6 +1,7 @@
 import logging
 
 import bluesky.plan_stubs as bps
+from deprecated.sphinx import versionadded
 
 from ..utils import run_in_thread
 
@@ -8,6 +9,7 @@ logger = logging.getLogger(__name__)
 POLL_DELAY = 0.000_05
 
 
+@versionadded(version="1.6.3")
 def run_blocking_function(function, *args, **kwargs):
     """
     Run a blocking function as a bluesky plan, in a thread.
@@ -58,8 +60,6 @@ def run_blocking_function(function, *args, **kwargs):
     .. note: This function is a convenience adapter to execute
        functions that are not bluesky generator functions, plans.
        It's best not to use this as a decorator.
-
-    (new in release 1.6.3)
     """
 
     @run_in_thread

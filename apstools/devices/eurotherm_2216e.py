@@ -14,12 +14,11 @@ obsolete.  Please see [its] replacement EPC3016 [#]_ in our EPC3000 Series. [#]_
 .. [#] https://www.eurothermcontrollers.com/eurotherm-2216e-series-controller-now-obsolete/
 .. [#] https://www.eurothermcontrollers.com/eurotherm-epc3016-1-16-din-process-and-temperature-controller/
 .. [#] https://www.eurothermcontrollers.com/epc3000-series
-
-New in apstools 1.6.0.
 """
 
 import logging
 
+from deprecated.sphinx import versionadded
 from ophyd import Component
 from ophyd import EpicsSignal
 from ophyd import EpicsSignalRO
@@ -30,6 +29,7 @@ from .positioner_soft_done import PVPositionerSoftDoneWithStop
 logger = logging.getLogger(__name__)
 
 
+@versionadded(version="1.6.0")
 class Eurotherm2216e(PVPositionerSoftDoneWithStop):
     """
     Eurotherm 2216e Temperature Controller

@@ -1,10 +1,12 @@
 import logging
 
+from deprecated.sphinx import versionadded
 from ophyd import EpicsSignal
 
 logger = logging.getLogger(__name__)
 
 
+@versionadded(version="1.6.3")
 class EpicsScanIdSignal(EpicsSignal):
     """
     Use an EPICS PV as the source of the RunEngine's ``scan_id``.
@@ -16,8 +18,6 @@ class EpicsScanIdSignal(EpicsSignal):
         scan_id = EpicsScanIdDevice("ioc:scan_id:longout", name="scan_id")
         # ...
         RE = bluesky.RunEngine({}, scan_id_source=scan_id.cb_scan_id_source)
-
-    (new in release 1.6.3)
     """
 
     def cb_scan_id_source(self, *args, **kwargs):

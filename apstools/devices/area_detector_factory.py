@@ -8,8 +8,6 @@ Area Detector Factory
    ~ad_class_factory
    ~PLUGIN_DEFAULTS
 
-*New in apstools 1.7.0.*
-
 EXAMPLE 1: DEFAULT CAM
 
 Just the camera plugin (uses `CamBase
@@ -83,6 +81,7 @@ import uuid
 logger = logging.getLogger(__name__)
 
 import ophyd.areadetector.plugins
+from deprecated.sphinx import versionadded
 from ophyd import ADComponent
 
 from ..utils import dynamic_import
@@ -244,6 +243,7 @@ Another use case is to remove an existing set of defaults.
 """
 
 
+@versionadded(version="1.7.0")
 def ad_class_factory(name, bases=None, plugins=None, plugin_defaults=None):
     """
     Build an Area Detector class with specified plugins.
@@ -340,6 +340,7 @@ def ad_class_factory(name, bases=None, plugins=None, plugin_defaults=None):
     return type(name, bases, attributes)
 
 
+@versionadded(version="1.7.0")
 def ad_creator(
     prefix: str,
     *,

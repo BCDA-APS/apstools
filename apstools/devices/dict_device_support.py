@@ -13,6 +13,7 @@ that a simple dictionary can be recorded in a bluesky data stream.
 
 import time
 
+from deprecated.sphinx import versionadded
 from ophyd import Component
 from ophyd import Device
 from ophyd import Signal
@@ -27,11 +28,10 @@ def dict_device_factory(data={}):
     return fc
 
 
+@versionadded(version="1.6.4")
 def make_dict_device(obj, name="ddev"):
     """
     Make recordable DictionaryDevice instance from dictionary.
-
-    New in release 1.6.4.
     """
 
     def standardize(obj):
