@@ -1077,6 +1077,7 @@ class SpecWriterCallback2(FileWriterCallbackBase):
         self.file_name = file_name or self.make_default_filename()
 
 
+@versionadded(version="1.7.1")
 def spec_comment(comment, doc=None, writer=None):
     """
     make it easy to add spec-style comments in a custom plan
