@@ -22,7 +22,7 @@ class MyCam(ophyd.SimDetectorCam):
 
 class MyHDF5Plugin(
     ophyd.areadetector.filestore_mixins.FileStoreHDF5IterativeWrite,
-    ophyd.areadetector.plugins.HDF5Plugin_V34
+    ophyd.areadetector.plugins.HDF5Plugin_V34,
     # ophyd.HDF5Plugin
 ):
     pass
