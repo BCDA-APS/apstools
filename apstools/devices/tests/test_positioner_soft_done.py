@@ -207,7 +207,7 @@ def test_structure(device, has_inposition):
 
 @pytest.mark.skipif(
     in_gha_workflow(),
-    reason="Random failures in GiHub Actions workflows.",
+    reason="Random failures in GHA workflows.",
 )
 def test_put_and_stop(rbv, prec, pos):
     assert pos.tolerance.get() == -1

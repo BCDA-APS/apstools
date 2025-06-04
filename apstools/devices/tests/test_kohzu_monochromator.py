@@ -61,7 +61,7 @@ class MyKohzu(KohzuSeqCtl_Monochromator):
 
 @pytest.mark.skipif(
     in_gha_workflow(),
-    reason="Random failures in GiHub Actions workflows.",
+    reason="Random failures in GHA workflows.",
 )
 def test_dcm():
     dcm = MyKohzu(IOC_GP, name="dcm")

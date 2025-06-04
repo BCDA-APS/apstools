@@ -12,7 +12,7 @@ from ..sseq import sseqRecordStep
 
 @pytest.mark.skipif(
     in_gha_workflow(),
-    reason="Random failures in GiHub Actions workflows.",
+    reason="Random failures in GHA workflows.",
 )
 @pytest.mark.parametrize(
     "device, pv, connect, attr, expected",
