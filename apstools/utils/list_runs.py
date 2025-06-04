@@ -549,18 +549,19 @@ def listruns(
 
     table_style = table_style or TableStyle.pyRestTable
     if tablefmt is not None:
-        # fmt: off
-        warnings.warn(
-            f"Use 'table_style={choice}' instead of"
-            f" deprecated option 'tablefmt=\"{tablefmt}\"'."
-        )
-        # fmt: on
         if tablefmt == "dataframe":
             choice = "TableStyle.pandas"
             table_style = TableStyle.pandas
         else:
             choice = "TableStyle.pyRestTable"
             table_style = TableStyle.pyRestTable
+
+        # fmt: off
+        warnings.warn(
+            f"Use 'table_style={choice}' instead of"
+            f" deprecated option 'tablefmt=\"{tablefmt}\"'."
+        )
+        # fmt: on
 
     if printing is not None:
         warnings.warn(f"Keyword argument 'printing={printing}' is deprecated.")
