@@ -20,7 +20,7 @@ import typing
 import warnings
 from collections import defaultdict
 
-from deprecated import deprecated
+from deprecated.sphinx import deprecated
 from deprecated.sphinx import versionadded
 from deprecated.sphinx import versionchanged
 
@@ -413,14 +413,14 @@ class ListRuns:
         if isinstance(self.keys, str):
             self.keys = self.keys.split()
 
-    @deprecated
+    @deprecated(version="1.6.14")
     def to_dataframe(self):
         """**Deprecated**: Output as pandas DataFrame object"""
         warnings.warn("'ListRuns.to_dataframe()' method is deprecated.")
         dd = self.parse_runs()
         return TableStyle.pandas.value(dd, columns=self.keys)
 
-    @deprecated
+    @deprecated(version="1.6.14")
     def to_table(self, fmt=None):
         """**Deprecated**: Output as pyRestTable object."""
         warnings.warn("'ListRuns.to_table()' method is deprecated.")

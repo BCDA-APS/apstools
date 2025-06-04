@@ -64,7 +64,9 @@ import time
 from collections import OrderedDict
 
 import numpy as np
-from deprecated import deprecated
+from deprecated.sphinx import deprecated
+from deprecated.sphinx import versionadded
+from deprecated.sphinx import versionchanged
 
 from .callback_base import FileWriterCallbackBase
 
@@ -688,6 +690,9 @@ class SpecWriterCallback(object):
         return scan_id
 
 
+@versionchanged(version="1.7.4", reason="refactor how labels are gathered")
+@versionchanged(version="1.7.1", reason="set spec_filename in constructor")
+@versionadded(version="1.7.0")
 class SpecWriterCallback2(FileWriterCallbackBase):
     """
     Write SPEC data file as data is collected, line-by-line.

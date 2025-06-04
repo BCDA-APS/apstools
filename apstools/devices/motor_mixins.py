@@ -12,7 +12,7 @@ Mixin classes for Motor Devices
 """
 
 from bluesky import plan_stubs as bps
-from deprecated import deprecated
+from deprecated.sphinx import deprecated
 from ophyd import Component
 from ophyd import EpicsSignal
 
@@ -82,7 +82,7 @@ class EpicsMotorEnableMixin(DeviceMixinBase):
         self.enable_disable.put(self.MOTOR_DISABLE)
 
 
-@deprecated(reason="Now part of ophyd.EpicsMotor")
+@deprecated(version="1.7.1", reason="Now part of ophyd.EpicsMotor")
 class EpicsMotorLimitsMixin(DeviceMixinBase):
     """
     **Deprecated** Add motor record HLM & LLM fields & compatibility get_lim() and set_lim()

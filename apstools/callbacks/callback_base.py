@@ -11,8 +11,8 @@ import datetime
 import logging
 import pathlib
 
-from deprecated import deprecated
 import pyRestTable
+from deprecated.sphinx import deprecated
 
 logger = logging.getLogger(__name__)
 
@@ -229,7 +229,7 @@ class FileWriterCallbackBase:
 
     # - - - - - - - - - - - - - - -
 
-    @deprecated(reason="use EventPage instead")
+    @deprecated(version="1.6.0", reason="use EventPage instead")
     def bulk_events(self, doc):
         """Deprecated. Use EventPage instead."""
         if not self.scanning:

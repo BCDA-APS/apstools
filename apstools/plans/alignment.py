@@ -22,7 +22,7 @@ from bluesky import plans as bp
 from bluesky import preprocessors as bpp
 from bluesky.callbacks.fitting import PeakStats
 from bluesky.utils import plan
-from deprecated import deprecated
+from deprecated.sphinx import deprecated
 from deprecated.sphinx import versionadded
 from deprecated.sphinx import versionchanged
 from ophyd import Component
@@ -40,7 +40,8 @@ logger = logging.getLogger(__name__)
 MAIN = sys.modules["__main__"]
 
 
-@deprecated(version="1.7.2", reason="use lineup2")
+@deprecated(version="1.7.2", reason="use lineup2()")
+@plan
 def lineup(
     # fmt: off
     detectors,
@@ -58,7 +59,7 @@ def lineup(
     # fmt: on
 ):
     """
-    (use ``lineup2()`` now) Lineup and center a given axis, relative to current position.
+    **Deprecated** Lineup and center a given axis, relative to current position.
 
     If first run identifies a peak, makes a second run to fine tune the result.
 
