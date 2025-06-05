@@ -21,36 +21,41 @@ Project `milestones <https://github.com/BCDA-APS/apstools/milestones>`_
 describe future plans.
 
 ..
-   1.7.4
+   1.7.5
    *****
 
-   Release expected by 2025-06-06.
+   Release expected by 2025-07.
 
-   New Features
-   -------------
+1.7.4
+*****
 
-   * Added AcsMotor for AcsMotionControl motor support.
-   * Added HHLApertureACS High Heat Load Aperture.
+Release expected by 2025-06-06.
 
-   Enhancements
-   -------------
+New Features
+-------------
 
-   * Added mb_creator()
+* Added AcsMotor for AcsMotionControl motor support.
+* Added HHLApertureACS High Heat Load Aperture.
 
-   Fixes
-   -------------
+Enhancements
+-------------
 
-   * KeyError from callback caused failure of lineup2() plan.
-   * SpecWriterCallback2 attribute 'data_labels' was never initialized.
-   * SpecWriterCallback2 raised ValueError when appending to SPEC file that has no runs.
+* Added mb_creator()
 
-   Maintenance
-   -------------
+Fixes
+-------------
 
-   * Added HHLApertureBase for high heat-load apertures.
-   * Apply @deprecated decorator to make these markings more visible.
-   * SpecWriterCallback2: refactor how to get SPEC data labels.
-   * Switch to use numpy >= 2.
+* KeyError from callback caused failure of lineup2() plan.
+* SpecWriterCallback2 attribute 'data_labels' was never initialized.
+* SpecWriterCallback2 raised ValueError when appending to SPEC file that has no runs.
+
+Maintenance
+-------------
+
+* Added HHLApertureBase for high heat-load apertures.
+* Apply @deprecated decorator to make these markings more visible.
+* SpecWriterCallback2: refactor how to get SPEC data labels.
+* Switch to use numpy >= 2.
 
 1.7.3
 *****
