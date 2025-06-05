@@ -20,6 +20,7 @@ versions=
 # versions+=" 1.6.14"
 # versions+=" 1.6.15"
 # versions+=" 1.6.16"
+# versions+=" 1.7.4"
 
 # existing versions
 versions+=" 1.6.17"
@@ -30,12 +31,12 @@ versions+=" 1.7.0"
 versions+=" 1.7.1"
 versions+=" 1.7.2"
 versions+=" 1.7.3"
-versions+=" 1.7.4"
+versions+=" 1.7.5"
 
 # future versions (release tags that are expected)
-versions+=" 1.7.5"
 versions+=" 1.7.6"
 versions+=" 1.7.7"
+versions+=" 1.7.8"
 
 export versions
 
