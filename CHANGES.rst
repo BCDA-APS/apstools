@@ -29,7 +29,7 @@ describe future plans.
 1.7.4
 *****
 
-Release expected by 2025-06-06.
+Released 2025-06-05.
 
 New Features
 -------------
