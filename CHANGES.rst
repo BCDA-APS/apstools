@@ -26,6 +26,11 @@ describe future plans.
 
    Release expected by 2025-07.
 
+   Maintenance
+   -------------
+
+   * Add delay_s kwarg to ApsPssShutter.
+
 1.7.5
 *****
 
