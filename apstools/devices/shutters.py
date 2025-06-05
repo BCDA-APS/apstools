@@ -378,23 +378,23 @@ class ApsPssShutter(ShutterBase):
 
     PARAMETERS
 
-    prefix
-        *str* :
+    prefix *str* :
         EPICS PV prefix
 
-    name
-        *str* :
+    name *str* :
         (kwarg, required) object's canonical name
 
-    close_pv
-        *str* :
+    close_pv *str* :
         (kwarg, optional) Name of EPICS PV to close the shutter.
         If ``None``, defaults to ``"{prefix}Close"``.
 
-    open_pv
-        *str* :
+    open_pv *str* :
         (kwarg, optional) Name of EPICS PV to open the shutter.
         If ``None``, defaults to ``"{prefix}Open"``.
+
+    delay_s *float* :
+        (kwarg, optional) Time (seconds) to wait after shutter is moved.
+        Default: 1.2.
 
     EXAMPLE::
 
@@ -433,11 +433,19 @@ class ApsPssShutter(ShutterBase):
     open_signal = FormattedComponent(EpicsSignal, "{self.open_pv}")
     close_signal = FormattedComponent(EpicsSignal, "{self.close_pv}")
 
-    delay_s = 1.2  # allow time for shutter to move
-
-    def __init__(self, prefix, *args, close_pv=None, open_pv=None, **kwargs):
+    def __init__(
+        self, 
+        prefix: str, 
+        *args, 
+        close_pv: str = None, 
+        open_pv: str = None, 
+        delay_s: float = 1.2,
+        **kwargs,
+    ):
+        """ . """
         self.open_pv = open_pv or f"{prefix}Open"
         self.close_pv = close_pv or f"{prefix}Close"
+        self.delay_s = delay_s  # allow time for shutter to move
         super().__init__(prefix, *args, **kwargs)
 
     @property
