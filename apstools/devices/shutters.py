@@ -17,6 +17,7 @@ import threading
 import time
 
 import numpy as np
+from deprecated.sphinx import versionchanged
 from ophyd import Component
 from ophyd import Device
 from ophyd import DeviceStatus
@@ -27,6 +28,7 @@ from ophyd import FormattedComponent
 from ophyd import Signal
 
 
+@versionchanged(version="1.7.6", reason="add kwargs to __init__()")
 class ShutterBase(Device):
     """
     Base class for all shutter Devices.
@@ -35,64 +37,54 @@ class ShutterBase(Device):
 
     PARAMETERS
 
-    value
-        *str* :
+    value *str* :
         any from ``self.choices`` (typically "open" or "close")
 
-    valid_open_values
-        *[str]* :
+    valid_open_values *list[str]* :
         A list of lower-case text values that are acceptable
         for use with the ``set()`` command to open the shutter.
 
-    valid_close_values
-        *[str]* :
+    valid_close_values *list[str]* :
         A list of lower-case text values that are acceptable
         for use with the ``set()`` command to close the shutter.
 
-    open_value
-        *number* :
+    open_value *number* :
         The actual value to send to open ``signal`` to open the shutter.
         (default = 1)
 
-    close_value
-        *number* :
+    close_value *number* :
         The actual value to send to close ``signal`` to close the shutter.
         (default = 0)
 
-    delay_s
-        *float* :
+    delay_s *float* :
         time to wait (s) after move is complete,
         does not wait if shutter already in position
         (default = 0)
 
-    busy
-        *Signal* :
+    busy *Signal* :
         (internal) tells if a move is in progress
 
-    unknown_state
-        *str* :
+    unknown_state *str* :
         (constant) Text reported by ``state`` when not open or closed.
         cannot move to this position
         (default = "unknown")
 
-    name
-        *str* :
+    name *str* :
         (kwarg, required) object's canonical name
     """
 
-    # fmt: off
-    valid_open_values = ["open", "opened"]  # lower-case strings ONLY
-    valid_close_values = ["close", "closed"]
-    # fmt: on
-    open_value = 1  # value of "open"
-    close_value = 0  # value of "close"
-    delay_s = 0.0  # time to wait (s) after move is complete
     busy = Component(Signal, value=False)
-    unknown_state = "unknown"  # cannot move to this position
+    """True if a move is in progress."""
+
+    unknown_state: str = "unknown"  # cannot move to this position
+    """
+    Text reported by 'state' when not open or closed. Cannot move to this
+    position. (default = "unknown")
+    """
 
     # - - - - likely to override these methods in subclass - - - -
 
-    def open(self):
+    def open(self) -> None:
         """
         BLOCKING: request shutter to open, called by ``set()``.
 
@@ -108,7 +100,7 @@ class ShutterBase(Device):
         """
         raise NotImplementedError("must implement in subclass")
 
-    def close(self):
+    def close(self) -> None:
         """
         BLOCKING: request shutter to close, called by ``set()``.
 
@@ -125,7 +117,7 @@ class ShutterBase(Device):
         raise NotImplementedError("must implement in subclass")
 
     @property
-    def state(self):
+    def state(self) -> str:
         """
         returns ``open``, ``close``, or ``unknown``
 
@@ -146,22 +138,39 @@ class ShutterBase(Device):
 
     # - - - - - - possible to override in subclass - - - - - -
 
-    def __init__(self, *args, **kwargs):
+    def __init__(
+        self,
+        *args,
+        open_value: int = 1,
+        close_value: int = 0,
+        valid_open_values: list[str] = ["open", "opened"],  # lower-case strings ONLY
+        valid_close_values: list[str] = ["close", "closed"],
+        delay_s: float = 1.2,
+        **kwargs,
+    ):
+        self.delay_s = delay_s  # allow time for shutter to move
+        self.open_value = open_value
+        self.close_value = close_value
+        self.valid_open_values = [str(v).lower() for v in valid_open_values]
+        self.valid_close_values = [str(v).lower() for v in valid_close_values]
+
         super().__init__(*args, **kwargs)
-        self.valid_open_values = list(map(self.lowerCaseString, self.valid_open_values))
-        self.valid_close_values = list(map(self.lowerCaseString, self.valid_close_values))
+
+        # TODO: Remove this belt-and-suspenders code?
+        # self.valid_open_values = list(map(self.lowerCaseString, self.valid_open_values))
+        # self.valid_close_values = list(map(self.lowerCaseString, self.valid_close_values))
 
     @property
-    def isOpen(self):
+    def isOpen(self) -> bool:
         """is the shutter open?"""
         return str(self.state) == self.valid_open_values[0]
 
     @property
-    def isClosed(self):
+    def isClosed(self) -> bool:
         """is the shutter closed?"""
         return str(self.state) == self.valid_close_values[0]
 
-    def inPosition(self, target):
+    def inPosition(self, target) -> bool:
         """is the shutter at the target position?"""
         self.validTarget(target)
         __value__ = self.lowerCaseString(target)
@@ -215,12 +224,12 @@ class ShutterBase(Device):
 
     # - - - - - - not likely to override in subclass - - - - - -
 
-    def addCloseValue(self, text):
+    def addCloseValue(self, text) -> list[str]:
         """a synonym to close the shutter, use with set()"""
         self.valid_close_values.append(self.lowerCaseString(text))
         return self.choices  # return the list of acceptable values
 
-    def addOpenValue(self, text):
+    def addOpenValue(self, text) -> list[str]:
         """a synonym to open the shutter, use with set()"""
         self.valid_open_values.append(self.lowerCaseString(text))
         return self.choices  # return the list of acceptable values
@@ -230,11 +239,11 @@ class ShutterBase(Device):
         """return list of acceptable choices for set()"""
         return self.valid_open_values + self.valid_close_values
 
-    def lowerCaseString(self, value):
+    def lowerCaseString(self, value) -> str:
         """ensure any given value is a lower-case string"""
         return str(value).lower()
 
-    def validTarget(self, target, should_raise=True):
+    def validTarget(self, target: str, should_raise: bool =True):
         """
         return whether (or not) target value is acceptable for self.set()
 
@@ -243,10 +252,11 @@ class ShutterBase(Device):
         acceptable_values = self.choices
         ok = self.lowerCaseString(target) in acceptable_values
         if not ok and should_raise:
-            msg = "received " + str(target)
-            msg += " : should be only one of "
-            msg += " | ".join(acceptable_values)
-            raise ValueError(msg)
+            raise ValueError(
+                f"received {target!r}"
+                # .
+                f" : should be only one of {' | '.join(acceptable_values)}"
+            )
         return ok
 
 
@@ -326,7 +336,7 @@ class OneSignalShutter(ShutterBase):
     signal = Component(Signal, value=0)
 
     @property
-    def state(self):
+    def state(self) -> str:
         """is shutter "open", "close", or "unknown"?"""
         if self.signal.get() == self.open_value:
             result = self.valid_open_values[0]
@@ -351,6 +361,7 @@ class OneSignalShutter(ShutterBase):
                 time.sleep(self.delay_s)  # blocking call OK here
 
 
+@versionchanged(version="1.7.6", reason="add kwargs to __init__()")
 class ApsPssShutter(ShutterBase):
     """
     APS PSS shutter
@@ -392,9 +403,17 @@ class ApsPssShutter(ShutterBase):
         (kwarg, optional) Name of EPICS PV to open the shutter.
         If ``None``, defaults to ``"{prefix}Open"``.
 
-    delay_s *float* :
-        (kwarg, optional) Time (seconds) to wait after shutter is moved.
-        Default: 1.2.
+    open_reset_value: *int* :
+        To open, set 'self.open_signal' to this value.  Default = 1.
+
+    close_reset_value: *int* :
+        To open, set 'self.close_signal' to this value.  Default = 1.
+
+    open_reset_value: *int* :
+        To reset 'self.open_signal', set to this value.  Default = 0.
+
+    close_reset_value: *int* :
+        To reset 'self.close_signal', set to this value.  Default = 0.
 
     EXAMPLE::
 
@@ -434,50 +453,61 @@ class ApsPssShutter(ShutterBase):
     close_signal = FormattedComponent(EpicsSignal, "{self.close_pv}")
 
     def __init__(
-        self, 
-        prefix: str, 
-        *args, 
-        close_pv: str = None, 
-        open_pv: str = None, 
-        delay_s: float = 1.2,
+        self,
+        prefix: str,
+        *args,
+        close_pv: str = None,
+        open_pv: str = None,
+        open_value: int = 1,
+        close_value: int = 1,
+        open_reset_value: int = 0,
+        close_reset_value: int = 0,
         **kwargs,
     ):
-        """ . """
+        """."""
         self.open_pv = open_pv or f"{prefix}Open"
         self.close_pv = close_pv or f"{prefix}Close"
-        self.delay_s = delay_s  # allow time for shutter to move
-        super().__init__(prefix, *args, **kwargs)
+        self.open_reset_value = open_reset_value
+        self.close_reset_value = close_reset_value
+
+        super().__init__(
+            prefix,
+            *args,
+            open_value=open_value,
+            close_value=close_value,
+            **kwargs,
+        )
 
     @property
-    def state(self):
+    def state(self) -> str:
         """is shutter "open", "close", or "unknown"?"""
         return self.unknown_state  # no state info available
 
-    def open(self, timeout=10):
+    def open(self, timeout=10) -> None:
         """request the shutter to open (timeout is ignored)"""
         if not self.isOpen:
-            self.open_signal.put(1)
+            self.open_signal.put(self.open_value)
 
             # wait for the shutter to move
             if self.delay_s > 0:
                 time.sleep(self.delay_s)  # blocking call OK here
 
             # reset that signal (if not done by EPICS)
-            if self.open_signal.get() == 1:
-                self.open_signal.put(0)
+            if self.open_signal.get() == self.open_value:
+                self.open_signal.put(self.open_reset_value)
 
-    def close(self, timeout=10):
+    def close(self, timeout=10) -> None:
         """request the shutter to close (timeout is ignored)"""
         if not self.isClosed:
-            self.close_signal.put(1)
+            self.close_signal.put(self.close_value)
 
             # wait for the shutter to move
             if self.delay_s > 0:
                 time.sleep(self.delay_s)  # blocking call OK here
 
             # reset that signal (if not done by EPICS)
-            if self.close_signal.get() == 1:
-                self.close_signal.put(0)
+            if self.close_signal.get() == self.close_value:
+                self.close_signal.put(self.close_reset_value)
 
 
 class ApsPssShutterWithStatus(ApsPssShutter):
@@ -493,16 +523,13 @@ class ApsPssShutterWithStatus(ApsPssShutter):
 
     PARAMETERS
 
-    prefix
-        *str* :
+    prefix *str* :
         EPICS PV prefix
 
-    state_pv
-        *str* :
+    state_pv *str* :
         Name of EPICS PV that provides shutter's current state.
 
-    name
-        *str* :
+    name *str* :
         (kwarg, required) object's canonical name
 
     EXAMPLE::
@@ -542,18 +569,16 @@ class ApsPssShutterWithStatus(ApsPssShutter):
     pss_state_open_values = [1]
     pss_state_closed_values = [0]
 
-    delay_s = 0  # let caller add time after the move
+    _poll_factor_: float = 1.5
+    _poll_s_min_: float = 0.002
+    _poll_s_max_: float = 0.15
 
-    _poll_factor_ = 1.5
-    _poll_s_min_ = 0.002
-    _poll_s_max_ = 0.15
-
-    def __init__(self, prefix, state_pv, *args, **kwargs):
-        self.state_pv = state_pv
+    def __init__(self, prefix, state_pv: str, *args, **kwargs):
+        self.state_pv: str = state_pv
         super().__init__(prefix, *args, **kwargs)
 
     @property
-    def state(self):
+    def state(self) -> str:
         """is shutter "open", "close", or "unknown"?"""
         # update the list of acceptable values - very inefficient but works
         for item in self.pss_state.enum_strs[1]:
@@ -571,7 +596,7 @@ class ApsPssShutterWithStatus(ApsPssShutter):
             result = self.unknown_state
         return result
 
-    def wait_for_state(self, target, timeout=10, poll_s=0.01):
+    def wait_for_state(self, target, timeout=10, poll_s=0.01) -> None:
         """
         wait for the PSS state to reach a desired target
 
@@ -616,10 +641,10 @@ class ApsPssShutterWithStatus(ApsPssShutter):
                 msg += f" to reach a value in {target}"
                 raise TimeoutError(msg)
 
-    def open(self, timeout=10):
+    def open(self, timeout=10) -> None:
         """request the shutter to open"""
         if not self.isOpen:
-            self.open_signal.put(1)
+            self.open_signal.put(self.open_value)
 
             # wait for the shutter to move
             self.wait_for_state(self.pss_state_open_values, timeout=timeout)
@@ -629,10 +654,10 @@ class ApsPssShutterWithStatus(ApsPssShutter):
                 time.sleep(self.delay_s)  # blocking call OK here
 
             # reset that signal (if not done by EPICS)
-            if self.open_signal.get() == 1:
-                self.open_signal.put(0)
+            if self.open_signal.get() == self.open_value:
+                self.open_signal.put(self.open_reset_value)
 
-    def close(self, timeout=10):
+    def close(self, timeout=10) -> None:
         """request the shutter to close"""
         if not self.isClosed:
             self.close_signal.put(1)
@@ -657,12 +682,10 @@ class SimulatedApsPssShutterWithStatus(ApsPssShutterWithStatus):
 
     PARAMETERS
 
-    prefix
-        *str* :
+    prefix *str* :
         EPICS PV prefix
 
-    name
-        *str* :
+    name *str* :
         (kwarg, required) object's canonical name
 
     EXAMPLE::
@@ -676,12 +699,11 @@ class SimulatedApsPssShutterWithStatus(ApsPssShutterWithStatus):
     pss_state = FormattedComponent(Signal, value="close")
 
     def __init__(self, *args, **kwargs):
-        # was: super(ApsPssShutter, self).__init__("", *args, **kwargs)
         super(SimulatedApsPssShutterWithStatus, self).__init__("", "", *args, **kwargs)
         self.pss_state_open_values += self.valid_open_values
         self.pss_state_closed_values += self.valid_close_values
 
-    def wait_for_state(self, target, timeout=10, poll_s=0.01):
+    def wait_for_state(self, target, timeout=10, poll_s=0.01) -> None:
         """
         wait for the PSS state to reach a desired target
 
@@ -704,7 +726,7 @@ class SimulatedApsPssShutterWithStatus(ApsPssShutterWithStatus):
         self.pss_state.put(target[0])
 
     @property
-    def state(self):
+    def state(self) -> str:
         """is shutter "open", "close", or "unknown"?"""
         if self.pss_state.get() in self.pss_state_open_values:
             result = self.valid_open_values[0]
@@ -715,6 +737,7 @@ class SimulatedApsPssShutterWithStatus(ApsPssShutterWithStatus):
         return result
 
 
+@versionchanged(version="1.7.6", reason="add tolerance kwarg to __init__()")
 class EpicsMotorShutter(OneSignalShutter):
     """
     Shutter, implemented with an EPICS motor moved between two positions
@@ -723,13 +746,14 @@ class EpicsMotorShutter(OneSignalShutter):
 
     PARAMETERS
 
-    prefix
-        *str* :
+    prefix *str* :
         EPICS PV prefix
 
-    name
-        *str* :
+    name *str* :
         (kwarg, required) object's canonical name
+
+    tolerance *float* :
+        Used to decide in-position: abs(readback-setpoint) <= tolerance.
 
     EXAMPLE::
 
@@ -757,10 +781,18 @@ class EpicsMotorShutter(OneSignalShutter):
     """
 
     signal = Component(EpicsMotor, "")
-    tolerance = 0.01  # how close is considered in-position?
+
+    def __init__(
+        self,
+        *args,
+        tolerance: float = 0.01,  # how close is considered in-position?
+        **kwargs,
+    ):
+        self.tolerance = tolerance
+        super().__init__(*args, **kwargs)
 
     @property
-    def state(self):
+    def state(self) -> str:
         """is shutter "open", "close", or "unknown"?"""
         if abs(self.signal.user_readback.get() - self.open_value) <= self.tolerance:
             result = self.valid_open_values[0]
@@ -770,14 +802,14 @@ class EpicsMotorShutter(OneSignalShutter):
             result = self.unknown_state
         return result
 
-    def open(self):
+    def open(self) -> None:
         """move motor to BEAM NOT BLOCKED position, interactive use"""
         if not self.isOpen:
             self.signal.move(self.open_value)
             if self.delay_s > 0:
                 time.sleep(self.delay_s)  # blocking call OK here
 
-    def close(self):
+    def close(self) -> None:
         """move motor to BEAM BLOCKED position, interactive use"""
         self.signal.move(self.close_value)
         if not self.isClosed:
@@ -799,12 +831,10 @@ class EpicsOnOffShutter(OneSignalShutter):
 
     PARAMETERS
 
-    prefix
-        *str* :
+    prefix *str* :
         EPICS PV prefix
 
-    name
-        *str* :
+    name *str* :
         (kwarg, required) object's canonical name
 
     EXAMPLE::
