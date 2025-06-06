@@ -29,7 +29,7 @@ describe future plans.
    Maintenance
    -------------
 
-   * Add delay_s kwarg to ApsPssShutter.
+   * Add kwargs to shutters, such as ApsPssShutter.
 
 1.7.5
 *****
