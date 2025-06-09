@@ -26,6 +26,11 @@ describe future plans.
 
    Release expected by 2025-07.
 
+   Maintenance
+   -------------
+
+   * Add kwargs to shutters, such as ApsPssShutter.
+
 1.7.5
 *****
 
