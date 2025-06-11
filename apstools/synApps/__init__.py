@@ -60,6 +60,9 @@ from .db_2slit import Optics2Slit1D
 from .db_2slit import Optics2Slit2D_HV
 from .db_2slit import Optics2Slit2D_InbOutBotTop
 
+from .db_2slit_soft import Optics2Slit1D_soft
+from .db_2slit_soft import Optics2Slit2D_soft
+
 # -----------------------------------------------------------------------------
 # :author:    BCDA
 # :copyright: (c) 2017-2025, UChicago Argonne, LLC
