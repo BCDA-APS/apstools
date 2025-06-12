@@ -26,6 +26,11 @@ describe future plans.
 
    Release expected by 2025-07.
 
+   Enhancements
+   -------------
+
+   * Add device support for *db_2slit_soft* database (different than *db_2slit*).
+
    Maintenance
    -------------
 

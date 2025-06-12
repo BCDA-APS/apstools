@@ -205,6 +205,8 @@ Slits
     ~apstools.synApps.db_2slit.Optics2Slit1D
     ~apstools.synApps.db_2slit.Optics2Slit2D_HV
     ~apstools.synApps.db_2slit.Optics2Slit2D_InbOutBotTop
+    ~apstools.synApps.db_2slit.Optics2Slit1D_soft
+    ~apstools.synApps.db_2slit.Optics2Slit2D_soft
     ~apstools.utils.slit_core.SlitGeometry
 
 synApps Support
