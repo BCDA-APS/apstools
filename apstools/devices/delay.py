@@ -1,5 +1,6 @@
 """Ophyd definitions for digital delay and pulse generators."""
 
+from deprecated.sphinx import versionchanged
 from ophyd import Device, Component as Cpt, EpicsSignal, EpicsSignalRO, Kind
 
 
@@ -32,6 +33,7 @@ class DG645DelayOutput(DG645Output):
     trigger_phase = Cpt(EpicsSignalWithIO, "TriggerPhaseL", kind=Kind.config)
 
 
+@versionchanged(version="1.7.6", reason="add components: burst_T0 & trigger_arm")
 class DG645Delay(Device):
     """An SRS DG-645 digial delay/pulse generator.
 
