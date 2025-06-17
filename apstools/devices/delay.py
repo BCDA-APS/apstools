@@ -1,5 +1,6 @@
 """Ophyd definitions for digital delay and pulse generators."""
 
+from deprecated.sphinx import versionchanged
 from ophyd import Device, Component as Cpt, EpicsSignal, EpicsSignalRO, Kind
 
 
@@ -32,6 +33,7 @@ class DG645DelayOutput(DG645Output):
     trigger_phase = Cpt(EpicsSignalWithIO, "TriggerPhaseL", kind=Kind.config)
 
 
+@versionchanged(version="1.7.6", reason="add components: burst_T0 & trigger_arm")
 class DG645Delay(Device):
     """An SRS DG-645 digial delay/pulse generator.
 
@@ -100,10 +102,12 @@ class DG645Delay(Device):
     trigger_advanced_mode = Cpt(EpicsSignalWithIO, "TriggerAdvancedModeB", kind=Kind.config)
     trigger_holdoff = Cpt(EpicsSignalWithIO, "TriggerHoldoffA", kind=Kind.config)
     trigger_prescale = Cpt(EpicsSignalWithIO, "TriggerPrescaleL", kind=Kind.config)
+    # Initiate or arm a trigger (write only, like a pushbutton)
+    trigger_arm = Cpt(EpicsSignal, "TriggerDelayBO", kind=Kind.omitted)
 
     # Burst settings
     burst_mode = Cpt(EpicsSignalWithIO, "BurstModeB", kind=Kind.config)
     burst_count = Cpt(EpicsSignalWithIO, "BurstCountL", kind=Kind.config)
-    burst_mode = Cpt(EpicsSignalWithIO, "BurstConfigB", kind=Kind.config)
+    burst_T0 = Cpt(EpicsSignalWithIO, "BurstConfigB", kind=Kind.config)
     burst_delay = Cpt(EpicsSignalWithIO, "BurstDelayA", kind=Kind.config)
     burst_period = Cpt(EpicsSignalWithIO, "BurstPeriodA", kind=Kind.config)
