@@ -95,7 +95,8 @@ from bluesky import preprocessors as bpp
 from bluesky.magics import get_labeled_devices
 from bluesky.utils import make_decorator
 from bluesky.utils import single_gen
-from deprecated.sphinx import versionadded, versionchanged
+from deprecated.sphinx import versionadded
+from deprecated.sphinx import versionchanged
 
 from ..utils import getDefaultNamespace
 from .doc_run import write_stream
@@ -103,7 +104,7 @@ from .doc_run import write_stream
 
 @versionchanged(version="1.7.6", reason="Caller can specify namespace dict.")
 @versionadded(version="1.6.11")
-def label_stream_stub(labels=None, fmt=None, bec=None, ns=None):
+def label_stream_stub(labels=None, fmt=None, bec=None, ns: dict[str, object] = None):
     """
     Writes ophyd-labeled objects to open bluesky run streams. One stream per label.
 
@@ -125,8 +126,8 @@ def label_stream_stub(labels=None, fmt=None, bec=None, ns=None):
         Default: selected from default namespace, if available.
 
     ns
-        *obj*:
-        Namespace to search for EpicsMotor instances.
+        *dict*:
+        Namespace dictionary to search for labeled objects.
         Default: selected from default namespace, if available.
     """
     from bluesky.callbacks.best_effort import BestEffortCallback
@@ -166,7 +167,7 @@ class When(Enum):
 
 @versionchanged(version="1.7.6", reason="Caller can specify namespace dict.")
 @versionadded(version="1.6.11")
-def label_stream_wrapper(plan, labels, fmt=None, when="start", ns=None):
+def label_stream_wrapper(plan, labels, fmt=None, when="start", ns: dict[str, object] = None):
     """
     Decorator support: Write labeled device(s) to stream(s).  Either at "start" or "end".
 
@@ -202,8 +203,8 @@ def label_stream_wrapper(plan, labels, fmt=None, when="start", ns=None):
         Default: ``"start"``
 
     ns
-        *obj*:
-        Namespace to search for EpicsMotor instances.
+        *dict*:
+        Namespace dictionary to search for labeled objects.
         Default: selected from default namespace, if available.
     """
     try:
