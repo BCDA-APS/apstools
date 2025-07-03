@@ -21,25 +21,30 @@ Project `milestones <https://github.com/BCDA-APS/apstools/milestones>`_
 describe future plans.
 
 ..
-   1.7.6
+   1.7.8
    *****
 
-   Release expected by 2025-07.
+   Release expected by 2025-08.
 
-   Enhancements
-   -------------
+1.7.7
+*****
 
-   * Add device support for *db_2slit_soft* database (different than *db_2slit*).
+Released 2025-07-03.
 
-   Fixes
-   -------------
+Enhancements
+-------------
 
-   * Fix KeyError in SpecWriterCallback2 for edge case.
+* Add device support for *db_2slit_soft* database (different than *db_2slit*).
 
-   Maintenance
-   -------------
+Fixes
+-------------
 
-   * Add kwargs to shutters, such as ApsPssShutter.
+* Fix KeyError in SpecWriterCallback2 for edge case.
+
+Maintenance
+-------------
+
+* Add kwargs to shutters, such as ApsPssShutter.
 
 1.7.5
 *****
