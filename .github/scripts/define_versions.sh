@@ -31,12 +31,12 @@ versions+=" 1.7.0"
 versions+=" 1.7.1"
 versions+=" 1.7.2"
 versions+=" 1.7.3"
-versions+=" 1.7.5"
 
 # future versions (release tags that are expected)
 versions+=" 1.7.6"
 versions+=" 1.7.7"
 versions+=" 1.7.8"
+versions+=" 1.7.9"
 
 export versions
 
