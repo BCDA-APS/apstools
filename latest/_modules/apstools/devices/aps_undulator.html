@@ -1,0 +1,760 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../../../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>apstools.devices.aps_undulator &#8212; apstools 1.7</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="../../../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/graphviz.css?v=4ae1632d" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/css/custom.css?v=8b12e3de" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="../../../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+
+    <script src="../../../_static/documentation_options.js?v=34f54c9c"></script>
+    <script src="../../../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../_static/design-tabs.js?v=f930bc37"></script>
+    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = '_modules/apstools/devices/aps_undulator';</script>
+    <script>
+        DOCUMENTATION_OPTIONS.theme_version = '0.16.1';
+        DOCUMENTATION_OPTIONS.theme_switcher_json_url = 'https://raw.githubusercontent.com/BCDA-APS/apstools/main/docs/source/_static/switcher.json';
+        DOCUMENTATION_OPTIONS.theme_switcher_version_match = '1.7.3';
+        DOCUMENTATION_OPTIONS.show_version_warning_banner =
+            false;
+        </script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="1.7" />
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-3 navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../../../index.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">apstools 1.7</p>
+  
+</a></div>
+    
+      <div class="navbar-item">
+<div class="version-switcher__container dropdown pst-js-only">
+  <button id="pst-version-switcher-button-2"
+    type="button"
+    class="version-switcher__button btn btn-sm dropdown-toggle"
+    data-bs-toggle="dropdown"
+    aria-haspopup="listbox"
+    aria-controls="pst-version-switcher-list-2"
+    aria-label="Version switcher list"
+  >
+    Choose version  <!-- this text may get changed later by javascript -->
+    <span class="caret"></span>
+  </button>
+  <div id="pst-version-switcher-list-2"
+    class="version-switcher__menu dropdown-menu list-group-flush py-0"
+    role="listbox" aria-labelledby="pst-version-switcher-button-2">
+    <!-- dropdown will be populated by javascript on page load -->
+  </div>
+</div></div>
+    
+  </div>
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../install.html">
+    Installation
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../api/index.html">
+    API Documentation
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../applications/index.html">
+    Applications
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../examples/index.html">
+    Examples
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../changes.html">
+    Change History
+  </a>
+</li>
+
+            <li class="nav-item dropdown">
+                <button class="btn dropdown-toggle nav-item" type="button"
+                data-bs-toggle="dropdown" aria-expanded="false"
+                aria-controls="pst-nav-more-links">
+                    More
+                </button>
+                <ul id="pst-nav-more-links" class="dropdown-menu">
+                    
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../../license.html">
+    License
+  </a>
+</li>
+
+                </ul>
+            </li>
+            
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+        <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+      
+        <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/BCDA-APS/apstools" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+        
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar hide-on-wide">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../install.html">
+    Installation
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../api/index.html">
+    API Documentation
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../applications/index.html">
+    Applications
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../examples/index.html">
+    Examples
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../changes.html">
+    Change History
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../license.html">
+    License
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+        
+          <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/BCDA-APS/apstools" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+        
+      </div>
+    
+  </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+<nav aria-label="Breadcrumb" class="d-print-none">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../../../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="../../index.html" class="nav-link">Module code</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">apstools.devices.aps_undulator</span></li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <h1>Source code for apstools.devices.aps_undulator</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">APS undulators (Insertion Devices)</span>
+<span class="sd">++++++++++++++++++++++++++++++++++</span>
+
+<span class="sd">.. autosummary::</span>
+
+<span class="sd">   ~PlanarUndulator</span>
+<span class="sd">   ~Revolver_Undulator</span>
+<span class="sd">   ~STI_Undulator</span>
+<span class="sd">   ~Undulator2M</span>
+<span class="sd">   ~Undulator4M</span>
+
+<span class="sd">.. note:: The ``ApsUndulator`` and ``ApsUndulatorDual`` device support</span>
+<span class="sd">    classes have been removed.  These devices are not used in the APS-U era.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">ophyd</span><span class="w"> </span><span class="kn">import</span> <span class="n">Component</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">ophyd</span><span class="w"> </span><span class="kn">import</span> <span class="n">DerivedSignal</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">ophyd</span><span class="w"> </span><span class="kn">import</span> <span class="n">Device</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">ophyd</span><span class="w"> </span><span class="kn">import</span> <span class="n">EpicsSignal</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">ophyd</span><span class="w"> </span><span class="kn">import</span> <span class="n">EpicsSignalRO</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">ophyd</span><span class="w"> </span><span class="kn">import</span> <span class="n">PVPositioner</span>
+
+
+<span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
+
+<span class="n">POSITIONER_DONE</span> <span class="o">=</span> <span class="mi">1</span>
+
+
+<div class="viewcode-block" id="UndulatorPositioner">
+<a class="viewcode-back" href="../../../api/_devices.html#apstools.devices.aps_undulator.UndulatorPositioner">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">UndulatorPositioner</span><span class="p">(</span><span class="n">PVPositioner</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;A positioner for any of the gap control parameters.</span>
+
+<span class="sd">    Communicates with the parent (presumably the undulator device) to</span>
+<span class="sd">    start and stop the device.</span>
+
+<span class="sd">    .. autosummary::</span>
+
+<span class="sd">        ~setpoint</span>
+<span class="sd">        ~readback</span>
+<span class="sd">        ~actuate</span>
+<span class="sd">        ~stop_signal</span>
+<span class="sd">        ~done</span>
+<span class="sd">        ~done_value</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">setpoint</span> <span class="o">=</span> <span class="n">Component</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">&quot;SetC.VAL&quot;</span><span class="p">)</span>
+    <span class="n">readback</span> <span class="o">=</span> <span class="n">Component</span><span class="p">(</span><span class="n">EpicsSignalRO</span><span class="p">,</span> <span class="s2">&quot;M.VAL&quot;</span><span class="p">)</span>
+
+    <span class="n">actuate</span> <span class="o">=</span> <span class="n">Component</span><span class="p">(</span><span class="n">DerivedSignal</span><span class="p">,</span> <span class="n">derived_from</span><span class="o">=</span><span class="s2">&quot;parent.start_button&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;omitted&quot;</span><span class="p">)</span>
+    <span class="n">stop_signal</span> <span class="o">=</span> <span class="n">Component</span><span class="p">(</span><span class="n">DerivedSignal</span><span class="p">,</span> <span class="n">derived_from</span><span class="o">=</span><span class="s2">&quot;parent.stop_button&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;omitted&quot;</span><span class="p">)</span>
+    <span class="n">done</span> <span class="o">=</span> <span class="n">Component</span><span class="p">(</span><span class="n">DerivedSignal</span><span class="p">,</span> <span class="n">derived_from</span><span class="o">=</span><span class="s2">&quot;parent.done&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;omitted&quot;</span><span class="p">)</span>
+    <span class="n">done_value</span> <span class="o">=</span> <span class="n">POSITIONER_DONE</span></div>
+
+
+
+<div class="viewcode-block" id="ID_Controls_Mixin">
+<a class="viewcode-back" href="../../../api/_devices.html#apstools.devices.aps_undulator.ID_Controls_Mixin">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">ID_Controls_Mixin</span><span class="p">(</span><span class="n">Device</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Common controls components for insertion devices.</span>
+
+<span class="sd">    Works for: Planar &amp; Revolver</span>
+
+<span class="sd">    The signals *busy* and *done* convey complementary</span>
+<span class="sd">    information. *busy* comes from the IOC, while *done* comes</span>
+<span class="sd">    directly from the controller.</span>
+
+<span class="sd">    .. autosummary::</span>
+
+<span class="sd">        ~start_button</span>
+<span class="sd">        ~stop_button</span>
+<span class="sd">        ~busy</span>
+<span class="sd">        ~done</span>
+<span class="sd">        ~motor_drive_status</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1"># Signals for moving the undulator</span>
+    <span class="n">start_button</span> <span class="o">=</span> <span class="n">Component</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">&quot;StartC.VAL&quot;</span><span class="p">,</span> <span class="n">put_complete</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;omitted&quot;</span><span class="p">)</span>
+    <span class="n">stop_button</span> <span class="o">=</span> <span class="n">Component</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">&quot;StopC.VAL&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;omitted&quot;</span><span class="p">)</span>
+    <span class="n">busy</span> <span class="o">=</span> <span class="n">Component</span><span class="p">(</span><span class="n">EpicsSignalRO</span><span class="p">,</span> <span class="s2">&quot;BusyM.VAL&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;omitted&quot;</span><span class="p">)</span>
+    <span class="n">done</span> <span class="o">=</span> <span class="n">Component</span><span class="p">(</span><span class="n">EpicsSignalRO</span><span class="p">,</span> <span class="s2">&quot;BusyDeviceM.VAL&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;omitted&quot;</span><span class="p">)</span>
+    <span class="n">motor_drive_status</span> <span class="o">=</span> <span class="n">Component</span><span class="p">(</span><span class="n">EpicsSignalRO</span><span class="p">,</span> <span class="s2">&quot;MotorDriveStatusM.VAL&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;omitted&quot;</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="ID_Misc_Mixin">
+<a class="viewcode-back" href="../../../api/_devices.html#apstools.devices.aps_undulator.ID_Misc_Mixin">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">ID_Misc_Mixin</span><span class="p">(</span><span class="n">Device</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Common miscellaneous components for insertion devices.</span>
+
+<span class="sd">    Works for: Planar &amp; Revolver</span>
+
+<span class="sd">    .. autosummary::</span>
+
+<span class="sd">        ~gap_deadband</span>
+<span class="sd">        ~device_limit</span>
+<span class="sd">        ~access_mode</span>
+<span class="sd">        ~message1</span>
+<span class="sd">        ~message2</span>
+<span class="sd">        ~device</span>
+<span class="sd">        ~magnet</span>
+<span class="sd">        ~location</span>
+<span class="sd">        ~version_plc</span>
+<span class="sd">        ~version_hpmu</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1"># Miscellaneous control signals</span>
+    <span class="n">gap_deadband</span> <span class="o">=</span> <span class="n">Component</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">&quot;DeadbandGapC&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;config&quot;</span><span class="p">)</span>
+    <span class="n">device_limit</span> <span class="o">=</span> <span class="n">Component</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">&quot;DeviceLimitM.VAL&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;config&quot;</span><span class="p">)</span>
+    <span class="n">access_mode</span> <span class="o">=</span> <span class="n">Component</span><span class="p">(</span><span class="n">EpicsSignalRO</span><span class="p">,</span> <span class="s2">&quot;AccessSecurityC&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;omitted&quot;</span><span class="p">)</span>
+    <span class="n">message1</span> <span class="o">=</span> <span class="n">Component</span><span class="p">(</span><span class="n">EpicsSignalRO</span><span class="p">,</span> <span class="s2">&quot;Message1M.VAL&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;omitted&quot;</span><span class="p">)</span>
+    <span class="n">message2</span> <span class="o">=</span> <span class="n">Component</span><span class="p">(</span><span class="n">EpicsSignalRO</span><span class="p">,</span> <span class="s2">&quot;Message2M.VAL&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;omitted&quot;</span><span class="p">)</span>
+    <span class="n">device</span> <span class="o">=</span> <span class="n">Component</span><span class="p">(</span><span class="n">EpicsSignalRO</span><span class="p">,</span> <span class="s2">&quot;DeviceM&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;config&quot;</span><span class="p">)</span>
+    <span class="n">magnet</span> <span class="o">=</span> <span class="n">Component</span><span class="p">(</span><span class="n">EpicsSignalRO</span><span class="p">,</span> <span class="s2">&quot;DeviceMagnetM&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;config&quot;</span><span class="p">)</span>
+    <span class="n">location</span> <span class="o">=</span> <span class="n">Component</span><span class="p">(</span><span class="n">EpicsSignalRO</span><span class="p">,</span> <span class="s2">&quot;LocationM&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;config&quot;</span><span class="p">)</span>
+    <span class="n">version_plc</span> <span class="o">=</span> <span class="n">Component</span><span class="p">(</span><span class="n">EpicsSignalRO</span><span class="p">,</span> <span class="s2">&quot;PLCVersionM.VAL&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;config&quot;</span><span class="p">)</span>
+    <span class="n">version_hpmu</span> <span class="o">=</span> <span class="n">Component</span><span class="p">(</span><span class="n">EpicsSignalRO</span><span class="p">,</span> <span class="s2">&quot;HPMUVersionM.VAL&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;config&quot;</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="ID_Spectrum_Mixin">
+<a class="viewcode-back" href="../../../api/_devices.html#apstools.devices.aps_undulator.ID_Spectrum_Mixin">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">ID_Spectrum_Mixin</span><span class="p">(</span><span class="n">Device</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Common spectrum components for insertion devices.</span>
+
+<span class="sd">    Works for: Planar &amp; Revolver</span>
+
+<span class="sd">    .. autosummary::</span>
+
+<span class="sd">        ~energy</span>
+<span class="sd">        ~energy_taper</span>
+<span class="sd">        ~gap</span>
+<span class="sd">        ~gap_taper</span>
+<span class="sd">        ~harmonic_value</span>
+<span class="sd">        ~total_power</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1"># X-ray spectrum parameters</span>
+    <span class="n">energy</span> <span class="o">=</span> <span class="n">Component</span><span class="p">(</span><span class="n">UndulatorPositioner</span><span class="p">,</span> <span class="s2">&quot;Energy&quot;</span><span class="p">)</span>
+    <span class="n">energy_taper</span> <span class="o">=</span> <span class="n">Component</span><span class="p">(</span><span class="n">UndulatorPositioner</span><span class="p">,</span> <span class="s2">&quot;TaperEnergy&quot;</span><span class="p">)</span>
+    <span class="n">gap</span> <span class="o">=</span> <span class="n">Component</span><span class="p">(</span><span class="n">UndulatorPositioner</span><span class="p">,</span> <span class="s2">&quot;Gap&quot;</span><span class="p">)</span>
+    <span class="n">gap_taper</span> <span class="o">=</span> <span class="n">Component</span><span class="p">(</span><span class="n">UndulatorPositioner</span><span class="p">,</span> <span class="s2">&quot;TaperGap&quot;</span><span class="p">)</span>
+    <span class="n">harmonic_value</span> <span class="o">=</span> <span class="n">Component</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">&quot;HarmonicValueC&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;config&quot;</span><span class="p">)</span>
+    <span class="n">total_power</span> <span class="o">=</span> <span class="n">Component</span><span class="p">(</span><span class="n">EpicsSignalRO</span><span class="p">,</span> <span class="s2">&quot;TotalPowerM.VAL&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;config&quot;</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="PlanarUndulator">
+<a class="viewcode-back" href="../../../api/_devices.html#apstools.devices.aps_undulator.PlanarUndulator">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">PlanarUndulator</span><span class="p">(</span><span class="n">ID_Spectrum_Mixin</span><span class="p">,</span> <span class="n">ID_Controls_Mixin</span><span class="p">,</span> <span class="n">ID_Misc_Mixin</span><span class="p">,</span> <span class="n">Device</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;APS Planar Undulator.</span>
+
+<span class="sd">    .. index:: Ophyd Device; PlanarUndulator</span>
+
+<span class="sd">    APS Use: 34 devices, including 20ID.</span>
+
+<span class="sd">    EXAMPLE::</span>
+
+<span class="sd">        undulator = PlanarUndulator(&quot;S25ID:USID:&quot;, name=&quot;undulator&quot;)</span>
+<span class="sd">    &quot;&quot;&quot;</span></div>
+
+
+
+<div class="viewcode-block" id="Revolver_Undulator">
+<a class="viewcode-back" href="../../../api/_devices.html#apstools.devices.aps_undulator.Revolver_Undulator">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">Revolver_Undulator</span><span class="p">(</span><span class="n">ID_Spectrum_Mixin</span><span class="p">,</span> <span class="n">ID_Controls_Mixin</span><span class="p">,</span> <span class="n">ID_Misc_Mixin</span><span class="p">,</span> <span class="n">Device</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;APS Revolver Insertion Device.</span>
+
+<span class="sd">    .. index:: Ophyd Device; PlanarUndulator</span>
+
+<span class="sd">    APS Use: Only 08US, 08DS, 34DS.</span>
+
+<span class="sd">    EXAMPLE::</span>
+
+<span class="sd">        undulator = Revolver_Undulator(&quot;S08ID:USID:&quot;, name=&quot;undulator&quot;)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1"># Revolver control signals</span>
+    <span class="n">revolver_select</span> <span class="o">=</span> <span class="n">Component</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">&quot;RevolverSelectC.VAL&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;config&quot;</span><span class="p">)</span>
+    <span class="n">status_position1</span> <span class="o">=</span> <span class="n">Component</span><span class="p">(</span><span class="n">EpicsSignalRO</span><span class="p">,</span> <span class="s2">&quot;Position1M.VAL&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;config&quot;</span><span class="p">)</span>
+    <span class="n">status_position2</span> <span class="o">=</span> <span class="n">Component</span><span class="p">(</span><span class="n">EpicsSignalRO</span><span class="p">,</span> <span class="s2">&quot;Position2M.VAL&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;config&quot;</span><span class="p">)</span>
+    <span class="n">status_safe_gap</span> <span class="o">=</span> <span class="n">Component</span><span class="p">(</span><span class="n">EpicsSignalRO</span><span class="p">,</span> <span class="s2">&quot;AtSafeGapM.VAL&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;config&quot;</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="STI_Undulator">
+<a class="viewcode-back" href="../../../api/_devices.html#apstools.devices.aps_undulator.STI_Undulator">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">STI_Undulator</span><span class="p">(</span><span class="n">PlanarUndulator</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;APS Planar Undulator built by STI Optronics.</span>
+
+<span class="sd">    .. index::</span>
+<span class="sd">        Ophyd Device; PlanarUndulator</span>
+<span class="sd">        Ophyd Device; STI_Undulator</span>
+
+<span class="sd">    APS Use: 13 devices, including 4ID.</span>
+
+<span class="sd">    EXAMPLE::</span>
+
+<span class="sd">        undulator = STI_Undulator(&quot;S04ID:USID:&quot;, name=&quot;undulator&quot;)</span>
+<span class="sd">    &quot;&quot;&quot;</span></div>
+
+
+
+<div class="viewcode-block" id="Undulator2M">
+<a class="viewcode-back" href="../../../api/_devices.html#apstools.devices.aps_undulator.Undulator2M">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">Undulator2M</span><span class="p">(</span><span class="n">ID_Spectrum_Mixin</span><span class="p">,</span> <span class="n">ID_Controls_Mixin</span><span class="p">,</span> <span class="n">ID_Misc_Mixin</span><span class="p">,</span> <span class="n">Device</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;APS 2M Undulator.</span>
+
+<span class="sd">    .. index::</span>
+<span class="sd">        Ophyd Device; PlanarUndulator</span>
+<span class="sd">        Ophyd Device; Undulator2M</span>
+
+<span class="sd">    APS Use: 1ID, downstream.</span>
+
+<span class="sd">    EXAMPLE::</span>
+
+<span class="sd">        undulator = Undulator2M(&quot;S01ID:DSID:&quot;, name=&quot;undulator&quot;)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1"># PVs not found</span>
+    <span class="n">busy</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">magnet</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">version_plc</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">version_hpmu</span> <span class="o">=</span> <span class="kc">None</span>
+
+    <span class="n">done</span> <span class="o">=</span> <span class="n">Component</span><span class="p">(</span><span class="n">EpicsSignalRO</span><span class="p">,</span> <span class="s2">&quot;BusyM.VAL&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;omitted&quot;</span><span class="p">)</span>
+    <span class="n">done_value</span> <span class="o">=</span> <span class="mi">0</span></div>
+
+
+
+<div class="viewcode-block" id="Undulator4M">
+<a class="viewcode-back" href="../../../api/_devices.html#apstools.devices.aps_undulator.Undulator4M">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">Undulator4M</span><span class="p">(</span><span class="n">Undulator2M</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;APS 4M Undulator.</span>
+
+<span class="sd">    .. index::</span>
+<span class="sd">        Ophyd Device; PlanarUndulator</span>
+<span class="sd">        Ophyd Device; Undulator4M</span>
+
+<span class="sd">    APS Use: 11ID, downstream &amp; upstream.</span>
+
+<span class="sd">    EXAMPLE::</span>
+
+<span class="sd">        undulator = Undulator4M(&quot;S11ID:DSID:&quot;, name=&quot;undulator&quot;)</span>
+<span class="sd">    &quot;&quot;&quot;</span></div>
+
+
+<span class="c1"># -----------------------------------------------------------------------------</span>
+<span class="c1"># :author:    BCDA</span>
+<span class="c1"># :copyright: (c) 2017-2025, UChicago Argonne, LLC</span>
+<span class="c1">#</span>
+<span class="c1"># Distributed under the terms of the Argonne National Laboratory Open Source License.</span>
+<span class="c1">#</span>
+<span class="c1"># The full license is in the file LICENSE.txt, distributed with this software.</span>
+<span class="c1"># -----------------------------------------------------------------------------</span>
+</pre></div>
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="../../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+
+  <p class="copyright">
+    
+      © Copyright 2017-2025, UChicago Argonne, LLC.
+      <br/>
+    
+  </p>
+</div>
+      
+        <div class="footer-item">
+
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.1.3.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item">
+<p class="theme-version">
+  <!-- # L10n: Setting the PST URL as an argument as this does not need to be localized -->
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.16.1.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

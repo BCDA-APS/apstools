@@ -1,0 +1,739 @@
+
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>apstools.devices.srs570_preamplifier &#8212; apstools 1.6</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../../../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../../../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../../../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/graphviz.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/sphinx-design.5ea377869091fd0449014c60fc090103.min.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/css/custom.css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+    <script src="../../../_static/jquery.js"></script>
+    <script src="../../../_static/underscore.js"></script>
+    <script src="../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="../../../_static/doctools.js"></script>
+    <script src="../../../_static/sphinx_highlight.js"></script>
+    <script src="../../../_static/design-tabs.js"></script>
+    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = '_modules/apstools/devices/srs570_preamplifier';</script>
+    <script>
+        DOCUMENTATION_OPTIONS.theme_version = '0.15.4';
+        DOCUMENTATION_OPTIONS.theme_switcher_json_url = 'https://raw.githubusercontent.com/BCDA-APS/apstools/main/docs/source/_static/switcher.json';
+        DOCUMENTATION_OPTIONS.theme_switcher_version_match = 'dev';
+        DOCUMENTATION_OPTIONS.show_version_warning_banner = false;
+        </script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-3 navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../../../index.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">apstools 1.6</p>
+  
+</a></div>
+    
+      <div class="navbar-item">
+<script>
+document.write(`
+  <div class="version-switcher__container dropdown">
+    <button id="pst-version-switcher-button-2"
+      type="button"
+      class="version-switcher__button btn btn-sm dropdown-toggle"
+      data-bs-toggle="dropdown"
+      aria-haspopup="listbox"
+      aria-controls="pst-version-switcher-list-2"
+      aria-label="Version switcher list"
+    >
+      Choose version  <!-- this text may get changed later by javascript -->
+      <span class="caret"></span>
+    </button>
+    <div id="pst-version-switcher-list-2"
+      class="version-switcher__menu dropdown-menu list-group-flush py-0"
+      role="listbox" aria-labelledby="pst-version-switcher-button-2">
+      <!-- dropdown will be populated by javascript on page load -->
+    </div>
+  </div>
+`);
+</script></div>
+    
+  </div>
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../install.html">
+    Installation
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../api/index.html">
+    API Documentation
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../applications/index.html">
+    Applications
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../examples/index.html">
+    Examples
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../changes.html">
+    Change History
+  </a>
+</li>
+
+            <li class="nav-item dropdown">
+                <button class="btn dropdown-toggle nav-item" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-controls="pst-nav-more-links">
+                    More
+                </button>
+                <ul id="pst-nav-more-links" class="dropdown-menu">
+                    
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../../license.html">
+    License
+  </a>
+</li>
+
+                </ul>
+            </li>
+            
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script>
+        </div>
+      
+      
+        <div class="navbar-item">
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script>
+    </div>
+  
+
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+        
+      
+      <div class="bd-sidebar-primary bd-sidebar hide-on-wide">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../install.html">
+    Installation
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../api/index.html">
+    API Documentation
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../applications/index.html">
+    Applications
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../examples/index.html">
+    Examples
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../changes.html">
+    Change History
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../license.html">
+    License
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script></div>
+        
+      </div>
+    
+  </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+
+
+<nav aria-label="Breadcrumb" class="d-print-none">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../../../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="../../index.html" class="nav-link">Module code</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page">apstools.dev...</li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <h1>Source code for apstools.devices.srs570_preamplifier</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Ophyd support for Stanford Research Systems 570 preamplifier from synApps</span>
+
+<span class="sd">Public Structures</span>
+
+<span class="sd">.. autosummary::</span>
+
+<span class="sd">    ~SRS570_PreAmplifier</span>
+
+<span class="sd">This device connects with the SRS570 support from synApps.</span>
+<span class="sd">(https://github.com/epics-modules/ip/blob/master/ipApp/Db/SR570.db)</span>
+
+<span class="sd">The SRS570 synApps support is part of the ``ip`` module:</span>
+<span class="sd">https://htmlpreview.github.io/?https://raw.githubusercontent.com/epics-modules/ip/R3-6-1/documentation/swaitRecord.html</span>
+
+<span class="sd">:see: https://github.com/epics-modules/ip</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">import</span> <span class="nn">logging</span>
+
+<span class="kn">import</span> <span class="nn">pint</span>
+<span class="kn">from</span> <span class="nn">ophyd</span> <span class="kn">import</span> <span class="n">Component</span>
+<span class="kn">from</span> <span class="nn">ophyd</span> <span class="kn">import</span> <span class="n">EpicsSignal</span>
+<span class="kn">from</span> <span class="nn">ophyd.signal</span> <span class="kn">import</span> <span class="n">DEFAULT_WRITE_TIMEOUT</span>
+
+<span class="kn">from</span> <span class="nn">.preamp_base</span> <span class="kn">import</span> <span class="n">PreamplifierBaseDevice</span>
+
+<span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
+
+
+<span class="n">gain_units</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;pA/V&quot;</span><span class="p">,</span> <span class="s2">&quot;nA/V&quot;</span><span class="p">,</span> <span class="s2">&quot;uA/V&quot;</span><span class="p">,</span> <span class="s2">&quot;mA/V&quot;</span><span class="p">]</span>
+<span class="n">gain_values</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;1&quot;</span><span class="p">,</span> <span class="s2">&quot;2&quot;</span><span class="p">,</span> <span class="s2">&quot;5&quot;</span><span class="p">,</span> <span class="s2">&quot;10&quot;</span><span class="p">,</span> <span class="s2">&quot;20&quot;</span><span class="p">,</span> <span class="s2">&quot;50&quot;</span><span class="p">,</span> <span class="s2">&quot;100&quot;</span><span class="p">,</span> <span class="s2">&quot;200&quot;</span><span class="p">,</span> <span class="s2">&quot;500&quot;</span><span class="p">]</span>
+<span class="n">gain_modes</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;LOW NOISE&quot;</span><span class="p">,</span> <span class="s2">&quot;HIGH BW&quot;</span><span class="p">]</span>
+
+<span class="c1"># Settling times measured from the 25-ID-C upstream I0 chamber&#39;s SR-570</span>
+<span class="c1"># (sensitivity_value, sensitivity_unit, gain_mode): settle_time</span>
+<span class="n">settling_times</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="c1"># pA/V</span>
+    <span class="p">(</span><span class="s2">&quot;1&quot;</span><span class="p">,</span> <span class="s2">&quot;pA/V&quot;</span><span class="p">,</span> <span class="s2">&quot;HIGH BW&quot;</span><span class="p">):</span> <span class="mf">2.5</span><span class="p">,</span>
+    <span class="p">(</span><span class="s2">&quot;2&quot;</span><span class="p">,</span> <span class="s2">&quot;pA/V&quot;</span><span class="p">,</span> <span class="s2">&quot;HIGH BW&quot;</span><span class="p">):</span> <span class="mi">2</span><span class="p">,</span>
+    <span class="p">(</span><span class="s2">&quot;5&quot;</span><span class="p">,</span> <span class="s2">&quot;pA/V&quot;</span><span class="p">,</span> <span class="s2">&quot;HIGH BW&quot;</span><span class="p">):</span> <span class="mf">2.0</span><span class="p">,</span>
+    <span class="p">(</span><span class="s2">&quot;10&quot;</span><span class="p">,</span> <span class="s2">&quot;pA/V&quot;</span><span class="p">,</span> <span class="s2">&quot;HIGH BW&quot;</span><span class="p">):</span> <span class="mf">0.5</span><span class="p">,</span>
+    <span class="p">(</span><span class="s2">&quot;20&quot;</span><span class="p">,</span> <span class="s2">&quot;pA/V&quot;</span><span class="p">,</span> <span class="s2">&quot;HIGH BW&quot;</span><span class="p">):</span> <span class="mf">0.5</span><span class="p">,</span>
+    <span class="p">(</span><span class="s2">&quot;50&quot;</span><span class="p">,</span> <span class="s2">&quot;pA/V&quot;</span><span class="p">,</span> <span class="s2">&quot;HIGH BW&quot;</span><span class="p">):</span> <span class="mf">0.5</span><span class="p">,</span>
+    <span class="p">(</span><span class="s2">&quot;100&quot;</span><span class="p">,</span> <span class="s2">&quot;pA/V&quot;</span><span class="p">,</span> <span class="s2">&quot;HIGH BW&quot;</span><span class="p">):</span> <span class="mf">0.5</span><span class="p">,</span>
+    <span class="p">(</span><span class="s2">&quot;200&quot;</span><span class="p">,</span> <span class="s2">&quot;pA/V&quot;</span><span class="p">,</span> <span class="s2">&quot;HIGH BW&quot;</span><span class="p">):</span> <span class="mf">0.3</span><span class="p">,</span>
+    <span class="p">(</span><span class="s2">&quot;500&quot;</span><span class="p">,</span> <span class="s2">&quot;pA/V&quot;</span><span class="p">,</span> <span class="s2">&quot;HIGH BW&quot;</span><span class="p">):</span> <span class="mf">0.3</span><span class="p">,</span>
+    <span class="p">(</span><span class="s2">&quot;1&quot;</span><span class="p">,</span> <span class="s2">&quot;pA/V&quot;</span><span class="p">,</span> <span class="s2">&quot;LOW NOISE&quot;</span><span class="p">):</span> <span class="mf">3.0</span><span class="p">,</span>
+    <span class="p">(</span><span class="s2">&quot;2&quot;</span><span class="p">,</span> <span class="s2">&quot;pA/V&quot;</span><span class="p">,</span> <span class="s2">&quot;LOW NOISE&quot;</span><span class="p">):</span> <span class="mf">2.5</span><span class="p">,</span>
+    <span class="p">(</span><span class="s2">&quot;5&quot;</span><span class="p">,</span> <span class="s2">&quot;pA/V&quot;</span><span class="p">,</span> <span class="s2">&quot;LOW NOISE&quot;</span><span class="p">):</span> <span class="mf">2.0</span><span class="p">,</span>
+    <span class="p">(</span><span class="s2">&quot;10&quot;</span><span class="p">,</span> <span class="s2">&quot;pA/V&quot;</span><span class="p">,</span> <span class="s2">&quot;LOW NOISE&quot;</span><span class="p">):</span> <span class="mf">2.0</span><span class="p">,</span>
+    <span class="p">(</span><span class="s2">&quot;20&quot;</span><span class="p">,</span> <span class="s2">&quot;pA/V&quot;</span><span class="p">,</span> <span class="s2">&quot;LOW NOISE&quot;</span><span class="p">):</span> <span class="mf">1.75</span><span class="p">,</span>
+    <span class="p">(</span><span class="s2">&quot;50&quot;</span><span class="p">,</span> <span class="s2">&quot;pA/V&quot;</span><span class="p">,</span> <span class="s2">&quot;LOW NOISE&quot;</span><span class="p">):</span> <span class="mf">1.5</span><span class="p">,</span>
+    <span class="p">(</span><span class="s2">&quot;100&quot;</span><span class="p">,</span> <span class="s2">&quot;pA/V&quot;</span><span class="p">,</span> <span class="s2">&quot;LOW NOISE&quot;</span><span class="p">):</span> <span class="mf">1.25</span><span class="p">,</span>
+    <span class="p">(</span><span class="s2">&quot;200&quot;</span><span class="p">,</span> <span class="s2">&quot;pA/V&quot;</span><span class="p">,</span> <span class="s2">&quot;LOW NOISE&quot;</span><span class="p">):</span> <span class="mf">0.5</span><span class="p">,</span>
+    <span class="p">(</span><span class="s2">&quot;500&quot;</span><span class="p">,</span> <span class="s2">&quot;pA/V&quot;</span><span class="p">,</span> <span class="s2">&quot;LOW NOISE&quot;</span><span class="p">):</span> <span class="mf">0.5</span><span class="p">,</span>
+<span class="p">}</span>
+<span class="n">settling_times</span><span class="o">.</span><span class="n">update</span><span class="p">(</span>
+    <span class="p">{</span>
+        <span class="c1"># nA/V, high bandwidth</span>
+        <span class="p">(</span><span class="n">gain_values</span><span class="p">[</span><span class="n">idx</span><span class="p">],</span> <span class="s2">&quot;nA/V&quot;</span><span class="p">,</span> <span class="s2">&quot;HIGH BW&quot;</span><span class="p">):</span> <span class="mf">0.3</span>
+        <span class="k">for</span> <span class="n">idx</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">9</span><span class="p">)</span>
+    <span class="p">}</span>
+<span class="p">)</span>
+<span class="n">settling_times</span><span class="o">.</span><span class="n">update</span><span class="p">(</span>
+    <span class="p">{</span>
+        <span class="c1"># nA/V, low noise</span>
+        <span class="p">(</span><span class="n">gain_values</span><span class="p">[</span><span class="n">idx</span><span class="p">],</span> <span class="s2">&quot;nA/V&quot;</span><span class="p">,</span> <span class="s2">&quot;LOW NOISE&quot;</span><span class="p">):</span> <span class="mf">0.3</span>
+        <span class="k">for</span> <span class="n">idx</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">9</span><span class="p">)</span>
+    <span class="p">}</span>
+<span class="p">)</span>
+<span class="n">settling_times</span><span class="o">.</span><span class="n">update</span><span class="p">(</span>
+    <span class="p">{</span>
+        <span class="c1"># μA/V, high bandwidth</span>
+        <span class="p">(</span><span class="n">gain_values</span><span class="p">[</span><span class="n">idx</span><span class="p">],</span> <span class="s2">&quot;uA/V&quot;</span><span class="p">,</span> <span class="s2">&quot;HIGH BW&quot;</span><span class="p">):</span> <span class="mf">0.3</span>
+        <span class="k">for</span> <span class="n">idx</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">9</span><span class="p">)</span>
+    <span class="p">}</span>
+<span class="p">)</span>
+<span class="n">settling_times</span><span class="o">.</span><span class="n">update</span><span class="p">(</span>
+    <span class="p">{</span>
+        <span class="c1"># μA/V, low noise</span>
+        <span class="p">(</span><span class="n">gain_values</span><span class="p">[</span><span class="n">idx</span><span class="p">],</span> <span class="s2">&quot;uA/V&quot;</span><span class="p">,</span> <span class="s2">&quot;LOW NOISE&quot;</span><span class="p">):</span> <span class="mf">0.3</span>
+        <span class="k">for</span> <span class="n">idx</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">9</span><span class="p">)</span>
+    <span class="p">}</span>
+<span class="p">)</span>
+<span class="n">settling_times</span><span class="o">.</span><span class="n">update</span><span class="p">(</span>
+    <span class="p">{</span>
+        <span class="p">(</span><span class="s2">&quot;1&quot;</span><span class="p">,</span> <span class="s2">&quot;mA/V&quot;</span><span class="p">,</span> <span class="s2">&quot;HIGH BW&quot;</span><span class="p">):</span> <span class="mf">0.3</span><span class="p">,</span>
+        <span class="p">(</span><span class="s2">&quot;1&quot;</span><span class="p">,</span> <span class="s2">&quot;mA/V&quot;</span><span class="p">,</span> <span class="s2">&quot;LOW NOISE&quot;</span><span class="p">):</span> <span class="mf">0.3</span><span class="p">,</span>
+    <span class="p">}</span>
+<span class="p">)</span>
+
+
+<div class="viewcode-block" id="calculate_settle_time"><a class="viewcode-back" href="../../../api/_devices.html#apstools.devices.srs570_preamplifier.calculate_settle_time">[docs]</a><span class="k">def</span> <span class="nf">calculate_settle_time</span><span class="p">(</span><span class="n">gain_value</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">gain_unit</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">gain_mode</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Determine the best settle time for a given combination of parameters.</span>
+
+<span class="sd">    Parameters can be strings of indexes.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># Convert indexes to string values</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">gain_value</span> <span class="o">=</span> <span class="n">gain_values</span><span class="p">[</span><span class="n">gain_value</span><span class="p">]</span>
+    <span class="k">except</span> <span class="p">(</span><span class="ne">TypeError</span><span class="p">,</span> <span class="ne">IndexError</span><span class="p">):</span>
+        <span class="k">pass</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">gain_unit</span> <span class="o">=</span> <span class="n">gain_units</span><span class="p">[</span><span class="n">gain_unit</span><span class="p">]</span>
+    <span class="k">except</span> <span class="p">(</span><span class="ne">TypeError</span><span class="p">,</span> <span class="ne">IndexError</span><span class="p">):</span>
+        <span class="k">pass</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">gain_mode</span> <span class="o">=</span> <span class="n">gain_modes</span><span class="p">[</span><span class="n">gain_mode</span><span class="p">]</span>
+    <span class="k">except</span> <span class="p">(</span><span class="ne">TypeError</span><span class="p">,</span> <span class="ne">IndexError</span><span class="p">):</span>
+        <span class="k">pass</span>
+    <span class="c1"># Get calibrated settle time, or None to use the Ophyd default</span>
+    <span class="k">return</span> <span class="n">settling_times</span><span class="o">.</span><span class="n">get</span><span class="p">((</span><span class="n">gain_value</span><span class="p">,</span> <span class="n">gain_unit</span><span class="p">,</span> <span class="n">gain_mode</span><span class="p">))</span></div>
+
+
+<div class="viewcode-block" id="GainSignal"><a class="viewcode-back" href="../../../api/_devices.html#apstools.devices.srs570_preamplifier.GainSignal">[docs]</a><span class="k">class</span> <span class="nc">GainSignal</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    A signal where the settling time depends on the pre-amp gain.</span>
+
+<span class="sd">    Used to introduce a specific settle time when setting to account</span>
+<span class="sd">    for the amp&#39;s RC relaxation time when changing gain.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="GainSignal.set"><a class="viewcode-back" href="../../../api/_devices.html#apstools.devices.srs570_preamplifier.GainSignal.set">[docs]</a>    <span class="k">def</span> <span class="nf">set</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">timeout</span><span class="o">=</span><span class="n">DEFAULT_WRITE_TIMEOUT</span><span class="p">,</span> <span class="n">settle_time</span><span class="o">=</span><span class="s2">&quot;auto&quot;</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Set the value of the Signal and return a Status object.</span>
+
+<span class="sd">        If put completion is used for this EpicsSignal, the status object</span>
+<span class="sd">        will complete once EPICS reports the put has completed.</span>
+
+<span class="sd">        Otherwise the readback will be polled until equal to the set point</span>
+<span class="sd">        (as in ``Signal.set``)</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+
+<span class="sd">        value : any</span>
+<span class="sd">            The gain value.</span>
+
+<span class="sd">        timeout : float, optional</span>
+<span class="sd">            Maximum time to wait.</span>
+
+<span class="sd">        settle_time: float, optional</span>
+<span class="sd">            Delay after ``set()`` has completed to indicate completion</span>
+<span class="sd">            to the caller. If ``&quot;auto&quot;`` (default), a reasonable settle</span>
+<span class="sd">            time will be chosen based on the gain mode of the pre-amp.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        st : Status</span>
+
+<span class="sd">        .. seealso::</span>
+<span class="sd">            * Signal.set</span>
+<span class="sd">            * EpicsSignal.set</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># Determine optimal settling time.</span>
+        <span class="k">if</span> <span class="n">settle_time</span> <span class="o">==</span> <span class="s2">&quot;auto&quot;</span><span class="p">:</span>
+            <span class="n">signals</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">parent</span><span class="o">.</span><span class="n">sensitivity_value</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">parent</span><span class="o">.</span><span class="n">sensitivity_unit</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">parent</span><span class="o">.</span><span class="n">gain_mode</span><span class="p">]</span>
+            <span class="n">args</span> <span class="o">=</span> <span class="p">[</span><span class="n">value</span> <span class="k">if</span> <span class="bp">self</span> <span class="ow">is</span> <span class="n">sig</span> <span class="k">else</span> <span class="n">sig</span><span class="o">.</span><span class="n">get</span><span class="p">()</span> <span class="k">for</span> <span class="n">sig</span> <span class="ow">in</span> <span class="n">signals</span><span class="p">]</span>
+            <span class="n">val</span><span class="p">,</span> <span class="n">unit</span><span class="p">,</span> <span class="n">mode</span> <span class="o">=</span> <span class="n">args</span>
+            <span class="c1"># Resolve string values to indices if provided</span>
+            <span class="k">if</span> <span class="n">val</span> <span class="ow">in</span> <span class="n">gain_values</span><span class="p">:</span>
+                <span class="n">val</span> <span class="o">=</span> <span class="n">gain_values</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">val</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">unit</span> <span class="ow">in</span> <span class="n">gain_units</span><span class="p">:</span>
+                <span class="n">unit</span> <span class="o">=</span> <span class="n">gain_units</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">unit</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">mode</span> <span class="ow">in</span> <span class="n">gain_modes</span><span class="p">:</span>
+                <span class="n">mode</span> <span class="o">=</span> <span class="n">gain_modes</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">mode</span><span class="p">)</span>
+            <span class="c1"># Low-drift mode uses the same settling times as low-noise mode</span>
+            <span class="k">if</span> <span class="n">mode</span> <span class="o">==</span> <span class="s2">&quot;LOW DRIFT&quot;</span><span class="p">:</span>
+                <span class="n">mode</span> <span class="o">=</span> <span class="s2">&quot;LOW NOISE&quot;</span>
+            <span class="c1"># Calculate settling time</span>
+            <span class="n">_settle_time</span> <span class="o">=</span> <span class="n">calculate_settle_time</span><span class="p">(</span><span class="n">gain_value</span><span class="o">=</span><span class="n">val</span><span class="p">,</span> <span class="n">gain_unit</span><span class="o">=</span><span class="n">unit</span><span class="p">,</span> <span class="n">gain_mode</span><span class="o">=</span><span class="n">mode</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">_settle_time</span> <span class="o">=</span> <span class="n">settle_time</span>
+        <span class="k">return</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">timeout</span><span class="o">=</span><span class="n">timeout</span><span class="p">,</span> <span class="n">settle_time</span><span class="o">=</span><span class="n">_settle_time</span><span class="p">)</span></div></div>
+
+
+<div class="viewcode-block" id="SRS570_PreAmplifier"><a class="viewcode-back" href="../../../api/_devices.html#apstools.devices.srs570_preamplifier.SRS570_PreAmplifier">[docs]</a><span class="k">class</span> <span class="nc">SRS570_PreAmplifier</span><span class="p">(</span><span class="n">PreamplifierBaseDevice</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Ophyd support for Stanford Research Systems 570 preamplifier from synApps.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1"># These values are strings because that is how they are defined</span>
+    <span class="c1"># in the EPICS .db file.  Must cast them to ``float()`` or ``int()``</span>
+    <span class="c1"># as desired.</span>
+    <span class="c1"># see: https://github.com/epics-modules/ip/blob/master/ipApp/Db/SR570.db</span>
+    <span class="n">sensitivity_value</span> <span class="o">=</span> <span class="n">Component</span><span class="p">(</span><span class="n">GainSignal</span><span class="p">,</span> <span class="s2">&quot;sens_num&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;config&quot;</span><span class="p">,</span> <span class="n">string</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">sensitivity_unit</span> <span class="o">=</span> <span class="n">Component</span><span class="p">(</span><span class="n">GainSignal</span><span class="p">,</span> <span class="s2">&quot;sens_unit&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;config&quot;</span><span class="p">,</span> <span class="n">string</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">put_complete</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+    <span class="n">offset_on</span> <span class="o">=</span> <span class="n">Component</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">&quot;offset_on&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;config&quot;</span><span class="p">,</span> <span class="n">string</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">offset_sign</span> <span class="o">=</span> <span class="n">Component</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">&quot;offset_sign&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;config&quot;</span><span class="p">,</span> <span class="n">string</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">offset_value</span> <span class="o">=</span> <span class="n">Component</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">&quot;offset_num&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;config&quot;</span><span class="p">,</span> <span class="n">string</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">offset_unit</span> <span class="o">=</span> <span class="n">Component</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">&quot;offset_unit&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;config&quot;</span><span class="p">,</span> <span class="n">string</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">offset_fine</span> <span class="o">=</span> <span class="n">Component</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">&quot;off_u_put&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;config&quot;</span><span class="p">,</span> <span class="n">string</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">offset_cal</span> <span class="o">=</span> <span class="n">Component</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">&quot;offset_cal&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;config&quot;</span><span class="p">,</span> <span class="n">string</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+    <span class="n">set_all</span> <span class="o">=</span> <span class="n">Component</span><span class="p">(</span><span class="n">GainSignal</span><span class="p">,</span> <span class="s2">&quot;init.PROC&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;config&quot;</span><span class="p">)</span>
+
+    <span class="n">bias_value</span> <span class="o">=</span> <span class="n">Component</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">&quot;bias_put&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;config&quot;</span><span class="p">,</span> <span class="n">string</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">bias_on</span> <span class="o">=</span> <span class="n">Component</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">&quot;bias_on&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;config&quot;</span><span class="p">,</span> <span class="n">string</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+    <span class="n">filter_type</span> <span class="o">=</span> <span class="n">Component</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">&quot;filter_type&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;config&quot;</span><span class="p">,</span> <span class="n">string</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">filter_lowpass</span> <span class="o">=</span> <span class="n">Component</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">&quot;low_freq&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;config&quot;</span><span class="p">,</span> <span class="n">string</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">filter_highpass</span> <span class="o">=</span> <span class="n">Component</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">&quot;high_freq&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;config&quot;</span><span class="p">,</span> <span class="n">string</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+    <span class="n">gain_mode</span> <span class="o">=</span> <span class="n">Component</span><span class="p">(</span><span class="n">GainSignal</span><span class="p">,</span> <span class="s2">&quot;gain_mode&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;config&quot;</span><span class="p">,</span> <span class="n">string</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">invert</span> <span class="o">=</span> <span class="n">Component</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">&quot;invert_on&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;config&quot;</span><span class="p">,</span> <span class="n">string</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">blank</span> <span class="o">=</span> <span class="n">Component</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">&quot;blank_on&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;config&quot;</span><span class="p">,</span> <span class="n">string</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">computed_gain</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Amplifier gain (A/V), as floating-point number.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">pint</span><span class="o">.</span><span class="n">Quantity</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sensitivity_value</span><span class="o">.</span><span class="n">get</span><span class="p">()),</span> <span class="bp">self</span><span class="o">.</span><span class="n">sensitivity_unit</span><span class="o">.</span><span class="n">get</span><span class="p">())</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="s2">&quot;A/V&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">magnitude</span>
+
+<div class="viewcode-block" id="SRS570_PreAmplifier.cb_gain"><a class="viewcode-back" href="../../../api/_devices.html#apstools.devices.srs570_preamplifier.SRS570_PreAmplifier.cb_gain">[docs]</a>    <span class="k">def</span> <span class="nf">cb_gain</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Called when sensitivity changes (EPICS CA monitor event).</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">gain</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">computed_gain</span><span class="p">)</span></div>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Update the gain when the sensitivity changes.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sensitivity_value</span><span class="o">.</span><span class="n">subscribe</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">cb_gain</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sensitivity_unit</span><span class="o">.</span><span class="n">subscribe</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">cb_gain</span><span class="p">)</span>
+
+        <span class="c1"># amplifier gain is the most relevant value</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">gain</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span></div>
+
+
+<span class="c1"># -----------------------------------------------------------------------------</span>
+<span class="c1"># :author:    Pete R. Jemian</span>
+<span class="c1"># :email:     jemian@anl.gov</span>
+<span class="c1"># :copyright: (c) 2017-2024, UChicago Argonne, LLC</span>
+<span class="c1">#</span>
+<span class="c1"># Distributed under the terms of the Argonne National Laboratory Open Source License.</span>
+<span class="c1">#</span>
+<span class="c1"># The full license is in the file LICENSE.txt, distributed with this software.</span>
+<span class="c1"># -----------------------------------------------------------------------------</span>
+</pre></div>
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+
+  <p class="copyright">
+    
+      © Copyright 2017-2024, UChicago Argonne, LLC.
+      <br/>
+    
+  </p>
+</div>
+      
+        <div class="footer-item">
+
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 5.3.0.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item">
+<p class="theme-version">
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.15.4.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

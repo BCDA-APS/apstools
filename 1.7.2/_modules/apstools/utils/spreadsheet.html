@@ -1,0 +1,820 @@
+
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>apstools.utils.spreadsheet &#8212; apstools 1.7</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../../../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../../../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../../../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/graphviz.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/sphinx-design.5ea377869091fd0449014c60fc090103.min.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/css/custom.css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+    <script src="../../../_static/jquery.js"></script>
+    <script src="../../../_static/underscore.js"></script>
+    <script src="../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="../../../_static/doctools.js"></script>
+    <script src="../../../_static/sphinx_highlight.js"></script>
+    <script src="../../../_static/design-tabs.js"></script>
+    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = '_modules/apstools/utils/spreadsheet';</script>
+    <script>
+        DOCUMENTATION_OPTIONS.theme_version = '0.15.4';
+        DOCUMENTATION_OPTIONS.theme_switcher_json_url = 'https://raw.githubusercontent.com/BCDA-APS/apstools/main/docs/source/_static/switcher.json';
+        DOCUMENTATION_OPTIONS.theme_switcher_version_match = 'dev';
+        DOCUMENTATION_OPTIONS.show_version_warning_banner = false;
+        </script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-3 navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../../../index.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">apstools 1.7</p>
+  
+</a></div>
+    
+      <div class="navbar-item">
+<script>
+document.write(`
+  <div class="version-switcher__container dropdown">
+    <button id="pst-version-switcher-button-2"
+      type="button"
+      class="version-switcher__button btn btn-sm dropdown-toggle"
+      data-bs-toggle="dropdown"
+      aria-haspopup="listbox"
+      aria-controls="pst-version-switcher-list-2"
+      aria-label="Version switcher list"
+    >
+      Choose version  <!-- this text may get changed later by javascript -->
+      <span class="caret"></span>
+    </button>
+    <div id="pst-version-switcher-list-2"
+      class="version-switcher__menu dropdown-menu list-group-flush py-0"
+      role="listbox" aria-labelledby="pst-version-switcher-button-2">
+      <!-- dropdown will be populated by javascript on page load -->
+    </div>
+  </div>
+`);
+</script></div>
+    
+  </div>
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../install.html">
+    Installation
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../api/index.html">
+    API Documentation
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../applications/index.html">
+    Applications
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../examples/index.html">
+    Examples
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../changes.html">
+    Change History
+  </a>
+</li>
+
+            <li class="nav-item dropdown">
+                <button class="btn dropdown-toggle nav-item" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-controls="pst-nav-more-links">
+                    More
+                </button>
+                <ul id="pst-nav-more-links" class="dropdown-menu">
+                    
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../../license.html">
+    License
+  </a>
+</li>
+
+                </ul>
+            </li>
+            
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script>
+        </div>
+      
+      
+        <div class="navbar-item">
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script></div>
+      
+        <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/BCDA-APS/apstools" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script>
+    </div>
+  
+
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+        
+      
+      <div class="bd-sidebar-primary bd-sidebar hide-on-wide">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../install.html">
+    Installation
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../api/index.html">
+    API Documentation
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../applications/index.html">
+    Applications
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../examples/index.html">
+    Examples
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../changes.html">
+    Change History
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../license.html">
+    License
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script></div>
+        
+          <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/BCDA-APS/apstools" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+        
+      </div>
+    
+  </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+
+
+<nav aria-label="Breadcrumb" class="d-print-none">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../../../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="../../index.html" class="nav-link">Module code</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page">apstools.uti...</li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <h1>Source code for apstools.utils.spreadsheet</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Spreadsheet Support</span>
+<span class="sd">+++++++++++++++++++++++++++++++++++++++</span>
+
+<span class="sd">.. autosummary::</span>
+
+<span class="sd">   ~ExcelDatabaseFileBase</span>
+<span class="sd">   ~ExcelDatabaseFileGeneric</span>
+<span class="sd">   ~ExcelReadError</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">math</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pathlib</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">collections</span><span class="w"> </span><span class="kn">import</span> <span class="n">OrderedDict</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">openpyxl</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">openpyxl.utils.exceptions</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">.</span><span class="w"> </span><span class="kn">import</span> <span class="n">to_unicode_or_bust</span>
+
+
+<div class="viewcode-block" id="ExcelReadError"><a class="viewcode-back" href="../../../api/_utils.html#apstools.utils.spreadsheet.ExcelReadError">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">ExcelReadError</span><span class="p">(</span><span class="n">openpyxl</span><span class="o">.</span><span class="n">utils</span><span class="o">.</span><span class="n">exceptions</span><span class="o">.</span><span class="n">InvalidFileException</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Exception when reading Excel spreadsheet.</span>
+
+<span class="sd">    .. index:: apstools Exception; ExcelReadError</span>
+<span class="sd">    &quot;&quot;&quot;</span></div>
+
+
+<div class="viewcode-block" id="ExcelDatabaseFileBase"><a class="viewcode-back" href="../../../api/_utils.html#apstools.utils.spreadsheet.ExcelDatabaseFileBase">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">ExcelDatabaseFileBase</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    base class: read-only support for Excel files, treat them like databases</span>
+
+<span class="sd">    .. index:: apstools Utility; ExcelDatabaseFileBase</span>
+
+<span class="sd">    Use this class when creating new, specific spreadsheet support.</span>
+
+<span class="sd">    EXAMPLE</span>
+
+<span class="sd">    Show how to read an Excel file where one of the columns</span>
+<span class="sd">    contains a unique key.  This allows for random access to</span>
+<span class="sd">    each row of data by use of the *key*.</span>
+
+<span class="sd">    ::</span>
+
+<span class="sd">        class ExhibitorsDB(ExcelDatabaseFileBase):</span>
+<span class="sd">            &#39;&#39;&#39;</span>
+<span class="sd">            content for exhibitors from the Excel file</span>
+<span class="sd">            &#39;&#39;&#39;</span>
+<span class="sd">            EXCEL_FILE = pathlib.Path(&quot;resources&quot;) / &quot;exhibitors.xlsx&quot;</span>
+<span class="sd">            LABELS_ROW = 2</span>
+
+<span class="sd">            def handle_single_entry(self, entry):</span>
+<span class="sd">                &#39;&#39;&#39;any special handling for a row from the Excel file&#39;&#39;&#39;</span>
+<span class="sd">                pass</span>
+
+<span class="sd">            def handleExcelRowEntry(self, entry):</span>
+<span class="sd">                &#39;&#39;&#39;identify unique key (row of the Excel file)&#39;&#39;&#39;</span>
+<span class="sd">                key = entry[&quot;Name&quot;]</span>
+<span class="sd">                self.db[key] = entry</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">EXCEL_FILE</span> <span class="o">=</span> <span class="kc">None</span>  <span class="c1"># subclass MUST define</span>
+    <span class="c1"># EXCEL_FILE = pathlib.Path(&quot;abstracts&quot;) / &quot;index of abstracts.xlsx&quot;</span>
+    <span class="n">LABELS_ROW</span> <span class="o">=</span> <span class="mi">3</span>  <span class="c1"># labels are on line LABELS_ROW+1 in the Excel file</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ignore_extra</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">db</span> <span class="o">=</span> <span class="n">OrderedDict</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">data_labels</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">EXCEL_FILE</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;subclass must define EXCEL_FILE&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">fname</span> <span class="o">=</span> <span class="n">pathlib</span><span class="o">.</span><span class="n">Path</span><span class="p">(</span><span class="s2">&quot;.&quot;</span><span class="p">)</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">EXCEL_FILE</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">sheet_name</span> <span class="o">=</span> <span class="mi">0</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="n">ignore_extra</span><span class="o">=</span><span class="n">ignore_extra</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">handle_single_entry</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">entry</span><span class="p">):</span>  <span class="c1"># subclass MUST override</span>
+        <span class="c1"># fmt: off</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span>
+            <span class="s2">&quot;subclass must override handle_single_entry() method&quot;</span>
+        <span class="p">)</span>
+        <span class="c1"># fmt: on</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">handleExcelRowEntry</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">entry</span><span class="p">):</span>  <span class="c1"># subclass MUST override</span>
+        <span class="c1"># fmt: off</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span>
+            <span class="s2">&quot;subclass must override handleExcelRowEntry() method&quot;</span>
+        <span class="p">)</span>
+        <span class="c1"># fmt: on</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">parse</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">labels_row_num</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">data_start_row_num</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">ignore_extra</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="p">):</span>
+        <span class="n">labels_row_num</span> <span class="o">=</span> <span class="n">labels_row_num</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">LABELS_ROW</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">wb</span> <span class="o">=</span> <span class="n">openpyxl</span><span class="o">.</span><span class="n">load_workbook</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">fname</span><span class="p">)</span>
+            <span class="n">ws</span> <span class="o">=</span> <span class="n">wb</span><span class="o">.</span><span class="n">worksheets</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">sheet_name</span><span class="p">]</span>
+            <span class="k">if</span> <span class="n">ignore_extra</span><span class="p">:</span>
+                <span class="c1"># ignore data outside of table in spreadsheet file</span>
+                <span class="n">data</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">ws</span><span class="o">.</span><span class="n">rows</span><span class="p">)[</span><span class="n">labels_row_num</span><span class="p">:]</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">data_labels</span> <span class="o">=</span> <span class="p">[]</span>
+                <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">data</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span>
+                    <span class="k">if</span> <span class="n">c</span><span class="o">.</span><span class="n">value</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                        <span class="k">break</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">data_labels</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">c</span><span class="o">.</span><span class="n">value</span><span class="p">)</span>
+                <span class="n">rows</span> <span class="o">=</span> <span class="p">[]</span>
+                <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="n">data</span><span class="p">[</span><span class="mi">1</span><span class="p">:]:</span>
+                    <span class="k">if</span> <span class="n">r</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">value</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                        <span class="k">break</span>
+                    <span class="n">rows</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">r</span><span class="p">[:</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data_labels</span><span class="p">)])</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="c1"># use the whole sheet</span>
+                <span class="n">rows</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">ws</span><span class="o">.</span><span class="n">rows</span><span class="p">)</span>
+                <span class="c1"># create the column titles</span>
+                <span class="c1"># fmt: off</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">data_labels</span> <span class="o">=</span> <span class="p">[</span>
+                    <span class="sa">f</span><span class="s2">&quot;Column_</span><span class="si">{</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="si">}</span><span class="s2">&quot;</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">rows</span><span class="p">[</span><span class="mi">0</span><span class="p">]))</span>
+                <span class="p">]</span>
+                <span class="c1"># fmt: on</span>
+        <span class="k">except</span> <span class="n">openpyxl</span><span class="o">.</span><span class="n">utils</span><span class="o">.</span><span class="n">exceptions</span><span class="o">.</span><span class="n">InvalidFileException</span> <span class="k">as</span> <span class="n">exc</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">ExcelReadError</span><span class="p">(</span><span class="n">exc</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">rows</span><span class="p">:</span>
+            <span class="n">entry</span> <span class="o">=</span> <span class="n">OrderedDict</span><span class="p">()</span>
+            <span class="k">for</span> <span class="n">_col</span><span class="p">,</span> <span class="n">label</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data_labels</span><span class="p">):</span>
+                <span class="n">entry</span><span class="p">[</span><span class="n">label</span><span class="p">]</span> <span class="o">=</span> <span class="n">row</span><span class="p">[</span><span class="n">_col</span><span class="p">]</span><span class="o">.</span><span class="n">value</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">handle_single_entry</span><span class="p">(</span><span class="n">entry</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">handleExcelRowEntry</span><span class="p">(</span><span class="n">entry</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_getExcelColumnValue</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">row_data</span><span class="p">,</span> <span class="n">col</span><span class="p">):</span>
+        <span class="n">v</span> <span class="o">=</span> <span class="n">row_data</span><span class="p">[</span><span class="n">col</span><span class="p">]</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_isExcel_nan</span><span class="p">(</span><span class="n">v</span><span class="p">):</span>
+            <span class="n">v</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">v</span> <span class="o">=</span> <span class="n">to_unicode_or_bust</span><span class="p">(</span><span class="n">v</span><span class="p">)</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+                <span class="n">v</span> <span class="o">=</span> <span class="n">v</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">v</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_isExcel_nan</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="nb">float</span><span class="p">):</span>
+            <span class="k">return</span> <span class="kc">False</span>
+        <span class="k">return</span> <span class="n">math</span><span class="o">.</span><span class="n">isnan</span><span class="p">(</span><span class="n">value</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="ExcelDatabaseFileGeneric"><a class="viewcode-back" href="../../../api/_utils.html#apstools.utils.spreadsheet.ExcelDatabaseFileGeneric">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">ExcelDatabaseFileGeneric</span><span class="p">(</span><span class="n">ExcelDatabaseFileBase</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Generic (read-only) handling of Excel spreadsheet-as-database</span>
+
+<span class="sd">    .. index:: apstools Utility; ExcelDatabaseFileGeneric</span>
+<span class="sd">    .. index:: Excel scan, scan; Excel</span>
+
+<span class="sd">    .. note:: This is the class to use when reading Excel spreadsheets.</span>
+
+<span class="sd">    In the spreadsheet, the first sheet should contain the table to be</span>
+<span class="sd">    used. By default (see keyword parameter ``labels_row``), the table</span>
+<span class="sd">    should start in cell A4.  The column labels are given in row 4.  A</span>
+<span class="sd">    blank column should appear to the right of the table (see keyword</span>
+<span class="sd">    parameter ``ignore_extra``). The column labels will describe the</span>
+<span class="sd">    action and its parameters.  Additional columns may be added for</span>
+<span class="sd">    metadata or other purposes.</span>
+
+<span class="sd">    The rows below the column labels should contain actions and</span>
+<span class="sd">    parameters for those actions, one action per row.</span>
+
+<span class="sd">    To make a comment, place a ``#`` in the action column.  A comment</span>
+<span class="sd">    should be ignored by the bluesky plan that reads this table. The</span>
+<span class="sd">    table will end with a row of empty cells.</span>
+
+<span class="sd">    While it&#39;s a good idea to put the ``action`` column first, that is</span>
+<span class="sd">    not necessary. It is not even necessary to name the column</span>
+<span class="sd">    ``action``. You can re-arrange the order of the columns and change</span>
+<span class="sd">    their names **as long as** the column names match what text strings</span>
+<span class="sd">    your Python code expects to find.</span>
+
+<span class="sd">    A future upgrade [#]_ will allow the table boundaries to be named by</span>
+<span class="sd">    Excel when using Excel&#39;s ``Format as Table`` [#]_ feature. For now,</span>
+<span class="sd">    leave a blank row and column at the bottom and right edges of the</span>
+<span class="sd">    table.</span>
+
+<span class="sd">    .. [#] https://github.com/BCDA-APS/apstools/issues/122</span>
+<span class="sd">    .. [#] Excel&#39;s ``Format as Table``:</span>
+<span class="sd">        https://support.office.com/en-us/article/Format-an-Excel-table-6789619F-C889-495C-99C2-2F971C0E2370</span>
+
+<span class="sd">    PARAMETERS</span>
+
+<span class="sd">    filename</span>
+<span class="sd">        *str* :</span>
+<span class="sd">        name (absolute or relative) of Excel spreadsheet file</span>
+<span class="sd">    labels_row</span>
+<span class="sd">        *int* :</span>
+<span class="sd">        Row (zero-based numbering) of Excel file with column labels,</span>
+<span class="sd">        default: ``3`` (Excel row 4)</span>
+<span class="sd">    ignore_extra</span>
+<span class="sd">        *bool* :</span>
+<span class="sd">        When ``True``, ignore any cells outside of the table, default:</span>
+<span class="sd">        ``True``.</span>
+
+<span class="sd">        Note that when ``True``, a row of cells *within* the table will</span>
+<span class="sd">        be recognized as the end of the table, even if there are</span>
+<span class="sd">        actions in following rows.  To force an empty row, use</span>
+<span class="sd">        a comment symbol ``#`` (actually, any non-empty content will work).</span>
+
+<span class="sd">        When ``False``, cells with other information (in Sheet 1) will</span>
+<span class="sd">        be made available, sometimes with unpredictable results.</span>
+
+<span class="sd">    EXAMPLE</span>
+
+<span class="sd">    See section :ref:`example_run_command_file` for more examples.</span>
+
+<span class="sd">    (See also :ref:`example screen shot</span>
+<span class="sd">    &lt;excel_plan_spreadsheet_screen&gt;`.) Table (on Sheet 1) begins on row</span>
+<span class="sd">    4 in first column::</span>
+
+<span class="sd">        1  |  some text here, maybe a title</span>
+<span class="sd">        2  |  (could have content here)</span>
+<span class="sd">        3  |  (or even more content here)</span>
+<span class="sd">        4  |  action  | sx   | sy   | sample     | comments          |  | &lt;-- leave empty column</span>
+<span class="sd">        5  |  close   |      |                   | close the shutter |  |</span>
+<span class="sd">        6  |  image   | 0    | 0    | dark       | dark image        |  |</span>
+<span class="sd">        7  |  open    |      |      |            | open the shutter  |  |</span>
+<span class="sd">        8  |  image   | 0    | 0    | flat       | flat field image  |  |</span>
+<span class="sd">        9  |  image   | 5.1  | -3.2 | 4140 steel | heat 9172634      |  |</span>
+<span class="sd">        10 |  scan    | 5.1  | -3.2 | 4140 steel | heat 9172634      |  |</span>
+<span class="sd">        11 |  scan    | 0    | 0    | blank      |                   |  |</span>
+<span class="sd">        12 |</span>
+<span class="sd">        13 |  ^^^ leave empty row ^^^</span>
+<span class="sd">        14 | (could have content here)</span>
+
+
+
+<span class="sd">    Example python code to read this spreadsheet::</span>
+
+<span class="sd">        from apstools.utils import ExcelDatabaseFileGeneric, cleanupText</span>
+
+<span class="sd">        def myExcelPlan(xl_file, md={}):</span>
+<span class="sd">            excel_file = pathlib.Path(xl_file).absolute()</span>
+<span class="sd">            xl = ExcelDatabaseFileGeneric(excel_file)</span>
+<span class="sd">            for i, row in xl.db.values():</span>
+<span class="sd">                # prepare the metadata</span>
+<span class="sd">                _md = {cleanupText(k): v for k, v in row.items()}</span>
+<span class="sd">                _md[&quot;xl_file&quot;] = xl_file</span>
+<span class="sd">                _md[&quot;excel_row_number&quot;] = i+1</span>
+<span class="sd">                _md.update(md) # overlay with user-supplied metadata</span>
+
+<span class="sd">                # determine what action to take</span>
+<span class="sd">                action = row[&quot;action&quot;].lower()</span>
+<span class="sd">                if action == &quot;open&quot;:</span>
+<span class="sd">                    yield from bps.mv(shutter, &quot;open&quot;)</span>
+<span class="sd">                elif action == &quot;close&quot;:</span>
+<span class="sd">                    yield from bps.mv(shutter, &quot;close&quot;)</span>
+<span class="sd">                elif action == &quot;image&quot;:</span>
+<span class="sd">                    # your code to take an image, given **row as parameters</span>
+<span class="sd">                    yield from my_image(**row, md=_md)</span>
+<span class="sd">                elif action == &quot;scan&quot;:</span>
+<span class="sd">                    # your code to make a scan, given **row as parameters</span>
+<span class="sd">                    yield from my_scan(**row, md=_md)</span>
+<span class="sd">                else:</span>
+<span class="sd">                    print(f&quot;no handling for row {i+1}: action={action}&quot;)</span>
+
+<span class="sd">        # execute this plan through the RunEngine</span>
+<span class="sd">        RE(myExcelPlan(&quot;spreadsheet.xlsx&quot;, md=dict(purpose=&quot;apstools demo&quot;))</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filename</span><span class="p">,</span> <span class="n">labels_row</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">ignore_extra</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_index_</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">EXCEL_FILE</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">EXCEL_FILE</span> <span class="ow">or</span> <span class="n">filename</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">LABELS_ROW</span> <span class="o">=</span> <span class="n">labels_row</span>
+        <span class="n">ExcelDatabaseFileBase</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ignore_extra</span><span class="o">=</span><span class="n">ignore_extra</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">handle_single_entry</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">entry</span><span class="p">):</span>
+        <span class="k">pass</span>
+
+<div class="viewcode-block" id="ExcelDatabaseFileGeneric.handleExcelRowEntry"><a class="viewcode-back" href="../../../api/_utils.html#apstools.utils.spreadsheet.ExcelDatabaseFileGeneric.handleExcelRowEntry">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">handleExcelRowEntry</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">entry</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;use row number as the unique key&quot;&quot;&quot;</span>
+        <span class="n">key</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_index_</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">db</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">entry</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_index_</span> <span class="o">+=</span> <span class="mi">1</span></div></div>
+
+
+<span class="c1"># -----------------------------------------------------------------------------</span>
+<span class="c1"># :author:    Pete R. Jemian</span>
+<span class="c1"># :email:     jemian@anl.gov</span>
+<span class="c1"># :copyright: (c) 2017-2024, UChicago Argonne, LLC</span>
+<span class="c1">#</span>
+<span class="c1"># Distributed under the terms of the Argonne National Laboratory Open Source License.</span>
+<span class="c1">#</span>
+<span class="c1"># The full license is in the file LICENSE.txt, distributed with this software.</span>
+<span class="c1"># -----------------------------------------------------------------------------</span>
+</pre></div>
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+
+  <p class="copyright">
+    
+      © Copyright 2017-2024, UChicago Argonne, LLC.
+      <br/>
+    
+  </p>
+</div>
+      
+        <div class="footer-item">
+
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 5.3.0.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item">
+<p class="theme-version">
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.15.4.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>
