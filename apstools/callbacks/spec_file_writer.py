@@ -690,6 +690,10 @@ class SpecWriterCallback(object):
         return scan_id
 
 
+@versionchanged(
+    version="1.7.6",
+    reason="Translate motor object_key to motor data_key",
+)
 @versionchanged(version="1.7.4", reason="refactor how labels are gathered")
 @versionchanged(version="1.7.1", reason="set spec_filename in constructor")
 @versionadded(version="1.7.0")
@@ -769,7 +773,7 @@ class SpecWriterCallback2(FileWriterCallbackBase):
         super().descriptor(doc)  # process the document
 
         detectors = self.data_map.get("detectors", [])
-        motors =  self.data_map.get("motors", [])
+        motors = self.data_map.get("motors", [])
         others = self.data_map.get("unassigned", [])
         if len(detectors) > 1:
             # First detector assumed to be the most important one.
@@ -789,7 +793,11 @@ class SpecWriterCallback2(FileWriterCallbackBase):
 
         if descriptor["name"] == self._motor_stream_name:
             for k in self.motors.keys():
-                self.motors[k] = doc["data"][k]  # get motor values
+                key = k
+                if key not in doc["data"]:
+                    # De-reference assuming readback is the first in the list.
+                    key = descriptor["object_keys"][k][0]
+                self.motors[k] = doc["data"][key]  # get motor readback value
             return
 
         self.write_file_header()

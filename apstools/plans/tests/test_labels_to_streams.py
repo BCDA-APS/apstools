@@ -1,5 +1,7 @@
 """Test recording of labeled objects to streams."""
 
+from contextlib import nullcontext as does_not_raise
+
 import bluesky.plan_stubs as bps
 import bluesky.plans as bp
 import bluesky.preprocessors as bpp
@@ -13,6 +15,7 @@ from ophyd import EpicsMotor
 from ophyd import EpicsSignalRO
 from ophyd import Signal
 
+from ...callbacks import SpecWriterCallback2
 from ...tests import IOC_GP
 from ...utils import getDefaultNamespace
 from ..doc_run import write_stream
@@ -22,7 +25,7 @@ from ..labels_to_streams import label_stream_wrapper
 
 bec = best_effort.BestEffortCallback()
 cat = databroker.temp()
-RE = RunEngine({})
+RE = RunEngine()
 RE.subscribe(cat.v1.insert)
 
 
@@ -317,3 +320,38 @@ def test_no_labeled_motor(noisy):
     run = cat.v2[uids[-1]]
     assert "primary" in run.metadata["stop"]["num_events"]
     assert f"label_start_{label}" not in run.metadata["stop"]["num_events"]
+
+
+@pytest.mark.parametrize("rename", [False, True])
+@pytest.mark.parametrize(
+    "labels, context, expected",
+    [
+        [["motor"], does_not_raise(), None],
+        [["motor", "motors"], does_not_raise(), None],
+        [["motors"], pytest.raises(AssertionError), "m1"],
+        [["other"], pytest.raises(AssertionError), "m1"],
+    ],
+)
+def test_issue_1113(rename: bool, labels: list[str], context, expected: str, m1, noisy):
+    """For Issue #1113: KeyError."""
+    with context as reason:
+        ns = {
+            m1.name: m1,
+            noisy.name: noisy,
+        }
+        specwriter = SpecWriterCallback2()
+        RE = RunEngine()
+        RE.subscribe(specwriter.receiver)
+
+        @label_stream_decorator(labels, ns=ns)
+        def my_plan():
+            yield from bp.count([noisy])
+
+        if rename:
+            # This is the root problem addressed by issue #1113.
+            m1.user_readback.name = f"{m1.name}_user_readback"
+
+        RE(my_plan())
+        assert m1.name in specwriter.motors, f"{labels=}"
+    if expected is not None:
+        assert expected in str(reason)

@@ -31,6 +31,11 @@ describe future plans.
 
    * Add device support for *db_2slit_soft* database (different than *db_2slit*).
 
+   Fixes
+   -------------
+
+   * Fix KeyError in SpecWriterCallback2 for edge case.
+
    Maintenance
    -------------
 
