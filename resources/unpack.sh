@@ -15,4 +15,4 @@ SRC=$(dirname $(readlink -f $0))
 # done
 
 # show all available catalogs
-databroker-pack --list
+# databroker-pack --list
