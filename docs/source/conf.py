@@ -9,7 +9,7 @@ from importlib.metadata import version
 import json
 import pathlib
 import sys
-import tomllib
+# import tomllib
 
 sys.path.insert(0, str(pathlib.Path().absolute().parent.parent))
 import apstools  # noqa
@@ -19,32 +19,32 @@ import apstools  # noqa
 
 root_path = pathlib.Path(__file__).parent.parent.parent
 
-with open(root_path / "pyproject.toml", "rb") as fp:
-    toml = tomllib.load(fp)
-metadata = toml["project"]
+# with open(root_path / "pyproject.toml", "rb") as fp:
+#     toml = tomllib.load(fp)
+# metadata = toml["project"]
 
 gh_org = "BCDA-APS"
-project = metadata["name"]
-copyright = toml["tool"]["copyright"]["copyright"]
-author = metadata["authors"][0]["name"]
-description = metadata["description"]
-rst_prolog = f".. |author| replace:: {author}"
-github_url = f"https://github.com/{gh_org}/{project}"
+# project = metadata["name"]
+# copyright = toml["tool"]["copyright"]["copyright"]
+# author = metadata["authors"][0]["name"]
+# description = metadata["description"]
+# rst_prolog = f".. |author| replace:: {author}"
+# github_url = f"https://github.com/{gh_org}/{project}"
 
 # -- Special handling for version numbers ------------------------------------
 # https://github.com/pypa/setuptools_scm#usage-from-sphinx
 
-release = version(project)
-version = ".".join(release.split(".")[:2])
+# release = version(project)
+# version = ".".join(release.split(".")[:2])
 
 # fmt: off
 switcher_file = "_static/switcher.json"
-switcher_json_url = (
-    "https://raw.githubusercontent.com/"
-    f"{gh_org}/{project}/"
-    "main/docs/source"
-    f"/{switcher_file}"
-)
+# switcher_json_url = (
+#     "https://raw.githubusercontent.com/"
+#     f"{gh_org}/{project}/"
+#     "main/docs/source"
+#     f"/{switcher_file}"
+# )
 with open(switcher_file) as fp:
     switcher_version_list = [
         v["version"]  # to match with ``release`` (above)
@@ -83,7 +83,7 @@ html_css_files = [
 ]
 html_static_path = ["_static"]
 html_theme = "pydata_sphinx_theme"
-html_title = f"{project} {version}"
+# html_title = f"{project} {version}"
 html_context = {
     "github_user": "BCDA-APS",
     "github_repo": "apstools",
@@ -91,18 +91,18 @@ html_context = {
     "doc_path": "docs",
 }
 
-# fmt: off
-html_theme_options = {
-    "github_url": "https://github.com/BCDA-APS/apstools",
-    "navbar_start": ["navbar-logo", "version-switcher"],
-    "switcher": {
-        "json_url": switcher_json_url,
-        "version_match": 
-            release 
-            if release in switcher_version_list 
-            else "dev",
-    }
-}
+# # fmt: off
+# html_theme_options = {
+#     "github_url": "https://github.com/BCDA-APS/apstools",
+#     "navbar_start": ["navbar-logo", "version-switcher"],
+#     "switcher": {
+#         "json_url": switcher_json_url,
+#         "version_match": 
+#             release 
+#             if release in switcher_version_list 
+#             else "dev",
+#     }
+# }
 # fmt: on
 
 autodoc_mock_imports = """

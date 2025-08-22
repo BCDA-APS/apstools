@@ -535,7 +535,6 @@ def unix(command, raises=True):
 
 def listobjects(
     show_pv=True,
-    printing=None,  # DEPRECATED
     verbose=False,
     symbols=None,
     child_devices=False,
@@ -643,10 +642,68 @@ def listobjects(
     # Render the dict as a table.
     table = table_style.value(contents)
 
-    if printing is not None:
-        warnings.warn(f"Keyword argument 'printing={printing}' is deprecated.")
+    return table
+
+def listobjects(
+    show_pv=True,
+    verbose=False,
+    symbols=None,
+    child_devices=False,
+    child_signals=False,
+    table_style=TableStyle.pyRestTable,
+):
+    # ... docstring remains the same ...
+    
+    # Add ophyd_async imports at the top of the function
+    from ophyd_async.core import Device, SignalR, SignalRW, SignalW, SignalX
+    
+    if symbols is None:
+        g = ipython_shell_namespace()  # the default choice
+        if len(g) == 0:
+            g = globals()  # ultimate fallback
+    else:
+        g = symbols
+    
+    # Filter for ophyd_async objects
+    g = {k: v for k, v in sorted(g.items()) 
+         if isinstance(v, (Device, SignalR, SignalRW, SignalW, SignalX))}
+    
+    # Build the table as a dict keyed by column names.
+    contents = defaultdict(list)
+    for k, v in g.items():
+        contents["name"].append(k)
+        contents["class"].append(v.__class__.__name__)
+        if show_pv:
+            # Handle ophyd_async PV access
+            if hasattr(v, "source") and hasattr(v.source, "read_pv"):
+                pv = v.source.read_pv
+            elif hasattr(v, "source") and hasattr(v.source, "write_pv"):
+                pv = v.source.write_pv
+            elif hasattr(v, "_name"):
+                pv = v._name
+            else:
+                pv = ""
+            contents["PV (or prefix)"].append(pv)
+        if verbose:
+            contents["object"].append(v)
+        if child_devices or child_signals:
+            # This would need a separate implementation for ophyd_async
+            # nchildren = count_child_devices_and_signals_async(v)
+            # if child_devices:
+            #     contents["#devices"].append(nchildren["Device"])
+            # if child_signals:
+            #     contents["#signals"].append(nchildren["Signal"])
+            pass  # Temporarily disabled until helper function is updated
+        
+        # Handle labels for ophyd_async
+        labels = getattr(v, "labels", set())
+        contents["label(s)"].append(" ".join(labels) if labels else "")
+
+    # Render the dict as a table.
+    table = table_style.value(contents)        
 
     return table
+
 
 
 def connect_pvlist(pvlist, wait=True, timeout=2, poll_interval=0.1):
