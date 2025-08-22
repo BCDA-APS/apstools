@@ -47,8 +47,8 @@ dependencies = [
   "area-detector-handlers",
   "bluesky-live",
   "bluesky>=1.6.2,!=1.11.0",
+  "databroker=>2.000",
   "databroker-pack",
-  "databroker<=1.999",
   "Deprecated",
   "entrypoints",
   "h5py",
@@ -83,7 +83,6 @@ dev = [
   "pre-commit",
   "pytest",
   "ruff",
-  # databroker 2.0.0b57 needs
   "doct",
   "humanize",
   "mongomock",
