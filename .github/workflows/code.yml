@@ -80,11 +80,23 @@ jobs:
           set -vxeuo pipefail
           pip install -e .[dev]
 
+      # - name: Unpack
+      #   run: |
+      #     set -vxeuo pipefail
+      #     which databroker-pack
+      #     which databroker-unpack
+      #     cd resources
+      #     bash ./unpack.sh
+      #     cmd="import databroker;"
+      #     cmd+=" print(list(databroker.catalog));"
+      #     cmd+=" print(databroker.catalog_search_path());"
+      #     python -c "${cmd}"
+      #     cd ..
+
       - name: Unpack
         run: |
           set -vxeuo pipefail
           which databroker-pack
-          which databroker-unpack
           cd resources
           bash ./unpack.sh
           cmd="import databroker;"
@@ -92,7 +104,7 @@ jobs:
           cmd+=" print(databroker.catalog_search_path());"
           python -c "${cmd}"
           cd ..
-
+  
       # - name: Directory Listings
       #   run: |
       #     set -vxeuo pipefail
