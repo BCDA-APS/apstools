@@ -29,7 +29,8 @@ describe future plans.
    Fixes
    -------------
 
-   * Fix issue where extra data point  written in specwriter when baseline stream. was present 
+   * ApsMachineParametersDevice cannot get cycle name, current date not in data table.
+   * SpecWriterCallback2 added extra data point when baseline stream was present.
 
    Maintenance
    -----------

@@ -692,6 +692,10 @@ class SpecWriterCallback(object):
 
 
 @versionchanged(
+    version="1.7.8",
+    reason="BUG: extra data reported",
+)
+@versionchanged(
     version="1.7.6",
     reason="Translate motor object_key to motor data_key",
 )
