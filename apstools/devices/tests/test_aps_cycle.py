@@ -16,7 +16,7 @@ def using_APS_workstation():
     return hostname.lower().endswith(".aps.anl.gov")
 
 
-@pytest.skip(reason="TODO issue 1122")
+@pytest.mark.skip("TODO issue 1122")
 def test_ApsCycleDM():
     signal = ApsCycleDM(name="signal")
     assert signal.connected
