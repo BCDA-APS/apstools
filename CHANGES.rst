@@ -31,6 +31,11 @@ describe future plans.
 
    * Fix issue where extra data point  written in specwriter when baseline stream. was present 
 
+   Maintenance
+   -----------
+
+   * Now testing with Python versions 3.10 - Py3.13. (still pinning databroker)
+
 1.7.7
 *****
 
