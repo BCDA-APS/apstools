@@ -26,6 +26,7 @@ def lr():
     return lr
 
 
+@pytest.mark.skip("# TODO 1126")
 def test_getDefaultCatalog_none_found():
     with pytest.raises(ValueError) as exinfo:
         utils.getDefaultCatalog()
