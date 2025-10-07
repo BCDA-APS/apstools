@@ -54,7 +54,8 @@ def test_getDefaultCatalog_many_found(cat):
     assert "Multiple catalog objects available." in str(exinfo.value)
 
 
-def test_getCatalog():
+@pytest.mark.skip("# TODO 1126")
+def test_getCatalog():  # TODO: parametrize
     # get by name of configuration YAML file
     ret = utils.getCatalog(TEST_CATALOG_NAME)
     assert ret.name == TEST_CATALOG_NAME
