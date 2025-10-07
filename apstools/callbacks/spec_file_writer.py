@@ -72,6 +72,7 @@ from .callback_base import FileWriterCallbackBase
 
 SPEC_TIME_FORMAT = "%a %b %d %H:%M:%S %Y"
 SCAN_ID_RESET_VALUE = 0
+PRIMARY_STREAM_NAME = "primary"
 
 
 def _rebuild_scan_command(doc):
@@ -767,7 +768,7 @@ class SpecWriterCallback2(FileWriterCallbackBase):
             self.motors = {k: None for k in mlist}
             return  # nothing more to do now
 
-        elif doc["name"] != "primary":
+        elif doc["name"] != PRIMARY_STREAM_NAME:
             return
 
         super().descriptor(doc)  # process the document
@@ -798,6 +799,9 @@ class SpecWriterCallback2(FileWriterCallbackBase):
                     # De-reference assuming readback is the first in the list.
                     key = descriptor["object_keys"][k][0]
                 self.motors[k] = doc["data"][key]  # get motor readback value
+            return
+
+        if descriptor["name"] != PRIMARY_STREAM_NAME:
             return
 
         self.write_file_header()
