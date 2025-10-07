@@ -36,6 +36,7 @@ describe future plans.
    -----------
 
    * Now testing with Python versions 3.10 - Py3.13. (still pinning databroker)
+   * STI undulator uses 'STIVersionM' PV
 
 1.7.7
 *****

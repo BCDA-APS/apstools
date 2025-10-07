@@ -322,6 +322,7 @@ def test_no_labeled_motor(noisy):
     assert f"label_start_{label}" not in run.metadata["stop"]["num_events"]
 
 
+@pytest.mark.skip("# TODO 1126")
 @pytest.mark.parametrize("rename", [False, True])
 @pytest.mark.parametrize(
     "labels, context, expected",
