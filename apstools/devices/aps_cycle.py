@@ -14,6 +14,7 @@ import pathlib
 import time
 
 import yaml
+from deprecated.sphinx import versionchanged
 from ophyd.sim import SynSignalRO
 
 logger = logging.getLogger(__name__)
@@ -133,9 +134,17 @@ class _ApsCycleDB:
 cycle_db = _ApsCycleDB()
 
 
+@versionchanged(
+    version="1.7.8",
+    reason="Provide cycle info empirically when not in data table. (Drop DM API.)",
+)
 class ApsCycleDM(SynSignalRO):
     """
-    Get the APS cycle name from the APS Data Management system or a local file.
+    Get the APS cycle name from a local file (source: official APS schedule).
+
+    Previously, this info was available from the BSS API in the APS Data
+    Management (thus the DM name).  Now that interface requires credentialed
+    access only.
 
     .. index:: Ophyd Signal; ApsCycleDM
 
@@ -146,11 +155,25 @@ class ApsCycleDM(SynSignalRO):
     _cycle_name = "unknown"
 
     def get(self):
-        self._cycle_name = cycle_db.get_cycle_name()
-        if datetime.datetime.now().isoformat(sep=" ") >= self._cycle_ends:
-            ts_cycle_end = cycle_db.db[self._cycle_name]["end"]
-            dt_cycle_ends = datetime.datetime.fromtimestamp(ts_cycle_end)
-            self._cycle_ends = dt_cycle_ends.isoformat(sep=" ")
+        now = datetime.datetime.now()
+        cycle = cycle_db.get_cycle_name()
+        if cycle is None:  # empirical
+            if now.month < 5:
+                cycle = f"{now.year}-1"
+                dt_cycle_ends = f"{now.year}-05-01 00:00:00-05:00"
+            if now.month < 9:
+                cycle = f"{now.year}-2"
+                dt_cycle_ends = f"{now.year}-10-01 00:00:00-05:00"
+            else:
+                cycle = f"{now.year}-3"
+                dt_cycle_ends = f"{now.year+1}-01-01 00:00:00-06:00"
+        else:  # official table from APS (via DM)
+            if now.isoformat(sep=" ") >= self._cycle_ends:
+                ts_cycle_end = cycle_db.db[cycle]["end"]
+                dt_cycle_ends = datetime.datetime.fromtimestamp(ts_cycle_end).isoformat(sep=" ")
+
+        self._cycle_ends = dt_cycle_ends
+        self._cycle_name = cycle
         return self._cycle_name
 
 
