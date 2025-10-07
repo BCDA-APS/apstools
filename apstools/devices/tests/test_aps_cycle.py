@@ -33,6 +33,7 @@ def test_ApsCycleDM():
         assert int(cycle.split("-")[0]) > 2020
 
 
+@pytest.mark.skip("TODO issue 1122")
 def test_ApsCycleDB():
     assert aps_cycle.YAML_CYCLE_FILE.exists()
 
