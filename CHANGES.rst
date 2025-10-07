@@ -24,7 +24,12 @@ describe future plans.
    1.7.8
    *****
 
-   Release expected by 2025-08.
+   Release expected by 2025-11.
+
+   Fixes
+   -------------
+
+   * Fix issue where extra data point  written in specwriter when baseline stream. was present 
 
 1.7.7
 *****
