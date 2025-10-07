@@ -53,7 +53,7 @@ jobs:
           - "3.11"
           - "3.12"
           - "3.13"
-          - "3.14"  # TODO: upstream packages not yet ready
+          # - "3.14"  # TODO: upstream packages not yet ready
       max-parallel: 5
 
     steps:
