@@ -109,7 +109,6 @@ class ID_Misc_Mixin(Device):
     magnet = Component(EpicsSignalRO, "DeviceMagnetM", kind="config")
     location = Component(EpicsSignalRO, "LocationM", kind="config")
     version_plc = Component(EpicsSignalRO, "PLCVersionM.VAL", kind="config")
-    version_hpmu = Component(EpicsSignalRO, "HPMUVersionM.VAL", kind="config")
 
 
 class ID_Spectrum_Mixin(Device):
@@ -148,6 +147,8 @@ class PlanarUndulator(ID_Spectrum_Mixin, ID_Controls_Mixin, ID_Misc_Mixin, Devic
         undulator = PlanarUndulator("S25ID:USID:", name="undulator")
     """
 
+    version_hdmu = Component(EpicsSignalRO, "HDMUVersionM.VAL", kind="config")
+
 
 class Revolver_Undulator(ID_Spectrum_Mixin, ID_Controls_Mixin, ID_Misc_Mixin, Device):
     """APS Revolver Insertion Device.
@@ -166,6 +167,7 @@ class Revolver_Undulator(ID_Spectrum_Mixin, ID_Controls_Mixin, ID_Misc_Mixin, De
     status_position1 = Component(EpicsSignalRO, "Position1M.VAL", kind="config")
     status_position2 = Component(EpicsSignalRO, "Position2M.VAL", kind="config")
     status_safe_gap = Component(EpicsSignalRO, "AtSafeGapM.VAL", kind="config")
+    version_hdmu = Component(EpicsSignalRO, "HDMUVersionM.VAL", kind="config")
 
 
 class STI_Undulator(PlanarUndulator):
@@ -181,6 +183,8 @@ class STI_Undulator(PlanarUndulator):
 
         undulator = STI_Undulator("S04ID:USID:", name="undulator")
     """
+
+    version_sti = Component(EpicsSignalRO, "STIVersionM.VAL", kind="config")
 
 
 class Undulator2M(ID_Spectrum_Mixin, ID_Controls_Mixin, ID_Misc_Mixin, Device):
