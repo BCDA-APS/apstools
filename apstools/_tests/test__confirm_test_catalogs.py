@@ -14,7 +14,7 @@ import pytest
         ["usaxs_test", "e5d2cb", does_not_raise(), None],
     ],
 )
-def test_check_test_catalogs_ok(cat_name, uid, context, expected):
+def test_confirm_test_catalogs_ok(cat_name, uid, context, expected):
     with context as exinfo:
         assert len(list(databroker.catalog)), f"{list(databroker.catalog)=}"
         assert str(databroker.catalog_search_path()) != "", f"{databroker.catalog_search_path()=}"
