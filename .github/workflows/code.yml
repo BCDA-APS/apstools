@@ -150,8 +150,8 @@ jobs:
         run: |
           set -vxeuo pipefail
           # TODO 1126
-          # coverage run --concurrency=thread --parallel-mode -m pytest -vvv --exitfirst .
-          coverage run --concurrency=thread --parallel-mode -m pytest -vvv  ./apstools/plans/tests/test_labels_to_streams.py
+          coverage run --concurrency=thread --parallel-mode -m pytest -vvv --exitfirst .
+          # coverage run --concurrency=thread --parallel-mode -m pytest -vvv  ./apstools/plans/tests/test_labels_to_streams.py
           # coverage run --concurrency=thread --parallel-mode -m pytest -vvv  ./apstools/utils/tests/test_listruns_class.py
           coverage combine
           coverage report --precision 3
