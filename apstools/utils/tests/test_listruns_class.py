@@ -30,7 +30,7 @@ def lr():
 def test_getDefaultCatalog_none_found():
     with pytest.raises(ValueError) as exinfo:
         utils.getDefaultCatalog()
-    assert "Multiple catalog configurations available." in str(exinfo.value)
+    assert "No catalogs available." in str(exinfo.value)
 
 
 # @pytest.mark.skip("# TODO 1126")
@@ -44,7 +44,7 @@ def test_getDefaultCatalog(cat):
     assert cat.name == TEST_CATALOG_NAME
 
 
-@pytest.mark.skip("# TODO 1126")
+# @pytest.mark.skip("# TODO 1126")
 def test_getDefaultCatalog_many_found(cat):
     ns = getDefaultNamespace()
     ns.update(dict(cat1=cat, cat2=cat, cat3=cat))
@@ -54,7 +54,7 @@ def test_getDefaultCatalog_many_found(cat):
     assert "Multiple catalog objects available." in str(exinfo.value)
 
 
-@pytest.mark.skip("# TODO 1126")
+# @pytest.mark.skip("# TODO 1126")
 def test_getCatalog():  # TODO: parametrize
     # get by name of configuration YAML file
     ret = utils.getCatalog(TEST_CATALOG_NAME)
@@ -79,7 +79,7 @@ def test_getDefaultNamespace():
     assert "getDefaultNamespace" in ret
 
 
-@pytest.mark.skip("# TODO 1126")
+# @pytest.mark.skip("# TODO 1126")
 def test_findCatalogsInNamespace(cat):
     ns = getDefaultNamespace()
     assert isinstance(ns, dict)
@@ -91,7 +91,7 @@ def test_findCatalogsInNamespace(cat):
     assert len(cats) == 3
 
 
-@pytest.mark.skip("# TODO 1126")
+# @pytest.mark.skip("# TODO 1126")
 def test_ListRuns(cat):
     lr = utils.ListRuns()
     assert lr is not None
