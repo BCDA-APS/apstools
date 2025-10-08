@@ -154,7 +154,22 @@ def getDefaultCatalog():
             "No catalog defined.  Multiple catalog objects available.  Specify one of these: {choices}"
         )
 
-    cats = list(catalog)
+    # Attempt to list available catalog configurations.  Calling
+    # list(catalog) can trigger Intake to load catalog files which may raise
+    # FileNotFoundError or other exceptions in CI environments where those
+    # files are missing. Try several safer fallbacks to obtain catalog names
+    # without forcing Intake to load files.
+    try:
+        cats = list(catalog)
+    except Exception:
+        try:
+            cats = list(catalog.keys())
+        except Exception:
+            try:
+                cats = list(getattr(catalog, "_catalog", {}).keys())
+            except Exception:
+                cats = []
+
     if len(cats) == 1:
         return catalog[cats[0]]
     if len(cats) > 1:

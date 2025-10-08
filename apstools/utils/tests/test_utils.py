@@ -492,6 +492,7 @@ def test_utils_db_query(
 @pytest.mark.parametrize(
     "scan_id, key, db, stream, query, v1, nrows, ncols, context, expected",
     [
+        # fmt: off
         # non-exception cases (use does_not_raise())
         (COUNT, None, DEFAULT_CATALOG_ID, None, None, None, 6, 1, does_not_raise(), None),
         (COUNT, None, DEFAULT_CATALOG_ID, "baseline", None, None, 269, 2, does_not_raise(), None),
@@ -507,6 +508,7 @@ def test_utils_db_query(
         (COUNT, "aps", None, None, None, None, None, None, pytest.raises(ValueError), "No catalog defined.  Multiple catalog "),
         (COUNT, None, None, "primary", None, None, None, None, pytest.raises(ValueError), "No catalog defined.  Multiple catalog "),
         (COUNT, "aps", None, "primary", None, None, None, None, pytest.raises(ValueError), "No catalog defined.  Multiple catalog "),
+        # fmt: on
     ],
 )
 def test_utils_getStreamValues(scan_id, key, db, stream, cat, query, v1, nrows, ncols, context, expected):
