@@ -38,28 +38,47 @@ except Exception as e:
     sys.exit(0)
 
 print('databroker.catalog entries:', list(databroker.catalog))
+# Try to get the intake/databroker search path and preserve order.
+paths = []
 try:
-    print('intake/databroker catalog_search_path():', databroker.catalog_search_path())
+    sp = databroker.catalog_search_path()
+    print('intake/databroker catalog_search_path():', sp)
+    paths = list(sp)
 except Exception:
     # older/databroker variations
-    from intake import catalog as intake_catalog
     try:
-        print('intake.catalog_search_path():', intake_catalog.catalog_search_path())
+        from intake import catalog as intake_catalog
+        sp = intake_catalog.catalog_search_path()
+        print('intake.catalog_search_path():', sp)
+        paths = list(sp)
     except Exception:
-        pass
+        paths = []
 
-# detect duplicate unpack YAML filenames across intake search paths
+# Deduplicate search paths while preserving order (some APIs return duplicates)
+seen_paths = set()
+unique_paths = []
+for p in paths:
+    if not p:
+        continue
+    if p not in seen_paths:
+        seen_paths.add(p)
+        unique_paths.append(p)
+
+# detect duplicate unpack YAML filenames across unique intake search paths
 seen = {}
-for p in databroker.catalog_search_path():
+for p in unique_paths:
     if not os.path.isdir(p):
         continue
     for y in glob.glob(os.path.join(p, 'databroker_unpack_*.yml')):
         b = os.path.basename(y)
         seen.setdefault(b, []).append(p)
-dups = {k:v for k,v in seen.items() if len(v) > 1}
+
+# Only consider real duplicates when the same YAML file basename exists in
+# more than one distinct directory.
+dups = {k: v for k, v in seen.items() if len(v) > 1}
 if dups:
     print('Duplicate unpack YAML filenames found in multiple intake search paths:', file=sys.stderr)
-    for k,v in dups.items():
+    for k, v in dups.items():
         print(f'  {k}:', file=sys.stderr)
         for p in v:
             print(f'    - {p}', file=sys.stderr)
