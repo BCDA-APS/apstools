@@ -13,6 +13,7 @@ TEST_CATALOG_NAME = "apstools_test"
 
 @pytest.fixture(scope="function")
 def cat():
+    assert TEST_CATALOG_NAME in databroker.catalog, f"{list(databroker.catalog)=}"
     cat = databroker.catalog[TEST_CATALOG_NAME]
     return cat
 
