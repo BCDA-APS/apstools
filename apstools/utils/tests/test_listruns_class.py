@@ -33,7 +33,7 @@ def test_getDefaultCatalog_none_found():
     assert "Multiple catalog configurations available." in str(exinfo.value)
 
 
-@pytest.mark.skip("# TODO 1126")
+# @pytest.mark.skip("# TODO 1126")
 def test_getDefaultCatalog(cat):
     # put the catalog in the namespace of the called function
     ns = getDefaultNamespace()
