@@ -11,10 +11,26 @@ SRC=$(dirname $(readlink -f $0))
 # If running inside an activated conda/micromamba environment, prefer
 # writing user XDG data into the active environment share so that
 # intake/databroker will pick up the generated YAMLs from the env.
+# Also remove any previously unpacked YAMLs from the user's
+# ~/.local/share/intake to avoid duplicate-catalog conflicts.
 if [ -n "${CONDA_PREFIX:-}" ]; then
     export XDG_DATA_HOME="$CONDA_PREFIX/share"
     mkdir -p "$XDG_DATA_HOME/intake"
     echo "Set XDG_DATA_HOME -> $XDG_DATA_HOME (intake YAMLs will go to $XDG_DATA_HOME/intake)"
+
+    # Remove any leftover unpacked databroker YAMLs from the user intake dir
+    USER_INT_DIR="$HOME/.local/share/intake"
+    if [ -d "$USER_INT_DIR" ]; then
+        shopt -s nullglob
+        USER_FILES=("$USER_INT_DIR"/databroker_unpack_*.yml)
+        if [ ${#USER_FILES[@]} -gt 0 ]; then
+            echo "Removing ${#USER_FILES[@]} leftover user unpack YAML(s) from $USER_INT_DIR to avoid duplicates:"
+            for f in "${USER_FILES[@]}"; do
+                rm -v "$f" || echo "Warning: failed to remove $f" >&2
+            done
+        fi
+        shopt -u nullglob
+    fi
 fi
 
 for c in ${CAT}; do
