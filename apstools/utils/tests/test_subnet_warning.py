@@ -17,5 +17,5 @@ def test_subnet_check():
         and not host_ip_addr.startswith(APSU_CONTROLS_SUBNET)
     )
     # fmt: on
-    with pytest.raises(UserWarning) if warns else does_not_raise():
+    with pytest.warns(UserWarning) if warns else does_not_raise():
         warn_if_not_aps_controls_subnet()

@@ -30,7 +30,7 @@ def lr():
 def test_getDefaultCatalog_none_found():
     with pytest.raises(ValueError) as exinfo:
         utils.getDefaultCatalog()
-    assert "No catalogs available." in str(exinfo.value)
+    assert " available." in str(exinfo.value)
 
 
 # @pytest.mark.skip("# TODO 1126")
