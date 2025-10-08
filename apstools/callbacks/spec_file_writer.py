@@ -982,7 +982,7 @@ class SpecWriterCallback2(FileWriterCallbackBase):
 
         # lines.append("")
 
-        self._write_lines_(lines, mode="a+")
+        self._write_lines_(lines, mode="a")  # TODO 1126 mode="a+"
         self.write_new_file_header = False
 
     def write_scan_data_row(self, doc):
