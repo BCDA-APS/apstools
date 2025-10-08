@@ -150,13 +150,19 @@ jobs:
         run: |
           set -vxeuo pipefail
 
-          cmd="import databroker;"
           python - <<'PY'
+          # Check that test catalogs are usable.
           import databroker
           print(f"{list(databroker.catalog)=}")
           print(f"{databroker.catalog_search_path()=}")
-          print(f"{databroker.catalog['apstools_test']=}")
-          print(f"{databroker.catalog['usaxs_test']=}")
+          cat = databroker.catalog['apstools_test']
+          print(f"{cat=}")
+          run = cat["49dce8d"]
+          print(f"{run=}")
+          cat = databroker.catalog['usaxs_test']
+          print(f"{cat=}")
+          run = cat["e5d2cb"]
+          print(f"{run=}")
           PY
 
           coverage run --concurrency=thread --parallel-mode -m pytest -vvv --exitfirst .
