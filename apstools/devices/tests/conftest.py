@@ -203,7 +203,14 @@ def _get_intake_search_paths():
 def _snapshot():
     snap = {}
     snap["time"] = time.time()
-    snap["cwd"] = os.getcwd()
+    try:
+        snap["cwd"] = os.getcwd()
+    except FileNotFoundError:
+        # Current working directory may have been removed by a test.
+        # Don't let the monitor raise — record a sentinel and continue.
+        snap["cwd"] = f"<cwd-missing: {os.environ.get('PWD', '')}>"
+    except Exception as e:
+        snap["cwd"] = f"<cwd-unavailable: {type(e).__name__}: {e}>"
     snap["env"] = {
         "HOME": os.environ.get("HOME"),
         "CONDA_PREFIX": os.environ.get("CONDA_PREFIX"),
