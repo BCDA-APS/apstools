@@ -150,7 +150,7 @@ jobs:
         shell: bash -l {0}
         run: |
           set -vxeuo pipefail
-          coverage run --concurrency=thread --parallel-mode -m pytest -vvv --exitfirst .
+          coverage run --concurrency=thread --parallel-mode -m pytest -q --exitfirst .
           coverage combine
           coverage report --precision 3
 
