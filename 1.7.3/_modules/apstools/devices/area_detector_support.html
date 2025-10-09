@@ -1,0 +1,1461 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../../../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>apstools.devices.area_detector_support &#8212; apstools 1.7</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="../../../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/graphviz.css?v=4ae1632d" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/css/custom.css?v=8b12e3de" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="../../../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+
+    <script src="../../../_static/documentation_options.js?v=34f54c9c"></script>
+    <script src="../../../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../_static/design-tabs.js?v=f930bc37"></script>
+    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = '_modules/apstools/devices/area_detector_support';</script>
+    <script>
+        DOCUMENTATION_OPTIONS.theme_version = '0.16.1';
+        DOCUMENTATION_OPTIONS.theme_switcher_json_url = 'https://raw.githubusercontent.com/BCDA-APS/apstools/main/docs/source/_static/switcher.json';
+        DOCUMENTATION_OPTIONS.theme_switcher_version_match = '1.7.3';
+        DOCUMENTATION_OPTIONS.show_version_warning_banner =
+            false;
+        </script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="1.7" />
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-3 navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../../../index.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">apstools 1.7</p>
+  
+</a></div>
+    
+      <div class="navbar-item">
+<div class="version-switcher__container dropdown pst-js-only">
+  <button id="pst-version-switcher-button-2"
+    type="button"
+    class="version-switcher__button btn btn-sm dropdown-toggle"
+    data-bs-toggle="dropdown"
+    aria-haspopup="listbox"
+    aria-controls="pst-version-switcher-list-2"
+    aria-label="Version switcher list"
+  >
+    Choose version  <!-- this text may get changed later by javascript -->
+    <span class="caret"></span>
+  </button>
+  <div id="pst-version-switcher-list-2"
+    class="version-switcher__menu dropdown-menu list-group-flush py-0"
+    role="listbox" aria-labelledby="pst-version-switcher-button-2">
+    <!-- dropdown will be populated by javascript on page load -->
+  </div>
+</div></div>
+    
+  </div>
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../install.html">
+    Installation
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../api/index.html">
+    API Documentation
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../applications/index.html">
+    Applications
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../examples/index.html">
+    Examples
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../changes.html">
+    Change History
+  </a>
+</li>
+
+            <li class="nav-item dropdown">
+                <button class="btn dropdown-toggle nav-item" type="button"
+                data-bs-toggle="dropdown" aria-expanded="false"
+                aria-controls="pst-nav-more-links">
+                    More
+                </button>
+                <ul id="pst-nav-more-links" class="dropdown-menu">
+                    
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../../license.html">
+    License
+  </a>
+</li>
+
+                </ul>
+            </li>
+            
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+        <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+      
+        <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/BCDA-APS/apstools" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+        
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar hide-on-wide">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../install.html">
+    Installation
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../api/index.html">
+    API Documentation
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../applications/index.html">
+    Applications
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../examples/index.html">
+    Examples
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../changes.html">
+    Change History
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../license.html">
+    License
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+        
+          <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/BCDA-APS/apstools" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+        
+      </div>
+    
+  </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+<nav aria-label="Breadcrumb" class="d-print-none">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../../../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="../../index.html" class="nav-link">Module code</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">apstools.devices.area_detector_support</span></li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <h1>Source code for apstools.devices.area_detector_support</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Area Detector Support</span>
+<span class="sd">+++++++++++++++++++++++++++++++++++++++</span>
+
+<span class="sd">.. autosummary::</span>
+
+<span class="sd">   ~AD_EpicsFileNameHDF5Plugin</span>
+<span class="sd">   ~AD_EpicsFileNameJPEGPlugin</span>
+<span class="sd">   ~AD_EpicsFileNameMixin</span>
+<span class="sd">   ~AD_EpicsFileNameTIFFPlugin</span>
+<span class="sd">   ~AD_EpicsHdf5FileName</span>
+<span class="sd">   ~AD_EpicsHDF5IterativeWriter</span>
+<span class="sd">   ~AD_EpicsJPEGFileName</span>
+<span class="sd">   ~AD_EpicsJPEGIterativeWriter</span>
+<span class="sd">   ~AD_EpicsTIFFFileName</span>
+<span class="sd">   ~AD_EpicsTIFFIterativeWriter</span>
+<span class="sd">   ~AD_FrameType_schemes</span>
+<span class="sd">   ~AD_full_file_name_local</span>
+<span class="sd">   ~AD_plugin_primed</span>
+<span class="sd">   ~AD_prime_plugin</span>
+<span class="sd">   ~AD_prime_plugin2</span>
+<span class="sd">   ~AD_setup_FrameType</span>
+<span class="sd">   ~BadPixelPlugin</span>
+<span class="sd">   ~CamMixin_V3_1_1</span>
+<span class="sd">   ~CamMixin_V34</span>
+<span class="sd">   ~HDF5FileWriterPlugin</span>
+<span class="sd">   ~SingleTrigger_V34</span>
+<span class="sd">   ~ensure_AD_plugin_primed</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">datetime</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">itertools</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pathlib</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">time</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">warnings</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">collections</span><span class="w"> </span><span class="kn">import</span> <span class="n">OrderedDict</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">epics</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">ophyd</span><span class="w"> </span><span class="kn">import</span> <span class="n">ADComponent</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">ophyd</span><span class="w"> </span><span class="kn">import</span> <span class="n">CamBase</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">ophyd</span><span class="w"> </span><span class="kn">import</span> <span class="n">EpicsSignal</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">ophyd</span><span class="w"> </span><span class="kn">import</span> <span class="n">EpicsSignalRO</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">ophyd</span><span class="w"> </span><span class="kn">import</span> <span class="n">EpicsSignalWithRBV</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">ophyd</span><span class="w"> </span><span class="kn">import</span> <span class="n">SimDetectorCam</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">ophyd</span><span class="w"> </span><span class="kn">import</span> <span class="n">SingleTrigger</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">ophyd.areadetector.filestore_mixins</span><span class="w"> </span><span class="kn">import</span> <span class="n">FileStoreBase</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">ophyd.areadetector.filestore_mixins</span><span class="w"> </span><span class="kn">import</span> <span class="n">FileStoreHDF5IterativeWrite</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">ophyd.areadetector.filestore_mixins</span><span class="w"> </span><span class="kn">import</span> <span class="n">FileStoreIterativeWrite</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">ophyd.areadetector.filestore_mixins</span><span class="w"> </span><span class="kn">import</span> <span class="n">FileStorePluginBase</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">ophyd.areadetector.plugins</span><span class="w"> </span><span class="kn">import</span> <span class="n">HDF5Plugin_V34</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">ophyd.areadetector.plugins</span><span class="w"> </span><span class="kn">import</span> <span class="n">JPEGPlugin_V34</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">ophyd.areadetector.plugins</span><span class="w"> </span><span class="kn">import</span> <span class="n">PluginBase</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">ophyd.areadetector.plugins</span><span class="w"> </span><span class="kn">import</span> <span class="n">TIFFPlugin_V34</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">packaging</span><span class="w"> </span><span class="kn">import</span> <span class="n">version</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">..utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">count_common_subdirs</span>
+
+<span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
+
+<span class="c1"># fmt: off</span>
+<span class="n">AD_FrameType_schemes</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">&quot;reset&quot;</span><span class="p">:</span> <span class="nb">dict</span><span class="p">(</span>  <span class="c1"># default names from Area Detector code</span>
+        <span class="n">ZRST</span><span class="o">=</span><span class="s2">&quot;Normal&quot;</span><span class="p">,</span>
+        <span class="n">ONST</span><span class="o">=</span><span class="s2">&quot;Background&quot;</span><span class="p">,</span>
+        <span class="n">TWST</span><span class="o">=</span><span class="s2">&quot;FlatField&quot;</span><span class="p">,</span>
+    <span class="p">),</span>
+    <span class="s2">&quot;NeXus&quot;</span><span class="p">:</span> <span class="nb">dict</span><span class="p">(</span>  <span class="c1"># NeXus (typical locations)</span>
+        <span class="n">ZRST</span><span class="o">=</span><span class="s2">&quot;/entry/data/data&quot;</span><span class="p">,</span>
+        <span class="n">ONST</span><span class="o">=</span><span class="s2">&quot;/entry/data/dark&quot;</span><span class="p">,</span>
+        <span class="n">TWST</span><span class="o">=</span><span class="s2">&quot;/entry/data/white&quot;</span><span class="p">,</span>
+    <span class="p">),</span>
+    <span class="s2">&quot;DataExchange&quot;</span><span class="p">:</span> <span class="nb">dict</span><span class="p">(</span>  <span class="c1"># APS Data Exchange</span>
+        <span class="n">ZRST</span><span class="o">=</span><span class="s2">&quot;/exchange/data&quot;</span><span class="p">,</span>
+        <span class="n">ONST</span><span class="o">=</span><span class="s2">&quot;/exchange/data_dark&quot;</span><span class="p">,</span>
+        <span class="n">TWST</span><span class="o">=</span><span class="s2">&quot;/exchange/data_white&quot;</span><span class="p">,</span>
+    <span class="p">),</span>
+<span class="p">}</span>
+<span class="sd">&quot;&quot;&quot;Naming schemes for area detector frame types.&quot;&quot;&quot;</span>
+<span class="c1"># fmt: on</span>
+
+
+<div class="viewcode-block" id="AD_setup_FrameType">
+<a class="viewcode-back" href="../../../api/_devices.html#apstools.devices.area_detector_support.AD_setup_FrameType">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">AD_setup_FrameType</span><span class="p">(</span><span class="n">prefix</span><span class="p">,</span> <span class="n">scheme</span><span class="o">=</span><span class="s2">&quot;NeXus&quot;</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    configure so frames are identified &amp; handled by type (dark, white, or image)</span>
+
+<span class="sd">    PARAMETERS</span>
+
+<span class="sd">        prefix</span>
+<span class="sd">            *str* :</span>
+<span class="sd">            EPICS PV prefix of area detector, such as ``13SIM1:``</span>
+<span class="sd">        scheme</span>
+<span class="sd">            *str* :</span>
+<span class="sd">            any key in the ``AD_FrameType_schemes`` dictionary</span>
+
+<span class="sd">    This routine prepares the EPICS Area Detector to identify frames</span>
+<span class="sd">    by image type for handling by clients, such as the HDF5 file writing plugin.</span>
+<span class="sd">    With the HDF5 plugin, the ``FrameType`` PV is added to the NDattributes</span>
+<span class="sd">    and then used in the layout file to direct the acquired frame to</span>
+<span class="sd">    the chosen dataset.  The ``FrameType`` PV value provides the HDF5 address</span>
+<span class="sd">    to be used.</span>
+
+<span class="sd">    To use a different scheme than the defaults, add a new key to</span>
+<span class="sd">    the ``AD_FrameType_schemes`` dictionary, defining storage values for the</span>
+<span class="sd">    fields of the EPICS ``mbbo`` record that you will be using.</span>
+
+<span class="sd">    see: https://nbviewer.org/github/BCDA-APS/bluesky_training/blob/main/images_darks_flats.ipynb</span>
+
+<span class="sd">    EXAMPLE::</span>
+
+<span class="sd">        AD_setup_FrameType(&quot;2bmbPG3:&quot;, scheme=&quot;DataExchange&quot;)</span>
+
+<span class="sd">    * Call this function *before* creating the ophyd area detector object</span>
+<span class="sd">    * use lower-level PyEpics interface</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">db</span> <span class="o">=</span> <span class="n">AD_FrameType_schemes</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">scheme</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">db</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;unknown AD_FrameType_schemes scheme: </span><span class="si">{</span><span class="n">scheme</span><span class="si">}</span><span class="s2">&quot;</span>
+            <span class="s2">&quot;</span><span class="se">\n</span><span class="s2"> Should be one of: &quot;</span> <span class="o">+</span> <span class="s2">&quot;, &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">AD_FrameType_schemes</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
+        <span class="p">)</span>
+
+    <span class="n">template</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="si">{}</span><span class="s2">cam1:FrameType</span><span class="si">{}</span><span class="s2">.</span><span class="si">{}</span><span class="s2">&quot;</span>
+    <span class="k">for</span> <span class="n">field</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">db</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+        <span class="n">epics</span><span class="o">.</span><span class="n">caput</span><span class="p">(</span><span class="n">template</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">prefix</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">field</span><span class="p">),</span> <span class="n">value</span><span class="p">)</span>
+        <span class="n">epics</span><span class="o">.</span><span class="n">caput</span><span class="p">(</span><span class="n">template</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">prefix</span><span class="p">,</span> <span class="s2">&quot;_RBV&quot;</span><span class="p">,</span> <span class="n">field</span><span class="p">),</span> <span class="n">value</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="AD_plugin_primed">
+<a class="viewcode-back" href="../../../api/_devices.html#apstools.devices.area_detector_support.AD_plugin_primed">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">AD_plugin_primed</span><span class="p">(</span><span class="n">plugin</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Has area detector pushed an NDarray to the file writer plugin?  True or False</span>
+
+<span class="sd">    PARAMETERS</span>
+
+<span class="sd">    plugin</span>
+<span class="sd">        *obj* :</span>
+<span class="sd">        area detector plugin to be *primed* (such as ``detector.hdf1``)</span>
+
+<span class="sd">    EXAMPLE::</span>
+
+<span class="sd">        AD_plugin_primed(detector.hdf1)</span>
+
+<span class="sd">    Works around an observed issue: #598</span>
+<span class="sd">    https://github.com/NSLS-II/ophyd/issues/598#issuecomment-414311372</span>
+
+<span class="sd">    If detector IOC has just been started and has not yet taken an image</span>
+<span class="sd">    with the file writer plugin, then a TimeoutError will occur as the</span>
+<span class="sd">    file writer plugin &quot;Capture&quot; is set to 1 (Start).  In such case,</span>
+<span class="sd">    first acquire at least one image with the file writer plugin enabled.</span>
+
+<span class="sd">    Also issue in apstools (needs a robust method to detect if primed):</span>
+<span class="sd">    https://github.com/BCDA-APS/apstools/issues/464</span>
+
+<span class="sd">    Since Area Detector release 2.1 (2014-10-14).</span>
+
+<span class="sd">    The *prime* process is not needed if you select the</span>
+<span class="sd">    *LazyOpen* feature with *Stream* mode for the file plugin.</span>
+<span class="sd">    *LazyOpen* defers file creation until the first frame arrives</span>
+<span class="sd">    in the plugin. This removes the need to initialize the plugin</span>
+<span class="sd">    with a dummy frame before starting capture.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">cam</span> <span class="o">=</span> <span class="n">plugin</span><span class="o">.</span><span class="n">parent</span><span class="o">.</span><span class="n">cam</span>
+    <span class="n">tests</span> <span class="o">=</span> <span class="p">[]</span>
+
+    <span class="k">for</span> <span class="n">obj</span> <span class="ow">in</span> <span class="p">(</span><span class="n">cam</span><span class="p">,</span> <span class="n">plugin</span><span class="p">):</span>
+        <span class="n">test</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">obj</span><span class="o">.</span><span class="n">array_size</span><span class="o">.</span><span class="n">get</span><span class="p">())</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span> <span class="o">!=</span> <span class="mi">0</span>
+        <span class="n">tests</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">test</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">test</span><span class="p">:</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;&#39;</span><span class="si">%s</span><span class="s2">&#39; image size is zero&quot;</span><span class="p">,</span> <span class="n">obj</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+
+    <span class="n">checks</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span>
+        <span class="n">array_size</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+        <span class="n">color_mode</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">data_type</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">as_string</span> <span class="ow">in</span> <span class="n">checks</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+        <span class="n">c</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">cam</span><span class="p">,</span> <span class="n">key</span><span class="p">)</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">as_string</span><span class="o">=</span><span class="n">as_string</span><span class="p">)</span>
+        <span class="n">p</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">plugin</span><span class="p">,</span> <span class="n">key</span><span class="p">)</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">as_string</span><span class="o">=</span><span class="n">as_string</span><span class="p">)</span>
+        <span class="n">test</span> <span class="o">=</span> <span class="n">c</span> <span class="o">==</span> <span class="n">p</span>
+        <span class="n">tests</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">test</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">test</span><span class="p">:</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">%s</span><span class="s2"> does not match&quot;</span><span class="p">,</span> <span class="n">key</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="kc">False</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">tests</span></div>
+
+
+
+<div class="viewcode-block" id="AD_prime_plugin">
+<a class="viewcode-back" href="../../../api/_devices.html#apstools.devices.area_detector_support.AD_prime_plugin">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">AD_prime_plugin</span><span class="p">(</span><span class="n">detector</span><span class="p">,</span> <span class="n">plugin</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Prime this area detector&#39;s file writer plugin.</span>
+
+<span class="sd">    PARAMETERS</span>
+
+<span class="sd">    detector</span>
+<span class="sd">        *obj* :</span>
+<span class="sd">        area detector (such as ``detector``)</span>
+<span class="sd">    plugin</span>
+<span class="sd">        *obj* :</span>
+<span class="sd">        area detector plugin to be *primed* (such as ``detector.hdf1``)</span>
+
+<span class="sd">    EXAMPLE::</span>
+
+<span class="sd">        AD_prime_plugin(detector, detector.hdf1)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">nm</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">plugin</span><span class="o">.</span><span class="n">parent</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">.</span><span class="si">{</span><span class="n">plugin</span><span class="o">.</span><span class="n">attr_name</span><span class="si">}</span><span class="s2">&quot;</span>
+    <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Use AD_prime_plugin2(</span><span class="si">{</span><span class="n">nm</span><span class="si">}</span><span class="s2">) instead.&quot;</span><span class="p">)</span>
+    <span class="n">AD_prime_plugin2</span><span class="p">(</span><span class="n">plugin</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="AD_prime_plugin2">
+<a class="viewcode-back" href="../../../api/_devices.html#apstools.devices.area_detector_support.AD_prime_plugin2">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">AD_prime_plugin2</span><span class="p">(</span><span class="n">plugin</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Prime this area detector&#39;s file writer plugin.</span>
+
+<span class="sd">    Collect and push an NDarray to the file writer plugin.</span>
+<span class="sd">    Works with all file writer plugins.</span>
+
+<span class="sd">    Based on ``ophyd.areadetector.plugins.HDF5Plugin.warmup()``.</span>
+
+<span class="sd">    PARAMETERS</span>
+
+<span class="sd">    plugin</span>
+<span class="sd">        *obj* :</span>
+<span class="sd">        area detector plugin to be *primed* (such as ``detector.hdf1``)</span>
+
+<span class="sd">    EXAMPLE::</span>
+
+<span class="sd">        AD_prime_plugin2(detector.hdf1)</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">AD_plugin_primed</span><span class="p">(</span><span class="n">plugin</span><span class="p">):</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;&#39;</span><span class="si">%s</span><span class="s2">&#39; plugin is already primed&quot;</span><span class="p">,</span> <span class="n">plugin</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+        <span class="k">return</span>
+
+    <span class="n">sigs</span> <span class="o">=</span> <span class="n">OrderedDict</span><span class="p">(</span>
+        <span class="p">[</span>
+            <span class="p">(</span><span class="n">plugin</span><span class="o">.</span><span class="n">enable</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span>
+            <span class="p">(</span><span class="n">plugin</span><span class="o">.</span><span class="n">parent</span><span class="o">.</span><span class="n">cam</span><span class="o">.</span><span class="n">array_callbacks</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span>  <span class="c1"># set by number</span>
+            <span class="p">(</span><span class="n">plugin</span><span class="o">.</span><span class="n">parent</span><span class="o">.</span><span class="n">cam</span><span class="o">.</span><span class="n">image_mode</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span>  <span class="c1"># Single, set by number</span>
+            <span class="c1"># Trigger mode names are not identical for every camera.</span>
+            <span class="c1"># Assume here that the first item in the list is</span>
+            <span class="c1"># the best default choice to prime the plugin.</span>
+            <span class="p">(</span><span class="n">plugin</span><span class="o">.</span><span class="n">parent</span><span class="o">.</span><span class="n">cam</span><span class="o">.</span><span class="n">trigger_mode</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span>  <span class="c1"># set by number</span>
+            <span class="c1"># just in case the acquisition time is set very long...</span>
+            <span class="p">(</span><span class="n">plugin</span><span class="o">.</span><span class="n">parent</span><span class="o">.</span><span class="n">cam</span><span class="o">.</span><span class="n">acquire_time</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span>
+            <span class="p">(</span><span class="n">plugin</span><span class="o">.</span><span class="n">parent</span><span class="o">.</span><span class="n">cam</span><span class="o">.</span><span class="n">acquire_period</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span>
+            <span class="p">(</span><span class="n">plugin</span><span class="o">.</span><span class="n">parent</span><span class="o">.</span><span class="n">cam</span><span class="o">.</span><span class="n">acquire</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span>  <span class="c1"># set by number</span>
+        <span class="p">]</span>
+    <span class="p">)</span>
+
+    <span class="n">original_vals</span> <span class="o">=</span> <span class="p">{</span><span class="n">sig</span><span class="p">:</span> <span class="n">sig</span><span class="o">.</span><span class="n">get</span><span class="p">()</span> <span class="k">for</span> <span class="n">sig</span> <span class="ow">in</span> <span class="n">sigs</span><span class="p">}</span>
+
+    <span class="k">for</span> <span class="n">sig</span><span class="p">,</span> <span class="n">val</span> <span class="ow">in</span> <span class="n">sigs</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+        <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mf">0.1</span><span class="p">)</span>  <span class="c1"># abundance of caution</span>
+        <span class="n">sig</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">val</span><span class="p">)</span><span class="o">.</span><span class="n">wait</span><span class="p">()</span>
+
+    <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>  <span class="c1"># wait for acquisition</span>
+
+    <span class="k">for</span> <span class="n">sig</span><span class="p">,</span> <span class="n">val</span> <span class="ow">in</span> <span class="nb">reversed</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">original_vals</span><span class="o">.</span><span class="n">items</span><span class="p">())):</span>
+        <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mf">0.1</span><span class="p">)</span>
+        <span class="n">sig</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">val</span><span class="p">)</span><span class="o">.</span><span class="n">wait</span><span class="p">()</span></div>
+
+
+
+<div class="viewcode-block" id="ensure_AD_plugin_primed">
+<a class="viewcode-back" href="../../../api/_devices.html#apstools.devices.area_detector_support.ensure_AD_plugin_primed">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">ensure_AD_plugin_primed</span><span class="p">(</span><span class="n">plugin</span><span class="p">,</span> <span class="n">allow</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Ensure the AD file writing plugin is *primed* (warmed up), if allowed.</span>
+
+<span class="sd">    This function primes the plugin only if it is deemed necessary (for the use</span>
+<span class="sd">    by ophyd).</span>
+
+<span class="sd">    PARAMETERS</span>
+
+<span class="sd">    plugin</span>
+<span class="sd">        *obj* :</span>
+<span class="sd">        area detector plugin to be *primed* (such as ``detector.hdf1``)</span>
+
+<span class="sd">    allow</span>
+<span class="sd">        *bool* :</span>
+<span class="sd">        (default: ``False``)</span>
+<span class="sd">        Should the detector be primed?  This keyword argument might be provided</span>
+<span class="sd">        by a local configuration setting, controlled externally, such as</span>
+<span class="sd">        from configuration file or other ophyd Signal.</span>
+
+<span class="sd">    EXAMPLE::</span>
+
+<span class="sd">        from apstools.devices import ensure_AD_plugin_primed</span>
+<span class="sd">        ensure_AD_plugin_primed(det.hdf1, True)</span>
+
+<span class="sd">        # or from a boolean python object</span>
+
+<span class="sd">        from local_configuration_settings import ok_to_prime</span>
+<span class="sd">        ensure_AD_plugin_primed(det.hdf1, allow=ok_to_prime)</span>
+
+<span class="sd">    An area detector file writing plugin is *primed* (as considered by ophyd) if</span>
+<span class="sd">    the plugin&#39;s image array parameters (size, number of bits, &amp; color mode)</span>
+<span class="sd">    match those configured in the cam.  This agreement is required by the</span>
+<span class="sd">    bluesky RunEngine (via ``area_detector_handlers``) to generate a descriptor</span>
+<span class="sd">    document for any ensuing image events.</span>
+
+<span class="sd">    Use with these area detector file writing plugins (maybe others):</span>
+
+<span class="sd">    - HDF5Plugin</span>
+<span class="sd">    - JPEGPlugin</span>
+<span class="sd">    - NetCDFPlugin</span>
+<span class="sd">    - TIFFPlugin</span>
+
+<span class="sd">    Even with ``lazy_open=1``, ophyd (via ``area_detector_handlers``) checks</span>
+<span class="sd">    if the area detector file writing plugin has been *primed*.</span>
+
+<span class="sd">    .. see: ``ophyd.areadetector.plugins.UnprimedPlugin``:</span>
+<span class="sd">       https://github.com/bluesky/ophyd/blob/7612b2c9de9d5bc16cf28eea79ba5c12553f3cc2/ophyd/areadetector/plugins.py#L999-L1004</span>
+
+<span class="sd">    (new in apstools release 1.6.16)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">allow</span><span class="p">:</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">AD_plugin_primed</span><span class="p">(</span><span class="n">plugin</span><span class="p">):</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Priming </span><span class="si">{</span><span class="n">plugin</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2"> ...&quot;</span><span class="p">)</span>
+            <span class="n">AD_prime_plugin2</span><span class="p">(</span><span class="n">plugin</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="AD_full_file_name_local">
+<a class="viewcode-back" href="../../../api/_devices.html#apstools.devices.area_detector_support.AD_full_file_name_local">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">AD_full_file_name_local</span><span class="p">(</span><span class="n">plugin</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Return AD plugin&#39;s *Last filename* using local filesystem path.</span>
+
+<span class="sd">    Get the full name, in terms of the bluesky filesystem, for the image file</span>
+<span class="sd">    recently-acquired by the area detector plugin.</span>
+
+<span class="sd">    Return the name as a pathlib object.</span>
+
+<span class="sd">    PARAMETERS</span>
+
+<span class="sd">    plugin *obj* :</span>
+<span class="sd">        Instance of ophyd area detector file writing plugin.</span>
+
+<span class="sd">    (new in apstools release 1.6.2)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">fname</span> <span class="o">=</span> <span class="n">plugin</span><span class="o">.</span><span class="n">full_file_name</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+    <span class="k">if</span> <span class="n">fname</span> <span class="o">==</span> <span class="s2">&quot;&quot;</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">None</span>
+
+    <span class="n">ffname</span> <span class="o">=</span> <span class="n">pathlib</span><span class="o">.</span><span class="n">Path</span><span class="p">(</span><span class="n">fname</span><span class="p">)</span>  <span class="c1"># FIXME: OS style?</span>
+    <span class="k">if</span> <span class="n">plugin</span><span class="o">.</span><span class="n">read_path_template</span> <span class="o">==</span> <span class="n">plugin</span><span class="o">.</span><span class="n">write_path_template</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">ffname</span>
+
+    <span class="n">read_parts</span> <span class="o">=</span> <span class="n">pathlib</span><span class="o">.</span><span class="n">Path</span><span class="p">(</span><span class="n">plugin</span><span class="o">.</span><span class="n">read_path_template</span><span class="p">)</span><span class="o">.</span><span class="n">parts</span>
+    <span class="n">write_parts</span> <span class="o">=</span> <span class="n">pathlib</span><span class="o">.</span><span class="n">Path</span><span class="p">(</span><span class="n">plugin</span><span class="o">.</span><span class="n">write_path_template</span><span class="p">)</span><span class="o">.</span><span class="n">parts</span>
+    <span class="n">icommon</span> <span class="o">=</span> <span class="n">count_common_subdirs</span><span class="p">(</span><span class="n">plugin</span><span class="o">.</span><span class="n">read_path_template</span><span class="p">,</span> <span class="n">plugin</span><span class="o">.</span><span class="n">write_path_template</span><span class="p">)</span>
+
+    <span class="c1"># fmt: off</span>
+    <span class="k">if</span> <span class="n">icommon</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+            <span class="s2">&quot;No common part to file paths. &quot;</span>
+            <span class="s2">&quot;Cannot convert to local file path.&quot;</span>
+        <span class="p">)</span>
+    <span class="c1"># fmt: on</span>
+
+    <span class="c1"># fmt: off</span>
+    <span class="n">local_root</span> <span class="o">=</span> <span class="n">pathlib</span><span class="o">.</span><span class="n">Path</span><span class="p">()</span><span class="o">.</span><span class="n">joinpath</span><span class="p">(</span><span class="o">*</span><span class="n">read_parts</span><span class="p">[:</span><span class="o">-</span><span class="n">icommon</span><span class="p">])</span>
+    <span class="n">common_parts</span> <span class="o">=</span> <span class="n">ffname</span><span class="o">.</span><span class="n">parts</span><span class="p">[</span><span class="nb">len</span><span class="p">(</span><span class="n">write_parts</span><span class="p">[:</span><span class="o">-</span><span class="n">icommon</span><span class="p">]):]</span>
+    <span class="n">local_ffname</span> <span class="o">=</span> <span class="n">local_root</span><span class="o">.</span><span class="n">joinpath</span><span class="p">(</span><span class="o">*</span><span class="n">common_parts</span><span class="p">)</span>
+    <span class="c1"># fmt: on</span>
+
+    <span class="k">return</span> <span class="n">local_ffname</span></div>
+
+
+
+<div class="viewcode-block" id="AD_EpicsFileNameMixin">
+<a class="viewcode-back" href="../../../api/_devices.html#apstools.devices.area_detector_support.AD_EpicsFileNameMixin">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">AD_EpicsFileNameMixin</span><span class="p">(</span><span class="n">FileStorePluginBase</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Custom class to define image file name from EPICS.</span>
+
+<span class="sd">    Used as part of AD_EpicsFileNameHDF5Plugin.</span>
+
+<span class="sd">    .. index:: Ophyd Device Support; AD_EpicsHdf5FileName</span>
+
+<span class="sd">    .. caution:: *Caveat emptor* applies here.  You assume expertise!</span>
+
+<span class="sd">    Replace standard ophyd file naming algorithm (where file names</span>
+<span class="sd">    are defined as UUID strings, virtually guaranteeing that</span>
+<span class="sd">    no existing images files will ever be overwritten).</span>
+
+<span class="sd">    Caller is responsible for setting values of these Components:</span>
+
+<span class="sd">    * array_counter</span>
+<span class="sd">    * auto_increment</span>
+<span class="sd">    * auto_save</span>
+<span class="sd">    * compression (only HDF)</span>
+<span class="sd">    * create_directory</span>
+<span class="sd">    * file_name</span>
+<span class="sd">    * file_number</span>
+<span class="sd">    * file_path</span>
+<span class="sd">    * file_template</span>
+<span class="sd">    * num_capture</span>
+
+<span class="sd">    .. autosummary::</span>
+
+<span class="sd">        ~make_filename</span>
+<span class="sd">        ~get_frames_per_point</span>
+<span class="sd">        ~stage</span>
+
+<span class="sd">    To allow users to control the file **name**,</span>
+<span class="sd">    we override the ``make_filename()`` method here</span>
+<span class="sd">    and we need to override some intervening classes.</span>
+
+<span class="sd">    To allow users to control the file **number**,</span>
+<span class="sd">    we override the ``stage()`` method here</span>
+<span class="sd">    and triple-comment out that line, and bring in</span>
+<span class="sd">    sections from the methods we are replacing here.</span>
+
+<span class="sd">    It is allowed to set the ``file_template=&quot;%s%s.h5&quot;``</span>
+<span class="sd">    so the file name does not include the file number.</span>
+
+<span class="sd">    The image file name is set in ``FileStoreBase.make_filename()``</span>
+<span class="sd">    from ``ophyd.areadetector.filestore_mixins``.  This is called</span>
+<span class="sd">    (during device staging) from ``FileStoreBase.stage()``</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="AD_EpicsFileNameMixin._remove_caller_stage_sigs">
+<a class="viewcode-back" href="../../../api/_devices.html#apstools.devices.area_detector_support.AD_EpicsFileNameMixin._remove_caller_stage_sigs">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_remove_caller_stage_sigs</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Caller is responsible for setting these, pop from stage_sigs.&quot;&quot;&quot;</span>
+        <span class="n">caller_sets_these</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">            array_counter</span>
+<span class="s2">            auto_increment</span>
+<span class="s2">            auto_save</span>
+<span class="s2">            compression (only HDF)</span>
+<span class="s2">            create_directory</span>
+<span class="s2">            file_name</span>
+<span class="s2">            file_number</span>
+<span class="s2">            file_path</span>
+<span class="s2">            file_template</span>
+<span class="s2">            num_capture</span>
+<span class="s2">        &quot;&quot;&quot;</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">caller_sets_these</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">stage_sigs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="AD_EpicsFileNameMixin.make_filename">
+<a class="viewcode-back" href="../../../api/_devices.html#apstools.devices.area_detector_support.AD_EpicsFileNameMixin.make_filename">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">make_filename</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        overrides default behavior: Get info from EPICS file writer plugin.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># start of the file name, file number will be appended per template</span>
+        <span class="n">filename</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">file_name</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
+        <span class="n">file_path</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">file_path</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
+        <span class="n">formatter</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span><span class="o">.</span><span class="n">strftime</span>
+
+        <span class="c1"># Directory (used by IOC) for file writer plugin to write the file.</span>
+        <span class="n">write_path</span> <span class="o">=</span> <span class="n">formatter</span><span class="p">(</span><span class="n">file_path</span><span class="p">)</span>
+
+        <span class="c1"># Directory (used by bluesky) for databroker to read the file.</span>
+        <span class="n">read_path</span> <span class="o">=</span> <span class="n">formatter</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">read_path_template</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">filename</span><span class="p">,</span> <span class="n">read_path</span><span class="p">,</span> <span class="n">write_path</span></div>
+
+
+<div class="viewcode-block" id="AD_EpicsFileNameMixin.get_frames_per_point">
+<a class="viewcode-back" href="../../../api/_devices.html#apstools.devices.area_detector_support.AD_EpicsFileNameMixin.get_frames_per_point">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_frames_per_point</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;overrides default behavior&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">num_capture</span><span class="o">.</span><span class="n">get</span><span class="p">()</span></div>
+
+
+<div class="viewcode-block" id="AD_EpicsFileNameMixin.stage">
+<a class="viewcode-back" href="../../../api/_devices.html#apstools.devices.area_detector_support.AD_EpicsFileNameMixin.stage">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">stage</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Overrides default behavior of parent class.</span>
+
+<span class="sd">        Parent class items overridden here:</span>
+
+<span class="sd">        * Sets file_name based on a UUID.</span>
+<span class="sd">        * Sets file_path from write_path_template.</span>
+<span class="sd">        * Sets file_number to 0.</span>
+
+<span class="sd">        Set EPICS items before device is staged, then copy EPICS</span>
+<span class="sd">        naming template (and other items) to ophyd after staging.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># Validate!</span>
+        <span class="k">for</span> <span class="n">attr</span> <span class="ow">in</span> <span class="s2">&quot;file_name file_path file_template&quot;</span><span class="o">.</span><span class="n">split</span><span class="p">():</span>
+            <span class="n">signal</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">attr</span><span class="p">)</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">signal</span><span class="o">.</span><span class="n">get</span><span class="p">())</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">signal</span><span class="o">.</span><span class="n">_write_pv</span><span class="o">.</span><span class="n">pvname</span><span class="si">!r}</span><span class="s2"> is an empty string.&quot;</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="s2">&quot;capture&quot;</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">stage_sigs</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">stage_sigs</span><span class="o">.</span><span class="n">move_to_end</span><span class="p">(</span><span class="s2">&quot;capture&quot;</span><span class="p">,</span> <span class="n">last</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+        <span class="c1"># Get the file name and paths from EPICS.</span>
+        <span class="n">filename</span><span class="p">,</span> <span class="n">read_path</span><span class="p">,</span> <span class="n">write_path</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">make_filename</span><span class="p">()</span>
+
+        <span class="c1"># Ensure we do not have an old file open.</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">file_write_mode</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">as_string</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span> <span class="o">!=</span> <span class="s2">&quot;Single&quot;</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">capture</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">wait</span><span class="p">()</span>
+
+        <span class="c1"># Set these before capture is turned on.</span>
+        <span class="c1"># They will not be reset on &#39;unstage&#39; anyway.</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">file_path</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">write_path</span><span class="p">)</span><span class="o">.</span><span class="n">wait</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">file_name</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span><span class="o">.</span><span class="n">wait</span><span class="p">()</span>
+
+        <span class="c1"># Get file number now, it is incremented during stage().</span>
+        <span class="n">file_number</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">file_number</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
+
+        <span class="c1"># Call ancestor&#39;s stage(), skipping parent&#39;s stage().</span>
+        <span class="n">FileStoreBase</span><span class="o">.</span><span class="n">stage</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+
+        <span class="c1"># AD applies the file name templating in C.</span>
+        <span class="c1"># We can&#39;t access that result until after acquisition</span>
+        <span class="c1"># so we apply the same template here in Python.</span>
+        <span class="n">template</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">file_template</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">use_monitor</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="c1"># assume template includes format for a file number</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_fn</span> <span class="o">=</span> <span class="n">template</span> <span class="o">%</span> <span class="p">(</span><span class="n">read_path</span><span class="p">,</span> <span class="n">filename</span><span class="p">,</span> <span class="n">file_number</span><span class="p">)</span>
+        <span class="k">except</span> <span class="p">(</span><span class="ne">TypeError</span><span class="p">,</span> <span class="ne">ValueError</span><span class="p">):</span>
+            <span class="c1"># in case template does not include file_number</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_fn</span> <span class="o">=</span> <span class="n">template</span> <span class="o">%</span> <span class="p">(</span><span class="n">read_path</span><span class="p">,</span> <span class="n">filename</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_fp</span> <span class="o">=</span> <span class="n">read_path</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">file_path_exists</span><span class="o">.</span><span class="n">get</span><span class="p">():</span>
+            <span class="k">raise</span> <span class="ne">IOError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Path &#39;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">file_path</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="si">}</span><span class="s2">&#39; does not exist on IOC.&quot;</span><span class="p">)</span>
+
+        <span class="c1"># index each image frame (used in generate_datum() method)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_point_counter</span> <span class="o">=</span> <span class="n">itertools</span><span class="o">.</span><span class="n">count</span><span class="p">()</span>
+
+        <span class="c1"># from FileStoreHDF5.stage()</span>
+        <span class="n">res_kwargs</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;frame_per_point&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_frames_per_point</span><span class="p">()}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_generate_resource</span><span class="p">(</span><span class="n">res_kwargs</span><span class="p">)</span></div>
+</div>
+
+
+
+<div class="viewcode-block" id="AD_EpicsHdf5FileName">
+<a class="viewcode-back" href="../../../api/_devices.html#apstools.devices.area_detector_support.AD_EpicsHdf5FileName">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">AD_EpicsHdf5FileName</span><span class="p">(</span><span class="n">AD_EpicsFileNameMixin</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Custom class to define HDF5 image file name from EPICS PVs.</span>
+
+<span class="sd">    Used as part of AD_EpicsFileNameHDF5Plugin.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="n">FileStorePluginBase</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">filestore_spec</span> <span class="o">=</span> <span class="s2">&quot;AD_HDF5&quot;</span>  <span class="c1"># spec name stored in resource doc</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">stage_sigs</span><span class="o">.</span><span class="n">update</span><span class="p">(</span>
+            <span class="p">[</span>
+                <span class="p">(</span><span class="s2">&quot;file_write_mode&quot;</span><span class="p">,</span> <span class="s2">&quot;Stream&quot;</span><span class="p">),</span>
+                <span class="p">(</span><span class="s2">&quot;capture&quot;</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span>
+            <span class="p">]</span>
+        <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_remove_caller_stage_sigs</span><span class="p">()</span>
+        <span class="c1"># &quot;capture&quot; must always come last</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">stage_sigs</span><span class="o">.</span><span class="n">move_to_end</span><span class="p">(</span><span class="s2">&quot;capture&quot;</span><span class="p">,</span> <span class="n">last</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="AD_EpicsHDF5IterativeWriter">
+<a class="viewcode-back" href="../../../api/_devices.html#apstools.devices.area_detector_support.AD_EpicsHDF5IterativeWriter">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">AD_EpicsHDF5IterativeWriter</span><span class="p">(</span><span class="n">AD_EpicsHdf5FileName</span><span class="p">,</span> <span class="n">FileStoreIterativeWrite</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    intermediate class between AD_EpicsHdf5FileName and AD_EpicsFileNameHDF5Plugin</span>
+
+<span class="sd">    (new in apstools release 1.6.2)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">pass</span></div>
+
+
+
+<div class="viewcode-block" id="AD_EpicsFileNameHDF5Plugin">
+<a class="viewcode-back" href="../../../api/_devices.html#apstools.devices.area_detector_support.AD_EpicsFileNameHDF5Plugin">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">AD_EpicsFileNameHDF5Plugin</span><span class="p">(</span><span class="n">HDF5Plugin_V34</span><span class="p">,</span> <span class="n">AD_EpicsHDF5IterativeWriter</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Alternative to HDF5Plugin: EPICS area detector PV sets file name.</span>
+
+<span class="sd">    .. index:: Ophyd Device Support; AD_EpicsFileNameHDF5Plugin</span>
+
+<span class="sd">    .. caution:: *Caveat emptor* applies here.  You assume expertise!</span>
+
+<span class="sd">    Uses ``AD_EpicsHdf5FileName``.</span>
+
+<span class="sd">    EXAMPLE::</span>
+
+<span class="sd">        from apstools.devices import CamMixin_V34</span>
+<span class="sd">        from apstools.devices import SimDetectorCam_V34</span>
+<span class="sd">        from apstools.devices import SingleTrigger_V34</span>
+<span class="sd">        from apstools.devices.area_detector_support import AD_EpicsFileNameHDF5Plugin</span>
+<span class="sd">        from ophyd import EpicsSignalWithRBV</span>
+<span class="sd">        from ophyd.areadetector import ADComponent</span>
+<span class="sd">        from ophyd.areadetector import DetectorBase</span>
+<span class="sd">        from ophyd.areadetector.plugins import ImagePlugin_V34 as ImagePlugin</span>
+<span class="sd">        from ophyd.areadetector.plugins import PvaPlugin_V34 as PvaPlugin</span>
+<span class="sd">        import datetime</span>
+<span class="sd">        import pathlib</span>
+
+
+<span class="sd">        IOC = &quot;ad:&quot;</span>
+<span class="sd">        IMAGE_DIR = &quot;adsimdet/%Y/%m/%d&quot;</span>
+<span class="sd">        AD_IOC_MOUNT_PATH = pathlib.Path(&quot;/tmp&quot;)</span>
+<span class="sd">        BLUESKY_MOUNT_PATH = pathlib.Path(&quot;/tmp/docker_ioc/iocad/tmp&quot;)</span>
+
+<span class="sd">        # MUST end with a `/`, pathlib will NOT provide it</span>
+<span class="sd">        WRITE_PATH_TEMPLATE = f&quot;{AD_IOC_MOUNT_PATH / IMAGE_DIR}/&quot;</span>
+<span class="sd">        READ_PATH_TEMPLATE = f&quot;{BLUESKY_MOUNT_PATH / IMAGE_DIR}/&quot;</span>
+
+<span class="sd">        class SimDetector_V34(SingleTrigger_V34, DetectorBase):</span>
+<span class="sd">            &#39;&#39;&#39;ADSimDetector&#39;&#39;&#39;</span>
+
+<span class="sd">            cam = ADComponent(SimDetectorCam_V34, &quot;cam1:&quot;)</span>
+<span class="sd">            image = ADComponent(ImagePlugin, &quot;image1:&quot;)</span>
+<span class="sd">            hdf1 = ADComponent(</span>
+<span class="sd">                AD_EpicsFileNameHDF5Plugin,</span>
+<span class="sd">                &quot;HDF1:&quot;,</span>
+<span class="sd">                write_path_template=WRITE_PATH_TEMPLATE,</span>
+<span class="sd">                read_path_template=READ_PATH_TEMPLATE,</span>
+<span class="sd">            )</span>
+<span class="sd">            pva = ADComponent(PvaPlugin, &quot;Pva1:&quot;)</span>
+
+<span class="sd">    (new in apstools release 1.6.2)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">pass</span></div>
+
+
+
+<div class="viewcode-block" id="AD_EpicsJPEGFileName">
+<a class="viewcode-back" href="../../../api/_devices.html#apstools.devices.area_detector_support.AD_EpicsJPEGFileName">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">AD_EpicsJPEGFileName</span><span class="p">(</span><span class="n">AD_EpicsFileNameMixin</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Custom class to define JPEG image file name from EPICS PVs.</span>
+
+<span class="sd">    Used as part of AD_EpicsFileNameJPEGPlugin.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="n">FileStorePluginBase</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">filestore_spec</span> <span class="o">=</span> <span class="s2">&quot;AD_JPEG&quot;</span>  <span class="c1"># spec name stored in resource doc</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">stage_sigs</span><span class="o">.</span><span class="n">update</span><span class="p">(</span>
+            <span class="p">[</span>
+                <span class="p">(</span><span class="s2">&quot;file_write_mode&quot;</span><span class="p">,</span> <span class="s2">&quot;Stream&quot;</span><span class="p">),</span>
+                <span class="p">(</span><span class="s2">&quot;capture&quot;</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span>
+            <span class="p">]</span>
+        <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_remove_caller_stage_sigs</span><span class="p">()</span>
+        <span class="c1"># &quot;capture&quot; must always come last</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">stage_sigs</span><span class="o">.</span><span class="n">move_to_end</span><span class="p">(</span><span class="s2">&quot;capture&quot;</span><span class="p">,</span> <span class="n">last</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="AD_EpicsJPEGIterativeWriter">
+<a class="viewcode-back" href="../../../api/_devices.html#apstools.devices.area_detector_support.AD_EpicsJPEGIterativeWriter">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">AD_EpicsJPEGIterativeWriter</span><span class="p">(</span><span class="n">AD_EpicsJPEGFileName</span><span class="p">,</span> <span class="n">FileStoreIterativeWrite</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    intermediate class between AD_EpicsJPEGFileName and AD_EpicsFileNameJPEGPlugin</span>
+
+<span class="sd">    (new in apstools release 1.6.2)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">pass</span></div>
+
+
+
+<div class="viewcode-block" id="AD_EpicsFileNameJPEGPlugin">
+<a class="viewcode-back" href="../../../api/_devices.html#apstools.devices.area_detector_support.AD_EpicsFileNameJPEGPlugin">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">AD_EpicsFileNameJPEGPlugin</span><span class="p">(</span><span class="n">JPEGPlugin_V34</span><span class="p">,</span> <span class="n">AD_EpicsJPEGIterativeWriter</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Alternative to JPEGPlugin: EPICS area detector PV sets file name.</span>
+
+<span class="sd">    .. index:: Ophyd Device Support; AD_EpicsFileNameJPEGPlugin</span>
+
+<span class="sd">    .. caution:: *Caveat emptor* applies here.  You assume expertise!</span>
+
+<span class="sd">    Uses ``AD_EpicsJpegFileName``.</span>
+
+<span class="sd">    EXAMPLE::</span>
+
+<span class="sd">        from apstools.devices import CamMixin_V34</span>
+<span class="sd">        from apstools.devices import SimDetectorCam_V34</span>
+<span class="sd">        from apstools.devices import SingleTrigger_V34</span>
+<span class="sd">        from apstools.devices.area_detector_support import AD_EpicsFileNameJPEGPlugin</span>
+<span class="sd">        from ophyd import EpicsSignalWithRBV</span>
+<span class="sd">        from ophyd.areadetector import ADComponent</span>
+<span class="sd">        from ophyd.areadetector import DetectorBase</span>
+<span class="sd">        from ophyd.areadetector.plugins import ImagePlugin_V34 as ImagePlugin</span>
+<span class="sd">        from ophyd.areadetector.plugins import PvaPlugin_V34 as PvaPlugin</span>
+<span class="sd">        import datetime</span>
+<span class="sd">        import pathlib</span>
+
+
+<span class="sd">        IOC = &quot;ad:&quot;</span>
+<span class="sd">        IMAGE_DIR = &quot;adsimdet/%Y/%m/%d&quot;</span>
+<span class="sd">        AD_IOC_MOUNT_PATH = pathlib.Path(&quot;/tmp&quot;)</span>
+<span class="sd">        BLUESKY_MOUNT_PATH = pathlib.Path(&quot;/tmp/docker_ioc/iocad/tmp&quot;)</span>
+
+<span class="sd">        # MUST end with a `/`, pathlib will NOT provide it</span>
+<span class="sd">        WRITE_PATH_TEMPLATE = f&quot;{AD_IOC_MOUNT_PATH / IMAGE_DIR}/&quot;</span>
+<span class="sd">        READ_PATH_TEMPLATE = f&quot;{BLUESKY_MOUNT_PATH / IMAGE_DIR}/&quot;</span>
+
+
+<span class="sd">        class SimDetector_V34(SingleTrigger_V34, DetectorBase):</span>
+<span class="sd">            &#39;&#39;&#39;ADSimDetector&#39;&#39;&#39;</span>
+
+<span class="sd">            cam = ADComponent(SimDetectorCam_V34, &quot;cam1:&quot;)</span>
+<span class="sd">            image = ADComponent(ImagePlugin, &quot;image1:&quot;)</span>
+<span class="sd">            jpeg1 = ADComponent(</span>
+<span class="sd">                AD_EpicsFileNameHDF5Plugin,</span>
+<span class="sd">                &quot;JPEG1:&quot;,</span>
+<span class="sd">                write_path_template=WRITE_PATH_TEMPLATE,</span>
+<span class="sd">                read_path_template=READ_PATH_TEMPLATE,</span>
+<span class="sd">            )</span>
+<span class="sd">            pva = ADComponent(PvaPlugin, &quot;Pva1:&quot;)</span>
+
+<span class="sd">    (new in apstools release 1.6.2)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">pass</span></div>
+
+
+
+<div class="viewcode-block" id="AD_EpicsTIFFFileName">
+<a class="viewcode-back" href="../../../api/_devices.html#apstools.devices.area_detector_support.AD_EpicsTIFFFileName">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">AD_EpicsTIFFFileName</span><span class="p">(</span><span class="n">AD_EpicsFileNameMixin</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Custom class to define TIFF image file name from EPICS PVs.</span>
+
+<span class="sd">    Used as part of AD_EpicsFileNameTIFFPlugin.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="n">FileStorePluginBase</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">filestore_spec</span> <span class="o">=</span> <span class="s2">&quot;AD_TIFF&quot;</span>  <span class="c1"># spec name stored in resource doc</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">stage_sigs</span><span class="o">.</span><span class="n">update</span><span class="p">(</span>
+            <span class="p">[</span>
+                <span class="p">(</span><span class="s2">&quot;file_write_mode&quot;</span><span class="p">,</span> <span class="s2">&quot;Stream&quot;</span><span class="p">),</span>
+                <span class="p">(</span><span class="s2">&quot;capture&quot;</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span>
+            <span class="p">]</span>
+        <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_remove_caller_stage_sigs</span><span class="p">()</span>
+        <span class="c1"># &quot;capture&quot; must always come last</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">stage_sigs</span><span class="o">.</span><span class="n">move_to_end</span><span class="p">(</span><span class="s2">&quot;capture&quot;</span><span class="p">,</span> <span class="n">last</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="AD_EpicsTIFFIterativeWriter">
+<a class="viewcode-back" href="../../../api/_devices.html#apstools.devices.area_detector_support.AD_EpicsTIFFIterativeWriter">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">AD_EpicsTIFFIterativeWriter</span><span class="p">(</span><span class="n">AD_EpicsTIFFFileName</span><span class="p">,</span> <span class="n">FileStoreIterativeWrite</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    intermediate class between AD_EpicsTIFFFileName and AD_EpicsFileNameTIFFPlugin</span>
+
+<span class="sd">    (new in apstools release 1.6.2)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">pass</span></div>
+
+
+
+<div class="viewcode-block" id="AD_EpicsFileNameTIFFPlugin">
+<a class="viewcode-back" href="../../../api/_devices.html#apstools.devices.area_detector_support.AD_EpicsFileNameTIFFPlugin">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">AD_EpicsFileNameTIFFPlugin</span><span class="p">(</span><span class="n">TIFFPlugin_V34</span><span class="p">,</span> <span class="n">AD_EpicsTIFFIterativeWriter</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Alternative to TIFFPlugin: EPICS area detector PV sets file name.</span>
+
+<span class="sd">    .. index:: Ophyd Device Support; AD_EpicsFileNameTIFFPlugin</span>
+
+<span class="sd">    .. caution:: *Caveat emptor* applies here.  You assume expertise!</span>
+
+<span class="sd">    Uses ``AD_EpicsTIFFFileName``.</span>
+
+<span class="sd">    EXAMPLE::</span>
+
+<span class="sd">        from apstools.devices import CamMixin_V34</span>
+<span class="sd">        from apstools.devices import SimDetectorCam_V34</span>
+<span class="sd">        from apstools.devices import SingleTrigger_V34</span>
+<span class="sd">        from apstools.devices.area_detector_support import AD_EpicsFileNameTIFFPlugin</span>
+<span class="sd">        from ophyd import EpicsSignalWithRBV</span>
+<span class="sd">        from ophyd.areadetector import ADComponent</span>
+<span class="sd">        from ophyd.areadetector import DetectorBase</span>
+<span class="sd">        from ophyd.areadetector.plugins import ImagePlugin_V34 as ImagePlugin</span>
+<span class="sd">        from ophyd.areadetector.plugins import PvaPlugin_V34 as PvaPlugin</span>
+<span class="sd">        from ophyd.areadetector import SimDetectorCam</span>
+<span class="sd">        import datetime</span>
+<span class="sd">        import pathlib</span>
+
+
+<span class="sd">        IOC = &quot;ad:&quot;</span>
+<span class="sd">        IMAGE_DIR = &quot;adsimdet/%Y/%m/%d&quot;</span>
+<span class="sd">        AD_IOC_MOUNT_PATH = pathlib.Path(&quot;/tmp&quot;)</span>
+<span class="sd">        BLUESKY_MOUNT_PATH = pathlib.Path(&quot;/tmp/docker_ioc/iocad/tmp&quot;)</span>
+
+<span class="sd">        # MUST end with a `/`, pathlib will NOT provide it</span>
+<span class="sd">        WRITE_PATH_TEMPLATE = f&quot;{AD_IOC_MOUNT_PATH / IMAGE_DIR}/&quot;</span>
+<span class="sd">        READ_PATH_TEMPLATE = f&quot;{BLUESKY_MOUNT_PATH / IMAGE_DIR}/&quot;</span>
+
+
+<span class="sd">        class SimDetector_V34(SingleTrigger_V34, DetectorBase):</span>
+<span class="sd">            &#39;&#39;&#39;ADSimDetector&#39;&#39;&#39;</span>
+
+<span class="sd">            cam = ADComponent(SimDetectorCam_V34, &quot;cam1:&quot;)</span>
+<span class="sd">            image = ADComponent(ImagePlugin, &quot;image1:&quot;)</span>
+<span class="sd">            tiff1 = ADComponent(</span>
+<span class="sd">                AD_EpicsFileNameTIFFPlugin,</span>
+<span class="sd">                &quot;TIFF1:&quot;,</span>
+<span class="sd">                write_path_template=WRITE_PATH_TEMPLATE,</span>
+<span class="sd">                read_path_template=READ_PATH_TEMPLATE,</span>
+<span class="sd">            )</span>
+<span class="sd">            pva = ADComponent(PvaPlugin, &quot;Pva1:&quot;)</span>
+
+<span class="sd">    (new in apstools release 1.6.2)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">pass</span></div>
+
+
+
+<div class="viewcode-block" id="BadPixelPlugin">
+<a class="viewcode-back" href="../../../api/_devices.html#apstools.devices.area_detector_support.BadPixelPlugin">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">BadPixelPlugin</span><span class="p">(</span><span class="n">PluginBase</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    ADCore NDBadPixel, new in AD 3.13.</span>
+
+<span class="sd">    (new in apstools release 1.7.3)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">_html_docs</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;NDBadPixelDoc.html&quot;</span><span class="p">]</span>
+    
+    <span class="n">file_name</span> <span class="o">=</span> <span class="n">ADComponent</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">&quot;FileName&quot;</span><span class="p">,</span> <span class="n">string</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span></div>
+
+    
+
+<div class="viewcode-block" id="CamMixin_V3_1_1">
+<a class="viewcode-back" href="../../../api/_devices.html#apstools.devices.area_detector_support.CamMixin_V3_1_1">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">CamMixin_V3_1_1</span><span class="p">(</span><span class="n">CamBase</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Update cam support to AD release 3.1.1.</span>
+
+<span class="sd">    (new in release 1.6.3)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">_cam_release</span> <span class="o">=</span> <span class="s2">&quot;3.1.1&quot;</span>
+    <span class="n">pool_max_buffers</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">acquire_busy</span> <span class="o">=</span> <span class="n">ADComponent</span><span class="p">(</span><span class="n">EpicsSignalRO</span><span class="p">,</span> <span class="s2">&quot;AcquireBusy&quot;</span><span class="p">)</span>
+    <span class="n">offset</span> <span class="o">=</span> <span class="n">ADComponent</span><span class="p">(</span><span class="n">EpicsSignalWithRBV</span><span class="p">,</span> <span class="s2">&quot;Offset&quot;</span><span class="p">)</span>
+    <span class="n">wait_for_plugins</span> <span class="o">=</span> <span class="n">ADComponent</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">&quot;WaitForPlugins&quot;</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">is_busy</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">signal</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">acquire_busy</span>
+        <span class="k">return</span> <span class="n">signal</span><span class="o">.</span><span class="n">get</span><span class="p">()</span> <span class="ow">in</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">signal</span><span class="o">.</span><span class="n">enum_strs</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span></div>
+
+
+
+<div class="viewcode-block" id="CamMixin_V34">
+<a class="viewcode-back" href="../../../api/_devices.html#apstools.devices.area_detector_support.CamMixin_V34">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">CamMixin_V34</span><span class="p">(</span><span class="n">CamMixin_V3_1_1</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Update cam support to AD release 3.1.1.</span>
+
+<span class="sd">    (new in release 1.6.3)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">_cam_release</span> <span class="o">=</span> <span class="s2">&quot;3.4&quot;</span></div>
+
+
+
+<div class="viewcode-block" id="SimDetectorCam_V34">
+<a class="viewcode-back" href="../../../api/_devices.html#apstools.devices.area_detector_support.SimDetectorCam_V34">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">SimDetectorCam_V34</span><span class="p">(</span><span class="n">CamMixin_V34</span><span class="p">,</span> <span class="n">SimDetectorCam</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Adds triggering configuration and AcquireBusy support.&quot;&quot;&quot;</span>
+
+    <span class="n">nd_attr_status</span> <span class="o">=</span> <span class="n">ADComponent</span><span class="p">(</span>
+        <span class="n">EpicsSignal</span><span class="p">,</span>
+        <span class="s2">&quot;NDAttributesStatus&quot;</span><span class="p">,</span>
+        <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;omitted&quot;</span><span class="p">,</span>
+        <span class="n">string</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="SingleTrigger_V34">
+<a class="viewcode-back" href="../../../api/_devices.html#apstools.devices.area_detector_support.SingleTrigger_V34">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">SingleTrigger_V34</span><span class="p">(</span><span class="n">SingleTrigger</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Variation of ophyd&#39;s SingleTrigger mixin supporting AcquireBusy.</span>
+
+<span class="sd">    (new in release 1.6.3)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="n">has_v34_cam_features</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">&quot;cam&quot;</span><span class="p">)</span>
+            <span class="ow">and</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">cam</span><span class="p">,</span> <span class="s2">&quot;_cam_release&quot;</span><span class="p">)</span>
+            <span class="ow">and</span> <span class="n">version</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">cam</span><span class="o">.</span><span class="n">_cam_release</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="n">version</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="s2">&quot;3.4&quot;</span><span class="p">)</span>
+        <span class="p">)</span>
+        <span class="k">if</span> <span class="n">has_v34_cam_features</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_acquisition_busy_signal</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">cam</span><span class="o">.</span><span class="n">acquire_busy</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="c1"># backwards compatibility</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_acquisition_busy_signal</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_acquisition_signal</span>
+
+<div class="viewcode-block" id="SingleTrigger_V34.stage">
+<a class="viewcode-back" href="../../../api/_devices.html#apstools.devices.area_detector_support.SingleTrigger_V34.stage">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">stage</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Prepare device settings before data acquisition.&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_acquisition_busy_signal</span><span class="o">.</span><span class="n">subscribe</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_acquire_changed</span><span class="p">)</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">SingleTrigger</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">stage</span><span class="p">()</span>  <span class="c1"># from grandparent</span></div>
+
+
+<div class="viewcode-block" id="SingleTrigger_V34.unstage">
+<a class="viewcode-back" href="../../../api/_devices.html#apstools.devices.area_detector_support.SingleTrigger_V34.unstage">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">unstage</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Restore device settings after data acquisition.&quot;&quot;&quot;</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">SingleTrigger</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">unstage</span><span class="p">()</span>  <span class="c1"># from grandparent</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_acquisition_busy_signal</span><span class="o">.</span><span class="n">clear_sub</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_acquire_changed</span><span class="p">)</span></div>
+</div>
+
+
+
+<div class="viewcode-block" id="HDF5FileWriterPlugin">
+<a class="viewcode-back" href="../../../api/_devices.html#apstools.devices.area_detector_support.HDF5FileWriterPlugin">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">HDF5FileWriterPlugin</span><span class="p">(</span><span class="n">FileStoreHDF5IterativeWrite</span><span class="p">,</span> <span class="n">HDF5Plugin_V34</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Add data acquisition methods to HDF5Plugin.  Ophyd default file names.</span>
+
+<span class="sd">    File names are based on uuid.uuid4() strings.</span>
+
+<span class="sd">    * ``stage()`` - prepare device PVs befor data acquisition</span>
+<span class="sd">    * ``unstage()`` - restore device PVs after data acquisition</span>
+<span class="sd">    * ``generate_datum()`` - coordinate image storage metadata</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">stage</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">stage_sigs</span><span class="o">.</span><span class="n">move_to_end</span><span class="p">(</span><span class="s2">&quot;capture&quot;</span><span class="p">,</span> <span class="n">last</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">stage</span><span class="p">()</span></div>
+
+
+
+<span class="c1"># -----------------------------------------------------------------------------</span>
+<span class="c1"># :author:    BCDA</span>
+<span class="c1"># :copyright: (c) 2017-2025, UChicago Argonne, LLC</span>
+<span class="c1">#</span>
+<span class="c1"># Distributed under the terms of the Argonne National Laboratory Open Source License.</span>
+<span class="c1">#</span>
+<span class="c1"># The full license is in the file LICENSE.txt, distributed with this software.</span>
+<span class="c1"># -----------------------------------------------------------------------------</span>
+</pre></div>
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="../../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+
+  <p class="copyright">
+    
+      © Copyright 2017-2025, UChicago Argonne, LLC.
+      <br/>
+    
+  </p>
+</div>
+      
+        <div class="footer-item">
+
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.1.3.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item">
+<p class="theme-version">
+  <!-- # L10n: Setting the PST URL as an argument as this does not need to be localized -->
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.16.1.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

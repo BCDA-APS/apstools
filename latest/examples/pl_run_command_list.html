@@ -1,0 +1,1072 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>The run_command_file() plan – batch scans using a text file &#8212; apstools 1.7</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="../_static/graphviz.css?v=4ae1632d" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../_static/css/custom.css?v=8b12e3de" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+
+    <script src="../_static/documentation_options.js?v=c884563b"></script>
+    <script src="../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'examples/pl_run_command_list';</script>
+    <script>
+        DOCUMENTATION_OPTIONS.theme_version = '0.16.1';
+        DOCUMENTATION_OPTIONS.theme_switcher_json_url = 'https://raw.githubusercontent.com/BCDA-APS/apstools/main/docs/source/_static/switcher.json';
+        DOCUMENTATION_OPTIONS.theme_switcher_version_match = '1.7.7';
+        DOCUMENTATION_OPTIONS.show_version_warning_banner =
+            false;
+        </script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="The TuneAxis() plan - align an axis with a signal" href="pl_tuneaxis.html" />
+    <link rel="prev" title="The nscan() plan – scan multiple axes together" href="pl_nscan.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="1.7" />
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-3 navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../index.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">apstools 1.7</p>
+  
+</a></div>
+    
+      <div class="navbar-item">
+<div class="version-switcher__container dropdown pst-js-only">
+  <button id="pst-version-switcher-button-2"
+    type="button"
+    class="version-switcher__button btn btn-sm dropdown-toggle"
+    data-bs-toggle="dropdown"
+    aria-haspopup="listbox"
+    aria-controls="pst-version-switcher-list-2"
+    aria-label="Version switcher list"
+  >
+    Choose version  <!-- this text may get changed later by javascript -->
+    <span class="caret"></span>
+  </button>
+  <div id="pst-version-switcher-list-2"
+    class="version-switcher__menu dropdown-menu list-group-flush py-0"
+    role="listbox" aria-labelledby="pst-version-switcher-button-2">
+    <!-- dropdown will be populated by javascript on page load -->
+  </div>
+</div></div>
+    
+  </div>
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../install.html">
+    Installation
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../api/index.html">
+    API Documentation
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../applications/index.html">
+    Applications
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="index.html">
+    Examples
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../changes.html">
+    Change History
+  </a>
+</li>
+
+            <li class="nav-item dropdown">
+                <button class="btn dropdown-toggle nav-item" type="button"
+                data-bs-toggle="dropdown" aria-expanded="false"
+                aria-controls="pst-nav-more-links">
+                    More
+                </button>
+                <ul id="pst-nav-more-links" class="dropdown-menu">
+                    
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../license.html">
+    License
+  </a>
+</li>
+
+                </ul>
+            </li>
+            
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+        <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+      
+        <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/BCDA-APS/apstools" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../install.html">
+    Installation
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../api/index.html">
+    API Documentation
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../applications/index.html">
+    Applications
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="index.html">
+    Examples
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../changes.html">
+    Change History
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../license.html">
+    License
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+        
+          <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/BCDA-APS/apstools" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+        
+      </div>
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+<nav class="bd-docs-nav bd-links"
+     aria-label="Section Navigation">
+  <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
+  <div class="bd-toc-item navbar-nav"><ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="device_examples.html">Device Examples</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="de_0_adsim_hdf5_basic.html">Area Detector with default HDF5 File Name</a></li>
+<li class="toctree-l2"><a class="reference internal" href="de_1_adsim_hdf5_custom_names.html">Area Detector with custom HDF5 File Name</a></li>
+<li class="toctree-l2"><a class="reference internal" href="de_2_adsim_hdf5_single_mode.html">Area Detector, Single mode, HDF5 file</a></li>
+<li class="toctree-l2"><a class="reference internal" href="de_ad_pe.html">ADPerkinElmer Area Detector with default HDF5 File Name</a></li>
+<li class="toctree-l2"><a class="reference internal" href="de_ad_pilatus.html">ADPilatus Area Detector with default HDF5 File Name</a></li>
+<li class="toctree-l2"><a class="reference internal" href="de_aps_data_management.html">Integration with APS Data Management (DM)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="de_sscan.html">The synApps <code class="docutils literal notranslate"><span class="pre">sscan</span></code> and <code class="docutils literal notranslate"><span class="pre">SscanRecord</span></code></a></li>
+</ul>
+</details></li>
+</ul>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="filewriter_examples.html">File Writer Examples</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="fw_nxwriter.html">Callback</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="fw_specfile_example.html">Output scan(s) to a SPEC data file.</a></li>
+</ul>
+</details></li>
+</ul>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="howto_examples.html">How-To Examples</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="ho_contingency.html">How to interrupt/stop/abort a running plan &amp; recover to safe settings</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ho_list_control_objects.html">What are the objects to control?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ho_motor_factory.html">Grouping Motors with <code class="docutils literal notranslate"><span class="pre">mb_creator</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ho_motor_factory_quickstart.html">Quick Start: Grouping Motors with <code class="docutils literal notranslate"><span class="pre">mb_creator</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ho_nxwriter_templates.html">How to use NeXus/HDF5 Templates</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ho_search_databroker.html">How to Search for Bluesky Data?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ho_session_logs.html">How to setup logging</a></li>
+</ul>
+</details></li>
+</ul>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="plan_examples.html">Plan Examples</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="pl_excel_scan.html">The <code class="docutils literal notranslate"><span class="pre">Excel_plan()</span></code> – batch scans using a spreadsheet</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pl_lineup.html">The <code class="docutils literal notranslate"><span class="pre">lineup()</span></code> plan - align an axis with a signal</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pl_nscan.html">The <code class="docutils literal notranslate"><span class="pre">nscan()</span></code> plan – scan multiple axes together</a></li>
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">The <code class="xref py py-func docutils literal notranslate"><span class="pre">run_command_file()</span></code> plan – batch scans using a text file</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pl_tuneaxis.html">The <code class="docutils literal notranslate"><span class="pre">TuneAxis()</span></code> plan - align an axis with a signal</a></li>
+</ul>
+</details></li>
+</ul>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="download_examples.html">File Downloads for the Examples</a></li>
+</ul>
+</div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+<nav aria-label="Breadcrumb" class="d-print-none">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="index.html" class="nav-link">Examples</a></li>
+    
+    
+    <li class="breadcrumb-item"><a href="plan_examples.html" class="nav-link">Plan Examples</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">The <code class="xref py py-func docutils literal notranslate"><span class="pre">run_command_file()</span></code> plan – batch scans using a text file</span></li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section id="the-run-command-file-plan-batch-scans-using-a-text-file">
+<span id="example-run-command-file"></span><span id="index-0"></span><h1>The <code class="xref py py-func docutils literal notranslate"><span class="pre">run_command_file()</span></code> plan – batch scans using a text file<a class="headerlink" href="#the-run-command-file-plan-batch-scans-using-a-text-file" title="Link to this heading">#</a></h1>
+<p>You can use a text file or an Excel spreadsheet as a multi-sample
+batch scan tool using the <code class="xref py py-func docutils literal notranslate"><span class="pre">run_command_file()</span></code> plan.
+This section is divided into these parts.</p>
+<ul>
+<li><p><a class="reference internal" href="#command-file"><span class="std std-ref">The Command File</span></a></p>
+<blockquote>
+<div><ul class="simple">
+<li><p><a class="reference internal" href="#command-file-text"><span class="std std-ref">Text Command File</span></a></p></li>
+<li><p><a class="reference internal" href="#command-file-spreadsheet"><span class="std std-ref">Spreadsheet Command File</span></a></p></li>
+</ul>
+</div></blockquote>
+</li>
+<li><p><a class="reference internal" href="#command-file-actions"><span class="std std-ref">The Actions</span></a></p></li>
+<li><p><a class="reference internal" href="#command-file-register"><span class="std std-ref">Register our own execute_command_list</span></a></p></li>
+<li><p><a class="reference internal" href="#command-file-testing"><span class="std std-ref">Testing the command file</span></a></p></li>
+<li><p><a class="reference internal" href="#command-file-running"><span class="std std-ref">Running the command file</span></a></p></li>
+<li><p><a class="reference internal" href="#command-file-appendix"><span class="std std-ref">Appendix: Other spreadsheet examples</span></a></p></li>
+</ul>
+<section id="the-command-file">
+<span id="command-file"></span><h2>The Command File<a class="headerlink" href="#the-command-file" title="Link to this heading">#</a></h2>
+<p>A command file can be written as either a plain text file or a
+spreadsheet (such as from Microsoft Excel or Libre Office).</p>
+<section id="text-command-file">
+<span id="command-file-text"></span><h3>Text Command File<a class="headerlink" href="#text-command-file" title="Link to this heading">#</a></h3>
+<p>For example, given a text command file (named <code class="docutils literal notranslate"><span class="pre">sample_example.txt</span></code>)
+with content as shown …</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span><span class="linenos">1</span># example text command file
+<span class="linenos">2</span>
+<span class="linenos">3</span>step_scan 5.07  8.3   0.0  &quot;Water Blank, deionized&quot;
+<span class="linenos">4</span>other_scan 5.07  8.3  0.0  &quot;Water Blank, deionized&quot;
+<span class="linenos">5</span>
+<span class="linenos">6</span># all comment lines will be ignored                                       
+<span class="linenos">7</span>
+<span class="linenos">8</span>this line will not be recognized by execute_command_list()
+</pre></div>
+</div>
+<p>… can be summarized in a bluesky ipython session:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">In</span> <span class="p">[</span><span class="mi">1</span><span class="p">]:</span> <span class="kn">import</span><span class="w"> </span><span class="nn">apstools.plans</span>
+<span class="n">In</span> <span class="p">[</span><span class="mi">2</span><span class="p">]:</span> <span class="n">apstools</span><span class="o">.</span><span class="n">plans</span><span class="o">.</span><span class="n">summarize_command_file</span><span class="p">(</span><span class="s2">&quot;sample_example.txt&quot;</span><span class="p">)</span>
+<span class="n">Command</span> <span class="n">file</span><span class="p">:</span> <span class="n">sample_example</span><span class="o">.</span><span class="n">xlsx</span>
+<span class="o">======</span> <span class="o">==========</span> <span class="o">===========================================================</span>
+<span class="n">line</span> <span class="c1"># action     parameters</span>
+<span class="o">======</span> <span class="o">==========</span> <span class="o">===========================================================</span>
+<span class="mi">3</span>      <span class="n">step_scan</span>  <span class="mf">5.07</span><span class="p">,</span> <span class="mf">8.3</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="n">Water</span> <span class="n">Blank</span><span class="p">,</span> <span class="n">deionized</span>
+<span class="mi">4</span>      <span class="n">other_scan</span> <span class="mf">5.07</span><span class="p">,</span> <span class="mf">8.3</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="n">Water</span> <span class="n">Blank</span><span class="p">,</span> <span class="n">deionized</span>
+<span class="mi">8</span>      <span class="n">this</span>       <span class="n">line</span><span class="p">,</span> <span class="n">will</span><span class="p">,</span> <span class="ow">not</span><span class="p">,</span> <span class="n">be</span><span class="p">,</span> <span class="n">recognized</span><span class="p">,</span> <span class="n">by</span><span class="p">,</span> <span class="n">execute_command_list</span><span class="p">()</span>
+<span class="o">======</span> <span class="o">==========</span> <span class="o">===========================================================</span>
+</pre></div>
+</div>
+<p>Observe which lines (3, 4, and 8) in the text file are part of
+the summary.  The other lines are either comments or blank.
+The action on line 8 will be passed to <code class="docutils literal notranslate"><span class="pre">execute_command_list()</span></code> which will
+then report the <code class="docutils literal notranslate"><span class="pre">this</span></code> action it is not handled.
+(Looks like another type of a comment.)
+See <code class="xref py py-func docutils literal notranslate"><span class="pre">parse_text_command_file()</span></code> for more details.</p>
+</section>
+<section id="spreadsheet-command-file">
+<span id="command-file-spreadsheet"></span><h3>Spreadsheet Command File<a class="headerlink" href="#spreadsheet-command-file" title="Link to this heading">#</a></h3>
+<p>Follow the example spreadsheet (in the <a class="reference internal" href="download_examples.html#examples-downloads"><span class="std std-ref">File Downloads for the Examples</span></a> section)
+and accompanying Jupyter notebook <a class="footnote-reference brackets" href="#id2" id="id1" role="doc-noteref"><span class="fn-bracket">[</span>1<span class="fn-bracket">]</span></a> to write your own <code class="docutils literal notranslate"><span class="pre">Excel_plan()</span></code>.</p>
+<aside class="footnote-list brackets">
+<aside class="footnote brackets" id="id2" role="doc-footnote">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id1">1</a><span class="fn-bracket">]</span></span>
+<p><a class="github reference external" href="https://github.com/BCDA-APS/apstools/blob/master/docs/source/resources/excel_scan.ipynb">BCDA-APS/apstools</a></p>
+</aside>
+</aside>
+<p>For example, given a spreadsheet (named <code class="docutils literal notranslate"><span class="pre">sample_example.xlsx</span></code>)
+with content as shown in the next figure:</p>
+<figure class="align-default" id="id3">
+<a class="reference internal image-reference" href="../_images/sample_example.jpg"><img alt="../_images/sample_example.jpg" src="../_images/sample_example.jpg" style="width: 95%;" />
+</a>
+<figcaption>
+<p><span class="caption-text">Image of <code class="docutils literal notranslate"><span class="pre">sample_example.xlsx</span></code> spreadsheet file.</span><a class="headerlink" href="#id3" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+<div class="admonition tip">
+<p class="admonition-title">Tip</p>
+<p>Place the column labels on the fourth row of the spreadsheet,
+starting in the first column.
+The actions start on the next row.  The first blank row indicates
+the end of the command table within the spreadsheet.
+Use as many columns as you need, one column per argument.</p>
+</div>
+<p>This spreadsheet can be summarized in a bluesky ipython session:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">In</span> <span class="p">[</span><span class="mi">1</span><span class="p">]:</span> <span class="kn">import</span><span class="w"> </span><span class="nn">apstools.plans</span>
+<span class="n">In</span> <span class="p">[</span><span class="mi">2</span><span class="p">]:</span> <span class="n">apstools</span><span class="o">.</span><span class="n">plans</span><span class="o">.</span><span class="n">summarize_command_file</span><span class="p">(</span><span class="s2">&quot;sample_example.xlsx&quot;</span><span class="p">)</span>
+<span class="n">Command</span> <span class="n">file</span><span class="p">:</span> <span class="n">sample_example</span><span class="o">.</span><span class="n">xlsx</span>
+<span class="o">======</span> <span class="o">==================================================================</span> <span class="o">======================================</span>
+<span class="n">line</span> <span class="c1"># action                                                             parameters</span>
+<span class="o">======</span> <span class="o">==================================================================</span> <span class="o">======================================</span>
+<span class="mi">1</span>      <span class="n">step_scan</span>                                                          <span class="mf">5.07</span><span class="p">,</span> <span class="mf">8.3</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="n">Water</span> <span class="n">Blank</span><span class="p">,</span> <span class="n">deionized</span>
+<span class="mi">2</span>      <span class="n">other_scan</span>                                                         <span class="mf">5.07</span><span class="p">,</span> <span class="mf">8.3</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="n">Water</span> <span class="n">Blank</span><span class="p">,</span> <span class="n">deionized</span>
+<span class="mi">3</span>      <span class="n">this</span> <span class="n">will</span> <span class="n">be</span> <span class="n">ignored</span> <span class="p">(</span><span class="ow">and</span> <span class="n">also</span> <span class="n">the</span> <span class="nb">next</span> <span class="n">blank</span> <span class="n">row</span> <span class="n">will</span> <span class="n">be</span> <span class="n">ignored</span><span class="p">)</span>
+<span class="o">======</span> <span class="o">==================================================================</span> <span class="o">======================================</span>
+</pre></div>
+</div>
+<p>Note that lines 9 and 10 in the spreadsheet file are not part of
+the summary.  The spreadsheet handler will stop reading the list of actions
+at the first blank line.  The action described on line 3 will not be handled
+(since we will not define an action named
+<code class="docutils literal notranslate"><span class="pre">this</span> <span class="pre">will</span> <span class="pre">be</span> <span class="pre">ignored</span> <span class="pre">(and</span> <span class="pre">also</span> <span class="pre">the</span> <span class="pre">next</span> <span class="pre">blank</span> <span class="pre">row</span> <span class="pre">will</span> <span class="pre">be</span> <span class="pre">ignored)</span></code>).
+See <code class="xref py py-func docutils literal notranslate"><span class="pre">parse_Excel_command_file()</span></code> for more details.</p>
+</section>
+</section>
+<section id="the-actions">
+<span id="command-file-actions"></span><h2>The <em>Actions</em><a class="headerlink" href="#the-actions" title="Link to this heading">#</a></h2>
+<p>To use this example with the <code class="xref py py-func docutils literal notranslate"><span class="pre">run_command_file()</span></code> plan, it is
+necessary to redefine the <code class="xref py py-func docutils literal notranslate"><span class="pre">execute_command_list()</span></code> plan,
+we must write a plan to handle every different type of action described
+in the spreadsheet.  For <code class="docutils literal notranslate"><span class="pre">sample_example.xlsx</span></code>, we need to
+handle the <code class="docutils literal notranslate"><span class="pre">step_scan</span></code> and <code class="docutils literal notranslate"><span class="pre">other_scan</span></code> actions.</p>
+<div class="admonition tip">
+<p class="admonition-title">Tip</p>
+<p>Always write these <em>actions</em> as bluesky plans.
+To test your <em>actions</em>, use either
+<code class="docutils literal notranslate"><span class="pre">bluesky.simulators.summarize_plan(step_scan())</span></code>
+or <code class="docutils literal notranslate"><span class="pre">bluesky.simulators.summarize_plan(other_scan())</span></code>.</p>
+</div>
+<p>Here are examples of those two actions (and a stub for an additional
+instrument procedure to make the example more realistic):</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span><span class="k">def</span><span class="w"> </span><span class="nf">step_scan</span><span class="p">(</span><span class="n">sx</span><span class="p">,</span> <span class="n">sy</span><span class="p">,</span> <span class="n">thickness</span><span class="p">,</span> <span class="n">title</span><span class="p">,</span> <span class="n">md</span><span class="o">=</span><span class="p">{}):</span>
+<span class="linenos"> 2</span>        <span class="n">md</span><span class="p">[</span><span class="s2">&quot;sample_title&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">title</span>                      <span class="c1"># log this metadata</span>
+<span class="linenos"> 3</span>        <span class="n">md</span><span class="p">[</span><span class="s2">&quot;sample_thickness&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">thickness</span>      <span class="c1"># log this metadata</span>
+<span class="linenos"> 4</span>        <span class="k">yield from</span> <span class="n">bluesky</span><span class="o">.</span><span class="n">plan_stubs</span><span class="o">.</span><span class="n">mv</span><span class="p">(</span>
+<span class="linenos"> 5</span>                <span class="n">sample_stage</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="n">sx</span><span class="p">,</span>
+<span class="linenos"> 6</span>                <span class="n">sample_stage</span><span class="o">.</span><span class="n">y</span><span class="p">,</span> <span class="n">sy</span><span class="p">,</span>
+<span class="linenos"> 7</span>        <span class="p">)</span>
+<span class="linenos"> 8</span>        <span class="k">yield from</span> <span class="n">prepare_detector</span><span class="p">(</span><span class="s2">&quot;scintillator&quot;</span><span class="p">)</span>
+<span class="linenos"> 9</span>        <span class="k">yield from</span> <span class="n">bluesky</span><span class="o">.</span><span class="n">plans</span><span class="o">.</span><span class="n">scan</span><span class="p">([</span><span class="n">scaler</span><span class="p">],</span> <span class="n">motor</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">180</span><span class="p">,</span> <span class="mi">360</span><span class="p">,</span> <span class="n">md</span><span class="o">=</span><span class="n">md</span><span class="p">)</span>
+<span class="linenos">10</span>
+<span class="linenos">11</span><span class="k">def</span><span class="w"> </span><span class="nf">other_scan</span><span class="p">(</span><span class="n">sx</span><span class="p">,</span> <span class="n">sy</span><span class="p">,</span> <span class="n">thickness</span><span class="p">,</span> <span class="n">title</span><span class="p">,</span> <span class="n">md</span><span class="o">=</span><span class="p">{}):</span>
+<span class="linenos">12</span>        <span class="n">md</span><span class="p">[</span><span class="s2">&quot;sample_title&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">title</span>                      <span class="c1"># log this metadata</span>
+<span class="linenos">13</span>        <span class="n">md</span><span class="p">[</span><span class="s2">&quot;sample_thickness&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">thickness</span>      <span class="c1"># log this metadata</span>
+<span class="linenos">14</span>        <span class="k">yield from</span> <span class="n">bluesky</span><span class="o">.</span><span class="n">plan_stubs</span><span class="o">.</span><span class="n">mv</span><span class="p">(</span>
+<span class="linenos">15</span>                <span class="n">sample_stage</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="n">sx</span><span class="p">,</span>
+<span class="linenos">16</span>                <span class="n">sample_stage</span><span class="o">.</span><span class="n">y</span><span class="p">,</span> <span class="n">sy</span><span class="p">,</span>
+<span class="linenos">17</span>        <span class="p">)</span>
+<span class="linenos">18</span>        <span class="k">yield from</span> <span class="n">prepare_detector</span><span class="p">(</span><span class="s2">&quot;areadetector&quot;</span><span class="p">)</span>
+<span class="linenos">19</span>        <span class="k">yield from</span> <span class="n">bluesky</span><span class="o">.</span><span class="n">plans</span><span class="o">.</span><span class="n">count</span><span class="p">([</span><span class="n">areadetector</span><span class="p">],</span> <span class="n">md</span><span class="o">=</span><span class="n">md</span><span class="p">)</span>
+<span class="linenos">20</span>
+<span class="linenos">21</span><span class="k">def</span><span class="w"> </span><span class="nf">prepare_detector</span><span class="p">(</span><span class="n">detector_name</span><span class="p">):</span>
+<span class="linenos">22</span>        <span class="c1"># for this example, we do nothing</span>
+<span class="linenos">23</span>        <span class="c1"># we should move the proper detector into position here</span>
+<span class="linenos">24</span>        <span class="k">yield from</span> <span class="n">bluesky</span><span class="o">.</span><span class="n">plan_stubs</span><span class="o">.</span><span class="n">null</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>Now, we replace <code class="xref py py-func docutils literal notranslate"><span class="pre">execute_command_list()</span></code>
+with our own definition to include those two actions:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span><span class="k">def</span><span class="w"> </span><span class="nf">execute_command_list</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="n">commands</span><span class="p">,</span> <span class="n">md</span><span class="o">=</span><span class="p">{}):</span>
+<span class="linenos"> 2</span><span class="w">    </span><span class="sd">&quot;&quot;&quot;our custom execute_command_list&quot;&quot;&quot;</span>
+<span class="linenos"> 3</span>    <span class="n">full_filename</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span>
+<span class="linenos"> 4</span>
+<span class="linenos"> 5</span>    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">commands</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+<span class="linenos"> 6</span>        <span class="k">yield from</span> <span class="n">bps</span><span class="o">.</span><span class="n">null</span><span class="p">()</span>
+<span class="linenos"> 7</span>        <span class="k">return</span>
+<span class="linenos"> 8</span>
+<span class="linenos"> 9</span>    <span class="n">text</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;Command file: </span><span class="si">{</span><span class="n">filename</span><span class="si">}</span><span class="se">\n</span><span class="s2">&quot;</span>
+<span class="linenos">10</span>    <span class="n">text</span> <span class="o">+=</span> <span class="nb">str</span><span class="p">(</span><span class="n">apstools</span><span class="o">.</span><span class="n">utils</span><span class="o">.</span><span class="n">command_list_as_table</span><span class="p">(</span><span class="n">commands</span><span class="p">))</span>
+<span class="linenos">11</span>    <span class="nb">print</span><span class="p">(</span><span class="n">text</span><span class="p">)</span>
+<span class="linenos">12</span>
+<span class="linenos">13</span>    <span class="k">for</span> <span class="n">command</span> <span class="ow">in</span> <span class="n">commands</span><span class="p">:</span>
+<span class="linenos">14</span>        <span class="n">action</span><span class="p">,</span> <span class="n">args</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="n">raw_command</span> <span class="o">=</span> <span class="n">command</span>
+<span class="linenos">15</span>        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;file line </span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">raw_command</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="linenos">16</span>
+<span class="linenos">17</span>        <span class="n">_md</span> <span class="o">=</span> <span class="p">{}</span>
+<span class="linenos">18</span>        <span class="n">_md</span><span class="p">[</span><span class="s2">&quot;full_filename&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">full_filename</span>
+<span class="linenos">19</span>        <span class="n">_md</span><span class="p">[</span><span class="s2">&quot;filename&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">filename</span>
+<span class="linenos">20</span>        <span class="n">_md</span><span class="p">[</span><span class="s2">&quot;line_number&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">i</span>
+<span class="linenos">21</span>        <span class="n">_md</span><span class="p">[</span><span class="s2">&quot;action&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">action</span>
+<span class="linenos">22</span>        <span class="n">_md</span><span class="p">[</span><span class="s2">&quot;parameters&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">args</span>    <span class="c1"># args is shorter than parameters, means the same thing here</span>
+<span class="linenos">23</span>
+<span class="linenos">24</span>        <span class="n">_md</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">md</span> <span class="ow">or</span> <span class="p">{})</span>      <span class="c1"># overlay with user-supplied metadata</span>
+<span class="linenos">25</span>
+<span class="linenos">26</span>        <span class="n">action</span> <span class="o">=</span> <span class="n">action</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+<span class="linenos">27</span>        <span class="k">if</span> <span class="n">action</span> <span class="o">==</span> <span class="s2">&quot;step_scan&quot;</span><span class="p">:</span>
+<span class="linenos">28</span>            <span class="k">yield from</span> <span class="n">step_scan</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="n">md</span><span class="o">=</span><span class="n">_md</span><span class="p">)</span>
+<span class="linenos">29</span>        <span class="k">elif</span> <span class="n">action</span> <span class="o">==</span> <span class="s2">&quot;other_scan&quot;</span><span class="p">:</span>
+<span class="linenos">30</span>            <span class="k">yield from</span> <span class="n">other_scan</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="n">md</span><span class="o">=</span><span class="n">_md</span><span class="p">)</span>
+<span class="linenos">31</span>
+<span class="linenos">32</span>        <span class="k">else</span><span class="p">:</span>
+<span class="linenos">33</span>            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;no handling for line </span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">raw_command</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="register-our-own-execute-command-list">
+<span id="command-file-register"></span><h2>Register our own <code class="docutils literal notranslate"><span class="pre">execute_command_list</span></code><a class="headerlink" href="#register-our-own-execute-command-list" title="Link to this heading">#</a></h2>
+<p>Finally, we register our new version of <code class="docutils literal notranslate"><span class="pre">execute_command_list</span></code>
+(which replaces the default <code class="xref py py-func docutils literal notranslate"><span class="pre">execute_command_list()</span></code>):</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">APS_plans</span><span class="o">.</span><span class="n">register_command_handler</span><span class="p">(</span><span class="n">execute_command_list</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>If you wish to verify that your own code has been installed, use this command:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">APS_plans</span><span class="o">.</span><span class="n">_COMMAND_HANDLER_</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>If its output contains <code class="docutils literal notranslate"><span class="pre">apstools.plans.execute_command_list</span></code>, you have not
+registered your own function.  However, if the output looks something such as
+either of these:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">&lt;</span><span class="n">function</span> <span class="n">__main__</span><span class="o">.</span><span class="n">execute_command_list</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="n">commands</span><span class="p">,</span> <span class="n">md</span><span class="o">=</span><span class="p">{})</span><span class="o">&gt;</span>
+<span class="c1"># or</span>
+<span class="o">&lt;</span><span class="n">function</span> <span class="n">execute_command_list</span> <span class="n">at</span> <span class="mh">0x7f4cf0d616a8</span><span class="o">&gt;</span>
+</pre></div>
+</div>
+<p>then you have installed your own code.</p>
+</section>
+<section id="testing-the-command-file">
+<span id="command-file-testing"></span><h2>Testing the command file<a class="headerlink" href="#testing-the-command-file" title="Link to this heading">#</a></h2>
+<p>As you were developing plans for each of your actions, we showed you
+how to test that each plan was free of basic syntax and bluesky procedural
+errors.  The <code class="xref py py-func docutils literal notranslate"><span class="pre">bluesky.simulators.summarize_plan()</span></code> function
+will run through your plan and show you the basic data acquisition steps
+that will be executed during your plan.  Becuase you did not write
+any blocking code, no hardware should ever be changed by running
+this plan summary.</p>
+<p>To test our command file, run it through the
+<code class="xref py py-func docutils literal notranslate"><span class="pre">bluesky.simulators.summarize_plan()</span></code> function:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">bluesky</span><span class="o">.</span><span class="n">simulators</span><span class="o">.</span><span class="n">summarize_plan</span><span class="p">(</span><span class="n">run_command_file</span><span class="p">(</span><span class="s2">&quot;sample_example.txt&quot;</span><span class="p">))</span>
+</pre></div>
+</div>
+<p>The output will be rather lengthy, if there are no errors.
+Here are the first few lines:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>Command file: sample_example.txt
+====== ========== ===========================================================
+line # action     parameters                                                 
+====== ========== ===========================================================
+3      step_scan  5.07, 8.3, 0.0, Water Blank, deionized                     
+4      other_scan 5.07, 8.3, 0.0, Water Blank, deionized                     
+8      this       line, will, not, be, recognized, by, execute_command_list()
+====== ========== ===========================================================
+
+file line 3: step_scan 5.07  8.3   0.0  &quot;Water Blank, deionized&quot;
+sample_stage_x -&gt; 5.07
+sample_stage_y -&gt; 8.3
+=================================== Open Run ===================================
+m3 -&gt; 0.0
+  Read [&#39;scaler&#39;, &#39;m3&#39;]
+m3 -&gt; 0.5013927576601671
+  Read [&#39;scaler&#39;, &#39;m3&#39;]
+m3 -&gt; 1.0027855153203342
+  Read [&#39;scaler&#39;, &#39;m3&#39;]
+m3 -&gt; 1.5041782729805013
+</pre></div>
+</div>
+<p>and the last few lines:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>m3 -&gt; 178.99721448467966
+  Read [&#39;scaler&#39;, &#39;m3&#39;]
+m3 -&gt; 179.49860724233983
+  Read [&#39;scaler&#39;, &#39;m3&#39;]
+m3 -&gt; 180.0
+  Read [&#39;scaler&#39;, &#39;m3&#39;]
+================================== Close Run ===================================
+file line 4: other_scan 5.07  8.3  0.0  &quot;Water Blank, deionized&quot;
+sample_stage_x -&gt; 5.07
+sample_stage_y -&gt; 8.3
+=================================== Open Run ===================================
+  Read [&#39;areadetector&#39;]
+================================== Close Run ===================================
+file line 8: this line will not be recognized by execute_command_list()
+no handling for line 8: this line will not be recognized by execute_command_list()
+</pre></div>
+</div>
+</section>
+<section id="running-the-command-file">
+<span id="command-file-running"></span><h2>Running the command file<a class="headerlink" href="#running-the-command-file" title="Link to this heading">#</a></h2>
+<section id="prepare-the-re">
+<h3>Prepare the RE<a class="headerlink" href="#prepare-the-re" title="Link to this heading">#</a></h3>
+<p>These steps were used to prepare our bluesky ipython session to run the plan:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span><span class="kn">from</span><span class="w"> </span><span class="nn">bluesky</span><span class="w"> </span><span class="kn">import</span> <span class="n">RunEngine</span>
+<span class="linenos"> 2</span><span class="kn">from</span><span class="w"> </span><span class="nn">bluesky.utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">get_history</span>
+<span class="linenos"> 3</span><span class="n">RE</span> <span class="o">=</span> <span class="n">RunEngine</span><span class="p">(</span><span class="n">get_history</span><span class="p">())</span>
+<span class="linenos"> 4</span>
+<span class="linenos"> 5</span><span class="c1"># Import matplotlib and put it in interactive mode.</span>
+<span class="linenos"> 6</span><span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<span class="linenos"> 7</span><span class="n">plt</span><span class="o">.</span><span class="n">ion</span><span class="p">()</span>
+<span class="linenos"> 8</span>
+<span class="linenos"> 9</span><span class="c1"># load config from ~/.config/databroker/mongodb_config.yml</span>
+<span class="linenos">10</span><span class="kn">from</span><span class="w"> </span><span class="nn">databroker</span><span class="w"> </span><span class="kn">import</span> <span class="n">Broker</span>
+<span class="linenos">11</span><span class="n">db</span> <span class="o">=</span> <span class="n">Broker</span><span class="o">.</span><span class="n">named</span><span class="p">(</span><span class="s2">&quot;mongodb_config&quot;</span><span class="p">)</span>
+<span class="linenos">12</span>
+<span class="linenos">13</span><span class="c1"># Subscribe metadatastore to documents.</span>
+<span class="linenos">14</span><span class="c1"># If this is removed, data is not saved to metadatastore.</span>
+<span class="linenos">15</span><span class="n">RE</span><span class="o">.</span><span class="n">subscribe</span><span class="p">(</span><span class="n">db</span><span class="o">.</span><span class="n">insert</span><span class="p">)</span>
+<span class="linenos">16</span>
+<span class="linenos">17</span><span class="c1"># Set up SupplementalData.</span>
+<span class="linenos">18</span><span class="kn">from</span><span class="w"> </span><span class="nn">bluesky</span><span class="w"> </span><span class="kn">import</span> <span class="n">SupplementalData</span>
+<span class="linenos">19</span><span class="n">sd</span> <span class="o">=</span> <span class="n">SupplementalData</span><span class="p">()</span>
+<span class="linenos">20</span><span class="n">RE</span><span class="o">.</span><span class="n">preprocessors</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">sd</span><span class="p">)</span>
+<span class="linenos">21</span>
+<span class="linenos">22</span><span class="c1"># Add a progress bar.</span>
+<span class="linenos">23</span><span class="kn">from</span><span class="w"> </span><span class="nn">bluesky.utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">ProgressBarManager</span>
+<span class="linenos">24</span><span class="n">pbar_manager</span> <span class="o">=</span> <span class="n">ProgressBarManager</span><span class="p">()</span>
+<span class="linenos">25</span><span class="n">RE</span><span class="o">.</span><span class="n">waiting_hook</span> <span class="o">=</span> <span class="n">pbar_manager</span>
+<span class="linenos">26</span>
+<span class="linenos">27</span><span class="c1"># Register bluesky IPython magics.</span>
+<span class="linenos">28</span><span class="kn">from</span><span class="w"> </span><span class="nn">bluesky.magics</span><span class="w"> </span><span class="kn">import</span> <span class="n">BlueskyMagics</span>
+<span class="linenos">29</span><span class="n">get_ipython</span><span class="p">()</span><span class="o">.</span><span class="n">register_magics</span><span class="p">(</span><span class="n">BlueskyMagics</span><span class="p">)</span>
+<span class="linenos">30</span>
+<span class="linenos">31</span><span class="c1"># Set up the BestEffortCallback.</span>
+<span class="linenos">32</span><span class="kn">from</span><span class="w"> </span><span class="nn">bluesky.callbacks.best_effort</span><span class="w"> </span><span class="kn">import</span> <span class="n">BestEffortCallback</span>
+<span class="linenos">33</span><span class="n">bec</span> <span class="o">=</span> <span class="n">BestEffortCallback</span><span class="p">()</span>
+<span class="linenos">34</span><span class="n">RE</span><span class="o">.</span><span class="n">subscribe</span><span class="p">(</span><span class="n">bec</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Also, since we are using an EPICS area detector (ADSimDetector) and have just
+started its IOC, we must process at least one image from the CAM to each of the
+file writing plugins we’ll use (just the HDF1 for us).  A procedure has been added
+to the <code class="docutils literal notranslate"><span class="pre">ophyd.areadetector</span></code> code for this.  Here is the command we used
+for this procedure:</p>
+<blockquote>
+<div><p>areadetector.hdf1.warmup()</p>
+</div></blockquote>
+</section>
+<section id="run-the-command-file">
+<h3>Run the command file<a class="headerlink" href="#run-the-command-file" title="Link to this heading">#</a></h3>
+<p>To run the command file, you need to pass this to an instance of the
+<code class="xref py py-class docutils literal notranslate"><span class="pre">bluesky.RunEngine</span></code>, defined as <code class="docutils literal notranslate"><span class="pre">RE</span></code> above:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">RE</span><span class="p">(</span><span class="n">apstools</span><span class="o">.</span><span class="n">plans</span><span class="o">.</span><span class="n">run_command_file</span><span class="p">(</span><span class="s2">&quot;sample_example.txt&quot;</span><span class="p">))</span>
+</pre></div>
+</div>
+<p>The output will be rather lengthy.
+Here are the first few lines of the output on my system (your hardware
+may be different so the exact data columns and values will vary):</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>In [11]: RE(APS_plans.run_command_file(&quot;sample_example.txt&quot;))
+Command file: sample_example.txt
+====== ========== ===========================================================
+line # action     parameters                                                 
+====== ========== ===========================================================
+3      step_scan  5.07, 8.3, 0.0, Water Blank, deionized                     
+4      other_scan 5.07, 8.3, 0.0, Water Blank, deionized                     
+8      this       line, will, not, be, recognized, by, execute_command_list()
+====== ========== ===========================================================
+
+file line 3: step_scan 5.07  8.3   0.0  &quot;Water Blank, deionized&quot;
+Transient Scan ID: 138     Time: 2019-07-04 16:52:15
+Persistent Unique Scan ID: &#39;f40d1c3c-8361-4efc-83f1-072fcd44c1b2&#39;
+New stream: &#39;primary&#39;                                                                                                                                         
++-----------+------------+------------+------------+------------+------------+
+|   seq_num |       time |         m3 |      clock |         I0 |      scint |
++-----------+------------+------------+------------+------------+------------+
+|         1 | 16:52:34.5 |    0.00000 |    4000000 |          2 |          1 |
+|         2 | 16:52:35.2 |    0.50000 |    4000000 |          1 |          2 |                                                                                
+|         3 | 16:52:36.0 |    1.00000 |    4000000 |          1 |          1 |                                                                                
+|         4 | 16:52:36.6 |    1.50000 |    4000000 |          2 |          1 |                                                                                
+|         5 | 16:52:37.3 |    2.01000 |    4000000 |          1 |          2 |                                                                                
+|         6 | 16:52:38.0 |    2.51000 |    4000000 |          2 |          2 |                                                                                
+|         7 | 16:52:38.7 |    3.01000 |    4000000 |          1 |          1 |                                                                                
+|         8 | 16:52:39.3 |    3.51000 |    4000000 |          1 |          2 |                                                                                
+</pre></div>
+</div>
+<p>and the last few lines:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>|       352 | 16:56:53.4 |  175.99000 |    4000000 |          3 |          0 |                                                                                
+|       353 | 16:56:54.1 |  176.49000 |    4000000 |          3 |          1 |                                                                                
+|       354 | 16:56:55.0 |  176.99000 |    4000000 |          1 |          3 |                                                                                
+|       355 | 16:56:55.7 |  177.49000 |    4000000 |          2 |          1 |                                                                                
+|       356 | 16:56:56.4 |  177.99000 |    4000000 |          1 |          1 |                                                                                
+|       357 | 16:56:57.1 |  178.50000 |    4000000 |          2 |          1 |                                                                                
+|       358 | 16:56:57.8 |  179.00000 |    4000000 |          2 |          2 |                                                                                
+|       359 | 16:56:58.5 |  179.50000 |    4000000 |          1 |          2 |                                                                                
+|       360 | 16:56:59.2 |  180.00000 |    4000000 |          2 |          1 |                                                                                
++-----------+------------+------------+------------+------------+------------+
+generator scan [&#39;f40d1c3c&#39;] (scan num: 138)
+
+
+
+file line 4: other_scan 5.07  8.3  0.0  &quot;Water Blank, deionized&quot;
+Transient Scan ID: 139     Time: 2019-07-04 16:56:59
+Persistent Unique Scan ID: &#39;1f093f56-3413-4e67-8a1b-27e71881b855&#39;
+New stream: &#39;primary&#39;
++-----------+------------+
+|   seq_num |       time |
++-----------+------------+
+|         1 | 16:56:59.7 |
++-----------+------------+
+generator count [&#39;1f093f56&#39;] (scan num: 139)
+
+
+
+file line 8: this line will not be recognized by execute_command_list()
+no handling for line 8: this line will not be recognized by execute_command_list()
+Out[11]: 
+(&#39;f40d1c3c-8361-4efc-83f1-072fcd44c1b2&#39;,
+ &#39;1f093f56-3413-4e67-8a1b-27e71881b855&#39;)
+
+In [12]: 
+</pre></div>
+</div>
+</section>
+</section>
+<section id="appendix-other-spreadsheet-examples">
+<span id="command-file-appendix"></span><h2>Appendix: Other spreadsheet examples<a class="headerlink" href="#appendix-other-spreadsheet-examples" title="Link to this heading">#</a></h2>
+<p>You can use an Excel spreadsheet as a multi-sample batch scan tool.</p>
+<p><strong>SIMPLE</strong>:  Your Excel spreadsheet could be rather simple…</p>
+<figure class="align-default" id="id4">
+<a class="reference internal image-reference" href="../_images/excel_simple.jpg"><img alt="../_images/excel_simple.jpg" src="../_images/excel_simple.jpg" style="width: 95%;" />
+</a>
+<figcaption>
+<p><span class="caption-text">Unformatted Excel spreadsheet for batch scans.</span><a class="headerlink" href="#id4" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+<p>See <code class="xref py py-class docutils literal notranslate"><span class="pre">ExcelDatabaseFileGeneric</span></code> for an example bluesky plan
+that reads from this spreadsheet.</p>
+<p><strong>FANCY</strong>:  … or contain much more information, including formatting.</p>
+<figure class="align-default" id="id5">
+<span id="excel-plan-spreadsheet-screen"></span><a class="reference internal image-reference" href="../_images/excel_plan_spreadsheet.jpg"><img alt="../_images/excel_plan_spreadsheet.jpg" src="../_images/excel_plan_spreadsheet.jpg" style="width: 95%;" />
+</a>
+<figcaption>
+<p><span class="caption-text">Example Excel spreadsheet for multi-sample batch scans.</span><a class="headerlink" href="#id5" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+<p>The idea is that your table will start with column labels
+in <strong>row 4</strong> of the Excel spreadsheet.  One of the columns will be the name
+of the action (in the example, it is <code class="docutils literal notranslate"><span class="pre">Scan</span> <span class="pre">Type</span></code>).  The other columns will
+be parameters or other information.  Each of the rows under the labels will
+describe one type of action such as a scan.  Basically, whatever you
+handle in your <code class="docutils literal notranslate"><span class="pre">Excel_plan()</span></code>.
+Any rows that you do not handle will be reported to the console during execution
+but will not result in any action.
+Grow (or shrink) the table as needed.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>For now, make sure there is no content in any of the spreadsheet
+cells outside (either below or to the right) of your table.
+Such content will trigger a cryptic error
+about a numpy float that cannot be converted.  Instead, put that content
+in a second spreadsheet page.</p>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="github reference external" href="https://github.com/BCDA-APS/apstools/issues/116">BCDA-APS/apstools#116</a></p>
+</div>
+</div>
+<p>You’ll need to have an action plan for every different action your spreadsheet
+will specify.  Call these plans from your <code class="docutils literal notranslate"><span class="pre">Excel_plan()</span></code> within an <code class="docutils literal notranslate"><span class="pre">elif</span></code> block,
+as shown in this example.  The example <code class="docutils literal notranslate"><span class="pre">Excel_plan()</span></code> converts the <code class="docutils literal notranslate"><span class="pre">Scan</span> <span class="pre">Type</span></code>
+into  lower case for simpler comparisons.  Your plan can be different if you choose.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">if</span> <span class="n">scan_command</span> <span class="o">==</span> <span class="s2">&quot;step_scan&quot;</span><span class="p">:</span>
+    <span class="k">yield from</span> <span class="n">step_scan</span><span class="p">(</span><span class="o">...</span><span class="p">)</span>
+<span class="k">elif</span> <span class="n">scan_command</span> <span class="o">==</span> <span class="s2">&quot;energy_scan&quot;</span><span class="p">:</span>
+    <span class="k">yield from</span> <span class="n">scan_energy</span><span class="p">(</span><span class="o">...</span><span class="p">)</span>
+<span class="k">elif</span> <span class="n">scan_command</span> <span class="o">==</span> <span class="s2">&quot;radiograph&quot;</span><span class="p">:</span>
+    <span class="k">yield from</span> <span class="n">AcquireImage</span><span class="p">(</span><span class="o">...</span><span class="p">)</span>
+<span class="k">else</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;no handling for table row </span><span class="si">{</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">row</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>The example plan saves all row parameters as metadata to the row’s action.
+This may be useful for diagnostic purposes.</p>
+</section>
+</section>
+
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="pl_nscan.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">The <code class="docutils literal notranslate"><span class="pre">nscan()</span></code> plan – scan multiple axes together</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="pl_tuneaxis.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">The <code class="docutils literal notranslate"><span class="pre">TuneAxis()</span></code> plan - align an axis with a signal</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+<div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+  </div>
+  <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-command-file">The Command File</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#text-command-file">Text Command File</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#spreadsheet-command-file">Spreadsheet Command File</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-actions">The <em>Actions</em></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#register-our-own-execute-command-list">Register our own <code class="docutils literal notranslate"><span class="pre">execute_command_list</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#testing-the-command-file">Testing the command file</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#running-the-command-file">Running the command file</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#prepare-the-re">Prepare the RE</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#run-the-command-file">Run the command file</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#appendix-other-spreadsheet-examples">Appendix: Other spreadsheet examples</a></li>
+</ul>
+  </nav></div>
+
+  <div class="sidebar-secondary-item">
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/examples/pl_run_command_list.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+
+  <p class="copyright">
+    
+      © Copyright 2017-2025, UChicago Argonne, LLC.
+      <br/>
+    
+  </p>
+</div>
+      
+        <div class="footer-item">
+
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.1.3.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item">
+<p class="theme-version">
+  <!-- # L10n: Setting the PST URL as an argument as this does not need to be localized -->
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.16.1.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

@@ -1,0 +1,1389 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>How to interrupt/stop/abort a running plan &amp; recover to safe settings &#8212; apstools 1.7</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="../_static/graphviz.css?v=4ae1632d" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.8ecb98da25f57f5357bf6f572d296f466b2cfe2517ffebfabe82451661e28f02.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../_static/css/custom.css?v=8b12e3de" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+
+    <script src="../_static/documentation_options.js?v=209ef5f9"></script>
+    <script src="../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'examples/ho_contingency';</script>
+    <script>
+        DOCUMENTATION_OPTIONS.theme_version = '0.16.1';
+        DOCUMENTATION_OPTIONS.theme_switcher_json_url = 'https://raw.githubusercontent.com/BCDA-APS/apstools/main/docs/source/_static/switcher.json';
+        DOCUMENTATION_OPTIONS.theme_switcher_version_match = '1.7.8';
+        DOCUMENTATION_OPTIONS.show_version_warning_banner =
+            false;
+        </script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="What are the objects to control?" href="ho_list_control_objects.html" />
+    <link rel="prev" title="How-To Examples" href="howto_examples.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="1.7" />
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-3 navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../index.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">apstools 1.7</p>
+  
+</a></div>
+    
+      <div class="navbar-item">
+<div class="version-switcher__container dropdown pst-js-only">
+  <button id="pst-version-switcher-button-2"
+    type="button"
+    class="version-switcher__button btn btn-sm dropdown-toggle"
+    data-bs-toggle="dropdown"
+    aria-haspopup="listbox"
+    aria-controls="pst-version-switcher-list-2"
+    aria-label="Version switcher list"
+  >
+    Choose version  <!-- this text may get changed later by javascript -->
+    <span class="caret"></span>
+  </button>
+  <div id="pst-version-switcher-list-2"
+    class="version-switcher__menu dropdown-menu list-group-flush py-0"
+    role="listbox" aria-labelledby="pst-version-switcher-button-2">
+    <!-- dropdown will be populated by javascript on page load -->
+  </div>
+</div></div>
+    
+  </div>
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../install.html">
+    Installation
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../api/index.html">
+    API Documentation
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../applications/index.html">
+    Applications
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="index.html">
+    Examples
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../changes.html">
+    Change History
+  </a>
+</li>
+
+            <li class="nav-item dropdown">
+                <button class="btn dropdown-toggle nav-item" type="button"
+                data-bs-toggle="dropdown" aria-expanded="false"
+                aria-controls="pst-nav-more-links">
+                    More
+                </button>
+                <ul id="pst-nav-more-links" class="dropdown-menu">
+                    
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../license.html">
+    License
+  </a>
+</li>
+
+                </ul>
+            </li>
+            
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+        <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+      
+        <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/BCDA-APS/apstools" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../install.html">
+    Installation
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../api/index.html">
+    API Documentation
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../applications/index.html">
+    Applications
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="index.html">
+    Examples
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../changes.html">
+    Change History
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../license.html">
+    License
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+        
+          <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/BCDA-APS/apstools" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+        
+      </div>
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+<nav class="bd-docs-nav bd-links"
+     aria-label="Section Navigation">
+  <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
+  <div class="bd-toc-item navbar-nav"><ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="device_examples.html">Device Examples</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="de_0_adsim_hdf5_basic.html">Area Detector with default HDF5 File Name</a></li>
+<li class="toctree-l2"><a class="reference internal" href="de_1_adsim_hdf5_custom_names.html">Area Detector with custom HDF5 File Name</a></li>
+<li class="toctree-l2"><a class="reference internal" href="de_2_adsim_hdf5_single_mode.html">Area Detector, Single mode, HDF5 file</a></li>
+<li class="toctree-l2"><a class="reference internal" href="de_ad_pe.html">ADPerkinElmer Area Detector with default HDF5 File Name</a></li>
+<li class="toctree-l2"><a class="reference internal" href="de_ad_pilatus.html">ADPilatus Area Detector with default HDF5 File Name</a></li>
+<li class="toctree-l2"><a class="reference internal" href="de_aps_data_management.html">Integration with APS Data Management (DM)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="de_sscan.html">The synApps <code class="docutils literal notranslate"><span class="pre">sscan</span></code> and <code class="docutils literal notranslate"><span class="pre">SscanRecord</span></code></a></li>
+</ul>
+</details></li>
+</ul>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="filewriter_examples.html">File Writer Examples</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="fw_nxwriter.html">Callback</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="fw_specfile_example.html">Output scan(s) to a SPEC data file.</a></li>
+</ul>
+</details></li>
+</ul>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="howto_examples.html">How-To Examples</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">How to interrupt/stop/abort a running plan &amp; recover to safe settings</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ho_list_control_objects.html">What are the objects to control?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ho_motor_factory.html">Grouping Motors with <code class="docutils literal notranslate"><span class="pre">mb_creator</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ho_motor_factory_quickstart.html">Quick Start: Grouping Motors with <code class="docutils literal notranslate"><span class="pre">mb_creator</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ho_nxwriter_templates.html">How to use NeXus/HDF5 Templates</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ho_search_databroker.html">How to Search for Bluesky Data?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ho_session_logs.html">How to setup logging</a></li>
+</ul>
+</details></li>
+</ul>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="plan_examples.html">Plan Examples</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="pl_excel_scan.html">The <code class="docutils literal notranslate"><span class="pre">Excel_plan()</span></code> – batch scans using a spreadsheet</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pl_lineup.html">The <code class="docutils literal notranslate"><span class="pre">lineup()</span></code> plan - align an axis with a signal</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pl_nscan.html">The <code class="docutils literal notranslate"><span class="pre">nscan()</span></code> plan – scan multiple axes together</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pl_run_command_list.html">The <code class="xref py py-func docutils literal notranslate"><span class="pre">run_command_file()</span></code> plan – batch scans using a text file</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pl_tuneaxis.html">The <code class="docutils literal notranslate"><span class="pre">TuneAxis()</span></code> plan - align an axis with a signal</a></li>
+</ul>
+</details></li>
+</ul>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="download_examples.html">File Downloads for the Examples</a></li>
+</ul>
+</div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+<nav aria-label="Breadcrumb" class="d-print-none">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="index.html" class="nav-link">Examples</a></li>
+    
+    
+    <li class="breadcrumb-item"><a href="howto_examples.html" class="nav-link">How-To Examples</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">How to interrupt/stop/abort a running plan &amp; recover to safe settings</span></li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section id="how-to-interrupt-stop-abort-a-running-plan-recover-to-safe-settings">
+<h1>How to interrupt/stop/abort a running plan &amp; recover to safe settings<a class="headerlink" href="#how-to-interrupt-stop-abort-a-running-plan-recover-to-safe-settings" title="Link to this heading">#</a></h1>
+<ul class="simple">
+<li><p><a class="reference internal" href="#terminate-or-interrupt"><span class="std std-ref">Terminate or Interrupt a run</span></a></p></li>
+<li><p><a class="reference internal" href="#handle-exceptions"><span class="std std-ref">Handle Exceptions</span></a></p></li>
+<li><p><a class="reference internal" href="#recover-safe-settings"><span class="std std-ref">Recover to Safe Settings</span></a></p></li>
+<li><p><a class="reference internal" href="#summary"><span class="std std-ref">Summary</span></a></p></li>
+</ul>
+<p>In this notebook, we’ll show how to do each of these with a simple plan that does these steps:</p>
+<ol class="arabic simple">
+<li><p>opens a simulated shutter</p></li>
+<li><p>reads an EPICS PV</p></li>
+<li><p>closes the shutter</p></li>
+</ol>
+<p>Then, we’ll also show how to <a class="reference internal" href="#suspending-the-runengine"><span class="std std-ref">suspend the RunEngine</span></a> for a typical case when the shutters close during a run and then resume the plan once the shutters re-open.  Finally, we’ll show a plan to <a class="reference internal" href="#abort-the-runengine-from-a-plan"><span class="std std-ref">abort the RunEngine completely</span></a> and return it to <em>idle</em> state.</p>
+<p>Setup just enough of bluesky and ophyd for this notebook.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">apstools.devices</span><span class="w"> </span><span class="kn">import</span> <span class="n">SimulatedApsPssShutterWithStatus</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">bluesky</span><span class="w"> </span><span class="kn">import</span> <span class="n">plans</span> <span class="k">as</span> <span class="n">bp</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">bluesky</span><span class="w"> </span><span class="kn">import</span> <span class="n">RunEngine</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">databroker</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">ophyd</span><span class="w"> </span><span class="kn">import</span> <span class="n">EpicsSignal</span>
+
+<span class="n">cat</span> <span class="o">=</span> <span class="n">databroker</span><span class="o">.</span><span class="n">temp</span><span class="p">()</span><span class="o">.</span><span class="n">v2</span>
+<span class="n">RE</span> <span class="o">=</span> <span class="n">RunEngine</span><span class="p">()</span>
+<span class="n">RE</span><span class="o">.</span><span class="n">subscribe</span><span class="p">(</span><span class="n">cat</span><span class="o">.</span><span class="n">v1</span><span class="o">.</span><span class="n">insert</span><span class="p">)</span>
+
+<span class="n">IOC</span> <span class="o">=</span> <span class="s2">&quot;gp:&quot;</span>
+<span class="n">detector</span> <span class="o">=</span> <span class="n">EpicsSignal</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">IOC</span><span class="si">}</span><span class="s2">userCalc8&quot;</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;detector&quot;</span><span class="p">)</span>
+<span class="n">detector</span><span class="o">.</span><span class="n">wait_for_connection</span><span class="p">()</span>
+<span class="n">shutter</span> <span class="o">=</span> <span class="n">SimulatedApsPssShutterWithStatus</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;shutter&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<section id="terminate-or-interrupt">
+<h2>Terminate or Interrupt<a class="headerlink" href="#terminate-or-interrupt" title="Link to this heading">#</a></h2>
+<p><strong>Q</strong>: Once a run has been started, how can it be stopped before it finishes its planned sequence of actions?</p>
+<section id="interactive-interruption">
+<h3>Interactive Interruption<a class="headerlink" href="#interactive-interruption" title="Link to this heading">#</a></h3>
+<p>Bluesky implements <a class="reference external" href="https://blueskyproject.io/bluesky/state-machine.html#pausing-interactively">interactive plan interruption</a> with the <em>Control C</em> (<code class="docutils literal notranslate"><span class="pre">^C</span></code>) keyboard combination.  From the <a class="reference external" href="https://blueskyproject.io/bluesky/state-machine.html#interactive-pause-summary">docs</a>:</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>keyboard</p></th>
+<th class="head"><p>outcome</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">^C</span></code></p></td>
+<td><p>pause soon</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">^C</span> <span class="pre">^C</span></code></p></td>
+<td><p>pause now</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>These will cause the <code class="docutils literal notranslate"><span class="pre">RE</span></code> to pause (enter the paused state) which allows the user to decide, interactively, what to do next:</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>command</p></th>
+<th class="head"><p>outcome</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">RE.resume()</span></code></p></td>
+<td><p>Safely resume plan.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">RE.abort()</span></code></p></td>
+<td><p>Perform cleanup. Mark as aborted.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">RE.stop()</span></code></p></td>
+<td><p>Perform cleanup. Mark as success.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">RE.halt()</span></code></p></td>
+<td><p>Do not perform cleanup — just stop.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">RE.state</span></code></p></td>
+<td><p>Show the RunEngine state. Check if ‘paused’ or ‘idle’.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>If the RE is not responding to <code class="docutils literal notranslate"><span class="pre">^C</span></code>, if you hit it 10 times rapidly it will return the prompt, however the <code class="docutils literal notranslate"><span class="pre">RE</span></code> will be
+left in an invalid state with no graceful recovery possible.  This should be used as a last resort.  If the <code class="docutils literal notranslate"><span class="pre">RE</span></code> has become hung
+that is likly a bug in one of the ophyd objects methods or the plan.</p>
+</section>
+<section id="programmatic-interruption">
+<h3>Programmatic Interruption<a class="headerlink" href="#programmatic-interruption" title="Link to this heading">#</a></h3>
+<p>There are two ways for a program to interrupt the <code class="docutils literal notranslate"><span class="pre">RunEngine</span></code>: <a class="reference internal" href="#suspenders"><span class="std std-ref">suspenders</span></a> and <a class="reference internal" href="#exceptions"><span class="std std-ref">exceptions</span></a>.</p>
+<section id="suspenders">
+<h4>Suspenders<a class="headerlink" href="#suspenders" title="Link to this heading">#</a></h4>
+<p><a class="reference external" href="https://blueskyproject.io/bluesky/state-machine.html#automated-suspension">Suspenders</a> pause the RunEngine (without asking the user for interaction) while some condition has changed (shutter closed, beam dumped, water flow is low, …).  The RunEngine continues to monitor and will resume automatically when the condition returns to normal.</p>
+</section>
+<section id="exceptions">
+<h4>Exceptions<a class="headerlink" href="#exceptions" title="Link to this heading">#</a></h4>
+<p>An unhandled Python <a class="reference external" href="https://docs.python.org/3/library/exceptions.html">Exception</a> will terminate a plan run by <code class="docutils literal notranslate"><span class="pre">bluesky.RunEngine</span></code>.</p>
+<p>Next, we create <code class="docutils literal notranslate"><span class="pre">MyException</span></code>,  a custom exception, and <code class="docutils literal notranslate"><span class="pre">my_plan</span></code>, a bluesky plan that can raise this custom exception.  If <code class="docutils literal notranslate"><span class="pre">MyException</span></code> is raised, then <code class="docutils literal notranslate"><span class="pre">bp.count</span></code> will not be run and  <code class="docutils literal notranslate"><span class="pre">After</span> <span class="pre">count</span></code> will not be printed.</p>
+<p><strong>More Reading</strong></p>
+<ul class="simple">
+<li><p>https://www.sitepoint.com/python-exception-handling/</p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">MyException</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Our custom exception.&quot;&quot;&quot;</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Make a simple plan that acquires data from a detector. Add diagnostic print statements to show progress through each action of the plan.  The detector is an EPICS analog value.  We will ignore the value of that detector to focus on the details of how to interrupt a plan.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">bluesky</span><span class="w"> </span><span class="kn">import</span> <span class="n">plan_stubs</span> <span class="k">as</span> <span class="n">bps</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">my_plan</span><span class="p">(</span><span class="n">terminate</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Start my_plan(), with </span><span class="si">{</span><span class="n">terminate</span><span class="si">=}</span><span class="s2">.&quot;</span><span class="p">)</span>
+    <span class="k">yield from</span> <span class="n">bps</span><span class="o">.</span><span class="n">mv</span><span class="p">(</span><span class="n">shutter</span><span class="p">,</span> <span class="s2">&quot;open&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">terminate</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;By request, the plan will terminate.&quot;</span><span class="p">)</span>
+        <span class="k">raise</span> <span class="n">MyException</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Requested </span><span class="si">{</span><span class="n">terminate</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Before count(), </span><span class="si">{</span><span class="n">shutter</span><span class="o">.</span><span class="n">state</span><span class="si">=}</span><span class="s2">.&quot;</span><span class="p">)</span>
+    <span class="k">yield from</span> <span class="n">bp</span><span class="o">.</span><span class="n">count</span><span class="p">([</span><span class="n">detector</span><span class="p">])</span>
+
+    <span class="k">yield from</span> <span class="n">bps</span><span class="o">.</span><span class="n">mv</span><span class="p">(</span><span class="n">shutter</span><span class="p">,</span> <span class="s2">&quot;close&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;After my_plan(), </span><span class="si">{</span><span class="n">shutter</span><span class="o">.</span><span class="n">state</span><span class="si">=}</span><span class="s2">.&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">RE</span><span class="p">(</span><span class="n">my_plan</span><span class="p">())</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Start my_plan(), with terminate=False.
+Before count(), shutter.state=&#39;open&#39;.
+After my_plan(), shutter.state=&#39;close&#39;.
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(&#39;1dbae8de-1ac2-4fbb-9fcc-e7340d98e0a7&#39;,)
+</pre></div>
+</div>
+</div>
+</div>
+<p>When the plan is run with <code class="docutils literal notranslate"><span class="pre">terminate=True</span></code> (the plan <em>will</em> raise the exception), then execution of <code class="docutils literal notranslate"><span class="pre">my_plan()</span></code> stops before <code class="docutils literal notranslate"><span class="pre">bp.count</span></code>.</p>
+<pre>
+<em>In</em>: <b>RE(my_plan(True))</b>
+<em>Out</em>:
+Start my_plan(), with terminate=True.
+By request, the plan will terminate.
+
+MyException: Requested terminate=True
+</pre>
+<p>To keep this notebook running, we <em>wrap</em> (see caution below) our call to the <code class="docutils literal notranslate"><span class="pre">RunEngine</span></code> here with a <code class="docutils literal notranslate"><span class="pre">try..except</span></code> clause.  The clause intercepts the exception so that it does not stop Python with an error.</p>
+<p><strong>Caution</strong>: Wrapping the <code class="docutils literal notranslate"><span class="pre">RunEngine</span></code> with <code class="docutils literal notranslate"><span class="pre">try..except</span></code> is not considered best practice since it aborts <code class="docutils literal notranslate"><span class="pre">RE</span></code> completely, subverting many features already built into the <code class="docutils literal notranslate"><span class="pre">RunEngine</span></code> (such as <code class="docutils literal notranslate"><span class="pre">^C</span> <span class="pre">^C</span></code> described above).  It is recommended to <strong><em>wrap the plan</em></strong> with <code class="docutils literal notranslate"><span class="pre">try..except</span></code> rather than wrap the <code class="docutils literal notranslate"><span class="pre">RE</span></code>, as will be shown in the examples below.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">try</span><span class="p">:</span>                                    <span class="c1"># caution: not recommended</span>
+    <span class="n">RE</span><span class="p">(</span><span class="n">my_plan</span><span class="p">(</span><span class="kc">True</span><span class="p">))</span>
+<span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">exinfo</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Found an exception: </span><span class="si">{</span><span class="n">exinfo</span><span class="si">}</span><span class="s2">  </span><span class="si">{</span><span class="n">shutter</span><span class="o">.</span><span class="n">state</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Start my_plan(), with terminate=True.
+By request, the plan will terminate.
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Run aborted
+Traceback (most recent call last):
+  File &quot;/home/prjemian/Documents/projects/Bluesky/bluesky/src/bluesky/run_engine.py&quot;, line 1605, in _run
+    msg = self._plan_stack[-1].send(resp)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File &quot;/tmp/ipykernel_194270/1968779660.py&quot;, line 7, in my_plan
+    raise MyException(f&quot;Requested {terminate=}&quot;)
+MyException: Requested terminate=True
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Found an exception: Requested terminate=True  shutter.state=&#39;open&#39;
+</pre></div>
+</div>
+</div>
+</div>
+<p>Notice that Python kept running because of the <code class="docutils literal notranslate"><span class="pre">try..except</span></code> clause, even after reporting the exception.</p>
+</section>
+</section>
+</section>
+<section id="handle-exceptions">
+<h2>Handle Exceptions<a class="headerlink" href="#handle-exceptions" title="Link to this heading">#</a></h2>
+<p><strong>Q</strong>: How to handle Python Exceptions?</p>
+<p>As shown above, <em>exceptions</em> are Python’s way of interrupting program execution when some condition has been detected.  Consider this simplification of our bluesky plan:</p>
+<div class="highlight-py notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">my_plan</span><span class="p">():</span>
+    <span class="k">yield from</span> <span class="n">bps</span><span class="o">.</span><span class="n">mv</span><span class="p">(</span><span class="n">shutter</span><span class="p">,</span> <span class="s2">&quot;open&quot;</span><span class="p">)</span>
+    <span class="k">yield from</span> <span class="n">bp</span><span class="o">.</span><span class="n">count</span><span class="p">([</span><span class="n">detector</span><span class="p">])</span>
+    <span class="k">yield from</span> <span class="n">bps</span><span class="o">.</span><span class="n">mv</span><span class="p">(</span><span class="n">shutter</span><span class="p">,</span> <span class="s2">&quot;close&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>If an exception is raised (for whatever reason) when opening the shutter or counting, the call to close the shutter will not happen and the shutter will remain open.</p>
+<p>There are many types of <a class="reference external" href="https://docs.python.org/3/library/exceptions.html">exceptions</a>; it is even possible to create your own.  These exception types describe the type of condition that interrupted program flow.  Python has statements to handle exceptions, as described in the next section.</p>
+<section id="python-s-try-except-else-finally-clause">
+<h3>Python’s <code class="docutils literal notranslate"><span class="pre">try..except..else..finally</span></code> clause<a class="headerlink" href="#python-s-try-except-else-finally-clause" title="Link to this heading">#</a></h3>
+<p>Consider this <code class="docutils literal notranslate"><span class="pre">problematic()</span></code> function which will raise an exception:</p>
+<div class="highlight-py notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">problematic</span><span class="p">():</span>
+    <span class="k">raise</span> <span class="n">RuntimeException</span><span class="p">(</span><span class="s2">&quot;example of raising an exception&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>We can handle it with a <code class="docutils literal notranslate"><span class="pre">try..except</span></code> clause, so that program flow can continue:</p>
+<div class="highlight-py notranslate"><div class="highlight"><pre><span></span><span class="k">try</span><span class="p">:</span>
+    <span class="n">problematic</span><span class="p">()</span>
+<span class="k">except</span> <span class="ne">RuntimeError</span> <span class="k">as</span> <span class="n">exinfo</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Found an exception: </span><span class="si">{</span><span class="n">exinfo</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><strong>More Reading</strong></p>
+<ul class="simple">
+<li><p>https://www.freecodecamp.org/news/exception-handling-python/</p></li>
+<li><p>https://www.pythontutorial.net/python-basics/python-try-except-else/</p></li>
+<li><p>https://www.geeksforgeeks.org/try-except-else-and-finally-in-python/</p></li>
+</ul>
+</section>
+<section id="try-except-else-finally-in-bluesky-plans">
+<h3><code class="docutils literal notranslate"><span class="pre">try..except..else..finally</span></code> in bluesky plans<a class="headerlink" href="#try-except-else-finally-in-bluesky-plans" title="Link to this heading">#</a></h3>
+<p>In <code class="docutils literal notranslate"><span class="pre">bluesky</span></code>, <code class="docutils literal notranslate"><span class="pre">try..except</span></code> is a common pattern, however there is some additional complication due to
+plans being generator co-routines so two <a class="reference external" href="https://wiki.python.org/moin/PythonDecorators#What_is_a_Python_Decorator"><em>decorator</em></a> functions available:</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>decorator</p></th>
+<th class="head"><p>synopsis</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">finalize_decorator</span></code></p></td>
+<td><p>Simple. Runs the <code class="docutils literal notranslate"><span class="pre">final_plan</span></code> no matter what happens in the decorated plan.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">contingency_decorator</span></code></p></td>
+<td><p>Full-featured. Handle each aspect of Python’s <code class="docutils literal notranslate"><span class="pre">try..except..else..finally</span></code> clause.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p><strong>Exception handling in generator coroutines</strong></p>
+<p>Generator coroutines <a class="reference external" href="https://tacaswell.github.io/coroutines-i.html">expose exception throwing</a> as a user communication channel.  This means
+there is some <a class="reference external" href="https://youtu.be/iKzOBWOHGFE?si=XAtQKhk3eHboHcL-&amp;amp;t=1011">in-band encoding</a> of Python’s control exceptions with the users exceptions.  When the <code class="docutils literal notranslate"><span class="pre">close()</span></code> <a class="reference external" href="https://docs.python.org/3/reference/expressions.html#generator.close">method</a> is called on a generator coroutine, Python will throw a  <a class="reference external" href="https://docs.python.org/3/library/exceptions.html#GeneratorExit">GeneratorExit</a> exception into the coroutine.  If you catch this exception and try to yield another <code class="docutils literal notranslate"><span class="pre">Msg</span></code>, either explicitly in an <code class="docutils literal notranslate"><span class="pre">except</span></code> block or in a <code class="docutils literal notranslate"><span class="pre">finally</span></code> block, Python will raise a <code class="docutils literal notranslate"><span class="pre">RuntimeError</span></code> at the call site.</p>
+<p>If you want to use <code class="docutils literal notranslate"><span class="pre">try..except..else..finally</span></code> directly, you must handle this case.  See the source of these decorators for a guide.</p>
+<p><strong>More Reading</strong></p>
+<ul class="simple">
+<li><p>https://realpython.com/primer-on-python-decorators/</p></li>
+<li><p>https://pythonbasics.org/decorators/</p></li>
+</ul>
+<p>We’ll need the decorators from <code class="docutils literal notranslate"><span class="pre">bluesky.preprocessors</span></code>:</p>
+</section>
+<section id="the-finalize-decorator">
+<h3>The <code class="docutils literal notranslate"><span class="pre">finalize_decorator()</span></code><a class="headerlink" href="#the-finalize-decorator" title="Link to this heading">#</a></h3>
+<p>The <code class="docutils literal notranslate"><span class="pre">finalize_decorator(final_plan)</span></code> will always run the <code class="docutils literal notranslate"><span class="pre">final_plan</span></code> after the wrapped plan is run, even if the wrapped plan raises an exception.</p>
+<p><strong>Hint</strong>: Consider this as a simple means to call <code class="docutils literal notranslate"><span class="pre">restore_to_safe_settings()</span></code> after a plan finishes.</p>
+<p>Let’s improve our plan by ensuring the shutter is always closed, even if the plan raises an exception.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">bluesky</span><span class="w"> </span><span class="kn">import</span> <span class="n">preprocessors</span> <span class="k">as</span> <span class="n">bpp</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">close_the_shutter</span><span class="p">():</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;close_the_shutter()&quot;</span><span class="p">)</span>
+    <span class="k">yield from</span> <span class="n">bps</span><span class="o">.</span><span class="n">mv</span><span class="p">(</span><span class="n">shutter</span><span class="p">,</span> <span class="s2">&quot;close&quot;</span><span class="p">)</span>
+
+<span class="nd">@bpp</span><span class="o">.</span><span class="n">finalize_decorator</span><span class="p">(</span><span class="n">close_the_shutter</span><span class="p">)</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">my_plan</span><span class="p">(</span><span class="n">terminate</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Start my_plan(), with </span><span class="si">{</span><span class="n">terminate</span><span class="si">=}</span><span class="s2">.&quot;</span><span class="p">)</span>
+    <span class="k">yield from</span> <span class="n">bps</span><span class="o">.</span><span class="n">mv</span><span class="p">(</span><span class="n">shutter</span><span class="p">,</span> <span class="s2">&quot;open&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">terminate</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;By request, the plan will terminate.&quot;</span><span class="p">)</span>
+        <span class="k">raise</span> <span class="n">MyException</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Requested </span><span class="si">{</span><span class="n">terminate</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Before count(), </span><span class="si">{</span><span class="n">shutter</span><span class="o">.</span><span class="n">state</span><span class="si">=}</span><span class="s2">.&quot;</span><span class="p">)</span>
+    <span class="k">yield from</span> <span class="n">bp</span><span class="o">.</span><span class="n">count</span><span class="p">([</span><span class="n">detector</span><span class="p">])</span>
+
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;After my_plan(), </span><span class="si">{</span><span class="n">shutter</span><span class="o">.</span><span class="n">state</span><span class="si">=}</span><span class="s2">.&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>This code is functionally equivalent to:</p>
+<div class="highlight-py notranslate"><div class="highlight"><pre><span></span><span class="k">try</span><span class="p">:</span>
+    <span class="k">yield from</span> <span class="n">bps</span><span class="o">.</span><span class="n">mv</span><span class="p">(</span><span class="n">shutter</span><span class="p">,</span> <span class="s2">&quot;open&quot;</span><span class="p">)</span>
+    <span class="k">yield from</span> <span class="n">bp</span><span class="o">.</span><span class="n">count</span><span class="p">([</span><span class="n">detector</span><span class="p">])</span>
+<span class="k">finally</span><span class="p">:</span>
+    <span class="k">yield from</span> <span class="n">bps</span><span class="o">.</span><span class="n">mv</span><span class="p">(</span><span class="n">shutter</span><span class="p">,</span> <span class="s2">&quot;close&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<section id="always-wrap-the-plan-not-the-re">
+<h4>Always <strong><em>wrap the plan</em></strong>, not the <code class="docutils literal notranslate"><span class="pre">RE</span></code><a class="headerlink" href="#always-wrap-the-plan-not-the-re" title="Link to this heading">#</a></h4>
+<p>As stated above, when using <code class="docutils literal notranslate"><span class="pre">try..except</span></code> clauses in bluesky, we should always <strong><em>wrap the plan</em></strong> and not the <code class="docutils literal notranslate"><span class="pre">RE</span></code> itself.</p>
+<p>Here, we apply <code class="docutils literal notranslate"><span class="pre">try..except</span></code> to keep the notebook from stopping with an error.</p>
+<p>Our wrapper must accept the same arguments and pass them to the wrapped plan.  It’s easiest if we use generic terms (<code class="docutils literal notranslate"><span class="pre">*args,</span> <span class="pre">**kwargs</span></code>) so we do not need to keep this code synchronized with the wrapped plan.</p>
+<p>We add additional diagnostic print statements.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">wrap_the_plan</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Start wrap_the_plan()&quot;</span><span class="p">)</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="k">yield from</span> <span class="n">my_plan</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+    <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">exinfo</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Stopped by the error: </span><span class="si">{</span><span class="n">exinfo</span><span class="si">}</span><span class="s2">  </span><span class="si">{</span><span class="n">shutter</span><span class="o">.</span><span class="n">state</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Finish wrap_the_plan()  </span><span class="si">{</span><span class="n">shutter</span><span class="o">.</span><span class="n">state</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Show what happens when the plan runs and <em>no</em> exception is raised.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">RE</span><span class="p">(</span><span class="n">wrap_the_plan</span><span class="p">())</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Start wrap_the_plan()
+Start my_plan(), with terminate=False.
+Before count(), shutter.state=&#39;open&#39;.
+After my_plan(), shutter.state=&#39;open&#39;.
+close_the_shutter()
+Finish wrap_the_plan()  shutter.state=&#39;close&#39;
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(&#39;a96675f4-8c04-461a-adeb-e062798c1280&#39;,)
+</pre></div>
+</div>
+</div>
+</div>
+<p>Now, show what happens if <code class="docutils literal notranslate"><span class="pre">my_plan</span></code> raises an exception:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">RE</span><span class="p">(</span><span class="n">wrap_the_plan</span><span class="p">(</span><span class="kc">True</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Start wrap_the_plan()
+Start my_plan(), with terminate=True.
+By request, the plan will terminate.
+close_the_shutter()
+Stopped by the error: Requested terminate=True  shutter.state=&#39;close&#39;
+Finish wrap_the_plan()  shutter.state=&#39;close&#39;
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>()
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="the-contingency-decorator">
+<h3>The <code class="docutils literal notranslate"><span class="pre">contingency_decorator()</span></code><a class="headerlink" href="#the-contingency-decorator" title="Link to this heading">#</a></h3>
+<p>To learn about specific exceptions than use the <code class="docutils literal notranslate"><span class="pre">contingency_decorator()</span></code> which will handle each aspect of Python’s <code class="docutils literal notranslate"><span class="pre">try..except..else..finally</span></code> clause.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">my_except_plan</span><span class="p">(</span><span class="n">ex</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;my_except_plan(): </span><span class="si">{</span><span class="n">ex</span><span class="si">=}</span><span class="s2">, </span><span class="si">{</span><span class="n">shutter</span><span class="o">.</span><span class="n">state</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="k">yield from</span> <span class="n">bps</span><span class="o">.</span><span class="n">null</span><span class="p">()</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">my_else_plan</span><span class="p">():</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;my_else_plan(): plan completed successfully! </span><span class="si">{</span><span class="n">shutter</span><span class="o">.</span><span class="n">state</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="k">yield from</span> <span class="n">bps</span><span class="o">.</span><span class="n">null</span><span class="p">()</span>
+    <span class="k">yield from</span> <span class="n">bps</span><span class="o">.</span><span class="n">null</span><span class="p">()</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">close_the_shutter</span><span class="p">():</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;close_the_shutter()&quot;</span><span class="p">)</span>
+    <span class="k">yield from</span> <span class="n">bps</span><span class="o">.</span><span class="n">mv</span><span class="p">(</span><span class="n">shutter</span><span class="p">,</span> <span class="s2">&quot;close&quot;</span><span class="p">)</span>
+
+<span class="nd">@bpp</span><span class="o">.</span><span class="n">contingency_decorator</span><span class="p">(</span>
+    <span class="n">except_plan</span><span class="o">=</span><span class="n">my_except_plan</span><span class="p">,</span>
+    <span class="n">else_plan</span><span class="o">=</span><span class="n">my_else_plan</span><span class="p">,</span>
+    <span class="n">final_plan</span><span class="o">=</span><span class="n">close_the_shutter</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">my_plan</span><span class="p">(</span><span class="n">terminate</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Start my_plan(), with </span><span class="si">{</span><span class="n">terminate</span><span class="si">=}</span><span class="s2">.&quot;</span><span class="p">)</span>
+    <span class="k">yield from</span> <span class="n">bps</span><span class="o">.</span><span class="n">mv</span><span class="p">(</span><span class="n">shutter</span><span class="p">,</span> <span class="s2">&quot;open&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">terminate</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;By request, the plan will terminate.&quot;</span><span class="p">)</span>
+        <span class="k">raise</span> <span class="n">MyException</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Requested </span><span class="si">{</span><span class="n">terminate</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Before count(), </span><span class="si">{</span><span class="n">shutter</span><span class="o">.</span><span class="n">state</span><span class="si">=}</span><span class="s2">.&quot;</span><span class="p">)</span>
+    <span class="k">yield from</span> <span class="n">bp</span><span class="o">.</span><span class="n">count</span><span class="p">([</span><span class="n">detector</span><span class="p">])</span>
+
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;After my_plan(), </span><span class="si">{</span><span class="n">shutter</span><span class="o">.</span><span class="n">state</span><span class="si">=}</span><span class="s2">.&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>This code is functionally equivalent to:</p>
+<div class="highlight-py notranslate"><div class="highlight"><pre><span></span><span class="k">try</span><span class="p">:</span>
+    <span class="k">yield from</span> <span class="n">bps</span><span class="o">.</span><span class="n">mv</span><span class="p">(</span><span class="n">shutter</span><span class="p">,</span> <span class="s2">&quot;open&quot;</span><span class="p">)</span>
+    <span class="k">yield from</span> <span class="n">bp</span><span class="o">.</span><span class="n">count</span><span class="p">([</span><span class="n">detector</span><span class="p">])</span>
+<span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
+    <span class="k">yield from</span> <span class="n">bps</span><span class="o">.</span><span class="n">null</span><span class="p">()</span>
+<span class="k">else</span><span class="p">:</span>
+    <span class="k">yield from</span> <span class="n">bps</span><span class="o">.</span><span class="n">null</span><span class="p">()</span>
+    <span class="k">yield from</span> <span class="n">bps</span><span class="o">.</span><span class="n">null</span><span class="p">()</span>
+<span class="k">finally</span><span class="p">:</span>
+    <span class="k">yield from</span> <span class="n">bps</span><span class="o">.</span><span class="n">mv</span><span class="p">(</span><span class="n">shutter</span><span class="p">,</span> <span class="s2">&quot;close&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">RE</span><span class="p">(</span><span class="n">wrap_the_plan</span><span class="p">(</span><span class="kc">False</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Start wrap_the_plan()
+Start my_plan(), with terminate=False.
+Before count(), shutter.state=&#39;open&#39;.
+After my_plan(), shutter.state=&#39;open&#39;.
+my_else_plan(): plan completed successfully! shutter.state=&#39;open&#39;
+close_the_shutter()
+Finish wrap_the_plan()  shutter.state=&#39;close&#39;
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(&#39;31978648-ac39-425d-b70a-74fdfdb7948a&#39;,)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">RE</span><span class="p">(</span><span class="n">wrap_the_plan</span><span class="p">(</span><span class="kc">True</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Start wrap_the_plan()
+Start my_plan(), with terminate=True.
+By request, the plan will terminate.
+my_except_plan(): ex=MyException(&#39;Requested terminate=True&#39;), shutter.state=&#39;open&#39;
+close_the_shutter()
+Stopped by the error: Requested terminate=True  shutter.state=&#39;close&#39;
+Finish wrap_the_plan()  shutter.state=&#39;close&#39;
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>()
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="suspending-the-runengine">
+<h2>Suspending the RunEngine<a class="headerlink" href="#suspending-the-runengine" title="Link to this heading">#</a></h2>
+<p><a class="reference internal" href="#suspenders"><span class="std std-ref">Suspenders</span></a> pause the RunEngine (without asking the user for interaction) while some condition has changed (shutter closed, beam dumped, water flow is low, …).  The RunEngine continues to monitor and will resume automatically when the condition returns to normal.</p>
+<p>To demonstrate a suspender, we must have a plan that will run long enough (longer than our <code class="docutils literal notranslate"><span class="pre">my_plan()</span></code> takes) for the suspender to activate.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">countdown</span><span class="p">(</span><span class="n">t</span><span class="o">=</span><span class="mi">10</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Countdown from </span><span class="si">{</span><span class="n">t</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="k">while</span> <span class="n">t</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">t</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="k">yield from</span> <span class="n">bps</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+        <span class="n">t</span> <span class="o">-=</span> <span class="mi">1</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;countdown complete.&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">RE</span><span class="p">(</span><span class="n">countdown</span><span class="p">(</span><span class="mi">5</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Countdown from t=5
+t=5
+t=4
+t=3
+t=2
+t=1
+countdown complete.
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>()
+</pre></div>
+</div>
+</div>
+</div>
+<p>Next, we’ll need to simulate something that will suspend the RunEngine.  Let’s suspend if the shutter closes.  It’s a bit tricky since we must queue the shutter to close and then re-open outside of our plan.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">apstools.utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">run_in_thread</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">time</span>
+
+<span class="nd">@run_in_thread</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">blink_shutter_thread</span><span class="p">():</span>
+    <span class="n">t0</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+    <span class="n">t</span> <span class="o">=</span> <span class="mf">2.3</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span><span class="o">-</span><span class="n">t0</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">s  blink_shutter(): waiting for </span><span class="si">{</span><span class="n">t</span><span class="si">}</span><span class="s2"> s&quot;</span><span class="p">)</span>
+    <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="n">t</span><span class="p">)</span>
+
+    <span class="n">t</span> <span class="o">=</span> <span class="mf">3.2</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span><span class="o">-</span><span class="n">t0</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">s  blink_shutter(): closing the shutter for </span><span class="si">{</span><span class="n">t</span><span class="si">}</span><span class="s2"> s&quot;</span><span class="p">)</span>
+    <span class="n">shutter</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+    <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="n">t</span><span class="p">)</span>
+
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span><span class="o">-</span><span class="n">t0</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">s  blink_shutter(): opening the shutter&quot;</span><span class="p">)</span>
+    <span class="n">shutter</span><span class="o">.</span><span class="n">open</span><span class="p">()</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span><span class="o">-</span><span class="n">t0</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">s  blink_shutter(): ending&quot;</span><span class="p">)</span>   
+</pre></div>
+</div>
+</div>
+</div>
+<p>Let’s test that the <code class="docutils literal notranslate"><span class="pre">blink_shutter_thread()</span></code> function works as expected.  Since this kicks off the action in a thread, the command line returns right away.  We need to sleep long enough for it to finish.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">blink_shutter_thread</span><span class="p">()</span>
+<span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">7</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.00s  blink_shutter(): waiting for 2.3 s
+2.30s  blink_shutter(): closing the shutter for 3.2 s
+5.51s  blink_shutter(): opening the shutter
+6.37s  blink_shutter(): ending
+0.00s  blink_shutter(): waiting for 2.3 s
+2.30s  blink_shutter(): closing the shutter for 3.2 s
+Suspending....To get prompt hit Ctrl-C twice to pause.
+Suspension occurred at 2024-08-17 09:45:07.
+Justification for this suspension:
+Signal shutter_pss_state is low
+5.81s  blink_shutter(): opening the shutter
+6.08s  blink_shutter(): endingSuspender SuspendBoolLow(Signal(name=&#39;shutter_pss_state&#39;, parent=&#39;shutter&#39;, value=1, timestamp=1723905911.1114528), sleep=5, pre_plan=None, post_plan=None, tripped_message=) reports a return to nominal conditions. Will sleep for 5 seconds and then release suspension at 2024-08-17 09:45:16.
+</pre></div>
+</div>
+</div>
+</div>
+<p>The shutter will be zero when closed, and one when open. Looking at the list of pre-defined <a class="reference external" href="https://blueskyproject.io/bluesky/state-machine.html#built-in-suspenders">suspenders</a>, <a class="reference external" href="https://blueskyproject.io/bluesky/generated/bluesky.suspenders.SuspendBoolLow.html#bluesky.suspenders.SuspendBoolLow">bluesky.suspenders.SuspendBoolLow</a> fits this pattern.  Let’s tell it to wait 5 seconds after the shutters open before releasing the suspension on the RunEngine.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">bluesky.suspenders</span><span class="w"> </span><span class="kn">import</span> <span class="n">SuspendBoolLow</span>
+
+<span class="n">shutter_closed_suspender</span> <span class="o">=</span> <span class="n">SuspendBoolLow</span><span class="p">(</span><span class="n">shutter</span><span class="o">.</span><span class="n">pss_state</span><span class="p">,</span> <span class="n">sleep</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Since we start with the shutter closed, we’ll need to first open the shutter, then call a plan with the suspender and wait for it to finish, then close the shutter.  If we close the shutter with a <code class="docutils literal notranslate"><span class="pre">finalize_decorator()</span></code> at the end of the <code class="docutils literal notranslate"><span class="pre">countdown()</span></code> plan (as before), the <code class="docutils literal notranslate"><span class="pre">RE</span></code> will suspend without an end.  The next plan implements these steps:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">blink_during_countdown</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="nd">@bpp</span><span class="o">.</span><span class="n">suspend_decorator</span><span class="p">(</span><span class="n">shutter_closed_suspender</span><span class="p">)</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_plan</span><span class="p">():</span>
+        <span class="k">yield from</span> <span class="n">countdown</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+    <span class="n">t0</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">shutter</span><span class="o">.</span><span class="n">state</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="k">yield from</span> <span class="n">bps</span><span class="o">.</span><span class="n">mv</span><span class="p">(</span><span class="n">shutter</span><span class="p">,</span> <span class="s2">&quot;open&quot;</span><span class="p">)</span>
+    
+    <span class="n">blink_shutter_thread</span><span class="p">()</span>  <span class="c1"># operate the shutter in the background</span>
+    <span class="k">yield from</span> <span class="n">_plan</span><span class="p">()</span>  <span class="c1"># run the countdown plan with the shutter suspender</span>
+
+    <span class="k">yield from</span> <span class="n">bps</span><span class="o">.</span><span class="n">mv</span><span class="p">(</span><span class="n">shutter</span><span class="p">,</span> <span class="s2">&quot;close&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">shutter</span><span class="o">.</span><span class="n">state</span><span class="si">=}</span><span class="s2">  total execution time: </span><span class="si">{</span><span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span><span class="o">-</span><span class="n">t0</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2"> s&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Run the suspender demonstration.  The plan will interrupt after ~2 seconds, then resume ~3 seconds later.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">RE</span><span class="p">(</span><span class="n">blink_during_countdown</span><span class="p">())</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>shutter.state=&#39;open&#39;
+Countdown from t=10
+t=10
+t=9
+t=8
+t=7
+t=6
+t=5
+t=4
+t=3
+t=2
+t=1
+countdown complete.
+shutter.state=&#39;close&#39;  total execution time: 21.79 s
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>()
+</pre></div>
+</div>
+</div>
+</div>
+<section id="abort-the-runengine-from-a-plan">
+<h3>Abort the RunEngine from a plan<a class="headerlink" href="#abort-the-runengine-from-a-plan" title="Link to this heading">#</a></h3>
+<p>If you absolutely must <strong>stop</strong> the RunEngine from within a plan, yet do it gracefully, <code class="docutils literal notranslate"><span class="pre">abort_run_engine_to_idle()</span></code> is the plan for you:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">abort_run_engine_to_idle</span><span class="p">(</span><span class="n">reason</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Programmatically aborting the RunEngine: </span><span class="si">{</span><span class="n">reason</span><span class="si">=}</span><span class="s2">.&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;RE returning to idle (after the pause and error message).&quot;</span><span class="p">)</span>
+    <span class="c1"># clear out any remaining tasks</span>
+    <span class="k">yield from</span> <span class="n">bps</span><span class="o">.</span><span class="n">clear_checkpoint</span><span class="p">()</span>
+    <span class="c1"># pause that triggers automatic RE.abort()</span>
+    <span class="k">yield from</span> <span class="n">bps</span><span class="o">.</span><span class="n">pause</span><span class="p">()</span>
+    <span class="c1"># RE.state will be &quot;idle&quot;</span>
+
+<span class="nd">@bpp</span><span class="o">.</span><span class="n">finalize_decorator</span><span class="p">(</span><span class="n">close_the_shutter</span><span class="p">)</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">my_plan</span><span class="p">(</span><span class="n">terminate</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Start my_plan(), with </span><span class="si">{</span><span class="n">terminate</span><span class="si">=}</span><span class="s2">.&quot;</span><span class="p">)</span>
+    <span class="k">yield from</span> <span class="n">bps</span><span class="o">.</span><span class="n">mv</span><span class="p">(</span><span class="n">shutter</span><span class="p">,</span> <span class="s2">&quot;open&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">terminate</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;By request, the plan AND the RE will terminate.&quot;</span><span class="p">)</span>
+        <span class="k">yield from</span> <span class="n">abort_run_engine_to_idle</span><span class="p">(</span><span class="s2">&quot;On request.&quot;</span><span class="p">)</span>
+
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Before count(), </span><span class="si">{</span><span class="n">shutter</span><span class="o">.</span><span class="n">state</span><span class="si">=}</span><span class="s2">.&quot;</span><span class="p">)</span>
+    <span class="k">yield from</span> <span class="n">bp</span><span class="o">.</span><span class="n">count</span><span class="p">([</span><span class="n">detector</span><span class="p">])</span>
+
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;After my_plan(), </span><span class="si">{</span><span class="n">shutter</span><span class="o">.</span><span class="n">state</span><span class="si">=}</span><span class="s2">.&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">try</span><span class="p">:</span>
+    <span class="n">RE</span><span class="p">(</span><span class="n">wrap_the_plan</span><span class="p">(</span><span class="kc">True</span><span class="p">))</span>
+<span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">exinfo</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;caught </span><span class="si">{</span><span class="n">exinfo</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">RE</span><span class="o">.</span><span class="n">state</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Start wrap_the_plan()
+Start my_plan(), with terminate=True.
+By request, the plan AND the RE will terminate.
+Programmatically aborting the RunEngine: reason=&#39;On request.&#39;.
+RE returning to idle (after the pause and error message).
+Pausing...
+close_the_shutter()
+Stopped by the error:   shutter.state=&#39;open&#39;
+Finish wrap_the_plan()  shutter.state=&#39;open&#39;
+caught exinfo=RunEngineInterrupted(&quot;\nYour RunEngine is entering a paused state. These are your options for changing\nthe state of the RunEngine:\n\nRE.resume()    Resume the plan.\nRE.abort()     Perform cleanup, then kill plan. Mark exit_stats=&#39;aborted&#39;.\nRE.stop()      Perform cleanup, then kill plan. Mark exit_status=&#39;success&#39;.\nRE.halt()      Emergency Stop: Do not perform cleanup --- just stop.\n&quot;)
+RE.state=&#39;idle&#39;
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="recover-safe-settings">
+<h2>Recover Safe Settings<a class="headerlink" href="#recover-safe-settings" title="Link to this heading">#</a></h2>
+<p><strong>Q</strong>: How to recover to safe settings?</p>
+<p>For some instruments, <em>safe settings</em> may be pre-determined positions and settings for the various parts of the instrument.  Other instruments may define <em>safe settings</em> based on some context, such as recent activities.</p>
+<p>Since the variations are plentiful, we describe <em>schematically</em>, how to recover to safe settings.</p>
+<p>Keep in mind when restoring settings, that the order in which items are restored may be important.  In some cases, it may be necessary to set some settings and wait for them to be set, before proceeding to other settings.</p>
+<section id="restore-to-pre-determined-settings">
+<h3>Restore to Pre-determined Settings<a class="headerlink" href="#restore-to-pre-determined-settings" title="Link to this heading">#</a></h3>
+<p>This has been demonstrated above, with the <code class="docutils literal notranslate"><span class="pre">close_the_shutter()</span></code> plan.  That plan could be generalized, such as:</p>
+<div class="highlight-py notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">safe_settings</span><span class="p">():</span>
+    <span class="k">yield from</span> <span class="n">close_the_shutter</span><span class="p">()</span>
+    <span class="k">yield from</span> <span class="n">park_the_detector</span><span class="p">()</span>
+    <span class="k">yield from</span> <span class="n">park_the_diffractometer</span><span class="p">()</span>
+    <span class="k">yield from</span> <span class="n">reset_the_amplifiers</span><span class="p">()</span>
+    <span class="c1"># ...</span>
+</pre></div>
+</div>
+<p>where each of these actions are described in their own plans, based on the needs of the instrument.</p>
+</section>
+<section id="restore-to-context-dependent-settings">
+<h3>Restore to Context-dependent Settings<a class="headerlink" href="#restore-to-context-dependent-settings" title="Link to this heading">#</a></h3>
+<p>In this variation from the pre-determined settings (above), it is necessary to describe the context.  Arguments could be added to the <code class="docutils literal notranslate"><span class="pre">safe_settings()</span></code> plan which provide it context to decide what settings to restore and to what values.</p>
+<p>Or, the context may wish to restore to settings before the plan started, or may include results from some post-scan analysis of the collected data (such as move the position to the computed peak center).</p>
+<section id="restore-to-previous-values">
+<h4>Restore to previous values<a class="headerlink" href="#restore-to-previous-values" title="Link to this heading">#</a></h4>
+<p>To implement this feature, you’ll need to collect the values of the items to be restored before the plan is run and then restore those items after the plan finishes.  Consider <code class="docutils literal notranslate"><span class="pre">wrap_the_plan()</span></code> above, the two print statements are positioned at exactly the places we need to collect and restore, respectively:</p>
+<div class="highlight-py notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">wrap_the_plan</span><span class="p">(</span><span class="n">terminate</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Start wrap_the_plan()&quot;</span><span class="p">)</span>
+    <span class="n">safe_settings</span> <span class="o">=</span> <span class="k">yield from</span> <span class="n">collect_safe_settings</span><span class="p">()</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="k">yield from</span> <span class="n">my_plan</span><span class="p">(</span><span class="n">terminate</span><span class="p">)</span>
+    <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">exinfo</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Stopped by the error: </span><span class="si">{</span><span class="n">exinfo</span><span class="si">}</span><span class="s2">  </span><span class="si">{</span><span class="n">shutter</span><span class="o">.</span><span class="n">state</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="k">yield from</span> <span class="n">restore_safe_settings</span><span class="p">(</span><span class="n">safe_settings</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Finish wrap_the_plan()  </span><span class="si">{</span><span class="n">shutter</span><span class="o">.</span><span class="n">state</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>In this case, <code class="docutils literal notranslate"><span class="pre">safe_settings</span></code> is some Python structure (list, dictionary, class instance) with the values defined by the context.  Here, it is a dictionary with the ophyd objects used as the dictionary’s keys:</p>
+<div class="highlight-py notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">collect_safe_settings</span><span class="p">():</span>
+    <span class="n">settings</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+    <span class="k">for</span> <span class="n">pos</span> <span class="ow">in</span> <span class="p">[</span>
+        <span class="n">m1</span><span class="p">,</span> <span class="n">m2</span><span class="p">,</span> <span class="n">m3</span><span class="p">,</span> <span class="n">m4</span><span class="p">,</span> <span class="n">m5</span><span class="p">,</span> <span class="n">m6</span><span class="p">,</span>
+        <span class="n">slit1</span><span class="o">.</span><span class="n">top</span><span class="p">,</span> <span class="n">slit1</span><span class="o">.</span><span class="n">bot</span><span class="p">,</span> <span class="n">slit1</span><span class="o">.</span><span class="n">inb</span><span class="p">,</span> <span class="n">slit1</span><span class="o">.</span><span class="n">out</span><span class="p">,</span>
+    <span class="p">]:</span>
+        <span class="n">settings</span><span class="p">[</span><span class="n">pos</span><span class="p">]</span> <span class="o">=</span> <span class="n">device</span><span class="o">.</span><span class="n">position</span>
+    <span class="k">for</span> <span class="n">signal</span> <span class="ow">in</span> <span class="p">[</span><span class="n">amp1</span><span class="o">.</span><span class="n">gain</span><span class="p">,</span> <span class="n">mono</span><span class="o">.</span><span class="n">feedback</span><span class="p">,</span> <span class="n">heater</span><span class="o">.</span><span class="n">setpoint</span><span class="p">]:</span>
+        <span class="n">settings</span><span class="p">[</span><span class="n">signal</span><span class="p">]</span> <span class="o">=</span> <span class="n">signal</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
+    <span class="n">settings</span><span class="p">[</span><span class="n">heater</span><span class="o">.</span><span class="n">power</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;off&quot;</span>  <span class="c1"># override</span>
+    <span class="k">return</span> <span class="n">settings</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">restore_safe_settings</span><span class="p">(</span><span class="n">settings</span><span class="p">):</span>
+    <span class="c1"># Restore one at a time in reverse order (very conservative).</span>
+    <span class="k">for</span> <span class="n">signal</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="nb">reversed</span><span class="p">(</span><span class="n">settings</span><span class="o">.</span><span class="n">items</span><span class="p">()):</span>
+        <span class="n">signal</span><span class="p">,</span> <span class="n">value</span> <span class="o">=</span> <span class="n">pair</span>
+        <span class="k">yield from</span> <span class="n">bps</span><span class="o">.</span><span class="n">mv</span><span class="p">(</span><span class="n">signal</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+</section>
+</section>
+<section id="summary">
+<h2>Summary<a class="headerlink" href="#summary" title="Link to this heading">#</a></h2>
+<p>Started with a plan:</p>
+<div class="highlight-py notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">my_plan</span><span class="p">():</span>
+    <span class="k">yield from</span> <span class="n">bps</span><span class="o">.</span><span class="n">mv</span><span class="p">(</span><span class="n">shutter</span><span class="p">,</span> <span class="s2">&quot;open&quot;</span><span class="p">)</span>
+    <span class="k">yield from</span> <span class="n">bp</span><span class="o">.</span><span class="n">count</span><span class="p">([</span><span class="n">detector</span><span class="p">])</span>
+    <span class="k">yield from</span> <span class="n">bps</span><span class="o">.</span><span class="n">mv</span><span class="p">(</span><span class="n">shutter</span><span class="p">,</span> <span class="s2">&quot;close&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Added <code class="docutils literal notranslate"><span class="pre">finalize_decorator</span></code> (or <code class="docutils literal notranslate"><span class="pre">contingency_decorator</span></code>) to ensure the shutter would always be closed after the plan:</p>
+<div class="highlight-py notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">close_the_shutter</span><span class="p">():</span>
+    <span class="k">yield from</span> <span class="n">bps</span><span class="o">.</span><span class="n">mv</span><span class="p">(</span><span class="n">shutter</span><span class="p">,</span> <span class="s2">&quot;close&quot;</span><span class="p">)</span>
+
+<span class="nd">@bpp</span><span class="o">.</span><span class="n">finalize_decorator</span><span class="p">(</span><span class="n">close_the_shutter</span><span class="p">)</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">my_plan</span><span class="p">():</span>
+    <span class="k">yield from</span> <span class="n">bps</span><span class="o">.</span><span class="n">mv</span><span class="p">(</span><span class="n">shutter</span><span class="p">,</span> <span class="s2">&quot;open&quot;</span><span class="p">)</span>
+    <span class="k">yield from</span> <span class="n">bp</span><span class="o">.</span><span class="n">count</span><span class="p">([</span><span class="n">detector</span><span class="p">])</span>
+</pre></div>
+</div>
+<p>Added <code class="docutils literal notranslate"><span class="pre">wrap_the_plan()</span></code> to save settings before the plan and restore them afterwards:</p>
+<div class="highlight-py notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">wrap_the_plan</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="n">safe_settings</span> <span class="o">=</span> <span class="k">yield from</span> <span class="n">collect_safe_settings</span><span class="p">()</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="k">yield from</span> <span class="n">my_plan</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+    <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">exinfo</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Report the exception: </span><span class="si">{</span><span class="n">exinfo</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="k">yield from</span> <span class="n">restore_safe_settings</span><span class="p">(</span><span class="n">safe_settings</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><strong>Remember</strong>: When using <code class="docutils literal notranslate"><span class="pre">try..except</span></code> clauses in bluesky, <strong><em>wrap the plan</em></strong>, not the <code class="docutils literal notranslate"><span class="pre">RE</span></code>.</p>
+</section>
+</section>
+
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="howto_examples.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">How-To Examples</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="ho_list_control_objects.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">What are the objects to control?</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+<div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+  </div>
+  <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#terminate-or-interrupt">Terminate or Interrupt</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#interactive-interruption">Interactive Interruption</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#programmatic-interruption">Programmatic Interruption</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#suspenders">Suspenders</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#exceptions">Exceptions</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#handle-exceptions">Handle Exceptions</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#python-s-try-except-else-finally-clause">Python’s <code class="docutils literal notranslate"><span class="pre">try..except..else..finally</span></code> clause</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#try-except-else-finally-in-bluesky-plans"><code class="docutils literal notranslate"><span class="pre">try..except..else..finally</span></code> in bluesky plans</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-finalize-decorator">The <code class="docutils literal notranslate"><span class="pre">finalize_decorator()</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#always-wrap-the-plan-not-the-re">Always <strong><em>wrap the plan</em></strong>, not the <code class="docutils literal notranslate"><span class="pre">RE</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-contingency-decorator">The <code class="docutils literal notranslate"><span class="pre">contingency_decorator()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#suspending-the-runengine">Suspending the RunEngine</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#abort-the-runengine-from-a-plan">Abort the RunEngine from a plan</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#recover-safe-settings">Recover Safe Settings</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#restore-to-pre-determined-settings">Restore to Pre-determined Settings</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#restore-to-context-dependent-settings">Restore to Context-dependent Settings</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#restore-to-previous-values">Restore to previous values</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#summary">Summary</a></li>
+</ul>
+  </nav></div>
+
+  <div class="sidebar-secondary-item">
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/examples/ho_contingency.ipynb.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+
+  <p class="copyright">
+    
+      © Copyright 2017-2025, UChicago Argonne, LLC.
+      <br/>
+    
+  </p>
+</div>
+      
+        <div class="footer-item">
+
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.1.3.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item">
+<p class="theme-version">
+  <!-- # L10n: Setting the PST URL as an argument as this does not need to be localized -->
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.16.1.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

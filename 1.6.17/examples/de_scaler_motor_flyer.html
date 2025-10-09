@@ -1,0 +1,1725 @@
+
+
+<!DOCTYPE html>
+
+
+<html lang="en" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+
+    <title>Fly Scans with EPICS motor and scaler &#8212; apstools 1.6.17 documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=e353d410970836974a52" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/graphviz.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/nbsphinx-code-cells.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/css/custom.css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=e353d410970836974a52" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52" />
+
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/sphinx_highlight.js"></script>
+    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'examples/de_scaler_motor_flyer';</script>
+    <script>
+        DOCUMENTATION_OPTIONS.theme_switcher_json_url = 'https://raw.githubusercontent.com/BCDA-APS/apstools/main/docs/source/_static/switcher.json';
+        DOCUMENTATION_OPTIONS.theme_switcher_version_match = '1.6.17';
+        </script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Output scan(s) to a NeXus/HDF5 file" href="fw_nxwriter.html" />
+    <link rel="prev" title="ADPilatus Area Detector with default HDF5 File Name" href="de_ad_pilatus.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+  
+    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
+<div class="bd-header__inner bd-page-width">
+  <label class="sidebar-toggle primary-toggle" for="__primary">
+    <span class="fa-solid fa-bars"></span>
+  </label>
+  
+  <div class="navbar-header-items__start">
+    
+      <div class="navbar-item">
+  
+
+<a class="navbar-brand logo" href="../index.html">
+  
+  
+  
+  
+  
+    <p class="title logo__title">apstools 1.6.17 documentation</p>
+  
+</a></div>
+    
+      <div class="navbar-item">
+<script>
+document.write(`
+  <div class="version-switcher__container dropdown">
+    <button type="button" class="version-switcher__button btn btn-sm navbar-btn dropdown-toggle" data-bs-toggle="dropdown">
+      1.6.17  <!-- this text may get changed later by javascript -->
+      <span class="caret"></span>
+    </button>
+    <div class="version-switcher__menu dropdown-menu list-group-flush py-0">
+    <!-- dropdown will be populated by javascript on page load -->
+    </div>
+  </div>
+`);
+</script></div>
+    
+  </div>
+  
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item"><nav class="navbar-nav">
+  <p class="sidebar-header-items__title"
+     role="heading"
+     aria-level="1"
+     aria-label="Site Navigation">
+    Site Navigation
+  </p>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../overview.html">
+                        Overview
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../applications/index.html">
+                        Applications
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item current active">
+                      <a class="nav-link nav-internal" href="index.html">
+                        Guides
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../api/index.html">
+                        API Documentation
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../install.html">
+                        Installation
+                      </a>
+                    </li>
+                
+            <div class="nav-item dropdown">
+                <button class="btn dropdown-toggle nav-item" type="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    More
+                </button>
+                <div class="dropdown-menu">
+                    
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../changes.html">
+                        Change History
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../license.html">
+                        License
+                      </a>
+                    </li>
+                
+                </div>
+            </div>
+            
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+  </button>
+`);
+</script>
+        </div>
+      
+      
+        <div class="navbar-item">
+<script>
+document.write(`
+  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
+    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
+    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+  </button>
+`);
+</script></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+  </button>
+`);
+</script>
+    </div>
+  
+
+  
+    <label class="sidebar-toggle secondary-toggle" for="__secondary">
+      <span class="fa-solid fa-outdent"></span>
+    </label>
+  
+</div>
+
+    </nav>
+  
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          <div class="navbar-item"><nav class="navbar-nav">
+  <p class="sidebar-header-items__title"
+     role="heading"
+     aria-level="1"
+     aria-label="Site Navigation">
+    Site Navigation
+  </p>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../overview.html">
+                        Overview
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../applications/index.html">
+                        Applications
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item current active">
+                      <a class="nav-link nav-internal" href="index.html">
+                        Guides
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../api/index.html">
+                        API Documentation
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../install.html">
+                        Installation
+                      </a>
+                    </li>
+                
+            <div class="nav-item dropdown">
+                <button class="btn dropdown-toggle nav-item" type="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    More
+                </button>
+                <div class="dropdown-menu">
+                    
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../changes.html">
+                        Change History
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../license.html">
+                        License
+                      </a>
+                    </li>
+                
+                </div>
+            </div>
+            
+  </ul>
+</nav></div>
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+<script>
+document.write(`
+  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
+    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
+    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+  </button>
+`);
+</script></div>
+        
+      </div>
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item"><nav class="bd-docs-nav bd-links"
+     aria-label="Section Navigation">
+  <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
+  <div class="bd-toc-item navbar-nav"><ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="de_0_adsim_hdf5_basic.html">Area Detector with default HDF5 File Name</a></li>
+<li class="toctree-l1"><a class="reference internal" href="de_1_adsim_hdf5_custom_names.html">Area Detector with custom HDF5 File Name</a></li>
+<li class="toctree-l1"><a class="reference internal" href="de_2_adsim_hdf5_single_mode.html">Area Detector, Single mode, HDF5 file</a></li>
+<li class="toctree-l1"><a class="reference internal" href="de_ad_pe.html">ADPerkinElmer Area Detector with default HDF5 File Name</a></li>
+<li class="toctree-l1"><a class="reference internal" href="de_ad_pilatus.html">ADPilatus Area Detector with default HDF5 File Name</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Fly Scans with EPICS motor and scaler</a></li>
+</ul>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="fw_nxwriter.html">Output scan(s) to a NeXus/HDF5 file</a></li>
+<li class="toctree-l1"><a class="reference internal" href="fw_specfile_example.html">Output scan(s) to a SPEC data file.</a></li>
+</ul>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="ho_contingency.html">How to interrupt/stop/abort a running plan &amp; recover to safe settings</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ho_list_control_objects.html">What are the objects to control?</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ho_search_databroker.html">How to Search for Bluesky Data?</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ho_session_logs.html">How to setup logging</a></li>
+</ul>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="pl_excel_scan.html">The <code class="docutils literal notranslate"><span class="pre">Excel_plan()</span></code> – batch scans using a spreadsheet</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pl_lineup.html">The <code class="docutils literal notranslate"><span class="pre">lineup()</span></code> plan - align an axis with a signal</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pl_nscan.html">The <code class="docutils literal notranslate"><span class="pre">nscan()</span></code> plan – scan multiple axes together</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pl_run_command_list.html">The <code class="xref py py-func docutils literal notranslate"><span class="pre">run_command_file()</span></code> plan – batch scans using a text file</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pl_tuneaxis.html">The <code class="docutils literal notranslate"><span class="pre">TuneAxis()</span></code> plan - align an axis with a signal</a></li>
+</ul>
+</div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+
+
+<nav aria-label="Breadcrumbs">
+  <ul class="bd-breadcrumbs" role="navigation" aria-label="Breadcrumb">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="index.html" class="nav-link">Guides</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page">Fly Scans with EPICS motor and scaler</li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article" role="main">
+                  
+  <section id="Fly-Scans-with-EPICS-motor-and-scaler">
+<h1>Fly Scans with EPICS motor and scaler<a class="headerlink" href="#Fly-Scans-with-EPICS-motor-and-scaler" title="Permalink to this heading">#</a></h1>
+<p>The <code class="docutils literal notranslate"><span class="pre">ScalerMotorFlyer()</span></code> device from <a class="reference external" href="https://bcda-aps.github.io/apstools/latest/api/_devices.html#apstools.devices.flyer_motor_scaler.ScalerMotorFlyer">apstools</a> makes it possible to run fly scans with just the EPICS motor and scaler records.</p>
+<p>This combination of positioner and detector represent common EPICS support available to most APS beam lines. An external fly scan controller is not necessary, nor is any dedicated data collection hardware. Keep in mind that the capabilities of the motor and scaler will provide certain limits on how fast the scan completes and how many data points may be collected.</p>
+<p><strong>Contents</strong></p>
+<ul class="simple">
+<li><p><a class="reference internal" href="#Overview"><span class="std std-ref">What is a bluesky/ophyd ‘Flyer’?</span></a></p></li>
+<li><p><a class="reference internal" href="#Outline"><span class="std std-ref">Step-by-step outline of ‘ScalerMotorFlyer()’</span></a></p></li>
+<li><p><a class="reference internal" href="#Setup"><span class="std std-ref">Prepare the session</span></a></p></li>
+<li><p><a class="reference internal" href="#Scan"><span class="std std-ref">Run the fly scan</span></a></p></li>
+<li><p><a class="reference internal" href="#Visualize"><span class="std std-ref">Get the data and plot it</span></a></p></li>
+</ul>
+<section id="Overview">
+<h2>Overview<a class="headerlink" href="#Overview" title="Permalink to this heading">#</a></h2>
+<p>Q: <em>What is a bluesky/ophyd ``Flyer``?</em></p>
+<p>A bluesky/ophyd <a class="reference external" href="https://github.com/bluesky/ophyd/blob/0e8acb3df3d17e0ab7aa2cc924831f4a0c580449/ophyd/flyers.py#L17">Flyer</a> is an ophyd <a class="reference external" href="https://github.com/bluesky/ophyd/blob/0e8acb3df3d17e0ab7aa2cc924831f4a0c580449/ophyd/device.py#L778">Device</a> which describes a data collection process that is not managed by the bluesky RunEngine. Examples of such data collection processes include:</p>
+<ul class="simple">
+<li><p>A system using dedicated hardware to control the measurement sequence and collect data.</p></li>
+<li><p>Some software that can be called from Python.</p></li>
+<li><p>A Python function that runs in a background thread.</p></li>
+</ul>
+<p>The <code class="docutils literal notranslate"><span class="pre">Flyer</span></code> interfaces with the RunEngine with these three distinct steps:</p>
+<ol class="arabic simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">kickoff()</span></code> : Start the fly scan.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">complete()</span></code> : Wait for the fly scan to complete.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">collect()</span></code> : Get (and report) the fly scan data.</p></li>
+</ol>
+<p>Note: There is an additional step, <code class="docutils literal notranslate"><span class="pre">describe_collect()</span></code>, which informs bluesky about the type(s) of data reported by <code class="docutils literal notranslate"><span class="pre">collect()</span></code>.</p>
+<p>In <code class="docutils literal notranslate"><span class="pre">ScalerMotorFlyer()</span></code>, the <em>fly scan</em> protocol is managed by the <code class="docutils literal notranslate"><span class="pre">actions_thread()</span></code> method. This method is run in its own thread so it does not interfere with the bluesky <code class="docutils literal notranslate"><span class="pre">RunEngine</span></code>.</p>
+</section>
+<section id="Outline">
+<h2>Outline<a class="headerlink" href="#Outline" title="Permalink to this heading">#</a></h2>
+<p>Here is a step-by-step outline of the fly scan protocol:</p>
+<ol class="arabic simple">
+<li><p>Setup</p>
+<ol class="arabic simple">
+<li><p>Scaler update rate is set from the requested sampling <code class="docutils literal notranslate"><span class="pre">period</span></code>.</p></li>
+</ol>
+</li>
+<li><p>Taxi</p>
+<ol class="arabic simple">
+<li><p>Motor is sent to the <code class="docutils literal notranslate"><span class="pre">start</span></code> position (using original velocity).</p></li>
+<li><p>Wait for motor to reach <code class="docutils literal notranslate"><span class="pre">start</span></code> position.</p></li>
+</ol>
+</li>
+<li><p>Fly</p>
+<ol class="arabic simple">
+<li><p>Motor velocity is set based on the requested <code class="docutils literal notranslate"><span class="pre">start</span></code> &amp; <code class="docutils literal notranslate"><span class="pre">finish</span></code> positions and <code class="docutils literal notranslate"><span class="pre">fly_time</span></code> for the scan.</p></li>
+<li><p>Scaler count time set to <code class="docutils literal notranslate"><span class="pre">fly_time</span></code> plus a smidgen (<code class="docutils literal notranslate"><span class="pre">scaler_time_pad</span></code>).</p></li>
+<li><p>Start periodic data collection</p>
+<ol class="arabic simple">
+<li><p>Scaler provides (EPICS Channel Access) updates as new data is available.</p></li>
+<li><p>Record motor position &amp; scaler channel counts.</p></li>
+<li><p>Record time stamps for motor and scaler (probably different).</p></li>
+<li><p>Data accumulated to internal memory.</p></li>
+</ol>
+</li>
+<li><p>Scaler is started to count.</p></li>
+<li><p>Motor is sent to <code class="docutils literal notranslate"><span class="pre">finish</span></code> (using fly scan velocity).</p></li>
+<li><p>Wait for motor to stop moving.</p></li>
+<li><p>Scaler is stopped.</p></li>
+<li><p>Stop periodic data collection</p></li>
+</ol>
+</li>
+<li><p>Finish</p>
+<ol class="arabic simple">
+<li><p>Reset to previous values</p>
+<ol class="arabic simple">
+<li><p>motor velocity</p></li>
+<li><p>scaler update rate</p></li>
+</ol>
+</li>
+<li><p>Report any acquired data to Bluesky RunEngine.</p>
+<ol class="arabic simple">
+<li><p>Data for each counter is reported as the difference of successive readings.</p></li>
+</ol>
+</li>
+</ol>
+</li>
+</ol>
+<p>If any exceptions are raised by steps 1-3 (such as cannot set a value, timeout, wrong type of parameter given, …), skip directly to step 4.</p>
+</section>
+<section id="Setup">
+<h2>Setup<a class="headerlink" href="#Setup" title="Permalink to this heading">#</a></h2>
+<p>Without <a class="reference external" href="https://bcda-aps.github.io/apstools/latest/examples/de_0_adsim_hdf5_basic.html#bluesky">more explanation here</a>, we set up our bluesky session for data acquisition, importing needed libraries and constructing the RunEngine and databroker for a temporary catalog. We will use an <a class="reference external" href="https://hub.docker.com/r/prjemian/custom-synapps-6.2/tags">EPICS IOC</a> with the prefix <code class="docutils literal notranslate"><span class="pre">gp:</span></code>. This IOC provides a simulated motor and a simulated scaler, among other
+<a class="reference external" href="https://github.com/prjemian/epics-docker/tree/main/v1.1/n5_custom_synApps#readmemd">features</a>. The scaler is preconfigured with detector inputs. When the scaler is counting, its counters (detector channels) are updated by random integers.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%</span><span class="k">matplotlib</span> inline
+<span class="kn">from</span> <span class="nn">apstools.devices</span> <span class="kn">import</span> <span class="n">make_dict_device</span>
+<span class="kn">from</span> <span class="nn">apstools.devices</span> <span class="kn">import</span> <span class="n">ScalerMotorFlyer</span>
+<span class="kn">from</span> <span class="nn">bluesky</span> <span class="kn">import</span> <span class="n">plan_stubs</span> <span class="k">as</span> <span class="n">bps</span>
+<span class="kn">from</span> <span class="nn">bluesky</span> <span class="kn">import</span> <span class="n">plans</span> <span class="k">as</span> <span class="n">bp</span>
+<span class="kn">from</span> <span class="nn">bluesky</span> <span class="kn">import</span> <span class="n">preprocessors</span> <span class="k">as</span> <span class="n">bpp</span>
+<span class="kn">from</span> <span class="nn">bluesky</span> <span class="kn">import</span> <span class="n">RunEngine</span>
+<span class="kn">from</span> <span class="nn">bluesky.callbacks.best_effort</span> <span class="kn">import</span> <span class="n">BestEffortCallback</span>
+<span class="kn">from</span> <span class="nn">matplotlib</span> <span class="kn">import</span> <span class="n">pyplot</span> <span class="k">as</span> <span class="n">plt</span>
+<span class="kn">from</span> <span class="nn">ophyd</span> <span class="kn">import</span> <span class="n">EpicsMotor</span>
+<span class="kn">from</span> <span class="nn">ophyd.scaler</span> <span class="kn">import</span> <span class="n">ScalerCH</span>
+<span class="kn">import</span> <span class="nn">databroker</span>
+
+<span class="n">IOC</span> <span class="o">=</span> <span class="s2">&quot;gp:&quot;</span>
+
+<span class="c1"># ophyd-level</span>
+<span class="n">m1</span> <span class="o">=</span> <span class="n">EpicsMotor</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">IOC</span><span class="si">}</span><span class="s2">m10&quot;</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;motor&quot;</span><span class="p">)</span>
+<span class="n">scaler</span> <span class="o">=</span> <span class="n">ScalerCH</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">IOC</span><span class="si">}</span><span class="s2">scaler1&quot;</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;scaler&quot;</span><span class="p">)</span>
+<span class="n">m1</span><span class="o">.</span><span class="n">wait_for_connection</span><span class="p">()</span>
+<span class="n">scaler</span><span class="o">.</span><span class="n">wait_for_connection</span><span class="p">()</span>
+<span class="n">scaler</span><span class="o">.</span><span class="n">select_channels</span><span class="p">()</span>
+
+<span class="c1"># bluesky-level</span>
+<span class="n">cat</span> <span class="o">=</span> <span class="n">databroker</span><span class="o">.</span><span class="n">temp</span><span class="p">()</span><span class="o">.</span><span class="n">v2</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ion</span><span class="p">()</span>  <span class="c1"># enables matplotlib graphics</span>
+<span class="n">RE</span> <span class="o">=</span> <span class="n">RunEngine</span><span class="p">({})</span>
+<span class="n">RE</span><span class="o">.</span><span class="n">subscribe</span><span class="p">(</span><span class="n">cat</span><span class="o">.</span><span class="n">v1</span><span class="o">.</span><span class="n">insert</span><span class="p">)</span>
+<span class="n">best_effort_callback</span> <span class="o">=</span> <span class="n">BestEffortCallback</span><span class="p">()</span>
+<span class="n">RE</span><span class="o">.</span><span class="n">subscribe</span><span class="p">(</span><span class="n">best_effort_callback</span><span class="p">)</span>  <span class="c1"># LivePlot &amp; LiveTable</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+1
+</pre></div></div>
+</div>
+<p>Create the <code class="docutils literal notranslate"><span class="pre">flyer</span></code> object that will be used by the bluesky <a class="reference external" href="https://blueskyproject.io/bluesky/generated/bluesky.plans.fly.html#bluesky.plans.fly">fly()</a> plan. The <code class="docutils literal notranslate"><span class="pre">ScalerMotorFlyer()</span></code> deivce supports the ophyd flyer interface, as described above.</p>
+<p>In this example, we describe a fly scan from motor position 1 to 5 that should take 4 seconds, collecting data at 0.1 second intervals. Other keyword parameters are accepted. See the documentation for full details.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">flyer</span> <span class="o">=</span> <span class="n">ScalerMotorFlyer</span><span class="p">(</span><span class="n">scaler</span><span class="p">,</span> <span class="n">m1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="n">fly_time</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">period</span><span class="o">=</span><span class="mf">.1</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;flyer&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<p>Augment the <em>standard</em> (a.k.a. bluesky pre-assembled) <code class="docutils literal notranslate"><span class="pre">`bp.fly()</span></code> &lt;<a class="reference external" href="https://blueskyproject.io/bluesky/generated/bluesky.plans.fly.html#bluesky.plans.fly">https://blueskyproject.io/bluesky/generated/bluesky.plans.fly.html#bluesky.plans.fly</a>&gt;`__ plan to save the peak statistics to a separate stream in the run after the fly scan is complete.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">fly_with_stats</span><span class="p">(</span><span class="n">flyers</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">md</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Replaces bp.fly(), adding stream for channel stats.&quot;&quot;&quot;</span>
+
+    <span class="nd">@bpp</span><span class="o">.</span><span class="n">stage_decorator</span><span class="p">(</span><span class="n">flyers</span><span class="p">)</span>
+    <span class="nd">@bpp</span><span class="o">.</span><span class="n">run_decorator</span><span class="p">(</span><span class="n">md</span><span class="o">=</span><span class="n">md</span><span class="p">)</span>
+    <span class="nd">@bpp</span><span class="o">.</span><span class="n">stub_decorator</span><span class="p">()</span>
+    <span class="k">def</span> <span class="nf">_inner_fly</span><span class="p">():</span>
+        <span class="k">yield from</span> <span class="n">bp</span><span class="o">.</span><span class="n">fly</span><span class="p">(</span><span class="n">flyers</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">flyer</span> <span class="ow">in</span> <span class="n">flyers</span><span class="p">:</span>
+            <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">flyer</span><span class="p">,</span> <span class="s2">&quot;stats&quot;</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">flyer</span><span class="o">.</span><span class="n">stats</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
+                <span class="k">yield from</span> <span class="n">_flyer_stats_stream</span><span class="p">(</span><span class="n">flyer</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">flyer</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">_stats&quot;</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_flyer_stats_stream</span><span class="p">(</span><span class="n">flyer</span><span class="p">,</span> <span class="n">stream</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Output stats from this flyer into separate stream.&quot;&quot;&quot;</span>
+        <span class="k">yield from</span> <span class="n">bps</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="n">stream</span> <span class="ow">or</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">flyer</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">_stats&quot;</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">ch</span> <span class="ow">in</span> <span class="nb">list</span><span class="p">(</span><span class="n">flyer</span><span class="o">.</span><span class="n">stats</span><span class="o">.</span><span class="n">keys</span><span class="p">()):</span>
+            <span class="k">yield from</span> <span class="n">bps</span><span class="o">.</span><span class="n">read</span><span class="p">(</span>
+                <span class="n">make_dict_device</span><span class="p">(</span>
+                    <span class="p">{</span>
+                        <span class="c1"># fmt: off</span>
+                        <span class="n">stat</span><span class="p">:</span> <span class="n">v</span>
+                        <span class="k">for</span> <span class="n">stat</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">flyer</span><span class="o">.</span><span class="n">stats</span><span class="p">[</span><span class="n">ch</span><span class="p">]</span><span class="o">.</span><span class="n">to_dict</span><span class="p">()</span><span class="o">.</span><span class="n">items</span><span class="p">()</span>
+                        <span class="k">if</span> <span class="n">v</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
+                        <span class="c1"># fmt: on</span>
+                    <span class="p">},</span>
+                    <span class="n">name</span><span class="o">=</span><span class="n">ch</span>
+                <span class="p">)</span>
+            <span class="p">)</span>
+        <span class="k">yield from</span> <span class="n">bps</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
+
+    <span class="k">yield from</span> <span class="n">_inner_fly</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</section>
+<section id="Scan">
+<h2>Scan<a class="headerlink" href="#Scan" title="Permalink to this heading">#</a></h2>
+<p>Using our <code class="docutils literal notranslate"><span class="pre">flyer</span></code> device with the bluesky <a class="reference external" href="https://blueskyproject.io/bluesky/generated/bluesky.plans.fly.html#bluesky.plans.fly">fly()</a> plan, run the fly scan. Supply additional metadata so we can label our plot. The call to <code class="docutils literal notranslate"><span class="pre">RE()</span></code> returns a list of the uids for each run that was executed. Collect this list (we expect only one uid in the list) for later use when accessing the run from the databroker.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">uids</span> <span class="o">=</span> <span class="n">RE</span><span class="p">(</span><span class="n">fly_with_stats</span><span class="p">([</span><span class="n">flyer</span><span class="p">],</span> <span class="n">md</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">title</span><span class="o">=</span><span class="s2">&quot;Demonstrate a scaler v. motor fly scan.&quot;</span><span class="p">)))</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+
+
+Transient Scan ID: 1     Time: 2022-12-14 12:42:21
+Persistent Unique Scan ID: &#39;50b5225e-f698-46c2-9b54-c2038e635826&#39;
+New stream: &#39;primary&#39;
++-----------+------------+
+|   seq_num |       time |
++-----------+------------+
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+/home/prjemian/micromamba/envs/bluesky_2022_3/lib/python3.9/site-packages/event_model/__init__.py:208: UserWarning: The document type &#39;bulk_events&#39; has been deprecated in favor of &#39;event_page&#39;, whose structure is a transpose of &#39;bulk_events&#39;.
+  warnings.warn(
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+New stream: &#39;flyer_stats&#39;
++-----------+------------+
+generator fly_with_stats [&#39;50b5225e&#39;] (scan num: 1)
+
+
+
+</pre></div></div>
+</div>
+<p>Note that the LiveTable and LivePlot from the BestEffortCallback do not yet know how to show this data, so they report minimal information about the fly scan.</p>
+</section>
+<section id="Visualize">
+<h2>Visualize<a class="headerlink" href="#Visualize" title="Permalink to this heading">#</a></h2>
+<p>To make a plot of the data, first get the run from the databroker, identified here by its uid.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">run</span> <span class="o">=</span> <span class="n">cat</span><span class="o">.</span><span class="n">v2</span><span class="p">[</span><span class="n">uids</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span>
+<span class="n">run</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+BlueskyRun
+  uid=&#39;50b5225e-f698-46c2-9b54-c2038e635826&#39;
+  exit_status=&#39;success&#39;
+  2022-12-14 12:42:21.253 -- 2022-12-14 12:42:29.889
+  Streams:
+    * flyer_stats
+    * primary
+
+</pre></div></div>
+</div>
+<p>Show some of the run’s metadata, verifying that we are looking at the run we just acquired.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">run</span><span class="o">.</span><span class="n">metadata</span><span class="p">[</span><span class="s1">&#39;start&#39;</span><span class="p">][</span><span class="s1">&#39;scan_id&#39;</span><span class="p">]</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">run</span><span class="o">.</span><span class="n">metadata</span><span class="p">[</span><span class="s1">&#39;start&#39;</span><span class="p">][</span><span class="s1">&#39;title&#39;</span><span class="p">]</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+run.metadata[&#39;start&#39;][&#39;scan_id&#39;]=1
+run.metadata[&#39;start&#39;][&#39;title&#39;]=&#39;Demonstrate a scaler v. motor fly scan.&#39;
+</pre></div></div>
+</div>
+<p>The <code class="docutils literal notranslate"><span class="pre">run</span></code> has a single stream of data, named <code class="docutils literal notranslate"><span class="pre">primary</span></code>. Get the data from that stream:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">dataset</span> <span class="o">=</span> <span class="n">run</span><span class="o">.</span><span class="n">primary</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+<span class="n">dataset</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div><svg style="position: absolute; width: 0; height: 0; overflow: hidden">
+<defs>
+<symbol id="icon-database" viewBox="0 0 32 32">
+<path d="M16 0c-8.837 0-16 2.239-16 5v4c0 2.761 7.163 5 16 5s16-2.239 16-5v-4c0-2.761-7.163-5-16-5z"></path>
+<path d="M16 17c-8.837 0-16-2.239-16-5v6c0 2.761 7.163 5 16 5s16-2.239 16-5v-6c0 2.761-7.163 5-16 5z"></path>
+<path d="M16 26c-8.837 0-16-2.239-16-5v6c0 2.761 7.163 5 16 5s16-2.239 16-5v-6c0 2.761-7.163 5-16 5z"></path>
+</symbol>
+<symbol id="icon-file-text2" viewBox="0 0 32 32">
+<path d="M28.681 7.159c-0.694-0.947-1.662-2.053-2.724-3.116s-2.169-2.030-3.116-2.724c-1.612-1.182-2.393-1.319-2.841-1.319h-15.5c-1.378 0-2.5 1.121-2.5 2.5v27c0 1.378 1.122 2.5 2.5 2.5h23c1.378 0 2.5-1.122 2.5-2.5v-19.5c0-0.448-0.137-1.23-1.319-2.841zM24.543 5.457c0.959 0.959 1.712 1.825 2.268 2.543h-4.811v-4.811c0.718 0.556 1.584 1.309 2.543 2.268zM28 29.5c0 0.271-0.229 0.5-0.5 0.5h-23c-0.271 0-0.5-0.229-0.5-0.5v-27c0-0.271 0.229-0.5 0.5-0.5 0 0 15.499-0 15.5 0v7c0 0.552 0.448 1 1 1h7v19.5z"></path>
+<path d="M23 26h-14c-0.552 0-1-0.448-1-1s0.448-1 1-1h14c0.552 0 1 0.448 1 1s-0.448 1-1 1z"></path>
+<path d="M23 22h-14c-0.552 0-1-0.448-1-1s0.448-1 1-1h14c0.552 0 1 0.448 1 1s-0.448 1-1 1z"></path>
+<path d="M23 18h-14c-0.552 0-1-0.448-1-1s0.448-1 1-1h14c0.552 0 1 0.448 1 1s-0.448 1-1 1z"></path>
+</symbol>
+</defs>
+</svg>
+<style>/* CSS stylesheet for displaying xarray objects in jupyterlab.
+ *
+ */
+
+:root {
+  --xr-font-color0: var(--jp-content-font-color0, rgba(0, 0, 0, 1));
+  --xr-font-color2: var(--jp-content-font-color2, rgba(0, 0, 0, 0.54));
+  --xr-font-color3: var(--jp-content-font-color3, rgba(0, 0, 0, 0.38));
+  --xr-border-color: var(--jp-border-color2, #e0e0e0);
+  --xr-disabled-color: var(--jp-layout-color3, #bdbdbd);
+  --xr-background-color: var(--jp-layout-color0, white);
+  --xr-background-color-row-even: var(--jp-layout-color1, white);
+  --xr-background-color-row-odd: var(--jp-layout-color2, #eeeeee);
+}
+
+html[theme=dark],
+body.vscode-dark {
+  --xr-font-color0: rgba(255, 255, 255, 1);
+  --xr-font-color2: rgba(255, 255, 255, 0.54);
+  --xr-font-color3: rgba(255, 255, 255, 0.38);
+  --xr-border-color: #1F1F1F;
+  --xr-disabled-color: #515151;
+  --xr-background-color: #111111;
+  --xr-background-color-row-even: #111111;
+  --xr-background-color-row-odd: #313131;
+}
+
+.xr-wrap {
+  display: block !important;
+  min-width: 300px;
+  max-width: 700px;
+}
+
+.xr-text-repr-fallback {
+  /* fallback to plain text repr when CSS is not injected (untrusted notebook) */
+  display: none;
+}
+
+.xr-header {
+  padding-top: 6px;
+  padding-bottom: 6px;
+  margin-bottom: 4px;
+  border-bottom: solid 1px var(--xr-border-color);
+}
+
+.xr-header > div,
+.xr-header > ul {
+  display: inline;
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+.xr-obj-type,
+.xr-array-name {
+  margin-left: 2px;
+  margin-right: 10px;
+}
+
+.xr-obj-type {
+  color: var(--xr-font-color2);
+}
+
+.xr-sections {
+  padding-left: 0 !important;
+  display: grid;
+  grid-template-columns: 150px auto auto 1fr 20px 20px;
+}
+
+.xr-section-item {
+  display: contents;
+}
+
+.xr-section-item input {
+  display: none;
+}
+
+.xr-section-item input + label {
+  color: var(--xr-disabled-color);
+}
+
+.xr-section-item input:enabled + label {
+  cursor: pointer;
+  color: var(--xr-font-color2);
+}
+
+.xr-section-item input:enabled + label:hover {
+  color: var(--xr-font-color0);
+}
+
+.xr-section-summary {
+  grid-column: 1;
+  color: var(--xr-font-color2);
+  font-weight: 500;
+}
+
+.xr-section-summary > span {
+  display: inline-block;
+  padding-left: 0.5em;
+}
+
+.xr-section-summary-in:disabled + label {
+  color: var(--xr-font-color2);
+}
+
+.xr-section-summary-in + label:before {
+  display: inline-block;
+  content: '►';
+  font-size: 11px;
+  width: 15px;
+  text-align: center;
+}
+
+.xr-section-summary-in:disabled + label:before {
+  color: var(--xr-disabled-color);
+}
+
+.xr-section-summary-in:checked + label:before {
+  content: '▼';
+}
+
+.xr-section-summary-in:checked + label > span {
+  display: none;
+}
+
+.xr-section-summary,
+.xr-section-inline-details {
+  padding-top: 4px;
+  padding-bottom: 4px;
+}
+
+.xr-section-inline-details {
+  grid-column: 2 / -1;
+}
+
+.xr-section-details {
+  display: none;
+  grid-column: 1 / -1;
+  margin-bottom: 5px;
+}
+
+.xr-section-summary-in:checked ~ .xr-section-details {
+  display: contents;
+}
+
+.xr-array-wrap {
+  grid-column: 1 / -1;
+  display: grid;
+  grid-template-columns: 20px auto;
+}
+
+.xr-array-wrap > label {
+  grid-column: 1;
+  vertical-align: top;
+}
+
+.xr-preview {
+  color: var(--xr-font-color3);
+}
+
+.xr-array-preview,
+.xr-array-data {
+  padding: 0 5px !important;
+  grid-column: 2;
+}
+
+.xr-array-data,
+.xr-array-in:checked ~ .xr-array-preview {
+  display: none;
+}
+
+.xr-array-in:checked ~ .xr-array-data,
+.xr-array-preview {
+  display: inline-block;
+}
+
+.xr-dim-list {
+  display: inline-block !important;
+  list-style: none;
+  padding: 0 !important;
+  margin: 0;
+}
+
+.xr-dim-list li {
+  display: inline-block;
+  padding: 0;
+  margin: 0;
+}
+
+.xr-dim-list:before {
+  content: '(';
+}
+
+.xr-dim-list:after {
+  content: ')';
+}
+
+.xr-dim-list li:not(:last-child):after {
+  content: ',';
+  padding-right: 5px;
+}
+
+.xr-has-index {
+  font-weight: bold;
+}
+
+.xr-var-list,
+.xr-var-item {
+  display: contents;
+}
+
+.xr-var-item > div,
+.xr-var-item label,
+.xr-var-item > .xr-var-name span {
+  background-color: var(--xr-background-color-row-even);
+  margin-bottom: 0;
+}
+
+.xr-var-item > .xr-var-name:hover span {
+  padding-right: 5px;
+}
+
+.xr-var-list > li:nth-child(odd) > div,
+.xr-var-list > li:nth-child(odd) > label,
+.xr-var-list > li:nth-child(odd) > .xr-var-name span {
+  background-color: var(--xr-background-color-row-odd);
+}
+
+.xr-var-name {
+  grid-column: 1;
+}
+
+.xr-var-dims {
+  grid-column: 2;
+}
+
+.xr-var-dtype {
+  grid-column: 3;
+  text-align: right;
+  color: var(--xr-font-color2);
+}
+
+.xr-var-preview {
+  grid-column: 4;
+}
+
+.xr-var-name,
+.xr-var-dims,
+.xr-var-dtype,
+.xr-preview,
+.xr-attrs dt {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  padding-right: 10px;
+}
+
+.xr-var-name:hover,
+.xr-var-dims:hover,
+.xr-var-dtype:hover,
+.xr-attrs dt:hover {
+  overflow: visible;
+  width: auto;
+  z-index: 1;
+}
+
+.xr-var-attrs,
+.xr-var-data {
+  display: none;
+  background-color: var(--xr-background-color) !important;
+  padding-bottom: 5px !important;
+}
+
+.xr-var-attrs-in:checked ~ .xr-var-attrs,
+.xr-var-data-in:checked ~ .xr-var-data {
+  display: block;
+}
+
+.xr-var-data > table {
+  float: right;
+}
+
+.xr-var-name span,
+.xr-var-data,
+.xr-attrs {
+  padding-left: 25px !important;
+}
+
+.xr-attrs,
+.xr-var-attrs,
+.xr-var-data {
+  grid-column: 1 / -1;
+}
+
+dl.xr-attrs {
+  padding: 0;
+  margin: 0;
+  display: grid;
+  grid-template-columns: 125px auto;
+}
+
+.xr-attrs dt,
+.xr-attrs dd {
+  padding: 0;
+  margin: 0;
+  float: left;
+  padding-right: 10px;
+  width: auto;
+}
+
+.xr-attrs dt {
+  font-weight: normal;
+  grid-column: 1;
+}
+
+.xr-attrs dt:hover span {
+  display: inline-block;
+  background: var(--xr-background-color);
+  padding-right: 10px;
+}
+
+.xr-attrs dd {
+  grid-column: 2;
+  white-space: pre-wrap;
+  word-break: break-all;
+}
+
+.xr-icon-database,
+.xr-icon-file-text2 {
+  display: inline-block;
+  vertical-align: middle;
+  width: 1em;
+  height: 1.5em !important;
+  stroke-width: 0;
+  stroke: currentColor;
+  fill: currentColor;
+}
+</style><pre class='xr-text-repr-fallback'>&lt;xarray.Dataset&gt;
+Dimensions:              (time: 41)
+Coordinates:
+  * time                 (time) float64 1.671e+09 1.671e+09 ... 1.671e+09
+Data variables:
+    motor                (time) float64 1.09 1.19 1.19 1.29 ... 4.8 4.9 4.97 5.0
+    motor_user_setpoint  (time) float64 5.0 5.0 5.0 5.0 5.0 ... 5.0 5.0 5.0 5.0
+    clock                (time) float64 1e+06 1e+06 1e+06 ... 1e+06 1e+06 1e+06
+    I0                   (time) float64 0.0 1.0 0.0 0.0 1.0 ... 1.0 1.0 0.0 1.0
+    I00                  (time) float64 0.0 0.0 0.0 1.0 0.0 ... 0.0 1.0 0.0 1.0
+    scint                (time) float64 0.0 1.0 1.0 0.0 1.0 ... 1.0 0.0 1.0 0.0
+    diode                (time) float64 0.0 0.0 0.0 1.0 1.0 ... 1.0 1.0 0.0 0.0
+    scaler_time          (time) float64 0.1 0.1 0.1 0.1 0.1 ... 0.1 0.1 0.1 0.1</pre><div class='xr-wrap' style='display:none'><div class='xr-header'><div class='xr-obj-type'>xarray.Dataset</div></div><ul class='xr-sections'><li class='xr-section-item'><input id='section-643ddeab-f7b8-45b2-815f-596033d01bf9' class='xr-section-summary-in' type='checkbox' disabled ><label for='section-643ddeab-f7b8-45b2-815f-596033d01bf9' class='xr-section-summary'  title='Expand/collapse section'>Dimensions:</label><div class='xr-section-inline-details'><ul class='xr-dim-list'><li><span class='xr-has-index'>time</span>: 41</li></ul></div><div class='xr-section-details'></div></li><li class='xr-section-item'><input id='section-68980377-1a98-462b-952b-1e44ff8d6e16' class='xr-section-summary-in' type='checkbox'  checked><label for='section-68980377-1a98-462b-952b-1e44ff8d6e16' class='xr-section-summary' >Coordinates: <span>(1)</span></label><div class='xr-section-inline-details'></div><div class='xr-section-details'><ul class='xr-var-list'><li class='xr-var-item'><div class='xr-var-name'><span class='xr-has-index'>time</span></div><div class='xr-var-dims'>(time)</div><div class='xr-var-dtype'>float64</div><div class='xr-var-preview xr-preview'>1.671e+09 1.671e+09 ... 1.671e+09</div><input id='attrs-a9e3ebb5-3b82-4baf-bbb2-2a5ac055351c' class='xr-var-attrs-in' type='checkbox' disabled><label for='attrs-a9e3ebb5-3b82-4baf-bbb2-2a5ac055351c' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-5d253c96-c302-412d-b3eb-25b85fb1797e' class='xr-var-data-in' type='checkbox'><label for='data-5d253c96-c302-412d-b3eb-25b85fb1797e' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'></dl></div><div class='xr-var-data'><pre>array([1.671043e+09, 1.671043e+09, 1.671043e+09, 1.671043e+09, 1.671043e+09,
+       1.671043e+09, 1.671043e+09, 1.671043e+09, 1.671043e+09, 1.671043e+09,
+       1.671043e+09, 1.671043e+09, 1.671043e+09, 1.671043e+09, 1.671043e+09,
+       1.671043e+09, 1.671043e+09, 1.671043e+09, 1.671043e+09, 1.671043e+09,
+       1.671043e+09, 1.671043e+09, 1.671043e+09, 1.671043e+09, 1.671043e+09,
+       1.671043e+09, 1.671043e+09, 1.671043e+09, 1.671043e+09, 1.671043e+09,
+       1.671043e+09, 1.671043e+09, 1.671043e+09, 1.671043e+09, 1.671043e+09,
+       1.671043e+09, 1.671043e+09, 1.671043e+09, 1.671043e+09, 1.671043e+09,
+       1.671043e+09])</pre></div></li></ul></div></li><li class='xr-section-item'><input id='section-086465fe-3704-403e-b3f6-573ce4969db4' class='xr-section-summary-in' type='checkbox'  checked><label for='section-086465fe-3704-403e-b3f6-573ce4969db4' class='xr-section-summary' >Data variables: <span>(8)</span></label><div class='xr-section-inline-details'></div><div class='xr-section-details'><ul class='xr-var-list'><li class='xr-var-item'><div class='xr-var-name'><span>motor</span></div><div class='xr-var-dims'>(time)</div><div class='xr-var-dtype'>float64</div><div class='xr-var-preview xr-preview'>1.09 1.19 1.19 ... 4.9 4.97 5.0</div><input id='attrs-516200b4-e5d1-498d-ae4d-301173bec8f1' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-516200b4-e5d1-498d-ae4d-301173bec8f1' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-0940fefa-63f6-47bc-8611-6f1e3eb40142' class='xr-var-data-in' type='checkbox'><label for='data-0940fefa-63f6-47bc-8611-6f1e3eb40142' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>object :</span></dt><dd>flyer</dd></dl></div><div class='xr-var-data'><pre>array([1.09, 1.19, 1.19, 1.29, 1.39, 1.49, 1.59, 1.69, 1.79, 1.89, 1.99,
+       2.19, 2.29, 2.39, 2.49, 2.59, 2.69, 2.79, 2.89, 2.99, 3.1 , 3.1 ,
+       3.2 , 3.3 , 3.4 , 3.5 , 3.6 , 3.7 , 3.8 , 3.9 , 4.  , 4.2 , 4.3 ,
+       4.4 , 4.5 , 4.6 , 4.7 , 4.8 , 4.9 , 4.97, 5.  ])</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>motor_user_setpoint</span></div><div class='xr-var-dims'>(time)</div><div class='xr-var-dtype'>float64</div><div class='xr-var-preview xr-preview'>5.0 5.0 5.0 5.0 ... 5.0 5.0 5.0 5.0</div><input id='attrs-420ba68b-0156-4f7c-b867-c51be1d63557' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-420ba68b-0156-4f7c-b867-c51be1d63557' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-3367a6c2-0de1-49e4-8520-f3188b5bde3f' class='xr-var-data-in' type='checkbox'><label for='data-3367a6c2-0de1-49e4-8520-f3188b5bde3f' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>object :</span></dt><dd>flyer</dd></dl></div><div class='xr-var-data'><pre>array([5., 5., 5., 5., 5., 5., 5., 5., 5., 5., 5., 5., 5., 5., 5., 5., 5.,
+       5., 5., 5., 5., 5., 5., 5., 5., 5., 5., 5., 5., 5., 5., 5., 5., 5.,
+       5., 5., 5., 5., 5., 5., 5.])</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>clock</span></div><div class='xr-var-dims'>(time)</div><div class='xr-var-dtype'>float64</div><div class='xr-var-preview xr-preview'>1e+06 1e+06 1e+06 ... 1e+06 1e+06</div><input id='attrs-a702b28c-6490-4539-aa8e-63f9ad113a70' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-a702b28c-6490-4539-aa8e-63f9ad113a70' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-66bbcf7a-92e7-4430-b35e-4f14a6c773a5' class='xr-var-data-in' type='checkbox'><label for='data-66bbcf7a-92e7-4430-b35e-4f14a6c773a5' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>object :</span></dt><dd>flyer</dd></dl></div><div class='xr-var-data'><pre>array([1000000., 1000000., 1000000., 1000000., 1000000., 1000000.,
+       1000000., 1000000., 1000000., 1000000., 1000000., 1000000.,
+       1000000., 1000000., 1000000., 1000000., 1000000., 1000000.,
+       1000000., 1000000., 1000000., 1000000., 1000000., 1000000.,
+       1000000., 1000000., 1000000., 1000000., 1000000., 1000000.,
+       1000000., 1000000., 1000000., 1000000., 1000000., 1000000.,
+       1000000., 1000000., 1000000., 1000000., 1000000.])</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>I0</span></div><div class='xr-var-dims'>(time)</div><div class='xr-var-dtype'>float64</div><div class='xr-var-preview xr-preview'>0.0 1.0 0.0 0.0 ... 1.0 1.0 0.0 1.0</div><input id='attrs-acfe73d2-162f-4e52-9dc8-c5ee09b068ae' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-acfe73d2-162f-4e52-9dc8-c5ee09b068ae' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-f400c93c-c9e5-47d0-a638-dd59d567cd5b' class='xr-var-data-in' type='checkbox'><label for='data-f400c93c-c9e5-47d0-a638-dd59d567cd5b' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>object :</span></dt><dd>flyer</dd></dl></div><div class='xr-var-data'><pre>array([0., 1., 0., 0., 1., 0., 1., 0., 0., 1., 0., 0., 1., 1., 0., 1., 0.,
+       1., 0., 1., 1., 0., 1., 1., 0., 0., 1., 0., 0., 1., 1., 0., 1., 0.,
+       1., 0., 0., 1., 1., 0., 1.])</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>I00</span></div><div class='xr-var-dims'>(time)</div><div class='xr-var-dtype'>float64</div><div class='xr-var-preview xr-preview'>0.0 0.0 0.0 1.0 ... 0.0 1.0 0.0 1.0</div><input id='attrs-397db3c4-612b-4de4-aebc-f960c2b5d662' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-397db3c4-612b-4de4-aebc-f960c2b5d662' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-709ee37f-aa66-46ff-9c70-f49d81ca1ddb' class='xr-var-data-in' type='checkbox'><label for='data-709ee37f-aa66-46ff-9c70-f49d81ca1ddb' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>object :</span></dt><dd>flyer</dd></dl></div><div class='xr-var-data'><pre>array([0., 0., 0., 1., 0., 1., 0., 0., 1., 1., 0., 0., 0., 1., 0., 1., 0.,
+       0., 1., 0., 1., 1., 0., 1., 0., 1., 0., 1., 1., 0., 0., 1., 0., 0.,
+       1., 0., 1., 0., 1., 0., 1.])</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>scint</span></div><div class='xr-var-dims'>(time)</div><div class='xr-var-dtype'>float64</div><div class='xr-var-preview xr-preview'>0.0 1.0 1.0 0.0 ... 1.0 0.0 1.0 0.0</div><input id='attrs-4665dd54-3a57-40ce-866e-af040c3b14b8' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-4665dd54-3a57-40ce-866e-af040c3b14b8' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-59ad252e-02c9-4f0e-a3f3-4a75e1bb5646' class='xr-var-data-in' type='checkbox'><label for='data-59ad252e-02c9-4f0e-a3f3-4a75e1bb5646' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>object :</span></dt><dd>flyer</dd></dl></div><div class='xr-var-data'><pre>array([0., 1., 1., 0., 1., 1., 1., 0., 1., 0., 1., 1., 0., 1., 1., 1., 0.,
+       1., 0., 1., 1., 0., 1., 1., 0., 0., 1., 1., 0., 0., 1., 1., 0., 0.,
+       0., 1., 1., 1., 0., 1., 0.])</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>diode</span></div><div class='xr-var-dims'>(time)</div><div class='xr-var-dtype'>float64</div><div class='xr-var-preview xr-preview'>0.0 0.0 0.0 1.0 ... 1.0 1.0 0.0 0.0</div><input id='attrs-112b46f7-4280-4add-b3de-900089cf8a27' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-112b46f7-4280-4add-b3de-900089cf8a27' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-76876a6e-83b6-459b-9a9a-00ca90cb7830' class='xr-var-data-in' type='checkbox'><label for='data-76876a6e-83b6-459b-9a9a-00ca90cb7830' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>object :</span></dt><dd>flyer</dd></dl></div><div class='xr-var-data'><pre>array([0., 0., 0., 1., 1., 1., 0., 1., 0., 1., 0., 0., 0., 1., 1., 0., 1.,
+       0., 1., 0., 0., 0., 1., 1., 0., 1., 1., 0., 0., 1., 1., 0., 0., 1.,
+       0., 1., 0., 1., 1., 0., 0.])</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>scaler_time</span></div><div class='xr-var-dims'>(time)</div><div class='xr-var-dtype'>float64</div><div class='xr-var-preview xr-preview'>0.1 0.1 0.1 0.1 ... 0.1 0.1 0.1 0.1</div><input id='attrs-90f55d04-ed30-4582-9fb8-03bc6e633cf7' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-90f55d04-ed30-4582-9fb8-03bc6e633cf7' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-8765d46a-9896-46e9-aa0d-47dd980e9587' class='xr-var-data-in' type='checkbox'><label for='data-8765d46a-9896-46e9-aa0d-47dd980e9587' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>object :</span></dt><dd>flyer</dd></dl></div><div class='xr-var-data'><pre>array([0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1,
+       0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1,
+       0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1,
+       0.1, 0.1])</pre></div></li></ul></div></li><li class='xr-section-item'><input id='section-9e120e3a-3cb2-49cd-98a2-198dc55404be' class='xr-section-summary-in' type='checkbox' disabled ><label for='section-9e120e3a-3cb2-49cd-98a2-198dc55404be' class='xr-section-summary'  title='Expand/collapse section'>Attributes: <span>(0)</span></label><div class='xr-section-inline-details'></div><div class='xr-section-details'><dl class='xr-attrs'></dl></div></li></ul></div></div></div>
+</div>
+<p>Choose data for the x and y axes from the <code class="docutils literal notranslate"><span class="pre">dataset</span></code> names:</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">x</span> <span class="o">=</span> <span class="n">dataset</span><span class="p">[</span><span class="s2">&quot;motor&quot;</span><span class="p">]</span>
+<span class="n">y</span> <span class="o">=</span> <span class="n">dataset</span><span class="p">[</span><span class="s2">&quot;diode&quot;</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<p>Plot the data using matplotlib’s <a class="reference external" href="https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.plot.html">pyplot</a> module. (The <code class="docutils literal notranslate"><span class="pre">pyplot</span> <span class="pre">as</span> <span class="pre">plt</span></code> library was imported above.)</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">title</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="sa">f</span><span class="s2">&quot;#</span><span class="si">{</span><span class="n">run</span><span class="o">.</span><span class="n">metadata</span><span class="p">[</span><span class="s1">&#39;start&#39;</span><span class="p">][</span><span class="s1">&#39;scan_id&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span>
+    <span class="sa">f</span><span class="s2">&quot;: </span><span class="si">{</span><span class="n">run</span><span class="o">.</span><span class="n">metadata</span><span class="p">[</span><span class="s1">&#39;start&#39;</span><span class="p">][</span><span class="s1">&#39;title&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span>
+<span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> <span class="n">y</span><span class="o">.</span><span class="n">values</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="n">title</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="n">y</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Text(0, 0.5, &#39;diode&#39;)
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/examples_de_scaler_motor_flyer_21_1.png" src="../_images/examples_de_scaler_motor_flyer_21_1.png" />
+</div>
+</div>
+<p>Show statistics collected for each scaler channel.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">run</span><span class="o">.</span><span class="n">flyer_stats</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div><svg style="position: absolute; width: 0; height: 0; overflow: hidden">
+<defs>
+<symbol id="icon-database" viewBox="0 0 32 32">
+<path d="M16 0c-8.837 0-16 2.239-16 5v4c0 2.761 7.163 5 16 5s16-2.239 16-5v-4c0-2.761-7.163-5-16-5z"></path>
+<path d="M16 17c-8.837 0-16-2.239-16-5v6c0 2.761 7.163 5 16 5s16-2.239 16-5v-6c0 2.761-7.163 5-16 5z"></path>
+<path d="M16 26c-8.837 0-16-2.239-16-5v6c0 2.761 7.163 5 16 5s16-2.239 16-5v-6c0 2.761-7.163 5-16 5z"></path>
+</symbol>
+<symbol id="icon-file-text2" viewBox="0 0 32 32">
+<path d="M28.681 7.159c-0.694-0.947-1.662-2.053-2.724-3.116s-2.169-2.030-3.116-2.724c-1.612-1.182-2.393-1.319-2.841-1.319h-15.5c-1.378 0-2.5 1.121-2.5 2.5v27c0 1.378 1.122 2.5 2.5 2.5h23c1.378 0 2.5-1.122 2.5-2.5v-19.5c0-0.448-0.137-1.23-1.319-2.841zM24.543 5.457c0.959 0.959 1.712 1.825 2.268 2.543h-4.811v-4.811c0.718 0.556 1.584 1.309 2.543 2.268zM28 29.5c0 0.271-0.229 0.5-0.5 0.5h-23c-0.271 0-0.5-0.229-0.5-0.5v-27c0-0.271 0.229-0.5 0.5-0.5 0 0 15.499-0 15.5 0v7c0 0.552 0.448 1 1 1h7v19.5z"></path>
+<path d="M23 26h-14c-0.552 0-1-0.448-1-1s0.448-1 1-1h14c0.552 0 1 0.448 1 1s-0.448 1-1 1z"></path>
+<path d="M23 22h-14c-0.552 0-1-0.448-1-1s0.448-1 1-1h14c0.552 0 1 0.448 1 1s-0.448 1-1 1z"></path>
+<path d="M23 18h-14c-0.552 0-1-0.448-1-1s0.448-1 1-1h14c0.552 0 1 0.448 1 1s-0.448 1-1 1z"></path>
+</symbol>
+</defs>
+</svg>
+<style>/* CSS stylesheet for displaying xarray objects in jupyterlab.
+ *
+ */
+
+:root {
+  --xr-font-color0: var(--jp-content-font-color0, rgba(0, 0, 0, 1));
+  --xr-font-color2: var(--jp-content-font-color2, rgba(0, 0, 0, 0.54));
+  --xr-font-color3: var(--jp-content-font-color3, rgba(0, 0, 0, 0.38));
+  --xr-border-color: var(--jp-border-color2, #e0e0e0);
+  --xr-disabled-color: var(--jp-layout-color3, #bdbdbd);
+  --xr-background-color: var(--jp-layout-color0, white);
+  --xr-background-color-row-even: var(--jp-layout-color1, white);
+  --xr-background-color-row-odd: var(--jp-layout-color2, #eeeeee);
+}
+
+html[theme=dark],
+body.vscode-dark {
+  --xr-font-color0: rgba(255, 255, 255, 1);
+  --xr-font-color2: rgba(255, 255, 255, 0.54);
+  --xr-font-color3: rgba(255, 255, 255, 0.38);
+  --xr-border-color: #1F1F1F;
+  --xr-disabled-color: #515151;
+  --xr-background-color: #111111;
+  --xr-background-color-row-even: #111111;
+  --xr-background-color-row-odd: #313131;
+}
+
+.xr-wrap {
+  display: block !important;
+  min-width: 300px;
+  max-width: 700px;
+}
+
+.xr-text-repr-fallback {
+  /* fallback to plain text repr when CSS is not injected (untrusted notebook) */
+  display: none;
+}
+
+.xr-header {
+  padding-top: 6px;
+  padding-bottom: 6px;
+  margin-bottom: 4px;
+  border-bottom: solid 1px var(--xr-border-color);
+}
+
+.xr-header > div,
+.xr-header > ul {
+  display: inline;
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+.xr-obj-type,
+.xr-array-name {
+  margin-left: 2px;
+  margin-right: 10px;
+}
+
+.xr-obj-type {
+  color: var(--xr-font-color2);
+}
+
+.xr-sections {
+  padding-left: 0 !important;
+  display: grid;
+  grid-template-columns: 150px auto auto 1fr 20px 20px;
+}
+
+.xr-section-item {
+  display: contents;
+}
+
+.xr-section-item input {
+  display: none;
+}
+
+.xr-section-item input + label {
+  color: var(--xr-disabled-color);
+}
+
+.xr-section-item input:enabled + label {
+  cursor: pointer;
+  color: var(--xr-font-color2);
+}
+
+.xr-section-item input:enabled + label:hover {
+  color: var(--xr-font-color0);
+}
+
+.xr-section-summary {
+  grid-column: 1;
+  color: var(--xr-font-color2);
+  font-weight: 500;
+}
+
+.xr-section-summary > span {
+  display: inline-block;
+  padding-left: 0.5em;
+}
+
+.xr-section-summary-in:disabled + label {
+  color: var(--xr-font-color2);
+}
+
+.xr-section-summary-in + label:before {
+  display: inline-block;
+  content: '►';
+  font-size: 11px;
+  width: 15px;
+  text-align: center;
+}
+
+.xr-section-summary-in:disabled + label:before {
+  color: var(--xr-disabled-color);
+}
+
+.xr-section-summary-in:checked + label:before {
+  content: '▼';
+}
+
+.xr-section-summary-in:checked + label > span {
+  display: none;
+}
+
+.xr-section-summary,
+.xr-section-inline-details {
+  padding-top: 4px;
+  padding-bottom: 4px;
+}
+
+.xr-section-inline-details {
+  grid-column: 2 / -1;
+}
+
+.xr-section-details {
+  display: none;
+  grid-column: 1 / -1;
+  margin-bottom: 5px;
+}
+
+.xr-section-summary-in:checked ~ .xr-section-details {
+  display: contents;
+}
+
+.xr-array-wrap {
+  grid-column: 1 / -1;
+  display: grid;
+  grid-template-columns: 20px auto;
+}
+
+.xr-array-wrap > label {
+  grid-column: 1;
+  vertical-align: top;
+}
+
+.xr-preview {
+  color: var(--xr-font-color3);
+}
+
+.xr-array-preview,
+.xr-array-data {
+  padding: 0 5px !important;
+  grid-column: 2;
+}
+
+.xr-array-data,
+.xr-array-in:checked ~ .xr-array-preview {
+  display: none;
+}
+
+.xr-array-in:checked ~ .xr-array-data,
+.xr-array-preview {
+  display: inline-block;
+}
+
+.xr-dim-list {
+  display: inline-block !important;
+  list-style: none;
+  padding: 0 !important;
+  margin: 0;
+}
+
+.xr-dim-list li {
+  display: inline-block;
+  padding: 0;
+  margin: 0;
+}
+
+.xr-dim-list:before {
+  content: '(';
+}
+
+.xr-dim-list:after {
+  content: ')';
+}
+
+.xr-dim-list li:not(:last-child):after {
+  content: ',';
+  padding-right: 5px;
+}
+
+.xr-has-index {
+  font-weight: bold;
+}
+
+.xr-var-list,
+.xr-var-item {
+  display: contents;
+}
+
+.xr-var-item > div,
+.xr-var-item label,
+.xr-var-item > .xr-var-name span {
+  background-color: var(--xr-background-color-row-even);
+  margin-bottom: 0;
+}
+
+.xr-var-item > .xr-var-name:hover span {
+  padding-right: 5px;
+}
+
+.xr-var-list > li:nth-child(odd) > div,
+.xr-var-list > li:nth-child(odd) > label,
+.xr-var-list > li:nth-child(odd) > .xr-var-name span {
+  background-color: var(--xr-background-color-row-odd);
+}
+
+.xr-var-name {
+  grid-column: 1;
+}
+
+.xr-var-dims {
+  grid-column: 2;
+}
+
+.xr-var-dtype {
+  grid-column: 3;
+  text-align: right;
+  color: var(--xr-font-color2);
+}
+
+.xr-var-preview {
+  grid-column: 4;
+}
+
+.xr-var-name,
+.xr-var-dims,
+.xr-var-dtype,
+.xr-preview,
+.xr-attrs dt {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  padding-right: 10px;
+}
+
+.xr-var-name:hover,
+.xr-var-dims:hover,
+.xr-var-dtype:hover,
+.xr-attrs dt:hover {
+  overflow: visible;
+  width: auto;
+  z-index: 1;
+}
+
+.xr-var-attrs,
+.xr-var-data {
+  display: none;
+  background-color: var(--xr-background-color) !important;
+  padding-bottom: 5px !important;
+}
+
+.xr-var-attrs-in:checked ~ .xr-var-attrs,
+.xr-var-data-in:checked ~ .xr-var-data {
+  display: block;
+}
+
+.xr-var-data > table {
+  float: right;
+}
+
+.xr-var-name span,
+.xr-var-data,
+.xr-attrs {
+  padding-left: 25px !important;
+}
+
+.xr-attrs,
+.xr-var-attrs,
+.xr-var-data {
+  grid-column: 1 / -1;
+}
+
+dl.xr-attrs {
+  padding: 0;
+  margin: 0;
+  display: grid;
+  grid-template-columns: 125px auto;
+}
+
+.xr-attrs dt,
+.xr-attrs dd {
+  padding: 0;
+  margin: 0;
+  float: left;
+  padding-right: 10px;
+  width: auto;
+}
+
+.xr-attrs dt {
+  font-weight: normal;
+  grid-column: 1;
+}
+
+.xr-attrs dt:hover span {
+  display: inline-block;
+  background: var(--xr-background-color);
+  padding-right: 10px;
+}
+
+.xr-attrs dd {
+  grid-column: 2;
+  white-space: pre-wrap;
+  word-break: break-all;
+}
+
+.xr-icon-database,
+.xr-icon-file-text2 {
+  display: inline-block;
+  vertical-align: middle;
+  width: 1em;
+  height: 1.5em !important;
+  stroke-width: 0;
+  stroke: currentColor;
+  fill: currentColor;
+}
+</style><pre class='xr-text-repr-fallback'>&lt;xarray.Dataset&gt;
+Dimensions:                 (time: 1)
+Coordinates:
+  * time                    (time) float64 1.671e+09
+Data variables: (12/81)
+    I0_mean_x               (time) float64 3.046
+    I0_mean_y               (time) float64 0.4878
+    I0_stddev_x             (time) float64 1.213
+    I0_stddev_y             (time) float64 0.5061
+    I0_slope                (time) float64 0.04756
+    I0_intercept            (time) float64 0.343
+    ...                      ...
+    diode_sigma             (time) float64 1.154
+    diode_min_x             (time) float64 1.09
+    diode_max_x             (time) float64 5.0
+    diode_min_y             (time) float64 0.0
+    diode_max_y             (time) float64 1.0
+    diode_x_at_max_y        (time) float64 4.9</pre><div class='xr-wrap' style='display:none'><div class='xr-header'><div class='xr-obj-type'>xarray.Dataset</div></div><ul class='xr-sections'><li class='xr-section-item'><input id='section-d5ef8a1c-82b4-4d62-b7a1-d60918027644' class='xr-section-summary-in' type='checkbox' disabled ><label for='section-d5ef8a1c-82b4-4d62-b7a1-d60918027644' class='xr-section-summary'  title='Expand/collapse section'>Dimensions:</label><div class='xr-section-inline-details'><ul class='xr-dim-list'><li><span class='xr-has-index'>time</span>: 1</li></ul></div><div class='xr-section-details'></div></li><li class='xr-section-item'><input id='section-86f072ba-85a7-4a47-84e8-7662e8b3cc82' class='xr-section-summary-in' type='checkbox'  checked><label for='section-86f072ba-85a7-4a47-84e8-7662e8b3cc82' class='xr-section-summary' >Coordinates: <span>(1)</span></label><div class='xr-section-inline-details'></div><div class='xr-section-details'><ul class='xr-var-list'><li class='xr-var-item'><div class='xr-var-name'><span class='xr-has-index'>time</span></div><div class='xr-var-dims'>(time)</div><div class='xr-var-dtype'>float64</div><div class='xr-var-preview xr-preview'>1.671e+09</div><input id='attrs-811d94ff-c90a-416a-bdcc-43aa4dbf3b61' class='xr-var-attrs-in' type='checkbox' disabled><label for='attrs-811d94ff-c90a-416a-bdcc-43aa4dbf3b61' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-f3063173-3844-45a5-800c-297e4b0e947b' class='xr-var-data-in' type='checkbox'><label for='data-f3063173-3844-45a5-800c-297e4b0e947b' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'></dl></div><div class='xr-var-data'><pre>array([1.671043e+09])</pre></div></li></ul></div></li><li class='xr-section-item'><input id='section-f4335b5c-0bc9-400b-9e89-9f35c740c4fa' class='xr-section-summary-in' type='checkbox'  ><label for='section-f4335b5c-0bc9-400b-9e89-9f35c740c4fa' class='xr-section-summary' >Data variables: <span>(81)</span></label><div class='xr-section-inline-details'></div><div class='xr-section-details'><ul class='xr-var-list'><li class='xr-var-item'><div class='xr-var-name'><span>I0_mean_x</span></div><div class='xr-var-dims'>(time)</div><div class='xr-var-dtype'>float64</div><div class='xr-var-preview xr-preview'>3.046</div><input id='attrs-34e82318-307f-47f7-bc58-680fa3d65f5a' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-34e82318-307f-47f7-bc58-680fa3d65f5a' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-d9df0157-ab64-4ea3-9495-2e057b89e9e7' class='xr-var-data-in' type='checkbox'><label for='data-d9df0157-ab64-4ea3-9495-2e057b89e9e7' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>object :</span></dt><dd>I0</dd></dl></div><div class='xr-var-data'><pre>array([3.04560976])</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>I0_mean_y</span></div><div class='xr-var-dims'>(time)</div><div class='xr-var-dtype'>float64</div><div class='xr-var-preview xr-preview'>0.4878</div><input id='attrs-c27054c1-440d-4c2a-b977-e3205a180137' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-c27054c1-440d-4c2a-b977-e3205a180137' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-c849b56a-ce52-402d-ad39-f17d6c00519d' class='xr-var-data-in' type='checkbox'><label for='data-c849b56a-ce52-402d-ad39-f17d6c00519d' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>object :</span></dt><dd>I0</dd></dl></div><div class='xr-var-data'><pre>array([0.48780488])</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>I0_stddev_x</span></div><div class='xr-var-dims'>(time)</div><div class='xr-var-dtype'>float64</div><div class='xr-var-preview xr-preview'>1.213</div><input id='attrs-2e256c59-0283-465c-8c27-d418a4d28ac5' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-2e256c59-0283-465c-8c27-d418a4d28ac5' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-9a673f54-3dfe-447f-af5b-58fb002075ed' class='xr-var-data-in' type='checkbox'><label for='data-9a673f54-3dfe-447f-af5b-58fb002075ed' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>object :</span></dt><dd>I0</dd></dl></div><div class='xr-var-data'><pre>array([1.21269957])</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>I0_stddev_y</span></div><div class='xr-var-dims'>(time)</div><div class='xr-var-dtype'>float64</div><div class='xr-var-preview xr-preview'>0.5061</div><input id='attrs-27b19ed3-0959-4468-9130-ec5c0ff38024' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-27b19ed3-0959-4468-9130-ec5c0ff38024' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-8a1a03ee-cc0b-493e-87ff-448d870be2af' class='xr-var-data-in' type='checkbox'><label for='data-8a1a03ee-cc0b-493e-87ff-448d870be2af' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>object :</span></dt><dd>I0</dd></dl></div><div class='xr-var-data'><pre>array([0.50606083])</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>I0_slope</span></div><div class='xr-var-dims'>(time)</div><div class='xr-var-dtype'>float64</div><div class='xr-var-preview xr-preview'>0.04756</div><input id='attrs-563c52a9-db66-4e86-a304-e264e386cf8a' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-563c52a9-db66-4e86-a304-e264e386cf8a' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-e1fe44a6-2a82-4a2f-bb07-9cc39c1d9374' class='xr-var-data-in' type='checkbox'><label for='data-e1fe44a6-2a82-4a2f-bb07-9cc39c1d9374' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>object :</span></dt><dd>I0</dd></dl></div><div class='xr-var-data'><pre>array([0.047561])</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>I0_intercept</span></div><div class='xr-var-dims'>(time)</div><div class='xr-var-dtype'>float64</div><div class='xr-var-preview xr-preview'>0.343</div><input id='attrs-bb5f5c6a-b9b8-40cd-a362-5d6bae7b80a1' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-bb5f5c6a-b9b8-40cd-a362-5d6bae7b80a1' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-d18b2e3a-f5b2-4448-91e1-75741b116c1f' class='xr-var-data-in' type='checkbox'><label for='data-d18b2e3a-f5b2-4448-91e1-75741b116c1f' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>object :</span></dt><dd>I0</dd></dl></div><div class='xr-var-data'><pre>array([0.34295263])</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>I0_correlation</span></div><div class='xr-var-dims'>(time)</div><div class='xr-var-dtype'>float64</div><div class='xr-var-preview xr-preview'>0.114</div><input id='attrs-73d8d7f2-9e70-47a6-9270-e740f42d0943' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-73d8d7f2-9e70-47a6-9270-e740f42d0943' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-cca69e03-6f38-4711-a75b-df88811cbbf8' class='xr-var-data-in' type='checkbox'><label for='data-cca69e03-6f38-4711-a75b-df88811cbbf8' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>object :</span></dt><dd>I0</dd></dl></div><div class='xr-var-data'><pre>array([0.11397287])</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>I0_centroid</span></div><div class='xr-var-dims'>(time)</div><div class='xr-var-dtype'>float64</div><div class='xr-var-preview xr-preview'>3.185</div><input id='attrs-4f5537d0-6b47-48f6-b249-5c68e7cc148c' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-4f5537d0-6b47-48f6-b249-5c68e7cc148c' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-7babfb86-02d0-4813-8dde-bd7132b0ed4e' class='xr-var-data-in' type='checkbox'><label for='data-7babfb86-02d0-4813-8dde-bd7132b0ed4e' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>object :</span></dt><dd>I0</dd></dl></div><div class='xr-var-data'><pre>array([3.1855])</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>I0_sigma</span></div><div class='xr-var-dims'>(time)</div><div class='xr-var-dtype'>float64</div><div class='xr-var-preview xr-preview'>1.153</div><input id='attrs-c67a182a-9435-4ce9-8fd8-2f2909abe44d' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-c67a182a-9435-4ce9-8fd8-2f2909abe44d' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-54d66b42-571a-47fa-8203-58f8d9686cc0' class='xr-var-data-in' type='checkbox'><label for='data-54d66b42-571a-47fa-8203-58f8d9686cc0' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>object :</span></dt><dd>I0</dd></dl></div><div class='xr-var-data'><pre>array([1.15301117])</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>I0_min_x</span></div><div class='xr-var-dims'>(time)</div><div class='xr-var-dtype'>float64</div><div class='xr-var-preview xr-preview'>1.09</div><input id='attrs-052b1aac-5a0b-449d-bc9e-799322be6efb' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-052b1aac-5a0b-449d-bc9e-799322be6efb' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-a299fd45-30e1-4657-87f9-20c4775a3b2a' class='xr-var-data-in' type='checkbox'><label for='data-a299fd45-30e1-4657-87f9-20c4775a3b2a' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>object :</span></dt><dd>I0</dd></dl></div><div class='xr-var-data'><pre>array([1.09])</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>I0_max_x</span></div><div class='xr-var-dims'>(time)</div><div class='xr-var-dtype'>float64</div><div class='xr-var-preview xr-preview'>5.0</div><input id='attrs-f2c1c2d0-c0b2-47b7-90e3-2daceda885f3' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-f2c1c2d0-c0b2-47b7-90e3-2daceda885f3' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-fb46b686-5fcb-4eb7-9e99-a67207f1d727' class='xr-var-data-in' type='checkbox'><label for='data-fb46b686-5fcb-4eb7-9e99-a67207f1d727' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>object :</span></dt><dd>I0</dd></dl></div><div class='xr-var-data'><pre>array([5.])</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>I0_min_y</span></div><div class='xr-var-dims'>(time)</div><div class='xr-var-dtype'>float64</div><div class='xr-var-preview xr-preview'>1.0</div><input id='attrs-578a75a5-36be-45ac-9626-c05c0d25c1bd' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-578a75a5-36be-45ac-9626-c05c0d25c1bd' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-15e9d992-c82e-4e28-8ab9-cc429cb5c274' class='xr-var-data-in' type='checkbox'><label for='data-15e9d992-c82e-4e28-8ab9-cc429cb5c274' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>object :</span></dt><dd>I0</dd></dl></div><div class='xr-var-data'><pre>array([1.])</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>I0_max_y</span></div><div class='xr-var-dims'>(time)</div><div class='xr-var-dtype'>float64</div><div class='xr-var-preview xr-preview'>1.0</div><input id='attrs-203b393c-b101-449c-865b-233a16714e81' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-203b393c-b101-449c-865b-233a16714e81' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-f2293f2c-7bc9-4180-9e83-b41cfd5d8c96' class='xr-var-data-in' type='checkbox'><label for='data-f2293f2c-7bc9-4180-9e83-b41cfd5d8c96' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>object :</span></dt><dd>I0</dd></dl></div><div class='xr-var-data'><pre>array([1.])</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>I0_x_at_max_y</span></div><div class='xr-var-dims'>(time)</div><div class='xr-var-dtype'>float64</div><div class='xr-var-preview xr-preview'>5.0</div><input id='attrs-b7014c7f-a2a8-4b73-b257-b2c908aec50c' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-b7014c7f-a2a8-4b73-b257-b2c908aec50c' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-50a27c1c-17bb-45c2-aa75-8eff329b7221' class='xr-var-data-in' type='checkbox'><label for='data-50a27c1c-17bb-45c2-aa75-8eff329b7221' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>object :</span></dt><dd>I0</dd></dl></div><div class='xr-var-data'><pre>array([5.])</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>scint_mean_x</span></div><div class='xr-var-dims'>(time)</div><div class='xr-var-dtype'>float64</div><div class='xr-var-preview xr-preview'>3.046</div><input id='attrs-0aebb94e-1514-4388-ba82-36abb0254295' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-0aebb94e-1514-4388-ba82-36abb0254295' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-2953168e-0019-48fa-bd4e-4675275502f2' class='xr-var-data-in' type='checkbox'><label for='data-2953168e-0019-48fa-bd4e-4675275502f2' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>object :</span></dt><dd>scint</dd></dl></div><div class='xr-var-data'><pre>array([3.04560976])</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>scint_mean_y</span></div><div class='xr-var-dims'>(time)</div><div class='xr-var-dtype'>float64</div><div class='xr-var-preview xr-preview'>0.5854</div><input id='attrs-a9171726-3e60-4606-9e70-e07e72b11cc5' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-a9171726-3e60-4606-9e70-e07e72b11cc5' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-05f06621-f195-4752-8907-ba438c32bc73' class='xr-var-data-in' type='checkbox'><label for='data-05f06621-f195-4752-8907-ba438c32bc73' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>object :</span></dt><dd>scint</dd></dl></div><div class='xr-var-data'><pre>array([0.58536585])</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>scint_stddev_x</span></div><div class='xr-var-dims'>(time)</div><div class='xr-var-dtype'>float64</div><div class='xr-var-preview xr-preview'>1.213</div><input id='attrs-94a8e53d-255b-431c-88ea-a620f4144cf1' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-94a8e53d-255b-431c-88ea-a620f4144cf1' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-90416e67-cdc3-43ac-b8b1-3d6102642ca3' class='xr-var-data-in' type='checkbox'><label for='data-90416e67-cdc3-43ac-b8b1-3d6102642ca3' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>object :</span></dt><dd>scint</dd></dl></div><div class='xr-var-data'><pre>array([1.21269957])</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>scint_stddev_y</span></div><div class='xr-var-dims'>(time)</div><div class='xr-var-dtype'>float64</div><div class='xr-var-preview xr-preview'>0.4988</div><input id='attrs-6ce45a56-cf6e-48d2-a119-9b0ab3874e30' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-6ce45a56-cf6e-48d2-a119-9b0ab3874e30' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-e00b4c52-ebeb-4c37-b7fb-f55581186a41' class='xr-var-data-in' type='checkbox'><label for='data-e00b4c52-ebeb-4c37-b7fb-f55581186a41' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>object :</span></dt><dd>scint</dd></dl></div><div class='xr-var-data'><pre>array([0.498779])</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>scint_slope</span></div><div class='xr-var-dims'>(time)</div><div class='xr-var-dtype'>float64</div><div class='xr-var-preview xr-preview'>-0.04853</div><input id='attrs-979c1fa2-57e0-40e8-9905-4e09120d74c0' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-979c1fa2-57e0-40e8-9905-4e09120d74c0' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-fd4fe4fd-24fa-479c-897f-7223cc319bd1' class='xr-var-data-in' type='checkbox'><label for='data-fd4fe4fd-24fa-479c-897f-7223cc319bd1' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>object :</span></dt><dd>scint</dd></dl></div><div class='xr-var-data'><pre>array([-0.04852706])</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>scint_intercept</span></div><div class='xr-var-dims'>(time)</div><div class='xr-var-dtype'>float64</div><div class='xr-var-preview xr-preview'>0.7332</div><input id='attrs-a311d811-b66c-4405-971d-09f113f68bd0' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-a311d811-b66c-4405-971d-09f113f68bd0' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-4a2436f5-f420-4482-833c-52b67b89f2d6' class='xr-var-data-in' type='checkbox'><label for='data-4a2436f5-f420-4482-833c-52b67b89f2d6' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>object :</span></dt><dd>scint</dd></dl></div><div class='xr-var-data'><pre>array([0.73316035])</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>scint_correlation</span></div><div class='xr-var-dims'>(time)</div><div class='xr-var-dtype'>float64</div><div class='xr-var-preview xr-preview'>-0.118</div><input id='attrs-d5812510-224b-409f-b3a3-508190f825fa' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-d5812510-224b-409f-b3a3-508190f825fa' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-2cb2f557-ab83-42cd-8cac-4f2d8f261619' class='xr-var-data-in' type='checkbox'><label for='data-2cb2f557-ab83-42cd-8cac-4f2d8f261619' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>object :</span></dt><dd>scint</dd></dl></div><div class='xr-var-data'><pre>array([-0.11798562])</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>scint_centroid</span></div><div class='xr-var-dims'>(time)</div><div class='xr-var-dtype'>float64</div><div class='xr-var-preview xr-preview'>2.927</div><input id='attrs-5b011ed4-b70f-4305-8b48-14b4fdc5dd8e' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-5b011ed4-b70f-4305-8b48-14b4fdc5dd8e' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-5f7cfbad-3d86-4134-b207-a5fa56f217e1' class='xr-var-data-in' type='checkbox'><label for='data-5f7cfbad-3d86-4134-b207-a5fa56f217e1' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>object :</span></dt><dd>scint</dd></dl></div><div class='xr-var-data'><pre>array([2.92666667])</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>scint_sigma</span></div><div class='xr-var-dims'>(time)</div><div class='xr-var-dtype'>float64</div><div class='xr-var-preview xr-preview'>1.177</div><input id='attrs-80d1d34a-f22f-4f7f-982e-142d104bec08' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-80d1d34a-f22f-4f7f-982e-142d104bec08' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-eca3691c-5213-4579-b76d-5c0a2648c2c1' class='xr-var-data-in' type='checkbox'><label for='data-eca3691c-5213-4579-b76d-5c0a2648c2c1' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>object :</span></dt><dd>scint</dd></dl></div><div class='xr-var-data'><pre>array([1.17737585])</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>scint_min_x</span></div><div class='xr-var-dims'>(time)</div><div class='xr-var-dtype'>float64</div><div class='xr-var-preview xr-preview'>1.09</div><input id='attrs-ae7f5b49-e887-4456-b49f-f0058c6e55d9' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-ae7f5b49-e887-4456-b49f-f0058c6e55d9' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-5594b219-cde1-42c6-8e51-9b6d1900a4bc' class='xr-var-data-in' type='checkbox'><label for='data-5594b219-cde1-42c6-8e51-9b6d1900a4bc' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>object :</span></dt><dd>scint</dd></dl></div><div class='xr-var-data'><pre>array([1.09])</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>scint_max_x</span></div><div class='xr-var-dims'>(time)</div><div class='xr-var-dtype'>float64</div><div class='xr-var-preview xr-preview'>5.0</div><input id='attrs-4336b264-0cf0-41bb-987b-cb3535e81ac9' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-4336b264-0cf0-41bb-987b-cb3535e81ac9' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-8c361ad1-cd34-4219-8e20-45e6efc6a112' class='xr-var-data-in' type='checkbox'><label for='data-8c361ad1-cd34-4219-8e20-45e6efc6a112' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>object :</span></dt><dd>scint</dd></dl></div><div class='xr-var-data'><pre>array([5.])</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>scint_min_y</span></div><div class='xr-var-dims'>(time)</div><div class='xr-var-dtype'>float64</div><div class='xr-var-preview xr-preview'>0.0</div><input id='attrs-d892a44c-515f-4dc3-8bbf-02db90f8474e' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-d892a44c-515f-4dc3-8bbf-02db90f8474e' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-bcf5481b-97f3-46f4-a135-76180f4bf22a' class='xr-var-data-in' type='checkbox'><label for='data-bcf5481b-97f3-46f4-a135-76180f4bf22a' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>object :</span></dt><dd>scint</dd></dl></div><div class='xr-var-data'><pre>array([0.])</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>scint_max_y</span></div><div class='xr-var-dims'>(time)</div><div class='xr-var-dtype'>float64</div><div class='xr-var-preview xr-preview'>1.0</div><input id='attrs-5dfbaa94-ecdb-4dfa-bb98-cdcc4ee965f3' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-5dfbaa94-ecdb-4dfa-bb98-cdcc4ee965f3' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-8c8a3978-ed26-43e2-9066-b16ba5d1df4f' class='xr-var-data-in' type='checkbox'><label for='data-8c8a3978-ed26-43e2-9066-b16ba5d1df4f' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>object :</span></dt><dd>scint</dd></dl></div><div class='xr-var-data'><pre>array([1.])</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>scint_x_at_max_y</span></div><div class='xr-var-dims'>(time)</div><div class='xr-var-dtype'>float64</div><div class='xr-var-preview xr-preview'>4.97</div><input id='attrs-1133c414-d429-4bc5-bce4-7b66e832b24e' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-1133c414-d429-4bc5-bce4-7b66e832b24e' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-4aecbb60-2561-4314-a391-0e6d588375f1' class='xr-var-data-in' type='checkbox'><label for='data-4aecbb60-2561-4314-a391-0e6d588375f1' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>object :</span></dt><dd>scint</dd></dl></div><div class='xr-var-data'><pre>array([4.97])</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>scaler_time_mean_x</span></div><div class='xr-var-dims'>(time)</div><div class='xr-var-dtype'>float64</div><div class='xr-var-preview xr-preview'>3.046</div><input id='attrs-15d4a80b-dcc2-4699-a3be-4c8b5af85e04' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-15d4a80b-dcc2-4699-a3be-4c8b5af85e04' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-4d88efac-009b-4c44-86e1-1f045d53e1f4' class='xr-var-data-in' type='checkbox'><label for='data-4d88efac-009b-4c44-86e1-1f045d53e1f4' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>object :</span></dt><dd>scaler_time</dd></dl></div><div class='xr-var-data'><pre>array([3.04560976])</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>scaler_time_mean_y</span></div><div class='xr-var-dims'>(time)</div><div class='xr-var-dtype'>float64</div><div class='xr-var-preview xr-preview'>0.1</div><input id='attrs-132c4a9a-9500-41b2-a26a-a8b2cb8b2d23' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-132c4a9a-9500-41b2-a26a-a8b2cb8b2d23' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-fa5a7796-81b5-4868-841f-4dfe386277e0' class='xr-var-data-in' type='checkbox'><label for='data-fa5a7796-81b5-4868-841f-4dfe386277e0' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>object :</span></dt><dd>scaler_time</dd></dl></div><div class='xr-var-data'><pre>array([0.1])</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>scaler_time_stddev_x</span></div><div class='xr-var-dims'>(time)</div><div class='xr-var-dtype'>float64</div><div class='xr-var-preview xr-preview'>1.213</div><input id='attrs-7e0cecef-1743-47d3-a731-a129a36fb085' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-7e0cecef-1743-47d3-a731-a129a36fb085' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-1bc82bbf-1383-498e-8422-d507e1df5c30' class='xr-var-data-in' type='checkbox'><label for='data-1bc82bbf-1383-498e-8422-d507e1df5c30' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>object :</span></dt><dd>scaler_time</dd></dl></div><div class='xr-var-data'><pre>array([1.21269957])</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>scaler_time_slope</span></div><div class='xr-var-dims'>(time)</div><div class='xr-var-dtype'>float64</div><div class='xr-var-preview xr-preview'>-4.714e-17</div><input id='attrs-3d61f5e8-b722-469c-a774-33176311a965' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-3d61f5e8-b722-469c-a774-33176311a965' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-1f6db6d2-2332-478e-a5cb-74e7fce027df' class='xr-var-data-in' type='checkbox'><label for='data-1f6db6d2-2332-478e-a5cb-74e7fce027df' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>object :</span></dt><dd>scaler_time</dd></dl></div><div class='xr-var-data'><pre>array([-4.71367779e-17])</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>scaler_time_intercept</span></div><div class='xr-var-dims'>(time)</div><div class='xr-var-dtype'>float64</div><div class='xr-var-preview xr-preview'>0.1</div><input id='attrs-e2724efc-1096-4b12-9f97-a1dc174fe05c' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-e2724efc-1096-4b12-9f97-a1dc174fe05c' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-28bb5c90-ce33-4e32-977f-e4a05b214a0a' class='xr-var-data-in' type='checkbox'><label for='data-28bb5c90-ce33-4e32-977f-e4a05b214a0a' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>object :</span></dt><dd>scaler_time</dd></dl></div><div class='xr-var-data'><pre>array([0.1])</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>scaler_time_centroid</span></div><div class='xr-var-dims'>(time)</div><div class='xr-var-dtype'>float64</div><div class='xr-var-preview xr-preview'>3.046</div><input id='attrs-52076a9f-5fe6-4cca-b3b3-02ceadaf3842' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-52076a9f-5fe6-4cca-b3b3-02ceadaf3842' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-12fc7a34-19c1-420e-a335-07018a0a09b1' class='xr-var-data-in' type='checkbox'><label for='data-12fc7a34-19c1-420e-a335-07018a0a09b1' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>object :</span></dt><dd>scaler_time</dd></dl></div><div class='xr-var-data'><pre>array([3.04560976])</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>scaler_time_sigma</span></div><div class='xr-var-dims'>(time)</div><div class='xr-var-dtype'>float64</div><div class='xr-var-preview xr-preview'>1.198</div><input id='attrs-fae78f0a-99f1-4cac-b6ff-fa5213fd785e' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-fae78f0a-99f1-4cac-b6ff-fa5213fd785e' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-e9454728-d85c-4424-80b3-063572e76398' class='xr-var-data-in' type='checkbox'><label for='data-e9454728-d85c-4424-80b3-063572e76398' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>object :</span></dt><dd>scaler_time</dd></dl></div><div class='xr-var-data'><pre>array([1.19781926])</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>scaler_time_min_x</span></div><div class='xr-var-dims'>(time)</div><div class='xr-var-dtype'>float64</div><div class='xr-var-preview xr-preview'>1.09</div><input id='attrs-7fb5f3d6-0cd7-45ea-ab0c-917fcf60887d' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-7fb5f3d6-0cd7-45ea-ab0c-917fcf60887d' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-555c7092-e3ff-4bb9-ae09-3995f1d2f011' class='xr-var-data-in' type='checkbox'><label for='data-555c7092-e3ff-4bb9-ae09-3995f1d2f011' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>object :</span></dt><dd>scaler_time</dd></dl></div><div class='xr-var-data'><pre>array([1.09])</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>scaler_time_max_x</span></div><div class='xr-var-dims'>(time)</div><div class='xr-var-dtype'>float64</div><div class='xr-var-preview xr-preview'>5.0</div><input id='attrs-3600d30f-5a30-4c61-a7c2-4a37a5664a1b' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-3600d30f-5a30-4c61-a7c2-4a37a5664a1b' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-d678e6d4-bf4f-4c4e-bbb8-a3afc5730463' class='xr-var-data-in' type='checkbox'><label for='data-d678e6d4-bf4f-4c4e-bbb8-a3afc5730463' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>object :</span></dt><dd>scaler_time</dd></dl></div><div class='xr-var-data'><pre>array([5.])</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>scaler_time_min_y</span></div><div class='xr-var-dims'>(time)</div><div class='xr-var-dtype'>float64</div><div class='xr-var-preview xr-preview'>0.1</div><input id='attrs-6e6f68a8-cd8a-4901-b857-4c55d5aed450' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-6e6f68a8-cd8a-4901-b857-4c55d5aed450' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-be29970d-a1d1-4617-956a-52d5ecf3132e' class='xr-var-data-in' type='checkbox'><label for='data-be29970d-a1d1-4617-956a-52d5ecf3132e' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>object :</span></dt><dd>scaler_time</dd></dl></div><div class='xr-var-data'><pre>array([0.1])</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>scaler_time_max_y</span></div><div class='xr-var-dims'>(time)</div><div class='xr-var-dtype'>float64</div><div class='xr-var-preview xr-preview'>0.1</div><input id='attrs-22a2907d-1ac5-4545-901d-f1eeb8b65b53' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-22a2907d-1ac5-4545-901d-f1eeb8b65b53' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-6bba962e-2424-43b5-a321-5484ec1d68fa' class='xr-var-data-in' type='checkbox'><label for='data-6bba962e-2424-43b5-a321-5484ec1d68fa' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>object :</span></dt><dd>scaler_time</dd></dl></div><div class='xr-var-data'><pre>array([0.1])</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>scaler_time_x_at_max_y</span></div><div class='xr-var-dims'>(time)</div><div class='xr-var-dtype'>float64</div><div class='xr-var-preview xr-preview'>4.97</div><input id='attrs-04ea769a-4812-414d-876e-510be5fd951d' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-04ea769a-4812-414d-876e-510be5fd951d' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-de4d6aa7-71d1-4e77-b0fe-0ce80a7b434a' class='xr-var-data-in' type='checkbox'><label for='data-de4d6aa7-71d1-4e77-b0fe-0ce80a7b434a' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>object :</span></dt><dd>scaler_time</dd></dl></div><div class='xr-var-data'><pre>array([4.97])</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>I00_mean_x</span></div><div class='xr-var-dims'>(time)</div><div class='xr-var-dtype'>float64</div><div class='xr-var-preview xr-preview'>3.046</div><input id='attrs-4df21ea8-0701-4c25-a594-74780a197373' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-4df21ea8-0701-4c25-a594-74780a197373' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-cbcbf5d6-ca31-4e4b-8b55-7b3f95ea47f2' class='xr-var-data-in' type='checkbox'><label for='data-cbcbf5d6-ca31-4e4b-8b55-7b3f95ea47f2' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>object :</span></dt><dd>I00</dd></dl></div><div class='xr-var-data'><pre>array([3.04560976])</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>I00_mean_y</span></div><div class='xr-var-dims'>(time)</div><div class='xr-var-dtype'>float64</div><div class='xr-var-preview xr-preview'>0.439</div><input id='attrs-c7ec0e8d-3f1f-4b4a-9529-93a155d74095' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-c7ec0e8d-3f1f-4b4a-9529-93a155d74095' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-7d677f9f-ae43-4e44-aa90-d6ef0f50d41d' class='xr-var-data-in' type='checkbox'><label for='data-7d677f9f-ae43-4e44-aa90-d6ef0f50d41d' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>object :</span></dt><dd>I00</dd></dl></div><div class='xr-var-data'><pre>array([0.43902439])</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>I00_stddev_x</span></div><div class='xr-var-dims'>(time)</div><div class='xr-var-dtype'>float64</div><div class='xr-var-preview xr-preview'>1.213</div><input id='attrs-df432446-131a-4e4d-ace5-3b30935e539a' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-df432446-131a-4e4d-ace5-3b30935e539a' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-0bf410c8-d151-476f-89b0-1da5d4180355' class='xr-var-data-in' type='checkbox'><label for='data-0bf410c8-d151-476f-89b0-1da5d4180355' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>object :</span></dt><dd>I00</dd></dl></div><div class='xr-var-data'><pre>array([1.21269957])</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>I00_stddev_y</span></div><div class='xr-var-dims'>(time)</div><div class='xr-var-dtype'>float64</div><div class='xr-var-preview xr-preview'>0.5024</div><input id='attrs-753527a9-df97-4a81-b93e-140f7c1b2023' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-753527a9-df97-4a81-b93e-140f7c1b2023' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-6722899c-05dd-4771-83c0-52da660b1b37' class='xr-var-data-in' type='checkbox'><label for='data-6722899c-05dd-4771-83c0-52da660b1b37' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>object :</span></dt><dd>I00</dd></dl></div><div class='xr-var-data'><pre>array([0.5024331])</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>I00_slope</span></div><div class='xr-var-dims'>(time)</div><div class='xr-var-dtype'>float64</div><div class='xr-var-preview xr-preview'>0.05625</div><input id='attrs-9398ea51-f990-4b17-b2cf-283db9463306' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-9398ea51-f990-4b17-b2cf-283db9463306' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-d54cdca5-06ac-4544-bde9-ad21c9cc944a' class='xr-var-data-in' type='checkbox'><label for='data-d54cdca5-06ac-4544-bde9-ad21c9cc944a' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>object :</span></dt><dd>I00</dd></dl></div><div class='xr-var-data'><pre>array([0.05625143])</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>I00_intercept</span></div><div class='xr-var-dims'>(time)</div><div class='xr-var-dtype'>float64</div><div class='xr-var-preview xr-preview'>0.2677</div><input id='attrs-6f901d48-c735-447c-96e1-0bd7dba8b8a3' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-6f901d48-c735-447c-96e1-0bd7dba8b8a3' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-53cad9aa-0a50-4c8d-9af6-68abaa67c2c5' class='xr-var-data-in' type='checkbox'><label for='data-53cad9aa-0a50-4c8d-9af6-68abaa67c2c5' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>object :</span></dt><dd>I00</dd></dl></div><div class='xr-var-data'><pre>array([0.2677045])</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>I00_correlation</span></div><div class='xr-var-dims'>(time)</div><div class='xr-var-dtype'>float64</div><div class='xr-var-preview xr-preview'>0.1358</div><input id='attrs-1812aa2c-8d79-4c3e-a79e-87f67a9c8184' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-1812aa2c-8d79-4c3e-a79e-87f67a9c8184' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-e1b3a51c-4057-498f-80bc-531c0948767a' class='xr-var-data-in' type='checkbox'><label for='data-e1b3a51c-4057-498f-80bc-531c0948767a' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>object :</span></dt><dd>I00</dd></dl></div><div class='xr-var-data'><pre>array([0.13577147])</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>I00_centroid</span></div><div class='xr-var-dims'>(time)</div><div class='xr-var-dtype'>float64</div><div class='xr-var-preview xr-preview'>3.229</div><input id='attrs-0aeaa34c-400c-48ee-8011-8d3860ad1460' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-0aeaa34c-400c-48ee-8011-8d3860ad1460' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-62577302-3ed2-45fe-9f10-fe36d39b3ca2' class='xr-var-data-in' type='checkbox'><label for='data-62577302-3ed2-45fe-9f10-fe36d39b3ca2' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>object :</span></dt><dd>I00</dd></dl></div><div class='xr-var-data'><pre>array([3.22944444])</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>I00_sigma</span></div><div class='xr-var-dims'>(time)</div><div class='xr-var-dtype'>float64</div><div class='xr-var-preview xr-preview'>1.135</div><input id='attrs-4e2c38ea-da07-4119-a1b1-7f25355e4cd2' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-4e2c38ea-da07-4119-a1b1-7f25355e4cd2' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-6a265e39-bff0-4f3f-85d7-95a224e2c563' class='xr-var-data-in' type='checkbox'><label for='data-6a265e39-bff0-4f3f-85d7-95a224e2c563' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>object :</span></dt><dd>I00</dd></dl></div><div class='xr-var-data'><pre>array([1.13492766])</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>I00_min_x</span></div><div class='xr-var-dims'>(time)</div><div class='xr-var-dtype'>float64</div><div class='xr-var-preview xr-preview'>1.09</div><input id='attrs-1089cc53-c802-42ee-9305-f72e61f6e69c' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-1089cc53-c802-42ee-9305-f72e61f6e69c' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-34869c6e-93c6-48d9-9d03-4ef0e9149cf1' class='xr-var-data-in' type='checkbox'><label for='data-34869c6e-93c6-48d9-9d03-4ef0e9149cf1' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>object :</span></dt><dd>I00</dd></dl></div><div class='xr-var-data'><pre>array([1.09])</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>I00_max_x</span></div><div class='xr-var-dims'>(time)</div><div class='xr-var-dtype'>float64</div><div class='xr-var-preview xr-preview'>5.0</div><input id='attrs-0970a2c5-0a8c-4e81-ad5c-803db0249fa5' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-0970a2c5-0a8c-4e81-ad5c-803db0249fa5' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-c52924db-23e4-4cb2-96e1-9477e1f86284' class='xr-var-data-in' type='checkbox'><label for='data-c52924db-23e4-4cb2-96e1-9477e1f86284' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>object :</span></dt><dd>I00</dd></dl></div><div class='xr-var-data'><pre>array([5.])</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>I00_min_y</span></div><div class='xr-var-dims'>(time)</div><div class='xr-var-dtype'>float64</div><div class='xr-var-preview xr-preview'>1.0</div><input id='attrs-9a5ee69a-db65-41f5-9d54-f9cd4a399ff2' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-9a5ee69a-db65-41f5-9d54-f9cd4a399ff2' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-acd3ab10-a9d2-4389-885c-f88ab82821a2' class='xr-var-data-in' type='checkbox'><label for='data-acd3ab10-a9d2-4389-885c-f88ab82821a2' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>object :</span></dt><dd>I00</dd></dl></div><div class='xr-var-data'><pre>array([1.])</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>I00_max_y</span></div><div class='xr-var-dims'>(time)</div><div class='xr-var-dtype'>float64</div><div class='xr-var-preview xr-preview'>1.0</div><input id='attrs-c15ab043-b3c1-4b86-99df-bb93bc7a0b34' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-c15ab043-b3c1-4b86-99df-bb93bc7a0b34' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-62a8c3be-0a8a-43be-bd9b-ebd933ff7751' class='xr-var-data-in' type='checkbox'><label for='data-62a8c3be-0a8a-43be-bd9b-ebd933ff7751' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>object :</span></dt><dd>I00</dd></dl></div><div class='xr-var-data'><pre>array([1.])</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>I00_x_at_max_y</span></div><div class='xr-var-dims'>(time)</div><div class='xr-var-dtype'>float64</div><div class='xr-var-preview xr-preview'>5.0</div><input id='attrs-847728a1-279a-4824-9574-bb65c710f353' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-847728a1-279a-4824-9574-bb65c710f353' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-88414eca-72bd-4caf-a05b-60bff338b36c' class='xr-var-data-in' type='checkbox'><label for='data-88414eca-72bd-4caf-a05b-60bff338b36c' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>object :</span></dt><dd>I00</dd></dl></div><div class='xr-var-data'><pre>array([5.])</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>clock_mean_x</span></div><div class='xr-var-dims'>(time)</div><div class='xr-var-dtype'>float64</div><div class='xr-var-preview xr-preview'>3.046</div><input id='attrs-97e1c9df-7431-47ab-b92b-989604bb4080' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-97e1c9df-7431-47ab-b92b-989604bb4080' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-e54a5310-c0e0-405b-a739-b89510f4a80e' class='xr-var-data-in' type='checkbox'><label for='data-e54a5310-c0e0-405b-a739-b89510f4a80e' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>object :</span></dt><dd>clock</dd></dl></div><div class='xr-var-data'><pre>array([3.04560976])</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>clock_mean_y</span></div><div class='xr-var-dims'>(time)</div><div class='xr-var-dtype'>float64</div><div class='xr-var-preview xr-preview'>1e+06</div><input id='attrs-054a9b83-0522-44a0-a97c-d3aa34f73687' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-054a9b83-0522-44a0-a97c-d3aa34f73687' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-5e9a608f-81e3-4f9b-985f-1b580ad8c720' class='xr-var-data-in' type='checkbox'><label for='data-5e9a608f-81e3-4f9b-985f-1b580ad8c720' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>object :</span></dt><dd>clock</dd></dl></div><div class='xr-var-data'><pre>array([1000000.])</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>clock_stddev_x</span></div><div class='xr-var-dims'>(time)</div><div class='xr-var-dtype'>float64</div><div class='xr-var-preview xr-preview'>1.213</div><input id='attrs-e28ccb0c-41aa-4a82-b4c5-d69d4c3c4fb0' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-e28ccb0c-41aa-4a82-b4c5-d69d4c3c4fb0' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-3b1441d1-0581-4289-8001-d3bfc31b08c3' class='xr-var-data-in' type='checkbox'><label for='data-3b1441d1-0581-4289-8001-d3bfc31b08c3' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>object :</span></dt><dd>clock</dd></dl></div><div class='xr-var-data'><pre>array([1.21269957])</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>clock_stddev_y</span></div><div class='xr-var-dims'>(time)</div><div class='xr-var-dtype'>float64</div><div class='xr-var-preview xr-preview'>0.0</div><input id='attrs-0034770d-453b-4696-988b-4cd0dbb78de3' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-0034770d-453b-4696-988b-4cd0dbb78de3' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-6660bec9-b67b-4935-9f6b-b8f445b0bc9f' class='xr-var-data-in' type='checkbox'><label for='data-6660bec9-b67b-4935-9f6b-b8f445b0bc9f' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>object :</span></dt><dd>clock</dd></dl></div><div class='xr-var-data'><pre>array([0.])</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>clock_slope</span></div><div class='xr-var-dims'>(time)</div><div class='xr-var-dtype'>float64</div><div class='xr-var-preview xr-preview'>-3.954e-10</div><input id='attrs-e2778fea-add6-4d92-aa1b-d484519a620b' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-e2778fea-add6-4d92-aa1b-d484519a620b' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-a31dc708-4030-401e-8dcd-bc84fd152b91' class='xr-var-data-in' type='checkbox'><label for='data-a31dc708-4030-401e-8dcd-bc84fd152b91' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>object :</span></dt><dd>clock</dd></dl></div><div class='xr-var-data'><pre>array([-3.95411952e-10])</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>clock_intercept</span></div><div class='xr-var-dims'>(time)</div><div class='xr-var-dtype'>float64</div><div class='xr-var-preview xr-preview'>1e+06</div><input id='attrs-22807963-8aa5-46a9-91c0-997430aa4abe' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-22807963-8aa5-46a9-91c0-997430aa4abe' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-662ddc30-fd24-474d-8632-4642187ab910' class='xr-var-data-in' type='checkbox'><label for='data-662ddc30-fd24-474d-8632-4642187ab910' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>object :</span></dt><dd>clock</dd></dl></div><div class='xr-var-data'><pre>array([1000000.])</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>clock_centroid</span></div><div class='xr-var-dims'>(time)</div><div class='xr-var-dtype'>float64</div><div class='xr-var-preview xr-preview'>3.046</div><input id='attrs-7e9f2fa8-9bdc-4995-a5fa-ebf0631f3a81' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-7e9f2fa8-9bdc-4995-a5fa-ebf0631f3a81' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-fa7fd26e-15fe-4d2f-ad0a-643c94e317a8' class='xr-var-data-in' type='checkbox'><label for='data-fa7fd26e-15fe-4d2f-ad0a-643c94e317a8' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>object :</span></dt><dd>clock</dd></dl></div><div class='xr-var-data'><pre>array([3.04560976])</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>clock_sigma</span></div><div class='xr-var-dims'>(time)</div><div class='xr-var-dtype'>float64</div><div class='xr-var-preview xr-preview'>1.198</div><input id='attrs-ca387d21-cbe1-44ac-b445-03d9712b30b9' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-ca387d21-cbe1-44ac-b445-03d9712b30b9' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-9c6378a8-393c-4e11-a469-35824555ee16' class='xr-var-data-in' type='checkbox'><label for='data-9c6378a8-393c-4e11-a469-35824555ee16' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>object :</span></dt><dd>clock</dd></dl></div><div class='xr-var-data'><pre>array([1.19781926])</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>clock_min_x</span></div><div class='xr-var-dims'>(time)</div><div class='xr-var-dtype'>float64</div><div class='xr-var-preview xr-preview'>1.09</div><input id='attrs-393ee7ad-b411-4088-b980-6722c1236ea8' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-393ee7ad-b411-4088-b980-6722c1236ea8' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-e0da7a1b-85f2-4829-b9cb-9814fac6abae' class='xr-var-data-in' type='checkbox'><label for='data-e0da7a1b-85f2-4829-b9cb-9814fac6abae' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>object :</span></dt><dd>clock</dd></dl></div><div class='xr-var-data'><pre>array([1.09])</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>clock_max_x</span></div><div class='xr-var-dims'>(time)</div><div class='xr-var-dtype'>float64</div><div class='xr-var-preview xr-preview'>5.0</div><input id='attrs-b21b91a2-b2f9-4dc9-a259-f3d2377340ca' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-b21b91a2-b2f9-4dc9-a259-f3d2377340ca' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-a93eef6d-6843-4464-9a93-8a98d7c52473' class='xr-var-data-in' type='checkbox'><label for='data-a93eef6d-6843-4464-9a93-8a98d7c52473' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>object :</span></dt><dd>clock</dd></dl></div><div class='xr-var-data'><pre>array([5.])</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>clock_min_y</span></div><div class='xr-var-dims'>(time)</div><div class='xr-var-dtype'>float64</div><div class='xr-var-preview xr-preview'>1e+06</div><input id='attrs-a6216439-9566-44cc-88d7-062016f47adf' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-a6216439-9566-44cc-88d7-062016f47adf' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-c942fab1-f4fd-4655-962f-87b736350312' class='xr-var-data-in' type='checkbox'><label for='data-c942fab1-f4fd-4655-962f-87b736350312' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>object :</span></dt><dd>clock</dd></dl></div><div class='xr-var-data'><pre>array([1000000.])</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>clock_max_y</span></div><div class='xr-var-dims'>(time)</div><div class='xr-var-dtype'>float64</div><div class='xr-var-preview xr-preview'>1e+06</div><input id='attrs-640faf7c-ad7a-42e7-81cf-4a390f629f6a' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-640faf7c-ad7a-42e7-81cf-4a390f629f6a' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-40caf4e6-fff1-4372-9d2e-c2f9d6518b01' class='xr-var-data-in' type='checkbox'><label for='data-40caf4e6-fff1-4372-9d2e-c2f9d6518b01' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>object :</span></dt><dd>clock</dd></dl></div><div class='xr-var-data'><pre>array([1000000.])</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>clock_x_at_max_y</span></div><div class='xr-var-dims'>(time)</div><div class='xr-var-dtype'>float64</div><div class='xr-var-preview xr-preview'>5.0</div><input id='attrs-4679a56f-9b2e-4bc8-b030-9895472be866' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-4679a56f-9b2e-4bc8-b030-9895472be866' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-e87ab2ae-78c5-42e2-8fee-9a6c4468cdfe' class='xr-var-data-in' type='checkbox'><label for='data-e87ab2ae-78c5-42e2-8fee-9a6c4468cdfe' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>object :</span></dt><dd>clock</dd></dl></div><div class='xr-var-data'><pre>array([5.])</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>diode_mean_x</span></div><div class='xr-var-dims'>(time)</div><div class='xr-var-dtype'>float64</div><div class='xr-var-preview xr-preview'>3.046</div><input id='attrs-278be3c6-c0b8-4e1b-bf82-f7c705780266' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-278be3c6-c0b8-4e1b-bf82-f7c705780266' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-5598d77f-1826-4455-bb11-61cec75fca59' class='xr-var-data-in' type='checkbox'><label for='data-5598d77f-1826-4455-bb11-61cec75fca59' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>object :</span></dt><dd>diode</dd></dl></div><div class='xr-var-data'><pre>array([3.04560976])</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>diode_mean_y</span></div><div class='xr-var-dims'>(time)</div><div class='xr-var-dtype'>float64</div><div class='xr-var-preview xr-preview'>0.4634</div><input id='attrs-b44a1885-6256-40b1-83e5-95f67521c8c3' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-b44a1885-6256-40b1-83e5-95f67521c8c3' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-07ae0426-8660-45d2-982d-bddb266eb963' class='xr-var-data-in' type='checkbox'><label for='data-07ae0426-8660-45d2-982d-bddb266eb963' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>object :</span></dt><dd>diode</dd></dl></div><div class='xr-var-data'><pre>array([0.46341463])</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>diode_stddev_x</span></div><div class='xr-var-dims'>(time)</div><div class='xr-var-dtype'>float64</div><div class='xr-var-preview xr-preview'>1.213</div><input id='attrs-a0defe73-55e1-40bb-8755-6c0685d0eec4' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-a0defe73-55e1-40bb-8755-6c0685d0eec4' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-63e8db85-c3ae-436b-856d-a794d3825c56' class='xr-var-data-in' type='checkbox'><label for='data-63e8db85-c3ae-436b-856d-a794d3825c56' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>object :</span></dt><dd>diode</dd></dl></div><div class='xr-var-data'><pre>array([1.21269957])</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>diode_stddev_y</span></div><div class='xr-var-dims'>(time)</div><div class='xr-var-dtype'>float64</div><div class='xr-var-preview xr-preview'>0.5049</div><input id='attrs-6e1605cf-5f8d-4c74-b084-d25958d40160' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-6e1605cf-5f8d-4c74-b084-d25958d40160' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-336225b4-a38b-4731-9655-2b674c803fb8' class='xr-var-data-in' type='checkbox'><label for='data-336225b4-a38b-4731-9655-2b674c803fb8' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>object :</span></dt><dd>diode</dd></dl></div><div class='xr-var-data'><pre>array([0.50485448])</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>diode_slope</span></div><div class='xr-var-dims'>(time)</div><div class='xr-var-dtype'>float64</div><div class='xr-var-preview xr-preview'>0.009238</div><input id='attrs-71f77cd4-a8f7-4a78-a1a9-fe27cdcbf47f' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-71f77cd4-a8f7-4a78-a1a9-fe27cdcbf47f' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-dde2ccc5-e19b-4619-9579-5d7b12dfa926' class='xr-var-data-in' type='checkbox'><label for='data-dde2ccc5-e19b-4619-9579-5d7b12dfa926' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>object :</span></dt><dd>diode</dd></dl></div><div class='xr-var-data'><pre>array([0.00923772])</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>diode_intercept</span></div><div class='xr-var-dims'>(time)</div><div class='xr-var-dtype'>float64</div><div class='xr-var-preview xr-preview'>0.4353</div><input id='attrs-b10a03b3-341c-4cee-93c2-1dcadc1f5cff' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-b10a03b3-341c-4cee-93c2-1dcadc1f5cff' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-aec17b98-07e8-4504-8eaf-3eb6c30cb50b' class='xr-var-data-in' type='checkbox'><label for='data-aec17b98-07e8-4504-8eaf-3eb6c30cb50b' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>object :</span></dt><dd>diode</dd></dl></div><div class='xr-var-data'><pre>array([0.43528014])</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>diode_correlation</span></div><div class='xr-var-dims'>(time)</div><div class='xr-var-dtype'>float64</div><div class='xr-var-preview xr-preview'>0.02219</div><input id='attrs-fc2737c2-a3d1-45fa-aeff-10b170f44fa6' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-fc2737c2-a3d1-45fa-aeff-10b170f44fa6' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-5b7f635b-c5f8-4eb5-8901-f0c062a41a6f' class='xr-var-data-in' type='checkbox'><label for='data-5b7f635b-c5f8-4eb5-8901-f0c062a41a6f' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>object :</span></dt><dd>diode</dd></dl></div><div class='xr-var-data'><pre>array([0.02218972])</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>diode_centroid</span></div><div class='xr-var-dims'>(time)</div><div class='xr-var-dtype'>float64</div><div class='xr-var-preview xr-preview'>3.074</div><input id='attrs-d0a7e881-295d-4cdb-a10d-b52fe4814a01' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-d0a7e881-295d-4cdb-a10d-b52fe4814a01' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-88e2fb93-758d-482c-99ba-64a7717e16b7' class='xr-var-data-in' type='checkbox'><label for='data-88e2fb93-758d-482c-99ba-64a7717e16b7' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>object :</span></dt><dd>diode</dd></dl></div><div class='xr-var-data'><pre>array([3.07421053])</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>diode_sigma</span></div><div class='xr-var-dims'>(time)</div><div class='xr-var-dtype'>float64</div><div class='xr-var-preview xr-preview'>1.154</div><input id='attrs-2737f7ad-5176-424c-aa81-5fcdb1eca6da' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-2737f7ad-5176-424c-aa81-5fcdb1eca6da' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-7ddef688-44b4-499d-8fb8-877618cb4329' class='xr-var-data-in' type='checkbox'><label for='data-7ddef688-44b4-499d-8fb8-877618cb4329' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>object :</span></dt><dd>diode</dd></dl></div><div class='xr-var-data'><pre>array([1.15394662])</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>diode_min_x</span></div><div class='xr-var-dims'>(time)</div><div class='xr-var-dtype'>float64</div><div class='xr-var-preview xr-preview'>1.09</div><input id='attrs-4edf5d49-b613-42d7-ad73-497374eef9c1' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-4edf5d49-b613-42d7-ad73-497374eef9c1' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-7b321e00-d6f3-4559-aced-3f2b61def657' class='xr-var-data-in' type='checkbox'><label for='data-7b321e00-d6f3-4559-aced-3f2b61def657' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>object :</span></dt><dd>diode</dd></dl></div><div class='xr-var-data'><pre>array([1.09])</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>diode_max_x</span></div><div class='xr-var-dims'>(time)</div><div class='xr-var-dtype'>float64</div><div class='xr-var-preview xr-preview'>5.0</div><input id='attrs-618295c9-6049-4e29-90f2-aa1b7f77e760' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-618295c9-6049-4e29-90f2-aa1b7f77e760' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-53b651c6-e174-483b-9151-920661a12cdb' class='xr-var-data-in' type='checkbox'><label for='data-53b651c6-e174-483b-9151-920661a12cdb' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>object :</span></dt><dd>diode</dd></dl></div><div class='xr-var-data'><pre>array([5.])</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>diode_min_y</span></div><div class='xr-var-dims'>(time)</div><div class='xr-var-dtype'>float64</div><div class='xr-var-preview xr-preview'>0.0</div><input id='attrs-c42bfdc2-d226-4207-8c5c-923a366c539e' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-c42bfdc2-d226-4207-8c5c-923a366c539e' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-d9f6607b-e50c-448d-8dc3-0ca081aa9616' class='xr-var-data-in' type='checkbox'><label for='data-d9f6607b-e50c-448d-8dc3-0ca081aa9616' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>object :</span></dt><dd>diode</dd></dl></div><div class='xr-var-data'><pre>array([0.])</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>diode_max_y</span></div><div class='xr-var-dims'>(time)</div><div class='xr-var-dtype'>float64</div><div class='xr-var-preview xr-preview'>1.0</div><input id='attrs-13a90139-d4b6-4e41-ad03-2c9e20848a5c' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-13a90139-d4b6-4e41-ad03-2c9e20848a5c' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-ce5fbc7a-d34c-472f-b078-2b01bd8e29f7' class='xr-var-data-in' type='checkbox'><label for='data-ce5fbc7a-d34c-472f-b078-2b01bd8e29f7' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>object :</span></dt><dd>diode</dd></dl></div><div class='xr-var-data'><pre>array([1.])</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>diode_x_at_max_y</span></div><div class='xr-var-dims'>(time)</div><div class='xr-var-dtype'>float64</div><div class='xr-var-preview xr-preview'>4.9</div><input id='attrs-ac136e05-2f94-4580-a03f-06cf9ca913b6' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-ac136e05-2f94-4580-a03f-06cf9ca913b6' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-a7e0a312-a5be-4391-b2e3-df4ba9a0c6e9' class='xr-var-data-in' type='checkbox'><label for='data-a7e0a312-a5be-4391-b2e3-df4ba9a0c6e9' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>object :</span></dt><dd>diode</dd></dl></div><div class='xr-var-data'><pre>array([4.9])</pre></div></li></ul></div></li><li class='xr-section-item'><input id='section-c4f478d4-3061-4c04-88ee-13daadd7e3cd' class='xr-section-summary-in' type='checkbox' disabled ><label for='section-c4f478d4-3061-4c04-88ee-13daadd7e3cd' class='xr-section-summary'  title='Expand/collapse section'>Attributes: <span>(0)</span></label><div class='xr-section-inline-details'></div><div class='xr-section-details'><dl class='xr-attrs'></dl></div></li></ul></div></div></div>
+</div>
+<p>There’s a new utility function <code class="docutils literal notranslate"><span class="pre">apstools</span></code> since version 1.6.10: <code class="docutils literal notranslate"><span class="pre">plotxy()</span></code> does all these steps. Returns the exact, same results for just the named signals, plus a <a class="reference external" href="https://brainder.org/2011/08/20/gaussian-kernels-convert-fwhm-to-sigma/">computed</a> <code class="docutils literal notranslate"><span class="pre">fwhm</span> <span class="pre">=</span> <span class="pre">2*sigma*sqrt(2ln(2))</span></code>. Lines are drawn at the centroid and fwhm.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">apstools.utils</span> <span class="kn">import</span> <span class="n">plotxy</span>
+<span class="n">plotxy</span><span class="p">(</span><span class="n">run</span><span class="p">,</span> <span class="s2">&quot;motor&quot;</span><span class="p">,</span> <span class="s2">&quot;diode&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+{1: {&#39;mean_x&#39;: 3.0456097560975612,
+  &#39;mean_y&#39;: 0.4634146341463415,
+  &#39;stddev_x&#39;: 1.2126995686906301,
+  &#39;stddev_y&#39;: 0.5048544827774513,
+  &#39;slope&#39;: 0.009237722080560458,
+  &#39;intercept&#39;: 0.4352801376536687,
+  &#39;correlation&#39;: 0.02218972390053605,
+  &#39;centroid&#39;: 3.0742105263157895,
+  &#39;sigma&#39;: 1.1539466182557723,
+  &#39;min_x&#39;: 1.09,
+  &#39;max_x&#39;: 5.0,
+  &#39;min_y&#39;: 0.0,
+  &#39;max_y&#39;: 1.0,
+  &#39;x_at_max_y&#39;: 4.9,
+  &#39;fwhm&#39;: 2.7173366275643693}}
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/examples_de_scaler_motor_flyer_25_1.png" src="../_images/examples_de_scaler_motor_flyer_25_1.png" />
+</div>
+</div>
+</section>
+</section>
+
+
+                </article>
+              
+              
+              
+                <footer class="bd-footer-article">
+                  
+<div class="footer-article-items footer-article__inner">
+  
+    <div class="footer-article-item"><!-- Previous / next buttons -->
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="de_ad_pilatus.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">ADPilatus Area Detector with default HDF5 File Name</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="fw_nxwriter.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Output scan(s) to a NeXus/HDF5 file</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div></div>
+  
+</div>
+
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#Overview">Overview</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#Outline">Outline</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#Setup">Setup</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#Scan">Scan</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#Visualize">Visualize</a></li>
+</ul>
+  </nav></div>
+
+  <div class="sidebar-secondary-item">
+  <div class="tocsection sourcelink">
+    <a href="../_sources/examples/de_scaler_motor_flyer.ipynb.txt">
+      <i class="fa-solid fa-file-lines"></i> Show Source
+    </a>
+  </div>
+</div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=e353d410970836974a52"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+  <p class="copyright">
+    
+      © Copyright 2017-2023, UChicago Argonne, LLC.
+      <br/>
+    
+  </p>
+</div>
+      
+        <div class="footer-item">
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 5.3.0.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item"><p class="theme-version">
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.13.3.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>
