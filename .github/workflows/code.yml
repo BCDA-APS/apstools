@@ -86,6 +86,7 @@ jobs:
           which databroker-pack
           which databroker-unpack
           cd resources
+          # TODO 1131
           bash ./unpack.sh
           cmd="import databroker;"
           cmd+=" print(list(databroker.catalog));"
@@ -149,52 +150,6 @@ jobs:
         shell: bash -l {0}
         run: |
           set -vxeuo pipefail
-
-          python - <<'PY'
-          # Check that test catalogs are usable.
-          import os, glob
-          from pprint import pprint
-          try:
-            import databroker
-            sp = databroker.catalog_search_path()
-            print("databroker.catalog entries:", list(databroker.catalog))
-          except Exception:
-            try:
-              import intake
-              sp = list(intake.catalog_search_path())
-              print("intake.catalog_search_path():", sp)
-            except Exception:
-              sp = []
-              print("No intake/databroker available")
-          pprint(sp)
-          for p in sp:
-              if not p:
-                  continue
-              print("---", p, "---")
-              try:
-                  for y in glob.glob(os.path.join(p, "databroker_unpack_*.yml")):
-                      print("FILE:", y)
-                      try:
-                          st = os.stat(y)
-                          print(" size", st.st_size, "mtime", st.st_mtime)
-                      except Exception as e:
-                          print(" stat failed:", e)
-              except Exception as e:
-                  print(" listing failed for", p, e)
-          # Also explicitly check env-level file that Intake complained about:
-          env_yaml = "/home/runner/micromamba/envs/anaconda-test-env-py-3.10/share/intake/databroker_unpack_apstools_test.yml"
-          print("explicit check:", env_yaml, "exists?", os.path.exists(env_yaml))
-
-          cat = databroker.catalog['apstools_test']
-          print(f"{cat=}")
-          run = cat["49dce8d"]
-          print(f"{run=}")
-          cat = databroker.catalog['usaxs_test']
-          print(f"{cat=}")
-          run = cat["e5d2cb"]
-          print(f"{run=}")
-          PY
-
           coverage run --concurrency=thread --parallel-mode -m pytest -vvv --exitfirst .
           coverage combine
           coverage report --precision 3
