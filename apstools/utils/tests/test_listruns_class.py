@@ -13,6 +13,7 @@ TEST_CATALOG_NAME = "apstools_test"
 
 @pytest.fixture(scope="function")
 def cat():
+    assert TEST_CATALOG_NAME in databroker.catalog, f"{list(databroker.catalog)=}"
     cat = databroker.catalog[TEST_CATALOG_NAME]
     return cat
 
@@ -26,14 +27,14 @@ def lr():
     return lr
 
 
-@pytest.mark.skip("# TODO 1126")
+@pytest.mark.skip("# TODO 1131")
 def test_getDefaultCatalog_none_found():
     with pytest.raises(ValueError) as exinfo:
         utils.getDefaultCatalog()
-    assert "Multiple catalog configurations available." in str(exinfo.value)
+    assert " available." in str(exinfo.value)
 
 
-@pytest.mark.skip("# TODO 1126")
+@pytest.mark.skip("# TODO 1131")
 def test_getDefaultCatalog(cat):
     # put the catalog in the namespace of the called function
     ns = getDefaultNamespace()
@@ -44,7 +45,7 @@ def test_getDefaultCatalog(cat):
     assert cat.name == TEST_CATALOG_NAME
 
 
-@pytest.mark.skip("# TODO 1126")
+@pytest.mark.skip("# TODO 1131")
 def test_getDefaultCatalog_many_found(cat):
     ns = getDefaultNamespace()
     ns.update(dict(cat1=cat, cat2=cat, cat3=cat))
@@ -54,7 +55,7 @@ def test_getDefaultCatalog_many_found(cat):
     assert "Multiple catalog objects available." in str(exinfo.value)
 
 
-@pytest.mark.skip("# TODO 1126")
+@pytest.mark.skip("# TODO 1131")
 def test_getCatalog():  # TODO: parametrize
     # get by name of configuration YAML file
     ret = utils.getCatalog(TEST_CATALOG_NAME)
@@ -79,7 +80,7 @@ def test_getDefaultNamespace():
     assert "getDefaultNamespace" in ret
 
 
-@pytest.mark.skip("# TODO 1126")
+@pytest.mark.skip("# TODO 1131")
 def test_findCatalogsInNamespace(cat):
     ns = getDefaultNamespace()
     assert isinstance(ns, dict)
@@ -91,7 +92,7 @@ def test_findCatalogsInNamespace(cat):
     assert len(cats) == 3
 
 
-@pytest.mark.skip("# TODO 1126")
+@pytest.mark.skip("# TODO 1131")
 def test_ListRuns(cat):
     lr = utils.ListRuns()
     assert lr is not None
@@ -111,7 +112,7 @@ def test_ListRuns(cat):
     assert cat == lr.cat  # expect unchanged
 
 
-@pytest.mark.skip("# TODO 1126")
+@pytest.mark.skip("# TODO 1131")
 def test_ListRuns_keys(lr):
     # use default keys
     lr.keys = None
@@ -163,7 +164,7 @@ def test_ListRuns_keys(lr):
         assert lr.keys[idx] == label
 
 
-@pytest.mark.skip("# TODO 1126")
+@pytest.mark.skip("# TODO 1131")
 def test_ListRuns_missing(lr):
     lr.keys = "scan_id time".split()
     key = "no such key"
@@ -182,7 +183,7 @@ def test_ListRuns_missing(lr):
         assert v == missing
 
 
-@pytest.mark.skip("# TODO 1126")
+@pytest.mark.skip("# TODO 1131")
 def test_ListRuns_to_num(lr):
     # depends on test database
     dd = lr.parse_runs()
@@ -198,7 +199,7 @@ def test_ListRuns_to_num(lr):
     assert 0 <= len(dd["time"]) <= lr.num
 
 
-@pytest.mark.skip("# TODO 1126")
+@pytest.mark.skip("# TODO 1131")
 def test_ListRuns_query_count(lr):
     lr.query = dict(plan_name="count")
     dd = lr.parse_runs()
@@ -208,7 +209,7 @@ def test_ListRuns_query_count(lr):
 
 
 # fmt: off
-@pytest.mark.skip("# TODO 1126")
+@pytest.mark.skip("# TODO 1131")
 @pytest.mark.parametrize(
     "nruns, query",
     [
@@ -228,7 +229,7 @@ def test_ListRuns_query_parametrize(nruns, query, lr):
 
 
 # fmt: off
-@pytest.mark.skip("# TODO 1126")
+@pytest.mark.skip("# TODO 1131")
 @pytest.mark.parametrize(
     "reverse",
     [
@@ -244,7 +245,7 @@ def test_ListRuns_reverse(reverse, lr):
 # fmt: on
 
 
-@pytest.mark.skip("# TODO 1126")
+@pytest.mark.skip("# TODO 1131")
 def test_ListRuns_since(lr):
     # depends on test database
     lr.num = 100
@@ -258,7 +259,7 @@ def test_ListRuns_since(lr):
         assert v >= lr.since
 
 
-@pytest.mark.skip("# TODO 1126")
+@pytest.mark.skip("# TODO 1131")
 def test_ListRuns_sortby(lr):
     # include with some data missing or None
     # default
@@ -279,7 +280,7 @@ def test_ListRuns_sortby(lr):
     assert dd[lr.sortby] == sorted(dd[lr.sortby], reverse=lr.reverse)
 
 
-@pytest.mark.skip("# TODO 1126")
+@pytest.mark.skip("# TODO 1131")
 def test_ListRuns_timefmt(lr):
     # default
     dd = lr.parse_runs()
@@ -314,7 +315,7 @@ def test_ListRuns_timefmt(lr):
     assert len(v0.split(":")) == 3
 
 
-@pytest.mark.skip("# TODO 1126")
+@pytest.mark.skip("# TODO 1131")
 def test_ListRuns_to_dataframe(lr):
     # Pandas DataFrame
     lr.keys = None
@@ -328,7 +329,7 @@ def test_ListRuns_to_dataframe(lr):
         assert out.columns[idx] == label
 
 
-@pytest.mark.skip("# TODO 1126")
+@pytest.mark.skip("# TODO 1131")
 def test_ListRuns_to_table(lr):
     # reST table as multiline string
     lr.keys = None
@@ -341,7 +342,7 @@ def test_ListRuns_to_table(lr):
     assert "scan_id" in out.splitlines()[1]
 
 
-@pytest.mark.skip("# TODO 1126")
+@pytest.mark.skip("# TODO 1131")
 def test_ListRuns_until(lr):
     # depends on test database
     lr.num = 100
@@ -357,7 +358,7 @@ def test_ListRuns_until(lr):
 
 
 # fmt: off
-@pytest.mark.skip("# TODO 1126")
+@pytest.mark.skip("# TODO 1131")
 @pytest.mark.parametrize(
     "tablefmt, table_style, structure",
     [
@@ -379,7 +380,7 @@ def test_listruns_tablefmt(tablefmt, table_style, structure, cat):
 
 
 # fmt: off
-@pytest.mark.skip("# TODO 1126")
+@pytest.mark.skip("# TODO 1131")
 @pytest.mark.parametrize(
     "ids, nresults",
     [

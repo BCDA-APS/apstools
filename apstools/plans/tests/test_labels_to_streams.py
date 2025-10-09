@@ -322,7 +322,6 @@ def test_no_labeled_motor(noisy):
     assert f"label_start_{label}" not in run.metadata["stop"]["num_events"]
 
 
-@pytest.mark.skip("# TODO 1126")
 @pytest.mark.parametrize("rename", [False, True])
 @pytest.mark.parametrize(
     "labels, context, expected",
@@ -333,7 +332,7 @@ def test_no_labeled_motor(noisy):
         [["other"], pytest.raises(AssertionError), "m1"],
     ],
 )
-def test_issue_1113(rename: bool, labels: list[str], context, expected: str, m1, noisy):
+def test_issue_1113(rename: bool, labels: list[str], context, expected: str, m1, noisy, tmp_path):
     """For Issue #1113: KeyError."""
     with context as reason:
         ns = {
@@ -341,6 +340,8 @@ def test_issue_1113(rename: bool, labels: list[str], context, expected: str, m1,
             noisy.name: noisy,
         }
         specwriter = SpecWriterCallback2()
+        # Ensure CI can create the spec file: write into pytest tmp_path.
+        specwriter.file_name = str(tmp_path / "spec_output.dat")
         RE = RunEngine()
         RE.subscribe(specwriter.receiver)
 
