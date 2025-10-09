@@ -21,23 +21,29 @@ Project `milestones <https://github.com/BCDA-APS/apstools/milestones>`_
 describe future plans.
 
 ..
-   1.7.8
+   1.7.9
    *****
 
-   Release expected by 2025-11.
+   Release expected by 2026-01.
 
-   Fixes
-   -------------
+1.7.8
+*****
 
-   * ApsMachineParametersDevice cannot get cycle name, current date not in data table.
-   * SpecWriterCallback2 added extra data point when baseline stream was present.
+Release expected by 2025-11.
 
-   Maintenance
-   -----------
 
-   * Now testing with Python versions 3.10 - Py3.13. (still pinning databroker)
-   * STI undulator uses 'STIVersionM' PV
-   * Overhaul test_labels_to_streams.py and test_listruns_class.py
+Fixes
+-------------
+
+* ApsMachineParametersDevice cannot get cycle name, current date not in data table.
+* SpecWriterCallback2 added extra data point when baseline stream was present.
+
+Maintenance
+-----------
+
+* Now testing with Python versions 3.10 - Py3.13. (still pinning databroker)
+* STI undulator uses 'STIVersionM' PV
+* Overhaul test_labels_to_streams.py and test_listruns_class.py
 
 1.7.7
 *****
