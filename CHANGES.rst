@@ -26,15 +26,15 @@ describe future plans.
 
    Release expected by 2026-01.
 
-   1.7.9
-   *****
+1.7.9
+*****
 
-   Release expected by 2025-10-16.
+Release expected by 2025-10-16.
 
-   Fixes
-   -------------
+Fixes
+-------------
 
-   * Planar undulator has HPMU version (not HDMU version).
+* Planar undulator has HPMU version (not HDMU version).
 
 1.7.8
 *****
