@@ -1,0 +1,1515 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../../../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>apstools.plans.alignment &#8212; apstools 1.7</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="../../../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/graphviz.css?v=4ae1632d" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/mystnb.8ecb98da25f57f5357bf6f572d296f466b2cfe2517ffebfabe82451661e28f02.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/css/custom.css?v=8b12e3de" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="../../../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+
+    <script src="../../../_static/documentation_options.js?v=209ef5f9"></script>
+    <script src="../../../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../_static/design-tabs.js?v=f930bc37"></script>
+    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = '_modules/apstools/plans/alignment';</script>
+    <script>
+        DOCUMENTATION_OPTIONS.theme_version = '0.16.1';
+        DOCUMENTATION_OPTIONS.theme_switcher_json_url = 'https://raw.githubusercontent.com/BCDA-APS/apstools/main/docs/source/_static/switcher.json';
+        DOCUMENTATION_OPTIONS.theme_switcher_version_match = '1.7.8';
+        DOCUMENTATION_OPTIONS.show_version_warning_banner =
+            false;
+        </script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="1.7" />
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-3 navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../../../index.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">apstools 1.7</p>
+  
+</a></div>
+    
+      <div class="navbar-item">
+<div class="version-switcher__container dropdown pst-js-only">
+  <button id="pst-version-switcher-button-2"
+    type="button"
+    class="version-switcher__button btn btn-sm dropdown-toggle"
+    data-bs-toggle="dropdown"
+    aria-haspopup="listbox"
+    aria-controls="pst-version-switcher-list-2"
+    aria-label="Version switcher list"
+  >
+    Choose version  <!-- this text may get changed later by javascript -->
+    <span class="caret"></span>
+  </button>
+  <div id="pst-version-switcher-list-2"
+    class="version-switcher__menu dropdown-menu list-group-flush py-0"
+    role="listbox" aria-labelledby="pst-version-switcher-button-2">
+    <!-- dropdown will be populated by javascript on page load -->
+  </div>
+</div></div>
+    
+  </div>
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../install.html">
+    Installation
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../api/index.html">
+    API Documentation
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../applications/index.html">
+    Applications
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../examples/index.html">
+    Examples
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../changes.html">
+    Change History
+  </a>
+</li>
+
+            <li class="nav-item dropdown">
+                <button class="btn dropdown-toggle nav-item" type="button"
+                data-bs-toggle="dropdown" aria-expanded="false"
+                aria-controls="pst-nav-more-links">
+                    More
+                </button>
+                <ul id="pst-nav-more-links" class="dropdown-menu">
+                    
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../../license.html">
+    License
+  </a>
+</li>
+
+                </ul>
+            </li>
+            
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+        <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+      
+        <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/BCDA-APS/apstools" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+        
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar hide-on-wide">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../install.html">
+    Installation
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../api/index.html">
+    API Documentation
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../applications/index.html">
+    Applications
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../examples/index.html">
+    Examples
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../changes.html">
+    Change History
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../license.html">
+    License
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+        
+          <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/BCDA-APS/apstools" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+        
+      </div>
+    
+  </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+<nav aria-label="Breadcrumb" class="d-print-none">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../../../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="../../index.html" class="nav-link">Module code</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">apstools.plans.alignment</span></li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <h1>Source code for apstools.plans.alignment</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Alignment plans</span>
+<span class="sd">+++++++++++++++++++++++++++++++++++++++</span>
+
+<span class="sd">.. autosummary::</span>
+
+<span class="sd">   ~lineup</span>
+<span class="sd">   ~lineup2</span>
+<span class="sd">   ~tune_axes</span>
+<span class="sd">   ~TuneAxis</span>
+<span class="sd">   ~TuneResults</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">datetime</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">sys</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pyRestTable</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">bluesky</span><span class="w"> </span><span class="kn">import</span> <span class="n">plan_stubs</span> <span class="k">as</span> <span class="n">bps</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">bluesky</span><span class="w"> </span><span class="kn">import</span> <span class="n">plans</span> <span class="k">as</span> <span class="n">bp</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">bluesky</span><span class="w"> </span><span class="kn">import</span> <span class="n">preprocessors</span> <span class="k">as</span> <span class="n">bpp</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">bluesky.callbacks.fitting</span><span class="w"> </span><span class="kn">import</span> <span class="n">PeakStats</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">bluesky.utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">plan</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">deprecated.sphinx</span><span class="w"> </span><span class="kn">import</span> <span class="n">deprecated</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">deprecated.sphinx</span><span class="w"> </span><span class="kn">import</span> <span class="n">versionadded</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">deprecated.sphinx</span><span class="w"> </span><span class="kn">import</span> <span class="n">versionchanged</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">ophyd</span><span class="w"> </span><span class="kn">import</span> <span class="n">Component</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">ophyd</span><span class="w"> </span><span class="kn">import</span> <span class="n">Device</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">ophyd</span><span class="w"> </span><span class="kn">import</span> <span class="n">Signal</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">ophyd.scaler</span><span class="w"> </span><span class="kn">import</span> <span class="n">ScalerCH</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">ophyd.scaler</span><span class="w"> </span><span class="kn">import</span> <span class="n">ScalerChannel</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">scipy.optimize</span><span class="w"> </span><span class="kn">import</span> <span class="n">curve_fit</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">scipy.special</span><span class="w"> </span><span class="kn">import</span> <span class="n">erf</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">..</span><span class="w"> </span><span class="kn">import</span> <span class="n">utils</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.doc_run</span><span class="w"> </span><span class="kn">import</span> <span class="n">write_stream</span>
+
+<span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
+<span class="n">MAIN</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">modules</span><span class="p">[</span><span class="s2">&quot;__main__&quot;</span><span class="p">]</span>
+
+
+<div class="viewcode-block" id="lineup">
+<a class="viewcode-back" href="../../../api/_plans.html#apstools.plans.alignment.lineup">[docs]</a>
+<span class="nd">@deprecated</span><span class="p">(</span><span class="n">version</span><span class="o">=</span><span class="s2">&quot;1.7.2&quot;</span><span class="p">,</span> <span class="n">reason</span><span class="o">=</span><span class="s2">&quot;use lineup2()&quot;</span><span class="p">)</span>
+<span class="nd">@plan</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">lineup</span><span class="p">(</span>
+    <span class="c1"># fmt: off</span>
+    <span class="n">detectors</span><span class="p">,</span>
+    <span class="n">axis</span><span class="p">,</span>
+    <span class="n">minus</span><span class="p">,</span>
+    <span class="n">plus</span><span class="p">,</span>
+    <span class="n">npts</span><span class="p">,</span>
+    <span class="n">time_s</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span>
+    <span class="n">peak_factor</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span>
+    <span class="n">width_factor</span><span class="o">=</span><span class="mf">0.8</span><span class="p">,</span>
+    <span class="n">feature</span><span class="o">=</span><span class="s2">&quot;cen&quot;</span><span class="p">,</span>
+    <span class="n">rescan</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="n">bec</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">md</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="c1"># fmt: on</span>
+<span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    **Deprecated** Lineup and center a given axis, relative to current position.</span>
+
+<span class="sd">    If first run identifies a peak, makes a second run to fine tune the result.</span>
+
+<span class="sd">    .. caution:: ``lineup()`` does not work in the queueserver.  Use</span>
+<span class="sd">        :func:`~apstools.plans.alignment.lineup2()` instead.</span>
+
+<span class="sd">    .. index:: Bluesky Plan; lineup</span>
+
+<span class="sd">    PARAMETERS</span>
+
+<span class="sd">    detectors</span>
+<span class="sd">        *[object]* or *object* : Instance(s) of ophyd.Signal (or subclass such</span>
+<span class="sd">        as ophyd.scaler.ScalerChannel) dependent measurement to be maximized.</span>
+<span class="sd">        If a list, the first signal in the list will be used.</span>
+
+<span class="sd">    axis</span>
+<span class="sd">        movable *object* : instance of ophyd.Signal (or subclass such as</span>
+<span class="sd">        EpicsMotor) independent axis to use for alignment</span>
+
+<span class="sd">    minus</span>
+<span class="sd">        *float* : first point of scan at this offset from starting position</span>
+
+<span class="sd">    plus</span>
+<span class="sd">        *float* : last point of scan at this offset from starting position</span>
+
+<span class="sd">    npts</span>
+<span class="sd">        *int* : number of data points in the scan</span>
+
+<span class="sd">    time_s</span>
+<span class="sd">        *float* : Count time per step (if detectors[0] is ScalerChannel object),</span>
+<span class="sd">        other object types not yet supported. (default: 0.1)</span>
+
+<span class="sd">    peak_factor</span>
+<span class="sd">        *float* : peak maximum must be greater than ``peak_factor*minimum``</span>
+<span class="sd">        (default: 4)</span>
+
+<span class="sd">    width_factor</span>
+<span class="sd">        *float* : fwhm must be less than ``width_factor*plot_range`` (default:</span>
+<span class="sd">        0.8)</span>
+
+<span class="sd">    feature</span>
+<span class="sd">        *str* : One of the parameters returned by BestEffortCallback peak stats.</span>
+<span class="sd">        (``cen``, ``com``, ``max``, ``min``) (default: ``cen``)</span>
+
+<span class="sd">    rescan</span>
+<span class="sd">        *bool* : If first scan indicates a peak, should a second scan refine the</span>
+<span class="sd">        result? (default: ``True``)</span>
+
+<span class="sd">    bec</span>
+<span class="sd">        *object* : Instance of</span>
+<span class="sd">        ``bluesky.callbacks.best_effort.BestEffortCallback``. (default:</span>
+<span class="sd">        ``None``, meaning look for it from global namespace)</span>
+
+<span class="sd">    EXAMPLE::</span>
+
+<span class="sd">        RE(lineup(diode, foemirror.theta, -30, 30, 30, 1.0))</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">bec</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">if</span> <span class="s2">&quot;bec&quot;</span> <span class="ow">in</span> <span class="nb">dir</span><span class="p">(</span><span class="n">MAIN</span><span class="p">):</span>
+            <span class="c1"># get from __main__ namespace</span>
+            <span class="n">bec</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">MAIN</span><span class="p">,</span> <span class="s2">&quot;bec&quot;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Cannot find BestEffortCallback() instance.&quot;</span><span class="p">)</span>
+    <span class="n">bec</span><span class="o">.</span><span class="n">enable_plots</span><span class="p">()</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">detectors</span><span class="p">,</span> <span class="p">(</span><span class="nb">tuple</span><span class="p">,</span> <span class="nb">list</span><span class="p">)):</span>
+        <span class="n">detectors</span> <span class="o">=</span> <span class="p">[</span><span class="n">detectors</span><span class="p">]</span>
+    <span class="n">det0</span> <span class="o">=</span> <span class="n">detectors</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Using detector &#39;</span><span class="si">%s</span><span class="s2">&#39; for lineup()&quot;</span><span class="p">,</span> <span class="n">det0</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+
+    <span class="c1"># first, determine if det0 is part of a ScalerCH device</span>
+    <span class="n">scaler</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">obj</span> <span class="o">=</span> <span class="n">det0</span><span class="o">.</span><span class="n">parent</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">det0</span><span class="o">.</span><span class="n">parent</span><span class="p">,</span> <span class="n">ScalerChannel</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="s2">&quot;parent&quot;</span><span class="p">)</span> <span class="ow">and</span> <span class="n">obj</span><span class="o">.</span><span class="n">parent</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">obj</span> <span class="o">=</span> <span class="n">obj</span><span class="o">.</span><span class="n">parent</span>
+            <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="s2">&quot;parent&quot;</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">obj</span><span class="o">.</span><span class="n">parent</span><span class="p">,</span> <span class="n">ScalerCH</span><span class="p">):</span>
+                <span class="n">scaler</span> <span class="o">=</span> <span class="n">obj</span><span class="o">.</span><span class="n">parent</span>
+
+    <span class="k">if</span> <span class="n">scaler</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">old_sigs</span> <span class="o">=</span> <span class="n">scaler</span><span class="o">.</span><span class="n">stage_sigs</span>
+        <span class="n">scaler</span><span class="o">.</span><span class="n">stage_sigs</span><span class="p">[</span><span class="s2">&quot;preset_time&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">time_s</span>
+        <span class="n">scaler</span><span class="o">.</span><span class="n">select_channels</span><span class="p">([</span><span class="n">det0</span><span class="o">.</span><span class="n">name</span><span class="p">])</span>
+
+    <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">axis</span><span class="p">,</span> <span class="s2">&quot;position&quot;</span><span class="p">):</span>
+        <span class="n">old_position</span> <span class="o">=</span> <span class="n">axis</span><span class="o">.</span><span class="n">position</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">old_position</span> <span class="o">=</span> <span class="n">axis</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">peak_analysis</span><span class="p">():</span>
+        <span class="n">aligned</span> <span class="o">=</span> <span class="kc">False</span>
+
+        <span class="k">if</span> <span class="n">det0</span><span class="o">.</span><span class="n">name</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">bec</span><span class="o">.</span><span class="n">peaks</span><span class="p">[</span><span class="n">feature</span><span class="p">]:</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span>
+                <span class="s2">&quot;No statistical analysis of scan peak for feature &#39;</span><span class="si">%s</span><span class="s2">&#39;!&quot;</span> <span class="s2">&quot;  (bec.peaks=</span><span class="si">%s</span><span class="s2">, bec=</span><span class="si">%s</span><span class="s2">)&quot;</span><span class="p">,</span>
+                <span class="n">feature</span><span class="p">,</span>
+                <span class="n">bec</span><span class="o">.</span><span class="n">peaks</span><span class="p">,</span>
+                <span class="n">bec</span><span class="p">,</span>
+            <span class="p">)</span>
+            <span class="k">yield from</span> <span class="n">bps</span><span class="o">.</span><span class="n">null</span><span class="p">()</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">table</span> <span class="o">=</span> <span class="n">pyRestTable</span><span class="o">.</span><span class="n">Table</span><span class="p">()</span>
+            <span class="n">table</span><span class="o">.</span><span class="n">labels</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;key&quot;</span><span class="p">,</span> <span class="s2">&quot;value&quot;</span><span class="p">)</span>
+            <span class="n">table</span><span class="o">.</span><span class="n">addRow</span><span class="p">((</span><span class="s2">&quot;axis&quot;</span><span class="p">,</span> <span class="n">axis</span><span class="o">.</span><span class="n">name</span><span class="p">))</span>
+            <span class="n">table</span><span class="o">.</span><span class="n">addRow</span><span class="p">((</span><span class="s2">&quot;detector&quot;</span><span class="p">,</span> <span class="n">det0</span><span class="o">.</span><span class="n">name</span><span class="p">))</span>
+            <span class="n">table</span><span class="o">.</span><span class="n">addRow</span><span class="p">((</span><span class="s2">&quot;starting position&quot;</span><span class="p">,</span> <span class="n">old_position</span><span class="p">))</span>
+            <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">bec</span><span class="o">.</span><span class="n">peaks</span><span class="o">.</span><span class="n">ATTRS</span><span class="p">:</span>
+                <span class="n">target</span> <span class="o">=</span> <span class="n">bec</span><span class="o">.</span><span class="n">peaks</span><span class="p">[</span><span class="n">key</span><span class="p">][</span><span class="n">det0</span><span class="o">.</span><span class="n">name</span><span class="p">]</span>
+                <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">target</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">):</span>
+                    <span class="n">target</span> <span class="o">=</span> <span class="n">target</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+                <span class="n">table</span><span class="o">.</span><span class="n">addRow</span><span class="p">((</span><span class="n">key</span><span class="p">,</span> <span class="n">target</span><span class="p">))</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;alignment scan results:</span><span class="se">\n</span><span class="si">{</span><span class="n">table</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+            <span class="n">lo</span> <span class="o">=</span> <span class="n">bec</span><span class="o">.</span><span class="n">peaks</span><span class="p">[</span><span class="s2">&quot;min&quot;</span><span class="p">][</span><span class="n">det0</span><span class="o">.</span><span class="n">name</span><span class="p">][</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>  <span class="c1"># [-1] means detector</span>
+            <span class="n">hi</span> <span class="o">=</span> <span class="n">bec</span><span class="o">.</span><span class="n">peaks</span><span class="p">[</span><span class="s2">&quot;max&quot;</span><span class="p">][</span><span class="n">det0</span><span class="o">.</span><span class="n">name</span><span class="p">][</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>  <span class="c1"># [0] means axis</span>
+            <span class="n">fwhm</span> <span class="o">=</span> <span class="n">bec</span><span class="o">.</span><span class="n">peaks</span><span class="p">[</span><span class="s2">&quot;fwhm&quot;</span><span class="p">][</span><span class="n">det0</span><span class="o">.</span><span class="n">name</span><span class="p">]</span>
+            <span class="n">final</span> <span class="o">=</span> <span class="n">bec</span><span class="o">.</span><span class="n">peaks</span><span class="p">[</span><span class="s2">&quot;cen&quot;</span><span class="p">][</span><span class="n">det0</span><span class="o">.</span><span class="n">name</span><span class="p">]</span>
+
+            <span class="c1"># local PeakStats object of our plot of det0 .v x</span>
+            <span class="n">ps</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">bec</span><span class="o">.</span><span class="n">_peak_stats</span><span class="o">.</span><span class="n">values</span><span class="p">())[</span><span class="mi">0</span><span class="p">][</span><span class="n">det0</span><span class="o">.</span><span class="n">name</span><span class="p">]</span>
+            <span class="c1"># get the X data range as received by PeakStats</span>
+            <span class="n">x_range</span> <span class="o">=</span> <span class="nb">abs</span><span class="p">(</span><span class="nb">max</span><span class="p">(</span><span class="n">ps</span><span class="o">.</span><span class="n">x_data</span><span class="p">)</span> <span class="o">-</span> <span class="nb">min</span><span class="p">(</span><span class="n">ps</span><span class="o">.</span><span class="n">x_data</span><span class="p">))</span>
+
+            <span class="k">if</span> <span class="n">final</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s2">&quot;centroid is None&quot;</span><span class="p">)</span>
+                <span class="n">final</span> <span class="o">=</span> <span class="n">old_position</span>
+            <span class="k">elif</span> <span class="n">fwhm</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s2">&quot;FWHM is None&quot;</span><span class="p">)</span>
+                <span class="n">final</span> <span class="o">=</span> <span class="n">old_position</span>
+            <span class="k">elif</span> <span class="n">hi</span> <span class="o">&lt;</span> <span class="n">peak_factor</span> <span class="o">*</span> <span class="n">lo</span><span class="p">:</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s2">&quot;no clear peak: </span><span class="si">%f</span><span class="s2"> &lt; </span><span class="si">%f</span><span class="s2">*</span><span class="si">%f</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">hi</span><span class="p">,</span> <span class="n">peak_factor</span><span class="p">,</span> <span class="n">lo</span><span class="p">)</span>
+                <span class="n">final</span> <span class="o">=</span> <span class="n">old_position</span>
+            <span class="k">elif</span> <span class="n">fwhm</span> <span class="o">&gt;</span> <span class="n">width_factor</span> <span class="o">*</span> <span class="n">x_range</span><span class="p">:</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span>
+                    <span class="s2">&quot;FWHM too large: </span><span class="si">%f</span><span class="s2"> &gt; </span><span class="si">%f</span><span class="s2">*</span><span class="si">%f</span><span class="s2">&quot;</span><span class="p">,</span>
+                    <span class="n">fwhm</span><span class="p">,</span>
+                    <span class="n">width_factor</span><span class="p">,</span>
+                    <span class="n">x_range</span><span class="p">,</span>
+                <span class="p">)</span>
+                <span class="n">final</span> <span class="o">=</span> <span class="n">old_position</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">aligned</span> <span class="o">=</span> <span class="kc">True</span>
+
+            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
+                <span class="s2">&quot;moving </span><span class="si">%s</span><span class="s2"> to </span><span class="si">%f</span><span class="s2">  (aligned: </span><span class="si">%s</span><span class="s2">)&quot;</span><span class="p">,</span>
+                <span class="n">axis</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
+                <span class="n">final</span><span class="p">,</span>
+                <span class="nb">str</span><span class="p">(</span><span class="n">aligned</span><span class="p">),</span>
+            <span class="p">)</span>
+            <span class="k">yield from</span> <span class="n">bps</span><span class="o">.</span><span class="n">mv</span><span class="p">(</span><span class="n">axis</span><span class="p">,</span> <span class="n">final</span><span class="p">)</span>
+
+        <span class="c1"># too sneaky?  We&#39;re modifying this structure locally</span>
+        <span class="n">bec</span><span class="o">.</span><span class="n">peaks</span><span class="o">.</span><span class="n">aligned</span> <span class="o">=</span> <span class="n">aligned</span>
+        <span class="n">bec</span><span class="o">.</span><span class="n">peaks</span><span class="o">.</span><span class="n">ATTRS</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;com&quot;</span><span class="p">,</span> <span class="s2">&quot;cen&quot;</span><span class="p">,</span> <span class="s2">&quot;max&quot;</span><span class="p">,</span> <span class="s2">&quot;min&quot;</span><span class="p">,</span> <span class="s2">&quot;fwhm&quot;</span><span class="p">)</span>
+
+    <span class="n">_md</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">purpose</span><span class="o">=</span><span class="s2">&quot;alignment&quot;</span><span class="p">)</span>
+    <span class="n">_md</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">md</span> <span class="ow">or</span> <span class="p">{})</span>
+    <span class="k">yield from</span> <span class="n">bp</span><span class="o">.</span><span class="n">rel_scan</span><span class="p">([</span><span class="n">det0</span><span class="p">],</span> <span class="n">axis</span><span class="p">,</span> <span class="n">minus</span><span class="p">,</span> <span class="n">plus</span><span class="p">,</span> <span class="n">npts</span><span class="p">,</span> <span class="n">md</span><span class="o">=</span><span class="n">_md</span><span class="p">)</span>
+    <span class="k">yield from</span> <span class="n">peak_analysis</span><span class="p">()</span>
+
+    <span class="k">if</span> <span class="n">bec</span><span class="o">.</span><span class="n">peaks</span><span class="o">.</span><span class="n">aligned</span> <span class="ow">and</span> <span class="n">rescan</span><span class="p">:</span>
+        <span class="c1"># again, tweak axis to maximize</span>
+        <span class="n">_md</span><span class="p">[</span><span class="s2">&quot;purpose&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;alignment - fine&quot;</span>
+        <span class="n">fwhm</span> <span class="o">=</span> <span class="n">bec</span><span class="o">.</span><span class="n">peaks</span><span class="p">[</span><span class="s2">&quot;fwhm&quot;</span><span class="p">][</span><span class="n">det0</span><span class="o">.</span><span class="n">name</span><span class="p">]</span>
+        <span class="k">yield from</span> <span class="n">bp</span><span class="o">.</span><span class="n">rel_scan</span><span class="p">([</span><span class="n">det0</span><span class="p">],</span> <span class="n">axis</span><span class="p">,</span> <span class="o">-</span><span class="n">fwhm</span><span class="p">,</span> <span class="n">fwhm</span><span class="p">,</span> <span class="n">npts</span><span class="p">,</span> <span class="n">md</span><span class="o">=</span><span class="n">_md</span><span class="p">)</span>
+        <span class="k">yield from</span> <span class="n">peak_analysis</span><span class="p">()</span>
+
+    <span class="k">if</span> <span class="n">scaler</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">scaler</span><span class="o">.</span><span class="n">select_channels</span><span class="p">()</span>
+        <span class="n">scaler</span><span class="o">.</span><span class="n">stage_sigs</span> <span class="o">=</span> <span class="n">old_sigs</span></div>
+
+
+
+<div class="viewcode-block" id="edge_align">
+<a class="viewcode-back" href="../../../api/_plans.html#apstools.plans.alignment.edge_align">[docs]</a>
+<span class="nd">@plan</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">edge_align</span><span class="p">(</span><span class="n">detectors</span><span class="p">,</span> <span class="n">mover</span><span class="p">,</span> <span class="n">start</span><span class="p">,</span> <span class="n">end</span><span class="p">,</span> <span class="n">points</span><span class="p">,</span> <span class="n">cat</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">md</span><span class="o">=</span><span class="p">{}):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Align to the edge given mover &amp; detector data, relative to absolute position.</span>
+
+<span class="sd">    This plan can be used in the queueserver, Jupyter notebooks, and IPython</span>
+<span class="sd">    consoles.</span>
+
+<span class="sd">    PARAMETERS</span>
+<span class="sd">    ----------</span>
+<span class="sd">    detectors *Readable* or [*Readable*]:</span>
+<span class="sd">        Detector object or list of detector objects (each is a Device or</span>
+<span class="sd">        Signal).</span>
+
+<span class="sd">    mover *Movable*:</span>
+<span class="sd">        Mover object, such as motor or other positioner.</span>
+
+<span class="sd">    start *float*:</span>
+<span class="sd">        Starting point for the scan. This is an absolute motor location.</span>
+
+<span class="sd">    end *float*:</span>
+<span class="sd">        Ending point for the scan. This is an absolute motor location.</span>
+
+<span class="sd">    points *int*:</span>
+<span class="sd">        Number of points in the scan.</span>
+
+<span class="sd">    cat *databroker.temp().v2*:</span>
+<span class="sd">        Catalog where bluesky data is saved and can be retrieved from.</span>
+
+<span class="sd">    md *dict*:</span>
+<span class="sd">        User-supplied metadata for this scan.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">guess_erf_params</span><span class="p">(</span><span class="n">x_data</span><span class="p">,</span> <span class="n">y_data</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Provide an initial guess for the parameters of an error function.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        x_data : A numpy array of the values on the x_axis</span>
+<span class="sd">        y_data : A numpy array of the values on the y_axis</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        guess : dict</span>
+<span class="sd">            A dictionary containing the guessed parameters &#39;low_y_data&#39;, &#39;high_y_data&#39;, &#39;width&#39;, and &#39;midpoint&#39;.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="c1"># Sort data to make finding the mid-point easier and to assist in other estimations</span>
+        <span class="n">y_data_sorted</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">y_data</span><span class="p">)</span>
+        <span class="n">x_data_sorted</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">x_data</span><span class="p">)</span>
+
+        <span class="c1"># Estimate low and high as the first and last elements (assuming sorted data)</span>
+        <span class="n">low_y_data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="n">y_data_sorted</span><span class="p">)</span>
+        <span class="n">high_y_data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">y_data_sorted</span><span class="p">)</span>
+
+        <span class="n">low_x_data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="n">x_data_sorted</span><span class="p">)</span>
+        <span class="n">high_x_data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">x_data_sorted</span><span class="p">)</span>
+
+        <span class="c1"># Estimate width as a fraction of the range. This is very arbitrary and might need tuning!</span>
+        <span class="c1"># This is a guess and might need adjustment based on your data&#39;s characteristics.</span>
+        <span class="n">width</span> <span class="o">=</span> <span class="p">(</span><span class="n">high_x_data</span> <span class="o">-</span> <span class="n">low_x_data</span><span class="p">)</span> <span class="o">/</span> <span class="mi">10</span>
+
+        <span class="c1"># Estimate the midpoint of the x values</span>
+        <span class="n">midpoint</span> <span class="o">=</span> <span class="n">x_data</span><span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">x_data</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)]</span>
+
+        <span class="k">return</span> <span class="p">[</span><span class="n">low_y_data</span><span class="p">,</span> <span class="n">high_y_data</span><span class="p">,</span> <span class="n">width</span><span class="p">,</span> <span class="n">midpoint</span><span class="p">]</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">erf_model</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">low</span><span class="p">,</span> <span class="n">high</span><span class="p">,</span> <span class="n">width</span><span class="p">,</span> <span class="n">midpoint</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Create error function for fitting and simulation</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        x		:	input upon which error function is evaluated</span>
+<span class="sd">        low		: 	min value of error function</span>
+<span class="sd">        high	: 	max value of error function</span>
+<span class="sd">        width  	:	&quot;spread&quot; of error function transition region</span>
+<span class="sd">        midpoint:	location of error function&#39;s &quot;center&quot;</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="p">(</span><span class="n">high</span> <span class="o">-</span> <span class="n">low</span><span class="p">)</span> <span class="o">*</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">erf</span><span class="p">((</span><span class="n">x</span> <span class="o">-</span> <span class="n">midpoint</span><span class="p">)</span> <span class="o">/</span> <span class="n">width</span><span class="p">))</span> <span class="o">+</span> <span class="n">low</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">detectors</span><span class="p">,</span> <span class="p">(</span><span class="nb">tuple</span><span class="p">,</span> <span class="nb">list</span><span class="p">)):</span>
+        <span class="n">detectors</span> <span class="o">=</span> <span class="p">[</span><span class="n">detectors</span><span class="p">]</span>
+
+    <span class="n">_md</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">purpose</span><span class="o">=</span><span class="s2">&quot;edge_align&quot;</span><span class="p">)</span>
+    <span class="n">_md</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">md</span> <span class="ow">or</span> <span class="p">{})</span>
+
+    <span class="n">uid</span> <span class="o">=</span> <span class="k">yield from</span> <span class="n">bp</span><span class="o">.</span><span class="n">scan</span><span class="p">(</span><span class="n">detectors</span><span class="p">,</span> <span class="n">mover</span><span class="p">,</span> <span class="n">start</span><span class="p">,</span> <span class="n">end</span><span class="p">,</span> <span class="n">points</span><span class="p">,</span> <span class="n">md</span><span class="o">=</span><span class="n">_md</span><span class="p">)</span>
+    <span class="n">cat</span> <span class="o">=</span> <span class="n">cat</span> <span class="ow">or</span> <span class="n">utils</span><span class="o">.</span><span class="n">getCatalog</span><span class="p">()</span>
+    <span class="n">run</span> <span class="o">=</span> <span class="n">cat</span><span class="p">[</span><span class="n">uid</span><span class="p">]</span>  <span class="c1"># return uids</span>
+    <span class="n">ds</span> <span class="o">=</span> <span class="n">run</span><span class="o">.</span><span class="n">primary</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+
+    <span class="n">x</span> <span class="o">=</span> <span class="n">ds</span><span class="p">[</span><span class="s2">&quot;mover&quot;</span><span class="p">]</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="n">ds</span><span class="p">[</span><span class="s2">&quot;noisy&quot;</span><span class="p">]</span>
+
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">initial_guess</span> <span class="o">=</span> <span class="n">guess_erf_params</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+        <span class="n">popt</span><span class="p">,</span> <span class="n">pcov</span> <span class="o">=</span> <span class="n">curve_fit</span><span class="p">(</span><span class="n">erf_model</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">p0</span><span class="o">=</span><span class="n">initial_guess</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">pcov</span><span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">]</span> <span class="o">!=</span> <span class="n">np</span><span class="o">.</span><span class="n">inf</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Significant signal change detected; motor moving to detected edge.&quot;</span><span class="p">)</span>
+            <span class="k">yield from</span> <span class="n">bps</span><span class="o">.</span><span class="n">mv</span><span class="p">(</span><span class="n">mover</span><span class="p">,</span> <span class="n">popt</span><span class="p">[</span><span class="mi">3</span><span class="p">])</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">Exception</span>
+    <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">reason</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;reason: </span><span class="si">{</span><span class="n">reason</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;No significant signal change detected; motor movement skipped.&quot;</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="lineup2">
+<a class="viewcode-back" href="../../../api/_plans.html#apstools.plans.alignment.lineup2">[docs]</a>
+<span class="nd">@versionchanged</span><span class="p">(</span><span class="n">version</span><span class="o">=</span><span class="s2">&quot;1.7.2&quot;</span><span class="p">,</span> <span class="n">reason</span><span class="o">=</span><span class="s2">&quot;Changed from PySumReg to numpy&quot;</span><span class="p">)</span>
+<span class="nd">@versionadded</span><span class="p">(</span><span class="n">version</span><span class="o">=</span><span class="s2">&quot;1.6.18&quot;</span><span class="p">)</span>
+<span class="nd">@plan</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">lineup2</span><span class="p">(</span>
+    <span class="c1"># fmt: off</span>
+    <span class="n">detectors</span><span class="p">,</span>
+    <span class="n">mover</span><span class="p">,</span>
+    <span class="n">rel_start</span><span class="p">,</span>
+    <span class="n">rel_end</span><span class="p">,</span>
+    <span class="n">points</span><span class="p">,</span>
+    <span class="n">peak_factor</span><span class="o">=</span><span class="mf">1.5</span><span class="p">,</span>
+    <span class="n">width_factor</span><span class="o">=</span><span class="mf">0.8</span><span class="p">,</span>
+    <span class="n">feature</span><span class="o">=</span><span class="s2">&quot;centroid&quot;</span><span class="p">,</span>
+    <span class="n">nscans</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
+    <span class="n">signal_stats</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">reporting</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">md</span><span class="o">=</span><span class="p">{},</span>
+    <span class="c1"># fmt: on</span>
+<span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Lineup and center a given mover, relative to the current position.</span>
+
+<span class="sd">    Step scan ``mover`` and measure ``detectors`` at each step. Peak analysis is</span>
+<span class="sd">    based on data collected during the scan for the **first** detector (in the</span>
+<span class="sd">    list of ``detectors``) *vs.* ``mover``.  If a peak is detected, move the</span>
+<span class="sd">    ``mover`` to the feature position (default is ``&quot;centroid&quot;``). If</span>
+<span class="sd">    ``nscans&gt;1``, adjust the scan range based on the apparent FWHM and rescan.</span>
+<span class="sd">    At most, a total of ``nscans`` will be run.</span>
+
+<span class="sd">    If unable to identify a peak, ``lineup2()`` returns ``mover`` to its</span>
+<span class="sd">    original position and returns (no more rescans).  If ``lineup2()`` fails to</span>
+<span class="sd">    identify a peak that you can observe, consider re-running with increased</span>
+<span class="sd">    ``points``, changed range(``rel_start`` and ``rel_end``), and/or changed</span>
+<span class="sd">    terms (``peak_factor`` and ``width_factor``).</span>
+
+<span class="sd">    Increase ``nscans`` for additional fine-tuning of the ``centroid`` and</span>
+<span class="sd">    ``fwhm`` parameters.  It is probably not necessary to set ``nscans&gt;5``.</span>
+
+<span class="sd">    .. index:: Bluesky Plan; lineup2; lineup</span>
+
+<span class="sd">    This plan can be used in the queueserver, Jupyter notebooks, and IPython</span>
+<span class="sd">    consoles.  It does not require the bluesky BestEffortCallback.  Instead, it</span>
+<span class="sd">    uses *numpy*  [#numpy]_ to compute statistics for each signal in a 1-D</span>
+<span class="sd">    scan.</span>
+
+<span class="sd">    .. rubric::  PARAMETERS</span>
+
+<span class="sd">    detectors *Readable* or [*Readable*]:</span>
+<span class="sd">        Detector object or list of detector objects (each is a Device or</span>
+<span class="sd">        Signal). If a list, the first Signal will be used for alignment.</span>
+
+<span class="sd">    mover *Movable*:</span>
+<span class="sd">        Mover object, such as motor or other positioner.</span>
+
+<span class="sd">    rel_start *float*:</span>
+<span class="sd">        Starting point for the scan, relative to the current mover position.</span>
+
+<span class="sd">    rel_end *float*:</span>
+<span class="sd">        Ending point for the scan, relative to the current mover position.</span>
+
+<span class="sd">    points *int*:</span>
+<span class="sd">        Number of points in the scan.</span>
+
+<span class="sd">    peak_factor *float* :</span>
+<span class="sd">        peak maximum must be greater than ``peak_factor*minimum`` (default: 2.5)</span>
+
+<span class="sd">    width_factor *float* :</span>
+<span class="sd">        fwhm must be less than ``width_factor*plot_range`` (default: 0.8)</span>
+
+<span class="sd">    feature *str*:</span>
+<span class="sd">        Use this statistical measure (default: centroid) to set the mover</span>
+<span class="sd">        position after a peak has been found.  Must be one of these values:</span>
+
+<span class="sd">        ==========  ====================</span>
+<span class="sd">        feature     description</span>
+<span class="sd">        ==========  ====================</span>
+<span class="sd">        centroid    center of mass</span>
+<span class="sd">        x_at_max_y  x location of y maximum</span>
+<span class="sd">        x_at_min_y  x location of y minimum</span>
+<span class="sd">        ==========  ====================</span>
+
+<span class="sd">        Statistical analysis provided by *numpy*.  [#numpy]_</span>
+<span class="sd">        (Previous versions used *PySumReg*.  [#pysumreg]_)</span>
+
+<span class="sd">        .. [#numpy] https://numpy.org/</span>
+<span class="sd">        .. [#pysumreg] https://prjemian.github.io/pysumreg/latest/</span>
+
+<span class="sd">    nscans *int*:</span>
+<span class="sd">        Number of scans.  (default: 2)  Scanning will stop if any scan cannot</span>
+<span class="sd">        find a peak.</span>
+
+<span class="sd">    signal_stats *object*:</span>
+<span class="sd">        Caller could provide an object of</span>
+<span class="sd">        :class:`~apstools.callbacks.scan_signal_statistics.SignalStatsCallback`.</span>
+
+<span class="sd">        When ``signal_stats`` is not provided, this function will search for the</span>
+<span class="sd">        ``signal_stats`` signal in the global (``__main__``) namespace. If not</span>
+<span class="sd">        still found, a new ``signal_stats`` will be created and then added to</span>
+<span class="sd">        the global namespace.</span>
+
+<span class="sd">        Results of the analysis are available in ``signal_stats.analysis``.  The</span>
+<span class="sd">        data used for the analysis are available in ``signal_stats._data``. The</span>
+<span class="sd">        PySumReg analysis remains available (for now)</span>
+<span class="sd">        in ``signal_stats._registers``.</span>
+
+<span class="sd">    md *dict*:</span>
+<span class="sd">        User-supplied metadata for this scan.</span>
+
+<span class="sd">    ----</span>
+
+<span class="sd">    In addition to the many keys provided in `signal_stats.analysis` by</span>
+<span class="sd">    :class:`~apstools.callbacks.scan_signal_statistics.SignalStatsCallback`,</span>
+<span class="sd">    this plan adds two keys as follows:</span>
+
+<span class="sd">    .. rubric::  Keys added to signal_stats.analysis dictionary</span>
+
+<span class="sd">    success : bool</span>
+<span class="sd">        Did ``lineup2()`` identify a peak and set the mover to its value?</span>
+
+<span class="sd">    reason : [str]</span>
+<span class="sd">        If ``success=False``, this is a list of the reasons why ``lineup2()``</span>
+<span class="sd">        did not identify a peak.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">..callbacks</span><span class="w"> </span><span class="kn">import</span> <span class="n">SignalStatsCallback</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">detectors</span><span class="p">,</span> <span class="p">(</span><span class="nb">tuple</span><span class="p">,</span> <span class="nb">list</span><span class="p">)):</span>
+        <span class="n">detectors</span> <span class="o">=</span> <span class="p">[</span><span class="n">detectors</span><span class="p">]</span>
+
+    <span class="n">_md</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">purpose</span><span class="o">=</span><span class="s2">&quot;alignment&quot;</span><span class="p">)</span>
+    <span class="n">_md</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">md</span> <span class="ow">or</span> <span class="p">{})</span>
+
+    <span class="c1"># Do not move the positioner outside the limits of the first scan.</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">m_pos</span> <span class="o">=</span> <span class="n">mover</span><span class="o">.</span><span class="n">position</span>
+    <span class="k">except</span> <span class="ne">AttributeError</span><span class="p">:</span>
+        <span class="n">m_pos</span> <span class="o">=</span> <span class="n">mover</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
+    <span class="n">m_lo</span> <span class="o">=</span> <span class="n">m_pos</span> <span class="o">+</span> <span class="n">rel_start</span>
+    <span class="n">m_hi</span> <span class="o">=</span> <span class="n">m_pos</span> <span class="o">+</span> <span class="n">rel_end</span>
+
+    <span class="k">if</span> <span class="n">signal_stats</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="c1"># Print report() when stop document is received.</span>
+        <span class="k">if</span> <span class="s2">&quot;signal_stats&quot;</span> <span class="ow">in</span> <span class="nb">dir</span><span class="p">(</span><span class="n">MAIN</span><span class="p">):</span>
+            <span class="c1"># get from __main__ namespace</span>
+            <span class="n">signal_stats</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">MAIN</span><span class="p">,</span> <span class="s2">&quot;signal_stats&quot;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">signal_stats</span> <span class="o">=</span> <span class="n">SignalStatsCallback</span><span class="p">()</span>
+            <span class="c1"># Add signal_stats to __main__ namespace.  Users have requested</span>
+            <span class="c1"># a way to determine if a lineup failed and why.</span>
+            <span class="nb">setattr</span><span class="p">(</span><span class="n">MAIN</span><span class="p">,</span> <span class="s2">&quot;signal_stats&quot;</span><span class="p">,</span> <span class="n">signal_stats</span><span class="p">)</span>
+        <span class="n">signal_stats</span><span class="o">.</span><span class="n">reporting</span> <span class="o">=</span> <span class="kc">True</span> <span class="k">if</span> <span class="n">reporting</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">reporting</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="c1"># Do not print report() when stop document is received.</span>
+        <span class="n">signal_stats</span><span class="o">.</span><span class="n">reporting</span> <span class="o">=</span> <span class="kc">False</span> <span class="k">if</span> <span class="n">reporting</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">reporting</span>
+
+    <span class="c1"># Allow for feature to be defined using a name from PeakStats.</span>
+    <span class="n">xref_PeakStats</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s2">&quot;com&quot;</span><span class="p">:</span> <span class="s2">&quot;centroid&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;cen&quot;</span><span class="p">:</span> <span class="s2">&quot;x_at_max_y&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;max&quot;</span><span class="p">:</span> <span class="s2">&quot;x_at_max_y&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;min&quot;</span><span class="p">:</span> <span class="s2">&quot;x_at_min_y&quot;</span><span class="p">,</span>
+    <span class="p">}</span>
+    <span class="c1"># translate from PeakStats feature to SignalStats</span>
+    <span class="n">feature</span> <span class="o">=</span> <span class="n">xref_PeakStats</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">feature</span><span class="p">,</span> <span class="n">feature</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">find_peak_position</span><span class="p">():</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return the X value of the specified &#39;feature&#39;.&quot;&quot;&quot;</span>
+        <span class="n">stats</span> <span class="o">=</span> <span class="n">signal_stats</span><span class="o">.</span><span class="n">analysis</span>
+        <span class="n">logging</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;stats: </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">stats</span><span class="p">)</span>
+        <span class="n">peak_is_strong</span> <span class="o">=</span> <span class="n">strong_peak</span><span class="p">(</span><span class="n">stats</span><span class="p">)</span>
+        <span class="n">peak_too_wide</span> <span class="o">=</span> <span class="n">too_wide</span><span class="p">(</span><span class="n">stats</span><span class="p">)</span>
+        <span class="n">peak_width_zero</span> <span class="o">=</span> <span class="n">stats</span><span class="o">.</span><span class="n">fwhm</span> <span class="o">==</span> <span class="mi">0</span>
+        <span class="n">peak_sigma_zero</span> <span class="o">=</span> <span class="n">stats</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;sigma&quot;</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span>
+        <span class="n">findings</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="n">peak_is_strong</span><span class="p">,</span>
+            <span class="ow">not</span> <span class="n">peak_too_wide</span><span class="p">,</span>
+            <span class="ow">not</span> <span class="n">peak_width_zero</span><span class="p">,</span>
+            <span class="ow">not</span> <span class="n">peak_sigma_zero</span><span class="p">,</span>
+        <span class="p">]</span>
+        <span class="k">if</span> <span class="nb">all</span><span class="p">(</span><span class="n">findings</span><span class="p">):</span>
+            <span class="n">stats</span><span class="p">[</span><span class="s2">&quot;success&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span>
+            <span class="k">return</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">stats</span><span class="p">,</span> <span class="n">feature</span><span class="p">)</span>
+
+        <span class="c1"># Save these into stats for the caller to find.</span>
+        <span class="n">stats</span><span class="p">[</span><span class="s2">&quot;success&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="n">stats</span><span class="p">[</span><span class="s2">&quot;reasons&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">peak_is_strong</span><span class="p">:</span>
+            <span class="n">stats</span><span class="p">[</span><span class="s2">&quot;reasons&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;No strong peak found.&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">peak_too_wide</span><span class="p">:</span>
+            <span class="n">stats</span><span class="p">[</span><span class="s2">&quot;reasons&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;Peak is too wide.&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">peak_width_zero</span><span class="p">:</span>
+            <span class="n">stats</span><span class="p">[</span><span class="s2">&quot;reasons&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;FWHM is zero.&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">peak_sigma_zero</span><span class="p">:</span>
+            <span class="n">stats</span><span class="p">[</span><span class="s2">&quot;reasons&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;Computed peak sigma is zero.&quot;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot; &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">stats</span><span class="p">[</span><span class="s2">&quot;reasons&quot;</span><span class="p">]))</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;No peak found.  Reasons: </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">stats</span><span class="p">[</span><span class="s2">&quot;reasons&quot;</span><span class="p">])</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;stats: </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">stats</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">strong_peak</span><span class="p">(</span><span class="n">stats</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Determine if the peak is strong.&quot;&quot;&quot;</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">denominator</span> <span class="o">=</span> <span class="n">stats</span><span class="o">.</span><span class="n">mean_y</span> <span class="o">-</span> <span class="n">stats</span><span class="o">.</span><span class="n">min_y</span>
+            <span class="k">if</span> <span class="n">denominator</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ZeroDivisionError</span><span class="p">()</span>
+            <span class="k">return</span> <span class="nb">abs</span><span class="p">((</span><span class="n">stats</span><span class="o">.</span><span class="n">max_y</span> <span class="o">-</span> <span class="n">stats</span><span class="o">.</span><span class="n">min_y</span><span class="p">)</span> <span class="o">/</span> <span class="n">denominator</span><span class="p">)</span> <span class="o">&gt;</span> <span class="n">peak_factor</span>
+        <span class="k">except</span> <span class="p">(</span><span class="ne">AttributeError</span><span class="p">,</span> <span class="ne">ZeroDivisionError</span><span class="p">):</span>
+            <span class="k">return</span> <span class="kc">False</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">too_wide</span><span class="p">(</span><span class="n">stats</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Does the measured peak width fill the full range of X?&quot;&quot;&quot;</span>
+        <span class="n">fallback_errors</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="ne">AttributeError</span><span class="p">,</span>  <span class="c1"># no statistics available</span>
+            <span class="ne">ValueError</span><span class="p">,</span>  <span class="c1"># math domain error: variance&lt;0 (noise, no clear peak)</span>
+            <span class="ne">ZeroDivisionError</span><span class="p">,</span>  <span class="c1"># not enough samples</span>
+        <span class="p">)</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">stats</span><span class="o">.</span><span class="n">fwhm</span> <span class="o">&gt;</span> <span class="n">width_factor</span> <span class="o">*</span> <span class="p">(</span><span class="n">stats</span><span class="o">.</span><span class="n">max_x</span> <span class="o">-</span> <span class="n">stats</span><span class="o">.</span><span class="n">min_x</span><span class="p">)</span>
+        <span class="k">except</span> <span class="n">fallback_errors</span> <span class="k">as</span> <span class="n">reason</span><span class="p">:</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s2">&quot;Cannot detect width: </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">reason</span><span class="p">)</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;Statistics: </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">stats</span><span class="p">)</span>
+            <span class="k">return</span> <span class="kc">True</span>
+
+    <span class="k">if</span> <span class="s2">&quot;plan_name&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">_md</span><span class="p">:</span>
+        <span class="n">_md</span><span class="p">[</span><span class="s2">&quot;plan_name&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;lineup2&quot;</span>
+
+    <span class="nd">@bpp</span><span class="o">.</span><span class="n">subs_decorator</span><span class="p">(</span><span class="n">signal_stats</span><span class="o">.</span><span class="n">receiver</span><span class="p">)</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_inner</span><span class="p">():</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Run the scan, collecting statistics at each step.&quot;&quot;&quot;</span>
+        <span class="c1"># TODO: save signal stats into separate stream</span>
+        <span class="k">yield from</span> <span class="n">bp</span><span class="o">.</span><span class="n">rel_scan</span><span class="p">(</span><span class="n">detectors</span><span class="p">,</span> <span class="n">mover</span><span class="p">,</span> <span class="n">rel_start</span><span class="p">,</span> <span class="n">rel_end</span><span class="p">,</span> <span class="n">points</span><span class="p">,</span> <span class="n">md</span><span class="o">=</span><span class="n">_md</span><span class="p">)</span>
+
+    <span class="k">while</span> <span class="n">nscans</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>  <span class="c1"># allow for repeated scans</span>
+        <span class="k">yield from</span> <span class="n">_inner</span><span class="p">()</span>  <span class="c1"># Run the scan.</span>
+        <span class="n">nscans</span> <span class="o">-=</span> <span class="mi">1</span>
+
+        <span class="n">target</span> <span class="o">=</span> <span class="n">find_peak_position</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">target</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">nscans</span> <span class="o">=</span> <span class="mi">0</span>  <span class="c1"># Nothing found, no point scanning again.</span>
+            <span class="k">yield from</span> <span class="n">bps</span><span class="o">.</span><span class="n">mv</span><span class="p">(</span><span class="n">mover</span><span class="p">,</span> <span class="n">m_pos</span><span class="p">)</span>  <span class="c1"># back to starting position</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;Moved </span><span class="si">%s</span><span class="s2"> to </span><span class="si">%s</span><span class="s2">: </span><span class="si">%f</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">mover</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="s2">&quot;original position&quot;</span><span class="p">,</span> <span class="n">m_pos</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="c1"># Maintain absolute range: m_lo &lt;= target &lt;= m_hi</span>
+            <span class="n">target</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="nb">max</span><span class="p">(</span><span class="n">m_lo</span><span class="p">,</span> <span class="n">target</span><span class="p">),</span> <span class="n">m_hi</span><span class="p">)</span>
+            <span class="k">yield from</span> <span class="n">bps</span><span class="o">.</span><span class="n">mv</span><span class="p">(</span><span class="n">mover</span><span class="p">,</span> <span class="n">target</span><span class="p">)</span>  <span class="c1"># Move to the feature position.</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Moved </span><span class="si">%s</span><span class="s2"> to </span><span class="si">%s</span><span class="s2">: </span><span class="si">%f</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">mover</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">feature</span><span class="p">,</span> <span class="n">target</span><span class="p">)</span>
+
+            <span class="k">if</span> <span class="n">nscans</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="c1"># move the end points for the next scan</span>
+                <span class="n">offset</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">signal_stats</span><span class="o">.</span><span class="n">analysis</span><span class="o">.</span><span class="n">fwhm</span>
+                <span class="c1"># Can&#39;t move outside absolute range of m_lo..m_hi</span>
+                <span class="n">rel_start</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">m_lo</span> <span class="o">-</span> <span class="n">target</span><span class="p">,</span> <span class="o">-</span><span class="n">offset</span><span class="p">)</span>
+                <span class="n">rel_end</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">m_hi</span> <span class="o">-</span> <span class="n">target</span><span class="p">,</span> <span class="n">offset</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">signal_stats</span><span class="o">.</span><span class="n">reporting</span><span class="p">:</span>  <span class="c1"># Final report</span>
+        <span class="n">signal_stats</span><span class="o">.</span><span class="n">report</span><span class="p">()</span></div>
+
+
+
+<div class="viewcode-block" id="TuneAxis">
+<a class="viewcode-back" href="../../../api/_plans.html#apstools.plans.alignment.TuneAxis">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">TuneAxis</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    tune an axis with a signal</span>
+
+<span class="sd">    .. index:: Bluesky Device; TuneAxis</span>
+
+<span class="sd">    This class provides a tuning object so that a Device or other entity</span>
+<span class="sd">    may gain its own tuning process, keeping track of the particulars</span>
+<span class="sd">    needed to tune this device again.  For example, one could add</span>
+<span class="sd">    a tuner to a motor stage::</span>
+
+<span class="sd">        motor = EpicsMotor(&quot;xxx:motor&quot;, &quot;motor&quot;)</span>
+<span class="sd">        motor.tuner = TuneAxis([det], motor)</span>
+
+<span class="sd">    Then the ``motor`` could be tuned individually::</span>
+
+<span class="sd">        RE(motor.tuner.tune(md={&quot;activity&quot;: &quot;tuning&quot;}))</span>
+
+<span class="sd">    or the :meth:`tune()` could be part of a plan with other steps.</span>
+
+<span class="sd">    Example::</span>
+
+<span class="sd">        tuner = TuneAxis([det], axis)</span>
+<span class="sd">        live_table = LiveTable([&quot;axis&quot;, &quot;det&quot;])</span>
+<span class="sd">        RE(tuner.multi_pass_tune(width=2, num=9), live_table)</span>
+<span class="sd">        RE(tuner.tune(width=0.05, num=9), live_table)</span>
+
+<span class="sd">    Also see the :doc:`The TuneAxis() plan &lt;/examples/pl_tuneaxis&gt;` (jupyter</span>
+<span class="sd">    notebook).</span>
+
+<span class="sd">    .. autosummary::</span>
+
+<span class="sd">       ~tune</span>
+<span class="sd">       ~multi_pass_tune</span>
+<span class="sd">       ~peak_detected</span>
+
+<span class="sd">    SEE ALSO</span>
+
+<span class="sd">    .. autosummary::</span>
+
+<span class="sd">       ~tune_axes</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">_peak_choices_</span> <span class="o">=</span> <span class="s2">&quot;cen com&quot;</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">signals</span><span class="p">,</span> <span class="n">axis</span><span class="p">,</span> <span class="n">signal_name</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">signals</span> <span class="o">=</span> <span class="n">signals</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">signal_name</span> <span class="o">=</span> <span class="n">signal_name</span> <span class="ow">or</span> <span class="n">signals</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">name</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">axis</span> <span class="o">=</span> <span class="n">axis</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">tune_ok</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">peaks</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">peak_choice</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_peak_choices_</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">center</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">stats</span> <span class="o">=</span> <span class="p">[]</span>
+
+        <span class="c1"># defaults</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">width</span> <span class="o">=</span> <span class="mi">1</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">num</span> <span class="o">=</span> <span class="mi">10</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">step_factor</span> <span class="o">=</span> <span class="mi">4</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">peak_factor</span> <span class="o">=</span> <span class="mi">4</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">pass_max</span> <span class="o">=</span> <span class="mi">4</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">snake</span> <span class="o">=</span> <span class="kc">True</span>
+
+<div class="viewcode-block" id="TuneAxis.tune">
+<a class="viewcode-back" href="../../../api/_plans.html#apstools.plans.alignment.TuneAxis.tune">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">tune</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">num</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">peak_factor</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">md</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Bluesky plan to execute one pass through the current scan range</span>
+
+<span class="sd">        .. index:: Bluesky Plan; TuneAxis.tune</span>
+
+<span class="sd">        Scan self.axis centered about current position from</span>
+<span class="sd">        ``-width/2`` to ``+width/2`` with ``num`` observations.</span>
+<span class="sd">        If a peak was detected (default check is that max &gt;= 4*min),</span>
+<span class="sd">        then set ``self.tune_ok = True``.</span>
+
+<span class="sd">        PARAMETERS</span>
+
+<span class="sd">        width</span>
+<span class="sd">            *float* :</span>
+<span class="sd">            width of the tuning scan in the units of ``self.axis``</span>
+<span class="sd">            Default value in ``self.width`` (initially 1)</span>
+<span class="sd">        num</span>
+<span class="sd">            *int* :</span>
+<span class="sd">            number of steps</span>
+<span class="sd">            Default value in ``self.num`` (initially 10)</span>
+<span class="sd">        md</span>
+<span class="sd">            *dict* :</span>
+<span class="sd">            (optional)</span>
+<span class="sd">            metadata</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">width</span> <span class="o">=</span> <span class="n">width</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">width</span>
+        <span class="n">num</span> <span class="o">=</span> <span class="n">num</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">num</span>
+        <span class="n">peak_factor</span> <span class="o">=</span> <span class="n">peak_factor</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">peak_factor</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">peak_choice</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_peak_choices_</span><span class="p">:</span>
+            <span class="n">msg</span> <span class="o">=</span> <span class="s2">&quot;peak_choice must be one of </span><span class="si">{}</span><span class="s2">, geave </span><span class="si">{}</span><span class="s2">&quot;</span>
+            <span class="n">msg</span> <span class="o">=</span> <span class="n">msg</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_peak_choices_</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">peak_choice</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
+
+        <span class="n">initial_position</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">axis</span><span class="o">.</span><span class="n">position</span>
+        <span class="c1"># final_position = initial_position       # unless tuned</span>
+        <span class="n">start</span> <span class="o">=</span> <span class="n">initial_position</span> <span class="o">-</span> <span class="n">width</span> <span class="o">/</span> <span class="mi">2</span>
+        <span class="n">finish</span> <span class="o">=</span> <span class="n">initial_position</span> <span class="o">+</span> <span class="n">width</span> <span class="o">/</span> <span class="mi">2</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">tune_ok</span> <span class="o">=</span> <span class="kc">False</span>
+
+        <span class="n">tune_md</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span>
+            <span class="n">width</span><span class="o">=</span><span class="n">width</span><span class="p">,</span>
+            <span class="n">initial_position</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">axis</span><span class="o">.</span><span class="n">position</span><span class="p">,</span>
+            <span class="n">time_iso8601</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()),</span>
+        <span class="p">)</span>
+        <span class="n">_md</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;tune_md&quot;</span><span class="p">:</span> <span class="n">tune_md</span><span class="p">,</span>
+            <span class="s2">&quot;plan_name&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span> <span class="o">+</span> <span class="s2">&quot;.tune&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;tune_parameters&quot;</span><span class="p">:</span> <span class="nb">dict</span><span class="p">(</span>
+                <span class="n">num</span><span class="o">=</span><span class="n">num</span><span class="p">,</span>
+                <span class="n">width</span><span class="o">=</span><span class="n">width</span><span class="p">,</span>
+                <span class="n">initial_position</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">axis</span><span class="o">.</span><span class="n">position</span><span class="p">,</span>
+                <span class="n">peak_choice</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">peak_choice</span><span class="p">,</span>
+                <span class="n">x_axis</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">axis</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
+                <span class="n">y_axis</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">signal_name</span><span class="p">,</span>
+            <span class="p">),</span>
+            <span class="s2">&quot;motors&quot;</span><span class="p">:</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">axis</span><span class="o">.</span><span class="n">name</span><span class="p">,),</span>
+            <span class="s2">&quot;detectors&quot;</span><span class="p">:</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">signal_name</span><span class="p">,),</span>
+            <span class="s2">&quot;hints&quot;</span><span class="p">:</span> <span class="nb">dict</span><span class="p">(</span><span class="n">dimensions</span><span class="o">=</span><span class="p">[([</span><span class="bp">self</span><span class="o">.</span><span class="n">axis</span><span class="o">.</span><span class="n">name</span><span class="p">],</span> <span class="s2">&quot;primary&quot;</span><span class="p">)]),</span>
+        <span class="p">}</span>
+        <span class="n">_md</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">md</span> <span class="ow">or</span> <span class="p">{})</span>
+        <span class="k">if</span> <span class="s2">&quot;pass_max&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">_md</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">stats</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">peaks</span> <span class="o">=</span> <span class="n">PeakStats</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">axis</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">signal_name</span><span class="p">)</span>
+
+        <span class="nd">@bpp</span><span class="o">.</span><span class="n">subs_decorator</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">peaks</span><span class="p">)</span>
+        <span class="k">def</span><span class="w"> </span><span class="nf">_scan</span><span class="p">(</span><span class="n">md</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+            <span class="k">yield from</span> <span class="n">bps</span><span class="o">.</span><span class="n">open_run</span><span class="p">(</span><span class="n">md</span><span class="p">)</span>
+
+            <span class="n">position_list</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="n">start</span><span class="p">,</span> <span class="n">finish</span><span class="p">,</span> <span class="n">num</span><span class="p">)</span>
+            <span class="c1"># fmt: off</span>
+            <span class="n">signal_list</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">signals</span><span class="p">)</span>
+            <span class="n">signal_list</span> <span class="o">+=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">axis</span><span class="p">]</span>
+            <span class="c1"># fmt: on</span>
+            <span class="k">for</span> <span class="n">pos</span> <span class="ow">in</span> <span class="n">position_list</span><span class="p">:</span>
+                <span class="k">yield from</span> <span class="n">bps</span><span class="o">.</span><span class="n">mv</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">axis</span><span class="p">,</span> <span class="n">pos</span><span class="p">)</span>
+                <span class="k">yield from</span> <span class="n">bps</span><span class="o">.</span><span class="n">trigger_and_read</span><span class="p">(</span><span class="n">signal_list</span><span class="p">)</span>
+
+            <span class="n">final_position</span> <span class="o">=</span> <span class="n">initial_position</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">peak_detected</span><span class="p">(</span><span class="n">peak_factor</span><span class="o">=</span><span class="n">peak_factor</span><span class="p">):</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">tune_ok</span> <span class="o">=</span> <span class="kc">True</span>
+                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">peak_choice</span> <span class="o">==</span> <span class="s2">&quot;cen&quot;</span><span class="p">:</span>
+                    <span class="n">final_position</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">peaks</span><span class="o">.</span><span class="n">cen</span>
+                <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">peak_choice</span> <span class="o">==</span> <span class="s2">&quot;com&quot;</span><span class="p">:</span>
+                    <span class="n">final_position</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">peaks</span><span class="o">.</span><span class="n">com</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">final_position</span> <span class="o">=</span> <span class="kc">None</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">center</span> <span class="o">=</span> <span class="n">final_position</span>
+
+            <span class="c1"># add stream with results</span>
+            <span class="c1"># yield from add_results_stream()</span>
+            <span class="n">stream_name</span> <span class="o">=</span> <span class="s2">&quot;PeakStats&quot;</span>
+            <span class="n">results</span> <span class="o">=</span> <span class="n">TuneResults</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="n">stream_name</span><span class="p">)</span>
+
+            <span class="n">results</span><span class="o">.</span><span class="n">tune_ok</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">tune_ok</span><span class="p">)</span>
+            <span class="n">results</span><span class="o">.</span><span class="n">center</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">center</span><span class="p">)</span>
+            <span class="n">results</span><span class="o">.</span><span class="n">final_position</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="n">final_position</span><span class="p">)</span>
+            <span class="n">results</span><span class="o">.</span><span class="n">initial_position</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="n">initial_position</span><span class="p">)</span>
+            <span class="n">results</span><span class="o">.</span><span class="n">set_stats</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">peaks</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">stats</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">results</span><span class="p">)</span>
+
+            <span class="k">if</span> <span class="n">results</span><span class="o">.</span><span class="n">tune_ok</span><span class="o">.</span><span class="n">get</span><span class="p">():</span>
+                <span class="k">try</span><span class="p">:</span>
+                    <span class="k">yield from</span> <span class="n">write_stream</span><span class="p">(</span><span class="n">results</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="n">stream_name</span><span class="p">)</span>
+                <span class="k">except</span> <span class="ne">ValueError</span> <span class="k">as</span> <span class="n">ex</span><span class="p">:</span>
+                    <span class="n">separator</span> <span class="o">=</span> <span class="s2">&quot; &quot;</span> <span class="o">*</span> <span class="mi">8</span> <span class="o">+</span> <span class="s2">&quot;-&quot;</span> <span class="o">*</span> <span class="mi">12</span>
+                    <span class="nb">print</span><span class="p">(</span><span class="n">separator</span><span class="p">)</span>
+                    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Error saving stream </span><span class="si">{</span><span class="n">stream_name</span><span class="si">}</span><span class="s2">:</span><span class="se">\n</span><span class="si">{</span><span class="n">ex</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+                    <span class="nb">print</span><span class="p">(</span><span class="n">separator</span><span class="p">)</span>
+
+            <span class="k">yield from</span> <span class="n">bps</span><span class="o">.</span><span class="n">mv</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">axis</span><span class="p">,</span> <span class="n">final_position</span><span class="p">)</span>
+            <span class="k">yield from</span> <span class="n">bps</span><span class="o">.</span><span class="n">close_run</span><span class="p">()</span>
+
+            <span class="n">results</span><span class="o">.</span><span class="n">report</span><span class="p">(</span><span class="n">stream_name</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="p">(</span><span class="k">yield from</span> <span class="n">_scan</span><span class="p">(</span><span class="n">md</span><span class="o">=</span><span class="n">_md</span><span class="p">))</span></div>
+
+
+<div class="viewcode-block" id="TuneAxis.multi_pass_tune">
+<a class="viewcode-back" href="../../../api/_plans.html#apstools.plans.alignment.TuneAxis.multi_pass_tune">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">multi_pass_tune</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">width</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">step_factor</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">num</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">pass_max</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">peak_factor</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">snake</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">md</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Bluesky plan for tuning this axis with this signal</span>
+
+<span class="sd">        Execute multiple passes to refine the centroid determination.</span>
+<span class="sd">        Each subsequent pass will reduce the width of scan by ``step_factor``.</span>
+<span class="sd">        If ``snake=True`` then the scan direction will reverse with</span>
+<span class="sd">        each subsequent pass.</span>
+
+<span class="sd">        PARAMETERS</span>
+
+<span class="sd">        width</span>
+<span class="sd">            *float* :</span>
+<span class="sd">            width of the tuning scan in the units of ``self.axis``</span>
+<span class="sd">            Default value in ``self.width`` (initially 1)</span>
+<span class="sd">        num</span>
+<span class="sd">            *int* :</span>
+<span class="sd">            number of steps</span>
+<span class="sd">            Default value in ``self.num`` (initially 10)</span>
+<span class="sd">        step_factor</span>
+<span class="sd">            *float* :</span>
+<span class="sd">            This reduces the width of the next tuning scan by the given factor.</span>
+<span class="sd">            Default value in ``self.step_factor`` (initially 4)</span>
+<span class="sd">        pass_max</span>
+<span class="sd">            *int* :</span>
+<span class="sd">            Maximum number of passes to be executed (avoids runaway</span>
+<span class="sd">            scans when a centroid is not found).</span>
+<span class="sd">            Default value in ``self.pass_max`` (initially 4)</span>
+<span class="sd">        peak_factor</span>
+<span class="sd">            *float* :</span>
+<span class="sd">            peak maximum must be greater than ``peak_factor*minimum``</span>
+<span class="sd">            (default: 4)</span>
+<span class="sd">        snake</span>
+<span class="sd">            *bool* :</span>
+<span class="sd">            If ``True``, reverse scan direction on next pass.</span>
+<span class="sd">            Default value in ``self.snake`` (initially True)</span>
+<span class="sd">        md</span>
+<span class="sd">            *dict* :</span>
+<span class="sd">            (optional)</span>
+<span class="sd">            metadata</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">width</span> <span class="o">=</span> <span class="n">width</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">width</span>
+        <span class="n">num</span> <span class="o">=</span> <span class="n">num</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">num</span>
+        <span class="n">step_factor</span> <span class="o">=</span> <span class="n">step_factor</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">step_factor</span>
+        <span class="n">snake</span> <span class="o">=</span> <span class="n">snake</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">snake</span>
+        <span class="n">pass_max</span> <span class="o">=</span> <span class="n">pass_max</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">pass_max</span>
+        <span class="n">peak_factor</span> <span class="o">=</span> <span class="n">peak_factor</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">peak_factor</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">stats</span> <span class="o">=</span> <span class="p">[]</span>
+
+        <span class="k">def</span><span class="w"> </span><span class="nf">_scan</span><span class="p">(</span><span class="n">width</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">step_factor</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">num</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">snake</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+            <span class="k">for</span> <span class="n">_pass_number</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">pass_max</span><span class="p">):</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Multipass tune </span><span class="si">%d</span><span class="s2"> of </span><span class="si">%d</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">_pass_number</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">pass_max</span><span class="p">)</span>
+                <span class="n">_md</span> <span class="o">=</span> <span class="p">{</span>
+                    <span class="s2">&quot;pass&quot;</span><span class="p">:</span> <span class="n">_pass_number</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span>
+                    <span class="s2">&quot;pass_max&quot;</span><span class="p">:</span> <span class="n">pass_max</span><span class="p">,</span>
+                    <span class="s2">&quot;plan_name&quot;</span><span class="p">:</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2">.multi_pass_tune&quot;</span><span class="p">,</span>
+                <span class="p">}</span>
+                <span class="n">_md</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">md</span> <span class="ow">or</span> <span class="p">{})</span>
+
+                <span class="k">yield from</span> <span class="bp">self</span><span class="o">.</span><span class="n">tune</span><span class="p">(</span><span class="n">width</span><span class="o">=</span><span class="n">width</span><span class="p">,</span> <span class="n">num</span><span class="o">=</span><span class="n">num</span><span class="p">,</span> <span class="n">peak_factor</span><span class="o">=</span><span class="n">peak_factor</span><span class="p">,</span> <span class="n">md</span><span class="o">=</span><span class="n">_md</span><span class="p">)</span>
+
+                <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">tune_ok</span><span class="p">:</span>
+                    <span class="k">return</span>
+                <span class="k">if</span> <span class="n">width</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                    <span class="n">sign</span> <span class="o">=</span> <span class="mi">1</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">sign</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
+                <span class="n">width</span> <span class="o">=</span> <span class="n">sign</span> <span class="o">*</span> <span class="mi">2</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">stats</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">fwhm</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
+                <span class="k">if</span> <span class="n">snake</span><span class="p">:</span>
+                    <span class="n">width</span> <span class="o">*=</span> <span class="o">-</span><span class="mi">1</span>
+
+        <span class="k">return</span> <span class="p">(</span><span class="k">yield from</span> <span class="n">_scan</span><span class="p">(</span><span class="n">width</span><span class="o">=</span><span class="n">width</span><span class="p">,</span> <span class="n">step_factor</span><span class="o">=</span><span class="n">step_factor</span><span class="p">,</span> <span class="n">num</span><span class="o">=</span><span class="n">num</span><span class="p">,</span> <span class="n">snake</span><span class="o">=</span><span class="n">snake</span><span class="p">))</span></div>
+
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">multi_pass_tune_summary</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">t</span> <span class="o">=</span> <span class="n">pyRestTable</span><span class="o">.</span><span class="n">Table</span><span class="p">()</span>
+        <span class="n">t</span><span class="o">.</span><span class="n">labels</span> <span class="o">=</span> <span class="s2">&quot;pass Ok? center width max.X max.Y&quot;</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">stat</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">stats</span><span class="p">):</span>
+            <span class="n">row</span> <span class="o">=</span> <span class="p">[</span>
+                <span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span>
+            <span class="p">]</span>
+            <span class="n">row</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">stat</span><span class="o">.</span><span class="n">tune_ok</span><span class="o">.</span><span class="n">get</span><span class="p">())</span>
+            <span class="n">row</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">stat</span><span class="o">.</span><span class="n">cen</span><span class="o">.</span><span class="n">get</span><span class="p">())</span>
+            <span class="n">row</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">stat</span><span class="o">.</span><span class="n">fwhm</span><span class="o">.</span><span class="n">get</span><span class="p">())</span>
+            <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">stat</span><span class="o">.</span><span class="n">max</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
+            <span class="n">row</span> <span class="o">+=</span> <span class="p">[</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">]</span>
+            <span class="n">t</span><span class="o">.</span><span class="n">addRow</span><span class="p">(</span><span class="n">row</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">t</span>
+
+<div class="viewcode-block" id="TuneAxis.peak_detected">
+<a class="viewcode-back" href="../../../api/_plans.html#apstools.plans.alignment.TuneAxis.peak_detected">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">peak_detected</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">peak_factor</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        returns True if a peak was detected, otherwise False</span>
+
+<span class="sd">        The default algorithm identifies a peak when the maximum</span>
+<span class="sd">        value is four times the minimum value.  Change this routine</span>
+<span class="sd">        by subclassing :class:`TuneAxis` and override :meth:`peak_detected`.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">peak_factor</span> <span class="o">=</span> <span class="n">peak_factor</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">peak_factor</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">peaks</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">False</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">peaks</span><span class="o">.</span><span class="n">compute</span><span class="p">()</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">peaks</span><span class="o">.</span><span class="n">max</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">False</span>
+
+        <span class="n">ymax</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">peaks</span><span class="o">.</span><span class="n">max</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+        <span class="n">ymin</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">peaks</span><span class="o">.</span><span class="n">min</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+        <span class="n">ok</span> <span class="o">=</span> <span class="n">ymax</span> <span class="o">&gt;=</span> <span class="n">peak_factor</span> <span class="o">*</span> <span class="n">ymin</span>  <span class="c1"># this works for USAXS@APS</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">ok</span><span class="p">:</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;ymax &lt; ymin * </span><span class="si">%f</span><span class="s2">: is it a peak?&quot;</span><span class="p">,</span> <span class="n">peak_factor</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">ok</span></div>
+</div>
+
+
+
+<div class="viewcode-block" id="tune_axes">
+<a class="viewcode-back" href="../../../api/_plans.html#apstools.plans.alignment.tune_axes">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">tune_axes</span><span class="p">(</span><span class="n">axes</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Bluesky plan to tune a list of axes in sequence.</span>
+
+<span class="sd">    Expects each axis will have a ``tuner`` attribute which is an instance of</span>
+<span class="sd">    :class:`~apstools.plans.alignment.TuneAxis()`.</span>
+
+<span class="sd">    .. index:: Bluesky Plan; tune_axes</span>
+
+<span class="sd">    EXAMPLE</span>
+
+<span class="sd">    Sequentially, tune a list of preconfigured axes::</span>
+
+<span class="sd">        RE(tune_axes([mr, m2r, ar, a2r])</span>
+
+<span class="sd">    SEE ALSO</span>
+
+<span class="sd">    .. autosummary::</span>
+
+<span class="sd">       ~TuneAxis</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">for</span> <span class="n">axis</span> <span class="ow">in</span> <span class="n">axes</span><span class="p">:</span>
+        <span class="k">if</span> <span class="s2">&quot;tuner&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="nb">dir</span><span class="p">(</span><span class="n">axis</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">AttributeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Did not find &#39;</span><span class="si">{</span><span class="n">axis</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">.tuner&#39; attribute.&quot;</span><span class="p">)</span>
+        <span class="k">yield from</span> <span class="n">axis</span><span class="o">.</span><span class="n">tuner</span><span class="o">.</span><span class="n">tune</span><span class="p">()</span></div>
+
+
+
+<div class="viewcode-block" id="TuneResults">
+<a class="viewcode-back" href="../../../api/_plans.html#apstools.plans.alignment.TuneResults">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">TuneResults</span><span class="p">(</span><span class="n">Device</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Provides bps.read() as a Device</span>
+
+<span class="sd">    .. index:: Bluesky Device; TuneResults</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">tune_ok</span> <span class="o">=</span> <span class="n">Component</span><span class="p">(</span><span class="n">Signal</span><span class="p">)</span>
+    <span class="n">initial_position</span> <span class="o">=</span> <span class="n">Component</span><span class="p">(</span><span class="n">Signal</span><span class="p">)</span>
+    <span class="n">final_position</span> <span class="o">=</span> <span class="n">Component</span><span class="p">(</span><span class="n">Signal</span><span class="p">)</span>
+    <span class="n">center</span> <span class="o">=</span> <span class="n">Component</span><span class="p">(</span><span class="n">Signal</span><span class="p">)</span>
+    <span class="c1"># - - - - -</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">Component</span><span class="p">(</span><span class="n">Signal</span><span class="p">)</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="n">Component</span><span class="p">(</span><span class="n">Signal</span><span class="p">)</span>
+    <span class="n">cen</span> <span class="o">=</span> <span class="n">Component</span><span class="p">(</span><span class="n">Signal</span><span class="p">)</span>
+    <span class="n">com</span> <span class="o">=</span> <span class="n">Component</span><span class="p">(</span><span class="n">Signal</span><span class="p">)</span>
+    <span class="n">fwhm</span> <span class="o">=</span> <span class="n">Component</span><span class="p">(</span><span class="n">Signal</span><span class="p">)</span>
+    <span class="nb">min</span> <span class="o">=</span> <span class="n">Component</span><span class="p">(</span><span class="n">Signal</span><span class="p">)</span>
+    <span class="nb">max</span> <span class="o">=</span> <span class="n">Component</span><span class="p">(</span><span class="n">Signal</span><span class="p">)</span>
+    <span class="n">crossings</span> <span class="o">=</span> <span class="n">Component</span><span class="p">(</span><span class="n">Signal</span><span class="p">)</span>
+    <span class="n">peakstats_attrs</span> <span class="o">=</span> <span class="s2">&quot;x y cen com fwhm min max crossings&quot;</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
+
+<div class="viewcode-block" id="TuneResults.report">
+<a class="viewcode-back" href="../../../api/_plans.html#apstools.plans.alignment.TuneResults.report">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">report</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="n">keys</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">peakstats_attrs</span> <span class="o">+</span> <span class="s2">&quot;tune_ok center initial_position final_position&quot;</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
+        <span class="n">t</span> <span class="o">=</span> <span class="n">pyRestTable</span><span class="o">.</span><span class="n">Table</span><span class="p">()</span>
+        <span class="n">t</span><span class="o">.</span><span class="n">addLabel</span><span class="p">(</span><span class="s2">&quot;key&quot;</span><span class="p">)</span>
+        <span class="n">t</span><span class="o">.</span><span class="n">addLabel</span><span class="p">(</span><span class="s2">&quot;result&quot;</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">keys</span><span class="p">:</span>
+            <span class="n">v</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">)</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
+            <span class="n">t</span><span class="o">.</span><span class="n">addRow</span><span class="p">((</span><span class="n">key</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">v</span><span class="p">)))</span>
+        <span class="k">if</span> <span class="n">title</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="n">title</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">t</span><span class="p">)</span></div>
+
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">set_stats</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">peaks</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">peakstats_attrs</span><span class="p">:</span>
+            <span class="n">v</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">peaks</span><span class="p">,</span> <span class="n">key</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">v</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>  <span class="c1"># None cannot be mapped into json</span>
+                <span class="n">v</span> <span class="o">=</span> <span class="s2">&quot;null&quot;</span>  <span class="c1"># but &quot;null&quot; can replace it</span>
+            <span class="k">if</span> <span class="n">key</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">&quot;crossings&quot;</span><span class="p">,</span> <span class="s2">&quot;min&quot;</span><span class="p">,</span> <span class="s2">&quot;max&quot;</span><span class="p">):</span>
+                <span class="n">v</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">v</span><span class="p">)</span>
+            <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">)</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="n">v</span><span class="p">)</span></div>
+
+
+
+<span class="c1"># -----------------------------------------------------------------------------</span>
+<span class="c1"># :author:    BCDA</span>
+<span class="c1"># :copyright: (c) 2017-2025, UChicago Argonne, LLC</span>
+<span class="c1">#</span>
+<span class="c1"># Distributed under the terms of the Argonne National Laboratory Open Source License.</span>
+<span class="c1">#</span>
+<span class="c1"># The full license is in the file LICENSE.txt, distributed with this software.</span>
+<span class="c1"># -----------------------------------------------------------------------------</span>
+</pre></div>
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="../../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+
+  <p class="copyright">
+    
+      © Copyright 2017-2025, UChicago Argonne, LLC.
+      <br/>
+    
+  </p>
+</div>
+      
+        <div class="footer-item">
+
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.1.3.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item">
+<p class="theme-version">
+  <!-- # L10n: Setting the PST URL as an argument as this does not need to be localized -->
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.16.1.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>
