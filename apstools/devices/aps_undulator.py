@@ -147,7 +147,7 @@ class PlanarUndulator(ID_Spectrum_Mixin, ID_Controls_Mixin, ID_Misc_Mixin, Devic
         undulator = PlanarUndulator("S25ID:USID:", name="undulator")
     """
 
-    version_hdmu = Component(EpicsSignalRO, "HDMUVersionM.VAL", kind="config")
+    version_hpmu = Component(EpicsSignalRO, "HPMUVersionM.VAL", kind="config")
 
 
 class Revolver_Undulator(ID_Spectrum_Mixin, ID_Controls_Mixin, ID_Misc_Mixin, Device):
