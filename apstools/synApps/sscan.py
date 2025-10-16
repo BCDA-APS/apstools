@@ -240,6 +240,7 @@ class SscanRecord(Device):
             value = int(value)
             if started and value == 0:
                 working_status._finished()
+                self.execute_scan.clear_sub(execute_scan_cb)
 
         self.execute_scan.subscribe(execute_scan_cb)
         self.execute_scan.set(1)
