@@ -161,7 +161,7 @@ class ApsCycleDM(SynSignalRO):
             if now.month < 5:
                 cycle = f"{now.year}-1"
                 dt_cycle_ends = f"{now.year}-05-01 00:00:00-05:00"
-            if now.month < 9:
+            elif now.month < 9:
                 cycle = f"{now.year}-2"
                 dt_cycle_ends = f"{now.year}-10-01 00:00:00-05:00"
             else:

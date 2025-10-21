@@ -24,7 +24,12 @@ describe future plans.
    1.7.10
    ******
 
-   Release expected by 2026-01.
+   Release expected by 2025-12-05.
+
+   Fixes
+   -------------
+
+   * BUG 'dt_cycle_ends' in apstools.devices.aps_cycle.ApsCycleDM
 
 1.7.9
 *****
