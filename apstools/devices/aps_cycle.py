@@ -161,18 +161,20 @@ class ApsCycleDM(SynSignalRO):
             if now.month < 5:
                 cycle = f"{now.year}-1"
                 dt_cycle_ends = f"{now.year}-05-01 00:00:00-05:00"
-            if now.month < 9:
+            elif now.month < 9:
                 cycle = f"{now.year}-2"
                 dt_cycle_ends = f"{now.year}-10-01 00:00:00-05:00"
             else:
                 cycle = f"{now.year}-3"
                 dt_cycle_ends = f"{now.year+1}-01-01 00:00:00-06:00"
+            self._cycle_ends = dt_cycle_ends
+
         else:  # official table from APS (via DM)
             if now.isoformat(sep=" ") >= self._cycle_ends:
                 ts_cycle_end = cycle_db.db[cycle]["end"]
                 dt_cycle_ends = datetime.datetime.fromtimestamp(ts_cycle_end).isoformat(sep=" ")
+                self._cycle_ends = dt_cycle_ends
 
-        self._cycle_ends = dt_cycle_ends
         self._cycle_name = cycle
         return self._cycle_name
 
