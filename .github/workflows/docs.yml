@@ -84,7 +84,7 @@ jobs:
         run: ls -lAFghR "${TMP_DIR}/build/html"
 
       - name: Upload Docs ZIP file as artifact
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         with:
           name: apstools-docs
           path: ${{ env.TMP_DIR }}/build/html
