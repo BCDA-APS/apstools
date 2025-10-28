@@ -32,6 +32,7 @@ import inspect
 import logging
 import pathlib
 import re
+import socket
 import subprocess
 import sys
 import threading
@@ -746,6 +747,24 @@ def redefine_motor_position(motor, new_position):
     yield from bps.mv(motor.user_setpoint, new_position)
     yield from bps.mv(motor.set_use_switch, 0)
 
+
+def host_on_aps_subnet():
+    """Detect if this host is on an APS subnet."""
+    LOOPBACK_IP4 = "127.0.0.1"
+    PUBLIC_IP4_PREFIX = "164.54."
+    PRIVATE_IP4_PREFIX = "10.54."
+    TEST_IP = "10.254.254.254"  # does not have to be reachable
+    with socket.socket(socket.AF_INET, socket.SOCK_DGRAM) as sock:
+        sock.settimeout(0)
+        try:
+            sock.connect((TEST_IP, 1))
+            ip4 = sock.getsockname()[0]
+        except Exception:
+            ip4 = LOOPBACK_IP4
+    return True in [
+        ip4.startswith(PUBLIC_IP4_PREFIX),
+        ip4.startswith(PRIVATE_IP4_PREFIX),
+    ]
 
 # -----------------------------------------------------------------------------
 # :author:    BCDA
