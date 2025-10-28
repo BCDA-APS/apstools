@@ -120,24 +120,36 @@ WORKFLOW_DONE_STATES = "done failed timeout aborted".split()
 DM_ENV_SOURCED = False
 
 
-def dm_setup(setup_file):
+def dm_setup(dm_setup_file_path):
     """
-    Name the APS Data Management bash script that activates its conda environment.
+    APS Data Management setup
+    =========================
 
-    The return result is the 'owner' of the DM workflows.
+    Read the bash shell script file used by DM to setup the environment. Parse any
+    ``export`` lines and add their environment variables to this session.  This is
+    done by brute force here since the APS DM environment setup requires different
+    Python code than bluesky and the two often clash.
+
+    This setup must be done before any of the DM package libraries are called.
+
     """
-    global DM_SETUP_FILE
+    if dm_setup_file_path is not None:
+        bash_script = pathlib.Path(dm_setup_file_path)
+        if bash_script.exists():
+            logger.info("APS DM environment file: %s", str(bash_script))
+            # parse environment variables from bash script
+            environment = {}
+            for line in open(bash_script).readlines():
+                if not line.startswith("export "):
+                    continue
+                k, v = line.strip().split()[-1].split("=")
+                environment[k] = v
+            environ.update(environment)
 
-    if not pathlib.Path(setup_file).exists():
-        DM_SETUP_FILE = None
-        raise FileExistsError(f"{setup_file=} does not exist.")
-    DM_SETUP_FILE = setup_file
-
-    dm_source_environ()
-    workflow_owner = environ["DM_STATION_NAME"].lower()
-
-    logger.info("APS DM workflow owner: %s", workflow_owner)
-    return workflow_owner
+            workflow_owner = environ["DM_STATION_NAME"].lower()
+            logger.info("APS DM workflow owner: %s", workflow_owner)
+        else:
+            logger.warning("APS DM setup file does not exist: '%s'", bash_script)
 
 
 def build_run_metadata_dict(user_md: dict, **dm_kwargs) -> dict:
