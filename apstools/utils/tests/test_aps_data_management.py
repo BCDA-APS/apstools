@@ -60,8 +60,8 @@ def make_bash_file(contents):
             None,
             False,
             pytest.raises(
-                TypeError,
-                match="expected str, bytes or os.PathLike object, not NoneType",
+                ValueError,
+                match="'None' not allowed for 'filename'.",
             ),
             id="filename is 'None'",
         ),

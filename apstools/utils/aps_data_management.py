@@ -120,10 +120,7 @@ WORKFLOW_DONE_STATES = "done failed timeout aborted".split()
 DM_ENV_SOURCED = False
 
 
-def dm_setup(
-    filename: str = None,
-    fail: bool = False,
-) -> str:
+def dm_setup(filename: str, fail: bool = False) -> str:
     """
     Setup this session for APS Data Management.
 
@@ -138,7 +135,7 @@ def dm_setup(
     Parameters
 
     filename str:
-        (optional) Absolute file location of the Data Management's bash script file.
+        Absolute file location of the Data Management's bash script file.
         Typically this pattern: ``${DM_ROOT}/etc/dm.setup.sh`` where ``DM_ROOT``
         is the location of the DM tools as installed in the current user account.
     fail bool:
@@ -151,6 +148,9 @@ def dm_setup(
         Name of the DM workflow owner or ``None``.
     """
     global DM_SETUP_FILE
+
+    if filename is None:
+        raise ValueError("'None' not allowed for 'filename'.")
 
     if pathlib.Path(filename).exists():
         DM_SETUP_FILE = filename
