@@ -91,7 +91,7 @@ class ApsMachineParametersDevice(Device):
 
     # shutter_permit = Component(EpicsSignalRO, "ACIS:ShutterPermit", string=True) # Not Found
 
-    shutter_status = Component(EpicsSignalRO, "RF-ACIS:FePermit:Sect1To35IdM.RVAL", string = True)
+    shutter_status = Component(EpicsSignalRO, "XFD:ShutterPermit", string=True)
     shutters_open  =  Component(EpicsSignalRO, "NoOfShuttersOpenA")
     fill_number = Component(EpicsSignalRO, "S:FillNumber")
     orbit_correction = Component(EpicsSignalRO, "S:OrbitCorrection:CC")
