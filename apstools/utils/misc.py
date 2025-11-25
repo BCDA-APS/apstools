@@ -12,6 +12,7 @@ Miscellaneous Support
    ~dictionary_table
    ~dynamic_import
    ~full_dotted_name
+   ~host_on_aps_subnet
    ~itemizer
    ~listobjects
    ~pairwise
@@ -748,6 +749,7 @@ def redefine_motor_position(motor, new_position):
     yield from bps.mv(motor.set_use_switch, 0)
 
 
+@versionadded(version="1.7.10", reason="transfer from apsbits")
 def host_on_aps_subnet():
     """Detect if this host is on an APS subnet."""
     LOOPBACK_IP4 = "127.0.0.1"

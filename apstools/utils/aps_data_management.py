@@ -101,6 +101,7 @@ from os import environ
 import pyRestTable
 
 from bluesky import plan_stubs as bps
+from deprecated.sphinx import versionchanged
 
 from .time_constants import MINUTE
 from .time_constants import SECOND
@@ -120,6 +121,7 @@ WORKFLOW_DONE_STATES = "done failed timeout aborted".split()
 DM_ENV_SOURCED = False
 
 
+@versionchanged(version="1.7.10", reason="transfer from apsbits")
 def dm_setup(filename: str, fail: bool = False) -> str:
     """
     Setup this session for APS Data Management.
