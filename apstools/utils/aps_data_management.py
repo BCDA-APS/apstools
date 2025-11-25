@@ -120,36 +120,51 @@ WORKFLOW_DONE_STATES = "done failed timeout aborted".split()
 DM_ENV_SOURCED = False
 
 
-def dm_setup(dm_setup_file_path):
+def dm_setup(
+    filename: str = None,
+    fail: bool = False,
+) -> str:
     """
-    APS Data Management setup
-    =========================
+    Setup this session for APS Data Management.
 
-    Read the bash shell script file used by DM to setup the environment. Parse any
-    ``export`` lines and add their environment variables to this session.  This is
+    .. note:: This setup must be done before any of the DM package libraries
+       are called.
+
+    Reads the bash shell script file used by DM to setup the environment. Parses any
+    ``export`` lines and adds their environment variables to this session.  This is
     done by brute force here since the APS DM environment setup requires different
-    Python code than bluesky and the two often clash.
+    Python code than bluesky and the two can have conflicting package requirements.
 
-    This setup must be done before any of the DM package libraries are called.
+    Parameters
 
+    filename str:
+        (optional) Absolute file location of the Data Management's bash script file.
+        Typically this pattern: ``${DM_ROOT}/etc/dm.setup.sh`` where ``DM_ROOT``
+        is the location of the DM tools as installed in the current user account.
+    fail bool:
+        When ``True`` (default: ``False``), a ``FileExistsError`` exception
+        is raised if ``filename`` does not exist.
+
+    Returns
+
+    str:
+        Name of the DM workflow owner or ``None``.
     """
-    if dm_setup_file_path is not None:
-        bash_script = pathlib.Path(dm_setup_file_path)
-        if bash_script.exists():
-            logger.info("APS DM environment file: %s", str(bash_script))
-            # parse environment variables from bash script
-            environment = {}
-            for line in open(bash_script).readlines():
-                if not line.startswith("export "):
-                    continue
-                k, v = line.strip().split()[-1].split("=")
-                environment[k] = v
-            environ.update(environment)
+    global DM_SETUP_FILE
 
-            workflow_owner = environ["DM_STATION_NAME"].lower()
-            logger.info("APS DM workflow owner: %s", workflow_owner)
+    if pathlib.Path(filename).exists():
+        DM_SETUP_FILE = filename
+        dm_source_environ()
+        workflow_owner = environ["DM_STATION_NAME"].lower()
+    else:
+        DM_SETUP_FILE = None
+        workflow_owner = None
+        if fail:
+            raise FileExistsError(f"{filename=} does not exist.")
         else:
-            logger.warning("APS DM setup file does not exist: '%s'", bash_script)
+            logger.warning("APS DM setup file does not exist: '%s'", filename)
+
+    return workflow_owner
 
 
 def build_run_metadata_dict(user_md: dict, **dm_kwargs) -> dict:
@@ -438,7 +453,7 @@ def wait_dm_upload(
             yield from bps.sleep(poll_period)
 
     raise TimeoutError(
-        f"No such file={experiment_file!r} found" f" in DM {experiment_name=!r}" f" after {time.time()-t0:.1f} s."
+        f"No such file={experiment_file!r} found in DM {experiment_name=!r} after {time.time() - t0:.1f} s."
     )
 
 
