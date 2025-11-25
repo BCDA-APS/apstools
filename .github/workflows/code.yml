@@ -152,7 +152,7 @@ jobs:
           set -vxeuo pipefail
           coverage run --concurrency=thread --parallel-mode -m pytest -q --exitfirst .
           coverage combine
-          coverage report --precision 3
+          coverage report --precision 3 --show-missing
 
       - name: Upload coverage data to coveralls.io
         shell: bash -l {0}
