@@ -101,6 +101,7 @@ from os import environ
 import pyRestTable
 
 from bluesky import plan_stubs as bps
+from deprecated.sphinx import versionchanged
 
 from .time_constants import MINUTE
 from .time_constants import SECOND
@@ -120,23 +121,51 @@ WORKFLOW_DONE_STATES = "done failed timeout aborted".split()
 DM_ENV_SOURCED = False
 
 
-def dm_setup(setup_file):
+@versionchanged(version="1.7.10", reason="transfer from apsbits")
+def dm_setup(filename: str, fail: bool = False) -> str:
     """
-    Name the APS Data Management bash script that activates its conda environment.
+    Setup this session for APS Data Management.
 
-    The return result is the 'owner' of the DM workflows.
+    .. note:: This setup must be done before any of the DM package libraries
+       are called.
+
+    Reads the bash shell script file used by DM to setup the environment. Parses any
+    ``export`` lines and adds their environment variables to this session.  This is
+    done by brute force here since the APS DM environment setup requires different
+    Python code than bluesky and the two can have conflicting package requirements.
+
+    Parameters
+
+    filename str:
+        Absolute file location of the Data Management's bash script file.
+        Typically this pattern: ``${DM_ROOT}/etc/dm.setup.sh`` where ``DM_ROOT``
+        is the location of the DM tools as installed in the current user account.
+    fail bool:
+        When ``True`` (default: ``False``), a ``FileExistsError`` exception
+        is raised if ``filename`` does not exist.
+
+    Returns
+
+    str:
+        Name of the DM workflow owner or ``None``.
     """
     global DM_SETUP_FILE
 
-    if not pathlib.Path(setup_file).exists():
+    if filename is None:
+        raise ValueError("'None' not allowed for 'filename'.")
+
+    if pathlib.Path(filename).exists():
+        DM_SETUP_FILE = filename
+        dm_source_environ()
+        workflow_owner = environ["DM_STATION_NAME"].lower()
+    else:
         DM_SETUP_FILE = None
-        raise FileExistsError(f"{setup_file=} does not exist.")
-    DM_SETUP_FILE = setup_file
+        workflow_owner = None
+        if fail:
+            raise FileExistsError(f"{filename=} does not exist.")
+        else:
+            logger.warning("APS DM setup file does not exist: '%s'", filename)
 
-    dm_source_environ()
-    workflow_owner = environ["DM_STATION_NAME"].lower()
-
-    logger.info("APS DM workflow owner: %s", workflow_owner)
     return workflow_owner
 
 
@@ -426,7 +455,7 @@ def wait_dm_upload(
             yield from bps.sleep(poll_period)
 
     raise TimeoutError(
-        f"No such file={experiment_file!r} found" f" in DM {experiment_name=!r}" f" after {time.time()-t0:.1f} s."
+        f"No such file={experiment_file!r} found in DM {experiment_name=!r} after {time.time() - t0:.1f} s."
     )
 
 

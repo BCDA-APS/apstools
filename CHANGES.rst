@@ -31,10 +31,15 @@ describe future plans.
 
    * BUG 'dt_cycle_ends' in apstools.devices.aps_cycle.ApsCycleDM
 
+   Maintenance
+   -----------
+
+   * Relocate some utils code from apsbits.
+
 1.7.9
 *****
 
-Release expected by 2025-10-16.
+Released 2025-10-13.
 
 Fixes
 -------------
