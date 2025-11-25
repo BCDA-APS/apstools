@@ -1,0 +1,865 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Callbacks &#8212; apstools 1.7</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="../_static/graphviz.css?v=4ae1632d" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.8ecb98da25f57f5357bf6f572d296f466b2cfe2517ffebfabe82451661e28f02.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../_static/css/custom.css?v=8b12e3de" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+
+    <script src="../_static/documentation_options.js?v=23a1f915"></script>
+    <script src="../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'api/_callbacks';</script>
+    <script>
+        DOCUMENTATION_OPTIONS.theme_version = '0.16.1';
+        DOCUMENTATION_OPTIONS.theme_switcher_json_url = 'https://raw.githubusercontent.com/BCDA-APS/apstools/main/docs/source/_static/switcher.json';
+        DOCUMENTATION_OPTIONS.theme_switcher_version_match = 'dev';
+        DOCUMENTATION_OPTIONS.show_version_warning_banner =
+            false;
+        </script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Devices" href="_devices.html" />
+    <link rel="prev" title="API Documentation" href="index.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="1.7" />
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-3 navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../index.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">apstools 1.7</p>
+  
+</a></div>
+    
+      <div class="navbar-item">
+<div class="version-switcher__container dropdown pst-js-only">
+  <button id="pst-version-switcher-button-2"
+    type="button"
+    class="version-switcher__button btn btn-sm dropdown-toggle"
+    data-bs-toggle="dropdown"
+    aria-haspopup="listbox"
+    aria-controls="pst-version-switcher-list-2"
+    aria-label="Version switcher list"
+  >
+    Choose version  <!-- this text may get changed later by javascript -->
+    <span class="caret"></span>
+  </button>
+  <div id="pst-version-switcher-list-2"
+    class="version-switcher__menu dropdown-menu list-group-flush py-0"
+    role="listbox" aria-labelledby="pst-version-switcher-button-2">
+    <!-- dropdown will be populated by javascript on page load -->
+  </div>
+</div></div>
+    
+  </div>
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../install.html">
+    Installation
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="index.html">
+    API Documentation
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../applications/index.html">
+    Applications
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../examples/index.html">
+    Examples
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../changes.html">
+    Change History
+  </a>
+</li>
+
+            <li class="nav-item dropdown">
+                <button class="btn dropdown-toggle nav-item" type="button"
+                data-bs-toggle="dropdown" aria-expanded="false"
+                aria-controls="pst-nav-more-links">
+                    More
+                </button>
+                <ul id="pst-nav-more-links" class="dropdown-menu">
+                    
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../license.html">
+    License
+  </a>
+</li>
+
+                </ul>
+            </li>
+            
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+        <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+      
+        <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/BCDA-APS/apstools" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../install.html">
+    Installation
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="index.html">
+    API Documentation
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../applications/index.html">
+    Applications
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../examples/index.html">
+    Examples
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../changes.html">
+    Change History
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../license.html">
+    License
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+        
+          <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/BCDA-APS/apstools" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+        
+      </div>
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+<nav class="bd-docs-nav bd-links"
+     aria-label="Section Navigation">
+  <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
+  <div class="bd-toc-item navbar-nav"><ul class="current nav bd-sidenav">
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Callbacks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="_devices.html">Devices</a></li>
+<li class="toctree-l1"><a class="reference internal" href="_filewriters.html">File Writers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="_plans.html">Plans</a></li>
+<li class="toctree-l1"><a class="reference internal" href="_utils.html">Utilities</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="synApps/index.html">synApps</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="synApps/__common.html">EPICS Record support: common structures</a></li>
+<li class="toctree-l2"><a class="reference internal" href="synApps/_acalcout.html">EPICS base aCalcout record</a></li>
+<li class="toctree-l2"><a class="reference internal" href="synApps/_asyn.html">synApps asyn record</a></li>
+<li class="toctree-l2"><a class="reference internal" href="synApps/_busy.html">synApps busy record</a></li>
+<li class="toctree-l2"><a class="reference internal" href="synApps/_calcout.html">EPICS base calcout record</a></li>
+<li class="toctree-l2"><a class="reference internal" href="synApps/_db_2slit.html">EPICS synApps optics 2slit.db</a></li>
+<li class="toctree-l2"><a class="reference internal" href="synApps/_epid.html">synApps epid record</a></li>
+<li class="toctree-l2"><a class="reference internal" href="synApps/_iocstats.html">synApps IOC statistics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="synApps/_luascript.html">synApps luascript record</a></li>
+<li class="toctree-l2"><a class="reference internal" href="synApps/_save_data.html">synApps save data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="synApps/_scalcout.html">EPICS synApps calc scalcout record</a></li>
+<li class="toctree-l2"><a class="reference internal" href="synApps/_sscan.html">synApps sscan record</a></li>
+<li class="toctree-l2"><a class="reference internal" href="synApps/_sseq.html">synApps sseq record</a></li>
+<li class="toctree-l2"><a class="reference internal" href="synApps/_sub.html">EPICS base sub record &amp; synApps userAve records</a></li>
+<li class="toctree-l2"><a class="reference internal" href="synApps/_swait.html">synApps swait record</a></li>
+<li class="toctree-l2"><a class="reference internal" href="synApps/_transform.html">synApps transform record</a></li>
+</ul>
+</details></li>
+</ul>
+</div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+<nav aria-label="Breadcrumb" class="d-print-none">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="index.html" class="nav-link">API Documentation</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">Callbacks</span></li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section id="callbacks">
+<span id="id1"></span><h1>Callbacks<a class="headerlink" href="#callbacks" title="Link to this heading">#</a></h1>
+<p>Receive <em>documents</em> from the bluesky RunEngine.
+<a class="reference internal" href="_filewriters.html#filewriters"><span class="std std-ref">File Writers</span></a> are a specialized type of callback.</p>
+<p class="rubric">Callbacks</p>
+<div class="pst-scrollable-table-container"><table class="autosummary longtable table autosummary">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#apstools.callbacks.doc_collector.DocumentCollectorCallback" title="apstools.callbacks.doc_collector.DocumentCollectorCallback"><code class="xref py py-obj docutils literal notranslate"><span class="pre">DocumentCollectorCallback</span></code></a></p></td>
+<td><p>Bluesky callback to collect <em>all</em> documents from most-recent plan</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#apstools.callbacks.doc_collector.document_contents_callback" title="apstools.callbacks.doc_collector.document_contents_callback"><code class="xref py py-obj docutils literal notranslate"><span class="pre">document_contents_callback</span></code></a></p></td>
+<td><p>prints document contents -- use for diagnosing a document stream</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#apstools.callbacks.scan_signal_statistics.SignalStatsCallback" title="apstools.callbacks.scan_signal_statistics.SignalStatsCallback"><code class="xref py py-obj docutils literal notranslate"><span class="pre">SignalStatsCallback</span></code></a></p></td>
+<td><p>Callback: Collect peak (&amp; other) statistics during a scan.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p class="rubric">File Writing Callbacks</p>
+<div class="pst-scrollable-table-container"><table class="autosummary longtable table autosummary">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="_filewriters.html#apstools.callbacks.nexus_writer.NXWriterAPS" title="apstools.callbacks.nexus_writer.NXWriterAPS"><code class="xref py py-obj docutils literal notranslate"><span class="pre">NXWriterAPS</span></code></a>(*args, **kwargs)</p></td>
+<td><p>Customize <code class="xref py py-class docutils literal notranslate"><span class="pre">NXWriter</span></code> with APS-specific content.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_filewriters.html#apstools.callbacks.nexus_writer.NXWriter" title="apstools.callbacks.nexus_writer.NXWriter"><code class="xref py py-obj docutils literal notranslate"><span class="pre">NXWriter</span></code></a>(*args, **kwargs)</p></td>
+<td><p>General class for writing HDF5/NeXus file (using only NeXus base classes).</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_filewriters.html#apstools.callbacks.spec_file_writer.SpecWriterCallback" title="apstools.callbacks.spec_file_writer.SpecWriterCallback"><code class="xref py py-obj docutils literal notranslate"><span class="pre">SpecWriterCallback</span></code></a>(*args, **kwargs)</p></td>
+<td><p><strong>Deprecated</strong>: Use <a class="reference internal" href="_filewriters.html#apstools.callbacks.spec_file_writer.SpecWriterCallback2" title="apstools.callbacks.spec_file_writer.SpecWriterCallback2"><code class="xref py py-class docutils literal notranslate"><span class="pre">SpecWriterCallback2</span></code></a>.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_filewriters.html#apstools.callbacks.spec_file_writer.SpecWriterCallback2" title="apstools.callbacks.spec_file_writer.SpecWriterCallback2"><code class="xref py py-obj docutils literal notranslate"><span class="pre">SpecWriterCallback2</span></code></a>(*args, **kwargs)</p></td>
+<td><p>Write SPEC data file as data is collected, line-by-line.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<section id="document-collector">
+<span id="module-apstools.callbacks.doc_collector"></span><h2>Document Collector<a class="headerlink" href="#document-collector" title="Link to this heading">#</a></h2>
+<div class="pst-scrollable-table-container"><table class="autosummary longtable table autosummary">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#apstools.callbacks.doc_collector.DocumentCollectorCallback" title="apstools.callbacks.doc_collector.DocumentCollectorCallback"><code class="xref py py-obj docutils literal notranslate"><span class="pre">DocumentCollectorCallback</span></code></a>()</p></td>
+<td><p>Bluesky callback to collect <em>all</em> documents from most-recent plan</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#apstools.callbacks.doc_collector.document_contents_callback" title="apstools.callbacks.doc_collector.document_contents_callback"><code class="xref py py-obj docutils literal notranslate"><span class="pre">document_contents_callback</span></code></a>(key, doc)</p></td>
+<td><p>prints document contents -- use for diagnosing a document stream</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<dl class="py class">
+<dt class="sig sig-object py" id="apstools.callbacks.doc_collector.DocumentCollectorCallback">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">apstools.callbacks.doc_collector.</span></span><span class="sig-name descname"><span class="pre">DocumentCollectorCallback</span></span><a class="reference internal" href="../_modules/apstools/callbacks/doc_collector.html#DocumentCollectorCallback"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#apstools.callbacks.doc_collector.DocumentCollectorCallback" title="Link to this definition">#</a></dt>
+<dd><p>Bluesky callback to collect <em>all</em> documents from most-recent plan</p>
+<p id="index-0">Will reset when it receives a <em>start</em> document.</p>
+<p>EXAMPLE:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">apstools.callbacks</span><span class="w"> </span><span class="kn">import</span> <span class="n">DocumentCollectorCallback</span>
+<span class="n">doc_collector</span> <span class="o">=</span> <span class="n">DocumentCollectorCallback</span><span class="p">()</span>
+<span class="n">RE</span><span class="o">.</span><span class="n">subscribe</span><span class="p">(</span><span class="n">doc_collector</span><span class="o">.</span><span class="n">receiver</span><span class="p">)</span>
+<span class="o">...</span>
+<span class="n">RE</span><span class="p">(</span><span class="n">some_plan</span><span class="p">())</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">doc_collector</span><span class="o">.</span><span class="n">uids</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">doc_collector</span><span class="o">.</span><span class="n">documents</span><span class="p">[</span><span class="s2">&quot;stop&quot;</span><span class="p">])</span>
+</pre></div>
+</div>
+<dl class="py method">
+<dt class="sig sig-object py" id="apstools.callbacks.doc_collector.DocumentCollectorCallback.receiver">
+<span class="sig-name descname"><span class="pre">receiver</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">key</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">document</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/apstools/callbacks/doc_collector.html#DocumentCollectorCallback.receiver"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#apstools.callbacks.doc_collector.DocumentCollectorCallback.receiver" title="Link to this definition">#</a></dt>
+<dd><p>keep all documents from recent plan in memory</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="apstools.callbacks.doc_collector.document_contents_callback">
+<span class="sig-prename descclassname"><span class="pre">apstools.callbacks.doc_collector.</span></span><span class="sig-name descname"><span class="pre">document_contents_callback</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">key</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">doc</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/apstools/callbacks/doc_collector.html#document_contents_callback"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#apstools.callbacks.doc_collector.document_contents_callback" title="Link to this definition">#</a></dt>
+<dd><p>prints document contents – use for diagnosing a document stream</p>
+</dd></dl>
+
+<section id="collect-statistics-on-the-first-detector-used-in-1-d-scans">
+<span id="module-apstools.callbacks.scan_signal_statistics"></span><h2>Collect statistics on the first detector used in 1-D scans.<a class="headerlink" href="#collect-statistics-on-the-first-detector-used-in-1-d-scans" title="Link to this heading">#</a></h2>
+<div class="pst-scrollable-table-container"><table class="autosummary longtable table autosummary">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#apstools.callbacks.scan_signal_statistics.SignalStatsCallback" title="apstools.callbacks.scan_signal_statistics.SignalStatsCallback"><code class="xref py py-obj docutils literal notranslate"><span class="pre">SignalStatsCallback</span></code></a>()</p></td>
+<td><p>Callback: Collect peak (&amp; other) statistics during a scan.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<dl class="py class">
+<dt class="sig sig-object py" id="apstools.callbacks.scan_signal_statistics.SignalStatsCallback">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">apstools.callbacks.scan_signal_statistics.</span></span><span class="sig-name descname"><span class="pre">SignalStatsCallback</span></span><a class="reference internal" href="../_modules/apstools/callbacks/scan_signal_statistics.html#SignalStatsCallback"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#apstools.callbacks.scan_signal_statistics.SignalStatsCallback" title="Link to this definition">#</a></dt>
+<dd><p>Callback: Collect peak (&amp; other) statistics during a scan.</p>
+<div class="admonition caution">
+<p class="admonition-title">Caution</p>
+<p>This is an early draft and is subject to change!</p>
+</div>
+<p>Subscribe the <code class="docutils literal notranslate"><span class="pre">receiver()</span></code> method. Use with step scan plans such as
+<code class="docutils literal notranslate"><span class="pre">bp.scan()</span></code> and <code class="docutils literal notranslate"><span class="pre">bp.rel_scan()</span></code>.</p>
+<div class="admonition caution">
+<p class="admonition-title">Caution</p>
+<p>It is recommended to subscribe this callback to specific plans.  It
+should not be run with just any plan (it could easily raise exceptions).</p>
+</div>
+<p class="rubric">Basic example</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span><span class="kn">from</span><span class="w"> </span><span class="nn">bluesky</span><span class="w"> </span><span class="kn">import</span> <span class="n">plans</span> <span class="k">as</span> <span class="n">bp</span>
+<span class="linenos"> 2</span><span class="kn">from</span><span class="w"> </span><span class="nn">bluesky</span><span class="w"> </span><span class="kn">import</span> <span class="n">preprocessors</span> <span class="k">as</span> <span class="n">bpp</span>
+<span class="linenos"> 3</span><span class="kn">from</span><span class="w"> </span><span class="nn">apstools.callbacks</span><span class="w"> </span><span class="kn">import</span> <span class="n">SignalStatsCallback</span>
+<span class="linenos"> 4</span>
+<span class="linenos"> 5</span><span class="n">signal_stats</span> <span class="o">=</span> <span class="n">SignalStatsCallback</span><span class="p">()</span>
+<span class="linenos"> 6</span>
+<span class="linenos"> 7</span><span class="k">def</span><span class="w"> </span><span class="nf">my_plan</span><span class="p">(</span><span class="n">detectors</span><span class="p">,</span> <span class="n">mover</span><span class="p">,</span> <span class="n">rel_start</span><span class="p">,</span> <span class="n">rel_stop</span><span class="p">,</span> <span class="n">points</span><span class="p">,</span> <span class="n">md</span><span class="o">=</span><span class="p">{}):</span>
+<span class="linenos"> 8</span>
+<span class="linenos"> 9</span>    <span class="nd">@bpp</span><span class="o">.</span><span class="n">subs_decorator</span><span class="p">(</span><span class="n">signal_stats</span><span class="o">.</span><span class="n">receiver</span><span class="p">)</span>  <span class="c1"># collect the data</span>
+<span class="linenos">10</span>    <span class="k">def</span><span class="w"> </span><span class="nf">_inner</span><span class="p">():</span>
+<span class="linenos">11</span>        <span class="k">yield from</span> <span class="n">bp</span><span class="o">.</span><span class="n">rel_scan</span><span class="p">(</span><span class="n">detectors</span><span class="p">,</span> <span class="n">mover</span><span class="p">,</span> <span class="n">rel_start</span><span class="p">,</span> <span class="n">rel_end</span><span class="p">,</span> <span class="n">points</span><span class="p">,</span> <span class="n">md</span><span class="p">)</span>
+<span class="linenos">12</span>
+<span class="linenos">13</span>    <span class="k">yield from</span> <span class="n">_inner</span><span class="p">()</span>  <span class="c1"># run the scan</span>
+<span class="linenos">14</span>    <span class="n">signal_stats</span><span class="o">.</span><span class="n">report</span><span class="p">()</span>  <span class="c1"># print the statistics</span>
+</pre></div>
+</div>
+<p class="rubric">Public API</p>
+<div class="pst-scrollable-table-container"><table class="autosummary longtable table autosummary">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#apstools.callbacks.scan_signal_statistics.SignalStatsCallback.receiver" title="apstools.callbacks.scan_signal_statistics.SignalStatsCallback.receiver"><code class="xref py py-obj docutils literal notranslate"><span class="pre">receiver</span></code></a>(key, document)</p></td>
+<td><p>Client method used to subscribe to the RunEngine.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#apstools.callbacks.scan_signal_statistics.SignalStatsCallback.report" title="apstools.callbacks.scan_signal_statistics.SignalStatsCallback.report"><code class="xref py py-obj docutils literal notranslate"><span class="pre">report</span></code></a>()</p></td>
+<td><p>Print a table with the collected statistics for each signal.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#apstools.callbacks.scan_signal_statistics.SignalStatsCallback.data_stream" title="apstools.callbacks.scan_signal_statistics.SignalStatsCallback.data_stream"><code class="xref py py-obj docutils literal notranslate"><span class="pre">data_stream</span></code></a></p></td>
+<td><p>RunEngine document with signals to to watch.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#apstools.callbacks.scan_signal_statistics.SignalStatsCallback.reporting" title="apstools.callbacks.scan_signal_statistics.SignalStatsCallback.reporting"><code class="xref py py-obj docutils literal notranslate"><span class="pre">reporting</span></code></a></p></td>
+<td><p>If <code class="docutils literal notranslate"><span class="pre">True</span></code> (default), call the <code class="docutils literal notranslate"><span class="pre">report()</span></code> method when a <code class="docutils literal notranslate"><span class="pre">stop</span></code> document is received.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p class="rubric">Internal API</p>
+<div class="pst-scrollable-table-container"><table class="autosummary longtable table autosummary">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#apstools.callbacks.scan_signal_statistics.SignalStatsCallback.clear" title="apstools.callbacks.scan_signal_statistics.SignalStatsCallback.clear"><code class="xref py py-obj docutils literal notranslate"><span class="pre">clear</span></code></a>()</p></td>
+<td><p>Clear the internal memory for the next run.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#apstools.callbacks.scan_signal_statistics.SignalStatsCallback.descriptor" title="apstools.callbacks.scan_signal_statistics.SignalStatsCallback.descriptor"><code class="xref py py-obj docutils literal notranslate"><span class="pre">descriptor</span></code></a>(doc)</p></td>
+<td><p>Receives 'descriptor' documents from the RunEngine.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#apstools.callbacks.scan_signal_statistics.SignalStatsCallback.event" title="apstools.callbacks.scan_signal_statistics.SignalStatsCallback.event"><code class="xref py py-obj docutils literal notranslate"><span class="pre">event</span></code></a>(doc)</p></td>
+<td><p>Receives 'event' documents from the RunEngine.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#apstools.callbacks.scan_signal_statistics.SignalStatsCallback.start" title="apstools.callbacks.scan_signal_statistics.SignalStatsCallback.start"><code class="xref py py-obj docutils literal notranslate"><span class="pre">start</span></code></a>(doc)</p></td>
+<td><p>Receives 'start' documents from the RunEngine.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#apstools.callbacks.scan_signal_statistics.SignalStatsCallback.stop" title="apstools.callbacks.scan_signal_statistics.SignalStatsCallback.stop"><code class="xref py py-obj docutils literal notranslate"><span class="pre">stop</span></code></a>(doc)</p></td>
+<td><p>Receives 'stop' documents from the RunEngine.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#apstools.callbacks.scan_signal_statistics.SignalStatsCallback.analysis" title="apstools.callbacks.scan_signal_statistics.SignalStatsCallback.analysis"><code class="xref py py-obj docutils literal notranslate"><span class="pre">analysis</span></code></a></p></td>
+<td><p>Dictionary of statistical array analyses.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#apstools.callbacks.scan_signal_statistics.SignalStatsCallback._data" title="apstools.callbacks.scan_signal_statistics.SignalStatsCallback._data"><code class="xref py py-obj docutils literal notranslate"><span class="pre">_data</span></code></a></p></td>
+<td><p>Arrays of x &amp; y data</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#apstools.callbacks.scan_signal_statistics.SignalStatsCallback._scanning" title="apstools.callbacks.scan_signal_statistics.SignalStatsCallback._scanning"><code class="xref py py-obj docutils literal notranslate"><span class="pre">_scanning</span></code></a></p></td>
+<td><p>Is a run <em>in progress</em>?</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#apstools.callbacks.scan_signal_statistics.SignalStatsCallback._registers" title="apstools.callbacks.scan_signal_statistics.SignalStatsCallback._registers"><code class="xref py py-obj docutils literal notranslate"><span class="pre">_registers</span></code></a></p></td>
+<td><p><strong>Deprecated</strong>: Use 'analysis' instead, will remove in next major release.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="apstools.callbacks.scan_signal_statistics.SignalStatsCallback._data">
+<span class="sig-name descname"><span class="pre">_data</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">dict</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{}</span></em><a class="headerlink" href="#apstools.callbacks.scan_signal_statistics.SignalStatsCallback._data" title="Link to this definition">#</a></dt>
+<dd><p>Arrays of x &amp; y data</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="apstools.callbacks.scan_signal_statistics.SignalStatsCallback._registers">
+<span class="sig-name descname"><span class="pre">_registers</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">dict</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{}</span></em><a class="headerlink" href="#apstools.callbacks.scan_signal_statistics.SignalStatsCallback._registers" title="Link to this definition">#</a></dt>
+<dd><p><strong>Deprecated</strong>: Use ‘analysis’ instead, will remove in next major release.</p>
+<p>Dictionary (keyed on Signal name) of <code class="docutils literal notranslate"><span class="pre">SummationRegister()</span></code> objects.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="apstools.callbacks.scan_signal_statistics.SignalStatsCallback._scanning">
+<span class="sig-name descname"><span class="pre">_scanning</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bool</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">False</span></em><a class="headerlink" href="#apstools.callbacks.scan_signal_statistics.SignalStatsCallback._scanning" title="Link to this definition">#</a></dt>
+<dd><p>Is a run <em>in progress</em>?</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="apstools.callbacks.scan_signal_statistics.SignalStatsCallback.analysis">
+<span class="sig-name descname"><span class="pre">analysis</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">object</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#apstools.callbacks.scan_signal_statistics.SignalStatsCallback.analysis" title="Link to this definition">#</a></dt>
+<dd><p>Dictionary of statistical array analyses.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="apstools.callbacks.scan_signal_statistics.SignalStatsCallback.clear">
+<span class="sig-name descname"><span class="pre">clear</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/apstools/callbacks/scan_signal_statistics.html#SignalStatsCallback.clear"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#apstools.callbacks.scan_signal_statistics.SignalStatsCallback.clear" title="Link to this definition">#</a></dt>
+<dd><p>Clear the internal memory for the next run.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="apstools.callbacks.scan_signal_statistics.SignalStatsCallback.data_stream">
+<span class="sig-name descname"><span class="pre">data_stream</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'primary'</span></em><a class="headerlink" href="#apstools.callbacks.scan_signal_statistics.SignalStatsCallback.data_stream" title="Link to this definition">#</a></dt>
+<dd><p>RunEngine document with signals to to watch.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="apstools.callbacks.scan_signal_statistics.SignalStatsCallback.descriptor">
+<span class="sig-name descname"><span class="pre">descriptor</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">doc</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/apstools/callbacks/scan_signal_statistics.html#SignalStatsCallback.descriptor"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#apstools.callbacks.scan_signal_statistics.SignalStatsCallback.descriptor" title="Link to this definition">#</a></dt>
+<dd><p>Receives ‘descriptor’ documents from the RunEngine.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="apstools.callbacks.scan_signal_statistics.SignalStatsCallback.event">
+<span class="sig-name descname"><span class="pre">event</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">doc</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/apstools/callbacks/scan_signal_statistics.html#SignalStatsCallback.event"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#apstools.callbacks.scan_signal_statistics.SignalStatsCallback.event" title="Link to this definition">#</a></dt>
+<dd><p>Receives ‘event’ documents from the RunEngine.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="apstools.callbacks.scan_signal_statistics.SignalStatsCallback.receiver">
+<span class="sig-name descname"><span class="pre">receiver</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">key</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">document</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/apstools/callbacks/scan_signal_statistics.html#SignalStatsCallback.receiver"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#apstools.callbacks.scan_signal_statistics.SignalStatsCallback.receiver" title="Link to this definition">#</a></dt>
+<dd><p>Client method used to subscribe to the RunEngine.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="apstools.callbacks.scan_signal_statistics.SignalStatsCallback.report">
+<span class="sig-name descname"><span class="pre">report</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/apstools/callbacks/scan_signal_statistics.html#SignalStatsCallback.report"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#apstools.callbacks.scan_signal_statistics.SignalStatsCallback.report" title="Link to this definition">#</a></dt>
+<dd><p>Print a table with the collected statistics for each signal.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="apstools.callbacks.scan_signal_statistics.SignalStatsCallback.reporting">
+<span class="sig-name descname"><span class="pre">reporting</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bool</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">True</span></em><a class="headerlink" href="#apstools.callbacks.scan_signal_statistics.SignalStatsCallback.reporting" title="Link to this definition">#</a></dt>
+<dd><p>If <code class="docutils literal notranslate"><span class="pre">True</span></code> (default), call the <code class="docutils literal notranslate"><span class="pre">report()</span></code> method when a <code class="docutils literal notranslate"><span class="pre">stop</span></code> document is received.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="apstools.callbacks.scan_signal_statistics.SignalStatsCallback.start">
+<span class="sig-name descname"><span class="pre">start</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">doc</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/apstools/callbacks/scan_signal_statistics.html#SignalStatsCallback.start"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#apstools.callbacks.scan_signal_statistics.SignalStatsCallback.start" title="Link to this definition">#</a></dt>
+<dd><p>Receives ‘start’ documents from the RunEngine.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="apstools.callbacks.scan_signal_statistics.SignalStatsCallback.stop">
+<span class="sig-name descname"><span class="pre">stop</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">doc</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/apstools/callbacks/scan_signal_statistics.html#SignalStatsCallback.stop"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#apstools.callbacks.scan_signal_statistics.SignalStatsCallback.stop" title="Link to this definition">#</a></dt>
+<dd><p>Receives ‘stop’ documents from the RunEngine.</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="index.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">API Documentation</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="_devices.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Devices</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+<div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+  </div>
+  <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#document-collector">Document Collector</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#apstools.callbacks.doc_collector.DocumentCollectorCallback"><code class="docutils literal notranslate"><span class="pre">DocumentCollectorCallback</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#apstools.callbacks.doc_collector.DocumentCollectorCallback.receiver"><code class="docutils literal notranslate"><span class="pre">DocumentCollectorCallback.receiver()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#apstools.callbacks.doc_collector.document_contents_callback"><code class="docutils literal notranslate"><span class="pre">document_contents_callback()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#collect-statistics-on-the-first-detector-used-in-1-d-scans">Collect statistics on the first detector used in 1-D scans.</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#apstools.callbacks.scan_signal_statistics.SignalStatsCallback"><code class="docutils literal notranslate"><span class="pre">SignalStatsCallback</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#apstools.callbacks.scan_signal_statistics.SignalStatsCallback._data"><code class="docutils literal notranslate"><span class="pre">SignalStatsCallback._data</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#apstools.callbacks.scan_signal_statistics.SignalStatsCallback._registers"><code class="docutils literal notranslate"><span class="pre">SignalStatsCallback._registers</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#apstools.callbacks.scan_signal_statistics.SignalStatsCallback._scanning"><code class="docutils literal notranslate"><span class="pre">SignalStatsCallback._scanning</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#apstools.callbacks.scan_signal_statistics.SignalStatsCallback.analysis"><code class="docutils literal notranslate"><span class="pre">SignalStatsCallback.analysis</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#apstools.callbacks.scan_signal_statistics.SignalStatsCallback.clear"><code class="docutils literal notranslate"><span class="pre">SignalStatsCallback.clear()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#apstools.callbacks.scan_signal_statistics.SignalStatsCallback.data_stream"><code class="docutils literal notranslate"><span class="pre">SignalStatsCallback.data_stream</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#apstools.callbacks.scan_signal_statistics.SignalStatsCallback.descriptor"><code class="docutils literal notranslate"><span class="pre">SignalStatsCallback.descriptor()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#apstools.callbacks.scan_signal_statistics.SignalStatsCallback.event"><code class="docutils literal notranslate"><span class="pre">SignalStatsCallback.event()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#apstools.callbacks.scan_signal_statistics.SignalStatsCallback.receiver"><code class="docutils literal notranslate"><span class="pre">SignalStatsCallback.receiver()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#apstools.callbacks.scan_signal_statistics.SignalStatsCallback.report"><code class="docutils literal notranslate"><span class="pre">SignalStatsCallback.report()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#apstools.callbacks.scan_signal_statistics.SignalStatsCallback.reporting"><code class="docutils literal notranslate"><span class="pre">SignalStatsCallback.reporting</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#apstools.callbacks.scan_signal_statistics.SignalStatsCallback.start"><code class="docutils literal notranslate"><span class="pre">SignalStatsCallback.start()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#apstools.callbacks.scan_signal_statistics.SignalStatsCallback.stop"><code class="docutils literal notranslate"><span class="pre">SignalStatsCallback.stop()</span></code></a></li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+  <div class="sidebar-secondary-item">
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/api/_callbacks.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+
+  <p class="copyright">
+    
+      © Copyright 2017-2025, UChicago Argonne, LLC.
+      <br/>
+    
+  </p>
+</div>
+      
+        <div class="footer-item">
+
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.1.3.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item">
+<p class="theme-version">
+  <!-- # L10n: Setting the PST URL as an argument as this does not need to be localized -->
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.16.1.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

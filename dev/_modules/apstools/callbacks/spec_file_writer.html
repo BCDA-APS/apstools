@@ -1,0 +1,1729 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../../../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>apstools.callbacks.spec_file_writer &#8212; apstools 1.7</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="../../../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/graphviz.css?v=4ae1632d" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/mystnb.8ecb98da25f57f5357bf6f572d296f466b2cfe2517ffebfabe82451661e28f02.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/css/custom.css?v=8b12e3de" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="../../../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+
+    <script src="../../../_static/documentation_options.js?v=23a1f915"></script>
+    <script src="../../../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../_static/design-tabs.js?v=f930bc37"></script>
+    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = '_modules/apstools/callbacks/spec_file_writer';</script>
+    <script>
+        DOCUMENTATION_OPTIONS.theme_version = '0.16.1';
+        DOCUMENTATION_OPTIONS.theme_switcher_json_url = 'https://raw.githubusercontent.com/BCDA-APS/apstools/main/docs/source/_static/switcher.json';
+        DOCUMENTATION_OPTIONS.theme_switcher_version_match = 'dev';
+        DOCUMENTATION_OPTIONS.show_version_warning_banner =
+            false;
+        </script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="1.7" />
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-3 navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../../../index.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">apstools 1.7</p>
+  
+</a></div>
+    
+      <div class="navbar-item">
+<div class="version-switcher__container dropdown pst-js-only">
+  <button id="pst-version-switcher-button-2"
+    type="button"
+    class="version-switcher__button btn btn-sm dropdown-toggle"
+    data-bs-toggle="dropdown"
+    aria-haspopup="listbox"
+    aria-controls="pst-version-switcher-list-2"
+    aria-label="Version switcher list"
+  >
+    Choose version  <!-- this text may get changed later by javascript -->
+    <span class="caret"></span>
+  </button>
+  <div id="pst-version-switcher-list-2"
+    class="version-switcher__menu dropdown-menu list-group-flush py-0"
+    role="listbox" aria-labelledby="pst-version-switcher-button-2">
+    <!-- dropdown will be populated by javascript on page load -->
+  </div>
+</div></div>
+    
+  </div>
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../install.html">
+    Installation
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../api/index.html">
+    API Documentation
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../applications/index.html">
+    Applications
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../examples/index.html">
+    Examples
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../changes.html">
+    Change History
+  </a>
+</li>
+
+            <li class="nav-item dropdown">
+                <button class="btn dropdown-toggle nav-item" type="button"
+                data-bs-toggle="dropdown" aria-expanded="false"
+                aria-controls="pst-nav-more-links">
+                    More
+                </button>
+                <ul id="pst-nav-more-links" class="dropdown-menu">
+                    
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../../license.html">
+    License
+  </a>
+</li>
+
+                </ul>
+            </li>
+            
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+        <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+      
+        <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/BCDA-APS/apstools" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+        
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar hide-on-wide">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../install.html">
+    Installation
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../api/index.html">
+    API Documentation
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../applications/index.html">
+    Applications
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../examples/index.html">
+    Examples
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../changes.html">
+    Change History
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../license.html">
+    License
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+        
+          <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/BCDA-APS/apstools" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+        
+      </div>
+    
+  </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+<nav aria-label="Breadcrumb" class="d-print-none">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../../../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="../../index.html" class="nav-link">Module code</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">apstools.callbacks.spec_file_writer</span></li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <h1>Source code for apstools.callbacks.spec_file_writer</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">SPEC Data File Writer Callback</span>
+<span class="sd">++++++++++++++++++++++++++++++</span>
+
+<span class="sd">EXAMPLE:</span>
+
+<span class="sd">Execution of this plan (with ``RE(myPlan())``)::</span>
+
+<span class="sd">    def myPlan():</span>
+<span class="sd">        yield from bps.open_run()</span>
+<span class="sd">        spec_comment(&quot;this is a start document comment&quot;, &quot;start&quot;)</span>
+<span class="sd">        spec_comment(&quot;this is a descriptor document comment&quot;, &quot;descriptor&quot;)</span>
+<span class="sd">        yield bps.Msg(&#39;checkpoint&#39;)</span>
+<span class="sd">        yield from bps.trigger_and_read([scaler])</span>
+<span class="sd">        spec_comment(&quot;this is an event document comment after the first read&quot;)</span>
+<span class="sd">        yield from bps.sleep(2)</span>
+<span class="sd">        yield bps.Msg(&#39;checkpoint&#39;)</span>
+<span class="sd">        yield from bps.trigger_and_read([scaler])</span>
+<span class="sd">        spec_comment(&quot;this is an event document comment after the second read&quot;)</span>
+<span class="sd">        spec_comment(&quot;this is a stop document comment&quot;, &quot;stop&quot;)</span>
+<span class="sd">        yield from bps.close_run()</span>
+
+<span class="sd">results in this SPEC file output::</span>
+
+<span class="sd">    #S 1145  myPlan()</span>
+<span class="sd">    #D Mon Jan 28 12:48:09 2019</span>
+<span class="sd">    #C Mon Jan 28 12:48:09 2019.  plan_type = generator</span>
+<span class="sd">    #C Mon Jan 28 12:48:09 2019.  uid = ef98648a-8e3a-4e7e-ac99-3290c9b5fca7</span>
+<span class="sd">    #C Mon Jan 28 12:48:09 2019.  this is a start document comment</span>
+<span class="sd">    #C Mon Jan 28 12:48:09 2019.  this is a descriptor document comment</span>
+<span class="sd">    #MD APSTOOLS_VERSION = 2019.0103.0+5.g0f4e8b2</span>
+<span class="sd">    #MD BLUESKY_VERSION = 1.4.1</span>
+<span class="sd">    #MD OPHYD_VERSION = 1.3.0</span>
+<span class="sd">    #MD SESSION_START = 2019-01-28 12:19:25.446836</span>
+<span class="sd">    #MD beamline_id = developer</span>
+<span class="sd">    #MD ipython_session_start = 2018-02-14 12:54:06.447450</span>
+<span class="sd">    #MD login_id = mintadmin@mint-vm</span>
+<span class="sd">    #MD pid = 21784</span>
+<span class="sd">    #MD proposal_id = None</span>
+<span class="sd">    #N 2</span>
+<span class="sd">    #L Epoch_float  scaler_time  Epoch</span>
+<span class="sd">    1.4297869205474854 1.1 1</span>
+<span class="sd">    4.596935987472534 1.1 5</span>
+<span class="sd">    #C Mon Jan 28 12:48:11 2019.  this is an event document comment after the first read</span>
+<span class="sd">    #C Mon Jan 28 12:48:14 2019.  this is an event document comment after the second read</span>
+<span class="sd">    #C Mon Jan 28 12:48:14 2019.  this is a stop document comment</span>
+<span class="sd">    #C Mon Jan 28 12:48:14 2019.  num_events_primary = 2</span>
+<span class="sd">    #C Mon Jan 28 12:48:14 2019.  exit_status = success</span>
+
+
+<span class="sd">.. autosummary::</span>
+
+<span class="sd">   ~SpecWriterCallback</span>
+<span class="sd">   ~SpecWriterCallback2</span>
+<span class="sd">   ~spec_comment</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">datetime</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">getpass</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pathlib</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">socket</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">time</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">collections</span><span class="w"> </span><span class="kn">import</span> <span class="n">OrderedDict</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">deprecated.sphinx</span><span class="w"> </span><span class="kn">import</span> <span class="n">deprecated</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">deprecated.sphinx</span><span class="w"> </span><span class="kn">import</span> <span class="n">versionadded</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">deprecated.sphinx</span><span class="w"> </span><span class="kn">import</span> <span class="n">versionchanged</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">.callback_base</span><span class="w"> </span><span class="kn">import</span> <span class="n">FileWriterCallbackBase</span>
+
+<span class="n">SPEC_TIME_FORMAT</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="si">%a</span><span class="s2"> %b </span><span class="si">%d</span><span class="s2"> %H:%M:%S %Y&quot;</span>
+<span class="n">SCAN_ID_RESET_VALUE</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="n">PRIMARY_STREAM_NAME</span> <span class="o">=</span> <span class="s2">&quot;primary&quot;</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_rebuild_scan_command</span><span class="p">(</span><span class="n">doc</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    reconstruct the scan command for SPEC data file #S line</span>
+
+<span class="sd">    PARAMETERS</span>
+
+<span class="sd">    doc</span>
+<span class="sd">        *object* :</span>
+<span class="sd">        instance of a bluesky ``start`` document</span>
+
+<span class="sd">    RETURNS</span>
+
+<span class="sd">    *str* :</span>
+<span class="sd">        &quot;scan_number reconstructed_scan_command&quot;</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_name</span><span class="p">(</span><span class="n">src</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        get name field from object representation</span>
+
+<span class="sd">        given: EpicsMotor(prefix=&#39;xxx:m1&#39;, name=&#39;m1&#39;, settle_time=0.0,</span>
+<span class="sd">                    timeout=None, read_attrs=[&#39;user_readback&#39;, &#39;user_setpoint&#39;],</span>
+<span class="sd">                    configuration_attrs=[&#39;motor_egu&#39;, &#39;velocity&#39;, &#39;acceleration&#39;,</span>
+<span class="sd">                    &#39;user_offset&#39;, &#39;user_offset_dir&#39;])</span>
+<span class="sd">        return: &quot;m1&quot;</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">s</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">src</span><span class="p">)</span>
+        <span class="n">p</span> <span class="o">=</span> <span class="n">s</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s2">&quot;(&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">p</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>  <span class="c1"># only if an open parenthesis is found</span>
+            <span class="n">parts</span> <span class="o">=</span> <span class="n">s</span><span class="p">[</span><span class="n">p</span> <span class="o">+</span> <span class="mi">1</span> <span class="p">:]</span><span class="o">.</span><span class="n">rstrip</span><span class="p">(</span><span class="s2">&quot;)&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;,&quot;</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">parts</span><span class="p">:</span>
+                <span class="c1"># should be key=value pairs</span>
+                <span class="n">item</span> <span class="o">=</span> <span class="n">item</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+                <span class="n">p</span> <span class="o">=</span> <span class="n">item</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s2">&quot;=&quot;</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">item</span><span class="p">[:</span><span class="n">p</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;name&quot;</span><span class="p">:</span>
+                    <span class="n">s</span> <span class="o">=</span> <span class="n">item</span><span class="p">[</span><span class="n">p</span> <span class="o">+</span> <span class="mi">1</span> <span class="p">:]</span>  <span class="c1"># get the name value</span>
+                    <span class="k">break</span>
+        <span class="k">return</span> <span class="n">s</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">struct_to_str</span><span class="p">(</span><span class="n">struct</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Convert given structure into string representation.&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">struct</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
+            <span class="k">return</span> <span class="s2">&quot;[&quot;</span> <span class="o">+</span> <span class="s2">&quot;, &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="n">struct_to_str</span><span class="p">(</span><span class="n">v</span><span class="p">)</span> <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">struct</span><span class="p">])</span> <span class="o">+</span> <span class="s2">&quot;]&quot;</span>
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">struct</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
+            <span class="k">return</span> <span class="s2">&quot;{&quot;</span> <span class="o">+</span> <span class="s2">&quot;, &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">k</span><span class="si">}</span><span class="s2">=</span><span class="si">{</span><span class="n">struct_to_str</span><span class="p">(</span><span class="n">v</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">struct</span><span class="o">.</span><span class="n">items</span><span class="p">()])</span> <span class="o">+</span> <span class="s2">&quot;}&quot;</span>
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">struct</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">):</span>
+            <span class="k">return</span> <span class="n">struct_to_str</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">struct</span><span class="p">))</span>
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">struct</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+            <span class="c1"># escape embedded characters, such as single quote</span>
+            <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;&#39;</span><span class="si">{</span><span class="n">struct</span><span class="si">}</span><span class="s2">&#39;&quot;</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s2">&quot;unicode_escape&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s2">&quot;utf8&quot;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="nb">str</span><span class="p">(</span><span class="n">struct</span><span class="p">)</span>
+
+    <span class="n">s</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">if</span> <span class="s2">&quot;plan_args&quot;</span> <span class="ow">in</span> <span class="n">doc</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">_k</span><span class="p">,</span> <span class="n">_v</span> <span class="ow">in</span> <span class="n">doc</span><span class="p">[</span><span class="s2">&quot;plan_args&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="k">if</span> <span class="n">_k</span> <span class="o">==</span> <span class="s2">&quot;detectors&quot;</span><span class="p">:</span>
+                <span class="n">_v</span> <span class="o">=</span> <span class="n">doc</span><span class="p">[</span><span class="n">_k</span><span class="p">]</span>
+            <span class="k">elif</span> <span class="n">_k</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;motor&quot;</span><span class="p">):</span>
+                <span class="n">_v</span> <span class="o">=</span> <span class="n">doc</span><span class="p">[</span><span class="s2">&quot;motors&quot;</span><span class="p">]</span>
+            <span class="k">elif</span> <span class="n">_k</span> <span class="o">==</span> <span class="s2">&quot;args&quot;</span><span class="p">:</span>
+                <span class="n">_v</span> <span class="o">=</span> <span class="s2">&quot;[&quot;</span> <span class="o">+</span> <span class="s2">&quot;, &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="n">get_name</span><span class="p">,</span> <span class="n">_v</span><span class="p">))</span> <span class="o">+</span> <span class="s2">&quot;]&quot;</span>
+            <span class="n">s</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">_k</span><span class="si">}</span><span class="s2">=</span><span class="si">{</span><span class="n">struct_to_str</span><span class="p">(</span><span class="n">_v</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="n">cmd</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="si">{}</span><span class="s2">(</span><span class="si">{}</span><span class="s2">)&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">doc</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;plan_name&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">),</span> <span class="s2">&quot;, &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">s</span><span class="p">))</span>
+    <span class="n">scan_id</span> <span class="o">=</span> <span class="n">doc</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;scan_id&quot;</span><span class="p">)</span> <span class="ow">or</span> <span class="mi">1</span>
+    <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">scan_id</span><span class="si">}</span><span class="s2">  </span><span class="si">{</span><span class="n">cmd</span><span class="si">}</span><span class="s2">&quot;</span>
+
+
+<div class="viewcode-block" id="SpecWriterCallback">
+<a class="viewcode-back" href="../../../api/_filewriters.html#apstools.callbacks.spec_file_writer.SpecWriterCallback">[docs]</a>
+<span class="nd">@deprecated</span><span class="p">(</span><span class="n">version</span><span class="o">=</span><span class="s2">&quot;1.7.0&quot;</span><span class="p">,</span> <span class="n">reason</span><span class="o">=</span><span class="s2">&quot;Use SpecWriterCallback2()&quot;</span><span class="p">)</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">SpecWriterCallback</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    **Deprecated**: Use :class:`~apstools.callbacks.spec_file_writer.SpecWriterCallback2`.</span>
+
+<span class="sd">    Collect data from Bluesky RunEngine documents to write as SPEC data.</span>
+
+<span class="sd">    .. index:: Bluesky Callback; SpecWriterCallback</span>
+
+<span class="sd">    This gathers data from all documents in a scan and appends scan to the file</span>
+<span class="sd">    when the ``stop`` document is received.  One or more scans can be written to</span>
+<span class="sd">    the same file.  The file format is text.</span>
+
+<span class="sd">    .. note:: ``SpecWriterCallback()`` does **not** inherit</span>
+<span class="sd">       from ``FileWriterCallbackBase()``.</span>
+
+<span class="sd">    PARAMETERS</span>
+
+<span class="sd">    filename</span>
+<span class="sd">        *string* :</span>
+<span class="sd">        (optional)</span>
+<span class="sd">        Local, relative or absolute name of SPEC data file to be used.</span>
+<span class="sd">        If ``filename=None``, defaults to format of ``YYYmmdd-HHMMSS.dat``</span>
+<span class="sd">        derived from the current system time.</span>
+
+<span class="sd">    auto_write</span>
+<span class="sd">        *boolean* :</span>
+<span class="sd">        (optional)</span>
+<span class="sd">        If ``True`` (default), ``write_scan()`` is called when *stop* document</span>
+<span class="sd">        is received.</span>
+<span class="sd">        If ``False``, the caller is responsible for calling ``write_scan()``</span>
+<span class="sd">        before the next ``start`` document is received.</span>
+
+<span class="sd">    RE</span>
+<span class="sd">        *object* :</span>
+<span class="sd">        Instance of ``bluesky.RunEngine`` or ``None``.</span>
+
+<span class="sd">    reset_scan_id</span>
+<span class="sd">        *boolean* :</span>
+<span class="sd">        (optional)</span>
+<span class="sd">        If True, and filename exists, then sets ``RE.md.scan_id`` to</span>
+<span class="sd">        highest scan number in existing SPEC data file.</span>
+<span class="sd">        default: False</span>
+
+<span class="sd">    User Interface methods</span>
+
+<span class="sd">    .. autosummary::</span>
+
+<span class="sd">       ~receiver</span>
+<span class="sd">       ~newfile</span>
+<span class="sd">       ~usefile</span>
+<span class="sd">       ~make_default_filename</span>
+<span class="sd">       ~clear</span>
+<span class="sd">       ~prepare_scan_contents</span>
+<span class="sd">       ~write_scan</span>
+
+<span class="sd">    Internal methods</span>
+
+<span class="sd">    .. autosummary::</span>
+
+<span class="sd">       ~write_header</span>
+<span class="sd">       ~start</span>
+<span class="sd">       ~descriptor</span>
+<span class="sd">       ~event</span>
+<span class="sd">       ~bulk_events</span>
+<span class="sd">       ~datum</span>
+<span class="sd">       ~resource</span>
+<span class="sd">       ~stop</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filename</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">auto_write</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">RE</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">reset_scan_id</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">clear</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">buffered_comments</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_empty_comments_dict</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">auto_write</span> <span class="o">=</span> <span class="n">auto_write</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">uid_short_length</span> <span class="o">=</span> <span class="mi">8</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">write_new_header</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">spec_epoch</span> <span class="o">=</span> <span class="kc">None</span>  <span class="c1"># for both #E &amp; #D line in header, also offset for all scans</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">spec_host</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">spec_user</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_datetime</span> <span class="o">=</span> <span class="kc">None</span>  <span class="c1"># most recent document time</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_motor_stream_name</span> <span class="o">=</span> <span class="s2">&quot;label_start_motor&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_header_motor_keys</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_streams</span> <span class="o">=</span> <span class="p">{}</span>  <span class="c1"># descriptor documents, keyed by uid</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">RE</span> <span class="o">=</span> <span class="n">RE</span>
+
+        <span class="k">if</span> <span class="n">reset_scan_id</span> <span class="ow">is</span> <span class="kc">True</span><span class="p">:</span>
+            <span class="n">reset_scan_id</span> <span class="o">=</span> <span class="n">SCAN_ID_RESET_VALUE</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">reset_scan_id</span> <span class="o">=</span> <span class="n">reset_scan_id</span>
+
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+            <span class="n">filename</span> <span class="o">=</span> <span class="n">pathlib</span><span class="o">.</span><span class="n">Path</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">filename</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="ow">not</span> <span class="n">filename</span><span class="o">.</span><span class="n">exists</span><span class="p">():</span>
+            <span class="n">filename</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">newfile</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">max_scan_id</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">usefile</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">RE</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">reset_scan_id</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">False</span><span class="p">:</span>
+                <span class="n">RE</span><span class="o">.</span><span class="n">md</span><span class="p">[</span><span class="s2">&quot;scan_id&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">max_scan_id</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">spec_filename</span> <span class="o">=</span> <span class="n">filename</span>
+
+<div class="viewcode-block" id="SpecWriterCallback.clear">
+<a class="viewcode-back" href="../../../api/_filewriters.html#apstools.callbacks.spec_file_writer.SpecWriterCallback.clear">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">clear</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;reset all scan data defaults&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">uid</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">scan_epoch</span> <span class="o">=</span> <span class="kc">None</span>  <span class="c1"># absolute epoch to report in scan #D line</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">time</span> <span class="o">=</span> <span class="kc">None</span>  <span class="c1"># full time from document</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">comments</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_empty_comments_dict</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="n">OrderedDict</span><span class="p">()</span>  <span class="c1"># data in the scan</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">detectors</span> <span class="o">=</span> <span class="n">OrderedDict</span><span class="p">()</span>  <span class="c1"># names of detectors in the scan</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">hints</span> <span class="o">=</span> <span class="n">OrderedDict</span><span class="p">()</span>  <span class="c1"># why?</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">metadata</span> <span class="o">=</span> <span class="n">OrderedDict</span><span class="p">()</span>  <span class="c1"># #MD lines in header</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">motors</span> <span class="o">=</span> <span class="n">OrderedDict</span><span class="p">()</span>  <span class="c1"># names of motors in the scan</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">positioners</span> <span class="o">=</span> <span class="n">OrderedDict</span><span class="p">()</span>  <span class="c1"># names in #O, values in #P</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">num_primary_data</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="c1">#</span>
+        <span class="c1"># note: for one scan, #O &amp; #P information is not provided</span>
+        <span class="c1"># unless collecting baseline data</span>
+        <span class="c1"># wait for case with baseline data that needs #O/#P lines</span>
+        <span class="c1">#</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">columns</span> <span class="o">=</span> <span class="n">OrderedDict</span><span class="p">()</span>  <span class="c1"># #L in scan</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">scan_command</span> <span class="o">=</span> <span class="kc">None</span>  <span class="c1"># #S line</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">scanning</span> <span class="o">=</span> <span class="kc">False</span></div>
+
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_empty_comments_dict</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="nb">dict</span><span class="p">(</span>
+            <span class="n">start</span><span class="o">=</span><span class="p">[],</span>
+            <span class="n">event</span><span class="o">=</span><span class="p">[],</span>
+            <span class="n">descriptor</span><span class="o">=</span><span class="p">[],</span>
+            <span class="n">resource</span><span class="o">=</span><span class="p">[],</span>
+            <span class="n">datum</span><span class="o">=</span><span class="p">[],</span>
+            <span class="n">stop</span><span class="o">=</span><span class="p">[],</span>
+        <span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_cmt</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">text</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;enter a comment&quot;&quot;&quot;</span>
+        <span class="n">dt</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_datetime</span> <span class="ow">or</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span>
+        <span class="n">ts</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="n">dt</span><span class="p">,</span> <span class="n">SPEC_TIME_FORMAT</span><span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">scanning</span><span class="p">:</span>
+            <span class="n">dest</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">comments</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">dest</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">buffered_comments</span>
+        <span class="n">dest</span><span class="p">[</span><span class="n">key</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">ts</span><span class="si">}</span><span class="s2">.  </span><span class="si">{</span><span class="n">text</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<div class="viewcode-block" id="SpecWriterCallback.receiver">
+<a class="viewcode-back" href="../../../api/_filewriters.html#apstools.callbacks.spec_file_writer.SpecWriterCallback.receiver">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">receiver</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">document</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Bluesky callback: receive all documents for handling</span>
+
+<span class="sd">        .. index:: Bluesky Callback; SpecWriterCallback.receiver</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">xref</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span>
+            <span class="n">start</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">start</span><span class="p">,</span>
+            <span class="n">descriptor</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">descriptor</span><span class="p">,</span>
+            <span class="n">event</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">event</span><span class="p">,</span>
+            <span class="n">bulk_events</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">bulk_events</span><span class="p">,</span>
+            <span class="n">datum</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">datum</span><span class="p">,</span>
+            <span class="n">resource</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">resource</span><span class="p">,</span>
+            <span class="n">stop</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">stop</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">xref</span><span class="p">:</span>
+            <span class="n">token</span> <span class="o">=</span> <span class="n">document</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;uid&quot;</span><span class="p">)</span> <span class="ow">or</span> <span class="n">document</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;datum_id&quot;</span><span class="p">)</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">%s</span><span class="s2"> document, uid=</span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">token</span><span class="p">))</span>  <span class="c1"># lgtm [py/clear-text-logging-sensitive-data]</span>
+            <span class="n">ts</span> <span class="o">=</span> <span class="n">document</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;time&quot;</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">ts</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">ts</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">ts</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">fromtimestamp</span><span class="p">(</span><span class="n">document</span><span class="p">[</span><span class="s2">&quot;time&quot;</span><span class="p">])</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_datetime</span> <span class="o">=</span> <span class="n">ts</span>
+            <span class="n">xref</span><span class="p">[</span><span class="n">key</span><span class="p">](</span><span class="n">document</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">msg</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;custom_callback encountered: </span><span class="si">{</span><span class="n">key</span><span class="si">}</span><span class="s2"> : </span><span class="si">{</span><span class="n">document</span><span class="si">}</span><span class="s2">&quot;</span>
+            <span class="c1"># raise ValueError(msg)</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="SpecWriterCallback.start">
+<a class="viewcode-back" href="../../../api/_filewriters.html#apstools.callbacks.spec_file_writer.SpecWriterCallback.start">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">start</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">doc</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;handle *start* documents&quot;&quot;&quot;</span>
+
+        <span class="n">known_properties</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">            uid time project sample scan_id group owner</span>
+<span class="s2">            hints</span>
+<span class="s2">            plan_type plan_name plan_args</span>
+<span class="s2">        &quot;&quot;&quot;</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">clear</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">scanning</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">uid</span> <span class="o">=</span> <span class="n">doc</span><span class="p">[</span><span class="s2">&quot;uid&quot;</span><span class="p">]</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_cmt</span><span class="p">(</span><span class="s2">&quot;start&quot;</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;uid = </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">uid</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">metadata</span><span class="p">[</span><span class="s2">&quot;uid&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">uid</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="k">for</span> <span class="n">d</span><span class="p">,</span> <span class="n">cl</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">buffered_comments</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="c1"># bring in any comments collected when not scanning</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">comments</span><span class="p">[</span><span class="n">d</span><span class="p">]</span> <span class="o">+=</span> <span class="n">cl</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">buffered_comments</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_empty_comments_dict</span><span class="p">()</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">time</span> <span class="o">=</span> <span class="n">doc</span><span class="p">[</span><span class="s2">&quot;time&quot;</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">scan_epoch</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">time</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">scan_id</span> <span class="o">=</span> <span class="n">doc</span><span class="p">[</span><span class="s2">&quot;scan_id&quot;</span><span class="p">]</span> <span class="ow">or</span> <span class="mi">0</span>
+        <span class="c1"># Which reference? fixed counting time or fixed monitor count?</span>
+        <span class="c1"># Can this be omitted?</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">T_or_M</span> <span class="o">=</span> <span class="kc">None</span>  <span class="c1"># for now</span>
+        <span class="c1"># self.T_or_M = &quot;T&quot;           # TODO: how to get this from the document stream?</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">T_or_M_value</span> <span class="o">=</span> <span class="mi">1</span>
+        <span class="c1"># self._cmt(&quot;start&quot;, &quot;!!! #T line not correct yet !!!&quot;)</span>
+
+        <span class="c1"># metadata</span>
+        <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">doc</span><span class="o">.</span><span class="n">keys</span><span class="p">()):</span>
+            <span class="k">if</span> <span class="n">key</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">known_properties</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">metadata</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">doc</span><span class="p">[</span><span class="n">key</span><span class="p">]</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">start_hints</span> <span class="o">=</span> <span class="n">doc</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;hints&quot;</span><span class="p">,</span> <span class="p">{})</span>
+
+        <span class="c1"># various dicts</span>
+        <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="s2">&quot;detectors hints motors&quot;</span><span class="o">.</span><span class="n">split</span><span class="p">():</span>
+            <span class="k">if</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">doc</span><span class="p">:</span>
+                <span class="n">obj</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="fm">__getattribute__</span><span class="p">(</span><span class="n">item</span><span class="p">)</span>
+                <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">doc</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">item</span><span class="p">):</span>
+                    <span class="n">obj</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+
+        <span class="n">cmt</span> <span class="o">=</span> <span class="s2">&quot;plan_type = &quot;</span> <span class="o">+</span> <span class="n">doc</span><span class="p">[</span><span class="s2">&quot;plan_type&quot;</span><span class="p">]</span>
+        <span class="n">ts</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_datetime</span><span class="p">,</span> <span class="n">SPEC_TIME_FORMAT</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">comments</span><span class="p">[</span><span class="s2">&quot;start&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">ts</span><span class="si">}</span><span class="s2">.  </span><span class="si">{</span><span class="n">cmt</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">scan_command</span> <span class="o">=</span> <span class="n">_rebuild_scan_command</span><span class="p">(</span><span class="n">doc</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="SpecWriterCallback.descriptor">
+<a class="viewcode-back" href="../../../api/_filewriters.html#apstools.callbacks.spec_file_writer.SpecWriterCallback.descriptor">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">descriptor</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">doc</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        handle *descriptor* documents</span>
+
+<span class="sd">        prepare for primary scan data, ignore any other data stream</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">doc</span><span class="p">[</span><span class="s2">&quot;uid&quot;</span><span class="p">]</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_streams</span><span class="p">:</span>
+            <span class="n">fmt</span> <span class="o">=</span> <span class="s2">&quot;duplicate descriptor UID </span><span class="si">{}</span><span class="s2"> found&quot;</span>
+            <span class="k">raise</span> <span class="ne">KeyError</span><span class="p">(</span><span class="n">fmt</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">doc</span><span class="p">[</span><span class="s2">&quot;uid&quot;</span><span class="p">]))</span>
+
+        <span class="c1"># log descriptor documents by uid</span>
+        <span class="c1"># referenced by event and bulk_events documents</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_streams</span><span class="p">[</span><span class="n">doc</span><span class="p">[</span><span class="s2">&quot;uid&quot;</span><span class="p">]]</span> <span class="o">=</span> <span class="n">doc</span>
+
+        <span class="k">if</span> <span class="n">doc</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">_motor_stream_name</span><span class="p">:</span>
+            <span class="c1"># list of all known positioners (motors)</span>
+            <span class="n">mlist</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">doc</span><span class="p">[</span><span class="s2">&quot;object_keys&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_header_motor_keys</span> <span class="o">!=</span> <span class="n">mlist</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">write_new_header</span> <span class="o">=</span> <span class="kc">True</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">positioners</span> <span class="o">=</span> <span class="p">{</span><span class="n">k</span><span class="p">:</span> <span class="kc">None</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">mlist</span><span class="p">}</span>
+            <span class="k">return</span>
+        <span class="k">if</span> <span class="n">doc</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">]</span> <span class="o">!=</span> <span class="s2">&quot;primary&quot;</span><span class="p">:</span>
+            <span class="k">return</span>
+
+        <span class="n">keyset</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">doc</span><span class="p">[</span><span class="s2">&quot;data_keys&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
+        <span class="n">doc_hints_names</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">doc</span><span class="p">[</span><span class="s2">&quot;hints&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="n">doc_hints_names</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">k</span><span class="p">)</span>
+            <span class="n">doc_hints_names</span> <span class="o">+=</span> <span class="n">d</span><span class="p">[</span><span class="s2">&quot;fields&quot;</span><span class="p">]</span>
+
+        <span class="c1"># independent variable(s) first</span>
+        <span class="c1"># assumes start[&quot;motors&quot;] was defined</span>
+        <span class="n">first_keys</span> <span class="o">=</span> <span class="p">[</span><span class="n">k</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">motors</span> <span class="k">if</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">keyset</span><span class="p">]</span>
+        <span class="c1"># TODO: if len(first_keys) == 0: look at self.start_hints</span>
+
+        <span class="c1"># dependent variable(s) last</span>
+        <span class="c1"># assumes start[&quot;detectors&quot;] was defined</span>
+        <span class="n">last_keys</span> <span class="o">=</span> <span class="p">[</span><span class="n">d</span> <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">detectors</span> <span class="k">if</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">doc_hints_names</span><span class="p">]</span>
+        <span class="c1"># TODO: if len(last_keys) == 0: look at doc[&quot;hints&quot;]</span>
+
+        <span class="c1"># get remaining keys from keyset, they go in the middle</span>
+        <span class="n">middle_keys</span> <span class="o">=</span> <span class="p">[</span><span class="n">k</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">keyset</span> <span class="k">if</span> <span class="n">k</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">first_keys</span> <span class="o">+</span> <span class="n">last_keys</span><span class="p">]</span>
+        <span class="n">epoch_keys</span> <span class="o">=</span> <span class="s2">&quot;Epoch_float Epoch&quot;</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="n">k</span><span class="p">:</span> <span class="p">[]</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">first_keys</span> <span class="o">+</span> <span class="n">epoch_keys</span> <span class="o">+</span> <span class="n">middle_keys</span> <span class="o">+</span> <span class="n">last_keys</span><span class="p">})</span></div>
+
+
+<div class="viewcode-block" id="SpecWriterCallback.event">
+<a class="viewcode-back" href="../../../api/_filewriters.html#apstools.callbacks.spec_file_writer.SpecWriterCallback.event">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">event</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">doc</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        handle *event* documents</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">descriptor</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_streams</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">doc</span><span class="p">[</span><span class="s2">&quot;descriptor&quot;</span><span class="p">])</span>
+        <span class="k">if</span> <span class="n">descriptor</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">fmt</span> <span class="o">=</span> <span class="s2">&quot;descriptor UID </span><span class="si">{}</span><span class="s2"> not found&quot;</span>
+            <span class="k">raise</span> <span class="ne">KeyError</span><span class="p">(</span><span class="n">fmt</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">doc</span><span class="p">[</span><span class="s2">&quot;descriptor&quot;</span><span class="p">]))</span>
+        <span class="k">if</span> <span class="n">descriptor</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">_motor_stream_name</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">positioners</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">positioners</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="n">doc</span><span class="p">[</span><span class="s2">&quot;data&quot;</span><span class="p">][</span><span class="n">k</span><span class="p">]</span>  <span class="c1"># get motor values</span>
+        <span class="k">elif</span> <span class="n">descriptor</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;primary&quot;</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">doc</span><span class="p">[</span><span class="s2">&quot;data&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+                <span class="k">if</span> <span class="n">k</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+                    <span class="n">msg</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;unexpected failure here, key </span><span class="si">{</span><span class="n">k</span><span class="si">}</span><span class="s2"> not found&quot;</span>
+                    <span class="k">raise</span> <span class="ne">KeyError</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+                <span class="k">if</span> <span class="n">k</span> <span class="o">==</span> <span class="s2">&quot;Epoch&quot;</span><span class="p">:</span>
+                    <span class="n">v</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">doc</span><span class="p">[</span><span class="s2">&quot;time&quot;</span><span class="p">]</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">time</span> <span class="o">+</span> <span class="mf">0.5</span><span class="p">)</span>
+                <span class="k">elif</span> <span class="n">k</span> <span class="o">==</span> <span class="s2">&quot;Epoch_float&quot;</span><span class="p">:</span>
+                    <span class="n">v</span> <span class="o">=</span> <span class="n">doc</span><span class="p">[</span><span class="s2">&quot;time&quot;</span><span class="p">]</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">time</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="c1"># like SPEC, default to 0 if not found by name</span>
+                    <span class="n">v</span> <span class="o">=</span> <span class="n">doc</span><span class="p">[</span><span class="s2">&quot;data&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">k</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">v</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">num_primary_data</span> <span class="o">+=</span> <span class="mi">1</span></div>
+
+
+<div class="viewcode-block" id="SpecWriterCallback.bulk_events">
+<a class="viewcode-back" href="../../../api/_filewriters.html#apstools.callbacks.spec_file_writer.SpecWriterCallback.bulk_events">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">bulk_events</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">doc</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;handle *bulk_events* documents&quot;&quot;&quot;</span>
+        <span class="k">pass</span></div>
+
+
+<div class="viewcode-block" id="SpecWriterCallback.datum">
+<a class="viewcode-back" href="../../../api/_filewriters.html#apstools.callbacks.spec_file_writer.SpecWriterCallback.datum">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">datum</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">doc</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;handle *datum* documents&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_cmt</span><span class="p">(</span><span class="s2">&quot;datum&quot;</span><span class="p">,</span> <span class="s2">&quot;datum &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">doc</span><span class="p">))</span></div>
+
+
+<div class="viewcode-block" id="SpecWriterCallback.resource">
+<a class="viewcode-back" href="../../../api/_filewriters.html#apstools.callbacks.spec_file_writer.SpecWriterCallback.resource">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">resource</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">doc</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;handle *resource* documents&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_cmt</span><span class="p">(</span><span class="s2">&quot;resource&quot;</span><span class="p">,</span> <span class="s2">&quot;resource &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">doc</span><span class="p">))</span></div>
+
+
+<div class="viewcode-block" id="SpecWriterCallback.stop">
+<a class="viewcode-back" href="../../../api/_filewriters.html#apstools.callbacks.spec_file_writer.SpecWriterCallback.stop">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">stop</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">doc</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;handle *stop* documents&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="s2">&quot;num_events&quot;</span> <span class="ow">in</span> <span class="n">doc</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">doc</span><span class="p">[</span><span class="s2">&quot;num_events&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_cmt</span><span class="p">(</span><span class="s2">&quot;stop&quot;</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;num_events_</span><span class="si">{</span><span class="n">k</span><span class="si">}</span><span class="s2"> = </span><span class="si">{</span><span class="n">v</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="s2">&quot;exit_status&quot;</span> <span class="ow">in</span> <span class="n">doc</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_cmt</span><span class="p">(</span><span class="s2">&quot;stop&quot;</span><span class="p">,</span> <span class="s2">&quot;exit_status = &quot;</span> <span class="o">+</span> <span class="n">doc</span><span class="p">[</span><span class="s2">&quot;exit_status&quot;</span><span class="p">])</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_cmt</span><span class="p">(</span><span class="s2">&quot;stop&quot;</span><span class="p">,</span> <span class="s2">&quot;exit_status = not available&quot;</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">auto_write</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">write_scan</span><span class="p">()</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">scanning</span> <span class="o">=</span> <span class="kc">False</span></div>
+
+
+<div class="viewcode-block" id="SpecWriterCallback.prepare_scan_contents">
+<a class="viewcode-back" href="../../../api/_filewriters.html#apstools.callbacks.spec_file_writer.SpecWriterCallback.prepare_scan_contents">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">prepare_scan_contents</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        format the scan for a SPEC data file</span>
+
+<span class="sd">        :returns: [str] a list of lines to append to the data file</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">dt</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">fromtimestamp</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">scan_epoch</span><span class="p">)</span>
+        <span class="n">lines</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+        <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;#S &quot;</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">scan_command</span><span class="p">)</span>
+        <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;#D &quot;</span> <span class="o">+</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="n">dt</span><span class="p">,</span> <span class="n">SPEC_TIME_FORMAT</span><span class="p">))</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">T_or_M</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;#</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">T_or_M</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">T_or_M_value</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+        <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">comments</span><span class="p">[</span><span class="s2">&quot;start&quot;</span><span class="p">]:</span>
+            <span class="c1"># C Wed Feb 03 16:51:38 2016.  do ./usaxs.mac.</span>
+            <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;#C &quot;</span> <span class="o">+</span> <span class="n">v</span><span class="p">)</span>  <span class="c1"># TODO: add time/date stamp as SPEC does</span>
+        <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">comments</span><span class="p">[</span><span class="s2">&quot;descriptor&quot;</span><span class="p">]:</span>
+            <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;#C &quot;</span> <span class="o">+</span> <span class="n">v</span><span class="p">)</span>
+
+        <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">metadata</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="c1"># &quot;#MD&quot; is our ad hoc SPEC data tag</span>
+            <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;#MD </span><span class="si">{</span><span class="n">k</span><span class="si">}</span><span class="s2"> = </span><span class="si">{</span><span class="n">v</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="nb">sorted</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">positioners</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span> <span class="o">!=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_header_motor_keys</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">write_new_header</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">positioners</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;#P0 &quot;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">values</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">positioners</span><span class="o">.</span><span class="n">values</span><span class="p">())</span>
+            <span class="n">r</span> <span class="o">=</span> <span class="mi">0</span>
+            <span class="k">while</span> <span class="nb">len</span><span class="p">(</span><span class="n">values</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;#P</span><span class="si">{</span><span class="n">r</span><span class="si">}</span><span class="s2"> &quot;</span> <span class="o">+</span> <span class="s2">&quot; &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="nb">str</span><span class="p">(</span><span class="n">v</span><span class="p">)</span> <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">values</span><span class="p">[:</span><span class="mi">8</span><span class="p">]]))</span>
+                <span class="n">values</span> <span class="o">=</span> <span class="n">values</span><span class="p">[</span><span class="mi">8</span><span class="p">:]</span>
+                <span class="n">r</span> <span class="o">+=</span> <span class="mi">1</span>
+
+        <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;#N &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">keys</span><span class="p">())))</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;#L &quot;</span> <span class="o">+</span> <span class="s2">&quot;  &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">keys</span><span class="p">()))</span>
+            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">num_primary_data</span><span class="p">):</span>
+                <span class="n">str_data</span> <span class="o">=</span> <span class="n">OrderedDict</span><span class="p">()</span>
+                <span class="n">s</span> <span class="o">=</span> <span class="p">[]</span>
+                <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+                    <span class="n">datum</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">k</span><span class="p">][</span><span class="n">i</span><span class="p">]</span>
+                    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">datum</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+                        <span class="c1"># SPEC scan data is expected to be numbers</span>
+                        <span class="c1"># this is text, substitute the row number</span>
+                        <span class="c1"># and report after this line in a #U line</span>
+                        <span class="n">str_data</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="n">datum</span>
+                        <span class="n">datum</span> <span class="o">=</span> <span class="n">i</span>
+                    <span class="n">s</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">datum</span><span class="p">))</span>
+                <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot; &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">s</span><span class="p">))</span>
+                <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">str_data</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+                    <span class="c1"># report the text data</span>
+                    <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;#U </span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">k</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">str_data</span><span class="p">[</span><span class="n">k</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;#C no data column labels identified&quot;</span><span class="p">)</span>
+
+        <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">comments</span><span class="p">[</span><span class="s2">&quot;event&quot;</span><span class="p">]:</span>
+            <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;#C &quot;</span> <span class="o">+</span> <span class="n">v</span><span class="p">)</span>
+
+        <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">comments</span><span class="p">[</span><span class="s2">&quot;resource&quot;</span><span class="p">]:</span>
+            <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;#C &quot;</span> <span class="o">+</span> <span class="n">v</span><span class="p">)</span>
+
+        <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">comments</span><span class="p">[</span><span class="s2">&quot;datum&quot;</span><span class="p">]:</span>
+            <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;#C &quot;</span> <span class="o">+</span> <span class="n">v</span><span class="p">)</span>
+
+        <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">comments</span><span class="p">[</span><span class="s2">&quot;stop&quot;</span><span class="p">]:</span>
+            <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;#C &quot;</span> <span class="o">+</span> <span class="n">v</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">lines</span></div>
+
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_write_lines_</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">lines</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s2">&quot;a&quot;</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;write (more) lines to the file&quot;&quot;&quot;</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">spec_filename</span><span class="p">,</span> <span class="n">mode</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+            <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">lines</span><span class="p">))</span>
+
+<div class="viewcode-block" id="SpecWriterCallback.write_header">
+<a class="viewcode-back" href="../../../api/_filewriters.html#apstools.callbacks.spec_file_writer.SpecWriterCallback.write_header">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">write_header</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Write the (initial) header section of a SPEC data file.&quot;&quot;&quot;</span>
+        <span class="n">dt</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">fromtimestamp</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">spec_epoch</span><span class="p">)</span>
+        <span class="n">lines</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="c1"># Ok to repeat #F in addtional header sections</span>
+        <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;#F </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">spec_filename</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;#E </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">spec_epoch</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;#D </span><span class="si">{</span><span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="n">dt</span><span class="p">,</span><span class="w"> </span><span class="n">SPEC_TIME_FORMAT</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;#C Bluesky  user = </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">spec_user</span><span class="si">}</span><span class="s2">  host = </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">spec_host</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_header_motor_keys</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">positioners</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_header_motor_keys</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;#O0 &quot;</span><span class="p">)</span>  <span class="c1"># names</span>
+            <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;#o0 &quot;</span><span class="p">)</span>  <span class="c1"># mnemonics</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">delimiter</span> <span class="o">=</span> <span class="s2">&quot; &quot;</span> <span class="o">*</span> <span class="mi">2</span>  <span class="c1"># two spaces between names</span>
+            <span class="k">for</span> <span class="n">pre</span> <span class="ow">in</span> <span class="s2">&quot;#O #o&quot;</span><span class="o">.</span><span class="n">split</span><span class="p">():</span>  <span class="c1"># same list for names and mnemonics</span>
+                <span class="n">values</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_header_motor_keys</span>
+                <span class="n">r</span> <span class="o">=</span> <span class="mi">0</span>
+                <span class="k">while</span> <span class="nb">len</span><span class="p">(</span><span class="n">values</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                    <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">pre</span><span class="si">}{</span><span class="n">r</span><span class="si">}</span><span class="s2"> &quot;</span> <span class="o">+</span> <span class="n">delimiter</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="nb">str</span><span class="p">(</span><span class="n">v</span><span class="p">)</span> <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">values</span><span class="p">[:</span><span class="mi">8</span><span class="p">]]))</span>
+                    <span class="n">values</span> <span class="o">=</span> <span class="n">values</span><span class="p">[</span><span class="mi">8</span><span class="p">:]</span>
+                    <span class="n">r</span> <span class="o">+=</span> <span class="mi">1</span>
+
+        <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">spec_filename</span><span class="o">.</span><span class="n">exists</span><span class="p">():</span>
+            <span class="n">lines</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_write_lines_</span><span class="p">(</span><span class="n">lines</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s2">&quot;a+&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">write_new_header</span> <span class="o">=</span> <span class="kc">False</span></div>
+
+
+<div class="viewcode-block" id="SpecWriterCallback.write_scan">
+<a class="viewcode-back" href="../../../api/_filewriters.html#apstools.callbacks.spec_file_writer.SpecWriterCallback.write_scan">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">write_scan</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        write the most recent (completed) scan to the file</span>
+
+<span class="sd">        * creates file if not existing</span>
+<span class="sd">        * writes header if needed</span>
+<span class="sd">        * appends scan data</span>
+
+<span class="sd">        note:  does nothing if there are no lines to be written</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">spec_filename</span><span class="o">.</span><span class="n">exists</span><span class="p">():</span>
+            <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">spec_filename</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+                <span class="n">buf</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+                <span class="k">if</span> <span class="n">buf</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">uid</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="p">:</span>
+                    <span class="c1"># raise exception if uid is already in the file!</span>
+                    <span class="n">msg</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">spec_filename</span><span class="si">}</span><span class="s2"> already contains uid=</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">uid</span><span class="si">}</span><span class="s2">&quot;</span>
+                    <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
+        <span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
+        <span class="n">lines</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">prepare_scan_contents</span><span class="p">()</span>
+        <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">lines</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">write_new_header</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">write_header</span><span class="p">()</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;wrote header to SPEC file: </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">spec_filename</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_write_lines_</span><span class="p">(</span><span class="n">lines</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s2">&quot;a&quot;</span><span class="p">)</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
+                <span class="s2">&quot;wrote scan </span><span class="si">%d</span><span class="s2"> to SPEC file: </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">scan_id</span><span class="p">,</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">spec_filename</span><span class="p">,</span>
+            <span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="SpecWriterCallback.make_default_filename">
+<a class="viewcode-back" href="../../../api/_filewriters.html#apstools.callbacks.spec_file_writer.SpecWriterCallback.make_default_filename">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">make_default_filename</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;generate a file name to be used as default&quot;&quot;&quot;</span>
+        <span class="n">now</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span>
+        <span class="n">filename</span> <span class="o">=</span> <span class="n">now</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">&quot;%Y%m</span><span class="si">%d</span><span class="s2">-%H%M%S&quot;</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;.dat&quot;</span>
+        <span class="k">return</span> <span class="n">pathlib</span><span class="o">.</span><span class="n">Path</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="SpecWriterCallback.newfile">
+<a class="viewcode-back" href="../../../api/_filewriters.html#apstools.callbacks.spec_file_writer.SpecWriterCallback.newfile">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">newfile</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filename</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">scan_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">RE</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        prepare to use a new SPEC data file</span>
+
+<span class="sd">        but don&#39;t create it until we have data</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">clear</span><span class="p">()</span>
+        <span class="n">filename</span> <span class="o">=</span> <span class="n">pathlib</span><span class="o">.</span><span class="n">Path</span><span class="p">(</span><span class="n">filename</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">make_default_filename</span><span class="p">())</span>
+        <span class="k">if</span> <span class="n">filename</span><span class="o">.</span><span class="n">exists</span><span class="p">():</span>
+            <span class="kn">from</span><span class="w"> </span><span class="nn">spec2nexus.spec</span><span class="w"> </span><span class="kn">import</span> <span class="n">SpecDataFile</span>
+
+            <span class="n">sdf</span> <span class="o">=</span> <span class="n">SpecDataFile</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span>
+            <span class="n">scan_list</span> <span class="o">=</span> <span class="n">sdf</span><span class="o">.</span><span class="n">getScanNumbers</span><span class="p">()</span>
+            <span class="n">l</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">scan_list</span><span class="p">)</span>
+            <span class="n">m</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="nb">float</span><span class="p">,</span> <span class="n">scan_list</span><span class="p">))</span>
+            <span class="n">highest</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="nb">max</span><span class="p">(</span><span class="n">l</span><span class="p">,</span> <span class="n">m</span><span class="p">)</span> <span class="o">+</span> <span class="mf">0.9999</span><span class="p">)</span>  <span class="c1"># solves issue #128</span>
+            <span class="n">scan_id</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">scan_id</span> <span class="ow">or</span> <span class="mi">0</span><span class="p">,</span> <span class="n">highest</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">spec_filename</span> <span class="o">=</span> <span class="n">filename</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">spec_epoch</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">())</span>  <span class="c1"># ! no roundup here!!!</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">spec_host</span> <span class="o">=</span> <span class="n">socket</span><span class="o">.</span><span class="n">gethostname</span><span class="p">()</span> <span class="ow">or</span> <span class="s2">&quot;localhost&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">spec_user</span> <span class="o">=</span> <span class="n">getpass</span><span class="o">.</span><span class="n">getuser</span><span class="p">()</span> <span class="ow">or</span> <span class="s2">&quot;BlueskyUser&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">write_new_header</span> <span class="o">=</span> <span class="kc">True</span>  <span class="c1"># don&#39;t write the file yet</span>
+
+        <span class="c1"># backwards-compatibility</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">scan_id</span><span class="p">,</span> <span class="nb">bool</span><span class="p">):</span>
+            <span class="c1"># True means reset the scan ID to default</span>
+            <span class="c1"># False means do not modify it</span>
+            <span class="n">scan_id</span> <span class="o">=</span> <span class="p">{</span><span class="kc">True</span><span class="p">:</span> <span class="n">SCAN_ID_RESET_VALUE</span><span class="p">,</span> <span class="kc">False</span><span class="p">:</span> <span class="kc">None</span><span class="p">}[</span><span class="n">scan_id</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">scan_id</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">RE</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="c1"># RE is an instance of bluesky.run_engine.RunEngine</span>
+            <span class="c1"># (or duck type for testing)</span>
+            <span class="n">RE</span><span class="o">.</span><span class="n">md</span><span class="p">[</span><span class="s2">&quot;scan_id&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">scan_id</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">scan_id</span> <span class="o">=</span> <span class="n">scan_id</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">spec_filename</span></div>
+
+
+<div class="viewcode-block" id="SpecWriterCallback.usefile">
+<a class="viewcode-back" href="../../../api/_filewriters.html#apstools.callbacks.spec_file_writer.SpecWriterCallback.usefile">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">usefile</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filename</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;read from existing SPEC data file&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">spec_filename</span><span class="o">.</span><span class="n">exists</span><span class="p">():</span>
+            <span class="k">raise</span> <span class="ne">IOError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;file </span><span class="si">{</span><span class="n">filename</span><span class="si">}</span><span class="s2"> does not exist&quot;</span><span class="p">)</span>
+        <span class="n">scan_id</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="s2">&quot;r&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+            <span class="n">key</span> <span class="o">=</span> <span class="s2">&quot;#F&quot;</span>
+            <span class="n">line</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">readline</span><span class="p">()</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">line</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="n">key</span> <span class="o">+</span> <span class="s2">&quot; &quot;</span><span class="p">):</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;first line does not start with </span><span class="si">{</span><span class="n">key</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+            <span class="n">key</span> <span class="o">=</span> <span class="s2">&quot;#E&quot;</span>
+            <span class="n">line</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">readline</span><span class="p">()</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">line</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="n">key</span> <span class="o">+</span> <span class="s2">&quot; &quot;</span><span class="p">):</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;first line does not start with </span><span class="si">{</span><span class="n">key</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="n">epoch</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">line</span><span class="o">.</span><span class="n">split</span><span class="p">()[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+
+            <span class="n">key</span> <span class="o">=</span> <span class="s2">&quot;#D&quot;</span>
+            <span class="n">line</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">readline</span><span class="p">()</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">line</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="n">key</span> <span class="o">+</span> <span class="s2">&quot; &quot;</span><span class="p">):</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;first line does not start with &quot;</span> <span class="o">+</span> <span class="n">key</span><span class="p">)</span>
+            <span class="c1"># ignore content, it is derived from #E line</span>
+
+            <span class="n">key</span> <span class="o">=</span> <span class="s2">&quot;#C&quot;</span>
+            <span class="n">line</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">readline</span><span class="p">()</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">line</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="n">key</span> <span class="o">+</span> <span class="s2">&quot; &quot;</span><span class="p">):</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;first line does not start with &quot;</span> <span class="o">+</span> <span class="n">key</span><span class="p">)</span>
+            <span class="n">p</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
+            <span class="n">username</span> <span class="o">=</span> <span class="s2">&quot;BlueskyUser&quot;</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">p</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">4</span> <span class="ow">and</span> <span class="n">p</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;user&quot;</span><span class="p">:</span>
+                <span class="n">username</span> <span class="o">=</span> <span class="n">p</span><span class="p">[</span><span class="mi">4</span><span class="p">]</span>
+
+            <span class="c1"># find the highest scan number used</span>
+            <span class="n">key</span> <span class="o">=</span> <span class="s2">&quot;#S&quot;</span>
+            <span class="n">scan_ids</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">f</span><span class="o">.</span><span class="n">readlines</span><span class="p">():</span>
+                <span class="k">if</span> <span class="n">line</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="n">key</span> <span class="o">+</span> <span class="s2">&quot; &quot;</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">line</span><span class="o">.</span><span class="n">split</span><span class="p">())</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+                    <span class="n">scan_id</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">line</span><span class="o">.</span><span class="n">split</span><span class="p">()[</span><span class="mi">1</span><span class="p">])</span>
+                    <span class="n">scan_ids</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">scan_id</span><span class="p">)</span>
+            <span class="n">scan_id</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">scan_ids</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">spec_filename</span> <span class="o">=</span> <span class="n">filename</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">spec_epoch</span> <span class="o">=</span> <span class="n">epoch</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">spec_user</span> <span class="o">=</span> <span class="n">username</span>
+        <span class="k">return</span> <span class="n">scan_id</span></div>
+</div>
+
+
+
+<div class="viewcode-block" id="SpecWriterCallback2">
+<a class="viewcode-back" href="../../../api/_filewriters.html#apstools.callbacks.spec_file_writer.SpecWriterCallback2">[docs]</a>
+<span class="nd">@versionchanged</span><span class="p">(</span>
+    <span class="n">version</span><span class="o">=</span><span class="s2">&quot;1.7.8&quot;</span><span class="p">,</span>
+    <span class="n">reason</span><span class="o">=</span><span class="s2">&quot;BUG: extra data reported&quot;</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="nd">@versionchanged</span><span class="p">(</span>
+    <span class="n">version</span><span class="o">=</span><span class="s2">&quot;1.7.6&quot;</span><span class="p">,</span>
+    <span class="n">reason</span><span class="o">=</span><span class="s2">&quot;Translate motor object_key to motor data_key&quot;</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="nd">@versionchanged</span><span class="p">(</span><span class="n">version</span><span class="o">=</span><span class="s2">&quot;1.7.4&quot;</span><span class="p">,</span> <span class="n">reason</span><span class="o">=</span><span class="s2">&quot;refactor how labels are gathered&quot;</span><span class="p">)</span>
+<span class="nd">@versionchanged</span><span class="p">(</span><span class="n">version</span><span class="o">=</span><span class="s2">&quot;1.7.1&quot;</span><span class="p">,</span> <span class="n">reason</span><span class="o">=</span><span class="s2">&quot;set spec_filename in constructor&quot;</span><span class="p">)</span>
+<span class="nd">@versionadded</span><span class="p">(</span><span class="n">version</span><span class="o">=</span><span class="s2">&quot;1.7.0&quot;</span><span class="p">)</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">SpecWriterCallback2</span><span class="p">(</span><span class="n">FileWriterCallbackBase</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Write SPEC data file as data is collected, line-by-line.</span>
+
+<span class="sd">    .. index:: Bluesky Callback; SpecWriterCallback2</span>
+
+<span class="sd">    This writes data from a scan as each *event* document is received. One or</span>
+<span class="sd">    more scans can be written to the same file.  The file format is text.</span>
+
+<span class="sd">    .. rubric: Override Methods from FileWriterCallbackBase</span>
+<span class="sd">    .. autosummary::</span>
+<span class="sd">        ~descriptor</span>
+<span class="sd">        ~event</span>
+<span class="sd">        ~start</span>
+<span class="sd">        ~stop</span>
+<span class="sd">        ~writer</span>
+
+<span class="sd">    .. rubric: New Methods</span>
+<span class="sd">    .. autosummary::</span>
+<span class="sd">        ~_cmt</span>
+<span class="sd">        ~_write_lines_</span>
+<span class="sd">        ~make_default_filename</span>
+<span class="sd">        ~newfile</span>
+<span class="sd">        ~usefile</span>
+<span class="sd">        ~write_file_header</span>
+<span class="sd">        ~write_scan_data_row</span>
+<span class="sd">        ~write_scan_end</span>
+<span class="sd">        ~write_scan_header</span>
+
+<span class="sd">    .. rubric: Properties</span>
+<span class="sd">    .. autosummary::</span>
+<span class="sd">        ~spec_filename</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1"># - - - - # - - - - # - - - - # - - - - # - - - - # - - - - # - - - - #</span>
+    <span class="c1"># Override Methods</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_file_header_motor_keys</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_motor_stream_name</span> <span class="o">=</span> <span class="s2">&quot;label_start_motor&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">data_labels</span><span class="p">:</span> <span class="nb">list</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">file_epoch</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">spec_filename</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">write_new_file_header</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">write_new_scan_header</span> <span class="o">=</span> <span class="kc">False</span>
+
+<div class="viewcode-block" id="SpecWriterCallback2.descriptor">
+<a class="viewcode-back" href="../../../api/_filewriters.html#apstools.callbacks.spec_file_writer.SpecWriterCallback2.descriptor">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">descriptor</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">doc</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Handle *descriptor* documents of certain streams.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="kn">from</span><span class="w"> </span><span class="nn">..utils.descriptor_support</span><span class="w"> </span><span class="kn">import</span> <span class="n">get_stream_data_map</span>
+
+        <span class="k">if</span> <span class="n">doc</span><span class="p">[</span><span class="s2">&quot;uid&quot;</span><span class="p">]</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_streams</span><span class="p">:</span>
+            <span class="n">fmt</span> <span class="o">=</span> <span class="s2">&quot;duplicate descriptor UID </span><span class="si">{}</span><span class="s2"> found&quot;</span>
+            <span class="k">raise</span> <span class="ne">KeyError</span><span class="p">(</span><span class="n">fmt</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">doc</span><span class="p">[</span><span class="s2">&quot;uid&quot;</span><span class="p">]))</span>
+
+        <span class="c1"># log descriptor documents by uid</span>
+        <span class="c1"># referenced by event and bulk_events documents</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_streams</span><span class="p">[</span><span class="n">doc</span><span class="p">[</span><span class="s2">&quot;uid&quot;</span><span class="p">]]</span> <span class="o">=</span> <span class="n">doc</span>
+
+        <span class="k">if</span> <span class="n">doc</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">_motor_stream_name</span><span class="p">:</span>
+            <span class="c1"># list of all known positioners (motors), #O:#P lines</span>
+            <span class="n">mlist</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">doc</span><span class="p">[</span><span class="s2">&quot;configuration&quot;</span><span class="p">])</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_file_header_motor_keys</span> <span class="o">!=</span> <span class="n">mlist</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">write_new_file_header</span> <span class="o">=</span> <span class="kc">True</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">motors</span> <span class="o">=</span> <span class="p">{</span><span class="n">k</span><span class="p">:</span> <span class="kc">None</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">mlist</span><span class="p">}</span>
+            <span class="k">return</span>  <span class="c1"># nothing more to do now</span>
+
+        <span class="k">elif</span> <span class="n">doc</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">]</span> <span class="o">!=</span> <span class="n">PRIMARY_STREAM_NAME</span><span class="p">:</span>
+            <span class="k">return</span>
+
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">descriptor</span><span class="p">(</span><span class="n">doc</span><span class="p">)</span>  <span class="c1"># process the document</span>
+
+        <span class="n">detectors</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">data_map</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;detectors&quot;</span><span class="p">,</span> <span class="p">[])</span>
+        <span class="n">motors</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">data_map</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;motors&quot;</span><span class="p">,</span> <span class="p">[])</span>
+        <span class="n">others</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">data_map</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;unassigned&quot;</span><span class="p">,</span> <span class="p">[])</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">detectors</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="c1"># First detector assumed to be the most important one.</span>
+            <span class="c1"># Move first &quot;detector&quot; to last column per SPEC convention.</span>
+            <span class="n">detectors</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">detectors</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="mi">0</span><span class="p">))</span>
+
+        <span class="c1"># Per SPEC convention, write the labels in this order:</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">data_labels</span> <span class="o">=</span> <span class="n">motors</span> <span class="o">+</span> <span class="s2">&quot;Epoch Epoch_float&quot;</span><span class="o">.</span><span class="n">split</span><span class="p">()</span> <span class="o">+</span> <span class="n">others</span> <span class="o">+</span> <span class="n">detectors</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">write_new_scan_header</span> <span class="o">=</span> <span class="kc">True</span></div>
+
+
+<div class="viewcode-block" id="SpecWriterCallback2.event">
+<a class="viewcode-back" href="../../../api/_filewriters.html#apstools.callbacks.spec_file_writer.SpecWriterCallback2.event">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">event</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">doc</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">event</span><span class="p">(</span><span class="n">doc</span><span class="p">)</span>  <span class="c1"># process the document</span>
+
+        <span class="n">descriptor</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_streams</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">doc</span><span class="p">[</span><span class="s2">&quot;descriptor&quot;</span><span class="p">])</span>
+        <span class="k">if</span> <span class="n">descriptor</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">KeyError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Descriptor UID </span><span class="si">{</span><span class="n">doc</span><span class="p">[</span><span class="s1">&#39;descriptor&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2"> not found.&quot;</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">descriptor</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">_motor_stream_name</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">motors</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+                <span class="n">key</span> <span class="o">=</span> <span class="n">k</span>
+                <span class="k">if</span> <span class="n">key</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">doc</span><span class="p">[</span><span class="s2">&quot;data&quot;</span><span class="p">]:</span>
+                    <span class="c1"># De-reference assuming readback is the first in the list.</span>
+                    <span class="n">key</span> <span class="o">=</span> <span class="n">descriptor</span><span class="p">[</span><span class="s2">&quot;object_keys&quot;</span><span class="p">][</span><span class="n">k</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">motors</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="n">doc</span><span class="p">[</span><span class="s2">&quot;data&quot;</span><span class="p">][</span><span class="n">key</span><span class="p">]</span>  <span class="c1"># get motor readback value</span>
+            <span class="k">return</span>
+
+        <span class="k">if</span> <span class="n">descriptor</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">]</span> <span class="o">!=</span> <span class="n">PRIMARY_STREAM_NAME</span><span class="p">:</span>
+            <span class="k">return</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">write_file_header</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">write_scan_header</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">write_scan_data_row</span><span class="p">(</span><span class="n">doc</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="SpecWriterCallback2.start">
+<a class="viewcode-back" href="../../../api/_filewriters.html#apstools.callbacks.spec_file_writer.SpecWriterCallback2.start">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">start</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">doc</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;First document of the run.&quot;&quot;&quot;</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">start</span><span class="p">(</span><span class="n">doc</span><span class="p">)</span>  <span class="c1"># process the document</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">data_labels</span><span class="p">:</span> <span class="nb">list</span> <span class="o">=</span> <span class="p">[]</span>  <span class="c1"># clear it for this run, descriptor will define it.</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">file_epoch</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">file_epoch</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">start_time</span>  <span class="c1"># timestamp</span>
+        <span class="n">login_id</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">metadata</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;login_id&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">login_id</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">spec_user</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">spec_host</span> <span class="o">=</span> <span class="n">login_id</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;@&quot;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">spec_host</span> <span class="o">=</span> <span class="n">socket</span><span class="o">.</span><span class="n">gethostname</span><span class="p">()</span> <span class="ow">or</span> <span class="s2">&quot;localhost&quot;</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">spec_user</span> <span class="o">=</span> <span class="n">getpass</span><span class="o">.</span><span class="n">getuser</span><span class="p">()</span> <span class="ow">or</span> <span class="s2">&quot;BlueskyUser&quot;</span>
+
+        <span class="c1"># Create new file (if necessary)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">file_name</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">file_name</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">make_file_name</span><span class="p">()</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">motors</span> <span class="o">=</span> <span class="p">{}</span>  <span class="c1"># names in #O, values in #P</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_streams</span> <span class="o">=</span> <span class="p">{}</span>  <span class="c1"># descriptor documents, keyed by uid</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">T_or_M</span> <span class="o">=</span> <span class="kc">None</span>  <span class="c1"># TODO: How to learn if &quot;T&quot; or &quot;M&quot; from the document stream?</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">T_or_M_value</span> <span class="o">=</span> <span class="mi">1</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">scan_command</span> <span class="o">=</span> <span class="n">_rebuild_scan_command</span><span class="p">(</span><span class="n">doc</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="SpecWriterCallback2.stop">
+<a class="viewcode-back" href="../../../api/_filewriters.html#apstools.callbacks.spec_file_writer.SpecWriterCallback2.stop">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">stop</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">doc</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Last document of the run.&quot;&quot;&quot;</span>
+        <span class="c1"># ... just in case these have not been written.</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">write_file_header</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">write_scan_header</span><span class="p">()</span>
+
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">stop</span><span class="p">(</span><span class="n">doc</span><span class="p">)</span>  <span class="c1"># process the document</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">write_scan_end</span><span class="p">(</span><span class="n">doc</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="SpecWriterCallback2.writer">
+<a class="viewcode-back" href="../../../api/_filewriters.html#apstools.callbacks.spec_file_writer.SpecWriterCallback2.writer">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">writer</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Output to a file completed by other methods.&quot;&quot;&quot;</span>
+        <span class="k">pass</span></div>
+
+
+    <span class="c1"># - - - - # - - - - # - - - - # - - - - # - - - - # - - - - # - - - - #</span>
+    <span class="c1"># Local Methods</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_cmt</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">text</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Return a SPEC-style comment.</span>
+
+<span class="sd">        ``#C Wed Jul 04 14:56:21 1776.  uid = abcdefg-1234-4321-8524686c-abcd1234dcba``</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">dt</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">fromtimestamp</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">doc_timestamp</span> <span class="ow">or</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">())</span>
+        <span class="n">spec_time</span> <span class="o">=</span> <span class="n">dt</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="n">SPEC_TIME_FORMAT</span><span class="p">)</span>
+        <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;#C </span><span class="si">{</span><span class="n">spec_time</span><span class="si">}</span><span class="s2">.  </span><span class="si">{</span><span class="n">text</span><span class="si">}</span><span class="s2">&quot;</span>
+
+<div class="viewcode-block" id="SpecWriterCallback2.make_default_filename">
+<a class="viewcode-back" href="../../../api/_filewriters.html#apstools.callbacks.spec_file_writer.SpecWriterCallback2.make_default_filename">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">make_default_filename</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;generate a file name to be used as default&quot;&quot;&quot;</span>
+        <span class="n">now</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span>
+        <span class="n">filename</span> <span class="o">=</span> <span class="n">now</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">&quot;%Y%m</span><span class="si">%d</span><span class="s2">-%H%M%S&quot;</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;.dat&quot;</span>
+        <span class="k">return</span> <span class="n">pathlib</span><span class="o">.</span><span class="n">Path</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="SpecWriterCallback2.newfile">
+<a class="viewcode-back" href="../../../api/_filewriters.html#apstools.callbacks.spec_file_writer.SpecWriterCallback2.newfile">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">newfile</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filename</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">scan_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">RE</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        prepare to use a new SPEC data file</span>
+
+<span class="sd">        but don&#39;t create it until we have data</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">clear</span><span class="p">()</span>
+        <span class="n">filename</span> <span class="o">=</span> <span class="n">pathlib</span><span class="o">.</span><span class="n">Path</span><span class="p">(</span><span class="n">filename</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">make_default_filename</span><span class="p">())</span>
+        <span class="k">if</span> <span class="n">filename</span><span class="o">.</span><span class="n">exists</span><span class="p">():</span>
+            <span class="kn">from</span><span class="w"> </span><span class="nn">spec2nexus.spec</span><span class="w"> </span><span class="kn">import</span> <span class="n">SpecDataFile</span>
+
+            <span class="n">sdf</span> <span class="o">=</span> <span class="n">SpecDataFile</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span>
+            <span class="n">scan_list</span> <span class="o">=</span> <span class="n">sdf</span><span class="o">.</span><span class="n">getScanNumbers</span><span class="p">()</span>
+            <span class="n">l</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">scan_list</span><span class="p">)</span>
+            <span class="n">m</span> <span class="o">=</span> <span class="mi">0</span> <span class="k">if</span> <span class="n">l</span> <span class="o">==</span> <span class="mi">0</span> <span class="k">else</span> <span class="nb">max</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="nb">float</span><span class="p">,</span> <span class="n">scan_list</span><span class="p">))</span>
+            <span class="n">highest</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="nb">max</span><span class="p">(</span><span class="n">l</span><span class="p">,</span> <span class="n">m</span><span class="p">)</span> <span class="o">+</span> <span class="mf">0.9999</span><span class="p">)</span>  <span class="c1"># solves issue #128</span>
+            <span class="n">scan_id</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">scan_id</span> <span class="ow">or</span> <span class="mi">0</span><span class="p">,</span> <span class="n">highest</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">spec_filename</span> <span class="o">=</span> <span class="n">filename</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">spec_epoch</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">())</span>  <span class="c1"># ! no roundup here!!!</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">spec_host</span> <span class="o">=</span> <span class="n">socket</span><span class="o">.</span><span class="n">gethostname</span><span class="p">()</span> <span class="ow">or</span> <span class="s2">&quot;localhost&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">spec_user</span> <span class="o">=</span> <span class="n">getpass</span><span class="o">.</span><span class="n">getuser</span><span class="p">()</span> <span class="ow">or</span> <span class="s2">&quot;BlueskyUser&quot;</span>
+
+        <span class="c1"># backwards-compatibility</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">scan_id</span><span class="p">,</span> <span class="nb">bool</span><span class="p">):</span>
+            <span class="c1"># True means reset the scan ID to default</span>
+            <span class="c1"># False means do not modify it</span>
+            <span class="n">scan_id</span> <span class="o">=</span> <span class="p">{</span><span class="kc">True</span><span class="p">:</span> <span class="n">SCAN_ID_RESET_VALUE</span><span class="p">,</span> <span class="kc">False</span><span class="p">:</span> <span class="kc">None</span><span class="p">}[</span><span class="n">scan_id</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">scan_id</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">RE</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="c1"># RE is an instance of bluesky.run_engine.RunEngine</span>
+            <span class="c1"># (or duck type for testing)</span>
+            <span class="n">RE</span><span class="o">.</span><span class="n">md</span><span class="p">[</span><span class="s2">&quot;scan_id&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">scan_id</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">scan_id</span> <span class="o">=</span> <span class="n">scan_id</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">spec_filename</span></div>
+
+
+<div class="viewcode-block" id="SpecWriterCallback2.usefile">
+<a class="viewcode-back" href="../../../api/_filewriters.html#apstools.callbacks.spec_file_writer.SpecWriterCallback2.usefile">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">usefile</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filename</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;read from existing SPEC data file&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">spec_filename</span><span class="o">.</span><span class="n">exists</span><span class="p">():</span>
+            <span class="k">raise</span> <span class="ne">IOError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;file </span><span class="si">{</span><span class="n">filename</span><span class="si">}</span><span class="s2"> does not exist&quot;</span><span class="p">)</span>
+        <span class="n">scan_id</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="s2">&quot;r&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+            <span class="n">key</span> <span class="o">=</span> <span class="s2">&quot;#F&quot;</span>
+            <span class="n">line</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">readline</span><span class="p">()</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">line</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="n">key</span> <span class="o">+</span> <span class="s2">&quot; &quot;</span><span class="p">):</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;first line does not start with </span><span class="si">{</span><span class="n">key</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+            <span class="n">key</span> <span class="o">=</span> <span class="s2">&quot;#E&quot;</span>
+            <span class="n">line</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">readline</span><span class="p">()</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">line</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="n">key</span> <span class="o">+</span> <span class="s2">&quot; &quot;</span><span class="p">):</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;first line does not start with </span><span class="si">{</span><span class="n">key</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="n">epoch</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">line</span><span class="o">.</span><span class="n">split</span><span class="p">()[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+
+            <span class="n">key</span> <span class="o">=</span> <span class="s2">&quot;#D&quot;</span>
+            <span class="n">line</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">readline</span><span class="p">()</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">line</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="n">key</span> <span class="o">+</span> <span class="s2">&quot; &quot;</span><span class="p">):</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;first line does not start with &quot;</span> <span class="o">+</span> <span class="n">key</span><span class="p">)</span>
+            <span class="c1"># ignore content, it is derived from #E line</span>
+
+            <span class="n">key</span> <span class="o">=</span> <span class="s2">&quot;#C&quot;</span>
+            <span class="n">line</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">readline</span><span class="p">()</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">line</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="n">key</span> <span class="o">+</span> <span class="s2">&quot; &quot;</span><span class="p">):</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;first line does not start with &quot;</span> <span class="o">+</span> <span class="n">key</span><span class="p">)</span>
+            <span class="n">p</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
+            <span class="n">username</span> <span class="o">=</span> <span class="s2">&quot;BlueskyUser&quot;</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">p</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">4</span> <span class="ow">and</span> <span class="n">p</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;user&quot;</span><span class="p">:</span>
+                <span class="n">username</span> <span class="o">=</span> <span class="n">p</span><span class="p">[</span><span class="mi">4</span><span class="p">]</span>
+
+            <span class="c1"># find the highest scan number used</span>
+            <span class="n">key</span> <span class="o">=</span> <span class="s2">&quot;#S&quot;</span>
+            <span class="n">scan_ids</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">f</span><span class="o">.</span><span class="n">readlines</span><span class="p">():</span>
+                <span class="k">if</span> <span class="n">line</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="n">key</span> <span class="o">+</span> <span class="s2">&quot; &quot;</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">line</span><span class="o">.</span><span class="n">split</span><span class="p">())</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+                    <span class="n">scan_id</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">line</span><span class="o">.</span><span class="n">split</span><span class="p">()[</span><span class="mi">1</span><span class="p">])</span>
+                    <span class="n">scan_ids</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">scan_id</span><span class="p">)</span>
+            <span class="n">scan_id</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">scan_ids</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">spec_filename</span> <span class="o">=</span> <span class="n">filename</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">spec_epoch</span> <span class="o">=</span> <span class="n">epoch</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">spec_user</span> <span class="o">=</span> <span class="n">username</span>
+        <span class="k">return</span> <span class="n">scan_id</span></div>
+
+
+<div class="viewcode-block" id="SpecWriterCallback2.write_file_header">
+<a class="viewcode-back" href="../../../api/_filewriters.html#apstools.callbacks.spec_file_writer.SpecWriterCallback2.write_file_header">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">write_file_header</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Write file header to file, if needed.&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">write_new_file_header</span><span class="p">:</span>
+            <span class="c1"># print(f&quot;No new file header for {self.uid=!r}&quot;)</span>
+            <span class="k">return</span>
+
+        <span class="n">dt</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">fromtimestamp</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">file_epoch</span><span class="p">)</span>
+
+        <span class="n">lines</span> <span class="o">=</span> <span class="p">[]</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">file_name</span><span class="o">.</span><span class="n">exists</span><span class="p">()</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">file_name</span><span class="o">.</span><span class="n">stat</span><span class="p">()</span><span class="o">.</span><span class="n">st_size</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+        <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;#F </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">file_name</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;#E </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">file_epoch</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;#D </span><span class="si">{</span><span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="n">dt</span><span class="p">,</span><span class="w"> </span><span class="n">SPEC_TIME_FORMAT</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;#C Bluesky  user = </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">spec_user</span><span class="si">}</span><span class="s2">  host = </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">spec_host</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_file_header_motor_keys</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">motors</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_file_header_motor_keys</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;#O0 &quot;</span><span class="p">)</span>  <span class="c1"># names</span>
+            <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;#o0 &quot;</span><span class="p">)</span>  <span class="c1"># mnemonics</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">delimiter</span> <span class="o">=</span> <span class="s2">&quot; &quot;</span> <span class="o">*</span> <span class="mi">2</span>  <span class="c1"># two spaces between names</span>
+            <span class="k">for</span> <span class="n">pre</span> <span class="ow">in</span> <span class="s2">&quot;#O #o&quot;</span><span class="o">.</span><span class="n">split</span><span class="p">():</span>  <span class="c1"># same list for names and mnemonics</span>
+                <span class="n">values</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_file_header_motor_keys</span>
+                <span class="n">r</span> <span class="o">=</span> <span class="mi">0</span>
+                <span class="k">while</span> <span class="nb">len</span><span class="p">(</span><span class="n">values</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                    <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">pre</span><span class="si">}{</span><span class="n">r</span><span class="si">}</span><span class="s2"> &quot;</span> <span class="o">+</span> <span class="n">delimiter</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="nb">str</span><span class="p">(</span><span class="n">v</span><span class="p">)</span> <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">values</span><span class="p">[:</span><span class="mi">8</span><span class="p">]]))</span>
+                    <span class="n">values</span> <span class="o">=</span> <span class="n">values</span><span class="p">[</span><span class="mi">8</span><span class="p">:]</span>
+                    <span class="n">r</span> <span class="o">+=</span> <span class="mi">1</span>
+
+        <span class="c1"># lines.append(&quot;&quot;)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_write_lines_</span><span class="p">(</span><span class="n">lines</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s2">&quot;a+&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">write_new_file_header</span> <span class="o">=</span> <span class="kc">False</span></div>
+
+
+<div class="viewcode-block" id="SpecWriterCallback2.write_scan_data_row">
+<a class="viewcode-back" href="../../../api/_filewriters.html#apstools.callbacks.spec_file_writer.SpecWriterCallback2.write_scan_data_row">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">write_scan_data_row</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">doc</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Write row of scan data to file.&quot;&quot;&quot;</span>
+        <span class="kn">from</span><span class="w"> </span><span class="nn">..utils.misc</span><span class="w"> </span><span class="kn">import</span> <span class="n">render</span>
+
+        <span class="n">line</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">remarks</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">label</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">data_labels</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">label</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">&quot;Epoch&quot;</span><span class="p">,</span> <span class="s2">&quot;Epoch_float&quot;</span><span class="p">):</span>
+                <span class="n">value</span> <span class="o">=</span> <span class="n">doc</span><span class="p">[</span><span class="s2">&quot;time&quot;</span><span class="p">]</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">start_time</span>
+                <span class="k">if</span> <span class="n">label</span> <span class="o">==</span> <span class="s2">&quot;Epoch&quot;</span><span class="p">:</span>
+                    <span class="n">value</span> <span class="o">=</span> <span class="nb">round</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">value</span> <span class="o">=</span> <span class="n">doc</span><span class="p">[</span><span class="s2">&quot;data&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">label</span><span class="p">)</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="p">(</span><span class="nb">float</span><span class="p">,</span> <span class="nb">int</span><span class="p">)):</span>
+                <span class="n">line</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">render</span><span class="p">(</span><span class="n">value</span><span class="p">))</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="c1"># Scan data is expected to be numbers. This is not.  Substitute</span>
+                <span class="c1"># the row number and report after this line in a #U line.</span>
+                <span class="n">line</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">doc</span><span class="p">[</span><span class="s2">&quot;seq_num&quot;</span><span class="p">]))</span>
+                <span class="n">remarks</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;#U </span><span class="si">{</span><span class="n">label</span><span class="si">}</span><span class="s2"> = </span><span class="si">{</span><span class="n">value</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+        <span class="n">lines</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot; &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">line</span><span class="p">)]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_write_lines_</span><span class="p">(</span><span class="n">lines</span> <span class="o">+</span> <span class="n">remarks</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s2">&quot;a+&quot;</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="SpecWriterCallback2.write_scan_end">
+<a class="viewcode-back" href="../../../api/_filewriters.html#apstools.callbacks.spec_file_writer.SpecWriterCallback2.write_scan_end">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">write_scan_end</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">doc</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Write scan ending to file.&quot;&quot;&quot;</span>
+        <span class="n">lines</span> <span class="o">=</span> <span class="p">[]</span>
+
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">externals</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;#U externals: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">externals</span><span class="si">!r}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="s2">&quot;num_events&quot;</span> <span class="ow">in</span> <span class="n">doc</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">doc</span><span class="p">[</span><span class="s2">&quot;num_events&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+                <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_cmt</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;num_events_</span><span class="si">{</span><span class="n">k</span><span class="si">}</span><span class="s2"> = </span><span class="si">{</span><span class="n">v</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">))</span>
+
+        <span class="k">if</span> <span class="s2">&quot;exit_status&quot;</span> <span class="ow">in</span> <span class="n">doc</span><span class="p">:</span>
+            <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_cmt</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;exit_status = </span><span class="si">{</span><span class="n">doc</span><span class="p">[</span><span class="s1">&#39;exit_status&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">))</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_cmt</span><span class="p">(</span><span class="s2">&quot;exit_status = not available&quot;</span><span class="p">))</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_write_lines_</span><span class="p">(</span><span class="n">lines</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s2">&quot;a+&quot;</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="SpecWriterCallback2.write_scan_header">
+<a class="viewcode-back" href="../../../api/_filewriters.html#apstools.callbacks.spec_file_writer.SpecWriterCallback2.write_scan_header">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">write_scan_header</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Write scan header to file.&quot;&quot;&quot;</span>
+        <span class="kn">from</span><span class="w"> </span><span class="nn">..utils.misc</span><span class="w"> </span><span class="kn">import</span> <span class="n">render</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">write_new_scan_header</span><span class="p">:</span>
+            <span class="c1"># print(f&quot;Not writing new scan header. {self.scan_id=!r}&quot;)</span>
+            <span class="k">return</span>
+
+        <span class="n">dt</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">fromtimestamp</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">start_time</span><span class="p">)</span>
+
+        <span class="n">lines</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;&quot;</span><span class="p">]</span>
+        <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;#S </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">scan_command</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;#D &quot;</span> <span class="o">+</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="n">dt</span><span class="p">,</span> <span class="n">SPEC_TIME_FORMAT</span><span class="p">))</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">T_or_M</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;#</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">T_or_M</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">T_or_M_value</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_cmt</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;uid = </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">uid</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">))</span>
+
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">motors</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;#P0 &quot;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">values</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">motors</span><span class="o">.</span><span class="n">values</span><span class="p">())</span>
+            <span class="n">r</span> <span class="o">=</span> <span class="mi">0</span>
+            <span class="k">while</span> <span class="nb">len</span><span class="p">(</span><span class="n">values</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;#P</span><span class="si">{</span><span class="n">r</span><span class="si">}</span><span class="s2"> &quot;</span> <span class="o">+</span> <span class="s2">&quot; &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="n">render</span><span class="p">(</span><span class="n">v</span><span class="p">)</span> <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">values</span><span class="p">[:</span><span class="mi">8</span><span class="p">]]))</span>
+                <span class="n">values</span> <span class="o">=</span> <span class="n">values</span><span class="p">[</span><span class="mi">8</span><span class="p">:]</span>
+                <span class="n">r</span> <span class="o">+=</span> <span class="mi">1</span>
+
+        <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">metadata</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="c1"># &quot;#MD&quot; is our ad hoc SPEC data tag</span>
+            <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;#MD </span><span class="si">{</span><span class="n">k</span><span class="si">}</span><span class="s2"> = </span><span class="si">{</span><span class="n">v</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+        <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;#N &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data_labels</span><span class="p">)))</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data_labels</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;#L &quot;</span> <span class="o">+</span> <span class="s2">&quot;  &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data_labels</span><span class="p">))</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;#C no data column labels identified&quot;</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_write_lines_</span><span class="p">(</span><span class="n">lines</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s2">&quot;a+&quot;</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">write_new_scan_header</span> <span class="o">=</span> <span class="kc">False</span></div>
+
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_write_lines_</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">lines</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s2">&quot;a&quot;</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;write (more) lines to the file&quot;&quot;&quot;</span>
+        <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">file_name</span><span class="p">,</span> <span class="n">mode</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+            <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">lines</span><span class="p">))</span>
+
+    <span class="c1"># - - - - # - - - - # - - - - # - - - - # - - - - # - - - - # - - - - #</span>
+    <span class="c1"># properties</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">spec_filename</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Synonym for &#39;file_name&#39; property.</span>
+
+<span class="sd">        API compatibility with SpecWriterCallback.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">file_name</span>
+
+    <span class="nd">@spec_filename</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">spec_filename</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">file_name</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">file_name</span> <span class="o">=</span> <span class="n">file_name</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">make_default_filename</span><span class="p">()</span></div>
+
+
+
+<div class="viewcode-block" id="spec_comment">
+<a class="viewcode-back" href="../../../api/_filewriters.html#apstools.callbacks.spec_file_writer.spec_comment">[docs]</a>
+<span class="nd">@versionadded</span><span class="p">(</span><span class="n">version</span><span class="o">=</span><span class="s2">&quot;1.7.1&quot;</span><span class="p">)</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">spec_comment</span><span class="p">(</span><span class="n">comment</span><span class="p">,</span> <span class="n">doc</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">writer</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    make it easy to add spec-style comments in a custom plan</span>
+
+<span class="sd">    These comments *only* go into the SPEC data file.</span>
+
+<span class="sd">    PARAMETERS</span>
+
+<span class="sd">    comment *string* :</span>
+<span class="sd">        (optional)</span>
+<span class="sd">        Comment text to be written.  SPEC expects it to be only one line!</span>
+
+<span class="sd">    doc *string* :</span>
+<span class="sd">        (optional)</span>
+<span class="sd">        Bluesky RunEngine document type.</span>
+<span class="sd">        One of: ``start descriptor event resource datum stop``</span>
+<span class="sd">        (default: ``event``)</span>
+
+<span class="sd">    writer *obj* :</span>
+<span class="sd">        (optional)</span>
+<span class="sd">        Instance of ``SpecWriterCallback()``,</span>
+<span class="sd">        typically: ``specwriter = SpecWriterCallback()``</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># global specwriter  # such as: specwriter = SpecWriterCallback()</span>
+    <span class="c1"># writer = writer or specwriter  # FIXME: get from namespace</span>
+    <span class="k">if</span> <span class="n">doc</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">writer</span><span class="o">.</span><span class="n">scanning</span><span class="p">:</span>
+            <span class="n">doc</span> <span class="o">=</span> <span class="s2">&quot;event&quot;</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">doc</span> <span class="o">=</span> <span class="s2">&quot;start&quot;</span>
+    <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">comment</span><span class="o">.</span><span class="n">splitlines</span><span class="p">():</span>
+        <span class="n">writer</span><span class="o">.</span><span class="n">_cmt</span><span class="p">(</span><span class="n">doc</span><span class="p">,</span> <span class="n">line</span><span class="p">)</span></div>
+
+
+
+<span class="c1"># -----------------------------------------------------------------------------</span>
+<span class="c1"># :author:    BCDA</span>
+<span class="c1"># :copyright: (c) 2017-2025, UChicago Argonne, LLC</span>
+<span class="c1">#</span>
+<span class="c1"># Distributed under the terms of the Argonne National Laboratory Open Source License.</span>
+<span class="c1">#</span>
+<span class="c1"># The full license is in the file LICENSE.txt, distributed with this software.</span>
+<span class="c1"># -----------------------------------------------------------------------------</span>
+</pre></div>
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="../../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+
+  <p class="copyright">
+    
+      © Copyright 2017-2025, UChicago Argonne, LLC.
+      <br/>
+    
+  </p>
+</div>
+      
+        <div class="footer-item">
+
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.1.3.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item">
+<p class="theme-version">
+  <!-- # L10n: Setting the PST URL as an argument as this does not need to be localized -->
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.16.1.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

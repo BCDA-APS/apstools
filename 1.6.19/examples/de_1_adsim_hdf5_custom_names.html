@@ -1,0 +1,1074 @@
+
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+
+    <title>Area Detector with custom HDF5 File Name &#8212; apstools 1.6</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=8d27b9dea8ad943066ae" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=8d27b9dea8ad943066ae" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=8d27b9dea8ad943066ae" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.5.1/css/all.min.css?digest=8d27b9dea8ad943066ae" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.1/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.1/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.1/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/graphviz.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/design-style.1e8bd061cd6da7fc9cf755528e8ffc24.min.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/nbsphinx-code-cells.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/css/custom.css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8d27b9dea8ad943066ae" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8d27b9dea8ad943066ae" />
+  <script src="../_static/vendor/fontawesome/6.5.1/js/all.min.js?digest=8d27b9dea8ad943066ae"></script>
+
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/sphinx_highlight.js"></script>
+    <script src="../_static/design-tabs.js"></script>
+    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'examples/de_1_adsim_hdf5_custom_names';</script>
+    <script>
+        DOCUMENTATION_OPTIONS.theme_version = '0.15.2';
+        DOCUMENTATION_OPTIONS.theme_switcher_json_url = 'https://raw.githubusercontent.com/BCDA-APS/apstools/main/docs/source/_static/switcher.json';
+        DOCUMENTATION_OPTIONS.theme_switcher_version_match = '1.6.19';
+        DOCUMENTATION_OPTIONS.show_version_warning_banner = false;
+        </script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Area Detector, Single mode, HDF5 file" href="de_2_adsim_hdf5_single_mode.html" />
+    <link rel="prev" title="Area Detector with default HDF5 File Name" href="de_0_adsim_hdf5_basic.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <a id="pst-skip-link" class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>
+    Back to top
+  </button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar">
+<div class="bd-header__inner bd-page-width">
+  <label class="sidebar-toggle primary-toggle" for="__primary">
+    <span class="fa-solid fa-bars"></span>
+  </label>
+  
+  
+  <div class="col-lg-3 navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+
+<a class="navbar-brand logo" href="../index.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">apstools 1.6</p>
+  
+</a></div>
+    
+      <div class="navbar-item">
+<script>
+document.write(`
+  <div class="version-switcher__container dropdown">
+    <button id="pst-version-switcher-button-2"
+      type="button"
+      class="version-switcher__button btn btn-sm navbar-btn dropdown-toggle"
+      data-bs-toggle="dropdown"
+      aria-haspopup="listbox"
+      aria-controls="pst-version-switcher-list-2"
+      aria-label="Version switcher list"
+    >
+      Choose version  <!-- this text may get changed later by javascript -->
+      <span class="caret"></span>
+    </button>
+    <div id="pst-version-switcher-list-2"
+      class="version-switcher__menu dropdown-menu list-group-flush py-0"
+      role="listbox" aria-labelledby="pst-version-switcher-button-2">
+      <!-- dropdown will be populated by javascript on page load -->
+    </div>
+  </div>
+`);
+</script></div>
+    
+  </div>
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav class="navbar-nav">
+  <ul class="bd-navbar-elements navbar-nav">
+    
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../install.html">
+                        Installation
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../api/index.html">
+                        API Documentation
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../applications/index.html">
+                        Applications
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item current active">
+                      <a class="nav-link nav-internal" href="index.html">
+                        Examples
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../changes.html">
+                        Change History
+                      </a>
+                    </li>
+                
+            <li class="nav-item dropdown">
+                <button class="btn dropdown-toggle nav-item" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-controls="pst-nav-more-links">
+                    More
+                </button>
+                <ul id="pst-nav-more-links" class="dropdown-menu">
+                    
+                    <li class="nav-item">
+                      <a class="nav-link dropdown-item nav-internal" href="../license.html">
+                        License
+                      </a>
+                    </li>
+                
+                </ul>
+            </li>
+            
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+ <script>
+ document.write(`
+   <button class="btn navbar-btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script>
+        </div>
+      
+      
+        <div class="navbar-item">
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch nav-link" data-mode="light"><i class="fa-solid fa-sun fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="dark"><i class="fa-solid fa-moon fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg"></i></span>
+  </button>
+`);
+</script></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+ <script>
+ document.write(`
+   <button class="btn navbar-btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script>
+    </div>
+  
+
+  
+    <label class="sidebar-toggle secondary-toggle" for="__secondary" tabindex="0">
+      <span class="fa-solid fa-outdent"></span>
+    </label>
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          <div class="navbar-item">
+<nav class="navbar-nav">
+  <ul class="bd-navbar-elements navbar-nav">
+    
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../install.html">
+                        Installation
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../api/index.html">
+                        API Documentation
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../applications/index.html">
+                        Applications
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item current active">
+                      <a class="nav-link nav-internal" href="index.html">
+                        Examples
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../changes.html">
+                        Change History
+                      </a>
+                    </li>
+                
+            <li class="nav-item dropdown">
+                <button class="btn dropdown-toggle nav-item" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-controls="pst-nav-more-links-2">
+                    More
+                </button>
+                <ul id="pst-nav-more-links-2" class="dropdown-menu">
+                    
+                    <li class="nav-item">
+                      <a class="nav-link dropdown-item nav-internal" href="../license.html">
+                        License
+                      </a>
+                    </li>
+                
+                </ul>
+            </li>
+            
+  </ul>
+</nav></div>
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch nav-link" data-mode="light"><i class="fa-solid fa-sun fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="dark"><i class="fa-solid fa-moon fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg"></i></span>
+  </button>
+`);
+</script></div>
+        
+      </div>
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+<nav class="bd-docs-nav bd-links"
+     aria-label="Section Navigation">
+  <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
+  <div class="bd-toc-item navbar-nav"><ul class="current nav bd-sidenav">
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="device_examples.html">Device Examples</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-1"><i class="fa-solid fa-chevron-down"></i></label><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="de_0_adsim_hdf5_basic.html">Area Detector with default HDF5 File Name</a></li>
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">Area Detector with custom HDF5 File Name</a></li>
+<li class="toctree-l2"><a class="reference internal" href="de_2_adsim_hdf5_single_mode.html">Area Detector, Single mode, HDF5 file</a></li>
+<li class="toctree-l2"><a class="reference internal" href="de_ad_pe.html">ADPerkinElmer Area Detector with default HDF5 File Name</a></li>
+<li class="toctree-l2"><a class="reference internal" href="de_ad_pilatus.html">ADPilatus Area Detector with default HDF5 File Name</a></li>
+<li class="toctree-l2"><a class="reference internal" href="de_aps_data_management.html">Integration with APS Data Management (DM)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="de_sscan.html">The synApps <code class="docutils literal notranslate"><span class="pre">sscan</span></code> and <code class="docutils literal notranslate"><span class="pre">SscanRecord</span></code></a></li>
+</ul>
+</li>
+</ul>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="filewriter_examples.html">File Writer Examples</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-2"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="fw_nxwriter.html">Output scan(s) to a NeXus/HDF5 file</a></li>
+<li class="toctree-l2"><a class="reference internal" href="fw_specfile_example.html">Output scan(s) to a SPEC data file.</a></li>
+</ul>
+</li>
+</ul>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="howto_examples.html">How-To Examples</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-3"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="ho_contingency.html">How to interrupt/stop/abort a running plan &amp; recover to safe settings</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ho_list_control_objects.html">What are the objects to control?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ho_nxwriter_templates.html">How to use NeXus/HDF5 Templates</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ho_search_databroker.html">How to Search for Bluesky Data?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ho_session_logs.html">How to setup logging</a></li>
+</ul>
+</li>
+</ul>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="plan_examples.html">Plan Examples</a><input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-4"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="pl_excel_scan.html">The <code class="docutils literal notranslate"><span class="pre">Excel_plan()</span></code> – batch scans using a spreadsheet</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pl_lineup.html">The <code class="docutils literal notranslate"><span class="pre">lineup()</span></code> plan - align an axis with a signal</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pl_nscan.html">The <code class="docutils literal notranslate"><span class="pre">nscan()</span></code> plan – scan multiple axes together</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pl_run_command_list.html">The <code class="xref py py-func docutils literal notranslate"><span class="pre">run_command_file()</span></code> plan – batch scans using a text file</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pl_tuneaxis.html">The <code class="docutils literal notranslate"><span class="pre">TuneAxis()</span></code> plan - align an axis with a signal</a></li>
+</ul>
+</li>
+</ul>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="download_examples.html">File Downloads for the Examples</a></li>
+</ul>
+</div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+
+
+<nav aria-label="Breadcrumb">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="index.html" class="nav-link">Examples</a></li>
+    
+    
+    <li class="breadcrumb-item"><a href="device_examples.html" class="nav-link">Device Examples</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page">Area...</li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section id="Area-Detector-with-custom-HDF5-File-Name">
+<h1>Area Detector with custom HDF5 File Name<a class="headerlink" href="#Area-Detector-with-custom-HDF5-File-Name" title="Permalink to this heading">#</a></h1>
+<p>Demonstrate the setup of an <a class="reference external" href="https://areadetector.github.io/master/index.html">EPICS area detector</a> to acquire an image with <a class="reference external" href="https://blueskyproject.io/">bluesky</a> and write it to an <a class="reference external" href="https://www.hdfgroup.org/solutions/hdf5">HDF5</a> file. Override the default ophyd naming process (which uses random <a class="reference external" href="https://docs.python.org/3/library/uuid.html#uuid.uuid4">UUIDs</a>) for image files. Instead, let the user control the image file name using the features of the EPICS Area Detector HDF5 plugin.
+Show the image using the <a class="reference external" href="https://blueskyproject.io/databroker">databroker</a>.</p>
+<p><strong>Contents</strong></p>
+<ul class="simple">
+<li><p><a class="reference internal" href="#EPICS-Area-Detector-IOC"><span class="std std-ref">EPICS Area Detector IOC</span></a> is pre-built</p></li>
+<li><p><a class="reference internal" href="#ophyd"><span class="std std-ref">ophyd</span></a> to describe the hardware</p></li>
+<li><p><a class="reference internal" href="#bluesky"><span class="std std-ref">bluesky</span></a> for the measurement</p></li>
+<li><p><a class="reference internal" href="#databroker"><span class="std std-ref">databroker</span></a> to view the image</p></li>
+<li><p><a class="reference internal" href="#punx"><span class="std std-ref">punx</span></a> (not part of Bluesky) to look at the HDF5 file</p></li>
+</ul>
+<section id="EPICS-Area-Detector-IOC">
+<h2>EPICS Area Detector IOC<a class="headerlink" href="#EPICS-Area-Detector-IOC" title="Permalink to this heading">#</a></h2>
+<p>This example uses a prebuilt <a class="reference external" href="https://areadetector.github.io/master/ADSimDetector/simDetector.html">ADSimDetector</a> driver. Prepare as in <a class="reference internal" href="de_0_adsim_hdf5_basic.html#Recapitulation"><span class="std std-ref">Example with default file names</span></a>. Refer to that document for explanations.</p>
+</section>
+<section id="ophyd">
+<h2>ophyd<a class="headerlink" href="#ophyd" title="Permalink to this heading">#</a></h2>
+<p>The steps of the basic example are combined together here. Refer to that document for explanations. As is customary, the imports come first, then the constants, and classes.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">apstools.devices</span> <span class="kn">import</span> <span class="n">AD_EpicsFileNameHDF5Plugin</span>
+<span class="kn">from</span> <span class="nn">apstools.devices</span> <span class="kn">import</span> <span class="n">AD_full_file_name_local</span>
+<span class="kn">from</span> <span class="nn">apstools.devices</span> <span class="kn">import</span> <span class="n">ensure_AD_plugin_primed</span>
+<span class="kn">from</span> <span class="nn">apstools.devices</span> <span class="kn">import</span> <span class="n">CamMixin_V34</span> <span class="k">as</span> <span class="n">CamMixin</span>
+<span class="kn">from</span> <span class="nn">apstools.devices</span> <span class="kn">import</span> <span class="n">SingleTrigger_V34</span> <span class="k">as</span> <span class="n">SingleTrigger</span>
+<span class="kn">from</span> <span class="nn">ophyd.areadetector</span> <span class="kn">import</span> <span class="n">ADComponent</span>
+<span class="kn">from</span> <span class="nn">ophyd.areadetector</span> <span class="kn">import</span> <span class="n">DetectorBase</span>
+<span class="kn">from</span> <span class="nn">ophyd.areadetector</span> <span class="kn">import</span> <span class="n">SimDetectorCam</span>
+<span class="kn">from</span> <span class="nn">ophyd.areadetector.plugins</span> <span class="kn">import</span> <span class="n">ImagePlugin_V34</span> <span class="k">as</span> <span class="n">ImagePlugin</span>
+<span class="kn">import</span> <span class="nn">apstools</span>
+<span class="kn">import</span> <span class="nn">bluesky</span>
+<span class="kn">import</span> <span class="nn">bluesky.plans</span> <span class="k">as</span> <span class="nn">bp</span>
+<span class="kn">import</span> <span class="nn">bluesky.plan_stubs</span> <span class="k">as</span> <span class="nn">bps</span>
+<span class="kn">import</span> <span class="nn">databroker</span>
+<span class="kn">import</span> <span class="nn">hdf5plugin</span>
+<span class="kn">import</span> <span class="nn">pathlib</span>
+
+<span class="n">IOC</span> <span class="o">=</span> <span class="s2">&quot;ad:&quot;</span>
+<span class="n">IMAGE_DIR</span> <span class="o">=</span> <span class="s2">&quot;adsimdet/%Y/%m/</span><span class="si">%d</span><span class="s2">&quot;</span>
+<span class="n">AD_IOC_MOUNT_PATH</span> <span class="o">=</span> <span class="n">pathlib</span><span class="o">.</span><span class="n">Path</span><span class="p">(</span><span class="s2">&quot;/tmp&quot;</span><span class="p">)</span>
+<span class="n">BLUESKY_MOUNT_PATH</span> <span class="o">=</span> <span class="n">pathlib</span><span class="o">.</span><span class="n">Path</span><span class="p">(</span><span class="s2">&quot;/tmp/docker_ioc/iocad/tmp&quot;</span><span class="p">)</span>
+
+<span class="c1"># MUST end with a `/`, pathlib will NOT provide it</span>
+<span class="n">WRITE_PATH_TEMPLATE</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">AD_IOC_MOUNT_PATH</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">IMAGE_DIR</span><span class="si">}</span><span class="s2">/&quot;</span>
+<span class="n">READ_PATH_TEMPLATE</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">BLUESKY_MOUNT_PATH</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">IMAGE_DIR</span><span class="si">}</span><span class="s2">/&quot;</span>
+
+<span class="k">class</span> <span class="nc">SimDetectorCam_V34</span><span class="p">(</span><span class="n">CamMixin</span><span class="p">,</span> <span class="n">SimDetectorCam</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;triggering configuration and AcquireBusy support&quot;&quot;&quot;</span>
+
+<span class="k">class</span> <span class="nc">SimDetector_V34</span><span class="p">(</span><span class="n">SingleTrigger</span><span class="p">,</span> <span class="n">DetectorBase</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;ADSimDetector&quot;&quot;&quot;</span>
+
+    <span class="n">cam</span> <span class="o">=</span> <span class="n">ADComponent</span><span class="p">(</span><span class="n">SimDetectorCam_V34</span><span class="p">,</span> <span class="s2">&quot;cam1:&quot;</span><span class="p">)</span>
+    <span class="n">hdf1</span> <span class="o">=</span> <span class="n">ADComponent</span><span class="p">(</span>
+        <span class="n">AD_EpicsFileNameHDF5Plugin</span><span class="p">,</span>
+        <span class="s2">&quot;HDF1:&quot;</span><span class="p">,</span>
+        <span class="n">write_path_template</span><span class="o">=</span><span class="n">WRITE_PATH_TEMPLATE</span><span class="p">,</span>
+        <span class="n">read_path_template</span><span class="o">=</span><span class="n">READ_PATH_TEMPLATE</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">image</span> <span class="o">=</span> <span class="n">ADComponent</span><span class="p">(</span><span class="n">ImagePlugin</span><span class="p">,</span> <span class="s2">&quot;image1:&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<section id="AD_EpicsFileNameHDF5Plugin"><section id="HDF5:-AD_EpicsFileNameHDF5Plugin">
+<h3>HDF5: AD_EpicsFileNameHDF5Plugin<a class="headerlink" href="#HDF5:-AD_EpicsFileNameHDF5Plugin" title="Permalink to this heading">#</a></h3>
+<p>The <code class="docutils literal notranslate"><span class="pre">hdf1</span></code> component is where we depart from the <a class="reference internal" href="de_0_adsim_hdf5_basic.html#HDF5"><span class="std std-ref">default ophyd settings</span></a>. The modifications come from <code class="docutils literal notranslate"><span class="pre">apstools.devices</span></code> in <code class="docutils literal notranslate"><span class="pre">AD_EpicsFileNameHDF5Plugin()</span></code>. We repeat certain cautionary details here:</p>
+<blockquote>
+<div><p>Replace standard ophyd file naming algorithm (where file names are defined as UUID strings, virtually guaranteeing that no existing images files will ever be overwritten).</p>
+</div></blockquote>
+<p>Caller is responsible for setting values of these Components of the plugin:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">array_counter</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">auto_increment</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">auto_save</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">compression</span></code> (only the HDF plugin)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">create_directory</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">file_name</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">file_number</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">file_path</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">file_template</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">num_capture</span></code></p></li>
+</ul>
+<p>Also note:</p>
+<blockquote>
+<div><p>It is allowed to set <code class="docutils literal notranslate"><span class="pre">file_template=&quot;%s%s.h5&quot;</span></code> if the file name should not include the file number.</p>
+</div></blockquote>
+</section>
+<section id="Detector-Object">
+<h3>Detector Object<a class="headerlink" href="#Detector-Object" title="Permalink to this heading">#</a></h3>
+<p>With the above setup, create the Python detector object, <code class="docutils literal notranslate"><span class="pre">adsimdet</span></code> and connect with EPICS.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">adsimdet</span> <span class="o">=</span> <span class="n">SimDetector_V34</span><span class="p">(</span><span class="n">IOC</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;adsimdet&quot;</span><span class="p">)</span>
+<span class="n">adsimdet</span><span class="o">.</span><span class="n">wait_for_connection</span><span class="p">(</span><span class="n">timeout</span><span class="o">=</span><span class="mi">15</span><span class="p">)</span>
+<span class="n">adsimdet</span><span class="o">.</span><span class="n">read_attrs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;hdf1&quot;</span><span class="p">)</span>
+<span class="n">adsimdet</span><span class="o">.</span><span class="n">hdf1</span><span class="o">.</span><span class="n">create_directory</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="o">-</span><span class="mi">5</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><br/><span></span><span class="c1"># override default setting from ophyd</span>
+<span class="n">adsimdet</span><span class="o">.</span><span class="n">cam</span><span class="o">.</span><span class="n">stage_sigs</span><span class="p">[</span><span class="s2">&quot;wait_for_plugins&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;Yes&quot;</span>
+<span class="n">adsimdet</span><span class="o">.</span><span class="n">hdf1</span><span class="o">.</span><span class="n">stage_sigs</span><span class="p">[</span><span class="s2">&quot;blocking_callbacks&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;No&quot;</span>
+<span class="n">adsimdet</span><span class="o">.</span><span class="n">hdf1</span><span class="o">.</span><span class="n">stage_sigs</span><span class="o">.</span><span class="n">move_to_end</span><span class="p">(</span><span class="s2">&quot;capture&quot;</span><span class="p">,</span> <span class="n">last</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">adsimdet</span><span class="o">.</span><span class="n">image</span><span class="o">.</span><span class="n">stage_sigs</span><span class="p">[</span><span class="s2">&quot;blocking_callbacks&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;No&quot;</span>
+
+<span class="c1"># Needed if IOC has just been started</span>
+<span class="n">adsimdet</span><span class="o">.</span><span class="n">hdf1</span><span class="o">.</span><span class="n">auto_increment</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="s2">&quot;Yes&quot;</span><span class="p">)</span>
+<span class="n">adsimdet</span><span class="o">.</span><span class="n">hdf1</span><span class="o">.</span><span class="n">auto_save</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="s2">&quot;Yes&quot;</span><span class="p">)</span>
+<span class="n">adsimdet</span><span class="o">.</span><span class="n">hdf1</span><span class="o">.</span><span class="n">create_directory</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="o">-</span><span class="mi">5</span><span class="p">)</span>
+
+<span class="n">ensure_AD_plugin_primed</span><span class="p">(</span><span class="n">adsimdet</span><span class="o">.</span><span class="n">hdf1</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<p>Show the plugin staging now.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">adsimdet</span><span class="o">.</span><span class="n">hdf1</span><span class="o">.</span><span class="n">stage_sigs</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+OrderedDict([(&#39;enable&#39;, 1),
+             (&#39;file_write_mode&#39;, &#39;Stream&#39;),
+             (&#39;blocking_callbacks&#39;, &#39;No&#39;),
+             (&#39;parent.cam.array_callbacks&#39;, 1),
+             (&#39;capture&#39;, 1)])
+</pre></div></div>
+</div>
+<p><strong>Configure the plugin’s file naming PVs</strong></p>
+<p>As noted above, the caller is now responsible for setting various values of the plugin. Here is a bluesky plan as an example. Feel free to set the values you need with your own code.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">prepare_count</span><span class="p">(</span>
+    <span class="n">plugin</span><span class="p">,</span> <span class="n">file_name</span><span class="p">,</span> <span class="n">acquire_time</span><span class="p">,</span> <span class="n">acquire_period</span><span class="p">,</span>
+    <span class="n">n_images</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+    <span class="n">auto_increment</span><span class="o">=</span><span class="s2">&quot;Yes&quot;</span><span class="p">,</span>
+    <span class="n">auto_save</span><span class="o">=</span><span class="s2">&quot;Yes&quot;</span><span class="p">,</span>
+    <span class="n">compression</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">create_directory</span><span class="o">=-</span><span class="mi">5</span><span class="p">,</span>
+    <span class="n">file_path</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">file_template</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+<span class="p">):</span>
+    <span class="n">compression</span> <span class="o">=</span> <span class="n">compression</span> <span class="ow">or</span> <span class="s2">&quot;zlib&quot;</span>
+    <span class="n">file_path</span> <span class="o">=</span> <span class="n">file_path</span> <span class="ow">or</span> <span class="n">plugin</span><span class="o">.</span><span class="n">write_path_template</span>  <span class="c1"># WRITE_PATH_TEMPLATE</span>
+    <span class="n">file_template</span> <span class="o">=</span> <span class="n">file_template</span> <span class="ow">or</span> <span class="s2">&quot;</span><span class="si">%s%s</span><span class="s2">_</span><span class="si">%4.4d</span><span class="s2">.h5&quot;</span>
+    <span class="n">n_images</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">n_images</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="n">image_mode</span> <span class="o">=</span> <span class="s2">&quot;Multiple&quot;</span> <span class="k">if</span> <span class="n">n_images</span> <span class="o">&gt;</span> <span class="mi">1</span> <span class="k">else</span> <span class="s2">&quot;Single&quot;</span>
+
+    <span class="k">yield from</span> <span class="n">bps</span><span class="o">.</span><span class="n">mv</span><span class="p">(</span>
+        <span class="n">adsimdet</span><span class="o">.</span><span class="n">cam</span><span class="o">.</span><span class="n">num_images</span><span class="p">,</span> <span class="n">n_images</span><span class="p">,</span>
+        <span class="n">adsimdet</span><span class="o">.</span><span class="n">cam</span><span class="o">.</span><span class="n">acquire_time</span><span class="p">,</span> <span class="n">acquire_time</span><span class="p">,</span>
+        <span class="n">adsimdet</span><span class="o">.</span><span class="n">cam</span><span class="o">.</span><span class="n">acquire_period</span><span class="p">,</span> <span class="n">acquire_period</span><span class="p">,</span>
+        <span class="n">adsimdet</span><span class="o">.</span><span class="n">cam</span><span class="o">.</span><span class="n">image_mode</span><span class="p">,</span> <span class="n">image_mode</span><span class="p">,</span>
+        <span class="n">plugin</span><span class="o">.</span><span class="n">auto_increment</span><span class="p">,</span> <span class="n">auto_increment</span><span class="p">,</span>
+        <span class="n">plugin</span><span class="o">.</span><span class="n">auto_save</span><span class="p">,</span> <span class="n">auto_save</span><span class="p">,</span>
+        <span class="n">plugin</span><span class="o">.</span><span class="n">create_directory</span><span class="p">,</span> <span class="n">create_directory</span><span class="p">,</span>
+        <span class="n">plugin</span><span class="o">.</span><span class="n">file_name</span><span class="p">,</span> <span class="n">file_name</span><span class="p">,</span>
+        <span class="n">plugin</span><span class="o">.</span><span class="n">file_path</span><span class="p">,</span> <span class="n">file_path</span><span class="p">,</span>
+        <span class="n">plugin</span><span class="o">.</span><span class="n">num_capture</span><span class="p">,</span> <span class="n">n_images</span><span class="p">,</span>  <span class="c1"># save all frames received</span>
+        <span class="n">plugin</span><span class="o">.</span><span class="n">compression</span><span class="p">,</span> <span class="n">compression</span><span class="p">,</span>
+        <span class="n">plugin</span><span class="o">.</span><span class="n">file_template</span><span class="p">,</span> <span class="n">file_template</span><span class="p">,</span>
+    <span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</section>
+<section id="bluesky">
+<h3>bluesky<a class="headerlink" href="#bluesky" title="Permalink to this heading">#</a></h3>
+<p>Take an image.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">RE</span> <span class="o">=</span> <span class="n">bluesky</span><span class="o">.</span><span class="n">RunEngine</span><span class="p">({})</span>
+<span class="n">cat</span> <span class="o">=</span> <span class="n">databroker</span><span class="o">.</span><span class="n">temp</span><span class="p">()</span><span class="o">.</span><span class="n">v2</span>
+<span class="n">RE</span><span class="o">.</span><span class="n">subscribe</span><span class="p">(</span><span class="n">cat</span><span class="o">.</span><span class="n">v1</span><span class="o">.</span><span class="n">insert</span><span class="p">)</span>
+<span class="n">RE</span><span class="o">.</span><span class="n">md</span><span class="p">[</span><span class="s2">&quot;versions&quot;</span><span class="p">][</span><span class="s2">&quot;apstools&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">apstools</span><span class="o">.</span><span class="n">__version__</span>
+<span class="n">RE</span><span class="o">.</span><span class="n">md</span><span class="p">[</span><span class="s2">&quot;versions&quot;</span><span class="p">][</span><span class="s2">&quot;hdf5plugin&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">hdf5plugin</span><span class="o">.</span><span class="n">version</span>
+
+<span class="n">NUM_FRAMES</span> <span class="o">=</span> <span class="mi">5</span>
+<span class="n">RE</span><span class="p">(</span><span class="n">prepare_count</span><span class="p">(</span><span class="n">adsimdet</span><span class="o">.</span><span class="n">hdf1</span><span class="p">,</span> <span class="s2">&quot;test_file&quot;</span><span class="p">,</span> <span class="mf">0.001</span><span class="p">,</span> <span class="mf">0.002</span><span class="p">,</span> <span class="n">NUM_FRAMES</span><span class="p">))</span>
+<span class="n">uids</span> <span class="o">=</span> <span class="n">RE</span><span class="p">(</span>
+    <span class="n">bp</span><span class="o">.</span><span class="n">count</span><span class="p">(</span>
+        <span class="p">[</span><span class="n">adsimdet</span><span class="p">],</span>
+        <span class="n">md</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span>
+            <span class="n">title</span><span class="o">=</span><span class="s2">&quot;Area Detector with custom HDF5 File Name&quot;</span><span class="p">,</span>
+            <span class="n">purpose</span><span class="o">=</span><span class="s2">&quot;image&quot;</span><span class="p">,</span>
+            <span class="n">image_file_name_style</span><span class="o">=</span><span class="s2">&quot;EPICS(AD PVs)&quot;</span><span class="p">,</span>
+        <span class="p">)</span>
+    <span class="p">)</span>
+<span class="p">)</span>
+
+<span class="c1"># confirm the plugin captured the expected number of frames</span>
+<span class="k">assert</span> <span class="n">adsimdet</span><span class="o">.</span><span class="n">hdf1</span><span class="o">.</span><span class="n">num_captured</span><span class="o">.</span><span class="n">get</span><span class="p">()</span> <span class="o">==</span> <span class="n">NUM_FRAMES</span>
+
+<span class="c1"># Show the image file name on the bluesky (local) workstation:</span>
+<span class="n">local_file_name</span> <span class="o">=</span> <span class="n">AD_full_file_name_local</span><span class="p">(</span><span class="n">adsimdet</span><span class="o">.</span><span class="n">hdf1</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">local_file_name</span><span class="o">.</span><span class="n">exists</span><span class="p">()</span><span class="si">=}</span><span class="s2"> </span><span class="si">{</span><span class="n">local_file_name</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+local_file_name.exists()=True local_file_name=PosixPath(&#39;/tmp/docker_ioc/iocad/tmp/adsimdet/2022/12/22/test_file_0002.h5&#39;)
+</pre></div></div>
+</div>
+</section>
+</section>
+<section id="databroker">
+<h2>databroker<a class="headerlink" href="#databroker" title="Permalink to this heading">#</a></h2>
+<p>View the image from the databroker catalog.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><br/><span></span><span class="n">run</span> <span class="o">=</span> <span class="n">cat</span><span class="o">.</span><span class="n">v2</span><span class="p">[</span><span class="n">uids</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span>
+<span class="n">dataset</span> <span class="o">=</span> <span class="n">run</span><span class="o">.</span><span class="n">primary</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+<span class="n">dataset</span><span class="p">[</span><span class="s2">&quot;adsimdet_image&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="o">.</span><span class="n">pcolormesh</span><span class="p">()</span>
+
+<span class="c1"># Show the image file name on the bluesky (local) workstation</span>
+<span class="c1"># Use information from the databroker run</span>
+<span class="n">_r</span> <span class="o">=</span> <span class="n">run</span><span class="o">.</span><span class="n">primary</span><span class="o">.</span><span class="n">_resources</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">fname</span> <span class="o">=</span> <span class="n">pathlib</span><span class="o">.</span><span class="n">Path</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">_r</span><span class="p">[</span><span class="s1">&#39;root&#39;</span><span class="p">]</span><span class="si">}{</span><span class="n">_r</span><span class="p">[</span><span class="s1">&#39;resource_path&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">fname</span><span class="o">.</span><span class="n">exists</span><span class="p">()</span><span class="si">=}</span><span class="se">\n</span><span class="si">{</span><span class="n">fname</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="c1"># confirm the name above () is the same</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="p">(</span><span class="n">local_file_name</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">fname</span><span class="p">)</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+fname.exists()=True
+fname=PosixPath(&#39;/tmp/docker_ioc/iocad/tmp/adsimdet/2022/12/22/test_file_0002.h5&#39;)
+(local_file_name == fname)=True
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/examples_de_1_adsim_hdf5_custom_names_14_1.png" src="../_images/examples_de_1_adsim_hdf5_custom_names_14_1.png" />
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">run</span> <span class="o">=</span> <span class="n">cat</span><span class="o">.</span><span class="n">v2</span><span class="p">[</span><span class="n">uids</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span>
+
+<span class="n">local_file_name</span> <span class="o">=</span> <span class="n">AD_full_file_name_local</span><span class="p">(</span><span class="n">adsimdet</span><span class="o">.</span><span class="n">hdf1</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">local_file_name</span><span class="o">.</span><span class="n">exists</span><span class="p">()</span><span class="si">=}</span><span class="se">\n</span><span class="si">{</span><span class="n">local_file_name</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="n">rsrc</span> <span class="o">=</span> <span class="n">run</span><span class="o">.</span><span class="n">primary</span><span class="o">.</span><span class="n">_resources</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">fname</span> <span class="o">=</span> <span class="n">pathlib</span><span class="o">.</span><span class="n">Path</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">rsrc</span><span class="p">[</span><span class="s1">&#39;root&#39;</span><span class="p">]</span><span class="si">}{</span><span class="n">rsrc</span><span class="p">[</span><span class="s1">&#39;resource_path&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">fname</span><span class="o">.</span><span class="n">exists</span><span class="p">()</span><span class="si">=}</span><span class="se">\n</span><span class="si">{</span><span class="n">fname</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="c1"># confirm they are the same</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="p">(</span><span class="n">local_file_name</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">fname</span><span class="p">)</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="c1"># confirm the data is of the expected shape</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">run</span><span class="o">.</span><span class="n">primary</span><span class="o">.</span><span class="n">read</span><span class="p">()[</span><span class="s1">&#39;adsimdet_image&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">shape</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="k">assert</span> <span class="n">run</span><span class="o">.</span><span class="n">primary</span><span class="o">.</span><span class="n">read</span><span class="p">()[</span><span class="s2">&quot;adsimdet_image&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">shape</span> <span class="o">==</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">NUM_FRAMES</span><span class="p">,</span> <span class="mi">1024</span><span class="p">,</span> <span class="mi">1024</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+local_file_name.exists()=True
+local_file_name=PosixPath(&#39;/tmp/docker_ioc/iocad/tmp/adsimdet/2022/12/22/test_file_0002.h5&#39;)
+fname.exists()=True
+fname=PosixPath(&#39;/tmp/docker_ioc/iocad/tmp/adsimdet/2022/12/22/test_file_0002.h5&#39;)
+(local_file_name == fname)=True
+run.primary.read()[&#39;adsimdet_image&#39;].shape=(1, 5, 1024, 1024)
+</pre></div></div>
+</div>
+</section>
+<section id="punx">
+<h2>punx<a class="headerlink" href="#punx" title="Permalink to this heading">#</a></h2>
+<p>Next, we demonstrate access to the HDF5 image file using the <a class="reference external" href="https://punx.readthedocs.io">punx</a> program.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">apstools.utils</span> <span class="kn">import</span> <span class="n">unix</span>
+
+<span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">unix</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;punx tree </span><span class="si">{</span><span class="n">local_file_name</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">line</span><span class="o">.</span><span class="n">decode</span><span class="p">()</span><span class="o">.</span><span class="n">strip</span><span class="p">())</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+!!! WARNING: this program is not ready for distribution.
+
+/tmp/docker_ioc/iocad/tmp/adsimdet/2022/12/22/test_file_0002.h5 : NeXus data file
+  entry:NXentry
+    @NX_class = &#34;NXentry&#34;
+    data:NXdata
+      @NX_class = &#34;NXdata&#34;
+      data:NX_UINT8[5,1024,1024] = __array
+        __array = [
+            [
+                [9, 16, 8, &#39;...&#39;, 21]
+                [22, 19, 17, &#39;...&#39;, 22]
+                [12, 12, 19, &#39;...&#39;, 10]
+                ...
+                [20, 14, 12, &#39;...&#39;, 16]
+              ]
+            [
+                [10, 19, 13, &#39;...&#39;, 16]
+                [14, 9, 22, &#39;...&#39;, 20]
+                [21, 16, 15, &#39;...&#39;, 13]
+                ...
+                [19, 9, 16, &#39;...&#39;, 13]
+              ]
+            [
+                [8, 11, 13, &#39;...&#39;, 15]
+                [11, 21, 19, &#39;...&#39;, 19]
+                [22, 10, 8, &#39;...&#39;, 8]
+                ...
+                [14, 21, 19, &#39;...&#39;, 16]
+              ]
+            [
+                [15, 17, 8, &#39;...&#39;, 18]
+                [20, 21, 9, &#39;...&#39;, 18]
+                [15, 13, 17, &#39;...&#39;, 15]
+                ...
+                [15, 14, 9, &#39;...&#39;, 9]
+              ]
+            [
+                [9, 9, 19, &#39;...&#39;, 22]
+                [17, 11, 14, &#39;...&#39;, 20]
+                [17, 14, 18, &#39;...&#39;, 17]
+                ...
+                [8, 21, 11, &#39;...&#39;, 10]
+              ]
+          ]
+        @NDArrayDimBinning = [1 1]
+        @NDArrayDimOffset = [0 0]
+        @NDArrayDimReverse = [0 0]
+        @NDArrayNumDims = 2
+        @signal = 1
+    instrument:NXinstrument
+      @NX_class = &#34;NXinstrument&#34;
+      NDAttributes:NXcollection
+        @NX_class = &#34;NXcollection&#34;
+        @hostname = &#34;zap&#34;
+        NDArrayEpicsTSSec:NX_UINT32[5] = [1040612641, 1040612641, 1040612641, 1040612641, 1040612641]
+          @NDAttrDescription = &#34;The NDArray EPICS timestamp seconds past epoch&#34;
+          @NDAttrName = &#34;NDArrayEpicsTSSec&#34;
+          @NDAttrSource = &#34;Driver&#34;
+          @NDAttrSourceType = &#34;NDAttrSourceDriver&#34;
+        NDArrayEpicsTSnSec:NX_UINT32[5] = [519066710, 520173307, 522226129, 524317768, 526372175]
+          @NDAttrDescription = &#34;The NDArray EPICS timestamp nanoseconds&#34;
+          @NDAttrName = &#34;NDArrayEpicsTSnSec&#34;
+          @NDAttrSource = &#34;Driver&#34;
+          @NDAttrSourceType = &#34;NDAttrSourceDriver&#34;
+        NDArrayTimeStamp:NX_FLOAT64[5] = [1040612641.4792788, 1040612641.5190898, 1040612641.5211573, 1040612641.5232146, 1040612641.5252758]
+          @NDAttrDescription = &#34;The timestamp of the NDArray as float64&#34;
+          @NDAttrName = &#34;NDArrayTimeStamp&#34;
+          @NDAttrSource = &#34;Driver&#34;
+          @NDAttrSourceType = &#34;NDAttrSourceDriver&#34;
+        NDArrayUniqueId:NX_INT32[5] = [7, 8, 9, 10, 11]
+          @NDAttrDescription = &#34;The unique ID of the NDArray&#34;
+          @NDAttrName = &#34;NDArrayUniqueId&#34;
+          @NDAttrSource = &#34;Driver&#34;
+          @NDAttrSourceType = &#34;NDAttrSourceDriver&#34;
+      detector:NXdetector
+        @NX_class = &#34;NXdetector&#34;
+        data:NX_UINT8[5,1024,1024] = __array
+          __array = [
+              [
+                  [9, 16, 8, &#39;...&#39;, 21]
+                  [22, 19, 17, &#39;...&#39;, 22]
+                  [12, 12, 19, &#39;...&#39;, 10]
+                  ...
+                  [20, 14, 12, &#39;...&#39;, 16]
+                ]
+              [
+                  [10, 19, 13, &#39;...&#39;, 16]
+                  [14, 9, 22, &#39;...&#39;, 20]
+                  [21, 16, 15, &#39;...&#39;, 13]
+                  ...
+                  [19, 9, 16, &#39;...&#39;, 13]
+                ]
+              [
+                  [8, 11, 13, &#39;...&#39;, 15]
+                  [11, 21, 19, &#39;...&#39;, 19]
+                  [22, 10, 8, &#39;...&#39;, 8]
+                  ...
+                  [14, 21, 19, &#39;...&#39;, 16]
+                ]
+              [
+                  [15, 17, 8, &#39;...&#39;, 18]
+                  [20, 21, 9, &#39;...&#39;, 18]
+                  [15, 13, 17, &#39;...&#39;, 15]
+                  ...
+                  [15, 14, 9, &#39;...&#39;, 9]
+                ]
+              [
+                  [9, 9, 19, &#39;...&#39;, 22]
+                  [17, 11, 14, &#39;...&#39;, 20]
+                  [17, 14, 18, &#39;...&#39;, 17]
+                  ...
+                  [8, 21, 11, &#39;...&#39;, 10]
+                ]
+            ]
+          @NDArrayDimBinning = [1 1]
+          @NDArrayDimOffset = [0 0]
+          @NDArrayDimReverse = [0 0]
+          @NDArrayNumDims = 2
+          @signal = 1
+        NDAttributes:NXcollection
+          @NX_class = &#34;NXcollection&#34;
+          ColorMode:NX_INT32[5] = [0, 0, 0, 0, 0]
+            @NDAttrDescription = &#34;Color mode&#34;
+            @NDAttrName = &#34;ColorMode&#34;
+            @NDAttrSource = &#34;Driver&#34;
+            @NDAttrSourceType = &#34;NDAttrSourceDriver&#34;
+      performance
+        timestamp:NX_FLOAT64[5,5] = __array
+          __array = [
+              [0.000752141, 0.25310977, 62.20633503, 31.606839988831723, 0.0]
+              [0.050059119, 0.050421705, 0.050062484, 158.66183025742586, 159.80030076014606]
+              [0.046070035, 0.046120127, 0.096182611, 173.46006007312167, 166.3502355950807]
+              [0.045342838, 0.045396078, 0.141578689, 176.22667755571308, 169.51703797737525]
+              [0.044848087, 0.044896592, 0.186475281, 178.18724414539082, 171.60451416614302]
+            ]
+
+</pre></div></div>
+</div>
+</section>
+</section>
+
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="de_0_adsim_hdf5_basic.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Area Detector with default HDF5 File Name</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="de_2_adsim_hdf5_single_mode.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Area Detector, Single mode, HDF5 file</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+<div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+  </div>
+  <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#EPICS-Area-Detector-IOC">EPICS Area Detector IOC</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#ophyd">ophyd</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#HDF5:-AD_EpicsFileNameHDF5Plugin">HDF5: AD_EpicsFileNameHDF5Plugin</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#Detector-Object">Detector Object</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#bluesky">bluesky</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#databroker">databroker</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#punx">punx</a></li>
+</ul>
+  </nav></div>
+
+  <div class="sidebar-secondary-item">
+
+  <div class="tocsection sourcelink">
+    <a href="../_sources/examples/de_1_adsim_hdf5_custom_names.ipynb.txt">
+      <i class="fa-solid fa-file-lines"></i> Show Source
+    </a>
+  </div>
+</div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=8d27b9dea8ad943066ae"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=8d27b9dea8ad943066ae"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+
+  <p class="copyright">
+    
+      © Copyright 2017-2024, UChicago Argonne, LLC.
+      <br/>
+    
+  </p>
+</div>
+      
+        <div class="footer-item">
+
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 5.3.0.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item">
+<p class="theme-version">
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.15.2.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

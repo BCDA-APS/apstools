@@ -1,0 +1,668 @@
+
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+
+    <title>spec2ophyd &#8212; apstools 1.6</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/graphviz.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.5ea377869091fd0449014c60fc090103.min.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/css/custom.css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/sphinx_highlight.js"></script>
+    <script src="../_static/design-tabs.js"></script>
+    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'applications/spec2ophyd';</script>
+    <script>
+        DOCUMENTATION_OPTIONS.theme_version = '0.15.4';
+        DOCUMENTATION_OPTIONS.theme_switcher_json_url = 'https://raw.githubusercontent.com/BCDA-APS/apstools/main/docs/source/_static/switcher.json';
+        DOCUMENTATION_OPTIONS.theme_switcher_version_match = 'dev';
+        DOCUMENTATION_OPTIONS.show_version_warning_banner = false;
+        </script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Examples" href="../examples/index.html" />
+    <link rel="prev" title="Applications" href="index.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-3 navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../index.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">apstools 1.6</p>
+  
+</a></div>
+    
+      <div class="navbar-item">
+<script>
+document.write(`
+  <div class="version-switcher__container dropdown">
+    <button id="pst-version-switcher-button-2"
+      type="button"
+      class="version-switcher__button btn btn-sm dropdown-toggle"
+      data-bs-toggle="dropdown"
+      aria-haspopup="listbox"
+      aria-controls="pst-version-switcher-list-2"
+      aria-label="Version switcher list"
+    >
+      Choose version  <!-- this text may get changed later by javascript -->
+      <span class="caret"></span>
+    </button>
+    <div id="pst-version-switcher-list-2"
+      class="version-switcher__menu dropdown-menu list-group-flush py-0"
+      role="listbox" aria-labelledby="pst-version-switcher-button-2">
+      <!-- dropdown will be populated by javascript on page load -->
+    </div>
+  </div>
+`);
+</script></div>
+    
+  </div>
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../install.html">
+    Installation
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../api/index.html">
+    API Documentation
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="index.html">
+    Applications
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../examples/index.html">
+    Examples
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../changes.html">
+    Change History
+  </a>
+</li>
+
+            <li class="nav-item dropdown">
+                <button class="btn dropdown-toggle nav-item" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-controls="pst-nav-more-links">
+                    More
+                </button>
+                <ul id="pst-nav-more-links" class="dropdown-menu">
+                    
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../license.html">
+    License
+  </a>
+</li>
+
+                </ul>
+            </li>
+            
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script>
+        </div>
+      
+      
+        <div class="navbar-item">
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script>
+    </div>
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../install.html">
+    Installation
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../api/index.html">
+    API Documentation
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="index.html">
+    Applications
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../examples/index.html">
+    Examples
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../changes.html">
+    Change History
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../license.html">
+    License
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script></div>
+        
+      </div>
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+<nav class="bd-docs-nav bd-links"
+     aria-label="Section Navigation">
+  <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
+  <div class="bd-toc-item navbar-nav"><ul class="current nav bd-sidenav">
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">spec2ophyd</a></li>
+</ul>
+</div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+
+
+<nav aria-label="Breadcrumb" class="d-print-none">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="index.html" class="nav-link">Applications</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page">spec2ophyd</li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section id="spec2ophyd">
+<span id="index-0"></span><span id="id1"></span><h1>spec2ophyd<a class="headerlink" href="#spec2ophyd" title="Permalink to this heading">#</a></h1>
+<p>Read SPEC config file and convert to ophyd setup commands.</p>
+<p>This is a tool to help migration from SPEC to bluesky.  It reads
+the SPEC configuration file provided on the comand line
+and converts the lines it recognizes into ophyd
+commands which create ophyd objects.  These commands are printed
+to <cite>sys.stdout</cite>.  The output can be copied into a setup file for ophyd.</p>
+<section id="example">
+<h2>Example<a class="headerlink" href="#example" title="Permalink to this heading">#</a></h2>
+<section id="spec-config-file">
+<h3>SPEC config file<a class="headerlink" href="#spec-config-file" title="Permalink to this heading">#</a></h3>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span># ID @(#)getinfo.c      6.6  01/15/16 CSS
+# Device nodes
+SDEV_0   = /dev/ttyUSB0 19200 raw
+SDEV_1   = /dev/ttyUSB2 19200 raw
+#SDEV_2  = /dev/ttyUSB2 19200 raw
+VM_EPICS_M1      = 9idcLAX:m58:c0: 8
+VM_EPICS_M1      = 9idcLAX:m58:c1: 8
+VM_EPICS_M1      = 9idcLAX:m58:c2: 8
+VM_EPICS_M1      = 9idcLAX:mxv:c0: 8
+VM_EPICS_M1      = 9idcLAX:pi:c0: 4
+VM_EPICS_M1      = 9idcLAX:xps:c0: 8
+VM_EPICS_M1      = 9idcLAX:aero:c0: 1
+VM_EPICS_M1      = 9idcLAX:mxv:c1: 8
+VM_EPICS_M1      = 9idcLAX:aero:c1: 1
+VM_EPICS_M1      = 9idcLAX:aero:c2: 1
+PSE_MAC_MOT      = kohzuE 1
+VM_EPICS_M1      = 9ida: 60
+VM_EPICS_M1      = 9idcLAX:aero:c3: 1
+VM_EPICS_SC      = 9idcLAX:vsc:c0 16
+# CAMAC Slot Assignments
+#  CA_name_unit = slot [crate_number]
+# Motor    cntrl steps sign slew base backl accel nada  flags   mne  name
+MOT000 = EPICS_M2:0/2   2000  1  2000  200   50  125    0 0x003       mx  mx
+MOT001 = EPICS_M2:0/3   2000  1  2000  200   50  125    0 0x003       my  my
+MOT002 = EPICS_M2:1/1   2000  1  2000  200   50  125    0 0x003      msx  msx
+MOT003 = EPICS_M2:1/2   2000  1  2000  200   50  125    0 0x003      msy  msy
+MOT004 = EPICS_M2:1/3   2000  1  2000  200   50  125    0 0x003      art  ART50-100
+MOT005 = EPICS_M2:2/5   2000  1  2000  200   50  125    0 0x003  uslvcen  uslitvercen
+MOT006 = EPICS_M2:2/6   2000  1  2000  200   50  125    0 0x003  uslhcen  uslithorcen
+MOT007 = EPICS_M2:3/3   2000  1  2000  200   50  125    0 0x003   gslout  GSlit_outb
+MOTPAR:read_mode = 7
+MOT008 = EPICS_M2:3/4   2000  1  2000  200   50  125    0 0x003   gslinb  GSlit_inb
+MOTPAR:read_mode = 7
+MOT009 = EPICS_M2:3/5   2000  1  2000  200   50  125    0 0x003   gsltop  GSlit_top
+MOTPAR:read_mode = 7
+MOT010 = EPICS_M2:3/6   2000  1  2000  200   50  125    0 0x003   gslbot  GSlit_bot
+MOTPAR:read_mode = 7
+MOT011 = MAC_MOT:0/0   2000  1  2000  200   50  125    0 0x003        en  en
+MOTPAR:read_mode = 7
+MOT012 = EPICS_M2:10/43   2000  1  2000  200   50  125    0 0x003    InbMS  MonoSl_inb
+# Counter   ctrl unit chan scale flags    mne  name
+CNT000 = EPICS_SC  0  0 10000000 0x001      sec  seconds
+CNT001 = EPICS_SC  0  1      1 0x002       I0  I0
+CNT002 = EPICS_SC  0  2      1 0x000      I00  I00
+CNT003 = EPICS_SC  0  3      1 0x000     upd2  photodiode
+CNT004 = EPICS_SC  0  4      1 0x000      trd  TR_diode
+CNT005 = EPICS_SC  0  5      1 0x000     I000  I000
+</pre></div>
+</div>
+</section>
+<section id="command-line">
+<h3>command line<a class="headerlink" href="#command-line" title="Permalink to this heading">#</a></h3>
+<p>Translate the SPEC config file in the present directory:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>spec2ophyd<span class="w"> </span>./config
+</pre></div>
+</div>
+</section>
+<section id="output">
+<h3>output<a class="headerlink" href="#output" title="Permalink to this heading">#</a></h3>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>mx = EpicsMotor(&#39;9idcLAX:m58:c0:m2&#39;, name=&#39;mx&#39;, labels=(&#39;motor&#39;,))
+my = EpicsMotor(&#39;9idcLAX:m58:c0:m3&#39;, name=&#39;my&#39;, labels=(&#39;motor&#39;,))
+msx = EpicsMotor(&#39;9idcLAX:m58:c1:m1&#39;, name=&#39;msx&#39;, labels=(&#39;motor&#39;,))
+msy = EpicsMotor(&#39;9idcLAX:m58:c1:m2&#39;, name=&#39;msy&#39;, labels=(&#39;motor&#39;,))
+art = EpicsMotor(&#39;9idcLAX:m58:c1:m3&#39;, name=&#39;art&#39;, labels=(&#39;motor&#39;,))  # ART50-100
+uslvcen = EpicsMotor(&#39;9idcLAX:m58:c2:m5&#39;, name=&#39;uslvcen&#39;, labels=(&#39;motor&#39;,))  # uslitvercen
+uslhcen = EpicsMotor(&#39;9idcLAX:m58:c2:m6&#39;, name=&#39;uslhcen&#39;, labels=(&#39;motor&#39;,))  # uslithorcen
+gslout = EpicsMotor(&#39;9idcLAX:mxv:c0:m3&#39;, name=&#39;gslout&#39;, labels=(&#39;motor&#39;,))  # GSlit_outb # read_mode=7
+gslinb = EpicsMotor(&#39;9idcLAX:mxv:c0:m4&#39;, name=&#39;gslinb&#39;, labels=(&#39;motor&#39;,))  # GSlit_inb # read_mode=7
+gsltop = EpicsMotor(&#39;9idcLAX:mxv:c0:m5&#39;, name=&#39;gsltop&#39;, labels=(&#39;motor&#39;,))  # GSlit_top # read_mode=7
+gslbot = EpicsMotor(&#39;9idcLAX:mxv:c0:m6&#39;, name=&#39;gslbot&#39;, labels=(&#39;motor&#39;,))  # GSlit_bot # read_mode=7
+# Macro Motor: SpecMotor(mne=&#39;en&#39;, config_line=&#39;11&#39;, macro_prefix=&#39;kohzuE&#39;) # read_mode=7
+InbMS = EpicsMotor(&#39;9ida:m43&#39;, name=&#39;InbMS&#39;, labels=(&#39;motor&#39;,))  # MonoSl_inb
+c0 = ScalerCH(&#39;9idcLAX:vsc:c0&#39;, name=&#39;c0&#39;, labels=(&#39;detectors&#39;,))
+# counter: sec = SpecCounter(mne=&#39;sec&#39;, config_line=&#39;0&#39;, name=&#39;seconds&#39;, unit=&#39;0&#39;, chan=&#39;0&#39;, pvname=9idcLAX:vsc:c0.S1)
+# counter: I0 = SpecCounter(mne=&#39;I0&#39;, config_line=&#39;1&#39;, unit=&#39;0&#39;, chan=&#39;1&#39;, pvname=9idcLAX:vsc:c0.S2)
+# counter: I00 = SpecCounter(mne=&#39;I00&#39;, config_line=&#39;2&#39;, unit=&#39;0&#39;, chan=&#39;2&#39;, pvname=9idcLAX:vsc:c0.S3)
+# counter: upd2 = SpecCounter(mne=&#39;upd2&#39;, config_line=&#39;3&#39;, name=&#39;photodiode&#39;, unit=&#39;0&#39;, chan=&#39;3&#39;, pvname=9idcLAX:vsc:c0.S4)
+# counter: trd = SpecCounter(mne=&#39;trd&#39;, config_line=&#39;4&#39;, name=&#39;TR_diode&#39;, unit=&#39;0&#39;, chan=&#39;4&#39;, pvname=9idcLAX:vsc:c0.S5)
+# counter: I000 = SpecCounter(mne=&#39;I000&#39;, config_line=&#39;5&#39;, unit=&#39;0&#39;, chan=&#39;5&#39;, pvname=9idcLAX:vsc:c0.S6)
+</pre></div>
+</div>
+</section>
+</section>
+<section id="cautions">
+<h2>Cautions<a class="headerlink" href="#cautions" title="Permalink to this heading">#</a></h2>
+<ul class="simple">
+<li><p><em>spec2ophyd</em> is a work-in-progress.</p></li>
+<li><p><em>spec2ophyd</em> does not rely on any libraries of <em>apstools</em></p></li>
+<li><p>It is not necessarily robust</p></li>
+<li><p>It is not packaged or installed with the apstools.</p></li>
+<li><p>It is only available from the source code repository.</p></li>
+<li><p>It may be refactored or removed at any time.</p></li>
+<li><p>Check the <em>apstools</em> Change History for more updates (<a class="github reference external" href="https://github.com/BCDA-APS/apstools/blob/master/CHANGES.rst">BCDA-APS/apstools</a>)</p></li>
+</ul>
+</section>
+</section>
+
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="index.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Applications</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="../examples/index.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Examples</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+<div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+  </div>
+  <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#example">Example</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#spec-config-file">SPEC config file</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#command-line">command line</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#output">output</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#cautions">Cautions</a></li>
+</ul>
+  </nav></div>
+
+  <div class="sidebar-secondary-item">
+
+  <div class="tocsection sourcelink">
+    <a href="../_sources/applications/spec2ophyd.rst.txt">
+      <i class="fa-solid fa-file-lines"></i> Show Source
+    </a>
+  </div>
+</div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+
+  <p class="copyright">
+    
+      © Copyright 2017-2024, UChicago Argonne, LLC.
+      <br/>
+    
+  </p>
+</div>
+      
+        <div class="footer-item">
+
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 5.3.0.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item">
+<p class="theme-version">
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.15.4.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

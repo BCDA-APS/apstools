@@ -1,0 +1,1776 @@
+
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+
+    <title>What are the objects to control? &#8212; apstools 1.7</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/graphviz.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.5ea377869091fd0449014c60fc090103.min.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/nbsphinx-code-cells.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/css/custom.css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/sphinx_highlight.js"></script>
+    <script src="../_static/design-tabs.js"></script>
+    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'examples/ho_list_control_objects';</script>
+    <script>
+        DOCUMENTATION_OPTIONS.theme_version = '0.15.4';
+        DOCUMENTATION_OPTIONS.theme_switcher_json_url = 'https://raw.githubusercontent.com/BCDA-APS/apstools/main/docs/source/_static/switcher.json';
+        DOCUMENTATION_OPTIONS.theme_switcher_version_match = 'dev';
+        DOCUMENTATION_OPTIONS.show_version_warning_banner = false;
+        </script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="How to use NeXus/HDF5 Templates" href="ho_nxwriter_templates.html" />
+    <link rel="prev" title="How to interrupt/stop/abort a running plan &amp; recover to safe settings" href="ho_contingency.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-3 navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../index.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">apstools 1.7</p>
+  
+</a></div>
+    
+      <div class="navbar-item">
+<script>
+document.write(`
+  <div class="version-switcher__container dropdown">
+    <button id="pst-version-switcher-button-2"
+      type="button"
+      class="version-switcher__button btn btn-sm dropdown-toggle"
+      data-bs-toggle="dropdown"
+      aria-haspopup="listbox"
+      aria-controls="pst-version-switcher-list-2"
+      aria-label="Version switcher list"
+    >
+      Choose version  <!-- this text may get changed later by javascript -->
+      <span class="caret"></span>
+    </button>
+    <div id="pst-version-switcher-list-2"
+      class="version-switcher__menu dropdown-menu list-group-flush py-0"
+      role="listbox" aria-labelledby="pst-version-switcher-button-2">
+      <!-- dropdown will be populated by javascript on page load -->
+    </div>
+  </div>
+`);
+</script></div>
+    
+  </div>
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../install.html">
+    Installation
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../api/index.html">
+    API Documentation
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../applications/index.html">
+    Applications
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="index.html">
+    Examples
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../changes.html">
+    Change History
+  </a>
+</li>
+
+            <li class="nav-item dropdown">
+                <button class="btn dropdown-toggle nav-item" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-controls="pst-nav-more-links">
+                    More
+                </button>
+                <ul id="pst-nav-more-links" class="dropdown-menu">
+                    
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../license.html">
+    License
+  </a>
+</li>
+
+                </ul>
+            </li>
+            
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script>
+        </div>
+      
+      
+        <div class="navbar-item">
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script></div>
+      
+        <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/BCDA-APS/apstools" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script>
+    </div>
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../install.html">
+    Installation
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../api/index.html">
+    API Documentation
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../applications/index.html">
+    Applications
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="index.html">
+    Examples
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../changes.html">
+    Change History
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../license.html">
+    License
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script></div>
+        
+          <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/BCDA-APS/apstools" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+        
+      </div>
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+<nav class="bd-docs-nav bd-links"
+     aria-label="Section Navigation">
+  <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
+  <div class="bd-toc-item navbar-nav"><ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="device_examples.html">Device Examples</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="de_0_adsim_hdf5_basic.html">Area Detector with default HDF5 File Name</a></li>
+<li class="toctree-l2"><a class="reference internal" href="de_1_adsim_hdf5_custom_names.html">Area Detector with custom HDF5 File Name</a></li>
+<li class="toctree-l2"><a class="reference internal" href="de_2_adsim_hdf5_single_mode.html">Area Detector, Single mode, HDF5 file</a></li>
+<li class="toctree-l2"><a class="reference internal" href="de_ad_pe.html">ADPerkinElmer Area Detector with default HDF5 File Name</a></li>
+<li class="toctree-l2"><a class="reference internal" href="de_ad_pilatus.html">ADPilatus Area Detector with default HDF5 File Name</a></li>
+<li class="toctree-l2"><a class="reference internal" href="de_aps_data_management.html">Integration with APS Data Management (DM)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="de_sscan.html">The synApps <code class="docutils literal notranslate"><span class="pre">sscan</span></code> and <code class="docutils literal notranslate"><span class="pre">SscanRecord</span></code></a></li>
+</ul>
+</details></li>
+</ul>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="filewriter_examples.html">File Writer Examples</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="fw_nxwriter.html">Callback</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="fw_specfile_example.html">Output scan(s) to a SPEC data file.</a></li>
+</ul>
+</details></li>
+</ul>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="howto_examples.html">How-To Examples</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="ho_contingency.html">How to interrupt/stop/abort a running plan &amp; recover to safe settings</a></li>
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">What are the objects to control?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ho_nxwriter_templates.html">How to use NeXus/HDF5 Templates</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ho_search_databroker.html">How to Search for Bluesky Data?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ho_session_logs.html">How to setup logging</a></li>
+</ul>
+</details></li>
+</ul>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="plan_examples.html">Plan Examples</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="pl_excel_scan.html">The <code class="docutils literal notranslate"><span class="pre">Excel_plan()</span></code> – batch scans using a spreadsheet</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pl_lineup.html">The <code class="docutils literal notranslate"><span class="pre">lineup()</span></code> plan - align an axis with a signal</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pl_nscan.html">The <code class="docutils literal notranslate"><span class="pre">nscan()</span></code> plan – scan multiple axes together</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pl_run_command_list.html">The <code class="xref py py-func docutils literal notranslate"><span class="pre">run_command_file()</span></code> plan – batch scans using a text file</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pl_tuneaxis.html">The <code class="docutils literal notranslate"><span class="pre">TuneAxis()</span></code> plan - align an axis with a signal</a></li>
+</ul>
+</details></li>
+</ul>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="download_examples.html">File Downloads for the Examples</a></li>
+</ul>
+</div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+
+
+<nav aria-label="Breadcrumb" class="d-print-none">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="index.html" class="nav-link">Examples</a></li>
+    
+    
+    <li class="breadcrumb-item"><a href="howto_examples.html" class="nav-link">How-To Examples</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page">What are...</li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section id="What-are-the-objects-to-control?">
+<h1>What are the objects to control?<a class="headerlink" href="#What-are-the-objects-to-control?" title="Permalink to this heading">#</a></h1>
+<p>A user requests a tool to describe all objects (and children) for control. In Bluesky, these objects are either a single <code class="docutils literal notranslate"><span class="pre">Signal</span></code> or a <code class="docutils literal notranslate"><span class="pre">Device</span></code> (a nested structure of <code class="docutils literal notranslate"><span class="pre">Device</span></code> and <code class="docutils literal notranslate"><span class="pre">Signal</span></code> objects).</p>
+<p>There are several tools available to learn what the control system provides. Because the control system may provide access to dozens, hundreds, or even thousands of control objects, there are several tools, depending on the detail sought. For example, a single motor control (of class <code class="docutils literal notranslate"><span class="pre">EpicsMotor</span></code>) provides access to ~20 signals.</p>
+<p><strong>SUGGESTION</strong></p>
+<ol class="arabic simple">
+<li><p>Use <code class="docutils literal notranslate"><span class="pre">listobjects()</span></code> to get the <code class="docutils literal notranslate"><span class="pre">Device</span></code> and <code class="docutils literal notranslate"><span class="pre">Signal</span></code> objects for control.</p></li>
+<li><p>Use <code class="docutils literal notranslate"><span class="pre">listdevice(OBJECT)</span></code> to learn more about a specific <code class="docutils literal notranslate"><span class="pre">Device</span></code> or <code class="docutils literal notranslate"><span class="pre">Signal</span></code> object.</p></li>
+<li><p>Use <code class="docutils literal notranslate"><span class="pre">listplans()</span></code> to learn the plans available for control.</p></li>
+<li><p>Use <code class="docutils literal notranslate"><span class="pre">findCatalogsInNamespace()</span></code> to learn the available databroker catalogs.</p></li>
+<li><p>Use <code class="docutils literal notranslate"><span class="pre">DEVICE.summary()</span></code> and <code class="docutils literal notranslate"><span class="pre">DEVICE.component_names</span></code> to learn more about <code class="docutils literal notranslate"><span class="pre">DEVICE</span></code>.</p></li>
+</ol>
+<p><strong>OVERVIEW</strong></p>
+<p>This guide describes these tools to learn more about your Bluesky control system:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">apstools.utils.listobjects()</span></code>: list of top-level objects available at the command line.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">apstools.utils.listdevice()</span></code>: internal objects of a single object.</p></li>
+<li><p>Every <code class="docutils literal notranslate"><span class="pre">Device</span></code> has a <code class="docutils literal notranslate"><span class="pre">.component_names</span></code> list of its ophyd <code class="docutils literal notranslate"><span class="pre">Device</span></code> and <code class="docutils literal notranslate"><span class="pre">Signal</span></code> children.</p></li>
+<li><p>Every <code class="docutils literal notranslate"><span class="pre">Device</span></code> has a <code class="docutils literal notranslate"><span class="pre">.summary()</span></code> method that summarizes the device’s internal objects.</p></li>
+<li><p>The command-line (only) magic: <code class="docutils literal notranslate"><span class="pre">%wa</span></code> prints tables of ophyd-labeled <code class="docutils literal notranslate"><span class="pre">Signal</span></code> objects.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">apstools.utils.listplans()</span></code>: list of top-level bluesky plans available at the command line.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">apstools.utils.findCatalogsInNamespace()</span></code>: Returns a dictionary with the databroker catalogs available at the command line.</p></li>
+</ul>
+<p><strong>For SPEC Users</strong></p>
+<p>For those with experience using the SPEC software, this comparison table may be of assistance in learning the command-line tools available in Bluesky:</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>SPEC</p></th>
+<th class="head"><p>Bluesky</p></th>
+<th class="head"><p>comments</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">wa</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">%wa</span> <span class="pre">motor</span></code></p></td>
+<td><p>Show all the motors and their positions, limits, etc.</p></td>
+</tr>
+<tr class="row-odd"><td><p>-n/a-</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">listobjects()</span></code></p></td>
+<td><p>List all the controllable devices (the ones known at the command-line level).</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">lsdef</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">listplans()</span></code></p></td>
+<td><p>List all the bluesky plans (the ones known at the command-line level).</p></td>
+</tr>
+<tr class="row-odd"><td><p>-n/a-</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">PLAN?</span></code></p></td>
+<td><p>Show the documentation of the Bluesky plan. Works with other Python objects, too.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">prdef</span> <span class="pre">MACRO</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">PLAN??</span></code></p></td>
+<td><p>Show the source code of the SPEC macro or Bluesky plan. Works with other Python objects, too.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">qdo</span> <span class="pre">FILE.mac</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">%run</span> <span class="pre">-i</span> <span class="pre">FILE.py</span></code></p></td>
+<td><p>Run the definitions and commands provided in the file.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">u</span> <span class="pre">UNIX_CMD</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">!UNIX_CMD</span></code></p></td>
+<td><p>Run a command in the (UNIX) shell.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p><strong>Start local control system</strong></p>
+<p>Start a Bluesky control system to demonstrate these functions. We’ll start the <a class="reference external" href="https://github.com/BCDA-APS/bluesky_training">bluesky training instrument</a> in the same way as the other How-to guides here.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">pathlib</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">sys</span>
+
+<span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">pathlib</span><span class="o">.</span><span class="n">Path</span><span class="p">()</span><span class="o">.</span><span class="n">home</span><span class="p">()</span> <span class="o">/</span> <span class="s2">&quot;bluesky&quot;</span><span class="p">))</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">instrument.collection</span><span class="w"> </span><span class="kn">import</span> <span class="o">*</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+/home/prjemian/bluesky/instrument/_iconfig.py
+Activating auto-logging. Current session state plus future input saved.
+Filename       : /home/prjemian/Documents/projects/BCDA-APS/apstools/docs/source/examples/.logs/ipython_console.log
+Mode           : rotate
+Output logging : True
+Raw input log  : False
+Timestamping   : True
+State          : active
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+I Mon-15:49:17 - ############################################################ startup
+I Mon-15:49:17 - logging started
+I Mon-15:49:17 - logging level = 10
+I Mon-15:49:17 - /home/prjemian/bluesky/instrument/session_logs.py
+I Mon-15:49:17 - /home/prjemian/bluesky/instrument/collection.py
+I Mon-15:49:17 - CONDA_PREFIX = /home/prjemian/.conda/envs/bluesky_2024_2
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Exception reporting mode: Minimal
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+I Mon-15:49:17 - xmode exception level: &#39;Minimal&#39;
+I Mon-15:49:17 - /home/prjemian/bluesky/instrument/mpl/notebook.py
+I Mon-15:49:17 - #### Bluesky Framework ####
+I Mon-15:49:17 - /home/prjemian/bluesky/instrument/framework/check_python.py
+I Mon-15:49:17 - /home/prjemian/bluesky/instrument/framework/check_bluesky.py
+I Mon-15:49:17 - /home/prjemian/bluesky/instrument/framework/initialize.py
+I Mon-15:49:17 - RunEngine metadata saved in directory: /home/prjemian/.config/Bluesky_RunEngine_md
+I Mon-15:49:18 - using databroker catalog &#39;training&#39;
+I Mon-15:49:18 - using ophyd control layer: pyepics
+I Mon-15:49:18 - Using EPICS PV gp:gp:int20 for scan_id
+I Mon-15:49:18 - /home/prjemian/bluesky/instrument/framework/metadata.py
+I Mon-15:49:18 - #### Devices ####
+I Mon-15:49:18 - /home/prjemian/bluesky/instrument/devices/area_detector.py
+I Mon-15:49:18 - /home/prjemian/bluesky/instrument/devices/calculation_records.py
+I Mon-15:49:24 - /home/prjemian/bluesky/instrument/devices/fourc_diffractometer.py
+I Mon-15:49:24 - /home/prjemian/bluesky/instrument/devices/ioc_stats.py
+I Mon-15:49:24 - /home/prjemian/bluesky/instrument/devices/kohzu_monochromator.py
+I Mon-15:49:24 - /home/prjemian/bluesky/instrument/devices/motors.py
+I Mon-15:49:24 - /home/prjemian/bluesky/instrument/devices/noisy_detector.py
+I Mon-15:49:25 - /home/prjemian/bluesky/instrument/devices/scaler.py
+I Mon-15:49:26 - /home/prjemian/bluesky/instrument/devices/shutter_simulator.py
+I Mon-15:49:26 - /home/prjemian/bluesky/instrument/devices/simulated_fourc.py
+I Mon-15:49:26 - /home/prjemian/bluesky/instrument/devices/simulated_kappa.py
+I Mon-15:49:26 - /home/prjemian/bluesky/instrument/devices/slits.py
+I Mon-15:49:26 - /home/prjemian/bluesky/instrument/devices/sixc_diffractometer.py
+I Mon-15:49:26 - /home/prjemian/bluesky/instrument/devices/temperature_signal.py
+I Mon-15:49:26 - #### Callbacks ####
+I Mon-15:49:26 - /home/prjemian/bluesky/instrument/callbacks/spec_data_file_writer.py
+I Mon-15:49:27 - #### Plans ####
+I Mon-15:49:27 - /home/prjemian/bluesky/instrument/plans/lup_plan.py
+I Mon-15:49:27 - /home/prjemian/bluesky/instrument/plans/peak_finder_example.py
+I Mon-15:49:27 - /home/prjemian/bluesky/instrument/utils/image_analysis.py
+I Mon-15:49:27 - /home/prjemian/bluesky/instrument/plans/randomize_noisy_peak_plan.py
+I Mon-15:49:27 - #### Utilities ####
+I Mon-15:49:27 - writing to SPEC file: /home/prjemian/Documents/projects/BCDA-APS/apstools/docs/source/examples/20240708-154926.dat
+I Mon-15:49:27 -    &gt;&gt;&gt;&gt;   Using default SPEC file name   &lt;&lt;&lt;&lt;
+I Mon-15:49:27 -    file will be created when bluesky ends its next scan
+I Mon-15:49:27 -    to change SPEC file, use command:   newSpecFile(&#39;title&#39;)
+I Mon-15:49:27 - #### Startup is complete. ####
+</pre></div></div>
+</div>
+<section id="listobjects()-function">
+<h2><code class="docutils literal notranslate"><span class="pre">listobjects()</span></code> function<a class="headerlink" href="#listobjects()-function" title="Permalink to this heading">#</a></h2>
+<p><strong>Q</strong>: What are the objects available for control?</p>
+<p><strong>A</strong>: <code class="docutils literal notranslate"><span class="pre">listobjects()</span></code> lists all the <code class="docutils literal notranslate"><span class="pre">Device</span></code> and <code class="docutils literal notranslate"><span class="pre">Signal</span></code> (technically, all <code class="docutils literal notranslate"><span class="pre">ophyd.ophydobj.OphydObject</span></code>) objects at the command-line level.</p>
+<p>Let’s demonstrate:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">apstools.utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">listobjects</span>
+<span class="n">listobjects</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+============= ================================ ============== ===================
+name          class                            PV (or prefix) label(s)
+============= ================================ ============== ===================
+I0            EpicsSignalRO                    gp:scaler1.S2  channel counter
+I00           EpicsSignalRO                    gp:scaler1.S6  channel counter
+I000          EpicsSignalRO                    gp:scaler1.S5  channel counter
+adsimdet      SimDetector                      ad:            area_detector
+adsimk        SimDetector                      kad:           area_detector
+dcm           MyKohzu                          gp:
+diode         EpicsSignalRO                    gp:scaler1.S4  channel counter
+fourc         FourCircle                       gp:
+gp_stats      IocInfoDevice                    gp:
+m1            MyEpicsMotor                     gp:m1          motor
+m10           MyEpicsMotor                     gp:m10         motor
+m11           MyEpicsMotor                     gp:m11         motor
+m12           MyEpicsMotor                     gp:m12         motor
+m13           MyEpicsMotor                     gp:m13         motor
+m14           MyEpicsMotor                     gp:m14         motor
+m15           MyEpicsMotor                     gp:m15         motor
+m16           MyEpicsMotor                     gp:m16         motor
+m2            MyEpicsMotor                     gp:m2          motor
+m3            MyEpicsMotor                     gp:m3          motor
+m4            MyEpicsMotor                     gp:m4          motor
+m7            MyEpicsMotor                     gp:m7          motor
+m8            MyEpicsMotor                     gp:m8          motor
+m9            MyEpicsMotor                     gp:m9          motor
+noisy         EpicsSignalRO                    gp:userCalc1   simulator detectors
+scaler1       ScalerCH                         gp:scaler1     scalers detectors
+scint         EpicsSignalRO                    gp:scaler1.S3  channel counter
+shutter       SimulatedApsPssShutterWithStatus                shutters
+sim4c         SimulatedE4CV
+simk4c        SimulatedK4CV
+simk6c        SimulatedK6C
+sixc          SixCircle                        gp:
+slit1         Optics2Slit2D_HV                 gp:Slit1
+temperature   MyPvPositioner                   gp:userCalc8
+timebase      EpicsSignalRO                    gp:scaler1.S1  channel counter
+user_calcouts UserCalcoutDevice                gp:
+user_calcs    UserCalcsDevice                  gp:
+user_sseqs    UserStringSequenceDevice         gp:
+============= ================================ ============== ===================
+</pre></div></div>
+</div>
+<p>The <code class="docutils literal notranslate"><span class="pre">listobjects()</span></code> function has options, specified as keyword arguments. To learn more, ask IPython for help, using <code class="docutils literal notranslate"><span class="pre">listobjects?</span></code>:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>listobjects<span class="o">?</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+<span class="ansi-red-fg">Signature:</span>
+listobjects<span class="ansi-blue-fg">(</span>
+    show_pv<span class="ansi-blue-fg">=</span><span class="ansi-green-fg">True</span><span class="ansi-blue-fg">,</span>
+    printing<span class="ansi-blue-fg">=</span><span class="ansi-green-fg">None</span><span class="ansi-blue-fg">,</span>
+    verbose<span class="ansi-blue-fg">=</span><span class="ansi-green-fg">False</span><span class="ansi-blue-fg">,</span>
+    symbols<span class="ansi-blue-fg">=</span><span class="ansi-green-fg">None</span><span class="ansi-blue-fg">,</span>
+    child_devices<span class="ansi-blue-fg">=</span><span class="ansi-green-fg">False</span><span class="ansi-blue-fg">,</span>
+    child_signals<span class="ansi-blue-fg">=</span><span class="ansi-green-fg">False</span><span class="ansi-blue-fg">,</span>
+    table_style<span class="ansi-blue-fg">=</span><span class="ansi-blue-fg">&lt;</span>TableStyle<span class="ansi-blue-fg">.</span>pyRestTable<span class="ansi-blue-fg">:</span> <span class="ansi-blue-fg">&lt;</span><span class="ansi-green-fg">class</span> <span class="ansi-blue-fg">&#39;apstools.utils._core.PRT_Table&#39;</span><span class="ansi-blue-fg">&gt;&gt;</span><span class="ansi-blue-fg">,</span>
+<span class="ansi-blue-fg">)</span>
+<span class="ansi-red-fg">Docstring:</span>
+Show all the ophyd Signal and Device objects defined as globals.
+
+PARAMETERS
+
+show_pv
+    *bool* :
+    If True, also show relevant EPICS PV, if available.
+    (default: True)
+printing *bool* :
+    Deprecated.
+verbose
+    *bool* :
+    If True, also show ``str(obj``.
+    (default: False)
+symbols
+    *dict* :
+    If None, use global symbol table.
+    If not None, use provided dictionary.
+    (default: ``globals()``)
+child_devices
+    *bool* :
+    If True, also show how many Devices are children of this device.
+    (default: False)
+child_signals
+    *bool* :
+    If True, also show how many Signals are children of this device.
+    (default: False)
+table_style *object* :
+    Either ``apstools.utils.TableStyle.pandas`` (default) or
+    using values from :class:`apstools.utils.TableStyle`.
+
+    .. note:: ``pandas.DataFrame`` wll truncate long text
+       to at most 50 characters.
+
+RETURNS
+
+object:
+    Instance of ``pyRestTable.Table()``
+
+EXAMPLE::
+
+    In [1]: listobjects()
+    ======== ================================ =============
+    name     ophyd structure                  EPICS PV
+    ======== ================================ =============
+    adsimdet MySingleTriggerSimDetector       vm7SIM1:
+    m1       EpicsMotor                       vm7:m1
+    m2       EpicsMotor                       vm7:m2
+    m3       EpicsMotor                       vm7:m3
+    m4       EpicsMotor                       vm7:m4
+    m5       EpicsMotor                       vm7:m5
+    m6       EpicsMotor                       vm7:m6
+    m7       EpicsMotor                       vm7:m7
+    m8       EpicsMotor                       vm7:m8
+    noisy    EpicsSignalRO                    vm7:userCalc1
+    scaler   ScalerCH                         vm7:scaler1
+    shutter  SimulatedApsPssShutterWithStatus
+    ======== ================================ =============
+
+    Out[1]: &lt;pyRestTable.rest_table.Table at 0x7fa4398c7cf8&gt;
+
+    In [2]:
+
+(new in apstools release 1.1.8)
+<span class="ansi-red-fg">File:</span>      ~/.conda/envs/bluesky_2024_2/lib/python3.11/site-packages/apstools/utils/misc.py
+<span class="ansi-red-fg">Type:</span>      function
+</pre></div></div>
+</div>
+</section>
+<section id="listdevice()-function">
+<h2><code class="docutils literal notranslate"><span class="pre">listdevice()</span></code> function<a class="headerlink" href="#listdevice()-function" title="Permalink to this heading">#</a></h2>
+<p>Once a specific <code class="docutils literal notranslate"><span class="pre">Device</span></code> or <code class="docutils literal notranslate"><span class="pre">Signal</span></code> object has been identified, use <code class="docutils literal notranslate"><span class="pre">listdevice(OBJECT)</span></code> to report about its internal controls.</p>
+<p>Let’s demonstrate with a couple devices from the above table. The <code class="docutils literal notranslate"><span class="pre">noisy</span></code> object is a <code class="docutils literal notranslate"><span class="pre">EpicsSignalRO</span></code> (a read-only <code class="docutils literal notranslate"><span class="pre">Signal</span></code> which connects with an EPICS PV). It has no internals structure, just a time-stamped value.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">apstools.utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">listdevice</span>
+<span class="n">listdevice</span><span class="p">(</span><span class="n">noisy</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+========= ================== ==========================
+data name value              timestamp
+========= ================== ==========================
+noisy     11513.796622133092 2024-07-08 15:49:25.180968
+========= ================== ==========================
+</pre></div></div>
+</div>
+<p>The <code class="docutils literal notranslate"><span class="pre">temperature</span></code> object is a <code class="docutils literal notranslate"><span class="pre">MyPvPositioner</span></code> which uses a calculation record to simulate a temperature controller.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">listdevice</span><span class="p">(</span><span class="n">temperature</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+=============================== =================================== ==========================
+data name                       value                               timestamp
+=============================== =================================== ==========================
+temperature                     25.013054093232626                  2024-07-08 15:49:26.533470
+temperature_setpoint            25.0                                2024-07-08 15:49:26.344567
+temperature_done                True                                2024-07-08 15:49:26.541581
+temperature_calculation         A+max(-D,min(D,(B-A)))+C*(RNDM-0.5) 2024-07-08 15:49:26.347289
+temperature_description         temperature                         2024-07-08 15:49:26.343089
+temperature_max_change          2.0                                 2024-07-08 15:49:26.346818
+temperature_noise               1.0                                 2024-07-08 15:49:26.346368
+temperature_previous_value_pv   gp:userCalc8.VAL                    2024-07-08 15:49:26.343089
+temperature_scanning_rate       5                                   2024-07-08 15:49:26.347289
+temperature_tolerance           1.0                                 2024-07-08 15:49:26.347289
+temperature_report_dmov_changes False                               2024-07-08 15:49:26.343873
+=============================== =================================== ==========================
+</pre></div></div>
+</div>
+<p>The <code class="docutils literal notranslate"><span class="pre">fourc</span></code> object is a <code class="docutils literal notranslate"><span class="pre">FourCircle</span></code> diffractometer with various internal controls. One of the controls is the <code class="docutils literal notranslate"><span class="pre">fourc.omega</span></code> motor, connected to EPICS as <code class="docutils literal notranslate"><span class="pre">EpicsMotor</span></code>. This is its internal controls object structure.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">listdevice</span><span class="p">(</span><span class="n">fourc</span><span class="o">.</span><span class="n">omega</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+================================ ======= ==========================
+data name                        value   timestamp
+================================ ======= ==========================
+fourc_omega                      0.0     2024-07-08 15:45:24.601966
+fourc_omega_user_setpoint        0.0     2024-07-08 15:45:24.601966
+fourc_omega_user_offset          0.0     2024-07-08 15:45:24.601966
+fourc_omega_user_offset_dir      0       2024-07-08 15:45:24.601966
+fourc_omega_offset_freeze_switch 0       2024-07-08 15:45:24.601966
+fourc_omega_set_use_switch       0       2024-07-08 15:45:24.601966
+fourc_omega_velocity             1.0     2024-07-08 15:45:24.601966
+fourc_omega_acceleration         0.2     2024-07-08 15:45:24.601966
+fourc_omega_motor_egu            degrees 2024-07-08 15:45:24.601966
+fourc_omega_motor_is_moving      0       2024-07-08 15:45:24.601966
+fourc_omega_motor_done_move      1       2024-07-08 15:45:24.601966
+fourc_omega_high_limit_switch    0       2024-07-08 15:45:24.601966
+fourc_omega_low_limit_switch     0       2024-07-08 15:45:24.601966
+fourc_omega_high_limit_travel    1000.0  2024-07-08 15:45:24.601966
+fourc_omega_low_limit_travel     -1000.0 2024-07-08 15:45:24.601966
+fourc_omega_direction_of_travel  0       2024-07-08 15:45:24.601966
+fourc_omega_motor_stop           0       2024-07-08 15:45:24.601966
+fourc_omega_home_forward         0       2024-07-08 15:45:24.601966
+fourc_omega_home_reverse         0       2024-07-08 15:45:24.601966
+================================ ======= ==========================
+</pre></div></div>
+</div>
+<p>This instrument uses a simulated shutter. Show its internal structure:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">listdevice</span><span class="p">(</span><span class="n">shutter</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+==================== ===== ==========================
+data name            value timestamp
+==================== ===== ==========================
+shutter_busy         False 2024-07-08 15:49:26.129390
+shutter_open_signal  0     2024-07-08 15:49:26.129409
+shutter_close_signal 0     2024-07-08 15:49:26.129429
+shutter_pss_state    close 2024-07-08 15:49:26.129442
+==================== ===== ==========================
+</pre></div></div>
+</div>
+<p>One of the calculation records uses the readback value of a motor:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">listdevice</span><span class="p">(</span><span class="n">user_calcs</span><span class="o">.</span><span class="n">calc1</span><span class="o">.</span><span class="n">channels</span><span class="o">.</span><span class="n">A</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+========================================= ========= ==========================
+data name                                 value     timestamp
+========================================= ========= ==========================
+user_calcs_calc1_channels_A_input_value   0.0       2024-07-08 15:49:25.123935
+user_calcs_calc1_channels_A_input_pv      gp:m1.RBV 2024-07-08 15:49:25.160628
+user_calcs_calc1_channels_A_input_trigger 1         2024-07-08 15:49:25.142936
+========================================= ========= ==========================
+</pre></div></div>
+</div>
+<p>The <code class="docutils literal notranslate"><span class="pre">listdevice()</span></code> function has options, specified as keyword arguments. To learn more, ask IPython for help, using <code class="docutils literal notranslate"><span class="pre">listdevice?</span></code>:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>listdevice<span class="o">?</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+<span class="ansi-red-fg">Signature:</span>
+listdevice<span class="ansi-blue-fg">(</span>
+    obj<span class="ansi-blue-fg">,</span>
+    scope<span class="ansi-blue-fg">=</span><span class="ansi-green-fg">None</span><span class="ansi-blue-fg">,</span>
+    cname<span class="ansi-blue-fg">=</span><span class="ansi-green-fg">False</span><span class="ansi-blue-fg">,</span>
+    dname<span class="ansi-blue-fg">=</span><span class="ansi-green-fg">True</span><span class="ansi-blue-fg">,</span>
+    show_pv<span class="ansi-blue-fg">=</span><span class="ansi-green-fg">False</span><span class="ansi-blue-fg">,</span>
+    use_datetime<span class="ansi-blue-fg">=</span><span class="ansi-green-fg">True</span><span class="ansi-blue-fg">,</span>
+    show_ancient<span class="ansi-blue-fg">=</span><span class="ansi-green-fg">True</span><span class="ansi-blue-fg">,</span>
+    max_column_width<span class="ansi-blue-fg">=</span><span class="ansi-green-fg">None</span><span class="ansi-blue-fg">,</span>
+    table_style<span class="ansi-blue-fg">=</span><span class="ansi-blue-fg">&lt;</span>TableStyle<span class="ansi-blue-fg">.</span>pyRestTable<span class="ansi-blue-fg">:</span> <span class="ansi-blue-fg">&lt;</span><span class="ansi-green-fg">class</span> <span class="ansi-blue-fg">&#39;apstools.utils._core.PRT_Table&#39;</span><span class="ansi-blue-fg">&gt;&gt;</span><span class="ansi-blue-fg">,</span>
+    _call_args<span class="ansi-blue-fg">=</span><span class="ansi-green-fg">None</span><span class="ansi-blue-fg">,</span>
+<span class="ansi-blue-fg">)</span>
+<span class="ansi-red-fg">Docstring:</span>
+Describe the signal information from device ``obj`` in a pandas DataFrame.
+
+Look through all subcomponents to find all the signals to be
+shown. Components that are disconnected will be skipped and a
+warning logged.
+
+PARAMETERS
+
+obj
+    *object* : Instance of ophyd Signal or Device.
+scope
+    *str* or None : Scope of content to be shown.
+
+    - ``&#34;full&#34;`` (or ``None``) shows all Signal components
+    - ``&#34;epics&#34;`` shows only EPICS-based Signals
+    - ``&#34;read&#34;`` shows only the signals returned by ``obj.read()``
+
+    default: ``None``
+cname
+    *bool* : Show the _control_ (Python, dotted) name in column ``name``.
+
+    default: ``False``
+dname
+    *bool* : Show the _data_ (databroker, with underlines) name in
+    column ``data name``.
+
+    default: ``True``
+show_pv
+    *bool* : Show the EPICS process variable (PV) name in
+    column ``PV``.
+
+    default: ``False``
+
+    .. note:: Special case when ``show_pv=True``:
+       If ``cname`` is not provided, it will be set ``True``.
+       If ``dname`` is not provided, it will be set ``False``.
+
+use_datetime *bool* :
+    Show the EPICS timestamp (time of last update) in
+    column ``timestamp``.
+
+    default: ``True``
+show_ancient *bool* :
+    Show uninitialized EPICS process variables.
+
+    In EPICS, an uninitialized PV has a timestamp of 1990-01-01 UTC.
+    This option enables or suppresses ancient values identified
+    by timestamp from 1989.  These are values only defined in
+    the original ``.db`` file.
+
+    default: ``True``
+max_column_width *int* or *None* :
+    Truncate long columns to no more than this length.  If not default,
+    then table will be formatted using pyRestTable.
+
+    default: ``None`` (will use ``50``)
+table_style *object* :
+    Either ``apstools.utils.TableStyle.pandas`` (default) or
+    using values from :class:`apstools.utils.TableStyle`.
+
+    .. note:: ``pandas.DataFrame`` wll truncate long text
+       to at most 50 characters.
+<span class="ansi-red-fg">File:</span>      ~/.conda/envs/bluesky_2024_2/lib/python3.11/site-packages/apstools/utils/device_info.py
+<span class="ansi-red-fg">Type:</span>      function
+</pre></div></div>
+</div>
+</section>
+<section id=".component_names-method">
+<h2><code class="docutils literal notranslate"><span class="pre">.component_names</span></code> method<a class="headerlink" href="#.component_names-method" title="Permalink to this heading">#</a></h2>
+<p>Every object using <code class="docutils literal notranslate"><span class="pre">ophyd.Device</span></code> (or a subclass) has a <a class="reference external" href="https://github.com/bluesky/ophyd/blob/285b0c75da67c935a8073481d6442362723b127b/ophyd/device.py#L904">.component_names</a> list of its ophyd children. (Note: a <code class="docutils literal notranslate"><span class="pre">Signal</span></code> does not have a <code class="docutils literal notranslate"><span class="pre">.component_names</span></code> list.)</p>
+<p>For example, this lists the <code class="docutils literal notranslate"><span class="pre">.component_names</span></code> of one of the calculation (EPICS <code class="docutils literal notranslate"><span class="pre">swait</span></code> record) channels:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">user_calcs</span><span class="o">.</span><span class="n">calc1</span><span class="o">.</span><span class="n">channels</span><span class="o">.</span><span class="n">A</span><span class="o">.</span><span class="n">component_names</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+(&#39;input_value&#39;, &#39;input_pv&#39;, &#39;input_trigger&#39;)
+</pre></div></div>
+</div>
+<p>The calculation object has three children:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">user_calcs.calc1.channels.A.input_value</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">user_calcs.calc1.channels.A.input_pv</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">user_calcs.calc1.channels.A.input_trigger</span></code></p></li>
+</ul>
+</section>
+<section id=".summary()-method">
+<h2><code class="docutils literal notranslate"><span class="pre">.summary()</span></code> method<a class="headerlink" href="#.summary()-method" title="Permalink to this heading">#</a></h2>
+<p>Every object using <code class="docutils literal notranslate"><span class="pre">ophyd.Device</span></code> (or a subclass) has a <a class="reference external" href="https://github.com/bluesky/ophyd/blob/285b0c75da67c935a8073481d6442362723b127b/ophyd/device.py#L1209-L1213">.summary()</a> method to describe its internal structure. (Note: a <code class="docutils literal notranslate"><span class="pre">Signal</span></code> does not have a <code class="docutils literal notranslate"><span class="pre">.summary()</span></code> method.)</p>
+<p>The report is divided into sections:</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>section</p></th>
+<th class="head"><p>description</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>data keys (* hints)</p></td>
+<td><p>Names (undotted) of children (as they appear in the databroker) of data.</p></td>
+</tr>
+<tr class="row-odd"><td><p>config keys</p></td>
+<td><p>Data keys (undotted) in the dictionary returned by the <code class="docutils literal notranslate"><span class="pre">.read_configuration()</span></code> method.</p></td>
+</tr>
+<tr class="row-even"><td><p>configuration attrs</p></td>
+<td><p>List of child (dotted) object names to be reported by the <code class="docutils literal notranslate"><span class="pre">.read_configuration()</span></code> method.</p></td>
+</tr>
+<tr class="row-odd"><td><p>read attrs</p></td>
+<td><p>List of child (dotted) object names to be reported by the <code class="docutils literal notranslate"><span class="pre">.read()</span></code> method.</p></td>
+</tr>
+<tr class="row-even"><td><p>unused attrs</p></td>
+<td><p>Data keys (undotted) not used by either <code class="docutils literal notranslate"><span class="pre">.read()</span></code> or <code class="docutils literal notranslate"><span class="pre">.read_configuration()</span></code>.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>For example, this is a summary of one of the calculation (EPICS <code class="docutils literal notranslate"><span class="pre">swait</span></code> record) channels:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">user_calcs</span><span class="o">.</span><span class="n">calc1</span><span class="o">.</span><span class="n">channels</span><span class="o">.</span><span class="n">A</span><span class="o">.</span><span class="n">summary</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+data keys (* hints)
+-------------------
+
+read attrs
+----------
+input_value          EpicsSignal         (&#39;user_calcs_calc1_channels_A_input_value&#39;)
+
+config keys
+-----------
+user_calcs_calc1_channels_A_input_pv
+user_calcs_calc1_channels_A_input_trigger
+user_calcs_calc1_channels_A_input_value
+
+configuration attrs
+-------------------
+input_value          EpicsSignal         (&#39;user_calcs_calc1_channels_A_input_value&#39;)
+input_pv             EpicsSignal         (&#39;user_calcs_calc1_channels_A_input_pv&#39;)
+input_trigger        EpicsSignal         (&#39;user_calcs_calc1_channels_A_input_trigger&#39;)
+
+unused attrs
+------------
+
+</pre></div></div>
+</div>
+<p>The content of the <code class="docutils literal notranslate"><span class="pre">.summary()</span></code> method increases with the complexity of the device. Such as the <code class="docutils literal notranslate"><span class="pre">fourc.omega</span></code> motor:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fourc</span><span class="o">.</span><span class="n">omega</span><span class="o">.</span><span class="n">summary</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+data keys (* hints)
+-------------------
+*fourc_omega
+ fourc_omega_user_setpoint
+
+read attrs
+----------
+user_readback        EpicsSignalRO       (&#39;fourc_omega&#39;)
+user_setpoint        EpicsSignal         (&#39;fourc_omega_user_setpoint&#39;)
+
+config keys
+-----------
+fourc_omega_acceleration
+
+configuration attrs
+-------------------
+acceleration         EpicsSignal         (&#39;fourc_omega_acceleration&#39;)
+
+unused attrs
+------------
+user_offset          EpicsSignal         (&#39;fourc_omega_user_offset&#39;)
+user_offset_dir      EpicsSignal         (&#39;fourc_omega_user_offset_dir&#39;)
+offset_freeze_switch EpicsSignal         (&#39;fourc_omega_offset_freeze_switch&#39;)
+set_use_switch       EpicsSignal         (&#39;fourc_omega_set_use_switch&#39;)
+velocity             EpicsSignal         (&#39;fourc_omega_velocity&#39;)
+motor_egu            EpicsSignal         (&#39;fourc_omega_motor_egu&#39;)
+motor_is_moving      EpicsSignalRO       (&#39;fourc_omega_motor_is_moving&#39;)
+motor_done_move      EpicsSignalRO       (&#39;fourc_omega_motor_done_move&#39;)
+high_limit_switch    EpicsSignalRO       (&#39;fourc_omega_high_limit_switch&#39;)
+low_limit_switch     EpicsSignalRO       (&#39;fourc_omega_low_limit_switch&#39;)
+high_limit_travel    EpicsSignal         (&#39;fourc_omega_high_limit_travel&#39;)
+low_limit_travel     EpicsSignal         (&#39;fourc_omega_low_limit_travel&#39;)
+direction_of_travel  EpicsSignal         (&#39;fourc_omega_direction_of_travel&#39;)
+motor_stop           EpicsSignal         (&#39;fourc_omega_motor_stop&#39;)
+home_forward         EpicsSignal         (&#39;fourc_omega_home_forward&#39;)
+home_reverse         EpicsSignal         (&#39;fourc_omega_home_reverse&#39;)
+
+</pre></div></div>
+</div>
+</section>
+<section id="%wa-magic-command">
+<h2><code class="docutils literal notranslate"><span class="pre">%wa</span></code> magic command<a class="headerlink" href="#%wa-magic-command" title="Permalink to this heading">#</a></h2>
+<p><code class="docutils literal notranslate"><span class="pre">%wa</span></code> is a <a class="reference external" href="https://blueskyproject.io/bluesky/magics.html#listing-available-motors-using-wa-post-v1-3-0">magic command</a> which means it is only available in console or notebook sessions.</p>
+<p>First, we show how to list the objects labeled <code class="docutils literal notranslate"><span class="pre">&quot;motor&quot;</span></code> (singular by bluesky convention), since that is exactly what the SPEC <code class="docutils literal notranslate"><span class="pre">wa</span></code> command lists:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%</span><span class="k">wa</span> motor
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+motor
+  Positioner                     Value       Low Limit   High Limit  Offset
+  dcm_m_theta                    0.0         -1000.0     1000.0      0.0
+  dcm_m_y                        0.0         -1000.0     1000.0      0.0
+  dcm_m_z                        0.0         -1000.0     1000.0      0.0
+  fourc_chi                      0.0         -1000.0     1000.0      0.0
+  fourc_omega                    0.0         -1000.0     1000.0      0.0
+  fourc_phi                      0.0         -1000.0     1000.0      0.0
+  fourc_tth                      0.0         -1000.0     1000.0      0.0
+  m1                             0.0         -1000.0     1000.0      0.0
+  m10                            0.0         -1000.0     1000.0      0.0
+  m11                            0.0         -1000.0     1000.0      0.0
+  m12                            0.0         -1000.0     1000.0      0.0
+  m13                            0.0         -1000.0     1000.0      0.0
+  m14                            0.0         -1000.0     1000.0      0.0
+  m15                            0.0         -1000.0     1000.0      0.0
+  m16                            0.0         -1000.0     1000.0      0.0
+  m2                             0.0         -1000.0     1000.0      0.0
+  m3                             0.0         -1000.0     1000.0      0.0
+  m4                             0.0         -1000.0     1000.0      0.0
+  m7                             0.0         -1000.0     1000.0      0.0
+  m8                             0.0         -1000.0     1000.0      0.0
+  m9                             0.0         -1000.0     1000.0      0.0
+  sixc_chi                       0.0         -1000.0     1000.0      0.0
+  sixc_delta                     0.0         -1000.0     1000.0      0.0
+  sixc_gamma                     0.0         -1000.0     1000.0      0.0
+  sixc_mu                        0.0         -1000.0     1000.0      0.0
+  sixc_omega                     0.0         -1000.0     1000.0      0.0
+  sixc_phi                       0.0         -1000.0     1000.0      0.0
+
+  Local variable name                    Ophyd name (to be recorded as metadata)
+  dcm.m_theta                            dcm_m_theta
+  dcm.m_y                                dcm_m_y
+  dcm.m_z                                dcm_m_z
+  fourc.chi                              fourc_chi
+  fourc.omega                            fourc_omega
+  fourc.phi                              fourc_phi
+  fourc.tth                              fourc_tth
+  m1                                     m1
+  m10                                    m10
+  m11                                    m11
+  m12                                    m12
+  m13                                    m13
+  m14                                    m14
+  m15                                    m15
+  m16                                    m16
+  m2                                     m2
+  m3                                     m3
+  m4                                     m4
+  m7                                     m7
+  m8                                     m8
+  m9                                     m9
+  sixc.chi                               sixc_chi
+  sixc.delta                             sixc_delta
+  sixc.gamma                             sixc_gamma
+  sixc.mu                                sixc_mu
+  sixc.omega                             sixc_omega
+  sixc.phi                               sixc_phi
+
+</pre></div></div>
+</div>
+<p>But the <code class="docutils literal notranslate"><span class="pre">%wa</span></code> magic command can list objects with any label applied. If you leave out the specific label, you’ll get a listing categorized by each of the labels in use.</p>
+<p>Note that an object may have zero, one, or several labels; an object will be described under each of its labels.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[14]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%</span><span class="k">wa</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+area_detector
+  Local variable name                    Ophyd name (to be recorded as metadata)
+  adsimdet                               adsimdet
+  adsimk                                 adsimk
+
+motor
+  Positioner                     Value       Low Limit   High Limit  Offset
+  dcm_m_theta                    0.0         -1000.0     1000.0      0.0
+  dcm_m_y                        0.0         -1000.0     1000.0      0.0
+  dcm_m_z                        0.0         -1000.0     1000.0      0.0
+  fourc_chi                      0.0         -1000.0     1000.0      0.0
+  fourc_omega                    0.0         -1000.0     1000.0      0.0
+  fourc_phi                      0.0         -1000.0     1000.0      0.0
+  fourc_tth                      0.0         -1000.0     1000.0      0.0
+  m1                             0.0         -1000.0     1000.0      0.0
+  m10                            0.0         -1000.0     1000.0      0.0
+  m11                            0.0         -1000.0     1000.0      0.0
+  m12                            0.0         -1000.0     1000.0      0.0
+  m13                            0.0         -1000.0     1000.0      0.0
+  m14                            0.0         -1000.0     1000.0      0.0
+  m15                            0.0         -1000.0     1000.0      0.0
+  m16                            0.0         -1000.0     1000.0      0.0
+  m2                             0.0         -1000.0     1000.0      0.0
+  m3                             0.0         -1000.0     1000.0      0.0
+  m4                             0.0         -1000.0     1000.0      0.0
+  m7                             0.0         -1000.0     1000.0      0.0
+  m8                             0.0         -1000.0     1000.0      0.0
+  m9                             0.0         -1000.0     1000.0      0.0
+  sixc_chi                       0.0         -1000.0     1000.0      0.0
+  sixc_delta                     0.0         -1000.0     1000.0      0.0
+  sixc_gamma                     0.0         -1000.0     1000.0      0.0
+  sixc_mu                        0.0         -1000.0     1000.0      0.0
+  sixc_omega                     0.0         -1000.0     1000.0      0.0
+  sixc_phi                       0.0         -1000.0     1000.0      0.0
+
+  Local variable name                    Ophyd name (to be recorded as metadata)
+  dcm.m_theta                            dcm_m_theta
+  dcm.m_y                                dcm_m_y
+  dcm.m_z                                dcm_m_z
+  fourc.chi                              fourc_chi
+  fourc.omega                            fourc_omega
+  fourc.phi                              fourc_phi
+  fourc.tth                              fourc_tth
+  m1                                     m1
+  m10                                    m10
+  m11                                    m11
+  m12                                    m12
+  m13                                    m13
+  m14                                    m14
+  m15                                    m15
+  m16                                    m16
+  m2                                     m2
+  m3                                     m3
+  m4                                     m4
+  m7                                     m7
+  m8                                     m8
+  m9                                     m9
+  sixc.chi                               sixc_chi
+  sixc.delta                             sixc_delta
+  sixc.gamma                             sixc_gamma
+  sixc.mu                                sixc_mu
+  sixc.omega                             sixc_omega
+  sixc.phi                               sixc_phi
+
+simulator
+  Local variable name                    Ophyd name (to be recorded as metadata)
+  noisy                                  noisy
+
+detectors
+  Local variable name                    Ophyd name (to be recorded as metadata)
+  noisy                                  noisy
+  scaler1                                scaler1
+
+scalers
+  Local variable name                    Ophyd name (to be recorded as metadata)
+  scaler1                                scaler1
+
+channel
+  Local variable name                    Ophyd name (to be recorded as metadata)
+  I0                                     I0
+  I00                                    I00
+  I000                                   I000
+  diode                                  diode
+  scaler1.channels.chan01.s              timebase
+  scaler1.channels.chan02.s              I0
+  scaler1.channels.chan03.s              scint
+  scaler1.channels.chan04.s              diode
+  scaler1.channels.chan05.s              I000
+  scaler1.channels.chan06.s              I00
+  scint                                  scint
+  timebase                               timebase
+
+counter
+  Local variable name                    Ophyd name (to be recorded as metadata)
+  I0                                     I0
+  I00                                    I00
+  I000                                   I000
+  diode                                  diode
+  scaler1.channels.chan01.s              timebase
+  scaler1.channels.chan02.s              I0
+  scaler1.channels.chan03.s              scint
+  scaler1.channels.chan04.s              diode
+  scaler1.channels.chan05.s              I000
+  scaler1.channels.chan06.s              I00
+  scint                                  scint
+  timebase                               timebase
+
+shutters
+  Local variable name                    Ophyd name (to be recorded as metadata)
+  shutter                                shutter
+
+</pre></div></div>
+</div>
+</section>
+<section id="listplans()-function">
+<h2><code class="docutils literal notranslate"><span class="pre">listplans()</span></code> function<a class="headerlink" href="#listplans()-function" title="Permalink to this heading">#</a></h2>
+<p>Another type of control is the bluesky <em>plan</em>, a Python generator function used by the bluesky <code class="docutils literal notranslate"><span class="pre">RunEngine</span></code> to perform data acquisition procedures.</p>
+<p>Here, we list the plans available when the <a class="reference external" href="https://github.com/BCDA-APS/bluesky_training">bluesky training instrument</a> is started:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[15]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">apstools.utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">listplans</span>
+<span class="n">listplans</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[15]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+======================= ==================================================
+plan                    doc
+======================= ==================================================
+lup                     Lineup a positioner.
+two_pass_scan           Find the peak of noisy v. m1 in the range of + ...
+findpeak_multipass      find peak of noisy v. m1 by repeated scans wit ...
+repeat_findpeak         Repeat findpeak_multipass() with new parameter ...
+randomize_noisy_peak    Randomize the parameters of the noisy peak sim ...
+lineup2                 Lineup and center a given mover, relative to c ...
+wait_dm_upload          (bluesky plan) Wait for APS DM data acquisitio ...
+redefine_motor_position Set EPICS motor record&#39;s user coordinate to `` ...
+======================= ==================================================
+</pre></div></div>
+</div>
+<p>Any of these plans may be queried for its help or source code using the ipython <code class="docutils literal notranslate"><span class="pre">?</span></code> (help) or <code class="docutils literal notranslate"><span class="pre">??</span></code> (source code) suffixes. Let’s look at one of them in more detail:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[16]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>redefine_motor_position<span class="o">?</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+<span class="ansi-red-fg">Signature:</span> redefine_motor_position<span class="ansi-blue-fg">(</span>motor<span class="ansi-blue-fg">,</span> new_position<span class="ansi-blue-fg">)</span>
+<span class="ansi-red-fg">Docstring:</span> Set EPICS motor record&#39;s user coordinate to ``new_position``.
+<span class="ansi-red-fg">File:</span>      ~/.conda/envs/bluesky_2024_2/lib/python3.11/site-packages/apstools/utils/misc.py
+<span class="ansi-red-fg">Type:</span>      function
+</pre></div></div>
+</div>
+<p>The source code is shown when two questions marks are used.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[17]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>redefine_motor_position<span class="o">??</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+<span class="ansi-red-fg">Signature:</span> redefine_motor_position<span class="ansi-blue-fg">(</span>motor<span class="ansi-blue-fg">,</span> new_position<span class="ansi-blue-fg">)</span>
+<span class="ansi-red-fg">Source:</span>
+<span class="ansi-green-fg">def</span> redefine_motor_position<span class="ansi-blue-fg">(</span>motor<span class="ansi-blue-fg">,</span> new_position<span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">:</span>
+    <span class="ansi-blue-fg">&#34;&#34;&#34;Set EPICS motor record&#39;s user coordinate to ``new_position``.&#34;&#34;&#34;</span>
+    <span class="ansi-green-fg">yield</span> <span class="ansi-green-fg">from</span> bps<span class="ansi-blue-fg">.</span>mv<span class="ansi-blue-fg">(</span>motor<span class="ansi-blue-fg">.</span>set_use_switch<span class="ansi-blue-fg">,</span> <span class="ansi-cyan-fg">1</span><span class="ansi-blue-fg">)</span>
+    <span class="ansi-green-fg">yield</span> <span class="ansi-green-fg">from</span> bps<span class="ansi-blue-fg">.</span>mv<span class="ansi-blue-fg">(</span>motor<span class="ansi-blue-fg">.</span>user_setpoint<span class="ansi-blue-fg">,</span> new_position<span class="ansi-blue-fg">)</span>
+    <span class="ansi-green-fg">yield</span> <span class="ansi-green-fg">from</span> bps<span class="ansi-blue-fg">.</span>mv<span class="ansi-blue-fg">(</span>motor<span class="ansi-blue-fg">.</span>set_use_switch<span class="ansi-blue-fg">,</span> <span class="ansi-cyan-fg">0</span><span class="ansi-blue-fg">)</span>
+<span class="ansi-red-fg">File:</span>      ~/.conda/envs/bluesky_2024_2/lib/python3.11/site-packages/apstools/utils/misc.py
+<span class="ansi-red-fg">Type:</span>      function
+</pre></div></div>
+</div>
+<p>The same <code class="docutils literal notranslate"><span class="pre">listplans()</span></code> command can report the plans from an imported module. Here, using <code class="docutils literal notranslate"><span class="pre">import</span> <span class="pre">bluesky.plans</span> <span class="pre">as</span> <span class="pre">bp)</span></code>:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[18]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">listplans</span><span class="p">(</span><span class="n">bp</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[18]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+========================================= ==================================================
+plan                                      doc
+========================================= ==================================================
+bluesky.plans.adaptive_scan               Scan over one variable with adaptively tuned s ...
+bluesky.plans.count                       Take one or more readings from detectors.
+bluesky.plans.fly                         Perform a fly scan with one or more &#39;flyers&#39;.
+bluesky.plans.grid_scan                   Scan over a mesh; each motor is on an independ ...
+bluesky.plans.inner_product_scan          ---
+bluesky.plans.list_grid_scan              Scan over a mesh; each motor is on an independ ...
+bluesky.plans.list_scan                   Scan over one or more variables in steps simul ...
+bluesky.plans.log_scan                    Scan over one variable in log-spaced steps.
+bluesky.plans.outer_product_scan          Scan over a mesh; each motor is on an independ ...
+bluesky.plans.ramp_plan                   Take data while ramping one or more positioners.
+bluesky.plans.rel_adaptive_scan           Relative scan over one variable with adaptivel ...
+bluesky.plans.rel_grid_scan               Scan over a mesh relative to current position.
+bluesky.plans.rel_list_grid_scan          Scan over a mesh; each motor is on an independ ...
+bluesky.plans.rel_list_scan               Scan over one variable in steps relative to cu ...
+bluesky.plans.rel_log_scan                Scan over one variable in log-spaced steps rel ...
+bluesky.plans.rel_scan                    Scan over one multi-motor trajectory relative  ...
+bluesky.plans.rel_spiral                  Relative spiral scan
+bluesky.plans.rel_spiral_fermat           Relative fermat spiral scan
+bluesky.plans.rel_spiral_square           Relative square spiral scan, centered around c ...
+bluesky.plans.relative_adaptive_scan      Relative scan over one variable with adaptivel ...
+bluesky.plans.relative_inner_product_scan ---
+bluesky.plans.relative_list_scan          Scan over one variable in steps relative to cu ...
+bluesky.plans.relative_log_scan           Scan over one variable in log-spaced steps rel ...
+bluesky.plans.relative_outer_product_scan Scan over a mesh relative to current position.
+bluesky.plans.relative_scan               Scan over one multi-motor trajectory relative  ...
+bluesky.plans.relative_spiral             Relative spiral scan
+bluesky.plans.relative_spiral_fermat      Relative fermat spiral scan
+bluesky.plans.scan                        Scan over one multi-motor trajectory.
+bluesky.plans.scan_nd                     Scan over an arbitrary N-dimensional trajectory.
+bluesky.plans.spiral                      Spiral scan, centered around (x_start, y_start)
+bluesky.plans.spiral_fermat               Absolute fermat spiral scan, centered around ( ...
+bluesky.plans.spiral_square               Absolute square spiral scan, centered around ( ...
+bluesky.plans.tune_centroid               plan: tune a motor to the centroid of signal(m ...
+bluesky.plans.tweak                       Move and motor and read a detector with an int ...
+bluesky.plans.x2x_scan                    Relatively scan over two motors in a 2:1 ratio
+========================================= ==================================================
+</pre></div></div>
+</div>
+<p>Similarly, for the plans provided by <code class="docutils literal notranslate"><span class="pre">apstools</span></code>:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[19]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">apstools.plans</span>
+<span class="n">listplans</span><span class="p">(</span><span class="n">apstools</span><span class="o">.</span><span class="n">plans</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[19]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+==================================== ==================================================
+plan                                 doc
+==================================== ==================================================
+apstools.plans.addDeviceDataAsStream Renamed to write_stream().  Will remove with r ...
+apstools.plans.documentation_run     Save text as a bluesky run.
+apstools.plans.edge_align            Align to the edge given mover &amp; detector data, ...
+apstools.plans.execute_command_list  plan: execute the command list
+apstools.plans.label_stream_stub     Writes ophyd-labeled objects to open bluesky r ...
+apstools.plans.label_stream_wrapper  Decorator support: Write labeled device(s) to  ...
+apstools.plans.lineup                (use ``lineup2()`` now) Lineup and center a gi ...
+apstools.plans.lineup2               Lineup and center a given mover, relative to c ...
+apstools.plans.mesh_list_grid_scan   Scan over a multi-dimensional mesh, collecting ...
+apstools.plans.nscan                 Scan over ``n`` variables moved together, each ...
+apstools.plans.request_input         Request input from the user.  Returns ``True`` ...
+apstools.plans.run_blocking_function Run a blocking function as a bluesky plan, in  ...
+apstools.plans.run_command_file      plan: execute a list of commands from a text o ...
+apstools.plans.sscan_1D              simple 1-D scan using EPICS synApps sscan record
+apstools.plans.stage_sigs_wrapper    Save stage_sigs from each device and restore a ...
+apstools.plans.tune_axes             Bluesky plan to tune a list of axes in sequence.
+apstools.plans.write_stream          add an ophyd Device as an additional document  ...
+==================================== ==================================================
+</pre></div></div>
+</div>
+</section>
+<section id="findCatalogsInNamespace()-function">
+<h2><code class="docutils literal notranslate"><span class="pre">findCatalogsInNamespace()</span></code> function<a class="headerlink" href="#findCatalogsInNamespace()-function" title="Permalink to this heading">#</a></h2>
+<p>To learn what databroker catalogs are already loaded (in the default namespace), use <code class="docutils literal notranslate"><span class="pre">apstools.utils.findCatalogsInNamespace()</span></code>:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[20]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">apstools.utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">findCatalogsInNamespace</span>
+<span class="n">findCatalogsInNamespace</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[20]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+{&#39;cat&#39;: &lt;Intake catalog: training&gt;}
+</pre></div></div>
+</div>
+<p>It is also possible to get a list of available databroker catalog names using the <code class="docutils literal notranslate"><span class="pre">databroker</span></code> package. This list includes any catalogs with available configuration details, even if they are not loaded into memory yet.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[21]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">databroker</span>
+<span class="nb">list</span><span class="p">(</span><span class="n">databroker</span><span class="o">.</span><span class="n">catalog</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[21]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+[&#39;bdp2022&#39;,
+ &#39;class_2021_03&#39;,
+ &#39;6idb_export&#39;,
+ &#39;apstools_test&#39;,
+ &#39;class_data_examples&#39;,
+ &#39;usaxs_test&#39;,
+ &#39;korts202106&#39;,
+ &#39;training&#39;]
+</pre></div></div>
+</div>
+</section>
+</section>
+
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="ho_contingency.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">How to interrupt/stop/abort a running plan &amp; recover to safe settings</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="ho_nxwriter_templates.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">How to use NeXus/HDF5 Templates</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+<div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+  </div>
+  <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#listobjects()-function"><code class="docutils literal notranslate"><span class="pre">listobjects()</span></code> function</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#listdevice()-function"><code class="docutils literal notranslate"><span class="pre">listdevice()</span></code> function</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#.component_names-method"><code class="docutils literal notranslate"><span class="pre">.component_names</span></code> method</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#.summary()-method"><code class="docutils literal notranslate"><span class="pre">.summary()</span></code> method</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#%wa-magic-command"><code class="docutils literal notranslate"><span class="pre">%wa</span></code> magic command</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#listplans()-function"><code class="docutils literal notranslate"><span class="pre">listplans()</span></code> function</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#findCatalogsInNamespace()-function"><code class="docutils literal notranslate"><span class="pre">findCatalogsInNamespace()</span></code> function</a></li>
+</ul>
+  </nav></div>
+
+  <div class="sidebar-secondary-item">
+
+  <div class="tocsection sourcelink">
+    <a href="../_sources/examples/ho_list_control_objects.ipynb.txt">
+      <i class="fa-solid fa-file-lines"></i> Show Source
+    </a>
+  </div>
+</div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+
+  <p class="copyright">
+    
+      © Copyright 2017-2024, UChicago Argonne, LLC.
+      <br/>
+    
+  </p>
+</div>
+      
+        <div class="footer-item">
+
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 5.3.0.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item">
+<p class="theme-version">
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.15.4.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

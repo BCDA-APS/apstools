@@ -1,0 +1,1355 @@
+
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>apstools.devices.shutters &#8212; apstools 1.7</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../../../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../../../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../../../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/graphviz.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/sphinx-design.5ea377869091fd0449014c60fc090103.min.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/css/custom.css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+    <script src="../../../_static/jquery.js"></script>
+    <script src="../../../_static/underscore.js"></script>
+    <script src="../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="../../../_static/doctools.js"></script>
+    <script src="../../../_static/sphinx_highlight.js"></script>
+    <script src="../../../_static/design-tabs.js"></script>
+    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = '_modules/apstools/devices/shutters';</script>
+    <script>
+        DOCUMENTATION_OPTIONS.theme_version = '0.15.4';
+        DOCUMENTATION_OPTIONS.theme_switcher_json_url = 'https://raw.githubusercontent.com/BCDA-APS/apstools/main/docs/source/_static/switcher.json';
+        DOCUMENTATION_OPTIONS.theme_switcher_version_match = '1.7.0';
+        DOCUMENTATION_OPTIONS.show_version_warning_banner = false;
+        </script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-3 navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../../../index.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">apstools 1.7</p>
+  
+</a></div>
+    
+      <div class="navbar-item">
+<script>
+document.write(`
+  <div class="version-switcher__container dropdown">
+    <button id="pst-version-switcher-button-2"
+      type="button"
+      class="version-switcher__button btn btn-sm dropdown-toggle"
+      data-bs-toggle="dropdown"
+      aria-haspopup="listbox"
+      aria-controls="pst-version-switcher-list-2"
+      aria-label="Version switcher list"
+    >
+      Choose version  <!-- this text may get changed later by javascript -->
+      <span class="caret"></span>
+    </button>
+    <div id="pst-version-switcher-list-2"
+      class="version-switcher__menu dropdown-menu list-group-flush py-0"
+      role="listbox" aria-labelledby="pst-version-switcher-button-2">
+      <!-- dropdown will be populated by javascript on page load -->
+    </div>
+  </div>
+`);
+</script></div>
+    
+  </div>
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../install.html">
+    Installation
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../api/index.html">
+    API Documentation
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../applications/index.html">
+    Applications
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../examples/index.html">
+    Examples
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../changes.html">
+    Change History
+  </a>
+</li>
+
+            <li class="nav-item dropdown">
+                <button class="btn dropdown-toggle nav-item" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-controls="pst-nav-more-links">
+                    More
+                </button>
+                <ul id="pst-nav-more-links" class="dropdown-menu">
+                    
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../../license.html">
+    License
+  </a>
+</li>
+
+                </ul>
+            </li>
+            
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script>
+        </div>
+      
+      
+        <div class="navbar-item">
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script></div>
+      
+        <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/BCDA-APS/apstools" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script>
+    </div>
+  
+
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+        
+      
+      <div class="bd-sidebar-primary bd-sidebar hide-on-wide">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../install.html">
+    Installation
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../api/index.html">
+    API Documentation
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../applications/index.html">
+    Applications
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../examples/index.html">
+    Examples
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../changes.html">
+    Change History
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../license.html">
+    License
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script></div>
+        
+          <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/BCDA-APS/apstools" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+        
+      </div>
+    
+  </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+
+
+<nav aria-label="Breadcrumb" class="d-print-none">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../../../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="../../index.html" class="nav-link">Module code</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page">apstools.dev...</li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <h1>Source code for apstools.devices.shutters</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Shutters</span>
+<span class="sd">+++++++++++++++++++++++++++++++++++++++</span>
+
+<span class="sd">.. autosummary::</span>
+
+<span class="sd">   ~ApsPssShutter</span>
+<span class="sd">   ~ApsPssShutterWithStatus</span>
+<span class="sd">   ~EpicsMotorShutter</span>
+<span class="sd">   ~EpicsOnOffShutter</span>
+<span class="sd">   ~OneSignalShutter</span>
+<span class="sd">   ~ShutterBase</span>
+<span class="sd">   ~SimulatedApsPssShutterWithStatus</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">import</span> <span class="nn">threading</span>
+<span class="kn">import</span> <span class="nn">time</span>
+
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">ophyd</span> <span class="kn">import</span> <span class="n">Component</span>
+<span class="kn">from</span> <span class="nn">ophyd</span> <span class="kn">import</span> <span class="n">Device</span>
+<span class="kn">from</span> <span class="nn">ophyd</span> <span class="kn">import</span> <span class="n">DeviceStatus</span>
+<span class="kn">from</span> <span class="nn">ophyd</span> <span class="kn">import</span> <span class="n">EpicsMotor</span>
+<span class="kn">from</span> <span class="nn">ophyd</span> <span class="kn">import</span> <span class="n">EpicsSignal</span>
+<span class="kn">from</span> <span class="nn">ophyd</span> <span class="kn">import</span> <span class="n">EpicsSignalRO</span>
+<span class="kn">from</span> <span class="nn">ophyd</span> <span class="kn">import</span> <span class="n">FormattedComponent</span>
+<span class="kn">from</span> <span class="nn">ophyd</span> <span class="kn">import</span> <span class="n">Signal</span>
+
+
+<div class="viewcode-block" id="ShutterBase"><a class="viewcode-back" href="../../../api/_devices.html#apstools.devices.shutters.ShutterBase">[docs]</a><span class="k">class</span> <span class="nc">ShutterBase</span><span class="p">(</span><span class="n">Device</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Base class for all shutter Devices.</span>
+
+<span class="sd">    .. index:: Ophyd Device; ShutterBase</span>
+
+<span class="sd">    PARAMETERS</span>
+
+<span class="sd">    value</span>
+<span class="sd">        *str* :</span>
+<span class="sd">        any from ``self.choices`` (typically &quot;open&quot; or &quot;close&quot;)</span>
+
+<span class="sd">    valid_open_values</span>
+<span class="sd">        *[str]* :</span>
+<span class="sd">        A list of lower-case text values that are acceptable</span>
+<span class="sd">        for use with the ``set()`` command to open the shutter.</span>
+
+<span class="sd">    valid_close_values</span>
+<span class="sd">        *[str]* :</span>
+<span class="sd">        A list of lower-case text values that are acceptable</span>
+<span class="sd">        for use with the ``set()`` command to close the shutter.</span>
+
+<span class="sd">    open_value</span>
+<span class="sd">        *number* :</span>
+<span class="sd">        The actual value to send to open ``signal`` to open the shutter.</span>
+<span class="sd">        (default = 1)</span>
+
+<span class="sd">    close_value</span>
+<span class="sd">        *number* :</span>
+<span class="sd">        The actual value to send to close ``signal`` to close the shutter.</span>
+<span class="sd">        (default = 0)</span>
+
+<span class="sd">    delay_s</span>
+<span class="sd">        *float* :</span>
+<span class="sd">        time to wait (s) after move is complete,</span>
+<span class="sd">        does not wait if shutter already in position</span>
+<span class="sd">        (default = 0)</span>
+
+<span class="sd">    busy</span>
+<span class="sd">        *Signal* :</span>
+<span class="sd">        (internal) tells if a move is in progress</span>
+
+<span class="sd">    unknown_state</span>
+<span class="sd">        *str* :</span>
+<span class="sd">        (constant) Text reported by ``state`` when not open or closed.</span>
+<span class="sd">        cannot move to this position</span>
+<span class="sd">        (default = &quot;unknown&quot;)</span>
+
+<span class="sd">    name</span>
+<span class="sd">        *str* :</span>
+<span class="sd">        (kwarg, required) object&#39;s canonical name</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1"># fmt: off</span>
+    <span class="n">valid_open_values</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;open&quot;</span><span class="p">,</span> <span class="s2">&quot;opened&quot;</span><span class="p">]</span>  <span class="c1"># lower-case strings ONLY</span>
+    <span class="n">valid_close_values</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;close&quot;</span><span class="p">,</span> <span class="s2">&quot;closed&quot;</span><span class="p">]</span>
+    <span class="c1"># fmt: on</span>
+    <span class="n">open_value</span> <span class="o">=</span> <span class="mi">1</span>  <span class="c1"># value of &quot;open&quot;</span>
+    <span class="n">close_value</span> <span class="o">=</span> <span class="mi">0</span>  <span class="c1"># value of &quot;close&quot;</span>
+    <span class="n">delay_s</span> <span class="o">=</span> <span class="mf">0.0</span>  <span class="c1"># time to wait (s) after move is complete</span>
+    <span class="n">busy</span> <span class="o">=</span> <span class="n">Component</span><span class="p">(</span><span class="n">Signal</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    <span class="n">unknown_state</span> <span class="o">=</span> <span class="s2">&quot;unknown&quot;</span>  <span class="c1"># cannot move to this position</span>
+
+    <span class="c1"># - - - - likely to override these methods in subclass - - - -</span>
+
+<div class="viewcode-block" id="ShutterBase.open"><a class="viewcode-back" href="../../../api/_devices.html#apstools.devices.shutters.ShutterBase.open">[docs]</a>    <span class="k">def</span> <span class="nf">open</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        BLOCKING: request shutter to open, called by ``set()``.</span>
+
+<span class="sd">        Must implement in subclass of ShutterBase()</span>
+
+<span class="sd">        EXAMPLE::</span>
+
+<span class="sd">            if not self.isOpen:</span>
+<span class="sd">                self.signal.put(self.open_value)</span>
+<span class="sd">                if self.delay_s &gt; 0:</span>
+<span class="sd">                    time.sleep(self.delay_s)    # blocking call OK here</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s2">&quot;must implement in subclass&quot;</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="ShutterBase.close"><a class="viewcode-back" href="../../../api/_devices.html#apstools.devices.shutters.ShutterBase.close">[docs]</a>    <span class="k">def</span> <span class="nf">close</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        BLOCKING: request shutter to close, called by ``set()``.</span>
+
+<span class="sd">        Must implement in subclass of ShutterBase()</span>
+
+<span class="sd">        EXAMPLE::</span>
+
+<span class="sd">            if not self.isClosed:</span>
+<span class="sd">                self.signal.put(self.close_value)</span>
+<span class="sd">                if self.delay_s &gt; 0:</span>
+<span class="sd">                    time.sleep(self.delay_s)    # blocking call OK here</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s2">&quot;must implement in subclass&quot;</span><span class="p">)</span></div>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">state</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        returns ``open``, ``close``, or ``unknown``</span>
+
+<span class="sd">        Must implement in subclass of ShutterBase()</span>
+
+<span class="sd">        EXAMPLE::</span>
+
+<span class="sd">            if self.signal.get() == self.open_value:</span>
+<span class="sd">                result = self.valid_open_values[0]</span>
+<span class="sd">            elif self.signal.get() == self.close_value:</span>
+<span class="sd">                result = self.valid_close_values[0]</span>
+<span class="sd">            else:</span>
+<span class="sd">                result = self.unknown_state</span>
+<span class="sd">            return result</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s2">&quot;must implement in subclass&quot;</span><span class="p">)</span>
+
+    <span class="c1"># - - - - - - possible to override in subclass - - - - - -</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">valid_open_values</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">lowerCaseString</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">valid_open_values</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">valid_close_values</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">lowerCaseString</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">valid_close_values</span><span class="p">))</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">isOpen</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;is the shutter open?&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="p">)</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">valid_open_values</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">isClosed</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;is the shutter closed?&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="p">)</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">valid_close_values</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+<div class="viewcode-block" id="ShutterBase.inPosition"><a class="viewcode-back" href="../../../api/_devices.html#apstools.devices.shutters.ShutterBase.inPosition">[docs]</a>    <span class="k">def</span> <span class="nf">inPosition</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">target</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;is the shutter at the target position?&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">validTarget</span><span class="p">(</span><span class="n">target</span><span class="p">)</span>
+        <span class="n">__value__</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">lowerCaseString</span><span class="p">(</span><span class="n">target</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">__value__</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">valid_open_values</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">isOpen</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">True</span>
+        <span class="k">elif</span> <span class="n">__value__</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">valid_close_values</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">isClosed</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">True</span>
+        <span class="k">return</span> <span class="kc">False</span></div>
+
+<div class="viewcode-block" id="ShutterBase.set"><a class="viewcode-back" href="../../../api/_devices.html#apstools.devices.shutters.ShutterBase.set">[docs]</a>    <span class="k">def</span> <span class="nf">set</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        plan: request the shutter to open or close</span>
+
+<span class="sd">        PARAMETERS</span>
+
+<span class="sd">        value</span>
+<span class="sd">            *str* :</span>
+<span class="sd">            any from ``self.choices`` (typically &quot;open&quot; or &quot;close&quot;)</span>
+
+<span class="sd">        kwargs</span>
+<span class="sd">            *dict* :</span>
+<span class="sd">            ignored at this time</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">busy</span><span class="o">.</span><span class="n">get</span><span class="p">():</span>
+            <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="s2">&quot;shutter is operating&quot;</span><span class="p">)</span>
+
+        <span class="n">__value__</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">lowerCaseString</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">validTarget</span><span class="p">(</span><span class="n">__value__</span><span class="p">)</span>
+
+        <span class="n">status</span> <span class="o">=</span> <span class="n">DeviceStatus</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">inPosition</span><span class="p">(</span><span class="n">__value__</span><span class="p">):</span>
+            <span class="c1"># no need to move, cut straight to the end</span>
+            <span class="n">status</span><span class="o">.</span><span class="n">_finished</span><span class="p">(</span><span class="n">success</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+
+            <span class="k">def</span> <span class="nf">move_it</span><span class="p">():</span>
+                <span class="c1"># runs in a thread, no need to &quot;yield from&quot;</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">busy</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">__value__</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">valid_open_values</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">open</span><span class="p">()</span>
+                <span class="k">elif</span> <span class="n">__value__</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">valid_close_values</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">busy</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
+                <span class="n">status</span><span class="o">.</span><span class="n">_finished</span><span class="p">(</span><span class="n">success</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+            <span class="c1"># get it moving</span>
+            <span class="n">threading</span><span class="o">.</span><span class="n">Thread</span><span class="p">(</span><span class="n">target</span><span class="o">=</span><span class="n">move_it</span><span class="p">,</span> <span class="n">daemon</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">status</span></div>
+
+    <span class="c1"># - - - - - - not likely to override in subclass - - - - - -</span>
+
+<div class="viewcode-block" id="ShutterBase.addCloseValue"><a class="viewcode-back" href="../../../api/_devices.html#apstools.devices.shutters.ShutterBase.addCloseValue">[docs]</a>    <span class="k">def</span> <span class="nf">addCloseValue</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">text</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;a synonym to close the shutter, use with set()&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">valid_close_values</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">lowerCaseString</span><span class="p">(</span><span class="n">text</span><span class="p">))</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">choices</span>  <span class="c1"># return the list of acceptable values</span></div>
+
+<div class="viewcode-block" id="ShutterBase.addOpenValue"><a class="viewcode-back" href="../../../api/_devices.html#apstools.devices.shutters.ShutterBase.addOpenValue">[docs]</a>    <span class="k">def</span> <span class="nf">addOpenValue</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">text</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;a synonym to open the shutter, use with set()&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">valid_open_values</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">lowerCaseString</span><span class="p">(</span><span class="n">text</span><span class="p">))</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">choices</span>  <span class="c1"># return the list of acceptable values</span></div>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">choices</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;return list of acceptable choices for set()&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">valid_open_values</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">valid_close_values</span>
+
+<div class="viewcode-block" id="ShutterBase.lowerCaseString"><a class="viewcode-back" href="../../../api/_devices.html#apstools.devices.shutters.ShutterBase.lowerCaseString">[docs]</a>    <span class="k">def</span> <span class="nf">lowerCaseString</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;ensure any given value is a lower-case string&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="nb">str</span><span class="p">(</span><span class="n">value</span><span class="p">)</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="ShutterBase.validTarget"><a class="viewcode-back" href="../../../api/_devices.html#apstools.devices.shutters.ShutterBase.validTarget">[docs]</a>    <span class="k">def</span> <span class="nf">validTarget</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">target</span><span class="p">,</span> <span class="n">should_raise</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        return whether (or not) target value is acceptable for self.set()</span>
+
+<span class="sd">        raise ValueError if not acceptable (default)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">acceptable_values</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">choices</span>
+        <span class="n">ok</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">lowerCaseString</span><span class="p">(</span><span class="n">target</span><span class="p">)</span> <span class="ow">in</span> <span class="n">acceptable_values</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">ok</span> <span class="ow">and</span> <span class="n">should_raise</span><span class="p">:</span>
+            <span class="n">msg</span> <span class="o">=</span> <span class="s2">&quot;received &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">target</span><span class="p">)</span>
+            <span class="n">msg</span> <span class="o">+=</span> <span class="s2">&quot; : should be only one of &quot;</span>
+            <span class="n">msg</span> <span class="o">+=</span> <span class="s2">&quot; | &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">acceptable_values</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">ok</span></div></div>
+
+
+<div class="viewcode-block" id="OneSignalShutter"><a class="viewcode-back" href="../../../api/_devices.html#apstools.devices.shutters.OneSignalShutter">[docs]</a><span class="k">class</span> <span class="nc">OneSignalShutter</span><span class="p">(</span><span class="n">ShutterBase</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Shutter Device using one Signal for open and close.</span>
+
+<span class="sd">    .. index:: Ophyd Device; OneSignalShutter</span>
+
+<span class="sd">    PARAMETERS</span>
+
+<span class="sd">    signal</span>
+<span class="sd">        ``EpicsSignal`` or ``Signal`` :</span>
+<span class="sd">        (override in subclass)</span>
+<span class="sd">        The ``signal`` is the comunication to the hardware.</span>
+<span class="sd">        In a subclass, the hardware may have more than</span>
+<span class="sd">        one communication channel to use.  See the</span>
+<span class="sd">        ``ApsPssShutter`` as an example.</span>
+
+<span class="sd">    name</span>
+<span class="sd">        *str* :</span>
+<span class="sd">        (kwarg, required) object&#39;s canonical name</span>
+
+<span class="sd">    See ``ShutterBase`` for more parameters.</span>
+
+<span class="sd">    EXAMPLE</span>
+
+<span class="sd">    Create a simulated shutter:</span>
+
+<span class="sd">        shutter = OneSignalShutter(name=&quot;shutter&quot;)</span>
+
+<span class="sd">    open the shutter (interactively):</span>
+
+<span class="sd">        shutter.open()</span>
+
+<span class="sd">    Check the shutter is open:</span>
+
+<span class="sd">        In [144]: shutter.isOpen</span>
+<span class="sd">        Out[144]: True</span>
+
+<span class="sd">    Use the shutter in a Bluesky plan.</span>
+<span class="sd">    Set a post-move delay time of 1.0 seconds.</span>
+<span class="sd">    Be sure to use ``yield from``, such as::</span>
+
+<span class="sd">        def in_a_plan(shutter):</span>
+<span class="sd">            shutter.delay_s = 1.0</span>
+<span class="sd">            t0 = time.time()</span>
+<span class="sd">            print(&quot;Shutter state: &quot; + shutter.state, time.time()-t0)</span>
+<span class="sd">            yield from bps.abs_set(shutter, &quot;open&quot;, wait=True)    # wait for completion is optional</span>
+<span class="sd">            print(&quot;Shutter state: &quot; + shutter.state, time.time()-t0)</span>
+<span class="sd">            yield from bps.mv(shutter, &quot;open&quot;)    # do it again</span>
+<span class="sd">            print(&quot;Shutter state: &quot; + shutter.state, time.time()-t0)</span>
+<span class="sd">            yield from bps.mv(shutter, &quot;close&quot;)    # ALWAYS waits for completion</span>
+<span class="sd">            print(&quot;Shutter state: &quot; + shutter.state, time.time()-t0)</span>
+
+<span class="sd">        RE(in_a_plan(shutter))</span>
+
+<span class="sd">    which gives this output:</span>
+
+<span class="sd">        Shutter state: close 1.7642974853515625e-05</span>
+<span class="sd">        Shutter state: open 1.0032124519348145</span>
+<span class="sd">        Shutter state: open 1.0057861804962158</span>
+<span class="sd">        Shutter state: close 2.009695529937744</span>
+
+<span class="sd">    The strings accepted by `set()` are defined in two lists:</span>
+<span class="sd">    `valid_open_values` and `valid_close_values`.  These lists</span>
+<span class="sd">    are treated (internally to `set()`) as lower case strings.</span>
+
+<span class="sd">    Example, add &quot;o&quot; &amp; &quot;x&quot; as aliases for &quot;open&quot; &amp; &quot;close&quot;:</span>
+
+<span class="sd">        shutter.addOpenValue(&quot;o&quot;)</span>
+<span class="sd">        shutter.addCloseValue(&quot;x&quot;)</span>
+<span class="sd">        shutter.set(&quot;o&quot;)</span>
+<span class="sd">        shutter.set(&quot;x&quot;)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">signal</span> <span class="o">=</span> <span class="n">Component</span><span class="p">(</span><span class="n">Signal</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">state</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;is shutter &quot;open&quot;, &quot;close&quot;, or &quot;unknown&quot;?&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">signal</span><span class="o">.</span><span class="n">get</span><span class="p">()</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">open_value</span><span class="p">:</span>
+            <span class="n">result</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">valid_open_values</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">signal</span><span class="o">.</span><span class="n">get</span><span class="p">()</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">close_value</span><span class="p">:</span>
+            <span class="n">result</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">valid_close_values</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">result</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">unknown_state</span>
+        <span class="k">return</span> <span class="n">result</span>
+
+<div class="viewcode-block" id="OneSignalShutter.open"><a class="viewcode-back" href="../../../api/_devices.html#apstools.devices.shutters.OneSignalShutter.open">[docs]</a>    <span class="k">def</span> <span class="nf">open</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;BLOCKING: request shutter to open, called by set()&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">isOpen</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">signal</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">open_value</span><span class="p">)</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">delay_s</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">delay_s</span><span class="p">)</span>  <span class="c1"># blocking call OK here</span></div>
+
+<div class="viewcode-block" id="OneSignalShutter.close"><a class="viewcode-back" href="../../../api/_devices.html#apstools.devices.shutters.OneSignalShutter.close">[docs]</a>    <span class="k">def</span> <span class="nf">close</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;BLOCKING: request shutter to close, called by set()&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">isClosed</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">signal</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">close_value</span><span class="p">)</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">delay_s</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">delay_s</span><span class="p">)</span>  <span class="c1"># blocking call OK here</span></div></div>
+
+
+<div class="viewcode-block" id="ApsPssShutter"><a class="viewcode-back" href="../../../api/_devices.html#apstools.devices.shutters.ApsPssShutter">[docs]</a><span class="k">class</span> <span class="nc">ApsPssShutter</span><span class="p">(</span><span class="n">ShutterBase</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    APS PSS shutter</span>
+
+<span class="sd">    .. index:: Ophyd Device; ApsPssShutter</span>
+
+<span class="sd">    * APS PSS shutters have separate bit PVs for open and close</span>
+<span class="sd">    * set either bit, the shutter moves, and the bit resets a short time later</span>
+<span class="sd">    * no indication that the shutter has actually moved from the bits</span>
+<span class="sd">      (see :func:`ApsPssShutterWithStatus()` for alternative)</span>
+
+<span class="sd">    Since there is no direct indication that a shutter has moved, the</span>
+<span class="sd">    ``state`` property will always return *unknown* and the</span>
+<span class="sd">    ``isOpen`` and ``isClosed`` properties will always return *False*.</span>
+
+<span class="sd">    A consequence of the unknown state is that the shutter will always</span>
+<span class="sd">    be commanded to move (and wait the ``delay_s`` time),</span>
+<span class="sd">    even if it is already at that position.  This device could keep</span>
+<span class="sd">    track of the last commanded position, but that is not guaranteed</span>
+<span class="sd">    to be true since the shutter could be moved from other software.</span>
+
+<span class="sd">    The default ``delay_s`` has been set at *1.2 s* to allow for</span>
+<span class="sd">    shutter motion.  Change this as desired.  Advise if this</span>
+<span class="sd">    default should be changed.</span>
+
+<span class="sd">    PARAMETERS</span>
+
+<span class="sd">    prefix</span>
+<span class="sd">        *str* :</span>
+<span class="sd">        EPICS PV prefix</span>
+
+<span class="sd">    name</span>
+<span class="sd">        *str* :</span>
+<span class="sd">        (kwarg, required) object&#39;s canonical name</span>
+
+<span class="sd">    close_pv</span>
+<span class="sd">        *str* :</span>
+<span class="sd">        (kwarg, optional) Name of EPICS PV to close the shutter.</span>
+<span class="sd">        If ``None``, defaults to ``&quot;{prefix}Close&quot;``.</span>
+
+<span class="sd">    open_pv</span>
+<span class="sd">        *str* :</span>
+<span class="sd">        (kwarg, optional) Name of EPICS PV to open the shutter.</span>
+<span class="sd">        If ``None``, defaults to ``&quot;{prefix}Open&quot;``.</span>
+
+<span class="sd">    EXAMPLE::</span>
+
+<span class="sd">        shutter_a = ApsPssShutter(&quot;2bma:A_shutter:&quot;, name=&quot;shutter&quot;)</span>
+<span class="sd">        shutter_a.wait_for_connection()</span>
+
+<span class="sd">        shutter_a.open()</span>
+<span class="sd">        shutter_a.close()</span>
+
+<span class="sd">        shutter_a.set(&quot;open&quot;)</span>
+<span class="sd">        shutter_a.set(&quot;close&quot;)</span>
+
+<span class="sd">    When using the shutter in a plan, be sure to use ``yield from``, such as::</span>
+
+<span class="sd">        def in_a_plan(shutter):</span>
+<span class="sd">            yield from abs_set(shutter, &quot;open&quot;, wait=True)</span>
+<span class="sd">            # do something</span>
+<span class="sd">            yield from abs_set(shutter, &quot;close&quot;, wait=True)</span>
+
+<span class="sd">        RE(in_a_plan(shutter_a))</span>
+
+<span class="sd">    The strings accepted by `set()` are defined in two lists:</span>
+<span class="sd">    `valid_open_values` and `valid_close_values`.  These lists</span>
+<span class="sd">    are treated (internally to `set()`) as lower case strings.</span>
+
+<span class="sd">    Example, add &quot;o&quot; &amp; &quot;x&quot; as aliases for &quot;open&quot; &amp; &quot;close&quot;:</span>
+
+<span class="sd">        shutter_a.addOpenValue(&quot;o&quot;)</span>
+<span class="sd">        shutter_a.addCloseValue(&quot;x&quot;)</span>
+<span class="sd">        shutter_a.set(&quot;o&quot;)</span>
+<span class="sd">        shutter_a.set(&quot;x&quot;)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1"># bo records that reset after a short time, set to 1 to move</span>
+    <span class="c1"># note: upper-case first characters here (unique to 9-ID)?</span>
+    <span class="n">open_signal</span> <span class="o">=</span> <span class="n">FormattedComponent</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">&quot;</span><span class="si">{self.open_pv}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="n">close_signal</span> <span class="o">=</span> <span class="n">FormattedComponent</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">&quot;</span><span class="si">{self.close_pv}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="n">delay_s</span> <span class="o">=</span> <span class="mf">1.2</span>  <span class="c1"># allow time for shutter to move</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">prefix</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="n">close_pv</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">open_pv</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">open_pv</span> <span class="o">=</span> <span class="n">open_pv</span> <span class="ow">or</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">prefix</span><span class="si">}</span><span class="s2">Open&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">close_pv</span> <span class="o">=</span> <span class="n">close_pv</span> <span class="ow">or</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">prefix</span><span class="si">}</span><span class="s2">Close&quot;</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">prefix</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">state</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;is shutter &quot;open&quot;, &quot;close&quot;, or &quot;unknown&quot;?&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">unknown_state</span>  <span class="c1"># no state info available</span>
+
+<div class="viewcode-block" id="ApsPssShutter.open"><a class="viewcode-back" href="../../../api/_devices.html#apstools.devices.shutters.ApsPssShutter.open">[docs]</a>    <span class="k">def</span> <span class="nf">open</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">timeout</span><span class="o">=</span><span class="mi">10</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;request the shutter to open (timeout is ignored)&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">isOpen</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">open_signal</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+
+            <span class="c1"># wait for the shutter to move</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">delay_s</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">delay_s</span><span class="p">)</span>  <span class="c1"># blocking call OK here</span>
+
+            <span class="c1"># reset that signal (if not done by EPICS)</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">open_signal</span><span class="o">.</span><span class="n">get</span><span class="p">()</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">open_signal</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="ApsPssShutter.close"><a class="viewcode-back" href="../../../api/_devices.html#apstools.devices.shutters.ApsPssShutter.close">[docs]</a>    <span class="k">def</span> <span class="nf">close</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">timeout</span><span class="o">=</span><span class="mi">10</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;request the shutter to close (timeout is ignored)&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">isClosed</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">close_signal</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+
+            <span class="c1"># wait for the shutter to move</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">delay_s</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">delay_s</span><span class="p">)</span>  <span class="c1"># blocking call OK here</span>
+
+            <span class="c1"># reset that signal (if not done by EPICS)</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">close_signal</span><span class="o">.</span><span class="n">get</span><span class="p">()</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">close_signal</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span></div></div>
+
+
+<div class="viewcode-block" id="ApsPssShutterWithStatus"><a class="viewcode-back" href="../../../api/_devices.html#apstools.devices.shutters.ApsPssShutterWithStatus">[docs]</a><span class="k">class</span> <span class="nc">ApsPssShutterWithStatus</span><span class="p">(</span><span class="n">ApsPssShutter</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    APS PSS shutter with separate status PV</span>
+
+<span class="sd">    .. index:: Ophyd Device; ApsPssShutterWithStatus</span>
+
+<span class="sd">    * APS PSS shutters have separate bit PVs for open and close</span>
+<span class="sd">    * set either bit, the shutter moves, and the bit resets a short time later</span>
+<span class="sd">    * a separate status PV tells if the shutter is open or closed</span>
+<span class="sd">      (see :func:`ApsPssShutter()` for alternative)</span>
+
+<span class="sd">    PARAMETERS</span>
+
+<span class="sd">    prefix</span>
+<span class="sd">        *str* :</span>
+<span class="sd">        EPICS PV prefix</span>
+
+<span class="sd">    state_pv</span>
+<span class="sd">        *str* :</span>
+<span class="sd">        Name of EPICS PV that provides shutter&#39;s current state.</span>
+
+<span class="sd">    name</span>
+<span class="sd">        *str* :</span>
+<span class="sd">        (kwarg, required) object&#39;s canonical name</span>
+
+<span class="sd">    EXAMPLE::</span>
+
+<span class="sd">        A_shutter = ApsPssShutterWithStatus(</span>
+<span class="sd">            &quot;2bma:A_shutter:&quot;,</span>
+<span class="sd">            &quot;PA:02BM:STA_A_FES_OPEN_PL&quot;,</span>
+<span class="sd">            name=&quot;A_shutter&quot;)</span>
+<span class="sd">        B_shutter = ApsPssShutterWithStatus(</span>
+<span class="sd">            &quot;2bma:B_shutter:&quot;,</span>
+<span class="sd">            &quot;PA:02BM:STA_B_SBS_OPEN_PL&quot;,</span>
+<span class="sd">            name=&quot;B_shutter&quot;)</span>
+<span class="sd">        A_shutter.wait_for_connection()</span>
+<span class="sd">        B_shutter.wait_for_connection()</span>
+
+<span class="sd">        A_shutter.open()</span>
+<span class="sd">        A_shutter.close()</span>
+
+<span class="sd">        or</span>
+
+<span class="sd">        A_shutter.set(&quot;open&quot;)</span>
+<span class="sd">        A_shutter.set(&quot;close&quot;)</span>
+
+<span class="sd">    When using the shutter in a plan, be sure to use `yield from`.</span>
+
+<span class="sd">        def in_a_plan(shutter):</span>
+<span class="sd">            yield from abs_set(shutter, &quot;open&quot;, wait=True)</span>
+<span class="sd">            # do something</span>
+<span class="sd">            yield from abs_set(shutter, &quot;close&quot;, wait=True)</span>
+
+<span class="sd">        RE(in_a_plan(A_shutter))</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1"># bi record ZNAM=OFF, ONAM=ON</span>
+    <span class="n">pss_state</span> <span class="o">=</span> <span class="n">FormattedComponent</span><span class="p">(</span><span class="n">EpicsSignalRO</span><span class="p">,</span> <span class="s2">&quot;</span><span class="si">{self.state_pv}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="n">pss_state_open_values</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+    <span class="n">pss_state_closed_values</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+    <span class="n">delay_s</span> <span class="o">=</span> <span class="mi">0</span>  <span class="c1"># let caller add time after the move</span>
+
+    <span class="n">_poll_factor_</span> <span class="o">=</span> <span class="mf">1.5</span>
+    <span class="n">_poll_s_min_</span> <span class="o">=</span> <span class="mf">0.002</span>
+    <span class="n">_poll_s_max_</span> <span class="o">=</span> <span class="mf">0.15</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">prefix</span><span class="p">,</span> <span class="n">state_pv</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">state_pv</span> <span class="o">=</span> <span class="n">state_pv</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">prefix</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">state</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;is shutter &quot;open&quot;, &quot;close&quot;, or &quot;unknown&quot;?&quot;&quot;&quot;</span>
+        <span class="c1"># update the list of acceptable values - very inefficient but works</span>
+        <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">pss_state</span><span class="o">.</span><span class="n">enum_strs</span><span class="p">[</span><span class="mi">1</span><span class="p">]:</span>
+            <span class="k">if</span> <span class="n">item</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">pss_state_open_values</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">pss_state_open_values</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">item</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">pss_state</span><span class="o">.</span><span class="n">enum_strs</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span>
+            <span class="k">if</span> <span class="n">item</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">pss_state_closed_values</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">pss_state_closed_values</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">item</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">pss_state</span><span class="o">.</span><span class="n">get</span><span class="p">()</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">pss_state_open_values</span><span class="p">:</span>
+            <span class="n">result</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">valid_open_values</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">pss_state</span><span class="o">.</span><span class="n">get</span><span class="p">()</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">pss_state_closed_values</span><span class="p">:</span>
+            <span class="n">result</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">valid_close_values</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">result</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">unknown_state</span>
+        <span class="k">return</span> <span class="n">result</span>
+
+<div class="viewcode-block" id="ApsPssShutterWithStatus.wait_for_state"><a class="viewcode-back" href="../../../api/_devices.html#apstools.devices.shutters.ApsPssShutterWithStatus.wait_for_state">[docs]</a>    <span class="k">def</span> <span class="nf">wait_for_state</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">target</span><span class="p">,</span> <span class="n">timeout</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">poll_s</span><span class="o">=</span><span class="mf">0.01</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        wait for the PSS state to reach a desired target</span>
+
+<span class="sd">        PARAMETERS</span>
+
+<span class="sd">        (kwarg, optional) Name of EPICS PV to close the shutter.</span>
+<span class="sd">        If ``None``, defaults to ``&quot;{prefix}Close&quot;``.</span>
+
+<span class="sd">        target</span>
+<span class="sd">            *[str]* :</span>
+<span class="sd">            list of strings containing acceptable values</span>
+
+<span class="sd">        timeout</span>
+<span class="sd">            *non-negative number* :</span>
+<span class="sd">            (kwarg, optional) Maximum amount of time (seconds) to wait for PSS</span>
+<span class="sd">            state to reach target. If ``None``, defaults to ``10``.</span>
+
+<span class="sd">        poll_s</span>
+<span class="sd">            *non-negative number* :</span>
+<span class="sd">            (kwarg, optional) Time to wait (seconds) in first polling cycle.</span>
+<span class="sd">            After first poll, this will be increased by ``_poll_factor_``</span>
+<span class="sd">            up to a maximum time of ``_poll_s_max_``.</span>
+<span class="sd">            If ``None``, defaults to ``0.01``.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">timeout</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">expiration</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span> <span class="o">+</span> <span class="nb">max</span><span class="p">(</span><span class="n">timeout</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>  <span class="c1"># ensure non-negative timeout</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">expiration</span> <span class="o">=</span> <span class="kc">None</span>
+
+        <span class="c1"># ensure the poll delay is reasonable</span>
+        <span class="k">if</span> <span class="n">poll_s</span> <span class="o">&gt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">_poll_s_max_</span><span class="p">:</span>
+            <span class="n">poll_s</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_poll_s_max_</span>
+        <span class="k">elif</span> <span class="n">poll_s</span> <span class="o">&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">_poll_s_min_</span><span class="p">:</span>
+            <span class="n">poll_s</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_poll_s_min_</span>
+
+        <span class="k">while</span> <span class="bp">self</span><span class="o">.</span><span class="n">pss_state</span><span class="o">.</span><span class="n">get</span><span class="p">()</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">target</span><span class="p">:</span>
+            <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="n">poll_s</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">poll_s</span> <span class="o">&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">_poll_s_max_</span><span class="p">:</span>
+                <span class="n">poll_s</span> <span class="o">*=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_poll_factor_</span>  <span class="c1"># progressively longer</span>
+            <span class="k">if</span> <span class="n">expiration</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span> <span class="o">&gt;</span> <span class="n">expiration</span><span class="p">:</span>
+                <span class="n">msg</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;Timeout (</span><span class="si">{</span><span class="n">timeout</span><span class="si">}</span><span class="s2"> s) waiting for shutter state&quot;</span>
+                <span class="n">msg</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">&quot; to reach a value in </span><span class="si">{</span><span class="n">target</span><span class="si">}</span><span class="s2">&quot;</span>
+                <span class="k">raise</span> <span class="ne">TimeoutError</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="ApsPssShutterWithStatus.open"><a class="viewcode-back" href="../../../api/_devices.html#apstools.devices.shutters.ApsPssShutterWithStatus.open">[docs]</a>    <span class="k">def</span> <span class="nf">open</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">timeout</span><span class="o">=</span><span class="mi">10</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;request the shutter to open&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">isOpen</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">open_signal</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+
+            <span class="c1"># wait for the shutter to move</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">wait_for_state</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">pss_state_open_values</span><span class="p">,</span> <span class="n">timeout</span><span class="o">=</span><span class="n">timeout</span><span class="p">)</span>
+
+            <span class="c1"># wait as caller specified</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">delay_s</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">delay_s</span><span class="p">)</span>  <span class="c1"># blocking call OK here</span>
+
+            <span class="c1"># reset that signal (if not done by EPICS)</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">open_signal</span><span class="o">.</span><span class="n">get</span><span class="p">()</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">open_signal</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="ApsPssShutterWithStatus.close"><a class="viewcode-back" href="../../../api/_devices.html#apstools.devices.shutters.ApsPssShutterWithStatus.close">[docs]</a>    <span class="k">def</span> <span class="nf">close</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">timeout</span><span class="o">=</span><span class="mi">10</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;request the shutter to close&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">isClosed</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">close_signal</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+
+            <span class="c1"># wait for the shutter to move</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">wait_for_state</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">pss_state_closed_values</span><span class="p">,</span> <span class="n">timeout</span><span class="o">=</span><span class="n">timeout</span><span class="p">)</span>
+
+            <span class="c1"># wait as caller specified</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">delay_s</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">delay_s</span><span class="p">)</span>  <span class="c1"># blocking call OK here</span>
+
+            <span class="c1"># reset that signal (if not done by EPICS)</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">close_signal</span><span class="o">.</span><span class="n">get</span><span class="p">()</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">close_signal</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span></div></div>
+
+
+<div class="viewcode-block" id="SimulatedApsPssShutterWithStatus"><a class="viewcode-back" href="../../../api/_devices.html#apstools.devices.shutters.SimulatedApsPssShutterWithStatus">[docs]</a><span class="k">class</span> <span class="nc">SimulatedApsPssShutterWithStatus</span><span class="p">(</span><span class="n">ApsPssShutterWithStatus</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Simulated APS PSS shutter</span>
+
+<span class="sd">    .. index:: Ophyd Device; SimulatedApsPssShutterWithStatus</span>
+
+<span class="sd">    PARAMETERS</span>
+
+<span class="sd">    prefix</span>
+<span class="sd">        *str* :</span>
+<span class="sd">        EPICS PV prefix</span>
+
+<span class="sd">    name</span>
+<span class="sd">        *str* :</span>
+<span class="sd">        (kwarg, required) object&#39;s canonical name</span>
+
+<span class="sd">    EXAMPLE::</span>
+
+<span class="sd">        sim = SimulatedApsPssShutterWithStatus(name=&quot;sim&quot;)</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">open_signal</span> <span class="o">=</span> <span class="n">Component</span><span class="p">(</span><span class="n">Signal</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+    <span class="n">close_signal</span> <span class="o">=</span> <span class="n">Component</span><span class="p">(</span><span class="n">Signal</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+    <span class="n">pss_state</span> <span class="o">=</span> <span class="n">FormattedComponent</span><span class="p">(</span><span class="n">Signal</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="s2">&quot;close&quot;</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="c1"># was: super(ApsPssShutter, self).__init__(&quot;&quot;, *args, **kwargs)</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">SimulatedApsPssShutterWithStatus</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">pss_state_open_values</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">valid_open_values</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">pss_state_closed_values</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">valid_close_values</span>
+
+<div class="viewcode-block" id="SimulatedApsPssShutterWithStatus.wait_for_state"><a class="viewcode-back" href="../../../api/_devices.html#apstools.devices.shutters.SimulatedApsPssShutterWithStatus.wait_for_state">[docs]</a>    <span class="k">def</span> <span class="nf">wait_for_state</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">target</span><span class="p">,</span> <span class="n">timeout</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">poll_s</span><span class="o">=</span><span class="mf">0.01</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        wait for the PSS state to reach a desired target</span>
+
+<span class="sd">        PARAMETERS</span>
+
+<span class="sd">        target</span>
+<span class="sd">            *[str]* :</span>
+<span class="sd">            list of strings containing acceptable values</span>
+
+<span class="sd">        timeout</span>
+<span class="sd">            *non-negative number* :</span>
+<span class="sd">            Ignored in the simulation.</span>
+
+<span class="sd">        poll_s</span>
+<span class="sd">            *non-negative number* :</span>
+<span class="sd">            Ignored in the simulation.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">simulated_response_time_s</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="mf">0.1</span><span class="p">,</span> <span class="mf">0.9</span><span class="p">)</span>
+        <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="n">simulated_response_time_s</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">pss_state</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="n">target</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span></div>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">state</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;is shutter &quot;open&quot;, &quot;close&quot;, or &quot;unknown&quot;?&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">pss_state</span><span class="o">.</span><span class="n">get</span><span class="p">()</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">pss_state_open_values</span><span class="p">:</span>
+            <span class="n">result</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">valid_open_values</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">pss_state</span><span class="o">.</span><span class="n">get</span><span class="p">()</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">pss_state_closed_values</span><span class="p">:</span>
+            <span class="n">result</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">valid_close_values</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">result</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">unknown_state</span>
+        <span class="k">return</span> <span class="n">result</span></div>
+
+
+<div class="viewcode-block" id="EpicsMotorShutter"><a class="viewcode-back" href="../../../api/_devices.html#apstools.devices.shutters.EpicsMotorShutter">[docs]</a><span class="k">class</span> <span class="nc">EpicsMotorShutter</span><span class="p">(</span><span class="n">OneSignalShutter</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Shutter, implemented with an EPICS motor moved between two positions</span>
+
+<span class="sd">    .. index:: Ophyd Device; EpicsMotorShutter</span>
+
+<span class="sd">    PARAMETERS</span>
+
+<span class="sd">    prefix</span>
+<span class="sd">        *str* :</span>
+<span class="sd">        EPICS PV prefix</span>
+
+<span class="sd">    name</span>
+<span class="sd">        *str* :</span>
+<span class="sd">        (kwarg, required) object&#39;s canonical name</span>
+
+<span class="sd">    EXAMPLE::</span>
+
+<span class="sd">        tomo_shutter = EpicsMotorShutter(&quot;2bma:m23&quot;, name=&quot;tomo_shutter&quot;)</span>
+<span class="sd">        tomo_shutter.wait_for_connection()</span>
+<span class="sd">        tomo_shutter.close_value = 1.0      # default</span>
+<span class="sd">        tomo_shutter.open_value = 0.0       # default</span>
+<span class="sd">        tomo_shutter.tolerance = 0.01       # default</span>
+<span class="sd">        tomo_shutter.open()</span>
+<span class="sd">        tomo_shutter.close()</span>
+
+<span class="sd">        # or, when used in a plan</span>
+<span class="sd">        def planA():</span>
+<span class="sd">            yield from abs_set(tomo_shutter, &quot;open&quot;, group=&quot;O&quot;)</span>
+<span class="sd">            yield from wait(&quot;O&quot;)</span>
+<span class="sd">            yield from abs_set(tomo_shutter, &quot;close&quot;, group=&quot;X&quot;)</span>
+<span class="sd">            yield from wait(&quot;X&quot;)</span>
+<span class="sd">        def planA():</span>
+<span class="sd">            yield from abs_set(tomo_shutter, &quot;open&quot;, wait=True)</span>
+<span class="sd">            yield from abs_set(tomo_shutter, &quot;close&quot;, wait=True)</span>
+<span class="sd">        def planA():</span>
+<span class="sd">            yield from mv(tomo_shutter, &quot;open&quot;)</span>
+<span class="sd">            yield from mv(tomo_shutter, &quot;close&quot;)</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">signal</span> <span class="o">=</span> <span class="n">Component</span><span class="p">(</span><span class="n">EpicsMotor</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span>
+    <span class="n">tolerance</span> <span class="o">=</span> <span class="mf">0.01</span>  <span class="c1"># how close is considered in-position?</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">state</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;is shutter &quot;open&quot;, &quot;close&quot;, or &quot;unknown&quot;?&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="nb">abs</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">signal</span><span class="o">.</span><span class="n">user_readback</span><span class="o">.</span><span class="n">get</span><span class="p">()</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">open_value</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="bp">self</span><span class="o">.</span><span class="n">tolerance</span><span class="p">:</span>
+            <span class="n">result</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">valid_open_values</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="k">elif</span> <span class="nb">abs</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">signal</span><span class="o">.</span><span class="n">user_readback</span><span class="o">.</span><span class="n">get</span><span class="p">()</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">close_value</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="bp">self</span><span class="o">.</span><span class="n">tolerance</span><span class="p">:</span>
+            <span class="n">result</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">valid_close_values</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">result</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">unknown_state</span>
+        <span class="k">return</span> <span class="n">result</span>
+
+<div class="viewcode-block" id="EpicsMotorShutter.open"><a class="viewcode-back" href="../../../api/_devices.html#apstools.devices.shutters.EpicsMotorShutter.open">[docs]</a>    <span class="k">def</span> <span class="nf">open</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;move motor to BEAM NOT BLOCKED position, interactive use&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">isOpen</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">signal</span><span class="o">.</span><span class="n">move</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">open_value</span><span class="p">)</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">delay_s</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">delay_s</span><span class="p">)</span>  <span class="c1"># blocking call OK here</span></div>
+
+<div class="viewcode-block" id="EpicsMotorShutter.close"><a class="viewcode-back" href="../../../api/_devices.html#apstools.devices.shutters.EpicsMotorShutter.close">[docs]</a>    <span class="k">def</span> <span class="nf">close</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;move motor to BEAM BLOCKED position, interactive use&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">signal</span><span class="o">.</span><span class="n">move</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">close_value</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">isClosed</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">signal</span><span class="o">.</span><span class="n">move</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">close_value</span><span class="p">)</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">delay_s</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">delay_s</span><span class="p">)</span>  <span class="c1"># blocking call OK here</span></div></div>
+
+
+<div class="viewcode-block" id="EpicsOnOffShutter"><a class="viewcode-back" href="../../../api/_devices.html#apstools.devices.shutters.EpicsOnOffShutter">[docs]</a><span class="k">class</span> <span class="nc">EpicsOnOffShutter</span><span class="p">(</span><span class="n">OneSignalShutter</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Shutter using a single EPICS PV moved between two positions</span>
+
+<span class="sd">    .. index:: Ophyd Device; EpicsOnOffShutter</span>
+
+<span class="sd">    Use for a shutter controlled by a single PV which takes a</span>
+<span class="sd">    value for the close command and a different value for the open command.</span>
+<span class="sd">    The current position is determined by comparing the value of the control</span>
+<span class="sd">    with the expected open and close values.</span>
+
+<span class="sd">    PARAMETERS</span>
+
+<span class="sd">    prefix</span>
+<span class="sd">        *str* :</span>
+<span class="sd">        EPICS PV prefix</span>
+
+<span class="sd">    name</span>
+<span class="sd">        *str* :</span>
+<span class="sd">        (kwarg, required) object&#39;s canonical name</span>
+
+<span class="sd">    EXAMPLE::</span>
+
+<span class="sd">        bit_shutter = EpicsOnOffShutter(&quot;2bma:bit1&quot;, name=&quot;bit_shutter&quot;)</span>
+<span class="sd">        bit_shutter.wait_for_connection()</span>
+<span class="sd">        bit_shutter.close_value = 0      # default</span>
+<span class="sd">        bit_shutter.open_value = 1       # default</span>
+<span class="sd">        bit_shutter.open()</span>
+<span class="sd">        bit_shutter.close()</span>
+
+<span class="sd">        # or, when used in a plan</span>
+<span class="sd">        def planA():</span>
+<span class="sd">            yield from mv(bit_shutter, &quot;open&quot;)</span>
+<span class="sd">            yield from mv(bit_shutter, &quot;close&quot;)</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">signal</span> <span class="o">=</span> <span class="n">Component</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span></div>
+
+
+<span class="c1"># -----------------------------------------------------------------------------</span>
+<span class="c1"># :author:    Pete R. Jemian</span>
+<span class="c1"># :email:     jemian@anl.gov</span>
+<span class="c1"># :copyright: (c) 2017-2024, UChicago Argonne, LLC</span>
+<span class="c1">#</span>
+<span class="c1"># Distributed under the terms of the Argonne National Laboratory Open Source License.</span>
+<span class="c1">#</span>
+<span class="c1"># The full license is in the file LICENSE.txt, distributed with this software.</span>
+<span class="c1"># -----------------------------------------------------------------------------</span>
+</pre></div>
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+
+  <p class="copyright">
+    
+      © Copyright 2017-2024, UChicago Argonne, LLC.
+      <br/>
+    
+  </p>
+</div>
+      
+        <div class="footer-item">
+
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 5.3.0.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item">
+<p class="theme-version">
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.15.4.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

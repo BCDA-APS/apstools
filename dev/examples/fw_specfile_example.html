@@ -1,0 +1,1620 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Output scan(s) to a SPEC data file. &#8212; apstools 1.7</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="../_static/graphviz.css?v=4ae1632d" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.8ecb98da25f57f5357bf6f572d296f466b2cfe2517ffebfabe82451661e28f02.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../_static/css/custom.css?v=8b12e3de" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+
+    <script src="../_static/documentation_options.js?v=23a1f915"></script>
+    <script src="../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'examples/fw_specfile_example';</script>
+    <script>
+        DOCUMENTATION_OPTIONS.theme_version = '0.16.1';
+        DOCUMENTATION_OPTIONS.theme_switcher_json_url = 'https://raw.githubusercontent.com/BCDA-APS/apstools/main/docs/source/_static/switcher.json';
+        DOCUMENTATION_OPTIONS.theme_switcher_version_match = 'dev';
+        DOCUMENTATION_OPTIONS.show_version_warning_banner =
+            false;
+        </script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="How-To Examples" href="howto_examples.html" />
+    <link rel="prev" title="Callback" href="fw_nxwriter.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="1.7" />
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-3 navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../index.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">apstools 1.7</p>
+  
+</a></div>
+    
+      <div class="navbar-item">
+<div class="version-switcher__container dropdown pst-js-only">
+  <button id="pst-version-switcher-button-2"
+    type="button"
+    class="version-switcher__button btn btn-sm dropdown-toggle"
+    data-bs-toggle="dropdown"
+    aria-haspopup="listbox"
+    aria-controls="pst-version-switcher-list-2"
+    aria-label="Version switcher list"
+  >
+    Choose version  <!-- this text may get changed later by javascript -->
+    <span class="caret"></span>
+  </button>
+  <div id="pst-version-switcher-list-2"
+    class="version-switcher__menu dropdown-menu list-group-flush py-0"
+    role="listbox" aria-labelledby="pst-version-switcher-button-2">
+    <!-- dropdown will be populated by javascript on page load -->
+  </div>
+</div></div>
+    
+  </div>
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../install.html">
+    Installation
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../api/index.html">
+    API Documentation
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../applications/index.html">
+    Applications
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="index.html">
+    Examples
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../changes.html">
+    Change History
+  </a>
+</li>
+
+            <li class="nav-item dropdown">
+                <button class="btn dropdown-toggle nav-item" type="button"
+                data-bs-toggle="dropdown" aria-expanded="false"
+                aria-controls="pst-nav-more-links">
+                    More
+                </button>
+                <ul id="pst-nav-more-links" class="dropdown-menu">
+                    
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../license.html">
+    License
+  </a>
+</li>
+
+                </ul>
+            </li>
+            
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+        <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+      
+        <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/BCDA-APS/apstools" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../install.html">
+    Installation
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../api/index.html">
+    API Documentation
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../applications/index.html">
+    Applications
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="index.html">
+    Examples
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../changes.html">
+    Change History
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../license.html">
+    License
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+        
+          <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/BCDA-APS/apstools" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+        
+      </div>
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+<nav class="bd-docs-nav bd-links"
+     aria-label="Section Navigation">
+  <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
+  <div class="bd-toc-item navbar-nav"><ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="device_examples.html">Device Examples</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="de_0_adsim_hdf5_basic.html">Area Detector with default HDF5 File Name</a></li>
+<li class="toctree-l2"><a class="reference internal" href="de_1_adsim_hdf5_custom_names.html">Area Detector with custom HDF5 File Name</a></li>
+<li class="toctree-l2"><a class="reference internal" href="de_2_adsim_hdf5_single_mode.html">Area Detector, Single mode, HDF5 file</a></li>
+<li class="toctree-l2"><a class="reference internal" href="de_ad_pe.html">ADPerkinElmer Area Detector with default HDF5 File Name</a></li>
+<li class="toctree-l2"><a class="reference internal" href="de_ad_pilatus.html">ADPilatus Area Detector with default HDF5 File Name</a></li>
+<li class="toctree-l2"><a class="reference internal" href="de_aps_data_management.html">Integration with APS Data Management (DM)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="de_sscan.html">The synApps <code class="docutils literal notranslate"><span class="pre">sscan</span></code> and <code class="docutils literal notranslate"><span class="pre">SscanRecord</span></code></a></li>
+</ul>
+</details></li>
+</ul>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="filewriter_examples.html">File Writer Examples</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="fw_nxwriter.html">Callback</a></li>
+
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">Output scan(s) to a SPEC data file.</a></li>
+</ul>
+</details></li>
+</ul>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="howto_examples.html">How-To Examples</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="ho_contingency.html">How to interrupt/stop/abort a running plan &amp; recover to safe settings</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ho_list_control_objects.html">What are the objects to control?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ho_motor_factory.html">Grouping Motors with <code class="docutils literal notranslate"><span class="pre">mb_creator</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ho_motor_factory_quickstart.html">Quick Start: Grouping Motors with <code class="docutils literal notranslate"><span class="pre">mb_creator</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ho_nxwriter_templates.html">How to use NeXus/HDF5 Templates</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ho_search_databroker.html">How to Search for Bluesky Data?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ho_session_logs.html">How to setup logging</a></li>
+</ul>
+</details></li>
+</ul>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="plan_examples.html">Plan Examples</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="pl_excel_scan.html">The <code class="docutils literal notranslate"><span class="pre">Excel_plan()</span></code> – batch scans using a spreadsheet</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pl_lineup.html">The <code class="docutils literal notranslate"><span class="pre">lineup()</span></code> plan - align an axis with a signal</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pl_nscan.html">The <code class="docutils literal notranslate"><span class="pre">nscan()</span></code> plan – scan multiple axes together</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pl_run_command_list.html">The <code class="xref py py-func docutils literal notranslate"><span class="pre">run_command_file()</span></code> plan – batch scans using a text file</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pl_tuneaxis.html">The <code class="docutils literal notranslate"><span class="pre">TuneAxis()</span></code> plan - align an axis with a signal</a></li>
+</ul>
+</details></li>
+</ul>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="download_examples.html">File Downloads for the Examples</a></li>
+</ul>
+</div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+<nav aria-label="Breadcrumb" class="d-print-none">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="index.html" class="nav-link">Examples</a></li>
+    
+    
+    <li class="breadcrumb-item"><a href="filewriter_examples.html" class="nav-link">File Writer Examples</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">Output scan(s) to a SPEC data file.</span></li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section id="output-scan-s-to-a-spec-data-file">
+<h1>Output scan(s) to a SPEC data file.<a class="headerlink" href="#output-scan-s-to-a-spec-data-file" title="Link to this heading">#</a></h1>
+<p>One of the common concerns is how to access data from bluesky’s database.  The standard way is to replay the document stream from each of the scans through a bluesky callback that writes the data to the desired file format.  Here, we write data to the SPEC file format.</p>
+<section id="setup">
+<h2>Setup<a class="headerlink" href="#setup" title="Link to this heading">#</a></h2>
+<p>First, we must setup a bluesky session.  We create a <a class="reference external" href="https://blueskyproject.io/databroker/how-to/file-backed-catalog.html?highlight=temporary#temporary-catalog">temporary catalog</a> to store the data from this notebook’s data collection.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%</span><span class="k">matplotlib</span> inline
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ion</span><span class="p">()</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">bluesky</span><span class="w"> </span><span class="kn">import</span> <span class="n">RunEngine</span><span class="p">,</span> <span class="n">plans</span> <span class="k">as</span> <span class="n">bp</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">bluesky.callbacks.best_effort</span><span class="w"> </span><span class="kn">import</span> <span class="n">BestEffortCallback</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">databroker</span>
+
+<span class="n">cat</span> <span class="o">=</span> <span class="n">databroker</span><span class="o">.</span><span class="n">temp</span><span class="p">()</span>
+<span class="n">RE</span> <span class="o">=</span> <span class="n">RunEngine</span><span class="p">({})</span>
+<span class="n">RE</span><span class="o">.</span><span class="n">subscribe</span><span class="p">(</span><span class="n">cat</span><span class="o">.</span><span class="n">v1</span><span class="o">.</span><span class="n">insert</span><span class="p">)</span>
+<span class="n">RE</span><span class="o">.</span><span class="n">subscribe</span><span class="p">(</span><span class="n">BestEffortCallback</span><span class="p">())</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1
+</pre></div>
+</div>
+</div>
+</div>
+<p>SPEC data files usually contain a list of all the motor positions at the start of each scan.  Starting with apstools release 1.6.11, it became possible to have the list of all ophyd-labeled <code class="docutils literal notranslate"><span class="pre">motor</span></code> devices logged to a separate stream at the start of every scan.  The next configuration will create a <code class="docutils literal notranslate"><span class="pre">label_start_motor</span></code> stream with the positions.  The <code class="docutils literal notranslate"><span class="pre">SpecWriterCallback</span></code> will find this stream and record the motor names and values in the <code class="docutils literal notranslate"><span class="pre">#O</span></code> and <code class="docutils literal notranslate"><span class="pre">#P</span></code> control lines, respectively.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">apstools.plans</span><span class="w"> </span><span class="kn">import</span> <span class="n">label_stream_wrapper</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">motor_start_preprocessor</span><span class="p">(</span><span class="n">plan</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">label_stream_wrapper</span><span class="p">(</span><span class="n">plan</span><span class="p">,</span> <span class="s2">&quot;motor&quot;</span><span class="p">,</span> <span class="n">when</span><span class="o">=</span><span class="s2">&quot;start&quot;</span><span class="p">)</span>
+
+<span class="n">RE</span><span class="o">.</span><span class="n">preprocessors</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">motor_start_preprocessor</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>We need to create some scan data.  We’ll use Gaussian peak profile calculated in a <em>userCalc</em> (<code class="docutils literal notranslate"><span class="pre">swait</span></code> record) and a motor from our EPICS IOC simulator <code class="docutils literal notranslate"><span class="pre">gp:</span></code>.  Initialize the peak computation with some randomized parameters.  The peak will be at some <code class="docutils literal notranslate"><span class="pre">motor</span></code> position between -1 .. +1.  Print the actual values for our reference later on.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">apstools.devices</span><span class="w"> </span><span class="kn">import</span> <span class="n">UserCalcN</span><span class="p">,</span> <span class="n">setup_gaussian_swait</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">ophyd</span><span class="w"> </span><span class="kn">import</span> <span class="n">EpicsMotor</span><span class="p">,</span> <span class="n">EpicsSignal</span>
+
+<span class="n">IOC</span> <span class="o">=</span> <span class="s2">&quot;gp:&quot;</span>
+<span class="n">motor</span> <span class="o">=</span> <span class="n">EpicsMotor</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">IOC</span><span class="si">}</span><span class="s2">m1&quot;</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;motor&quot;</span><span class="p">,</span> <span class="n">labels</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;motor&quot;</span><span class="p">])</span>
+<span class="c1"># define some extra motors to demonstrate #O &amp; #P lines</span>
+<span class="n">omega</span> <span class="o">=</span> <span class="n">EpicsMotor</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">IOC</span><span class="si">}</span><span class="s2">m2&quot;</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;omega&quot;</span><span class="p">,</span> <span class="n">labels</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;motor&quot;</span><span class="p">])</span>
+<span class="n">chi</span> <span class="o">=</span> <span class="n">EpicsMotor</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">IOC</span><span class="si">}</span><span class="s2">m3&quot;</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;chi&quot;</span><span class="p">,</span> <span class="n">labels</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;motor&quot;</span><span class="p">])</span>
+<span class="n">phi</span> <span class="o">=</span> <span class="n">EpicsMotor</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">IOC</span><span class="si">}</span><span class="s2">m4&quot;</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;phi&quot;</span><span class="p">,</span> <span class="n">labels</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;motor&quot;</span><span class="p">])</span>
+<span class="n">ttheta</span> <span class="o">=</span> <span class="n">EpicsMotor</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">IOC</span><span class="si">}</span><span class="s2">m5&quot;</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;ttheta&quot;</span><span class="p">,</span> <span class="n">labels</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;motor&quot;</span><span class="p">])</span>
+<span class="n">atth</span> <span class="o">=</span> <span class="n">EpicsMotor</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">IOC</span><span class="si">}</span><span class="s2">m6&quot;</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;atth&quot;</span><span class="p">,</span> <span class="n">labels</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;motor&quot;</span><span class="p">])</span>
+<span class="n">mx</span> <span class="o">=</span> <span class="n">EpicsMotor</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">IOC</span><span class="si">}</span><span class="s2">m7&quot;</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;mx&quot;</span><span class="p">,</span> <span class="n">labels</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;motor&quot;</span><span class="p">])</span>
+<span class="n">my</span> <span class="o">=</span> <span class="n">EpicsMotor</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">IOC</span><span class="si">}</span><span class="s2">m8&quot;</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;my&quot;</span><span class="p">,</span> <span class="n">labels</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;motor&quot;</span><span class="p">])</span>
+<span class="n">mz</span> <span class="o">=</span> <span class="n">EpicsMotor</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">IOC</span><span class="si">}</span><span class="s2">m9&quot;</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;mz&quot;</span><span class="p">,</span> <span class="n">labels</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;motor&quot;</span><span class="p">])</span>
+<span class="n">swait</span> <span class="o">=</span> <span class="n">UserCalcN</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">IOC</span><span class="si">}</span><span class="s2">userCalc1&quot;</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;swait&quot;</span><span class="p">)</span>
+<span class="n">det</span> <span class="o">=</span> <span class="n">EpicsSignal</span><span class="p">(</span><span class="n">swait</span><span class="o">.</span><span class="n">calculated_value</span><span class="o">.</span><span class="n">pvname</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;det&quot;</span><span class="p">)</span>
+
+<span class="n">motor</span><span class="o">.</span><span class="n">wait_for_connection</span><span class="p">()</span>
+<span class="n">swait</span><span class="o">.</span><span class="n">wait_for_connection</span><span class="p">()</span>
+<span class="n">det</span><span class="o">.</span><span class="n">wait_for_connection</span><span class="p">()</span>
+
+<span class="n">setup_gaussian_swait</span><span class="p">(</span>
+    <span class="n">swait</span><span class="p">,</span> <span class="n">motor</span><span class="o">.</span><span class="n">user_readback</span><span class="p">,</span> 
+    <span class="n">center</span><span class="o">=-</span><span class="mf">0.5</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">uniform</span><span class="p">(),</span> 
+    <span class="n">width</span><span class="o">=</span><span class="mf">0.01</span> <span class="o">+</span> <span class="mf">0.2</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">uniform</span><span class="p">(),</span> 
+    <span class="n">noise</span><span class="o">=</span><span class="mf">0.05</span><span class="o">*</span><span class="p">(</span><span class="mf">.95</span> <span class="o">+</span> <span class="mf">.1</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">uniform</span><span class="p">()),</span>
+    <span class="n">scale</span><span class="o">=</span><span class="mi">100_000</span><span class="o">*</span><span class="p">(</span><span class="mf">.95</span> <span class="o">+</span> <span class="mf">.1</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">uniform</span><span class="p">()),</span> 
+    <span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;calc = </span><span class="si">{</span><span class="n">swait</span><span class="o">.</span><span class="n">calculation</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;A: x = </span><span class="si">{</span><span class="n">swait</span><span class="o">.</span><span class="n">channels</span><span class="o">.</span><span class="n">A</span><span class="o">.</span><span class="n">input_pv</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;B: center = </span><span class="si">{</span><span class="n">swait</span><span class="o">.</span><span class="n">channels</span><span class="o">.</span><span class="n">B</span><span class="o">.</span><span class="n">input_value</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;C: width = </span><span class="si">{</span><span class="n">swait</span><span class="o">.</span><span class="n">channels</span><span class="o">.</span><span class="n">C</span><span class="o">.</span><span class="n">input_value</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;D: scale = </span><span class="si">{</span><span class="n">swait</span><span class="o">.</span><span class="n">channels</span><span class="o">.</span><span class="n">D</span><span class="o">.</span><span class="n">input_value</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;E: noise= </span><span class="si">{</span><span class="n">swait</span><span class="o">.</span><span class="n">channels</span><span class="o">.</span><span class="n">E</span><span class="o">.</span><span class="n">input_value</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>calc = D*(0.95+E*RNDM)/exp(((A-b)/c)^2)
+A: x = gp:m1.RBV
+B: center = -0.10578292257195432
+C: width = 0.08364992146414521
+D: scale = 100371.09148167742
+E: noise= 0.05133473921276364
+</pre></div>
+</div>
+</div>
+</div>
+<p>Finally, run the scan with the RunEngine:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">RE</span><span class="p">(</span><span class="n">bp</span><span class="o">.</span><span class="n">scan</span><span class="p">([</span><span class="n">det</span><span class="p">],</span> <span class="n">motor</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.2</span><span class="p">,</span> <span class="mf">1.2</span><span class="p">,</span> <span class="mi">41</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Transient Scan ID: 1     Time: 2025-11-25 10:47:31
+Persistent Unique Scan ID: &#39;de507b9d-c75b-465b-94f7-a7797b983f44&#39;
+New stream: &#39;label_start_motor&#39;
+New stream: &#39;primary&#39;
++-----------+------------+------------+------------+
+|   seq_num |       time |      motor |        det |
++-----------+------------+------------+------------+
+|         1 | 10:47:36.5 |    -1.2000 |    0.00000 |
+|         2 | 10:47:36.8 |    -1.1400 |    0.00000 |
+|         3 | 10:47:37.1 |    -1.0800 |    0.00000 |
+|         4 | 10:47:37.4 |    -1.0200 |    0.00000 |
+|         5 | 10:47:37.7 |    -0.9600 |    0.00000 |
+|         6 | 10:47:38.0 |    -0.9000 |    0.00000 |
+|         7 | 10:47:38.3 |    -0.8400 |    0.00000 |
+|         8 | 10:47:38.6 |    -0.7800 |    0.00000 |
+|         9 | 10:47:38.9 |    -0.7200 |    0.00000 |
+|        10 | 10:47:39.2 |    -0.6600 |    0.00000 |
+|        11 | 10:47:39.5 |    -0.6000 |    0.00000 |
+|        12 | 10:47:39.8 |    -0.5400 |    0.00000 |
+|        13 | 10:47:40.1 |    -0.4800 |    0.00020 |
+|        14 | 10:47:40.4 |    -0.4200 |    0.07199 |
+|        15 | 10:47:40.7 |    -0.3600 |    9.70544 |
+|        16 | 10:47:41.0 |    -0.3000 |  444.92528 |
+|        17 | 10:47:41.3 |    -0.2400 | 7559.36977 |
+|        18 | 10:47:41.6 |    -0.1800 | 44718.83240 |
+|        19 | 10:47:41.9 |    -0.1200 | 93527.29018 |
+|        20 | 10:47:42.2 |    -0.0600 | 72688.52312 |
+|        21 | 10:47:42.5 |     0.0000 | 19567.78836 |
+|        22 | 10:47:42.8 |     0.0600 | 1927.74181 |
+|        23 | 10:47:43.1 |     0.1200 |   67.65720 |
+|        24 | 10:47:43.4 |     0.1800 |    0.82258 |
+|        25 | 10:47:43.7 |     0.2400 |    0.00377 |
+|        26 | 10:47:44.0 |     0.3000 |    0.00001 |
+|        27 | 10:47:44.3 |     0.3600 |    0.00000 |
+|        28 | 10:47:44.6 |     0.4200 |    0.00000 |
+|        29 | 10:47:44.9 |     0.4800 |    0.00000 |
+|        30 | 10:47:45.2 |     0.5400 |    0.00000 |
+|        31 | 10:47:45.5 |     0.6000 |    0.00000 |
+|        32 | 10:47:45.8 |     0.6600 |    0.00000 |
+|        33 | 10:47:46.1 |     0.7200 |    0.00000 |
+|        34 | 10:47:46.4 |     0.7800 |    0.00000 |
+|        35 | 10:47:46.7 |     0.8400 |    0.00000 |
+|        36 | 10:47:47.0 |     0.9000 |    0.00000 |
+|        37 | 10:47:47.3 |     0.9600 |    0.00000 |
+|        38 | 10:47:47.6 |     1.0200 |    0.00000 |
+|        39 | 10:47:47.9 |     1.0800 |    0.00000 |
+|        40 | 10:47:48.2 |     1.1400 |    0.00000 |
+|        41 | 10:47:48.5 |     1.2000 |    0.00000 |
++-----------+------------+------------+------------+
+generator scan [&#39;de507b9d&#39;] (scan num: 1)
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(&#39;de507b9d-c75b-465b-94f7-a7797b983f44&#39;,)
+</pre></div>
+</div>
+<img alt="../_images/f9c601a731fd67806ab5dd733a7bcf5b9339345f802c95e9aa795b6505d8d89a.png" src="../_images/f9c601a731fd67806ab5dd733a7bcf5b9339345f802c95e9aa795b6505d8d89a.png" />
+<img alt="../_images/08696658921297d8c14cdc0b745d59784f959c93ee4f2ca8ad749d553080b2e6.png" src="../_images/08696658921297d8c14cdc0b745d59784f959c93ee4f2ca8ad749d553080b2e6.png" />
+</div>
+</div>
+</section>
+<section id="get-the-most-recent-scan-by-steps">
+<h2>get the most recent scan, by steps<a class="headerlink" href="#get-the-most-recent-scan-by-steps" title="Link to this heading">#</a></h2>
+<p>The databroker instance, <code class="docutils literal notranslate"><span class="pre">cat</span></code>, provides access to its scans by several means.  One way is to consider <code class="docutils literal notranslate"><span class="pre">cat</span></code> as a list and retrieve the last item from the list.  This will return a <em>run</em>, the common reference to be used.</p>
+<p>For this first example, we’ll work through the steps one by one.  The <code class="docutils literal notranslate"><span class="pre">cat.v2</span></code> interface is the easiest to use (at this writing).</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">run</span> <span class="o">=</span> <span class="n">cat</span><span class="o">.</span><span class="n">v2</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+<span class="n">run</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>BlueskyRun
+  uid=&#39;de507b9d-c75b-465b-94f7-a7797b983f44&#39;
+  exit_status=&#39;success&#39;
+  2025-11-25 10:47:31.736 -- 2025-11-25 10:47:48.607
+  Streams:
+    * label_start_motor
+    * primary
+</pre></div>
+</div>
+</div>
+</div>
+<p>As shown, the run has one data stream, name <code class="docutils literal notranslate"><span class="pre">primary</span></code>.  The databroker provides a simple table view of this run:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">run</span><span class="o">.</span><span class="n">primary</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/home/prjemian/.conda/envs/apstools/lib/python3.11/site-packages/databroker/intake_xarray_core/base.py:23: FutureWarning: The return type of `Dataset.dims` will be changed to return a set of dimension names in future, in order to be more consistent with `DataArray.dims`. To access a mapping from dimension names to lengths, please use `Dataset.sizes`.
+  &#39;dims&#39;: dict(self._ds.dims),
+</pre></div>
+</div>
+<div class="output text_html"><div><svg style="position: absolute; width: 0; height: 0; overflow: hidden">
+<defs>
+<symbol id="icon-database" viewBox="0 0 32 32">
+<path d="M16 0c-8.837 0-16 2.239-16 5v4c0 2.761 7.163 5 16 5s16-2.239 16-5v-4c0-2.761-7.163-5-16-5z"></path>
+<path d="M16 17c-8.837 0-16-2.239-16-5v6c0 2.761 7.163 5 16 5s16-2.239 16-5v-6c0 2.761-7.163 5-16 5z"></path>
+<path d="M16 26c-8.837 0-16-2.239-16-5v6c0 2.761 7.163 5 16 5s16-2.239 16-5v-6c0 2.761-7.163 5-16 5z"></path>
+</symbol>
+<symbol id="icon-file-text2" viewBox="0 0 32 32">
+<path d="M28.681 7.159c-0.694-0.947-1.662-2.053-2.724-3.116s-2.169-2.030-3.116-2.724c-1.612-1.182-2.393-1.319-2.841-1.319h-15.5c-1.378 0-2.5 1.121-2.5 2.5v27c0 1.378 1.122 2.5 2.5 2.5h23c1.378 0 2.5-1.122 2.5-2.5v-19.5c0-0.448-0.137-1.23-1.319-2.841zM24.543 5.457c0.959 0.959 1.712 1.825 2.268 2.543h-4.811v-4.811c0.718 0.556 1.584 1.309 2.543 2.268zM28 29.5c0 0.271-0.229 0.5-0.5 0.5h-23c-0.271 0-0.5-0.229-0.5-0.5v-27c0-0.271 0.229-0.5 0.5-0.5 0 0 15.499-0 15.5 0v7c0 0.552 0.448 1 1 1h7v19.5z"></path>
+<path d="M23 26h-14c-0.552 0-1-0.448-1-1s0.448-1 1-1h14c0.552 0 1 0.448 1 1s-0.448 1-1 1z"></path>
+<path d="M23 22h-14c-0.552 0-1-0.448-1-1s0.448-1 1-1h14c0.552 0 1 0.448 1 1s-0.448 1-1 1z"></path>
+<path d="M23 18h-14c-0.552 0-1-0.448-1-1s0.448-1 1-1h14c0.552 0 1 0.448 1 1s-0.448 1-1 1z"></path>
+</symbol>
+</defs>
+</svg>
+<style>/* CSS stylesheet for displaying xarray objects in notebooks */
+
+:root {
+  --xr-font-color0: var(
+    --jp-content-font-color0,
+    var(--pst-color-text-base rgba(0, 0, 0, 1))
+  );
+  --xr-font-color2: var(
+    --jp-content-font-color2,
+    var(--pst-color-text-base, rgba(0, 0, 0, 0.54))
+  );
+  --xr-font-color3: var(
+    --jp-content-font-color3,
+    var(--pst-color-text-base, rgba(0, 0, 0, 0.38))
+  );
+  --xr-border-color: var(
+    --jp-border-color2,
+    hsl(from var(--pst-color-on-background, white) h s calc(l - 10))
+  );
+  --xr-disabled-color: var(
+    --jp-layout-color3,
+    hsl(from var(--pst-color-on-background, white) h s calc(l - 40))
+  );
+  --xr-background-color: var(
+    --jp-layout-color0,
+    var(--pst-color-on-background, white)
+  );
+  --xr-background-color-row-even: var(
+    --jp-layout-color1,
+    hsl(from var(--pst-color-on-background, white) h s calc(l - 5))
+  );
+  --xr-background-color-row-odd: var(
+    --jp-layout-color2,
+    hsl(from var(--pst-color-on-background, white) h s calc(l - 15))
+  );
+}
+
+html[theme="dark"],
+html[data-theme="dark"],
+body[data-theme="dark"],
+body.vscode-dark {
+  --xr-font-color0: var(
+    --jp-content-font-color0,
+    var(--pst-color-text-base, rgba(255, 255, 255, 1))
+  );
+  --xr-font-color2: var(
+    --jp-content-font-color2,
+    var(--pst-color-text-base, rgba(255, 255, 255, 0.54))
+  );
+  --xr-font-color3: var(
+    --jp-content-font-color3,
+    var(--pst-color-text-base, rgba(255, 255, 255, 0.38))
+  );
+  --xr-border-color: var(
+    --jp-border-color2,
+    hsl(from var(--pst-color-on-background, #111111) h s calc(l + 10))
+  );
+  --xr-disabled-color: var(
+    --jp-layout-color3,
+    hsl(from var(--pst-color-on-background, #111111) h s calc(l + 40))
+  );
+  --xr-background-color: var(
+    --jp-layout-color0,
+    var(--pst-color-on-background, #111111)
+  );
+  --xr-background-color-row-even: var(
+    --jp-layout-color1,
+    hsl(from var(--pst-color-on-background, #111111) h s calc(l + 5))
+  );
+  --xr-background-color-row-odd: var(
+    --jp-layout-color2,
+    hsl(from var(--pst-color-on-background, #111111) h s calc(l + 15))
+  );
+}
+
+.xr-wrap {
+  display: block !important;
+  min-width: 300px;
+  max-width: 700px;
+  line-height: 1.6;
+}
+
+.xr-text-repr-fallback {
+  /* fallback to plain text repr when CSS is not injected (untrusted notebook) */
+  display: none;
+}
+
+.xr-header {
+  padding-top: 6px;
+  padding-bottom: 6px;
+  margin-bottom: 4px;
+  border-bottom: solid 1px var(--xr-border-color);
+}
+
+.xr-header > div,
+.xr-header > ul {
+  display: inline;
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+.xr-obj-type,
+.xr-obj-name,
+.xr-group-name {
+  margin-left: 2px;
+  margin-right: 10px;
+}
+
+.xr-group-name::before {
+  content: "📁";
+  padding-right: 0.3em;
+}
+
+.xr-group-name,
+.xr-obj-type {
+  color: var(--xr-font-color2);
+}
+
+.xr-sections {
+  padding-left: 0 !important;
+  display: grid;
+  grid-template-columns: 150px auto auto 1fr 0 20px 0 20px;
+  margin-block-start: 0;
+  margin-block-end: 0;
+}
+
+.xr-section-item {
+  display: contents;
+}
+
+.xr-section-item input {
+  display: inline-block;
+  opacity: 0;
+  height: 0;
+  margin: 0;
+}
+
+.xr-section-item input + label {
+  color: var(--xr-disabled-color);
+  border: 2px solid transparent !important;
+}
+
+.xr-section-item input:enabled + label {
+  cursor: pointer;
+  color: var(--xr-font-color2);
+}
+
+.xr-section-item input:focus + label {
+  border: 2px solid var(--xr-font-color0) !important;
+}
+
+.xr-section-item input:enabled + label:hover {
+  color: var(--xr-font-color0);
+}
+
+.xr-section-summary {
+  grid-column: 1;
+  color: var(--xr-font-color2);
+  font-weight: 500;
+}
+
+.xr-section-summary > span {
+  display: inline-block;
+  padding-left: 0.5em;
+}
+
+.xr-section-summary-in:disabled + label {
+  color: var(--xr-font-color2);
+}
+
+.xr-section-summary-in + label:before {
+  display: inline-block;
+  content: "►";
+  font-size: 11px;
+  width: 15px;
+  text-align: center;
+}
+
+.xr-section-summary-in:disabled + label:before {
+  color: var(--xr-disabled-color);
+}
+
+.xr-section-summary-in:checked + label:before {
+  content: "▼";
+}
+
+.xr-section-summary-in:checked + label > span {
+  display: none;
+}
+
+.xr-section-summary,
+.xr-section-inline-details {
+  padding-top: 4px;
+}
+
+.xr-section-inline-details {
+  grid-column: 2 / -1;
+}
+
+.xr-section-details {
+  display: none;
+  grid-column: 1 / -1;
+  margin-top: 4px;
+  margin-bottom: 5px;
+}
+
+.xr-section-summary-in:checked ~ .xr-section-details {
+  display: contents;
+}
+
+.xr-group-box {
+  display: inline-grid;
+  grid-template-columns: 0px 20px auto;
+  width: 100%;
+}
+
+.xr-group-box-vline {
+  grid-column-start: 1;
+  border-right: 0.2em solid;
+  border-color: var(--xr-border-color);
+  width: 0px;
+}
+
+.xr-group-box-hline {
+  grid-column-start: 2;
+  grid-row-start: 1;
+  height: 1em;
+  width: 20px;
+  border-bottom: 0.2em solid;
+  border-color: var(--xr-border-color);
+}
+
+.xr-group-box-contents {
+  grid-column-start: 3;
+}
+
+.xr-array-wrap {
+  grid-column: 1 / -1;
+  display: grid;
+  grid-template-columns: 20px auto;
+}
+
+.xr-array-wrap > label {
+  grid-column: 1;
+  vertical-align: top;
+}
+
+.xr-preview {
+  color: var(--xr-font-color3);
+}
+
+.xr-array-preview,
+.xr-array-data {
+  padding: 0 5px !important;
+  grid-column: 2;
+}
+
+.xr-array-data,
+.xr-array-in:checked ~ .xr-array-preview {
+  display: none;
+}
+
+.xr-array-in:checked ~ .xr-array-data,
+.xr-array-preview {
+  display: inline-block;
+}
+
+.xr-dim-list {
+  display: inline-block !important;
+  list-style: none;
+  padding: 0 !important;
+  margin: 0;
+}
+
+.xr-dim-list li {
+  display: inline-block;
+  padding: 0;
+  margin: 0;
+}
+
+.xr-dim-list:before {
+  content: "(";
+}
+
+.xr-dim-list:after {
+  content: ")";
+}
+
+.xr-dim-list li:not(:last-child):after {
+  content: ",";
+  padding-right: 5px;
+}
+
+.xr-has-index {
+  font-weight: bold;
+}
+
+.xr-var-list,
+.xr-var-item {
+  display: contents;
+}
+
+.xr-var-item > div,
+.xr-var-item label,
+.xr-var-item > .xr-var-name span {
+  background-color: var(--xr-background-color-row-even);
+  border-color: var(--xr-background-color-row-odd);
+  margin-bottom: 0;
+  padding-top: 2px;
+}
+
+.xr-var-item > .xr-var-name:hover span {
+  padding-right: 5px;
+}
+
+.xr-var-list > li:nth-child(odd) > div,
+.xr-var-list > li:nth-child(odd) > label,
+.xr-var-list > li:nth-child(odd) > .xr-var-name span {
+  background-color: var(--xr-background-color-row-odd);
+  border-color: var(--xr-background-color-row-even);
+}
+
+.xr-var-name {
+  grid-column: 1;
+}
+
+.xr-var-dims {
+  grid-column: 2;
+}
+
+.xr-var-dtype {
+  grid-column: 3;
+  text-align: right;
+  color: var(--xr-font-color2);
+}
+
+.xr-var-preview {
+  grid-column: 4;
+}
+
+.xr-index-preview {
+  grid-column: 2 / 5;
+  color: var(--xr-font-color2);
+}
+
+.xr-var-name,
+.xr-var-dims,
+.xr-var-dtype,
+.xr-preview,
+.xr-attrs dt {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  padding-right: 10px;
+}
+
+.xr-var-name:hover,
+.xr-var-dims:hover,
+.xr-var-dtype:hover,
+.xr-attrs dt:hover {
+  overflow: visible;
+  width: auto;
+  z-index: 1;
+}
+
+.xr-var-attrs,
+.xr-var-data,
+.xr-index-data {
+  display: none;
+  border-top: 2px dotted var(--xr-background-color);
+  padding-bottom: 20px !important;
+  padding-top: 10px !important;
+}
+
+.xr-var-attrs-in + label,
+.xr-var-data-in + label,
+.xr-index-data-in + label {
+  padding: 0 1px;
+}
+
+.xr-var-attrs-in:checked ~ .xr-var-attrs,
+.xr-var-data-in:checked ~ .xr-var-data,
+.xr-index-data-in:checked ~ .xr-index-data {
+  display: block;
+}
+
+.xr-var-data > table {
+  float: right;
+}
+
+.xr-var-data > pre,
+.xr-index-data > pre,
+.xr-var-data > table > tbody > tr {
+  background-color: transparent !important;
+}
+
+.xr-var-name span,
+.xr-var-data,
+.xr-index-name div,
+.xr-index-data,
+.xr-attrs {
+  padding-left: 25px !important;
+}
+
+.xr-attrs,
+.xr-var-attrs,
+.xr-var-data,
+.xr-index-data {
+  grid-column: 1 / -1;
+}
+
+dl.xr-attrs {
+  padding: 0;
+  margin: 0;
+  display: grid;
+  grid-template-columns: 125px auto;
+}
+
+.xr-attrs dt,
+.xr-attrs dd {
+  padding: 0;
+  margin: 0;
+  float: left;
+  padding-right: 10px;
+  width: auto;
+}
+
+.xr-attrs dt {
+  font-weight: normal;
+  grid-column: 1;
+}
+
+.xr-attrs dt:hover span {
+  display: inline-block;
+  background: var(--xr-background-color);
+  padding-right: 10px;
+}
+
+.xr-attrs dd {
+  grid-column: 2;
+  white-space: pre-wrap;
+  word-break: break-all;
+}
+
+.xr-icon-database,
+.xr-icon-file-text2,
+.xr-no-icon {
+  display: inline-block;
+  vertical-align: middle;
+  width: 1em;
+  height: 1.5em !important;
+  stroke-width: 0;
+  stroke: currentColor;
+  fill: currentColor;
+}
+
+.xr-var-attrs-in:checked + label > .xr-icon-file-text2,
+.xr-var-data-in:checked + label > .xr-icon-database,
+.xr-index-data-in:checked + label > .xr-icon-database {
+  color: var(--xr-font-color0);
+  filter: drop-shadow(1px 1px 5px var(--xr-font-color2));
+  stroke-width: 0.8px;
+}
+</style><pre class='xr-text-repr-fallback'>&lt;xarray.Dataset&gt; Size: 1kB
+Dimensions:              (time: 41)
+Coordinates:
+  * time                 (time) float64 328B 1.764e+09 1.764e+09 ... 1.764e+09
+Data variables:
+    det                  (time) float64 328B 4.697e-70 4.115e-62 ... 1.489e-101
+    motor                (time) float64 328B -1.2 -1.14 -1.08 ... 1.08 1.14 1.2
+    motor_user_setpoint  (time) float64 328B -1.2 -1.14 -1.08 ... 1.08 1.14 1.2</pre><div class='xr-wrap' style='display:none'><div class='xr-header'><div class='xr-obj-type'>xarray.Dataset</div></div><ul class='xr-sections'><li class='xr-section-item'><input id='section-e4393c4e-5cb0-42fc-bbb2-4ec2684f8bf0' class='xr-section-summary-in' type='checkbox' disabled ><label for='section-e4393c4e-5cb0-42fc-bbb2-4ec2684f8bf0' class='xr-section-summary'  title='Expand/collapse section'>Dimensions:</label><div class='xr-section-inline-details'><ul class='xr-dim-list'><li><span class='xr-has-index'>time</span>: 41</li></ul></div><div class='xr-section-details'></div></li><li class='xr-section-item'><input id='section-1374a98c-564e-4c89-8314-2bd66d744017' class='xr-section-summary-in' type='checkbox'  checked><label for='section-1374a98c-564e-4c89-8314-2bd66d744017' class='xr-section-summary' >Coordinates: <span>(1)</span></label><div class='xr-section-inline-details'></div><div class='xr-section-details'><ul class='xr-var-list'><li class='xr-var-item'><div class='xr-var-name'><span class='xr-has-index'>time</span></div><div class='xr-var-dims'>(time)</div><div class='xr-var-dtype'>float64</div><div class='xr-var-preview xr-preview'>1.764e+09 1.764e+09 ... 1.764e+09</div><input id='attrs-cc1e3432-b378-4bb5-b252-4e5685de14d3' class='xr-var-attrs-in' type='checkbox' disabled><label for='attrs-cc1e3432-b378-4bb5-b252-4e5685de14d3' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-d5f6cd85-ba8e-4407-aea2-2281936338f2' class='xr-var-data-in' type='checkbox'><label for='data-d5f6cd85-ba8e-4407-aea2-2281936338f2' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'></dl></div><div class='xr-var-data'><pre>array([1.764089e+09, 1.764089e+09, 1.764089e+09, 1.764089e+09, 1.764089e+09,
+       1.764089e+09, 1.764089e+09, 1.764089e+09, 1.764089e+09, 1.764089e+09,
+       1.764089e+09, 1.764089e+09, 1.764089e+09, 1.764089e+09, 1.764089e+09,
+       1.764089e+09, 1.764089e+09, 1.764089e+09, 1.764089e+09, 1.764089e+09,
+       1.764089e+09, 1.764089e+09, 1.764089e+09, 1.764089e+09, 1.764089e+09,
+       1.764089e+09, 1.764089e+09, 1.764089e+09, 1.764089e+09, 1.764089e+09,
+       1.764089e+09, 1.764089e+09, 1.764089e+09, 1.764089e+09, 1.764089e+09,
+       1.764089e+09, 1.764089e+09, 1.764089e+09, 1.764089e+09, 1.764089e+09,
+       1.764089e+09])</pre></div></li></ul></div></li><li class='xr-section-item'><input id='section-338d06c9-7709-493f-8198-b7403e5db309' class='xr-section-summary-in' type='checkbox'  checked><label for='section-338d06c9-7709-493f-8198-b7403e5db309' class='xr-section-summary' >Data variables: <span>(3)</span></label><div class='xr-section-inline-details'></div><div class='xr-section-details'><ul class='xr-var-list'><li class='xr-var-item'><div class='xr-var-name'><span>det</span></div><div class='xr-var-dims'>(time)</div><div class='xr-var-dtype'>float64</div><div class='xr-var-preview xr-preview'>4.697e-70 4.115e-62 ... 1.489e-101</div><input id='attrs-8b8bbd09-bfcd-4508-8e04-9d13fe2a780b' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-8b8bbd09-bfcd-4508-8e04-9d13fe2a780b' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-2cc38c69-6642-42ab-9758-613cea7cdfce' class='xr-var-data-in' type='checkbox'><label for='data-2cc38c69-6642-42ab-9758-613cea7cdfce' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>object :</span></dt><dd>det</dd></dl></div><div class='xr-var-data'><pre>array([4.69709608e-070, 4.11468231e-062, 1.19115008e-054, 1.28776233e-047,
+       4.98247483e-041, 6.81601265e-035, 3.40895401e-029, 6.10262737e-024,
+       3.85502825e-019, 8.37741145e-015, 6.60289766e-011, 1.98164795e-007,
+       2.01051397e-004, 7.19850332e-002, 9.70544445e+000, 4.44925280e+002,
+       7.55936977e+003, 4.47188324e+004, 9.35272902e+004, 7.26885231e+004,
+       1.95677884e+004, 1.92774181e+003, 6.76571956e+001, 8.22580488e-001,
+       3.77240843e-003, 5.96367006e-006, 3.34635322e-009, 6.64452025e-013,
+       4.84075786e-017, 1.27240602e-021, 1.21037524e-026, 4.00795751e-032,
+       4.60698256e-038, 1.99627722e-044, 2.97022394e-051, 1.62580909e-058,
+       3.06546482e-066, 2.15839748e-074, 5.30769260e-083, 4.71594746e-092,
+       1.48906790e-101])</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>motor</span></div><div class='xr-var-dims'>(time)</div><div class='xr-var-dtype'>float64</div><div class='xr-var-preview xr-preview'>-1.2 -1.14 -1.08 ... 1.08 1.14 1.2</div><input id='attrs-3ca449db-5c49-473c-9e93-2542d67f87fa' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-3ca449db-5c49-473c-9e93-2542d67f87fa' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-4a098e6d-d1da-48f0-a930-fe56cc883efd' class='xr-var-data-in' type='checkbox'><label for='data-4a098e6d-d1da-48f0-a930-fe56cc883efd' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>object :</span></dt><dd>motor</dd></dl></div><div class='xr-var-data'><pre>array([-1.2 , -1.14, -1.08, -1.02, -0.96, -0.9 , -0.84, -0.78, -0.72,
+       -0.66, -0.6 , -0.54, -0.48, -0.42, -0.36, -0.3 , -0.24, -0.18,
+       -0.12, -0.06,  0.  ,  0.06,  0.12,  0.18,  0.24,  0.3 ,  0.36,
+        0.42,  0.48,  0.54,  0.6 ,  0.66,  0.72,  0.78,  0.84,  0.9 ,
+        0.96,  1.02,  1.08,  1.14,  1.2 ])</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>motor_user_setpoint</span></div><div class='xr-var-dims'>(time)</div><div class='xr-var-dtype'>float64</div><div class='xr-var-preview xr-preview'>-1.2 -1.14 -1.08 ... 1.08 1.14 1.2</div><input id='attrs-04a14f2e-4dff-495a-b8b2-ba7212fac994' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-04a14f2e-4dff-495a-b8b2-ba7212fac994' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-ed9f3da9-b290-41dc-8b18-bd5d0108d1d3' class='xr-var-data-in' type='checkbox'><label for='data-ed9f3da9-b290-41dc-8b18-bd5d0108d1d3' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>object :</span></dt><dd>motor</dd></dl></div><div class='xr-var-data'><pre>array([-1.2 , -1.14, -1.08, -1.02, -0.96, -0.9 , -0.84, -0.78, -0.72,
+       -0.66, -0.6 , -0.54, -0.48, -0.42, -0.36, -0.3 , -0.24, -0.18,
+       -0.12, -0.06,  0.  ,  0.06,  0.12,  0.18,  0.24,  0.3 ,  0.36,
+        0.42,  0.48,  0.54,  0.6 ,  0.66,  0.72,  0.78,  0.84,  0.9 ,
+        0.96,  1.02,  1.08,  1.14,  1.2 ])</pre></div></li></ul></div></li></ul></div></div></div></div>
+</div>
+</section>
+<section id="support-function-specfile-example">
+<h2>Support function: <code class="docutils literal notranslate"><span class="pre">specfile_example()</span></code><a class="headerlink" href="#support-function-specfile-example" title="Link to this heading">#</a></h2>
+<p>We need to call the <code class="docutils literal notranslate"><span class="pre">apstools.callbacks.SpecWriterCallback2()</span></code> callback with the run’s documents.</p>
+<p>Here, <code class="docutils literal notranslate"><span class="pre">specfile_example()</span></code> is a support function that can be used with one or more runs to create a SPEC data file (one Bluesky run will become one SPEC scan in the same file).</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">apstools.callbacks</span><span class="w"> </span><span class="kn">import</span> <span class="n">SpecWriterCallback2</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">databroker._drivers.mongo_normalized</span><span class="w"> </span><span class="kn">import</span> <span class="n">BlueskyMongoCatalog</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">databroker._drivers.msgpack</span><span class="w"> </span><span class="kn">import</span> <span class="n">BlueskyMsgpackCatalog</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">warnings</span>
+
+<span class="n">DEMO_SPEC_FILE</span> <span class="o">=</span> <span class="s2">&quot;test_specdata.txt&quot;</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">specfile_example</span><span class="p">(</span><span class="n">runs</span><span class="p">,</span> <span class="n">filename</span><span class="o">=</span><span class="n">DEMO_SPEC_FILE</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;write one or more headers (scans) to a SPEC data file&quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">runs</span><span class="p">,</span> <span class="n">databroker</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">BlueskyRun</span><span class="p">):</span>
+        <span class="n">runs</span> <span class="o">=</span> <span class="p">[</span><span class="n">runs</span><span class="p">]</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">runs</span><span class="p">,</span> <span class="p">(</span><span class="nb">list</span><span class="p">,</span> <span class="n">BlueskyMsgpackCatalog</span><span class="p">,</span> <span class="n">BlueskyMongoCatalog</span><span class="p">)):</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;Must give run object or list of run objects.&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">runs</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Must provide one or more runs.&quot;</span><span class="p">)</span>
+
+    <span class="n">specwriter</span> <span class="o">=</span> <span class="n">SpecWriterCallback2</span><span class="p">()</span>
+    <span class="n">specwriter</span><span class="o">.</span><span class="n">spec_filename</span> <span class="o">=</span> <span class="n">filename</span>
+    <span class="k">for</span> <span class="n">uid</span> <span class="ow">in</span> <span class="n">runs</span><span class="p">:</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">uid</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+            <span class="n">run</span> <span class="o">=</span> <span class="n">runs</span><span class="p">[</span><span class="n">uid</span><span class="p">]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">run</span> <span class="o">=</span> <span class="n">uid</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">run</span><span class="p">,</span> <span class="n">databroker</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">BlueskyRun</span><span class="p">):</span>
+            <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Skipping </span><span class="si">{</span><span class="n">run</span><span class="si">=}</span><span class="s2">, it is not a BlueskyRun object.&quot;</span><span class="p">)</span>
+            <span class="k">continue</span>
+        <span class="c1"># to get the raw document stream, need the v1 interface</span>
+        <span class="n">h</span> <span class="o">=</span> <span class="n">run</span><span class="o">.</span><span class="n">catalog_object</span><span class="o">.</span><span class="n">v1</span><span class="p">[</span><span class="n">run</span><span class="o">.</span><span class="n">name</span><span class="p">]</span>  <span class="c1"># header</span>
+        <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">doc</span> <span class="ow">in</span> <span class="n">h</span><span class="o">.</span><span class="n">db</span><span class="o">.</span><span class="n">get_documents</span><span class="p">(</span><span class="n">h</span><span class="p">):</span>
+            <span class="n">specwriter</span><span class="o">.</span><span class="n">receiver</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">doc</span><span class="p">)</span>
+        <span class="c1"># lines = specwriter.prepare_scan_contents()</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Look at SPEC data file: </span><span class="si">{</span><span class="n">specwriter</span><span class="o">.</span><span class="n">spec_filename</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="write-the-run-as-spec-data">
+<h2>Write the run as SPEC data<a class="headerlink" href="#write-the-run-as-spec-data" title="Link to this heading">#</a></h2>
+<p>Let’s write it as a SPEC data file (namely: <code class="docutils literal notranslate"><span class="pre">spec1.dat</span></code>):</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">pathlib</span>
+
+<span class="n">spec1_dat</span> <span class="o">=</span> <span class="n">pathlib</span><span class="o">.</span><span class="n">Path</span><span class="p">(</span><span class="s2">&quot;spec1.dat&quot;</span><span class="p">)</span>
+<span class="k">if</span> <span class="n">spec1_dat</span><span class="o">.</span><span class="n">exists</span><span class="p">():</span>  <span class="c1"># re-write the file</span>
+    <span class="n">spec1_dat</span><span class="o">.</span><span class="n">unlink</span><span class="p">()</span>  <span class="c1"># delete the existing file</span>
+
+<span class="n">specfile_example</span><span class="p">(</span><span class="n">run</span><span class="p">,</span> <span class="n">filename</span><span class="o">=</span><span class="n">spec1_dat</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Look at SPEC data file: spec1.dat
+</pre></div>
+</div>
+</div>
+</div>
+<p>Let’s view file <code class="docutils literal notranslate"><span class="pre">spec1.dat</span></code> from disk storage (using the <a class="reference external" href="https://ipython.readthedocs.io/en/stable/interactive/magics.html?highlight=pycat#magic-pycat">pycat</a> IPython magic function):</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%</span><span class="k">pycat</span> spec1.dat
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-C66">#F spec1.dat</span>
+<span class=" -Color -Color-C66">#E 1764089251.7365375</span>
+<span class=" -Color -Color-C66">#D Tue Nov 25 10:47:31 2025</span>
+<span class=" -Color -Color-C66">#C Bluesky  user = prjemian  host = arf.jemian.org</span>
+<span class=" -Color -Color-C66">#O0 atth  chi  motor  mx  my  mz  omega  phi</span>
+<span class=" -Color -Color-C66">#O1 ttheta</span>
+<span class=" -Color -Color-C66">#o0 atth  chi  motor  mx  my  mz  omega  phi</span>
+<span class=" -Color -Color-C66">#o1 ttheta</span>
+
+<span class=" -Color -Color-C66">#S 1  scan(detectors=[&#39;det&#39;], num=41, args=&#39;[&#39;motor&#39;, -1.2, 1.2]&#39;, per_step=&#39;None&#39;)</span>
+<span class=" -Color -Color-C66">#D Tue Nov 25 10:47:31 2025</span>
+<span class=" -Color -Color-C66">#C Tue Nov 25 10:47:36 2025.  uid = de507b9d-c75b-465b-94f7-a7797b983f44</span>
+<span class=" -Color -Color-C66">#P0 0 0 1.2 0 0 0 0 0</span>
+<span class=" -Color -Color-C66">#P1 0</span>
+<span class=" -Color -Color-C66">#MD versions = {&#39;ophyd&#39;: &#39;1.11.0&#39;, &#39;bluesky&#39;: &#39;1.14.6&#39;}</span>
+<span class=" -Color -Color-C66">#MD plan_type = generator</span>
+<span class=" -Color -Color-C66">#MD plan_name = scan</span>
+<span class=" -Color -Color-C66">#MD detectors = [&#39;det&#39;]</span>
+<span class=" -Color -Color-C66">#MD motors = [&#39;motor&#39;]</span>
+<span class=" -Color -Color-C66">#MD num_points = 41</span>
+<span class=" -Color -Color-C66">#MD num_intervals = 40</span>
+<span class=" -Color -Color-C66">#MD plan_args = {&#39;detectors&#39;: [&quot;EpicsSignal(read_pv=&#39;gp:userCalc1.VAL&#39;, name=&#39;det&#39;, timestamp=1764088504.230701, tolerance=1e-05, auto_monitor=False, string=False, write_pv=&#39;gp:userCalc1.VAL&#39;, limits=False, put_complete=False)&quot;], &#39;num&#39;: 41, &#39;args&#39;: [&quot;EpicsMotor(prefix=&#39;gp:m1&#39;, name=&#39;motor&#39;, settle_time=0.0, timeout=None, read_attrs=[&#39;user_readback&#39;, &#39;user_setpoint&#39;], configuration_attrs=[&#39;user_offset&#39;, &#39;user_offset_dir&#39;, &#39;velocity&#39;, &#39;acceleration&#39;, &#39;motor_egu&#39;])&quot;, -1.2, 1.2], &#39;per_step&#39;: &#39;None&#39;}</span>
+<span class=" -Color -Color-C66">#MD hints = {&#39;dimensions&#39;: [[[&#39;motor&#39;], &#39;primary&#39;]]}</span>
+<span class=" -Color -Color-C66">#MD plan_pattern = inner_product</span>
+<span class=" -Color -Color-C66">#MD plan_pattern_module = bluesky.plan_patterns</span>
+<span class=" -Color -Color-C66">#MD plan_pattern_args = {&#39;num&#39;: 41, &#39;args&#39;: [&quot;EpicsMotor(prefix=&#39;gp:m1&#39;, name=&#39;motor&#39;, settle_time=0.0, timeout=None, read_attrs=[&#39;user_readback&#39;, &#39;user_setpoint&#39;], configuration_attrs=[&#39;user_offset&#39;, &#39;user_offset_dir&#39;, &#39;velocity&#39;, &#39;acceleration&#39;, &#39;motor_egu&#39;])&quot;, -1.2, 1.2]}</span>
+<span class=" -Color -Color-C66">#N 5</span>
+<span class=" -Color -Color-C66">#L motor  Epoch  Epoch_float  motor_user_setpoint  det</span>
+-<span class=" -Color -Color-Green">1.2</span> <span class=" -Color -Color-Green">5</span> <span class=" -Color -Color-Green">4.798788785934</span> -<span class=" -Color -Color-Green">1.2</span> <span class=" -Color -Color-Green">4.697096076314e-70</span>
+-<span class=" -Color -Color-Green">1.14</span> <span class=" -Color -Color-Green">5</span> <span class=" -Color -Color-Green">5.081346988678</span> -<span class=" -Color -Color-Green">1.14</span> <span class=" -Color -Color-Green">4.114682306176e-62</span>
+-<span class=" -Color -Color-Green">1.08</span> <span class=" -Color -Color-Green">5</span> <span class=" -Color -Color-Green">5.382177829742</span> -<span class=" -Color -Color-Green">1.08</span> <span class=" -Color -Color-Green">1.191150081374e-54</span>
+-<span class=" -Color -Color-Green">1.02</span> <span class=" -Color -Color-Green">6</span> <span class=" -Color -Color-Green">5.682698965073</span> -<span class=" -Color -Color-Green">1.02</span> <span class=" -Color -Color-Green">1.287762326763e-47</span>
+-<span class=" -Color -Color-Green">0.96</span> <span class=" -Color -Color-Green">6</span> <span class=" -Color -Color-Green">5.984358787537</span> -<span class=" -Color -Color-Green">0.96</span> <span class=" -Color -Color-Green">4.982474832648e-41</span>
+-<span class=" -Color -Color-Green">0.9</span> <span class=" -Color -Color-Green">6</span> <span class=" -Color -Color-Green">6.283968687057</span> -<span class=" -Color -Color-Green">0.9</span> <span class=" -Color -Color-Green">6.816012652073e-35</span>
+-<span class=" -Color -Color-Green">0.84</span> <span class=" -Color -Color-Green">7</span> <span class=" -Color -Color-Green">6.58753156662</span> -<span class=" -Color -Color-Green">0.84</span> <span class=" -Color -Color-Green">3.40895401415e-29</span>
+-<span class=" -Color -Color-Green">0.78</span> <span class=" -Color -Color-Green">7</span> <span class=" -Color -Color-Green">6.885951042175</span> -<span class=" -Color -Color-Green">0.78</span> <span class=" -Color -Color-Green">6.102627367248e-24</span>
+-<span class=" -Color -Color-Green">0.72</span> <span class=" -Color -Color-Green">7</span> <span class=" -Color -Color-Green">7.186074256897</span> -<span class=" -Color -Color-Green">0.72</span> <span class=" -Color -Color-Green">3.855028249112e-19</span>
+-<span class=" -Color -Color-Green">0.66</span> <span class=" -Color -Color-Green">7</span> <span class=" -Color -Color-Green">7.477291345596</span> -<span class=" -Color -Color-Green">0.66</span> <span class=" -Color -Color-Green">8.37741144642e-15</span>
+-<span class=" -Color -Color-Green">0.6</span> <span class=" -Color -Color-Green">8</span> <span class=" -Color -Color-Green">7.788086652756</span> -<span class=" -Color -Color-Green">0.6</span> <span class=" -Color -Color-Green">6.602897660574e-11</span>
+-<span class=" -Color -Color-Green">0.54</span> <span class=" -Color -Color-Green">8</span> <span class=" -Color -Color-Green">8.088327646255</span> -<span class=" -Color -Color-Green">0.54</span> <span class=" -Color -Color-Green">1.981647945317e-07</span>
+-<span class=" -Color -Color-Green">0.48</span> <span class=" -Color -Color-Green">8</span> <span class=" -Color -Color-Green">8.388518571854</span> -<span class=" -Color -Color-Green">0.48</span> <span class=" -Color -Color-Green">0.0002010513966765</span>
+-<span class=" -Color -Color-Green">0.42</span> <span class=" -Color -Color-Green">9</span> <span class=" -Color -Color-Green">8.689679145813</span> -<span class=" -Color -Color-Green">0.42</span> <span class=" -Color -Color-Green">0.07198503319617</span>
+-<span class=" -Color -Color-Green">0.36</span> <span class=" -Color -Color-Green">9</span> <span class=" -Color -Color-Green">8.99031829834</span> -<span class=" -Color -Color-Green">0.36</span> <span class=" -Color -Color-Green">9.705444449639</span>
+-<span class=" -Color -Color-Green">0.3</span> <span class=" -Color -Color-Green">9</span> <span class=" -Color -Color-Green">9.290639400482</span> -<span class=" -Color -Color-Green">0.3</span> <span class=" -Color -Color-Green">444.9252801024</span>
+-<span class=" -Color -Color-Green">0.24</span> <span class=" -Color -Color-Green">10</span> <span class=" -Color -Color-Green">9.591261386871</span> -<span class=" -Color -Color-Green">0.24</span> <span class=" -Color -Color-Green">7559.369770398</span>
+-<span class=" -Color -Color-Green">0.18</span> <span class=" -Color -Color-Green">10</span> <span class=" -Color -Color-Green">9.892528533936</span> -<span class=" -Color -Color-Green">0.18</span> <span class=" -Color -Color-Green">44718.83239994</span>
+-<span class=" -Color -Color-Green">0.12</span> <span class=" -Color -Color-Green">10</span> <span class=" -Color -Color-Green">10.19314527512</span> -<span class=" -Color -Color-Green">0.12</span> <span class=" -Color -Color-Green">93527.29017926</span>
+-<span class=" -Color -Color-Green">0.06</span> <span class=" -Color -Color-Green">10</span> <span class=" -Color -Color-Green">10.48501563072</span> -<span class=" -Color -Color-Green">0.06</span> <span class=" -Color -Color-Green">72688.52312141</span>
+<span class=" -Color -Color-Green">0</span> <span class=" -Color -Color-Green">11</span> <span class=" -Color -Color-Green">10.79420518875</span> <span class=" -Color -Color-Green">0</span> <span class=" -Color -Color-Green">19567.78836187</span>
+<span class=" -Color -Color-Green">0.06</span> <span class=" -Color -Color-Green">11</span> <span class=" -Color -Color-Green">11.09540462494</span> <span class=" -Color -Color-Green">0.06</span> <span class=" -Color -Color-Green">1927.74181425</span>
+<span class=" -Color -Color-Green">0.12</span> <span class=" -Color -Color-Green">11</span> <span class=" -Color -Color-Green">11.39624977112</span> <span class=" -Color -Color-Green">0.12</span> <span class=" -Color -Color-Green">67.65719559994</span>
+<span class=" -Color -Color-Green">0.18</span> <span class=" -Color -Color-Green">12</span> <span class=" -Color -Color-Green">11.69581484795</span> <span class=" -Color -Color-Green">0.18</span> <span class=" -Color -Color-Green">0.8225804876164</span>
+<span class=" -Color -Color-Green">0.24</span> <span class=" -Color -Color-Green">12</span> <span class=" -Color -Color-Green">11.99742436409</span> <span class=" -Color -Color-Green">0.24</span> <span class=" -Color -Color-Green">0.003772408428037</span>
+<span class=" -Color -Color-Green">0.3</span> <span class=" -Color -Color-Green">12</span> <span class=" -Color -Color-Green">12.29894351959</span> <span class=" -Color -Color-Green">0.3</span> <span class=" -Color -Color-Green">5.963670063734e-06</span>
+<span class=" -Color -Color-Green">0.36</span> <span class=" -Color -Color-Green">13</span> <span class=" -Color -Color-Green">12.58793568611</span> <span class=" -Color -Color-Green">0.36</span> <span class=" -Color -Color-Green">3.346353217619e-09</span>
+<span class=" -Color -Color-Green">0.42</span> <span class=" -Color -Color-Green">13</span> <span class=" -Color -Color-Green">12.88823223114</span> <span class=" -Color -Color-Green">0.42</span> <span class=" -Color -Color-Green">6.644520253063e-13</span>
+<span class=" -Color -Color-Green">0.48</span> <span class=" -Color -Color-Green">13</span> <span class=" -Color -Color-Green">13.18871331215</span> <span class=" -Color -Color-Green">0.48</span> <span class=" -Color -Color-Green">4.840757860829e-17</span>
+<span class=" -Color -Color-Green">0.54</span> <span class=" -Color -Color-Green">13</span> <span class=" -Color -Color-Green">13.49933886528</span> <span class=" -Color -Color-Green">0.54</span> <span class=" -Color -Color-Green">1.272406018296e-21</span>
+<span class=" -Color -Color-Green">0.6</span> <span class=" -Color -Color-Green">14</span> <span class=" -Color -Color-Green">13.78994488716</span> <span class=" -Color -Color-Green">0.6</span> <span class=" -Color -Color-Green">1.210375244034e-26</span>
+<span class=" -Color -Color-Green">0.66</span> <span class=" -Color -Color-Green">14</span> <span class=" -Color -Color-Green">14.09026098251</span> <span class=" -Color -Color-Green">0.66</span> <span class=" -Color -Color-Green">4.007957513344e-32</span>
+<span class=" -Color -Color-Green">0.72</span> <span class=" -Color -Color-Green">14</span> <span class=" -Color -Color-Green">14.39210033417</span> <span class=" -Color -Color-Green">0.72</span> <span class=" -Color -Color-Green">4.60698256011e-38</span>
+<span class=" -Color -Color-Green">0.78</span> <span class=" -Color -Color-Green">15</span> <span class=" -Color -Color-Green">14.69092798233</span> <span class=" -Color -Color-Green">0.78</span> <span class=" -Color -Color-Green">1.996277220905e-44</span>
+<span class=" -Color -Color-Green">0.84</span> <span class=" -Color -Color-Green">15</span> <span class=" -Color -Color-Green">14.99262237549</span> <span class=" -Color -Color-Green">0.84</span> <span class=" -Color -Color-Green">2.970223944581e-51</span>
+<span class=" -Color -Color-Green">0.9</span> <span class=" -Color -Color-Green">15</span> <span class=" -Color -Color-Green">15.30345225334</span> <span class=" -Color -Color-Green">0.9</span> <span class=" -Color -Color-Green">1.625809092382e-58</span>
+<span class=" -Color -Color-Green">0.96</span> <span class=" -Color -Color-Green">16</span> <span class=" -Color -Color-Green">15.60361862183</span> <span class=" -Color -Color-Green">0.96</span> <span class=" -Color -Color-Green">3.065464820924e-66</span>
+<span class=" -Color -Color-Green">1.02</span> <span class=" -Color -Color-Green">16</span> <span class=" -Color -Color-Green">15.89481163025</span> <span class=" -Color -Color-Green">1.02</span> <span class=" -Color -Color-Green">2.158397475032e-74</span>
+<span class=" -Color -Color-Green">1.08</span> <span class=" -Color -Color-Green">16</span> <span class=" -Color -Color-Green">16.2053592205</span> <span class=" -Color -Color-Green">1.08</span> <span class=" -Color -Color-Green">5.307692599663e-83</span>
+<span class=" -Color -Color-Green">1.14</span> <span class=" -Color -Color-Green">17</span> <span class=" -Color -Color-Green">16.50043964386</span> <span class=" -Color -Color-Green">1.14</span> <span class=" -Color -Color-Green">4.71594745842e-92</span>
+<span class=" -Color -Color-Green">1.2</span> <span class=" -Color -Color-Green">17</span> <span class=" -Color -Color-Green">16.80608057976</span> <span class=" -Color -Color-Green">1.2</span> <span class=" -Color -Color-Green">1.489067902142e-101</span>
+<span class=" -Color -Color-C66">#C Tue Nov 25 10:47:48 2025.  num_events_label_start_motor = 1</span>
+<span class=" -Color -Color-C66">#C Tue Nov 25 10:47:48 2025.  num_events_primary = 41</span>
+<span class=" -Color -Color-C66">#C Tue Nov 25 10:47:48 2025.  exit_status = success</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>We see that the output of the <code class="docutils literal notranslate"><span class="pre">specfile_example()</span></code> command includes the content of the SPEC file.  For the remaining examples, we’ll skip this additional step to view the SPEC file contents from disk.</p>
+</section>
+<section id="a-specific-scan">
+<h2>a specific scan<a class="headerlink" href="#a-specific-scan" title="Link to this heading">#</a></h2>
+<p>The <code class="docutils literal notranslate"><span class="pre">cat</span></code> object allows us to access scans by UUID (or any shorter version that remains unique in the database).  We show an example but have commented it out since those runs do not exist in our temporary databroker catalog.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># specfile_example(cat[&quot;37c188c0&quot;], filename=&quot;spec3.dat&quot;)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="specify-a-list-of-scans-by-uid">
+<h2>specify a list of scans by UID<a class="headerlink" href="#specify-a-list-of-scans-by-uid" title="Link to this heading">#</a></h2>
+<p>Suppose we have a list of scans where we know the UID of each one, we can build a list of headers and write a SPEC data file with that list.  Here, we have such a list of tuning scans.  We show an example but have commented it out since those runs do not exist in our temporary databroker catalog.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># runs = [cat[uid] for uid in &quot;957d83c c354fe37-e39f 42c&quot;.split()]</span>
+<span class="c1"># specfile_example(runs, filename=&quot;spec_tunes.dat&quot;)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="find-specific-plans-within-a-range-of-dates">
+<h2>Find specific plans within a range of dates<a class="headerlink" href="#find-specific-plans-within-a-range-of-dates" title="Link to this heading">#</a></h2>
+<p>The <code class="docutils literal notranslate"><span class="pre">cat</span></code> object allows for filtering arguments based on any keywords in the <em>start</em> document and also by time.  Here, we filter between certain dates and also by <code class="docutils literal notranslate"><span class="pre">plan</span> <span class="pre">name</span></code>.  The dates are specified in <a class="reference external" href="https://www.iso.org/iso-8601-date-and-time-format.html">ISO8601 format</a> and can include precision beyond a millisecond.  Here, we use the <code class="docutils literal notranslate"><span class="pre">v2</span></code> interface to do the searches.  We show examples how to pick between a set of dates.</p>
+<p>Also, we write to the default data file: <code class="docutils literal notranslate"><span class="pre">test_specdata.txt</span></code>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">databroker.queries</span><span class="w"> </span><span class="kn">import</span> <span class="n">TimeRange</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">datetime</span>
+
+<span class="n">test_specdata_txt</span> <span class="o">=</span> <span class="n">pathlib</span><span class="o">.</span><span class="n">Path</span><span class="p">(</span><span class="s2">&quot;test_specdata.txt&quot;</span><span class="p">)</span>
+<span class="k">if</span> <span class="n">test_specdata_txt</span><span class="o">.</span><span class="n">exists</span><span class="p">():</span>  <span class="c1"># will re-write the file</span>
+    <span class="n">test_specdata_txt</span><span class="o">.</span><span class="n">unlink</span><span class="p">()</span>
+
+<span class="n">query</span> <span class="o">=</span> <span class="p">{}</span>
+<span class="n">query</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">TimeRange</span><span class="p">(</span><span class="n">since</span><span class="o">=</span><span class="s2">&quot;2019-02-19 17:00&quot;</span><span class="p">))</span>
+<span class="n">query</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">TimeRange</span><span class="p">(</span><span class="n">until</span><span class="o">=</span><span class="s2">&quot;2032-02-19 17:11:30&quot;</span><span class="p">))</span>
+<span class="n">query</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="nb">dict</span><span class="p">(</span><span class="n">plan_name</span><span class="o">=</span><span class="s2">&quot;scan&quot;</span><span class="p">))</span>
+
+<span class="n">runs</span> <span class="o">=</span> <span class="n">cat</span><span class="o">.</span><span class="n">v2</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="n">query</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">uid</span> <span class="ow">in</span> <span class="n">runs</span><span class="p">:</span>
+    <span class="n">run</span> <span class="o">=</span> <span class="n">runs</span><span class="p">[</span><span class="n">uid</span><span class="p">]</span>
+    <span class="n">start_time</span> <span class="o">=</span> <span class="n">run</span><span class="o">.</span><span class="n">metadata</span><span class="p">[</span><span class="s2">&quot;start&quot;</span><span class="p">][</span><span class="s2">&quot;time&quot;</span><span class="p">]</span>
+    <span class="n">isodate</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">fromtimestamp</span><span class="p">(</span><span class="n">start_time</span><span class="p">)</span><span class="o">.</span><span class="n">isoformat</span><span class="p">(</span><span class="n">sep</span><span class="o">=</span><span class="s2">&quot; &quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">uid</span><span class="p">[:</span><span class="mi">8</span><span class="p">],</span> <span class="n">isodate</span><span class="p">)</span>
+<span class="n">specfile_example</span><span class="p">(</span><span class="n">runs</span><span class="p">,</span> <span class="n">test_specdata_txt</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>de507b9d 2025-11-25 10:47:31.736537
+Look at SPEC data file: test_specdata.txt
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%</span><span class="k">pycat</span> test_specdata.txt
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-C66">#F test_specdata.txt</span>
+<span class=" -Color -Color-C66">#E 1764089251.7365375</span>
+<span class=" -Color -Color-C66">#D Tue Nov 25 10:47:31 2025</span>
+<span class=" -Color -Color-C66">#C Bluesky  user = prjemian  host = arf.jemian.org</span>
+<span class=" -Color -Color-C66">#O0 atth  chi  motor  mx  my  mz  omega  phi</span>
+<span class=" -Color -Color-C66">#O1 ttheta</span>
+<span class=" -Color -Color-C66">#o0 atth  chi  motor  mx  my  mz  omega  phi</span>
+<span class=" -Color -Color-C66">#o1 ttheta</span>
+
+<span class=" -Color -Color-C66">#S 1  scan(detectors=[&#39;det&#39;], num=41, args=&#39;[&#39;motor&#39;, -1.2, 1.2]&#39;, per_step=&#39;None&#39;)</span>
+<span class=" -Color -Color-C66">#D Tue Nov 25 10:47:31 2025</span>
+<span class=" -Color -Color-C66">#C Tue Nov 25 10:47:36 2025.  uid = de507b9d-c75b-465b-94f7-a7797b983f44</span>
+<span class=" -Color -Color-C66">#P0 0 0 1.2 0 0 0 0 0</span>
+<span class=" -Color -Color-C66">#P1 0</span>
+<span class=" -Color -Color-C66">#MD versions = {&#39;ophyd&#39;: &#39;1.11.0&#39;, &#39;bluesky&#39;: &#39;1.14.6&#39;}</span>
+<span class=" -Color -Color-C66">#MD plan_type = generator</span>
+<span class=" -Color -Color-C66">#MD plan_name = scan</span>
+<span class=" -Color -Color-C66">#MD detectors = [&#39;det&#39;]</span>
+<span class=" -Color -Color-C66">#MD motors = [&#39;motor&#39;]</span>
+<span class=" -Color -Color-C66">#MD num_points = 41</span>
+<span class=" -Color -Color-C66">#MD num_intervals = 40</span>
+<span class=" -Color -Color-C66">#MD plan_args = {&#39;detectors&#39;: [&quot;EpicsSignal(read_pv=&#39;gp:userCalc1.VAL&#39;, name=&#39;det&#39;, timestamp=1764088504.230701, tolerance=1e-05, auto_monitor=False, string=False, write_pv=&#39;gp:userCalc1.VAL&#39;, limits=False, put_complete=False)&quot;], &#39;num&#39;: 41, &#39;args&#39;: [&quot;EpicsMotor(prefix=&#39;gp:m1&#39;, name=&#39;motor&#39;, settle_time=0.0, timeout=None, read_attrs=[&#39;user_readback&#39;, &#39;user_setpoint&#39;], configuration_attrs=[&#39;user_offset&#39;, &#39;user_offset_dir&#39;, &#39;velocity&#39;, &#39;acceleration&#39;, &#39;motor_egu&#39;])&quot;, -1.2, 1.2], &#39;per_step&#39;: &#39;None&#39;}</span>
+<span class=" -Color -Color-C66">#MD hints = {&#39;dimensions&#39;: [[[&#39;motor&#39;], &#39;primary&#39;]]}</span>
+<span class=" -Color -Color-C66">#MD plan_pattern = inner_product</span>
+<span class=" -Color -Color-C66">#MD plan_pattern_module = bluesky.plan_patterns</span>
+<span class=" -Color -Color-C66">#MD plan_pattern_args = {&#39;num&#39;: 41, &#39;args&#39;: [&quot;EpicsMotor(prefix=&#39;gp:m1&#39;, name=&#39;motor&#39;, settle_time=0.0, timeout=None, read_attrs=[&#39;user_readback&#39;, &#39;user_setpoint&#39;], configuration_attrs=[&#39;user_offset&#39;, &#39;user_offset_dir&#39;, &#39;velocity&#39;, &#39;acceleration&#39;, &#39;motor_egu&#39;])&quot;, -1.2, 1.2]}</span>
+<span class=" -Color -Color-C66">#N 5</span>
+<span class=" -Color -Color-C66">#L motor  Epoch  Epoch_float  motor_user_setpoint  det</span>
+-<span class=" -Color -Color-Green">1.2</span> <span class=" -Color -Color-Green">5</span> <span class=" -Color -Color-Green">4.798788785934</span> -<span class=" -Color -Color-Green">1.2</span> <span class=" -Color -Color-Green">4.697096076314e-70</span>
+-<span class=" -Color -Color-Green">1.14</span> <span class=" -Color -Color-Green">5</span> <span class=" -Color -Color-Green">5.081346988678</span> -<span class=" -Color -Color-Green">1.14</span> <span class=" -Color -Color-Green">4.114682306176e-62</span>
+-<span class=" -Color -Color-Green">1.08</span> <span class=" -Color -Color-Green">5</span> <span class=" -Color -Color-Green">5.382177829742</span> -<span class=" -Color -Color-Green">1.08</span> <span class=" -Color -Color-Green">1.191150081374e-54</span>
+-<span class=" -Color -Color-Green">1.02</span> <span class=" -Color -Color-Green">6</span> <span class=" -Color -Color-Green">5.682698965073</span> -<span class=" -Color -Color-Green">1.02</span> <span class=" -Color -Color-Green">1.287762326763e-47</span>
+-<span class=" -Color -Color-Green">0.96</span> <span class=" -Color -Color-Green">6</span> <span class=" -Color -Color-Green">5.984358787537</span> -<span class=" -Color -Color-Green">0.96</span> <span class=" -Color -Color-Green">4.982474832648e-41</span>
+-<span class=" -Color -Color-Green">0.9</span> <span class=" -Color -Color-Green">6</span> <span class=" -Color -Color-Green">6.283968687057</span> -<span class=" -Color -Color-Green">0.9</span> <span class=" -Color -Color-Green">6.816012652073e-35</span>
+-<span class=" -Color -Color-Green">0.84</span> <span class=" -Color -Color-Green">7</span> <span class=" -Color -Color-Green">6.58753156662</span> -<span class=" -Color -Color-Green">0.84</span> <span class=" -Color -Color-Green">3.40895401415e-29</span>
+-<span class=" -Color -Color-Green">0.78</span> <span class=" -Color -Color-Green">7</span> <span class=" -Color -Color-Green">6.885951042175</span> -<span class=" -Color -Color-Green">0.78</span> <span class=" -Color -Color-Green">6.102627367248e-24</span>
+-<span class=" -Color -Color-Green">0.72</span> <span class=" -Color -Color-Green">7</span> <span class=" -Color -Color-Green">7.186074256897</span> -<span class=" -Color -Color-Green">0.72</span> <span class=" -Color -Color-Green">3.855028249112e-19</span>
+-<span class=" -Color -Color-Green">0.66</span> <span class=" -Color -Color-Green">7</span> <span class=" -Color -Color-Green">7.477291345596</span> -<span class=" -Color -Color-Green">0.66</span> <span class=" -Color -Color-Green">8.37741144642e-15</span>
+-<span class=" -Color -Color-Green">0.6</span> <span class=" -Color -Color-Green">8</span> <span class=" -Color -Color-Green">7.788086652756</span> -<span class=" -Color -Color-Green">0.6</span> <span class=" -Color -Color-Green">6.602897660574e-11</span>
+-<span class=" -Color -Color-Green">0.54</span> <span class=" -Color -Color-Green">8</span> <span class=" -Color -Color-Green">8.088327646255</span> -<span class=" -Color -Color-Green">0.54</span> <span class=" -Color -Color-Green">1.981647945317e-07</span>
+-<span class=" -Color -Color-Green">0.48</span> <span class=" -Color -Color-Green">8</span> <span class=" -Color -Color-Green">8.388518571854</span> -<span class=" -Color -Color-Green">0.48</span> <span class=" -Color -Color-Green">0.0002010513966765</span>
+-<span class=" -Color -Color-Green">0.42</span> <span class=" -Color -Color-Green">9</span> <span class=" -Color -Color-Green">8.689679145813</span> -<span class=" -Color -Color-Green">0.42</span> <span class=" -Color -Color-Green">0.07198503319617</span>
+-<span class=" -Color -Color-Green">0.36</span> <span class=" -Color -Color-Green">9</span> <span class=" -Color -Color-Green">8.99031829834</span> -<span class=" -Color -Color-Green">0.36</span> <span class=" -Color -Color-Green">9.705444449639</span>
+-<span class=" -Color -Color-Green">0.3</span> <span class=" -Color -Color-Green">9</span> <span class=" -Color -Color-Green">9.290639400482</span> -<span class=" -Color -Color-Green">0.3</span> <span class=" -Color -Color-Green">444.9252801024</span>
+-<span class=" -Color -Color-Green">0.24</span> <span class=" -Color -Color-Green">10</span> <span class=" -Color -Color-Green">9.591261386871</span> -<span class=" -Color -Color-Green">0.24</span> <span class=" -Color -Color-Green">7559.369770398</span>
+-<span class=" -Color -Color-Green">0.18</span> <span class=" -Color -Color-Green">10</span> <span class=" -Color -Color-Green">9.892528533936</span> -<span class=" -Color -Color-Green">0.18</span> <span class=" -Color -Color-Green">44718.83239994</span>
+-<span class=" -Color -Color-Green">0.12</span> <span class=" -Color -Color-Green">10</span> <span class=" -Color -Color-Green">10.19314527512</span> -<span class=" -Color -Color-Green">0.12</span> <span class=" -Color -Color-Green">93527.29017926</span>
+-<span class=" -Color -Color-Green">0.06</span> <span class=" -Color -Color-Green">10</span> <span class=" -Color -Color-Green">10.48501563072</span> -<span class=" -Color -Color-Green">0.06</span> <span class=" -Color -Color-Green">72688.52312141</span>
+<span class=" -Color -Color-Green">0</span> <span class=" -Color -Color-Green">11</span> <span class=" -Color -Color-Green">10.79420518875</span> <span class=" -Color -Color-Green">0</span> <span class=" -Color -Color-Green">19567.78836187</span>
+<span class=" -Color -Color-Green">0.06</span> <span class=" -Color -Color-Green">11</span> <span class=" -Color -Color-Green">11.09540462494</span> <span class=" -Color -Color-Green">0.06</span> <span class=" -Color -Color-Green">1927.74181425</span>
+<span class=" -Color -Color-Green">0.12</span> <span class=" -Color -Color-Green">11</span> <span class=" -Color -Color-Green">11.39624977112</span> <span class=" -Color -Color-Green">0.12</span> <span class=" -Color -Color-Green">67.65719559994</span>
+<span class=" -Color -Color-Green">0.18</span> <span class=" -Color -Color-Green">12</span> <span class=" -Color -Color-Green">11.69581484795</span> <span class=" -Color -Color-Green">0.18</span> <span class=" -Color -Color-Green">0.8225804876164</span>
+<span class=" -Color -Color-Green">0.24</span> <span class=" -Color -Color-Green">12</span> <span class=" -Color -Color-Green">11.99742436409</span> <span class=" -Color -Color-Green">0.24</span> <span class=" -Color -Color-Green">0.003772408428037</span>
+<span class=" -Color -Color-Green">0.3</span> <span class=" -Color -Color-Green">12</span> <span class=" -Color -Color-Green">12.29894351959</span> <span class=" -Color -Color-Green">0.3</span> <span class=" -Color -Color-Green">5.963670063734e-06</span>
+<span class=" -Color -Color-Green">0.36</span> <span class=" -Color -Color-Green">13</span> <span class=" -Color -Color-Green">12.58793568611</span> <span class=" -Color -Color-Green">0.36</span> <span class=" -Color -Color-Green">3.346353217619e-09</span>
+<span class=" -Color -Color-Green">0.42</span> <span class=" -Color -Color-Green">13</span> <span class=" -Color -Color-Green">12.88823223114</span> <span class=" -Color -Color-Green">0.42</span> <span class=" -Color -Color-Green">6.644520253063e-13</span>
+<span class=" -Color -Color-Green">0.48</span> <span class=" -Color -Color-Green">13</span> <span class=" -Color -Color-Green">13.18871331215</span> <span class=" -Color -Color-Green">0.48</span> <span class=" -Color -Color-Green">4.840757860829e-17</span>
+<span class=" -Color -Color-Green">0.54</span> <span class=" -Color -Color-Green">13</span> <span class=" -Color -Color-Green">13.49933886528</span> <span class=" -Color -Color-Green">0.54</span> <span class=" -Color -Color-Green">1.272406018296e-21</span>
+<span class=" -Color -Color-Green">0.6</span> <span class=" -Color -Color-Green">14</span> <span class=" -Color -Color-Green">13.78994488716</span> <span class=" -Color -Color-Green">0.6</span> <span class=" -Color -Color-Green">1.210375244034e-26</span>
+<span class=" -Color -Color-Green">0.66</span> <span class=" -Color -Color-Green">14</span> <span class=" -Color -Color-Green">14.09026098251</span> <span class=" -Color -Color-Green">0.66</span> <span class=" -Color -Color-Green">4.007957513344e-32</span>
+<span class=" -Color -Color-Green">0.72</span> <span class=" -Color -Color-Green">14</span> <span class=" -Color -Color-Green">14.39210033417</span> <span class=" -Color -Color-Green">0.72</span> <span class=" -Color -Color-Green">4.60698256011e-38</span>
+<span class=" -Color -Color-Green">0.78</span> <span class=" -Color -Color-Green">15</span> <span class=" -Color -Color-Green">14.69092798233</span> <span class=" -Color -Color-Green">0.78</span> <span class=" -Color -Color-Green">1.996277220905e-44</span>
+<span class=" -Color -Color-Green">0.84</span> <span class=" -Color -Color-Green">15</span> <span class=" -Color -Color-Green">14.99262237549</span> <span class=" -Color -Color-Green">0.84</span> <span class=" -Color -Color-Green">2.970223944581e-51</span>
+<span class=" -Color -Color-Green">0.9</span> <span class=" -Color -Color-Green">15</span> <span class=" -Color -Color-Green">15.30345225334</span> <span class=" -Color -Color-Green">0.9</span> <span class=" -Color -Color-Green">1.625809092382e-58</span>
+<span class=" -Color -Color-Green">0.96</span> <span class=" -Color -Color-Green">16</span> <span class=" -Color -Color-Green">15.60361862183</span> <span class=" -Color -Color-Green">0.96</span> <span class=" -Color -Color-Green">3.065464820924e-66</span>
+<span class=" -Color -Color-Green">1.02</span> <span class=" -Color -Color-Green">16</span> <span class=" -Color -Color-Green">15.89481163025</span> <span class=" -Color -Color-Green">1.02</span> <span class=" -Color -Color-Green">2.158397475032e-74</span>
+<span class=" -Color -Color-Green">1.08</span> <span class=" -Color -Color-Green">16</span> <span class=" -Color -Color-Green">16.2053592205</span> <span class=" -Color -Color-Green">1.08</span> <span class=" -Color -Color-Green">5.307692599663e-83</span>
+<span class=" -Color -Color-Green">1.14</span> <span class=" -Color -Color-Green">17</span> <span class=" -Color -Color-Green">16.50043964386</span> <span class=" -Color -Color-Green">1.14</span> <span class=" -Color -Color-Green">4.71594745842e-92</span>
+<span class=" -Color -Color-Green">1.2</span> <span class=" -Color -Color-Green">17</span> <span class=" -Color -Color-Green">16.80608057976</span> <span class=" -Color -Color-Green">1.2</span> <span class=" -Color -Color-Green">1.489067902142e-101</span>
+<span class=" -Color -Color-C66">#C Tue Nov 25 10:47:48 2025.  num_events_label_start_motor = 1</span>
+<span class=" -Color -Color-C66">#C Tue Nov 25 10:47:48 2025.  num_events_primary = 41</span>
+<span class=" -Color -Color-C66">#C Tue Nov 25 10:47:48 2025.  exit_status = success</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="fw_nxwriter.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Callback</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="howto_examples.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">How-To Examples</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+<div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+  </div>
+  <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#setup">Setup</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#get-the-most-recent-scan-by-steps">get the most recent scan, by steps</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#support-function-specfile-example">Support function: <code class="docutils literal notranslate"><span class="pre">specfile_example()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#write-the-run-as-spec-data">Write the run as SPEC data</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#a-specific-scan">a specific scan</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#specify-a-list-of-scans-by-uid">specify a list of scans by UID</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#find-specific-plans-within-a-range-of-dates">Find specific plans within a range of dates</a></li>
+</ul>
+  </nav></div>
+
+  <div class="sidebar-secondary-item">
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/examples/fw_specfile_example.ipynb.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+
+  <p class="copyright">
+    
+      © Copyright 2017-2025, UChicago Argonne, LLC.
+      <br/>
+    
+  </p>
+</div>
+      
+        <div class="footer-item">
+
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.1.3.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item">
+<p class="theme-version">
+  <!-- # L10n: Setting the PST URL as an argument as this does not need to be localized -->
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.16.1.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

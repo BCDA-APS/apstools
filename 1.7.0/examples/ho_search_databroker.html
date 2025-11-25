@@ -1,0 +1,1706 @@
+
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+
+    <title>How to Search for Bluesky Data? &#8212; apstools 1.7</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/graphviz.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.5ea377869091fd0449014c60fc090103.min.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/nbsphinx-code-cells.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/css/custom.css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/sphinx_highlight.js"></script>
+    <script src="../_static/design-tabs.js"></script>
+    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'examples/ho_search_databroker';</script>
+    <script>
+        DOCUMENTATION_OPTIONS.theme_version = '0.15.4';
+        DOCUMENTATION_OPTIONS.theme_switcher_json_url = 'https://raw.githubusercontent.com/BCDA-APS/apstools/main/docs/source/_static/switcher.json';
+        DOCUMENTATION_OPTIONS.theme_switcher_version_match = '1.7.0';
+        DOCUMENTATION_OPTIONS.show_version_warning_banner = false;
+        </script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="How to setup logging" href="ho_session_logs.html" />
+    <link rel="prev" title="How to use NeXus/HDF5 Templates" href="ho_nxwriter_templates.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-3 navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../index.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">apstools 1.7</p>
+  
+</a></div>
+    
+      <div class="navbar-item">
+<script>
+document.write(`
+  <div class="version-switcher__container dropdown">
+    <button id="pst-version-switcher-button-2"
+      type="button"
+      class="version-switcher__button btn btn-sm dropdown-toggle"
+      data-bs-toggle="dropdown"
+      aria-haspopup="listbox"
+      aria-controls="pst-version-switcher-list-2"
+      aria-label="Version switcher list"
+    >
+      Choose version  <!-- this text may get changed later by javascript -->
+      <span class="caret"></span>
+    </button>
+    <div id="pst-version-switcher-list-2"
+      class="version-switcher__menu dropdown-menu list-group-flush py-0"
+      role="listbox" aria-labelledby="pst-version-switcher-button-2">
+      <!-- dropdown will be populated by javascript on page load -->
+    </div>
+  </div>
+`);
+</script></div>
+    
+  </div>
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../install.html">
+    Installation
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../api/index.html">
+    API Documentation
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../applications/index.html">
+    Applications
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="index.html">
+    Examples
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../changes.html">
+    Change History
+  </a>
+</li>
+
+            <li class="nav-item dropdown">
+                <button class="btn dropdown-toggle nav-item" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-controls="pst-nav-more-links">
+                    More
+                </button>
+                <ul id="pst-nav-more-links" class="dropdown-menu">
+                    
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../license.html">
+    License
+  </a>
+</li>
+
+                </ul>
+            </li>
+            
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script>
+        </div>
+      
+      
+        <div class="navbar-item">
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script></div>
+      
+        <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/BCDA-APS/apstools" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script>
+    </div>
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../install.html">
+    Installation
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../api/index.html">
+    API Documentation
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../applications/index.html">
+    Applications
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="index.html">
+    Examples
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../changes.html">
+    Change History
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../license.html">
+    License
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script></div>
+        
+          <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/BCDA-APS/apstools" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+        
+      </div>
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+<nav class="bd-docs-nav bd-links"
+     aria-label="Section Navigation">
+  <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
+  <div class="bd-toc-item navbar-nav"><ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="device_examples.html">Device Examples</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="de_0_adsim_hdf5_basic.html">Area Detector with default HDF5 File Name</a></li>
+<li class="toctree-l2"><a class="reference internal" href="de_1_adsim_hdf5_custom_names.html">Area Detector with custom HDF5 File Name</a></li>
+<li class="toctree-l2"><a class="reference internal" href="de_2_adsim_hdf5_single_mode.html">Area Detector, Single mode, HDF5 file</a></li>
+<li class="toctree-l2"><a class="reference internal" href="de_ad_pe.html">ADPerkinElmer Area Detector with default HDF5 File Name</a></li>
+<li class="toctree-l2"><a class="reference internal" href="de_ad_pilatus.html">ADPilatus Area Detector with default HDF5 File Name</a></li>
+<li class="toctree-l2"><a class="reference internal" href="de_aps_data_management.html">Integration with APS Data Management (DM)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="de_sscan.html">The synApps <code class="docutils literal notranslate"><span class="pre">sscan</span></code> and <code class="docutils literal notranslate"><span class="pre">SscanRecord</span></code></a></li>
+</ul>
+</details></li>
+</ul>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="filewriter_examples.html">File Writer Examples</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="fw_nxwriter.html">Callback</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="fw_specfile_example.html">Output scan(s) to a SPEC data file.</a></li>
+</ul>
+</details></li>
+</ul>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="howto_examples.html">How-To Examples</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="ho_contingency.html">How to interrupt/stop/abort a running plan &amp; recover to safe settings</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ho_list_control_objects.html">What are the objects to control?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ho_nxwriter_templates.html">How to use NeXus/HDF5 Templates</a></li>
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">How to Search for Bluesky Data?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ho_session_logs.html">How to setup logging</a></li>
+</ul>
+</details></li>
+</ul>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="plan_examples.html">Plan Examples</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="pl_excel_scan.html">The <code class="docutils literal notranslate"><span class="pre">Excel_plan()</span></code> – batch scans using a spreadsheet</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pl_lineup.html">The <code class="docutils literal notranslate"><span class="pre">lineup()</span></code> plan - align an axis with a signal</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pl_nscan.html">The <code class="docutils literal notranslate"><span class="pre">nscan()</span></code> plan – scan multiple axes together</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pl_run_command_list.html">The <code class="xref py py-func docutils literal notranslate"><span class="pre">run_command_file()</span></code> plan – batch scans using a text file</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pl_tuneaxis.html">The <code class="docutils literal notranslate"><span class="pre">TuneAxis()</span></code> plan - align an axis with a signal</a></li>
+</ul>
+</details></li>
+</ul>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="download_examples.html">File Downloads for the Examples</a></li>
+</ul>
+</div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+
+
+<nav aria-label="Breadcrumb" class="d-print-none">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="index.html" class="nav-link">Examples</a></li>
+    
+    
+    <li class="breadcrumb-item"><a href="howto_examples.html" class="nav-link">How-To Examples</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page">How to...</li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section id="How-to-Search-for-Bluesky-Data?">
+<h1>How to Search for Bluesky Data?<a class="headerlink" href="#How-to-Search-for-Bluesky-Data?" title="Permalink to this heading">#</a></h1>
+<p>Show <a class="reference external" href="https://github.com/BCDA-APS/apstools/issues/674">how to search</a> for Bluesky data from a <a class="reference external" href="https://blueskyproject.io/databroker">databroker</a> catalog.</p>
+<p>The databroker <a class="reference external" href="https://blueskyproject.io/databroker/tutorials/search-and-lookup.html">search and lookup</a> tutorial is a great way to learn how to search for Bluesky data. This How-To guide continues from the tutorial, using additional support from <a class="reference external" href="https://BCDA-APS.github.io/apstools/latest/">apstools</a>. Custom queries are expressed using <a class="reference external" href="https://www.mongodb.com/docs/manual/reference/operator/query/">MongoDB Query</a>. Additional help with the MongoDB query language, operators, and syntax
+may be found online. The content from <a class="reference external" href="https://www.w3schools.com/python/python_mongodb_query.asp">w3schools</a> is both informative and compact.</p>
+<section id="What-is-a-catalog?">
+<h2>What is a catalog?<a class="headerlink" href="#What-is-a-catalog?" title="Permalink to this heading">#</a></h2>
+<p>A <em>catalog</em> is a group of Bluesky measurements from the <a class="reference external" href="https://blueskyproject.io/databroker">databroker</a>.</p>
+<p>Here, we create a catalog, a group of Bluesky <em>runs</em> from the <code class="docutils literal notranslate"><span class="pre">class_2021_03</span></code> database.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">databroker</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;catalogs available: </span><span class="si">{</span><span class="nb">list</span><span class="p">(</span><span class="n">databroker</span><span class="o">.</span><span class="n">catalog</span><span class="p">)</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="n">cat</span> <span class="o">=</span> <span class="n">databroker</span><span class="o">.</span><span class="n">catalog</span><span class="p">[</span><span class="s2">&quot;class_2021_03&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">v2</span>
+<span class="n">cat</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+catalogs available: list(databroker.catalog)=[&#39;bdp2022&#39;, &#39;class_2021_03&#39;, &#39;6idb_export&#39;, &#39;apstools_test&#39;, &#39;class_data_examples&#39;, &#39;usaxs_test&#39;, &#39;korts202106&#39;, &#39;training&#39;]
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+class_2021_03:
+  args:
+    asset_registry_db: mongodb://localhost:27017/class_2021_03-bluesky
+    metadatastore_db: mongodb://localhost:27017/class_2021_03-bluesky
+    name: class_2021_03
+  description: &#39;&#39;
+  driver: databroker._drivers.mongo_normalized.BlueskyMongoCatalog
+  metadata:
+    catalog_dir: /home/prjemian/.local/share/intake/
+
+</pre></div></div>
+</div>
+<p>What does the <code class="docutils literal notranslate"><span class="pre">cat</span></code> object describe?</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">cat</span><span class="o">.</span><span class="n">name</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">cat</span><span class="p">)</span><span class="si">=}</span><span class="s2"> measurements (runs) in the catalog&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">cat</span><span class="o">.</span><span class="n">metadata</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+cat.name=&#39;class_2021_03&#39;
+len(cat)=40 measurements (runs) in the catalog
+cat.metadata={&#39;catalog_dir&#39;: &#39;/home/prjemian/.local/share/intake/&#39;}
+</pre></div></div>
+</div>
+<p>NOTE: A search on a catalog object returns a new catalog as filtered by the search parameters.</p>
+</section>
+<section id="What-is-a-run?">
+<h2>What is a run?<a class="headerlink" href="#What-is-a-run?" title="Permalink to this heading">#</a></h2>
+<p>Bluesky uses the term <em>run</em> to describe a single measurement in a catalog. A run contains data and metadata from a single measurement, scan, or other data acquisition, such as <a class="reference external" href="https://blueskyproject.io/bluesky/generated/bluesky.plans.count.html#bluesky.plans.count">count</a> or <a class="reference external" href="https://blueskyproject.io/bluesky/generated/bluesky.plans.scan.html#bluesky.plans.scan">scan</a>.</p>
+<p>A <em>run</em> consists of several parts. Each part has its own type of document, as follows:</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>document</p></th>
+<th class="head"><p>description</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>start</p></td>
+<td><p>Initial information about the measurement, including metadata.</p></td>
+</tr>
+<tr class="row-odd"><td><p>descriptor</p></td>
+<td><p>A description of the data to be collected.</p></td>
+</tr>
+<tr class="row-even"><td><p>event</p></td>
+<td><p>The measurement data.</p></td>
+</tr>
+<tr class="row-odd"><td><p>stop</p></td>
+<td><p>A final summary of the measurement.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<section id="How-to-retrieve-a-run?">
+<h2>How to retrieve a run?<a class="headerlink" href="#How-to-retrieve-a-run?" title="Permalink to this heading">#</a></h2>
+<p>Retrieve any run from the catalog using one of three references:</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>reference</p></th>
+<th class="head"><p>example</p></th>
+<th class="head"><p>type</p></th>
+<th class="head"><p>description</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">scan_id</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">cat[192]</span></code></p></td>
+<td><p><em>positive</em> integer</p></td>
+<td><p>not necessarily unique, returns most recent</p></td>
+</tr>
+<tr class="row-odd"><td><p>relative</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">cat[-1]</span></code></p></td>
+<td><p><em>negative</em> integer</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">-1</span></code> is most recent run, <code class="docutils literal notranslate"><span class="pre">-2</span></code> is the run before, …</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">uid</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">cat[&quot;abc1234&quot;]</span></code></p></td>
+<td><p><a class="reference external" href="https://docs.python.org/3/library/uuid.html#uuid.uuid4">UUID</a> string</p></td>
+<td><p>unique, matches the first characters of the start document <code class="docutils literal notranslate"><span class="pre">uid</span></code></p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>A <code class="docutils literal notranslate"><span class="pre">uid</span></code> is created and returned by the Bluesky <code class="docutils literal notranslate"><span class="pre">RunEngine</span></code> after it executes a plan (that <a class="reference external" href="https://blueskyproject.io/bluesky/msg.html#open-run">starts a new run</a>).</p>
+<p>While a full <code class="docutils literal notranslate"><span class="pre">uid</span></code> provides a unique reference to a run, it appears to humans to be a random sequence of hexadecimal characters with hyphens at irregular intervals. Partial representation of the <code class="docutils literal notranslate"><span class="pre">uid</span></code> is allowed, matching from the start of the full <code class="docutils literal notranslate"><span class="pre">uid</span></code>. The given <em>short</em> <code class="docutils literal notranslate"><span class="pre">uid</span></code> must include enough characters to make a unique match in the catalog <strong>and</strong> must include up to the first non-numeric character to avoid mis-interpretation as an integer. You will be advised if the <em>short</em>
+<code class="docutils literal notranslate"><span class="pre">uid</span></code> is not a unique match.</p>
+<p>The first seven characters (<code class="docutils literal notranslate"><span class="pre">uid7</span></code>) are often sufficient as a short <code class="docutils literal notranslate"><span class="pre">uid</span></code>. There is a 1 in <span class="math notranslate nohighlight">\(16^7\)</span> (268 million) chance of this not being unique.</p>
+<p>Each of these references retrieve the same run:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;scan_id: </span><span class="si">{</span><span class="n">cat</span><span class="p">[</span><span class="mi">192</span><span class="p">]</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;scan_id: </span><span class="si">{</span><span class="n">cat</span><span class="p">[</span><span class="s1">&#39;192&#39;</span><span class="p">]</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>  <span class="c1"># treated as an integer by databroker</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;relative: </span><span class="si">{</span><span class="n">cat</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;relative: </span><span class="si">{</span><span class="n">cat</span><span class="p">[</span><span class="s1">&#39;-1&#39;</span><span class="p">]</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>  <span class="c1"># treated as an integer by databroker</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;short uid: </span><span class="si">{</span><span class="n">cat</span><span class="p">[</span><span class="s1">&#39;e3&#39;</span><span class="p">]</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>  <span class="c1"># shortest version that works</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;short uid: </span><span class="si">{</span><span class="n">cat</span><span class="p">[</span><span class="s1">&#39;e3862991-688d&#39;</span><span class="p">]</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>  <span class="c1"># must include the hyphen</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+scan_id: cat[192]=&lt;BlueskyRun uid=&#39;e3862991-688d-43dc-8442-d85ccbb3d6c8&#39;&gt;
+scan_id: cat[&#39;192&#39;]=&lt;BlueskyRun uid=&#39;e3862991-688d-43dc-8442-d85ccbb3d6c8&#39;&gt;
+relative: cat[-1]=&lt;BlueskyRun uid=&#39;e3862991-688d-43dc-8442-d85ccbb3d6c8&#39;&gt;
+relative: cat[&#39;-1&#39;]=&lt;BlueskyRun uid=&#39;e3862991-688d-43dc-8442-d85ccbb3d6c8&#39;&gt;
+short uid: cat[&#39;e3&#39;]=&lt;BlueskyRun uid=&#39;e3862991-688d-43dc-8442-d85ccbb3d6c8&#39;&gt;
+short uid: cat[&#39;e3862991-688d&#39;]=&lt;BlueskyRun uid=&#39;e3862991-688d-43dc-8442-d85ccbb3d6c8&#39;&gt;
+</pre></div></div>
+</div>
+<p>Show the run has the expected <code class="docutils literal notranslate"><span class="pre">scan_id</span></code>.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;scan_id: </span><span class="si">{</span><span class="n">cat</span><span class="p">[</span><span class="mi">192</span><span class="p">]</span><span class="o">.</span><span class="n">metadata</span><span class="p">[</span><span class="s1">&#39;start&#39;</span><span class="p">][</span><span class="s1">&#39;scan_id&#39;</span><span class="p">]</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="n">cat</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+scan_id: cat[192].metadata[&#39;start&#39;][&#39;scan_id&#39;]=192
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+BlueskyRun
+  uid=&#39;e3862991-688d-43dc-8442-d85ccbb3d6c8&#39;
+  exit_status=&#39;success&#39;
+  2021-05-19 15:22:03.070 -- 2021-05-19 15:22:07.087
+  Streams:
+    * baseline
+    * primary
+
+</pre></div></div>
+</div>
+<p>There is one more way to retrieve runs from the catalog, iterate over the catalog to get the full <code class="docutils literal notranslate"><span class="pre">uid</span></code> of each run, then use <code class="docutils literal notranslate"><span class="pre">cat[uid]</span></code> to get the run object. This technique might be more useful on smaller catalogs.</p>
+<p>Here, we break after the first one (to limit output):</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">uid</span> <span class="ow">in</span> <span class="n">cat</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">uid</span><span class="si">=}</span><span class="s2">  </span><span class="si">{</span><span class="n">cat</span><span class="p">[</span><span class="n">uid</span><span class="p">]</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="k">break</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+uid=&#39;e3862991-688d-43dc-8442-d85ccbb3d6c8&#39;  cat[uid]=&lt;BlueskyRun uid=&#39;e3862991-688d-43dc-8442-d85ccbb3d6c8&#39;&gt;
+</pre></div></div>
+</div>
+</section>
+<section id="Search-with-listruns()">
+<h2>Search with <code class="docutils literal notranslate"><span class="pre">listruns()</span></code><a class="headerlink" href="#Search-with-listruns()" title="Permalink to this heading">#</a></h2>
+<p><strong>Q</strong>: What are the most recent runs?</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">apstools.utils.listruns()</span></code> function from <a class="reference external" href="https://bcda-aps.github.io/apstools/latest/">apstools</a> provides a listing of the most recent runs. Taking all the default settings, <code class="docutils literal notranslate"><span class="pre">listruns()</span></code> shows (up to) the 20 most recent runs in the catalog.</p>
+<p>Here, the first column is an index number (and can be ignored), the remaining columns are labeled. Note the <code class="docutils literal notranslate"><span class="pre">time</span></code> column includes both the <code class="docutils literal notranslate"><span class="pre">yyyy-mm-dd</span></code> date and the <code class="docutils literal notranslate"><span class="pre">HH:MM:SS</span></code> time of day (24-hour time).</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">apstools.utils</span> <span class="kn">import</span> <span class="n">listruns</span>
+
+<span class="n">listruns</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+/home/prjemian/.conda/envs/bluesky_2022_3/lib/python3.9/site-packages/databroker/queries.py:89: PytzUsageWarning: The zone attribute is specific to pytz&#39;s interface; please migrate to a new time zone provider. For more details on how to do so, see https://pytz-deprecation-shim.readthedocs.io/en/latest/migration.html
+  timezone = lz.zone
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+catalog: class_2021_03
+    scan_id                 time plan_name                   detectors
+0       192  2021-05-19 15:22:03  rel_scan  [scaler1, adsimdet, zaxis]
+1       191  2021-05-19 15:19:27  rel_scan         [scaler1, adsimdet]
+2       190  2021-05-19 15:18:59  rel_scan                   [scaler1]
+3       189  2021-05-19 15:18:28  rel_scan      [scaler1, temperature]
+4       188  2021-05-19 15:14:56  rel_scan                   [scaler1]
+5       187  2021-05-19 15:13:47  rel_scan                   [scaler1]
+6        33  2021-04-07 15:55:09      scan                     [noisy]
+7        33  2021-03-17 00:32:55     count                  [adsimdet]
+8        32  2021-03-17 00:31:44     count               [temperature]
+9        31  2021-03-17 00:31:24     count               [temperature]
+10       30  2021-03-17 00:31:23     count               [temperature]
+11       29  2021-03-17 00:31:23     count               [temperature]
+12       28  2021-03-17 00:30:33  rel_scan                     [noisy]
+13       27  2021-03-17 00:30:27  rel_scan                     [noisy]
+14       26  2021-03-17 00:30:21  rel_scan                     [noisy]
+15       25  2021-03-17 00:30:04  rel_scan                     [noisy]
+16       24  2021-03-17 00:29:57  rel_scan                     [noisy]
+17       23  2021-03-17 00:29:40  rel_scan                     [noisy]
+18       22  2021-03-17 00:27:55     count            [scaler1, noisy]
+19       21  2021-03-17 00:27:23     count                   [scaler1]
+</pre></div></div>
+</div>
+<p>There are many options for <code class="docutils literal notranslate"><span class="pre">listruns()</span></code>, show them using the <code class="docutils literal notranslate"><span class="pre">listruns?</span></code> syntax:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>listruns<span class="o">?</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+<span class="ansi-red-fg">Signature:</span>
+listruns<span class="ansi-blue-fg">(</span>
+    cat<span class="ansi-blue-fg">=</span><span class="ansi-green-fg">None</span><span class="ansi-blue-fg">,</span>
+    keys<span class="ansi-blue-fg">=</span><span class="ansi-green-fg">None</span><span class="ansi-blue-fg">,</span>
+    missing<span class="ansi-blue-fg">=</span><span class="ansi-blue-fg">&#39;&#39;</span><span class="ansi-blue-fg">,</span>
+    num<span class="ansi-blue-fg">=</span><span class="ansi-cyan-fg">20</span><span class="ansi-blue-fg">,</span>
+    printing<span class="ansi-blue-fg">=</span><span class="ansi-blue-fg">&#39;smart&#39;</span><span class="ansi-blue-fg">,</span>
+    reverse<span class="ansi-blue-fg">=</span><span class="ansi-green-fg">True</span><span class="ansi-blue-fg">,</span>
+    since<span class="ansi-blue-fg">=</span><span class="ansi-green-fg">None</span><span class="ansi-blue-fg">,</span>
+    sortby<span class="ansi-blue-fg">=</span><span class="ansi-blue-fg">&#39;time&#39;</span><span class="ansi-blue-fg">,</span>
+    tablefmt<span class="ansi-blue-fg">=</span><span class="ansi-blue-fg">&#39;dataframe&#39;</span><span class="ansi-blue-fg">,</span>
+    timefmt<span class="ansi-blue-fg">=</span><span class="ansi-blue-fg">&#39;%Y-%m-%d %H:%M:%S&#39;</span><span class="ansi-blue-fg">,</span>
+    until<span class="ansi-blue-fg">=</span><span class="ansi-green-fg">None</span><span class="ansi-blue-fg">,</span>
+    ids<span class="ansi-blue-fg">=</span><span class="ansi-green-fg">None</span><span class="ansi-blue-fg">,</span>
+    <span class="ansi-blue-fg">**</span>query<span class="ansi-blue-fg">,</span>
+<span class="ansi-blue-fg">)</span>
+<span class="ansi-red-fg">Docstring:</span>
+List runs from catalog.
+
+This function provides a thin interface to the highly-reconfigurable
+``ListRuns()`` class in this package.
+
+PARAMETERS
+
+cat
+    *object* :
+    Instance of databroker v1 or v2 catalog.
+keys
+    *str* or *[str]* or None:
+    Include these additional keys from the start document.
+    (default: ``None`` means ``&#34;scan_id time plan_name detectors&#34;``)
+missing
+    *str*:
+    Test to report when a value is not available.
+    (default: ``&#34;&#34;``)
+ids
+    *[int]* or *[str]*:
+    List of ``uid`` or ``scan_id`` value(s).
+    Can mix different kinds in the same list.
+    Also can specify offsets (e.g., ``-1``).
+    According to the rules for ``databroker`` catalogs,
+    a string is a ``uid`` (partial representations allowed),
+    an int is ``scan_id`` if positive or an offset if negative.
+    (default: ``None``)
+num
+    *int* :
+    Make the table include the ``num`` most recent runs.
+    (default: ``20``)
+printing
+    *bool* or ``&#34;smart&#34;``:
+    If ``True``, print the table to stdout.
+    If ``&#34;smart&#34;``, then act as shown below.
+    (default: ``True``)
+
+    ================  ===================
+    session           action(s)
+    ================  ===================
+    python session    print and return ``None``
+    Ipython console   return ``DataFrame`` object
+    Jupyter notebook  return ``DataFrame`` object
+    ================  ===================
+
+reverse
+    *bool* :
+    If ``True``, sort in descending order by ``sortby``.
+    (default: ``True``)
+since
+    *str* :
+    include runs that started on or after this ISO8601 time
+    (default: ``&#34;1995-01-01&#34;``)
+sortby
+    *str* :
+    Sort columns by this key, found by exact match in either
+    the ``start`` or ``stop`` document.
+    (default: ``&#34;time&#34;``)
+tablefmt
+    *str* :
+    When returning an object, specify which type
+    of object to return.
+    (default: ``&#34;dataframe&#34;,``)
+
+    ========== ==============
+    value      object
+    ========== ==============
+    dataframe  ``pandas.DataFrame``
+    table      ``str(pyRestTable.Table)``
+    ========== ==============
+
+timefmt
+    *str* :
+    The ``time`` key (also includes keys ``&#34;start.time&#34;`` and  ``&#34;stop.time&#34;``)
+    will be formatted by the ``self.timefmt`` value.
+    See https://strftime.org/ for examples.  The special ``timefmt=&#34;raw&#34;``
+    is used to report time as the raw value (floating point time as used in
+    python&#39;s ``time.time()``).
+    (default: ``&#34;%Y-%m-%d %H:%M:%S&#34;,``)
+until
+    *str* :
+    include runs that started before this ISO8601 time
+    (default: ``2100-12-31``)
+``**query``
+    *dict* :
+    Any additional keyword arguments will be passed to
+    the databroker to refine the search for matching runs
+    using the ``mongoquery`` package.
+
+RETURNS
+
+object:
+    ``None`` or ``str`` or ``pd.DataFrame()`` object
+
+EXAMPLE::
+
+    TODO
+
+(new in release 1.5.0)
+<span class="ansi-red-fg">File:</span>      ~/Documents/projects/BCDA-APS/apstools/apstools/utils/list_runs.py
+<span class="ansi-red-fg">Type:</span>      function
+</pre></div></div>
+</div>
+<section id="Search-within-a-range-of-dates">
+<h3>Search within a range of dates<a class="headerlink" href="#Search-within-a-range-of-dates" title="Permalink to this heading">#</a></h3>
+<p><strong>Q</strong>: What are the runs between certain dates?</p>
+<p>To find runs that started since a particular date, use <code class="docutils literal notranslate"><span class="pre">listruns(since=&quot;yyyy-mm-dd</span> <span class="pre">hh:mm&quot;)</span></code> where <code class="docutils literal notranslate"><span class="pre">yyyy-mm-dd</span> <span class="pre">hh:mm</span></code> is a suggestion. You only need to supply the parts that matter, so “2:00” would find all runs that started after 2 AM today.</p>
+<p>Here, we look for runs <strong>since</strong> the beginning of April 2021. (Because the date is incomplete, it is implied that the full specification is <code class="docutils literal notranslate"><span class="pre">2021-04-01</span> <span class="pre">00:00:00.0000000</span></code>.)</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">listruns</span><span class="p">(</span><span class="n">since</span><span class="o">=</span><span class="s2">&quot;2021-04&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+/home/prjemian/.conda/envs/bluesky_2022_3/lib/python3.9/site-packages/databroker/queries.py:89: PytzUsageWarning: The zone attribute is specific to pytz&#39;s interface; please migrate to a new time zone provider. For more details on how to do so, see https://pytz-deprecation-shim.readthedocs.io/en/latest/migration.html
+  timezone = lz.zone
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+catalog: class_2021_03
+   scan_id                 time plan_name                   detectors
+0      192  2021-05-19 15:22:03  rel_scan  [scaler1, adsimdet, zaxis]
+1      191  2021-05-19 15:19:27  rel_scan         [scaler1, adsimdet]
+2      190  2021-05-19 15:18:59  rel_scan                   [scaler1]
+3      189  2021-05-19 15:18:28  rel_scan      [scaler1, temperature]
+4      188  2021-05-19 15:14:56  rel_scan                   [scaler1]
+5      187  2021-05-19 15:13:47  rel_scan                   [scaler1]
+6       33  2021-04-07 15:55:09      scan                     [noisy]
+</pre></div></div>
+</div>
+<p>Likewise, find runs that started before a particular date and time using <code class="docutils literal notranslate"><span class="pre">listruns(until=&quot;yyyy-mm-dd</span> <span class="pre">hh:mm&quot;)</span></code></p>
+<p>Here, the specification will include any date <strong>until</strong> (before) the beginning of May 2021.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">listruns</span><span class="p">(</span><span class="n">until</span><span class="o">=</span><span class="s2">&quot;2021-05&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+/home/prjemian/.conda/envs/bluesky_2022_3/lib/python3.9/site-packages/databroker/queries.py:89: PytzUsageWarning: The zone attribute is specific to pytz&#39;s interface; please migrate to a new time zone provider. For more details on how to do so, see https://pytz-deprecation-shim.readthedocs.io/en/latest/migration.html
+  timezone = lz.zone
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+catalog: class_2021_03
+    scan_id                 time plan_name               detectors
+0        33  2021-04-07 15:55:09      scan                 [noisy]
+1        33  2021-03-17 00:32:55     count              [adsimdet]
+2        32  2021-03-17 00:31:44     count           [temperature]
+3        31  2021-03-17 00:31:24     count           [temperature]
+4        30  2021-03-17 00:31:23     count           [temperature]
+5        29  2021-03-17 00:31:23     count           [temperature]
+6        28  2021-03-17 00:30:33  rel_scan                 [noisy]
+7        27  2021-03-17 00:30:27  rel_scan                 [noisy]
+8        26  2021-03-17 00:30:21  rel_scan                 [noisy]
+9        25  2021-03-17 00:30:04  rel_scan                 [noisy]
+10       24  2021-03-17 00:29:57  rel_scan                 [noisy]
+11       23  2021-03-17 00:29:40  rel_scan                 [noisy]
+12       22  2021-03-17 00:27:55     count        [scaler1, noisy]
+13       21  2021-03-17 00:27:23     count               [scaler1]
+14       20  2021-03-17 00:27:22     count               [scaler1]
+15       19  2021-03-16 17:06:01      scan  [scaler1, temperature]
+16       18  2021-03-16 17:05:51      scan  [scaler1, temperature]
+17       17  2021-03-16 17:05:42      scan  [scaler1, temperature]
+18       16  2021-03-16 17:05:32      scan  [scaler1, temperature]
+19       15  2021-03-16 17:05:03      scan  [scaler1, temperature]
+</pre></div></div>
+</div>
+<p>You can combine them:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">listruns</span><span class="p">(</span><span class="n">since</span><span class="o">=</span><span class="s2">&quot;2021-04&quot;</span><span class="p">,</span> <span class="n">until</span><span class="o">=</span><span class="s2">&quot;2021-05&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+/home/prjemian/.conda/envs/bluesky_2022_3/lib/python3.9/site-packages/databroker/queries.py:89: PytzUsageWarning: The zone attribute is specific to pytz&#39;s interface; please migrate to a new time zone provider. For more details on how to do so, see https://pytz-deprecation-shim.readthedocs.io/en/latest/migration.html
+  timezone = lz.zone
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+catalog: class_2021_03
+   scan_id                 time plan_name detectors
+0       33  2021-04-07 15:55:09      scan   [noisy]
+</pre></div></div>
+</div>
+</section>
+<section id="Search-metadata-keys">
+<h3>Search metadata keys<a class="headerlink" href="#Search-metadata-keys" title="Permalink to this heading">#</a></h3>
+<p><strong>Q</strong>: How to search for runs matching certain metadata?</p>
+<p>Bluesky stores a run’s metadata in the <code class="docutils literal notranslate"><span class="pre">start</span></code> document. Any of the terms may be searched by adding keyword arguments to <code class="docutils literal notranslate"><span class="pre">listruns()</span></code>, the value is the content to match.</p>
+<p>Since only a few metadata keys are <em>standard</em> (such as <code class="docutils literal notranslate"><span class="pre">time</span></code> and <code class="docutils literal notranslate"><span class="pre">uid</span></code>), you should be prepared for the possibility that any particular key may not be found.</p>
+<p>Let’s take a look at the metadata of the most recent run in the catalog:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">run</span> <span class="o">=</span> <span class="n">cat</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+<span class="n">run</span><span class="o">.</span><span class="n">metadata</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+{&#39;start&#39;: Start({&#39;beamline_id&#39;: &#39;APS_Python_training_2021&#39;,
+ &#39;detectors&#39;: [&#39;scaler1&#39;, &#39;adsimdet&#39;, &#39;zaxis&#39;],
+ &#39;hints&#39;: {&#39;dimensions&#39;: [[[&#39;zaxis_h&#39;], &#39;primary&#39;]]},
+ &#39;instrument_name&#39;: &#39;class_2021_03&#39;,
+ &#39;login_id&#39;: &#39;prjemian@zap&#39;,
+ &#39;motors&#39;: [&#39;zaxis_h&#39;],
+ &#39;notebook&#39;: &#39;UB_autosave&#39;,
+ &#39;num_intervals&#39;: 7,
+ &#39;num_points&#39;: 8,
+ &#39;objective&#39;: &#39;Demonstrate UB matrix save &amp; restore&#39;,
+ &#39;pid&#39;: 3712584,
+ &#39;plan_args&#39;: {&#39;args&#39;: [&#34;PseudoSingle(prefix=&#39;&#39;, name=&#39;zaxis_h&#39;, &#34;
+                        &#34;parent=&#39;zaxis&#39;, settle_time=0.0, timeout=None, &#34;
+                        &#34;egu=&#39;&#39;, limits=(0, 0), source=&#39;computed&#39;, &#34;
+                        &#34;read_attrs=[&#39;readback&#39;, &#39;setpoint&#39;], &#34;
+                        &#39;configuration_attrs=[], idx=0)&#39;,
+                        -0.1,
+                        0.1],
+               &#39;detectors&#39;: [&#34;ScalerCH(prefix=&#39;gp:scaler1&#39;, name=&#39;scaler1&#39;, &#34;
+                             &#34;read_attrs=[&#39;channels&#39;, &#39;channels.chan01&#39;, &#34;
+                             &#34;&#39;channels.chan01.s&#39;, &#39;channels.chan02&#39;, &#34;
+                             &#34;&#39;channels.chan02.s&#39;, &#39;channels.chan03&#39;, &#34;
+                             &#34;&#39;channels.chan03.s&#39;, &#39;channels.chan04&#39;, &#34;
+                             &#34;&#39;channels.chan04.s&#39;, &#39;time&#39;], &#34;
+                             &#34;configuration_attrs=[&#39;channels&#39;, &#34;
+                             &#34;&#39;channels.chan01&#39;, &#39;channels.chan01.chname&#39;, &#34;
+                             &#34;&#39;channels.chan01.preset&#39;, &#34;
+                             &#34;&#39;channels.chan01.gate&#39;, &#39;channels.chan02&#39;, &#34;
+                             &#34;&#39;channels.chan02.chname&#39;, &#34;
+                             &#34;&#39;channels.chan02.preset&#39;, &#34;
+                             &#34;&#39;channels.chan02.gate&#39;, &#39;channels.chan03&#39;, &#34;
+                             &#34;&#39;channels.chan03.chname&#39;, &#34;
+                             &#34;&#39;channels.chan03.preset&#39;, &#34;
+                             &#34;&#39;channels.chan03.gate&#39;, &#39;channels.chan04&#39;, &#34;
+                             &#34;&#39;channels.chan04.chname&#39;, &#34;
+                             &#34;&#39;channels.chan04.preset&#39;, &#34;
+                             &#34;&#39;channels.chan04.gate&#39;, &#39;count_mode&#39;, &#39;delay&#39;, &#34;
+                             &#34;&#39;auto_count_delay&#39;, &#39;freq&#39;, &#39;preset_time&#39;, &#34;
+                             &#34;&#39;auto_count_time&#39;, &#39;egu&#39;])&#34;,
+                             &#34;MySimDetector(prefix=&#39;ad:&#39;, name=&#39;adsimdet&#39;, &#34;
+                             &#34;read_attrs=[&#39;hdf1&#39;], configuration_attrs=[&#39;cam&#39;, &#34;
+                             &#34;&#39;cam.acquire_period&#39;, &#39;cam.acquire_time&#39;, &#34;
+                             &#34;&#39;cam.image_mode&#39;, &#39;cam.manufacturer&#39;, &#34;
+                             &#34;&#39;cam.model&#39;, &#39;cam.num_exposures&#39;, &#34;
+                             &#34;&#39;cam.num_images&#39;, &#39;cam.trigger_mode&#39;, &#39;hdf1&#39;])&#34;,
+                             &#34;MyZaxis(prefix=&#39;&#39;, name=&#39;zaxis&#39;, &#34;
+                             &#34;settle_time=0.0, timeout=None, egu=&#39;&#39;, &#34;
+                             &#34;limits=(0, 0), source=&#39;computed&#39;, &#34;
+                             &#34;read_attrs=[&#39;h&#39;, &#39;h.readback&#39;, &#39;h.setpoint&#39;, &#34;
+                             &#34;&#39;k&#39;, &#39;k.readback&#39;, &#39;k.setpoint&#39;, &#39;l&#39;, &#34;
+                             &#34;&#39;l.readback&#39;, &#39;l.setpoint&#39;, &#39;mu&#39;, &#39;omega&#39;, &#34;
+                             &#34;&#39;delta&#39;, &#39;gamma&#39;], &#34;
+                             &#34;configuration_attrs=[&#39;energy&#39;, &#39;geometry_name&#39;, &#34;
+                             &#34;&#39;class_name&#39;, &#39;UB&#39;, &#39;reflections_details&#39;, &#39;h&#39;, &#34;
+                             &#34;&#39;k&#39;, &#39;l&#39;], concurrent=True)&#34;],
+               &#39;num&#39;: 8,
+               &#39;per_step&#39;: &#39;None&#39;},
+ &#39;plan_name&#39;: &#39;rel_scan&#39;,
+ &#39;plan_pattern&#39;: &#39;inner_product&#39;,
+ &#39;plan_pattern_args&#39;: {&#39;args&#39;: [&#34;PseudoSingle(prefix=&#39;&#39;, name=&#39;zaxis_h&#39;, &#34;
+                                &#34;parent=&#39;zaxis&#39;, settle_time=0.0, &#34;
+                                &#34;timeout=None, egu=&#39;&#39;, limits=(0, 0), &#34;
+                                &#34;source=&#39;computed&#39;, read_attrs=[&#39;readback&#39;, &#34;
+                                &#34;&#39;setpoint&#39;], configuration_attrs=[], idx=0)&#34;,
+                                -0.1,
+                                0.1],
+                       &#39;num&#39;: 8},
+ &#39;plan_pattern_module&#39;: &#39;bluesky.plan_patterns&#39;,
+ &#39;plan_type&#39;: &#39;generator&#39;,
+ &#39;proposal_id&#39;: &#39;training&#39;,
+ &#39;scan_id&#39;: 192,
+ &#39;time&#39;: 1621455723.0701044,
+ &#39;uid&#39;: &#39;e3862991-688d-43dc-8442-d85ccbb3d6c8&#39;,
+ &#39;versions&#39;: {&#39;apstools&#39;: &#39;1.5.0rc1&#39;,
+              &#39;bluesky&#39;: &#39;1.6.7&#39;,
+              &#39;databroker&#39;: &#39;1.2.2&#39;,
+              &#39;epics&#39;: &#39;3.4.3&#39;,
+              &#39;h5py&#39;: &#39;3.2.1&#39;,
+              &#39;intake&#39;: &#39;0.6.2&#39;,
+              &#39;matplotlib&#39;: &#39;3.3.4&#39;,
+              &#39;numpy&#39;: &#39;1.20.1&#39;,
+              &#39;ophyd&#39;: &#39;1.6.1&#39;,
+              &#39;pyRestTable&#39;: &#39;2020.0.3&#39;,
+              &#39;spec2nexus&#39;: &#39;2021.1.8&#39;}}),
+ &#39;stop&#39;: Stop({&#39;exit_status&#39;: &#39;success&#39;,
+ &#39;num_events&#39;: {&#39;baseline&#39;: 2, &#39;primary&#39;: 8},
+ &#39;reason&#39;: &#39;&#39;,
+ &#39;run_start&#39;: &#39;e3862991-688d-43dc-8442-d85ccbb3d6c8&#39;,
+ &#39;time&#39;: 1621455727.087438,
+ &#39;uid&#39;: &#39;70b9a95f-59aa-408d-8819-1463f3eebac5&#39;}),
+ &#39;catalog_dir&#39;: None}
+</pre></div></div>
+</div>
+<p>A plan’s name is stored in the run’s metadata as the <code class="docutils literal notranslate"><span class="pre">plan_name</span></code> key. (There is no guarantee that a run will have this metadata key.) To list runs measured with the <code class="docutils literal notranslate"><span class="pre">count</span></code> plan, use <code class="docutils literal notranslate"><span class="pre">listruns(plan_name=&quot;count&quot;)</span></code>.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">listruns</span><span class="p">(</span><span class="n">plan_name</span><span class="o">=</span><span class="s2">&quot;count&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+/home/prjemian/.conda/envs/bluesky_2022_3/lib/python3.9/site-packages/databroker/queries.py:89: PytzUsageWarning: The zone attribute is specific to pytz&#39;s interface; please migrate to a new time zone provider. For more details on how to do so, see https://pytz-deprecation-shim.readthedocs.io/en/latest/migration.html
+  timezone = lz.zone
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+catalog: class_2021_03
+    scan_id                 time plan_name         detectors
+0        33  2021-03-17 00:32:55     count        [adsimdet]
+1        32  2021-03-17 00:31:44     count     [temperature]
+2        31  2021-03-17 00:31:24     count     [temperature]
+3        30  2021-03-17 00:31:23     count     [temperature]
+4        29  2021-03-17 00:31:23     count     [temperature]
+5        22  2021-03-17 00:27:55     count  [scaler1, noisy]
+6        21  2021-03-17 00:27:23     count         [scaler1]
+7        20  2021-03-17 00:27:22     count         [scaler1]
+8         5  2021-03-15 11:54:56     count     [temperature]
+9         4  2021-03-15 11:49:42     count     [temperature]
+10        3  2021-03-15 11:46:21     count     [temperature]
+11        2  2021-03-15 11:44:21     count     [temperature]
+12        1  2021-03-15 00:52:29     count     [temperature]
+</pre></div></div>
+</div>
+<p>You can combine a search with more than one metadata key, such as <em>any ``count`` run ``#20``</em>.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">listruns</span><span class="p">(</span><span class="n">plan_name</span><span class="o">=</span><span class="s2">&quot;count&quot;</span><span class="p">,</span> <span class="n">scan_id</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+/home/prjemian/.conda/envs/bluesky_2022_3/lib/python3.9/site-packages/databroker/queries.py:89: PytzUsageWarning: The zone attribute is specific to pytz&#39;s interface; please migrate to a new time zone provider. For more details on how to do so, see https://pytz-deprecation-shim.readthedocs.io/en/latest/migration.html
+  timezone = lz.zone
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+catalog: class_2021_03
+   scan_id                 time plan_name  detectors
+0       20  2021-03-17 00:27:22     count  [scaler1]
+</pre></div></div>
+</div>
+</section>
+<section id="Search-metadata-keys-using-MongoDB-Query">
+<h3>Search metadata keys using MongoDB Query<a class="headerlink" href="#Search-metadata-keys-using-MongoDB-Query" title="Permalink to this heading">#</a></h3>
+<p><strong>Q</strong>: How to search for a range of some metadata key?</p>
+<p>Searching for a specific <code class="docutils literal notranslate"><span class="pre">scan_id</span></code> is awkward. Since we know that <code class="docutils literal notranslate"><span class="pre">scan_id</span></code> is stored as a number, we can apply range limits (such as <code class="docutils literal notranslate"><span class="pre">30</span> <span class="pre">&lt;=</span> <span class="pre">scan_id</span> <span class="pre">&lt;</span> <span class="pre">100</span></code>). That type of search requires the syntax from <a class="reference external" href="https://www.mongodb.com/docs/manual/reference/operator/query/">MongoDB Query</a>.</p>
+<p>A Query is built as a Python dictionary where the comparison operators are the keys and the comparison values are the corresponding values. These are the terms we need for this query:</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>operator</p></th>
+<th class="head"><p>MongoDB Query</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">&gt;=</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">&quot;$gte&quot;</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">&lt;</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">&quot;$lt&quot;</span></code></p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>The full Query is <code class="docutils literal notranslate"><span class="pre">scan_id={&quot;$gte&quot;:</span> <span class="pre">30,</span> <span class="pre">&quot;$lt&quot;:</span> <span class="pre">100}</span></code>.</p>
+<p>Here, search for <code class="docutils literal notranslate"><span class="pre">scan_id</span></code> matching that Query and a <code class="docutils literal notranslate"><span class="pre">count</span></code> plan:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[14]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">listruns</span><span class="p">(</span><span class="n">scan_id</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;$gte&quot;</span><span class="p">:</span> <span class="mi">30</span><span class="p">,</span> <span class="s2">&quot;$lt&quot;</span><span class="p">:</span> <span class="mi">100</span><span class="p">},</span> <span class="n">plan_name</span><span class="o">=</span><span class="s2">&quot;count&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+/home/prjemian/.conda/envs/bluesky_2022_3/lib/python3.9/site-packages/databroker/queries.py:89: PytzUsageWarning: The zone attribute is specific to pytz&#39;s interface; please migrate to a new time zone provider. For more details on how to do so, see https://pytz-deprecation-shim.readthedocs.io/en/latest/migration.html
+  timezone = lz.zone
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+catalog: class_2021_03
+   scan_id                 time plan_name      detectors
+0       33  2021-03-17 00:32:55     count     [adsimdet]
+1       32  2021-03-17 00:31:44     count  [temperature]
+2       31  2021-03-17 00:31:24     count  [temperature]
+3       30  2021-03-17 00:31:23     count  [temperature]
+</pre></div></div>
+</div>
+<p>Note that the <code class="docutils literal notranslate"><span class="pre">plan_name=&quot;count&quot;</span></code> expression here is equivalent to the MongoDB Query expression <code class="docutils literal notranslate"><span class="pre">plan_name={&quot;$eq&quot;:</span> <span class="pre">&quot;count&quot;}</span></code>.</p>
+</section>
+</section>
+<section id="Search-with-a-Filtered-catalog">
+<h2>Search with a Filtered catalog<a class="headerlink" href="#Search-with-a-Filtered-catalog" title="Permalink to this heading">#</a></h2>
+<p>As an alternative to <code class="docutils literal notranslate"><span class="pre">listruns()</span></code>, you can create a <em>filtered</em> catalog by applying <a class="reference external" href="https://www.mongodb.com/docs/manual/reference/operator/query/">MongoDB Query</a> searches to an existing catalog.</p>
+<p>Let’s start with a larger initial catalog to demonstrate.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[15]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">cat</span> <span class="o">=</span> <span class="n">databroker</span><span class="o">.</span><span class="n">catalog</span><span class="p">[</span><span class="s2">&quot;training&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">v2</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;There are </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">cat</span><span class="p">)</span><span class="si">}</span><span class="s2"> runs in the &#39;</span><span class="si">{</span><span class="n">cat</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">&#39; catalog.&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+There are 8116 runs in the &#39;training&#39; catalog.
+</pre></div></div>
+</div>
+<section id="Get-runs-from-the-count()-plan">
+<h3>Get runs from the <code class="docutils literal notranslate"><span class="pre">count()</span></code> plan<a class="headerlink" href="#Get-runs-from-the-count()-plan" title="Permalink to this heading">#</a></h3>
+<p><strong>Q</strong>: How many runs use the <code class="docutils literal notranslate"><span class="pre">count</span></code> plan?</p>
+<p>To answer this, we must know how to apply the MongoDB Query to the catalog. The catalog has a <code class="docutils literal notranslate"><span class="pre">.search(query)</span></code> method, where the <code class="docutils literal notranslate"><span class="pre">query</span></code> term is the dictionary, similar to how it was used above. Instead of a keyword, though, the metadata key is <strong>in</strong> the dictionary.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[16]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">query</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;plan_name&quot;</span><span class="p">:{</span><span class="s2">&quot;$eq&quot;</span><span class="p">:</span> <span class="s2">&quot;count&quot;</span><span class="p">}}</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">query</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="n">filtered_cat</span> <span class="o">=</span> <span class="n">cat</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="n">query</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;There are </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">filtered_cat</span><span class="p">)</span><span class="si">}</span><span class="s2"> runs collected by the &#39;count()&#39; plan.&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+query={&#39;plan_name&#39;: {&#39;$eq&#39;: &#39;count&#39;}}
+There are 295 runs collected by the &#39;count()&#39; plan.
+</pre></div></div>
+</div>
+<p>Searches can get more detailed. Find all <code class="docutils literal notranslate"><span class="pre">count</span></code> runs with <code class="docutils literal notranslate"><span class="pre">scan_id</span></code> between 70 and 80. (This catalog has duplicates in this range.) Display the filtered catalog using <code class="docutils literal notranslate"><span class="pre">listruns()</span></code></p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[17]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">filtered_cat</span> <span class="o">=</span> <span class="n">cat</span><span class="o">.</span><span class="n">search</span><span class="p">({</span><span class="s2">&quot;plan_name&quot;</span><span class="p">:{</span><span class="s2">&quot;$eq&quot;</span><span class="p">:</span> <span class="s2">&quot;count&quot;</span><span class="p">},</span> <span class="s2">&quot;scan_id&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;$gt&quot;</span><span class="p">:</span> <span class="mi">70</span><span class="p">,</span> <span class="s2">&quot;$lt&quot;</span><span class="p">:</span> <span class="mi">80</span><span class="p">}})</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">filtered_cat</span><span class="p">)</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="n">listruns</span><span class="p">(</span><span class="n">filtered_cat</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+len(filtered_cat)=18
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+/home/prjemian/.conda/envs/bluesky_2022_3/lib/python3.9/site-packages/databroker/queries.py:89: PytzUsageWarning: The zone attribute is specific to pytz&#39;s interface; please migrate to a new time zone provider. For more details on how to do so, see https://pytz-deprecation-shim.readthedocs.io/en/latest/migration.html
+  timezone = lz.zone
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+catalog: search results
+    scan_id                 time plan_name                    detectors
+0        79  2022-05-28 13:09:24     count                     [simdet]
+1        78  2022-05-28 13:06:23     count                   [adsimdet]
+2        77  2022-05-27 12:37:54     count                   [adsimdet]
+3        76  2022-05-27 12:28:50     count                   [adsimdet]
+4        75  2022-05-27 12:27:19     count                     [simdet]
+5        74  2022-05-26 17:29:10     count                     [simdet]
+6        73  2022-05-26 17:25:14     count                     [simdet]
+7        72  2022-05-26 17:24:33     count                     [simdet]
+8        71  2022-05-26 17:23:51     count                     [simdet]
+9        79  2021-04-15 09:00:24     count  [scaler1, count_difference]
+10       78  2021-04-15 09:00:22     count  [scaler1, count_difference]
+11       77  2021-04-15 08:59:20     count  [scaler1, count_difference]
+12       76  2021-04-15 08:59:15     count  [scaler1, count_difference]
+13       75  2021-04-15 08:59:10     count  [scaler1, count_difference]
+14       74  2021-04-15 08:59:04     count  [scaler1, count_difference]
+15       73  2021-04-15 08:48:09     count                    [scaler1]
+16       72  2021-04-15 08:48:05     count                    [scaler1]
+17       71  2021-04-15 08:48:00     count                    [scaler1]
+</pre></div></div>
+</div>
+</section>
+<section id="Custom-report">
+<h3>Custom report<a class="headerlink" href="#Custom-report" title="Permalink to this heading">#</a></h3>
+<p><strong>Q</strong>: How to make a custom report?</p>
+<p>List of recent runs using <code class="docutils literal notranslate"><span class="pre">scan</span></code> (or <code class="docutils literal notranslate"><span class="pre">rel_scan</span></code>) including these keys:</p>
+<ul class="simple">
+<li><p>plan</p></li>
+<li><p>detectors</p></li>
+<li><p>start position</p></li>
+<li><p>end position</p></li>
+<li><p>number of points</p></li>
+<li><p>metadata</p></li>
+</ul>
+<p>All of this information is available from the run but some of it is not presented in the metadata with individually-named keys. Because some of the information to be reported (specifically, arguments to the plan, including start and end position) is not easily extracted with MongoDB, custom code is needed; the <code class="docutils literal notranslate"><span class="pre">listruns()</span></code> function cannot be used.</p>
+<p>Make a function that matches a pre-determined set of search terms and prints a report.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[19]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">datetime</span>
+<span class="kn">import</span> <span class="nn">pyRestTable</span>
+<span class="kn">import</span> <span class="nn">time</span>
+
+<span class="k">def</span> <span class="nf">custom_list</span><span class="p">(</span><span class="n">cat</span><span class="p">,</span> <span class="n">n_runs</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">start_md_keys</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    List n_runs most recent, successful (rel_)scan runs.</span>
+
+<span class="sd">    PARAMETERS</span>
+
+<span class="sd">    cat *object*:</span>
+<span class="sd">        Databroker catalog to be searched.</span>
+<span class="sd">    n_runs *int*:</span>
+<span class="sd">        Maximum number of runs to list in table. (default: 20)</span>
+<span class="sd">    start_md_keys *[str]*:</span>
+<span class="sd">        List of additional (start document) metadata keys to report.</span>
+<span class="sd">        (default: &#39;beamline_id, instrument_name, login_id, proposal_id&#39;)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">start_md_keys</span> <span class="o">=</span> <span class="n">start_md_keys</span> <span class="ow">or</span> <span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">        beamline_id instrument_name login_id proposal_id</span>
+<span class="s2">    &quot;&quot;&quot;</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
+
+    <span class="n">ts</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span> <span class="o">-</span> <span class="mi">60</span><span class="o">*</span><span class="mi">60</span><span class="o">*</span><span class="mi">24</span><span class="o">*</span><span class="mi">7</span><span class="o">*</span><span class="p">(</span><span class="mi">52</span><span class="o">/</span><span class="mi">2</span><span class="p">)</span>  <span class="c1"># ~6 months ago</span>
+    <span class="n">dt</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">fromtimestamp</span><span class="p">(</span><span class="n">ts</span><span class="p">)</span>
+    <span class="n">since</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">dt</span><span class="o">.</span><span class="n">year</span><span class="si">}</span><span class="s2">-</span><span class="si">{</span><span class="n">dt</span><span class="o">.</span><span class="n">month</span><span class="si">:</span><span class="s2">02d</span><span class="si">}</span><span class="s2">&quot;</span>  <span class="c1"># start of that month</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">since</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="n">query</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span>
+        <span class="n">plan_name</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;$in&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;scan&quot;</span><span class="p">,</span> <span class="s2">&quot;rel_scan&quot;</span><span class="p">]},</span>
+        <span class="n">detectors</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;noisy&quot;</span><span class="p">],</span>  <span class="c1"># only this detector</span>
+    <span class="p">)</span>
+    <span class="n">query</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">databroker</span><span class="o">.</span><span class="n">queries</span><span class="o">.</span><span class="n">TimeRange</span><span class="p">(</span><span class="n">since</span><span class="o">=</span><span class="n">since</span><span class="p">))</span>
+    <span class="n">filtered_cat</span> <span class="o">=</span> <span class="n">cat</span><span class="o">.</span><span class="n">v2</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="n">query</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">filtered_cat</span><span class="p">)</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="n">table</span> <span class="o">=</span> <span class="n">pyRestTable</span><span class="o">.</span><span class="n">Table</span><span class="p">()</span>
+    <span class="n">table</span><span class="o">.</span><span class="n">labels</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">        scan_id plan detectors motor start end n_points date uid7</span>
+<span class="s2">    &quot;&quot;&quot;</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
+    <span class="n">table</span><span class="o">.</span><span class="n">labels</span> <span class="o">+=</span> <span class="n">start_md_keys</span>
+
+    <span class="k">def</span> <span class="nf">get_name_from_device_repr</span><span class="p">(</span><span class="n">text</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Dig out the name of the motor object from the &#39;plan_args&#39;.</span>
+
+<span class="sd">        &quot;MyEpicsMotor(prefix=&#39;gp:m1&#39;, name=&#39;m1&#39;, ...)&quot;</span>
+<span class="sd">        From this string, only the `name=&#39;m1&#39;` part is interesting here.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">s</span> <span class="o">=</span> <span class="n">text</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s2">&quot;name=&#39;&quot;</span><span class="p">)</span> <span class="o">+</span> <span class="mi">6</span>
+        <span class="n">f</span> <span class="o">=</span> <span class="n">text</span><span class="p">[</span><span class="n">s</span><span class="p">:]</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s2">&quot;&#39;&quot;</span><span class="p">)</span> <span class="o">+</span> <span class="n">s</span>
+        <span class="k">return</span> <span class="n">text</span><span class="p">[</span><span class="n">s</span><span class="p">:</span><span class="n">f</span><span class="p">]</span>
+
+    <span class="k">for</span> <span class="n">uid</span> <span class="ow">in</span> <span class="n">filtered_cat</span><span class="p">:</span>
+        <span class="n">run</span> <span class="o">=</span> <span class="n">filtered_cat</span><span class="p">[</span><span class="n">uid</span><span class="p">]</span>
+
+        <span class="n">success</span> <span class="o">=</span> <span class="n">run</span><span class="o">.</span><span class="n">metadata</span><span class="p">[</span><span class="s1">&#39;stop&#39;</span><span class="p">][</span><span class="s1">&#39;exit_status&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;success&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">success</span><span class="p">:</span>
+            <span class="k">continue</span>
+
+        <span class="n">uid7</span> <span class="o">=</span> <span class="n">uid</span><span class="p">[:</span><span class="mi">7</span><span class="p">]</span>
+        <span class="n">date</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">fromtimestamp</span><span class="p">(</span><span class="nb">round</span><span class="p">(</span><span class="n">run</span><span class="o">.</span><span class="n">metadata</span><span class="p">[</span><span class="s1">&#39;start&#39;</span><span class="p">][</span><span class="s1">&#39;time&#39;</span><span class="p">],</span> <span class="mi">3</span><span class="p">))</span>
+        <span class="n">scan_id</span> <span class="o">=</span> <span class="n">run</span><span class="o">.</span><span class="n">metadata</span><span class="p">[</span><span class="s1">&#39;start&#39;</span><span class="p">][</span><span class="s1">&#39;scan_id&#39;</span><span class="p">]</span>
+        <span class="n">detectors</span> <span class="o">=</span> <span class="n">run</span><span class="o">.</span><span class="n">metadata</span><span class="p">[</span><span class="s1">&#39;start&#39;</span><span class="p">][</span><span class="s1">&#39;detectors&#39;</span><span class="p">]</span>
+        <span class="c1"># motors = run.metadata[&#39;start&#39;][&#39;motors&#39;]</span>
+        <span class="n">plan</span> <span class="o">=</span> <span class="n">run</span><span class="o">.</span><span class="n">metadata</span><span class="p">[</span><span class="s1">&#39;start&#39;</span><span class="p">][</span><span class="s1">&#39;plan_name&#39;</span><span class="p">]</span>
+        <span class="c1"># n_points = run.metadata[&#39;start&#39;][&#39;num_points&#39;]  # requested</span>
+        <span class="n">plan_args</span> <span class="o">=</span> <span class="n">run</span><span class="o">.</span><span class="n">metadata</span><span class="p">[</span><span class="s1">&#39;start&#39;</span><span class="p">][</span><span class="s1">&#39;plan_args&#39;</span><span class="p">][</span><span class="s1">&#39;args&#39;</span><span class="p">]</span>
+        <span class="n">n_points</span> <span class="o">=</span> <span class="n">run</span><span class="o">.</span><span class="n">metadata</span><span class="p">[</span><span class="s1">&#39;stop&#39;</span><span class="p">][</span><span class="s1">&#39;num_events&#39;</span><span class="p">][</span><span class="s1">&#39;primary&#39;</span><span class="p">]</span>  <span class="c1"># recorded</span>
+
+        <span class="c1"># This data can&#39;t be extracted using only MongoDB Query</span>
+        <span class="n">p_start</span><span class="p">,</span> <span class="n">p_end</span> <span class="o">=</span> <span class="n">plan_args</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="mi">3</span><span class="p">]</span>  <span class="c1"># as defined in the bp.scan() plan</span>
+        <span class="c1"># TODO: this assumes only 1 motor is scanned!</span>
+        <span class="n">motors</span> <span class="o">=</span> <span class="p">[</span><span class="n">get_name_from_device_repr</span><span class="p">(</span><span class="n">plan_args</span><span class="p">[</span><span class="mi">0</span><span class="p">])]</span>
+        <span class="c1"># Multi-axis scans are: motor, start, finish triples for each axis, in order</span>
+
+        <span class="c1"># build the table row</span>
+        <span class="n">row</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="n">scan_id</span><span class="p">,</span>
+            <span class="n">plan</span><span class="p">,</span> <span class="s2">&quot;, &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">detectors</span><span class="p">),</span> <span class="s2">&quot;, &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">motors</span><span class="p">),</span> <span class="nb">round</span><span class="p">(</span><span class="n">p_start</span><span class="p">,</span> <span class="mi">5</span><span class="p">),</span> <span class="nb">round</span><span class="p">(</span><span class="n">p_end</span><span class="p">,</span> <span class="mi">5</span><span class="p">),</span> <span class="n">n_points</span><span class="p">,</span>
+            <span class="n">date</span><span class="p">,</span> <span class="n">uid7</span><span class="p">,</span>
+        <span class="p">]</span>
+        <span class="n">row</span> <span class="o">+=</span> <span class="p">[</span><span class="n">run</span><span class="o">.</span><span class="n">metadata</span><span class="p">[</span><span class="s1">&#39;start&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">start_md_keys</span><span class="p">]</span>
+
+        <span class="n">table</span><span class="o">.</span><span class="n">rows</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">row</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">table</span><span class="o">.</span><span class="n">rows</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="n">n_runs</span><span class="p">:</span>
+            <span class="k">break</span>
+
+    <span class="nb">print</span><span class="p">(</span><span class="n">table</span><span class="p">)</span>
+
+<span class="n">custom_list</span><span class="p">(</span><span class="n">cat</span><span class="p">,</span> <span class="mi">20</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+since=&#39;2022-05&#39;
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+/home/prjemian/.conda/envs/bluesky_2022_3/lib/python3.9/site-packages/databroker/queries.py:89: PytzUsageWarning: The zone attribute is specific to pytz&#39;s interface; please migrate to a new time zone provider. For more details on how to do so, see https://pytz-deprecation-shim.readthedocs.io/en/latest/migration.html
+  timezone = lz.zone
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+len(filtered_cat)=129
+======= ======== ========= ===== ======== ======= ======== ========================== ======= ================ =========================== ============ ===========
+scan_id plan     detectors motor start    end     n_points date                       uid7    beamline_id      instrument_name             login_id     proposal_id
+======= ======== ========= ===== ======== ======= ======== ========================== ======= ================ =========================== ============ ===========
+299     scan     noisy     m1    -1.2     1.2     21       2022-10-25 14:10:06.464000 3703202 Bluesky_training BCDA EPICS Bluesky training prjemian@zap training
+2       rel_scan noisy     m1    -0.27632 0.27632 23       2022-10-12 15:23:32.336000 4704d7f Bluesky_training BCDA EPICS Bluesky training prjemian@zap training
+1       rel_scan noisy     m1    -2       2       23       2022-10-12 15:23:26.220000 a5ada81 Bluesky_training BCDA EPICS Bluesky training prjemian@zap training
+271     rel_scan noisy     m1    -0.56269 0.56269 21       2022-09-07 14:40:31.996000 c53365c Bluesky_training BCDA EPICS Bluesky training prjemian@zap training
+270     rel_scan noisy     m1    -5       5       21       2022-09-07 14:40:03.057000 166dc23 Bluesky_training BCDA EPICS Bluesky training prjemian@zap training
+269     rel_scan noisy     m1    -1.2     1.2     21       2022-09-07 14:39:39.521000 11542a9 Bluesky_training BCDA EPICS Bluesky training prjemian@zap training
+268     rel_scan noisy     m1    -0.28913 0.28913 21       2022-09-07 14:38:30.682000 c51776e Bluesky_training BCDA EPICS Bluesky training prjemian@zap training
+267     rel_scan noisy     m1    -1.2     1.2     21       2022-09-07 14:38:18.649000 4bb967f Bluesky_training BCDA EPICS Bluesky training prjemian@zap training
+266     rel_scan noisy     m1    -1.2     1.2     21       2022-09-07 14:37:51.675000 7fe7229 Bluesky_training BCDA EPICS Bluesky training prjemian@zap training
+265     rel_scan noisy     m1    -1.2     1.2     21       2022-09-07 14:37:32.813000 7969b6e Bluesky_training BCDA EPICS Bluesky training prjemian@zap training
+263     scan     noisy     m1    -1.2     1.2     21       2022-09-07 11:27:13.747000 c7b10f1 Bluesky_training BCDA EPICS Bluesky training prjemian@zap training
+260     scan     noisy     m1    -1.2     1.2     21       2022-06-29 09:42:54.977000 0783d90 Bluesky_training BCDA EPICS Bluesky training prjemian@zap training
+259     scan     noisy     m1    -1.2     1.2     21       2022-06-29 09:40:13.666000 2a487dd Bluesky_training BCDA EPICS Bluesky training prjemian@zap training
+10      rel_scan noisy     m1    -0.22238 0.22238 23       2022-05-24 15:05:32.791000 72faef4
+9       rel_scan noisy     m1    -2       2       23       2022-05-24 15:05:16.337000 ad2bac4
+8       rel_scan noisy     m1    -0.06626 0.06626 23       2022-05-24 15:05:11.307000 9102fe6
+7       rel_scan noisy     m1    -0.08168 0.08168 23       2022-05-24 15:05:08.414000 dcafde6
+6       rel_scan noisy     m1    -0.25194 0.25194 23       2022-05-24 15:05:02.797000 d57a79a
+5       rel_scan noisy     m1    -2.1     2.1     23       2022-05-24 15:04:45.942000 c82643b
+4       rel_scan noisy     m1    -0.17233 0.17233 23       2022-05-24 15:04:38.514000 318ae81
+======= ======== ========= ===== ======== ======= ======== ========================== ======= ================ =========================== ============ ===========
+
+</pre></div></div>
+</div>
+</section>
+</section>
+<hr class="docutils" />
+<section id="Other-searches:">
+<h2>Other searches:<a class="headerlink" href="#Other-searches:" title="Permalink to this heading">#</a></h2>
+<details><p>TODO:</p>
+<p>Some of these seaches may need additional Python code to complete. Others may be expedited by additional MongoDB Query constructs.</p>
+<ul>
+<li><p>What version of <code class="docutils literal notranslate"><span class="pre">bluesky</span></code> was used 6 months ago?</p></li>
+<li><p>When was <code class="docutils literal notranslate"><span class="pre">apstools</span></code> version 1.2 - 1.4 used?</p></li>
+<li><p>Find all runs with sample “xyz” measured with detector <code class="docutils literal notranslate"><span class="pre">adsimdet</span></code>. List the most recent ones.</p>
+<ul class="simple">
+<li><p>Do we have any APS catalogs with sample name as metadata?</p></li>
+<li><p>similar: <code class="docutils literal notranslate"><span class="pre">listruns(detectors={&quot;$in&quot;:</span> <span class="pre">[&quot;adsimdet&quot;]},</span> <span class="pre">plan_name=&quot;count&quot;)</span></code></p></li>
+</ul>
+</li>
+<li><p>Restrict that list to runs in APS cycle <code class="docutils literal notranslate"><span class="pre">2021-3</span></code> (if no APS cycle info, the last 4 months of 2021).</p></li>
+<li><p>Find runs where “Joe User” appears somewhere in the metadata.</p></li>
+<li><p>Find runs where “silver behenate” appears somewhere in the metadata.</p></li>
+<li><p>Find runs that failed for some reason. Is there any indication why? (<code class="docutils literal notranslate"><span class="pre">run.metadata['stop']['reason']</span></code>)</p>
+<div class="highlight-py notranslate"><div class="highlight"><pre><span></span><span class="n">listruns</span><span class="p">(</span>
+    <span class="n">cat</span><span class="p">,</span>
+    <span class="n">keys</span><span class="o">=</span><span class="s2">&quot;uid scan_id stop.exit_status stop.reason&quot;</span><span class="p">,</span>
+    <span class="o">**</span><span class="p">{</span>
+        <span class="s2">&quot;stop.exit_status&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;$ne&quot;</span><span class="p">:</span> <span class="s2">&quot;success&quot;</span><span class="p">},</span>  <span class="c1"># FIXME: not working</span>
+    <span class="p">}</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</li>
+<li><p>Plot centroid and width of all successful scans of specific y vs. x with more than one data point for the last week.</p></li>
+<li><p>What about these?</p>
+<ul class="simple">
+<li><p>using start or stop document metadata</p></li>
+<li><p>user</p></li>
+<li><p>sample</p></li>
+<li><p>Proposal or ESAF ID</p></li>
+<li><p>fuzzy or misspelled terms</p></li>
+<li><p>combination searches</p></li>
+</ul>
+</li>
+</ul>
+<details></section>
+</section>
+
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="ho_nxwriter_templates.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">How to use NeXus/HDF5 Templates</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="ho_session_logs.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">How to setup logging</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+<div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+  </div>
+  <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#What-is-a-catalog?">What is a catalog?</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#What-is-a-run?">What is a run?</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#How-to-retrieve-a-run?">How to retrieve a run?</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#Search-with-listruns()">Search with <code class="docutils literal notranslate"><span class="pre">listruns()</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#Search-within-a-range-of-dates">Search within a range of dates</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#Search-metadata-keys">Search metadata keys</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#Search-metadata-keys-using-MongoDB-Query">Search metadata keys using MongoDB Query</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#Search-with-a-Filtered-catalog">Search with a Filtered catalog</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#Get-runs-from-the-count()-plan">Get runs from the <code class="docutils literal notranslate"><span class="pre">count()</span></code> plan</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#Custom-report">Custom report</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#Other-searches:">Other searches:</a></li>
+</ul>
+  </nav></div>
+
+  <div class="sidebar-secondary-item">
+
+  <div class="tocsection sourcelink">
+    <a href="../_sources/examples/ho_search_databroker.ipynb.txt">
+      <i class="fa-solid fa-file-lines"></i> Show Source
+    </a>
+  </div>
+</div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+
+  <p class="copyright">
+    
+      © Copyright 2017-2024, UChicago Argonne, LLC.
+      <br/>
+    
+  </p>
+</div>
+      
+        <div class="footer-item">
+
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 5.3.0.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item">
+<p class="theme-version">
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.15.4.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

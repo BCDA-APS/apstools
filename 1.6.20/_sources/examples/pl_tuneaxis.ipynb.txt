@@ -1,0 +1,659 @@
+{
+ "cells": [
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "# The ``TuneAxis()`` plan - align an axis with a signal\n",
+    "\n",
+    "In this example, we demonstrate the `apstools.plans.TuneAxis()` plan.  The `TuneAxis()` support may be used to align (a.k.a. *tune*) a signal against an axis.\n",
+    "\n",
+    "We'll use a software-only (not connected to hardware) motor as a positioner.  Here, we prepare a signal that is a computation based on the value of our positioner.  The computed signal is a model of a realistic diffraction peak ([pseudo-Voigt](https://en.wikipedia.org/wiki/Voigt_profile), a mixture of a Gaussian and a Lorentzian) one might encounter in a powder diffraction scan.  The model peak is a pseudo-voigt function to which some noise has been added.  Random numbers are used to modify the ideal pseudo-voigt function so as to simulate a realistic signal.\n",
+    "\n",
+    "For this demo, we do not need the databroker since we do not plan to review any of this data after collection.  We'll display the data during the scan using a `LiveTable()` subscription to the `bluesky.RunEngine()`."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 1,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "from apstools.devices import SynPseudoVoigt\n",
+    "from apstools.plans import TuneAxis\n",
+    "from bluesky import RunEngine\n",
+    "from bluesky import plans as bp\n",
+    "from bluesky.callbacks import LiveTable\n",
+    "import numpy as np\n",
+    "from ophyd import EpicsMotor\n",
+    "\n",
+    "RE = RunEngine({})\n"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "Set the IOC prefix."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 2,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "IOC = \"gp:\""
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "Connect to our motor *before* we create the simulated detector signal."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 3,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "m1 = EpicsMotor(f\"{IOC}m1\", name=\"m1\")\n",
+    "m1.wait_for_connection()"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "Define a starting position, we'll use this later in the demo."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 4,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "m1.move(-1.5)\n",
+    "starting_position = m1.position"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## Setup the simulated detector signal.  "
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "Make a simple scan with a simulated motor and the `SynPseudoVoigt()` signal."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 5,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "\n",
+      "\n",
+      "+-----------+------------+------------+------------+\n",
+      "|   seq_num |       time |      motor |        det |\n",
+      "+-----------+------------+------------+------------+\n",
+      "|         1 | 00:33:31.9 |     -3.000 |      0.056 |\n",
+      "|         2 | 00:33:31.9 |     -2.667 |      0.076 |\n",
+      "|         3 | 00:33:31.9 |     -2.333 |      0.110 |\n",
+      "|         4 | 00:33:31.9 |     -2.000 |      0.168 |\n",
+      "|         5 | 00:33:31.9 |     -1.667 |      0.257 |\n",
+      "|         6 | 00:33:32.0 |     -1.333 |      0.386 |\n",
+      "|         7 | 00:33:32.0 |     -1.000 |      0.553 |\n",
+      "|         8 | 00:33:32.0 |     -0.667 |      0.747 |\n",
+      "|         9 | 00:33:32.0 |     -0.333 |      0.923 |\n",
+      "|        10 | 00:33:32.0 |      0.000 |      1.000 |\n",
+      "|        11 | 00:33:32.0 |      0.333 |      0.923 |\n",
+      "|        12 | 00:33:32.0 |      0.667 |      0.747 |\n",
+      "|        13 | 00:33:32.0 |      1.000 |      0.553 |\n",
+      "|        14 | 00:33:32.0 |      1.333 |      0.386 |\n",
+      "|        15 | 00:33:32.0 |      1.667 |      0.257 |\n",
+      "|        16 | 00:33:32.0 |      2.000 |      0.168 |\n",
+      "|        17 | 00:33:32.0 |      2.333 |      0.110 |\n",
+      "|        18 | 00:33:32.0 |      2.667 |      0.076 |\n",
+      "|        19 | 00:33:32.0 |      3.000 |      0.056 |\n",
+      "+-----------+------------+------------+------------+\n",
+      "generator scan ['f7d1a4f9'] (scan num: 1)\n",
+      "\n",
+      "\n"
+     ]
+    },
+    {
+     "data": {
+      "text/plain": [
+       "('f7d1a4f9-de81-4e9d-b253-28d7f6c0e5a8',)"
+      ]
+     },
+     "execution_count": 5,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "from ophyd.sim import motor\n",
+    "\n",
+    "det = SynPseudoVoigt('det', motor, 'motor',\n",
+    "    center=0, eta=0.5, scale=1, sigma=1, bkg=0)\n",
+    "\n",
+    "live_table = LiveTable([\"motor\", \"det\"])\n",
+    "\n",
+    "RE(bp.scan([det], motor, -3, 3, 19), live_table)"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "Make a new signal with randomized values so that we have something interesting to find with `TuneAxis()`."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 6,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "spvoigt = SynPseudoVoigt(\n",
+    "    'spvoigt', m1, 'm1', \n",
+    "    center=-1.5 + 0.4*np.random.uniform(), \n",
+    "    eta=0.2 + 0.5*np.random.uniform(), \n",
+    "    sigma=0.001 + 0.05*np.random.uniform(), \n",
+    "    scale=1e5,\n",
+    "    bkg=0.01*np.random.uniform())"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "Reveal the actual values.  These are the answers we expect to discover."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 7,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "spvoigt.scale = 100000.0\n",
+      "spvoigt.center = -1.3232789849401074\n",
+      "spvoigt.sigma = 0.025854531457453644\n",
+      "spvoigt.eta = 0.6200793404520202\n",
+      "spvoigt.bkg = 0.002625081504664745\n"
+     ]
+    }
+   ],
+   "source": [
+    "print(f\"{spvoigt.scale = }\")\n",
+    "print(f\"{spvoigt.center = }\")\n",
+    "print(f\"{spvoigt.sigma = }\")\n",
+    "print(f\"{spvoigt.eta = }\")\n",
+    "print(f\"{spvoigt.bkg = }\")"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "We will add the actual values as metadata to these scans."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 8,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "md = dict(\n",
+    "    activity = \"TuneAxis development and testing\",\n",
+    "    peak_model = \"pseudo Voigt\",\n",
+    "    peak_scale = spvoigt.scale,\n",
+    "    peak_center = spvoigt.center,\n",
+    "    peak_sigma = spvoigt.sigma,\n",
+    "    peak_eta = spvoigt.eta,\n",
+    "    peak_bkg = spvoigt.bkg\n",
+    "    )"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## Set up the tuner\n",
+    "\n",
+    "Create a *TuneAxis()* object.  The *tuner* needs to know the positioner, what range to scan to find the peak, *and* it needs the name of the signal to be scanned (since the signal list may have more than one signal)."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 9,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "tuner = TuneAxis([spvoigt], m1, signal_name=spvoigt.name)\n",
+    "tuner.width = 2.5\n",
+    "tuner.step_factor = tuner.num/2.5"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "Reconfigure the *LiveTable* to also show the simulated detector signal."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 10,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "live_table = LiveTable([\"m1\", \"spvoigt\"])"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## Multi-pass tune\n",
+    "\n",
+    "Execute multiple passes to refine the centroid determination.\n",
+    "Each subsequent pass will reduce the width of the next scan by ``step_factor``."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 11,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "\n",
+      "\n",
+      "+-----------+------------+------------+------------+\n",
+      "|   seq_num |       time |         m1 |    spvoigt |\n",
+      "+-----------+------------+------------+------------+\n",
+      "|         1 | 00:33:33.6 |   -2.75000 |    282.864 |\n",
+      "|         2 | 00:33:34.1 |   -2.47000 |    294.014 |\n",
+      "|         3 | 00:33:34.6 |   -2.19000 |    317.637 |\n",
+      "|         4 | 00:33:35.1 |   -1.92000 |    378.697 |\n",
+      "|         5 | 00:33:35.6 |   -1.64000 |    672.979 |\n",
+      "|         6 | 00:33:36.1 |   -1.36000 |  34670.358 |\n",
+      "|         7 | 00:33:36.6 |   -1.08000 |    955.031 |\n",
+      "|         8 | 00:33:37.1 |   -0.81000 |    419.441 |\n",
+      "|         9 | 00:33:37.6 |   -0.53000 |    328.305 |\n",
+      "|        10 | 00:33:38.1 |   -0.25000 |    298.470 |\n",
+      "+-----------+------------+------------+------------+\n",
+      "generator TuneAxis.multi_pass_tune ['973d07fd'] (scan num: 2)\n",
+      "\n",
+      "\n",
+      "PeakStats\n",
+      "================ =================================\n",
+      "key              result                           \n",
+      "================ =================================\n",
+      "x                m1                               \n",
+      "y                spvoigt                          \n",
+      "cen              -1.3594076832102968              \n",
+      "com              -1.367257432898917               \n",
+      "fwhm             0.2843975895677082               \n",
+      "min              [ -2.75       282.86449968]      \n",
+      "max              [-1.36000000e+00  3.46703584e+04]\n",
+      "crossings        [-1.50160648 -1.21720889]        \n",
+      "tune_ok          True                             \n",
+      "center           -1.3594076832102968              \n",
+      "initial_position -1.5                             \n",
+      "final_position   -1.3594076832102968              \n",
+      "================ =================================\n",
+      "\n",
+      "\n",
+      "\n",
+      "+-----------+------------+------------+------------+\n",
+      "|   seq_num |       time |         m1 |    spvoigt |\n",
+      "+-----------+------------+------------+------------+\n",
+      "|         1 | 00:33:40.3 |   -1.08000 |    955.031 |\n",
+      "|         2 | 00:33:40.5 |   -1.14000 |   1472.376 |\n",
+      "|         3 | 00:33:40.8 |   -1.20000 |   2875.401 |\n",
+      "|         4 | 00:33:41.1 |   -1.27000 |  16626.547 |\n",
+      "|         5 | 00:33:41.4 |   -1.33000 |  95075.221 |\n",
+      "|         6 | 00:33:41.7 |   -1.39000 |   9717.986 |\n",
+      "|         7 | 00:33:42.0 |   -1.45000 |   2740.795 |\n",
+      "|         8 | 00:33:42.3 |   -1.52000 |   1315.395 |\n",
+      "|         9 | 00:33:42.7 |   -1.58000 |    885.117 |\n",
+      "|        10 | 00:33:43.0 |   -1.64000 |    672.979 |\n",
+      "+-----------+------------+------------+------------+\n",
+      "generator TuneAxis.multi_pass_tune ['4c9af76b'] (scan num: 3)\n",
+      "\n",
+      "\n",
+      "PeakStats\n",
+      "================ =================================\n",
+      "key              result                           \n",
+      "================ =================================\n",
+      "x                m1                               \n",
+      "y                spvoigt                          \n",
+      "cen              -1.3285390504163415              \n",
+      "com              -1.327930971864717               \n",
+      "fwhm             0.06927988898350734              \n",
+      "min              [ -1.64       672.97908343]      \n",
+      "max              [-1.33000000e+00  9.50752206e+04]\n",
+      "crossings        [-1.29389911 -1.36317899]        \n",
+      "tune_ok          True                             \n",
+      "center           -1.3285390504163415              \n",
+      "initial_position -1.36                            \n",
+      "final_position   -1.3285390504163415              \n",
+      "================ =================================\n",
+      "\n",
+      "\n",
+      "\n",
+      "+-----------+------------+------------+------------+\n",
+      "|   seq_num |       time |         m1 |    spvoigt |\n",
+      "+-----------+------------+------------+------------+\n",
+      "|         1 | 00:33:44.0 |   -1.40000 |   7051.436 |\n",
+      "|         2 | 00:33:44.2 |   -1.38000 |  14353.903 |\n",
+      "|         3 | 00:33:44.4 |   -1.37000 |  22222.839 |\n",
+      "|         4 | 00:33:44.6 |   -1.35000 |  52516.186 |\n",
+      "|         5 | 00:33:44.8 |   -1.34000 |  74805.966 |\n",
+      "|         6 | 00:33:45.0 |   -1.32000 |  98976.619 |\n",
+      "|         7 | 00:33:45.2 |   -1.31000 |  82625.135 |\n",
+      "|         8 | 00:33:45.4 |   -1.29000 |  40194.994 |\n",
+      "|         9 | 00:33:45.6 |   -1.28000 |  25930.433 |\n",
+      "|        10 | 00:33:45.8 |   -1.26000 |  11033.875 |\n",
+      "+-----------+------------+------------+------------+\n",
+      "generator TuneAxis.multi_pass_tune ['87e51c91'] (scan num: 4)\n",
+      "\n",
+      "\n",
+      "PeakStats\n",
+      "================ =================================\n",
+      "key              result                           \n",
+      "================ =================================\n",
+      "x                m1                               \n",
+      "y                spvoigt                          \n",
+      "cen              -1.3229095343527337              \n",
+      "com              -1.322524379127855               \n",
+      "fwhm             0.053734231185460946             \n",
+      "min              [-1.40000000e+00  7.05143645e+03]\n",
+      "max              [-1.32000000e+00  9.89766194e+04]\n",
+      "crossings        [-1.34977665 -1.29604242]        \n",
+      "tune_ok          True                             \n",
+      "center           -1.3229095343527337              \n",
+      "initial_position -1.33                            \n",
+      "final_position   -1.3229095343527337              \n",
+      "================ =================================\n",
+      "\n",
+      "\n",
+      "\n",
+      "+-----------+------------+------------+------------+\n",
+      "|   seq_num |       time |         m1 |    spvoigt |\n",
+      "+-----------+------------+------------+------------+\n",
+      "|         1 | 00:33:46.5 |   -1.27000 |  16626.547 |\n",
+      "|         2 | 00:33:46.7 |   -1.28000 |  25930.433 |\n",
+      "|         3 | 00:33:46.9 |   -1.29000 |  40194.994 |\n",
+      "|         4 | 00:33:47.1 |   -1.30000 |  59839.071 |\n",
+      "|         5 | 00:33:47.3 |   -1.31000 |  82625.135 |\n",
+      "|         6 | 00:33:47.5 |   -1.33000 |  95075.221 |\n",
+      "|         7 | 00:33:47.7 |   -1.34000 |  74805.966 |\n",
+      "|         8 | 00:33:47.9 |   -1.35000 |  52516.186 |\n",
+      "|         9 | 00:33:48.1 |   -1.36000 |  34670.358 |\n",
+      "|        10 | 00:33:48.3 |   -1.37000 |  22222.839 |\n",
+      "+-----------+------------+------------+------------+\n",
+      "generator TuneAxis.multi_pass_tune ['4727cff7'] (scan num: 5)\n",
+      "\n",
+      "\n",
+      "PeakStats\n",
+      "================ =================================\n",
+      "key              result                           \n",
+      "================ =================================\n",
+      "x                m1                               \n",
+      "y                spvoigt                          \n",
+      "cen              -1.3232368550566802              \n",
+      "com              -1.324568875024918               \n",
+      "fwhm             0.050534157776581434             \n",
+      "min              [-1.27000000e+00  1.66265473e+04]\n",
+      "max              [-1.33000000e+00  9.50752206e+04]\n",
+      "crossings        [-1.29796978 -1.34850393]        \n",
+      "tune_ok          True                             \n",
+      "center           -1.3232368550566802              \n",
+      "initial_position -1.32                            \n",
+      "final_position   -1.3232368550566802              \n",
+      "================ =================================\n",
+      "\n"
+     ]
+    },
+    {
+     "data": {
+      "text/plain": [
+       "('973d07fd-c9eb-46fe-91f9-8f5c91e2a8f9',\n",
+       " '4c9af76b-4c24-453a-bfab-4a25ad93f5de',\n",
+       " '87e51c91-7865-4d53-aade-cd83a702b704',\n",
+       " '4727cff7-8811-4ac4-9ae5-4a4f81c0d8f5')"
+      ]
+     },
+     "execution_count": 11,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "RE(tuner.multi_pass_tune(), live_table, md=md)"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "Show the results from the multi-pass tuning."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 12,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "final:  -1.3232368550566802\n",
+      "max (-1.33, 95075.22058003367)\n",
+      "min (-1.27, 16626.54728728527)\n",
+      "-- Signal(name='PeakStats_cen', parent='PeakStats', value=-1.3594076832102968, timestamp=1657085618.1954212) Signal(name='PeakStats_fwhm', parent='PeakStats', value=0.2843975895677082, timestamp=1657085618.195451)\n",
+      "-- Signal(name='PeakStats_cen', parent='PeakStats', value=-1.3285390504163415, timestamp=1657085623.0134842) Signal(name='PeakStats_fwhm', parent='PeakStats', value=0.06927988898350734, timestamp=1657085623.0135126)\n",
+      "-- Signal(name='PeakStats_cen', parent='PeakStats', value=-1.3229095343527337, timestamp=1657085625.8175142) Signal(name='PeakStats_fwhm', parent='PeakStats', value=0.053734231185460946, timestamp=1657085625.8175213)\n",
+      "-- Signal(name='PeakStats_cen', parent='PeakStats', value=-1.3232368550566802, timestamp=1657085628.3260303) Signal(name='PeakStats_fwhm', parent='PeakStats', value=0.050534157776581434, timestamp=1657085628.326058)\n",
+      "m1.position=-1.32  det=22222.839021509993\n"
+     ]
+    }
+   ],
+   "source": [
+    "print(\"final: \", tuner.center)\n",
+    "print(\"max\", tuner.peaks.max)\n",
+    "print(\"min\", tuner.peaks.min)\n",
+    "for stat in tuner.stats:\n",
+    "    print(\"--\", stat.cen, stat.fwhm)\n",
+    "print(f\"{m1.position=}  det={spvoigt.get()}\")"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "Compare the final position (just printed) with the expected value shown a couple steps back."
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## Single-pass tune\n",
+    "\n",
+    "Repeat but with only one pass.  Reset the motor to the starting position and increase the number of steps by a factor of three."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 13,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "\n",
+      "\n",
+      "+-----------+------------+------------+------------+\n",
+      "|   seq_num |       time |         m1 |    spvoigt |\n",
+      "+-----------+------------+------------+------------+\n",
+      "|         1 | 00:33:50.6 |   -2.75000 |    282.864 |\n",
+      "|         2 | 00:33:50.9 |   -2.66000 |    285.697 |\n",
+      "|         3 | 00:33:51.2 |   -2.58000 |    288.742 |\n",
+      "|         4 | 00:33:51.5 |   -2.49000 |    292.943 |\n",
+      "|         5 | 00:33:51.8 |   -2.41000 |    297.586 |\n",
+      "|         6 | 00:33:52.1 |   -2.32000 |    304.203 |\n",
+      "|         7 | 00:33:52.4 |   -2.23000 |    312.884 |\n",
+      "|         8 | 00:33:52.7 |   -2.15000 |    323.095 |\n",
+      "|         9 | 00:33:53.0 |   -2.06000 |    338.783 |\n",
+      "|        10 | 00:33:53.3 |   -1.97000 |    361.453 |\n",
+      "|        11 | 00:33:53.6 |   -1.89000 |    391.297 |\n",
+      "|        12 | 00:33:53.9 |   -1.80000 |    444.359 |\n",
+      "|        13 | 00:33:54.2 |   -1.72000 |    524.755 |\n",
+      "|        14 | 00:33:54.5 |   -1.63000 |    699.989 |\n",
+      "|        15 | 00:33:54.8 |   -1.54000 |   1132.632 |\n",
+      "|        16 | 00:33:55.1 |   -1.46000 |   2403.413 |\n",
+      "|        17 | 00:33:55.4 |   -1.37000 |  22222.839 |\n",
+      "|        18 | 00:33:55.7 |   -1.28000 |  25930.433 |\n",
+      "|        19 | 00:33:56.0 |   -1.20000 |   2875.401 |\n",
+      "|        20 | 00:33:56.3 |   -1.11000 |   1160.534 |\n",
+      "|        21 | 00:33:56.6 |   -1.03000 |    740.694 |\n",
+      "|        22 | 00:33:56.9 |   -0.94000 |    543.387 |\n",
+      "|        23 | 00:33:57.2 |   -0.85000 |    447.006 |\n",
+      "|        24 | 00:33:57.5 |   -0.77000 |    397.617 |\n",
+      "|        25 | 00:33:57.8 |   -0.68000 |    362.513 |\n",
+      "|        26 | 00:33:58.1 |   -0.59000 |    339.500 |\n",
+      "|        27 | 00:33:58.4 |   -0.51000 |    325.112 |\n",
+      "|        28 | 00:33:58.7 |   -0.42000 |    313.268 |\n",
+      "|        29 | 00:33:59.0 |   -0.34000 |    305.350 |\n",
+      "|        30 | 00:33:59.3 |   -0.25000 |    298.470 |\n",
+      "+-----------+------------+------------+------------+\n",
+      "generator TuneAxis.tune ['8ee3fd77'] (scan num: 6)\n",
+      "\n",
+      "\n",
+      "PeakStats\n",
+      "================ =================================\n",
+      "key              result                           \n",
+      "================ =================================\n",
+      "x                m1                               \n",
+      "y                spvoigt                          \n",
+      "cen              -1.3234493073606397              \n",
+      "com              -1.3447636766612034              \n",
+      "fwhm             0.17589460960483438              \n",
+      "min              [ -2.75       282.86449968]      \n",
+      "max              [-1.28000000e+00  2.59304333e+04]\n",
+      "crossings        [-1.41139661 -1.235502  ]        \n",
+      "tune_ok          True                             \n",
+      "center           -1.3234493073606397              \n",
+      "initial_position -1.5                             \n",
+      "final_position   -1.3234493073606397              \n",
+      "================ =================================\n",
+      "\n"
+     ]
+    },
+    {
+     "data": {
+      "text/plain": [
+       "('8ee3fd77-5217-4b5c-8e00-65b694c9e83a',)"
+      ]
+     },
+     "execution_count": 13,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "m1.move(starting_position)\n",
+    "tuner.num *= 3\n",
+    "RE(tuner.tune(), live_table, md=md)"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "Compare the single-pass scan with the previous multi-pass scan.  Each used the same number of points overall.  \n",
+    "\n",
+    "The results are comparable but we already knew the position of the peak approximately."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 14,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "final:  -1.3234493073606397\n",
+      "max (-1.28, 25930.433258016637)\n",
+      "min (-2.75, 282.86449968250383)\n",
+      "centroid -1.3234493073606397\n",
+      "FWHM 0.17589460960483438\n",
+      "m1.position=-1.32  det=298.47011500137876\n"
+     ]
+    }
+   ],
+   "source": [
+    "print(\"final: \", tuner.center)\n",
+    "print(\"max\", tuner.peaks.max)\n",
+    "print(\"min\", tuner.peaks.min)\n",
+    "print(\"centroid\", tuner.peaks.cen)\n",
+    "print(\"FWHM\", tuner.peaks.fwhm)\n",
+    "print(f\"{m1.position=}  det={spvoigt.get()}\")"
+   ]
+  }
+ ],
+ "metadata": {
+  "kernelspec": {
+   "display_name": "Python 3.9.13 ('base')",
+   "language": "python",
+   "name": "python3"
+  },
+  "language_info": {
+   "codemirror_mode": {
+    "name": "ipython",
+    "version": 3
+   },
+   "file_extension": ".py",
+   "mimetype": "text/x-python",
+   "name": "python",
+   "nbconvert_exporter": "python",
+   "pygments_lexer": "ipython3",
+   "version": "3.9.13"
+  },
+  "vscode": {
+   "interpreter": {
+    "hash": "f38aef175fb08dfc130a7d9bb9234f0792dc9ad861f95b6c05aedd1b380356e2"
+   }
+  }
+ },
+ "nbformat": 4,
+ "nbformat_minor": 4
+}

@@ -1,0 +1,927 @@
+
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+
+    <title>synApps Support: Records, Databases, … &#8212; apstools 1.6.18 documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=8d27b9dea8ad943066ae" rel="stylesheet" />
+<link href="../../_static/styles/bootstrap.css?digest=8d27b9dea8ad943066ae" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=8d27b9dea8ad943066ae" rel="stylesheet" />
+
+  
+  <link href="../../_static/vendor/fontawesome/6.5.1/css/all.min.css?digest=8d27b9dea8ad943066ae" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.1/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.1/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.1/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/graphviz.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/css/custom.css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=8d27b9dea8ad943066ae" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=8d27b9dea8ad943066ae" />
+  <script src="../../_static/vendor/fontawesome/6.5.1/js/all.min.js?digest=8d27b9dea8ad943066ae"></script>
+
+    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/jquery.js"></script>
+    <script src="../../_static/underscore.js"></script>
+    <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/sphinx_highlight.js"></script>
+    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'api/synApps/index';</script>
+    <script>
+        DOCUMENTATION_OPTIONS.theme_version = '0.15.2';
+        DOCUMENTATION_OPTIONS.theme_switcher_json_url = 'https://raw.githubusercontent.com/BCDA-APS/apstools/main/docs/source/_static/switcher.json';
+        DOCUMENTATION_OPTIONS.theme_switcher_version_match = '1.6.18';
+        DOCUMENTATION_OPTIONS.show_version_warning_banner = false;
+        </script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="EPICS Record support: common structures" href="__common.html" />
+    <link rel="prev" title="Utilities" href="../_utils.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <a id="pst-skip-link" class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>
+    Back to top
+  </button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar">
+<div class="bd-header__inner bd-page-width">
+  <label class="sidebar-toggle primary-toggle" for="__primary">
+    <span class="fa-solid fa-bars"></span>
+  </label>
+  
+  
+  <div class="col-lg-3 navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+
+<a class="navbar-brand logo" href="../../index.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">apstools 1.6.18 documentation</p>
+  
+</a></div>
+    
+      <div class="navbar-item">
+<script>
+document.write(`
+  <div class="version-switcher__container dropdown">
+    <button id="pst-version-switcher-button-2"
+      type="button"
+      class="version-switcher__button btn btn-sm navbar-btn dropdown-toggle"
+      data-bs-toggle="dropdown"
+      aria-haspopup="listbox"
+      aria-controls="pst-version-switcher-list-2"
+      aria-label="Version switcher list"
+    >
+      Choose version  <!-- this text may get changed later by javascript -->
+      <span class="caret"></span>
+    </button>
+    <div id="pst-version-switcher-list-2"
+      class="version-switcher__menu dropdown-menu list-group-flush py-0"
+      role="listbox" aria-labelledby="pst-version-switcher-button-2">
+      <!-- dropdown will be populated by javascript on page load -->
+    </div>
+  </div>
+`);
+</script></div>
+    
+  </div>
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav class="navbar-nav">
+  <ul class="bd-navbar-elements navbar-nav">
+    
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../overview.html">
+                        Overview
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../applications/index.html">
+                        Applications
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../examples/index.html">
+                        Guides
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item current active">
+                      <a class="nav-link nav-internal" href="../index.html">
+                        API Documentation
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../install.html">
+                        Installation
+                      </a>
+                    </li>
+                
+            <li class="nav-item dropdown">
+                <button class="btn dropdown-toggle nav-item" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-controls="pst-nav-more-links">
+                    More
+                </button>
+                <ul id="pst-nav-more-links" class="dropdown-menu">
+                    
+                    <li class="nav-item">
+                      <a class="nav-link dropdown-item nav-internal" href="../../changes.html">
+                        Change History
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link dropdown-item nav-internal" href="../../license.html">
+                        License
+                      </a>
+                    </li>
+                
+                </ul>
+            </li>
+            
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+ <script>
+ document.write(`
+   <button class="btn navbar-btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script>
+        </div>
+      
+      
+        <div class="navbar-item">
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch nav-link" data-mode="light"><i class="fa-solid fa-sun fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="dark"><i class="fa-solid fa-moon fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg"></i></span>
+  </button>
+`);
+</script></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+ <script>
+ document.write(`
+   <button class="btn navbar-btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script>
+    </div>
+  
+
+  
+    <label class="sidebar-toggle secondary-toggle" for="__secondary" tabindex="0">
+      <span class="fa-solid fa-outdent"></span>
+    </label>
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          <div class="navbar-item">
+<nav class="navbar-nav">
+  <ul class="bd-navbar-elements navbar-nav">
+    
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../overview.html">
+                        Overview
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../applications/index.html">
+                        Applications
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../examples/index.html">
+                        Guides
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item current active">
+                      <a class="nav-link nav-internal" href="../index.html">
+                        API Documentation
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../install.html">
+                        Installation
+                      </a>
+                    </li>
+                
+            <li class="nav-item dropdown">
+                <button class="btn dropdown-toggle nav-item" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-controls="pst-nav-more-links-2">
+                    More
+                </button>
+                <ul id="pst-nav-more-links-2" class="dropdown-menu">
+                    
+                    <li class="nav-item">
+                      <a class="nav-link dropdown-item nav-internal" href="../../changes.html">
+                        Change History
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link dropdown-item nav-internal" href="../../license.html">
+                        License
+                      </a>
+                    </li>
+                
+                </ul>
+            </li>
+            
+  </ul>
+</nav></div>
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch nav-link" data-mode="light"><i class="fa-solid fa-sun fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="dark"><i class="fa-solid fa-moon fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg"></i></span>
+  </button>
+`);
+</script></div>
+        
+      </div>
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+<nav class="bd-docs-nav bd-links"
+     aria-label="Section Navigation">
+  <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
+  <div class="bd-toc-item navbar-nav"><ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../_callbacks.html">Callbacks (includes File Writers)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../_devices.html">Devices</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../_filewriters.html">File Writers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../_plans.html">Plans</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../_utils.html">Utilities</a></li>
+<li class="toctree-l1 current active has-children"><a class="current reference internal" href="#">synApps Support: Records, Databases, …</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-1"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="__common.html">EPICS Record support: common structures</a></li>
+<li class="toctree-l2"><a class="reference internal" href="_acalcout.html">EPICS base aCalcout record</a></li>
+<li class="toctree-l2"><a class="reference internal" href="_asyn.html">synApps asyn record</a></li>
+<li class="toctree-l2"><a class="reference internal" href="_busy.html">synApps busy record</a></li>
+<li class="toctree-l2"><a class="reference internal" href="_calcout.html">EPICS base calcout record</a></li>
+<li class="toctree-l2"><a class="reference internal" href="_db_2slit.html">EPICS synApps optics 2slit.db</a></li>
+<li class="toctree-l2"><a class="reference internal" href="_epid.html">synApps epid record</a></li>
+<li class="toctree-l2"><a class="reference internal" href="_iocstats.html">synApps IOC statistics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="_luascript.html">synApps luascript record</a></li>
+<li class="toctree-l2"><a class="reference internal" href="_save_data.html">synApps save data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="_scalcout.html">EPICS synApps calc scalcout record</a></li>
+<li class="toctree-l2"><a class="reference internal" href="_sscan.html">synApps sscan record</a></li>
+<li class="toctree-l2"><a class="reference internal" href="_sseq.html">synApps sseq record</a></li>
+<li class="toctree-l2"><a class="reference internal" href="_sub.html">EPICS base sub record &amp; synApps userAve records</a></li>
+<li class="toctree-l2"><a class="reference internal" href="_swait.html">synApps swait record</a></li>
+<li class="toctree-l2"><a class="reference internal" href="_transform.html">synApps transform record</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+
+
+<nav aria-label="Breadcrumb">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="../index.html" class="nav-link">API Documentation</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page">synApps...</li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section id="synapps-support-records-databases">
+<span id="synapps"></span><h1>synApps Support: Records, Databases, …<a class="headerlink" href="#synapps-support-records-databases" title="Permalink to this heading">#</a></h1>
+<p>Ophyd-style support for EPICS synApps structures (records and databases).</p>
+<p>EXAMPLES:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">apstools.synApps</span>
+<span class="n">calcs</span> <span class="o">=</span> <span class="n">apstools</span><span class="o">.</span><span class="n">synApps</span><span class="o">.</span><span class="n">userCalcsDevice</span><span class="p">(</span><span class="s2">&quot;xxx:&quot;</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;calcs&quot;</span><span class="p">)</span>
+<span class="n">scans</span> <span class="o">=</span> <span class="n">apstools</span><span class="o">.</span><span class="n">synApps</span><span class="o">.</span><span class="n">SscanDevice</span><span class="p">(</span><span class="s2">&quot;xxx:&quot;</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;scans&quot;</span><span class="p">)</span>
+<span class="n">scripts</span> <span class="o">=</span> <span class="n">apstools</span><span class="o">.</span><span class="n">synApps</span><span class="o">.</span><span class="n">userScriptsDevice</span><span class="p">(</span><span class="s2">&quot;xxx:set1:&quot;</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;scripts&quot;</span><span class="p">)</span>
+<span class="n">xxxstats</span> <span class="o">=</span> <span class="n">apstools</span><span class="o">.</span><span class="n">synApps</span><span class="o">.</span><span class="n">IocStatsDevice</span><span class="p">(</span><span class="s2">&quot;xxx:&quot;</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;xxxstats&quot;</span><span class="p">)</span>
+
+<span class="n">calc1</span> <span class="o">=</span> <span class="n">calcs</span><span class="o">.</span><span class="n">calc1</span>
+<span class="n">apstools</span><span class="o">.</span><span class="n">synApps</span><span class="o">.</span><span class="n">swait_setup_random_number</span><span class="p">(</span><span class="n">calc1</span><span class="p">)</span>
+
+<span class="n">apstools</span><span class="o">.</span><span class="n">synApps</span><span class="o">.</span><span class="n">swait_setup_incrementer</span><span class="p">(</span><span class="n">calcs</span><span class="o">.</span><span class="n">calc2</span><span class="p">)</span>
+
+<span class="n">calc1</span><span class="o">.</span><span class="n">reset</span><span class="p">()</span>
+</pre></div>
+</div>
+<aside class="footnote-list brackets">
+<aside class="footnote brackets" id="id1" role="note">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id2">1</a><span class="fn-bracket">]</span></span>
+<p>synApps XXX: <a class="github reference external" href="https://github.com/epics-modules/xxx">epics-modules/xxx</a></p>
+</aside>
+</aside>
+<section id="categories">
+<h2>Categories<a class="headerlink" href="#categories" title="Permalink to this heading">#</a></h2>
+<p>Support the default structures as provided by the synApps template XXX <a class="footnote-reference brackets" href="#id1" id="id2" role="doc-noteref"><span class="fn-bracket">[</span>1<span class="fn-bracket">]</span></a> IOC.
+Also support, as needed, for structures from EPICS base.</p>
+<section id="records">
+<h3>Records<a class="headerlink" href="#records" title="Permalink to this heading">#</a></h3>
+<table class="autosummary longtable table autosummary">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="_asyn.html#apstools.synApps.asyn.AsynRecord" title="apstools.synApps.asyn.AsynRecord"><code class="xref py py-obj docutils literal notranslate"><span class="pre">AsynRecord</span></code></a>(*args, **kwargs)</p></td>
+<td><p>EPICS asyn record support in ophyd</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_busy.html#apstools.synApps.busy.BusyRecord" title="apstools.synApps.busy.BusyRecord"><code class="xref py py-obj docutils literal notranslate"><span class="pre">BusyRecord</span></code></a>(*args, **kwargs)</p></td>
+<td><p>EPICS synApps busy record</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_calcout.html#apstools.synApps.calcout.CalcoutRecord" title="apstools.synApps.calcout.CalcoutRecord"><code class="xref py py-obj docutils literal notranslate"><span class="pre">CalcoutRecord</span></code></a>(*args, **kwargs)</p></td>
+<td><p>EPICS base calcout record support in ophyd</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_epid.html#apstools.synApps.epid.EpidRecord" title="apstools.synApps.epid.EpidRecord"><code class="xref py py-obj docutils literal notranslate"><span class="pre">EpidRecord</span></code></a>(*args, **kwargs)</p></td>
+<td><p>EPICS synApps epid record support in ophyd</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_luascript.html#apstools.synApps.luascript.LuascriptRecord" title="apstools.synApps.luascript.LuascriptRecord"><code class="xref py py-obj docutils literal notranslate"><span class="pre">LuascriptRecord</span></code></a>(*args, **kwargs)</p></td>
+<td><p>EPICS synApps luascript record: used as <code class="docutils literal notranslate"><span class="pre">$(P):userScript$(N)</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_scalcout.html#apstools.synApps.scalcout.ScalcoutRecord" title="apstools.synApps.scalcout.ScalcoutRecord"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ScalcoutRecord</span></code></a>(*args, **kwargs)</p></td>
+<td><p>EPICS SynApps calc scalcout record support in ophyd</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_sscan.html#apstools.synApps.sscan.SscanRecord" title="apstools.synApps.sscan.SscanRecord"><code class="xref py py-obj docutils literal notranslate"><span class="pre">SscanRecord</span></code></a>(*args, **kwargs)</p></td>
+<td><p>EPICS synApps sscan record: used as <code class="docutils literal notranslate"><span class="pre">$(P):scan(N)</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_sseq.html#apstools.synApps.sseq.SseqRecord" title="apstools.synApps.sseq.SseqRecord"><code class="xref py py-obj docutils literal notranslate"><span class="pre">SseqRecord</span></code></a>(*args, **kwargs)</p></td>
+<td><p>EPICS synApps sseq record support in ophyd</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_sub.html#apstools.synApps.sub.SubRecord" title="apstools.synApps.sub.SubRecord"><code class="xref py py-obj docutils literal notranslate"><span class="pre">SubRecord</span></code></a>(*args, **kwargs)</p></td>
+<td><p>EPICS base sub record support in ophyd</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_swait.html#apstools.synApps.swait.SwaitRecord" title="apstools.synApps.swait.SwaitRecord"><code class="xref py py-obj docutils literal notranslate"><span class="pre">SwaitRecord</span></code></a>(*args, **kwargs)</p></td>
+<td><p>EPICS synApps swait record: used as <code class="docutils literal notranslate"><span class="pre">$(P):userCalc$(N)</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_transform.html#apstools.synApps.transform.TransformRecord" title="apstools.synApps.transform.TransformRecord"><code class="xref py py-obj docutils literal notranslate"><span class="pre">TransformRecord</span></code></a>(*args, **kwargs)</p></td>
+<td><p>EPICS transform record support in ophyd</p></td>
+</tr>
+</tbody>
+</table>
+<p>The ophyd-style Devices for these records rely on common structures:</p>
+<table class="autosummary longtable table autosummary">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="__common.html#apstools.synApps._common.EpicsRecordDeviceCommonAll" title="apstools.synApps._common.EpicsRecordDeviceCommonAll"><code class="xref py py-obj docutils literal notranslate"><span class="pre">EpicsRecordDeviceCommonAll</span></code></a>(*args, **kwargs)</p></td>
+<td><p>Many of the fields common to all EPICS records.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="__common.html#apstools.synApps._common.EpicsRecordInputFields" title="apstools.synApps._common.EpicsRecordInputFields"><code class="xref py py-obj docutils literal notranslate"><span class="pre">EpicsRecordInputFields</span></code></a>(*args, **kwargs)</p></td>
+<td><p>Some fields common to EPICS input records.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="__common.html#apstools.synApps._common.EpicsRecordOutputFields" title="apstools.synApps._common.EpicsRecordOutputFields"><code class="xref py py-obj docutils literal notranslate"><span class="pre">EpicsRecordOutputFields</span></code></a>(*args, **kwargs)</p></td>
+<td><p>Some fields common to EPICS output records.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="__common.html#apstools.synApps._common.EpicsRecordFloatFields" title="apstools.synApps._common.EpicsRecordFloatFields"><code class="xref py py-obj docutils literal notranslate"><span class="pre">EpicsRecordFloatFields</span></code></a>(*args, **kwargs)</p></td>
+<td><p>Some fields common to EPICS records supporting floating point values.</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="databases">
+<h3>Databases<a class="headerlink" href="#databases" title="Permalink to this heading">#</a></h3>
+<table class="autosummary longtable table autosummary">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="_sseq.html#apstools.synApps.sseq.EditStringSequence" title="apstools.synApps.sseq.EditStringSequence"><code class="xref py py-obj docutils literal notranslate"><span class="pre">EditStringSequence</span></code></a>(*args, **kwargs)</p></td>
+<td><p>EPICS synApps sseq support to quickly re-arrange steps.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_db_2slit.html#apstools.synApps.db_2slit.Optics2Slit1D" title="apstools.synApps.db_2slit.Optics2Slit1D"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Optics2Slit1D</span></code></a>(*args, **kwargs)</p></td>
+<td><p>EPICS synApps optics 2slit.db 1D support: xn, xp, size, center, sync</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_db_2slit.html#apstools.synApps.db_2slit.Optics2Slit2D_HV" title="apstools.synApps.db_2slit.Optics2Slit2D_HV"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Optics2Slit2D_HV</span></code></a>(*args, **kwargs)</p></td>
+<td><p>EPICS synApps optics 2slit.db 2D support: h.xn, h.xp, v.xn, v.xp</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_db_2slit.html#apstools.synApps.db_2slit.Optics2Slit2D_InbOutBotTop" title="apstools.synApps.db_2slit.Optics2Slit2D_InbOutBotTop"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Optics2Slit2D_InbOutBotTop</span></code></a>(*args, **kwargs)</p></td>
+<td><p>EPICS synApps optics 2slit.db 2D support: inb, out, bot, top</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_save_data.html#apstools.synApps.save_data.SaveData" title="apstools.synApps.save_data.SaveData"><code class="xref py py-obj docutils literal notranslate"><span class="pre">SaveData</span></code></a>(*args, **kwargs)</p></td>
+<td><p>EPICS synApps saveData support.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_sscan.html#apstools.synApps.sscan.SscanDevice" title="apstools.synApps.sscan.SscanDevice"><code class="xref py py-obj docutils literal notranslate"><span class="pre">SscanDevice</span></code></a>(*args, **kwargs)</p></td>
+<td><p>EPICS synApps XXX IOC setup of sscan records: <code class="docutils literal notranslate"><span class="pre">$(P):scan$(N)</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_swait.html#apstools.synApps.swait.UserCalcN" title="apstools.synApps.swait.UserCalcN"><code class="xref py py-obj docutils literal notranslate"><span class="pre">UserCalcN</span></code></a>(*args, **kwargs)</p></td>
+<td><p>Single instance of the userCalcN database.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_swait.html#apstools.synApps.swait.UserCalcsDevice" title="apstools.synApps.swait.UserCalcsDevice"><code class="xref py py-obj docutils literal notranslate"><span class="pre">UserCalcsDevice</span></code></a>(*args, **kwargs)</p></td>
+<td><p>EPICS synApps XXX IOC setup of userCalcs: <code class="docutils literal notranslate"><span class="pre">$(P):userCalc$(N)</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_calcout.html#apstools.synApps.calcout.UserCalcoutDevice" title="apstools.synApps.calcout.UserCalcoutDevice"><code class="xref py py-obj docutils literal notranslate"><span class="pre">UserCalcoutDevice</span></code></a>(*args, **kwargs)</p></td>
+<td><p>EPICS synApps XXX IOC setup of user calcouts: <code class="docutils literal notranslate"><span class="pre">$(P):userCalcOut$(N)</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_calcout.html#apstools.synApps.calcout.UserCalcoutN" title="apstools.synApps.calcout.UserCalcoutN"><code class="xref py py-obj docutils literal notranslate"><span class="pre">UserCalcoutN</span></code></a>(*args, **kwargs)</p></td>
+<td><p>Single instance of the userCalcoutN database.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_scalcout.html#apstools.synApps.scalcout.UserScalcoutDevice" title="apstools.synApps.scalcout.UserScalcoutDevice"><code class="xref py py-obj docutils literal notranslate"><span class="pre">UserScalcoutDevice</span></code></a>(*args, **kwargs)</p></td>
+<td><p>EPICS synApps XXX IOC setup of user scalcouts: <code class="docutils literal notranslate"><span class="pre">$(P):userStringCalc$(N)</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_scalcout.html#apstools.synApps.scalcout.UserScalcoutN" title="apstools.synApps.scalcout.UserScalcoutN"><code class="xref py py-obj docutils literal notranslate"><span class="pre">UserScalcoutN</span></code></a>(*args, **kwargs)</p></td>
+<td><p>Single instance of the userStringCalcN database.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_luascript.html#apstools.synApps.luascript.UserScriptsDevice" title="apstools.synApps.luascript.UserScriptsDevice"><code class="xref py py-obj docutils literal notranslate"><span class="pre">UserScriptsDevice</span></code></a>(*args, **kwargs)</p></td>
+<td><p>EPICS synApps XXX IOC setup of user lua scripts: <code class="docutils literal notranslate"><span class="pre">$(P):userScript$(N)</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_sseq.html#apstools.synApps.sseq.UserStringSequenceDevice" title="apstools.synApps.sseq.UserStringSequenceDevice"><code class="xref py py-obj docutils literal notranslate"><span class="pre">UserStringSequenceDevice</span></code></a>(*args, **kwargs)</p></td>
+<td><p>EPICS synApps XXX IOC setup of userStringSeqs: <code class="docutils literal notranslate"><span class="pre">$(P):userStringSeq$(N)</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_sseq.html#apstools.synApps.sseq.UserStringSequenceN" title="apstools.synApps.sseq.UserStringSequenceN"><code class="xref py py-obj docutils literal notranslate"><span class="pre">UserStringSequenceN</span></code></a>(*args, **kwargs)</p></td>
+<td><p>Single instance of the userStringSeqN database.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_sub.html#apstools.synApps.sub.UserAverageN" title="apstools.synApps.sub.UserAverageN"><code class="xref py py-obj docutils literal notranslate"><span class="pre">UserAverageN</span></code></a>(*args, **kwargs)</p></td>
+<td><p>EPICS synApps XXX IOC setup of user average: <code class="docutils literal notranslate"><span class="pre">$(P):userAve$(N)</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_sub.html#apstools.synApps.sub.UserAverageDevice" title="apstools.synApps.sub.UserAverageDevice"><code class="xref py py-obj docutils literal notranslate"><span class="pre">UserAverageDevice</span></code></a>(*args, **kwargs)</p></td>
+<td><p>EPICS synApps XXX IOC setup of user averaging sub records: <code class="docutils literal notranslate"><span class="pre">$(P):userAve$(N)</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_transform.html#apstools.synApps.transform.UserTransformN" title="apstools.synApps.transform.UserTransformN"><code class="xref py py-obj docutils literal notranslate"><span class="pre">UserTransformN</span></code></a>(*args, **kwargs)</p></td>
+<td><p>Single instance of the userTranN database.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_transform.html#apstools.synApps.transform.UserTransformsDevice" title="apstools.synApps.transform.UserTransformsDevice"><code class="xref py py-obj docutils literal notranslate"><span class="pre">UserTransformsDevice</span></code></a>(*args, **kwargs)</p></td>
+<td><p>EPICS synApps XXX IOC setup of userTransforms: <code class="docutils literal notranslate"><span class="pre">$(P):userTran$(N)</span></code></p></td>
+</tr>
+</tbody>
+</table>
+<table class="autosummary longtable table autosummary">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="__common.html#apstools.synApps._common.EpicsSynAppsRecordEnableMixin" title="apstools.synApps._common.EpicsSynAppsRecordEnableMixin"><code class="xref py py-obj docutils literal notranslate"><span class="pre">EpicsSynAppsRecordEnableMixin</span></code></a>(*args, **kwargs)</p></td>
+<td><p>Supports <code class="docutils literal notranslate"><span class="pre">{PV}Enable</span></code> feature from user databases.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_calcout.html#apstools.synApps.calcout.CalcoutRecordChannel" title="apstools.synApps.calcout.CalcoutRecordChannel"><code class="xref py py-obj docutils literal notranslate"><span class="pre">CalcoutRecordChannel</span></code></a>(*args, **kwargs)</p></td>
+<td><p>channel of a calcout record: A-L</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_iocstats.html#apstools.synApps.iocstats.IocStatsDevice" title="apstools.synApps.iocstats.IocStatsDevice"><code class="xref py py-obj docutils literal notranslate"><span class="pre">IocStatsDevice</span></code></a>(*args, **kwargs)</p></td>
+<td><p>synApps IOC stats</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_luascript.html#apstools.synApps.luascript.LuascriptRecordNumberInput" title="apstools.synApps.luascript.LuascriptRecordNumberInput"><code class="xref py py-obj docutils literal notranslate"><span class="pre">LuascriptRecordNumberInput</span></code></a>(*args, **kwargs)</p></td>
+<td><p>number input of a synApps luascript record: A-J</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_luascript.html#apstools.synApps.luascript.LuascriptRecordStringInput" title="apstools.synApps.luascript.LuascriptRecordStringInput"><code class="xref py py-obj docutils literal notranslate"><span class="pre">LuascriptRecordStringInput</span></code></a>(*args, **kwargs)</p></td>
+<td><p>string input of a synApps luascript record: AA-JJ</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_scalcout.html#apstools.synApps.scalcout.ScalcoutRecordNumberChannel" title="apstools.synApps.scalcout.ScalcoutRecordNumberChannel"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ScalcoutRecordNumberChannel</span></code></a>(*args, **kwargs)</p></td>
+<td><p>Number channel of an scalcout record: A-L</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_scalcout.html#apstools.synApps.scalcout.ScalcoutRecordStringChannel" title="apstools.synApps.scalcout.ScalcoutRecordStringChannel"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ScalcoutRecordStringChannel</span></code></a>(*args, **kwargs)</p></td>
+<td><p>String channel of an scalcout record: AA-LL</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_sub.html#apstools.synApps.sub.SubRecordChannel" title="apstools.synApps.sub.SubRecordChannel"><code class="xref py py-obj docutils literal notranslate"><span class="pre">SubRecordChannel</span></code></a>(*args, **kwargs)</p></td>
+<td><p>Number channel of a sub record: A-L</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_swait.html#apstools.synApps.swait.SwaitRecordChannel" title="apstools.synApps.swait.SwaitRecordChannel"><code class="xref py py-obj docutils literal notranslate"><span class="pre">SwaitRecordChannel</span></code></a>(*args, **kwargs)</p></td>
+<td><p>EPICS synApps synApps swait record: single channel [A-L]</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="other-support">
+<h3>Other Support<a class="headerlink" href="#other-support" title="Permalink to this heading">#</a></h3>
+<p>These functions configure calcout or swait records
+for certain algorithms.</p>
+<table class="autosummary longtable table autosummary">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="_calcout.html#apstools.synApps.calcout.setup_gaussian_calcout" title="apstools.synApps.calcout.setup_gaussian_calcout"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setup_gaussian_calcout</span></code></a>(calcout, ref_signal)</p></td>
+<td><p>setup calcout for noisy Gaussian</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_calcout.html#apstools.synApps.calcout.setup_incrementer_calcout" title="apstools.synApps.calcout.setup_incrementer_calcout"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setup_incrementer_calcout</span></code></a>(calcout[, scan, limit])</p></td>
+<td><p>setup calcout record as an incrementer</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_calcout.html#apstools.synApps.calcout.setup_lorentzian_calcout" title="apstools.synApps.calcout.setup_lorentzian_calcout"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setup_lorentzian_calcout</span></code></a>(calcout, ref_signal)</p></td>
+<td><p>setup calcout record for noisy Lorentzian</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_swait.html#apstools.synApps.swait.setup_gaussian_swait" title="apstools.synApps.swait.setup_gaussian_swait"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setup_gaussian_swait</span></code></a>(swait, ref_signal[, ...])</p></td>
+<td><p>setup swait for noisy Gaussian</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_swait.html#apstools.synApps.swait.setup_incrementer_swait" title="apstools.synApps.swait.setup_incrementer_swait"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setup_incrementer_swait</span></code></a>(swait[, scan, limit])</p></td>
+<td><p>setup swait record as an incrementer</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_swait.html#apstools.synApps.swait.setup_lorentzian_swait" title="apstools.synApps.swait.setup_lorentzian_swait"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setup_lorentzian_swait</span></code></a>(swait, ref_signal[, ...])</p></td>
+<td><p>setup swait record for noisy Lorentzian</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_swait.html#apstools.synApps.swait.setup_random_number_swait" title="apstools.synApps.swait.setup_random_number_swait"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setup_random_number_swait</span></code></a>(swait, **kw)</p></td>
+<td><p>setup swait record to generate random numbers</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+</section>
+<section id="all-submodules">
+<h2>All Submodules<a class="headerlink" href="#all-submodules" title="Permalink to this heading">#</a></h2>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="__common.html">EPICS Record support: common structures</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="__common.html#apstools.synApps._common.EpicsRecordAnalogOutputFields"><code class="docutils literal notranslate"><span class="pre">EpicsRecordAnalogOutputFields</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="__common.html#apstools.synApps._common.EpicsRecordDeviceCommonAll"><code class="docutils literal notranslate"><span class="pre">EpicsRecordDeviceCommonAll</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="__common.html#apstools.synApps._common.EpicsRecordFloatFields"><code class="docutils literal notranslate"><span class="pre">EpicsRecordFloatFields</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="__common.html#apstools.synApps._common.EpicsRecordInputFields"><code class="docutils literal notranslate"><span class="pre">EpicsRecordInputFields</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="__common.html#apstools.synApps._common.EpicsRecordOutputFields"><code class="docutils literal notranslate"><span class="pre">EpicsRecordOutputFields</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="__common.html#apstools.synApps._common.EpicsSynAppsRecordEnableMixin"><code class="docutils literal notranslate"><span class="pre">EpicsSynAppsRecordEnableMixin</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="_acalcout.html">EPICS base aCalcout record</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="_acalcout.html#apstools.synApps.acalcout.AcalcoutArrayRecordChannel"><code class="docutils literal notranslate"><span class="pre">AcalcoutArrayRecordChannel</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="_acalcout.html#apstools.synApps.acalcout.AcalcoutRecord"><code class="docutils literal notranslate"><span class="pre">AcalcoutRecord</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="_acalcout.html#apstools.synApps.acalcout.AcalcoutRecordChannel"><code class="docutils literal notranslate"><span class="pre">AcalcoutRecordChannel</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="_acalcout.html#apstools.synApps.acalcout.UserArrayCalcDevice"><code class="docutils literal notranslate"><span class="pre">UserArrayCalcDevice</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="_acalcout.html#apstools.synApps.acalcout.UserArrayCalcN"><code class="docutils literal notranslate"><span class="pre">UserArrayCalcN</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="_asyn.html">synApps asyn record</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="_asyn.html#apstools.synApps.asyn.AsynRecord"><code class="docutils literal notranslate"><span class="pre">AsynRecord</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="_busy.html">synApps busy record</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="_busy.html#apstools.synApps.busy.BusyRecord"><code class="docutils literal notranslate"><span class="pre">BusyRecord</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="_calcout.html">EPICS base calcout record</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="_calcout.html#apstools.synApps.calcout.CalcoutRecord"><code class="docutils literal notranslate"><span class="pre">CalcoutRecord</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="_calcout.html#apstools.synApps.calcout.CalcoutRecordChannel"><code class="docutils literal notranslate"><span class="pre">CalcoutRecordChannel</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="_calcout.html#apstools.synApps.calcout.UserCalcoutDevice"><code class="docutils literal notranslate"><span class="pre">UserCalcoutDevice</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="_calcout.html#apstools.synApps.calcout.UserCalcoutN"><code class="docutils literal notranslate"><span class="pre">UserCalcoutN</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="_calcout.html#apstools.synApps.calcout.setup_gaussian_calcout"><code class="docutils literal notranslate"><span class="pre">setup_gaussian_calcout()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="_calcout.html#apstools.synApps.calcout.setup_incrementer_calcout"><code class="docutils literal notranslate"><span class="pre">setup_incrementer_calcout()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="_calcout.html#apstools.synApps.calcout.setup_lorentzian_calcout"><code class="docutils literal notranslate"><span class="pre">setup_lorentzian_calcout()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="_db_2slit.html">EPICS synApps optics 2slit.db</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="_db_2slit.html#apstools.synApps.db_2slit.Optics2Slit1D"><code class="docutils literal notranslate"><span class="pre">Optics2Slit1D</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="_db_2slit.html#apstools.synApps.db_2slit.Optics2Slit2D_HV"><code class="docutils literal notranslate"><span class="pre">Optics2Slit2D_HV</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="_db_2slit.html#apstools.synApps.db_2slit.Optics2Slit2D_InbOutBotTop"><code class="docutils literal notranslate"><span class="pre">Optics2Slit2D_InbOutBotTop</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="_epid.html">synApps epid record</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="_epid.html#apstools.synApps.epid.EpidRecord"><code class="docutils literal notranslate"><span class="pre">EpidRecord</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="_epid.html#apstools.synApps.epid.Fb_EpidDatabase"><code class="docutils literal notranslate"><span class="pre">Fb_EpidDatabase</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="_epid.html#apstools.synApps.epid.Fb_EpidDatabaseHeaterSimulator"><code class="docutils literal notranslate"><span class="pre">Fb_EpidDatabaseHeaterSimulator</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="_iocstats.html">synApps IOC statistics</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="_iocstats.html#apstools.synApps.iocstats.IocStatsDevice"><code class="docutils literal notranslate"><span class="pre">IocStatsDevice</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="_luascript.html">synApps luascript record</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="_luascript.html#apstools.synApps.luascript.LuascriptRecord"><code class="docutils literal notranslate"><span class="pre">LuascriptRecord</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="_luascript.html#apstools.synApps.luascript.LuascriptRecordNumberInput"><code class="docutils literal notranslate"><span class="pre">LuascriptRecordNumberInput</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="_luascript.html#apstools.synApps.luascript.LuascriptRecordStringInput"><code class="docutils literal notranslate"><span class="pre">LuascriptRecordStringInput</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="_luascript.html#apstools.synApps.luascript.UserScriptsDevice"><code class="docutils literal notranslate"><span class="pre">UserScriptsDevice</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="_save_data.html">synApps save data</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="_save_data.html#apstools.synApps.save_data.SaveData"><code class="docutils literal notranslate"><span class="pre">SaveData</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="_scalcout.html">EPICS synApps calc scalcout record</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="_scalcout.html#apstools.synApps.scalcout.ScalcoutRecord"><code class="docutils literal notranslate"><span class="pre">ScalcoutRecord</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="_scalcout.html#apstools.synApps.scalcout.ScalcoutRecordNumberChannel"><code class="docutils literal notranslate"><span class="pre">ScalcoutRecordNumberChannel</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="_scalcout.html#apstools.synApps.scalcout.ScalcoutRecordStringChannel"><code class="docutils literal notranslate"><span class="pre">ScalcoutRecordStringChannel</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="_scalcout.html#apstools.synApps.scalcout.UserScalcoutDevice"><code class="docutils literal notranslate"><span class="pre">UserScalcoutDevice</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="_scalcout.html#apstools.synApps.scalcout.UserScalcoutN"><code class="docutils literal notranslate"><span class="pre">UserScalcoutN</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="_sscan.html">synApps sscan record</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="_sscan.html#apstools.synApps.sscan.SscanDevice"><code class="docutils literal notranslate"><span class="pre">SscanDevice</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="_sscan.html#apstools.synApps.sscan.SscanRecord"><code class="docutils literal notranslate"><span class="pre">SscanRecord</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="_sscan.html#apstools.synApps.sscan.sscanDetector"><code class="docutils literal notranslate"><span class="pre">sscanDetector</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="_sscan.html#apstools.synApps.sscan.sscanPositioner"><code class="docutils literal notranslate"><span class="pre">sscanPositioner</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="_sscan.html#apstools.synApps.sscan.sscanTrigger"><code class="docutils literal notranslate"><span class="pre">sscanTrigger</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="_sseq.html">synApps sseq record</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="_sseq.html#apstools.synApps.sseq.EditStringSequence"><code class="docutils literal notranslate"><span class="pre">EditStringSequence</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="_sseq.html#apstools.synApps.sseq.SseqRecord"><code class="docutils literal notranslate"><span class="pre">SseqRecord</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="_sseq.html#apstools.synApps.sseq.UserStringSequenceDevice"><code class="docutils literal notranslate"><span class="pre">UserStringSequenceDevice</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="_sseq.html#apstools.synApps.sseq.UserStringSequenceN"><code class="docutils literal notranslate"><span class="pre">UserStringSequenceN</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="_sseq.html#apstools.synApps.sseq.sseqRecordStep"><code class="docutils literal notranslate"><span class="pre">sseqRecordStep</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="_sub.html">EPICS base sub record &amp; synApps userAve records</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="_sub.html#apstools.synApps.sub.SubRecord"><code class="docutils literal notranslate"><span class="pre">SubRecord</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="_sub.html#apstools.synApps.sub.SubRecordChannel"><code class="docutils literal notranslate"><span class="pre">SubRecordChannel</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="_sub.html#apstools.synApps.sub.UserAverageDevice"><code class="docutils literal notranslate"><span class="pre">UserAverageDevice</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="_sub.html#apstools.synApps.sub.UserAverageN"><code class="docutils literal notranslate"><span class="pre">UserAverageN</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="_swait.html">synApps swait record</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="_swait.html#apstools.synApps.swait.SwaitRecord"><code class="docutils literal notranslate"><span class="pre">SwaitRecord</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="_swait.html#apstools.synApps.swait.SwaitRecordChannel"><code class="docutils literal notranslate"><span class="pre">SwaitRecordChannel</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="_swait.html#apstools.synApps.swait.UserCalcN"><code class="docutils literal notranslate"><span class="pre">UserCalcN</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="_swait.html#apstools.synApps.swait.UserCalcsDevice"><code class="docutils literal notranslate"><span class="pre">UserCalcsDevice</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="_swait.html#apstools.synApps.swait.setup_gaussian_swait"><code class="docutils literal notranslate"><span class="pre">setup_gaussian_swait()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="_swait.html#apstools.synApps.swait.setup_incrementer_swait"><code class="docutils literal notranslate"><span class="pre">setup_incrementer_swait()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="_swait.html#apstools.synApps.swait.setup_lorentzian_swait"><code class="docutils literal notranslate"><span class="pre">setup_lorentzian_swait()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="_swait.html#apstools.synApps.swait.setup_random_number_swait"><code class="docutils literal notranslate"><span class="pre">setup_random_number_swait()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="_transform.html">synApps transform record</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="_transform.html#apstools.synApps.transform.TransformRecord"><code class="docutils literal notranslate"><span class="pre">TransformRecord</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="_transform.html#apstools.synApps.transform.UserTransformN"><code class="docutils literal notranslate"><span class="pre">UserTransformN</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="_transform.html#apstools.synApps.transform.UserTransformsDevice"><code class="docutils literal notranslate"><span class="pre">UserTransformsDevice</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="_transform.html#apstools.synApps.transform.transformRecordChannel"><code class="docutils literal notranslate"><span class="pre">transformRecordChannel</span></code></a></li>
+</ul>
+</li>
+</ul>
+</div>
+</section>
+</section>
+
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="../_utils.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Utilities</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="__common.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">EPICS Record support: common structures</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+<div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+  </div>
+  <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#categories">Categories</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#records">Records</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#databases">Databases</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#other-support">Other Support</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#all-submodules">All Submodules</a></li>
+</ul>
+  </nav></div>
+
+  <div class="sidebar-secondary-item">
+
+  <div class="tocsection sourcelink">
+    <a href="../../_sources/api/synApps/index.rst.txt">
+      <i class="fa-solid fa-file-lines"></i> Show Source
+    </a>
+  </div>
+</div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../_static/scripts/bootstrap.js?digest=8d27b9dea8ad943066ae"></script>
+<script src="../../_static/scripts/pydata-sphinx-theme.js?digest=8d27b9dea8ad943066ae"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+
+  <p class="copyright">
+    
+      © Copyright 2017-2023, UChicago Argonne, LLC.
+      <br/>
+    
+  </p>
+</div>
+      
+        <div class="footer-item">
+
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 5.3.0.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item">
+<p class="theme-version">
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.15.2.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

@@ -1,0 +1,782 @@
+
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+
+    <title>EPICS base aCalcout record &#8212; apstools 1.6</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=8d27b9dea8ad943066ae" rel="stylesheet" />
+<link href="../../_static/styles/bootstrap.css?digest=8d27b9dea8ad943066ae" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=8d27b9dea8ad943066ae" rel="stylesheet" />
+
+  
+  <link href="../../_static/vendor/fontawesome/6.5.1/css/all.min.css?digest=8d27b9dea8ad943066ae" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.1/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.1/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.1/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/graphviz.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/design-style.1e8bd061cd6da7fc9cf755528e8ffc24.min.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/css/custom.css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=8d27b9dea8ad943066ae" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=8d27b9dea8ad943066ae" />
+  <script src="../../_static/vendor/fontawesome/6.5.1/js/all.min.js?digest=8d27b9dea8ad943066ae"></script>
+
+    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/jquery.js"></script>
+    <script src="../../_static/underscore.js"></script>
+    <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/sphinx_highlight.js"></script>
+    <script src="../../_static/design-tabs.js"></script>
+    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'api/synApps/_acalcout';</script>
+    <script>
+        DOCUMENTATION_OPTIONS.theme_version = '0.15.2';
+        DOCUMENTATION_OPTIONS.theme_switcher_json_url = 'https://raw.githubusercontent.com/BCDA-APS/apstools/main/docs/source/_static/switcher.json';
+        DOCUMENTATION_OPTIONS.theme_switcher_version_match = '1.6.19';
+        DOCUMENTATION_OPTIONS.show_version_warning_banner = false;
+        </script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="synApps asyn record" href="_asyn.html" />
+    <link rel="prev" title="EPICS Record support: common structures" href="__common.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <a id="pst-skip-link" class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>
+    Back to top
+  </button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar">
+<div class="bd-header__inner bd-page-width">
+  <label class="sidebar-toggle primary-toggle" for="__primary">
+    <span class="fa-solid fa-bars"></span>
+  </label>
+  
+  
+  <div class="col-lg-3 navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+
+<a class="navbar-brand logo" href="../../index.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">apstools 1.6</p>
+  
+</a></div>
+    
+      <div class="navbar-item">
+<script>
+document.write(`
+  <div class="version-switcher__container dropdown">
+    <button id="pst-version-switcher-button-2"
+      type="button"
+      class="version-switcher__button btn btn-sm navbar-btn dropdown-toggle"
+      data-bs-toggle="dropdown"
+      aria-haspopup="listbox"
+      aria-controls="pst-version-switcher-list-2"
+      aria-label="Version switcher list"
+    >
+      Choose version  <!-- this text may get changed later by javascript -->
+      <span class="caret"></span>
+    </button>
+    <div id="pst-version-switcher-list-2"
+      class="version-switcher__menu dropdown-menu list-group-flush py-0"
+      role="listbox" aria-labelledby="pst-version-switcher-button-2">
+      <!-- dropdown will be populated by javascript on page load -->
+    </div>
+  </div>
+`);
+</script></div>
+    
+  </div>
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav class="navbar-nav">
+  <ul class="bd-navbar-elements navbar-nav">
+    
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../install.html">
+                        Installation
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item current active">
+                      <a class="nav-link nav-internal" href="../index.html">
+                        API Documentation
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../applications/index.html">
+                        Applications
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../examples/index.html">
+                        Examples
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../changes.html">
+                        Change History
+                      </a>
+                    </li>
+                
+            <li class="nav-item dropdown">
+                <button class="btn dropdown-toggle nav-item" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-controls="pst-nav-more-links">
+                    More
+                </button>
+                <ul id="pst-nav-more-links" class="dropdown-menu">
+                    
+                    <li class="nav-item">
+                      <a class="nav-link dropdown-item nav-internal" href="../../license.html">
+                        License
+                      </a>
+                    </li>
+                
+                </ul>
+            </li>
+            
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+ <script>
+ document.write(`
+   <button class="btn navbar-btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script>
+        </div>
+      
+      
+        <div class="navbar-item">
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch nav-link" data-mode="light"><i class="fa-solid fa-sun fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="dark"><i class="fa-solid fa-moon fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg"></i></span>
+  </button>
+`);
+</script></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+ <script>
+ document.write(`
+   <button class="btn navbar-btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script>
+    </div>
+  
+
+  
+    <label class="sidebar-toggle secondary-toggle" for="__secondary" tabindex="0">
+      <span class="fa-solid fa-outdent"></span>
+    </label>
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          <div class="navbar-item">
+<nav class="navbar-nav">
+  <ul class="bd-navbar-elements navbar-nav">
+    
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../install.html">
+                        Installation
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item current active">
+                      <a class="nav-link nav-internal" href="../index.html">
+                        API Documentation
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../applications/index.html">
+                        Applications
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../examples/index.html">
+                        Examples
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../changes.html">
+                        Change History
+                      </a>
+                    </li>
+                
+            <li class="nav-item dropdown">
+                <button class="btn dropdown-toggle nav-item" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-controls="pst-nav-more-links-2">
+                    More
+                </button>
+                <ul id="pst-nav-more-links-2" class="dropdown-menu">
+                    
+                    <li class="nav-item">
+                      <a class="nav-link dropdown-item nav-internal" href="../../license.html">
+                        License
+                      </a>
+                    </li>
+                
+                </ul>
+            </li>
+            
+  </ul>
+</nav></div>
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch nav-link" data-mode="light"><i class="fa-solid fa-sun fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="dark"><i class="fa-solid fa-moon fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg"></i></span>
+  </button>
+`);
+</script></div>
+        
+      </div>
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+<nav class="bd-docs-nav bd-links"
+     aria-label="Section Navigation">
+  <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
+  <div class="bd-toc-item navbar-nav"><ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../_callbacks.html">Callbacks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../_devices.html">Devices</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../_filewriters.html">File Writers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../_plans.html">Plans</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../_utils.html">Utilities</a></li>
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="index.html">synApps</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-1"><i class="fa-solid fa-chevron-down"></i></label><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="__common.html">EPICS Record support: common structures</a></li>
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">EPICS base aCalcout record</a></li>
+<li class="toctree-l2"><a class="reference internal" href="_asyn.html">synApps asyn record</a></li>
+<li class="toctree-l2"><a class="reference internal" href="_busy.html">synApps busy record</a></li>
+<li class="toctree-l2"><a class="reference internal" href="_calcout.html">EPICS base calcout record</a></li>
+<li class="toctree-l2"><a class="reference internal" href="_db_2slit.html">EPICS synApps optics 2slit.db</a></li>
+<li class="toctree-l2"><a class="reference internal" href="_epid.html">synApps epid record</a></li>
+<li class="toctree-l2"><a class="reference internal" href="_iocstats.html">synApps IOC statistics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="_luascript.html">synApps luascript record</a></li>
+<li class="toctree-l2"><a class="reference internal" href="_save_data.html">synApps save data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="_scalcout.html">EPICS synApps calc scalcout record</a></li>
+<li class="toctree-l2"><a class="reference internal" href="_sscan.html">synApps sscan record</a></li>
+<li class="toctree-l2"><a class="reference internal" href="_sseq.html">synApps sseq record</a></li>
+<li class="toctree-l2"><a class="reference internal" href="_sub.html">EPICS base sub record &amp; synApps userAve records</a></li>
+<li class="toctree-l2"><a class="reference internal" href="_swait.html">synApps swait record</a></li>
+<li class="toctree-l2"><a class="reference internal" href="_transform.html">synApps transform record</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+
+
+<nav aria-label="Breadcrumb">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="../index.html" class="nav-link">API Documentation</a></li>
+    
+    
+    <li class="breadcrumb-item"><a href="index.html" class="nav-link">synApps</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page">EPICS base...</li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section id="epics-base-acalcout-record">
+<h1>EPICS base aCalcout record<a class="headerlink" href="#epics-base-acalcout-record" title="Permalink to this heading">#</a></h1>
+<p>The <code class="docutils literal notranslate"><span class="pre">aCalcout</span></code> record is part of EPICS base:
+<a class="reference external" href="https://epics-modules.github.io/calc/aCalcoutRecord.html">https://epics-modules.github.io/calc/aCalcoutRecord.html</a></p>
+<span class="target" id="module-apstools.synApps.acalcout"></span><p>Ophyd support for the EPICS acalcout record</p>
+<p><a class="reference external" href="https://epics-modules.github.io/calc/aCalcoutRecord.html">https://epics-modules.github.io/calc/aCalcoutRecord.html</a></p>
+<p>Public Structures</p>
+<table class="autosummary longtable table autosummary">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#apstools.synApps.acalcout.UserArrayCalcDevice" title="apstools.synApps.acalcout.UserArrayCalcDevice"><code class="xref py py-obj docutils literal notranslate"><span class="pre">UserArrayCalcDevice</span></code></a>(*args, **kwargs)</p></td>
+<td><p>EPICS synApps XXX IOC setup of user aCalcouts: <code class="docutils literal notranslate"><span class="pre">$(P):userArrayCalc$(N)</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#apstools.synApps.acalcout.UserArrayCalcN" title="apstools.synApps.acalcout.UserArrayCalcN"><code class="xref py py-obj docutils literal notranslate"><span class="pre">UserArrayCalcN</span></code></a>(*args, **kwargs)</p></td>
+<td><p>Single instance of the userCalcoutN database.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#apstools.synApps.acalcout.AcalcoutRecord" title="apstools.synApps.acalcout.AcalcoutRecord"><code class="xref py py-obj docutils literal notranslate"><span class="pre">AcalcoutRecord</span></code></a>(*args, **kwargs)</p></td>
+<td><p>EPICS base aCalcout record support in ophyd</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#apstools.synApps.acalcout.AcalcoutArrayRecordChannel" title="apstools.synApps.acalcout.AcalcoutArrayRecordChannel"><code class="xref py py-obj docutils literal notranslate"><span class="pre">AcalcoutArrayRecordChannel</span></code></a>(*args, **kwargs)</p></td>
+<td><p>Array channel of a acalcout record: A-L.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#apstools.synApps.acalcout.AcalcoutRecordChannel" title="apstools.synApps.acalcout.AcalcoutRecordChannel"><code class="xref py py-obj docutils literal notranslate"><span class="pre">AcalcoutRecordChannel</span></code></a>(*args, **kwargs)</p></td>
+<td><p>Float channel of a acalcout record: A-L.</p></td>
+</tr>
+</tbody>
+</table>
+<dl class="py class">
+<dt class="sig sig-object py" id="apstools.synApps.acalcout.AcalcoutArrayRecordChannel">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">apstools.synApps.acalcout.</span></span><span class="sig-name descname"><span class="pre">AcalcoutArrayRecordChannel</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/apstools/synApps/acalcout.html#AcalcoutArrayRecordChannel"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#apstools.synApps.acalcout.AcalcoutArrayRecordChannel" title="Permalink to this definition">#</a></dt>
+<dd><p>Array channel of a acalcout record: A-L.</p>
+<table class="autosummary longtable table autosummary">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#apstools.synApps.acalcout.AcalcoutArrayRecordChannel.reset" title="apstools.synApps.acalcout.AcalcoutArrayRecordChannel.reset"><code class="xref py py-obj docutils literal notranslate"><span class="pre">reset</span></code></a>()</p></td>
+<td><p>set all fields to default values</p></td>
+</tr>
+</tbody>
+</table>
+<dl class="py method">
+<dt class="sig sig-object py" id="apstools.synApps.acalcout.AcalcoutArrayRecordChannel.reset">
+<span class="sig-name descname"><span class="pre">reset</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/apstools/synApps/acalcout.html#AcalcoutArrayRecordChannel.reset"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#apstools.synApps.acalcout.AcalcoutArrayRecordChannel.reset" title="Permalink to this definition">#</a></dt>
+<dd><p>set all fields to default values</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="apstools.synApps.acalcout.AcalcoutRecord">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">apstools.synApps.acalcout.</span></span><span class="sig-name descname"><span class="pre">AcalcoutRecord</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/apstools/synApps/acalcout.html#AcalcoutRecord"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#apstools.synApps.acalcout.AcalcoutRecord" title="Permalink to this definition">#</a></dt>
+<dd><p>EPICS base aCalcout record support in ophyd</p>
+<table class="autosummary longtable table autosummary">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#apstools.synApps.acalcout.AcalcoutRecord.reset" title="apstools.synApps.acalcout.AcalcoutRecord.reset"><code class="xref py py-obj docutils literal notranslate"><span class="pre">reset</span></code></a>()</p></td>
+<td><p>set all fields to default values</p></td>
+</tr>
+</tbody>
+</table>
+<dl class="field-list simple">
+<dt class="field-odd">See<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://epics-modules.github.io/calc/aCalcoutRecord.html">https://epics-modules.github.io/calc/aCalcoutRecord.html</a></p>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="apstools.synApps.acalcout.AcalcoutRecord.reset">
+<span class="sig-name descname"><span class="pre">reset</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/apstools/synApps/acalcout.html#AcalcoutRecord.reset"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#apstools.synApps.acalcout.AcalcoutRecord.reset" title="Permalink to this definition">#</a></dt>
+<dd><p>set all fields to default values</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="apstools.synApps.acalcout.AcalcoutRecordChannel">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">apstools.synApps.acalcout.</span></span><span class="sig-name descname"><span class="pre">AcalcoutRecordChannel</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/apstools/synApps/acalcout.html#AcalcoutRecordChannel"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#apstools.synApps.acalcout.AcalcoutRecordChannel" title="Permalink to this definition">#</a></dt>
+<dd><p>Float channel of a acalcout record: A-L.</p>
+<table class="autosummary longtable table autosummary">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#apstools.synApps.acalcout.AcalcoutRecordChannel.reset" title="apstools.synApps.acalcout.AcalcoutRecordChannel.reset"><code class="xref py py-obj docutils literal notranslate"><span class="pre">reset</span></code></a>()</p></td>
+<td><p>set all fields to default values</p></td>
+</tr>
+</tbody>
+</table>
+<dl class="py method">
+<dt class="sig sig-object py" id="apstools.synApps.acalcout.AcalcoutRecordChannel.reset">
+<span class="sig-name descname"><span class="pre">reset</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/apstools/synApps/acalcout.html#AcalcoutRecordChannel.reset"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#apstools.synApps.acalcout.AcalcoutRecordChannel.reset" title="Permalink to this definition">#</a></dt>
+<dd><p>set all fields to default values</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="apstools.synApps.acalcout.UserArrayCalcDevice">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">apstools.synApps.acalcout.</span></span><span class="sig-name descname"><span class="pre">UserArrayCalcDevice</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/apstools/synApps/acalcout.html#UserArrayCalcDevice"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#apstools.synApps.acalcout.UserArrayCalcDevice" title="Permalink to this definition">#</a></dt>
+<dd><p>EPICS synApps XXX IOC setup of user aCalcouts: <code class="docutils literal notranslate"><span class="pre">$(P):userArrayCalc$(N)</span></code></p>
+<table class="autosummary longtable table autosummary">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#apstools.synApps.acalcout.UserArrayCalcDevice.reset" title="apstools.synApps.acalcout.UserArrayCalcDevice.reset"><code class="xref py py-obj docutils literal notranslate"><span class="pre">reset</span></code></a>()</p></td>
+<td><p>set all fields to default values</p></td>
+</tr>
+</tbody>
+</table>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="apstools.synApps.acalcout.UserArrayCalcDevice.acalcout1">
+<span class="sig-name descname"><span class="pre">acalcout1</span></span><a class="headerlink" href="#apstools.synApps.acalcout.UserArrayCalcDevice.acalcout1" title="Permalink to this definition">#</a></dt>
+<dd><p>alias of <a class="reference internal" href="#apstools.synApps.acalcout.UserArrayCalcN" title="apstools.synApps.acalcout.UserArrayCalcN"><code class="xref py py-class docutils literal notranslate"><span class="pre">UserArrayCalcN</span></code></a></p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="apstools.synApps.acalcout.UserArrayCalcDevice.acalcout10">
+<span class="sig-name descname"><span class="pre">acalcout10</span></span><a class="headerlink" href="#apstools.synApps.acalcout.UserArrayCalcDevice.acalcout10" title="Permalink to this definition">#</a></dt>
+<dd><p>alias of <a class="reference internal" href="#apstools.synApps.acalcout.UserArrayCalcN" title="apstools.synApps.acalcout.UserArrayCalcN"><code class="xref py py-class docutils literal notranslate"><span class="pre">UserArrayCalcN</span></code></a></p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="apstools.synApps.acalcout.UserArrayCalcDevice.acalcout2">
+<span class="sig-name descname"><span class="pre">acalcout2</span></span><a class="headerlink" href="#apstools.synApps.acalcout.UserArrayCalcDevice.acalcout2" title="Permalink to this definition">#</a></dt>
+<dd><p>alias of <a class="reference internal" href="#apstools.synApps.acalcout.UserArrayCalcN" title="apstools.synApps.acalcout.UserArrayCalcN"><code class="xref py py-class docutils literal notranslate"><span class="pre">UserArrayCalcN</span></code></a></p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="apstools.synApps.acalcout.UserArrayCalcDevice.acalcout3">
+<span class="sig-name descname"><span class="pre">acalcout3</span></span><a class="headerlink" href="#apstools.synApps.acalcout.UserArrayCalcDevice.acalcout3" title="Permalink to this definition">#</a></dt>
+<dd><p>alias of <a class="reference internal" href="#apstools.synApps.acalcout.UserArrayCalcN" title="apstools.synApps.acalcout.UserArrayCalcN"><code class="xref py py-class docutils literal notranslate"><span class="pre">UserArrayCalcN</span></code></a></p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="apstools.synApps.acalcout.UserArrayCalcDevice.acalcout4">
+<span class="sig-name descname"><span class="pre">acalcout4</span></span><a class="headerlink" href="#apstools.synApps.acalcout.UserArrayCalcDevice.acalcout4" title="Permalink to this definition">#</a></dt>
+<dd><p>alias of <a class="reference internal" href="#apstools.synApps.acalcout.UserArrayCalcN" title="apstools.synApps.acalcout.UserArrayCalcN"><code class="xref py py-class docutils literal notranslate"><span class="pre">UserArrayCalcN</span></code></a></p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="apstools.synApps.acalcout.UserArrayCalcDevice.acalcout5">
+<span class="sig-name descname"><span class="pre">acalcout5</span></span><a class="headerlink" href="#apstools.synApps.acalcout.UserArrayCalcDevice.acalcout5" title="Permalink to this definition">#</a></dt>
+<dd><p>alias of <a class="reference internal" href="#apstools.synApps.acalcout.UserArrayCalcN" title="apstools.synApps.acalcout.UserArrayCalcN"><code class="xref py py-class docutils literal notranslate"><span class="pre">UserArrayCalcN</span></code></a></p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="apstools.synApps.acalcout.UserArrayCalcDevice.acalcout6">
+<span class="sig-name descname"><span class="pre">acalcout6</span></span><a class="headerlink" href="#apstools.synApps.acalcout.UserArrayCalcDevice.acalcout6" title="Permalink to this definition">#</a></dt>
+<dd><p>alias of <a class="reference internal" href="#apstools.synApps.acalcout.UserArrayCalcN" title="apstools.synApps.acalcout.UserArrayCalcN"><code class="xref py py-class docutils literal notranslate"><span class="pre">UserArrayCalcN</span></code></a></p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="apstools.synApps.acalcout.UserArrayCalcDevice.acalcout7">
+<span class="sig-name descname"><span class="pre">acalcout7</span></span><a class="headerlink" href="#apstools.synApps.acalcout.UserArrayCalcDevice.acalcout7" title="Permalink to this definition">#</a></dt>
+<dd><p>alias of <a class="reference internal" href="#apstools.synApps.acalcout.UserArrayCalcN" title="apstools.synApps.acalcout.UserArrayCalcN"><code class="xref py py-class docutils literal notranslate"><span class="pre">UserArrayCalcN</span></code></a></p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="apstools.synApps.acalcout.UserArrayCalcDevice.acalcout8">
+<span class="sig-name descname"><span class="pre">acalcout8</span></span><a class="headerlink" href="#apstools.synApps.acalcout.UserArrayCalcDevice.acalcout8" title="Permalink to this definition">#</a></dt>
+<dd><p>alias of <a class="reference internal" href="#apstools.synApps.acalcout.UserArrayCalcN" title="apstools.synApps.acalcout.UserArrayCalcN"><code class="xref py py-class docutils literal notranslate"><span class="pre">UserArrayCalcN</span></code></a></p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="apstools.synApps.acalcout.UserArrayCalcDevice.acalcout9">
+<span class="sig-name descname"><span class="pre">acalcout9</span></span><a class="headerlink" href="#apstools.synApps.acalcout.UserArrayCalcDevice.acalcout9" title="Permalink to this definition">#</a></dt>
+<dd><p>alias of <a class="reference internal" href="#apstools.synApps.acalcout.UserArrayCalcN" title="apstools.synApps.acalcout.UserArrayCalcN"><code class="xref py py-class docutils literal notranslate"><span class="pre">UserArrayCalcN</span></code></a></p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="apstools.synApps.acalcout.UserArrayCalcDevice.reset">
+<span class="sig-name descname"><span class="pre">reset</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/apstools/synApps/acalcout.html#UserArrayCalcDevice.reset"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#apstools.synApps.acalcout.UserArrayCalcDevice.reset" title="Permalink to this definition">#</a></dt>
+<dd><p>set all fields to default values</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="apstools.synApps.acalcout.UserArrayCalcN">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">apstools.synApps.acalcout.</span></span><span class="sig-name descname"><span class="pre">UserArrayCalcN</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/apstools/synApps/acalcout.html#UserArrayCalcN"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#apstools.synApps.acalcout.UserArrayCalcN" title="Permalink to this definition">#</a></dt>
+<dd><p>Single instance of the userCalcoutN database.</p>
+</dd></dl>
+
+</section>
+
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="__common.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">EPICS Record support: common structures</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="_asyn.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">synApps asyn record</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+<div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+  </div>
+  <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#apstools.synApps.acalcout.AcalcoutArrayRecordChannel"><code class="docutils literal notranslate"><span class="pre">AcalcoutArrayRecordChannel</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#apstools.synApps.acalcout.AcalcoutArrayRecordChannel.reset"><code class="docutils literal notranslate"><span class="pre">AcalcoutArrayRecordChannel.reset()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#apstools.synApps.acalcout.AcalcoutRecord"><code class="docutils literal notranslate"><span class="pre">AcalcoutRecord</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#apstools.synApps.acalcout.AcalcoutRecord.reset"><code class="docutils literal notranslate"><span class="pre">AcalcoutRecord.reset()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#apstools.synApps.acalcout.AcalcoutRecordChannel"><code class="docutils literal notranslate"><span class="pre">AcalcoutRecordChannel</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#apstools.synApps.acalcout.AcalcoutRecordChannel.reset"><code class="docutils literal notranslate"><span class="pre">AcalcoutRecordChannel.reset()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#apstools.synApps.acalcout.UserArrayCalcDevice"><code class="docutils literal notranslate"><span class="pre">UserArrayCalcDevice</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#apstools.synApps.acalcout.UserArrayCalcDevice.acalcout1"><code class="docutils literal notranslate"><span class="pre">UserArrayCalcDevice.acalcout1</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#apstools.synApps.acalcout.UserArrayCalcDevice.acalcout10"><code class="docutils literal notranslate"><span class="pre">UserArrayCalcDevice.acalcout10</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#apstools.synApps.acalcout.UserArrayCalcDevice.acalcout2"><code class="docutils literal notranslate"><span class="pre">UserArrayCalcDevice.acalcout2</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#apstools.synApps.acalcout.UserArrayCalcDevice.acalcout3"><code class="docutils literal notranslate"><span class="pre">UserArrayCalcDevice.acalcout3</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#apstools.synApps.acalcout.UserArrayCalcDevice.acalcout4"><code class="docutils literal notranslate"><span class="pre">UserArrayCalcDevice.acalcout4</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#apstools.synApps.acalcout.UserArrayCalcDevice.acalcout5"><code class="docutils literal notranslate"><span class="pre">UserArrayCalcDevice.acalcout5</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#apstools.synApps.acalcout.UserArrayCalcDevice.acalcout6"><code class="docutils literal notranslate"><span class="pre">UserArrayCalcDevice.acalcout6</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#apstools.synApps.acalcout.UserArrayCalcDevice.acalcout7"><code class="docutils literal notranslate"><span class="pre">UserArrayCalcDevice.acalcout7</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#apstools.synApps.acalcout.UserArrayCalcDevice.acalcout8"><code class="docutils literal notranslate"><span class="pre">UserArrayCalcDevice.acalcout8</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#apstools.synApps.acalcout.UserArrayCalcDevice.acalcout9"><code class="docutils literal notranslate"><span class="pre">UserArrayCalcDevice.acalcout9</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#apstools.synApps.acalcout.UserArrayCalcDevice.reset"><code class="docutils literal notranslate"><span class="pre">UserArrayCalcDevice.reset()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#apstools.synApps.acalcout.UserArrayCalcN"><code class="docutils literal notranslate"><span class="pre">UserArrayCalcN</span></code></a></li>
+</ul>
+  </nav></div>
+
+  <div class="sidebar-secondary-item">
+
+  <div class="tocsection sourcelink">
+    <a href="../../_sources/api/synApps/_acalcout.rst.txt">
+      <i class="fa-solid fa-file-lines"></i> Show Source
+    </a>
+  </div>
+</div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../_static/scripts/bootstrap.js?digest=8d27b9dea8ad943066ae"></script>
+<script src="../../_static/scripts/pydata-sphinx-theme.js?digest=8d27b9dea8ad943066ae"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+
+  <p class="copyright">
+    
+      © Copyright 2017-2024, UChicago Argonne, LLC.
+      <br/>
+    
+  </p>
+</div>
+      
+        <div class="footer-item">
+
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 5.3.0.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item">
+<p class="theme-version">
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.15.2.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

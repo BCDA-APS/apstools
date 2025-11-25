@@ -1,0 +1,1296 @@
+{
+ "cells": [
+  {
+   "attachments": {},
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "# What are the objects to control?\n",
+    "\n",
+    "A user requests a tool to describe all objects (and children) for control.  In\n",
+    "Bluesky, these objects are either  a single `Signal` or a  `Device` (a nested\n",
+    "structure of `Device` and `Signal` objects).\n",
+    "\n",
+    "There are several tools available to learn what the control system provides.\n",
+    "Because the control system may provide access to dozens, hundreds, or even\n",
+    "thousands of control objects, there are several tools, depending on the detail\n",
+    "sought.  For example, a single motor control (of class `EpicsMotor`) provides\n",
+    "access to ~20 signals.\n",
+    "\n",
+    "**SUGGESTION**\n",
+    "\n",
+    "1. Use `listobjects()` to get the  `Device` and `Signal`  objects for control.\n",
+    "2. Use `listdevice(OBJECT)` to learn more about a specific `Device` or `Signal` object.\n",
+    "3. Use `listplans()` to learn the plans available for control.\n",
+    "4. Use `findCatalogsInNamespace()` to learn the available databroker catalogs.\n",
+    "\n",
+    "**OVERVIEW**\n",
+    "\n",
+    "This guide describes these tools to learn more about your Bluesky control system:\n",
+    "\n",
+    "- `apstools.utils.listobjects()`: list of top-level objects available at the command line.\n",
+    "- `apstools.utils.listdevice()`: internal objects of a single object.\n",
+    "- Every `Device` has a `.summary()` method that summarizes the device's internal objects.\n",
+    "- The command-line (only) magic: `%wa` prints tables of ophyd-labeled `Signal` objects.\n",
+    "- `apstools.utils.listplans()`: list of top-level bluesky plans available at the command line.\n",
+    "- `apstools.utils.findCatalogsInNamespace()`: Returns a dictionary with the databroker catalogs available at the command line.\n",
+    "\n",
+    "**For SPEC Users**\n",
+    "\n",
+    "For those with experience using the SPEC software, this comparison table may be\n",
+    "of assistance in learning the command-line tools available in Bluesky:\n",
+    "\n",
+    "SPEC | Bluesky | comments\n",
+    "--- | --- | ---\n",
+    "`wa` | `%wa motor` | Show all the motors and their positions, limits, etc.\n",
+    "-n/a- | `listobjects()` | List all the controllable devices (the ones known at the command-line level).\n",
+    "`lsdef` | `listplans()` | List all the bluesky plans (the ones known at the command-line level).\n",
+    "-n/a- | `PLAN?` | Show the documentation of the Bluesky plan.  Works with other Python objects, too.\n",
+    "`prdef MACRO` | `PLAN??` | Show the source code of the SPEC macro or Bluesky plan.  Works with other Python objects, too.\n",
+    "`qdo FILE.mac` | `%run -i FILE.py` | Run the definitions and commands provided in the file.\n",
+    "`u UNIX_CMD` | `!UNIX_CMD` | Run a command in the (UNIX) shell."
+   ]
+  },
+  {
+   "attachments": {},
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "**Start local control system**\n",
+    "\n",
+    "Start a Bluesky control system to demonstrate these functions.  We'll start the [bluesky\n",
+    "training instrument](https://github.com/BCDA-APS/bluesky_training) in the same\n",
+    "way as the other How-to guides here."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 1,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stderr",
+     "output_type": "stream",
+     "text": [
+      "I Sun-14:22:27 - Console logging: /home/prjemian/Documents/projects/BCDA-APS/apstools/docs/source/examples/.logs/ipython_console.log\n",
+      "I Sun-14:22:27 - ############################################################ startup\n",
+      "I Sun-14:22:27 - logging started\n",
+      "I Sun-14:22:27 - logging level = 10\n",
+      "I Sun-14:22:27 - /home/prjemian/bluesky/instrument/session_logs.py\n",
+      "I Sun-14:22:27 - /home/prjemian/bluesky/instrument/collection.py\n",
+      "I Sun-14:22:27 - CONDA_PREFIX = /home/prjemian/.conda/envs/bluesky_2023_2\n",
+      "I Sun-14:22:27 - xmode exception level: 'Minimal'\n",
+      "I Sun-14:22:27 - /home/prjemian/bluesky/instrument/mpl/notebook.py\n"
+     ]
+    },
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "/home/prjemian/bluesky/instrument/_iconfig.py\n",
+      "Activating auto-logging. Current session state plus future input saved.\n",
+      "Filename       : /home/prjemian/Documents/projects/BCDA-APS/apstools/docs/source/examples/.logs/ipython_console.log\n",
+      "Mode           : rotate\n",
+      "Output logging : True\n",
+      "Raw input log  : False\n",
+      "Timestamping   : True\n",
+      "State          : active\n",
+      "Exception reporting mode: Minimal\n"
+     ]
+    },
+    {
+     "name": "stderr",
+     "output_type": "stream",
+     "text": [
+      "I Sun-14:22:28 - #### Bluesky Framework ####\n",
+      "I Sun-14:22:28 - /home/prjemian/bluesky/instrument/framework/check_python.py\n",
+      "I Sun-14:22:28 - /home/prjemian/bluesky/instrument/framework/check_bluesky.py\n",
+      "I Sun-14:22:29 - /home/prjemian/bluesky/instrument/framework/initialize.py\n",
+      "I Sun-14:22:29 - using databroker catalog 'training'\n",
+      "I Sun-14:22:29 - using ophyd control layer: pyepics\n",
+      "I Sun-14:22:29 - /home/prjemian/bluesky/instrument/framework/metadata.py\n",
+      "I Sun-14:22:29 - /home/prjemian/bluesky/instrument/epics_signal_config.py\n",
+      "I Sun-14:22:29 - Using RunEngine metadata for scan_id\n",
+      "I Sun-14:22:29 - #### Devices ####\n",
+      "I Sun-14:22:29 - /home/prjemian/bluesky/instrument/devices/area_detector.py\n",
+      "I Sun-14:22:29 - /home/prjemian/bluesky/instrument/devices/calculation_records.py\n",
+      "I Sun-14:22:32 - /home/prjemian/bluesky/instrument/devices/fourc_diffractometer.py\n",
+      "I Sun-14:22:32 - /home/prjemian/bluesky/instrument/devices/ioc_stats.py\n",
+      "I Sun-14:22:32 - /home/prjemian/bluesky/instrument/devices/kohzu_monochromator.py\n",
+      "I Sun-14:22:32 - /home/prjemian/bluesky/instrument/devices/motors.py\n",
+      "I Sun-14:22:32 - /home/prjemian/bluesky/instrument/devices/noisy_detector.py\n",
+      "I Sun-14:22:33 - /home/prjemian/bluesky/instrument/devices/scaler.py\n",
+      "I Sun-14:22:33 - /home/prjemian/bluesky/instrument/devices/shutter_simulator.py\n",
+      "I Sun-14:22:33 - /home/prjemian/bluesky/instrument/devices/simulated_fourc.py\n",
+      "I Sun-14:22:34 - /home/prjemian/bluesky/instrument/devices/simulated_kappa.py\n",
+      "I Sun-14:22:34 - /home/prjemian/bluesky/instrument/devices/sixc_diffractometer.py\n",
+      "I Sun-14:22:34 - /home/prjemian/bluesky/instrument/devices/temperature_signal.py\n",
+      "I Sun-14:22:34 - #### Callbacks ####\n",
+      "I Sun-14:22:34 - /home/prjemian/bluesky/instrument/callbacks/spec_data_file_writer.py\n",
+      "I Sun-14:22:34 - #### Plans ####\n",
+      "I Sun-14:22:34 - /home/prjemian/bluesky/instrument/plans/lup_plan.py\n",
+      "I Sun-14:22:34 - /home/prjemian/bluesky/instrument/plans/peak_finder_example.py\n",
+      "I Sun-14:22:34 - /home/prjemian/bluesky/instrument/utils/image_analysis.py\n",
+      "I Sun-14:22:34 - #### Utilities ####\n",
+      "I Sun-14:22:34 - writing to SPEC file: /home/prjemian/Documents/projects/BCDA-APS/apstools/docs/source/examples/20230312-142234.dat\n",
+      "I Sun-14:22:34 -    >>>>   Using default SPEC file name   <<<<\n",
+      "I Sun-14:22:34 -    file will be created when bluesky ends its next scan\n",
+      "I Sun-14:22:34 -    to change SPEC file, use command:   newSpecFile('title')\n",
+      "I Sun-14:22:34 - #### Startup is complete. ####\n"
+     ]
+    }
+   ],
+   "source": [
+    "import pathlib, sys\n",
+    "sys.path.append(str(pathlib.Path().home() / \"bluesky\"))\n",
+    "from instrument.collection import *"
+   ]
+  },
+  {
+   "attachments": {},
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## `listobjects()` function\n",
+    "\n",
+    "**Q**: What are the objects available for control?\n",
+    "\n",
+    "**A**: `listobjects()` lists all the `Device` and `Signal` (technically, all `ophyd.ophydobj.OphydObject`) objects at the command-line level.\n",
+    "\n",
+    "Let's demonstrate:"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 2,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "=========== ================================ ============== ===================\n",
+       "name        class                            PV (or prefix) label(s)           \n",
+       "=========== ================================ ============== ===================\n",
+       "I0          EpicsSignalRO                    gp:scaler1.S2  channel counter    \n",
+       "I00         EpicsSignalRO                    gp:scaler1.S6  channel counter    \n",
+       "I000        EpicsSignalRO                    gp:scaler1.S5  channel counter    \n",
+       "adsimdet    SimDetector_V34                  ad:            area_detector      \n",
+       "calcouts    UserCalcoutDevice                gp:                               \n",
+       "calcs       UserCalcsDevice                  gp:                               \n",
+       "dcm         MyKohzu                          gp:                               \n",
+       "diode       EpicsSignalRO                    gp:scaler1.S4  channel counter    \n",
+       "fourc       FourCircle                       gp:                               \n",
+       "gp_stats    IocInfoDevice                    gp:                               \n",
+       "m1          MyEpicsMotor                     gp:m1          motor              \n",
+       "m10         MyEpicsMotor                     gp:m10         motor              \n",
+       "m11         MyEpicsMotor                     gp:m11         motor              \n",
+       "m12         MyEpicsMotor                     gp:m12         motor              \n",
+       "m13         MyEpicsMotor                     gp:m13         motor              \n",
+       "m14         MyEpicsMotor                     gp:m14         motor              \n",
+       "m15         MyEpicsMotor                     gp:m15         motor              \n",
+       "m16         MyEpicsMotor                     gp:m16         motor              \n",
+       "m2          MyEpicsMotor                     gp:m2          motor              \n",
+       "m3          MyEpicsMotor                     gp:m3          motor              \n",
+       "m4          MyEpicsMotor                     gp:m4          motor              \n",
+       "m5          MyEpicsMotor                     gp:m5          motor              \n",
+       "m6          MyEpicsMotor                     gp:m6          motor              \n",
+       "m7          MyEpicsMotor                     gp:m7          motor              \n",
+       "m8          MyEpicsMotor                     gp:m8          motor              \n",
+       "m9          MyEpicsMotor                     gp:m9          motor              \n",
+       "noisy       EpicsSignalRO                    gp:userCalc1   detectors simulator\n",
+       "scaler1     ScalerCH                         gp:scaler1     scalers detectors  \n",
+       "scint       EpicsSignalRO                    gp:scaler1.S3  channel counter    \n",
+       "shutter     SimulatedApsPssShutterWithStatus                shutters           \n",
+       "sim4c       SimulatedE4CV                                                      \n",
+       "simk4c      SimulatedK4CV                                                      \n",
+       "simk6c      SimulatedK6C                                                       \n",
+       "sixc        SixCircle                        gp:                               \n",
+       "temperature MyPvPositioner                   gp:userCalc8                      \n",
+       "timebase    EpicsSignalRO                    gp:scaler1.S1  channel counter    \n",
+       "=========== ================================ ============== ==================="
+      ]
+     },
+     "execution_count": 2,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "from apstools.utils import listobjects\n",
+    "listobjects()"
+   ]
+  },
+  {
+   "attachments": {},
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "The `listobjects()` function has options, specified as keyword arguments.  To\n",
+    "learn more, ask IPython for help, using `listobjects?`:"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 3,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "\u001b[0;31mSignature:\u001b[0m\n",
+      "\u001b[0mlistobjects\u001b[0m\u001b[0;34m(\u001b[0m\u001b[0;34m\u001b[0m\n",
+      "\u001b[0;34m\u001b[0m    \u001b[0mshow_pv\u001b[0m\u001b[0;34m=\u001b[0m\u001b[0;32mTrue\u001b[0m\u001b[0;34m,\u001b[0m\u001b[0;34m\u001b[0m\n",
+      "\u001b[0;34m\u001b[0m    \u001b[0mprinting\u001b[0m\u001b[0;34m=\u001b[0m\u001b[0;32mNone\u001b[0m\u001b[0;34m,\u001b[0m\u001b[0;34m\u001b[0m\n",
+      "\u001b[0;34m\u001b[0m    \u001b[0mverbose\u001b[0m\u001b[0;34m=\u001b[0m\u001b[0;32mFalse\u001b[0m\u001b[0;34m,\u001b[0m\u001b[0;34m\u001b[0m\n",
+      "\u001b[0;34m\u001b[0m    \u001b[0msymbols\u001b[0m\u001b[0;34m=\u001b[0m\u001b[0;32mNone\u001b[0m\u001b[0;34m,\u001b[0m\u001b[0;34m\u001b[0m\n",
+      "\u001b[0;34m\u001b[0m    \u001b[0mchild_devices\u001b[0m\u001b[0;34m=\u001b[0m\u001b[0;32mFalse\u001b[0m\u001b[0;34m,\u001b[0m\u001b[0;34m\u001b[0m\n",
+      "\u001b[0;34m\u001b[0m    \u001b[0mchild_signals\u001b[0m\u001b[0;34m=\u001b[0m\u001b[0;32mFalse\u001b[0m\u001b[0;34m,\u001b[0m\u001b[0;34m\u001b[0m\n",
+      "\u001b[0;34m\u001b[0m    \u001b[0mtable_style\u001b[0m\u001b[0;34m=\u001b[0m\u001b[0;34m<\u001b[0m\u001b[0mTableStyle\u001b[0m\u001b[0;34m.\u001b[0m\u001b[0mpyRestTable\u001b[0m\u001b[0;34m:\u001b[0m \u001b[0;34m<\u001b[0m\u001b[0;32mclass\u001b[0m \u001b[0;34m'apstools.utils._core.PRT_Table'\u001b[0m\u001b[0;34m>>\u001b[0m\u001b[0;34m,\u001b[0m\u001b[0;34m\u001b[0m\n",
+      "\u001b[0;34m\u001b[0m\u001b[0;34m)\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n",
+      "\u001b[0;31mDocstring:\u001b[0m\n",
+      "Show all the ophyd Signal and Device objects defined as globals.\n",
+      "\n",
+      "PARAMETERS\n",
+      "\n",
+      "show_pv\n",
+      "    *bool* :\n",
+      "    If True, also show relevant EPICS PV, if available.\n",
+      "    (default: True)\n",
+      "printing *bool* :\n",
+      "    Deprecated.\n",
+      "verbose\n",
+      "    *bool* :\n",
+      "    If True, also show ``str(obj``.\n",
+      "    (default: False)\n",
+      "symbols\n",
+      "    *dict* :\n",
+      "    If None, use global symbol table.\n",
+      "    If not None, use provided dictionary.\n",
+      "    (default: ``globals()``)\n",
+      "child_devices\n",
+      "    *bool* :\n",
+      "    If True, also show how many Devices are children of this device.\n",
+      "    (default: False)\n",
+      "child_signals\n",
+      "    *bool* :\n",
+      "    If True, also show how many Signals are children of this device.\n",
+      "    (default: False)\n",
+      "table_style *object* :\n",
+      "    Either ``apstools.utils.TableStyle.pandas`` (default) or\n",
+      "    using values from :class:`apstools.utils.TableStyle`.\n",
+      "\n",
+      "    .. note:: ``pandas.DataFrame`` wll truncate long text\n",
+      "       to at most 50 characters.\n",
+      "\n",
+      "RETURNS\n",
+      "\n",
+      "object:\n",
+      "    Instance of ``pyRestTable.Table()``\n",
+      "\n",
+      "EXAMPLE::\n",
+      "\n",
+      "    In [1]: listobjects()\n",
+      "    ======== ================================ =============\n",
+      "    name     ophyd structure                  EPICS PV\n",
+      "    ======== ================================ =============\n",
+      "    adsimdet MySingleTriggerSimDetector       vm7SIM1:\n",
+      "    m1       EpicsMotor                       vm7:m1\n",
+      "    m2       EpicsMotor                       vm7:m2\n",
+      "    m3       EpicsMotor                       vm7:m3\n",
+      "    m4       EpicsMotor                       vm7:m4\n",
+      "    m5       EpicsMotor                       vm7:m5\n",
+      "    m6       EpicsMotor                       vm7:m6\n",
+      "    m7       EpicsMotor                       vm7:m7\n",
+      "    m8       EpicsMotor                       vm7:m8\n",
+      "    noisy    EpicsSignalRO                    vm7:userCalc1\n",
+      "    scaler   ScalerCH                         vm7:scaler1\n",
+      "    shutter  SimulatedApsPssShutterWithStatus\n",
+      "    ======== ================================ =============\n",
+      "\n",
+      "    Out[1]: <pyRestTable.rest_table.Table at 0x7fa4398c7cf8>\n",
+      "\n",
+      "    In [2]:\n",
+      "\n",
+      "(new in apstools release 1.1.8)\n",
+      "\u001b[0;31mFile:\u001b[0m      ~/Documents/projects/BCDA-APS/apstools/apstools/utils/misc.py\n",
+      "\u001b[0;31mType:\u001b[0m      function"
+     ]
+    }
+   ],
+   "source": [
+    "listobjects?"
+   ]
+  },
+  {
+   "attachments": {},
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## `listdevice()` function\n",
+    "\n",
+    "Once a specific `Device` or `Signal` object has been identified, use `listdevice(OBJECT)` to report about its internal controls.\n",
+    "\n",
+    "Let's demonstrate with a couple devices from the above table.  The `noisy` object is a `EpicsSignalRO` (a read-only `Signal` which connects with an EPICS PV).  It has no internals structure, just a time-stamped value."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 4,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "========= ================== ==========================\n",
+       "data name value              timestamp                 \n",
+       "========= ================== ==========================\n",
+       "noisy     255.82191640413177 2023-03-12 14:22:33.135021\n",
+       "========= ================== =========================="
+      ]
+     },
+     "execution_count": 4,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "from apstools.utils import listdevice\n",
+    "listdevice(noisy)"
+   ]
+  },
+  {
+   "attachments": {},
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "The `temperature` object is a `MyPvPositioner` which uses a calculation record to simulate a temperature controller."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 5,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "=============================== =================================== ==========================\n",
+       "data name                       value                               timestamp                 \n",
+       "=============================== =================================== ==========================\n",
+       "temperature_setpoint            25.0                                2023-03-12 14:22:34.218341\n",
+       "temperature                     25.0                                2023-03-12 14:22:34.222096\n",
+       "temperature_done                True                                2023-03-12 14:22:34.228893\n",
+       "temperature_calculation         A+max(-D,min(D,(B-A)))+C*(RNDM-0.5) 2023-03-12 14:22:34.224162\n",
+       "temperature_description         temperature                         2023-03-12 14:22:34.215664\n",
+       "temperature_max_change          2.0                                 2023-03-12 14:22:34.223119\n",
+       "temperature_noise               1.0                                 2023-03-12 14:22:34.222096\n",
+       "temperature_previous_value_pv   gp:userCalc8.VAL                    2023-03-12 14:22:34.215664\n",
+       "temperature_scanning_rate       5                                   2023-03-12 14:22:34.224162\n",
+       "temperature_tolerance           1.0                                 2023-03-12 14:22:34.224162\n",
+       "temperature_report_dmov_changes False                               2023-03-12 14:22:34.217478\n",
+       "=============================== =================================== =========================="
+      ]
+     },
+     "execution_count": 5,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "listdevice(temperature)"
+   ]
+  },
+  {
+   "attachments": {},
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "The `fourc` object is a `FourCircle` diffractometer with various internal\n",
+    "controls.  One of the controls is the `fourc.omega` motor, connected to EPICS as\n",
+    "`EpicsMotor`.  This is its internal controls object structure."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 6,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "================================ ======== ==========================\n",
+       "data name                        value    timestamp                 \n",
+       "================================ ======== ==========================\n",
+       "fourc_omega                      0.0      2023-03-11 14:05:08.019094\n",
+       "fourc_omega_user_setpoint        0.0      2023-03-11 14:05:08.019094\n",
+       "fourc_omega_user_offset          0.0      2023-03-11 14:05:08.019094\n",
+       "fourc_omega_user_offset_dir      0        2023-03-11 14:05:08.019094\n",
+       "fourc_omega_offset_freeze_switch 0        2023-03-11 14:05:08.019094\n",
+       "fourc_omega_set_use_switch       0        2023-03-11 14:05:08.019094\n",
+       "fourc_omega_velocity             1.0      2023-03-11 14:05:08.019094\n",
+       "fourc_omega_acceleration         0.2      2023-03-11 14:05:08.019094\n",
+       "fourc_omega_motor_egu            degrees  2023-03-11 14:05:08.019094\n",
+       "fourc_omega_motor_is_moving      0        2023-03-11 14:05:08.019094\n",
+       "fourc_omega_motor_done_move      1        2023-03-11 14:05:08.019094\n",
+       "fourc_omega_high_limit_switch    0        2023-03-11 14:05:08.019094\n",
+       "fourc_omega_low_limit_switch     0        2023-03-11 14:05:08.019094\n",
+       "fourc_omega_high_limit_travel    32000.0  2023-03-11 14:05:08.019094\n",
+       "fourc_omega_low_limit_travel     -32000.0 2023-03-11 14:05:08.019094\n",
+       "fourc_omega_direction_of_travel  0        2023-03-11 14:05:08.019094\n",
+       "fourc_omega_motor_stop           0        2023-03-11 14:05:08.019094\n",
+       "fourc_omega_home_forward         0        2023-03-11 14:05:08.019094\n",
+       "fourc_omega_home_reverse         0        2023-03-11 14:05:08.019094\n",
+       "================================ ======== =========================="
+      ]
+     },
+     "execution_count": 6,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "listdevice(fourc.omega)"
+   ]
+  },
+  {
+   "attachments": {},
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "This instrument uses a simulated shutter.  Show its internal structure:"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 7,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "==================== ===== ==========================\n",
+       "data name            value timestamp                 \n",
+       "==================== ===== ==========================\n",
+       "shutter_busy         False 2023-03-12 14:22:33.990247\n",
+       "shutter_open_signal  0     2023-03-12 14:22:33.990307\n",
+       "shutter_close_signal 0     2023-03-12 14:22:33.990352\n",
+       "shutter_pss_state    close 2023-03-12 14:22:33.990411\n",
+       "==================== ===== =========================="
+      ]
+     },
+     "execution_count": 7,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "listdevice(shutter)"
+   ]
+  },
+  {
+   "attachments": {},
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "One of the calculation records uses the readback value of a motor:"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 8,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "==================================== ========= ==========================\n",
+       "data name                            value     timestamp                 \n",
+       "==================================== ========= ==========================\n",
+       "calcs_calc1_channels_A_input_value   0.0       2023-03-12 14:22:32.982288\n",
+       "calcs_calc1_channels_A_input_pv      gp:m1.RBV 2023-03-12 14:22:33.046510\n",
+       "calcs_calc1_channels_A_input_trigger 1         2023-03-12 14:22:33.018162\n",
+       "==================================== ========= =========================="
+      ]
+     },
+     "execution_count": 8,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "listdevice(calcs.calc1.channels.A)"
+   ]
+  },
+  {
+   "attachments": {},
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "The `listdevice()` function has options, specified as keyword arguments.  To\n",
+    "learn more, ask IPython for help, using `listdevice?`:"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 9,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "\u001b[0;31mSignature:\u001b[0m\n",
+      "\u001b[0mlistdevice\u001b[0m\u001b[0;34m(\u001b[0m\u001b[0;34m\u001b[0m\n",
+      "\u001b[0;34m\u001b[0m    \u001b[0mobj\u001b[0m\u001b[0;34m,\u001b[0m\u001b[0;34m\u001b[0m\n",
+      "\u001b[0;34m\u001b[0m    \u001b[0mscope\u001b[0m\u001b[0;34m=\u001b[0m\u001b[0;32mNone\u001b[0m\u001b[0;34m,\u001b[0m\u001b[0;34m\u001b[0m\n",
+      "\u001b[0;34m\u001b[0m    \u001b[0mcname\u001b[0m\u001b[0;34m=\u001b[0m\u001b[0;32mFalse\u001b[0m\u001b[0;34m,\u001b[0m\u001b[0;34m\u001b[0m\n",
+      "\u001b[0;34m\u001b[0m    \u001b[0mdname\u001b[0m\u001b[0;34m=\u001b[0m\u001b[0;32mTrue\u001b[0m\u001b[0;34m,\u001b[0m\u001b[0;34m\u001b[0m\n",
+      "\u001b[0;34m\u001b[0m    \u001b[0mshow_pv\u001b[0m\u001b[0;34m=\u001b[0m\u001b[0;32mFalse\u001b[0m\u001b[0;34m,\u001b[0m\u001b[0;34m\u001b[0m\n",
+      "\u001b[0;34m\u001b[0m    \u001b[0muse_datetime\u001b[0m\u001b[0;34m=\u001b[0m\u001b[0;32mTrue\u001b[0m\u001b[0;34m,\u001b[0m\u001b[0;34m\u001b[0m\n",
+      "\u001b[0;34m\u001b[0m    \u001b[0mshow_ancient\u001b[0m\u001b[0;34m=\u001b[0m\u001b[0;32mTrue\u001b[0m\u001b[0;34m,\u001b[0m\u001b[0;34m\u001b[0m\n",
+      "\u001b[0;34m\u001b[0m    \u001b[0mtable_style\u001b[0m\u001b[0;34m=\u001b[0m\u001b[0;34m<\u001b[0m\u001b[0mTableStyle\u001b[0m\u001b[0;34m.\u001b[0m\u001b[0mpyRestTable\u001b[0m\u001b[0;34m:\u001b[0m \u001b[0;34m<\u001b[0m\u001b[0;32mclass\u001b[0m \u001b[0;34m'apstools.utils._core.PRT_Table'\u001b[0m\u001b[0;34m>>\u001b[0m\u001b[0;34m,\u001b[0m\u001b[0;34m\u001b[0m\n",
+      "\u001b[0;34m\u001b[0m\u001b[0;34m)\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n",
+      "\u001b[0;31mDocstring:\u001b[0m\n",
+      "Describe the signal information from device ``obj`` in a pandas DataFrame.\n",
+      "\n",
+      "Look through all subcomponents to find all the signals to be shown.\n",
+      "\n",
+      "PARAMETERS\n",
+      "\n",
+      "obj\n",
+      "    *object* : Instance of ophyd Signal or Device.\n",
+      "scope\n",
+      "    *str* or None : Scope of content to be shown.\n",
+      "\n",
+      "    - ``\"full\"`` (or ``None``) shows all Signal components\n",
+      "    - ``\"epics\"`` shows only EPICS-based Signals\n",
+      "    - ``\"read\"`` shows only the signals returned by ``obj.read()``\n",
+      "\n",
+      "    default: ``None``\n",
+      "cname\n",
+      "    *bool* : Show the _control_ (Python, dotted) name in column ``name``.\n",
+      "\n",
+      "    default: ``False``\n",
+      "dname\n",
+      "    *bool* : Show the _data_ (databroker, with underlines) name in\n",
+      "    column ``data name``.\n",
+      "\n",
+      "    default: ``True``\n",
+      "show_pv\n",
+      "    *bool* : Show the EPICS process variable (PV) name in\n",
+      "    column ``PV``.\n",
+      "\n",
+      "    default: ``False``\n",
+      "use_datetime *bool* :\n",
+      "    Show the EPICS timestamp (time of last update) in\n",
+      "    column ``timestamp``.\n",
+      "\n",
+      "    default: ``True``\n",
+      "show_ancient *bool* :\n",
+      "    Show uninitialized EPICS process variables.\n",
+      "\n",
+      "    In EPICS, an uninitialized PV has a timestamp of 1990-01-01 UTC.\n",
+      "    This option enables or suppresses ancient values identified\n",
+      "    by timestamp from 1989.  These are values only defined in\n",
+      "    the original ``.db`` file.\n",
+      "\n",
+      "    default: ``True``\n",
+      "table_style *object* :\n",
+      "    Either ``apstools.utils.TableStyle.pandas`` (default) or\n",
+      "    using values from :class:`apstools.utils.TableStyle`.\n",
+      "\n",
+      "    .. note:: ``pandas.DataFrame`` wll truncate long text\n",
+      "       to at most 50 characters.\n",
+      "\u001b[0;31mFile:\u001b[0m      ~/Documents/projects/BCDA-APS/apstools/apstools/utils/device_info.py\n",
+      "\u001b[0;31mType:\u001b[0m      function"
+     ]
+    }
+   ],
+   "source": [
+    "listdevice?"
+   ]
+  },
+  {
+   "attachments": {},
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## `.summary()` method\n",
+    "\n",
+    "Every object using `ophyd.Device` (or a subclass) has a\n",
+    "[`.summary()`](https://github.com/bluesky/ophyd/blob/285b0c75da67c935a8073481d6442362723b127b/ophyd/device.py#L1209-L1213)\n",
+    "method to describe its internal structure.  (Note: a `Signal` does not have a\n",
+    "`.summary()` method.)\n",
+    "\n",
+    "The report is divided into sections:\n",
+    "\n",
+    "section | description\n",
+    "--- | ---\n",
+    "data keys (* hints) | Names (undotted) of children (as they appear in the databroker) of data.\n",
+    "config keys | Data keys (undotted) in the dictionary returned by the `.read_configuration()` method.\n",
+    "configuration attrs | List of child (dotted) object names to be reported by the `.read_configuration()` method.\n",
+    "read attrs | List of child (dotted) object names to be reported by the `.read()` method.\n",
+    "unused attrs | Data keys (undotted) not used by either `.read()` or `.read_configuration()`.\n",
+    "\n",
+    "For example, this is a summary of one of the calculation (EPICS `swait` record) channels:"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 10,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "data keys (* hints)\n",
+      "-------------------\n",
+      "\n",
+      "read attrs\n",
+      "----------\n",
+      "input_value          EpicsSignal         ('calcs_calc1_channels_A_input_value')\n",
+      "\n",
+      "config keys\n",
+      "-----------\n",
+      "calcs_calc1_channels_A_input_pv\n",
+      "calcs_calc1_channels_A_input_trigger\n",
+      "calcs_calc1_channels_A_input_value\n",
+      "\n",
+      "configuration attrs\n",
+      "-------------------\n",
+      "input_value          EpicsSignal         ('calcs_calc1_channels_A_input_value')\n",
+      "input_pv             EpicsSignal         ('calcs_calc1_channels_A_input_pv')\n",
+      "input_trigger        EpicsSignal         ('calcs_calc1_channels_A_input_trigger')\n",
+      "\n",
+      "unused attrs\n",
+      "------------\n",
+      "\n"
+     ]
+    }
+   ],
+   "source": [
+    "calcs.calc1.channels.A.summary()"
+   ]
+  },
+  {
+   "attachments": {},
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "The content of the `.summary()` method increases with the complexity of the\n",
+    "device.  Such as the `fourc.omega` motor:"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 11,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "data keys (* hints)\n",
+      "-------------------\n",
+      "*fourc_omega\n",
+      " fourc_omega_user_setpoint\n",
+      "\n",
+      "read attrs\n",
+      "----------\n",
+      "user_readback        EpicsSignalRO       ('fourc_omega')\n",
+      "user_setpoint        EpicsSignal         ('fourc_omega_user_setpoint')\n",
+      "\n",
+      "config keys\n",
+      "-----------\n",
+      "fourc_omega_motor_egu\n",
+      "\n",
+      "configuration attrs\n",
+      "-------------------\n",
+      "motor_egu            EpicsSignal         ('fourc_omega_motor_egu')\n",
+      "\n",
+      "unused attrs\n",
+      "------------\n",
+      "user_offset          EpicsSignal         ('fourc_omega_user_offset')\n",
+      "user_offset_dir      EpicsSignal         ('fourc_omega_user_offset_dir')\n",
+      "offset_freeze_switch EpicsSignal         ('fourc_omega_offset_freeze_switch')\n",
+      "set_use_switch       EpicsSignal         ('fourc_omega_set_use_switch')\n",
+      "velocity             EpicsSignal         ('fourc_omega_velocity')\n",
+      "acceleration         EpicsSignal         ('fourc_omega_acceleration')\n",
+      "motor_is_moving      EpicsSignalRO       ('fourc_omega_motor_is_moving')\n",
+      "motor_done_move      EpicsSignalRO       ('fourc_omega_motor_done_move')\n",
+      "high_limit_switch    EpicsSignalRO       ('fourc_omega_high_limit_switch')\n",
+      "low_limit_switch     EpicsSignalRO       ('fourc_omega_low_limit_switch')\n",
+      "high_limit_travel    EpicsSignal         ('fourc_omega_high_limit_travel')\n",
+      "low_limit_travel     EpicsSignal         ('fourc_omega_low_limit_travel')\n",
+      "direction_of_travel  EpicsSignal         ('fourc_omega_direction_of_travel')\n",
+      "motor_stop           EpicsSignal         ('fourc_omega_motor_stop')\n",
+      "home_forward         EpicsSignal         ('fourc_omega_home_forward')\n",
+      "home_reverse         EpicsSignal         ('fourc_omega_home_reverse')\n",
+      "\n"
+     ]
+    }
+   ],
+   "source": [
+    "fourc.omega.summary()"
+   ]
+  },
+  {
+   "attachments": {},
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## `%wa` magic command\n",
+    "\n",
+    "`%wa` is a [magic\n",
+    "command](https://blueskyproject.io/bluesky/magics.html#listing-available-motors-using-wa-post-v1-3-0)\n",
+    "which means it is only available in console or notebook sessions.\n",
+    "\n",
+    "First, we show how to list the objects labeled `\"motor\"` (singular by bluesky\n",
+    "convention), since that is exactly what the SPEC `wa` command lists:"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 12,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "motor\n",
+      "  Positioner                     Value       Low Limit   High Limit  Offset     \n",
+      "  dcm_m_theta                    11.18       -32000.0    32000.0     0.0        \n",
+      "  dcm_m_y                        -17.84      -32000.0    32000.0     0.0        \n",
+      "  dcm_m_z                        90.29       -32000.0    32000.0     0.0        \n",
+      "  fourc_chi                      0.0         -32000.0    32000.0     0.0        \n",
+      "  fourc_omega                    0.0         -32000.0    32000.0     0.0        \n",
+      "  fourc_phi                      0.0         -32000.0    32000.0     0.0        \n",
+      "  fourc_tth                      0.0         -32000.0    32000.0     0.0        \n",
+      "  m1                             0.0         -32000.0    32000.0     0.0        \n",
+      "  m10                            0.0         -32000.0    32000.0     0.0        \n",
+      "  m11                            0.0         -32000.0    32000.0     0.0        \n",
+      "  m12                            0.0         -32000.0    32000.0     0.0        \n",
+      "  m13                            0.0         -32000.0    32000.0     0.0        \n",
+      "  m14                            0.0         -32000.0    32000.0     0.0        \n",
+      "  m15                            0.0         -32000.0    32000.0     0.0        \n",
+      "  m16                            0.0         -32000.0    32000.0     0.0        \n",
+      "  m2                             0.0         -32000.0    32000.0     0.0        \n",
+      "  m3                             0.0         -32000.0    32000.0     0.0        \n",
+      "  m4                             0.0         -32000.0    32000.0     0.0        \n",
+      "  m5                             0.65        -32000.0    32000.0     0.0        \n",
+      "  m6                             0.35        -32000.0    32000.0     0.0        \n",
+      "  m7                             0.0         -32000.0    32000.0     0.0        \n",
+      "  m8                             0.0         -32000.0    32000.0     0.0        \n",
+      "  m9                             0.0         -32000.0    32000.0     0.0        \n",
+      "  sixc_chi                       0.0         -32000.0    32000.0     0.0        \n",
+      "  sixc_delta                     0.0         -32000.0    32000.0     0.0        \n",
+      "  sixc_gamma                     0.0         -32000.0    32000.0     0.0        \n",
+      "  sixc_mu                        0.0         -32000.0    32000.0     0.0        \n",
+      "  sixc_omega                     0.0         -32000.0    32000.0     0.0        \n",
+      "  sixc_phi                       0.0         -32000.0    32000.0     0.0        \n",
+      "\n",
+      "  Local variable name                    Ophyd name (to be recorded as metadata)\n",
+      "  dcm.m_theta                            dcm_m_theta                           \n",
+      "  dcm.m_y                                dcm_m_y                               \n",
+      "  dcm.m_z                                dcm_m_z                               \n",
+      "  fourc.chi                              fourc_chi                             \n",
+      "  fourc.omega                            fourc_omega                           \n",
+      "  fourc.phi                              fourc_phi                             \n",
+      "  fourc.tth                              fourc_tth                             \n",
+      "  m1                                     m1                                    \n",
+      "  m10                                    m10                                   \n",
+      "  m11                                    m11                                   \n",
+      "  m12                                    m12                                   \n",
+      "  m13                                    m13                                   \n",
+      "  m14                                    m14                                   \n",
+      "  m15                                    m15                                   \n",
+      "  m16                                    m16                                   \n",
+      "  m2                                     m2                                    \n",
+      "  m3                                     m3                                    \n",
+      "  m4                                     m4                                    \n",
+      "  m5                                     m5                                    \n",
+      "  m6                                     m6                                    \n",
+      "  m7                                     m7                                    \n",
+      "  m8                                     m8                                    \n",
+      "  m9                                     m9                                    \n",
+      "  sixc.chi                               sixc_chi                              \n",
+      "  sixc.delta                             sixc_delta                            \n",
+      "  sixc.gamma                             sixc_gamma                            \n",
+      "  sixc.mu                                sixc_mu                               \n",
+      "  sixc.omega                             sixc_omega                            \n",
+      "  sixc.phi                               sixc_phi                              \n",
+      "\n"
+     ]
+    }
+   ],
+   "source": [
+    "%wa motor"
+   ]
+  },
+  {
+   "attachments": {},
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "But the `%wa` magic command can list objects with any label applied.  If you\n",
+    "leave out the specific label, you'll get a listing categorized by each of the\n",
+    "labels in use.\n",
+    "\n",
+    "Note that an object may have zero, one, or several labels; an object will be\n",
+    "described under each of its labels."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 13,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "area_detector\n",
+      "  Local variable name                    Ophyd name (to be recorded as metadata)\n",
+      "  adsimdet                               adsimdet                              \n",
+      "\n",
+      "motor\n",
+      "  Positioner                     Value       Low Limit   High Limit  Offset     \n",
+      "  dcm_m_theta                    11.18       -32000.0    32000.0     0.0        \n",
+      "  dcm_m_y                        -17.84      -32000.0    32000.0     0.0        \n",
+      "  dcm_m_z                        90.29       -32000.0    32000.0     0.0        \n",
+      "  fourc_chi                      0.0         -32000.0    32000.0     0.0        \n",
+      "  fourc_omega                    0.0         -32000.0    32000.0     0.0        \n",
+      "  fourc_phi                      0.0         -32000.0    32000.0     0.0        \n",
+      "  fourc_tth                      0.0         -32000.0    32000.0     0.0        \n",
+      "  m1                             0.0         -32000.0    32000.0     0.0        \n",
+      "  m10                            0.0         -32000.0    32000.0     0.0        \n",
+      "  m11                            0.0         -32000.0    32000.0     0.0        \n",
+      "  m12                            0.0         -32000.0    32000.0     0.0        \n",
+      "  m13                            0.0         -32000.0    32000.0     0.0        \n",
+      "  m14                            0.0         -32000.0    32000.0     0.0        \n",
+      "  m15                            0.0         -32000.0    32000.0     0.0        \n",
+      "  m16                            0.0         -32000.0    32000.0     0.0        \n",
+      "  m2                             0.0         -32000.0    32000.0     0.0        \n",
+      "  m3                             0.0         -32000.0    32000.0     0.0        \n",
+      "  m4                             0.0         -32000.0    32000.0     0.0        \n",
+      "  m5                             0.65        -32000.0    32000.0     0.0        \n",
+      "  m6                             0.35        -32000.0    32000.0     0.0        \n",
+      "  m7                             0.0         -32000.0    32000.0     0.0        \n",
+      "  m8                             0.0         -32000.0    32000.0     0.0        \n",
+      "  m9                             0.0         -32000.0    32000.0     0.0        \n",
+      "  sixc_chi                       0.0         -32000.0    32000.0     0.0        \n",
+      "  sixc_delta                     0.0         -32000.0    32000.0     0.0        \n",
+      "  sixc_gamma                     0.0         -32000.0    32000.0     0.0        \n",
+      "  sixc_mu                        0.0         -32000.0    32000.0     0.0        \n",
+      "  sixc_omega                     0.0         -32000.0    32000.0     0.0        \n",
+      "  sixc_phi                       0.0         -32000.0    32000.0     0.0        \n",
+      "\n",
+      "  Local variable name                    Ophyd name (to be recorded as metadata)\n",
+      "  dcm.m_theta                            dcm_m_theta                           \n",
+      "  dcm.m_y                                dcm_m_y                               \n",
+      "  dcm.m_z                                dcm_m_z                               \n",
+      "  fourc.chi                              fourc_chi                             \n",
+      "  fourc.omega                            fourc_omega                           \n",
+      "  fourc.phi                              fourc_phi                             \n",
+      "  fourc.tth                              fourc_tth                             \n",
+      "  m1                                     m1                                    \n",
+      "  m10                                    m10                                   \n",
+      "  m11                                    m11                                   \n",
+      "  m12                                    m12                                   \n",
+      "  m13                                    m13                                   \n",
+      "  m14                                    m14                                   \n",
+      "  m15                                    m15                                   \n",
+      "  m16                                    m16                                   \n",
+      "  m2                                     m2                                    \n",
+      "  m3                                     m3                                    \n",
+      "  m4                                     m4                                    \n",
+      "  m5                                     m5                                    \n",
+      "  m6                                     m6                                    \n",
+      "  m7                                     m7                                    \n",
+      "  m8                                     m8                                    \n",
+      "  m9                                     m9                                    \n",
+      "  sixc.chi                               sixc_chi                              \n",
+      "  sixc.delta                             sixc_delta                            \n",
+      "  sixc.gamma                             sixc_gamma                            \n",
+      "  sixc.mu                                sixc_mu                               \n",
+      "  sixc.omega                             sixc_omega                            \n",
+      "  sixc.phi                               sixc_phi                              \n",
+      "\n",
+      "detectors\n",
+      "  Local variable name                    Ophyd name (to be recorded as metadata)\n",
+      "  noisy                                  noisy                                 \n",
+      "  scaler1                                scaler1                               \n",
+      "\n",
+      "simulator\n",
+      "  Local variable name                    Ophyd name (to be recorded as metadata)\n",
+      "  noisy                                  noisy                                 \n",
+      "\n",
+      "scalers\n",
+      "  Local variable name                    Ophyd name (to be recorded as metadata)\n",
+      "  scaler1                                scaler1                               \n",
+      "\n",
+      "channel\n",
+      "  Local variable name                    Ophyd name (to be recorded as metadata)\n",
+      "  I0                                     I0                                    \n",
+      "  I00                                    I00                                   \n",
+      "  I000                                   I000                                  \n",
+      "  diode                                  diode                                 \n",
+      "  scaler1.channels.chan01.s              clock                                 \n",
+      "  scaler1.channels.chan02.s              I0                                    \n",
+      "  scaler1.channels.chan03.s              scint                                 \n",
+      "  scaler1.channels.chan04.s              diode                                 \n",
+      "  scaler1.channels.chan05.s              I000                                  \n",
+      "  scaler1.channels.chan06.s              I00                                   \n",
+      "  scint                                  scint                                 \n",
+      "  timebase                               clock                                 \n",
+      "\n",
+      "counter\n",
+      "  Local variable name                    Ophyd name (to be recorded as metadata)\n",
+      "  I0                                     I0                                    \n",
+      "  I00                                    I00                                   \n",
+      "  I000                                   I000                                  \n",
+      "  diode                                  diode                                 \n",
+      "  scaler1.channels.chan01.s              clock                                 \n",
+      "  scaler1.channels.chan02.s              I0                                    \n",
+      "  scaler1.channels.chan03.s              scint                                 \n",
+      "  scaler1.channels.chan04.s              diode                                 \n",
+      "  scaler1.channels.chan05.s              I000                                  \n",
+      "  scaler1.channels.chan06.s              I00                                   \n",
+      "  scint                                  scint                                 \n",
+      "  timebase                               clock                                 \n",
+      "\n",
+      "shutters\n",
+      "  Local variable name                    Ophyd name (to be recorded as metadata)\n",
+      "  shutter                                shutter                               \n",
+      "\n"
+     ]
+    }
+   ],
+   "source": [
+    "%wa"
+   ]
+  },
+  {
+   "attachments": {},
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## `listplans()` function\n",
+    "\n",
+    "Another type of control is the bluesky *plan*, a Python generator function used\n",
+    "by the bluesky `RunEngine` to perform data acquisition procedures.\n",
+    "\n",
+    "Here, we list the plans available when the [bluesky\n",
+    "training instrument](https://github.com/BCDA-APS/bluesky_training) is started:"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 14,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "======================= ==================================================\n",
+       "plan                    doc                                               \n",
+       "======================= ==================================================\n",
+       "lup                     Lineup a positioner.                              \n",
+       "two_pass_scan           Find the peak of noisy v. m1 in the range of + ...\n",
+       "findpeak_multipass      find peak of noisy v. m1 by repeated scans wit ...\n",
+       "repeat_findpeak         Repeat findpeak_multipass() with new parameter ...\n",
+       "redefine_motor_position Set EPICS motor record's user coordinate to `` ...\n",
+       "======================= =================================================="
+      ]
+     },
+     "execution_count": 14,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "from apstools.utils import listplans\n",
+    "listplans()"
+   ]
+  },
+  {
+   "attachments": {},
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "Any of these plans may be queried for its help or source code using the ipython\n",
+    "`?` (help) or `??` (source code) suffixes.  Let's look at one of them in more\n",
+    "detail:"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 15,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "\u001b[0;31mSignature:\u001b[0m \u001b[0mredefine_motor_position\u001b[0m\u001b[0;34m(\u001b[0m\u001b[0mmotor\u001b[0m\u001b[0;34m,\u001b[0m \u001b[0mnew_position\u001b[0m\u001b[0;34m)\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n",
+      "\u001b[0;31mDocstring:\u001b[0m Set EPICS motor record's user coordinate to ``new_position``.\n",
+      "\u001b[0;31mFile:\u001b[0m      ~/Documents/projects/BCDA-APS/apstools/apstools/utils/misc.py\n",
+      "\u001b[0;31mType:\u001b[0m      function"
+     ]
+    }
+   ],
+   "source": [
+    "redefine_motor_position?"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 16,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "\u001b[0;31mSignature:\u001b[0m \u001b[0mredefine_motor_position\u001b[0m\u001b[0;34m(\u001b[0m\u001b[0mmotor\u001b[0m\u001b[0;34m,\u001b[0m \u001b[0mnew_position\u001b[0m\u001b[0;34m)\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n",
+      "\u001b[0;31mSource:\u001b[0m   \n",
+      "\u001b[0;32mdef\u001b[0m \u001b[0mredefine_motor_position\u001b[0m\u001b[0;34m(\u001b[0m\u001b[0mmotor\u001b[0m\u001b[0;34m,\u001b[0m \u001b[0mnew_position\u001b[0m\u001b[0;34m)\u001b[0m\u001b[0;34m:\u001b[0m\u001b[0;34m\u001b[0m\n",
+      "\u001b[0;34m\u001b[0m    \u001b[0;34m\"\"\"Set EPICS motor record's user coordinate to ``new_position``.\"\"\"\u001b[0m\u001b[0;34m\u001b[0m\n",
+      "\u001b[0;34m\u001b[0m    \u001b[0;32myield\u001b[0m \u001b[0;32mfrom\u001b[0m \u001b[0mbps\u001b[0m\u001b[0;34m.\u001b[0m\u001b[0mmv\u001b[0m\u001b[0;34m(\u001b[0m\u001b[0mmotor\u001b[0m\u001b[0;34m.\u001b[0m\u001b[0mset_use_switch\u001b[0m\u001b[0;34m,\u001b[0m \u001b[0;36m1\u001b[0m\u001b[0;34m)\u001b[0m\u001b[0;34m\u001b[0m\n",
+      "\u001b[0;34m\u001b[0m    \u001b[0;32myield\u001b[0m \u001b[0;32mfrom\u001b[0m \u001b[0mbps\u001b[0m\u001b[0;34m.\u001b[0m\u001b[0mmv\u001b[0m\u001b[0;34m(\u001b[0m\u001b[0mmotor\u001b[0m\u001b[0;34m.\u001b[0m\u001b[0muser_setpoint\u001b[0m\u001b[0;34m,\u001b[0m \u001b[0mnew_position\u001b[0m\u001b[0;34m)\u001b[0m\u001b[0;34m\u001b[0m\n",
+      "\u001b[0;34m\u001b[0m    \u001b[0;32myield\u001b[0m \u001b[0;32mfrom\u001b[0m \u001b[0mbps\u001b[0m\u001b[0;34m.\u001b[0m\u001b[0mmv\u001b[0m\u001b[0;34m(\u001b[0m\u001b[0mmotor\u001b[0m\u001b[0;34m.\u001b[0m\u001b[0mset_use_switch\u001b[0m\u001b[0;34m,\u001b[0m \u001b[0;36m0\u001b[0m\u001b[0;34m)\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n",
+      "\u001b[0;31mFile:\u001b[0m      ~/Documents/projects/BCDA-APS/apstools/apstools/utils/misc.py\n",
+      "\u001b[0;31mType:\u001b[0m      function"
+     ]
+    }
+   ],
+   "source": [
+    "redefine_motor_position??"
+   ]
+  },
+  {
+   "attachments": {},
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "The same `listplans()` command can report the plans from an imported module.  Here, using `import bluesky.plans as bp)`:"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 17,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "========================================= ==================================================\n",
+       "plan                                      doc                                               \n",
+       "========================================= ==================================================\n",
+       "bluesky.plans.adaptive_scan               Scan over one variable with adaptively tuned s ...\n",
+       "bluesky.plans.count                       Take one or more readings from detectors.         \n",
+       "bluesky.plans.fly                         Perform a fly scan with one or more 'flyers'.     \n",
+       "bluesky.plans.grid_scan                   Scan over a mesh; each motor is on an independ ...\n",
+       "bluesky.plans.inner_product_scan          ---                                               \n",
+       "bluesky.plans.list_grid_scan              Scan over a mesh; each motor is on an independ ...\n",
+       "bluesky.plans.list_scan                   Scan over one or more variables in steps simul ...\n",
+       "bluesky.plans.log_scan                    Scan over one variable in log-spaced steps.       \n",
+       "bluesky.plans.outer_product_scan          Scan over a mesh; each motor is on an independ ...\n",
+       "bluesky.plans.ramp_plan                   Take data while ramping one or more positioners.  \n",
+       "bluesky.plans.rel_adaptive_scan           Relative scan over one variable with adaptivel ...\n",
+       "bluesky.plans.rel_grid_scan               Scan over a mesh relative to current position.    \n",
+       "bluesky.plans.rel_list_grid_scan          Scan over a mesh; each motor is on an independ ...\n",
+       "bluesky.plans.rel_list_scan               Scan over one variable in steps relative to cu ...\n",
+       "bluesky.plans.rel_log_scan                Scan over one variable in log-spaced steps rel ...\n",
+       "bluesky.plans.rel_scan                    Scan over one multi-motor trajectory relative  ...\n",
+       "bluesky.plans.rel_spiral                  Relative spiral scan                              \n",
+       "bluesky.plans.rel_spiral_fermat           Relative fermat spiral scan                       \n",
+       "bluesky.plans.rel_spiral_square           Relative square spiral scan, centered around c ...\n",
+       "bluesky.plans.relative_adaptive_scan      Relative scan over one variable with adaptivel ...\n",
+       "bluesky.plans.relative_inner_product_scan ---                                               \n",
+       "bluesky.plans.relative_list_scan          Scan over one variable in steps relative to cu ...\n",
+       "bluesky.plans.relative_log_scan           Scan over one variable in log-spaced steps rel ...\n",
+       "bluesky.plans.relative_outer_product_scan Scan over a mesh relative to current position.    \n",
+       "bluesky.plans.relative_scan               Scan over one multi-motor trajectory relative  ...\n",
+       "bluesky.plans.relative_spiral             Relative spiral scan                              \n",
+       "bluesky.plans.relative_spiral_fermat      Relative fermat spiral scan                       \n",
+       "bluesky.plans.scan                        Scan over one multi-motor trajectory.             \n",
+       "bluesky.plans.scan_nd                     Scan over an arbitrary N-dimensional trajectory.  \n",
+       "bluesky.plans.spiral                      Spiral scan, centered around (x_start, y_start)   \n",
+       "bluesky.plans.spiral_fermat               Absolute fermat spiral scan, centered around ( ...\n",
+       "bluesky.plans.spiral_square               Absolute square spiral scan, centered around ( ...\n",
+       "bluesky.plans.tune_centroid               plan: tune a motor to the centroid of signal(m ...\n",
+       "bluesky.plans.tweak                       Move and motor and read a detector with an int ...\n",
+       "bluesky.plans.x2x_scan                    Relatively scan over two motors in a 2:1 ratio    \n",
+       "========================================= =================================================="
+      ]
+     },
+     "execution_count": 17,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "listplans(bp)"
+   ]
+  },
+  {
+   "attachments": {},
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "Similarly, for the plans provided by `apstools`:"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 18,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "==================================== ==================================================\n",
+       "plan                                 doc                                               \n",
+       "==================================== ==================================================\n",
+       "apstools.plans.addDeviceDataAsStream Renamed to write_stream().  Will remove with r ...\n",
+       "apstools.plans.documentation_run     Save text as a bluesky run.                       \n",
+       "apstools.plans.execute_command_list  plan: execute the command list                    \n",
+       "apstools.plans.label_stream_stub     Writes ophyd-labeled objects to open bluesky r ...\n",
+       "apstools.plans.label_stream_wrapper  Decorator support: Write labeled device(s) to  ...\n",
+       "apstools.plans.lineup                Lineup and center a given axis, relative to cu ...\n",
+       "apstools.plans.nscan                 Scan over ``n`` variables moved together, each ...\n",
+       "apstools.plans.request_input         Request input from the user.  Returns ``True`` ...\n",
+       "apstools.plans.run_blocking_function Run a blocking function as a bluesky plan, in  ...\n",
+       "apstools.plans.run_command_file      plan: execute a list of commands from a text o ...\n",
+       "apstools.plans.sscan_1D              simple 1-D scan using EPICS synApps sscan record  \n",
+       "apstools.plans.stage_sigs_wrapper    Save stage_sigs from each device and restore a ...\n",
+       "apstools.plans.tune_axes             Bluesky plan to tune a list of axes in sequence.  \n",
+       "apstools.plans.write_stream          add an ophyd Device as an additional document  ...\n",
+       "==================================== =================================================="
+      ]
+     },
+     "execution_count": 18,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "import apstools.plans\n",
+    "listplans(apstools.plans)"
+   ]
+  },
+  {
+   "attachments": {},
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## `findCatalogsInNamespace()` function"
+   ]
+  },
+  {
+   "attachments": {},
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "To learn what databroker catalogs are already loaded (in the default namespace), use `apstools.utils.findCatalogsInNamespace()`:"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 19,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "{'cat': <Intake catalog: training>}"
+      ]
+     },
+     "execution_count": 19,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "from apstools.utils import findCatalogsInNamespace\n",
+    "findCatalogsInNamespace()"
+   ]
+  },
+  {
+   "attachments": {},
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "It is also possible to get a list of available databroker catalog names using\n",
+    "the `databroker` package.  This list includes any catalogs with available\n",
+    "configuration details, even if they are not loaded into memory yet."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 20,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "['bdp2022',\n",
+       " 'class_2021_03',\n",
+       " '6idb_export',\n",
+       " 'apstools_test',\n",
+       " 'class_data_examples',\n",
+       " 'usaxs_test',\n",
+       " 'korts202106',\n",
+       " 'training']"
+      ]
+     },
+     "execution_count": 20,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "import databroker\n",
+    "list(databroker.catalog)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": []
+  }
+ ],
+ "metadata": {
+  "kernelspec": {
+   "display_name": "base",
+   "language": "python",
+   "name": "python3"
+  },
+  "language_info": {
+   "codemirror_mode": {
+    "name": "ipython",
+    "version": 3
+   },
+   "file_extension": ".py",
+   "mimetype": "text/x-python",
+   "name": "python",
+   "nbconvert_exporter": "python",
+   "pygments_lexer": "ipython3",
+   "version": "3.10.9"
+  },
+  "orig_nbformat": 4,
+  "vscode": {
+   "interpreter": {
+    "hash": "0de687f50f9d6e40095b120777d5ec00c673578692c31863e92037202b0ccb2b"
+   }
+  }
+ },
+ "nbformat": 4,
+ "nbformat_minor": 2
+}

@@ -1,0 +1,925 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../../../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>apstools.devices.area_detector_factory &#8212; apstools 1.7</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="../../../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/graphviz.css?v=4ae1632d" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/mystnb.8ecb98da25f57f5357bf6f572d296f466b2cfe2517ffebfabe82451661e28f02.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/css/custom.css?v=8b12e3de" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="../../../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+
+    <script src="../../../_static/documentation_options.js?v=23a1f915"></script>
+    <script src="../../../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../_static/design-tabs.js?v=f930bc37"></script>
+    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = '_modules/apstools/devices/area_detector_factory';</script>
+    <script>
+        DOCUMENTATION_OPTIONS.theme_version = '0.16.1';
+        DOCUMENTATION_OPTIONS.theme_switcher_json_url = 'https://raw.githubusercontent.com/BCDA-APS/apstools/main/docs/source/_static/switcher.json';
+        DOCUMENTATION_OPTIONS.theme_switcher_version_match = 'dev';
+        DOCUMENTATION_OPTIONS.show_version_warning_banner =
+            false;
+        </script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="1.7" />
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-3 navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../../../index.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">apstools 1.7</p>
+  
+</a></div>
+    
+      <div class="navbar-item">
+<div class="version-switcher__container dropdown pst-js-only">
+  <button id="pst-version-switcher-button-2"
+    type="button"
+    class="version-switcher__button btn btn-sm dropdown-toggle"
+    data-bs-toggle="dropdown"
+    aria-haspopup="listbox"
+    aria-controls="pst-version-switcher-list-2"
+    aria-label="Version switcher list"
+  >
+    Choose version  <!-- this text may get changed later by javascript -->
+    <span class="caret"></span>
+  </button>
+  <div id="pst-version-switcher-list-2"
+    class="version-switcher__menu dropdown-menu list-group-flush py-0"
+    role="listbox" aria-labelledby="pst-version-switcher-button-2">
+    <!-- dropdown will be populated by javascript on page load -->
+  </div>
+</div></div>
+    
+  </div>
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../install.html">
+    Installation
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../api/index.html">
+    API Documentation
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../applications/index.html">
+    Applications
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../examples/index.html">
+    Examples
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../changes.html">
+    Change History
+  </a>
+</li>
+
+            <li class="nav-item dropdown">
+                <button class="btn dropdown-toggle nav-item" type="button"
+                data-bs-toggle="dropdown" aria-expanded="false"
+                aria-controls="pst-nav-more-links">
+                    More
+                </button>
+                <ul id="pst-nav-more-links" class="dropdown-menu">
+                    
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../../license.html">
+    License
+  </a>
+</li>
+
+                </ul>
+            </li>
+            
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+        <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+      
+        <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/BCDA-APS/apstools" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+        
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar hide-on-wide">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../install.html">
+    Installation
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../api/index.html">
+    API Documentation
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../applications/index.html">
+    Applications
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../examples/index.html">
+    Examples
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../changes.html">
+    Change History
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../license.html">
+    License
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+        
+          <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/BCDA-APS/apstools" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+        
+      </div>
+    
+  </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+<nav aria-label="Breadcrumb" class="d-print-none">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../../../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="../../index.html" class="nav-link">Module code</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">apstools.devices.area_detector_factory</span></li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <h1>Source code for apstools.devices.area_detector_factory</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Area Detector Factory</span>
+<span class="sd">+++++++++++++++++++++</span>
+
+<span class="sd">.. autosummary::</span>
+
+<span class="sd">   ~ad_creator</span>
+<span class="sd">   ~ad_class_factory</span>
+<span class="sd">   ~PLUGIN_DEFAULTS</span>
+
+<span class="sd">EXAMPLE 1: DEFAULT CAM</span>
+
+<span class="sd">Just the camera plugin (uses `CamBase</span>
+<span class="sd">&lt;https://blueskyproject.io/ophyd/user/explanations/area-detector.html#custom-plugins-or-cameras&gt;`_,</span>
+<span class="sd">the most basic features)::</span>
+
+<span class="sd">    from apstools.devices import ad_creator</span>
+<span class="sd">    det = ad_creator(&quot;ad:&quot;, name=&quot;det&quot;, class_name=&quot;MySimpleAD&quot;, [&quot;cam&quot;,])</span>
+
+<span class="sd">EXAMPLE 2: CUSTOM CAM &amp; IMAGING</span>
+
+<span class="sd">View ADSimDetector image with CA and PVA::</span>
+
+<span class="sd">    from ophyd.areadetector import SimDetectorCam</span>
+<span class="sd">    from apstools.devices import ad_creator</span>
+
+<span class="sd">    det = ad_creator(</span>
+<span class="sd">        &quot;ad:&quot;, name=&quot;det&quot;, class_name=&quot;MySimDetector&quot;,</span>
+<span class="sd">        plugins=[</span>
+<span class="sd">            {&quot;cam&quot;: {&quot;class&quot;: SimDetectorCam}},</span>
+<span class="sd">            &quot;image&quot;,</span>
+<span class="sd">            &quot;pva&quot;,</span>
+<span class="sd">        ],</span>
+<span class="sd">    )</span>
+
+<span class="sd">EXAMPLE 3: CUSTOM CAM, IMAGING, &amp; HDF5 FILES</span>
+
+<span class="sd">Record HDF5 images with Eiger detector. Here, both the Eiger detector IOC and</span>
+<span class="sd">the Bluesky databroker use the same filesystem mount ``/``::</span>
+
+<span class="sd">    from ophyd.areadetector import EigerDetectorCam</span>
+<span class="sd">    from apstools.devices import ad_creator</span>
+
+<span class="sd">    det = ad_creator(</span>
+<span class="sd">        &quot;ad:&quot;, name=&quot;det&quot;, class_name&quot;MyEiger&quot;,</span>
+<span class="sd">        plugins=[</span>
+<span class="sd">            {&quot;cam&quot;: {&quot;class&quot;: EigerDetectorCam}},</span>
+<span class="sd">            &quot;image&quot;,</span>
+<span class="sd">            {&quot;hdf1&quot;: {&quot;write_path_template&quot;: &quot;/&quot;}},</span>
+<span class="sd">        ],</span>
+<span class="sd">    )</span>
+
+<span class="sd">EXAMPLE 4: CUSTOM CAM, IMAGING, &amp; BASIC HDF5 PLUGIN</span>
+
+<span class="sd">Override one of the default plugin configurations.  In this case, remove the</span>
+<span class="sd">``write_path_template`` and ``read_path_template`` keys from the ``hdf1`` plugin</span>
+<span class="sd">support and switch to the plugin class from ophyd::</span>
+
+<span class="sd">    from ophyd.areadetector import EigerDetectorCam</span>
+<span class="sd">    from ophyd.areadetector.plugins import HDF5Plugin_V34</span>
+<span class="sd">    from apstools.devices import ad_creator, PLUGIN_DEFAULTS</span>
+
+<span class="sd">    plugin_defaults = PLUGIN_DEFAULTS.copy()</span>
+<span class="sd">    plugin_defaults[&quot;hdf1&quot;].pop(&quot;read_path_template&quot;, None)</span>
+<span class="sd">    plugin_defaults[&quot;hdf1&quot;].pop(&quot;write_path_template&quot;, None)</span>
+
+<span class="sd">    det = ad_creator(</span>
+<span class="sd">        &quot;ad:&quot;, name=&quot;det&quot;, class_name&quot;MyEiger&quot;,</span>
+<span class="sd">        plugins=[</span>
+<span class="sd">            {&quot;cam&quot;: {&quot;class&quot;: EigerDetectorCam}},</span>
+<span class="sd">            &quot;image&quot;,</span>
+<span class="sd">            {&quot;hdf1&quot;: {&quot;class&quot;: HDF5Plugin_V34}},</span>
+<span class="sd">        ],</span>
+<span class="sd">        plugin_defaults=plugin_defaults,</span>
+<span class="sd">    )</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">uuid</span>
+
+<span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">ophyd.areadetector.plugins</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">deprecated.sphinx</span><span class="w"> </span><span class="kn">import</span> <span class="n">versionadded</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">ophyd</span><span class="w"> </span><span class="kn">import</span> <span class="n">ADComponent</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">..utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">dynamic_import</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.area_detector_support</span><span class="w"> </span><span class="kn">import</span> <span class="n">AD_EpicsFileNameJPEGPlugin</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.area_detector_support</span><span class="w"> </span><span class="kn">import</span> <span class="n">AD_EpicsFileNameTIFFPlugin</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.area_detector_support</span><span class="w"> </span><span class="kn">import</span> <span class="n">BadPixelPlugin</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.area_detector_support</span><span class="w"> </span><span class="kn">import</span> <span class="n">HDF5FileWriterPlugin</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.area_detector_support</span><span class="w"> </span><span class="kn">import</span> <span class="n">SimDetectorCam_V34</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.area_detector_support</span><span class="w"> </span><span class="kn">import</span> <span class="n">SingleTrigger_V34</span>
+
+<span class="n">DEFAULT_DETECTOR_BASES</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="n">SingleTrigger_V34</span><span class="p">,</span>
+    <span class="n">ophyd</span><span class="o">.</span><span class="n">areadetector</span><span class="o">.</span><span class="n">DetectorBase</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="n">PLUGIN_DEFAULTS</span> <span class="o">=</span> <span class="p">{</span>  <span class="c1"># some of the common plugins</span>
+    <span class="c1"># gets image from the detector</span>
+    <span class="s2">&quot;cam&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s2">&quot;suffix&quot;</span><span class="p">:</span> <span class="s2">&quot;cam1:&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;class&quot;</span><span class="p">:</span> <span class="n">SimDetectorCam_V34</span><span class="p">,</span>
+    <span class="p">},</span>
+    <span class="c1"># for imaging</span>
+    <span class="s2">&quot;image&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s2">&quot;suffix&quot;</span><span class="p">:</span> <span class="s2">&quot;image1:&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;class&quot;</span><span class="p">:</span> <span class="n">ophyd</span><span class="o">.</span><span class="n">areadetector</span><span class="o">.</span><span class="n">plugins</span><span class="o">.</span><span class="n">ImagePlugin_V34</span><span class="p">,</span>
+    <span class="p">},</span>
+    <span class="s2">&quot;pva&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s2">&quot;suffix&quot;</span><span class="p">:</span> <span class="s2">&quot;Pva1:&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;class&quot;</span><span class="p">:</span> <span class="n">ophyd</span><span class="o">.</span><span class="n">areadetector</span><span class="o">.</span><span class="n">plugins</span><span class="o">.</span><span class="n">PvaPlugin_V34</span><span class="p">,</span>
+    <span class="p">},</span>
+    <span class="c1"># signal handling</span>
+    <span class="s2">&quot;attr1&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s2">&quot;suffix&quot;</span><span class="p">:</span> <span class="s2">&quot;Attr1:&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;class&quot;</span><span class="p">:</span> <span class="n">ophyd</span><span class="o">.</span><span class="n">areadetector</span><span class="o">.</span><span class="n">plugins</span><span class="o">.</span><span class="n">AttrPlotPlugin_V34</span><span class="p">,</span>
+    <span class="p">},</span>
+    <span class="s2">&quot;badpix1&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s2">&quot;suffix&quot;</span><span class="p">:</span> <span class="s2">&quot;BadPix1:&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;class&quot;</span><span class="p">:</span> <span class="n">BadPixelPlugin</span><span class="p">,</span>  <span class="c1"># Not in ophyd.  Yet.</span>
+        <span class="c1"># new in apstools release 1.7.3</span>
+    <span class="p">},</span>
+    <span class="s2">&quot;cb1&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s2">&quot;suffix&quot;</span><span class="p">:</span> <span class="s2">&quot;CB1:&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;class&quot;</span><span class="p">:</span> <span class="n">ophyd</span><span class="o">.</span><span class="n">areadetector</span><span class="o">.</span><span class="n">plugins</span><span class="o">.</span><span class="n">CircularBuffPlugin_V34</span><span class="p">,</span>
+    <span class="p">},</span>
+    <span class="s2">&quot;cc1&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s2">&quot;suffix&quot;</span><span class="p">:</span> <span class="s2">&quot;CC1:&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;class&quot;</span><span class="p">:</span> <span class="n">ophyd</span><span class="o">.</span><span class="n">areadetector</span><span class="o">.</span><span class="n">plugins</span><span class="o">.</span><span class="n">ColorConvPlugin_V34</span><span class="p">,</span>
+    <span class="p">},</span>
+    <span class="s2">&quot;cc2&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s2">&quot;suffix&quot;</span><span class="p">:</span> <span class="s2">&quot;CC2:&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;class&quot;</span><span class="p">:</span> <span class="n">ophyd</span><span class="o">.</span><span class="n">areadetector</span><span class="o">.</span><span class="n">plugins</span><span class="o">.</span><span class="n">ColorConvPlugin_V34</span><span class="p">,</span>
+    <span class="p">},</span>
+    <span class="s2">&quot;codec1&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s2">&quot;suffix&quot;</span><span class="p">:</span> <span class="s2">&quot;Codec1:&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;class&quot;</span><span class="p">:</span> <span class="n">ophyd</span><span class="o">.</span><span class="n">areadetector</span><span class="o">.</span><span class="n">plugins</span><span class="o">.</span><span class="n">CodecPlugin_V34</span><span class="p">,</span>
+    <span class="p">},</span>
+    <span class="s2">&quot;fft1&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s2">&quot;suffix&quot;</span><span class="p">:</span> <span class="s2">&quot;FFT1:&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;class&quot;</span><span class="p">:</span> <span class="n">ophyd</span><span class="o">.</span><span class="n">areadetector</span><span class="o">.</span><span class="n">plugins</span><span class="o">.</span><span class="n">FFTPlugin_V34</span><span class="p">,</span>
+    <span class="p">},</span>
+    <span class="s2">&quot;gather1&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s2">&quot;suffix&quot;</span><span class="p">:</span> <span class="s2">&quot;Gather1:&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;class&quot;</span><span class="p">:</span> <span class="n">ophyd</span><span class="o">.</span><span class="n">areadetector</span><span class="o">.</span><span class="n">plugins</span><span class="o">.</span><span class="n">GatherNPlugin_V31</span><span class="p">,</span>
+    <span class="p">},</span>
+    <span class="s2">&quot;overlay1&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s2">&quot;suffix&quot;</span><span class="p">:</span> <span class="s2">&quot;Over1:&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;class&quot;</span><span class="p">:</span> <span class="n">ophyd</span><span class="o">.</span><span class="n">areadetector</span><span class="o">.</span><span class="n">plugins</span><span class="o">.</span><span class="n">OverlayPlugin_V34</span><span class="p">,</span>
+    <span class="p">},</span>
+    <span class="s2">&quot;process1&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s2">&quot;suffix&quot;</span><span class="p">:</span> <span class="s2">&quot;Proc1:&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;class&quot;</span><span class="p">:</span> <span class="n">ophyd</span><span class="o">.</span><span class="n">areadetector</span><span class="o">.</span><span class="n">plugins</span><span class="o">.</span><span class="n">ProcessPlugin_V34</span><span class="p">,</span>
+    <span class="p">},</span>
+    <span class="s2">&quot;roi1&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s2">&quot;suffix&quot;</span><span class="p">:</span> <span class="s2">&quot;ROI1:&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;class&quot;</span><span class="p">:</span> <span class="n">ophyd</span><span class="o">.</span><span class="n">areadetector</span><span class="o">.</span><span class="n">plugins</span><span class="o">.</span><span class="n">ROIPlugin_V34</span><span class="p">,</span>
+    <span class="p">},</span>
+    <span class="s2">&quot;roi2&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s2">&quot;suffix&quot;</span><span class="p">:</span> <span class="s2">&quot;ROI2:&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;class&quot;</span><span class="p">:</span> <span class="n">ophyd</span><span class="o">.</span><span class="n">areadetector</span><span class="o">.</span><span class="n">plugins</span><span class="o">.</span><span class="n">ROIPlugin_V34</span><span class="p">,</span>
+    <span class="p">},</span>
+    <span class="s2">&quot;roi3&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s2">&quot;suffix&quot;</span><span class="p">:</span> <span class="s2">&quot;ROI3:&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;class&quot;</span><span class="p">:</span> <span class="n">ophyd</span><span class="o">.</span><span class="n">areadetector</span><span class="o">.</span><span class="n">plugins</span><span class="o">.</span><span class="n">ROIPlugin_V34</span><span class="p">,</span>
+    <span class="p">},</span>
+    <span class="s2">&quot;roi4&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s2">&quot;suffix&quot;</span><span class="p">:</span> <span class="s2">&quot;ROI4:&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;class&quot;</span><span class="p">:</span> <span class="n">ophyd</span><span class="o">.</span><span class="n">areadetector</span><span class="o">.</span><span class="n">plugins</span><span class="o">.</span><span class="n">ROIPlugin_V34</span><span class="p">,</span>
+    <span class="p">},</span>
+    <span class="s2">&quot;roistat1&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s2">&quot;suffix&quot;</span><span class="p">:</span> <span class="s2">&quot;ROIStat1:&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;class&quot;</span><span class="p">:</span> <span class="n">ophyd</span><span class="o">.</span><span class="n">areadetector</span><span class="o">.</span><span class="n">plugins</span><span class="o">.</span><span class="n">ROIStatPlugin_V34</span><span class="p">,</span>
+    <span class="p">},</span>
+    <span class="s2">&quot;scatter1&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s2">&quot;suffix&quot;</span><span class="p">:</span> <span class="s2">&quot;Scatter1:&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;class&quot;</span><span class="p">:</span> <span class="n">ophyd</span><span class="o">.</span><span class="n">areadetector</span><span class="o">.</span><span class="n">plugins</span><span class="o">.</span><span class="n">ScatterPlugin_V34</span><span class="p">,</span>
+    <span class="p">},</span>
+    <span class="s2">&quot;stats1&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s2">&quot;suffix&quot;</span><span class="p">:</span> <span class="s2">&quot;Stats1:&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;class&quot;</span><span class="p">:</span> <span class="n">ophyd</span><span class="o">.</span><span class="n">areadetector</span><span class="o">.</span><span class="n">plugins</span><span class="o">.</span><span class="n">StatsPlugin_V34</span><span class="p">,</span>
+    <span class="p">},</span>
+    <span class="s2">&quot;stats2&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s2">&quot;suffix&quot;</span><span class="p">:</span> <span class="s2">&quot;Stats2:&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;class&quot;</span><span class="p">:</span> <span class="n">ophyd</span><span class="o">.</span><span class="n">areadetector</span><span class="o">.</span><span class="n">plugins</span><span class="o">.</span><span class="n">StatsPlugin_V34</span><span class="p">,</span>
+    <span class="p">},</span>
+    <span class="s2">&quot;stats3&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s2">&quot;suffix&quot;</span><span class="p">:</span> <span class="s2">&quot;Stats3:&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;class&quot;</span><span class="p">:</span> <span class="n">ophyd</span><span class="o">.</span><span class="n">areadetector</span><span class="o">.</span><span class="n">plugins</span><span class="o">.</span><span class="n">StatsPlugin_V34</span><span class="p">,</span>
+    <span class="p">},</span>
+    <span class="s2">&quot;stats4&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s2">&quot;suffix&quot;</span><span class="p">:</span> <span class="s2">&quot;Stats4:&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;class&quot;</span><span class="p">:</span> <span class="n">ophyd</span><span class="o">.</span><span class="n">areadetector</span><span class="o">.</span><span class="n">plugins</span><span class="o">.</span><span class="n">StatsPlugin_V34</span><span class="p">,</span>
+    <span class="p">},</span>
+    <span class="s2">&quot;stats5&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s2">&quot;suffix&quot;</span><span class="p">:</span> <span class="s2">&quot;Stats5:&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;class&quot;</span><span class="p">:</span> <span class="n">ophyd</span><span class="o">.</span><span class="n">areadetector</span><span class="o">.</span><span class="n">plugins</span><span class="o">.</span><span class="n">StatsPlugin_V34</span><span class="p">,</span>
+    <span class="p">},</span>
+    <span class="s2">&quot;transform1&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s2">&quot;suffix&quot;</span><span class="p">:</span> <span class="s2">&quot;Trans1:&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;class&quot;</span><span class="p">:</span> <span class="n">ophyd</span><span class="o">.</span><span class="n">areadetector</span><span class="o">.</span><span class="n">plugins</span><span class="o">.</span><span class="n">TransformPlugin_V34</span><span class="p">,</span>
+    <span class="p">},</span>
+    <span class="c1"># file writers</span>
+    <span class="s2">&quot;hdf1&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s2">&quot;class&quot;</span><span class="p">:</span> <span class="n">HDF5FileWriterPlugin</span><span class="p">,</span>
+        <span class="s2">&quot;read_path_template&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="s2">&quot;suffix&quot;</span><span class="p">:</span> <span class="s2">&quot;HDF1:&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;write_path_template&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="p">},</span>
+    <span class="s2">&quot;jpeg1&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s2">&quot;class&quot;</span><span class="p">:</span> <span class="n">AD_EpicsFileNameJPEGPlugin</span><span class="p">,</span>
+        <span class="s2">&quot;read_path_template&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="s2">&quot;suffix&quot;</span><span class="p">:</span> <span class="s2">&quot;JPEG1:&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;write_path_template&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="p">},</span>
+    <span class="s2">&quot;magick1&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s2">&quot;class&quot;</span><span class="p">:</span> <span class="n">ophyd</span><span class="o">.</span><span class="n">areadetector</span><span class="o">.</span><span class="n">plugins</span><span class="o">.</span><span class="n">MagickPlugin_V34</span><span class="p">,</span>
+        <span class="s2">&quot;read_path_template&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="s2">&quot;suffix&quot;</span><span class="p">:</span> <span class="s2">&quot;Magick1:&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;write_path_template&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="p">},</span>
+    <span class="s2">&quot;netcdf1&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s2">&quot;class&quot;</span><span class="p">:</span> <span class="n">ophyd</span><span class="o">.</span><span class="n">areadetector</span><span class="o">.</span><span class="n">plugins</span><span class="o">.</span><span class="n">NetCDFPlugin_V34</span><span class="p">,</span>
+        <span class="s2">&quot;read_path_template&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="s2">&quot;suffix&quot;</span><span class="p">:</span> <span class="s2">&quot;netCDF1:&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;write_path_template&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="p">},</span>
+    <span class="s2">&quot;tiff1&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s2">&quot;class&quot;</span><span class="p">:</span> <span class="n">AD_EpicsFileNameTIFFPlugin</span><span class="p">,</span>
+        <span class="s2">&quot;read_path_template&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="s2">&quot;suffix&quot;</span><span class="p">:</span> <span class="s2">&quot;TIFF1:&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;write_path_template&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="p">},</span>
+<span class="p">}</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Default plugin configuration dictionary.</span>
+
+<span class="sd">These defaults could be replaced by a caller individually or in total.  For</span>
+<span class="sd">example, the ``&quot;class&quot;`` could be replaced by a newer, version-specific class.</span>
+<span class="sd">Another use case is to remove an existing set of defaults.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+
+<div class="viewcode-block" id="ad_class_factory">
+<a class="viewcode-back" href="../../../api/_devices.html#apstools.devices.area_detector_factory.ad_class_factory">[docs]</a>
+<span class="nd">@versionadded</span><span class="p">(</span><span class="n">version</span><span class="o">=</span><span class="s2">&quot;1.7.0&quot;</span><span class="p">)</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">ad_class_factory</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">bases</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">plugins</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">plugin_defaults</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Build an Area Detector class with specified plugins.</span>
+
+<span class="sd">    PARAMETERS</span>
+
+<span class="sd">    name str :</span>
+<span class="sd">        Name of the class to be created.</span>
+<span class="sd">    bases object or tuple :</span>
+<span class="sd">        Parent(s) of the new class.</span>
+<span class="sd">        (default: ``(SingleTrigger_V34, DetectorBase)``)</span>
+<span class="sd">    plugins list :</span>
+<span class="sd">        Description of the plugins used.  The list consists</span>
+<span class="sd">        of either strings or dictionaries.</span>
+<span class="sd">        (default: ``[&quot;cam&quot;]`` -- Just the camera plugin.)</span>
+<span class="sd">    plugin_defaults object :</span>
+<span class="sd">        Plugin configuration dictionary.</span>
+<span class="sd">        (default: ``None``, PLUGIN_DEFAULTS will be used.)</span>
+
+<span class="sd">    Here are a couple examples of the ``plugins`` keyword.</span>
+
+<span class="sd">    EXAMPLE 1: ALL DEFAULTS</span>
+
+<span class="sd">    All defaults are acceptable.  In this case, the ``cam`` (``CamBase``</span>
+<span class="sd">    from ophyd) will only support the most general features of the detector</span>
+<span class="sd">    hardware::</span>
+
+<span class="sd">        plugins=[&quot;cam&quot;, &quot;image&quot;, &quot;pva&quot;]</span>
+
+<span class="sd">    This is a shorthand for::</span>
+
+<span class="sd">        plugins=[{&quot;cam&quot;: {}}, {&quot;image&quot;: {}}, {&quot;pva&quot;: {}}]</span>
+
+<span class="sd">    EXAMPLE 2: CUSTOM CAM CLASS</span>
+
+<span class="sd">    More typical is when one or more defaults need to be replaced, such as</span>
+<span class="sd">    the class used to provide features specific to the hardware.  The inner</span>
+<span class="sd">    dictionaries contain the keyword arguments to be replaced for each</span>
+<span class="sd">    plugin. All these dictionaries are empty, signifying all defaults are</span>
+<span class="sd">    acceptable.</span>
+
+<span class="sd">    For the ADSimDetector, replace the string ``&quot;cam&quot;`` with a dictionary</span>
+<span class="sd">    that replaces the default camera class.  Other detectors will have their</span>
+<span class="sd">    own camera class that provides access to the specific features of that</span>
+<span class="sd">    detector.</span>
+
+<span class="sd">    Here the Python class is imported from apstools.  Use the class as it is</span>
+<span class="sd">    imported or defined.  Do not use quotations around</span>
+<span class="sd">    ``SimDetectorCam_V34``::</span>
+
+<span class="sd">        from apstools.devices import SimDetectorCam_V34</span>
+
+<span class="sd">        plugins=[{&quot;cam&quot;: {&quot;class&quot;: SimDetectorCam_V34}}, &quot;image&quot;, &quot;pva&quot;]</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">bases</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">bases</span> <span class="o">=</span> <span class="n">DEFAULT_DETECTOR_BASES</span>
+    <span class="k">if</span> <span class="n">plugins</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">plugins</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;cam&quot;</span><span class="p">]</span>
+    <span class="k">if</span> <span class="n">plugin_defaults</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">plugin_defaults</span> <span class="o">=</span> <span class="n">PLUGIN_DEFAULTS</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">plugins</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Must be a list.  Received </span><span class="si">{</span><span class="n">plugins</span><span class="si">=!r}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">plugin_defaults</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Must be a dict.  Received </span><span class="si">{</span><span class="n">plugin_defaults</span><span class="si">=!r}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="n">attributes</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="k">for</span> <span class="n">spec</span> <span class="ow">in</span> <span class="n">plugins</span><span class="p">:</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">spec</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
+            <span class="n">config</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">spec</span><span class="o">.</span><span class="n">values</span><span class="p">())[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="n">key</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">spec</span><span class="o">.</span><span class="n">keys</span><span class="p">())[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">spec</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+            <span class="n">key</span> <span class="o">=</span> <span class="n">spec</span>
+            <span class="n">config</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Unknown plugin configuration: </span><span class="si">{</span><span class="n">spec</span><span class="si">!r}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+        <span class="n">kwargs</span> <span class="o">=</span> <span class="n">plugin_defaults</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="p">{})</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>  <span class="c1"># default settings for this key</span>
+        <span class="n">kwargs</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">config</span><span class="p">)</span>  <span class="c1"># settings supplied by the caller</span>
+        <span class="k">if</span> <span class="s2">&quot;class&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">KeyError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Must define &#39;class&#39;: </span><span class="si">{</span><span class="n">kwargs</span><span class="si">=!r}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="s2">&quot;suffix&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">KeyError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Must define &#39;suffix&#39;: </span><span class="si">{</span><span class="n">kwargs</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="n">component_class</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;class&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">component_class</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+            <span class="c1"># Convert text class into object, such as:</span>
+            <span class="c1">#    &quot;apstools.devices.area_detector_support.SimDetectorCam_V34&quot;</span>
+            <span class="n">component_class</span> <span class="o">=</span> <span class="n">dynamic_import</span><span class="p">(</span><span class="n">component_class</span><span class="p">)</span>
+        <span class="n">suffix</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;suffix&quot;</span><span class="p">)</span>
+
+        <span class="c1"># if &quot;write_path_template&quot; in defaults</span>
+        <span class="n">attributes</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">ADComponent</span><span class="p">(</span><span class="n">component_class</span><span class="p">,</span> <span class="n">suffix</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="nb">type</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">bases</span><span class="p">,</span> <span class="n">attributes</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="ad_creator">
+<a class="viewcode-back" href="../../../api/_devices.html#apstools.devices.area_detector_factory.ad_creator">[docs]</a>
+<span class="nd">@versionadded</span><span class="p">(</span><span class="n">version</span><span class="o">=</span><span class="s2">&quot;1.7.0&quot;</span><span class="p">)</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">ad_creator</span><span class="p">(</span>
+    <span class="n">prefix</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+    <span class="o">*</span><span class="p">,</span>
+    <span class="n">ad_setup</span><span class="p">:</span> <span class="nb">object</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">bases</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">class_name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">plugin_defaults</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">plugins</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">validate_ports</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+    <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
+<span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Create an area detector object from a custom class.</span>
+
+<span class="sd">    PARAMETERS</span>
+
+<span class="sd">    prefix str :</span>
+<span class="sd">        EPICS PV prefix.</span>
+<span class="sd">    name str :</span>
+<span class="sd">        Name of the ophyd object.</span>
+<span class="sd">    class_name str :</span>
+<span class="sd">        Name of the class to be created.</span>
+<span class="sd">        (default: ``&quot;ADclass_HEX7&quot;`` where HEX is a random</span>
+<span class="sd">        7-digit hexadecimal string)</span>
+<span class="sd">    plugins list :</span>
+<span class="sd">        Description of the plugins used.</span>
+<span class="sd">    bases object or tuple:</span>
+<span class="sd">        Parent(s) of the new class.</span>
+<span class="sd">        (default: ``(SingleTrigger_V34, DetectorBase)``)</span>
+<span class="sd">    ad_setup object :</span>
+<span class="sd">        Optional setup function to be called.  Blocking code is allowed for this</span>
+<span class="sd">        function (does not have to be a bluesky plan stub).</span>
+<span class="sd">        (default: ``None``)</span>
+<span class="sd">    plugin_defaults object :</span>
+<span class="sd">        Plugin configuration dictionary.</span>
+<span class="sd">        (default: ``None``, PLUGIN_DEFAULTS will be used.)</span>
+<span class="sd">    validate_ports bool :</span>
+<span class="sd">        When True (default), call ``.validate_asyn_ports()``. This call will</span>
+<span class="sd">        wait for PV connections. Set &#39;False&#39; to skip this test on startup.</span>
+
+<span class="sd">        If assigned plugin ports are used but no ophyd plugin class is provided,</span>
+<span class="sd">        an ophyd exception will be raised when the detector tries to take an</span>
+<span class="sd">        image.</span>
+
+<span class="sd">        (new in apstools release 1.7.3)</span>
+<span class="sd">    kwargs dict :</span>
+<span class="sd">        Any additional keyword arguments for the new class definition.</span>
+<span class="sd">        (default: ``{}``)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">class_name</span> <span class="o">=</span> <span class="n">class_name</span> <span class="ow">or</span> <span class="sa">f</span><span class="s2">&quot;ADclass_</span><span class="si">{</span><span class="nb">str</span><span class="p">(</span><span class="n">uuid</span><span class="o">.</span><span class="n">uuid4</span><span class="p">())[:</span><span class="mi">7</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span>
+    <span class="n">ad_class</span> <span class="o">=</span> <span class="n">ad_class_factory</span><span class="p">(</span>
+        <span class="n">class_name</span><span class="p">,</span>
+        <span class="n">bases</span><span class="p">,</span>
+        <span class="n">plugins</span><span class="p">,</span>
+        <span class="n">plugin_defaults</span><span class="o">=</span><span class="n">plugin_defaults</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">det</span> <span class="o">=</span> <span class="n">ad_class</span><span class="p">(</span><span class="n">prefix</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">validate_ports</span><span class="p">:</span>
+        <span class="n">det</span><span class="o">.</span><span class="n">validate_asyn_ports</span><span class="p">()</span>
+    <span class="k">if</span> <span class="n">ad_setup</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="c1"># User-defined setup (blocking code allowed) of the detector.</span>
+        <span class="n">ad_setup</span><span class="p">(</span><span class="n">det</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">det</span></div>
+
+
+
+<span class="c1"># -----------------------------------------------------------------------------</span>
+<span class="c1"># :copyright: (c) 2017-2025, UChicago Argonne, LLC</span>
+<span class="c1">#</span>
+<span class="c1"># Distributed under the terms of the Argonne National Laboratory Open Source License.</span>
+<span class="c1">#</span>
+<span class="c1"># The full license is in the file LICENSE.txt, distributed with this software.</span>
+<span class="c1"># -----------------------------------------------------------------------------</span>
+</pre></div>
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="../../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+
+  <p class="copyright">
+    
+      © Copyright 2017-2025, UChicago Argonne, LLC.
+      <br/>
+    
+  </p>
+</div>
+      
+        <div class="footer-item">
+
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.1.3.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item">
+<p class="theme-version">
+  <!-- # L10n: Setting the PST URL as an argument as this does not need to be localized -->
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.16.1.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

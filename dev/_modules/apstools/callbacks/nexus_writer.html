@@ -1,0 +1,1584 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../../../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>apstools.callbacks.nexus_writer &#8212; apstools 1.7</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="../../../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/graphviz.css?v=4ae1632d" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/mystnb.8ecb98da25f57f5357bf6f572d296f466b2cfe2517ffebfabe82451661e28f02.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/css/custom.css?v=8b12e3de" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="../../../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+
+    <script src="../../../_static/documentation_options.js?v=23a1f915"></script>
+    <script src="../../../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../_static/design-tabs.js?v=f930bc37"></script>
+    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = '_modules/apstools/callbacks/nexus_writer';</script>
+    <script>
+        DOCUMENTATION_OPTIONS.theme_version = '0.16.1';
+        DOCUMENTATION_OPTIONS.theme_switcher_json_url = 'https://raw.githubusercontent.com/BCDA-APS/apstools/main/docs/source/_static/switcher.json';
+        DOCUMENTATION_OPTIONS.theme_switcher_version_match = 'dev';
+        DOCUMENTATION_OPTIONS.show_version_warning_banner =
+            false;
+        </script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="1.7" />
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-3 navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../../../index.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">apstools 1.7</p>
+  
+</a></div>
+    
+      <div class="navbar-item">
+<div class="version-switcher__container dropdown pst-js-only">
+  <button id="pst-version-switcher-button-2"
+    type="button"
+    class="version-switcher__button btn btn-sm dropdown-toggle"
+    data-bs-toggle="dropdown"
+    aria-haspopup="listbox"
+    aria-controls="pst-version-switcher-list-2"
+    aria-label="Version switcher list"
+  >
+    Choose version  <!-- this text may get changed later by javascript -->
+    <span class="caret"></span>
+  </button>
+  <div id="pst-version-switcher-list-2"
+    class="version-switcher__menu dropdown-menu list-group-flush py-0"
+    role="listbox" aria-labelledby="pst-version-switcher-button-2">
+    <!-- dropdown will be populated by javascript on page load -->
+  </div>
+</div></div>
+    
+  </div>
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../install.html">
+    Installation
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../api/index.html">
+    API Documentation
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../applications/index.html">
+    Applications
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../examples/index.html">
+    Examples
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../changes.html">
+    Change History
+  </a>
+</li>
+
+            <li class="nav-item dropdown">
+                <button class="btn dropdown-toggle nav-item" type="button"
+                data-bs-toggle="dropdown" aria-expanded="false"
+                aria-controls="pst-nav-more-links">
+                    More
+                </button>
+                <ul id="pst-nav-more-links" class="dropdown-menu">
+                    
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../../license.html">
+    License
+  </a>
+</li>
+
+                </ul>
+            </li>
+            
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+        <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+      
+        <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/BCDA-APS/apstools" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+        
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar hide-on-wide">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../install.html">
+    Installation
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../api/index.html">
+    API Documentation
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../applications/index.html">
+    Applications
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../examples/index.html">
+    Examples
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../changes.html">
+    Change History
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../license.html">
+    License
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+        
+          <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/BCDA-APS/apstools" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+        
+      </div>
+    
+  </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+<nav aria-label="Breadcrumb" class="d-print-none">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../../../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="../../index.html" class="nav-link">Module code</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">apstools.callbacks.nexus_writer</span></li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <h1>Source code for apstools.callbacks.nexus_writer</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">NeXus File Writer Callbacks</span>
+<span class="sd">+++++++++++++++++++++++++++++++++++++++</span>
+
+<span class="sd">.. autosummary::</span>
+
+<span class="sd">   ~NXWriter</span>
+<span class="sd">   ~NXWriterAPS</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">datetime</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">json</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pathlib</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">time</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">h5py</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">yaml</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">deprecated.sphinx</span><span class="w"> </span><span class="kn">import</span> <span class="n">versionadded</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">deprecated.sphinx</span><span class="w"> </span><span class="kn">import</span> <span class="n">versionchanged</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">.callback_base</span><span class="w"> </span><span class="kn">import</span> <span class="n">FileWriterCallbackBase</span>
+
+<span class="n">NEXUS_FILE_EXTENSION</span> <span class="o">=</span> <span class="s2">&quot;hdf&quot;</span>  <span class="c1"># use this file extension for the output</span>
+<span class="n">NEXUS_RELEASE</span> <span class="o">=</span> <span class="s2">&quot;v2020.1&quot;</span>  <span class="c1"># NeXus release to which this file is written</span>
+<span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="NXWriter">
+<a class="viewcode-back" href="../../../api/_filewriters.html#apstools.callbacks.nexus_writer.NXWriter">[docs]</a>
+<span class="nd">@versionchanged</span><span class="p">(</span><span class="n">version</span><span class="o">=</span><span class="s2">&quot;1.6.11&quot;</span><span class="p">,</span> <span class="n">reason</span><span class="o">=</span><span class="s2">&quot;wait for area detector HDF5 files&quot;</span><span class="p">)</span>
+<span class="nd">@versionadded</span><span class="p">(</span><span class="n">version</span><span class="o">=</span><span class="s2">&quot;1.3.0&quot;</span><span class="p">)</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">NXWriter</span><span class="p">(</span><span class="n">FileWriterCallbackBase</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    General class for writing HDF5/NeXus file (using only NeXus base classes).</span>
+
+<span class="sd">    .. index:: Bluesky Callback; NXWriter</span>
+
+<span class="sd">    One scan is written to one HDF5/NeXus file.</span>
+
+<span class="sd">    .. note::</span>
+<span class="sd">        If you use ``NXWriter``, you must wait for the `writer()` method to</span>
+<span class="sd">        finish before proceeding with the next acquisition or processing.  (The</span>
+<span class="sd">        `writer()` method is launched in a background thread to complete once</span>
+<span class="sd">        all readable assets are available, potentially even after the run ends.)</span>
+
+<span class="sd">        See the table below for which wait method to call.</span>
+
+<span class="sd">    EXAMPLES:</span>
+
+<span class="sd">    Interactive use (outside of a plan)::</span>
+
+<span class="sd">        # ...</span>
+<span class="sd">        nxwriter = NXWriter()  # create the callback instance</span>
+<span class="sd">        RE.subscribe(nxwriter.receiver)  # subscribe to the RunEngine</span>
+<span class="sd">        # ...</span>
+<span class="sd">        RE(bp.count([camera]))</span>
+<span class="sd">        nxwriter.wait_writer()</span>
+<span class="sd">        # ...</span>
+<span class="sd">        run = cat.v2[-1]  # for additional processing</span>
+
+<span class="sd">    .. note::</span>
+<span class="sd">       There are two methods to wait for the callback.  One is for *interactive*</span>
+<span class="sd">       use when not using the RunEngine.  The other is for use *in a plan* that</span>
+<span class="sd">       is executed by the bluesky RunEngine.</span>
+
+<span class="sd">        ============    =========================== ========================</span>
+<span class="sd">        When            Method                      Which uses</span>
+<span class="sd">        ============    =========================== ========================</span>
+<span class="sd">        interactive     ``wait_writer()``           ``time.sleep()``</span>
+<span class="sd">        in a plan       ``wait_writer_plan_stub()`` ``yield from bps.sleep()``</span>
+<span class="sd">        ============    =========================== ========================</span>
+
+<span class="sd">        The ``wait_writer()`` method calls ``time.sleep()`` and this would block</span>
+<span class="sd">        the RunEngine from its routine processing of other background tasks.</span>
+<span class="sd">        The ``wait_writer_plan_stub()`` method replaces that call with ``yield</span>
+<span class="sd">        from bps.sleep()`` which does not block the RunEngine from processing</span>
+<span class="sd">        other background tasks.</span>
+
+<span class="sd">    In a custom **plan**, use the ``wait_writer_plan_stub()`` method instead::</span>
+
+<span class="sd">        # ...</span>
+<span class="sd">        nxwriter = NXWriter()  # create the callback instance</span>
+<span class="sd">        RE.subscribe(nxwriter.receiver)  # subscribe to the RunEngine</span>
+<span class="sd">        # ...</span>
+
+<span class="sd">        def my_plan(dets, n=5):</span>
+<span class="sd">            for i in range(n):</span>
+<span class="sd">                yield from bp.count(dets)</span>
+<span class="sd">                yield from nxwriter.wait_writer_plan_stub()</span>
+
+<span class="sd">    METHODS</span>
+
+<span class="sd">    .. autosummary::</span>
+
+<span class="sd">       ~writer</span>
+<span class="sd">       ~h5string</span>
+<span class="sd">       ~add_dataset_attributes</span>
+<span class="sd">       ~assign_signal_type</span>
+<span class="sd">       ~create_NX_group</span>
+<span class="sd">       ~get_sample_title</span>
+<span class="sd">       ~get_stream_link</span>
+<span class="sd">       ~resolve_class_path</span>
+<span class="sd">       ~wait_writer</span>
+<span class="sd">       ~wait_writer_plan_stub</span>
+<span class="sd">       ~write_data</span>
+<span class="sd">       ~write_detector</span>
+<span class="sd">       ~write_entry</span>
+<span class="sd">       ~write_instrument</span>
+<span class="sd">       ~write_metadata</span>
+<span class="sd">       ~write_monochromator</span>
+<span class="sd">       ~write_positioner</span>
+<span class="sd">       ~write_root</span>
+<span class="sd">       ~write_sample</span>
+<span class="sd">       ~write_slits</span>
+<span class="sd">       ~write_source</span>
+<span class="sd">       ~write_streams</span>
+<span class="sd">       ~write_templates</span>
+<span class="sd">       ~write_user</span>
+
+<span class="sd">    New with apstools release 1.3.0.</span>
+<span class="sd">    Update in release 1.6.11 to wait for area detector HDF5 files.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">warn_on_missing_content</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Warn when expected NeXus content is missing.</span>
+
+<span class="sd">    Set False (default: True) to ignore warnings.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">file_extension</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">NEXUS_FILE_EXTENSION</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;File extension to be used.  Default: &#39;hdf&#39;.&quot;&quot;&quot;</span>
+
+    <span class="n">instrument_name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Name of this instrument.&quot;&quot;&quot;</span>
+
+    <span class="n">nexus_release</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">NEXUS_RELEASE</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;NeXus release to which this data file is written.&quot;&quot;&quot;</span>
+
+    <span class="n">nxdata_signal</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Caller can declare name of dataset for Y axis on plot.&quot;&quot;&quot;</span>
+
+    <span class="n">nxdata_signal_axes</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Caller can declare names of datasets for X axes on plot.&quot;&quot;&quot;</span>
+
+    <span class="n">root</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Instance of h5py.File.&quot;&quot;&quot;</span>
+
+    <span class="n">template_key</span> <span class="o">=</span> <span class="s2">&quot;nxwriter_template&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;The template (dict) is written as a JSON string to this metadata key.&quot;&quot;&quot;</span>
+
+    <span class="n">_external_file_read_timeout</span> <span class="o">=</span> <span class="mi">20</span>
+    <span class="n">_external_file_read_retry_delay</span> <span class="o">=</span> <span class="mf">0.5</span>
+    <span class="n">_writer_active</span> <span class="o">=</span> <span class="kc">False</span>
+
+    <span class="c1"># convention: methods written in alphabetical order</span>
+
+<div class="viewcode-block" id="NXWriter.add_dataset_attributes">
+<a class="viewcode-back" href="../../../api/_filewriters.html#apstools.callbacks.nexus_writer.NXWriter.add_dataset_attributes">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">add_dataset_attributes</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ds</span><span class="p">,</span> <span class="n">v</span><span class="p">,</span> <span class="n">long_name</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        add attributes from v dictionary to dataset ds</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">ds</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;units&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">h5string</span><span class="p">(</span><span class="n">v</span><span class="p">[</span><span class="s2">&quot;units&quot;</span><span class="p">])</span>
+        <span class="n">ds</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;source&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">h5string</span><span class="p">(</span><span class="n">v</span><span class="p">[</span><span class="s2">&quot;source&quot;</span><span class="p">])</span>
+        <span class="k">if</span> <span class="n">long_name</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">ds</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;long_name&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">h5string</span><span class="p">(</span><span class="n">long_name</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">v</span><span class="p">[</span><span class="s2">&quot;dtype&quot;</span><span class="p">]</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">&quot;string&quot;</span><span class="p">,):</span>
+            <span class="n">ds</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;precision&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">v</span><span class="p">[</span><span class="s2">&quot;precision&quot;</span><span class="p">]</span>
+
+            <span class="k">def</span><span class="w"> </span><span class="nf">cautious_set</span><span class="p">(</span><span class="n">key</span><span class="p">):</span>
+                <span class="k">if</span> <span class="n">v</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                    <span class="n">ds</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">v</span><span class="p">[</span><span class="n">key</span><span class="p">]</span>
+
+            <span class="n">cautious_set</span><span class="p">(</span><span class="s2">&quot;lower_ctrl_limit&quot;</span><span class="p">)</span>
+            <span class="n">cautious_set</span><span class="p">(</span><span class="s2">&quot;upper_ctrl_limit&quot;</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="NXWriter.assign_signal_type">
+<a class="viewcode-back" href="../../../api/_filewriters.html#apstools.callbacks.nexus_writer.NXWriter.assign_signal_type">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">assign_signal_type</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        decide if a signal in the primary stream is a detector or a positioner</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">k</span> <span class="o">=</span> <span class="s2">&quot;/entry/instrument/bluesky/streams/primary&quot;</span>
+            <span class="n">primary</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">root</span><span class="p">[</span><span class="n">k</span><span class="p">]</span>
+        <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
+            <span class="c1"># fmt: off</span>
+            <span class="k">raise</span> <span class="ne">KeyError</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;no primary data stream in &quot;</span>
+                <span class="sa">f</span><span class="s2">&quot;scan </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">scan_id</span><span class="si">}</span><span class="s2"> (</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">uid</span><span class="p">[:</span><span class="mi">7</span><span class="p">]</span><span class="si">}</span><span class="s2">)&quot;</span>
+            <span class="p">)</span>
+            <span class="c1"># fmt: on</span>
+        <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">primary</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="c1"># logger.debug(v.name)</span>
+            <span class="c1"># logger.debug(v.keys())</span>
+            <span class="k">if</span> <span class="n">k</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">data_map</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;detectors&quot;</span><span class="p">,</span> <span class="p">[]):</span>
+                <span class="n">signal_type</span> <span class="o">=</span> <span class="s2">&quot;detector&quot;</span>
+            <span class="k">elif</span> <span class="n">k</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">data_map</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;motors&quot;</span><span class="p">,</span> <span class="p">[]):</span>
+                <span class="n">signal_type</span> <span class="o">=</span> <span class="s2">&quot;positioner&quot;</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">v</span><span class="p">[</span><span class="s2">&quot;value&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;source&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s2">&quot;.S&quot;</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                    <span class="c1"># PV name matches a scaler channel PV</span>
+                    <span class="n">signal_type</span> <span class="o">=</span> <span class="s2">&quot;detector&quot;</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">signal_type</span> <span class="o">=</span> <span class="s2">&quot;other&quot;</span>
+            <span class="n">v</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;signal_type&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">signal_type</span>  <span class="c1"># group</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">v</span><span class="p">[</span><span class="s2">&quot;value&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;signal_type&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">signal_type</span>  <span class="c1"># dataset</span>
+            <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
+                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">warn_on_missing_content</span><span class="p">:</span>
+                    <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s2">&quot;Could not assign </span><span class="si">%s</span><span class="s2"> as signal type </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">k</span><span class="p">,</span> <span class="n">signal_type</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="NXWriter.create_NX_group">
+<a class="viewcode-back" href="../../../api/_filewriters.html#apstools.callbacks.nexus_writer.NXWriter.create_NX_group">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">create_NX_group</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">parent</span><span class="p">,</span> <span class="n">specification</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        create an h5 group with named NeXus class (specification)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">local_address</span><span class="p">,</span> <span class="n">nx_class</span> <span class="o">=</span> <span class="n">specification</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;:&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">nx_class</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;NX&quot;</span><span class="p">):</span>
+            <span class="c1"># fmt: off</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="s2">&quot;NeXus base class must start with &#39;NX&#39;,&quot;</span>
+                <span class="sa">f</span><span class="s2">&quot; received </span><span class="si">{</span><span class="n">nx_class</span><span class="si">}</span><span class="s2">&quot;</span>
+            <span class="p">)</span>
+            <span class="c1"># fmt: on</span>
+        <span class="n">group</span> <span class="o">=</span> <span class="n">parent</span><span class="o">.</span><span class="n">create_group</span><span class="p">(</span><span class="n">local_address</span><span class="p">)</span>
+        <span class="n">group</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;NX_class&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">nx_class</span>
+        <span class="n">group</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;target&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">group</span><span class="o">.</span><span class="n">name</span>  <span class="c1"># for use as NeXus link</span>
+        <span class="k">return</span> <span class="n">group</span></div>
+
+
+<div class="viewcode-block" id="NXWriter.getResourceFile">
+<a class="viewcode-back" href="../../../api/_filewriters.html#apstools.callbacks.nexus_writer.NXWriter.getResourceFile">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">getResourceFile</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">resource_id</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        full path to the resource file specified by uid ``resource_id``</span>
+
+<span class="sd">        override in subclass as needed</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># reject unsupported specifications</span>
+        <span class="n">resource</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">externals</span><span class="p">[</span><span class="n">resource_id</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">resource</span><span class="p">[</span><span class="s2">&quot;spec&quot;</span><span class="p">]</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">&quot;AD_HDF5&quot;</span><span class="p">,):</span>
+            <span class="c1"># HDF5-specific implementation for now</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">resource_id</span><span class="si">}</span><span class="s1">: spec </span><span class="si">{</span><span class="n">resource</span><span class="p">[</span><span class="s2">&quot;spec&quot;</span><span class="p">]</span><span class="si">}</span><span class="s1"> not handled&#39;</span><span class="p">)</span>
+
+        <span class="c1"># logger.debug(yaml.dump(resource))</span>
+        <span class="n">fname</span> <span class="o">=</span> <span class="n">pathlib</span><span class="o">.</span><span class="n">Path</span><span class="p">(</span><span class="n">resource</span><span class="p">[</span><span class="s2">&quot;root&quot;</span><span class="p">])</span> <span class="o">/</span> <span class="n">resource</span><span class="p">[</span><span class="s2">&quot;resource_path&quot;</span><span class="p">]</span>
+        <span class="k">return</span> <span class="n">fname</span></div>
+
+
+<div class="viewcode-block" id="NXWriter.get_sample_title">
+<a class="viewcode-back" href="../../../api/_filewriters.html#apstools.callbacks.nexus_writer.NXWriter.get_sample_title">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_sample_title</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        return the title for this sample</span>
+
+<span class="sd">        default title: S{scan_id}-{plan_name}-{short_uid}</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;S</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">scan_id</span><span class="si">:</span><span class="s2">04d</span><span class="si">}</span><span class="s2">-</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">plan_name</span><span class="si">}</span><span class="s2">-</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">uid</span><span class="p">[:</span><span class="mi">7</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span></div>
+
+
+<div class="viewcode-block" id="NXWriter.get_stream_link">
+<a class="viewcode-back" href="../../../api/_filewriters.html#apstools.callbacks.nexus_writer.NXWriter.get_stream_link">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_stream_link</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">signal</span><span class="p">,</span> <span class="n">stream</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">ref</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        return the h5 object for ``signal``</span>
+
+<span class="sd">        DEFAULTS</span>
+
+<span class="sd">        ``stream`` : ``baseline``</span>
+<span class="sd">        ``key`` : ``value_start``</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">stream</span> <span class="o">=</span> <span class="n">stream</span> <span class="ow">or</span> <span class="s2">&quot;baseline&quot;</span>
+        <span class="n">ref</span> <span class="o">=</span> <span class="n">ref</span> <span class="ow">or</span> <span class="s2">&quot;value_start&quot;</span>
+        <span class="n">h5_addr</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;/entry/instrument/bluesky/streams/</span><span class="si">{</span><span class="n">stream</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">signal</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">ref</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="k">if</span> <span class="n">h5_addr</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">root</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">KeyError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;HDF5 address </span><span class="si">{</span><span class="n">h5_addr</span><span class="si">}</span><span class="s2"> not found.&quot;</span><span class="p">)</span>
+        <span class="c1"># return the h5 object, to make a link</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">root</span><span class="p">[</span><span class="n">h5_addr</span><span class="p">]</span></div>
+
+
+<div class="viewcode-block" id="NXWriter.h5string">
+<a class="viewcode-back" href="../../../api/_filewriters.html#apstools.callbacks.nexus_writer.NXWriter.h5string">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">h5string</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">text</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Format string for h5py interface.&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">text</span><span class="p">,</span> <span class="p">(</span><span class="nb">tuple</span><span class="p">,</span> <span class="nb">list</span><span class="p">)):</span>
+            <span class="k">return</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">h5string</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">t</span><span class="p">))</span> <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">text</span><span class="p">]</span>
+        <span class="n">text</span> <span class="o">=</span> <span class="n">text</span> <span class="ow">or</span> <span class="s2">&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">text</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s2">&quot;utf8&quot;</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="NXWriter.resolve_class_path">
+<a class="viewcode-back" href="../../../api/_filewriters.html#apstools.callbacks.nexus_writer.NXWriter.resolve_class_path">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">resolve_class_path</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">class_path</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Parse the class path, make any groups, return the HDF5 address.</span>
+
+<span class="sd">        New with apstools release 1.6.18.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">addr</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+        <span class="k">for</span> <span class="n">level</span> <span class="ow">in</span> <span class="n">class_path</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;/&quot;</span><span class="p">):</span>
+            <span class="k">if</span> <span class="s2">&quot;:&quot;</span> <span class="ow">in</span> <span class="n">level</span><span class="p">:</span>
+                <span class="n">group_name</span><span class="p">,</span> <span class="n">nx_class</span> <span class="o">=</span> <span class="n">level</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;:&quot;</span><span class="p">)</span>
+                <span class="k">if</span> <span class="ow">not</span> <span class="n">nx_class</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;NX&quot;</span><span class="p">):</span>
+                    <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;nx_class must start with &#39;NX&#39;.  Received </span><span class="si">{</span><span class="n">nx_class</span><span class="si">=!r}</span><span class="s2">&quot;</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">group_name</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">root</span><span class="p">[</span><span class="n">addr</span><span class="p">]:</span>
+                    <span class="c1"># fmt: off</span>
+                    <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
+                        <span class="s2">&quot;make HDF5 group with @NX_class=</span><span class="si">%r</span><span class="s2"> at address &#39;</span><span class="si">%s</span><span class="s2">/</span><span class="si">%s</span><span class="s2">&#39;&quot;</span><span class="p">,</span>
+                        <span class="n">nx_class</span><span class="p">,</span> <span class="n">addr</span><span class="p">,</span> <span class="n">group_name</span>
+                    <span class="p">)</span>
+                    <span class="c1"># fmt: on</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">create_NX_group</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">root</span><span class="p">[</span><span class="n">addr</span><span class="p">],</span> <span class="n">level</span><span class="p">)</span>
+                <span class="n">addr</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">&quot;/</span><span class="si">{</span><span class="n">group_name</span><span class="si">}</span><span class="s2">&quot;</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">addr</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">&quot;/</span><span class="si">{</span><span class="n">level</span><span class="si">}</span><span class="s2">&quot;</span>
+            <span class="n">addr</span> <span class="o">=</span> <span class="n">addr</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;//&quot;</span><span class="p">,</span> <span class="s2">&quot;/&quot;</span><span class="p">)</span>
+
+        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;HDF5 address=</span><span class="si">%r</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">addr</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">addr</span></div>
+
+
+<div class="viewcode-block" id="NXWriter.wait_writer">
+<a class="viewcode-back" href="../../../api/_filewriters.html#apstools.callbacks.nexus_writer.NXWriter.wait_writer">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">wait_writer</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Wait for the writer to finish.  For interactive use (Not in a plan).</span>
+
+<span class="sd">        If you use ``NXWriter`` interactively, you must call</span>
+<span class="sd">        ``NXWriter.wait_writer()`` which waits for all data processing to finish</span>
+<span class="sd">        before proceeding with the next acquisition or processing.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">while</span> <span class="bp">self</span><span class="o">.</span><span class="n">_writer_active</span><span class="p">:</span>
+            <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_external_file_read_retry_delay</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="NXWriter.wait_writer_plan_stub">
+<a class="viewcode-back" href="../../../api/_filewriters.html#apstools.callbacks.nexus_writer.NXWriter.wait_writer_plan_stub">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">wait_writer_plan_stub</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Wait for the writer to finish.  Use in a plan (with RunEngine).</span>
+
+<span class="sd">        If you use ``NXWriter`` in a plan, you must call</span>
+<span class="sd">        ``NXWriter.wait_writer()`` which waits for all data processing to finish</span>
+<span class="sd">        before proceeding with the next acquisition or processing.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="kn">import</span><span class="w"> </span><span class="nn">bluesky.plan_stubs</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">bps</span>
+
+        <span class="k">while</span> <span class="bp">self</span><span class="o">.</span><span class="n">_writer_active</span><span class="p">:</span>
+            <span class="k">yield from</span> <span class="n">bps</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_external_file_read_retry_delay</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="NXWriter.writer">
+<a class="viewcode-back" href="../../../api/_filewriters.html#apstools.callbacks.nexus_writer.NXWriter.writer">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">writer</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Write collected data to HDF5/NeXus data file.</span>
+
+<span class="sd">        The callback launches ``_threaded_writer()`` and returns. In the thread,</span>
+<span class="sd">        ``write_root()`` (or methods within) can wait on certain items (such as</span>
+<span class="sd">        an external HDF5 file written by an area detector IOC) to become</span>
+<span class="sd">        readable or a timeout period has expired.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="kn">from</span><span class="w"> </span><span class="nn">..utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">run_in_thread</span>
+
+        <span class="nd">@run_in_thread</span>
+        <span class="k">def</span><span class="w"> </span><span class="nf">_threaded_writer</span><span class="p">(</span><span class="n">fname</span><span class="p">):</span>
+<span class="w">            </span><span class="sd">&quot;&quot;&quot;Allow read of external files _after_ run ends.&quot;&quot;&quot;</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_writer_active</span> <span class="o">=</span> <span class="kc">True</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="k">with</span> <span class="n">h5py</span><span class="o">.</span><span class="n">File</span><span class="p">(</span><span class="n">fname</span><span class="p">,</span> <span class="s2">&quot;w&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="bp">self</span><span class="o">.</span><span class="n">root</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">write_root</span><span class="p">(</span><span class="n">fname</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">output_nexus_file</span> <span class="o">=</span> <span class="n">fname</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;wrote NeXus file: </span><span class="si">{</span><span class="n">fname</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>  <span class="c1"># lgtm [py/clear-text-logging-sensitive-data]</span>
+            <span class="k">finally</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">root</span> <span class="o">=</span> <span class="kc">None</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_writer_active</span> <span class="o">=</span> <span class="kc">False</span>
+
+        <span class="n">_threaded_writer</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">file_name</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">make_file_name</span><span class="p">())</span></div>
+
+
+<div class="viewcode-block" id="NXWriter.write_data">
+<a class="viewcode-back" href="../../../api/_filewriters.html#apstools.callbacks.nexus_writer.NXWriter.write_data">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">write_data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">parent</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        group: /entry/data:NXdata</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">nxdata</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">create_NX_group</span><span class="p">(</span><span class="n">parent</span><span class="p">,</span> <span class="s2">&quot;data:NXdata&quot;</span><span class="p">)</span>
+
+        <span class="n">primary</span> <span class="o">=</span> <span class="n">parent</span><span class="p">[</span><span class="s2">&quot;instrument/bluesky/streams/primary&quot;</span><span class="p">]</span>
+        <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">primary</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+            <span class="n">nxdata</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="n">primary</span><span class="p">[</span><span class="n">k</span> <span class="o">+</span> <span class="s2">&quot;/value&quot;</span><span class="p">]</span>
+
+        <span class="c1"># pick the timestamps from one of the datasets (the last one)</span>
+        <span class="n">nxdata</span><span class="p">[</span><span class="s2">&quot;EPOCH&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">primary</span><span class="p">[</span><span class="n">k</span> <span class="o">+</span> <span class="s2">&quot;/time&quot;</span><span class="p">]</span>
+
+        <span class="n">signal_attribute</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">nxdata_signal</span>
+        <span class="k">if</span> <span class="n">signal_attribute</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">detectors</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">data_map</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;detectors&quot;</span><span class="p">,</span> <span class="p">[])</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">detectors</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="n">signal_attribute</span> <span class="o">=</span> <span class="n">detectors</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>  <span class="c1"># default choice</span>
+        <span class="n">axes_attribute</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">nxdata_signal_axes</span>
+        <span class="k">if</span> <span class="n">axes_attribute</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">positioners</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">data_map</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;motors&quot;</span><span class="p">,</span> <span class="p">[])</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">positioners</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="c1"># TODO: what if wrong shape here?</span>
+                <span class="n">axes_attribute</span> <span class="o">=</span> <span class="n">positioners</span>
+
+        <span class="c1"># TODO: rabbit-hole alert!  simplify</span>
+        <span class="c1"># this code is convoluted (like the selection logic)</span>
+        <span class="c1"># Is there a library to help? databroker? event_model? area_detector_handlers?</span>
+        <span class="n">fmt</span> <span class="o">=</span> <span class="s2">&quot;Cannot set </span><span class="si">%s</span><span class="s2"> as </span><span class="si">%s</span><span class="s2"> attribute, no such dataset&quot;</span>
+        <span class="k">if</span> <span class="n">signal_attribute</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">signal_attribute</span> <span class="ow">in</span> <span class="n">nxdata</span><span class="p">:</span>
+                <span class="n">nxdata</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;signal&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">signal_attribute</span>
+
+                <span class="n">axes</span> <span class="o">=</span> <span class="p">[]</span>
+                <span class="k">for</span> <span class="n">ax</span> <span class="ow">in</span> <span class="n">axes_attribute</span> <span class="ow">or</span> <span class="p">[]:</span>
+                    <span class="k">if</span> <span class="n">ax</span> <span class="ow">in</span> <span class="n">nxdata</span><span class="p">:</span>
+                        <span class="n">axes</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">ax</span><span class="p">)</span>
+                    <span class="k">else</span><span class="p">:</span>
+                        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">warn_on_missing_content</span><span class="p">:</span>
+                            <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="n">fmt</span><span class="p">,</span> <span class="n">ax</span><span class="p">,</span> <span class="s2">&quot;axes&quot;</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">axes_attribute</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                    <span class="n">nxdata</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;axes&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">axes_attribute</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">warn_on_missing_content</span><span class="p">:</span>
+                    <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="n">fmt</span><span class="p">,</span> <span class="n">signal_attribute</span><span class="p">,</span> <span class="s2">&quot;signal&quot;</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">nxdata</span></div>
+
+
+<div class="viewcode-block" id="NXWriter.write_detector">
+<a class="viewcode-back" href="../../../api/_filewriters.html#apstools.callbacks.nexus_writer.NXWriter.write_detector">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">write_detector</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">parent</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        group: /entry/instrument/detectors:NXnote/DETECTOR:NXdetector</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">detectors</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;No detectors identified.&quot;</span><span class="p">)</span>
+            <span class="k">return</span>
+
+        <span class="n">primary</span> <span class="o">=</span> <span class="n">parent</span><span class="p">[</span><span class="s2">&quot;/entry/instrument/bluesky/streams/primary&quot;</span><span class="p">]</span>
+
+        <span class="n">group</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">create_NX_group</span><span class="p">(</span><span class="n">parent</span><span class="p">,</span> <span class="s2">&quot;detectors:NXnote&quot;</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">primary</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="k">if</span> <span class="n">v</span><span class="o">.</span><span class="n">attrs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;signal_type&quot;</span><span class="p">)</span> <span class="o">!=</span> <span class="s2">&quot;detector&quot;</span><span class="p">:</span>
+                <span class="k">continue</span>
+            <span class="n">nxdetector</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">create_NX_group</span><span class="p">(</span><span class="n">group</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">k</span><span class="si">}</span><span class="s2">:NXdetector&quot;</span><span class="p">)</span>
+            <span class="n">nxdetector</span><span class="p">[</span><span class="s2">&quot;data&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">v</span>
+
+        <span class="k">return</span> <span class="n">group</span></div>
+
+
+<div class="viewcode-block" id="NXWriter.write_entry">
+<a class="viewcode-back" href="../../../api/_filewriters.html#apstools.callbacks.nexus_writer.NXWriter.write_entry">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">write_entry</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        group: /entry/data:NXentry</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># fmt: off</span>
+        <span class="n">nxentry</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">create_NX_group</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">root</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">root</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;default&quot;</span><span class="p">]</span> <span class="o">+</span> <span class="s2">&quot;:NXentry&quot;</span>
+        <span class="p">)</span>
+
+        <span class="n">nxentry</span><span class="o">.</span><span class="n">create_dataset</span><span class="p">(</span>
+            <span class="s2">&quot;start_time&quot;</span><span class="p">,</span>
+            <span class="n">data</span><span class="o">=</span><span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">fromtimestamp</span><span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">start_time</span>
+            <span class="p">)</span><span class="o">.</span><span class="n">isoformat</span><span class="p">(),</span>
+        <span class="p">)</span>
+        <span class="n">nxentry</span><span class="o">.</span><span class="n">create_dataset</span><span class="p">(</span>
+            <span class="s2">&quot;end_time&quot;</span><span class="p">,</span>
+            <span class="n">data</span><span class="o">=</span><span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">fromtimestamp</span><span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">stop_time</span>
+            <span class="p">)</span><span class="o">.</span><span class="n">isoformat</span><span class="p">(),</span>
+        <span class="p">)</span>
+        <span class="n">ds</span> <span class="o">=</span> <span class="n">nxentry</span><span class="o">.</span><span class="n">create_dataset</span><span class="p">(</span>
+            <span class="s2">&quot;duration&quot;</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">stop_time</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">start_time</span>
+        <span class="p">)</span>
+        <span class="n">ds</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;units&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;s&quot;</span>
+        <span class="c1"># fmt: on</span>
+
+        <span class="n">nxentry</span><span class="o">.</span><span class="n">create_dataset</span><span class="p">(</span><span class="s2">&quot;program_name&quot;</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="s2">&quot;bluesky&quot;</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">write_instrument</span><span class="p">(</span><span class="n">nxentry</span><span class="p">)</span>  <span class="c1"># also writes streams and metadata</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">nxdata</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">write_data</span><span class="p">(</span><span class="n">nxentry</span><span class="p">)</span>
+            <span class="n">nxentry</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;default&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">nxdata</span><span class="o">.</span><span class="n">name</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;/&quot;</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+        <span class="k">except</span> <span class="ne">KeyError</span> <span class="k">as</span> <span class="n">exc</span><span class="p">:</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">warn_on_missing_content</span><span class="p">:</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="n">exc</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">write_sample</span><span class="p">(</span><span class="n">nxentry</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">write_user</span><span class="p">(</span><span class="n">nxentry</span><span class="p">)</span>
+
+        <span class="c1"># apply links</span>
+        <span class="n">h5_addr</span> <span class="o">=</span> <span class="s2">&quot;/entry/instrument/source/cycle&quot;</span>
+        <span class="k">if</span> <span class="n">h5_addr</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">root</span><span class="p">:</span>
+            <span class="n">nxentry</span><span class="p">[</span><span class="s2">&quot;run_cycle&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">root</span><span class="p">[</span><span class="n">h5_addr</span><span class="p">]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">warn_on_missing_content</span><span class="p">:</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s2">&quot;No data for /entry/run_cycle&quot;</span><span class="p">)</span>
+
+        <span class="n">title</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">root</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;/entry/instrument/bluesky/metadata/title&quot;</span><span class="p">)</span>
+        <span class="n">nxentry</span><span class="p">[</span><span class="s2">&quot;title&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">title</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_sample_title</span><span class="p">()</span>
+        <span class="n">nxentry</span><span class="p">[</span><span class="s2">&quot;plan_name&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">root</span><span class="p">[</span><span class="s2">&quot;/entry/instrument/bluesky/metadata/plan_name&quot;</span><span class="p">]</span>
+        <span class="n">nxentry</span><span class="p">[</span><span class="s2">&quot;entry_identifier&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">root</span><span class="p">[</span><span class="s2">&quot;/entry/instrument/bluesky/uid&quot;</span><span class="p">]</span>
+
+        <span class="k">try</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">write_templates</span><span class="p">()</span>
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">exc</span><span class="p">:</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s2">&quot;Problem writing template(s): </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">exc</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">nxentry</span></div>
+
+
+<div class="viewcode-block" id="NXWriter.write_instrument">
+<a class="viewcode-back" href="../../../api/_filewriters.html#apstools.callbacks.nexus_writer.NXWriter.write_instrument">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">write_instrument</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">parent</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        group: /entry/instrument:NXinstrument</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">nxinstrument</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">create_NX_group</span><span class="p">(</span><span class="n">parent</span><span class="p">,</span> <span class="s2">&quot;instrument:NXinstrument&quot;</span><span class="p">)</span>
+        <span class="n">bluesky_group</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">create_NX_group</span><span class="p">(</span><span class="n">nxinstrument</span><span class="p">,</span> <span class="s2">&quot;bluesky:NXnote&quot;</span><span class="p">)</span>
+
+        <span class="n">md_group</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">write_metadata</span><span class="p">(</span><span class="n">bluesky_group</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">write_streams</span><span class="p">(</span><span class="n">bluesky_group</span><span class="p">)</span>
+
+        <span class="n">bluesky_group</span><span class="p">[</span><span class="s2">&quot;uid&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">md_group</span><span class="p">[</span><span class="s2">&quot;run_start_uid&quot;</span><span class="p">]</span>
+        <span class="n">bluesky_group</span><span class="p">[</span><span class="s2">&quot;plan_name&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">md_group</span><span class="p">[</span><span class="s2">&quot;plan_name&quot;</span><span class="p">]</span>
+
+        <span class="k">try</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">assign_signal_type</span><span class="p">()</span>
+        <span class="k">except</span> <span class="ne">KeyError</span> <span class="k">as</span> <span class="n">exc</span><span class="p">:</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">warn_on_missing_content</span><span class="p">:</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="n">exc</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">write_slits</span><span class="p">(</span><span class="n">nxinstrument</span><span class="p">)</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">write_detector</span><span class="p">(</span><span class="n">nxinstrument</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">KeyError</span> <span class="k">as</span> <span class="n">exc</span><span class="p">:</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">warn_on_missing_content</span><span class="p">:</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="n">exc</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">write_monochromator</span><span class="p">(</span><span class="n">nxinstrument</span><span class="p">)</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">write_positioner</span><span class="p">(</span><span class="n">nxinstrument</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">KeyError</span> <span class="k">as</span> <span class="n">exc</span><span class="p">:</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">warn_on_missing_content</span><span class="p">:</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="n">exc</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">write_source</span><span class="p">(</span><span class="n">nxinstrument</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">nxinstrument</span></div>
+
+
+<div class="viewcode-block" id="NXWriter.write_metadata">
+<a class="viewcode-back" href="../../../api/_filewriters.html#apstools.callbacks.nexus_writer.NXWriter.write_metadata">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">write_metadata</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">parent</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        group: /entry/instrument/bluesky/metadata:NXnote</span>
+
+<span class="sd">        metadata from the bluesky start document</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">group</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">create_NX_group</span><span class="p">(</span><span class="n">parent</span><span class="p">,</span> <span class="s2">&quot;metadata:NXnote&quot;</span><span class="p">)</span>
+
+        <span class="n">ds</span> <span class="o">=</span> <span class="n">group</span><span class="o">.</span><span class="n">create_dataset</span><span class="p">(</span><span class="s2">&quot;run_start_uid&quot;</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">uid</span><span class="p">)</span>
+        <span class="n">ds</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;long_name&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;bluesky run uid&quot;</span>
+        <span class="n">ds</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;target&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">name</span>
+
+        <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">metadata</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="n">is_yaml</span> <span class="o">=</span> <span class="kc">False</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="p">(</span><span class="nb">dict</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">,</span> <span class="nb">list</span><span class="p">)):</span>
+                <span class="c1"># fallback technique: save complicated structures as YAML text</span>
+                <span class="n">v</span> <span class="o">=</span> <span class="n">yaml</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="n">v</span><span class="p">)</span>
+                <span class="n">is_yaml</span> <span class="o">=</span> <span class="kc">True</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+                <span class="n">v</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">h5string</span><span class="p">(</span><span class="n">v</span><span class="p">)</span>
+            <span class="n">ds</span> <span class="o">=</span> <span class="n">group</span><span class="o">.</span><span class="n">create_dataset</span><span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">v</span><span class="p">)</span>
+            <span class="n">ds</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;target&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">name</span>
+            <span class="k">if</span> <span class="n">is_yaml</span><span class="p">:</span>
+                <span class="n">ds</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;text_format&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;yaml&quot;</span>
+
+        <span class="k">return</span> <span class="n">group</span></div>
+
+
+<div class="viewcode-block" id="NXWriter.write_monochromator">
+<a class="viewcode-back" href="../../../api/_filewriters.html#apstools.callbacks.nexus_writer.NXWriter.write_monochromator">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">write_monochromator</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">parent</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        group: /entry/instrument/monochromator:NXmonochromator</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">pre</span> <span class="o">=</span> <span class="s2">&quot;monochromator_dcm&quot;</span>
+        <span class="n">keys</span> <span class="o">=</span> <span class="s2">&quot;wavelength energy theta y_offset mode&quot;</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
+
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">links</span> <span class="o">=</span> <span class="p">{</span><span class="n">key</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_stream_link</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">pre</span><span class="si">}</span><span class="s2">_</span><span class="si">{</span><span class="n">key</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span> <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">keys</span><span class="p">}</span>
+        <span class="k">except</span> <span class="ne">KeyError</span> <span class="k">as</span> <span class="n">exc</span><span class="p">:</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">warn_on_missing_content</span><span class="p">:</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">%s</span><span class="s2"> -- not creating monochromator group&quot;</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">exc</span><span class="p">))</span>
+            <span class="k">return</span>
+
+        <span class="n">pre</span> <span class="o">=</span> <span class="s2">&quot;monochromator&quot;</span>
+        <span class="n">key</span> <span class="o">=</span> <span class="s2">&quot;feedback_on&quot;</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">links</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_stream_link</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">pre</span><span class="si">}</span><span class="s2">_</span><span class="si">{</span><span class="n">key</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">KeyError</span> <span class="k">as</span> <span class="n">exc</span><span class="p">:</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">warn_on_missing_content</span><span class="p">:</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">%s</span><span class="s2"> -- feedback signal not found&quot;</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">exc</span><span class="p">))</span>
+
+        <span class="n">nxmonochromator</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">create_NX_group</span><span class="p">(</span><span class="n">parent</span><span class="p">,</span> <span class="s2">&quot;monochromator:NXmonochromator&quot;</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">links</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="n">nxmonochromator</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="n">v</span>
+        <span class="k">return</span> <span class="n">nxmonochromator</span></div>
+
+
+<div class="viewcode-block" id="NXWriter.write_positioner">
+<a class="viewcode-back" href="../../../api/_filewriters.html#apstools.callbacks.nexus_writer.NXWriter.write_positioner">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">write_positioner</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">parent</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        group: /entry/instrument/positioners:NXnote/POSITIONER:NXpositioner</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">positioners</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;No positioners identified.&quot;</span><span class="p">)</span>
+            <span class="k">return</span>
+
+        <span class="n">primary</span> <span class="o">=</span> <span class="n">parent</span><span class="p">[</span><span class="s2">&quot;/entry/instrument/bluesky/streams/primary&quot;</span><span class="p">]</span>
+
+        <span class="n">group</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">create_NX_group</span><span class="p">(</span><span class="n">parent</span><span class="p">,</span> <span class="s2">&quot;positioners:NXnote&quot;</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">primary</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="k">if</span> <span class="n">v</span><span class="o">.</span><span class="n">attrs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;signal_type&quot;</span><span class="p">)</span> <span class="o">!=</span> <span class="s2">&quot;positioner&quot;</span><span class="p">:</span>
+                <span class="k">continue</span>
+            <span class="n">nxpositioner</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">create_NX_group</span><span class="p">(</span><span class="n">group</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">k</span><span class="si">}</span><span class="s2">:NXpositioner&quot;</span><span class="p">)</span>
+            <span class="n">nxpositioner</span><span class="p">[</span><span class="s2">&quot;value&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">v</span>
+
+        <span class="k">return</span> <span class="n">group</span></div>
+
+
+<div class="viewcode-block" id="NXWriter.write_root">
+<a class="viewcode-back" href="../../../api/_filewriters.html#apstools.callbacks.nexus_writer.NXWriter.write_root">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">write_root</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filename</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        root of the HDF5 file</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">root</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;file_name&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">root</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;file_time&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span><span class="o">.</span><span class="n">isoformat</span><span class="p">()</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">instrument_name</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">root</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;instrument&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">instrument_name</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">root</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;creator&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">root</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;NeXus_release&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">nexus_release</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">root</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;HDF5_Version&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">h5py</span><span class="o">.</span><span class="n">version</span><span class="o">.</span><span class="n">hdf5_version</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">root</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;h5py_version&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">h5py</span><span class="o">.</span><span class="n">version</span><span class="o">.</span><span class="n">version</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">root</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;default&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;entry&quot;</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">write_entry</span><span class="p">()</span></div>
+
+
+<div class="viewcode-block" id="NXWriter.write_sample">
+<a class="viewcode-back" href="../../../api/_filewriters.html#apstools.callbacks.nexus_writer.NXWriter.write_sample">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">write_sample</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">parent</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        group: /entry/sample:NXsample</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">pre</span> <span class="o">=</span> <span class="s2">&quot;sample_data&quot;</span>
+        <span class="n">keys</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">            chemical_formula</span>
+<span class="s2">            concentration</span>
+<span class="s2">            description</span>
+<span class="s2">            electric_field</span>
+<span class="s2">            magnetic_field</span>
+<span class="s2">            rotation_angle</span>
+<span class="s2">            scattering_length_density</span>
+<span class="s2">            stress_field</span>
+<span class="s2">            temperature</span>
+<span class="s2">            volume_fraction</span>
+<span class="s2">            x_translation</span>
+<span class="s2">        &quot;&quot;&quot;</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
+
+        <span class="n">links</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">keys</span><span class="p">:</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">links</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_stream_link</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">pre</span><span class="si">}</span><span class="s2">_</span><span class="si">{</span><span class="n">key</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="k">except</span> <span class="ne">KeyError</span> <span class="k">as</span> <span class="n">exc</span><span class="p">:</span>
+                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">warn_on_missing_content</span><span class="p">:</span>
+                    <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">exc</span><span class="p">))</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">links</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">warn_on_missing_content</span><span class="p">:</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s2">&quot;no sample data found, not creating sample group&quot;</span><span class="p">)</span>
+            <span class="k">return</span>
+
+        <span class="n">nxsample</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">create_NX_group</span><span class="p">(</span><span class="n">parent</span><span class="p">,</span> <span class="s2">&quot;sample:NXsample&quot;</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">links</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="n">nxsample</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="n">v</span>
+
+        <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="s2">&quot;electric_field magnetic_field stress_field&quot;</span><span class="o">.</span><span class="n">split</span><span class="p">():</span>
+            <span class="n">ds</span> <span class="o">=</span> <span class="n">nxsample</span><span class="p">[</span><span class="n">key</span><span class="p">]</span>
+            <span class="n">ds</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;direction&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_stream_link</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">pre</span><span class="si">}</span><span class="s2">_</span><span class="si">{</span><span class="n">key</span><span class="si">}</span><span class="s2">_dir&quot;</span><span class="p">)[()]</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+
+        <span class="k">return</span> <span class="n">nxsample</span></div>
+
+
+<div class="viewcode-block" id="NXWriter.write_slits">
+<a class="viewcode-back" href="../../../api/_filewriters.html#apstools.callbacks.nexus_writer.NXWriter.write_slits">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">write_slits</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">parent</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        group: /entry/instrument/slits:NXnote/SLIT:NXslit</span>
+
+<span class="sd">        override in subclass to store content, name patterns</span>
+<span class="sd">        vary with each instrument</span>
+<span class="sd">        &quot;&quot;&quot;</span></div>
+
+        <span class="c1"># group = self.create_NX_group(parent, f&quot;slits:NXnote&quot;)</span>
+
+<div class="viewcode-block" id="NXWriter.write_source">
+<a class="viewcode-back" href="../../../api/_filewriters.html#apstools.callbacks.nexus_writer.NXWriter.write_source">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">write_source</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">parent</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        group: /entry/instrument/source:NXsource</span>
+
+<span class="sd">        Note: this is (somewhat) generic, override for a different source</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">nxsource</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">create_NX_group</span><span class="p">(</span><span class="n">parent</span><span class="p">,</span> <span class="s2">&quot;source:NXsource&quot;</span><span class="p">)</span>
+
+        <span class="n">ds</span> <span class="o">=</span> <span class="n">nxsource</span><span class="o">.</span><span class="n">create_dataset</span><span class="p">(</span><span class="s2">&quot;name&quot;</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="s2">&quot;Bluesky framework&quot;</span><span class="p">)</span>
+        <span class="n">ds</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;short_name&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;bluesky&quot;</span>
+        <span class="n">nxsource</span><span class="o">.</span><span class="n">create_dataset</span><span class="p">(</span><span class="s2">&quot;type&quot;</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="s2">&quot;Synchrotron X-ray Source&quot;</span><span class="p">)</span>
+        <span class="n">nxsource</span><span class="o">.</span><span class="n">create_dataset</span><span class="p">(</span><span class="s2">&quot;probe&quot;</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="s2">&quot;x-ray&quot;</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">nxsource</span></div>
+
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">write_stream_external</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">parent</span><span class="p">,</span> <span class="n">d</span><span class="p">,</span> <span class="n">subgroup</span><span class="p">,</span> <span class="n">stream_name</span><span class="p">,</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span><span class="p">):</span>
+        <span class="c1"># TODO: rabbit-hole alert! simplify</span>
+        <span class="c1"># lots of variations possible</span>
+
+        <span class="c1"># count number of unique resources (expect only 1)</span>
+        <span class="n">resource_id_list</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">datum_id</span> <span class="ow">in</span> <span class="n">d</span><span class="p">:</span>
+            <span class="n">resource_id</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">externals</span><span class="p">[</span><span class="n">datum_id</span><span class="p">][</span><span class="s2">&quot;resource&quot;</span><span class="p">]</span>
+            <span class="k">if</span> <span class="n">resource_id</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">resource_id_list</span><span class="p">:</span>
+                <span class="n">resource_id_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">resource_id</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">resource_id_list</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="c1"># fmt: off</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">resource_id_list</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span>
+                <span class="sa">f</span><span class="s2">&quot; unique resource UIDs: </span><span class="si">{</span><span class="n">resource_id_list</span><span class="si">}</span><span class="s2">&quot;</span>
+            <span class="p">)</span>
+            <span class="c1"># fmt: on</span>
+
+        <span class="k">def</span><span class="w"> </span><span class="nf">copy_image_from_IOC_file</span><span class="p">(</span><span class="n">fname</span><span class="p">):</span>
+            <span class="k">with</span> <span class="n">h5py</span><span class="o">.</span><span class="n">File</span><span class="p">(</span><span class="n">fname</span><span class="p">,</span> <span class="s2">&quot;r&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">hdf_image_file_root</span><span class="p">:</span>
+                <span class="n">h5addr</span> <span class="o">=</span> <span class="s2">&quot;/entry/data/data&quot;</span>
+                <span class="n">h5_obj</span> <span class="o">=</span> <span class="n">hdf_image_file_root</span><span class="p">[</span><span class="n">h5addr</span><span class="p">]</span>
+                <span class="n">ds</span> <span class="o">=</span> <span class="n">subgroup</span><span class="o">.</span><span class="n">create_dataset</span><span class="p">(</span>
+                    <span class="s2">&quot;value&quot;</span><span class="p">,</span>
+                    <span class="n">data</span><span class="o">=</span><span class="n">h5_obj</span><span class="p">[()],</span>
+                    <span class="n">compression</span><span class="o">=</span><span class="s2">&quot;lzf&quot;</span><span class="p">,</span>
+                    <span class="c1"># compression=&quot;gzip&quot;,</span>
+                    <span class="c1"># compression_opts=9,</span>
+                    <span class="n">shuffle</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                    <span class="n">fletcher32</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                <span class="p">)</span>
+                <span class="n">ds</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;target&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">name</span>
+                <span class="n">ds</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;source_file&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">fname</span><span class="p">)</span>
+                <span class="n">ds</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;source_address&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">h5_obj</span><span class="o">.</span><span class="n">name</span>
+                <span class="n">ds</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;resource_id&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">resource_id</span>
+                <span class="n">ds</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;units&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+
+        <span class="n">fname</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">getResourceFile</span><span class="p">(</span><span class="n">resource_id</span><span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;reading </span><span class="si">%s</span><span class="s2"> from EPICS AD data file: </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">k</span><span class="p">,</span> <span class="n">fname</span><span class="p">)</span>
+        <span class="n">t0</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+        <span class="k">while</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span> <span class="o">-</span> <span class="n">t0</span> <span class="o">&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">_external_file_read_timeout</span><span class="p">:</span>
+            <span class="n">t_elapsed</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span> <span class="o">-</span> <span class="n">t0</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">copy_image_from_IOC_file</span><span class="p">(</span><span class="n">fname</span><span class="p">)</span>
+                <span class="k">break</span>
+            <span class="k">except</span> <span class="p">(</span><span class="ne">OSError</span><span class="p">,</span> <span class="ne">BlockingIOError</span><span class="p">)</span> <span class="k">as</span> <span class="n">exinfo</span><span class="p">:</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span>
+                    <span class="p">(</span>
+                        <span class="s2">&quot;Could not open EPICS AD data file for reading: </span><span class="si">%s</span><span class="s2">&quot;</span>
+                        <span class="s2">&quot; ... waiting </span><span class="si">%.2f</span><span class="s2"> s for next retry.&quot;</span>
+                        <span class="s2">&quot; (or timeout in </span><span class="si">%.2f</span><span class="s2"> s)&quot;</span>
+                        <span class="s2">&quot;  exception: </span><span class="si">%s</span><span class="s2">&quot;</span>
+                    <span class="p">),</span>
+                    <span class="n">fname</span><span class="p">,</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">_external_file_read_retry_delay</span><span class="p">,</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">_external_file_read_timeout</span> <span class="o">-</span> <span class="n">t_elapsed</span><span class="p">,</span>
+                    <span class="n">exinfo</span><span class="p">,</span>
+                <span class="p">)</span>
+                <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_external_file_read_retry_delay</span><span class="p">)</span>
+
+        <span class="n">subgroup</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;signal&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;value&quot;</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">write_stream_internal</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">parent</span><span class="p">,</span> <span class="n">d</span><span class="p">,</span> <span class="n">subgroup</span><span class="p">,</span> <span class="n">stream_name</span><span class="p">,</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span><span class="p">):</span>
+        <span class="c1"># fmt: off</span>
+        <span class="n">subgroup</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;signal&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;value&quot;</span>
+        <span class="n">subgroup</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;axes&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;time&quot;</span><span class="p">,</span> <span class="p">]</span>
+        <span class="c1"># fmt: on</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">d</span><span class="p">,</span> <span class="nb">list</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">d</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">v</span><span class="p">[</span><span class="s2">&quot;dtype&quot;</span><span class="p">]</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">&quot;string&quot;</span><span class="p">,):</span>
+                <span class="n">d</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">h5string</span><span class="p">(</span><span class="n">d</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="n">v</span><span class="p">[</span><span class="s2">&quot;dtype&quot;</span><span class="p">]</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">&quot;integer&quot;</span><span class="p">,</span> <span class="s2">&quot;number&quot;</span><span class="p">):</span>
+                <span class="n">d</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">d</span><span class="p">)</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">ds</span> <span class="o">=</span> <span class="n">subgroup</span><span class="o">.</span><span class="n">create_dataset</span><span class="p">(</span><span class="s2">&quot;value&quot;</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">d</span><span class="p">)</span>
+            <span class="n">ds</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;target&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">name</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">add_dataset_attributes</span><span class="p">(</span><span class="n">ds</span><span class="p">,</span> <span class="n">v</span><span class="p">,</span> <span class="n">k</span><span class="p">)</span>
+            <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">exc</span><span class="p">:</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">%s</span><span class="s2"> </span><span class="si">%s</span><span class="s2"> </span><span class="si">%s</span><span class="s2"> </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">v</span><span class="p">[</span><span class="s2">&quot;dtype&quot;</span><span class="p">],</span> <span class="nb">type</span><span class="p">(</span><span class="n">d</span><span class="p">),</span> <span class="n">k</span><span class="p">,</span> <span class="n">exc</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">TypeError</span> <span class="k">as</span> <span class="n">exc</span><span class="p">:</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span>
+                <span class="s2">&quot;</span><span class="si">%s</span><span class="s2"> </span><span class="si">%s</span><span class="s2"> </span><span class="si">%s</span><span class="s2"> </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span>
+                <span class="n">v</span><span class="p">[</span><span class="s2">&quot;dtype&quot;</span><span class="p">],</span>
+                <span class="n">k</span><span class="p">,</span>
+                <span class="sa">f</span><span class="s2">&quot;TypeError(</span><span class="si">{</span><span class="n">exc</span><span class="si">}</span><span class="s2">)&quot;</span><span class="p">,</span>
+                <span class="n">v</span><span class="p">[</span><span class="s2">&quot;data&quot;</span><span class="p">],</span>
+            <span class="p">)</span>
+        <span class="k">if</span> <span class="n">stream_name</span> <span class="o">==</span> <span class="s2">&quot;baseline&quot;</span><span class="p">:</span>
+            <span class="c1"># make it easier to pick single values</span>
+            <span class="c1"># identify start/end of acquisition</span>
+            <span class="n">ds</span> <span class="o">=</span> <span class="n">subgroup</span><span class="o">.</span><span class="n">create_dataset</span><span class="p">(</span><span class="s2">&quot;value_start&quot;</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">d</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">add_dataset_attributes</span><span class="p">(</span><span class="n">ds</span><span class="p">,</span> <span class="n">v</span><span class="p">,</span> <span class="n">k</span><span class="p">)</span>
+            <span class="n">ds</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;target&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">name</span>
+            <span class="n">ds</span> <span class="o">=</span> <span class="n">subgroup</span><span class="o">.</span><span class="n">create_dataset</span><span class="p">(</span><span class="s2">&quot;value_end&quot;</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">d</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">add_dataset_attributes</span><span class="p">(</span><span class="n">ds</span><span class="p">,</span> <span class="n">v</span><span class="p">,</span> <span class="n">k</span><span class="p">)</span>
+            <span class="n">ds</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;target&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">name</span>
+
+<div class="viewcode-block" id="NXWriter.write_streams">
+<a class="viewcode-back" href="../../../api/_filewriters.html#apstools.callbacks.nexus_writer.NXWriter.write_streams">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">write_streams</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">parent</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        group: /entry/instrument/bluesky/streams:NXnote</span>
+
+<span class="sd">        data from all the bluesky streams</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">bluesky</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">create_NX_group</span><span class="p">(</span><span class="n">parent</span><span class="p">,</span> <span class="s2">&quot;streams:NXnote&quot;</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">stream_name</span><span class="p">,</span> <span class="n">uids</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">streams</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">uids</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="c1"># fmt: off</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                    <span class="sa">f</span><span class="s2">&quot;stream </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">uids</span><span class="p">)</span><span class="si">}</span><span class="s2"> has descriptors, expecting only 1&quot;</span>
+                <span class="p">)</span>
+                <span class="c1"># fmt: on</span>
+            <span class="n">group</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">create_NX_group</span><span class="p">(</span><span class="n">bluesky</span><span class="p">,</span> <span class="n">stream_name</span> <span class="o">+</span> <span class="s2">&quot;:NXnote&quot;</span><span class="p">)</span>
+            <span class="n">uid0</span> <span class="o">=</span> <span class="n">uids</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>  <span class="c1"># just get the one descriptor uid</span>
+            <span class="n">group</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;uid&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">uid0</span>
+            <span class="c1"># just get the one descriptor</span>
+            <span class="n">acquisition</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">acquisitions</span><span class="p">[</span><span class="n">uid0</span><span class="p">]</span>
+            <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">acquisition</span><span class="p">[</span><span class="s2">&quot;data&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+                <span class="n">d</span> <span class="o">=</span> <span class="n">v</span><span class="p">[</span><span class="s2">&quot;data&quot;</span><span class="p">]</span>
+                <span class="c1"># NXlog is for time series data but NXdata makes an automatic plot</span>
+                <span class="n">subgroup</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">create_NX_group</span><span class="p">(</span><span class="n">group</span><span class="p">,</span> <span class="n">k</span> <span class="o">+</span> <span class="s2">&quot;:NXdata&quot;</span><span class="p">)</span>
+
+                <span class="k">if</span> <span class="n">v</span><span class="p">[</span><span class="s2">&quot;external&quot;</span><span class="p">]:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">write_stream_external</span><span class="p">(</span><span class="n">parent</span><span class="p">,</span> <span class="n">d</span><span class="p">,</span> <span class="n">subgroup</span><span class="p">,</span> <span class="n">stream_name</span><span class="p">,</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span><span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">write_stream_internal</span><span class="p">(</span><span class="n">parent</span><span class="p">,</span> <span class="n">d</span><span class="p">,</span> <span class="n">subgroup</span><span class="p">,</span> <span class="n">stream_name</span><span class="p">,</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span><span class="p">)</span>
+
+                <span class="n">t</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">v</span><span class="p">[</span><span class="s2">&quot;time&quot;</span><span class="p">])</span>
+                <span class="n">ds</span> <span class="o">=</span> <span class="n">subgroup</span><span class="o">.</span><span class="n">create_dataset</span><span class="p">(</span><span class="s2">&quot;EPOCH&quot;</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">t</span><span class="p">)</span>
+                <span class="n">ds</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;units&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;s&quot;</span>
+                <span class="n">ds</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;long_name&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;epoch time (s)&quot;</span>
+                <span class="n">ds</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;target&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">name</span>
+
+                <span class="n">t_start</span> <span class="o">=</span> <span class="n">t</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+                <span class="n">iso</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">fromtimestamp</span><span class="p">(</span><span class="n">t_start</span><span class="p">)</span><span class="o">.</span><span class="n">isoformat</span><span class="p">()</span>
+                <span class="n">ds</span> <span class="o">=</span> <span class="n">subgroup</span><span class="o">.</span><span class="n">create_dataset</span><span class="p">(</span><span class="s2">&quot;time&quot;</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">t</span> <span class="o">-</span> <span class="n">t_start</span><span class="p">)</span>
+                <span class="n">ds</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;units&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;s&quot;</span>
+                <span class="n">ds</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;long_name&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;time since first data (s)&quot;</span>
+                <span class="n">ds</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;target&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">name</span>
+                <span class="n">ds</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;start_time&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">t_start</span>
+                <span class="n">ds</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;start_time_iso&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">iso</span>
+
+            <span class="c1"># link images to parent names</span>
+            <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">group</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">k</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s2">&quot;_image&quot;</span><span class="p">)</span> <span class="ow">and</span> <span class="n">k</span><span class="p">[:</span><span class="o">-</span><span class="mi">6</span><span class="p">]</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">group</span><span class="p">:</span>
+                    <span class="n">group</span><span class="p">[</span><span class="n">k</span><span class="p">[:</span><span class="o">-</span><span class="mi">6</span><span class="p">]]</span> <span class="o">=</span> <span class="n">group</span><span class="p">[</span><span class="n">k</span><span class="p">]</span>
+
+        <span class="k">return</span> <span class="n">bluesky</span></div>
+
+
+<div class="viewcode-block" id="NXWriter.write_templates">
+<a class="viewcode-back" href="../../../api/_filewriters.html#apstools.callbacks.nexus_writer.NXWriter.write_templates">[docs]</a>
+    <span class="nd">@versionadded</span><span class="p">(</span><span class="n">version</span><span class="o">=</span><span class="s2">&quot;1.6.18&quot;</span><span class="p">)</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">write_templates</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Process any link templates provided as run metadata.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">addr</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;/entry/instrument/bluesky/metadata/</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">template_key</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="k">if</span> <span class="n">addr</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">root</span><span class="p">:</span>
+            <span class="k">return</span>
+        <span class="n">templates</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">root</span><span class="p">[</span><span class="n">addr</span><span class="p">][()])</span>
+
+        <span class="k">for</span> <span class="n">source</span><span class="p">,</span> <span class="n">target</span> <span class="ow">in</span> <span class="n">templates</span><span class="p">:</span>
+            <span class="k">if</span> <span class="s2">&quot;/@&quot;</span> <span class="ow">in</span> <span class="n">source</span><span class="p">:</span>
+                <span class="n">p</span> <span class="o">=</span> <span class="n">source</span><span class="o">.</span><span class="n">rfind</span><span class="p">(</span><span class="s2">&quot;/&quot;</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">source</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s2">&quot;/@&quot;</span><span class="p">)</span> <span class="o">!=</span> <span class="n">p</span><span class="p">:</span>  <span class="c1"># more than one match</span>
+                    <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Only one attribute can be named.  Received: </span><span class="si">{</span><span class="n">source</span><span class="si">!r}</span><span class="s2">&quot;</span><span class="p">)</span>
+                <span class="n">h5addr</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">resolve_class_path</span><span class="p">(</span><span class="n">source</span><span class="p">[:</span><span class="n">p</span><span class="p">])</span>
+                <span class="n">attr</span> <span class="o">=</span> <span class="n">source</span><span class="p">[</span><span class="n">p</span> <span class="o">+</span> <span class="mi">2</span> <span class="p">:]</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;Set attribute: group=</span><span class="si">%r</span><span class="s2"> attr=</span><span class="si">%r</span><span class="s2"> value=</span><span class="si">%r</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">h5addr</span><span class="p">,</span> <span class="n">attr</span><span class="p">,</span> <span class="n">target</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">h5addr</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">root</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">root</span><span class="p">[</span><span class="n">h5addr</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="n">attr</span><span class="p">]</span> <span class="o">=</span> <span class="n">target</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s2">&quot;group </span><span class="si">%r</span><span class="s2"> not in root </span><span class="si">%r</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">h5addr</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">root</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="n">source</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s2">&quot;=&quot;</span><span class="p">):</span>
+                <span class="n">p</span> <span class="o">=</span> <span class="n">source</span><span class="o">.</span><span class="n">rfind</span><span class="p">(</span><span class="s2">&quot;/&quot;</span><span class="p">)</span>
+                <span class="n">h5addr</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">resolve_class_path</span><span class="p">(</span><span class="n">source</span><span class="p">[:</span><span class="n">p</span><span class="p">])</span>
+                <span class="n">field</span> <span class="o">=</span> <span class="n">source</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;/&quot;</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">rstrip</span><span class="p">(</span><span class="s2">&quot;=&quot;</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">h5addr</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">root</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">target</span><span class="p">,</span> <span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">)):</span>
+                        <span class="n">target</span> <span class="o">=</span> <span class="p">[</span><span class="n">target</span><span class="p">]</span>
+                    <span class="n">ds</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">root</span><span class="p">[</span><span class="n">h5addr</span><span class="p">]</span><span class="o">.</span><span class="n">create_dataset</span><span class="p">(</span><span class="n">field</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">target</span><span class="p">)</span>
+                    <span class="n">ds</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;target&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">name</span>
+                    <span class="c1"># fmt: off</span>
+                    <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
+                        <span class="s2">&quot;Set constant field: group=</span><span class="si">%r</span><span class="s2"> field=</span><span class="si">%r</span><span class="s2"> value=</span><span class="si">%r</span><span class="s2">&quot;</span><span class="p">,</span>
+                        <span class="n">h5addr</span><span class="p">,</span> <span class="n">field</span><span class="p">,</span> <span class="n">ds</span><span class="p">[()]</span>
+                    <span class="p">)</span>
+                    <span class="c1"># fmt: on</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s2">&quot;group </span><span class="si">%r</span><span class="s2"> not in root </span><span class="si">%r</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">h5addr</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">root</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="n">source</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">root</span><span class="p">:</span>
+                <span class="n">h5addr</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">resolve_class_path</span><span class="p">(</span><span class="n">target</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">root</span><span class="p">[</span><span class="n">h5addr</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">root</span><span class="p">[</span><span class="n">source</span><span class="p">]</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;Template: Linked </span><span class="si">%r</span><span class="s2"> to </span><span class="si">%r</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">source</span><span class="p">,</span> <span class="n">h5addr</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s2">&quot;Not handled: source=</span><span class="si">%r</span><span class="s2"> target=</span><span class="si">%r</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">source</span><span class="p">,</span> <span class="n">target</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="NXWriter.write_user">
+<a class="viewcode-back" href="../../../api/_filewriters.html#apstools.callbacks.nexus_writer.NXWriter.write_user">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">write_user</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">parent</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        group: /entry/contact:NXuser</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">keymap</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span>
+            <span class="n">name</span><span class="o">=</span><span class="s2">&quot;bss_user_info_contact&quot;</span><span class="p">,</span>
+            <span class="n">affiliation</span><span class="o">=</span><span class="s2">&quot;bss_user_info_institution&quot;</span><span class="p">,</span>
+            <span class="n">email</span><span class="o">=</span><span class="s2">&quot;bss_user_info_email&quot;</span><span class="p">,</span>
+            <span class="n">facility_user_id</span><span class="o">=</span><span class="s2">&quot;bss_user_info_badge&quot;</span><span class="p">,</span>
+        <span class="p">)</span>
+
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">links</span> <span class="o">=</span> <span class="p">{</span><span class="n">k</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_stream_link</span><span class="p">(</span><span class="n">v</span><span class="p">)</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">keymap</span><span class="o">.</span><span class="n">items</span><span class="p">()}</span>
+        <span class="k">except</span> <span class="ne">KeyError</span> <span class="k">as</span> <span class="n">exc</span><span class="p">:</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">warn_on_missing_content</span><span class="p">:</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">%s</span><span class="s2"> -- not creating source group&quot;</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">exc</span><span class="p">))</span>
+            <span class="k">return</span>
+
+        <span class="n">nxuser</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">create_NX_group</span><span class="p">(</span><span class="n">parent</span><span class="p">,</span> <span class="s2">&quot;contact:NXuser&quot;</span><span class="p">)</span>
+        <span class="n">nxuser</span><span class="o">.</span><span class="n">create_dataset</span><span class="p">(</span><span class="s2">&quot;role&quot;</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="s2">&quot;contact&quot;</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">links</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="n">nxuser</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="n">v</span>
+        <span class="k">return</span> <span class="n">nxuser</span></div>
+</div>
+
+
+
+<div class="viewcode-block" id="NXWriterAPS">
+<a class="viewcode-back" href="../../../api/_filewriters.html#apstools.callbacks.nexus_writer.NXWriterAPS">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">NXWriterAPS</span><span class="p">(</span><span class="n">NXWriter</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Customize :class:`~NXWriter` with APS-specific content.</span>
+
+<span class="sd">    .. index:: Bluesky Callback; NXWriterAPS</span>
+
+<span class="sd">    New with apstools release 1.3.0.</span>
+
+<span class="sd">    * Adds `/entry/instrument/undulator` group if metadata exists.</span>
+<span class="sd">    * Adds APS information to `/entry/instrument/source` group.</span>
+
+<span class="sd">    .. autosummary::</span>
+
+<span class="sd">       ~write_instrument</span>
+<span class="sd">       ~write_source</span>
+<span class="sd">       ~write_undulator</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1"># convention: methods written in alphabetical order</span>
+
+<div class="viewcode-block" id="NXWriterAPS.write_instrument">
+<a class="viewcode-back" href="../../../api/_filewriters.html#apstools.callbacks.nexus_writer.NXWriterAPS.write_instrument">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">write_instrument</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">parent</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        group: /entry/instrument:NXinstrument</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">nxinstrument</span> <span class="o">=</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">write_instrument</span><span class="p">(</span><span class="n">parent</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">write_undulator</span><span class="p">(</span><span class="n">nxinstrument</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="NXWriterAPS.write_source">
+<a class="viewcode-back" href="../../../api/_filewriters.html#apstools.callbacks.nexus_writer.NXWriterAPS.write_source">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">write_source</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">parent</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        group: /entry/instrument/source:NXsource</span>
+
+<span class="sd">        Note: this is specific to the APS, override for a different source</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">pre</span> <span class="o">=</span> <span class="s2">&quot;aps&quot;</span>
+        <span class="n">keys</span> <span class="o">=</span> <span class="s2">&quot;current fill_number&quot;</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
+
+        <span class="k">try</span><span class="p">:</span>
+            <span class="c1"># fmt: off</span>
+            <span class="n">links</span> <span class="o">=</span> <span class="p">{</span>
+                <span class="n">key</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_stream_link</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">pre</span><span class="si">}</span><span class="s2">_</span><span class="si">{</span><span class="n">key</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+                <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">keys</span>
+            <span class="p">}</span>
+            <span class="c1"># fmt: on</span>
+        <span class="k">except</span> <span class="ne">KeyError</span> <span class="k">as</span> <span class="n">exc</span><span class="p">:</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">warn_on_missing_content</span><span class="p">:</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">%s</span><span class="s2"> -- not creating source group&quot;</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">exc</span><span class="p">))</span>
+            <span class="k">return</span>
+
+        <span class="n">nxsource</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">create_NX_group</span><span class="p">(</span><span class="n">parent</span><span class="p">,</span> <span class="s2">&quot;source:NXsource&quot;</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">links</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="n">nxsource</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="n">v</span>
+
+        <span class="n">ds</span> <span class="o">=</span> <span class="n">nxsource</span><span class="o">.</span><span class="n">create_dataset</span><span class="p">(</span><span class="s2">&quot;name&quot;</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="s2">&quot;Advanced Photon Source&quot;</span><span class="p">)</span>
+        <span class="n">ds</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;short_name&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;APS&quot;</span>
+        <span class="n">nxsource</span><span class="o">.</span><span class="n">create_dataset</span><span class="p">(</span><span class="s2">&quot;type&quot;</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="s2">&quot;Synchrotron X-ray Source&quot;</span><span class="p">)</span>
+        <span class="n">nxsource</span><span class="o">.</span><span class="n">create_dataset</span><span class="p">(</span><span class="s2">&quot;probe&quot;</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="s2">&quot;x-ray&quot;</span><span class="p">)</span>
+        <span class="n">ds</span> <span class="o">=</span> <span class="n">nxsource</span><span class="o">.</span><span class="n">create_dataset</span><span class="p">(</span><span class="s2">&quot;energy&quot;</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="mi">6</span><span class="p">)</span>
+        <span class="n">ds</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;units&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;GeV&quot;</span>
+
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">nxsource</span><span class="p">[</span><span class="s2">&quot;cycle&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_stream_link</span><span class="p">(</span><span class="s2">&quot;aps_aps_cycle&quot;</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
+            <span class="k">pass</span>  <span class="c1"># Should we compute the cycle?</span>
+
+        <span class="k">return</span> <span class="n">nxsource</span></div>
+
+
+<div class="viewcode-block" id="NXWriterAPS.write_undulator">
+<a class="viewcode-back" href="../../../api/_filewriters.html#apstools.callbacks.nexus_writer.NXWriterAPS.write_undulator">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">write_undulator</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">parent</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        group: /entry/instrument/undulator:NXinsertion_device</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">pre</span> <span class="o">=</span> <span class="s2">&quot;undulator_downstream&quot;</span>
+        <span class="n">keys</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">            device location</span>
+<span class="s2">            energy</span>
+<span class="s2">            energy_taper</span>
+<span class="s2">            gap</span>
+<span class="s2">            gap_taper</span>
+<span class="s2">            harmonic_value</span>
+<span class="s2">            total_power</span>
+<span class="s2">            version</span>
+<span class="s2">        &quot;&quot;&quot;</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
+
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">links</span> <span class="o">=</span> <span class="p">{</span><span class="n">key</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_stream_link</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">pre</span><span class="si">}</span><span class="s2">_</span><span class="si">{</span><span class="n">key</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span> <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">keys</span><span class="p">}</span>
+        <span class="k">except</span> <span class="ne">KeyError</span> <span class="k">as</span> <span class="n">exc</span><span class="p">:</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">warn_on_missing_content</span><span class="p">:</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">%s</span><span class="s2"> -- not creating undulator group&quot;</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">exc</span><span class="p">))</span>
+            <span class="k">return</span>
+
+        <span class="n">undulator</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">create_NX_group</span><span class="p">(</span><span class="n">parent</span><span class="p">,</span> <span class="s2">&quot;undulator:NXinsertion_device&quot;</span><span class="p">)</span>
+        <span class="n">undulator</span><span class="o">.</span><span class="n">create_dataset</span><span class="p">(</span><span class="s2">&quot;type&quot;</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="s2">&quot;undulator&quot;</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">links</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="n">undulator</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="n">v</span>
+        <span class="k">return</span> <span class="n">undulator</span></div>
+</div>
+
+
+
+<span class="c1"># -----------------------------------------------------------------------------</span>
+<span class="c1"># :author:    BCDA</span>
+<span class="c1"># :copyright: (c) 2017-2025, UChicago Argonne, LLC</span>
+<span class="c1">#</span>
+<span class="c1"># Distributed under the terms of the Argonne National Laboratory Open Source License.</span>
+<span class="c1">#</span>
+<span class="c1"># The full license is in the file LICENSE.txt, distributed with this software.</span>
+<span class="c1"># -----------------------------------------------------------------------------</span>
+</pre></div>
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="../../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+
+  <p class="copyright">
+    
+      © Copyright 2017-2025, UChicago Argonne, LLC.
+      <br/>
+    
+  </p>
+</div>
+      
+        <div class="footer-item">
+
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.1.3.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item">
+<p class="theme-version">
+  <!-- # L10n: Setting the PST URL as an argument as this does not need to be localized -->
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.16.1.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

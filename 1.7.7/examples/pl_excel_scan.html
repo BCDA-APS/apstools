@@ -1,0 +1,2317 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>The Excel_plan() – batch scans using a spreadsheet &#8212; apstools 1.7</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="../_static/graphviz.css?v=4ae1632d" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../_static/css/custom.css?v=8b12e3de" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+
+    <script src="../_static/documentation_options.js?v=c884563b"></script>
+    <script src="../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'examples/pl_excel_scan';</script>
+    <script>
+        DOCUMENTATION_OPTIONS.theme_version = '0.16.1';
+        DOCUMENTATION_OPTIONS.theme_switcher_json_url = 'https://raw.githubusercontent.com/BCDA-APS/apstools/main/docs/source/_static/switcher.json';
+        DOCUMENTATION_OPTIONS.theme_switcher_version_match = '1.7.7';
+        DOCUMENTATION_OPTIONS.show_version_warning_banner =
+            false;
+        </script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="The lineup() plan - align an axis with a signal" href="pl_lineup.html" />
+    <link rel="prev" title="Plan Examples" href="plan_examples.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="1.7" />
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-3 navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../index.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">apstools 1.7</p>
+  
+</a></div>
+    
+      <div class="navbar-item">
+<div class="version-switcher__container dropdown pst-js-only">
+  <button id="pst-version-switcher-button-2"
+    type="button"
+    class="version-switcher__button btn btn-sm dropdown-toggle"
+    data-bs-toggle="dropdown"
+    aria-haspopup="listbox"
+    aria-controls="pst-version-switcher-list-2"
+    aria-label="Version switcher list"
+  >
+    Choose version  <!-- this text may get changed later by javascript -->
+    <span class="caret"></span>
+  </button>
+  <div id="pst-version-switcher-list-2"
+    class="version-switcher__menu dropdown-menu list-group-flush py-0"
+    role="listbox" aria-labelledby="pst-version-switcher-button-2">
+    <!-- dropdown will be populated by javascript on page load -->
+  </div>
+</div></div>
+    
+  </div>
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../install.html">
+    Installation
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../api/index.html">
+    API Documentation
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../applications/index.html">
+    Applications
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="index.html">
+    Examples
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../changes.html">
+    Change History
+  </a>
+</li>
+
+            <li class="nav-item dropdown">
+                <button class="btn dropdown-toggle nav-item" type="button"
+                data-bs-toggle="dropdown" aria-expanded="false"
+                aria-controls="pst-nav-more-links">
+                    More
+                </button>
+                <ul id="pst-nav-more-links" class="dropdown-menu">
+                    
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../license.html">
+    License
+  </a>
+</li>
+
+                </ul>
+            </li>
+            
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+        <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+      
+        <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/BCDA-APS/apstools" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../install.html">
+    Installation
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../api/index.html">
+    API Documentation
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../applications/index.html">
+    Applications
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="index.html">
+    Examples
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../changes.html">
+    Change History
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../license.html">
+    License
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+        
+          <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/BCDA-APS/apstools" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+        
+      </div>
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+<nav class="bd-docs-nav bd-links"
+     aria-label="Section Navigation">
+  <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
+  <div class="bd-toc-item navbar-nav"><ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="device_examples.html">Device Examples</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="de_0_adsim_hdf5_basic.html">Area Detector with default HDF5 File Name</a></li>
+<li class="toctree-l2"><a class="reference internal" href="de_1_adsim_hdf5_custom_names.html">Area Detector with custom HDF5 File Name</a></li>
+<li class="toctree-l2"><a class="reference internal" href="de_2_adsim_hdf5_single_mode.html">Area Detector, Single mode, HDF5 file</a></li>
+<li class="toctree-l2"><a class="reference internal" href="de_ad_pe.html">ADPerkinElmer Area Detector with default HDF5 File Name</a></li>
+<li class="toctree-l2"><a class="reference internal" href="de_ad_pilatus.html">ADPilatus Area Detector with default HDF5 File Name</a></li>
+<li class="toctree-l2"><a class="reference internal" href="de_aps_data_management.html">Integration with APS Data Management (DM)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="de_sscan.html">The synApps <code class="docutils literal notranslate"><span class="pre">sscan</span></code> and <code class="docutils literal notranslate"><span class="pre">SscanRecord</span></code></a></li>
+</ul>
+</details></li>
+</ul>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="filewriter_examples.html">File Writer Examples</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="fw_nxwriter.html">Callback</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="fw_specfile_example.html">Output scan(s) to a SPEC data file.</a></li>
+</ul>
+</details></li>
+</ul>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="howto_examples.html">How-To Examples</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="ho_contingency.html">How to interrupt/stop/abort a running plan &amp; recover to safe settings</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ho_list_control_objects.html">What are the objects to control?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ho_motor_factory.html">Grouping Motors with <code class="docutils literal notranslate"><span class="pre">mb_creator</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ho_motor_factory_quickstart.html">Quick Start: Grouping Motors with <code class="docutils literal notranslate"><span class="pre">mb_creator</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ho_nxwriter_templates.html">How to use NeXus/HDF5 Templates</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ho_search_databroker.html">How to Search for Bluesky Data?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ho_session_logs.html">How to setup logging</a></li>
+</ul>
+</details></li>
+</ul>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="plan_examples.html">Plan Examples</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">The <code class="docutils literal notranslate"><span class="pre">Excel_plan()</span></code> – batch scans using a spreadsheet</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pl_lineup.html">The <code class="docutils literal notranslate"><span class="pre">lineup()</span></code> plan - align an axis with a signal</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pl_nscan.html">The <code class="docutils literal notranslate"><span class="pre">nscan()</span></code> plan – scan multiple axes together</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pl_run_command_list.html">The <code class="xref py py-func docutils literal notranslate"><span class="pre">run_command_file()</span></code> plan – batch scans using a text file</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pl_tuneaxis.html">The <code class="docutils literal notranslate"><span class="pre">TuneAxis()</span></code> plan - align an axis with a signal</a></li>
+</ul>
+</details></li>
+</ul>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="download_examples.html">File Downloads for the Examples</a></li>
+</ul>
+</div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+<nav aria-label="Breadcrumb" class="d-print-none">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="index.html" class="nav-link">Examples</a></li>
+    
+    
+    <li class="breadcrumb-item"><a href="plan_examples.html" class="nav-link">Plan Examples</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">The <code class="docutils literal notranslate"><span class="pre">Excel_plan()</span></code> – batch scans using a spreadsheet</span></li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section id="the-excel-plan-batch-scans-using-a-spreadsheet">
+<h1>The <code class="docutils literal notranslate"><span class="pre">Excel_plan()</span></code> – batch scans using a spreadsheet<a class="headerlink" href="#the-excel-plan-batch-scans-using-a-spreadsheet" title="Link to this heading">#</a></h1>
+<p>Use a spreadsheet as a multi-sample batch scan tool.<br />
+We’ll need a spreadsheet with some things to be done
+and a plan that will read that spreadsheet and act on it.</p>
+<p>This plan will:</p>
+<ul class="simple">
+<li><p>[x] use an Excel spreadsheet (for starters)</p></li>
+<li><p>[x] read a table from the spreadsheet file</p></li>
+<li><p>[x] take a single action from each row in the table</p></li>
+<li><p>[x] decide action based on a specific named column in the table</p></li>
+<li><p>[x] report all columns as metadata for the action</p></li>
+<li><p>[x] ignore empty rows</p></li>
+<li><p>[ ] ignore any data outside of the table boundaries</p></li>
+</ul>
+<p>Since the actions and parameters (args &amp; kwargs) will be
+different in every implementation, this may prove difficult
+to generalize.given a spreadsheet (named <code class="docutils literal notranslate"><span class="pre">sample_example.xlsx</span></code>)
+with content as shown in the next figure:</p>
+<p><img alt="sample_example.xlsx" src="../_images/sample_example.jpg" /></p>
+<p><strong>Tip</strong>: Place the column labels on the fourth row of the spreadsheet, starting
+in the first column. The actions start on the next row.  The first blank row
+indicates the end of the command table within the spreadsheet.  Use as many
+columns as you need, one column per argument.</p>
+<p>Here’s the demo, starting with the bluesky setup.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Import matplotlib and put it in interactive mode.</span>
+<span class="o">%</span><span class="k">matplotlib</span> notebook
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ion</span><span class="p">()</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">pathlib</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">databroker</span>
+<span class="n">cat</span> <span class="o">=</span> <span class="n">databroker</span><span class="o">.</span><span class="n">temp</span><span class="p">()</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">bluesky</span><span class="w"> </span><span class="kn">import</span> <span class="n">RunEngine</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">bluesky.plans</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">bp</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">bluesky.plan_stubs</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">bps</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">bluesky.callbacks.best_effort</span><span class="w"> </span><span class="kn">import</span> <span class="n">BestEffortCallback</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">bluesky</span><span class="w"> </span><span class="kn">import</span> <span class="n">SupplementalData</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">bluesky.simulators</span><span class="w"> </span><span class="kn">import</span> <span class="n">summarize_plan</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">bluesky.suspenders</span><span class="w"> </span><span class="kn">import</span> <span class="n">SuspendFloor</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">ophyd.sim</span><span class="w"> </span><span class="kn">import</span> <span class="n">motor1</span><span class="p">,</span> <span class="n">motor2</span><span class="p">,</span> <span class="n">motor3</span><span class="p">,</span> <span class="n">SynGauss</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">apstools.devices</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">APS_devices</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">apstools.utils</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">APS_utils</span>
+
+<span class="n">RE</span> <span class="o">=</span> <span class="n">RunEngine</span><span class="p">({})</span>
+<span class="n">RE</span><span class="o">.</span><span class="n">subscribe</span><span class="p">(</span><span class="n">cat</span><span class="o">.</span><span class="n">v1</span><span class="o">.</span><span class="n">insert</span><span class="p">)</span>
+<span class="n">RE</span><span class="o">.</span><span class="n">subscribe</span><span class="p">(</span><span class="n">BestEffortCallback</span><span class="p">())</span>
+<span class="n">RE</span><span class="o">.</span><span class="n">preprocessors</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">SupplementalData</span><span class="p">())</span>
+
+<span class="n">shutter</span> <span class="o">=</span> <span class="n">APS_devices</span><span class="o">.</span><span class="n">SimulatedApsPssShutterWithStatus</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;shutter&quot;</span><span class="p">)</span>
+<span class="n">watch_for_shutter_close</span> <span class="o">=</span> <span class="n">SuspendFloor</span><span class="p">(</span><span class="n">shutter</span><span class="o">.</span><span class="n">pss_state</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+
+<span class="n">noisy_det</span> <span class="o">=</span> <span class="n">SynGauss</span><span class="p">(</span><span class="s1">&#39;noisy_det&#39;</span><span class="p">,</span> <span class="n">motor1</span><span class="p">,</span> <span class="s1">&#39;motor1&#39;</span><span class="p">,</span> <span class="n">center</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">Imax</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+                <span class="n">noise</span><span class="o">=</span><span class="s1">&#39;uniform&#39;</span><span class="p">,</span> <span class="n">sigma</span><span class="o">=</span><span class="mf">0.9</span><span class="p">,</span> <span class="n">noise_multiplier</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span> <span class="n">labels</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;detectors&#39;</span><span class="p">})</span>
+<span class="n">noisy_det</span><span class="o">.</span><span class="n">kind</span> <span class="o">=</span> <span class="s2">&quot;hinted&quot;</span>
+</pre></div>
+</div>
+</div>
+</div>
+<hr class="docutils" />
+<section id="excel-plan-and-infrastructure">
+<h2>Excel plan and infrastructure<a class="headerlink" href="#excel-plan-and-infrastructure" title="Link to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">beforeExcelPlan</span><span class="p">():</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;things to be done at the start of every Excel plan&quot;&quot;&quot;</span>
+    <span class="k">yield from</span> <span class="n">bps</span><span class="o">.</span><span class="n">mv</span><span class="p">(</span>
+        <span class="n">shutter</span><span class="p">,</span> <span class="s2">&quot;open&quot;</span><span class="p">,</span>    <span class="c1"># for example</span>
+    <span class="p">)</span>
+
+    
+<span class="k">def</span><span class="w"> </span><span class="nf">afterExcelPlan</span><span class="p">():</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;things to be done at the end of every Excel plan&quot;&quot;&quot;</span>
+    <span class="k">yield from</span> <span class="n">bps</span><span class="o">.</span><span class="n">mv</span><span class="p">(</span>
+        <span class="n">shutter</span><span class="p">,</span> <span class="s2">&quot;close&quot;</span><span class="p">,</span>   <span class="c1"># for example</span>
+        <span class="n">motor1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span>              <span class="c1"># park the motors</span>
+        <span class="n">motor2</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span>
+        <span class="n">motor3</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span>
+    <span class="p">)</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">common_step_scan</span><span class="p">(</span><span class="n">pos_X</span><span class="p">,</span> <span class="n">pos_Y</span><span class="p">,</span> <span class="n">thickness</span><span class="p">,</span> <span class="n">scan_title</span><span class="p">,</span> <span class="n">md</span><span class="o">=</span><span class="p">{}):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    run a step scan over a common range at given sample position</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">yield from</span> <span class="n">bps</span><span class="o">.</span><span class="n">mv</span><span class="p">(</span>
+        <span class="n">motor2</span><span class="p">,</span> <span class="n">pos_X</span><span class="p">,</span>
+        <span class="n">motor3</span><span class="p">,</span> <span class="n">pos_Y</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">md</span><span class="p">[</span><span class="n">motor2</span><span class="o">.</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">motor2</span><span class="o">.</span><span class="n">position</span>
+    <span class="n">md</span><span class="p">[</span><span class="n">motor3</span><span class="o">.</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">motor3</span><span class="o">.</span><span class="n">position</span>
+    <span class="n">md</span><span class="p">[</span><span class="s2">&quot;shutter&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">shutter</span><span class="o">.</span><span class="n">state</span>
+    <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">md</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">k</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">v</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="k">yield from</span> <span class="n">bps</span><span class="o">.</span><span class="n">install_suspender</span><span class="p">(</span><span class="n">watch_for_shutter_close</span><span class="p">)</span>
+    <span class="k">yield from</span> <span class="n">bp</span><span class="o">.</span><span class="n">scan</span><span class="p">([</span><span class="n">noisy_det</span><span class="p">],</span> <span class="n">motor1</span><span class="p">,</span> <span class="o">-</span><span class="mi">5</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="n">md</span><span class="o">=</span><span class="n">md</span><span class="p">)</span>
+    <span class="k">yield from</span> <span class="n">bps</span><span class="o">.</span><span class="n">remove_suspender</span><span class="p">(</span><span class="n">watch_for_shutter_close</span><span class="p">)</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">Excel_plan</span><span class="p">(</span><span class="n">xl_file</span><span class="p">,</span> <span class="n">md</span><span class="o">=</span><span class="p">{}):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    example of reading a list of samples from Excel spreadsheet</span>
+<span class="sd">    </span>
+<span class="sd">    USAGE::</span>
+<span class="sd">    </span>
+<span class="sd">        summarize_plan(run_Excel_file(&quot;sample_example.xlsx&quot;))</span>
+<span class="sd">        RE(run_Excel_file(&quot;sample_example.xlsx&quot;))</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">excel_file</span> <span class="o">=</span> <span class="n">pathlib</span><span class="o">.</span><span class="n">Path</span><span class="p">(</span><span class="n">xl_file</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="n">excel_file</span><span class="o">.</span><span class="n">exists</span><span class="p">()</span>
+    <span class="n">xl</span> <span class="o">=</span> <span class="n">APS_utils</span><span class="o">.</span><span class="n">ExcelDatabaseFileGeneric</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">excel_file</span><span class="p">))</span>
+
+    <span class="k">yield from</span> <span class="n">beforeExcelPlan</span><span class="p">()</span>
+    <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">row</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">xl</span><span class="o">.</span><span class="n">db</span><span class="o">.</span><span class="n">values</span><span class="p">()):</span>
+        <span class="c1"># print(f&quot;row={row}&quot;)</span>
+        
+        <span class="c1"># metadata</span>
+        <span class="c1"># all parameters from this row go into the metadata</span>
+        <span class="c1"># columns names are the keys in the metadata dictionary</span>
+        <span class="c1"># make sure md keys are &quot;clean&quot;</span>
+        <span class="c1"># also provide crossreference to original column names</span>
+        <span class="n">_md</span> <span class="o">=</span> <span class="p">{</span><span class="n">APS_utils</span><span class="o">.</span><span class="n">cleanupText</span><span class="p">(</span><span class="n">k</span><span class="p">):</span> <span class="n">v</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">row</span><span class="o">.</span><span class="n">items</span><span class="p">()}</span>
+        <span class="n">_md</span><span class="p">[</span><span class="s2">&quot;table_row&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">i</span><span class="o">+</span><span class="mi">1</span>
+        <span class="n">_md</span><span class="p">[</span><span class="s2">&quot;Excel_file&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">excel_file</span><span class="p">)</span>
+        <span class="n">_md</span><span class="p">[</span><span class="s2">&quot;xl_file&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">xl_file</span>
+        <span class="n">_md</span><span class="p">[</span><span class="s2">&quot;original_keys&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="n">APS_utils</span><span class="o">.</span><span class="n">cleanupText</span><span class="p">(</span><span class="n">k</span><span class="p">):</span> <span class="n">k</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">row</span><span class="o">.</span><span class="n">keys</span><span class="p">()}</span>
+        <span class="n">_md</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">md</span><span class="p">)</span>      <span class="c1"># overlay with user-supplied metadata</span>
+
+        <span class="n">scan_command</span> <span class="o">=</span> <span class="p">(</span><span class="n">row</span><span class="p">[</span><span class="s2">&quot;Scan Type&quot;</span><span class="p">]</span> <span class="ow">or</span> <span class="s2">&quot;&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">scan_command</span> <span class="o">==</span> <span class="s2">&quot;step_scan&quot;</span><span class="p">:</span>
+            <span class="k">yield from</span> <span class="n">common_step_scan</span><span class="p">(</span>
+                <span class="n">row</span><span class="p">[</span><span class="s2">&quot;sx&quot;</span><span class="p">],</span>  <span class="c1"># label must match cell string EXACTLY</span>
+                <span class="n">row</span><span class="p">[</span><span class="s2">&quot;sy&quot;</span><span class="p">],</span> 
+                <span class="n">row</span><span class="p">[</span><span class="s2">&quot;Thickness&quot;</span><span class="p">],</span> 
+                <span class="n">row</span><span class="p">[</span><span class="s2">&quot;Sample Name&quot;</span><span class="p">],</span>
+                <span class="c1"># add all input as scan metadata, ensure the keys are clean</span>
+                <span class="n">md</span><span class="o">=</span><span class="n">_md</span><span class="p">,</span>
+                <span class="p">)</span>
+        <span class="k">elif</span> <span class="n">scan_command</span> <span class="o">==</span> <span class="s2">&quot;some_other_action&quot;</span><span class="p">:</span>
+            <span class="k">pass</span>  <span class="c1"># TODO: suggestion</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;no handling for table row </span><span class="si">{</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">row</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="k">yield from</span> <span class="n">afterExcelPlan</span><span class="p">()</span>
+
+
+<span class="n">summarize_plan</span><span class="p">(</span><span class="n">Excel_plan</span><span class="p">(</span><span class="s2">&quot;sample_example.xlsx&quot;</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>shutter -&gt; open
+motor2 -&gt; 5.07
+motor3 -&gt; 8.3
+Scan_Type: step_scan
+sx: 5.07
+sy: 8.3
+Thickness: 0
+Sample_Name: Water Blank
+remarks: deionized
+code_number: None
+table_row: 1
+Excel_file: sample_example.xlsx
+xl_file: sample_example.xlsx
+original_keys: {&#39;Scan_Type&#39;: &#39;Scan Type&#39;, &#39;sx&#39;: &#39;sx&#39;, &#39;sy&#39;: &#39;sy&#39;, &#39;Thickness&#39;: &#39;Thickness&#39;, &#39;Sample_Name&#39;: &#39;Sample Name&#39;, &#39;remarks&#39;: &#39;remarks&#39;, &#39;code_number&#39;: &#39;code number&#39;}
+motor2: 0
+motor3: 0
+shutter: close
+=================================== Open Run ===================================
+motor1 -&gt; -5.0
+  Read [&#39;noisy_det&#39;, &#39;motor1&#39;]
+motor1 -&gt; -3.571428571428571
+  Read [&#39;noisy_det&#39;, &#39;motor1&#39;]
+motor1 -&gt; -2.142857142857143
+  Read [&#39;noisy_det&#39;, &#39;motor1&#39;]
+motor1 -&gt; -0.7142857142857144
+  Read [&#39;noisy_det&#39;, &#39;motor1&#39;]
+motor1 -&gt; 0.7142857142857144
+  Read [&#39;noisy_det&#39;, &#39;motor1&#39;]
+motor1 -&gt; 2.1428571428571432
+  Read [&#39;noisy_det&#39;, &#39;motor1&#39;]
+motor1 -&gt; 3.571428571428571
+  Read [&#39;noisy_det&#39;, &#39;motor1&#39;]
+motor1 -&gt; 5.0
+  Read [&#39;noisy_det&#39;, &#39;motor1&#39;]
+================================== Close Run ===================================
+no handling for table row 2: OrderedDict([(&#39;Scan Type&#39;, &#39;other_scan&#39;), (&#39;sx&#39;, 5.07), (&#39;sy&#39;, 8.3), (&#39;Thickness&#39;, 0), (&#39;Sample Name&#39;, &#39;Water Blank&#39;), (&#39;remarks&#39;, &#39;deionized&#39;), (&#39;code number&#39;, None)])
+no handling for table row 3: OrderedDict([(&#39;Scan Type&#39;, &#39;this will be ignored (and also the next blank row will be ignored)&#39;), (&#39;sx&#39;, None), (&#39;sy&#39;, None), (&#39;Thickness&#39;, None), (&#39;Sample Name&#39;, None), (&#39;remarks&#39;, None), (&#39;code number&#39;, None)])
+shutter -&gt; close
+motor1 -&gt; 0
+motor2 -&gt; 0
+motor3 -&gt; 0
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">RE</span><span class="p">(</span><span class="n">Excel_plan</span><span class="p">(</span><span class="s2">&quot;sample_example.xlsx&quot;</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Scan_Type: step_scan
+sx: 5.07
+sy: 8.3
+Thickness: 0
+Sample_Name: Water Blank
+remarks: deionized
+code_number: None
+table_row: 1
+Excel_file: sample_example.xlsx
+xl_file: sample_example.xlsx
+original_keys: {&#39;Scan_Type&#39;: &#39;Scan Type&#39;, &#39;sx&#39;: &#39;sx&#39;, &#39;sy&#39;: &#39;sy&#39;, &#39;Thickness&#39;: &#39;Thickness&#39;, &#39;Sample_Name&#39;: &#39;Sample Name&#39;, &#39;remarks&#39;: &#39;remarks&#39;, &#39;code_number&#39;: &#39;code number&#39;}
+motor2: 5.07
+motor3: 8.3
+shutter: open
+
+
+Transient Scan ID: 1     Time: 2022-07-06 00:27:29
+Persistent Unique Scan ID: &#39;a6ea8a82-aff2-4621-a197-1a3bca524e51&#39;
+New stream: &#39;primary&#39;
+</pre></div>
+</div>
+<script type="application/javascript">/* Put everything inside the global mpl namespace */
+/* global mpl */
+window.mpl = {};
+
+mpl.get_websocket_type = function () {
+    if (typeof WebSocket !== 'undefined') {
+        return WebSocket;
+    } else if (typeof MozWebSocket !== 'undefined') {
+        return MozWebSocket;
+    } else {
+        alert(
+            'Your browser does not have WebSocket support. ' +
+                'Please try Chrome, Safari or Firefox ≥ 6. ' +
+                'Firefox 4 and 5 are also supported but you ' +
+                'have to enable WebSockets in about:config.'
+        );
+    }
+};
+
+mpl.figure = function (figure_id, websocket, ondownload, parent_element) {
+    this.id = figure_id;
+
+    this.ws = websocket;
+
+    this.supports_binary = this.ws.binaryType !== undefined;
+
+    if (!this.supports_binary) {
+        var warnings = document.getElementById('mpl-warnings');
+        if (warnings) {
+            warnings.style.display = 'block';
+            warnings.textContent =
+                'This browser does not support binary websocket messages. ' +
+                'Performance may be slow.';
+        }
+    }
+
+    this.imageObj = new Image();
+
+    this.context = undefined;
+    this.message = undefined;
+    this.canvas = undefined;
+    this.rubberband_canvas = undefined;
+    this.rubberband_context = undefined;
+    this.format_dropdown = undefined;
+
+    this.image_mode = 'full';
+
+    this.root = document.createElement('div');
+    this.root.setAttribute('style', 'display: inline-block');
+    this._root_extra_style(this.root);
+
+    parent_element.appendChild(this.root);
+
+    this._init_header(this);
+    this._init_canvas(this);
+    this._init_toolbar(this);
+
+    var fig = this;
+
+    this.waiting = false;
+
+    this.ws.onopen = function () {
+        fig.send_message('supports_binary', { value: fig.supports_binary });
+        fig.send_message('send_image_mode', {});
+        if (fig.ratio !== 1) {
+            fig.send_message('set_device_pixel_ratio', {
+                device_pixel_ratio: fig.ratio,
+            });
+        }
+        fig.send_message('refresh', {});
+    };
+
+    this.imageObj.onload = function () {
+        if (fig.image_mode === 'full') {
+            // Full images could contain transparency (where diff images
+            // almost always do), so we need to clear the canvas so that
+            // there is no ghosting.
+            fig.context.clearRect(0, 0, fig.canvas.width, fig.canvas.height);
+        }
+        fig.context.drawImage(fig.imageObj, 0, 0);
+    };
+
+    this.imageObj.onunload = function () {
+        fig.ws.close();
+    };
+
+    this.ws.onmessage = this._make_on_message_function(this);
+
+    this.ondownload = ondownload;
+};
+
+mpl.figure.prototype._init_header = function () {
+    var titlebar = document.createElement('div');
+    titlebar.classList =
+        'ui-dialog-titlebar ui-widget-header ui-corner-all ui-helper-clearfix';
+    var titletext = document.createElement('div');
+    titletext.classList = 'ui-dialog-title';
+    titletext.setAttribute(
+        'style',
+        'width: 100%; text-align: center; padding: 3px;'
+    );
+    titlebar.appendChild(titletext);
+    this.root.appendChild(titlebar);
+    this.header = titletext;
+};
+
+mpl.figure.prototype._canvas_extra_style = function (_canvas_div) {};
+
+mpl.figure.prototype._root_extra_style = function (_canvas_div) {};
+
+mpl.figure.prototype._init_canvas = function () {
+    var fig = this;
+
+    var canvas_div = (this.canvas_div = document.createElement('div'));
+    canvas_div.setAttribute(
+        'style',
+        'border: 1px solid #ddd;' +
+            'box-sizing: content-box;' +
+            'clear: both;' +
+            'min-height: 1px;' +
+            'min-width: 1px;' +
+            'outline: 0;' +
+            'overflow: hidden;' +
+            'position: relative;' +
+            'resize: both;'
+    );
+
+    function on_keyboard_event_closure(name) {
+        return function (event) {
+            return fig.key_event(event, name);
+        };
+    }
+
+    canvas_div.addEventListener(
+        'keydown',
+        on_keyboard_event_closure('key_press')
+    );
+    canvas_div.addEventListener(
+        'keyup',
+        on_keyboard_event_closure('key_release')
+    );
+
+    this._canvas_extra_style(canvas_div);
+    this.root.appendChild(canvas_div);
+
+    var canvas = (this.canvas = document.createElement('canvas'));
+    canvas.classList.add('mpl-canvas');
+    canvas.setAttribute('style', 'box-sizing: content-box;');
+
+    this.context = canvas.getContext('2d');
+
+    var backingStore =
+        this.context.backingStorePixelRatio ||
+        this.context.webkitBackingStorePixelRatio ||
+        this.context.mozBackingStorePixelRatio ||
+        this.context.msBackingStorePixelRatio ||
+        this.context.oBackingStorePixelRatio ||
+        this.context.backingStorePixelRatio ||
+        1;
+
+    this.ratio = (window.devicePixelRatio || 1) / backingStore;
+
+    var rubberband_canvas = (this.rubberband_canvas = document.createElement(
+        'canvas'
+    ));
+    rubberband_canvas.setAttribute(
+        'style',
+        'box-sizing: content-box; position: absolute; left: 0; top: 0; z-index: 1;'
+    );
+
+    // Apply a ponyfill if ResizeObserver is not implemented by browser.
+    if (this.ResizeObserver === undefined) {
+        if (window.ResizeObserver !== undefined) {
+            this.ResizeObserver = window.ResizeObserver;
+        } else {
+            var obs = _JSXTOOLS_RESIZE_OBSERVER({});
+            this.ResizeObserver = obs.ResizeObserver;
+        }
+    }
+
+    this.resizeObserverInstance = new this.ResizeObserver(function (entries) {
+        var nentries = entries.length;
+        for (var i = 0; i < nentries; i++) {
+            var entry = entries[i];
+            var width, height;
+            if (entry.contentBoxSize) {
+                if (entry.contentBoxSize instanceof Array) {
+                    // Chrome 84 implements new version of spec.
+                    width = entry.contentBoxSize[0].inlineSize;
+                    height = entry.contentBoxSize[0].blockSize;
+                } else {
+                    // Firefox implements old version of spec.
+                    width = entry.contentBoxSize.inlineSize;
+                    height = entry.contentBoxSize.blockSize;
+                }
+            } else {
+                // Chrome <84 implements even older version of spec.
+                width = entry.contentRect.width;
+                height = entry.contentRect.height;
+            }
+
+            // Keep the size of the canvas and rubber band canvas in sync with
+            // the canvas container.
+            if (entry.devicePixelContentBoxSize) {
+                // Chrome 84 implements new version of spec.
+                canvas.setAttribute(
+                    'width',
+                    entry.devicePixelContentBoxSize[0].inlineSize
+                );
+                canvas.setAttribute(
+                    'height',
+                    entry.devicePixelContentBoxSize[0].blockSize
+                );
+            } else {
+                canvas.setAttribute('width', width * fig.ratio);
+                canvas.setAttribute('height', height * fig.ratio);
+            }
+            canvas.setAttribute(
+                'style',
+                'width: ' + width + 'px; height: ' + height + 'px;'
+            );
+
+            rubberband_canvas.setAttribute('width', width);
+            rubberband_canvas.setAttribute('height', height);
+
+            // And update the size in Python. We ignore the initial 0/0 size
+            // that occurs as the element is placed into the DOM, which should
+            // otherwise not happen due to the minimum size styling.
+            if (fig.ws.readyState == 1 && width != 0 && height != 0) {
+                fig.request_resize(width, height);
+            }
+        }
+    });
+    this.resizeObserverInstance.observe(canvas_div);
+
+    function on_mouse_event_closure(name) {
+        return function (event) {
+            return fig.mouse_event(event, name);
+        };
+    }
+
+    rubberband_canvas.addEventListener(
+        'mousedown',
+        on_mouse_event_closure('button_press')
+    );
+    rubberband_canvas.addEventListener(
+        'mouseup',
+        on_mouse_event_closure('button_release')
+    );
+    rubberband_canvas.addEventListener(
+        'dblclick',
+        on_mouse_event_closure('dblclick')
+    );
+    // Throttle sequential mouse events to 1 every 20ms.
+    rubberband_canvas.addEventListener(
+        'mousemove',
+        on_mouse_event_closure('motion_notify')
+    );
+
+    rubberband_canvas.addEventListener(
+        'mouseenter',
+        on_mouse_event_closure('figure_enter')
+    );
+    rubberband_canvas.addEventListener(
+        'mouseleave',
+        on_mouse_event_closure('figure_leave')
+    );
+
+    canvas_div.addEventListener('wheel', function (event) {
+        if (event.deltaY < 0) {
+            event.step = 1;
+        } else {
+            event.step = -1;
+        }
+        on_mouse_event_closure('scroll')(event);
+    });
+
+    canvas_div.appendChild(canvas);
+    canvas_div.appendChild(rubberband_canvas);
+
+    this.rubberband_context = rubberband_canvas.getContext('2d');
+    this.rubberband_context.strokeStyle = '#000000';
+
+    this._resize_canvas = function (width, height, forward) {
+        if (forward) {
+            canvas_div.style.width = width + 'px';
+            canvas_div.style.height = height + 'px';
+        }
+    };
+
+    // Disable right mouse context menu.
+    this.rubberband_canvas.addEventListener('contextmenu', function (_e) {
+        event.preventDefault();
+        return false;
+    });
+
+    function set_focus() {
+        canvas.focus();
+        canvas_div.focus();
+    }
+
+    window.setTimeout(set_focus, 100);
+};
+
+mpl.figure.prototype._init_toolbar = function () {
+    var fig = this;
+
+    var toolbar = document.createElement('div');
+    toolbar.classList = 'mpl-toolbar';
+    this.root.appendChild(toolbar);
+
+    function on_click_closure(name) {
+        return function (_event) {
+            return fig.toolbar_button_onclick(name);
+        };
+    }
+
+    function on_mouseover_closure(tooltip) {
+        return function (event) {
+            if (!event.currentTarget.disabled) {
+                return fig.toolbar_button_onmouseover(tooltip);
+            }
+        };
+    }
+
+    fig.buttons = {};
+    var buttonGroup = document.createElement('div');
+    buttonGroup.classList = 'mpl-button-group';
+    for (var toolbar_ind in mpl.toolbar_items) {
+        var name = mpl.toolbar_items[toolbar_ind][0];
+        var tooltip = mpl.toolbar_items[toolbar_ind][1];
+        var image = mpl.toolbar_items[toolbar_ind][2];
+        var method_name = mpl.toolbar_items[toolbar_ind][3];
+
+        if (!name) {
+            /* Instead of a spacer, we start a new button group. */
+            if (buttonGroup.hasChildNodes()) {
+                toolbar.appendChild(buttonGroup);
+            }
+            buttonGroup = document.createElement('div');
+            buttonGroup.classList = 'mpl-button-group';
+            continue;
+        }
+
+        var button = (fig.buttons[name] = document.createElement('button'));
+        button.classList = 'mpl-widget';
+        button.setAttribute('role', 'button');
+        button.setAttribute('aria-disabled', 'false');
+        button.addEventListener('click', on_click_closure(method_name));
+        button.addEventListener('mouseover', on_mouseover_closure(tooltip));
+
+        var icon_img = document.createElement('img');
+        icon_img.src = '_images/' + image + '.png';
+        icon_img.srcset = '_images/' + image + '_large.png 2x';
+        icon_img.alt = tooltip;
+        button.appendChild(icon_img);
+
+        buttonGroup.appendChild(button);
+    }
+
+    if (buttonGroup.hasChildNodes()) {
+        toolbar.appendChild(buttonGroup);
+    }
+
+    var fmt_picker = document.createElement('select');
+    fmt_picker.classList = 'mpl-widget';
+    toolbar.appendChild(fmt_picker);
+    this.format_dropdown = fmt_picker;
+
+    for (var ind in mpl.extensions) {
+        var fmt = mpl.extensions[ind];
+        var option = document.createElement('option');
+        option.selected = fmt === mpl.default_extension;
+        option.innerHTML = fmt;
+        fmt_picker.appendChild(option);
+    }
+
+    var status_bar = document.createElement('span');
+    status_bar.classList = 'mpl-message';
+    toolbar.appendChild(status_bar);
+    this.message = status_bar;
+};
+
+mpl.figure.prototype.request_resize = function (x_pixels, y_pixels) {
+    // Request matplotlib to resize the figure. Matplotlib will then trigger a resize in the client,
+    // which will in turn request a refresh of the image.
+    this.send_message('resize', { width: x_pixels, height: y_pixels });
+};
+
+mpl.figure.prototype.send_message = function (type, properties) {
+    properties['type'] = type;
+    properties['figure_id'] = this.id;
+    this.ws.send(JSON.stringify(properties));
+};
+
+mpl.figure.prototype.send_draw_message = function () {
+    if (!this.waiting) {
+        this.waiting = true;
+        this.ws.send(JSON.stringify({ type: 'draw', figure_id: this.id }));
+    }
+};
+
+mpl.figure.prototype.handle_save = function (fig, _msg) {
+    var format_dropdown = fig.format_dropdown;
+    var format = format_dropdown.options[format_dropdown.selectedIndex].value;
+    fig.ondownload(fig, format);
+};
+
+mpl.figure.prototype.handle_resize = function (fig, msg) {
+    var size = msg['size'];
+    if (size[0] !== fig.canvas.width || size[1] !== fig.canvas.height) {
+        fig._resize_canvas(size[0], size[1], msg['forward']);
+        fig.send_message('refresh', {});
+    }
+};
+
+mpl.figure.prototype.handle_rubberband = function (fig, msg) {
+    var x0 = msg['x0'] / fig.ratio;
+    var y0 = (fig.canvas.height - msg['y0']) / fig.ratio;
+    var x1 = msg['x1'] / fig.ratio;
+    var y1 = (fig.canvas.height - msg['y1']) / fig.ratio;
+    x0 = Math.floor(x0) + 0.5;
+    y0 = Math.floor(y0) + 0.5;
+    x1 = Math.floor(x1) + 0.5;
+    y1 = Math.floor(y1) + 0.5;
+    var min_x = Math.min(x0, x1);
+    var min_y = Math.min(y0, y1);
+    var width = Math.abs(x1 - x0);
+    var height = Math.abs(y1 - y0);
+
+    fig.rubberband_context.clearRect(
+        0,
+        0,
+        fig.canvas.width / fig.ratio,
+        fig.canvas.height / fig.ratio
+    );
+
+    fig.rubberband_context.strokeRect(min_x, min_y, width, height);
+};
+
+mpl.figure.prototype.handle_figure_label = function (fig, msg) {
+    // Updates the figure title.
+    fig.header.textContent = msg['label'];
+};
+
+mpl.figure.prototype.handle_cursor = function (fig, msg) {
+    fig.rubberband_canvas.style.cursor = msg['cursor'];
+};
+
+mpl.figure.prototype.handle_message = function (fig, msg) {
+    fig.message.textContent = msg['message'];
+};
+
+mpl.figure.prototype.handle_draw = function (fig, _msg) {
+    // Request the server to send over a new figure.
+    fig.send_draw_message();
+};
+
+mpl.figure.prototype.handle_image_mode = function (fig, msg) {
+    fig.image_mode = msg['mode'];
+};
+
+mpl.figure.prototype.handle_history_buttons = function (fig, msg) {
+    for (var key in msg) {
+        if (!(key in fig.buttons)) {
+            continue;
+        }
+        fig.buttons[key].disabled = !msg[key];
+        fig.buttons[key].setAttribute('aria-disabled', !msg[key]);
+    }
+};
+
+mpl.figure.prototype.handle_navigate_mode = function (fig, msg) {
+    if (msg['mode'] === 'PAN') {
+        fig.buttons['Pan'].classList.add('active');
+        fig.buttons['Zoom'].classList.remove('active');
+    } else if (msg['mode'] === 'ZOOM') {
+        fig.buttons['Pan'].classList.remove('active');
+        fig.buttons['Zoom'].classList.add('active');
+    } else {
+        fig.buttons['Pan'].classList.remove('active');
+        fig.buttons['Zoom'].classList.remove('active');
+    }
+};
+
+mpl.figure.prototype.updated_canvas_event = function () {
+    // Called whenever the canvas gets updated.
+    this.send_message('ack', {});
+};
+
+// A function to construct a web socket function for onmessage handling.
+// Called in the figure constructor.
+mpl.figure.prototype._make_on_message_function = function (fig) {
+    return function socket_on_message(evt) {
+        if (evt.data instanceof Blob) {
+            var img = evt.data;
+            if (img.type !== 'image/png') {
+                /* FIXME: We get "Resource interpreted as Image but
+                 * transferred with MIME type text/plain:" errors on
+                 * Chrome.  But how to set the MIME type?  It doesn't seem
+                 * to be part of the websocket stream */
+                img.type = 'image/png';
+            }
+
+            /* Free the memory for the previous frames */
+            if (fig.imageObj.src) {
+                (window.URL || window.webkitURL).revokeObjectURL(
+                    fig.imageObj.src
+                );
+            }
+
+            fig.imageObj.src = (window.URL || window.webkitURL).createObjectURL(
+                img
+            );
+            fig.updated_canvas_event();
+            fig.waiting = false;
+            return;
+        } else if (
+            typeof evt.data === 'string' &&
+            evt.data.slice(0, 21) === 'data:image/png;base64'
+        ) {
+            fig.imageObj.src = evt.data;
+            fig.updated_canvas_event();
+            fig.waiting = false;
+            return;
+        }
+
+        var msg = JSON.parse(evt.data);
+        var msg_type = msg['type'];
+
+        // Call the  "handle_{type}" callback, which takes
+        // the figure and JSON message as its only arguments.
+        try {
+            var callback = fig['handle_' + msg_type];
+        } catch (e) {
+            console.log(
+                "No handler for the '" + msg_type + "' message type: ",
+                msg
+            );
+            return;
+        }
+
+        if (callback) {
+            try {
+                // console.log("Handling '" + msg_type + "' message: ", msg);
+                callback(fig, msg);
+            } catch (e) {
+                console.log(
+                    "Exception inside the 'handler_" + msg_type + "' callback:",
+                    e,
+                    e.stack,
+                    msg
+                );
+            }
+        }
+    };
+};
+
+// from https://stackoverflow.com/questions/1114465/getting-mouse-location-in-canvas
+mpl.findpos = function (e) {
+    //this section is from http://www.quirksmode.org/js/events_properties.html
+    var targ;
+    if (!e) {
+        e = window.event;
+    }
+    if (e.target) {
+        targ = e.target;
+    } else if (e.srcElement) {
+        targ = e.srcElement;
+    }
+    if (targ.nodeType === 3) {
+        // defeat Safari bug
+        targ = targ.parentNode;
+    }
+
+    // pageX,Y are the mouse positions relative to the document
+    var boundingRect = targ.getBoundingClientRect();
+    var x = e.pageX - (boundingRect.left + document.body.scrollLeft);
+    var y = e.pageY - (boundingRect.top + document.body.scrollTop);
+
+    return { x: x, y: y };
+};
+
+/*
+ * return a copy of an object with only non-object keys
+ * we need this to avoid circular references
+ * https://stackoverflow.com/a/24161582/3208463
+ */
+function simpleKeys(original) {
+    return Object.keys(original).reduce(function (obj, key) {
+        if (typeof original[key] !== 'object') {
+            obj[key] = original[key];
+        }
+        return obj;
+    }, {});
+}
+
+mpl.figure.prototype.mouse_event = function (event, name) {
+    var canvas_pos = mpl.findpos(event);
+
+    if (name === 'button_press') {
+        this.canvas.focus();
+        this.canvas_div.focus();
+    }
+
+    var x = canvas_pos.x * this.ratio;
+    var y = canvas_pos.y * this.ratio;
+
+    this.send_message(name, {
+        x: x,
+        y: y,
+        button: event.button,
+        step: event.step,
+        guiEvent: simpleKeys(event),
+    });
+
+    /* This prevents the web browser from automatically changing to
+     * the text insertion cursor when the button is pressed.  We want
+     * to control all of the cursor setting manually through the
+     * 'cursor' event from matplotlib */
+    event.preventDefault();
+    return false;
+};
+
+mpl.figure.prototype._key_event_extra = function (_event, _name) {
+    // Handle any extra behaviour associated with a key event
+};
+
+mpl.figure.prototype.key_event = function (event, name) {
+    // Prevent repeat events
+    if (name === 'key_press') {
+        if (event.key === this._key) {
+            return;
+        } else {
+            this._key = event.key;
+        }
+    }
+    if (name === 'key_release') {
+        this._key = null;
+    }
+
+    var value = '';
+    if (event.ctrlKey && event.key !== 'Control') {
+        value += 'ctrl+';
+    }
+    else if (event.altKey && event.key !== 'Alt') {
+        value += 'alt+';
+    }
+    else if (event.shiftKey && event.key !== 'Shift') {
+        value += 'shift+';
+    }
+
+    value += 'k' + event.key;
+
+    this._key_event_extra(event, name);
+
+    this.send_message(name, { key: value, guiEvent: simpleKeys(event) });
+    return false;
+};
+
+mpl.figure.prototype.toolbar_button_onclick = function (name) {
+    if (name === 'download') {
+        this.handle_save(this, null);
+    } else {
+        this.send_message('toolbar_button', { name: name });
+    }
+};
+
+mpl.figure.prototype.toolbar_button_onmouseover = function (tooltip) {
+    this.message.textContent = tooltip;
+};
+
+///////////////// REMAINING CONTENT GENERATED BY embed_js.py /////////////////
+// prettier-ignore
+var _JSXTOOLS_RESIZE_OBSERVER=function(A){var t,i=new WeakMap,n=new WeakMap,a=new WeakMap,r=new WeakMap,o=new Set;function s(e){if(!(this instanceof s))throw new TypeError("Constructor requires 'new' operator");i.set(this,e)}function h(){throw new TypeError("Function is not a constructor")}function c(e,t,i,n){e=0 in arguments?Number(arguments[0]):0,t=1 in arguments?Number(arguments[1]):0,i=2 in arguments?Number(arguments[2]):0,n=3 in arguments?Number(arguments[3]):0,this.right=(this.x=this.left=e)+(this.width=i),this.bottom=(this.y=this.top=t)+(this.height=n),Object.freeze(this)}function d(){t=requestAnimationFrame(d);var s=new WeakMap,p=new Set;o.forEach((function(t){r.get(t).forEach((function(i){var r=t instanceof window.SVGElement,o=a.get(t),d=r?0:parseFloat(o.paddingTop),f=r?0:parseFloat(o.paddingRight),l=r?0:parseFloat(o.paddingBottom),u=r?0:parseFloat(o.paddingLeft),g=r?0:parseFloat(o.borderTopWidth),m=r?0:parseFloat(o.borderRightWidth),w=r?0:parseFloat(o.borderBottomWidth),b=u+f,F=d+l,v=(r?0:parseFloat(o.borderLeftWidth))+m,W=g+w,y=r?0:t.offsetHeight-W-t.clientHeight,E=r?0:t.offsetWidth-v-t.clientWidth,R=b+v,z=F+W,M=r?t.width:parseFloat(o.width)-R-E,O=r?t.height:parseFloat(o.height)-z-y;if(n.has(t)){var k=n.get(t);if(k[0]===M&&k[1]===O)return}n.set(t,[M,O]);var S=Object.create(h.prototype);S.target=t,S.contentRect=new c(u,d,M,O),s.has(i)||(s.set(i,[]),p.add(i)),s.get(i).push(S)}))})),p.forEach((function(e){i.get(e).call(e,s.get(e),e)}))}return s.prototype.observe=function(i){if(i instanceof window.Element){r.has(i)||(r.set(i,new Set),o.add(i),a.set(i,window.getComputedStyle(i)));var n=r.get(i);n.has(this)||n.add(this),cancelAnimationFrame(t),t=requestAnimationFrame(d)}},s.prototype.unobserve=function(i){if(i instanceof window.Element&&r.has(i)){var n=r.get(i);n.has(this)&&(n.delete(this),n.size||(r.delete(i),o.delete(i))),n.size||r.delete(i),o.size||cancelAnimationFrame(t)}},A.DOMRectReadOnly=c,A.ResizeObserver=s,A.ResizeObserverEntry=h,A}; // eslint-disable-line
+mpl.toolbar_items = [["Home", "Reset original view", "fa fa-home icon-home", "home"], ["Back", "Back to previous view", "fa fa-arrow-left icon-arrow-left", "back"], ["Forward", "Forward to next view", "fa fa-arrow-right icon-arrow-right", "forward"], ["", "", "", ""], ["Pan", "Left button pans, Right button zooms\nx/y fixes axis, CTRL fixes aspect", "fa fa-arrows icon-move", "pan"], ["Zoom", "Zoom to rectangle\nx/y fixes axis", "fa fa-square-o icon-check-empty", "zoom"], ["", "", "", ""], ["Download", "Download plot", "fa fa-floppy-o icon-save", "download"]];
+
+mpl.extensions = ["eps", "jpeg", "pgf", "pdf", "png", "ps", "raw", "svg", "tif"];
+
+mpl.default_extension = "png";/* global mpl */
+
+var comm_websocket_adapter = function (comm) {
+    // Create a "websocket"-like object which calls the given IPython comm
+    // object with the appropriate methods. Currently this is a non binary
+    // socket, so there is still some room for performance tuning.
+    var ws = {};
+
+    ws.binaryType = comm.kernel.ws.binaryType;
+    ws.readyState = comm.kernel.ws.readyState;
+    function updateReadyState(_event) {
+        if (comm.kernel.ws) {
+            ws.readyState = comm.kernel.ws.readyState;
+        } else {
+            ws.readyState = 3; // Closed state.
+        }
+    }
+    comm.kernel.ws.addEventListener('open', updateReadyState);
+    comm.kernel.ws.addEventListener('close', updateReadyState);
+    comm.kernel.ws.addEventListener('error', updateReadyState);
+
+    ws.close = function () {
+        comm.close();
+    };
+    ws.send = function (m) {
+        //console.log('sending', m);
+        comm.send(m);
+    };
+    // Register the callback with on_msg.
+    comm.on_msg(function (msg) {
+        //console.log('receiving', msg['content']['data'], msg);
+        var data = msg['content']['data'];
+        if (data['blob'] !== undefined) {
+            data = {
+                data: new Blob(msg['buffers'], { type: data['blob'] }),
+            };
+        }
+        // Pass the mpl event to the overridden (by mpl) onmessage function.
+        ws.onmessage(data);
+    });
+    return ws;
+};
+
+mpl.mpl_figure_comm = function (comm, msg) {
+    // This is the function which gets called when the mpl process
+    // starts-up an IPython Comm through the "matplotlib" channel.
+
+    var id = msg.content.data.id;
+    // Get hold of the div created by the display call when the Comm
+    // socket was opened in Python.
+    var element = document.getElementById(id);
+    var ws_proxy = comm_websocket_adapter(comm);
+
+    function ondownload(figure, _format) {
+        window.open(figure.canvas.toDataURL());
+    }
+
+    var fig = new mpl.figure(id, ws_proxy, ondownload, element);
+
+    // Call onopen now - mpl needs it, as it is assuming we've passed it a real
+    // web socket which is closed, not our websocket->open comm proxy.
+    ws_proxy.onopen();
+
+    fig.parent_element = element;
+    fig.cell_info = mpl.find_output_cell("<div id='" + id + "'></div>");
+    if (!fig.cell_info) {
+        console.error('Failed to find cell for figure', id, fig);
+        return;
+    }
+    fig.cell_info[0].output_area.element.on(
+        'cleared',
+        { fig: fig },
+        fig._remove_fig_handler
+    );
+};
+
+mpl.figure.prototype.handle_close = function (fig, msg) {
+    var width = fig.canvas.width / fig.ratio;
+    fig.cell_info[0].output_area.element.off(
+        'cleared',
+        fig._remove_fig_handler
+    );
+    fig.resizeObserverInstance.unobserve(fig.canvas_div);
+
+    // Update the output cell to use the data from the current canvas.
+    fig.push_to_output();
+    var dataURL = fig.canvas.toDataURL();
+    // Re-enable the keyboard manager in IPython - without this line, in FF,
+    // the notebook keyboard shortcuts fail.
+    IPython.keyboard_manager.enable();
+    fig.parent_element.innerHTML =
+        '<img src="' + dataURL + '" width="' + width + '">';
+    fig.close_ws(fig, msg);
+};
+
+mpl.figure.prototype.close_ws = function (fig, msg) {
+    fig.send_message('closing', msg);
+    // fig.ws.close()
+};
+
+mpl.figure.prototype.push_to_output = function (_remove_interactive) {
+    // Turn the data on the canvas into data in the output cell.
+    var width = this.canvas.width / this.ratio;
+    var dataURL = this.canvas.toDataURL();
+    this.cell_info[1]['text/html'] =
+        '<img src="' + dataURL + '" width="' + width + '">';
+};
+
+mpl.figure.prototype.updated_canvas_event = function () {
+    // Tell IPython that the notebook contents must change.
+    IPython.notebook.set_dirty(true);
+    this.send_message('ack', {});
+    var fig = this;
+    // Wait a second, then push the new image to the DOM so
+    // that it is saved nicely (might be nice to debounce this).
+    setTimeout(function () {
+        fig.push_to_output();
+    }, 1000);
+};
+
+mpl.figure.prototype._init_toolbar = function () {
+    var fig = this;
+
+    var toolbar = document.createElement('div');
+    toolbar.classList = 'btn-toolbar';
+    this.root.appendChild(toolbar);
+
+    function on_click_closure(name) {
+        return function (_event) {
+            return fig.toolbar_button_onclick(name);
+        };
+    }
+
+    function on_mouseover_closure(tooltip) {
+        return function (event) {
+            if (!event.currentTarget.disabled) {
+                return fig.toolbar_button_onmouseover(tooltip);
+            }
+        };
+    }
+
+    fig.buttons = {};
+    var buttonGroup = document.createElement('div');
+    buttonGroup.classList = 'btn-group';
+    var button;
+    for (var toolbar_ind in mpl.toolbar_items) {
+        var name = mpl.toolbar_items[toolbar_ind][0];
+        var tooltip = mpl.toolbar_items[toolbar_ind][1];
+        var image = mpl.toolbar_items[toolbar_ind][2];
+        var method_name = mpl.toolbar_items[toolbar_ind][3];
+
+        if (!name) {
+            /* Instead of a spacer, we start a new button group. */
+            if (buttonGroup.hasChildNodes()) {
+                toolbar.appendChild(buttonGroup);
+            }
+            buttonGroup = document.createElement('div');
+            buttonGroup.classList = 'btn-group';
+            continue;
+        }
+
+        button = fig.buttons[name] = document.createElement('button');
+        button.classList = 'btn btn-default';
+        button.href = '#';
+        button.title = name;
+        button.innerHTML = '<i class="fa ' + image + ' fa-lg"></i>';
+        button.addEventListener('click', on_click_closure(method_name));
+        button.addEventListener('mouseover', on_mouseover_closure(tooltip));
+        buttonGroup.appendChild(button);
+    }
+
+    if (buttonGroup.hasChildNodes()) {
+        toolbar.appendChild(buttonGroup);
+    }
+
+    // Add the status bar.
+    var status_bar = document.createElement('span');
+    status_bar.classList = 'mpl-message pull-right';
+    toolbar.appendChild(status_bar);
+    this.message = status_bar;
+
+    // Add the close button to the window.
+    var buttongrp = document.createElement('div');
+    buttongrp.classList = 'btn-group inline pull-right';
+    button = document.createElement('button');
+    button.classList = 'btn btn-mini btn-primary';
+    button.href = '#';
+    button.title = 'Stop Interaction';
+    button.innerHTML = '<i class="fa fa-power-off icon-remove icon-large"></i>';
+    button.addEventListener('click', function (_evt) {
+        fig.handle_close(fig, {});
+    });
+    button.addEventListener(
+        'mouseover',
+        on_mouseover_closure('Stop Interaction')
+    );
+    buttongrp.appendChild(button);
+    var titlebar = this.root.querySelector('.ui-dialog-titlebar');
+    titlebar.insertBefore(buttongrp, titlebar.firstChild);
+};
+
+mpl.figure.prototype._remove_fig_handler = function (event) {
+    var fig = event.data.fig;
+    if (event.target !== this) {
+        // Ignore bubbled events from children.
+        return;
+    }
+    fig.close_ws(fig, {});
+};
+
+mpl.figure.prototype._root_extra_style = function (el) {
+    el.style.boxSizing = 'content-box'; // override notebook setting of border-box.
+};
+
+mpl.figure.prototype._canvas_extra_style = function (el) {
+    // this is important to make the div 'focusable
+    el.setAttribute('tabindex', 0);
+    // reach out to IPython and tell the keyboard manager to turn it's self
+    // off when our div gets focus
+
+    // location in version 3
+    if (IPython.notebook.keyboard_manager) {
+        IPython.notebook.keyboard_manager.register_events(el);
+    } else {
+        // location in version 2
+        IPython.keyboard_manager.register_events(el);
+    }
+};
+
+mpl.figure.prototype._key_event_extra = function (event, _name) {
+    // Check for shift+enter
+    if (event.shiftKey && event.which === 13) {
+        this.canvas_div.blur();
+        // select the cell after this one
+        var index = IPython.notebook.find_cell_index(this.cell_info[0]);
+        IPython.notebook.select(index + 1);
+    }
+};
+
+mpl.figure.prototype.handle_save = function (fig, _msg) {
+    fig.ondownload(fig, null);
+};
+
+mpl.find_output_cell = function (html_output) {
+    // Return the cell and output element which can be found *uniquely* in the notebook.
+    // Note - this is a bit hacky, but it is done because the "notebook_saving.Notebook"
+    // IPython event is triggered only after the cells have been serialised, which for
+    // our purposes (turning an active figure into a static one), is too late.
+    var cells = IPython.notebook.get_cells();
+    var ncells = cells.length;
+    for (var i = 0; i < ncells; i++) {
+        var cell = cells[i];
+        if (cell.cell_type === 'code') {
+            for (var j = 0; j < cell.output_area.outputs.length; j++) {
+                var data = cell.output_area.outputs[j];
+                if (data.data) {
+                    // IPython >= 3 moved mimebundle to data attribute of output
+                    data = data.data;
+                }
+                if (data['text/html'] === html_output) {
+                    return [cell, data, j];
+                }
+            }
+        }
+    }
+};
+
+// Register the function which deals with the matplotlib target/channel.
+// The kernel may be null if the page has been refreshed.
+if (IPython.notebook.kernel !== null) {
+    IPython.notebook.kernel.comm_manager.register_target(
+        'matplotlib',
+        mpl.mpl_figure_comm
+    );
+}
+</script><div class="output text_html"><div id='205379c6-71e3-4f59-98cc-971d38c857db'></div></div><div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>+-----------+------------+------------+------------+
+|   seq_num |       time |     motor1 |  noisy_det |
++-----------+------------+------------+------------+
+|         1 | 00:27:29.7 |     -5.000 |      0.017 |
+|         2 | 00:27:29.7 |     -3.571 |      0.021 |
+|         3 | 00:27:29.7 |     -2.143 |      0.115 |
+|         4 | 00:27:29.7 |     -0.714 |      0.658 |
+|         5 | 00:27:29.7 |      0.714 |      0.697 |
+|         6 | 00:27:29.7 |      2.143 |      0.155 |
+|         7 | 00:27:29.7 |      3.571 |     -0.086 |
+|         8 | 00:27:29.7 |      5.000 |      0.089 |
++-----------+------------+------------+------------+
+generator scan [&#39;a6ea8a82&#39;] (scan num: 1)
+
+
+
+no handling for table row 2: OrderedDict([(&#39;Scan Type&#39;, &#39;other_scan&#39;), (&#39;sx&#39;, 5.07), (&#39;sy&#39;, 8.3), (&#39;Thickness&#39;, 0), (&#39;Sample Name&#39;, &#39;Water Blank&#39;), (&#39;remarks&#39;, &#39;deionized&#39;), (&#39;code number&#39;, None)])
+no handling for table row 3: OrderedDict([(&#39;Scan Type&#39;, &#39;this will be ignored (and also the next blank row will be ignored)&#39;), (&#39;sx&#39;, None), (&#39;sy&#39;, None), (&#39;Thickness&#39;, None), (&#39;Sample Name&#39;, None), (&#39;remarks&#39;, None), (&#39;code number&#39;, None)])
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(&#39;a6ea8a82-aff2-4621-a197-1a3bca524e51&#39;,)
+</pre></div>
+</div>
+</div>
+</div>
+<p>Show what was collected by accessing the most recent run from the catalog.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">run</span> <span class="o">=</span> <span class="n">cat</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+<span class="n">run</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html">
+
+
+<table>
+  <tr>
+    <td><table>
+<caption> Start </caption><tr>
+    <th> code_number </th>
+    <td>None</td>
+  </tr><tr>
+    <th> detectors </th>
+    <td><table><tr><td>noisy_det</td></tr></table></td>
+  </tr><tr>
+    <th> Excel_file </th>
+    <td>sample_example.xlsx</td>
+  </tr><tr>
+    <th> hints </th>
+    <td><table>
+          <tr>
+    <th> dimensions </th>
+    <td><table><tr><td>[['motor1'], 'primary']</td></tr></table></td>
+  </tr>
+        </table></td>
+  </tr><tr>
+    <th> motor2 </th>
+    <td>5.07</td>
+  </tr><tr>
+    <th> motor3 </th>
+    <td>8.3</td>
+  </tr><tr>
+    <th> motors </th>
+    <td><table><tr><td>motor1</td></tr></table></td>
+  </tr><tr>
+    <th> num_intervals </th>
+    <td>7</td>
+  </tr><tr>
+    <th> num_points </th>
+    <td>8</td>
+  </tr><tr>
+    <th> original_keys </th>
+    <td><table>
+          <tr>
+    <th> code_number </th>
+    <td>code number</td>
+  </tr><tr>
+    <th> remarks </th>
+    <td>remarks</td>
+  </tr><tr>
+    <th> Sample_Name </th>
+    <td>Sample Name</td>
+  </tr><tr>
+    <th> Scan_Type </th>
+    <td>Scan Type</td>
+  </tr><tr>
+    <th> sx </th>
+    <td>sx</td>
+  </tr><tr>
+    <th> sy </th>
+    <td>sy</td>
+  </tr><tr>
+    <th> Thickness </th>
+    <td>Thickness</td>
+  </tr>
+        </table></td>
+  </tr><tr>
+    <th> plan_args </th>
+    <td><table>
+          <tr>
+    <th> args </th>
+    <td><table><tr><td>SynAxis(prefix='', name='motor1', read_attrs=['readback', 'setpoint'], configuration_attrs=['velocity', 'acceleration'])</td></tr><tr><td>-5</td></tr><tr><td>5</td></tr></table></td>
+  </tr><tr>
+    <th> detectors </th>
+    <td><table><tr><td>SynGauss(prefix='', name='noisy_det', read_attrs=['val'], configuration_attrs=['Imax', 'center', 'sigma', 'noise', 'noise_multiplier'])</td></tr></table></td>
+  </tr><tr>
+    <th> num </th>
+    <td>8</td>
+  </tr><tr>
+    <th> per_step </th>
+    <td>None</td>
+  </tr>
+        </table></td>
+  </tr><tr>
+    <th> plan_name </th>
+    <td>scan</td>
+  </tr><tr>
+    <th> plan_pattern </th>
+    <td>inner_product</td>
+  </tr><tr>
+    <th> plan_pattern_args </th>
+    <td><table>
+          <tr>
+    <th> args </th>
+    <td><table><tr><td>SynAxis(prefix='', name='motor1', read_attrs=['readback', 'setpoint'], configuration_attrs=['velocity', 'acceleration'])</td></tr><tr><td>-5</td></tr><tr><td>5</td></tr></table></td>
+  </tr><tr>
+    <th> num </th>
+    <td>8</td>
+  </tr>
+        </table></td>
+  </tr><tr>
+    <th> plan_pattern_module </th>
+    <td>bluesky.plan_patterns</td>
+  </tr><tr>
+    <th> plan_type </th>
+    <td>generator</td>
+  </tr><tr>
+    <th> remarks </th>
+    <td>deionized</td>
+  </tr><tr>
+    <th> Sample_Name </th>
+    <td>Water Blank</td>
+  </tr><tr>
+    <th> scan_id </th>
+    <td>1</td>
+  </tr><tr>
+    <th> Scan_Type </th>
+    <td>step_scan</td>
+  </tr><tr>
+    <th> shutter </th>
+    <td>open</td>
+  </tr><tr>
+    <th> sx </th>
+    <td>5.07</td>
+  </tr><tr>
+    <th> sy </th>
+    <td>8.3</td>
+  </tr><tr>
+    <th> table_row </th>
+    <td>1</td>
+  </tr><tr>
+    <th> Thickness </th>
+    <td>0</td>
+  </tr><tr>
+    <th> time </th>
+    <td>a second ago (2022-07-06T00:27:29.644067)</td>
+  </tr><tr>
+    <th> uid </th>
+    <td>a6ea8a82-aff2-4621-a197-1a3bca524e51</td>
+  </tr><tr>
+    <th> versions </th>
+    <td><table>
+          <tr>
+    <th> bluesky </th>
+    <td>1.8.3</td>
+  </tr><tr>
+    <th> ophyd </th>
+    <td>1.6.4</td>
+  </tr>
+        </table></td>
+  </tr><tr>
+    <th> xl_file </th>
+    <td>sample_example.xlsx</td>
+  </tr></table></td>
+  </tr
+  <tr>
+    <td><table>
+<caption> Stop </caption><tr>
+    <th> exit_status </th>
+    <td>success</td>
+  </tr><tr>
+    <th> num_events </th>
+    <td><table>
+          <tr>
+    <th> primary </th>
+    <td>8</td>
+  </tr>
+        </table></td>
+  </tr><tr>
+    <th> reason </th>
+    <td></td>
+  </tr><tr>
+    <th> run_start </th>
+    <td>a6ea8a82-aff2-4621-a197-1a3bca524e51</td>
+  </tr><tr>
+    <th> time </th>
+    <td>a second ago (2022-07-06T00:27:29.781108)</td>
+  </tr><tr>
+    <th> uid </th>
+    <td>128c5ecf-2c21-497e-b7f1-6b74614bfb45</td>
+  </tr></table></td>
+  </tr>
+  <tr>
+  <td>
+      <table>
+      <caption>Descriptors</caption><tr>
+         <td> <table>
+<caption> primary </caption><tr>
+    <th> configuration </th>
+    <td><table>
+          <tr>
+    <th> motor1 </th>
+    <td><table>
+          <tr>
+    <th> data </th>
+    <td><table>
+          <tr>
+    <th> motor1_acceleration </th>
+    <td>1</td>
+  </tr><tr>
+    <th> motor1_velocity </th>
+    <td>1</td>
+  </tr>
+        </table></td>
+  </tr><tr>
+    <th> data_keys </th>
+    <td><table>
+          <tr>
+    <th> motor1_acceleration </th>
+    <td><table>
+          <tr>
+    <th> dtype </th>
+    <td>integer</td>
+  </tr><tr>
+    <th> shape </th>
+    <td><table></table></td>
+  </tr><tr>
+    <th> source </th>
+    <td>SIM:motor1_acceleration</td>
+  </tr>
+        </table></td>
+  </tr><tr>
+    <th> motor1_velocity </th>
+    <td><table>
+          <tr>
+    <th> dtype </th>
+    <td>integer</td>
+  </tr><tr>
+    <th> shape </th>
+    <td><table></table></td>
+  </tr><tr>
+    <th> source </th>
+    <td>SIM:motor1_velocity</td>
+  </tr>
+        </table></td>
+  </tr>
+        </table></td>
+  </tr><tr>
+    <th> timestamps </th>
+    <td><table>
+          <tr>
+    <th> motor1_acceleration </th>
+    <td>1657085249.0746343</td>
+  </tr><tr>
+    <th> motor1_velocity </th>
+    <td>1657085249.0746002</td>
+  </tr>
+        </table></td>
+  </tr>
+        </table></td>
+  </tr><tr>
+    <th> noisy_det </th>
+    <td><table>
+          <tr>
+    <th> data </th>
+    <td><table>
+          <tr>
+    <th> noisy_det_center </th>
+    <td>0</td>
+  </tr><tr>
+    <th> noisy_det_Imax </th>
+    <td>1</td>
+  </tr><tr>
+    <th> noisy_det_noise </th>
+    <td>uniform</td>
+  </tr><tr>
+    <th> noisy_det_noise_multiplier </th>
+    <td>0.1</td>
+  </tr><tr>
+    <th> noisy_det_sigma </th>
+    <td>0.9</td>
+  </tr>
+        </table></td>
+  </tr><tr>
+    <th> data_keys </th>
+    <td><table>
+          <tr>
+    <th> noisy_det_center </th>
+    <td><table>
+          <tr>
+    <th> dtype </th>
+    <td>integer</td>
+  </tr><tr>
+    <th> shape </th>
+    <td><table></table></td>
+  </tr><tr>
+    <th> source </th>
+    <td>SIM:noisy_det_center</td>
+  </tr>
+        </table></td>
+  </tr><tr>
+    <th> noisy_det_Imax </th>
+    <td><table>
+          <tr>
+    <th> dtype </th>
+    <td>integer</td>
+  </tr><tr>
+    <th> shape </th>
+    <td><table></table></td>
+  </tr><tr>
+    <th> source </th>
+    <td>SIM:noisy_det_Imax</td>
+  </tr>
+        </table></td>
+  </tr><tr>
+    <th> noisy_det_noise </th>
+    <td><table>
+          <tr>
+    <th> dtype </th>
+    <td>integer</td>
+  </tr><tr>
+    <th> enum_strs </th>
+    <td><table><tr><td>none</td></tr><tr><td>poisson</td></tr><tr><td>uniform</td></tr></table></td>
+  </tr><tr>
+    <th> shape </th>
+    <td><table></table></td>
+  </tr><tr>
+    <th> source </th>
+    <td>SIM:noisy_det_noise</td>
+  </tr>
+        </table></td>
+  </tr><tr>
+    <th> noisy_det_noise_multiplier </th>
+    <td><table>
+          <tr>
+    <th> dtype </th>
+    <td>number</td>
+  </tr><tr>
+    <th> shape </th>
+    <td><table></table></td>
+  </tr><tr>
+    <th> source </th>
+    <td>SIM:noisy_det_noise_multiplier</td>
+  </tr>
+        </table></td>
+  </tr><tr>
+    <th> noisy_det_sigma </th>
+    <td><table>
+          <tr>
+    <th> dtype </th>
+    <td>number</td>
+  </tr><tr>
+    <th> shape </th>
+    <td><table></table></td>
+  </tr><tr>
+    <th> source </th>
+    <td>SIM:noisy_det_sigma</td>
+  </tr>
+        </table></td>
+  </tr>
+        </table></td>
+  </tr><tr>
+    <th> timestamps </th>
+    <td><table>
+          <tr>
+    <th> noisy_det_center </th>
+    <td>1657085249.298179</td>
+  </tr><tr>
+    <th> noisy_det_Imax </th>
+    <td>1657085249.2981858</td>
+  </tr><tr>
+    <th> noisy_det_noise </th>
+    <td>1657085249.298202</td>
+  </tr><tr>
+    <th> noisy_det_noise_multiplier </th>
+    <td>1657085249.2982059</td>
+  </tr><tr>
+    <th> noisy_det_sigma </th>
+    <td>1657085249.2981968</td>
+  </tr>
+        </table></td>
+  </tr>
+        </table></td>
+  </tr>
+        </table></td>
+  </tr><tr>
+    <th> data_keys </th>
+    <td><table>
+          <tr>
+    <th> motor1 </th>
+    <td><table>
+          <tr>
+    <th> dtype </th>
+    <td>number</td>
+  </tr><tr>
+    <th> object_name </th>
+    <td>motor1</td>
+  </tr><tr>
+    <th> precision </th>
+    <td>3</td>
+  </tr><tr>
+    <th> shape </th>
+    <td><table></table></td>
+  </tr><tr>
+    <th> source </th>
+    <td>SIM:motor1</td>
+  </tr>
+        </table></td>
+  </tr><tr>
+    <th> motor1_setpoint </th>
+    <td><table>
+          <tr>
+    <th> dtype </th>
+    <td>number</td>
+  </tr><tr>
+    <th> object_name </th>
+    <td>motor1</td>
+  </tr><tr>
+    <th> precision </th>
+    <td>3</td>
+  </tr><tr>
+    <th> shape </th>
+    <td><table></table></td>
+  </tr><tr>
+    <th> source </th>
+    <td>SIM:motor1_setpoint</td>
+  </tr>
+        </table></td>
+  </tr><tr>
+    <th> noisy_det </th>
+    <td><table>
+          <tr>
+    <th> dtype </th>
+    <td>number</td>
+  </tr><tr>
+    <th> object_name </th>
+    <td>noisy_det</td>
+  </tr><tr>
+    <th> precision </th>
+    <td>3</td>
+  </tr><tr>
+    <th> shape </th>
+    <td><table></table></td>
+  </tr><tr>
+    <th> source </th>
+    <td>SIM:noisy_det</td>
+  </tr>
+        </table></td>
+  </tr>
+        </table></td>
+  </tr><tr>
+    <th> hints </th>
+    <td><table>
+          <tr>
+    <th> motor1 </th>
+    <td><table>
+          <tr>
+    <th> fields </th>
+    <td><table><tr><td>motor1</td></tr></table></td>
+  </tr>
+        </table></td>
+  </tr><tr>
+    <th> noisy_det </th>
+    <td><table>
+          <tr>
+    <th> fields </th>
+    <td><table><tr><td>noisy_det</td></tr></table></td>
+  </tr>
+        </table></td>
+  </tr>
+        </table></td>
+  </tr><tr>
+    <th> name </th>
+    <td>primary</td>
+  </tr><tr>
+    <th> object_keys </th>
+    <td><table>
+          <tr>
+    <th> motor1 </th>
+    <td><table><tr><td>motor1</td></tr><tr><td>motor1_setpoint</td></tr></table></td>
+  </tr><tr>
+    <th> noisy_det </th>
+    <td><table><tr><td>noisy_det</td></tr></table></td>
+  </tr>
+        </table></td>
+  </tr><tr>
+    <th> run_start </th>
+    <td>a6ea8a82-aff2-4621-a197-1a3bca524e51</td>
+  </tr><tr>
+    <th> time </th>
+    <td>a second ago (2022-07-06T00:27:29.654973)</td>
+  </tr><tr>
+    <th> uid </th>
+    <td>9fc2e538-dfde-48a0-a70a-b6ad3ac3c493</td>
+  </tr></table> </td>
+         </tr></table>
+    </td>
+</tr>
+</table></div></div>
+</div>
+</section>
+</section>
+
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="plan_examples.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Plan Examples</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="pl_lineup.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">The <code class="docutils literal notranslate"><span class="pre">lineup()</span></code> plan - align an axis with a signal</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+<div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+  </div>
+  <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#excel-plan-and-infrastructure">Excel plan and infrastructure</a></li>
+</ul>
+  </nav></div>
+
+  <div class="sidebar-secondary-item">
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/examples/pl_excel_scan.ipynb.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+
+  <p class="copyright">
+    
+      © Copyright 2017-2025, UChicago Argonne, LLC.
+      <br/>
+    
+  </p>
+</div>
+      
+        <div class="footer-item">
+
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.1.3.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item">
+<p class="theme-version">
+  <!-- # L10n: Setting the PST URL as an argument as this does not need to be localized -->
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.16.1.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

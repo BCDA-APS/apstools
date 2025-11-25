@@ -1,0 +1,160 @@
+{
+ "cells": [
+  {
+   "attachments": {},
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "# The ``nscan()`` plan -- scan multiple axes together\n",
+    "\n",
+    "In this example, we demonstrate the `apstools.plans.nscan()` plan.  The \n",
+    "`nscan()` plan is used to scan two or more axes together, each in equally\n",
+    "spaced steps, such as a $\\theta$ - $2\\theta$ powder diffractometer scan.\n",
+    "\n",
+    "Here, we scan two motors together, each in equally spaced steps.  We use an\n",
+    "[swait](https://htmlpreview.github.io/?https://raw.githubusercontent.com/epics-modules/calc/R3-6-1/documentation/swaitRecord.html) record (part of the *userCalc* support from synApps) as a detector.  We\n",
+    "configure the `swait` record with a calculation (from\n",
+    "[setup_random_number_swait()](https://bcda-aps.github.io/apstools/latest/_modules/apstools/synApps/swait.html#setup_random_number_swait) in `apstools.synApps`) that computes a noisy (random number) signal.  \n",
+    "\n",
+    "## Setup\n",
+    "\n",
+    "For this demo, we do not need the databroker since we do not plan to review any of this data after collection.  We'll display the data during the scan using the *LiveTable()* code."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 1,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "from apstools.synApps import UserCalcN, setup_random_number_swait\n",
+    "from apstools.plans import nscan\n",
+    "from bluesky import RunEngine\n",
+    "from bluesky.callbacks import LiveTable\n",
+    "from ophyd import EpicsMotor\n",
+    "\n",
+    "RE = RunEngine({})"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "Set the prefix for the EPICS IOC that provides the PVs we'll use here."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 2,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "IOC = \"gp:\""
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "Connect to our motors and create the *noisy* detector."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 3,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "m1 = EpicsMotor(f\"{IOC}m1\", name=\"m1\")\n",
+    "m2 = EpicsMotor(f\"{IOC}m2\", name=\"m2\")\n",
+    "noisy = UserCalcN(f\"{IOC}userCalc1\", name=\"noisy\")\n",
+    "\n",
+    "m1.wait_for_connection()\n",
+    "m2.wait_for_connection()\n",
+    "noisy.wait_for_connection()\n",
+    "\n",
+    "# configure the *detector* as a random number generator using a calculation.\n",
+    "setup_random_number_swait(noisy)"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## Scan\n",
+    "\n",
+    "Measure the noisy detector while step scanning both the m1 & m2 motors together.  We'll move m2 twice as far as m1, like a $\\theta$-$2\\theta$ scan on a diffractometer."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 4,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "\n",
+      "\n",
+      "+-----------+------------+------------+------------+\n",
+      "|   seq_num |       time |         m1 |         m2 |\n",
+      "+-----------+------------+------------+------------+\n",
+      "|         1 | 00:22:27.5 |    2.00000 |    4.00000 |\n",
+      "|         2 | 00:22:28.6 |    1.60000 |    3.20000 |\n",
+      "|         3 | 00:22:29.7 |    1.20000 |    2.40000 |\n",
+      "|         4 | 00:22:30.8 |    0.80000 |    1.60000 |\n",
+      "|         5 | 00:22:31.9 |    0.40000 |    0.80000 |\n",
+      "|         6 | 00:22:33.0 |    0.00000 |    0.00000 |\n",
+      "+-----------+------------+------------+------------+\n",
+      "generator nscan ['fcb9a1ad'] (scan num: 1)\n",
+      "\n",
+      "\n"
+     ]
+    },
+    {
+     "data": {
+      "text/plain": [
+       "('fcb9a1ad-1901-4955-96df-f2079f4edd1c',)"
+      ]
+     },
+     "execution_count": 4,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "RE(\n",
+    "    nscan([noisy, ], m1, 2, 0, m2, 4, 0, num=6),\n",
+    "    LiveTable([\"m1\", \"m2\", \"noisy_val\"])\n",
+    "    )"
+   ]
+  }
+ ],
+ "metadata": {
+  "kernelspec": {
+   "display_name": "Python 3.9.13 ('base')",
+   "language": "python",
+   "name": "python3"
+  },
+  "language_info": {
+   "codemirror_mode": {
+    "name": "ipython",
+    "version": 3
+   },
+   "file_extension": ".py",
+   "mimetype": "text/x-python",
+   "name": "python",
+   "nbconvert_exporter": "python",
+   "pygments_lexer": "ipython3",
+   "version": "3.9.13 | packaged by conda-forge | (main, May 27 2022, 16:56:21) \n[GCC 10.3.0]"
+  },
+  "vscode": {
+   "interpreter": {
+    "hash": "f38aef175fb08dfc130a7d9bb9234f0792dc9ad861f95b6c05aedd1b380356e2"
+   }
+  }
+ },
+ "nbformat": 4,
+ "nbformat_minor": 4
+}

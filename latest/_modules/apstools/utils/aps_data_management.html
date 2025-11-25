@@ -1,0 +1,1302 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../../../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>apstools.utils.aps_data_management &#8212; apstools 1.7</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="../../../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/graphviz.css?v=4ae1632d" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/mystnb.8ecb98da25f57f5357bf6f572d296f466b2cfe2517ffebfabe82451661e28f02.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/css/custom.css?v=8b12e3de" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="../../../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+
+    <script src="../../../_static/documentation_options.js?v=84e671e0"></script>
+    <script src="../../../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../_static/design-tabs.js?v=f930bc37"></script>
+    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = '_modules/apstools/utils/aps_data_management';</script>
+    <script>
+        DOCUMENTATION_OPTIONS.theme_version = '0.16.1';
+        DOCUMENTATION_OPTIONS.theme_switcher_json_url = 'https://raw.githubusercontent.com/BCDA-APS/apstools/main/docs/source/_static/switcher.json';
+        DOCUMENTATION_OPTIONS.theme_switcher_version_match = '1.7.9';
+        DOCUMENTATION_OPTIONS.show_version_warning_banner =
+            false;
+        </script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="1.7" />
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-3 navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../../../index.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">apstools 1.7</p>
+  
+</a></div>
+    
+      <div class="navbar-item">
+<div class="version-switcher__container dropdown pst-js-only">
+  <button id="pst-version-switcher-button-2"
+    type="button"
+    class="version-switcher__button btn btn-sm dropdown-toggle"
+    data-bs-toggle="dropdown"
+    aria-haspopup="listbox"
+    aria-controls="pst-version-switcher-list-2"
+    aria-label="Version switcher list"
+  >
+    Choose version  <!-- this text may get changed later by javascript -->
+    <span class="caret"></span>
+  </button>
+  <div id="pst-version-switcher-list-2"
+    class="version-switcher__menu dropdown-menu list-group-flush py-0"
+    role="listbox" aria-labelledby="pst-version-switcher-button-2">
+    <!-- dropdown will be populated by javascript on page load -->
+  </div>
+</div></div>
+    
+  </div>
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../install.html">
+    Installation
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../api/index.html">
+    API Documentation
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../applications/index.html">
+    Applications
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../examples/index.html">
+    Examples
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../changes.html">
+    Change History
+  </a>
+</li>
+
+            <li class="nav-item dropdown">
+                <button class="btn dropdown-toggle nav-item" type="button"
+                data-bs-toggle="dropdown" aria-expanded="false"
+                aria-controls="pst-nav-more-links">
+                    More
+                </button>
+                <ul id="pst-nav-more-links" class="dropdown-menu">
+                    
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../../license.html">
+    License
+  </a>
+</li>
+
+                </ul>
+            </li>
+            
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+        <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+      
+        <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/BCDA-APS/apstools" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+        
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar hide-on-wide">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../install.html">
+    Installation
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../api/index.html">
+    API Documentation
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../applications/index.html">
+    Applications
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../examples/index.html">
+    Examples
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../changes.html">
+    Change History
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../license.html">
+    License
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+        
+          <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/BCDA-APS/apstools" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+        
+      </div>
+    
+  </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+<nav aria-label="Breadcrumb" class="d-print-none">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../../../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="../../index.html" class="nav-link">Module code</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">apstools.utils.aps_data_management</span></li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <h1>Source code for apstools.utils.aps_data_management</h1><div class="highlight"><pre>
+<span></span><span class="c1"># pylint: disable=unspecified-encoding</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Setup for for this beam line&#39;s APS Data Management Python API client.</span>
+
+<span class="sd">FIRST</span>
+
+<span class="sd">The ``dm_setup(setup_file)`` function **must** be called first,</span>
+<span class="sd">before any other calls to the ``dm`` package.  The ``setup_file``</span>
+<span class="sd">argument is the bash script that activates the APS Data Management</span>
+<span class="sd">conda environment for the workstation.  That file contains definitions</span>
+<span class="sd">of environment variables needed by the functions below.</span>
+
+<span class="sd">.. autosummary::</span>
+
+<span class="sd">    ~dm_setup</span>
+
+<span class="sd">..  DEVELOPERS NOTE</span>
+<span class="sd">    Do not import &#39;dm&#39; or any of its children at the global level in</span>
+<span class="sd">    this file.  This allows the file to be imported in a Python</span>
+<span class="sd">    environment that does not have the &#39;aps-dm-api&#39; package installed.</span>
+<span class="sd">    If any of the functions are called (that attempt to import from &#39;dm&#39;,</span>
+<span class="sd">    those imports will raise exceptions as they are called.)</span>
+
+<span class="sd">FUNCTIONS</span>
+
+<span class="sd">.. autosummary::</span>
+
+<span class="sd">    ~build_run_metadata_dict</span>
+<span class="sd">    ~dm_add_workflow</span>
+<span class="sd">    ~dm_api_cat</span>
+<span class="sd">    ~dm_api_daq</span>
+<span class="sd">    ~dm_api_dataset_cat</span>
+<span class="sd">    ~dm_api_ds</span>
+<span class="sd">    ~dm_api_file</span>
+<span class="sd">    ~dm_api_filecat</span>
+<span class="sd">    ~dm_api_proc</span>
+<span class="sd">    ~dm_daq_wait_upload_plan</span>
+<span class="sd">    ~dm_file_ready_to_process</span>
+<span class="sd">    ~dm_get_daqs</span>
+<span class="sd">    ~dm_get_experiment_datadir_active_daq</span>
+<span class="sd">    ~dm_get_experiment_file</span>
+<span class="sd">    ~dm_get_experiment_path</span>
+<span class="sd">    ~dm_get_experiments</span>
+<span class="sd">    ~dm_get_workflow</span>
+<span class="sd">    ~dm_source_environ</span>
+<span class="sd">    ~dm_start_daq</span>
+<span class="sd">    ~dm_station_name</span>
+<span class="sd">    ~dm_stop_daq</span>
+<span class="sd">    ~dm_update_workflow</span>
+<span class="sd">    ~dm_upload</span>
+<span class="sd">    ~get_workflow_last_stage</span>
+<span class="sd">    ~share_bluesky_metadata_with_dm</span>
+<span class="sd">    ~validate_experiment_dataDirectory</span>
+<span class="sd">    ~wait_dm_upload</span>
+<span class="sd">    ~DM_WorkflowCache</span>
+
+<span class="sd">:see: https://git.aps.anl.gov/DM/dm-docs/-/wikis/DM/Beamline-Services/Workflow-Processing-Service</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="n">__all__</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">    build_run_metadata_dict</span>
+<span class="s2">    dm_add_workflow</span>
+<span class="s2">    dm_api_cat</span>
+<span class="s2">    dm_api_daq</span>
+<span class="s2">    dm_api_dataset_cat</span>
+<span class="s2">    dm_api_ds</span>
+<span class="s2">    dm_api_file</span>
+<span class="s2">    dm_api_filecat</span>
+<span class="s2">    dm_api_proc</span>
+<span class="s2">    dm_daq_wait_upload_plan</span>
+<span class="s2">    dm_file_ready_to_process</span>
+<span class="s2">    dm_get_daqs</span>
+<span class="s2">    dm_get_experiment_datadir_active_daq</span>
+<span class="s2">    dm_get_experiment_file</span>
+<span class="s2">    dm_get_experiment_path</span>
+<span class="s2">    dm_get_experiments</span>
+<span class="s2">    dm_get_workflow</span>
+<span class="s2">    dm_setup</span>
+<span class="s2">    dm_source_environ</span>
+<span class="s2">    dm_start_daq</span>
+<span class="s2">    dm_station_name</span>
+<span class="s2">    dm_stop_daq</span>
+<span class="s2">    dm_update_workflow</span>
+<span class="s2">    dm_upload</span>
+<span class="s2">    get_workflow_last_stage</span>
+<span class="s2">    share_bluesky_metadata_with_dm</span>
+<span class="s2">    validate_experiment_dataDirectory</span>
+<span class="s2">    wait_dm_upload</span>
+<span class="s2">    DEFAULT_UPLOAD_TIMEOUT</span>
+<span class="s2">    DEFAULT_UPLOAD_POLL_PERIOD</span>
+<span class="s2">    DM_WorkflowCache</span>
+<span class="s2">&quot;&quot;&quot;</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">datetime</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">json</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pathlib</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">time</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">os</span><span class="w"> </span><span class="kn">import</span> <span class="n">environ</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">pyRestTable</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">bluesky</span><span class="w"> </span><span class="kn">import</span> <span class="n">plan_stubs</span> <span class="k">as</span> <span class="n">bps</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">.time_constants</span><span class="w"> </span><span class="kn">import</span> <span class="n">MINUTE</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.time_constants</span><span class="w"> </span><span class="kn">import</span> <span class="n">SECOND</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.time_constants</span><span class="w"> </span><span class="kn">import</span> <span class="n">ts2iso</span>
+
+<span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
+
+<span class="n">DEFAULT_PERIOD</span> <span class="o">=</span> <span class="mi">10</span> <span class="o">*</span> <span class="n">SECOND</span>
+<span class="n">DEFAULT_WAIT</span> <span class="o">=</span> <span class="kc">True</span>
+<span class="n">DEFAULT_DM_EXPERIMENT_KEYS</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">    id name startDate experimentType experimentStation</span>
+<span class="s2">&quot;&quot;&quot;</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
+<span class="n">DEFAULT_UPLOAD_TIMEOUT</span> <span class="o">=</span> <span class="mi">10</span> <span class="o">*</span> <span class="n">MINUTE</span>
+<span class="n">DEFAULT_UPLOAD_POLL_PERIOD</span> <span class="o">=</span> <span class="mi">30</span> <span class="o">*</span> <span class="n">SECOND</span>
+<span class="n">DM_SETUP_FILE</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="n">WORKFLOW_DONE_STATES</span> <span class="o">=</span> <span class="s2">&quot;done failed timeout aborted&quot;</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
+<span class="n">DM_ENV_SOURCED</span> <span class="o">=</span> <span class="kc">False</span>
+
+
+<div class="viewcode-block" id="dm_setup">
+<a class="viewcode-back" href="../../../api/_utils.html#apstools.utils.aps_data_management.dm_setup">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">dm_setup</span><span class="p">(</span><span class="n">setup_file</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Name the APS Data Management bash script that activates its conda environment.</span>
+
+<span class="sd">    The return result is the &#39;owner&#39; of the DM workflows.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">global</span> <span class="n">DM_SETUP_FILE</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">pathlib</span><span class="o">.</span><span class="n">Path</span><span class="p">(</span><span class="n">setup_file</span><span class="p">)</span><span class="o">.</span><span class="n">exists</span><span class="p">():</span>
+        <span class="n">DM_SETUP_FILE</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">raise</span> <span class="ne">FileExistsError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">setup_file</span><span class="si">=}</span><span class="s2"> does not exist.&quot;</span><span class="p">)</span>
+    <span class="n">DM_SETUP_FILE</span> <span class="o">=</span> <span class="n">setup_file</span>
+
+    <span class="n">dm_source_environ</span><span class="p">()</span>
+    <span class="n">workflow_owner</span> <span class="o">=</span> <span class="n">environ</span><span class="p">[</span><span class="s2">&quot;DM_STATION_NAME&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+
+    <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;APS DM workflow owner: </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">workflow_owner</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">workflow_owner</span></div>
+
+
+
+<div class="viewcode-block" id="build_run_metadata_dict">
+<a class="viewcode-back" href="../../../api/_utils.html#apstools.utils.aps_data_management.build_run_metadata_dict">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">build_run_metadata_dict</span><span class="p">(</span><span class="n">user_md</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="o">**</span><span class="n">dm_kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Return a dictionary for use as Bluesky run metadata.&quot;&quot;&quot;</span>
+    <span class="n">_md</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s2">&quot;title&quot;</span><span class="p">:</span> <span class="s2">&quot;title placeholder&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;description&quot;</span><span class="p">:</span> <span class="s2">&quot;description placeholder&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;datetime&quot;</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()),</span>
+        <span class="s2">&quot;data_management&quot;</span><span class="p">:</span> <span class="n">dm_kwargs</span><span class="p">,</span>
+    <span class="p">}</span>
+    <span class="n">_md</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">user_md</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">_md</span></div>
+
+
+
+<div class="viewcode-block" id="validate_experiment_dataDirectory">
+<a class="viewcode-back" href="../../../api/_utils.html#apstools.utils.aps_data_management.validate_experiment_dataDirectory">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">validate_experiment_dataDirectory</span><span class="p">(</span><span class="n">dm_experiment_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;These bluesky plans use the experiment&#39;s &#39;dataDirectory&#39;.&quot;&quot;&quot;</span>
+    <span class="c1"># Check that named experiment actually exists now.</span>
+    <span class="c1"># Raises dm.ObjectNotFound if does not exist.</span>
+    <span class="n">experiment</span> <span class="o">=</span> <span class="n">dm_api_ds</span><span class="p">()</span><span class="o">.</span><span class="n">getExperimentByName</span><span class="p">(</span><span class="n">dm_experiment_name</span><span class="p">)</span>
+    <span class="k">if</span> <span class="s2">&quot;dataDirectory&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">experiment</span><span class="p">:</span>
+        <span class="c1"># Cannot test that it exists since bluesky user might not have</span>
+        <span class="c1"># access to that file system or permission to read that directory.</span>
+        <span class="k">raise</span> <span class="ne">KeyError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">dm_experiment_name</span><span class="si">=!r}</span><span class="s2"> does not have a &#39;dataDirectory&#39;.&quot;</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="dm_add_workflow">
+<a class="viewcode-back" href="../../../api/_utils.html#apstools.utils.aps_data_management.dm_add_workflow">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">dm_add_workflow</span><span class="p">(</span><span class="n">workflow_file</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Add APS Data Management workflow from file.&quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">dm_api_proc</span><span class="p">()</span><span class="o">.</span><span class="n">addWorkflow</span><span class="p">(</span><span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="nb">open</span><span class="p">(</span><span class="n">workflow_file</span><span class="p">)</span><span class="o">.</span><span class="n">read</span><span class="p">()))</span></div>
+
+
+
+<div class="viewcode-block" id="dm_get_workflow">
+<a class="viewcode-back" href="../../../api/_utils.html#apstools.utils.aps_data_management.dm_get_workflow">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">dm_get_workflow</span><span class="p">(</span><span class="n">workflow_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Get named APS Data Management workflow.&quot;&quot;&quot;</span>
+    <span class="n">api</span> <span class="o">=</span> <span class="n">dm_api_proc</span><span class="p">()</span>
+    <span class="k">return</span> <span class="n">api</span><span class="o">.</span><span class="n">getWorkflowByName</span><span class="p">(</span><span class="n">api</span><span class="o">.</span><span class="n">username</span><span class="p">,</span> <span class="n">workflow_name</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="dm_update_workflow">
+<a class="viewcode-back" href="../../../api/_utils.html#apstools.utils.aps_data_management.dm_update_workflow">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">dm_update_workflow</span><span class="p">(</span><span class="n">workflow_file</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Update APS Data Management workflow from file.&quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">dm_api_proc</span><span class="p">()</span><span class="o">.</span><span class="n">updateWorkflow</span><span class="p">(</span><span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="nb">open</span><span class="p">(</span><span class="n">workflow_file</span><span class="p">)</span><span class="o">.</span><span class="n">read</span><span class="p">()))</span></div>
+
+
+
+<div class="viewcode-block" id="dm_api_cat">
+<a class="viewcode-back" href="../../../api/_utils.html#apstools.utils.aps_data_management.dm_api_cat">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">dm_api_cat</span><span class="p">():</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Return the APS Data Management Catalog API object.&quot;&quot;&quot;</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">dm</span><span class="w"> </span><span class="kn">import</span> <span class="n">CatApiFactory</span>
+
+    <span class="n">dm_source_environ</span><span class="p">()</span>
+    <span class="k">return</span> <span class="n">CatApiFactory</span><span class="o">.</span><span class="n">getRunCatApi</span><span class="p">()</span></div>
+
+
+
+<div class="viewcode-block" id="dm_api_dataset_cat">
+<a class="viewcode-back" href="../../../api/_utils.html#apstools.utils.aps_data_management.dm_api_dataset_cat">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">dm_api_dataset_cat</span><span class="p">():</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Return the APS Data Management Dataset Metadata Catalog API object.&quot;&quot;&quot;</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">dm</span><span class="w"> </span><span class="kn">import</span> <span class="n">CatApiFactory</span>
+
+    <span class="n">dm_source_environ</span><span class="p">()</span>
+    <span class="k">return</span> <span class="n">CatApiFactory</span><span class="o">.</span><span class="n">getDatasetCatApi</span><span class="p">()</span></div>
+
+
+
+<div class="viewcode-block" id="dm_api_filecat">
+<a class="viewcode-back" href="../../../api/_utils.html#apstools.utils.aps_data_management.dm_api_filecat">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">dm_api_filecat</span><span class="p">():</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Return the APS Data Management Metadata Catalog Service API object.&quot;&quot;&quot;</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">dm</span><span class="w"> </span><span class="kn">import</span> <span class="n">CatApiFactory</span>
+
+    <span class="n">dm_source_environ</span><span class="p">()</span>
+    <span class="k">return</span> <span class="n">CatApiFactory</span><span class="o">.</span><span class="n">getFileCatApi</span><span class="p">()</span></div>
+
+
+
+<div class="viewcode-block" id="dm_api_daq">
+<a class="viewcode-back" href="../../../api/_utils.html#apstools.utils.aps_data_management.dm_api_daq">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">dm_api_daq</span><span class="p">():</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Return the APS Data Management Data Acquisition API object.&quot;&quot;&quot;</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">dm</span><span class="w"> </span><span class="kn">import</span> <span class="n">DaqApiFactory</span>
+
+    <span class="n">dm_source_environ</span><span class="p">()</span>
+    <span class="n">api</span> <span class="o">=</span> <span class="n">DaqApiFactory</span><span class="o">.</span><span class="n">getExperimentDaqApi</span><span class="p">()</span>
+    <span class="k">return</span> <span class="n">api</span></div>
+
+
+
+<div class="viewcode-block" id="dm_api_ds">
+<a class="viewcode-back" href="../../../api/_utils.html#apstools.utils.aps_data_management.dm_api_ds">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">dm_api_ds</span><span class="p">():</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Return the APS Data Management Data Storage API object.&quot;&quot;&quot;</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">dm</span><span class="w"> </span><span class="kn">import</span> <span class="n">DsApiFactory</span>
+
+    <span class="n">dm_source_environ</span><span class="p">()</span>
+    <span class="n">api</span> <span class="o">=</span> <span class="n">DsApiFactory</span><span class="o">.</span><span class="n">getExperimentDsApi</span><span class="p">()</span>
+    <span class="k">return</span> <span class="n">api</span></div>
+
+
+
+<div class="viewcode-block" id="dm_api_file">
+<a class="viewcode-back" href="../../../api/_utils.html#apstools.utils.aps_data_management.dm_api_file">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">dm_api_file</span><span class="p">():</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Return the APS Data Management File API object.&quot;&quot;&quot;</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">dm</span><span class="w"> </span><span class="kn">import</span> <span class="n">DsApiFactory</span>
+
+    <span class="n">dm_source_environ</span><span class="p">()</span>
+    <span class="n">api</span> <span class="o">=</span> <span class="n">DsApiFactory</span><span class="o">.</span><span class="n">getFileDsApi</span><span class="p">()</span>
+    <span class="k">return</span> <span class="n">api</span></div>
+
+
+
+<div class="viewcode-block" id="dm_api_proc">
+<a class="viewcode-back" href="../../../api/_utils.html#apstools.utils.aps_data_management.dm_api_proc">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">dm_api_proc</span><span class="p">():</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Return the APS Data Management Processing API object.&quot;&quot;&quot;</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">dm</span><span class="w"> </span><span class="kn">import</span> <span class="n">ProcApiFactory</span>
+
+    <span class="n">dm_source_environ</span><span class="p">()</span>
+    <span class="n">api</span> <span class="o">=</span> <span class="n">ProcApiFactory</span><span class="o">.</span><span class="n">getWorkflowProcApi</span><span class="p">()</span>
+    <span class="k">return</span> <span class="n">api</span></div>
+
+
+
+<div class="viewcode-block" id="dm_get_daqs">
+<a class="viewcode-back" href="../../../api/_utils.html#apstools.utils.aps_data_management.dm_get_daqs">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">dm_get_daqs</span><span class="p">(</span><span class="n">experimentName</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Return list of APS Data Management DAQ(s) for this experiment.</span>
+
+<span class="sd">    PARAMETERS</span>
+
+<span class="sd">    experimentName *str*:</span>
+<span class="sd">        Name of the APS Data Management experiment.</span>
+
+<span class="sd">    RETURNS</span>
+
+<span class="sd">        List of matching DAQ dictionaries.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">api</span> <span class="o">=</span> <span class="n">dm_api_daq</span><span class="p">()</span>
+    <span class="c1"># fmt: off</span>
+    <span class="k">return</span> <span class="p">[</span>
+        <span class="n">daq</span>
+        <span class="k">for</span> <span class="n">daq</span> <span class="ow">in</span> <span class="n">api</span><span class="o">.</span><span class="n">listDaqs</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">daq</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;experimentName&quot;</span><span class="p">)</span> <span class="o">==</span> <span class="n">experimentName</span>
+    <span class="p">]</span></div>
+
+    <span class="c1"># fmt: on</span>
+
+
+<div class="viewcode-block" id="dm_file_ready_to_process">
+<a class="viewcode-back" href="../../../api/_utils.html#apstools.utils.aps_data_management.dm_file_ready_to_process">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">dm_file_ready_to_process</span><span class="p">(</span>
+    <span class="n">experimentFilePath</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>  <span class="c1"># path (abs or rel) to a file</span>
+    <span class="n">experimentName</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+    <span class="n">compression</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+    <span class="n">retrieveMd5Sum</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Does DM determine the named file is ready for processing?</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="p">(</span>
+        <span class="n">dm_api_file</span><span class="p">()</span>
+        <span class="o">.</span><span class="n">statFile</span><span class="p">(</span><span class="n">experimentFilePath</span><span class="p">,</span> <span class="n">experimentName</span><span class="p">,</span> <span class="n">compression</span><span class="p">,</span> <span class="n">retrieveMd5Sum</span><span class="p">)</span>
+        <span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;readyForProcessing&quot;</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
+    <span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="dm_source_environ">
+<a class="viewcode-back" href="../../../api/_utils.html#apstools.utils.aps_data_management.dm_source_environ">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">dm_source_environ</span><span class="p">():</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Add APS Data Management environment variable definitions to this process.</span>
+
+<span class="sd">    This function reads the bash script, searching for lines that start with</span>
+<span class="sd">    &quot;export &quot;. Such lines define bash shell environment variables in the bash</span>
+<span class="sd">    script.  This function adds those environment variables to the current</span>
+<span class="sd">    environment.</span>
+
+<span class="sd">    BASH COMMAND SUGGESTIONS::</span>
+
+<span class="sd">        source /home/dm/etc/dm.setup.sh</span>
+
+<span class="sd">        source ~/DM/etc/dm.setup.sh</span>
+
+<span class="sd">    The suggestions follow a pattern: ``${DM_ROOT}/etc/dm.setup.sh`` where</span>
+<span class="sd">    ``DM_ROOT`` is the location of the DM tools as installed in the current user</span>
+<span class="sd">    account.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">global</span> <span class="n">DM_ENV_SOURCED</span>
+
+    <span class="k">if</span> <span class="n">DM_ENV_SOURCED</span><span class="p">:</span>
+        <span class="k">return</span>
+
+    <span class="k">if</span> <span class="n">DM_SETUP_FILE</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;DM setup file is undefined.  First call &#39;dm_setup(setup_file)&#39;.&quot;</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">chop</span><span class="p">(</span><span class="n">text</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">text</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">split</span><span class="p">()[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;=&quot;</span><span class="p">)</span>
+
+    <span class="c1"># fmt: off</span>
+    <span class="n">ev</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="n">chop</span><span class="p">(</span><span class="n">line</span><span class="p">)[</span><span class="mi">0</span><span class="p">]:</span> <span class="n">chop</span><span class="p">(</span><span class="n">line</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+        <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="nb">open</span><span class="p">(</span><span class="n">DM_SETUP_FILE</span><span class="p">)</span><span class="o">.</span><span class="n">readlines</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">line</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;export &quot;</span><span class="p">)</span>
+    <span class="p">}</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">ev</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">KeyError</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;No environment variable definitions found in: </span><span class="si">{</span><span class="n">DM_SETUP_FILE</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="p">)</span>
+    <span class="n">environ</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">ev</span><span class="p">)</span>
+    <span class="n">DM_ENV_SOURCED</span> <span class="o">=</span> <span class="kc">True</span></div>
+
+    <span class="c1"># fmt: on</span>
+
+
+<div class="viewcode-block" id="dm_start_daq">
+<a class="viewcode-back" href="../../../api/_utils.html#apstools.utils.aps_data_management.dm_start_daq">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">dm_start_daq</span><span class="p">(</span><span class="n">experimentName</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">dataDirectory</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="o">**</span><span class="n">daqInfo</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Start APS DM data acquisition (real-time directory monitoring and file upload).</span>
+
+<span class="sd">    PARAMETERS</span>
+
+<span class="sd">    experimentName *str*:</span>
+<span class="sd">        Name of the APS Data Management experiment.</span>
+<span class="sd">    dataDirectory:</span>
+<span class="sd">        data directory URL</span>
+<span class="sd">    daqInfo *dict*:</span>
+<span class="sd">        Dictionary of optional metadata (key/value pairs) describing data acquisition.</span>
+<span class="sd">        See https://git.aps.anl.gov/DM/dm-docs/-/wikis/DM/Beamline-Services/API-Reference/DAQ-Service#dm.daq_web_service.api.experimentDaqApi.ExperimentDaqApi.startDaq</span>
+<span class="sd">        for details.</span>
+
+<span class="sd">    RETURNS</span>
+
+<span class="sd">    - daqInfo dictionary</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">ret_daqInfo</span> <span class="o">=</span> <span class="n">dm_api_daq</span><span class="p">()</span><span class="o">.</span><span class="n">startDaq</span><span class="p">(</span><span class="n">experimentName</span><span class="p">,</span> <span class="n">dataDirectory</span><span class="p">,</span> <span class="n">daqInfo</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">ret_daqInfo</span></div>
+
+
+
+<div class="viewcode-block" id="dm_stop_daq">
+<a class="viewcode-back" href="../../../api/_utils.html#apstools.utils.aps_data_management.dm_stop_daq">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">dm_stop_daq</span><span class="p">(</span><span class="n">experimentName</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">dataDirectory</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Stop APS DM data acquisition (real-time directory monitoring and file upload).</span>
+
+<span class="sd">    PARAMETERS</span>
+
+<span class="sd">    experimentName *str*:</span>
+<span class="sd">        Name of the APS Data Management experiment.</span>
+<span class="sd">    dataDirectory:</span>
+<span class="sd">        data directory URL</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">dm_api_daq</span><span class="p">()</span><span class="o">.</span><span class="n">stopDaq</span><span class="p">(</span><span class="n">experimentName</span><span class="p">,</span> <span class="n">dataDirectory</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="dm_station_name">
+<a class="viewcode-back" href="../../../api/_utils.html#apstools.utils.aps_data_management.dm_station_name">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">dm_station_name</span><span class="p">():</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Return the APS Data Management station name or ``None`` if not found.&quot;&quot;&quot;</span>
+    <span class="n">dm_source_environ</span><span class="p">()</span>
+    <span class="n">nm</span> <span class="o">=</span> <span class="n">environ</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;DM_STATION_NAME&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">nm</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">return</span> <span class="nb">str</span><span class="p">(</span><span class="n">nm</span><span class="p">)</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span></div>
+
+
+
+<div class="viewcode-block" id="dm_upload">
+<a class="viewcode-back" href="../../../api/_utils.html#apstools.utils.aps_data_management.dm_upload">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">dm_upload</span><span class="p">(</span><span class="n">experimentName</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">dataDirectory</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="o">**</span><span class="n">daqInfo</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Start APS DM data acquisition file upload.</span>
+
+<span class="sd">    PARAMETERS</span>
+
+<span class="sd">    experimentName *str*:</span>
+<span class="sd">        Name of the APS Data Management experiment.</span>
+<span class="sd">    dataDirectory:</span>
+<span class="sd">        data directory URL</span>
+<span class="sd">    daqInfo *dict*:</span>
+<span class="sd">        Dictionary of optional metadata (key/value pairs) describing data acquisition.</span>
+<span class="sd">        See https://git.aps.anl.gov/DM/dm-docs/-/wikis/DM/Beamline-Services/API-Reference/DAQ-Service#dm.daq_web_service.api.experimentDaqApi.ExperimentDaqApi.startDaq</span>
+<span class="sd">        for details.</span>
+
+<span class="sd">    .. seealso:: The ``wait_dm_upload()`` function in this module.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">dm_api_daq</span><span class="p">()</span><span class="o">.</span><span class="n">upload</span><span class="p">(</span><span class="n">experimentName</span><span class="p">,</span> <span class="n">dataDirectory</span><span class="p">,</span> <span class="n">daqInfo</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="wait_dm_upload">
+<a class="viewcode-back" href="../../../api/_utils.html#apstools.utils.aps_data_management.wait_dm_upload">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">wait_dm_upload</span><span class="p">(</span>
+    <span class="n">experiment_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+    <span class="n">experiment_file</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+    <span class="n">timeout</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="n">DEFAULT_UPLOAD_TIMEOUT</span><span class="p">,</span>
+    <span class="n">poll_period</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="n">DEFAULT_UPLOAD_POLL_PERIOD</span><span class="p">,</span>
+<span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    (bluesky plan) Wait for APS DM data acquisition to upload a file.</span>
+
+<span class="sd">    PARAMETERS</span>
+
+<span class="sd">    - experiment_name *str*: Name of the APS Data Management experiment.</span>
+<span class="sd">    - experiment_file *str* Name (and path) of file  in DM.</span>
+<span class="sd">    - timeout *float*: Number of seconds to wait before raising a &#39;TimeoutError&#39;.</span>
+<span class="sd">    - poll_period *float*: Number of seconds to wait before check DM again.</span>
+
+<span class="sd">    RAISES</span>
+
+<span class="sd">    - TimeoutError: if DM does not identify file within &#39;timeout&#39; (seconds).</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">dm</span><span class="w"> </span><span class="kn">import</span> <span class="n">ObjectNotFound</span>
+
+    <span class="n">t0</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+    <span class="n">deadline</span> <span class="o">=</span> <span class="n">t0</span> <span class="o">+</span> <span class="n">timeout</span>
+    <span class="k">yield from</span> <span class="n">bps</span><span class="o">.</span><span class="n">null</span><span class="p">()</span>  <span class="c1"># now, it&#39;s a bluesky plan</span>
+
+    <span class="k">while</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span> <span class="o">&lt;=</span> <span class="n">deadline</span><span class="p">:</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="c1"># either this succeeds or raises an exception</span>
+            <span class="n">dm_get_experiment_file</span><span class="p">(</span><span class="n">experiment_name</span><span class="p">,</span> <span class="n">experiment_file</span><span class="p">)</span>
+            <span class="k">return</span>  <span class="c1"># if successful</span>
+        <span class="k">except</span> <span class="n">ObjectNotFound</span><span class="p">:</span>
+            <span class="k">yield from</span> <span class="n">bps</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="n">poll_period</span><span class="p">)</span>
+
+    <span class="k">raise</span> <span class="ne">TimeoutError</span><span class="p">(</span>
+        <span class="sa">f</span><span class="s2">&quot;No such file=</span><span class="si">{</span><span class="n">experiment_file</span><span class="si">!r}</span><span class="s2"> found&quot;</span> <span class="sa">f</span><span class="s2">&quot; in DM </span><span class="si">{</span><span class="n">experiment_name</span><span class="si">=!r}</span><span class="s2">&quot;</span> <span class="sa">f</span><span class="s2">&quot; after </span><span class="si">{</span><span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span><span class="o">-</span><span class="n">t0</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2"> s.&quot;</span>
+    <span class="p">)</span></div>
+
+
+
+<span class="c1"># def dm_add_experiment(experiment_name, typeName=None, **kwargs):</span>
+<span class="c1">#     &quot;&quot;&quot;Create a new experiment.  (Use sparingly, if ever.)&quot;&quot;&quot;</span>
+<span class="c1">#     typeName = typeName or &quot;BDP&quot;  # TODO: generalize, TEST, XPCS8, ...</span>
+<span class="c1">#     dm_api_ds().addExperiment(experiment_name, typeName=typeName, **kwargs)</span>
+
+
+<span class="c1"># def dm_delete_experiment(reference):</span>
+<span class="c1">#     &quot;&quot;&quot;Delete ALL of an existing experiment.  (No recovering from this!)&quot;&quot;&quot;</span>
+<span class="c1">#     api = dm_api_ds()</span>
+<span class="c1">#     if isinstance(reference, int):</span>
+<span class="c1">#         api.deleteExperimentById(reference)</span>
+<span class="c1">#     elif isinstance(reference, str):</span>
+<span class="c1">#         api.deleteExperimentByName(reference)</span>
+
+
+<div class="viewcode-block" id="dm_get_experiment_file">
+<a class="viewcode-back" href="../../../api/_utils.html#apstools.utils.aps_data_management.dm_get_experiment_file">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">dm_get_experiment_file</span><span class="p">(</span><span class="n">experiment_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">experiment_file</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Get experiment file.</span>
+
+<span class="sd">    PARAMETERS</span>
+
+<span class="sd">    experiment_name *str*:</span>
+<span class="sd">        Name of the APS Data Management experiment.  The experiment must exist.</span>
+
+<span class="sd">    experiment_file *str*:</span>
+<span class="sd">        Name (with path) of the experiment file.</span>
+
+<span class="sd">    RETURNS</span>
+
+<span class="sd">    FileMetadata object.</span>
+
+<span class="sd">    RAISES</span>
+
+<span class="sd">        - InvalidRequest – in case experiment name or file path have not been provided</span>
+<span class="sd">        - AuthorizationError – in case user is not authorized to manage DM station</span>
+<span class="sd">        - ObjectNotFound – in case file with a given path does not exist</span>
+<span class="sd">        - DmException – in case of any other errors</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">api</span> <span class="o">=</span> <span class="n">dm_api_filecat</span><span class="p">()</span>
+    <span class="k">return</span> <span class="n">api</span><span class="o">.</span><span class="n">getExperimentFile</span><span class="p">(</span><span class="n">experiment_name</span><span class="p">,</span> <span class="n">experiment_file</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="dm_get_experiment_path">
+<a class="viewcode-back" href="../../../api/_utils.html#apstools.utils.aps_data_management.dm_get_experiment_path">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">dm_get_experiment_path</span><span class="p">(</span><span class="n">experiment_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Return the storageDirectory for the named APS Data Management experiment as a path.</span>
+
+<span class="sd">    PARAMETERS</span>
+
+<span class="sd">    experiment_name *str*:</span>
+<span class="sd">        Name of the APS Data Management experiment.  The experiment must exist.</span>
+
+<span class="sd">    RETURNS</span>
+
+<span class="sd">    Data directory for the experiment, as pathlib.Path object.</span>
+
+<span class="sd">    RAISES</span>
+
+<span class="sd">    dm.ObjectNotFound:</span>
+<span class="sd">        When experiment is not found.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">api</span> <span class="o">=</span> <span class="n">dm_api_ds</span><span class="p">()</span>
+    <span class="n">path</span> <span class="o">=</span> <span class="n">api</span><span class="o">.</span><span class="n">getExperimentByName</span><span class="p">(</span><span class="n">experiment_name</span><span class="p">)</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;storageDirectory&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">path</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">path</span> <span class="o">=</span> <span class="n">pathlib</span><span class="o">.</span><span class="n">Path</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">path</span></div>
+
+
+
+<div class="viewcode-block" id="dm_get_experiments">
+<a class="viewcode-back" href="../../../api/_utils.html#apstools.utils.aps_data_management.dm_get_experiments">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">dm_get_experiments</span><span class="p">(</span><span class="n">keys</span><span class="o">=</span><span class="n">DEFAULT_DM_EXPERIMENT_KEYS</span><span class="p">,</span> <span class="n">table</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">default_value</span><span class="o">=</span><span class="s2">&quot;-na-&quot;</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Get the most recent APS Data Management experiments (for the current station).</span>
+
+<span class="sd">    Return result as either a list or a pyRestTable object (see ``table``).</span>
+
+<span class="sd">    PARAMETERS:</span>
+
+<span class="sd">    keys *[str]*:</span>
+<span class="sd">        Data keys to be shown in the table.</span>
+<span class="sd">    table *bool*:</span>
+<span class="sd">        If ``False`` (default), return a Python list.</span>
+<span class="sd">        If ``True``, return a pyRestTable ``Table()`` object.</span>
+<span class="sd">    default_value *str*:</span>
+<span class="sd">        Table value if no data available for that key.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">experiments</span> <span class="o">=</span> <span class="n">dm_api_ds</span><span class="p">()</span><span class="o">.</span><span class="n">getExperimentsByStation</span><span class="p">()</span>
+    <span class="k">if</span> <span class="n">table</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">experiments</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">keys</span><span class="p">,</span> <span class="p">(</span><span class="nb">list</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">))</span> <span class="ow">or</span> <span class="nb">len</span><span class="p">(</span><span class="n">keys</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">keys</span> <span class="o">=</span> <span class="n">experiments</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">DEFAULT_KEY_LIST</span>
+        <span class="n">tbl</span> <span class="o">=</span> <span class="n">pyRestTable</span><span class="o">.</span><span class="n">Table</span><span class="p">()</span>
+        <span class="n">tbl</span><span class="o">.</span><span class="n">labels</span> <span class="o">=</span> <span class="n">keys</span>
+        <span class="k">for</span> <span class="n">entry</span> <span class="ow">in</span> <span class="n">experiments</span><span class="p">:</span>
+            <span class="n">row</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">keys</span><span class="p">:</span>
+                <span class="n">value</span> <span class="o">=</span> <span class="n">entry</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">default_value</span><span class="p">)</span>
+                <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
+                    <span class="n">value</span> <span class="o">=</span> <span class="n">value</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;description&quot;</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
+                <span class="c1"># do this in steps, value might be modified (ts2iso, for example)</span>
+                <span class="n">row</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+            <span class="c1"># datetime</span>
+            <span class="n">tbl</span><span class="o">.</span><span class="n">addRow</span><span class="p">(</span><span class="n">row</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">tbl</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">experiments</span></div>
+
+
+
+<div class="viewcode-block" id="get_workflow_last_stage">
+<a class="viewcode-back" href="../../../api/_utils.html#apstools.utils.aps_data_management.get_workflow_last_stage">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">get_workflow_last_stage</span><span class="p">(</span><span class="n">workflow_name</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Return the name of the last stage in the named APS Data Management workflow.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="n">dm_get_workflow</span><span class="p">(</span><span class="n">workflow_name</span><span class="p">)[</span><span class="s2">&quot;stages&quot;</span><span class="p">])[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span></div>
+
+
+
+<div class="viewcode-block" id="share_bluesky_metadata_with_dm">
+<a class="viewcode-back" href="../../../api/_utils.html#apstools.utils.aps_data_management.share_bluesky_metadata_with_dm">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">share_bluesky_metadata_with_dm</span><span class="p">(</span><span class="n">experimentName</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">workflow_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">run</span><span class="p">,</span> <span class="n">should_raise</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Once a bluesky run ends, share its metadata with APS DM.</span>
+
+<span class="sd">    Only upload if we have a workflow.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="kn">import</span><span class="w"> </span><span class="nn">uuid</span>
+
+    <span class="kn">from</span><span class="w"> </span><span class="nn">dm</span><span class="w"> </span><span class="kn">import</span> <span class="n">InvalidArgument</span>
+
+    <span class="n">api</span> <span class="o">=</span> <span class="n">dm_api_dataset_cat</span><span class="p">()</span>
+
+    <span class="n">datasetInfo</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s2">&quot;experimentName&quot;</span><span class="p">:</span> <span class="n">experimentName</span><span class="p">,</span>
+        <span class="s2">&quot;datasetName&quot;</span><span class="p">:</span> <span class="sa">f</span><span class="s2">&quot;run_uid8_</span><span class="si">{</span><span class="n">run</span><span class="o">.</span><span class="n">metadata</span><span class="p">[</span><span class="s1">&#39;start&#39;</span><span class="p">][</span><span class="s1">&#39;uid&#39;</span><span class="p">][:</span><span class="mi">8</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>  <span class="c1"># first part of run uid</span>
+        <span class="s2">&quot;workflow_name&quot;</span><span class="p">:</span> <span class="n">workflow_name</span><span class="p">,</span>
+        <span class="s2">&quot;time_iso8601&quot;</span><span class="p">:</span> <span class="n">ts2iso</span><span class="p">(</span><span class="n">run</span><span class="o">.</span><span class="n">metadata</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;start&quot;</span><span class="p">,</span> <span class="p">{})</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;time&quot;</span><span class="p">,</span> <span class="mi">0</span><span class="p">)),</span>
+        <span class="s2">&quot;bluesky_metadata&quot;</span><span class="p">:</span> <span class="p">{</span><span class="n">k</span><span class="p">:</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">run</span><span class="p">,</span> <span class="n">k</span><span class="p">)</span><span class="o">.</span><span class="n">metadata</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">run</span><span class="p">},</span>  <span class="c1"># all streams</span>
+        <span class="c1"># - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -</span>
+        <span class="s2">&quot;_id&quot;</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="n">uuid</span><span class="o">.</span><span class="n">uuid4</span><span class="p">()),</span>  <span class="c1"># FIXME: dm must fix this upstream</span>
+    <span class="p">}</span>
+
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">dm_md</span> <span class="o">=</span> <span class="n">api</span><span class="o">.</span><span class="n">addExperimentDataset</span><span class="p">(</span><span class="n">datasetInfo</span><span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;Metadata shared to DM: </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">dm_md</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">dm_md</span>
+    <span class="k">except</span> <span class="n">InvalidArgument</span> <span class="k">as</span> <span class="n">ex</span><span class="p">:</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="n">ex</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">should_raise</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">ex</span></div>
+
+
+
+<div class="viewcode-block" id="DM_WorkflowCache">
+<a class="viewcode-back" href="../../../api/_utils.html#apstools.utils.aps_data_management.DM_WorkflowCache">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">DM_WorkflowCache</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Keep track of one or more APS Data Management workflows for bluesky plans.</span>
+
+<span class="sd">    .. autosummary::</span>
+
+<span class="sd">        ~define_workflow</span>
+<span class="sd">        ~print_cache_summary</span>
+<span class="sd">        ~report_dm_workflow_output</span>
+<span class="sd">        ~wait_workflows</span>
+<span class="sd">        ~_update_processing_data</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">cache</span> <span class="o">=</span> <span class="p">{}</span>
+
+<div class="viewcode-block" id="DM_WorkflowCache.define_workflow">
+<a class="viewcode-back" href="../../../api/_utils.html#apstools.utils.aps_data_management.DM_WorkflowCache.define_workflow">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">define_workflow</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">connector</span><span class="p">:</span> <span class="nb">object</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Add a DM_WorkflowConnector object to be managed.</span>
+
+<span class="sd">        PARAMETERS</span>
+
+<span class="sd">        key *str*:</span>
+<span class="sd">            Identifying text for this workflow object.</span>
+<span class="sd">        connector *object*:</span>
+<span class="sd">            Instance of DM_WorkflowConnector.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">key</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">cache</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">KeyError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Key already exists: </span><span class="si">{</span><span class="n">key</span><span class="si">!r}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="c1"># TODO: validate connector</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">cache</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">connector</span></div>
+
+
+<div class="viewcode-block" id="DM_WorkflowCache.print_cache_summary">
+<a class="viewcode-back" href="../../../api/_utils.html#apstools.utils.aps_data_management.DM_WorkflowCache.print_cache_summary">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">print_cache_summary</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">title</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;Summary&quot;</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Summarize (in a table) the DM workflows in the cache.&quot;&quot;&quot;</span>
+        <span class="n">table</span> <span class="o">=</span> <span class="n">pyRestTable</span><span class="o">.</span><span class="n">Table</span><span class="p">()</span>
+        <span class="n">table</span><span class="o">.</span><span class="n">labels</span> <span class="o">=</span> <span class="s2">&quot;# process status runTime started id&quot;</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">cache</span><span class="p">,</span> <span class="n">start</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
+            <span class="n">v</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">cache</span><span class="p">[</span><span class="n">k</span><span class="p">]</span>
+            <span class="n">job_id</span> <span class="o">=</span> <span class="n">v</span><span class="o">.</span><span class="n">job_id</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
+            <span class="n">started</span> <span class="o">=</span> <span class="n">ts2iso</span><span class="p">(</span><span class="n">v</span><span class="o">.</span><span class="n">start_time</span><span class="p">)</span>
+            <span class="n">table</span><span class="o">.</span><span class="n">addRow</span><span class="p">((</span><span class="n">i</span><span class="p">,</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span><span class="o">.</span><span class="n">status</span><span class="o">.</span><span class="n">get</span><span class="p">(),</span> <span class="n">v</span><span class="o">.</span><span class="n">run_time</span><span class="o">.</span><span class="n">get</span><span class="p">(),</span> <span class="n">started</span><span class="p">,</span> <span class="n">job_id</span><span class="p">[:</span><span class="mi">7</span><span class="p">]))</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="si">{</span><span class="n">title</span><span class="si">}</span><span class="se">\n</span><span class="si">{</span><span class="n">table</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="DM_WorkflowCache.report_dm_workflow_output">
+<a class="viewcode-back" href="../../../api/_utils.html#apstools.utils.aps_data_management.DM_WorkflowCache.report_dm_workflow_output">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">report_dm_workflow_output</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">final_stage_id</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Print a final (summary) report about a single DM workflow.</span>
+
+<span class="sd">        PARAMETERS</span>
+
+<span class="sd">        final_stage_id *str*:</span>
+<span class="sd">            Text key of the last stage in the workflow.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">for</span> <span class="n">wf</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">cache</span><span class="o">.</span><span class="n">values</span><span class="p">():</span>
+            <span class="n">job</span> <span class="o">=</span> <span class="n">wf</span><span class="o">.</span><span class="n">getJob</span><span class="p">()</span>
+            <span class="n">stage</span> <span class="o">=</span> <span class="n">job</span><span class="o">.</span><span class="n">getWorkflowStage</span><span class="p">(</span><span class="n">final_stage_id</span><span class="p">)</span>  <span class="c1"># example: &quot;06-DONE&quot;</span>
+            <span class="k">for</span> <span class="n">process</span> <span class="ow">in</span> <span class="n">stage</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;childProcesses&quot;</span><span class="p">,</span> <span class="p">{})</span><span class="o">.</span><span class="n">values</span><span class="p">():</span>
+                <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="s2">&quot;stdOut stdErr&quot;</span><span class="o">.</span><span class="n">split</span><span class="p">():</span>
+                    <span class="n">value</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">process</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">))</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+                    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">value</span><span class="p">):</span>
+                        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">final_stage_id</span><span class="si">}</span><span class="s2">  </span><span class="si">{</span><span class="n">key</span><span class="si">}</span><span class="s2">:</span><span class="se">\n</span><span class="si">{</span><span class="n">value</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+                        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;~&quot;</span> <span class="o">*</span> <span class="mi">50</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="DM_WorkflowCache.wait_workflows">
+<a class="viewcode-back" href="../../../api/_utils.html#apstools.utils.aps_data_management.DM_WorkflowCache.wait_workflows">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">wait_workflows</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">period</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="n">DEFAULT_PERIOD</span><span class="p">,</span> <span class="n">wait</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="n">DEFAULT_WAIT</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        (plan) Wait (if ``True``) for existing workflows to finish.</span>
+
+<span class="sd">        PARAMETERS</span>
+
+<span class="sd">        period *float*:</span>
+<span class="sd">            Time between reports while waiting for all workflows to finish processing.</span>
+<span class="sd">            Default: 10 seconds.</span>
+<span class="sd">        wait *bool*:</span>
+<span class="sd">            Should RE wait for all workflows to finish?</span>
+<span class="sd">            Default: ``True``</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;DEBUG: wait_workflows(): waiting=</span><span class="si">{</span><span class="n">wait</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">wait</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Waiting for all previous workflows (</span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">cache</span><span class="p">)</span><span class="si">}</span><span class="s2">) to finish...&quot;</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">workflow</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">cache</span><span class="o">.</span><span class="n">values</span><span class="p">():</span>
+                <span class="c1"># wait for each workflow to end</span>
+                <span class="k">while</span> <span class="n">workflow</span><span class="o">.</span><span class="n">status</span><span class="o">.</span><span class="n">get</span><span class="p">()</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">WORKFLOW_DONE_STATES</span><span class="p">:</span>
+                    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Waiting for </span><span class="si">{</span><span class="n">workflow</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
+                    <span class="k">yield from</span> <span class="n">bps</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="n">period</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="DM_WorkflowCache._update_processing_data">
+<a class="viewcode-back" href="../../../api/_utils.html#apstools.utils.aps_data_management.DM_WorkflowCache._update_processing_data">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_update_processing_data</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Update all the workflows in the cache (from the DM server).&quot;&quot;&quot;</span>
+        <span class="k">for</span> <span class="n">wf</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">cache</span><span class="o">.</span><span class="n">values</span><span class="p">():</span>
+            <span class="n">wf</span><span class="o">.</span><span class="n">_update_processing_data</span><span class="p">()</span></div>
+</div>
+
+
+
+<div class="viewcode-block" id="dm_daq_wait_upload_plan">
+<a class="viewcode-back" href="../../../api/_utils.html#apstools.utils.aps_data_management.dm_daq_wait_upload_plan">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">dm_daq_wait_upload_plan</span><span class="p">(</span><span class="nb">id</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">period</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="n">DEFAULT_PERIOD</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;plan: Wait for DAQ uploads to finish.&quot;&quot;&quot;</span>
+    <span class="n">api</span> <span class="o">=</span> <span class="n">dm_api_daq</span><span class="p">()</span>
+    <span class="n">uploadInfo</span> <span class="o">=</span> <span class="n">api</span><span class="o">.</span><span class="n">getUploadInfo</span><span class="p">(</span><span class="nb">id</span><span class="p">)</span>
+    <span class="n">uploadStatus</span> <span class="o">=</span> <span class="n">uploadInfo</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;status&quot;</span><span class="p">)</span>
+    <span class="k">while</span> <span class="n">uploadStatus</span> <span class="ow">not</span> <span class="ow">in</span> <span class="s2">&quot;done failed skipped aborted aborting&quot;</span><span class="o">.</span><span class="n">split</span><span class="p">():</span>
+        <span class="k">yield from</span> <span class="n">bps</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="n">period</span><span class="p">)</span>
+        <span class="n">uploadInfo</span> <span class="o">=</span> <span class="n">api</span><span class="o">.</span><span class="n">getUploadInfo</span><span class="p">(</span><span class="nb">id</span><span class="p">)</span>
+        <span class="n">uploadStatus</span> <span class="o">=</span> <span class="n">uploadInfo</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;status&quot;</span><span class="p">)</span>
+    <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;DM DAQ upload info: </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">uploadInfo</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">uploadStatus</span> <span class="o">!=</span> <span class="s2">&quot;done&quot;</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;DM DAQ upload status: </span><span class="si">{</span><span class="n">uploadStatus</span><span class="si">!r}</span><span class="s2">, </span><span class="si">{</span><span class="nb">id</span><span class="si">=!r}</span><span class="s2">.&quot;</span>
+            <span class="sa">f</span><span class="s2">&quot;  Processing error message(s): </span><span class="si">{</span><span class="n">uploadInfo</span><span class="p">[</span><span class="s1">&#39;errorMessage&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">.&quot;</span>
+        <span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="dm_get_experiment_datadir_active_daq">
+<a class="viewcode-back" href="../../../api/_utils.html#apstools.utils.aps_data_management.dm_get_experiment_datadir_active_daq">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">dm_get_experiment_datadir_active_daq</span><span class="p">(</span><span class="n">experiment_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">data_directory</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Return the daqInfo dict for the active DAQ, or &#39;None&#39;.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">dm.common.constants</span><span class="w"> </span><span class="kn">import</span> <span class="n">dmProcessingStatus</span>
+
+    <span class="n">active_statuses</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="n">dmProcessingStatus</span><span class="o">.</span><span class="n">DM_PROCESSING_STATUS_PENDING</span><span class="p">,</span>
+        <span class="n">dmProcessingStatus</span><span class="o">.</span><span class="n">DM_PROCESSING_STATUS_RUNNING</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="k">for</span> <span class="n">daq_info</span> <span class="ow">in</span> <span class="n">dm_api_daq</span><span class="p">()</span><span class="o">.</span><span class="n">listDaqs</span><span class="p">():</span>
+        <span class="k">if</span> <span class="n">daq_info</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;experimentName&quot;</span><span class="p">)</span> <span class="o">==</span> <span class="n">experiment_name</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">daq_info</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;dataDirectory&quot;</span><span class="p">)</span> <span class="o">==</span> <span class="n">data_directory</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">daq_info</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;status&quot;</span><span class="p">)</span> <span class="ow">in</span> <span class="n">active_statuses</span><span class="p">:</span>
+                    <span class="k">return</span> <span class="n">daq_info</span>
+    <span class="k">return</span> <span class="kc">None</span></div>
+
+</pre></div>
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="../../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+
+  <p class="copyright">
+    
+      © Copyright 2017-2025, UChicago Argonne, LLC.
+      <br/>
+    
+  </p>
+</div>
+      
+        <div class="footer-item">
+
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.1.3.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item">
+<p class="theme-version">
+  <!-- # L10n: Setting the PST URL as an argument as this does not need to be localized -->
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.16.1.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>
