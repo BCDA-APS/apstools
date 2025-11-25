@@ -5,6 +5,7 @@ Test the APS Data Management utility functions.
 import pathlib
 import tempfile
 import uuid
+from contextlib import nullcontext as does_not_raise
 
 import pytest
 
@@ -19,58 +20,98 @@ def tmpfile():
     yield tempdir / f"file_{str(uuid.uuid4())[:7]}"
 
 
-def test_dm_setup_raises(tmpfile):
-    # reset, to be safe
-    adm.DM_ENV_SOURCED = False
-    assert not adm.DM_ENV_SOURCED
-
-    # Test with a non-existing file name.
-    # tmpfile does not exist yet since nothing was written to it.
-    with pytest.raises(FileExistsError) as exinfo:
-        dm_setup(tmpfile)
-    assert "does not exist" in str(exinfo)
-    assert adm.DM_SETUP_FILE is None
-    assert not adm.DM_ENV_SOURCED
-
-    # Test with a file that has no 'export' statements.  This Python file, for example.
-    with pytest.raises(KeyError) as exinfo:
-        dm_setup(__file__)
-    assert "No environment variable definitions found" in str(exinfo)
-    assert adm.DM_SETUP_FILE == str(pathlib.Path(__file__))
-    assert not adm.DM_ENV_SOURCED
-
-    bash_script = tmpfile
-    with open(bash_script, "w") as f:
-        f.write("export EXAMPLE=example\n")
-    with pytest.raises(KeyError) as exinfo:
-        dm_setup(bash_script)
-    assert adm.DM_ENV_SOURCED
-    assert adm.DM_SETUP_FILE == tmpfile
-    assert adm.environ.get("EXAMPLE") == "example"
-    assert "DM_STATION_NAME" in str(exinfo)
-
-    # Finally, call with a setup that does not raise an exception.
-    # Adds the minimum required (to pass) 'export' statement.
-    value = "apstools_test"
-    with open(bash_script, "a") as f:
-        f.write(f"export DM_STATION_NAME={value}\n")
-    adm.DM_ENV_SOURCED = False
-    assert not adm.DM_ENV_SOURCED
-    dm_setup(bash_script)
-    assert adm.DM_ENV_SOURCED
-    assert adm.DM_SETUP_FILE == tmpfile
-    assert adm.environ.get("DM_STATION_NAME") == value
+def make_bash_file(contents):
+    # TODO: remove tempdir after test
+    tempdir = pathlib.Path(tempfile.mkdtemp())
+    filename = tempdir / f"file_{str(uuid.uuid4())[:7]}"
+    with open(filename, "w") as f:
+        f.write(contents)
+    return str(filename)
 
 
-def test_dm_source_environ_raises(tmpfile):
-    # reset, to be safe
-    adm.DM_ENV_SOURCED = False
-    assert not adm.DM_ENV_SOURCED
+@pytest.mark.parametrize(
+    "filename, fail, context",
+    [
+        pytest.param(
+            "/does/not/exist",
+            False,
+            does_not_raise(),
+            id="non-existing file name, fail=False",
+        ),
+        pytest.param(
+            "/no/such/file",
+            True,
+            pytest.raises(
+                FileExistsError,
+                match="filename='/no/such/file' does not exist.",
+            ),
+            id="non-existing file name, fail=True",
+        ),
+        pytest.param(
+            __file__,  # This Python file does not have the env vars.
+            False,
+            pytest.raises(
+                KeyError,
+                match="No environment variable definitions found",
+            ),
+            id="file that has no 'export' statements",
+        ),
+        pytest.param(
+            None,
+            False,
+            pytest.raises(
+                TypeError,
+                match="expected str, bytes or os.PathLike object, not NoneType",
+            ),
+            id="filename is 'None'",
+        ),
+        pytest.param(
+            make_bash_file("export EXAMPLE=example\n"),
+            False,
+            pytest.raises(KeyError, match="DM_STATION_NAME"),
+            id="export EXAMPLE=example\n",
+        ),
+        pytest.param(
+            make_bash_file("export DM_STATION_NAME=apstools_test\n"),
+            False,
+            does_not_raise(),
+            id="minimum content required to pass",
+        ),
+    ],
+)
+def test_dm_setup_raises_new(filename, fail, context):
+    with context:
+        # reset, to be safe
+        adm.DM_ENV_SOURCED = False
+        assert not adm.DM_ENV_SOURCED
 
-    # tmpfile does not exist yet since nothing was written to it.
-    with pytest.raises(FileExistsError) as exinfo:
-        dm_setup(tmpfile)
-    with pytest.raises(ValueError) as exinfo:
+        dm_setup(filename, fail=fail)
+
+
+@pytest.mark.parametrize(
+    "filename, sourced, context",
+    [
+        pytest.param(
+            "/no/such/file",
+            False,
+            pytest.raises(ValueError, match="file is undefined"),
+            id="file still does not exist",
+        ),
+        pytest.param(
+            make_bash_file("export DM_STATION_NAME=apstools_test\n"),
+            True,
+            does_not_raise(),
+            id="minimum required content",
+        ),
+    ],
+)
+def test_dm_source_environ_raises(filename, sourced, context):
+    with context:
+        # reset, to be safe
+        adm.DM_ENV_SOURCED = False
+        assert not adm.DM_ENV_SOURCED
+
+        dm_setup(filename, fail=False)
         dm_source_environ()
-    assert not adm.DM_ENV_SOURCED
-    assert "file is undefined" in str(exinfo)
+
+    assert adm.DM_ENV_SOURCED == sourced
