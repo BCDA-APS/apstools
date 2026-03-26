@@ -1,7 +1,7 @@
 """
 Session-scoped pytest fixtures providing test data catalogs.
 
-Catalogs are loaded from compressed JSON snapshots in resources/ using
+Catalogs are loaded from compressed JSON snapshots in apstools/tests/ using
 ``databroker.temp().v2``, avoiding the fragile ``databroker-unpack`` /
 msgpack / intake YAML approach.  See issue #1131.
 """
@@ -13,7 +13,7 @@ import pathlib
 import databroker
 import pytest
 
-RESOURCES = pathlib.Path(__file__).parent.parent / "resources"
+TEST_DATA = pathlib.Path(__file__).parent / "tests"
 
 
 def _load_catalog(path: pathlib.Path):
@@ -28,11 +28,11 @@ def _load_catalog(path: pathlib.Path):
 
 @pytest.fixture(scope="session")
 def apstools_cat():
-    """Session-scoped catalog loaded from apstools_test.json.gz (53 runs)."""
-    return _load_catalog(RESOURCES / "apstools_test.json.gz")
+    """Session-scoped catalog loaded from apstools.json.gz (53 runs)."""
+    return _load_catalog(TEST_DATA / "apstools.json.gz")
 
 
 @pytest.fixture(scope="session")
 def usaxs_cat():
-    """Session-scoped catalog loaded from usaxs_test.json.gz (10 runs)."""
-    return _load_catalog(RESOURCES / "usaxs_test.json.gz")
+    """Session-scoped catalog loaded from usaxs.json.gz (10 runs)."""
+    return _load_catalog(TEST_DATA / "usaxs.json.gz")

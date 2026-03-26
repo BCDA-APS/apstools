@@ -133,7 +133,7 @@ exclude = '''
     | dist
     | docs
     | ideas
-    | resources
+
   )/
   | _version.py
 )
@@ -163,7 +163,7 @@ exclude = [
   "dist",
   "docs/source",
   "ideas/",
-  "resources/debug_findpv.py",
+
 ]
 extend-ignore = [
   "E203", # See https://github.com/PyCQA/pycodestyle/issues/373
