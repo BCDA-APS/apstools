@@ -359,13 +359,7 @@ def test_SpecWriterCallback_newfile_exists(cat, tempdir):
     write_stream(specwriter, cat.v1[TUNE_MR].documents())
     assert testfile.exists()  # "data file created"
 
-    raised = False
-    try:
-        specwriter.newfile(filename=testfile)
-    except ValueError:
-        raised = True
-    finally:
-        assert not raised  # "file exists"
+    specwriter.newfile(filename=testfile)  # should not raise when file exists
     assert specwriter.reset_scan_id == 0  # "check scan id"
 
     class my_RunEngine:
