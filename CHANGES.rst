@@ -26,6 +26,11 @@ describe future plans.
 
    Release expected by 2025-12-05.
 
+   Enhancements
+   ------------
+
+   * Add full bluesky run ``uid`` (as ``bluesky_run_uid``) to metadata shared with APS DM. (:issue:`1150`)
+
    Fixes
    -------------
 
@@ -35,6 +40,8 @@ describe future plans.
    -----------
 
    * Relocate some utils code from apsbits.
+   * Bump minimum Python version to 3.10 (Python 3.9 is EOL). (:issue:`1150`)
+   * Consolidate ruff configuration into ``pyproject.toml``, removing ``.ruff.toml``. (:issue:`1150`)
 
 1.7.9
 *****

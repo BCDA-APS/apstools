@@ -582,9 +582,11 @@ def share_bluesky_metadata_with_dm(experimentName: str, workflow_name: str, run,
 
     api = dm_api_dataset_cat()
 
+    run_uid = run.metadata["start"]["uid"]
     datasetInfo = {
         "experimentName": experimentName,
-        "datasetName": f"run_uid8_{run.metadata['start']['uid'][:8]}",  # first part of run uid
+        "datasetName": f"run_uid8_{run_uid[:8]}",  # first part of run uid
+        "bluesky_run_uid": run_uid,  # full run uid, for tiled server filtering by DM
         "workflow_name": workflow_name,
         "time_iso8601": ts2iso(run.metadata.get("start", {}).get("time", 0)),
         "bluesky_metadata": {k: getattr(run, k).metadata for k in run},  # all streams
