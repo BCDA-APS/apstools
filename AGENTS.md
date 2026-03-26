@@ -66,9 +66,9 @@ Enhancements
 
 ## Before Every Commit
 
-- Run `ruff check` on all changed files and fix any errors before committing.
-- The project supports Python 3.8+; do not use syntax introduced in later versions
-  (e.g. parenthesised `with` statements require Python 3.9).
+- Run `ruff check` on all changed Python files and fix any errors before committing.
+- The ruff ``target-version`` is set in ``pyproject.toml`` and must match
+  ``requires-python``; both are currently ``py310`` / ``>=3.10``.
 
 ## Do Not
 

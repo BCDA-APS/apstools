@@ -19,7 +19,7 @@ maintainers = [
   { name="Eric Codrea" },
 ]
 readme = "README.md"
-requires-python = ">=3.9"
+requires-python = ">=3.10"
 keywords = ["EPICS", "data acquisition", "diffraction", "NeXus", "HDF5", "SPEC", "MatPlotLib"]
 license = "LicenseRef-ANL-Open-Source-License"
 license-files = ["LICENSE.txt"]
@@ -227,8 +227,8 @@ exclude = [
 line-length = 115
 indent-width = 4
 
-# Assume Python 3.8
-target-version = "py38"
+# Keep in sync with requires-python above.
+target-version = "py310"
 
 [tool.ruff.lint]
 # Enable Pyflakes (`F`) and a subset of the pycodestyle (`E`)  codes by default.
