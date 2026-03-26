@@ -54,6 +54,7 @@ Example: `1150-full-run-uid-to-dm`
 - Place entries under the appropriate (possibly still-commented-out) upcoming release section.
 - Use the correct subsection heading (`Enhancements`, `Fixes`, `Maintenance`, etc.).
 - Reference the issue number with the RST role `` (:issue:`<number>`) ``.
+- Keep the release date in the upcoming section in sync with the due date on the corresponding GitHub milestone.
 
 Example:
 
