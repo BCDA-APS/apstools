@@ -1,5 +1,4 @@
 import logging
-import os
 import pathlib
 import tempfile
 
@@ -17,8 +16,8 @@ def tempdir():
     return tempdir
 
 
-def test_get_log_path(tempdir):
-    os.chdir(tempdir)
+def test_get_log_path(tempdir, monkeypatch):
+    monkeypatch.chdir(tempdir)
     path = pathlib.Path() / ".logs"
     assert not path.exists()
 
@@ -37,8 +36,8 @@ def test_get_log_path(tempdir):
         [0, 0, "/tmp", None],
     ],
 )
-def test_file_log_handler(maxBytes, backupCount, log_path, level, tempdir):
-    os.chdir(tempdir)
+def test_file_log_handler(maxBytes, backupCount, log_path, level, tempdir, monkeypatch):
+    monkeypatch.chdir(tempdir)
     log_path = pathlib.Path(log_path or get_log_path())
     assert log_path.exists()
 
@@ -75,8 +74,8 @@ def test_stream_log_handler(formatter, level):
         [None, "ipython_console.log", "/tmp"],
     ],
 )
-def test_setup_IPython_console_logging(logger, filename, log_path, tempdir):
-    os.chdir(tempdir)
+def test_setup_IPython_console_logging(logger, filename, log_path, tempdir, monkeypatch):
+    monkeypatch.chdir(tempdir)
     setup_IPython_console_logging(logger=logger, filename=filename, log_path=log_path)
 
     log_path = get_log_path()
