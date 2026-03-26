@@ -66,7 +66,7 @@ Enhancements
 
 ## Before Every Commit
 
-- Run `ruff check` on all changed Python files and fix any errors before committing.
+- Run `ruff check apstools/` on the full package and fix any errors before committing.
 - The ruff ``target-version`` is set in ``pyproject.toml`` and must match
   ``requires-python``; both are currently ``py310`` / ``>=3.10``.
 
