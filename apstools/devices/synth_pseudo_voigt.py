@@ -87,10 +87,17 @@ class SynPseudoVoigt(ophyd.sim.SynSignal):  # lgtm [py/missing-call-to-init]
     def __init__(
         # fmt: off
         self,
-        name, motor, motor_field,
-        center=0, eta=0.5, scale=1, sigma=1, bkg=0,
-        noise=None, noise_multiplier=1,
-        **kwargs
+        name,
+        motor,
+        motor_field,
+        center=0,
+        eta=0.5,
+        scale=1,
+        sigma=1,
+        bkg=0,
+        noise=None,
+        noise_multiplier=1,
+        **kwargs,
         # fmt: on
     ):
         if eta < 0.0 or eta > 1.0:
@@ -134,7 +141,7 @@ class SynPseudoVoigt(ophyd.sim.SynSignal):  # lgtm [py/missing-call-to-init]
                 v += (1 - self.eta) * f_gaussian(m - self.center, self.sigma) / g_max
             v *= self.scale
             if self.noise == "poisson":
-                v = int(np.random.poisson(np.round(v), 1))
+                v = int(np.random.poisson(np.round(v)))
             elif self.noise == "uniform":
                 v += np.random.uniform(-1, 1) * self.noise_multiplier
             return v
