@@ -69,6 +69,19 @@ Enhancements
 * Add full bluesky run ``uid`` (as ``bluesky_run_uid``) to metadata shared with APS DM. (:issue:`1150`)
 ```
 
+## Deprecated Package Tags
+
+This project uses the `deprecated` package (`deprecated.sphinx`) to annotate
+public API changes.  Keep these tags consistent with any code changes:
+
+| Decorator | When to use |
+|-----------|-------------|
+| `@deprecated(version=..., reason=...)` | Public API being removed or replaced |
+| `@versionadded(version=...)` | New public API |
+| `@versionchanged(version=...)` | Existing public API whose behaviour changes |
+
+These tags apply to **public API code only** — test files do not need them.
+
 ## Before Every Commit
 
 - Run `ruff check .` from the repo root (matching what CI runs) and fix any errors before committing.
