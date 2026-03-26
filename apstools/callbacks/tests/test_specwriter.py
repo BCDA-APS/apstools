@@ -64,7 +64,7 @@ def test_issue_1059(tempdir: pytest.fixture):
 
         documents.append(args)
 
-    with does_not_raise() as exinfo:
+    with does_not_raise():
         specwriter: FileWriterCallbackBase = SpecWriterCallback2()
         specwriter.newfile(data_file)
         assert hasattr(specwriter, "data_labels")
@@ -76,8 +76,6 @@ def test_issue_1059(tempdir: pytest.fixture):
         num_counts: int = 5
         RE(bp.count([sig], num=num_counts), doc_collector)
         assert len(documents) == 3 + num_counts  # start, descriptor, n events, stop
-
-    assert exinfo is None
 
 
 def test_issue_1083(tempdir: pytest.fixture):
@@ -92,10 +90,9 @@ def test_issue_1083(tempdir: pytest.fixture):
         f.write(f"{ISSUE_1083_DATA.strip()}\n")
     assert data_file.exists()
 
-    with does_not_raise() as exinfo:
+    with does_not_raise():
         specwriter: FileWriterCallbackBase = SpecWriterCallback2()
         specwriter.newfile(data_file)
-    assert exinfo is None
 
 
 @pytest.mark.parametrize("run", catalog_test_runs())
@@ -106,14 +103,12 @@ def test_issue_1084_from_catalog(
     """
     Process run using SpecWriterCallback2.
     """
-    with does_not_raise() as exinfo:
+    with does_not_raise():
         data_file: pathlib.Path = tempdir / "issue_1084.dat"
 
         specwriter: FileWriterCallbackBase = SpecWriterCallback2()
         specwriter.newfile(data_file)
         replay(run, specwriter.receiver)
-
-    assert exinfo is None
 
 
 @pytest.mark.parametrize(
@@ -124,7 +119,7 @@ def test_issue_1084_from_json(json_run: pathlib.Path, tempdir: pytest.fixture):
     """
     Process JSON file with run documents using SpecWriterCallback2.
     """
-    with does_not_raise() as exinfo:
+    with does_not_raise():
         data_file: pathlib.Path = tempdir / "issue_1084.dat"
         assert json_run.exists()
 
@@ -133,5 +128,3 @@ def test_issue_1084_from_json(json_run: pathlib.Path, tempdir: pytest.fixture):
         specwriter.newfile(data_file)
         for key, doc in docs:
             specwriter.receiver(key, doc)
-
-    assert exinfo is None
