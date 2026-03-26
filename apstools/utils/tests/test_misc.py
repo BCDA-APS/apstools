@@ -1,5 +1,8 @@
 """Test parts of the utils.misc module."""
 
+import re
+from contextlib import nullcontext as does_not_raise
+
 import ophyd
 import pytest
 
@@ -32,24 +35,44 @@ def test_cleaupText(original, expected, replacement):
 
 
 @pytest.mark.parametrize(
-    "specified, expected, error",
+    "parms, context",
     [
-        ["ophyd.EpicsMotor", ophyd.EpicsMotor, None],
-        ["apstools.utils.dynamic_import", dynamic_import, None],
-        ["apstools.utils.misc.cleanupText", cleanupText, None],
-        [
-            "apstools.utils._core.MAX_EPICS_STRINGOUT_LENGTH",
-            MAX_EPICS_STRINGOUT_LENGTH,
-            None,
-        ],
-        ["CustomClass", None, ValueError],
-        [".test_utils.CATALOG", None, ValueError],
+        pytest.param(
+            dict(specified="ophyd.EpicsMotor", expected=ophyd.EpicsMotor),
+            does_not_raise(),
+            id="import ophyd.EpicsMotor",
+        ),
+        pytest.param(
+            dict(specified="apstools.utils.dynamic_import", expected=dynamic_import),
+            does_not_raise(),
+            id="import apstools.utils.dynamic_import",
+        ),
+        pytest.param(
+            dict(specified="apstools.utils.misc.cleanupText", expected=cleanupText),
+            does_not_raise(),
+            id="import apstools.utils.misc.cleanupText",
+        ),
+        pytest.param(
+            dict(
+                specified="apstools.utils._core.MAX_EPICS_STRINGOUT_LENGTH",
+                expected=MAX_EPICS_STRINGOUT_LENGTH,
+            ),
+            does_not_raise(),
+            id="import a module-level constant",
+        ),
+        pytest.param(
+            dict(specified="CustomClass", expected=None),
+            pytest.raises(ValueError, match=re.escape("Must use a dotted path, no local imports.")),
+            id="unqualified name raises ValueError",
+        ),
+        pytest.param(
+            dict(specified=".test_utils.CATALOG", expected=None),
+            pytest.raises(ValueError, match=re.escape("Must use absolute path, no relative imports.")),
+            id="relative import raises ValueError",
+        ),
     ],
 )
-def test_dynamic_import(specified, expected, error):
-    if error is None:
-        obj = dynamic_import(specified)
-        assert obj == expected, f"{specified=!r}  {obj=}  {expected=}"
-    else:
-        with pytest.raises(error):
-            obj = dynamic_import(specified)
+def test_dynamic_import(parms, context):
+    with context:
+        obj = dynamic_import(parms["specified"])
+        assert obj == parms["expected"], f"{parms['specified']!r}  {obj=}  {parms['expected']=}"
