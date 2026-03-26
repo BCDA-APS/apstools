@@ -35,11 +35,10 @@ def test_email_notifications_init(sender, expected_sender, context):
     """EmailNotifications initialises with correct defaults."""
     with context:
         en = EmailNotifications(sender)
-
-    assert en.sender == expected_sender
-    assert en.addresses == []
-    assert en.smtp_host == "localhost"
-    assert en.notify_on_feedback is True
+        assert en.sender == expected_sender
+        assert en.addresses == []
+        assert en.smtp_host == "localhost"
+        assert en.notify_on_feedback is True
 
 
 @pytest.mark.parametrize(
@@ -70,8 +69,7 @@ def test_add_addresses(addresses, expected, context):
     with context:
         en = EmailNotifications()
         en.add_addresses(*addresses)
-
-    assert en.addresses == expected
+        assert en.addresses == expected
 
 
 @pytest.mark.parametrize(
@@ -131,7 +129,7 @@ def test_send(sender, addresses, subject, message, assertions, context):
             thread = en.send(subject, message)
             thread.join()  # wait for the background thread to complete
 
-    for key, expected in assertions.items():
-        assert captured[key] == expected
+        for key, expected in assertions.items():
+            assert captured[key] == expected
 
-    mock_smtp_instance.quit.assert_called_once()
+        mock_smtp_instance.quit.assert_called_once()
