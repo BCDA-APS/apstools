@@ -6,7 +6,6 @@ from contextlib import nullcontext as does_not_raise
 import time
 import uuid
 
-import databroker
 import numpy as np
 import ophyd.sim
 import pytest
@@ -18,16 +17,14 @@ from .._core import TableStyle
 from ..misc import call_signature_decorator
 from ..misc import render
 
-CATALOG = "usaxs_test"
 COUNT = "555a604"  # <-- uid,  scan_id: 2
 RE = None
 DEFAULT_CATALOG_ID = uuid.uuid4()  # a unique ID for testing purposes
 
 
 @pytest.fixture(scope="function")
-def cat():
-    cat = databroker.catalog[CATALOG]
-    return cat
+def cat(usaxs_cat):
+    return usaxs_cat
 
 
 def test_utils_cleanupText():
@@ -501,13 +498,90 @@ def test_utils_db_query(
         (COUNT, None, DEFAULT_CATALOG_ID, "primary", None, None, 6, 1, does_not_raise(), None),
         (COUNT, "aps", DEFAULT_CATALOG_ID, "primary", None, None, 1, 1, does_not_raise(), None),
         # exception cases (nrows/ncols set to None)
-        (COUNT, None, DEFAULT_CATALOG_ID, "will not be found", None, None, None, None, pytest.raises(AttributeError), "No such stream "),
-        (COUNT, None, None, None, None, None, None, None, pytest.raises(ValueError), "No catalog defined.  Multiple catalog "),
-        (COUNT, None, None, "baseline", None, None, None, None, pytest.raises(ValueError), "No catalog defined.  Multiple catalog "),
-        (COUNT, "will not be found", None, "baseline", None, None, None, None, pytest.raises(ValueError), "No catalog defined.  Multiple catalog "),
-        (COUNT, "aps", None, None, None, None, None, None, pytest.raises(ValueError), "No catalog defined.  Multiple catalog "),
-        (COUNT, None, None, "primary", None, None, None, None, pytest.raises(ValueError), "No catalog defined.  Multiple catalog "),
-        (COUNT, "aps", None, "primary", None, None, None, None, pytest.raises(ValueError), "No catalog defined.  Multiple catalog "),
+        (
+            COUNT,
+            None,
+            DEFAULT_CATALOG_ID,
+            "will not be found",
+            None,
+            None,
+            None,
+            None,
+            pytest.raises(AttributeError),
+            "No such stream ",
+        ),
+        (
+            COUNT,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            pytest.raises(ValueError),
+            "No catalog defined.  Multiple catalog ",
+        ),
+        (
+            COUNT,
+            None,
+            None,
+            "baseline",
+            None,
+            None,
+            None,
+            None,
+            pytest.raises(ValueError),
+            "No catalog defined.  Multiple catalog ",
+        ),
+        (
+            COUNT,
+            "will not be found",
+            None,
+            "baseline",
+            None,
+            None,
+            None,
+            None,
+            pytest.raises(ValueError),
+            "No catalog defined.  Multiple catalog ",
+        ),
+        (
+            COUNT,
+            "aps",
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            pytest.raises(ValueError),
+            "No catalog defined.  Multiple catalog ",
+        ),
+        (
+            COUNT,
+            None,
+            None,
+            "primary",
+            None,
+            None,
+            None,
+            None,
+            pytest.raises(ValueError),
+            "No catalog defined.  Multiple catalog ",
+        ),
+        (
+            COUNT,
+            "aps",
+            None,
+            "primary",
+            None,
+            None,
+            None,
+            None,
+            pytest.raises(ValueError),
+            "No catalog defined.  Multiple catalog ",
+        ),
         # fmt: on
     ],
 )

@@ -43,6 +43,9 @@ describe future plans.
    * Bump minimum Python version to 3.10 (Python 3.9 is EOL). (:issue:`1150`)
    * Consolidate ruff configuration into ``pyproject.toml``, removing ``.ruff.toml``. (:issue:`1150`)
    * Add tests verifying ``EmailNotifications`` sends correctly via SMTP. (:issue:`1112`)
+   * Refactor test catalog installation to use in-memory ``databroker.temp()``
+     loaded from ``.json.gz`` snapshots, removing the fragile ``databroker-unpack``
+     / msgpack / intake YAML approach.  Re-enable 20 skipped tests. (:issue:`1131`)
 
 1.7.9
 *****

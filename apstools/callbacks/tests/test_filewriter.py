@@ -6,7 +6,6 @@ import json
 import pathlib
 import tempfile
 
-import databroker
 import h5py
 import numpy
 import pytest
@@ -20,7 +19,6 @@ from .. import NXWriterAPS
 from .. import SpecWriterCallback
 from ..callback_base import FileWriterCallbackBase
 
-CATALOG = "usaxs_test"
 TUNE_AR = 103  # <-- scan_id,  uid: "3554003"
 TUNE_MR = 108  # <-- scan_id,  uid: "2ffe4d8"
 
@@ -35,9 +33,8 @@ def load_descriptor_json(filename):
 
 
 @pytest.fixture(scope="function")
-def cat():
-    cat = databroker.catalog[CATALOG]
-    return cat
+def cat(usaxs_cat):
+    return usaxs_cat
 
 
 @pytest.fixture(scope="function")
@@ -441,7 +438,7 @@ def test_SpecWriterCallback_spec_comment(cat, tempdir):
 
     for idx, document in enumerate(cat.v1[TUNE_MR].documents()):
         tag, doc = document
-        msg = f"TESTING: document {idx+1}: '{tag}' %s specwriter.receiver"
+        msg = f"TESTING: document {idx + 1}: '{tag}' %s specwriter.receiver"
         spec_comment(msg % "before", doc=tag, writer=specwriter)
         specwriter.receiver(tag, doc)
         if tag == "stop":

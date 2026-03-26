@@ -80,26 +80,6 @@ jobs:
           set -vxeuo pipefail
           pip install -e .[dev]
 
-      - name: Unpack
-        run: |
-          set -vxeuo pipefail
-          which databroker-pack
-          which databroker-unpack
-          cd resources
-          # TODO 1131
-          bash ./unpack.sh
-          cmd="import databroker;"
-          cmd+=" print(list(databroker.catalog));"
-          cmd+=" print(databroker.catalog_search_path());"
-          python -c "${cmd}"
-          cd ..
-
-      # - name: Directory Listings
-      #   run: |
-      #     set -vxeuo pipefail
-      #     ls -lAFghR ~/.local/share/intake
-      #     ls -lAFghR /tmp/*_test/
-
       - name: Start EPICS IOCs in Docker
         run: |
           set -vxeuo pipefail
@@ -137,13 +117,6 @@ jobs:
           CMD+="; pv = ophyd.EpicsSignalRO('gp:gp:float1', name='pv')"
           CMD+="; up.wait_for_connection()"
           CMD+="; print(up.get(), pv.get())"
-          python -c "${CMD}"
-
-      - name: Test catalog length, expect 53
-        shell: bash -l {0}
-        run: |
-          CMD="import databroker"
-          CMD+="; print(len(databroker.catalog['apstools_test']))"
           python -c "${CMD}"
 
       - name: Run tests with pytest & coverage
