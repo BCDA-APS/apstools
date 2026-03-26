@@ -25,9 +25,11 @@ Common prefixes (following the project's existing style):
 | Prefix | When to use |
 |--------|-------------|
 | `ENH`  | New feature or enhancement |
-| `FIX`  | Bug fix |
-| `MNT`  | Maintenance / refactor |
+| `CI`   | Continuous Integration |
 | `DOC`  | Documentation only |
+| `FIX`  | Bug fix |
+| `GIT`  | Git configuration |
+| `MNT`  | Maintenance / refactor |
 | `TST`  | Tests only |
 
 Example:
