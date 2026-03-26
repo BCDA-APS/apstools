@@ -6,6 +6,7 @@ import pathlib
 import tempfile
 import uuid
 from contextlib import nullcontext as does_not_raise
+from unittest import mock
 
 import pytest
 
@@ -115,3 +116,47 @@ def test_dm_source_environ_raises(filename, sourced, context):
         dm_source_environ()
 
     assert adm.DM_ENV_SOURCED == sourced
+
+
+def test_share_bluesky_metadata_with_dm_includes_full_uid():
+    """
+    share_bluesky_metadata_with_dm() must include the full bluesky run uid.
+
+    The ``bluesky_run_uid`` key in the dataset info must contain the complete
+    uid string, not just a truncated version.  This is required so that a
+    tiled server can filter by authenticated access using DM.  See issue #1150.
+    """
+    run_uid = str(uuid.uuid4())
+
+    # Build a minimal mock ``run`` object that resembles a bluesky run.
+    mock_run = mock.MagicMock()
+    mock_run.metadata = {
+        "start": {
+            "uid": run_uid,
+            "time": 0,
+        }
+    }
+    # Make iteration over the run return an empty sequence (no streams).
+    mock_run.__iter__ = mock.Mock(return_value=iter([]))
+
+    captured = {}
+
+    def fake_add_experiment_dataset(info):
+        captured.update(info)
+        return info
+
+    mock_api = mock.MagicMock()
+    mock_api.addExperimentDataset.side_effect = fake_add_experiment_dataset
+
+    with (
+        mock.patch("apstools.utils.aps_data_management.dm_api_dataset_cat", return_value=mock_api),
+        mock.patch.dict("sys.modules", {"dm": mock.MagicMock()}),
+    ):
+        adm.share_bluesky_metadata_with_dm("test_experiment", "test_workflow", mock_run)
+
+    # The full uid must be present under the dedicated key.
+    assert "bluesky_run_uid" in captured, "'bluesky_run_uid' key is missing from dataset info"
+    assert captured["bluesky_run_uid"] == run_uid, "bluesky_run_uid must be the full uid"
+
+    # The datasetName still uses the short 8-character prefix for backwards compatibility.
+    assert captured["datasetName"] == f"run_uid8_{run_uid[:8]}"

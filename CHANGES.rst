@@ -26,6 +26,11 @@ describe future plans.
 
    Release expected by 2025-12-05.
 
+   Enhancements
+   ------------
+
+   * Add full bluesky run ``uid`` (as ``bluesky_run_uid``) to metadata shared with APS DM. (:issue:`1150`)
+
    Fixes
    -------------
 
