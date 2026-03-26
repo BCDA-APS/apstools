@@ -3,6 +3,7 @@ Test the APS Data Management utility functions.
 """
 
 import pathlib
+import re
 import tempfile
 import uuid
 from contextlib import nullcontext as does_not_raise
@@ -44,7 +45,7 @@ def make_bash_file(contents):
             True,
             pytest.raises(
                 FileExistsError,
-                match="filename='/no/such/file' does not exist.",
+                match=re.escape("filename='/no/such/file' does not exist."),
             ),
             id="non-existing file name, fail=True",
         ),
@@ -53,7 +54,7 @@ def make_bash_file(contents):
             False,
             pytest.raises(
                 KeyError,
-                match="No environment variable definitions found",
+                match=re.escape("No environment variable definitions found"),
             ),
             id="file that has no 'export' statements",
         ),
@@ -62,14 +63,14 @@ def make_bash_file(contents):
             False,
             pytest.raises(
                 ValueError,
-                match="'None' not allowed for 'filename'.",
+                match=re.escape("'None' not allowed for 'filename'."),
             ),
             id="filename is 'None'",
         ),
         pytest.param(
             make_bash_file("export EXAMPLE=example\n"),
             False,
-            pytest.raises(KeyError, match="DM_STATION_NAME"),
+            pytest.raises(KeyError, match=re.escape("DM_STATION_NAME")),
             id="export EXAMPLE=example\n",
         ),
         pytest.param(
@@ -95,7 +96,7 @@ def test_dm_setup_raises_new(filename, fail, context):
         pytest.param(
             "/no/such/file",
             False,
-            pytest.raises(ValueError, match="file is undefined"),
+            pytest.raises(ValueError, match=re.escape("file is undefined")),
             id="file still does not exist",
         ),
         pytest.param(
@@ -164,13 +165,13 @@ _NO_UID_METADATA = {"start": {"time": 0}}
         pytest.param(
             _NO_START_METADATA,
             {},
-            pytest.raises(KeyError, match="'start'"),
+            pytest.raises(KeyError, match=re.escape("'start'")),
             id="run metadata missing 'start' key raises KeyError",
         ),
         pytest.param(
             _NO_UID_METADATA,
             {},
-            pytest.raises(KeyError, match="'uid'"),
+            pytest.raises(KeyError, match=re.escape("'uid'")),
             id="run metadata missing 'uid' key raises KeyError",
         ),
     ],
