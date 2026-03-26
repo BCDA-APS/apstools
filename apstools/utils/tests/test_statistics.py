@@ -2,6 +2,7 @@
 
 import math
 import pathlib
+import re
 from contextlib import nullcontext as does_not_raise
 
 import pytest
@@ -81,17 +82,31 @@ def test_xy_statistics(data):
 
 
 @pytest.mark.parametrize(
-    "x, y, xcept, text",
+    "parms, context",
     [
-        [[], None, ValueError, "cannot be empty"],
-        [[1, 2], [], ValueError, "Unequal shapes:"],
-        [[1, 2], [1, 2, 3], ValueError, "Unequal shapes:"],
-        [[1, 2], [1, 2], None, str(None)],
+        pytest.param(
+            dict(x=[], y=None),
+            pytest.raises(ValueError, match=re.escape("cannot be empty")),
+            id="empty x raises ValueError",
+        ),
+        pytest.param(
+            dict(x=[1, 2], y=[]),
+            pytest.raises(ValueError, match=re.escape("Unequal shapes:")),
+            id="unequal shapes (y empty) raises ValueError",
+        ),
+        pytest.param(
+            dict(x=[1, 2], y=[1, 2, 3]),
+            pytest.raises(ValueError, match=re.escape("Unequal shapes:")),
+            id="unequal shapes (y longer) raises ValueError",
+        ),
+        pytest.param(
+            dict(x=[1, 2], y=[1, 2]),
+            does_not_raise(),
+            id="equal shapes succeeds",
+        ),
     ],
 )
-def test_xy_statistics_errors(x, y, xcept, text):
+def test_xy_statistics_errors(parms, context):
     """Test known exceptions raised by xy_statistics()."""
-    context = does_not_raise() if xcept is None else pytest.raises(xcept)
-    with context as reason:
-        xy_statistics(x, y)
-    assert text in str(reason)
+    with context:
+        xy_statistics(parms["x"], parms["y"])
