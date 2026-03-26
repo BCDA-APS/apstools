@@ -188,11 +188,9 @@ def test_share_bluesky_metadata_with_dm(metadata, assertions, context):
     mock_api = make_mock_api(captured)
 
     with context:
-        with (
-            mock.patch("apstools.utils.aps_data_management.dm_api_dataset_cat", return_value=mock_api),
-            mock.patch.dict("sys.modules", {"dm": mock.MagicMock()}),
-        ):
-            adm.share_bluesky_metadata_with_dm("test_experiment", "test_workflow", mock_run)
+        with mock.patch("apstools.utils.aps_data_management.dm_api_dataset_cat", return_value=mock_api):
+            with mock.patch.dict("sys.modules", {"dm": mock.MagicMock()}):
+                adm.share_bluesky_metadata_with_dm("test_experiment", "test_workflow", mock_run)
 
         for key, expected in assertions.items():
             assert captured[key] == expected

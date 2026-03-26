@@ -64,6 +64,12 @@ Enhancements
 * Add full bluesky run ``uid`` (as ``bluesky_run_uid``) to metadata shared with APS DM. (:issue:`1150`)
 ```
 
+## Before Every Commit
+
+- Run `ruff check` on all changed files and fix any errors before committing.
+- The project supports Python 3.8+; do not use syntax introduced in later versions
+  (e.g. parenthesised `with` statements require Python 3.9).
+
 ## Do Not
 
 - Do not commit or push unless explicitly asked by the user.
