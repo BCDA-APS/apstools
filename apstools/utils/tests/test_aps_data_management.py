@@ -118,28 +118,19 @@ def test_dm_source_environ_raises(filename, sourced, context):
     assert adm.DM_ENV_SOURCED == sourced
 
 
-def test_share_bluesky_metadata_with_dm_includes_full_uid():
-    """
-    share_bluesky_metadata_with_dm() must include the full bluesky run uid.
+RUN_UID = str(uuid.uuid4())
 
-    The ``bluesky_run_uid`` key in the dataset info must contain the complete
-    uid string, not just a truncated version.  This is required so that a
-    tiled server can filter by authenticated access using DM.  See issue #1150.
-    """
-    run_uid = str(uuid.uuid4())
 
-    # Build a minimal mock ``run`` object that resembles a bluesky run.
+def make_mock_run(metadata):
+    """Build a minimal mock run object that resembles a bluesky run."""
     mock_run = mock.MagicMock()
-    mock_run.metadata = {
-        "start": {
-            "uid": run_uid,
-            "time": 0,
-        }
-    }
-    # Make iteration over the run return an empty sequence (no streams).
+    mock_run.metadata = metadata
     mock_run.__iter__ = mock.Mock(return_value=iter([]))
+    return mock_run
 
-    captured = {}
+
+def make_mock_api(captured):
+    """Build a mock DM dataset catalog API that records the dataset info."""
 
     def fake_add_experiment_dataset(info):
         captured.update(info)
@@ -147,16 +138,61 @@ def test_share_bluesky_metadata_with_dm_includes_full_uid():
 
     mock_api = mock.MagicMock()
     mock_api.addExperimentDataset.side_effect = fake_add_experiment_dataset
+    return mock_api
 
-    with (
-        mock.patch("apstools.utils.aps_data_management.dm_api_dataset_cat", return_value=mock_api),
-        mock.patch.dict("sys.modules", {"dm": mock.MagicMock()}),
-    ):
-        adm.share_bluesky_metadata_with_dm("test_experiment", "test_workflow", mock_run)
 
-    # The full uid must be present under the dedicated key.
-    assert "bluesky_run_uid" in captured, "'bluesky_run_uid' key is missing from dataset info"
-    assert captured["bluesky_run_uid"] == run_uid, "bluesky_run_uid must be the full uid"
+_VALID_METADATA = {"start": {"uid": RUN_UID, "time": 0}}
+_NO_START_METADATA = {}
+_NO_UID_METADATA = {"start": {"time": 0}}
 
-    # The datasetName still uses the short 8-character prefix for backwards compatibility.
-    assert captured["datasetName"] == f"run_uid8_{run_uid[:8]}"
+
+@pytest.mark.parametrize(
+    "metadata, assertions, context",
+    [
+        pytest.param(
+            _VALID_METADATA,
+            {"bluesky_run_uid": RUN_UID},
+            does_not_raise(),
+            id="bluesky_run_uid contains the full uid",
+        ),
+        pytest.param(
+            _VALID_METADATA,
+            {"datasetName": f"run_uid8_{RUN_UID[:8]}"},
+            does_not_raise(),
+            id="datasetName retains the 8-character prefix",
+        ),
+        pytest.param(
+            _NO_START_METADATA,
+            {},
+            pytest.raises(KeyError, match="'start'"),
+            id="run metadata missing 'start' key raises KeyError",
+        ),
+        pytest.param(
+            _NO_UID_METADATA,
+            {},
+            pytest.raises(KeyError, match="'uid'"),
+            id="run metadata missing 'uid' key raises KeyError",
+        ),
+    ],
+)
+def test_share_bluesky_metadata_with_dm(metadata, assertions, context):
+    """
+    share_bluesky_metadata_with_dm() must include the full bluesky run uid.
+
+    The ``bluesky_run_uid`` key in the dataset info must contain the complete
+    uid string, not just a truncated version.  This is required so that a
+    tiled server can filter by authenticated access using DM.  See issue #1150.
+    """
+    captured = {}
+    mock_run = make_mock_run(metadata)
+    mock_api = make_mock_api(captured)
+
+    with context:
+        with (
+            mock.patch("apstools.utils.aps_data_management.dm_api_dataset_cat", return_value=mock_api),
+            mock.patch.dict("sys.modules", {"dm": mock.MagicMock()}),
+        ):
+            adm.share_bluesky_metadata_with_dm("test_experiment", "test_workflow", mock_run)
+
+        for key, expected in assertions.items():
+            assert captured[key] == expected
