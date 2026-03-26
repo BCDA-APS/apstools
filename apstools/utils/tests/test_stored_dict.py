@@ -3,6 +3,7 @@ Test the utils.stored_dict module.
 """
 
 import pathlib
+import re
 import sys
 import tempfile
 import time
@@ -196,25 +197,39 @@ def test_repr(md_file):
 
 
 @pytest.mark.parametrize(
-    "md, xcept, text",
+    "parms, context",
     [
-        [{"a": 1}, None, str(None)],  # int value is ok
-        [{"a": 2.2}, None, str(None)],  # float value is ok
-        [{"a": "3"}, None, str(None)],  # str value is ok
-        [{"a": [4, 5, 6]}, None, str(None)],  # list value is ok
-        [{"a": {"bb": [4, 5, 6]}}, None, str(None)],  # nested value is ok
-        [{1: 1}, None, str(None)],  # int key is ok
-        [{"a": object()}, TypeError, "not JSON serializable"],
-        [{object(): 1}, TypeError, "keys must be str, int, float, "],
-        [{"a": [4, object(), 6]}, TypeError, "not JSON serializable"],
-        [{"a": {object(): [4, 5, 6]}}, TypeError, "keys must be str, int, "],
+        pytest.param(dict(md={"a": 1}), does_not_raise(), id="int value is ok"),
+        pytest.param(dict(md={"a": 2.2}), does_not_raise(), id="float value is ok"),
+        pytest.param(dict(md={"a": "3"}), does_not_raise(), id="str value is ok"),
+        pytest.param(dict(md={"a": [4, 5, 6]}), does_not_raise(), id="list value is ok"),
+        pytest.param(dict(md={"a": {"bb": [4, 5, 6]}}), does_not_raise(), id="nested value is ok"),
+        pytest.param(dict(md={1: 1}), does_not_raise(), id="int key is ok"),
+        pytest.param(
+            dict(md={"a": object()}),
+            pytest.raises(TypeError, match=re.escape("not JSON serializable")),
+            id="object value raises TypeError",
+        ),
+        pytest.param(
+            dict(md={object(): 1}),
+            pytest.raises(TypeError, match=re.escape("keys must be str, int, float, ")),
+            id="object key raises TypeError",
+        ),
+        pytest.param(
+            dict(md={"a": [4, object(), 6]}),
+            pytest.raises(TypeError, match=re.escape("not JSON serializable")),
+            id="object in list raises TypeError",
+        ),
+        pytest.param(
+            dict(md={"a": {object(): [4, 5, 6]}}),
+            pytest.raises(TypeError, match=re.escape("keys must be str, int, ")),
+            id="object key in nested dict raises TypeError",
+        ),
     ],
 )
-def test_set_exceptions(md, xcept, text, md_file):
+def test_set_exceptions(parms, context, md_file):
     """Cases that might raise an exception."""
     sdict = StoredDict(md_file, delay=0.2, title="unit testing")
-    context = does_not_raise() if xcept is None else pytest.raises(xcept)
-    with context as reason:
-        sdict.update(md)
+    with context:
+        sdict.update(parms["md"])
         sdict.flush()
-    assert text in str(reason), f"{reason=}"
