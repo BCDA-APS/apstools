@@ -97,6 +97,16 @@ When opening a PR for an issue, copy the following from the issue to the PR:
 - **Milestone** — set the same milestone
 - **Projects** — add to the same projects
 
+## PR Body Format
+
+In the PR body, link related issues with a markdown bullet list:
+
+```markdown
+- Closes #42
+```
+
+Use `Closes #N` to auto-close the issue when the PR is merged.
+
 ## Do Not
 
 - Do not commit or push unless explicitly asked by the user.
