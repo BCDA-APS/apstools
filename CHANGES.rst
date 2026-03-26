@@ -40,6 +40,8 @@ describe future plans.
    -----------
 
    * Relocate some utils code from apsbits.
+   * Bump minimum Python version to 3.10 (Python 3.9 is EOL). (:issue:`1150`)
+   * Consolidate ruff configuration into ``pyproject.toml``, removing ``.ruff.toml``. (:issue:`1150`)
 
 1.7.9
 *****
