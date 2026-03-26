@@ -24,7 +24,7 @@ describe future plans.
    1.7.10
    ******
 
-   Release expected by 2025-12-05.
+   Release expected by 2026-05-01.
 
    Enhancements
    ------------
@@ -42,6 +42,7 @@ describe future plans.
    * Relocate some utils code from apsbits.
    * Bump minimum Python version to 3.10 (Python 3.9 is EOL). (:issue:`1150`)
    * Consolidate ruff configuration into ``pyproject.toml``, removing ``.ruff.toml``. (:issue:`1150`)
+   * Add tests verifying ``EmailNotifications`` sends correctly via SMTP. (:issue:`1112`)
 
 1.7.9
 *****
