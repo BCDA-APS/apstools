@@ -39,7 +39,7 @@ jobs:
         uses: davidslusser/actions_python_ruff@v1.0.3
         with:
           python_version: "3.13"
-          # see .ruff.toml file for options
+          # see [tool.ruff] in pyproject.toml for options
           command: ruff check .
 
   test-matrix:

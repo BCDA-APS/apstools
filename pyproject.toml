@@ -218,6 +218,7 @@ exclude = [
     "buck-out",
     "build",
     "dist",
+    "ideas",
     "node_modules",
     "site-packages",
     "venv",
