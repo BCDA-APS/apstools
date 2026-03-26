@@ -167,7 +167,7 @@ class Revolver_Undulator(ID_Spectrum_Mixin, ID_Controls_Mixin, ID_Misc_Mixin, De
     status_position1 = Component(EpicsSignalRO, "Position1M.VAL", kind="config")
     status_position2 = Component(EpicsSignalRO, "Position2M.VAL", kind="config")
     status_safe_gap = Component(EpicsSignalRO, "AtSafeGapM.VAL", kind="config")
-    version_hdmu = Component(EpicsSignalRO, "HDMUVersionM.VAL", kind="config")
+    # version_hdmu = Component(EpicsSignalRO, "HDMUVersionM.VAL", kind="config")
 
 
 class STI_Undulator(PlanarUndulator):
