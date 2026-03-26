@@ -19,6 +19,7 @@ import logging
 import pandas as pd
 import pyRestTable
 from deprecated.sphinx import versionadded
+from deprecated.sphinx import versionchanged
 
 from .list_runs import getRunData
 from .profile_support import getDefaultNamespace
@@ -136,6 +137,9 @@ def getDatabase(db=None, catalog_name=None):
     return db.v2
 
 
+@versionchanged(
+    version="1.7.10", reason="Remove intake/msgpack workaround; use databroker.temp() catalogs in tests."
+)
 def getDefaultCatalog():
     """Return the default databroker catalog."""
     from databroker import catalog
@@ -154,21 +158,7 @@ def getDefaultCatalog():
             "No catalog defined.  Multiple catalog objects available.  Specify one of these: {choices}"
         )
 
-    # Attempt to list available catalog configurations.  Calling
-    # list(catalog) can trigger Intake to load catalog files which may raise
-    # FileNotFoundError or other exceptions in CI environments where those
-    # files are missing. Try several safer fallbacks to obtain catalog names
-    # without forcing Intake to load files.
-    try:
-        cats = list(catalog)
-    except Exception:
-        try:
-            cats = list(catalog.keys())
-        except Exception:
-            try:
-                cats = list(getattr(catalog, "_catalog", {}).keys())
-            except Exception:
-                cats = []
+    cats = list(catalog)
 
     if len(cats) == 1:
         return catalog[cats[0]]
@@ -419,11 +409,7 @@ def quantify_md_key_use(
     since = since or "1995-01-01"
     until = until or "2100-12-31"
 
-    cat = (
-        (db or catalog[catalog_name])
-        .v2.search(TimeRange(since=since, until=until))
-        .search(query)
-    )
+    cat = (db or catalog[catalog_name]).v2.search(TimeRange(since=since, until=until)).search(query)
 
     items = []
     while True:

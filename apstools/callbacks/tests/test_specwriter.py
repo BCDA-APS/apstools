@@ -2,16 +2,17 @@
 Test the callback(s) for writing SPEC data files.
 """
 
+import gzip
 import json
 import pathlib
 from contextlib import nullcontext as does_not_raise
 
-import databroker
 import pytest
 from bluesky import RunEngine
 from bluesky import plans as bp
 from ophyd import SoftPositioner
 
+from ...conftest import _load_catalog
 from ...utils import replay
 from ..callback_base import FileWriterCallbackBase
 from ..spec_file_writer import SpecWriterCallback
@@ -29,15 +30,13 @@ ISSUE_1083_DATA = """
 """
 
 PATH: pathlib.Path = pathlib.Path(__file__).parent
-TEST_CATALOGS: list = "apstools_test usaxs_test".split()
+RESOURCES = pathlib.Path(__file__).parent.parent.parent.parent / "resources"
 
 
-def catalog_test_runs() -> databroker.core.BlueskyRun:
-    """Generator for all runs in all test catalogs."""
-    for cat_name in TEST_CATALOGS:
-        # Don't test __all__ list(databroker.catalogs), could be O(10^4) runs!
-        assert cat_name in databroker.catalog
-        cat: databroker.v2.Broker = databroker.catalog[cat_name].v2
+def catalog_test_runs():
+    """Generator for all runs in all test catalogs (loaded from .json.gz)."""
+    for cat_name in ("apstools_test", "usaxs_test"):
+        cat = _load_catalog(RESOURCES / f"{cat_name}.json.gz")
         for uid in cat:
             assert isinstance(uid, str)
             yield cat[uid]
@@ -101,7 +100,7 @@ def test_issue_1083(tempdir: pytest.fixture):
 
 @pytest.mark.parametrize("run", catalog_test_runs())
 def test_issue_1084_from_catalog(
-    run: databroker.core.BlueskyRun,
+    run,
     tempdir: pytest.fixture,
 ):
     """
