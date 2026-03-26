@@ -46,6 +46,9 @@ describe future plans.
    * Refactor test catalog installation to use in-memory ``databroker.temp()``
      loaded from ``.json.gz`` snapshots, removing the fragile ``databroker-unpack``
      / msgpack / intake YAML approach.  Re-enable 20 skipped tests. (:issue:`1131`)
+   * Review and refactor unit tests: remove ``try/except`` anti-patterns, use
+     ``parms, context`` parametrize style, add ``re.escape()`` to ``match=``
+     strings, replace ``os.chdir()`` with ``monkeypatch.chdir()``. (:issue:`1154`)
 
 1.7.9
 *****
