@@ -499,7 +499,7 @@ if __name__ == "__main__":
 
 # -----------------------------------------------------------------------------
 # :author:    BCDA
-# :copyright: (c) 2017-2025, UChicago Argonne, LLC
+# :copyright: (c) 2017-2026, UChicago Argonne, LLC
 #
 # Distributed under the terms of the Argonne National Laboratory Open Source License.
 #

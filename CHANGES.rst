@@ -49,6 +49,9 @@ describe future plans.
    * Adopt ``pre-commit`` for code style with ``ruff`` (lint + format) and
      file hygiene hooks; remove legacy ``black``, ``flake8``, and ``isort``
      configurations. (:issue:`1156`)
+   * Add ``scripts/update_copyright.py`` pre-commit hook to keep copyright
+     ending year current automatically. (:issue:`1172`)
+   * Update copyright ending year to 2026. (:issue:`1172`)
    * Add tests verifying ``EmailNotifications`` sends correctly via SMTP. (:issue:`1112`)
    * Add unit tests for ``SignalStatsCallback``. (:issue:`1072`)
    * Bump minimum Python version to 3.10 (Python 3.9 is EOL). (:issue:`1150`)

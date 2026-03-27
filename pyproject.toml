@@ -114,7 +114,7 @@ spec2ophyd = "apstools.migration.spec2ophyd:main"
 "Bug Tracker" = "https://github.com/bcda-aps/apstools/issues"
 
 [tool.copyright]
-copyright = "2017-2025, UChicago Argonne, LLC"
+copyright = "2017-2026, UChicago Argonne, LLC"
 
 [tool.coverage.run]
 concurrency = [
