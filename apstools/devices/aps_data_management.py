@@ -175,7 +175,7 @@ class DM_WorkflowConnector(Device):
             t += f" {self.status.get()!r}"
             t += f" {self.stage_id.get()!r}"
             if t_offset is not None:
-                t += f" elapsed: {time.time()-t_offset:.0f}s"
+                t += f" elapsed: {time.time() - t_offset:.0f}s"
 
             logger.info(t)
 
@@ -341,7 +341,7 @@ class DM_WorkflowConnector(Device):
             f"{wf['description']!r}"
             f" workflow={wf['name']!r}"
             f" id={self.job['id'][:8]!r}"
-            f" elapsed={time.time()-self.start_time:.1f}s"
+            f" elapsed={time.time() - self.start_time:.1f}s"
             f"\n{self!r}"
             f"\n{table}"
         )

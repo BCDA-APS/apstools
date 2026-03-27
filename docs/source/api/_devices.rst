@@ -436,4 +436,3 @@ Internal Routines
      - base class for apstools Device mixin classes
    * - :class:`~apstools.devices.tracking_signal.TrackingSignal`
      - non-EPICS signal for use when coordinating Device actions
-

@@ -37,4 +37,3 @@ For complete API details see the :doc:`Full API Reference <autoapi/apstools/inde
      - (*deprecated*) write SPEC data file line-by-line
    * - :class:`~apstools.callbacks.spec_file_writer.SpecWriterCallback2`
      - write SPEC data file as data is collected, line-by-line
-

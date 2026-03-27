@@ -166,7 +166,7 @@ class ApsCycleDM(SynSignalRO):
                 dt_cycle_ends = f"{now.year}-10-01 00:00:00-05:00"
             else:
                 cycle = f"{now.year}-3"
-                dt_cycle_ends = f"{now.year+1}-01-01 00:00:00-06:00"
+                dt_cycle_ends = f"{now.year + 1}-01-01 00:00:00-06:00"
             self._cycle_ends = dt_cycle_ends
 
         else:  # official table from APS (via DM)

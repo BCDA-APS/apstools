@@ -44,6 +44,7 @@ Public Structures
 :see: https://github.com/epics-modules/optics
 
 """
+
 import logging
 
 from ophyd import Component as Cpt
@@ -99,4 +100,3 @@ class Optics2Slit2D_soft(Device):
         self.v.size.move(height)
         self.h.center.move(x)
         self.v.center.move(y)
-

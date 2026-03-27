@@ -30,17 +30,13 @@ jobs:
         with:
           python-version: "3.13"
 
-      - name: Install package
+      - name: Install pre-commit
         run: |
           set -vxeuo pipefail
-          python -m pip install --upgrade pip
+          python -m pip install --upgrade pip pre-commit
 
-      - name: Run ruff
-        uses: davidslusser/actions_python_ruff@v1.0.3
-        with:
-          python_version: "3.13"
-          # see [tool.ruff] in pyproject.toml for options
-          command: ruff check .
+      - name: Run pre-commit
+        run: pre-commit run --all-files
 
   test-matrix:
     name: Python ${{ matrix.python-version }}

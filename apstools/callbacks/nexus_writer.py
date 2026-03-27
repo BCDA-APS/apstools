@@ -234,7 +234,7 @@ class NXWriter(FileWriterCallbackBase):
         resource = self.externals[resource_id]
         if resource["spec"] not in ("AD_HDF5",):
             # HDF5-specific implementation for now
-            raise ValueError(f'{resource_id}: spec {resource["spec"]} not handled')
+            raise ValueError(f"{resource_id}: spec {resource['spec']} not handled")
 
         # logger.debug(yaml.dump(resource))
         fname = pathlib.Path(resource["root"]) / resource["resource_path"]

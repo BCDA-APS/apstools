@@ -139,10 +139,12 @@ def execute_command_list(filename, commands, md=None):
         action = action.lower()
         if action == "tune_optics":
             # example: yield from tune_optics(md=_md)
+            # fmt: off
             emsg = (
                 f"This is an example.  action={raw_command}."
                 "  Must define your own execute_command_list() function"
             )
+            # fmt: on
             logger.warn(emsg)
             yield from bps.null()
 

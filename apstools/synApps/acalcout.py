@@ -213,7 +213,7 @@ class UserArrayCalcDevice(Device):
     def reset(self):
         """set all fields to default values"""
         for i in range(10):
-            getattr(self, f"acalcout{i+1}").reset()
+            getattr(self, f"acalcout{i + 1}").reset()
         self.read_attrs = ["acalcout%d" % (c + 1) for c in range(10)]
         self.read_attrs.insert(0, "enable")
 

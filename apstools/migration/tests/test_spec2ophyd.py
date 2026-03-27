@@ -61,8 +61,8 @@ def test_SpecConfig_read_config():
     assert isinstance(sc.collection[4], spec2ophyd.SpecCounter)
     assert isinstance(sc.collection[5], spec2ophyd.SpecCounter)
     assert isinstance(sc.collection[6], spec2ophyd.SpecCounter)
-    assert len(sc.unhandled) == 2
-    assert sc.unhandled == ["SW_SFTWARE\t = 1 INTR", ""]
+    assert len(sc.unhandled) == 1
+    assert sc.unhandled == ["SW_SFTWARE\t = 1 INTR"]
 
     sc = spec2ophyd.SpecConfig(path / "config-CNTPAR")
     sc.read_config()
@@ -83,7 +83,7 @@ def test_SpecConfig_read_config():
     assert len(sc.devices) == 3
     assert len(sc.scalers) == 1
     assert len(sc.collection) == 121
-    assert len(sc.unhandled) == 12
+    assert len(sc.unhandled) == 11
 
 
 def test_SpecConfig_find_pv_in_collection():
