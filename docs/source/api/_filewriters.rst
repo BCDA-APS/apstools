@@ -424,6 +424,3 @@ Example output from ``SpecWriterCallback2()``:
 .. literalinclude:: ../resources/demo_specdata.dat
     :linenos:
     :language: text
-
-
-

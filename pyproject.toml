@@ -76,7 +76,6 @@ dev = [
   "coverage",
   "coveralls",
   "ipykernel",
-  "isort",
   "mypy",
   "ophyd-registry",
   "pre-commit",
@@ -114,32 +113,6 @@ spec2ophyd = "apstools.migration.spec2ophyd:main"
 "Homepage" = "https://bcda-aps.github.io/apstools/latest/"
 "Bug Tracker" = "https://github.com/bcda-aps/apstools/issues"
 
-[tool.black]
-line-length = 115
-target-version = ['py311']
-include = '\.pyi?$'
-exclude = '''
-(
-  /(
-      \.eggs         # exclude a few common directories in the
-    | \.git          # root of the project
-    | \.hg
-    | \.mypy_cache
-    | \.tox
-    | \.venv
-    | \.pytest_cache
-    | _build
-    | build
-    | conda
-    | dist
-    | docs
-    | ideas
-
-  )/
-  | _version.py
-)
-'''
-
 [tool.copyright]
 copyright = "2017-2025, UChicago Argonne, LLC"
 
@@ -154,38 +127,6 @@ omit = [
     # omit these individual files
 ]
 relative_files = true
-
-[tool.flake8]
-max-line-length = 115
-exclude = [
-  ".git",
-  "__pycache__",
-  "build",
-  "dist",
-  "docs/source",
-  "ideas/",
-
-]
-extend-ignore = [
-  "E203", # See https://github.com/PyCQA/pycodestyle/issues/373
-  "E226",
-  "E402", # module level import not at top of file (for cansas.py)
-  "E501",
-  "E741",
-  "F401",  # imported but unused
-  "F403",
-  "F722", # allow Annotated[typ, some_func("some string")]
-  "F811", # support typing.overload decorator
-  "W503",
-  "W504",
-]
-
-[tool.isort]
-force_single_line  = "True"
-include_trailing_comma = true
-multi_line_output = "NOQA"
-profile = "black"
-src_paths = ["apstools"]
 
 [tool.pytest.ini_options]
 addopts = [

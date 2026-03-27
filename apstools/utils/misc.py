@@ -768,6 +768,7 @@ def host_on_aps_subnet():
         ip4.startswith(PRIVATE_IP4_PREFIX),
     ]
 
+
 # -----------------------------------------------------------------------------
 # :author:    BCDA
 # :copyright: (c) 2017-2025, UChicago Argonne, LLC

@@ -191,8 +191,14 @@ class UserCalcoutDevice(Device):
 
 def _setup_peak_calcout_(
     # fmt: off
-    calc, desc, calcout, ref_signal,
-    center=0, width=1, scale=1, noise=0.05
+    calc,
+    desc,
+    calcout,
+    ref_signal,
+    center=0,
+    width=1,
+    scale=1,
+    noise=0.05,
     # fmt: on
 ):
     """

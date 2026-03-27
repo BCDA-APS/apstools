@@ -152,6 +152,6 @@ Use with the bluesky RunEngine `RE` like any other detector in a plan, such as:
 RE(bp.count([pilatus]))
 ```
 
-See the *bluesky* section of the 
+See the *bluesky* section of the
 [basic example](de_0_adsim_hdf5_basic.ipynb) for
 more information.

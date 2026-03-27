@@ -24,7 +24,7 @@ from ophyd import FormattedComponent as FC
 from ._common import EpicsRecordDeviceCommonAll
 from ._common import EpicsSynAppsRecordEnableMixin
 
-STEP_LIST = [f"step{i+1}" for i in range(10)]  # step1, step2, step10
+STEP_LIST = [f"step{i + 1}" for i in range(10)]  # step1, step2, step10
 
 
 class sseqRecordStep(Device):

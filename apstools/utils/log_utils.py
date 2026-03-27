@@ -71,6 +71,7 @@ def file_log_handler(
 
     handler.setLevel(level)
 
+    # fmt: off
     formatter = Formatter(
         (
             "|%(asctime)s"
@@ -84,6 +85,7 @@ def file_log_handler(
             "%(message)s"
         )
     )
+    # fmt: on
     formatter.default_msec_format = "%s.%03d"
     handler.setFormatter(formatter)
 

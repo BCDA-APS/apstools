@@ -43,9 +43,9 @@ class MMap(MutableMapping):
         # Or supply a default if the key does not exist.
         # Here, the default is 1.2345
         mmap.get("a", 1.2345)
-        
+
     and by any attribute method::
-        
+
         mmap.a
         getattr(mmap, "a")
         # Or supply a default if the key does not exist.

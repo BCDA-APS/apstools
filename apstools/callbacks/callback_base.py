@@ -225,7 +225,7 @@ class FileWriterCallbackBase:
             tbl.addRow((k, v["_document_type_"], trim(v)))
         print(tbl)
 
-        print(f"elapsed scan time: {self.stop_time-self.start_time:.3f}s")
+        print(f"elapsed scan time: {self.stop_time - self.start_time:.3f}s")
 
     # - - - - - - - - - - - - - - -
 

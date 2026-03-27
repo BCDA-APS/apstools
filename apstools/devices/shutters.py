@@ -243,7 +243,7 @@ class ShutterBase(Device):
         """ensure any given value is a lower-case string"""
         return str(value).lower()
 
-    def validTarget(self, target: str, should_raise: bool =True):
+    def validTarget(self, target: str, should_raise: bool = True):
         """
         return whether (or not) target value is acceptable for self.set()
 
