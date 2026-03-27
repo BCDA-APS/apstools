@@ -49,6 +49,8 @@ describe future plans.
    * Review and refactor unit tests: remove ``try/except`` anti-patterns, use
      ``parms, context`` parametrize style, add ``re.escape()`` to ``match=``
      strings, replace ``os.chdir()`` with ``monkeypatch.chdir()``. (:issue:`1154`)
+   * Move test catalogs from ``resources/`` to ``apstools/tests/`` and drop
+     ``_test`` suffix from file names. (:issue:`1165`)
 
 1.7.9
 *****

@@ -30,13 +30,13 @@ ISSUE_1083_DATA = """
 """
 
 PATH: pathlib.Path = pathlib.Path(__file__).parent
-RESOURCES = pathlib.Path(__file__).parent.parent.parent.parent / "resources"
+TEST_DATA = pathlib.Path(__file__).parent.parent.parent / "tests"
 
 
 def catalog_test_runs():
     """Generator for all runs in all test catalogs (loaded from .json.gz)."""
-    for cat_name in ("apstools_test", "usaxs_test"):
-        cat = _load_catalog(RESOURCES / f"{cat_name}.json.gz")
+    for cat_name in ("apstools", "usaxs"):
+        cat = _load_catalog(TEST_DATA / f"{cat_name}.json.gz")
         for uid in cat:
             assert isinstance(uid, str)
             yield cat[uid]
