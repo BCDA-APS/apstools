@@ -205,12 +205,62 @@ def test_clear_between_scans(signal_stats, RE, motor, noisy_det):
     assert signal_stats.analysis["n"] != first_n
 
 
-def test_non_primary_stream_ignored(signal_stats):
-    """descriptor() ignores streams other than 'primary'."""
-    signal_stats.clear()
-    signal_stats._scanning = True
-    signal_stats.descriptor({"name": "baseline", "uid": "x", "data_keys": {}})
-    assert signal_stats._descriptor_uid is None
+@pytest.mark.parametrize(
+    "parms, context",
+    [
+        pytest.param(
+            dict(
+                stream_name="baseline",
+                detectors=["det"],
+                motors=["m1"],
+                data_keys={"det": {}, "m1": {}},
+            ),
+            does_not_raise(),
+            id="non-primary stream is ignored",
+        ),
+        pytest.param(
+            dict(
+                stream_name="primary",
+                detectors=["missing_det"],
+                motors=["m1"],
+                data_keys={"m1": {}},
+            ),
+            does_not_raise(),
+            id="no matching detector signals in descriptor",
+        ),
+        pytest.param(
+            dict(
+                stream_name="primary",
+                detectors=["det"],
+                motors=["missing_motor"],
+                data_keys={"det": {}},
+            ),
+            does_not_raise(),
+            id="no matching motor signals in descriptor",
+        ),
+    ],
+)
+def test_descriptor_no_usable_signals(parms, context, signal_stats):
+    """descriptor() handles missing or non-matching signals gracefully."""
+    with context:
+        signal_stats.clear()
+        signal_stats._scanning = True
+        signal_stats.detectors = parms["detectors"]
+        signal_stats.positioners = parms["motors"]
+        signal_stats.descriptor(
+            {
+                "name": parms["stream_name"],
+                "uid": "test_uid",
+                "data_keys": parms["data_keys"],
+            }
+        )
+
+        if parms["stream_name"] != "primary":
+            assert signal_stats._descriptor_uid is None
+        else:
+            # Descriptor was processed but no x/y names were set.
+            assert signal_stats._x_name is None
+            assert signal_stats._y_names == []
 
 
 def test_event_wrong_descriptor_ignored(signal_stats):
