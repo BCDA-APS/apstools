@@ -25,8 +25,16 @@ Before starting a release cycle:
 - [ ] GitHub project exists for the new version (or reuse the current one)
 - [ ] The upcoming release section in `CHANGES.rst` is up to date and
       still commented out
-- [ ] You have a local clone of your **private fork** of the
+- [ ] You have a local clone of your fork of the
       [apstools-feedstock](https://github.com/conda-forge/apstools-feedstock)
+      somewhere on your filesystem (outside the apstools repo directory).
+      One-time setup if you haven't done this yet:
+      ```bash
+      # anywhere outside the apstools directory, e.g. ~/projects/conda-forge/
+      git clone https://github.com/<your-github-username>/apstools-feedstock
+      cd apstools-feedstock
+      git remote add upstream https://github.com/conda-forge/apstools-feedstock
+      ```
 
 ---
 
@@ -56,13 +64,13 @@ artifact and note its SHA256 hash — you will need this for the feedstock.
 
 ### Step 3 — Update the conda-forge feedstock
 
-Work in a **new branch** in your **private fork** of
-[conda-forge/apstools-feedstock](https://github.com/conda-forge/apstools-feedstock).
-Create a new branch for each release cycle (e.g. `release-1.7.10`).
+In your local feedstock clone (wherever it lives on your filesystem),
+create a **new branch** for this release cycle:
 
 ```bash
-# In your feedstock fork
-git checkout main && git pull upstream main
+git checkout main
+git pull upstream main
+git push origin main          # keep your fork current
 git checkout -b release-1.7.10
 ```
 
@@ -132,9 +140,11 @@ This publishes the release docs to `https://bcda-aps.github.io/apstools/<version
 
 ### Step 4 — Update and merge the feedstock PR
 
-In `recipe/meta.yaml` update the version to the final tag (drop the `rcN`
-suffix) and the sha256 to match the final PyPI `.tar.gz`.  Push to the
-same feedstock branch.  Once feedstock CI passes, merge the PR.
+In your local feedstock clone, update `recipe/meta.yaml`:
+- version: final tag (drop the `rcN` suffix, e.g. `1.7.10`)
+- sha256: from the final PyPI `.tar.gz` build log (Step 2 above)
+
+Push to the same feedstock branch.  Once feedstock CI passes, merge the PR.
 
 ### Step 5 — Create the GitHub release
 
