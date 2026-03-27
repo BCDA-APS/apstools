@@ -293,3 +293,103 @@ def test_lineup2_stats_stream(parms, context, RE, motor):
             assert len(reasons_val) > 0
             for fragment in parms["expected_reason_fragments"]:
                 assert fragment in reasons_val
+
+
+@pytest.mark.parametrize(
+    "parms, context",
+    [
+        pytest.param(
+            dict(reporting=True, feature="centroid"),
+            does_not_raise(),
+            id="report printed once with Feature header when reporting=True",
+        ),
+        pytest.param(
+            dict(reporting=False, feature="centroid"),
+            does_not_raise(),
+            id="no report printed when reporting=False",
+        ),
+    ],
+)
+def test_lineup2_report_not_duplicated(parms, context, RE, motor, capsys):
+    """lineup2() prints the stats report exactly once (no duplicate at end)."""
+    _RE, _cat = RE
+    det = SynGauss("det", motor, "motor", center=0.0, Imax=100.0, sigma=1.0, noise="none")
+    stats = SignalStatsCallback()
+
+    with context:
+        _RE(
+            lineup2(
+                [det],
+                motor,
+                -3,
+                3,
+                11,
+                nscans=1,
+                signal_stats=stats,
+                reporting=parms["reporting"],
+                feature=parms["feature"],
+            )
+        )
+
+        captured = capsys.readouterr()
+        feature_header = f"Feature: {parms['feature']!r}"
+
+        if parms["reporting"]:
+            # Header must appear exactly once.
+            assert captured.out.count("Motor:") == 1
+            assert feature_header in captured.out
+        else:
+            assert "Motor:" not in captured.out
+
+
+@pytest.mark.parametrize(
+    "parms, context",
+    [
+        pytest.param(
+            dict(center=0.0, Imax=100.0, feature="centroid", expect_peak=True),
+            does_not_raise(),
+            id="peak found: position message names feature",
+        ),
+        pytest.param(
+            dict(center=100.0, Imax=100.0, feature="centroid", expect_peak=False),
+            does_not_raise(),
+            id="no peak: position message says returned to original",
+        ),
+    ],
+)
+def test_lineup2_position_reported_after_pass(parms, context, RE, motor, capsys):
+    """lineup2() prints the mover's new position after each pass."""
+    _RE, _cat = RE
+    det = SynGauss(
+        "det",
+        motor,
+        "motor",
+        center=parms["center"],
+        Imax=parms["Imax"],
+        sigma=1.0,
+        noise="none",
+    )
+    stats = SignalStatsCallback()
+
+    with context:
+        _RE(
+            lineup2(
+                [det],
+                motor,
+                -3,
+                3,
+                11,
+                nscans=1,
+                signal_stats=stats,
+                reporting=False,
+                feature=parms["feature"],
+            )
+        )
+
+        captured = capsys.readouterr()
+        if parms["expect_peak"]:
+            assert motor.name in captured.out
+            assert parms["feature"] in captured.out
+        else:
+            assert motor.name in captured.out
+            assert "original position" in captured.out

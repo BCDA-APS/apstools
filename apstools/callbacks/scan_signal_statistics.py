@@ -74,8 +74,14 @@ class SignalStatsCallback:
     data_stream: str = "primary"
     """RunEngine document with signals to to watch."""
 
+    feature: str = None
+    """Name of the peak feature used for alignment (e.g. ``"centroid"``).  Set by the caller."""
+
     reporting: bool = True
     """If ``True`` (default), call the ``report()`` method when a ``stop`` document is received."""
+
+    _reported: bool = False
+    """Has ``report()`` been called since the last ``clear()``?"""
 
     _scanning: bool = False
     """Is a run *in progress*?"""
@@ -102,6 +108,7 @@ class SignalStatsCallback:
     def clear(self):
         """Clear the internal memory for the next run."""
         self._scanning = False
+        self._reported = False
         self.detectors: list[str] = []
         self.positioners: list[str] = []
         self._registers = {}  # deprecated, for removal
@@ -187,8 +194,12 @@ class SignalStatsCallback:
         table = pyRestTable.Table()
         table.labels = "statistic value".split()
         table.rows = [(k, self.analysis.get(k, "--")) for k in keys if k in self.analysis]
-        print(f"Motor: {x_name!r}  Detector: {y_name!r}")
+        header = f"Motor: {x_name!r}  Detector: {y_name!r}"
+        if self.feature is not None:
+            header += f"  Feature: {self.feature!r}"
+        print(header)
         print(table)
+        self._reported = True
 
     def start(self, doc):
         """Receives 'start' documents from the RunEngine."""

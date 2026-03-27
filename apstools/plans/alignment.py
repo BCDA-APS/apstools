@@ -572,6 +572,9 @@ def lineup2(
     if "plan_name" not in _md:
         _md["plan_name"] = "lineup2"
 
+    # Expose which feature is used so report() can display it.
+    signal_stats.feature = feature
+
     _target = [None]  # mutable closure cell for target from find_peak_position()
 
     @bpp.subs_decorator(signal_stats.receiver)
@@ -617,11 +620,13 @@ def lineup2(
             nscans = 0  # Nothing found, no point scanning again.
             yield from bps.mv(mover, m_pos)  # back to starting position
             logger.debug("Moved %s to %s: %f", mover.name, "original position", m_pos)
+            print(f"No peak found. {mover.name} returned to original position: {m_pos}")
         else:
             # Maintain absolute range: m_lo <= target <= m_hi
             target = min(max(m_lo, target), m_hi)
             yield from bps.mv(mover, target)  # Move to the feature position.
             logger.info("Moved %s to %s: %f", mover.name, feature, target)
+            print(f"{mover.name} moved to {feature}: {target}")
 
             if nscans > 0:
                 # move the end points for the next scan
@@ -630,7 +635,7 @@ def lineup2(
                 rel_start = max(m_lo - target, -offset)
                 rel_end = min(m_hi - target, offset)
 
-    if signal_stats.reporting:  # Final report
+    if signal_stats.reporting and not signal_stats._reported:  # Final report (avoid duplicate)
         signal_stats.report()
 
 

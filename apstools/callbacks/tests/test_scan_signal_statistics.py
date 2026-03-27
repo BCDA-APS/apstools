@@ -54,9 +54,11 @@ def noisy_det(motor):
 
 
 def test_clear(signal_stats):
-    """clear() resets all internal state."""
+    """clear() resets all internal state including _reported."""
+    signal_stats._reported = True  # simulate a prior report
     signal_stats.clear()
     assert signal_stats._scanning is False
+    assert signal_stats._reported is False
     assert signal_stats.detectors == []
     assert signal_stats.positioners == []
     assert signal_stats._registers == {}
@@ -191,6 +193,54 @@ def test_report_after_scan(signal_stats, RE, motor, noisy_det, capsys):
     assert "Detector:" in captured.out
     assert "centroid" in captured.out
     assert "fwhm" in captured.out
+
+
+@pytest.mark.parametrize(
+    "parms, context",
+    [
+        pytest.param(
+            dict(feature=None, expect_feature=False),
+            does_not_raise(),
+            id="feature=None omits Feature from header",
+        ),
+        pytest.param(
+            dict(feature="centroid", expect_feature=True),
+            does_not_raise(),
+            id="feature='centroid' appears in header",
+        ),
+        pytest.param(
+            dict(feature="x_at_max_y", expect_feature=True),
+            does_not_raise(),
+            id="feature='x_at_max_y' appears in header",
+        ),
+    ],
+)
+def test_report_feature_in_header(parms, context, signal_stats, RE, motor, noisy_det, capsys):
+    """report() includes Feature in header when feature is set."""
+    with context:
+        signal_stats.reporting = True
+        signal_stats.feature = parms["feature"]
+        RE.subscribe(signal_stats.receiver)
+        RE(bp.scan([noisy_det], motor, -2, 2, 11))
+
+        captured = capsys.readouterr()
+        assert "Motor:" in captured.out
+        assert "Detector:" in captured.out
+        if parms["expect_feature"]:
+            assert f"Feature: {parms['feature']!r}" in captured.out
+        else:
+            assert "Feature:" not in captured.out
+
+
+def test_reported_flag_set_after_report(signal_stats, RE, motor, noisy_det):
+    """_reported is True after report() is called and False after clear()."""
+    signal_stats.reporting = True
+    RE.subscribe(signal_stats.receiver)
+    RE(bp.scan([noisy_det], motor, -2, 2, 11))
+
+    assert signal_stats._reported is True
+    signal_stats.clear()
+    assert signal_stats._reported is False
 
 
 def test_clear_between_scans(signal_stats, RE, motor, noisy_det):
