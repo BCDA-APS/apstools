@@ -30,6 +30,10 @@ describe future plans.
    ------------
 
    * Add full bluesky run ``uid`` (as ``bluesky_run_uid``) to metadata shared with APS DM. (:issue:`1150`)
+   * ``lineup2()`` now writes peak statistics (including ``success`` and
+     ``reasons``) as a bluesky stream before the run closes.  Stream name
+     is controlled by the new ``stats_stream`` kwarg (default:
+     ``"signal_stats"``). (:issue:`1046`)
 
    Fixes
    -------------

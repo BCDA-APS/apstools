@@ -11,11 +11,13 @@ import logging
 
 import pyRestTable
 import pysumreg  # deprecate, will remove in next major version bump
+from deprecated.sphinx import versionchanged
 
 logger = logging.getLogger(__name__)
 logger.info(__file__)
 
 
+@versionchanged(version="1.7.10", reason="Add compute() method; refactor stop() to use it.")
 class SignalStatsCallback:
     """
     Callback: Collect peak (& other) statistics during a scan.
@@ -72,8 +74,14 @@ class SignalStatsCallback:
     data_stream: str = "primary"
     """RunEngine document with signals to to watch."""
 
+    feature: str = None
+    """Name of the peak feature used for alignment (e.g. ``"centroid"``).  Set by the caller."""
+
     reporting: bool = True
     """If ``True`` (default), call the ``report()`` method when a ``stop`` document is received."""
+
+    _reported: bool = False
+    """Has ``report()`` been called since the last ``clear()``?"""
 
     _scanning: bool = False
     """Is a run *in progress*?"""
@@ -100,6 +108,7 @@ class SignalStatsCallback:
     def clear(self):
         """Clear the internal memory for the next run."""
         self._scanning = False
+        self._reported = False
         self.detectors: list[str] = []
         self.positioners: list[str] = []
         self._registers = {}  # deprecated, for removal
@@ -119,7 +128,7 @@ class SignalStatsCallback:
 
         # Remember now, to match with later events.
         self._descriptor_uid = doc["uid"]
-        
+
         data_map = get_stream_data_map(self.detectors, self.positioners, doc)
         if len(data_map.get("detectors", [])) == 0:
             logger.warning("No detector signals available.  No statistics.")
@@ -185,8 +194,12 @@ class SignalStatsCallback:
         table = pyRestTable.Table()
         table.labels = "statistic value".split()
         table.rows = [(k, self.analysis.get(k, "--")) for k in keys if k in self.analysis]
-        print(f"Motor: {x_name!r}  Detector: {y_name!r}")
+        header = f"Motor: {x_name!r}  Detector: {y_name!r}"
+        if self.feature is not None:
+            header += f"  Feature: {self.feature!r}"
+        print(header)
         print(table)
+        self._reported = True
 
     def start(self, doc):
         """Receives 'start' documents from the RunEngine."""
@@ -196,23 +209,39 @@ class SignalStatsCallback:
         self.detectors = doc["detectors"]
         self.positioners = doc["motors"]
 
-    def stop(self, doc):
-        """Receives 'stop' documents from the RunEngine."""
+    def compute(self):
+        """Compute XY statistics from accumulated data.
+
+        Can be called mid-run (before the stop document) to populate
+        ``self.analysis`` with the current statistics.  This is used by
+        ``lineup2()`` to write the statistics as a bluesky stream before
+        the run closes.
+
+        (new in release 1.7.10)
+        """
         from ..utils.statistics import xy_statistics
 
+        if self._x_name is None:
+            logger.warning("No XY statistics: no X axis name found.")
+            return
+        if len(self._y_names) == 0:
+            logger.warning("No XY statistics: no Y axis names found.")
+            return
+        if not self._data.get(self._x_name):
+            return
+
+        self.analysis = xy_statistics(
+            self._data[self._x_name],
+            self._data[self._y_names[0]],
+        )
+
+    def stop(self, doc):
+        """Receives 'stop' documents from the RunEngine."""
         if not self._scanning:
             return
         self._scanning = False
 
-        if self._x_name is None:
-            logger.warning("No XY statistics: no X axis name found.")
-        elif len(self._y_names) == 0:
-            logger.warning("No XY statistics: no Y axis names found.")
-        else:
-            self.analysis = xy_statistics(
-                self._data[self._x_name],
-                self._data[self._y_names[0]],
-            )
+        self.compute()
 
-            if self.reporting:
-                self.report()
+        if self.reporting:
+            self.report()

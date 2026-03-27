@@ -54,9 +54,11 @@ def noisy_det(motor):
 
 
 def test_clear(signal_stats):
-    """clear() resets all internal state."""
+    """clear() resets all internal state including _reported."""
+    signal_stats._reported = True  # simulate a prior report
     signal_stats.clear()
     assert signal_stats._scanning is False
+    assert signal_stats._reported is False
     assert signal_stats.detectors == []
     assert signal_stats.positioners == []
     assert signal_stats._registers == {}
@@ -193,6 +195,54 @@ def test_report_after_scan(signal_stats, RE, motor, noisy_det, capsys):
     assert "fwhm" in captured.out
 
 
+@pytest.mark.parametrize(
+    "parms, context",
+    [
+        pytest.param(
+            dict(feature=None, expect_feature=False),
+            does_not_raise(),
+            id="feature=None omits Feature from header",
+        ),
+        pytest.param(
+            dict(feature="centroid", expect_feature=True),
+            does_not_raise(),
+            id="feature='centroid' appears in header",
+        ),
+        pytest.param(
+            dict(feature="x_at_max_y", expect_feature=True),
+            does_not_raise(),
+            id="feature='x_at_max_y' appears in header",
+        ),
+    ],
+)
+def test_report_feature_in_header(parms, context, signal_stats, RE, motor, noisy_det, capsys):
+    """report() includes Feature in header when feature is set."""
+    with context:
+        signal_stats.reporting = True
+        signal_stats.feature = parms["feature"]
+        RE.subscribe(signal_stats.receiver)
+        RE(bp.scan([noisy_det], motor, -2, 2, 11))
+
+        captured = capsys.readouterr()
+        assert "Motor:" in captured.out
+        assert "Detector:" in captured.out
+        if parms["expect_feature"]:
+            assert f"Feature: {parms['feature']!r}" in captured.out
+        else:
+            assert "Feature:" not in captured.out
+
+
+def test_reported_flag_set_after_report(signal_stats, RE, motor, noisy_det):
+    """_reported is True after report() is called and False after clear()."""
+    signal_stats.reporting = True
+    RE.subscribe(signal_stats.receiver)
+    RE(bp.scan([noisy_det], motor, -2, 2, 11))
+
+    assert signal_stats._reported is True
+    signal_stats.clear()
+    assert signal_stats._reported is False
+
+
 def test_clear_between_scans(signal_stats, RE, motor, noisy_det):
     """Running two scans resets state between them."""
     RE.subscribe(signal_stats.receiver)
@@ -205,12 +255,62 @@ def test_clear_between_scans(signal_stats, RE, motor, noisy_det):
     assert signal_stats.analysis["n"] != first_n
 
 
-def test_non_primary_stream_ignored(signal_stats):
-    """descriptor() ignores streams other than 'primary'."""
-    signal_stats.clear()
-    signal_stats._scanning = True
-    signal_stats.descriptor({"name": "baseline", "uid": "x", "data_keys": {}})
-    assert signal_stats._descriptor_uid is None
+@pytest.mark.parametrize(
+    "parms, context",
+    [
+        pytest.param(
+            dict(
+                stream_name="baseline",
+                detectors=["det"],
+                motors=["m1"],
+                data_keys={"det": {}, "m1": {}},
+            ),
+            does_not_raise(),
+            id="non-primary stream is ignored",
+        ),
+        pytest.param(
+            dict(
+                stream_name="primary",
+                detectors=["missing_det"],
+                motors=["m1"],
+                data_keys={"m1": {}},
+            ),
+            does_not_raise(),
+            id="no matching detector signals in descriptor",
+        ),
+        pytest.param(
+            dict(
+                stream_name="primary",
+                detectors=["det"],
+                motors=["missing_motor"],
+                data_keys={"det": {}},
+            ),
+            does_not_raise(),
+            id="no matching motor signals in descriptor",
+        ),
+    ],
+)
+def test_descriptor_no_usable_signals(parms, context, signal_stats):
+    """descriptor() handles missing or non-matching signals gracefully."""
+    with context:
+        signal_stats.clear()
+        signal_stats._scanning = True
+        signal_stats.detectors = parms["detectors"]
+        signal_stats.positioners = parms["motors"]
+        signal_stats.descriptor(
+            {
+                "name": parms["stream_name"],
+                "uid": "test_uid",
+                "data_keys": parms["data_keys"],
+            }
+        )
+
+        if parms["stream_name"] != "primary":
+            assert signal_stats._descriptor_uid is None
+        else:
+            # Descriptor was processed but no x/y names were set.
+            assert signal_stats._x_name is None
+            assert signal_stats._y_names == []
 
 
 def test_event_wrong_descriptor_ignored(signal_stats):
@@ -223,3 +323,77 @@ def test_event_wrong_descriptor_ignored(signal_stats):
 
     signal_stats.event({"descriptor": "wrong_uid", "data": {"motor": 1.0}})
     assert signal_stats._data["motor"] == []
+
+
+def test_compute_before_data(signal_stats):
+    """compute() is a no-op when no data has been accumulated."""
+    signal_stats.clear()
+    signal_stats.compute()
+    assert signal_stats.analysis is None
+
+
+def test_compute_with_data(signal_stats):
+    """compute() populates analysis from manually accumulated data."""
+    signal_stats.clear()
+    signal_stats._x_name = "x"
+    signal_stats._y_names = ["y"]
+    signal_stats._data = {"x": [1.0, 2.0, 3.0], "y": [10.0, 20.0, 10.0]}
+
+    signal_stats.compute()
+
+    assert signal_stats.analysis is not None
+    assert signal_stats.analysis["n"] == 3
+    assert signal_stats.analysis["max_y"] == 20.0
+    assert signal_stats.analysis["x_at_max_y"] == 2.0
+
+
+def test_compute_called_by_stop(signal_stats, RE, motor, noisy_det):
+    """stop() calls compute(), populating analysis correctly."""
+    RE.subscribe(signal_stats.receiver)
+    RE(bp.scan([noisy_det], motor, -2, 2, 11))
+
+    assert signal_stats.analysis is not None
+    assert signal_stats.analysis["n"] == 11
+    assert math.isclose(signal_stats.analysis["centroid"], 0.0, abs_tol=0.2)
+
+
+@pytest.mark.parametrize(
+    "parms, context",
+    [
+        pytest.param(
+            dict(x_name=None, y_names=["y"], data={"y": [1.0, 2.0]}),
+            does_not_raise(),
+            id="compute is no-op when _x_name is None",
+        ),
+        pytest.param(
+            dict(x_name="x", y_names=[], data={"x": [1.0, 2.0]}),
+            does_not_raise(),
+            id="compute is no-op when _y_names is empty",
+        ),
+        pytest.param(
+            dict(x_name="x", y_names=["y"], data={"x": [], "y": []}),
+            does_not_raise(),
+            id="compute is no-op when _data arrays are empty",
+        ),
+        pytest.param(
+            dict(x_name="x", y_names=["y"], data={"x": [1.0, 2.0]}),
+            pytest.raises(KeyError, match=re.escape("y")),
+            id="compute raises KeyError when y_name not in _data",
+        ),
+        pytest.param(
+            dict(x_name="x", y_names=["y"], data={"x": [1.0, 2.0], "y": [1.0]}),
+            pytest.raises(ValueError, match=re.escape("Unequal shapes:")),
+            id="compute raises ValueError when x and y have different lengths",
+        ),
+    ],
+)
+def test_compute_incomplete_data(parms, context, signal_stats):
+    """compute() handles missing or inconsistent data correctly."""
+    with context:
+        signal_stats.clear()
+        signal_stats._x_name = parms["x_name"]
+        signal_stats._y_names = parms["y_names"]
+        signal_stats._data = parms["data"]
+
+        signal_stats.compute()
+        assert signal_stats.analysis is None
