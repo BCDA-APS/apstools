@@ -112,7 +112,9 @@ When opening a PR for an issue, copy the following from the issue to the PR:
 - **Assignee** — assign the PR to the same user(s) as the issue (not as reviewer)
 - **Labels** — apply the same labels
 - **Milestone** — set the same milestone
-- **Projects** — add to the same projects
+- **Projects** — add to the same projects, including the **Status** field
+  (e.g. "In Progress").  Use the GitHub GraphQL API via `gh` to copy
+  the project item status from the issue to the PR.
 
 ## PR Body Format
 
