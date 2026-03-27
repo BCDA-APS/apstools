@@ -1,0 +1,1518 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../../../../../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>shutters &#8212; apstools 1.7</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../../../../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="../../../../../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../../../../../_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="../../../../../_static/graphviz.css?v=4ae1632d" />
+    <link rel="stylesheet" type="text/css" href="../../../../../_static/mystnb.11b39860a7a0cbfd473a3ad8a317855267ff0bd372690045ca344a6b62be495e.css" />
+    <link rel="stylesheet" type="text/css" href="../../../../../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../../../../../_static/css/custom.css?v=c14d4873" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="../../../../../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../../../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="../../../../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+
+    <script src="../../../../../_static/documentation_options.js?v=f5d85129"></script>
+    <script src="../../../../../_static/doctools.js?v=fd6eb6e6"></script>
+    <script src="../../../../../_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script src="../../../../../_static/design-tabs.js?v=f930bc37"></script>
+    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'api/autoapi/apstools/devices/shutters/index';</script>
+    <script>
+        DOCUMENTATION_OPTIONS.theme_version = '0.16.1';
+        DOCUMENTATION_OPTIONS.theme_switcher_json_url = 'https://raw.githubusercontent.com/BCDA-APS/apstools/main/docs/source/_static/switcher.json';
+        DOCUMENTATION_OPTIONS.theme_switcher_version_match = 'dev';
+        DOCUMENTATION_OPTIONS.show_version_warning_banner =
+            false;
+        </script>
+    <link rel="index" title="Index" href="../../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../../search.html" />
+    <link rel="next" title="simulated_controllers" href="../simulated_controllers/index.html" />
+    <link rel="prev" title="scaler_support" href="../scaler_support/index.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="1.7" />
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../../../../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-3 navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../../../../../index.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">apstools 1.7</p>
+  
+</a></div>
+    
+      <div class="navbar-item">
+<div class="version-switcher__container dropdown pst-js-only">
+  <button id="pst-version-switcher-button-2"
+    type="button"
+    class="version-switcher__button btn btn-sm dropdown-toggle"
+    data-bs-toggle="dropdown"
+    aria-haspopup="listbox"
+    aria-controls="pst-version-switcher-list-2"
+    aria-label="Version switcher list"
+  >
+    Choose version  <!-- this text may get changed later by javascript -->
+    <span class="caret"></span>
+  </button>
+  <div id="pst-version-switcher-list-2"
+    class="version-switcher__menu dropdown-menu list-group-flush py-0"
+    role="listbox" aria-labelledby="pst-version-switcher-button-2">
+    <!-- dropdown will be populated by javascript on page load -->
+  </div>
+</div></div>
+    
+  </div>
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../../../install.html">
+    Installation
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="../../../../index.html">
+    API
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../../../applications/index.html">
+    Applications
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../../../examples/index.html">
+    Examples
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../../../changes.html">
+    Change History
+  </a>
+</li>
+
+            <li class="nav-item dropdown">
+                <button class="btn dropdown-toggle nav-item" type="button"
+                data-bs-toggle="dropdown" aria-expanded="false"
+                aria-controls="pst-nav-more-links">
+                    More
+                </button>
+                <ul id="pst-nav-more-links" class="dropdown-menu">
+                    
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../../../../license.html">
+    License
+  </a>
+</li>
+
+                </ul>
+            </li>
+            
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+        <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+      
+        <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/BCDA-APS/apstools" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../../../install.html">
+    Installation
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="../../../../index.html">
+    API
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../../../applications/index.html">
+    Applications
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../../../examples/index.html">
+    Examples
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../../../changes.html">
+    Change History
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../../../license.html">
+    License
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+        
+          <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/BCDA-APS/apstools" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+        
+      </div>
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+<nav class="bd-docs-nav bd-links"
+     aria-label="Section Navigation">
+  <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
+  <div class="bd-toc-item navbar-nav"><ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../../../_callbacks.html">Callbacks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../_devices.html">Devices</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../_filewriters.html">File Writers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../_plans.html">Plans</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../_utils.html">Utilities</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../../../synApps/index.html">synApps</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../../synApps/__common.html">EPICS Record support: common structures</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../synApps/_acalcout.html">EPICS base aCalcout record</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../synApps/_asyn.html">synApps asyn record</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../synApps/_busy.html">synApps busy record</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../synApps/_calcout.html">EPICS base calcout record</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../synApps/_db_2slit.html">EPICS synApps optics 2slit.db</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../synApps/_epid.html">synApps epid record</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../synApps/_iocstats.html">synApps IOC statistics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../synApps/_luascript.html">synApps luascript record</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../synApps/_save_data.html">synApps save data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../synApps/_scalcout.html">EPICS synApps calc scalcout record</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../synApps/_sscan.html">synApps sscan record</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../synApps/_sseq.html">synApps sseq record</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../synApps/_sub.html">EPICS base sub record &amp; synApps userAve records</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../synApps/_swait.html">synApps swait record</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../synApps/_transform.html">synApps transform record</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="../../index.html">apstools</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../callbacks/index.html">callbacks</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../callbacks/callback_base/index.html">callback_base</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../callbacks/doc_collector/index.html">doc_collector</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../callbacks/nexus_writer/index.html">nexus_writer</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../callbacks/scan_signal_statistics/index.html">scan_signal_statistics</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../callbacks/spec_file_writer/index.html">spec_file_writer</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 current active has-children"><a class="reference internal" href="../index.html">devices</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="../acs_motors/index.html">acs_motors</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../aps_bss_user/index.html">aps_bss_user</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../aps_cycle/index.html">aps_cycle</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../aps_data_management/index.html">aps_data_management</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../aps_machine/index.html">aps_machine</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../aps_undulator/index.html">aps_undulator</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../area_detector_factory/index.html">area_detector_factory</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../area_detector_support/index.html">area_detector_support</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../avs_filters/index.html">avs_filters</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../axis_tuner/index.html">axis_tuner</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../delay/index.html">delay</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../description_mixin/index.html">description_mixin</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../dict_device_support/index.html">dict_device_support</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../epics_scan_id_signal/index.html">epics_scan_id_signal</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../eurotherm_2216e/index.html">eurotherm_2216e</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../hhl_apertures/index.html">hhl_apertures</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../hhl_slits/index.html">hhl_slits</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../jj_transfocators/index.html">jj_transfocators</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../kohzu_monochromator/index.html">kohzu_monochromator</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../labjack/index.html">labjack</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../lakeshore_controllers/index.html">lakeshore_controllers</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../linkam_controllers/index.html">linkam_controllers</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../measComp_tc32_support/index.html">measComp_tc32_support</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../measComp_usb_ctr_support/index.html">measComp_usb_ctr_support</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../mixin_base/index.html">mixin_base</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../motor_factory/index.html">motor_factory</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../motor_mixins/index.html">motor_mixins</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../positioner_soft_done/index.html">positioner_soft_done</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../preamp_base/index.html">preamp_base</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../ptc10_controller/index.html">ptc10_controller</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../scaler_support/index.html">scaler_support</a></li>
+<li class="toctree-l3 current active"><a class="current reference internal" href="#">shutters</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../simulated_controllers/index.html">simulated_controllers</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../srs570_preamplifier/index.html">srs570_preamplifier</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../struck3820/index.html">struck3820</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../synth_pseudo_voigt/index.html">synth_pseudo_voigt</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../tracking_signal/index.html">tracking_signal</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../xia_pf4/index.html">xia_pf4</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../xia_slit/index.html">xia_slit</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../migration/index.html">migration</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../migration/spec2ophyd/index.html">spec2ophyd</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../plans/index.html">plans</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../plans/alignment/index.html">alignment</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../plans/command_list/index.html">command_list</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../plans/doc_run/index.html">doc_run</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../plans/input_plan/index.html">input_plan</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../plans/labels_to_streams/index.html">labels_to_streams</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../plans/nscan_support/index.html">nscan_support</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../plans/run_blocking_function_plan/index.html">run_blocking_function_plan</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../plans/sscan_support/index.html">sscan_support</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../plans/stage_sigs_support/index.html">stage_sigs_support</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../plans/xpcs_mesh/index.html">xpcs_mesh</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../synApps/index.html">synApps</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../synApps/acalcout/index.html">acalcout</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../synApps/asyn/index.html">asyn</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../synApps/busy/index.html">busy</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../synApps/calcout/index.html">calcout</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../synApps/db_2slit/index.html">db_2slit</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../synApps/db_2slit_soft/index.html">db_2slit_soft</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../synApps/epid/index.html">epid</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../synApps/iocstats/index.html">iocstats</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../synApps/luascript/index.html">luascript</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../synApps/save_data/index.html">save_data</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../synApps/scalcout/index.html">scalcout</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../synApps/sscan/index.html">sscan</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../synApps/sseq/index.html">sseq</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../synApps/sub/index.html">sub</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../synApps/swait/index.html">swait</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../synApps/transform/index.html">transform</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../utils/index.html">utils</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../utils/aps_data_management/index.html">aps_data_management</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../utils/apsu_controls_subnet/index.html">apsu_controls_subnet</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../utils/catalog/index.html">catalog</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../utils/descriptor_support/index.html">descriptor_support</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../utils/device_info/index.html">device_info</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../utils/email/index.html">email</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../utils/image_analysis/index.html">image_analysis</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../utils/list_plans/index.html">list_plans</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../utils/list_runs/index.html">list_runs</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../utils/log_utils/index.html">log_utils</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../utils/memory/index.html">memory</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../utils/misc/index.html">misc</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../utils/mmap_dict/index.html">mmap_dict</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../utils/override_parameters/index.html">override_parameters</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../utils/plot/index.html">plot</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../utils/profile_support/index.html">profile_support</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../utils/pvregistry/index.html">pvregistry</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../utils/query/index.html">query</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../utils/slit_core/index.html">slit_core</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../utils/spreadsheet/index.html">spreadsheet</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../utils/statistics/index.html">statistics</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../utils/stored_dict/index.html">stored_dict</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../utils/time_constants/index.html">time_constants</a></li>
+</ul>
+</details></li>
+</ul>
+</details></li>
+</ul>
+</div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+<nav aria-label="Breadcrumb" class="d-print-none">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../../../../../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="../../../../index.html" class="nav-link">API</a></li>
+    
+    
+    <li class="breadcrumb-item"><a href="../../index.html" class="nav-link">apstools</a></li>
+    
+    
+    <li class="breadcrumb-item"><a href="../index.html" class="nav-link">devices</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">shutters</span></li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section id="module-apstools.devices.shutters">
+<span id="shutters"></span><h1>shutters<a class="headerlink" href="#module-apstools.devices.shutters" title="Link to this heading">#</a></h1>
+<p>Import: <code class="docutils literal notranslate"><span class="pre">apstools.devices.shutters</span></code></p>
+<section id="id1">
+<h2>Shutters<a class="headerlink" href="#id1" title="Link to this heading">#</a></h2>
+<div class="pst-scrollable-table-container"><table class="autosummary longtable table">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#apstools.devices.shutters.ApsPssShutter" title="apstools.devices.shutters.ApsPssShutter"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ApsPssShutter</span></code></a>(prefix, *args[, close_pv, ...])</p></td>
+<td><p>APS PSS shutter</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#apstools.devices.shutters.ApsPssShutterWithStatus" title="apstools.devices.shutters.ApsPssShutterWithStatus"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ApsPssShutterWithStatus</span></code></a>(prefix, state_pv, ...)</p></td>
+<td><p>APS PSS shutter with separate status PV</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#apstools.devices.shutters.EpicsMotorShutter" title="apstools.devices.shutters.EpicsMotorShutter"><code class="xref py py-obj docutils literal notranslate"><span class="pre">EpicsMotorShutter</span></code></a>(*args[, tolerance])</p></td>
+<td><p>Shutter, implemented with an EPICS motor moved between two positions</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#apstools.devices.shutters.EpicsOnOffShutter" title="apstools.devices.shutters.EpicsOnOffShutter"><code class="xref py py-obj docutils literal notranslate"><span class="pre">EpicsOnOffShutter</span></code></a>(*args[, open_value, ...])</p></td>
+<td><p>Shutter using a single EPICS PV moved between two positions</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#apstools.devices.shutters.OneSignalShutter" title="apstools.devices.shutters.OneSignalShutter"><code class="xref py py-obj docutils literal notranslate"><span class="pre">OneSignalShutter</span></code></a>(*args[, open_value, ...])</p></td>
+<td><p>Shutter Device using one Signal for open and close.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#apstools.devices.shutters.ShutterBase" title="apstools.devices.shutters.ShutterBase"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ShutterBase</span></code></a>(*args[, open_value, ...])</p></td>
+<td><p>Base class for all shutter Devices.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#apstools.devices.shutters.SimulatedApsPssShutterWithStatus" title="apstools.devices.shutters.SimulatedApsPssShutterWithStatus"><code class="xref py py-obj docutils literal notranslate"><span class="pre">SimulatedApsPssShutterWithStatus</span></code></a>(*args, **kwargs)</p></td>
+<td><p>Simulated APS PSS shutter</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<section id="module-contents">
+<h2>Module Contents<a class="headerlink" href="#module-contents" title="Link to this heading">#</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="apstools.devices.shutters.ApsPssShutter">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">apstools.devices.shutters.</span></span><span class="sig-name descname"><span class="pre">ApsPssShutter</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">prefix</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">close_pv</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">open_pv</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">open_value</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">close_value</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">open_reset_value</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">close_reset_value</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../_modules/apstools/devices/shutters.html#ApsPssShutter"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#apstools.devices.shutters.ApsPssShutter" title="Link to this definition">#</a></dt>
+<dd><div class="import-path docutils container">
+<p>Import: <code class="docutils literal notranslate"><span class="pre">apstools.devices.shutters.ApsPssShutter</span></code></p>
+</div>
+<p>Bases: <a class="reference internal" href="#apstools.devices.shutters.ShutterBase" title="apstools.devices.shutters.ShutterBase"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ShutterBase</span></code></a></p>
+<p>APS PSS shutter</p>
+<ul class="simple" id="index-0">
+<li><p>APS PSS shutters have separate bit PVs for open and close</p></li>
+<li><p>set either bit, the shutter moves, and the bit resets a short time later</p></li>
+<li><p>no indication that the shutter has actually moved from the bits
+(see <a class="reference internal" href="#apstools.devices.shutters.ApsPssShutterWithStatus" title="apstools.devices.shutters.ApsPssShutterWithStatus"><code class="xref py py-func docutils literal notranslate"><span class="pre">ApsPssShutterWithStatus()</span></code></a> for alternative)</p></li>
+</ul>
+<p>Since there is no direct indication that a shutter has moved, the
+<code class="docutils literal notranslate"><span class="pre">state</span></code> property will always return <em>unknown</em> and the
+<code class="docutils literal notranslate"><span class="pre">isOpen</span></code> and <code class="docutils literal notranslate"><span class="pre">isClosed</span></code> properties will always return <em>False</em>.</p>
+<p>A consequence of the unknown state is that the shutter will always
+be commanded to move (and wait the <code class="docutils literal notranslate"><span class="pre">delay_s</span></code> time),
+even if it is already at that position.  This device could keep
+track of the last commanded position, but that is not guaranteed
+to be true since the shutter could be moved from other software.</p>
+<p>The default <code class="docutils literal notranslate"><span class="pre">delay_s</span></code> has been set at <em>1.2 s</em> to allow for
+shutter motion.  Change this as desired.  Advise if this
+default should be changed.</p>
+<p>PARAMETERS</p>
+<dl class="simple">
+<dt>prefix <em>str</em> :</dt><dd><p>EPICS PV prefix</p>
+</dd>
+<dt>name <em>str</em> :</dt><dd><p>(kwarg, required) object’s canonical name</p>
+</dd>
+<dt>close_pv <em>str</em> :</dt><dd><p>(kwarg, optional) Name of EPICS PV to close the shutter.
+If <code class="docutils literal notranslate"><span class="pre">None</span></code>, defaults to <code class="docutils literal notranslate"><span class="pre">&quot;{prefix}Close&quot;</span></code>.</p>
+</dd>
+<dt>open_pv <em>str</em> :</dt><dd><p>(kwarg, optional) Name of EPICS PV to open the shutter.
+If <code class="docutils literal notranslate"><span class="pre">None</span></code>, defaults to <code class="docutils literal notranslate"><span class="pre">&quot;{prefix}Open&quot;</span></code>.</p>
+</dd>
+<dt>open_reset_value: <em>int</em> :</dt><dd><p>To open, set ‘self.open_signal’ to this value.  Default = 1.</p>
+</dd>
+<dt>close_reset_value: <em>int</em> :</dt><dd><p>To open, set ‘self.close_signal’ to this value.  Default = 1.</p>
+</dd>
+<dt>open_reset_value: <em>int</em> :</dt><dd><p>To reset ‘self.open_signal’, set to this value.  Default = 0.</p>
+</dd>
+<dt>close_reset_value: <em>int</em> :</dt><dd><p>To reset ‘self.close_signal’, set to this value.  Default = 0.</p>
+</dd>
+</dl>
+<p>EXAMPLE:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">shutter_a</span> <span class="o">=</span> <span class="n">ApsPssShutter</span><span class="p">(</span><span class="s2">&quot;2bma:A_shutter:&quot;</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;shutter&quot;</span><span class="p">)</span>
+<span class="n">shutter_a</span><span class="o">.</span><span class="n">wait_for_connection</span><span class="p">()</span>
+
+<span class="n">shutter_a</span><span class="o">.</span><span class="n">open</span><span class="p">()</span>
+<span class="n">shutter_a</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+
+<span class="n">shutter_a</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="s2">&quot;open&quot;</span><span class="p">)</span>
+<span class="n">shutter_a</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="s2">&quot;close&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>When using the shutter in a plan, be sure to use <code class="docutils literal notranslate"><span class="pre">yield</span> <span class="pre">from</span></code>, such as:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">in_a_plan</span><span class="p">(</span><span class="n">shutter</span><span class="p">):</span>
+    <span class="k">yield from</span> <span class="n">abs_set</span><span class="p">(</span><span class="n">shutter</span><span class="p">,</span> <span class="s2">&quot;open&quot;</span><span class="p">,</span> <span class="n">wait</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="c1"># do something</span>
+    <span class="k">yield from</span> <span class="n">abs_set</span><span class="p">(</span><span class="n">shutter</span><span class="p">,</span> <span class="s2">&quot;close&quot;</span><span class="p">,</span> <span class="n">wait</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="n">RE</span><span class="p">(</span><span class="n">in_a_plan</span><span class="p">(</span><span class="n">shutter_a</span><span class="p">))</span>
+</pre></div>
+</div>
+<p>The strings accepted by <cite>set()</cite> are defined in two lists:
+<cite>valid_open_values</cite> and <cite>valid_close_values</cite>.  These lists
+are treated (internally to <cite>set()</cite>) as lower case strings.</p>
+<p>Example, add “o” &amp; “x” as aliases for “open” &amp; “close”:</p>
+<blockquote>
+<div><p>shutter_a.addOpenValue(“o”)
+shutter_a.addCloseValue(“x”)
+shutter_a.set(“o”)
+shutter_a.set(“x”)</p>
+</div></blockquote>
+<dl class="py method">
+<dt class="sig sig-object py" id="apstools.devices.shutters.ApsPssShutter.close">
+<span class="sig-name descname"><span class="pre">close</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">timeout</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">10</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="../../../../../_modules/apstools/devices/shutters.html#ApsPssShutter.close"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#apstools.devices.shutters.ApsPssShutter.close" title="Link to this definition">#</a></dt>
+<dd><p>request the shutter to close (timeout is ignored)</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="apstools.devices.shutters.ApsPssShutter.close_pv">
+<span class="sig-name descname"><span class="pre">close_pv</span></span><a class="headerlink" href="#apstools.devices.shutters.ApsPssShutter.close_pv" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="apstools.devices.shutters.ApsPssShutter.close_reset_value">
+<span class="sig-name descname"><span class="pre">close_reset_value</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">0</span></span><a class="headerlink" href="#apstools.devices.shutters.ApsPssShutter.close_reset_value" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="apstools.devices.shutters.ApsPssShutter.close_signal">
+<span class="sig-name descname"><span class="pre">close_signal</span></span><a class="headerlink" href="#apstools.devices.shutters.ApsPssShutter.close_signal" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="apstools.devices.shutters.ApsPssShutter.open">
+<span class="sig-name descname"><span class="pre">open</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">timeout</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">10</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="../../../../../_modules/apstools/devices/shutters.html#ApsPssShutter.open"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#apstools.devices.shutters.ApsPssShutter.open" title="Link to this definition">#</a></dt>
+<dd><p>request the shutter to open (timeout is ignored)</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="apstools.devices.shutters.ApsPssShutter.open_pv">
+<span class="sig-name descname"><span class="pre">open_pv</span></span><a class="headerlink" href="#apstools.devices.shutters.ApsPssShutter.open_pv" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="apstools.devices.shutters.ApsPssShutter.open_reset_value">
+<span class="sig-name descname"><span class="pre">open_reset_value</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">0</span></span><a class="headerlink" href="#apstools.devices.shutters.ApsPssShutter.open_reset_value" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="apstools.devices.shutters.ApsPssShutter.open_signal">
+<span class="sig-name descname"><span class="pre">open_signal</span></span><a class="headerlink" href="#apstools.devices.shutters.ApsPssShutter.open_signal" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="apstools.devices.shutters.ApsPssShutter.state">
+<span class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">state</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></span><a class="headerlink" href="#apstools.devices.shutters.ApsPssShutter.state" title="Link to this definition">#</a></dt>
+<dd><p>is shutter “open”, “close”, or “unknown”?</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="apstools.devices.shutters.ApsPssShutterWithStatus">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">apstools.devices.shutters.</span></span><span class="sig-name descname"><span class="pre">ApsPssShutterWithStatus</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">prefix</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">state_pv</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../_modules/apstools/devices/shutters.html#ApsPssShutterWithStatus"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#apstools.devices.shutters.ApsPssShutterWithStatus" title="Link to this definition">#</a></dt>
+<dd><div class="import-path docutils container">
+<p>Import: <code class="docutils literal notranslate"><span class="pre">apstools.devices.shutters.ApsPssShutterWithStatus</span></code></p>
+</div>
+<p>Bases: <a class="reference internal" href="#apstools.devices.shutters.ApsPssShutter" title="apstools.devices.shutters.ApsPssShutter"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ApsPssShutter</span></code></a></p>
+<p>APS PSS shutter with separate status PV</p>
+<ul class="simple" id="index-1">
+<li><p>APS PSS shutters have separate bit PVs for open and close</p></li>
+<li><p>set either bit, the shutter moves, and the bit resets a short time later</p></li>
+<li><p>a separate status PV tells if the shutter is open or closed
+(see <a class="reference internal" href="#apstools.devices.shutters.ApsPssShutter" title="apstools.devices.shutters.ApsPssShutter"><code class="xref py py-func docutils literal notranslate"><span class="pre">ApsPssShutter()</span></code></a> for alternative)</p></li>
+</ul>
+<p>PARAMETERS</p>
+<dl class="simple">
+<dt>prefix <em>str</em> :</dt><dd><p>EPICS PV prefix</p>
+</dd>
+<dt>state_pv <em>str</em> :</dt><dd><p>Name of EPICS PV that provides shutter’s current state.</p>
+</dd>
+<dt>name <em>str</em> :</dt><dd><p>(kwarg, required) object’s canonical name</p>
+</dd>
+</dl>
+<p>EXAMPLE:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">A_shutter</span> <span class="o">=</span> <span class="n">ApsPssShutterWithStatus</span><span class="p">(</span>
+    <span class="s2">&quot;2bma:A_shutter:&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;PA:02BM:STA_A_FES_OPEN_PL&quot;</span><span class="p">,</span>
+    <span class="n">name</span><span class="o">=</span><span class="s2">&quot;A_shutter&quot;</span><span class="p">)</span>
+<span class="n">B_shutter</span> <span class="o">=</span> <span class="n">ApsPssShutterWithStatus</span><span class="p">(</span>
+    <span class="s2">&quot;2bma:B_shutter:&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;PA:02BM:STA_B_SBS_OPEN_PL&quot;</span><span class="p">,</span>
+    <span class="n">name</span><span class="o">=</span><span class="s2">&quot;B_shutter&quot;</span><span class="p">)</span>
+<span class="n">A_shutter</span><span class="o">.</span><span class="n">wait_for_connection</span><span class="p">()</span>
+<span class="n">B_shutter</span><span class="o">.</span><span class="n">wait_for_connection</span><span class="p">()</span>
+
+<span class="n">A_shutter</span><span class="o">.</span><span class="n">open</span><span class="p">()</span>
+<span class="n">A_shutter</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+
+<span class="ow">or</span>
+
+<span class="n">A_shutter</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="s2">&quot;open&quot;</span><span class="p">)</span>
+<span class="n">A_shutter</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="s2">&quot;close&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>When using the shutter in a plan, be sure to use <cite>yield from</cite>.</p>
+<blockquote>
+<div><dl class="simple">
+<dt>def in_a_plan(shutter):</dt><dd><p>yield from abs_set(shutter, “open”, wait=True)
+# do something
+yield from abs_set(shutter, “close”, wait=True)</p>
+</dd>
+</dl>
+<p>RE(in_a_plan(A_shutter))</p>
+</div></blockquote>
+<dl class="py method">
+<dt class="sig sig-object py" id="apstools.devices.shutters.ApsPssShutterWithStatus.close">
+<span class="sig-name descname"><span class="pre">close</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">timeout</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">10</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="../../../../../_modules/apstools/devices/shutters.html#ApsPssShutterWithStatus.close"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#apstools.devices.shutters.ApsPssShutterWithStatus.close" title="Link to this definition">#</a></dt>
+<dd><p>request the shutter to close</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="apstools.devices.shutters.ApsPssShutterWithStatus.open">
+<span class="sig-name descname"><span class="pre">open</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">timeout</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">10</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="../../../../../_modules/apstools/devices/shutters.html#ApsPssShutterWithStatus.open"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#apstools.devices.shutters.ApsPssShutterWithStatus.open" title="Link to this definition">#</a></dt>
+<dd><p>request the shutter to open</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="apstools.devices.shutters.ApsPssShutterWithStatus.pss_state">
+<span class="sig-name descname"><span class="pre">pss_state</span></span><a class="headerlink" href="#apstools.devices.shutters.ApsPssShutterWithStatus.pss_state" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="apstools.devices.shutters.ApsPssShutterWithStatus.pss_state_closed_values">
+<span class="sig-name descname"><span class="pre">pss_state_closed_values</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[0]</span></span><a class="headerlink" href="#apstools.devices.shutters.ApsPssShutterWithStatus.pss_state_closed_values" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="apstools.devices.shutters.ApsPssShutterWithStatus.pss_state_open_values">
+<span class="sig-name descname"><span class="pre">pss_state_open_values</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[1]</span></span><a class="headerlink" href="#apstools.devices.shutters.ApsPssShutterWithStatus.pss_state_open_values" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="apstools.devices.shutters.ApsPssShutterWithStatus.state">
+<span class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">state</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></span><a class="headerlink" href="#apstools.devices.shutters.ApsPssShutterWithStatus.state" title="Link to this definition">#</a></dt>
+<dd><p>is shutter “open”, “close”, or “unknown”?</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="apstools.devices.shutters.ApsPssShutterWithStatus.state_pv">
+<span class="sig-name descname"><span class="pre">state_pv</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></span><a class="headerlink" href="#apstools.devices.shutters.ApsPssShutterWithStatus.state_pv" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="apstools.devices.shutters.ApsPssShutterWithStatus.wait_for_state">
+<span class="sig-name descname"><span class="pre">wait_for_state</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">target</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">timeout</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">10</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">poll_s</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.01</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="../../../../../_modules/apstools/devices/shutters.html#ApsPssShutterWithStatus.wait_for_state"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#apstools.devices.shutters.ApsPssShutterWithStatus.wait_for_state" title="Link to this definition">#</a></dt>
+<dd><p>wait for the PSS state to reach a desired target</p>
+<p>PARAMETERS</p>
+<p>(kwarg, optional) Name of EPICS PV to close the shutter.
+If <code class="docutils literal notranslate"><span class="pre">None</span></code>, defaults to <code class="docutils literal notranslate"><span class="pre">&quot;{prefix}Close&quot;</span></code>.</p>
+<dl class="simple">
+<dt>target</dt><dd><p><em>[str]</em> :
+list of strings containing acceptable values</p>
+</dd>
+<dt>timeout</dt><dd><p><em>non-negative number</em> :
+(kwarg, optional) Maximum amount of time (seconds) to wait for PSS
+state to reach target. If <code class="docutils literal notranslate"><span class="pre">None</span></code>, defaults to <code class="docutils literal notranslate"><span class="pre">10</span></code>.</p>
+</dd>
+<dt>poll_s</dt><dd><p><em>non-negative number</em> :
+(kwarg, optional) Time to wait (seconds) in first polling cycle.
+After first poll, this will be increased by <code class="docutils literal notranslate"><span class="pre">_poll_factor_</span></code>
+up to a maximum time of <code class="docutils literal notranslate"><span class="pre">_poll_s_max_</span></code>.
+If <code class="docutils literal notranslate"><span class="pre">None</span></code>, defaults to <code class="docutils literal notranslate"><span class="pre">0.01</span></code>.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="apstools.devices.shutters.EpicsMotorShutter">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">apstools.devices.shutters.</span></span><span class="sig-name descname"><span class="pre">EpicsMotorShutter</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tolerance</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0.01</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../_modules/apstools/devices/shutters.html#EpicsMotorShutter"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#apstools.devices.shutters.EpicsMotorShutter" title="Link to this definition">#</a></dt>
+<dd><div class="import-path docutils container">
+<p>Import: <code class="docutils literal notranslate"><span class="pre">apstools.devices.shutters.EpicsMotorShutter</span></code></p>
+</div>
+<p>Bases: <a class="reference internal" href="#apstools.devices.shutters.OneSignalShutter" title="apstools.devices.shutters.OneSignalShutter"><code class="xref py py-obj docutils literal notranslate"><span class="pre">OneSignalShutter</span></code></a></p>
+<p>Shutter, implemented with an EPICS motor moved between two positions</p>
+<p id="index-2">PARAMETERS</p>
+<dl class="simple">
+<dt>prefix <em>str</em> :</dt><dd><p>EPICS PV prefix</p>
+</dd>
+<dt>name <em>str</em> :</dt><dd><p>(kwarg, required) object’s canonical name</p>
+</dd>
+<dt>tolerance <em>float</em> :</dt><dd><p>Used to decide in-position: abs(readback-setpoint) &lt;= tolerance.</p>
+</dd>
+</dl>
+<p>EXAMPLE:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">tomo_shutter</span> <span class="o">=</span> <span class="n">EpicsMotorShutter</span><span class="p">(</span><span class="s2">&quot;2bma:m23&quot;</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;tomo_shutter&quot;</span><span class="p">)</span>
+<span class="n">tomo_shutter</span><span class="o">.</span><span class="n">wait_for_connection</span><span class="p">()</span>
+<span class="n">tomo_shutter</span><span class="o">.</span><span class="n">close_value</span> <span class="o">=</span> <span class="mf">1.0</span>      <span class="c1"># default</span>
+<span class="n">tomo_shutter</span><span class="o">.</span><span class="n">open_value</span> <span class="o">=</span> <span class="mf">0.0</span>       <span class="c1"># default</span>
+<span class="n">tomo_shutter</span><span class="o">.</span><span class="n">tolerance</span> <span class="o">=</span> <span class="mf">0.01</span>       <span class="c1"># default</span>
+<span class="n">tomo_shutter</span><span class="o">.</span><span class="n">open</span><span class="p">()</span>
+<span class="n">tomo_shutter</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+
+<span class="c1"># or, when used in a plan</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">planA</span><span class="p">():</span>
+    <span class="k">yield from</span> <span class="n">abs_set</span><span class="p">(</span><span class="n">tomo_shutter</span><span class="p">,</span> <span class="s2">&quot;open&quot;</span><span class="p">,</span> <span class="n">group</span><span class="o">=</span><span class="s2">&quot;O&quot;</span><span class="p">)</span>
+    <span class="k">yield from</span> <span class="n">wait</span><span class="p">(</span><span class="s2">&quot;O&quot;</span><span class="p">)</span>
+    <span class="k">yield from</span> <span class="n">abs_set</span><span class="p">(</span><span class="n">tomo_shutter</span><span class="p">,</span> <span class="s2">&quot;close&quot;</span><span class="p">,</span> <span class="n">group</span><span class="o">=</span><span class="s2">&quot;X&quot;</span><span class="p">)</span>
+    <span class="k">yield from</span> <span class="n">wait</span><span class="p">(</span><span class="s2">&quot;X&quot;</span><span class="p">)</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">planA</span><span class="p">():</span>
+    <span class="k">yield from</span> <span class="n">abs_set</span><span class="p">(</span><span class="n">tomo_shutter</span><span class="p">,</span> <span class="s2">&quot;open&quot;</span><span class="p">,</span> <span class="n">wait</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="k">yield from</span> <span class="n">abs_set</span><span class="p">(</span><span class="n">tomo_shutter</span><span class="p">,</span> <span class="s2">&quot;close&quot;</span><span class="p">,</span> <span class="n">wait</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">planA</span><span class="p">():</span>
+    <span class="k">yield from</span> <span class="n">mv</span><span class="p">(</span><span class="n">tomo_shutter</span><span class="p">,</span> <span class="s2">&quot;open&quot;</span><span class="p">)</span>
+    <span class="k">yield from</span> <span class="n">mv</span><span class="p">(</span><span class="n">tomo_shutter</span><span class="p">,</span> <span class="s2">&quot;close&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<dl class="py method">
+<dt class="sig sig-object py" id="apstools.devices.shutters.EpicsMotorShutter.close">
+<span class="sig-name descname"><span class="pre">close</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="../../../../../_modules/apstools/devices/shutters.html#EpicsMotorShutter.close"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#apstools.devices.shutters.EpicsMotorShutter.close" title="Link to this definition">#</a></dt>
+<dd><p>move motor to BEAM BLOCKED position, interactive use</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="apstools.devices.shutters.EpicsMotorShutter.open">
+<span class="sig-name descname"><span class="pre">open</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="../../../../../_modules/apstools/devices/shutters.html#EpicsMotorShutter.open"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#apstools.devices.shutters.EpicsMotorShutter.open" title="Link to this definition">#</a></dt>
+<dd><p>move motor to BEAM NOT BLOCKED position, interactive use</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="apstools.devices.shutters.EpicsMotorShutter.signal">
+<span class="sig-name descname"><span class="pre">signal</span></span><a class="headerlink" href="#apstools.devices.shutters.EpicsMotorShutter.signal" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="apstools.devices.shutters.EpicsMotorShutter.state">
+<span class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">state</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></span><a class="headerlink" href="#apstools.devices.shutters.EpicsMotorShutter.state" title="Link to this definition">#</a></dt>
+<dd><p>is shutter “open”, “close”, or “unknown”?</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="apstools.devices.shutters.EpicsMotorShutter.tolerance">
+<span class="sig-name descname"><span class="pre">tolerance</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">0.01</span></span><a class="headerlink" href="#apstools.devices.shutters.EpicsMotorShutter.tolerance" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="apstools.devices.shutters.EpicsOnOffShutter">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">apstools.devices.shutters.</span></span><span class="sig-name descname"><span class="pre">EpicsOnOffShutter</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">open_value</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">close_value</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">valid_open_values</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">['open',</span> <span class="pre">'opened']</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">valid_close_values</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">['close',</span> <span class="pre">'closed']</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">delay_s</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1.2</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../_modules/apstools/devices/shutters.html#EpicsOnOffShutter"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#apstools.devices.shutters.EpicsOnOffShutter" title="Link to this definition">#</a></dt>
+<dd><div class="import-path docutils container">
+<p>Import: <code class="docutils literal notranslate"><span class="pre">apstools.devices.shutters.EpicsOnOffShutter</span></code></p>
+</div>
+<p>Bases: <a class="reference internal" href="#apstools.devices.shutters.OneSignalShutter" title="apstools.devices.shutters.OneSignalShutter"><code class="xref py py-obj docutils literal notranslate"><span class="pre">OneSignalShutter</span></code></a></p>
+<p>Shutter using a single EPICS PV moved between two positions</p>
+<p id="index-3">Use for a shutter controlled by a single PV which takes a
+value for the close command and a different value for the open command.
+The current position is determined by comparing the value of the control
+with the expected open and close values.</p>
+<p>PARAMETERS</p>
+<dl class="simple">
+<dt>prefix <em>str</em> :</dt><dd><p>EPICS PV prefix</p>
+</dd>
+<dt>name <em>str</em> :</dt><dd><p>(kwarg, required) object’s canonical name</p>
+</dd>
+</dl>
+<p>EXAMPLE:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">bit_shutter</span> <span class="o">=</span> <span class="n">EpicsOnOffShutter</span><span class="p">(</span><span class="s2">&quot;2bma:bit1&quot;</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;bit_shutter&quot;</span><span class="p">)</span>
+<span class="n">bit_shutter</span><span class="o">.</span><span class="n">wait_for_connection</span><span class="p">()</span>
+<span class="n">bit_shutter</span><span class="o">.</span><span class="n">close_value</span> <span class="o">=</span> <span class="mi">0</span>      <span class="c1"># default</span>
+<span class="n">bit_shutter</span><span class="o">.</span><span class="n">open_value</span> <span class="o">=</span> <span class="mi">1</span>       <span class="c1"># default</span>
+<span class="n">bit_shutter</span><span class="o">.</span><span class="n">open</span><span class="p">()</span>
+<span class="n">bit_shutter</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+
+<span class="c1"># or, when used in a plan</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">planA</span><span class="p">():</span>
+    <span class="k">yield from</span> <span class="n">mv</span><span class="p">(</span><span class="n">bit_shutter</span><span class="p">,</span> <span class="s2">&quot;open&quot;</span><span class="p">)</span>
+    <span class="k">yield from</span> <span class="n">mv</span><span class="p">(</span><span class="n">bit_shutter</span><span class="p">,</span> <span class="s2">&quot;close&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="apstools.devices.shutters.EpicsOnOffShutter.signal">
+<span class="sig-name descname"><span class="pre">signal</span></span><a class="headerlink" href="#apstools.devices.shutters.EpicsOnOffShutter.signal" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="apstools.devices.shutters.OneSignalShutter">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">apstools.devices.shutters.</span></span><span class="sig-name descname"><span class="pre">OneSignalShutter</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">open_value</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">close_value</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">valid_open_values</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">['open',</span> <span class="pre">'opened']</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">valid_close_values</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">['close',</span> <span class="pre">'closed']</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">delay_s</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1.2</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../_modules/apstools/devices/shutters.html#OneSignalShutter"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#apstools.devices.shutters.OneSignalShutter" title="Link to this definition">#</a></dt>
+<dd><div class="import-path docutils container">
+<p>Import: <code class="docutils literal notranslate"><span class="pre">apstools.devices.shutters.OneSignalShutter</span></code></p>
+</div>
+<p>Bases: <a class="reference internal" href="#apstools.devices.shutters.ShutterBase" title="apstools.devices.shutters.ShutterBase"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ShutterBase</span></code></a></p>
+<p>Shutter Device using one Signal for open and close.</p>
+<p id="index-4">PARAMETERS</p>
+<dl class="simple">
+<dt>signal</dt><dd><p><code class="docutils literal notranslate"><span class="pre">EpicsSignal</span></code> or <code class="docutils literal notranslate"><span class="pre">Signal</span></code> :
+(override in subclass)
+The <code class="docutils literal notranslate"><span class="pre">signal</span></code> is the comunication to the hardware.
+In a subclass, the hardware may have more than
+one communication channel to use.  See the
+<code class="docutils literal notranslate"><span class="pre">ApsPssShutter</span></code> as an example.</p>
+</dd>
+<dt>name</dt><dd><p><em>str</em> :
+(kwarg, required) object’s canonical name</p>
+</dd>
+</dl>
+<p>See <code class="docutils literal notranslate"><span class="pre">ShutterBase</span></code> for more parameters.</p>
+<p>EXAMPLE</p>
+<p>Create a simulated shutter:</p>
+<blockquote>
+<div><p>shutter = OneSignalShutter(name=”shutter”)</p>
+</div></blockquote>
+<p>open the shutter (interactively):</p>
+<blockquote>
+<div><p>shutter.open()</p>
+</div></blockquote>
+<p>Check the shutter is open:</p>
+<blockquote>
+<div><p>In [144]: shutter.isOpen
+Out[144]: True</p>
+</div></blockquote>
+<p>Use the shutter in a Bluesky plan.
+Set a post-move delay time of 1.0 seconds.
+Be sure to use <code class="docutils literal notranslate"><span class="pre">yield</span> <span class="pre">from</span></code>, such as:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">in_a_plan</span><span class="p">(</span><span class="n">shutter</span><span class="p">):</span>
+    <span class="n">shutter</span><span class="o">.</span><span class="n">delay_s</span> <span class="o">=</span> <span class="mf">1.0</span>
+    <span class="n">t0</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Shutter state: &quot;</span> <span class="o">+</span> <span class="n">shutter</span><span class="o">.</span><span class="n">state</span><span class="p">,</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span><span class="o">-</span><span class="n">t0</span><span class="p">)</span>
+    <span class="k">yield from</span> <span class="n">bps</span><span class="o">.</span><span class="n">abs_set</span><span class="p">(</span><span class="n">shutter</span><span class="p">,</span> <span class="s2">&quot;open&quot;</span><span class="p">,</span> <span class="n">wait</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>    <span class="c1"># wait for completion is optional</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Shutter state: &quot;</span> <span class="o">+</span> <span class="n">shutter</span><span class="o">.</span><span class="n">state</span><span class="p">,</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span><span class="o">-</span><span class="n">t0</span><span class="p">)</span>
+    <span class="k">yield from</span> <span class="n">bps</span><span class="o">.</span><span class="n">mv</span><span class="p">(</span><span class="n">shutter</span><span class="p">,</span> <span class="s2">&quot;open&quot;</span><span class="p">)</span>    <span class="c1"># do it again</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Shutter state: &quot;</span> <span class="o">+</span> <span class="n">shutter</span><span class="o">.</span><span class="n">state</span><span class="p">,</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span><span class="o">-</span><span class="n">t0</span><span class="p">)</span>
+    <span class="k">yield from</span> <span class="n">bps</span><span class="o">.</span><span class="n">mv</span><span class="p">(</span><span class="n">shutter</span><span class="p">,</span> <span class="s2">&quot;close&quot;</span><span class="p">)</span>    <span class="c1"># ALWAYS waits for completion</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Shutter state: &quot;</span> <span class="o">+</span> <span class="n">shutter</span><span class="o">.</span><span class="n">state</span><span class="p">,</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span><span class="o">-</span><span class="n">t0</span><span class="p">)</span>
+
+<span class="n">RE</span><span class="p">(</span><span class="n">in_a_plan</span><span class="p">(</span><span class="n">shutter</span><span class="p">))</span>
+</pre></div>
+</div>
+<p>which gives this output:</p>
+<blockquote>
+<div><p>Shutter state: close 1.7642974853515625e-05
+Shutter state: open 1.0032124519348145
+Shutter state: open 1.0057861804962158
+Shutter state: close 2.009695529937744</p>
+</div></blockquote>
+<p>The strings accepted by <cite>set()</cite> are defined in two lists:
+<cite>valid_open_values</cite> and <cite>valid_close_values</cite>.  These lists
+are treated (internally to <cite>set()</cite>) as lower case strings.</p>
+<p>Example, add “o” &amp; “x” as aliases for “open” &amp; “close”:</p>
+<blockquote>
+<div><p>shutter.addOpenValue(“o”)
+shutter.addCloseValue(“x”)
+shutter.set(“o”)
+shutter.set(“x”)</p>
+</div></blockquote>
+<dl class="py method">
+<dt class="sig sig-object py" id="apstools.devices.shutters.OneSignalShutter.close">
+<span class="sig-name descname"><span class="pre">close</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../../../_modules/apstools/devices/shutters.html#OneSignalShutter.close"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#apstools.devices.shutters.OneSignalShutter.close" title="Link to this definition">#</a></dt>
+<dd><p>BLOCKING: request shutter to close, called by set()</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="apstools.devices.shutters.OneSignalShutter.open">
+<span class="sig-name descname"><span class="pre">open</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../../../_modules/apstools/devices/shutters.html#OneSignalShutter.open"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#apstools.devices.shutters.OneSignalShutter.open" title="Link to this definition">#</a></dt>
+<dd><p>BLOCKING: request shutter to open, called by set()</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="apstools.devices.shutters.OneSignalShutter.signal">
+<span class="sig-name descname"><span class="pre">signal</span></span><a class="headerlink" href="#apstools.devices.shutters.OneSignalShutter.signal" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="apstools.devices.shutters.OneSignalShutter.state">
+<span class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">state</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></span><a class="headerlink" href="#apstools.devices.shutters.OneSignalShutter.state" title="Link to this definition">#</a></dt>
+<dd><p>is shutter “open”, “close”, or “unknown”?</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="apstools.devices.shutters.ShutterBase">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">apstools.devices.shutters.</span></span><span class="sig-name descname"><span class="pre">ShutterBase</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">open_value</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">close_value</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">valid_open_values</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">['open',</span> <span class="pre">'opened']</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">valid_close_values</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">['close',</span> <span class="pre">'closed']</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">delay_s</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1.2</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../_modules/apstools/devices/shutters.html#ShutterBase"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#apstools.devices.shutters.ShutterBase" title="Link to this definition">#</a></dt>
+<dd><div class="import-path docutils container">
+<p>Import: <code class="docutils literal notranslate"><span class="pre">apstools.devices.shutters.ShutterBase</span></code></p>
+</div>
+<p>Bases: <code class="xref py py-obj docutils literal notranslate"><span class="pre">ophyd.Device</span></code></p>
+<p>Base class for all shutter Devices.</p>
+<p id="index-5">PARAMETERS</p>
+<dl class="simple">
+<dt>value <em>str</em> :</dt><dd><p>any from <code class="docutils literal notranslate"><span class="pre">self.choices</span></code> (typically “open” or “close”)</p>
+</dd>
+<dt>valid_open_values <em>list[str]</em> :</dt><dd><p>A list of lower-case text values that are acceptable
+for use with the <code class="docutils literal notranslate"><span class="pre">set()</span></code> command to open the shutter.</p>
+</dd>
+<dt>valid_close_values <em>list[str]</em> :</dt><dd><p>A list of lower-case text values that are acceptable
+for use with the <code class="docutils literal notranslate"><span class="pre">set()</span></code> command to close the shutter.</p>
+</dd>
+<dt>open_value <em>number</em> :</dt><dd><p>The actual value to send to open <code class="docutils literal notranslate"><span class="pre">signal</span></code> to open the shutter.
+(default = 1)</p>
+</dd>
+<dt>close_value <em>number</em> :</dt><dd><p>The actual value to send to close <code class="docutils literal notranslate"><span class="pre">signal</span></code> to close the shutter.
+(default = 0)</p>
+</dd>
+<dt>delay_s <em>float</em> :</dt><dd><p>time to wait (s) after move is complete,
+does not wait if shutter already in position
+(default = 0)</p>
+</dd>
+<dt>busy <em>Signal</em> :</dt><dd><p>(internal) tells if a move is in progress</p>
+</dd>
+<dt>unknown_state <em>str</em> :</dt><dd><p>(constant) Text reported by <code class="docutils literal notranslate"><span class="pre">state</span></code> when not open or closed.
+cannot move to this position
+(default = “unknown”)</p>
+</dd>
+<dt>name <em>str</em> :</dt><dd><p>(kwarg, required) object’s canonical name</p>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="apstools.devices.shutters.ShutterBase.addCloseValue">
+<span class="sig-name descname"><span class="pre">addCloseValue</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">text</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../../../../_modules/apstools/devices/shutters.html#ShutterBase.addCloseValue"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#apstools.devices.shutters.ShutterBase.addCloseValue" title="Link to this definition">#</a></dt>
+<dd><p>a synonym to close the shutter, use with set()</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="apstools.devices.shutters.ShutterBase.addOpenValue">
+<span class="sig-name descname"><span class="pre">addOpenValue</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">text</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../../../../_modules/apstools/devices/shutters.html#ShutterBase.addOpenValue"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#apstools.devices.shutters.ShutterBase.addOpenValue" title="Link to this definition">#</a></dt>
+<dd><p>a synonym to open the shutter, use with set()</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="apstools.devices.shutters.ShutterBase.busy">
+<span class="sig-name descname"><span class="pre">busy</span></span><a class="headerlink" href="#apstools.devices.shutters.ShutterBase.busy" title="Link to this definition">#</a></dt>
+<dd><p>True if a move is in progress.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="apstools.devices.shutters.ShutterBase.choices">
+<span class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">choices</span></span><a class="headerlink" href="#apstools.devices.shutters.ShutterBase.choices" title="Link to this definition">#</a></dt>
+<dd><p>return list of acceptable choices for set()</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="apstools.devices.shutters.ShutterBase.close">
+<span class="property"><span class="k"><span class="pre">abstractmethod</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">close</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="../../../../../_modules/apstools/devices/shutters.html#ShutterBase.close"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#apstools.devices.shutters.ShutterBase.close" title="Link to this definition">#</a></dt>
+<dd><p>BLOCKING: request shutter to close, called by <code class="docutils literal notranslate"><span class="pre">set()</span></code>.</p>
+<p>Must implement in subclass of ShutterBase()</p>
+<p>EXAMPLE:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">isClosed</span><span class="p">:</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">signal</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">close_value</span><span class="p">)</span>
+    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">delay_s</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">delay_s</span><span class="p">)</span>    <span class="c1"># blocking call OK here</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="apstools.devices.shutters.ShutterBase.close_value">
+<span class="sig-name descname"><span class="pre">close_value</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">0</span></span><a class="headerlink" href="#apstools.devices.shutters.ShutterBase.close_value" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="apstools.devices.shutters.ShutterBase.delay_s">
+<span class="sig-name descname"><span class="pre">delay_s</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">1.2</span></span><a class="headerlink" href="#apstools.devices.shutters.ShutterBase.delay_s" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="apstools.devices.shutters.ShutterBase.inPosition">
+<span class="sig-name descname"><span class="pre">inPosition</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">target</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="reference internal" href="../../../../../_modules/apstools/devices/shutters.html#ShutterBase.inPosition"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#apstools.devices.shutters.ShutterBase.inPosition" title="Link to this definition">#</a></dt>
+<dd><p>is the shutter at the target position?</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="apstools.devices.shutters.ShutterBase.isClosed">
+<span class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">isClosed</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bool</span></span><a class="headerlink" href="#apstools.devices.shutters.ShutterBase.isClosed" title="Link to this definition">#</a></dt>
+<dd><p>is the shutter closed?</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="apstools.devices.shutters.ShutterBase.isOpen">
+<span class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">isOpen</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bool</span></span><a class="headerlink" href="#apstools.devices.shutters.ShutterBase.isOpen" title="Link to this definition">#</a></dt>
+<dd><p>is the shutter open?</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="apstools.devices.shutters.ShutterBase.lowerCaseString">
+<span class="sig-name descname"><span class="pre">lowerCaseString</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="reference internal" href="../../../../../_modules/apstools/devices/shutters.html#ShutterBase.lowerCaseString"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#apstools.devices.shutters.ShutterBase.lowerCaseString" title="Link to this definition">#</a></dt>
+<dd><p>ensure any given value is a lower-case string</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="apstools.devices.shutters.ShutterBase.open">
+<span class="property"><span class="k"><span class="pre">abstractmethod</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">open</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="../../../../../_modules/apstools/devices/shutters.html#ShutterBase.open"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#apstools.devices.shutters.ShutterBase.open" title="Link to this definition">#</a></dt>
+<dd><p>BLOCKING: request shutter to open, called by <code class="docutils literal notranslate"><span class="pre">set()</span></code>.</p>
+<p>Must implement in subclass of ShutterBase()</p>
+<p>EXAMPLE:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">isOpen</span><span class="p">:</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">signal</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">open_value</span><span class="p">)</span>
+    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">delay_s</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">delay_s</span><span class="p">)</span>    <span class="c1"># blocking call OK here</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="apstools.devices.shutters.ShutterBase.open_value">
+<span class="sig-name descname"><span class="pre">open_value</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">1</span></span><a class="headerlink" href="#apstools.devices.shutters.ShutterBase.open_value" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="apstools.devices.shutters.ShutterBase.set">
+<span class="sig-name descname"><span class="pre">set</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../_modules/apstools/devices/shutters.html#ShutterBase.set"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#apstools.devices.shutters.ShutterBase.set" title="Link to this definition">#</a></dt>
+<dd><p>plan: request the shutter to open or close</p>
+<p>PARAMETERS</p>
+<dl class="simple">
+<dt>value</dt><dd><p><em>str</em> :
+any from <code class="docutils literal notranslate"><span class="pre">self.choices</span></code> (typically “open” or “close”)</p>
+</dd>
+<dt>kwargs</dt><dd><p><em>dict</em> :
+ignored at this time</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="apstools.devices.shutters.ShutterBase.state">
+<span class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">state</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></span><a class="headerlink" href="#apstools.devices.shutters.ShutterBase.state" title="Link to this definition">#</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Abstractmethod<span class="colon">:</span></dt>
+<dd class="field-odd"><p></p></dd>
+</dl>
+<p>returns <code class="docutils literal notranslate"><span class="pre">open</span></code>, <code class="docutils literal notranslate"><span class="pre">close</span></code>, or <code class="docutils literal notranslate"><span class="pre">unknown</span></code></p>
+<p>Must implement in subclass of ShutterBase()</p>
+<p>EXAMPLE:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">signal</span><span class="o">.</span><span class="n">get</span><span class="p">()</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">open_value</span><span class="p">:</span>
+    <span class="n">result</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">valid_open_values</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">signal</span><span class="o">.</span><span class="n">get</span><span class="p">()</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">close_value</span><span class="p">:</span>
+    <span class="n">result</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">valid_close_values</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="k">else</span><span class="p">:</span>
+    <span class="n">result</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">unknown_state</span>
+<span class="k">return</span> <span class="n">result</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="apstools.devices.shutters.ShutterBase.unknown_state">
+<span class="sig-name descname"><span class="pre">unknown_state</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'unknown'</span></span><a class="headerlink" href="#apstools.devices.shutters.ShutterBase.unknown_state" title="Link to this definition">#</a></dt>
+<dd><p>Text reported by ‘state’ when not open or closed. Cannot move to this
+position. (default = “unknown”)</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="apstools.devices.shutters.ShutterBase.validTarget">
+<span class="sig-name descname"><span class="pre">validTarget</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">target</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">should_raise</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../_modules/apstools/devices/shutters.html#ShutterBase.validTarget"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#apstools.devices.shutters.ShutterBase.validTarget" title="Link to this definition">#</a></dt>
+<dd><p>return whether (or not) target value is acceptable for self.set()</p>
+<p>raise ValueError if not acceptable (default)</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="apstools.devices.shutters.ShutterBase.valid_close_values">
+<span class="sig-name descname"><span class="pre">valid_close_values</span></span><a class="headerlink" href="#apstools.devices.shutters.ShutterBase.valid_close_values" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="apstools.devices.shutters.ShutterBase.valid_open_values">
+<span class="sig-name descname"><span class="pre">valid_open_values</span></span><a class="headerlink" href="#apstools.devices.shutters.ShutterBase.valid_open_values" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="apstools.devices.shutters.SimulatedApsPssShutterWithStatus">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">apstools.devices.shutters.</span></span><span class="sig-name descname"><span class="pre">SimulatedApsPssShutterWithStatus</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../_modules/apstools/devices/shutters.html#SimulatedApsPssShutterWithStatus"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#apstools.devices.shutters.SimulatedApsPssShutterWithStatus" title="Link to this definition">#</a></dt>
+<dd><div class="import-path docutils container">
+<p>Import: <code class="docutils literal notranslate"><span class="pre">apstools.devices.shutters.SimulatedApsPssShutterWithStatus</span></code></p>
+</div>
+<p>Bases: <a class="reference internal" href="#apstools.devices.shutters.ApsPssShutterWithStatus" title="apstools.devices.shutters.ApsPssShutterWithStatus"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ApsPssShutterWithStatus</span></code></a></p>
+<p>Simulated APS PSS shutter</p>
+<p id="index-6">PARAMETERS</p>
+<dl class="simple">
+<dt>prefix <em>str</em> :</dt><dd><p>EPICS PV prefix</p>
+</dd>
+<dt>name <em>str</em> :</dt><dd><p>(kwarg, required) object’s canonical name</p>
+</dd>
+</dl>
+<p>EXAMPLE:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sim</span> <span class="o">=</span> <span class="n">SimulatedApsPssShutterWithStatus</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;sim&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="apstools.devices.shutters.SimulatedApsPssShutterWithStatus.close_signal">
+<span class="sig-name descname"><span class="pre">close_signal</span></span><a class="headerlink" href="#apstools.devices.shutters.SimulatedApsPssShutterWithStatus.close_signal" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="apstools.devices.shutters.SimulatedApsPssShutterWithStatus.open_signal">
+<span class="sig-name descname"><span class="pre">open_signal</span></span><a class="headerlink" href="#apstools.devices.shutters.SimulatedApsPssShutterWithStatus.open_signal" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="apstools.devices.shutters.SimulatedApsPssShutterWithStatus.pss_state">
+<span class="sig-name descname"><span class="pre">pss_state</span></span><a class="headerlink" href="#apstools.devices.shutters.SimulatedApsPssShutterWithStatus.pss_state" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="apstools.devices.shutters.SimulatedApsPssShutterWithStatus.state">
+<span class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">state</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></span><a class="headerlink" href="#apstools.devices.shutters.SimulatedApsPssShutterWithStatus.state" title="Link to this definition">#</a></dt>
+<dd><p>is shutter “open”, “close”, or “unknown”?</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="apstools.devices.shutters.SimulatedApsPssShutterWithStatus.wait_for_state">
+<span class="sig-name descname"><span class="pre">wait_for_state</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">target</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">timeout</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">10</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">poll_s</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.01</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="../../../../../_modules/apstools/devices/shutters.html#SimulatedApsPssShutterWithStatus.wait_for_state"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#apstools.devices.shutters.SimulatedApsPssShutterWithStatus.wait_for_state" title="Link to this definition">#</a></dt>
+<dd><p>wait for the PSS state to reach a desired target</p>
+<p>PARAMETERS</p>
+<dl class="simple">
+<dt>target</dt><dd><p><em>[str]</em> :
+list of strings containing acceptable values</p>
+</dd>
+<dt>timeout</dt><dd><p><em>non-negative number</em> :
+Ignored in the simulation.</p>
+</dd>
+<dt>poll_s</dt><dd><p><em>non-negative number</em> :
+Ignored in the simulation.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+</section>
+
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="../scaler_support/index.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">scaler_support</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="../simulated_controllers/index.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">simulated_controllers</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+<div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+  </div>
+  <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">Shutters</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-contents">Module Contents</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#apstools.devices.shutters.ApsPssShutter"><code class="docutils literal notranslate"><span class="pre">ApsPssShutter</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#apstools.devices.shutters.ApsPssShutter.close"><code class="docutils literal notranslate"><span class="pre">ApsPssShutter.close()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#apstools.devices.shutters.ApsPssShutter.close_pv"><code class="docutils literal notranslate"><span class="pre">ApsPssShutter.close_pv</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#apstools.devices.shutters.ApsPssShutter.close_reset_value"><code class="docutils literal notranslate"><span class="pre">ApsPssShutter.close_reset_value</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#apstools.devices.shutters.ApsPssShutter.close_signal"><code class="docutils literal notranslate"><span class="pre">ApsPssShutter.close_signal</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#apstools.devices.shutters.ApsPssShutter.open"><code class="docutils literal notranslate"><span class="pre">ApsPssShutter.open()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#apstools.devices.shutters.ApsPssShutter.open_pv"><code class="docutils literal notranslate"><span class="pre">ApsPssShutter.open_pv</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#apstools.devices.shutters.ApsPssShutter.open_reset_value"><code class="docutils literal notranslate"><span class="pre">ApsPssShutter.open_reset_value</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#apstools.devices.shutters.ApsPssShutter.open_signal"><code class="docutils literal notranslate"><span class="pre">ApsPssShutter.open_signal</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#apstools.devices.shutters.ApsPssShutter.state"><code class="docutils literal notranslate"><span class="pre">ApsPssShutter.state</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#apstools.devices.shutters.ApsPssShutterWithStatus"><code class="docutils literal notranslate"><span class="pre">ApsPssShutterWithStatus</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#apstools.devices.shutters.ApsPssShutterWithStatus.close"><code class="docutils literal notranslate"><span class="pre">ApsPssShutterWithStatus.close()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#apstools.devices.shutters.ApsPssShutterWithStatus.open"><code class="docutils literal notranslate"><span class="pre">ApsPssShutterWithStatus.open()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#apstools.devices.shutters.ApsPssShutterWithStatus.pss_state"><code class="docutils literal notranslate"><span class="pre">ApsPssShutterWithStatus.pss_state</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#apstools.devices.shutters.ApsPssShutterWithStatus.pss_state_closed_values"><code class="docutils literal notranslate"><span class="pre">ApsPssShutterWithStatus.pss_state_closed_values</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#apstools.devices.shutters.ApsPssShutterWithStatus.pss_state_open_values"><code class="docutils literal notranslate"><span class="pre">ApsPssShutterWithStatus.pss_state_open_values</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#apstools.devices.shutters.ApsPssShutterWithStatus.state"><code class="docutils literal notranslate"><span class="pre">ApsPssShutterWithStatus.state</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#apstools.devices.shutters.ApsPssShutterWithStatus.state_pv"><code class="docutils literal notranslate"><span class="pre">ApsPssShutterWithStatus.state_pv</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#apstools.devices.shutters.ApsPssShutterWithStatus.wait_for_state"><code class="docutils literal notranslate"><span class="pre">ApsPssShutterWithStatus.wait_for_state()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#apstools.devices.shutters.EpicsMotorShutter"><code class="docutils literal notranslate"><span class="pre">EpicsMotorShutter</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#apstools.devices.shutters.EpicsMotorShutter.close"><code class="docutils literal notranslate"><span class="pre">EpicsMotorShutter.close()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#apstools.devices.shutters.EpicsMotorShutter.open"><code class="docutils literal notranslate"><span class="pre">EpicsMotorShutter.open()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#apstools.devices.shutters.EpicsMotorShutter.signal"><code class="docutils literal notranslate"><span class="pre">EpicsMotorShutter.signal</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#apstools.devices.shutters.EpicsMotorShutter.state"><code class="docutils literal notranslate"><span class="pre">EpicsMotorShutter.state</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#apstools.devices.shutters.EpicsMotorShutter.tolerance"><code class="docutils literal notranslate"><span class="pre">EpicsMotorShutter.tolerance</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#apstools.devices.shutters.EpicsOnOffShutter"><code class="docutils literal notranslate"><span class="pre">EpicsOnOffShutter</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#apstools.devices.shutters.EpicsOnOffShutter.signal"><code class="docutils literal notranslate"><span class="pre">EpicsOnOffShutter.signal</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#apstools.devices.shutters.OneSignalShutter"><code class="docutils literal notranslate"><span class="pre">OneSignalShutter</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#apstools.devices.shutters.OneSignalShutter.close"><code class="docutils literal notranslate"><span class="pre">OneSignalShutter.close()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#apstools.devices.shutters.OneSignalShutter.open"><code class="docutils literal notranslate"><span class="pre">OneSignalShutter.open()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#apstools.devices.shutters.OneSignalShutter.signal"><code class="docutils literal notranslate"><span class="pre">OneSignalShutter.signal</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#apstools.devices.shutters.OneSignalShutter.state"><code class="docutils literal notranslate"><span class="pre">OneSignalShutter.state</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#apstools.devices.shutters.ShutterBase"><code class="docutils literal notranslate"><span class="pre">ShutterBase</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#apstools.devices.shutters.ShutterBase.addCloseValue"><code class="docutils literal notranslate"><span class="pre">ShutterBase.addCloseValue()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#apstools.devices.shutters.ShutterBase.addOpenValue"><code class="docutils literal notranslate"><span class="pre">ShutterBase.addOpenValue()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#apstools.devices.shutters.ShutterBase.busy"><code class="docutils literal notranslate"><span class="pre">ShutterBase.busy</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#apstools.devices.shutters.ShutterBase.choices"><code class="docutils literal notranslate"><span class="pre">ShutterBase.choices</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#apstools.devices.shutters.ShutterBase.close"><code class="docutils literal notranslate"><span class="pre">ShutterBase.close()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#apstools.devices.shutters.ShutterBase.close_value"><code class="docutils literal notranslate"><span class="pre">ShutterBase.close_value</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#apstools.devices.shutters.ShutterBase.delay_s"><code class="docutils literal notranslate"><span class="pre">ShutterBase.delay_s</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#apstools.devices.shutters.ShutterBase.inPosition"><code class="docutils literal notranslate"><span class="pre">ShutterBase.inPosition()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#apstools.devices.shutters.ShutterBase.isClosed"><code class="docutils literal notranslate"><span class="pre">ShutterBase.isClosed</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#apstools.devices.shutters.ShutterBase.isOpen"><code class="docutils literal notranslate"><span class="pre">ShutterBase.isOpen</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#apstools.devices.shutters.ShutterBase.lowerCaseString"><code class="docutils literal notranslate"><span class="pre">ShutterBase.lowerCaseString()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#apstools.devices.shutters.ShutterBase.open"><code class="docutils literal notranslate"><span class="pre">ShutterBase.open()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#apstools.devices.shutters.ShutterBase.open_value"><code class="docutils literal notranslate"><span class="pre">ShutterBase.open_value</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#apstools.devices.shutters.ShutterBase.set"><code class="docutils literal notranslate"><span class="pre">ShutterBase.set()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#apstools.devices.shutters.ShutterBase.state"><code class="docutils literal notranslate"><span class="pre">ShutterBase.state</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#apstools.devices.shutters.ShutterBase.unknown_state"><code class="docutils literal notranslate"><span class="pre">ShutterBase.unknown_state</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#apstools.devices.shutters.ShutterBase.validTarget"><code class="docutils literal notranslate"><span class="pre">ShutterBase.validTarget()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#apstools.devices.shutters.ShutterBase.valid_close_values"><code class="docutils literal notranslate"><span class="pre">ShutterBase.valid_close_values</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#apstools.devices.shutters.ShutterBase.valid_open_values"><code class="docutils literal notranslate"><span class="pre">ShutterBase.valid_open_values</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#apstools.devices.shutters.SimulatedApsPssShutterWithStatus"><code class="docutils literal notranslate"><span class="pre">SimulatedApsPssShutterWithStatus</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#apstools.devices.shutters.SimulatedApsPssShutterWithStatus.close_signal"><code class="docutils literal notranslate"><span class="pre">SimulatedApsPssShutterWithStatus.close_signal</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#apstools.devices.shutters.SimulatedApsPssShutterWithStatus.open_signal"><code class="docutils literal notranslate"><span class="pre">SimulatedApsPssShutterWithStatus.open_signal</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#apstools.devices.shutters.SimulatedApsPssShutterWithStatus.pss_state"><code class="docutils literal notranslate"><span class="pre">SimulatedApsPssShutterWithStatus.pss_state</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#apstools.devices.shutters.SimulatedApsPssShutterWithStatus.state"><code class="docutils literal notranslate"><span class="pre">SimulatedApsPssShutterWithStatus.state</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#apstools.devices.shutters.SimulatedApsPssShutterWithStatus.wait_for_state"><code class="docutils literal notranslate"><span class="pre">SimulatedApsPssShutterWithStatus.wait_for_state()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+  <div class="sidebar-secondary-item">
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../../../../../_sources/api/autoapi/apstools/devices/shutters/index.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../../../../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="../../../../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+
+  <p class="copyright">
+    
+      © Copyright 2017-2025, UChicago Argonne, LLC.
+      <br/>
+    
+  </p>
+</div>
+      
+        <div class="footer-item">
+
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 9.1.0.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item">
+<p class="theme-version">
+  <!-- # L10n: Setting the PST URL as an argument as this does not need to be localized -->
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.16.1.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

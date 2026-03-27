@@ -1,0 +1,1745 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../../../../../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>labjack &#8212; apstools 1.7</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../../../../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="../../../../../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../../../../../_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="../../../../../_static/graphviz.css?v=4ae1632d" />
+    <link rel="stylesheet" type="text/css" href="../../../../../_static/mystnb.11b39860a7a0cbfd473a3ad8a317855267ff0bd372690045ca344a6b62be495e.css" />
+    <link rel="stylesheet" type="text/css" href="../../../../../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../../../../../_static/css/custom.css?v=c14d4873" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="../../../../../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../../../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="../../../../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+
+    <script src="../../../../../_static/documentation_options.js?v=f5d85129"></script>
+    <script src="../../../../../_static/doctools.js?v=fd6eb6e6"></script>
+    <script src="../../../../../_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script src="../../../../../_static/design-tabs.js?v=f930bc37"></script>
+    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'api/autoapi/apstools/devices/labjack/index';</script>
+    <script>
+        DOCUMENTATION_OPTIONS.theme_version = '0.16.1';
+        DOCUMENTATION_OPTIONS.theme_switcher_json_url = 'https://raw.githubusercontent.com/BCDA-APS/apstools/main/docs/source/_static/switcher.json';
+        DOCUMENTATION_OPTIONS.theme_switcher_version_match = 'dev';
+        DOCUMENTATION_OPTIONS.show_version_warning_banner =
+            false;
+        </script>
+    <link rel="index" title="Index" href="../../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../../search.html" />
+    <link rel="next" title="lakeshore_controllers" href="../lakeshore_controllers/index.html" />
+    <link rel="prev" title="kohzu_monochromator" href="../kohzu_monochromator/index.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="1.7" />
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../../../../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-3 navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../../../../../index.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">apstools 1.7</p>
+  
+</a></div>
+    
+      <div class="navbar-item">
+<div class="version-switcher__container dropdown pst-js-only">
+  <button id="pst-version-switcher-button-2"
+    type="button"
+    class="version-switcher__button btn btn-sm dropdown-toggle"
+    data-bs-toggle="dropdown"
+    aria-haspopup="listbox"
+    aria-controls="pst-version-switcher-list-2"
+    aria-label="Version switcher list"
+  >
+    Choose version  <!-- this text may get changed later by javascript -->
+    <span class="caret"></span>
+  </button>
+  <div id="pst-version-switcher-list-2"
+    class="version-switcher__menu dropdown-menu list-group-flush py-0"
+    role="listbox" aria-labelledby="pst-version-switcher-button-2">
+    <!-- dropdown will be populated by javascript on page load -->
+  </div>
+</div></div>
+    
+  </div>
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../../../install.html">
+    Installation
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="../../../../index.html">
+    API
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../../../applications/index.html">
+    Applications
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../../../examples/index.html">
+    Examples
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../../../changes.html">
+    Change History
+  </a>
+</li>
+
+            <li class="nav-item dropdown">
+                <button class="btn dropdown-toggle nav-item" type="button"
+                data-bs-toggle="dropdown" aria-expanded="false"
+                aria-controls="pst-nav-more-links">
+                    More
+                </button>
+                <ul id="pst-nav-more-links" class="dropdown-menu">
+                    
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../../../../license.html">
+    License
+  </a>
+</li>
+
+                </ul>
+            </li>
+            
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+        <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+      
+        <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/BCDA-APS/apstools" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../../../install.html">
+    Installation
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="../../../../index.html">
+    API
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../../../applications/index.html">
+    Applications
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../../../examples/index.html">
+    Examples
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../../../changes.html">
+    Change History
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../../../license.html">
+    License
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+        
+          <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/BCDA-APS/apstools" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+        
+      </div>
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+<nav class="bd-docs-nav bd-links"
+     aria-label="Section Navigation">
+  <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
+  <div class="bd-toc-item navbar-nav"><ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../../../_callbacks.html">Callbacks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../_devices.html">Devices</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../_filewriters.html">File Writers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../_plans.html">Plans</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../_utils.html">Utilities</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../../../synApps/index.html">synApps</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../../synApps/__common.html">EPICS Record support: common structures</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../synApps/_acalcout.html">EPICS base aCalcout record</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../synApps/_asyn.html">synApps asyn record</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../synApps/_busy.html">synApps busy record</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../synApps/_calcout.html">EPICS base calcout record</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../synApps/_db_2slit.html">EPICS synApps optics 2slit.db</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../synApps/_epid.html">synApps epid record</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../synApps/_iocstats.html">synApps IOC statistics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../synApps/_luascript.html">synApps luascript record</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../synApps/_save_data.html">synApps save data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../synApps/_scalcout.html">EPICS synApps calc scalcout record</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../synApps/_sscan.html">synApps sscan record</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../synApps/_sseq.html">synApps sseq record</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../synApps/_sub.html">EPICS base sub record &amp; synApps userAve records</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../synApps/_swait.html">synApps swait record</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../synApps/_transform.html">synApps transform record</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="../../index.html">apstools</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../callbacks/index.html">callbacks</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../callbacks/callback_base/index.html">callback_base</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../callbacks/doc_collector/index.html">doc_collector</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../callbacks/nexus_writer/index.html">nexus_writer</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../callbacks/scan_signal_statistics/index.html">scan_signal_statistics</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../callbacks/spec_file_writer/index.html">spec_file_writer</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 current active has-children"><a class="reference internal" href="../index.html">devices</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="../acs_motors/index.html">acs_motors</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../aps_bss_user/index.html">aps_bss_user</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../aps_cycle/index.html">aps_cycle</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../aps_data_management/index.html">aps_data_management</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../aps_machine/index.html">aps_machine</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../aps_undulator/index.html">aps_undulator</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../area_detector_factory/index.html">area_detector_factory</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../area_detector_support/index.html">area_detector_support</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../avs_filters/index.html">avs_filters</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../axis_tuner/index.html">axis_tuner</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../delay/index.html">delay</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../description_mixin/index.html">description_mixin</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../dict_device_support/index.html">dict_device_support</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../epics_scan_id_signal/index.html">epics_scan_id_signal</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../eurotherm_2216e/index.html">eurotherm_2216e</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../hhl_apertures/index.html">hhl_apertures</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../hhl_slits/index.html">hhl_slits</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../jj_transfocators/index.html">jj_transfocators</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../kohzu_monochromator/index.html">kohzu_monochromator</a></li>
+<li class="toctree-l3 current active"><a class="current reference internal" href="#">labjack</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../lakeshore_controllers/index.html">lakeshore_controllers</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../linkam_controllers/index.html">linkam_controllers</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../measComp_tc32_support/index.html">measComp_tc32_support</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../measComp_usb_ctr_support/index.html">measComp_usb_ctr_support</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../mixin_base/index.html">mixin_base</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../motor_factory/index.html">motor_factory</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../motor_mixins/index.html">motor_mixins</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../positioner_soft_done/index.html">positioner_soft_done</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../preamp_base/index.html">preamp_base</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../ptc10_controller/index.html">ptc10_controller</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../scaler_support/index.html">scaler_support</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../shutters/index.html">shutters</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../simulated_controllers/index.html">simulated_controllers</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../srs570_preamplifier/index.html">srs570_preamplifier</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../struck3820/index.html">struck3820</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../synth_pseudo_voigt/index.html">synth_pseudo_voigt</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../tracking_signal/index.html">tracking_signal</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../xia_pf4/index.html">xia_pf4</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../xia_slit/index.html">xia_slit</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../migration/index.html">migration</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../migration/spec2ophyd/index.html">spec2ophyd</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../plans/index.html">plans</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../plans/alignment/index.html">alignment</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../plans/command_list/index.html">command_list</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../plans/doc_run/index.html">doc_run</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../plans/input_plan/index.html">input_plan</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../plans/labels_to_streams/index.html">labels_to_streams</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../plans/nscan_support/index.html">nscan_support</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../plans/run_blocking_function_plan/index.html">run_blocking_function_plan</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../plans/sscan_support/index.html">sscan_support</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../plans/stage_sigs_support/index.html">stage_sigs_support</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../plans/xpcs_mesh/index.html">xpcs_mesh</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../synApps/index.html">synApps</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../synApps/acalcout/index.html">acalcout</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../synApps/asyn/index.html">asyn</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../synApps/busy/index.html">busy</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../synApps/calcout/index.html">calcout</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../synApps/db_2slit/index.html">db_2slit</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../synApps/db_2slit_soft/index.html">db_2slit_soft</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../synApps/epid/index.html">epid</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../synApps/iocstats/index.html">iocstats</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../synApps/luascript/index.html">luascript</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../synApps/save_data/index.html">save_data</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../synApps/scalcout/index.html">scalcout</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../synApps/sscan/index.html">sscan</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../synApps/sseq/index.html">sseq</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../synApps/sub/index.html">sub</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../synApps/swait/index.html">swait</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../synApps/transform/index.html">transform</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../utils/index.html">utils</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../utils/aps_data_management/index.html">aps_data_management</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../utils/apsu_controls_subnet/index.html">apsu_controls_subnet</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../utils/catalog/index.html">catalog</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../utils/descriptor_support/index.html">descriptor_support</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../utils/device_info/index.html">device_info</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../utils/email/index.html">email</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../utils/image_analysis/index.html">image_analysis</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../utils/list_plans/index.html">list_plans</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../utils/list_runs/index.html">list_runs</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../utils/log_utils/index.html">log_utils</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../utils/memory/index.html">memory</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../utils/misc/index.html">misc</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../utils/mmap_dict/index.html">mmap_dict</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../utils/override_parameters/index.html">override_parameters</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../utils/plot/index.html">plot</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../utils/profile_support/index.html">profile_support</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../utils/pvregistry/index.html">pvregistry</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../utils/query/index.html">query</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../utils/slit_core/index.html">slit_core</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../utils/spreadsheet/index.html">spreadsheet</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../utils/statistics/index.html">statistics</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../utils/stored_dict/index.html">stored_dict</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../utils/time_constants/index.html">time_constants</a></li>
+</ul>
+</details></li>
+</ul>
+</details></li>
+</ul>
+</div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+<nav aria-label="Breadcrumb" class="d-print-none">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../../../../../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="../../../../index.html" class="nav-link">API</a></li>
+    
+    
+    <li class="breadcrumb-item"><a href="../../index.html" class="nav-link">apstools</a></li>
+    
+    
+    <li class="breadcrumb-item"><a href="../index.html" class="nav-link">devices</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">labjack</span></li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section id="module-apstools.devices.labjack">
+<span id="labjack"></span><h1>labjack<a class="headerlink" href="#module-apstools.devices.labjack" title="Link to this heading">#</a></h1>
+<p>Import: <code class="docutils literal notranslate"><span class="pre">apstools.devices.labjack</span></code></p>
+<section id="labjack-data-acquisition-daq">
+<h2>LabJack Data Acquisition (DAQ)<a class="headerlink" href="#labjack-data-acquisition-daq" title="Link to this heading">#</a></h2>
+<div class="pst-scrollable-table-container"><table class="autosummary longtable table">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#apstools.devices.labjack.LabJackBase" title="apstools.devices.labjack.LabJackBase"><code class="xref py py-obj docutils literal notranslate"><span class="pre">LabJackBase</span></code></a>([prefix, kind, read_attrs, ...])</p></td>
+<td><p>A labjack T-series data acquisition unit (DAQ).</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>Ophyd definitions for Labjack T-series data acquisition devices.</p>
+<p>Supported devices, all inherit from <code class="docutils literal notranslate"><span class="pre">LabJackBase</span></code>:</p>
+<ul class="simple">
+<li><p>T4</p></li>
+<li><p>T7</p></li>
+<li><p>T7Pro</p></li>
+<li><p>T8</p></li>
+</ul>
+<p>These devices are <strong>based on EPICS LabJack module R3.0</strong>. The EPICS IOC
+database changed significantly from R2 to R3 when the module was
+rewritten to use the LJM library.</p>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="github reference external" href="https://github.com/epics-modules/LabJack/releases/tag/R3-0">epics-modules/LabJack</a></p>
+</div>
+<p>There are definitions for the entire LabJack device, as well as the
+various inputs/outputs available on the LabJack T-series.
+Individual inputs can be used as part of other devices. Assuming
+analog input 5 is connected to a gas flow meter:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">ophyd</span><span class="w"> </span><span class="kn">import</span> <span class="n">Component</span> <span class="k">as</span> <span class="n">Cpt</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">apstools.devices</span><span class="w"> </span><span class="kn">import</span> <span class="n">labjack</span>
+
+<span class="k">class</span><span class="w"> </span><span class="nc">MyBeamline</span><span class="p">(</span><span class="n">Device</span><span class="p">):</span>
+    <span class="o">...</span>
+    <span class="n">gas_flow</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">labjack</span><span class="o">.</span><span class="n">AnalogInput</span><span class="p">,</span> <span class="s2">&quot;LabJackT7_1:Ai5&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="module-contents">
+<h2>Module Contents<a class="headerlink" href="#module-contents" title="Link to this heading">#</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="apstools.devices.labjack.AnalogInput">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">apstools.devices.labjack.</span></span><span class="sig-name descname"><span class="pre">AnalogInput</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">prefix</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">kind</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">read_attrs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">configuration_attrs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">parent</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">child_name_separator</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'_'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">connection_timeout</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">DEFAULT_CONNECTION_TIMEOUT</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../_modules/apstools/devices/labjack.html#AnalogInput"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#apstools.devices.labjack.AnalogInput" title="Link to this definition">#</a></dt>
+<dd><div class="import-path docutils container">
+<p>Import: <code class="docutils literal notranslate"><span class="pre">apstools.devices.labjack.AnalogInput</span></code></p>
+</div>
+<p>Bases: <code class="xref py py-obj docutils literal notranslate"><span class="pre">Input</span></code></p>
+<p>An analog input on a labjack device.</p>
+<p>It is based on the synApps input record, but with LabJack specific
+signals added.</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">.trigger()</span></code> method will retrieve a fresh value using the
+.PROC field, though based on how EPICS support works, this is
+likely just the most recently polled value from the device. This
+can be useful if the .SCAN field is set to passive.</p>
+<dl class="py property">
+<dt class="sig sig-object py" id="apstools.devices.labjack.AnalogInput.base_prefix">
+<span class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">base_prefix</span></span><a class="headerlink" href="#apstools.devices.labjack.AnalogInput.base_prefix" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="apstools.devices.labjack.AnalogInput.ch_num">
+<span class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">ch_num</span></span><a class="headerlink" href="#apstools.devices.labjack.AnalogInput.ch_num" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="apstools.devices.labjack.AnalogInput.differential">
+<span class="sig-name descname"><span class="pre">differential</span></span><a class="headerlink" href="#apstools.devices.labjack.AnalogInput.differential" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="apstools.devices.labjack.AnalogInput.enable">
+<span class="sig-name descname"><span class="pre">enable</span></span><a class="headerlink" href="#apstools.devices.labjack.AnalogInput.enable" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="apstools.devices.labjack.AnalogInput.high">
+<span class="sig-name descname"><span class="pre">high</span></span><a class="headerlink" href="#apstools.devices.labjack.AnalogInput.high" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="apstools.devices.labjack.AnalogInput.low">
+<span class="sig-name descname"><span class="pre">low</span></span><a class="headerlink" href="#apstools.devices.labjack.AnalogInput.low" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="apstools.devices.labjack.AnalogInput.mode">
+<span class="sig-name descname"><span class="pre">mode</span></span><a class="headerlink" href="#apstools.devices.labjack.AnalogInput.mode" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="apstools.devices.labjack.AnalogInput.range">
+<span class="sig-name descname"><span class="pre">range</span></span><a class="headerlink" href="#apstools.devices.labjack.AnalogInput.range" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="apstools.devices.labjack.AnalogInput.resolution">
+<span class="sig-name descname"><span class="pre">resolution</span></span><a class="headerlink" href="#apstools.devices.labjack.AnalogInput.resolution" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="apstools.devices.labjack.AnalogInput.temperature_units">
+<span class="sig-name descname"><span class="pre">temperature_units</span></span><a class="headerlink" href="#apstools.devices.labjack.AnalogInput.temperature_units" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="apstools.devices.labjack.AnalogOutput">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">apstools.devices.labjack.</span></span><span class="sig-name descname"><span class="pre">AnalogOutput</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">prefix</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">kind</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">read_attrs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">configuration_attrs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">parent</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">child_name_separator</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'_'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">connection_timeout</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">DEFAULT_CONNECTION_TIMEOUT</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../_modules/apstools/devices/labjack.html#AnalogOutput"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#apstools.devices.labjack.AnalogOutput" title="Link to this definition">#</a></dt>
+<dd><div class="import-path docutils container">
+<p>Import: <code class="docutils literal notranslate"><span class="pre">apstools.devices.labjack.AnalogOutput</span></code></p>
+</div>
+<p>Bases: <code class="xref py py-obj docutils literal notranslate"><span class="pre">Output</span></code></p>
+<p>An analog output on a labjack device.</p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="apstools.devices.labjack.DigitalIO">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">apstools.devices.labjack.</span></span><span class="sig-name descname"><span class="pre">DigitalIO</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ch_num</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../_modules/apstools/devices/labjack.html#DigitalIO"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#apstools.devices.labjack.DigitalIO" title="Link to this definition">#</a></dt>
+<dd><div class="import-path docutils container">
+<p>Import: <code class="docutils literal notranslate"><span class="pre">apstools.devices.labjack.DigitalIO</span></code></p>
+</div>
+<p>Bases: <code class="xref py py-obj docutils literal notranslate"><span class="pre">ophyd.Device</span></code></p>
+<p>A digital input/output channel on the labjack.</p>
+<p>Because of the how the records are structured in EPICS, the prefix
+must not include the “Bi{N}” portion of the prefix. Instead, the
+prefix should be prefix for the whole labjack
+(e.g. <code class="docutils literal notranslate"><span class="pre">LabJackT7_1:</span></code>), and the channel number should be provided
+using the <em>ch_num</em> property. So for the digital I/O with its input
+available at PV <code class="docutils literal notranslate"><span class="pre">LabJackT7_1:Bi3</span></code>, use:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">dio3</span> <span class="o">=</span> <span class="n">DigitalIO</span><span class="p">(</span><span class="s2">&quot;LabJackT7_1:&quot;</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;dio3&quot;</span><span class="p">,</span> <span class="n">ch_num</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>This will create signals for the input (<code class="docutils literal notranslate"><span class="pre">Bi3</span></code>), output
+(<code class="docutils literal notranslate"><span class="pre">Bo3</span></code>), and direction (<code class="docutils literal notranslate"><span class="pre">Bd3</span></code>) records.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="apstools.devices.labjack.DigitalIO.ch_num">
+<span class="sig-name descname"><span class="pre">ch_num</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></span><a class="headerlink" href="#apstools.devices.labjack.DigitalIO.ch_num" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="apstools.devices.labjack.DigitalIO.direction">
+<span class="sig-name descname"><span class="pre">direction</span></span><a class="headerlink" href="#apstools.devices.labjack.DigitalIO.direction" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="apstools.devices.labjack.DigitalIO.input">
+<span class="sig-name descname"><span class="pre">input</span></span><a class="headerlink" href="#apstools.devices.labjack.DigitalIO.input" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="apstools.devices.labjack.DigitalIO.output">
+<span class="sig-name descname"><span class="pre">output</span></span><a class="headerlink" href="#apstools.devices.labjack.DigitalIO.output" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="apstools.devices.labjack.LabJackBase">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">apstools.devices.labjack.</span></span><span class="sig-name descname"><span class="pre">LabJackBase</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">prefix</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">kind</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">read_attrs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">configuration_attrs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">parent</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">child_name_separator</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'_'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">connection_timeout</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">DEFAULT_CONNECTION_TIMEOUT</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../_modules/apstools/devices/labjack.html#LabJackBase"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#apstools.devices.labjack.LabJackBase" title="Link to this definition">#</a></dt>
+<dd><div class="import-path docutils container">
+<p>Import: <code class="docutils literal notranslate"><span class="pre">apstools.devices.labjack.LabJackBase</span></code></p>
+</div>
+<p>Bases: <code class="xref py py-obj docutils literal notranslate"><span class="pre">ophyd.Device</span></code></p>
+<p>A labjack T-series data acquisition unit (DAQ).</p>
+<p>To use the individual components separately, consider using the
+corresponding devices in the list below.</p>
+<p>This device contains signals for the following:</p>
+<ul class="simple">
+<li><p>device information (e.g. firmware version ,etc)</p></li>
+<li><p>analog outputs (<a class="reference internal" href="#apstools.devices.labjack.AnalogInput" title="apstools.devices.labjack.AnalogInput"><code class="xref py py-class docutils literal notranslate"><span class="pre">AnalogInput</span></code></a>)</p></li>
+<li><p>analog inputs* (<a class="reference internal" href="#apstools.devices.labjack.AnalogOutput" title="apstools.devices.labjack.AnalogOutput"><code class="xref py py-class docutils literal notranslate"><span class="pre">AnalogOutput</span></code></a>)</p></li>
+<li><p>digital input/output* (<a class="reference internal" href="#apstools.devices.labjack.DigitalIO" title="apstools.devices.labjack.DigitalIO"><code class="xref py py-class docutils literal notranslate"><span class="pre">DigitalIO</span></code></a>)</p></li>
+<li><p>waveform digitizer* (<a class="reference internal" href="#apstools.devices.labjack.WaveformDigitizer" title="apstools.devices.labjack.WaveformDigitizer"><code class="xref py py-class docutils literal notranslate"><span class="pre">WaveformDigitizer</span></code></a>)</p></li>
+<li><p>waveform generator (<a class="reference internal" href="#apstools.devices.labjack.WaveformGenerator" title="apstools.devices.labjack.WaveformGenerator"><code class="xref py py-class docutils literal notranslate"><span class="pre">WaveformGenerator</span></code></a>)</p></li>
+</ul>
+<p>The number of inputs and digital outputs depends on the specific
+LabJack T-series device being used. Therefore, the base device
+<code class="docutils literal notranslate"><span class="pre">LabJackBase</span></code> does not implement these I/O signals. Instead,
+consider using one of the subclasses, like <code class="docutils literal notranslate"><span class="pre">LabJackT4</span></code>.</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">.trigger()</span></code> method does not do much. To retrieve fresh
+values for analog inputs where .SCAN is passive, you will need to
+trigger the individual inputs themselves.</p>
+<p>The waveform generator and waveform digitizer are included for
+convenience. Reading all the analog/digital inputs and outputs can
+be done by calling the <code class="docutils literal notranslate"><span class="pre">.read()</span></code> method. However, it is unlikely
+that the goal is also to trigger the digitizer and generator
+during this read. For this reason, <strong>the digitizer and generator
+have kind=”omitted”</strong>. To trigger the digitizer or generator, they
+can be used as separate devices:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">lj</span> <span class="o">=</span> <span class="n">LabJackT4</span><span class="p">(</span><span class="o">...</span><span class="p">)</span>
+
+<span class="c1"># Read a waveform from the digitizer</span>
+<span class="n">lj</span><span class="o">.</span><span class="n">waveform_digitizer</span><span class="o">.</span><span class="n">trigger</span><span class="p">()</span><span class="o">.</span><span class="n">wait</span><span class="p">()</span>
+<span class="n">lj</span><span class="o">.</span><span class="n">waveform_digitizer</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+
+<span class="c1"># Same thing for the waveform generator</span>
+<span class="n">lj</span><span class="o">.</span><span class="n">waveform_generator</span><span class="o">.</span><span class="n">trigger</span><span class="p">()</span><span class="o">.</span><span class="n">wait</span><span class="p">()</span>
+</pre></div>
+</div>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="apstools.devices.labjack.LabJackBase.analog_in_resolution_all">
+<span class="sig-name descname"><span class="pre">analog_in_resolution_all</span></span><a class="headerlink" href="#apstools.devices.labjack.LabJackBase.analog_in_resolution_all" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="apstools.devices.labjack.LabJackBase.analog_in_sampling_rate">
+<span class="sig-name descname"><span class="pre">analog_in_sampling_rate</span></span><a class="headerlink" href="#apstools.devices.labjack.LabJackBase.analog_in_sampling_rate" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="apstools.devices.labjack.LabJackBase.analog_in_settling_time_all">
+<span class="sig-name descname"><span class="pre">analog_in_settling_time_all</span></span><a class="headerlink" href="#apstools.devices.labjack.LabJackBase.analog_in_settling_time_all" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="apstools.devices.labjack.LabJackBase.analog_outputs">
+<span class="sig-name descname"><span class="pre">analog_outputs</span></span><a class="headerlink" href="#apstools.devices.labjack.LabJackBase.analog_outputs" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="apstools.devices.labjack.LabJackBase.device_reset">
+<span class="sig-name descname"><span class="pre">device_reset</span></span><a class="headerlink" href="#apstools.devices.labjack.LabJackBase.device_reset" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="apstools.devices.labjack.LabJackBase.device_temperature">
+<span class="sig-name descname"><span class="pre">device_temperature</span></span><a class="headerlink" href="#apstools.devices.labjack.LabJackBase.device_temperature" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="apstools.devices.labjack.LabJackBase.driver_version">
+<span class="sig-name descname"><span class="pre">driver_version</span></span><a class="headerlink" href="#apstools.devices.labjack.LabJackBase.driver_version" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="apstools.devices.labjack.LabJackBase.firmware_version">
+<span class="sig-name descname"><span class="pre">firmware_version</span></span><a class="headerlink" href="#apstools.devices.labjack.LabJackBase.firmware_version" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="apstools.devices.labjack.LabJackBase.last_error_message">
+<span class="sig-name descname"><span class="pre">last_error_message</span></span><a class="headerlink" href="#apstools.devices.labjack.LabJackBase.last_error_message" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="apstools.devices.labjack.LabJackBase.ljm_version">
+<span class="sig-name descname"><span class="pre">ljm_version</span></span><a class="headerlink" href="#apstools.devices.labjack.LabJackBase.ljm_version" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="apstools.devices.labjack.LabJackBase.model_name">
+<span class="sig-name descname"><span class="pre">model_name</span></span><a class="headerlink" href="#apstools.devices.labjack.LabJackBase.model_name" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="apstools.devices.labjack.LabJackBase.poll_sleep_ms">
+<span class="sig-name descname"><span class="pre">poll_sleep_ms</span></span><a class="headerlink" href="#apstools.devices.labjack.LabJackBase.poll_sleep_ms" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="apstools.devices.labjack.LabJackBase.poll_time_ms">
+<span class="sig-name descname"><span class="pre">poll_time_ms</span></span><a class="headerlink" href="#apstools.devices.labjack.LabJackBase.poll_time_ms" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="apstools.devices.labjack.LabJackBase.serial_number">
+<span class="sig-name descname"><span class="pre">serial_number</span></span><a class="headerlink" href="#apstools.devices.labjack.LabJackBase.serial_number" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="apstools.devices.labjack.LabJackBase.waveform_generator">
+<span class="sig-name descname"><span class="pre">waveform_generator</span></span><a class="headerlink" href="#apstools.devices.labjack.LabJackBase.waveform_generator" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="apstools.devices.labjack.LabJackT4">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">apstools.devices.labjack.</span></span><span class="sig-name descname"><span class="pre">LabJackT4</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">prefix</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">kind</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">read_attrs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">configuration_attrs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">parent</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">child_name_separator</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'_'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">connection_timeout</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">DEFAULT_CONNECTION_TIMEOUT</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../_modules/apstools/devices/labjack.html#LabJackT4"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#apstools.devices.labjack.LabJackT4" title="Link to this definition">#</a></dt>
+<dd><div class="import-path docutils container">
+<p>Import: <code class="docutils literal notranslate"><span class="pre">apstools.devices.labjack.LabJackT4</span></code></p>
+</div>
+<p>Bases: <a class="reference internal" href="#apstools.devices.labjack.LabJackBase" title="apstools.devices.labjack.LabJackBase"><code class="xref py py-obj docutils literal notranslate"><span class="pre">LabJackBase</span></code></a></p>
+<p>A labjack T-series data acquisition unit (DAQ).</p>
+<p>To use the individual components separately, consider using the
+corresponding devices in the list below.</p>
+<p>This device contains signals for the following:</p>
+<ul class="simple">
+<li><p>device information (e.g. firmware version ,etc)</p></li>
+<li><p>analog outputs (<a class="reference internal" href="#apstools.devices.labjack.AnalogInput" title="apstools.devices.labjack.AnalogInput"><code class="xref py py-class docutils literal notranslate"><span class="pre">AnalogInput</span></code></a>)</p></li>
+<li><p>analog inputs* (<a class="reference internal" href="#apstools.devices.labjack.AnalogOutput" title="apstools.devices.labjack.AnalogOutput"><code class="xref py py-class docutils literal notranslate"><span class="pre">AnalogOutput</span></code></a>)</p></li>
+<li><p>digital input/output* (<a class="reference internal" href="#apstools.devices.labjack.DigitalIO" title="apstools.devices.labjack.DigitalIO"><code class="xref py py-class docutils literal notranslate"><span class="pre">DigitalIO</span></code></a>)</p></li>
+<li><p>waveform digitizer* (<a class="reference internal" href="#apstools.devices.labjack.WaveformDigitizer" title="apstools.devices.labjack.WaveformDigitizer"><code class="xref py py-class docutils literal notranslate"><span class="pre">WaveformDigitizer</span></code></a>)</p></li>
+<li><p>waveform generator (<a class="reference internal" href="#apstools.devices.labjack.WaveformGenerator" title="apstools.devices.labjack.WaveformGenerator"><code class="xref py py-class docutils literal notranslate"><span class="pre">WaveformGenerator</span></code></a>)</p></li>
+</ul>
+<p>The number of inputs and digital outputs depends on the specific
+LabJack T-series device being used. Therefore, the base device
+<code class="docutils literal notranslate"><span class="pre">LabJackBase</span></code> does not implement these I/O signals. Instead,
+consider using one of the subclasses, like <code class="docutils literal notranslate"><span class="pre">LabJackT4</span></code>.</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">.trigger()</span></code> method does not do much. To retrieve fresh
+values for analog inputs where .SCAN is passive, you will need to
+trigger the individual inputs themselves.</p>
+<p>The waveform generator and waveform digitizer are included for
+convenience. Reading all the analog/digital inputs and outputs can
+be done by calling the <code class="docutils literal notranslate"><span class="pre">.read()</span></code> method. However, it is unlikely
+that the goal is also to trigger the digitizer and generator
+during this read. For this reason, <strong>the digitizer and generator
+have kind=”omitted”</strong>. To trigger the digitizer or generator, they
+can be used as separate devices:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">lj</span> <span class="o">=</span> <span class="n">LabJackT4</span><span class="p">(</span><span class="o">...</span><span class="p">)</span>
+
+<span class="c1"># Read a waveform from the digitizer</span>
+<span class="n">lj</span><span class="o">.</span><span class="n">waveform_digitizer</span><span class="o">.</span><span class="n">trigger</span><span class="p">()</span><span class="o">.</span><span class="n">wait</span><span class="p">()</span>
+<span class="n">lj</span><span class="o">.</span><span class="n">waveform_digitizer</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+
+<span class="c1"># Same thing for the waveform generator</span>
+<span class="n">lj</span><span class="o">.</span><span class="n">waveform_generator</span><span class="o">.</span><span class="n">trigger</span><span class="p">()</span><span class="o">.</span><span class="n">wait</span><span class="p">()</span>
+</pre></div>
+</div>
+<dl class="py class">
+<dt class="sig sig-object py" id="apstools.devices.labjack.LabJackT4.WaveformDigitizer">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">WaveformDigitizer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">prefix</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">kind</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">read_attrs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">configuration_attrs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">parent</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">child_name_separator</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'_'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">connection_timeout</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">DEFAULT_CONNECTION_TIMEOUT</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../_modules/apstools/devices/labjack.html#LabJackT4.WaveformDigitizer"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#apstools.devices.labjack.LabJackT4.WaveformDigitizer" title="Link to this definition">#</a></dt>
+<dd><div class="import-path docutils container">
+<p>Import: <code class="docutils literal notranslate"><span class="pre">apstools.devices.labjack.LabJackT4.WaveformDigitizer</span></code></p>
+</div>
+<p>Bases: <a class="reference internal" href="#apstools.devices.labjack.WaveformDigitizer" title="apstools.devices.labjack.WaveformDigitizer"><code class="xref py py-obj docutils literal notranslate"><span class="pre">WaveformDigitizer</span></code></a></p>
+<p>A feature of the Labjack devices that allows waveform capture.</p>
+<p>By itself, this device does not include any actual data. It should
+be sub-classed for the individual T-series devices to use
+<a class="reference internal" href="#apstools.devices.labjack.make_digitizer_waveforms" title="apstools.devices.labjack.make_digitizer_waveforms"><code class="xref py py-func docutils literal notranslate"><span class="pre">make_digitizer_waveforms()</span></code></a> to
+produce waveform signals based on the number of inputs, using the
+ophyd DynamicDeviceComponent.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">T7Digitizer</span><span class="p">(</span><span class="n">WaveformDigitizer</span><span class="p">):</span>
+    <span class="n">waveforms</span> <span class="o">=</span> <span class="n">DCpt</span><span class="p">(</span><span class="n">make_digitizer_waveforms</span><span class="p">(</span><span class="mi">14</span><span class="p">),</span> <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;normal&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="apstools.devices.labjack.LabJackT4.WaveformDigitizer.waveforms">
+<span class="sig-name descname"><span class="pre">waveforms</span></span><a class="headerlink" href="#apstools.devices.labjack.LabJackT4.WaveformDigitizer.waveforms" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="apstools.devices.labjack.LabJackT4.analog_inputs">
+<span class="sig-name descname"><span class="pre">analog_inputs</span></span><a class="headerlink" href="#apstools.devices.labjack.LabJackT4.analog_inputs" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="apstools.devices.labjack.LabJackT4.digital_ios">
+<span class="sig-name descname"><span class="pre">digital_ios</span></span><a class="headerlink" href="#apstools.devices.labjack.LabJackT4.digital_ios" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="apstools.devices.labjack.LabJackT4.waveform_digitizer">
+<span class="sig-name descname"><span class="pre">waveform_digitizer</span></span><a class="headerlink" href="#apstools.devices.labjack.LabJackT4.waveform_digitizer" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="apstools.devices.labjack.LabJackT7">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">apstools.devices.labjack.</span></span><span class="sig-name descname"><span class="pre">LabJackT7</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">prefix</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">kind</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">read_attrs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">configuration_attrs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">parent</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">child_name_separator</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'_'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">connection_timeout</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">DEFAULT_CONNECTION_TIMEOUT</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../_modules/apstools/devices/labjack.html#LabJackT7"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#apstools.devices.labjack.LabJackT7" title="Link to this definition">#</a></dt>
+<dd><div class="import-path docutils container">
+<p>Import: <code class="docutils literal notranslate"><span class="pre">apstools.devices.labjack.LabJackT7</span></code></p>
+</div>
+<p>Bases: <a class="reference internal" href="#apstools.devices.labjack.LabJackBase" title="apstools.devices.labjack.LabJackBase"><code class="xref py py-obj docutils literal notranslate"><span class="pre">LabJackBase</span></code></a></p>
+<p>A labjack T-series data acquisition unit (DAQ).</p>
+<p>To use the individual components separately, consider using the
+corresponding devices in the list below.</p>
+<p>This device contains signals for the following:</p>
+<ul class="simple">
+<li><p>device information (e.g. firmware version ,etc)</p></li>
+<li><p>analog outputs (<a class="reference internal" href="#apstools.devices.labjack.AnalogInput" title="apstools.devices.labjack.AnalogInput"><code class="xref py py-class docutils literal notranslate"><span class="pre">AnalogInput</span></code></a>)</p></li>
+<li><p>analog inputs* (<a class="reference internal" href="#apstools.devices.labjack.AnalogOutput" title="apstools.devices.labjack.AnalogOutput"><code class="xref py py-class docutils literal notranslate"><span class="pre">AnalogOutput</span></code></a>)</p></li>
+<li><p>digital input/output* (<a class="reference internal" href="#apstools.devices.labjack.DigitalIO" title="apstools.devices.labjack.DigitalIO"><code class="xref py py-class docutils literal notranslate"><span class="pre">DigitalIO</span></code></a>)</p></li>
+<li><p>waveform digitizer* (<a class="reference internal" href="#apstools.devices.labjack.WaveformDigitizer" title="apstools.devices.labjack.WaveformDigitizer"><code class="xref py py-class docutils literal notranslate"><span class="pre">WaveformDigitizer</span></code></a>)</p></li>
+<li><p>waveform generator (<a class="reference internal" href="#apstools.devices.labjack.WaveformGenerator" title="apstools.devices.labjack.WaveformGenerator"><code class="xref py py-class docutils literal notranslate"><span class="pre">WaveformGenerator</span></code></a>)</p></li>
+</ul>
+<p>The number of inputs and digital outputs depends on the specific
+LabJack T-series device being used. Therefore, the base device
+<code class="docutils literal notranslate"><span class="pre">LabJackBase</span></code> does not implement these I/O signals. Instead,
+consider using one of the subclasses, like <code class="docutils literal notranslate"><span class="pre">LabJackT4</span></code>.</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">.trigger()</span></code> method does not do much. To retrieve fresh
+values for analog inputs where .SCAN is passive, you will need to
+trigger the individual inputs themselves.</p>
+<p>The waveform generator and waveform digitizer are included for
+convenience. Reading all the analog/digital inputs and outputs can
+be done by calling the <code class="docutils literal notranslate"><span class="pre">.read()</span></code> method. However, it is unlikely
+that the goal is also to trigger the digitizer and generator
+during this read. For this reason, <strong>the digitizer and generator
+have kind=”omitted”</strong>. To trigger the digitizer or generator, they
+can be used as separate devices:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">lj</span> <span class="o">=</span> <span class="n">LabJackT4</span><span class="p">(</span><span class="o">...</span><span class="p">)</span>
+
+<span class="c1"># Read a waveform from the digitizer</span>
+<span class="n">lj</span><span class="o">.</span><span class="n">waveform_digitizer</span><span class="o">.</span><span class="n">trigger</span><span class="p">()</span><span class="o">.</span><span class="n">wait</span><span class="p">()</span>
+<span class="n">lj</span><span class="o">.</span><span class="n">waveform_digitizer</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+
+<span class="c1"># Same thing for the waveform generator</span>
+<span class="n">lj</span><span class="o">.</span><span class="n">waveform_generator</span><span class="o">.</span><span class="n">trigger</span><span class="p">()</span><span class="o">.</span><span class="n">wait</span><span class="p">()</span>
+</pre></div>
+</div>
+<dl class="py class">
+<dt class="sig sig-object py" id="apstools.devices.labjack.LabJackT7.WaveformDigitizer">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">WaveformDigitizer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">prefix</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">kind</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">read_attrs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">configuration_attrs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">parent</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">child_name_separator</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'_'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">connection_timeout</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">DEFAULT_CONNECTION_TIMEOUT</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../_modules/apstools/devices/labjack.html#LabJackT7.WaveformDigitizer"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#apstools.devices.labjack.LabJackT7.WaveformDigitizer" title="Link to this definition">#</a></dt>
+<dd><div class="import-path docutils container">
+<p>Import: <code class="docutils literal notranslate"><span class="pre">apstools.devices.labjack.LabJackT7.WaveformDigitizer</span></code></p>
+</div>
+<p>Bases: <a class="reference internal" href="#apstools.devices.labjack.WaveformDigitizer" title="apstools.devices.labjack.WaveformDigitizer"><code class="xref py py-obj docutils literal notranslate"><span class="pre">WaveformDigitizer</span></code></a></p>
+<p>A feature of the Labjack devices that allows waveform capture.</p>
+<p>By itself, this device does not include any actual data. It should
+be sub-classed for the individual T-series devices to use
+<a class="reference internal" href="#apstools.devices.labjack.make_digitizer_waveforms" title="apstools.devices.labjack.make_digitizer_waveforms"><code class="xref py py-func docutils literal notranslate"><span class="pre">make_digitizer_waveforms()</span></code></a> to
+produce waveform signals based on the number of inputs, using the
+ophyd DynamicDeviceComponent.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">T7Digitizer</span><span class="p">(</span><span class="n">WaveformDigitizer</span><span class="p">):</span>
+    <span class="n">waveforms</span> <span class="o">=</span> <span class="n">DCpt</span><span class="p">(</span><span class="n">make_digitizer_waveforms</span><span class="p">(</span><span class="mi">14</span><span class="p">),</span> <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;normal&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="apstools.devices.labjack.LabJackT7.WaveformDigitizer.waveforms">
+<span class="sig-name descname"><span class="pre">waveforms</span></span><a class="headerlink" href="#apstools.devices.labjack.LabJackT7.WaveformDigitizer.waveforms" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="apstools.devices.labjack.LabJackT7.analog_inputs">
+<span class="sig-name descname"><span class="pre">analog_inputs</span></span><a class="headerlink" href="#apstools.devices.labjack.LabJackT7.analog_inputs" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="apstools.devices.labjack.LabJackT7.digital_ios">
+<span class="sig-name descname"><span class="pre">digital_ios</span></span><a class="headerlink" href="#apstools.devices.labjack.LabJackT7.digital_ios" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="apstools.devices.labjack.LabJackT7.waveform_digitizer">
+<span class="sig-name descname"><span class="pre">waveform_digitizer</span></span><a class="headerlink" href="#apstools.devices.labjack.LabJackT7.waveform_digitizer" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="apstools.devices.labjack.LabJackT7Pro">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">apstools.devices.labjack.</span></span><span class="sig-name descname"><span class="pre">LabJackT7Pro</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">prefix</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">kind</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">read_attrs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">configuration_attrs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">parent</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">child_name_separator</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'_'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">connection_timeout</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">DEFAULT_CONNECTION_TIMEOUT</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../_modules/apstools/devices/labjack.html#LabJackT7Pro"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#apstools.devices.labjack.LabJackT7Pro" title="Link to this definition">#</a></dt>
+<dd><div class="import-path docutils container">
+<p>Import: <code class="docutils literal notranslate"><span class="pre">apstools.devices.labjack.LabJackT7Pro</span></code></p>
+</div>
+<p>Bases: <a class="reference internal" href="#apstools.devices.labjack.LabJackBase" title="apstools.devices.labjack.LabJackBase"><code class="xref py py-obj docutils literal notranslate"><span class="pre">LabJackBase</span></code></a></p>
+<p>A labjack T-series data acquisition unit (DAQ).</p>
+<p>To use the individual components separately, consider using the
+corresponding devices in the list below.</p>
+<p>This device contains signals for the following:</p>
+<ul class="simple">
+<li><p>device information (e.g. firmware version ,etc)</p></li>
+<li><p>analog outputs (<a class="reference internal" href="#apstools.devices.labjack.AnalogInput" title="apstools.devices.labjack.AnalogInput"><code class="xref py py-class docutils literal notranslate"><span class="pre">AnalogInput</span></code></a>)</p></li>
+<li><p>analog inputs* (<a class="reference internal" href="#apstools.devices.labjack.AnalogOutput" title="apstools.devices.labjack.AnalogOutput"><code class="xref py py-class docutils literal notranslate"><span class="pre">AnalogOutput</span></code></a>)</p></li>
+<li><p>digital input/output* (<a class="reference internal" href="#apstools.devices.labjack.DigitalIO" title="apstools.devices.labjack.DigitalIO"><code class="xref py py-class docutils literal notranslate"><span class="pre">DigitalIO</span></code></a>)</p></li>
+<li><p>waveform digitizer* (<a class="reference internal" href="#apstools.devices.labjack.WaveformDigitizer" title="apstools.devices.labjack.WaveformDigitizer"><code class="xref py py-class docutils literal notranslate"><span class="pre">WaveformDigitizer</span></code></a>)</p></li>
+<li><p>waveform generator (<a class="reference internal" href="#apstools.devices.labjack.WaveformGenerator" title="apstools.devices.labjack.WaveformGenerator"><code class="xref py py-class docutils literal notranslate"><span class="pre">WaveformGenerator</span></code></a>)</p></li>
+</ul>
+<p>The number of inputs and digital outputs depends on the specific
+LabJack T-series device being used. Therefore, the base device
+<code class="docutils literal notranslate"><span class="pre">LabJackBase</span></code> does not implement these I/O signals. Instead,
+consider using one of the subclasses, like <code class="docutils literal notranslate"><span class="pre">LabJackT4</span></code>.</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">.trigger()</span></code> method does not do much. To retrieve fresh
+values for analog inputs where .SCAN is passive, you will need to
+trigger the individual inputs themselves.</p>
+<p>The waveform generator and waveform digitizer are included for
+convenience. Reading all the analog/digital inputs and outputs can
+be done by calling the <code class="docutils literal notranslate"><span class="pre">.read()</span></code> method. However, it is unlikely
+that the goal is also to trigger the digitizer and generator
+during this read. For this reason, <strong>the digitizer and generator
+have kind=”omitted”</strong>. To trigger the digitizer or generator, they
+can be used as separate devices:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">lj</span> <span class="o">=</span> <span class="n">LabJackT4</span><span class="p">(</span><span class="o">...</span><span class="p">)</span>
+
+<span class="c1"># Read a waveform from the digitizer</span>
+<span class="n">lj</span><span class="o">.</span><span class="n">waveform_digitizer</span><span class="o">.</span><span class="n">trigger</span><span class="p">()</span><span class="o">.</span><span class="n">wait</span><span class="p">()</span>
+<span class="n">lj</span><span class="o">.</span><span class="n">waveform_digitizer</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+
+<span class="c1"># Same thing for the waveform generator</span>
+<span class="n">lj</span><span class="o">.</span><span class="n">waveform_generator</span><span class="o">.</span><span class="n">trigger</span><span class="p">()</span><span class="o">.</span><span class="n">wait</span><span class="p">()</span>
+</pre></div>
+</div>
+<dl class="py class">
+<dt class="sig sig-object py" id="apstools.devices.labjack.LabJackT7Pro.WaveformDigitizer">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">WaveformDigitizer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">prefix</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">kind</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">read_attrs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">configuration_attrs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">parent</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">child_name_separator</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'_'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">connection_timeout</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">DEFAULT_CONNECTION_TIMEOUT</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../_modules/apstools/devices/labjack.html#LabJackT7Pro.WaveformDigitizer"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#apstools.devices.labjack.LabJackT7Pro.WaveformDigitizer" title="Link to this definition">#</a></dt>
+<dd><div class="import-path docutils container">
+<p>Import: <code class="docutils literal notranslate"><span class="pre">apstools.devices.labjack.LabJackT7Pro.WaveformDigitizer</span></code></p>
+</div>
+<p>Bases: <a class="reference internal" href="#apstools.devices.labjack.WaveformDigitizer" title="apstools.devices.labjack.WaveformDigitizer"><code class="xref py py-obj docutils literal notranslate"><span class="pre">WaveformDigitizer</span></code></a></p>
+<p>A feature of the Labjack devices that allows waveform capture.</p>
+<p>By itself, this device does not include any actual data. It should
+be sub-classed for the individual T-series devices to use
+<a class="reference internal" href="#apstools.devices.labjack.make_digitizer_waveforms" title="apstools.devices.labjack.make_digitizer_waveforms"><code class="xref py py-func docutils literal notranslate"><span class="pre">make_digitizer_waveforms()</span></code></a> to
+produce waveform signals based on the number of inputs, using the
+ophyd DynamicDeviceComponent.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">T7Digitizer</span><span class="p">(</span><span class="n">WaveformDigitizer</span><span class="p">):</span>
+    <span class="n">waveforms</span> <span class="o">=</span> <span class="n">DCpt</span><span class="p">(</span><span class="n">make_digitizer_waveforms</span><span class="p">(</span><span class="mi">14</span><span class="p">),</span> <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;normal&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="apstools.devices.labjack.LabJackT7Pro.WaveformDigitizer.waveforms">
+<span class="sig-name descname"><span class="pre">waveforms</span></span><a class="headerlink" href="#apstools.devices.labjack.LabJackT7Pro.WaveformDigitizer.waveforms" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="apstools.devices.labjack.LabJackT7Pro.analog_inputs">
+<span class="sig-name descname"><span class="pre">analog_inputs</span></span><a class="headerlink" href="#apstools.devices.labjack.LabJackT7Pro.analog_inputs" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="apstools.devices.labjack.LabJackT7Pro.digital_ios">
+<span class="sig-name descname"><span class="pre">digital_ios</span></span><a class="headerlink" href="#apstools.devices.labjack.LabJackT7Pro.digital_ios" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="apstools.devices.labjack.LabJackT7Pro.waveform_digitizer">
+<span class="sig-name descname"><span class="pre">waveform_digitizer</span></span><a class="headerlink" href="#apstools.devices.labjack.LabJackT7Pro.waveform_digitizer" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="apstools.devices.labjack.LabJackT8">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">apstools.devices.labjack.</span></span><span class="sig-name descname"><span class="pre">LabJackT8</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">prefix</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">kind</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">read_attrs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">configuration_attrs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">parent</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">child_name_separator</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'_'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">connection_timeout</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">DEFAULT_CONNECTION_TIMEOUT</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../_modules/apstools/devices/labjack.html#LabJackT8"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#apstools.devices.labjack.LabJackT8" title="Link to this definition">#</a></dt>
+<dd><div class="import-path docutils container">
+<p>Import: <code class="docutils literal notranslate"><span class="pre">apstools.devices.labjack.LabJackT8</span></code></p>
+</div>
+<p>Bases: <a class="reference internal" href="#apstools.devices.labjack.LabJackBase" title="apstools.devices.labjack.LabJackBase"><code class="xref py py-obj docutils literal notranslate"><span class="pre">LabJackBase</span></code></a></p>
+<p>A labjack T-series data acquisition unit (DAQ).</p>
+<p>To use the individual components separately, consider using the
+corresponding devices in the list below.</p>
+<p>This device contains signals for the following:</p>
+<ul class="simple">
+<li><p>device information (e.g. firmware version ,etc)</p></li>
+<li><p>analog outputs (<a class="reference internal" href="#apstools.devices.labjack.AnalogInput" title="apstools.devices.labjack.AnalogInput"><code class="xref py py-class docutils literal notranslate"><span class="pre">AnalogInput</span></code></a>)</p></li>
+<li><p>analog inputs* (<a class="reference internal" href="#apstools.devices.labjack.AnalogOutput" title="apstools.devices.labjack.AnalogOutput"><code class="xref py py-class docutils literal notranslate"><span class="pre">AnalogOutput</span></code></a>)</p></li>
+<li><p>digital input/output* (<a class="reference internal" href="#apstools.devices.labjack.DigitalIO" title="apstools.devices.labjack.DigitalIO"><code class="xref py py-class docutils literal notranslate"><span class="pre">DigitalIO</span></code></a>)</p></li>
+<li><p>waveform digitizer* (<a class="reference internal" href="#apstools.devices.labjack.WaveformDigitizer" title="apstools.devices.labjack.WaveformDigitizer"><code class="xref py py-class docutils literal notranslate"><span class="pre">WaveformDigitizer</span></code></a>)</p></li>
+<li><p>waveform generator (<a class="reference internal" href="#apstools.devices.labjack.WaveformGenerator" title="apstools.devices.labjack.WaveformGenerator"><code class="xref py py-class docutils literal notranslate"><span class="pre">WaveformGenerator</span></code></a>)</p></li>
+</ul>
+<p>The number of inputs and digital outputs depends on the specific
+LabJack T-series device being used. Therefore, the base device
+<code class="docutils literal notranslate"><span class="pre">LabJackBase</span></code> does not implement these I/O signals. Instead,
+consider using one of the subclasses, like <code class="docutils literal notranslate"><span class="pre">LabJackT4</span></code>.</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">.trigger()</span></code> method does not do much. To retrieve fresh
+values for analog inputs where .SCAN is passive, you will need to
+trigger the individual inputs themselves.</p>
+<p>The waveform generator and waveform digitizer are included for
+convenience. Reading all the analog/digital inputs and outputs can
+be done by calling the <code class="docutils literal notranslate"><span class="pre">.read()</span></code> method. However, it is unlikely
+that the goal is also to trigger the digitizer and generator
+during this read. For this reason, <strong>the digitizer and generator
+have kind=”omitted”</strong>. To trigger the digitizer or generator, they
+can be used as separate devices:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">lj</span> <span class="o">=</span> <span class="n">LabJackT4</span><span class="p">(</span><span class="o">...</span><span class="p">)</span>
+
+<span class="c1"># Read a waveform from the digitizer</span>
+<span class="n">lj</span><span class="o">.</span><span class="n">waveform_digitizer</span><span class="o">.</span><span class="n">trigger</span><span class="p">()</span><span class="o">.</span><span class="n">wait</span><span class="p">()</span>
+<span class="n">lj</span><span class="o">.</span><span class="n">waveform_digitizer</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+
+<span class="c1"># Same thing for the waveform generator</span>
+<span class="n">lj</span><span class="o">.</span><span class="n">waveform_generator</span><span class="o">.</span><span class="n">trigger</span><span class="p">()</span><span class="o">.</span><span class="n">wait</span><span class="p">()</span>
+</pre></div>
+</div>
+<dl class="py class">
+<dt class="sig sig-object py" id="apstools.devices.labjack.LabJackT8.WaveformDigitizer">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">WaveformDigitizer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">prefix</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">kind</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">read_attrs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">configuration_attrs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">parent</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">child_name_separator</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'_'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">connection_timeout</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">DEFAULT_CONNECTION_TIMEOUT</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../_modules/apstools/devices/labjack.html#LabJackT8.WaveformDigitizer"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#apstools.devices.labjack.LabJackT8.WaveformDigitizer" title="Link to this definition">#</a></dt>
+<dd><div class="import-path docutils container">
+<p>Import: <code class="docutils literal notranslate"><span class="pre">apstools.devices.labjack.LabJackT8.WaveformDigitizer</span></code></p>
+</div>
+<p>Bases: <a class="reference internal" href="#apstools.devices.labjack.WaveformDigitizer" title="apstools.devices.labjack.WaveformDigitizer"><code class="xref py py-obj docutils literal notranslate"><span class="pre">WaveformDigitizer</span></code></a></p>
+<p>A feature of the Labjack devices that allows waveform capture.</p>
+<p>By itself, this device does not include any actual data. It should
+be sub-classed for the individual T-series devices to use
+<a class="reference internal" href="#apstools.devices.labjack.make_digitizer_waveforms" title="apstools.devices.labjack.make_digitizer_waveforms"><code class="xref py py-func docutils literal notranslate"><span class="pre">make_digitizer_waveforms()</span></code></a> to
+produce waveform signals based on the number of inputs, using the
+ophyd DynamicDeviceComponent.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">T7Digitizer</span><span class="p">(</span><span class="n">WaveformDigitizer</span><span class="p">):</span>
+    <span class="n">waveforms</span> <span class="o">=</span> <span class="n">DCpt</span><span class="p">(</span><span class="n">make_digitizer_waveforms</span><span class="p">(</span><span class="mi">14</span><span class="p">),</span> <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;normal&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="apstools.devices.labjack.LabJackT8.WaveformDigitizer.waveforms">
+<span class="sig-name descname"><span class="pre">waveforms</span></span><a class="headerlink" href="#apstools.devices.labjack.LabJackT8.WaveformDigitizer.waveforms" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="apstools.devices.labjack.LabJackT8.analog_inputs">
+<span class="sig-name descname"><span class="pre">analog_inputs</span></span><a class="headerlink" href="#apstools.devices.labjack.LabJackT8.analog_inputs" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="apstools.devices.labjack.LabJackT8.digital_ios">
+<span class="sig-name descname"><span class="pre">digital_ios</span></span><a class="headerlink" href="#apstools.devices.labjack.LabJackT8.digital_ios" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="apstools.devices.labjack.LabJackT8.waveform_digitizer">
+<span class="sig-name descname"><span class="pre">waveform_digitizer</span></span><a class="headerlink" href="#apstools.devices.labjack.LabJackT8.waveform_digitizer" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="apstools.devices.labjack.WaveformDigitizer">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">apstools.devices.labjack.</span></span><span class="sig-name descname"><span class="pre">WaveformDigitizer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">prefix</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">kind</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">read_attrs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">configuration_attrs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">parent</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">child_name_separator</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'_'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">connection_timeout</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">DEFAULT_CONNECTION_TIMEOUT</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../_modules/apstools/devices/labjack.html#WaveformDigitizer"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#apstools.devices.labjack.WaveformDigitizer" title="Link to this definition">#</a></dt>
+<dd><div class="import-path docutils container">
+<p>Import: <code class="docutils literal notranslate"><span class="pre">apstools.devices.labjack.WaveformDigitizer</span></code></p>
+</div>
+<p>Bases: <code class="xref py py-obj docutils literal notranslate"><span class="pre">ophyd.Device</span></code></p>
+<p>A feature of the Labjack devices that allows waveform capture.</p>
+<p>By itself, this device does not include any actual data. It should
+be sub-classed for the individual T-series devices to use
+<a class="reference internal" href="#apstools.devices.labjack.make_digitizer_waveforms" title="apstools.devices.labjack.make_digitizer_waveforms"><code class="xref py py-func docutils literal notranslate"><span class="pre">make_digitizer_waveforms()</span></code></a> to
+produce waveform signals based on the number of inputs, using the
+ophyd DynamicDeviceComponent.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">T7Digitizer</span><span class="p">(</span><span class="n">WaveformDigitizer</span><span class="p">):</span>
+    <span class="n">waveforms</span> <span class="o">=</span> <span class="n">DCpt</span><span class="p">(</span><span class="n">make_digitizer_waveforms</span><span class="p">(</span><span class="mi">14</span><span class="p">),</span> <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;normal&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="apstools.devices.labjack.WaveformDigitizer.auto_restart">
+<span class="sig-name descname"><span class="pre">auto_restart</span></span><a class="headerlink" href="#apstools.devices.labjack.WaveformDigitizer.auto_restart" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="apstools.devices.labjack.WaveformDigitizer.current_point">
+<span class="sig-name descname"><span class="pre">current_point</span></span><a class="headerlink" href="#apstools.devices.labjack.WaveformDigitizer.current_point" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="apstools.devices.labjack.WaveformDigitizer.dwell">
+<span class="sig-name descname"><span class="pre">dwell</span></span><a class="headerlink" href="#apstools.devices.labjack.WaveformDigitizer.dwell" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="apstools.devices.labjack.WaveformDigitizer.dwell_actual">
+<span class="sig-name descname"><span class="pre">dwell_actual</span></span><a class="headerlink" href="#apstools.devices.labjack.WaveformDigitizer.dwell_actual" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="apstools.devices.labjack.WaveformDigitizer.ext_clock">
+<span class="sig-name descname"><span class="pre">ext_clock</span></span><a class="headerlink" href="#apstools.devices.labjack.WaveformDigitizer.ext_clock" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="apstools.devices.labjack.WaveformDigitizer.ext_trigger">
+<span class="sig-name descname"><span class="pre">ext_trigger</span></span><a class="headerlink" href="#apstools.devices.labjack.WaveformDigitizer.ext_trigger" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="apstools.devices.labjack.WaveformDigitizer.first_chan">
+<span class="sig-name descname"><span class="pre">first_chan</span></span><a class="headerlink" href="#apstools.devices.labjack.WaveformDigitizer.first_chan" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="apstools.devices.labjack.WaveformDigitizer.num_chans">
+<span class="sig-name descname"><span class="pre">num_chans</span></span><a class="headerlink" href="#apstools.devices.labjack.WaveformDigitizer.num_chans" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="apstools.devices.labjack.WaveformDigitizer.num_points">
+<span class="sig-name descname"><span class="pre">num_points</span></span><a class="headerlink" href="#apstools.devices.labjack.WaveformDigitizer.num_points" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="apstools.devices.labjack.WaveformDigitizer.read_waveform">
+<span class="sig-name descname"><span class="pre">read_waveform</span></span><a class="headerlink" href="#apstools.devices.labjack.WaveformDigitizer.read_waveform" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="apstools.devices.labjack.WaveformDigitizer.resolution">
+<span class="sig-name descname"><span class="pre">resolution</span></span><a class="headerlink" href="#apstools.devices.labjack.WaveformDigitizer.resolution" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="apstools.devices.labjack.WaveformDigitizer.run">
+<span class="sig-name descname"><span class="pre">run</span></span><a class="headerlink" href="#apstools.devices.labjack.WaveformDigitizer.run" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="apstools.devices.labjack.WaveformDigitizer.settling_time">
+<span class="sig-name descname"><span class="pre">settling_time</span></span><a class="headerlink" href="#apstools.devices.labjack.WaveformDigitizer.settling_time" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="apstools.devices.labjack.WaveformDigitizer.timebase_waveform">
+<span class="sig-name descname"><span class="pre">timebase_waveform</span></span><a class="headerlink" href="#apstools.devices.labjack.WaveformDigitizer.timebase_waveform" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="apstools.devices.labjack.WaveformDigitizer.total_time">
+<span class="sig-name descname"><span class="pre">total_time</span></span><a class="headerlink" href="#apstools.devices.labjack.WaveformDigitizer.total_time" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="apstools.devices.labjack.WaveformGenerator">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">apstools.devices.labjack.</span></span><span class="sig-name descname"><span class="pre">WaveformGenerator</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">prefix</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">kind</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">read_attrs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">configuration_attrs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">parent</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">child_name_separator</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'_'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">connection_timeout</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">DEFAULT_CONNECTION_TIMEOUT</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../_modules/apstools/devices/labjack.html#WaveformGenerator"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#apstools.devices.labjack.WaveformGenerator" title="Link to this definition">#</a></dt>
+<dd><div class="import-path docutils container">
+<p>Import: <code class="docutils literal notranslate"><span class="pre">apstools.devices.labjack.WaveformGenerator</span></code></p>
+</div>
+<p>Bases: <code class="xref py py-obj docutils literal notranslate"><span class="pre">ophyd.Device</span></code></p>
+<p>A feature of the Labjack devices that generates output waveforms.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="apstools.devices.labjack.WaveformGenerator.amplitude_0">
+<span class="sig-name descname"><span class="pre">amplitude_0</span></span><a class="headerlink" href="#apstools.devices.labjack.WaveformGenerator.amplitude_0" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="apstools.devices.labjack.WaveformGenerator.amplitude_1">
+<span class="sig-name descname"><span class="pre">amplitude_1</span></span><a class="headerlink" href="#apstools.devices.labjack.WaveformGenerator.amplitude_1" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="apstools.devices.labjack.WaveformGenerator.continuous">
+<span class="sig-name descname"><span class="pre">continuous</span></span><a class="headerlink" href="#apstools.devices.labjack.WaveformGenerator.continuous" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="apstools.devices.labjack.WaveformGenerator.current_point">
+<span class="sig-name descname"><span class="pre">current_point</span></span><a class="headerlink" href="#apstools.devices.labjack.WaveformGenerator.current_point" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="apstools.devices.labjack.WaveformGenerator.dwell">
+<span class="sig-name descname"><span class="pre">dwell</span></span><a class="headerlink" href="#apstools.devices.labjack.WaveformGenerator.dwell" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="apstools.devices.labjack.WaveformGenerator.dwell_actual">
+<span class="sig-name descname"><span class="pre">dwell_actual</span></span><a class="headerlink" href="#apstools.devices.labjack.WaveformGenerator.dwell_actual" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="apstools.devices.labjack.WaveformGenerator.enable_0">
+<span class="sig-name descname"><span class="pre">enable_0</span></span><a class="headerlink" href="#apstools.devices.labjack.WaveformGenerator.enable_0" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="apstools.devices.labjack.WaveformGenerator.enable_1">
+<span class="sig-name descname"><span class="pre">enable_1</span></span><a class="headerlink" href="#apstools.devices.labjack.WaveformGenerator.enable_1" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="apstools.devices.labjack.WaveformGenerator.external_clock">
+<span class="sig-name descname"><span class="pre">external_clock</span></span><a class="headerlink" href="#apstools.devices.labjack.WaveformGenerator.external_clock" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="apstools.devices.labjack.WaveformGenerator.external_trigger">
+<span class="sig-name descname"><span class="pre">external_trigger</span></span><a class="headerlink" href="#apstools.devices.labjack.WaveformGenerator.external_trigger" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="apstools.devices.labjack.WaveformGenerator.frequency">
+<span class="sig-name descname"><span class="pre">frequency</span></span><a class="headerlink" href="#apstools.devices.labjack.WaveformGenerator.frequency" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="apstools.devices.labjack.WaveformGenerator.internal_dwell">
+<span class="sig-name descname"><span class="pre">internal_dwell</span></span><a class="headerlink" href="#apstools.devices.labjack.WaveformGenerator.internal_dwell" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="apstools.devices.labjack.WaveformGenerator.internal_frequency">
+<span class="sig-name descname"><span class="pre">internal_frequency</span></span><a class="headerlink" href="#apstools.devices.labjack.WaveformGenerator.internal_frequency" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="apstools.devices.labjack.WaveformGenerator.internal_num_points">
+<span class="sig-name descname"><span class="pre">internal_num_points</span></span><a class="headerlink" href="#apstools.devices.labjack.WaveformGenerator.internal_num_points" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="apstools.devices.labjack.WaveformGenerator.internal_time_waveform">
+<span class="sig-name descname"><span class="pre">internal_time_waveform</span></span><a class="headerlink" href="#apstools.devices.labjack.WaveformGenerator.internal_time_waveform" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="apstools.devices.labjack.WaveformGenerator.internal_waveform_0">
+<span class="sig-name descname"><span class="pre">internal_waveform_0</span></span><a class="headerlink" href="#apstools.devices.labjack.WaveformGenerator.internal_waveform_0" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="apstools.devices.labjack.WaveformGenerator.internal_waveform_1">
+<span class="sig-name descname"><span class="pre">internal_waveform_1</span></span><a class="headerlink" href="#apstools.devices.labjack.WaveformGenerator.internal_waveform_1" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="apstools.devices.labjack.WaveformGenerator.num_points">
+<span class="sig-name descname"><span class="pre">num_points</span></span><a class="headerlink" href="#apstools.devices.labjack.WaveformGenerator.num_points" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="apstools.devices.labjack.WaveformGenerator.offset_0">
+<span class="sig-name descname"><span class="pre">offset_0</span></span><a class="headerlink" href="#apstools.devices.labjack.WaveformGenerator.offset_0" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="apstools.devices.labjack.WaveformGenerator.offset_1">
+<span class="sig-name descname"><span class="pre">offset_1</span></span><a class="headerlink" href="#apstools.devices.labjack.WaveformGenerator.offset_1" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="apstools.devices.labjack.WaveformGenerator.pulse_width_0">
+<span class="sig-name descname"><span class="pre">pulse_width_0</span></span><a class="headerlink" href="#apstools.devices.labjack.WaveformGenerator.pulse_width_0" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="apstools.devices.labjack.WaveformGenerator.pulse_width_1">
+<span class="sig-name descname"><span class="pre">pulse_width_1</span></span><a class="headerlink" href="#apstools.devices.labjack.WaveformGenerator.pulse_width_1" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="apstools.devices.labjack.WaveformGenerator.run">
+<span class="sig-name descname"><span class="pre">run</span></span><a class="headerlink" href="#apstools.devices.labjack.WaveformGenerator.run" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="apstools.devices.labjack.WaveformGenerator.total_time">
+<span class="sig-name descname"><span class="pre">total_time</span></span><a class="headerlink" href="#apstools.devices.labjack.WaveformGenerator.total_time" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="apstools.devices.labjack.WaveformGenerator.type_0">
+<span class="sig-name descname"><span class="pre">type_0</span></span><a class="headerlink" href="#apstools.devices.labjack.WaveformGenerator.type_0" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="apstools.devices.labjack.WaveformGenerator.type_1">
+<span class="sig-name descname"><span class="pre">type_1</span></span><a class="headerlink" href="#apstools.devices.labjack.WaveformGenerator.type_1" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="apstools.devices.labjack.WaveformGenerator.user_dwell">
+<span class="sig-name descname"><span class="pre">user_dwell</span></span><a class="headerlink" href="#apstools.devices.labjack.WaveformGenerator.user_dwell" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="apstools.devices.labjack.WaveformGenerator.user_frequency">
+<span class="sig-name descname"><span class="pre">user_frequency</span></span><a class="headerlink" href="#apstools.devices.labjack.WaveformGenerator.user_frequency" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="apstools.devices.labjack.WaveformGenerator.user_num_points">
+<span class="sig-name descname"><span class="pre">user_num_points</span></span><a class="headerlink" href="#apstools.devices.labjack.WaveformGenerator.user_num_points" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="apstools.devices.labjack.WaveformGenerator.user_time_waveform">
+<span class="sig-name descname"><span class="pre">user_time_waveform</span></span><a class="headerlink" href="#apstools.devices.labjack.WaveformGenerator.user_time_waveform" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="apstools.devices.labjack.WaveformGenerator.user_waveform_0">
+<span class="sig-name descname"><span class="pre">user_waveform_0</span></span><a class="headerlink" href="#apstools.devices.labjack.WaveformGenerator.user_waveform_0" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="apstools.devices.labjack.WaveformGenerator.user_waveform_1">
+<span class="sig-name descname"><span class="pre">user_waveform_1</span></span><a class="headerlink" href="#apstools.devices.labjack.WaveformGenerator.user_waveform_1" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="apstools.devices.labjack.make_digitizer_waveforms">
+<span class="sig-prename descclassname"><span class="pre">apstools.devices.labjack.</span></span><span class="sig-name descname"><span class="pre">make_digitizer_waveforms</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">num_ais</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../_modules/apstools/devices/labjack.html#make_digitizer_waveforms"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#apstools.devices.labjack.make_digitizer_waveforms" title="Link to this definition">#</a></dt>
+<dd><div class="import-path docutils container">
+<p>Import: <code class="docutils literal notranslate"><span class="pre">apstools.devices.labjack.make_digitizer_waveforms</span></code></p>
+</div>
+<p>Create a dictionary with volt waveforms for the digitizer.</p>
+<p>For use with an ophyd DynamicDeviceComponent.</p>
+<p>Each analog input on the labjack <em>could</em> be included here, and
+probably should be unless there is a specific reason not to.</p>
+<section id="parameters">
+<h3>Parameters<a class="headerlink" href="#parameters" title="Link to this heading">#</a></h3>
+<dl class="simple">
+<dt>num_ais</dt><dd><p>How many analog inputs to include for this Labjack device.</p>
+</dd>
+</dl>
+</section>
+</dd></dl>
+
+</section>
+</section>
+
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="../kohzu_monochromator/index.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">kohzu_monochromator</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="../lakeshore_controllers/index.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">lakeshore_controllers</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+<div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+  </div>
+  <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#labjack-data-acquisition-daq">LabJack Data Acquisition (DAQ)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-contents">Module Contents</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#apstools.devices.labjack.AnalogInput"><code class="docutils literal notranslate"><span class="pre">AnalogInput</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#apstools.devices.labjack.AnalogInput.base_prefix"><code class="docutils literal notranslate"><span class="pre">AnalogInput.base_prefix</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#apstools.devices.labjack.AnalogInput.ch_num"><code class="docutils literal notranslate"><span class="pre">AnalogInput.ch_num</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#apstools.devices.labjack.AnalogInput.differential"><code class="docutils literal notranslate"><span class="pre">AnalogInput.differential</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#apstools.devices.labjack.AnalogInput.enable"><code class="docutils literal notranslate"><span class="pre">AnalogInput.enable</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#apstools.devices.labjack.AnalogInput.high"><code class="docutils literal notranslate"><span class="pre">AnalogInput.high</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#apstools.devices.labjack.AnalogInput.low"><code class="docutils literal notranslate"><span class="pre">AnalogInput.low</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#apstools.devices.labjack.AnalogInput.mode"><code class="docutils literal notranslate"><span class="pre">AnalogInput.mode</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#apstools.devices.labjack.AnalogInput.range"><code class="docutils literal notranslate"><span class="pre">AnalogInput.range</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#apstools.devices.labjack.AnalogInput.resolution"><code class="docutils literal notranslate"><span class="pre">AnalogInput.resolution</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#apstools.devices.labjack.AnalogInput.temperature_units"><code class="docutils literal notranslate"><span class="pre">AnalogInput.temperature_units</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#apstools.devices.labjack.AnalogOutput"><code class="docutils literal notranslate"><span class="pre">AnalogOutput</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#apstools.devices.labjack.DigitalIO"><code class="docutils literal notranslate"><span class="pre">DigitalIO</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#apstools.devices.labjack.DigitalIO.ch_num"><code class="docutils literal notranslate"><span class="pre">DigitalIO.ch_num</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#apstools.devices.labjack.DigitalIO.direction"><code class="docutils literal notranslate"><span class="pre">DigitalIO.direction</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#apstools.devices.labjack.DigitalIO.input"><code class="docutils literal notranslate"><span class="pre">DigitalIO.input</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#apstools.devices.labjack.DigitalIO.output"><code class="docutils literal notranslate"><span class="pre">DigitalIO.output</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#apstools.devices.labjack.LabJackBase"><code class="docutils literal notranslate"><span class="pre">LabJackBase</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#apstools.devices.labjack.LabJackBase.analog_in_resolution_all"><code class="docutils literal notranslate"><span class="pre">LabJackBase.analog_in_resolution_all</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#apstools.devices.labjack.LabJackBase.analog_in_sampling_rate"><code class="docutils literal notranslate"><span class="pre">LabJackBase.analog_in_sampling_rate</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#apstools.devices.labjack.LabJackBase.analog_in_settling_time_all"><code class="docutils literal notranslate"><span class="pre">LabJackBase.analog_in_settling_time_all</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#apstools.devices.labjack.LabJackBase.analog_outputs"><code class="docutils literal notranslate"><span class="pre">LabJackBase.analog_outputs</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#apstools.devices.labjack.LabJackBase.device_reset"><code class="docutils literal notranslate"><span class="pre">LabJackBase.device_reset</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#apstools.devices.labjack.LabJackBase.device_temperature"><code class="docutils literal notranslate"><span class="pre">LabJackBase.device_temperature</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#apstools.devices.labjack.LabJackBase.driver_version"><code class="docutils literal notranslate"><span class="pre">LabJackBase.driver_version</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#apstools.devices.labjack.LabJackBase.firmware_version"><code class="docutils literal notranslate"><span class="pre">LabJackBase.firmware_version</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#apstools.devices.labjack.LabJackBase.last_error_message"><code class="docutils literal notranslate"><span class="pre">LabJackBase.last_error_message</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#apstools.devices.labjack.LabJackBase.ljm_version"><code class="docutils literal notranslate"><span class="pre">LabJackBase.ljm_version</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#apstools.devices.labjack.LabJackBase.model_name"><code class="docutils literal notranslate"><span class="pre">LabJackBase.model_name</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#apstools.devices.labjack.LabJackBase.poll_sleep_ms"><code class="docutils literal notranslate"><span class="pre">LabJackBase.poll_sleep_ms</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#apstools.devices.labjack.LabJackBase.poll_time_ms"><code class="docutils literal notranslate"><span class="pre">LabJackBase.poll_time_ms</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#apstools.devices.labjack.LabJackBase.serial_number"><code class="docutils literal notranslate"><span class="pre">LabJackBase.serial_number</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#apstools.devices.labjack.LabJackBase.waveform_generator"><code class="docutils literal notranslate"><span class="pre">LabJackBase.waveform_generator</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#apstools.devices.labjack.LabJackT4"><code class="docutils literal notranslate"><span class="pre">LabJackT4</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#apstools.devices.labjack.LabJackT4.WaveformDigitizer"><code class="docutils literal notranslate"><span class="pre">LabJackT4.WaveformDigitizer</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#apstools.devices.labjack.LabJackT4.WaveformDigitizer.waveforms"><code class="docutils literal notranslate"><span class="pre">LabJackT4.WaveformDigitizer.waveforms</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#apstools.devices.labjack.LabJackT4.analog_inputs"><code class="docutils literal notranslate"><span class="pre">LabJackT4.analog_inputs</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#apstools.devices.labjack.LabJackT4.digital_ios"><code class="docutils literal notranslate"><span class="pre">LabJackT4.digital_ios</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#apstools.devices.labjack.LabJackT4.waveform_digitizer"><code class="docutils literal notranslate"><span class="pre">LabJackT4.waveform_digitizer</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#apstools.devices.labjack.LabJackT7"><code class="docutils literal notranslate"><span class="pre">LabJackT7</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#apstools.devices.labjack.LabJackT7.WaveformDigitizer"><code class="docutils literal notranslate"><span class="pre">LabJackT7.WaveformDigitizer</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#apstools.devices.labjack.LabJackT7.WaveformDigitizer.waveforms"><code class="docutils literal notranslate"><span class="pre">LabJackT7.WaveformDigitizer.waveforms</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#apstools.devices.labjack.LabJackT7.analog_inputs"><code class="docutils literal notranslate"><span class="pre">LabJackT7.analog_inputs</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#apstools.devices.labjack.LabJackT7.digital_ios"><code class="docutils literal notranslate"><span class="pre">LabJackT7.digital_ios</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#apstools.devices.labjack.LabJackT7.waveform_digitizer"><code class="docutils literal notranslate"><span class="pre">LabJackT7.waveform_digitizer</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#apstools.devices.labjack.LabJackT7Pro"><code class="docutils literal notranslate"><span class="pre">LabJackT7Pro</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#apstools.devices.labjack.LabJackT7Pro.WaveformDigitizer"><code class="docutils literal notranslate"><span class="pre">LabJackT7Pro.WaveformDigitizer</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#apstools.devices.labjack.LabJackT7Pro.WaveformDigitizer.waveforms"><code class="docutils literal notranslate"><span class="pre">LabJackT7Pro.WaveformDigitizer.waveforms</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#apstools.devices.labjack.LabJackT7Pro.analog_inputs"><code class="docutils literal notranslate"><span class="pre">LabJackT7Pro.analog_inputs</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#apstools.devices.labjack.LabJackT7Pro.digital_ios"><code class="docutils literal notranslate"><span class="pre">LabJackT7Pro.digital_ios</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#apstools.devices.labjack.LabJackT7Pro.waveform_digitizer"><code class="docutils literal notranslate"><span class="pre">LabJackT7Pro.waveform_digitizer</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#apstools.devices.labjack.LabJackT8"><code class="docutils literal notranslate"><span class="pre">LabJackT8</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#apstools.devices.labjack.LabJackT8.WaveformDigitizer"><code class="docutils literal notranslate"><span class="pre">LabJackT8.WaveformDigitizer</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#apstools.devices.labjack.LabJackT8.WaveformDigitizer.waveforms"><code class="docutils literal notranslate"><span class="pre">LabJackT8.WaveformDigitizer.waveforms</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#apstools.devices.labjack.LabJackT8.analog_inputs"><code class="docutils literal notranslate"><span class="pre">LabJackT8.analog_inputs</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#apstools.devices.labjack.LabJackT8.digital_ios"><code class="docutils literal notranslate"><span class="pre">LabJackT8.digital_ios</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#apstools.devices.labjack.LabJackT8.waveform_digitizer"><code class="docutils literal notranslate"><span class="pre">LabJackT8.waveform_digitizer</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#apstools.devices.labjack.WaveformDigitizer"><code class="docutils literal notranslate"><span class="pre">WaveformDigitizer</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#apstools.devices.labjack.WaveformDigitizer.auto_restart"><code class="docutils literal notranslate"><span class="pre">WaveformDigitizer.auto_restart</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#apstools.devices.labjack.WaveformDigitizer.current_point"><code class="docutils literal notranslate"><span class="pre">WaveformDigitizer.current_point</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#apstools.devices.labjack.WaveformDigitizer.dwell"><code class="docutils literal notranslate"><span class="pre">WaveformDigitizer.dwell</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#apstools.devices.labjack.WaveformDigitizer.dwell_actual"><code class="docutils literal notranslate"><span class="pre">WaveformDigitizer.dwell_actual</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#apstools.devices.labjack.WaveformDigitizer.ext_clock"><code class="docutils literal notranslate"><span class="pre">WaveformDigitizer.ext_clock</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#apstools.devices.labjack.WaveformDigitizer.ext_trigger"><code class="docutils literal notranslate"><span class="pre">WaveformDigitizer.ext_trigger</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#apstools.devices.labjack.WaveformDigitizer.first_chan"><code class="docutils literal notranslate"><span class="pre">WaveformDigitizer.first_chan</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#apstools.devices.labjack.WaveformDigitizer.num_chans"><code class="docutils literal notranslate"><span class="pre">WaveformDigitizer.num_chans</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#apstools.devices.labjack.WaveformDigitizer.num_points"><code class="docutils literal notranslate"><span class="pre">WaveformDigitizer.num_points</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#apstools.devices.labjack.WaveformDigitizer.read_waveform"><code class="docutils literal notranslate"><span class="pre">WaveformDigitizer.read_waveform</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#apstools.devices.labjack.WaveformDigitizer.resolution"><code class="docutils literal notranslate"><span class="pre">WaveformDigitizer.resolution</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#apstools.devices.labjack.WaveformDigitizer.run"><code class="docutils literal notranslate"><span class="pre">WaveformDigitizer.run</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#apstools.devices.labjack.WaveformDigitizer.settling_time"><code class="docutils literal notranslate"><span class="pre">WaveformDigitizer.settling_time</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#apstools.devices.labjack.WaveformDigitizer.timebase_waveform"><code class="docutils literal notranslate"><span class="pre">WaveformDigitizer.timebase_waveform</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#apstools.devices.labjack.WaveformDigitizer.total_time"><code class="docutils literal notranslate"><span class="pre">WaveformDigitizer.total_time</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#apstools.devices.labjack.WaveformGenerator"><code class="docutils literal notranslate"><span class="pre">WaveformGenerator</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#apstools.devices.labjack.WaveformGenerator.amplitude_0"><code class="docutils literal notranslate"><span class="pre">WaveformGenerator.amplitude_0</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#apstools.devices.labjack.WaveformGenerator.amplitude_1"><code class="docutils literal notranslate"><span class="pre">WaveformGenerator.amplitude_1</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#apstools.devices.labjack.WaveformGenerator.continuous"><code class="docutils literal notranslate"><span class="pre">WaveformGenerator.continuous</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#apstools.devices.labjack.WaveformGenerator.current_point"><code class="docutils literal notranslate"><span class="pre">WaveformGenerator.current_point</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#apstools.devices.labjack.WaveformGenerator.dwell"><code class="docutils literal notranslate"><span class="pre">WaveformGenerator.dwell</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#apstools.devices.labjack.WaveformGenerator.dwell_actual"><code class="docutils literal notranslate"><span class="pre">WaveformGenerator.dwell_actual</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#apstools.devices.labjack.WaveformGenerator.enable_0"><code class="docutils literal notranslate"><span class="pre">WaveformGenerator.enable_0</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#apstools.devices.labjack.WaveformGenerator.enable_1"><code class="docutils literal notranslate"><span class="pre">WaveformGenerator.enable_1</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#apstools.devices.labjack.WaveformGenerator.external_clock"><code class="docutils literal notranslate"><span class="pre">WaveformGenerator.external_clock</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#apstools.devices.labjack.WaveformGenerator.external_trigger"><code class="docutils literal notranslate"><span class="pre">WaveformGenerator.external_trigger</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#apstools.devices.labjack.WaveformGenerator.frequency"><code class="docutils literal notranslate"><span class="pre">WaveformGenerator.frequency</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#apstools.devices.labjack.WaveformGenerator.internal_dwell"><code class="docutils literal notranslate"><span class="pre">WaveformGenerator.internal_dwell</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#apstools.devices.labjack.WaveformGenerator.internal_frequency"><code class="docutils literal notranslate"><span class="pre">WaveformGenerator.internal_frequency</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#apstools.devices.labjack.WaveformGenerator.internal_num_points"><code class="docutils literal notranslate"><span class="pre">WaveformGenerator.internal_num_points</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#apstools.devices.labjack.WaveformGenerator.internal_time_waveform"><code class="docutils literal notranslate"><span class="pre">WaveformGenerator.internal_time_waveform</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#apstools.devices.labjack.WaveformGenerator.internal_waveform_0"><code class="docutils literal notranslate"><span class="pre">WaveformGenerator.internal_waveform_0</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#apstools.devices.labjack.WaveformGenerator.internal_waveform_1"><code class="docutils literal notranslate"><span class="pre">WaveformGenerator.internal_waveform_1</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#apstools.devices.labjack.WaveformGenerator.num_points"><code class="docutils literal notranslate"><span class="pre">WaveformGenerator.num_points</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#apstools.devices.labjack.WaveformGenerator.offset_0"><code class="docutils literal notranslate"><span class="pre">WaveformGenerator.offset_0</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#apstools.devices.labjack.WaveformGenerator.offset_1"><code class="docutils literal notranslate"><span class="pre">WaveformGenerator.offset_1</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#apstools.devices.labjack.WaveformGenerator.pulse_width_0"><code class="docutils literal notranslate"><span class="pre">WaveformGenerator.pulse_width_0</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#apstools.devices.labjack.WaveformGenerator.pulse_width_1"><code class="docutils literal notranslate"><span class="pre">WaveformGenerator.pulse_width_1</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#apstools.devices.labjack.WaveformGenerator.run"><code class="docutils literal notranslate"><span class="pre">WaveformGenerator.run</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#apstools.devices.labjack.WaveformGenerator.total_time"><code class="docutils literal notranslate"><span class="pre">WaveformGenerator.total_time</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#apstools.devices.labjack.WaveformGenerator.type_0"><code class="docutils literal notranslate"><span class="pre">WaveformGenerator.type_0</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#apstools.devices.labjack.WaveformGenerator.type_1"><code class="docutils literal notranslate"><span class="pre">WaveformGenerator.type_1</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#apstools.devices.labjack.WaveformGenerator.user_dwell"><code class="docutils literal notranslate"><span class="pre">WaveformGenerator.user_dwell</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#apstools.devices.labjack.WaveformGenerator.user_frequency"><code class="docutils literal notranslate"><span class="pre">WaveformGenerator.user_frequency</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#apstools.devices.labjack.WaveformGenerator.user_num_points"><code class="docutils literal notranslate"><span class="pre">WaveformGenerator.user_num_points</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#apstools.devices.labjack.WaveformGenerator.user_time_waveform"><code class="docutils literal notranslate"><span class="pre">WaveformGenerator.user_time_waveform</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#apstools.devices.labjack.WaveformGenerator.user_waveform_0"><code class="docutils literal notranslate"><span class="pre">WaveformGenerator.user_waveform_0</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#apstools.devices.labjack.WaveformGenerator.user_waveform_1"><code class="docutils literal notranslate"><span class="pre">WaveformGenerator.user_waveform_1</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#apstools.devices.labjack.make_digitizer_waveforms"><code class="docutils literal notranslate"><span class="pre">make_digitizer_waveforms()</span></code></a></li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+  <div class="sidebar-secondary-item">
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../../../../../_sources/api/autoapi/apstools/devices/labjack/index.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../../../../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="../../../../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+
+  <p class="copyright">
+    
+      © Copyright 2017-2025, UChicago Argonne, LLC.
+      <br/>
+    
+  </p>
+</div>
+      
+        <div class="footer-item">
+
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 9.1.0.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item">
+<p class="theme-version">
+  <!-- # L10n: Setting the PST URL as an argument as this does not need to be localized -->
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.16.1.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

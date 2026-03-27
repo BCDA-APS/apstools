@@ -1,0 +1,1292 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../../../../../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>misc &#8212; apstools 1.7</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../../../../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="../../../../../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../../../../../_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="../../../../../_static/graphviz.css?v=4ae1632d" />
+    <link rel="stylesheet" type="text/css" href="../../../../../_static/mystnb.11b39860a7a0cbfd473a3ad8a317855267ff0bd372690045ca344a6b62be495e.css" />
+    <link rel="stylesheet" type="text/css" href="../../../../../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../../../../../_static/css/custom.css?v=c14d4873" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="../../../../../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../../../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="../../../../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+
+    <script src="../../../../../_static/documentation_options.js?v=f5d85129"></script>
+    <script src="../../../../../_static/doctools.js?v=fd6eb6e6"></script>
+    <script src="../../../../../_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script src="../../../../../_static/design-tabs.js?v=f930bc37"></script>
+    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'api/autoapi/apstools/utils/misc/index';</script>
+    <script>
+        DOCUMENTATION_OPTIONS.theme_version = '0.16.1';
+        DOCUMENTATION_OPTIONS.theme_switcher_json_url = 'https://raw.githubusercontent.com/BCDA-APS/apstools/main/docs/source/_static/switcher.json';
+        DOCUMENTATION_OPTIONS.theme_switcher_version_match = 'dev';
+        DOCUMENTATION_OPTIONS.show_version_warning_banner =
+            false;
+        </script>
+    <link rel="index" title="Index" href="../../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../../search.html" />
+    <link rel="next" title="mmap_dict" href="../mmap_dict/index.html" />
+    <link rel="prev" title="memory" href="../memory/index.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="1.7" />
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../../../../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-3 navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../../../../../index.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">apstools 1.7</p>
+  
+</a></div>
+    
+      <div class="navbar-item">
+<div class="version-switcher__container dropdown pst-js-only">
+  <button id="pst-version-switcher-button-2"
+    type="button"
+    class="version-switcher__button btn btn-sm dropdown-toggle"
+    data-bs-toggle="dropdown"
+    aria-haspopup="listbox"
+    aria-controls="pst-version-switcher-list-2"
+    aria-label="Version switcher list"
+  >
+    Choose version  <!-- this text may get changed later by javascript -->
+    <span class="caret"></span>
+  </button>
+  <div id="pst-version-switcher-list-2"
+    class="version-switcher__menu dropdown-menu list-group-flush py-0"
+    role="listbox" aria-labelledby="pst-version-switcher-button-2">
+    <!-- dropdown will be populated by javascript on page load -->
+  </div>
+</div></div>
+    
+  </div>
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../../../install.html">
+    Installation
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="../../../../index.html">
+    API
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../../../applications/index.html">
+    Applications
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../../../examples/index.html">
+    Examples
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../../../changes.html">
+    Change History
+  </a>
+</li>
+
+            <li class="nav-item dropdown">
+                <button class="btn dropdown-toggle nav-item" type="button"
+                data-bs-toggle="dropdown" aria-expanded="false"
+                aria-controls="pst-nav-more-links">
+                    More
+                </button>
+                <ul id="pst-nav-more-links" class="dropdown-menu">
+                    
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../../../../license.html">
+    License
+  </a>
+</li>
+
+                </ul>
+            </li>
+            
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+        <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+      
+        <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/BCDA-APS/apstools" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../../../install.html">
+    Installation
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="../../../../index.html">
+    API
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../../../applications/index.html">
+    Applications
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../../../examples/index.html">
+    Examples
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../../../changes.html">
+    Change History
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../../../license.html">
+    License
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+        
+          <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/BCDA-APS/apstools" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+        
+      </div>
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+<nav class="bd-docs-nav bd-links"
+     aria-label="Section Navigation">
+  <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
+  <div class="bd-toc-item navbar-nav"><ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../../../_callbacks.html">Callbacks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../_devices.html">Devices</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../_filewriters.html">File Writers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../_plans.html">Plans</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../_utils.html">Utilities</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../../../synApps/index.html">synApps</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../../synApps/__common.html">EPICS Record support: common structures</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../synApps/_acalcout.html">EPICS base aCalcout record</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../synApps/_asyn.html">synApps asyn record</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../synApps/_busy.html">synApps busy record</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../synApps/_calcout.html">EPICS base calcout record</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../synApps/_db_2slit.html">EPICS synApps optics 2slit.db</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../synApps/_epid.html">synApps epid record</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../synApps/_iocstats.html">synApps IOC statistics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../synApps/_luascript.html">synApps luascript record</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../synApps/_save_data.html">synApps save data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../synApps/_scalcout.html">EPICS synApps calc scalcout record</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../synApps/_sscan.html">synApps sscan record</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../synApps/_sseq.html">synApps sseq record</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../synApps/_sub.html">EPICS base sub record &amp; synApps userAve records</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../synApps/_swait.html">synApps swait record</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../synApps/_transform.html">synApps transform record</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="../../index.html">apstools</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../callbacks/index.html">callbacks</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../callbacks/callback_base/index.html">callback_base</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../callbacks/doc_collector/index.html">doc_collector</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../callbacks/nexus_writer/index.html">nexus_writer</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../callbacks/scan_signal_statistics/index.html">scan_signal_statistics</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../callbacks/spec_file_writer/index.html">spec_file_writer</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../devices/index.html">devices</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../devices/acs_motors/index.html">acs_motors</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../devices/aps_bss_user/index.html">aps_bss_user</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../devices/aps_cycle/index.html">aps_cycle</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../devices/aps_data_management/index.html">aps_data_management</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../devices/aps_machine/index.html">aps_machine</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../devices/aps_undulator/index.html">aps_undulator</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../devices/area_detector_factory/index.html">area_detector_factory</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../devices/area_detector_support/index.html">area_detector_support</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../devices/avs_filters/index.html">avs_filters</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../devices/axis_tuner/index.html">axis_tuner</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../devices/delay/index.html">delay</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../devices/description_mixin/index.html">description_mixin</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../devices/dict_device_support/index.html">dict_device_support</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../devices/epics_scan_id_signal/index.html">epics_scan_id_signal</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../devices/eurotherm_2216e/index.html">eurotherm_2216e</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../devices/hhl_apertures/index.html">hhl_apertures</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../devices/hhl_slits/index.html">hhl_slits</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../devices/jj_transfocators/index.html">jj_transfocators</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../devices/kohzu_monochromator/index.html">kohzu_monochromator</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../devices/labjack/index.html">labjack</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../devices/lakeshore_controllers/index.html">lakeshore_controllers</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../devices/linkam_controllers/index.html">linkam_controllers</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../devices/measComp_tc32_support/index.html">measComp_tc32_support</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../devices/measComp_usb_ctr_support/index.html">measComp_usb_ctr_support</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../devices/mixin_base/index.html">mixin_base</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../devices/motor_factory/index.html">motor_factory</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../devices/motor_mixins/index.html">motor_mixins</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../devices/positioner_soft_done/index.html">positioner_soft_done</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../devices/preamp_base/index.html">preamp_base</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../devices/ptc10_controller/index.html">ptc10_controller</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../devices/scaler_support/index.html">scaler_support</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../devices/shutters/index.html">shutters</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../devices/simulated_controllers/index.html">simulated_controllers</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../devices/srs570_preamplifier/index.html">srs570_preamplifier</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../devices/struck3820/index.html">struck3820</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../devices/synth_pseudo_voigt/index.html">synth_pseudo_voigt</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../devices/tracking_signal/index.html">tracking_signal</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../devices/xia_pf4/index.html">xia_pf4</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../devices/xia_slit/index.html">xia_slit</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../migration/index.html">migration</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../migration/spec2ophyd/index.html">spec2ophyd</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../plans/index.html">plans</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../plans/alignment/index.html">alignment</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../plans/command_list/index.html">command_list</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../plans/doc_run/index.html">doc_run</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../plans/input_plan/index.html">input_plan</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../plans/labels_to_streams/index.html">labels_to_streams</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../plans/nscan_support/index.html">nscan_support</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../plans/run_blocking_function_plan/index.html">run_blocking_function_plan</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../plans/sscan_support/index.html">sscan_support</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../plans/stage_sigs_support/index.html">stage_sigs_support</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../plans/xpcs_mesh/index.html">xpcs_mesh</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../synApps/index.html">synApps</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../synApps/acalcout/index.html">acalcout</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../synApps/asyn/index.html">asyn</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../synApps/busy/index.html">busy</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../synApps/calcout/index.html">calcout</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../synApps/db_2slit/index.html">db_2slit</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../synApps/db_2slit_soft/index.html">db_2slit_soft</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../synApps/epid/index.html">epid</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../synApps/iocstats/index.html">iocstats</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../synApps/luascript/index.html">luascript</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../synApps/save_data/index.html">save_data</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../synApps/scalcout/index.html">scalcout</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../synApps/sscan/index.html">sscan</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../synApps/sseq/index.html">sseq</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../synApps/sub/index.html">sub</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../synApps/swait/index.html">swait</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../synApps/transform/index.html">transform</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 current active has-children"><a class="reference internal" href="../index.html">utils</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="../aps_data_management/index.html">aps_data_management</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../apsu_controls_subnet/index.html">apsu_controls_subnet</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../catalog/index.html">catalog</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../descriptor_support/index.html">descriptor_support</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../device_info/index.html">device_info</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../email/index.html">email</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../image_analysis/index.html">image_analysis</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../list_plans/index.html">list_plans</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../list_runs/index.html">list_runs</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../log_utils/index.html">log_utils</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../memory/index.html">memory</a></li>
+<li class="toctree-l3 current active"><a class="current reference internal" href="#">misc</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../mmap_dict/index.html">mmap_dict</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../override_parameters/index.html">override_parameters</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../plot/index.html">plot</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../profile_support/index.html">profile_support</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../pvregistry/index.html">pvregistry</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../query/index.html">query</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../slit_core/index.html">slit_core</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../spreadsheet/index.html">spreadsheet</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../statistics/index.html">statistics</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../stored_dict/index.html">stored_dict</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../time_constants/index.html">time_constants</a></li>
+</ul>
+</details></li>
+</ul>
+</details></li>
+</ul>
+</div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+<nav aria-label="Breadcrumb" class="d-print-none">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../../../../../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="../../../../index.html" class="nav-link">API</a></li>
+    
+    
+    <li class="breadcrumb-item"><a href="../../index.html" class="nav-link">apstools</a></li>
+    
+    
+    <li class="breadcrumb-item"><a href="../index.html" class="nav-link">utils</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">misc</span></li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section id="module-apstools.utils.misc">
+<span id="misc"></span><h1>misc<a class="headerlink" href="#module-apstools.utils.misc" title="Link to this heading">#</a></h1>
+<p>Import: <code class="docutils literal notranslate"><span class="pre">apstools.utils.misc</span></code></p>
+<section id="miscellaneous-support">
+<h2>Miscellaneous Support<a class="headerlink" href="#miscellaneous-support" title="Link to this heading">#</a></h2>
+<div class="pst-scrollable-table-container"><table class="autosummary longtable table">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#apstools.utils.misc.call_signature_decorator" title="apstools.utils.misc.call_signature_decorator"><code class="xref py py-obj docutils literal notranslate"><span class="pre">call_signature_decorator</span></code></a>(f)</p></td>
+<td><p>Get the names of all function parameters supplied by the caller.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#apstools.utils.misc.cleanupText" title="apstools.utils.misc.cleanupText"><code class="xref py py-obj docutils literal notranslate"><span class="pre">cleanupText</span></code></a>(text[, replace])</p></td>
+<td><p>Convert text so it can be used as a dictionary key.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#apstools.utils.misc.connect_pvlist" title="apstools.utils.misc.connect_pvlist"><code class="xref py py-obj docutils literal notranslate"><span class="pre">connect_pvlist</span></code></a>(pvlist[, wait, timeout, ...])</p></td>
+<td><p>Given list of EPICS PV names, return dict of EpicsSignal objects.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#apstools.utils.misc.count_child_devices_and_signals" title="apstools.utils.misc.count_child_devices_and_signals"><code class="xref py py-obj docutils literal notranslate"><span class="pre">count_child_devices_and_signals</span></code></a>(device)</p></td>
+<td><p>Dict with number of children of this device.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#apstools.utils.misc.count_common_subdirs" title="apstools.utils.misc.count_common_subdirs"><code class="xref py py-obj docutils literal notranslate"><span class="pre">count_common_subdirs</span></code></a>(p1, p2)</p></td>
+<td><p>Count how many subdirectories are common to both file paths.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#apstools.utils.misc.dictionary_table" title="apstools.utils.misc.dictionary_table"><code class="xref py py-obj docutils literal notranslate"><span class="pre">dictionary_table</span></code></a>(dictionary, **kwargs)</p></td>
+<td><p>Return a text table from <code class="docutils literal notranslate"><span class="pre">dictionary</span></code>.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#apstools.utils.misc.dynamic_import" title="apstools.utils.misc.dynamic_import"><code class="xref py py-obj docutils literal notranslate"><span class="pre">dynamic_import</span></code></a>(full_path)</p></td>
+<td><p>Import the object given its import path as text.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#apstools.utils.misc.full_dotted_name" title="apstools.utils.misc.full_dotted_name"><code class="xref py py-obj docutils literal notranslate"><span class="pre">full_dotted_name</span></code></a>(obj)</p></td>
+<td><p>Return the full dotted name</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#apstools.utils.misc.host_on_aps_subnet" title="apstools.utils.misc.host_on_aps_subnet"><code class="xref py py-obj docutils literal notranslate"><span class="pre">host_on_aps_subnet</span></code></a>()</p></td>
+<td><p>Detect if this host is on an APS subnet.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#apstools.utils.misc.itemizer" title="apstools.utils.misc.itemizer"><code class="xref py py-obj docutils literal notranslate"><span class="pre">itemizer</span></code></a>(fmt, items)</p></td>
+<td><p>Format a list of items.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#apstools.utils.misc.listobjects" title="apstools.utils.misc.listobjects"><code class="xref py py-obj docutils literal notranslate"><span class="pre">listobjects</span></code></a>([show_pv, printing, verbose, ...])</p></td>
+<td><p>Show all the ophyd Signal and Device objects defined as globals.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#apstools.utils.misc.pairwise" title="apstools.utils.misc.pairwise"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pairwise</span></code></a>(iterable)</p></td>
+<td><p>break a list (or other iterable) into pairs</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#apstools.utils.misc.print_RE_md" title="apstools.utils.misc.print_RE_md"><code class="xref py py-obj docutils literal notranslate"><span class="pre">print_RE_md</span></code></a>([dictionary, fmt, printing])</p></td>
+<td><p>custom print the RunEngine metadata in a table</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#apstools.utils.misc.redefine_motor_position" title="apstools.utils.misc.redefine_motor_position"><code class="xref py py-obj docutils literal notranslate"><span class="pre">redefine_motor_position</span></code></a>(motor, new_position)</p></td>
+<td><p>Set EPICS motor record's user coordinate to <code class="docutils literal notranslate"><span class="pre">new_position</span></code>.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#apstools.utils.misc.render" title="apstools.utils.misc.render"><code class="xref py py-obj docutils literal notranslate"><span class="pre">render</span></code></a>(value[, sig_figs])</p></td>
+<td><p>Round-off floating-point numbers to sig_figs.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#apstools.utils.misc.replay" title="apstools.utils.misc.replay"><code class="xref py py-obj docutils literal notranslate"><span class="pre">replay</span></code></a>(headers[, callback, sort])</p></td>
+<td><p>Replay the document stream from one (or more) scans (headers).</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#apstools.utils.misc.run_in_thread" title="apstools.utils.misc.run_in_thread"><code class="xref py py-obj docutils literal notranslate"><span class="pre">run_in_thread</span></code></a>(func)</p></td>
+<td><p>(decorator) run <code class="docutils literal notranslate"><span class="pre">func</span></code> in thread</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#apstools.utils.misc.safe_ophyd_name" title="apstools.utils.misc.safe_ophyd_name"><code class="xref py py-obj docutils literal notranslate"><span class="pre">safe_ophyd_name</span></code></a>(text)</p></td>
+<td><p>make text safe to be used as an ophyd object name</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#apstools.utils.misc.split_quoted_line" title="apstools.utils.misc.split_quoted_line"><code class="xref py py-obj docutils literal notranslate"><span class="pre">split_quoted_line</span></code></a>(line)</p></td>
+<td><p>splits a line into words some of which might be quoted</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#apstools.utils.misc.text_encode" title="apstools.utils.misc.text_encode"><code class="xref py py-obj docutils literal notranslate"><span class="pre">text_encode</span></code></a>(source)</p></td>
+<td><p>Encode <code class="docutils literal notranslate"><span class="pre">source</span></code> using the default codepoint.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#apstools.utils.misc.to_unicode_or_bust" title="apstools.utils.misc.to_unicode_or_bust"><code class="xref py py-obj docutils literal notranslate"><span class="pre">to_unicode_or_bust</span></code></a>(obj[, encoding])</p></td>
+<td><p>from: <a class="reference external" href="http://farmdev.com/talks/unicode/">http://farmdev.com/talks/unicode/</a>  .</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#apstools.utils.misc.trim_string_for_EPICS" title="apstools.utils.misc.trim_string_for_EPICS"><code class="xref py py-obj docutils literal notranslate"><span class="pre">trim_string_for_EPICS</span></code></a>(msg)</p></td>
+<td><p>String must not exceed EPICS PV length.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#apstools.utils.misc.unix" title="apstools.utils.misc.unix"><code class="xref py py-obj docutils literal notranslate"><span class="pre">unix</span></code></a>(command[, raises])</p></td>
+<td><p>Run a UNIX command, returns (stdout, stderr).</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<section id="module-contents">
+<h2>Module Contents<a class="headerlink" href="#module-contents" title="Link to this heading">#</a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="apstools.utils.misc.call_signature_decorator">
+<span class="sig-prename descclassname"><span class="pre">apstools.utils.misc.</span></span><span class="sig-name descname"><span class="pre">call_signature_decorator</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">f</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../_modules/apstools/utils/misc.html#call_signature_decorator"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#apstools.utils.misc.call_signature_decorator" title="Link to this definition">#</a></dt>
+<dd><div class="import-path docutils container">
+<p>Import: <code class="docutils literal notranslate"><span class="pre">apstools.utils.misc.call_signature_decorator</span></code></p>
+</div>
+<p>Get the names of all function parameters supplied by the caller.</p>
+<p>This is used to differentiate user-supplied parameters from as-defined
+parameters with the same value.</p>
+<p>HOW TO USE THIS DECORATOR:</p>
+<p>Decorate a function or method with this decorator <em>and</em> add an additional
+<cite>_call_args=None</cite> kwarg to the function. The function can test <cite>_call_args</cite>
+if a specific kwarg was supplied by the caller.</p>
+<p>EXAMPLE:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="nd">@call_signature_decorator</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">func1</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">_call_args</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="k">if</span> <span class="s1">&#39;c&#39;</span> <span class="ow">in</span> <span class="n">_call_args</span><span class="p">:</span>  <span class="c1"># Caller supplied this kwarg?</span>
+        <span class="k">pass</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>With <code class="docutils literal notranslate"><span class="pre">call_signature_decorator</span></code>, it is not possible to get the names
+of the positional arguments.  Since positional parameters are not specified by
+name, such capability is not expected to become a requirement.</p>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">See<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://stackoverflow.com/questions/14749328#58166804">https://stackoverflow.com/questions/14749328#58166804</a>
+(how-to-check-whether-optional-function-parameter-is-set)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="apstools.utils.misc.cleanupText">
+<span class="sig-prename descclassname"><span class="pre">apstools.utils.misc.</span></span><span class="sig-name descname"><span class="pre">cleanupText</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">text</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">replace</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../_modules/apstools/utils/misc.html#cleanupText"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#apstools.utils.misc.cleanupText" title="Link to this definition">#</a></dt>
+<dd><div class="import-path docutils container">
+<p>Import: <code class="docutils literal notranslate"><span class="pre">apstools.utils.misc.cleanupText</span></code></p>
+</div>
+<p>Convert text so it can be used as a dictionary key.</p>
+<p>Given some input text string, return a clean version
+remove troublesome characters, perhaps other cleanup as well.
+This is best done with regular expression pattern matching.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="apstools.utils.misc.connect_pvlist">
+<span class="sig-prename descclassname"><span class="pre">apstools.utils.misc.</span></span><span class="sig-name descname"><span class="pre">connect_pvlist</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pvlist</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">wait</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">timeout</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">poll_interval</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.1</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../_modules/apstools/utils/misc.html#connect_pvlist"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#apstools.utils.misc.connect_pvlist" title="Link to this definition">#</a></dt>
+<dd><div class="import-path docutils container">
+<p>Import: <code class="docutils literal notranslate"><span class="pre">apstools.utils.misc.connect_pvlist</span></code></p>
+</div>
+<p>Given list of EPICS PV names, return dict of EpicsSignal objects.</p>
+<p>PARAMETERS</p>
+<dl class="simple">
+<dt>pvlist</dt><dd><p><em>[str]</em> :
+list of EPICS PV names</p>
+</dd>
+<dt>wait</dt><dd><p><em>bool</em> :
+should wait for EpicsSignal objects to connect
+(default: <code class="docutils literal notranslate"><span class="pre">True</span></code>)</p>
+</dd>
+<dt>timeout</dt><dd><p><em>float</em> :
+maximum time to wait for PV connections, seconds
+(default: 2.0)</p>
+</dd>
+<dt>poll_interval</dt><dd><p><em>float</em> :
+time to sleep between checks for PV connections, seconds
+(default: 0.1)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="apstools.utils.misc.count_child_devices_and_signals">
+<span class="sig-prename descclassname"><span class="pre">apstools.utils.misc.</span></span><span class="sig-name descname"><span class="pre">count_child_devices_and_signals</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">device</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../_modules/apstools/utils/misc.html#count_child_devices_and_signals"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#apstools.utils.misc.count_child_devices_and_signals" title="Link to this definition">#</a></dt>
+<dd><div class="import-path docutils container">
+<p>Import: <code class="docutils literal notranslate"><span class="pre">apstools.utils.misc.count_child_devices_and_signals</span></code></p>
+</div>
+<p>Dict with number of children of this device.  Keys: Device and Signal.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="apstools.utils.misc.count_common_subdirs">
+<span class="sig-prename descclassname"><span class="pre">apstools.utils.misc.</span></span><span class="sig-name descname"><span class="pre">count_common_subdirs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">p1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">p2</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../_modules/apstools/utils/misc.html#count_common_subdirs"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#apstools.utils.misc.count_common_subdirs" title="Link to this definition">#</a></dt>
+<dd><div class="import-path docutils container">
+<p>Import: <code class="docutils literal notranslate"><span class="pre">apstools.utils.misc.count_common_subdirs</span></code></p>
+</div>
+<p>Count how many subdirectories are common to both file paths.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="apstools.utils.misc.dictionary_table">
+<span class="sig-prename descclassname"><span class="pre">apstools.utils.misc.</span></span><span class="sig-name descname"><span class="pre">dictionary_table</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dictionary</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../_modules/apstools/utils/misc.html#dictionary_table"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#apstools.utils.misc.dictionary_table" title="Link to this definition">#</a></dt>
+<dd><div class="import-path docutils container">
+<p>Import: <code class="docutils literal notranslate"><span class="pre">apstools.utils.misc.dictionary_table</span></code></p>
+</div>
+<p>Return a text table from <code class="docutils literal notranslate"><span class="pre">dictionary</span></code>.</p>
+<p>Dictionary keys in first column, values in second.</p>
+<p>PARAMETERS</p>
+<dl class="simple">
+<dt>dictionary</dt><dd><p><em>dict</em> :
+Python dictionary</p>
+</dd>
+</dl>
+<p>Note:  Keyword arguments parameters
+are kept for compatibility with previous
+versions of apstools.  They are ignored now.</p>
+<p>RETURNS</p>
+<dl class="simple">
+<dt>table</dt><dd><p><em>object</em> or <code class="docutils literal notranslate"><span class="pre">None</span></code> :
+<code class="docutils literal notranslate"><span class="pre">pyRestTable.Table()</span></code> object (multiline text table)
+or <code class="docutils literal notranslate"><span class="pre">None</span></code> if dictionary has no contents</p>
+</dd>
+</dl>
+<p>EXAMPLE:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">In</span> <span class="p">[</span><span class="mi">8</span><span class="p">]:</span> <span class="n">RE</span><span class="o">.</span><span class="n">md</span>
+<span class="n">Out</span><span class="p">[</span><span class="mi">8</span><span class="p">]:</span> <span class="p">{</span><span class="s1">&#39;login_id&#39;</span><span class="p">:</span> <span class="s1">&#39;jemian:wow.aps.anl.gov&#39;</span><span class="p">,</span> <span class="s1">&#39;beamline_id&#39;</span><span class="p">:</span> <span class="s1">&#39;developer&#39;</span><span class="p">,</span> <span class="s1">&#39;proposal_id&#39;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span> <span class="s1">&#39;pid&#39;</span><span class="p">:</span> <span class="mi">19072</span><span class="p">,</span> <span class="s1">&#39;scan_id&#39;</span><span class="p">:</span> <span class="mi">10</span><span class="p">,</span> <span class="s1">&#39;version&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;bluesky&#39;</span><span class="p">:</span> <span class="s1">&#39;1.5.2&#39;</span><span class="p">,</span> <span class="s1">&#39;ophyd&#39;</span><span class="p">:</span> <span class="s1">&#39;1.3.3&#39;</span><span class="p">,</span> <span class="s1">&#39;apstools&#39;</span><span class="p">:</span> <span class="s1">&#39;1.1.5&#39;</span><span class="p">,</span> <span class="s1">&#39;epics&#39;</span><span class="p">:</span> <span class="s1">&#39;3.3.3&#39;</span><span class="p">}}</span>
+
+<span class="n">In</span> <span class="p">[</span><span class="mi">9</span><span class="p">]:</span> <span class="nb">print</span><span class="p">(</span><span class="n">dictionary_table</span><span class="p">(</span><span class="n">RE</span><span class="o">.</span><span class="n">md</span><span class="p">))</span>
+<span class="o">===========</span> <span class="o">=============================================================================</span>
+<span class="n">key</span>         <span class="n">value</span>
+<span class="o">===========</span> <span class="o">=============================================================================</span>
+<span class="n">beamline_id</span> <span class="n">developer</span>
+<span class="n">login_id</span>    <span class="n">jemian</span><span class="p">:</span><span class="n">wow</span><span class="o">.</span><span class="n">aps</span><span class="o">.</span><span class="n">anl</span><span class="o">.</span><span class="n">gov</span>
+<span class="n">pid</span>         <span class="mi">19072</span>
+<span class="n">proposal_id</span> <span class="kc">None</span>
+<span class="n">scan_id</span>     <span class="mi">10</span>
+<span class="n">version</span>     <span class="p">{</span><span class="s1">&#39;bluesky&#39;</span><span class="p">:</span> <span class="s1">&#39;1.5.2&#39;</span><span class="p">,</span> <span class="s1">&#39;ophyd&#39;</span><span class="p">:</span> <span class="s1">&#39;1.3.3&#39;</span><span class="p">,</span> <span class="s1">&#39;apstools&#39;</span><span class="p">:</span> <span class="s1">&#39;1.1.5&#39;</span><span class="p">,</span> <span class="s1">&#39;epics&#39;</span><span class="p">:</span> <span class="s1">&#39;3.3.3&#39;</span><span class="p">}</span>
+<span class="o">===========</span> <span class="o">=============================================================================</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="apstools.utils.misc.dynamic_import">
+<span class="sig-prename descclassname"><span class="pre">apstools.utils.misc.</span></span><span class="sig-name descname"><span class="pre">dynamic_import</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">full_path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">type</span></span></span><a class="reference internal" href="../../../../../_modules/apstools/utils/misc.html#dynamic_import"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#apstools.utils.misc.dynamic_import" title="Link to this definition">#</a></dt>
+<dd><div class="import-path docutils container">
+<p>Import: <code class="docutils literal notranslate"><span class="pre">apstools.utils.misc.dynamic_import</span></code></p>
+</div>
+<p>Import the object given its import path as text.</p>
+<p>Motivated by specification of class names for plugins
+when using <code class="docutils literal notranslate"><span class="pre">apstools.devices.ad_creator()</span></code>.</p>
+<p>EXAMPLES:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">obj</span> <span class="o">=</span> <span class="n">dynamic_import</span><span class="p">(</span><span class="s2">&quot;ophyd.EpicsMotor&quot;</span><span class="p">)</span>
+<span class="n">m1</span> <span class="o">=</span> <span class="n">obj</span><span class="p">(</span><span class="s2">&quot;gp:m1&quot;</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;m1&quot;</span><span class="p">)</span>
+
+<span class="n">IocStats</span> <span class="o">=</span> <span class="n">dynamic_import</span><span class="p">(</span><span class="s2">&quot;instrument.devices.ioc_stats.IocInfoDevice&quot;</span><span class="p">)</span>
+<span class="n">gp_stats</span> <span class="o">=</span> <span class="n">IocStats</span><span class="p">(</span><span class="s2">&quot;gp:&quot;</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;gp_stats&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="apstools.utils.misc.full_dotted_name">
+<span class="sig-prename descclassname"><span class="pre">apstools.utils.misc.</span></span><span class="sig-name descname"><span class="pre">full_dotted_name</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">obj</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../_modules/apstools/utils/misc.html#full_dotted_name"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#apstools.utils.misc.full_dotted_name" title="Link to this definition">#</a></dt>
+<dd><div class="import-path docutils container">
+<p>Import: <code class="docutils literal notranslate"><span class="pre">apstools.utils.misc.full_dotted_name</span></code></p>
+</div>
+<p>Return the full dotted name</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">.dotted_name</span></code> property does not include the
+name of the root object.  This routine adds that.</p>
+<p>see: <a class="github reference external" href="https://github.com/bluesky/ophyd/pull/797">bluesky/ophyd#797</a></p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="apstools.utils.misc.host_on_aps_subnet">
+<span class="sig-prename descclassname"><span class="pre">apstools.utils.misc.</span></span><span class="sig-name descname"><span class="pre">host_on_aps_subnet</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../../../_modules/apstools/utils/misc.html#host_on_aps_subnet"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#apstools.utils.misc.host_on_aps_subnet" title="Link to this definition">#</a></dt>
+<dd><div class="import-path docutils container">
+<p>Import: <code class="docutils literal notranslate"><span class="pre">apstools.utils.misc.host_on_aps_subnet</span></code></p>
+</div>
+<p>Detect if this host is on an APS subnet.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="apstools.utils.misc.itemizer">
+<span class="sig-prename descclassname"><span class="pre">apstools.utils.misc.</span></span><span class="sig-name descname"><span class="pre">itemizer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fmt</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">items</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../_modules/apstools/utils/misc.html#itemizer"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#apstools.utils.misc.itemizer" title="Link to this definition">#</a></dt>
+<dd><div class="import-path docutils container">
+<p>Import: <code class="docutils literal notranslate"><span class="pre">apstools.utils.misc.itemizer</span></code></p>
+</div>
+<p>Format a list of items.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="apstools.utils.misc.listobjects">
+<span class="sig-prename descclassname"><span class="pre">apstools.utils.misc.</span></span><span class="sig-name descname"><span class="pre">listobjects</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">show_pv</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">printing</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">symbols</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">child_devices</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">child_signals</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">table_style</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">TableStyle.pyRestTable</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../_modules/apstools/utils/misc.html#listobjects"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#apstools.utils.misc.listobjects" title="Link to this definition">#</a></dt>
+<dd><div class="import-path docutils container">
+<p>Import: <code class="docutils literal notranslate"><span class="pre">apstools.utils.misc.listobjects</span></code></p>
+</div>
+<p>Show all the ophyd Signal and Device objects defined as globals.</p>
+<p>PARAMETERS</p>
+<dl>
+<dt>show_pv</dt><dd><p><em>bool</em> :
+If True, also show relevant EPICS PV, if available.
+(default: True)</p>
+</dd>
+<dt>printing <em>bool</em> :</dt><dd><p>Deprecated.</p>
+</dd>
+<dt>verbose</dt><dd><p><em>bool</em> :
+If True, also show <code class="docutils literal notranslate"><span class="pre">str(obj</span></code>.
+(default: False)</p>
+</dd>
+<dt>symbols</dt><dd><p><em>dict</em> :
+If None, use global symbol table.
+If not None, use provided dictionary.
+(default: <code class="docutils literal notranslate"><span class="pre">globals()</span></code>)</p>
+</dd>
+<dt>child_devices</dt><dd><p><em>bool</em> :
+If True, also show how many Devices are children of this device.
+(default: False)</p>
+</dd>
+<dt>child_signals</dt><dd><p><em>bool</em> :
+If True, also show how many Signals are children of this device.
+(default: False)</p>
+</dd>
+<dt>table_style <em>object</em> :</dt><dd><p>Either <code class="docutils literal notranslate"><span class="pre">apstools.utils.TableStyle.pandas</span></code> (default) or
+using values from <code class="xref py py-class docutils literal notranslate"><span class="pre">apstools.utils.TableStyle</span></code>.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p><code class="docutils literal notranslate"><span class="pre">pandas.DataFrame</span></code> wll truncate long text
+to at most 50 characters.</p>
+</div>
+</dd>
+</dl>
+<p>RETURNS</p>
+<dl class="simple">
+<dt>object:</dt><dd><p>Instance of <code class="docutils literal notranslate"><span class="pre">pyRestTable.Table()</span></code></p>
+</dd>
+</dl>
+<p>EXAMPLE:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">In</span> <span class="p">[</span><span class="mi">1</span><span class="p">]:</span> <span class="n">listobjects</span><span class="p">()</span>
+<span class="o">========</span> <span class="o">================================</span> <span class="o">=============</span>
+<span class="n">name</span>     <span class="n">ophyd</span> <span class="n">structure</span>                  <span class="n">EPICS</span> <span class="n">PV</span>
+<span class="o">========</span> <span class="o">================================</span> <span class="o">=============</span>
+<span class="n">adsimdet</span> <span class="n">MySingleTriggerSimDetector</span>       <span class="n">vm7SIM1</span><span class="p">:</span>
+<span class="n">m1</span>       <span class="n">EpicsMotor</span>                       <span class="n">vm7</span><span class="p">:</span><span class="n">m1</span>
+<span class="n">m2</span>       <span class="n">EpicsMotor</span>                       <span class="n">vm7</span><span class="p">:</span><span class="n">m2</span>
+<span class="n">m3</span>       <span class="n">EpicsMotor</span>                       <span class="n">vm7</span><span class="p">:</span><span class="n">m3</span>
+<span class="n">m4</span>       <span class="n">EpicsMotor</span>                       <span class="n">vm7</span><span class="p">:</span><span class="n">m4</span>
+<span class="n">m5</span>       <span class="n">EpicsMotor</span>                       <span class="n">vm7</span><span class="p">:</span><span class="n">m5</span>
+<span class="n">m6</span>       <span class="n">EpicsMotor</span>                       <span class="n">vm7</span><span class="p">:</span><span class="n">m6</span>
+<span class="n">m7</span>       <span class="n">EpicsMotor</span>                       <span class="n">vm7</span><span class="p">:</span><span class="n">m7</span>
+<span class="n">m8</span>       <span class="n">EpicsMotor</span>                       <span class="n">vm7</span><span class="p">:</span><span class="n">m8</span>
+<span class="n">noisy</span>    <span class="n">EpicsSignalRO</span>                    <span class="n">vm7</span><span class="p">:</span><span class="n">userCalc1</span>
+<span class="n">scaler</span>   <span class="n">ScalerCH</span>                         <span class="n">vm7</span><span class="p">:</span><span class="n">scaler1</span>
+<span class="n">shutter</span>  <span class="n">SimulatedApsPssShutterWithStatus</span>
+<span class="o">========</span> <span class="o">================================</span> <span class="o">=============</span>
+
+<span class="n">Out</span><span class="p">[</span><span class="mi">1</span><span class="p">]:</span> <span class="o">&lt;</span><span class="n">pyRestTable</span><span class="o">.</span><span class="n">rest_table</span><span class="o">.</span><span class="n">Table</span> <span class="n">at</span> <span class="mh">0x7fa4398c7cf8</span><span class="o">&gt;</span>
+
+<span class="n">In</span> <span class="p">[</span><span class="mi">2</span><span class="p">]:</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="apstools.utils.misc.pairwise">
+<span class="sig-prename descclassname"><span class="pre">apstools.utils.misc.</span></span><span class="sig-name descname"><span class="pre">pairwise</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">iterable</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../_modules/apstools/utils/misc.html#pairwise"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#apstools.utils.misc.pairwise" title="Link to this definition">#</a></dt>
+<dd><div class="import-path docutils container">
+<p>Import: <code class="docutils literal notranslate"><span class="pre">apstools.utils.misc.pairwise</span></code></p>
+</div>
+<p>break a list (or other iterable) into pairs</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">s</span> <span class="o">-&gt;</span> <span class="p">(</span><span class="n">s0</span><span class="p">,</span> <span class="n">s1</span><span class="p">),</span> <span class="p">(</span><span class="n">s2</span><span class="p">,</span> <span class="n">s3</span><span class="p">),</span> <span class="p">(</span><span class="n">s4</span><span class="p">,</span> <span class="n">s5</span><span class="p">),</span> <span class="o">...</span>
+
+<span class="n">In</span> <span class="p">[</span><span class="mi">71</span><span class="p">]:</span> <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">pairwise</span><span class="p">(</span><span class="s2">&quot;a b c d e fg&quot;</span><span class="o">.</span><span class="n">split</span><span class="p">()):</span>
+    <span class="o">...</span><span class="p">:</span>     <span class="nb">print</span><span class="p">(</span><span class="n">item</span><span class="p">)</span>
+    <span class="o">...</span><span class="p">:</span>
+<span class="p">(</span><span class="s1">&#39;a&#39;</span><span class="p">,</span> <span class="s1">&#39;b&#39;</span><span class="p">)</span>
+<span class="p">(</span><span class="s1">&#39;c&#39;</span><span class="p">,</span> <span class="s1">&#39;d&#39;</span><span class="p">)</span>
+<span class="p">(</span><span class="s1">&#39;e&#39;</span><span class="p">,</span> <span class="s1">&#39;fg&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="apstools.utils.misc.print_RE_md">
+<span class="sig-prename descclassname"><span class="pre">apstools.utils.misc.</span></span><span class="sig-name descname"><span class="pre">print_RE_md</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dictionary</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fmt</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'simple'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">printing</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../_modules/apstools/utils/misc.html#print_RE_md"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#apstools.utils.misc.print_RE_md" title="Link to this definition">#</a></dt>
+<dd><div class="import-path docutils container">
+<p>Import: <code class="docutils literal notranslate"><span class="pre">apstools.utils.misc.print_RE_md</span></code></p>
+</div>
+<p>custom print the RunEngine metadata in a table</p>
+<p>PARAMETERS</p>
+<dl class="simple">
+<dt>dictionary</dt><dd><p><em>dict</em> :
+Python dictionary</p>
+</dd>
+</dl>
+<p>EXAMPLE:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">In</span> <span class="p">[</span><span class="mi">4</span><span class="p">]:</span> <span class="n">print_RE_md</span><span class="p">()</span>
+<span class="n">RunEngine</span> <span class="n">metadata</span> <span class="n">dictionary</span><span class="p">:</span>
+<span class="o">========================</span> <span class="o">===================================</span>
+<span class="n">key</span>                      <span class="n">value</span>
+<span class="o">========================</span> <span class="o">===================================</span>
+<span class="n">EPICS_CA_MAX_ARRAY_BYTES</span> <span class="mi">1280000</span>
+<span class="n">EPICS_HOST_ARCH</span>          <span class="n">linux</span><span class="o">-</span><span class="n">x86_64</span>
+<span class="n">beamline_id</span>              <span class="n">APS</span> <span class="n">USAXS</span> <span class="mi">9</span><span class="o">-</span><span class="n">ID</span><span class="o">-</span><span class="n">C</span>
+<span class="n">login_id</span>                 <span class="n">usaxs</span><span class="p">:</span><span class="n">usaxscontrol</span><span class="o">.</span><span class="n">xray</span><span class="o">.</span><span class="n">aps</span><span class="o">.</span><span class="n">anl</span><span class="o">.</span><span class="n">gov</span>
+<span class="n">pid</span>                      <span class="mi">67933</span>
+<span class="n">proposal_id</span>              <span class="n">testing</span> <span class="n">Bluesky</span> <span class="n">installation</span>
+<span class="n">scan_id</span>                  <span class="mi">0</span>
+<span class="n">versions</span>                 <span class="o">========</span> <span class="o">=====</span>
+                         <span class="n">key</span>      <span class="n">value</span>
+                         <span class="o">========</span> <span class="o">=====</span>
+                         <span class="n">apstools</span> <span class="mf">1.1.3</span>
+                         <span class="n">bluesky</span>  <span class="mf">1.5.2</span>
+                         <span class="n">epics</span>    <span class="mf">3.3.1</span>
+                         <span class="n">ophyd</span>    <span class="mf">1.3.3</span>
+                         <span class="o">========</span> <span class="o">=====</span>
+<span class="o">========================</span> <span class="o">===================================</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="apstools.utils.misc.redefine_motor_position">
+<span class="sig-prename descclassname"><span class="pre">apstools.utils.misc.</span></span><span class="sig-name descname"><span class="pre">redefine_motor_position</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">motor</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">new_position</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../_modules/apstools/utils/misc.html#redefine_motor_position"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#apstools.utils.misc.redefine_motor_position" title="Link to this definition">#</a></dt>
+<dd><div class="import-path docutils container">
+<p>Import: <code class="docutils literal notranslate"><span class="pre">apstools.utils.misc.redefine_motor_position</span></code></p>
+</div>
+<p>Set EPICS motor record’s user coordinate to <code class="docutils literal notranslate"><span class="pre">new_position</span></code>.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="apstools.utils.misc.render">
+<span class="sig-prename descclassname"><span class="pre">apstools.utils.misc.</span></span><span class="sig-name descname"><span class="pre">render</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sig_figs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">12</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="reference internal" href="../../../../../_modules/apstools/utils/misc.html#render"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#apstools.utils.misc.render" title="Link to this definition">#</a></dt>
+<dd><div class="import-path docutils container">
+<p>Import: <code class="docutils literal notranslate"><span class="pre">apstools.utils.misc.render</span></code></p>
+</div>
+<p>Round-off floating-point numbers to sig_figs.</p>
+<p>Such as:</p>
+<ul class="simple">
+<li><p>0.369340000000000063 becomes 0.36934</p></li>
+<li><p>-3.1300000000000003 becomes -3.13</p></li>
+<li><p>-0 becomes 0</p></li>
+<li><p>0.0 becomes 0</p></li>
+</ul>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="apstools.utils.misc.replay">
+<span class="sig-prename descclassname"><span class="pre">apstools.utils.misc.</span></span><span class="sig-name descname"><span class="pre">replay</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">headers</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">callback</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sort</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../_modules/apstools/utils/misc.html#replay"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#apstools.utils.misc.replay" title="Link to this definition">#</a></dt>
+<dd><div class="import-path docutils container">
+<p>Import: <code class="docutils literal notranslate"><span class="pre">apstools.utils.misc.replay</span></code></p>
+</div>
+<p>Replay the document stream from one (or more) scans (headers).</p>
+<p>PARAMETERS</p>
+<dl class="simple">
+<dt>headers</dt><dd><p><em>run</em> or <em>[run]</em> :
+Run(s) to be replayed through callback. A <em>run</em> is an instance of a
+Bluesky <code class="docutils literal notranslate"><span class="pre">databroker.core.BlueskyRun</span></code> (or the older
+<code class="docutils literal notranslate"><span class="pre">databroker.Header</span></code>).
+see: <a class="reference external" href="https://nsls-ii.github.io/databroker/api.html?highlight=header#header-api">https://nsls-ii.github.io/databroker/api.html?highlight=header#header-api</a></p>
+</dd>
+<dt>callback</dt><dd><p><em>run</em> or <em>[run]</em> :
+The Bluesky callback to handle the stream of documents from a run. If
+<code class="docutils literal notranslate"><span class="pre">None</span></code>, then use the <cite>bec</cite> (BestEffortCallback) from the IPython
+shell.
+(default:<code class="docutils literal notranslate"><span class="pre">None</span></code>)</p>
+</dd>
+<dt>sort</dt><dd><p><em>bool</em> :
+Sort the headers chronologically if True.
+(default:<code class="docutils literal notranslate"><span class="pre">True</span></code>)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="apstools.utils.misc.run_in_thread">
+<span class="sig-prename descclassname"><span class="pre">apstools.utils.misc.</span></span><span class="sig-name descname"><span class="pre">run_in_thread</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">func</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../_modules/apstools/utils/misc.html#run_in_thread"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#apstools.utils.misc.run_in_thread" title="Link to this definition">#</a></dt>
+<dd><div class="import-path docutils container">
+<p>Import: <code class="docutils literal notranslate"><span class="pre">apstools.utils.misc.run_in_thread</span></code></p>
+</div>
+<p>(decorator) run <code class="docutils literal notranslate"><span class="pre">func</span></code> in thread</p>
+<p>USAGE:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="nd">@run_in_thread</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">progress_reporting</span><span class="p">():</span>
+    <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;progress_reporting is starting&quot;</span><span class="p">)</span>
+    <span class="c1"># ...</span>
+
+<span class="c1">#...</span>
+<span class="n">progress_reporting</span><span class="p">()</span>   <span class="c1"># runs in separate thread</span>
+<span class="c1">#...</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="apstools.utils.misc.safe_ophyd_name">
+<span class="sig-prename descclassname"><span class="pre">apstools.utils.misc.</span></span><span class="sig-name descname"><span class="pre">safe_ophyd_name</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">text</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../_modules/apstools/utils/misc.html#safe_ophyd_name"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#apstools.utils.misc.safe_ophyd_name" title="Link to this definition">#</a></dt>
+<dd><div class="import-path docutils container">
+<p>Import: <code class="docutils literal notranslate"><span class="pre">apstools.utils.misc.safe_ophyd_name</span></code></p>
+</div>
+<p>make text safe to be used as an ophyd object name</p>
+<p>Given some input text string, return a clean version.
+Remove troublesome characters, perhaps other cleanup as well.
+This is best done with regular expression pattern matching.</p>
+<p>The “sanitized” name fits this regular expression:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">A</span><span class="o">-</span><span class="n">Za</span><span class="o">-</span><span class="n">z_</span><span class="p">][</span>\<span class="n">w_</span><span class="p">]</span><span class="o">*</span>
+</pre></div>
+</div>
+<p>Also can be used for safe HDF5 and NeXus names.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="apstools.utils.misc.split_quoted_line">
+<span class="sig-prename descclassname"><span class="pre">apstools.utils.misc.</span></span><span class="sig-name descname"><span class="pre">split_quoted_line</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">line</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../_modules/apstools/utils/misc.html#split_quoted_line"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#apstools.utils.misc.split_quoted_line" title="Link to this definition">#</a></dt>
+<dd><div class="import-path docutils container">
+<p>Import: <code class="docutils literal notranslate"><span class="pre">apstools.utils.misc.split_quoted_line</span></code></p>
+</div>
+<p>splits a line into words some of which might be quoted</p>
+<p>TESTS:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">FlyScan</span> <span class="mi">0</span>   <span class="mi">0</span>   <span class="mi">0</span>   <span class="n">blank</span>
+<span class="n">FlyScan</span> <span class="mi">5</span>   <span class="mi">2</span>   <span class="mi">0</span>   <span class="s2">&quot;empty container&quot;</span>
+<span class="n">FlyScan</span> <span class="mi">5</span>   <span class="mi">12</span>   <span class="mi">0</span>   <span class="s2">&quot;even longer name&quot;</span>
+<span class="n">SAXS</span> <span class="mi">0</span> <span class="mi">0</span> <span class="mi">0</span> <span class="n">blank</span>
+<span class="n">SAXS</span> <span class="mi">0</span> <span class="mi">0</span> <span class="mi">0</span> <span class="s2">&quot;blank&quot;</span>
+</pre></div>
+</div>
+<p>RESULTS:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="s1">&#39;FlyScan&#39;</span><span class="p">,</span> <span class="s1">&#39;0&#39;</span><span class="p">,</span> <span class="s1">&#39;0&#39;</span><span class="p">,</span> <span class="s1">&#39;0&#39;</span><span class="p">,</span> <span class="s1">&#39;blank&#39;</span><span class="p">]</span>
+<span class="p">[</span><span class="s1">&#39;FlyScan&#39;</span><span class="p">,</span> <span class="s1">&#39;5&#39;</span><span class="p">,</span> <span class="s1">&#39;2&#39;</span><span class="p">,</span> <span class="s1">&#39;0&#39;</span><span class="p">,</span> <span class="s1">&#39;empty container&#39;</span><span class="p">]</span>
+<span class="p">[</span><span class="s1">&#39;FlyScan&#39;</span><span class="p">,</span> <span class="s1">&#39;5&#39;</span><span class="p">,</span> <span class="s1">&#39;12&#39;</span><span class="p">,</span> <span class="s1">&#39;0&#39;</span><span class="p">,</span> <span class="s1">&#39;even longer name&#39;</span><span class="p">]</span>
+<span class="p">[</span><span class="s1">&#39;SAXS&#39;</span><span class="p">,</span> <span class="s1">&#39;0&#39;</span><span class="p">,</span> <span class="s1">&#39;0&#39;</span><span class="p">,</span> <span class="s1">&#39;0&#39;</span><span class="p">,</span> <span class="s1">&#39;blank&#39;</span><span class="p">]</span>
+<span class="p">[</span><span class="s1">&#39;SAXS&#39;</span><span class="p">,</span> <span class="s1">&#39;0&#39;</span><span class="p">,</span> <span class="s1">&#39;0&#39;</span><span class="p">,</span> <span class="s1">&#39;0&#39;</span><span class="p">,</span> <span class="s1">&#39;blank&#39;</span><span class="p">]</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="apstools.utils.misc.text_encode">
+<span class="sig-prename descclassname"><span class="pre">apstools.utils.misc.</span></span><span class="sig-name descname"><span class="pre">text_encode</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">source</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../_modules/apstools/utils/misc.html#text_encode"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#apstools.utils.misc.text_encode" title="Link to this definition">#</a></dt>
+<dd><div class="import-path docutils container">
+<p>Import: <code class="docutils literal notranslate"><span class="pre">apstools.utils.misc.text_encode</span></code></p>
+</div>
+<p>Encode <code class="docutils literal notranslate"><span class="pre">source</span></code> using the default codepoint.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="apstools.utils.misc.to_unicode_or_bust">
+<span class="sig-prename descclassname"><span class="pre">apstools.utils.misc.</span></span><span class="sig-name descname"><span class="pre">to_unicode_or_bust</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">obj</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">encoding</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'utf-8'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../_modules/apstools/utils/misc.html#to_unicode_or_bust"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#apstools.utils.misc.to_unicode_or_bust" title="Link to this definition">#</a></dt>
+<dd><div class="import-path docutils container">
+<p>Import: <code class="docutils literal notranslate"><span class="pre">apstools.utils.misc.to_unicode_or_bust</span></code></p>
+</div>
+<p>from: <a class="reference external" href="http://farmdev.com/talks/unicode/">http://farmdev.com/talks/unicode/</a>  .</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="apstools.utils.misc.trim_string_for_EPICS">
+<span class="sig-prename descclassname"><span class="pre">apstools.utils.misc.</span></span><span class="sig-name descname"><span class="pre">trim_string_for_EPICS</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">msg</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../_modules/apstools/utils/misc.html#trim_string_for_EPICS"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#apstools.utils.misc.trim_string_for_EPICS" title="Link to this definition">#</a></dt>
+<dd><div class="import-path docutils container">
+<p>Import: <code class="docutils literal notranslate"><span class="pre">apstools.utils.misc.trim_string_for_EPICS</span></code></p>
+</div>
+<p>String must not exceed EPICS PV length.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="apstools.utils.misc.unix">
+<span class="sig-prename descclassname"><span class="pre">apstools.utils.misc.</span></span><span class="sig-name descname"><span class="pre">unix</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">command</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">raises</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../_modules/apstools/utils/misc.html#unix"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#apstools.utils.misc.unix" title="Link to this definition">#</a></dt>
+<dd><div class="import-path docutils container">
+<p>Import: <code class="docutils literal notranslate"><span class="pre">apstools.utils.misc.unix</span></code></p>
+</div>
+<p>Run a UNIX command, returns (stdout, stderr).</p>
+<p>PARAMETERS</p>
+<dl class="simple">
+<dt>command</dt><dd><p><em>str</em> :
+UNIX command to be executed</p>
+</dd>
+<dt>raises</dt><dd><p><em>bool</em> :
+If <code class="docutils literal notranslate"><span class="pre">True</span></code>, will raise exceptions as needed,
+default: <code class="docutils literal notranslate"><span class="pre">True</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+</section>
+
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="../memory/index.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">memory</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="../mmap_dict/index.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">mmap_dict</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+<div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+  </div>
+  <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#miscellaneous-support">Miscellaneous Support</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-contents">Module Contents</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#apstools.utils.misc.call_signature_decorator"><code class="docutils literal notranslate"><span class="pre">call_signature_decorator()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#apstools.utils.misc.cleanupText"><code class="docutils literal notranslate"><span class="pre">cleanupText()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#apstools.utils.misc.connect_pvlist"><code class="docutils literal notranslate"><span class="pre">connect_pvlist()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#apstools.utils.misc.count_child_devices_and_signals"><code class="docutils literal notranslate"><span class="pre">count_child_devices_and_signals()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#apstools.utils.misc.count_common_subdirs"><code class="docutils literal notranslate"><span class="pre">count_common_subdirs()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#apstools.utils.misc.dictionary_table"><code class="docutils literal notranslate"><span class="pre">dictionary_table()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#apstools.utils.misc.dynamic_import"><code class="docutils literal notranslate"><span class="pre">dynamic_import()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#apstools.utils.misc.full_dotted_name"><code class="docutils literal notranslate"><span class="pre">full_dotted_name()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#apstools.utils.misc.host_on_aps_subnet"><code class="docutils literal notranslate"><span class="pre">host_on_aps_subnet()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#apstools.utils.misc.itemizer"><code class="docutils literal notranslate"><span class="pre">itemizer()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#apstools.utils.misc.listobjects"><code class="docutils literal notranslate"><span class="pre">listobjects()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#apstools.utils.misc.pairwise"><code class="docutils literal notranslate"><span class="pre">pairwise()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#apstools.utils.misc.print_RE_md"><code class="docutils literal notranslate"><span class="pre">print_RE_md()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#apstools.utils.misc.redefine_motor_position"><code class="docutils literal notranslate"><span class="pre">redefine_motor_position()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#apstools.utils.misc.render"><code class="docutils literal notranslate"><span class="pre">render()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#apstools.utils.misc.replay"><code class="docutils literal notranslate"><span class="pre">replay()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#apstools.utils.misc.run_in_thread"><code class="docutils literal notranslate"><span class="pre">run_in_thread()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#apstools.utils.misc.safe_ophyd_name"><code class="docutils literal notranslate"><span class="pre">safe_ophyd_name()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#apstools.utils.misc.split_quoted_line"><code class="docutils literal notranslate"><span class="pre">split_quoted_line()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#apstools.utils.misc.text_encode"><code class="docutils literal notranslate"><span class="pre">text_encode()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#apstools.utils.misc.to_unicode_or_bust"><code class="docutils literal notranslate"><span class="pre">to_unicode_or_bust()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#apstools.utils.misc.trim_string_for_EPICS"><code class="docutils literal notranslate"><span class="pre">trim_string_for_EPICS()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#apstools.utils.misc.unix"><code class="docutils literal notranslate"><span class="pre">unix()</span></code></a></li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+  <div class="sidebar-secondary-item">
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../../../../../_sources/api/autoapi/apstools/utils/misc/index.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../../../../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="../../../../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+
+  <p class="copyright">
+    
+      © Copyright 2017-2025, UChicago Argonne, LLC.
+      <br/>
+    
+  </p>
+</div>
+      
+        <div class="footer-item">
+
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 9.1.0.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item">
+<p class="theme-version">
+  <!-- # L10n: Setting the PST URL as an argument as this does not need to be localized -->
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.16.1.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

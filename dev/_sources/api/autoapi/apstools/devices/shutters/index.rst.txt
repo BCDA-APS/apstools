@@ -1,0 +1,801 @@
+shutters
+========
+
+.. py:module:: apstools.devices.shutters
+
+.. autoapi-nested-parse::
+
+   Import: ``apstools.devices.shutters``
+
+   Shutters
+   +++++++++++++++++++++++++++++++++++++++
+
+   .. autosummary::
+
+      ~ApsPssShutter
+      ~ApsPssShutterWithStatus
+      ~EpicsMotorShutter
+      ~EpicsOnOffShutter
+      ~OneSignalShutter
+      ~ShutterBase
+      ~SimulatedApsPssShutterWithStatus
+
+
+
+
+Module Contents
+---------------
+
+.. py:class:: ApsPssShutter(prefix: str, *args, close_pv: str = None, open_pv: str = None, open_value: int = 1, close_value: int = 1, open_reset_value: int = 0, close_reset_value: int = 0, **kwargs)
+
+   .. container:: import-path
+
+      Import: ``apstools.devices.shutters.ApsPssShutter``
+
+
+   Bases: :py:obj:`ShutterBase`
+
+
+   APS PSS shutter
+
+   .. index:: Ophyd Device; ApsPssShutter
+
+   * APS PSS shutters have separate bit PVs for open and close
+   * set either bit, the shutter moves, and the bit resets a short time later
+   * no indication that the shutter has actually moved from the bits
+     (see :func:`ApsPssShutterWithStatus()` for alternative)
+
+   Since there is no direct indication that a shutter has moved, the
+   ``state`` property will always return *unknown* and the
+   ``isOpen`` and ``isClosed`` properties will always return *False*.
+
+   A consequence of the unknown state is that the shutter will always
+   be commanded to move (and wait the ``delay_s`` time),
+   even if it is already at that position.  This device could keep
+   track of the last commanded position, but that is not guaranteed
+   to be true since the shutter could be moved from other software.
+
+   The default ``delay_s`` has been set at *1.2 s* to allow for
+   shutter motion.  Change this as desired.  Advise if this
+   default should be changed.
+
+   PARAMETERS
+
+   prefix *str* :
+       EPICS PV prefix
+
+   name *str* :
+       (kwarg, required) object's canonical name
+
+   close_pv *str* :
+       (kwarg, optional) Name of EPICS PV to close the shutter.
+       If ``None``, defaults to ``"{prefix}Close"``.
+
+   open_pv *str* :
+       (kwarg, optional) Name of EPICS PV to open the shutter.
+       If ``None``, defaults to ``"{prefix}Open"``.
+
+   open_reset_value: *int* :
+       To open, set 'self.open_signal' to this value.  Default = 1.
+
+   close_reset_value: *int* :
+       To open, set 'self.close_signal' to this value.  Default = 1.
+
+   open_reset_value: *int* :
+       To reset 'self.open_signal', set to this value.  Default = 0.
+
+   close_reset_value: *int* :
+       To reset 'self.close_signal', set to this value.  Default = 0.
+
+   EXAMPLE::
+
+       shutter_a = ApsPssShutter("2bma:A_shutter:", name="shutter")
+       shutter_a.wait_for_connection()
+
+       shutter_a.open()
+       shutter_a.close()
+
+       shutter_a.set("open")
+       shutter_a.set("close")
+
+   When using the shutter in a plan, be sure to use ``yield from``, such as::
+
+       def in_a_plan(shutter):
+           yield from abs_set(shutter, "open", wait=True)
+           # do something
+           yield from abs_set(shutter, "close", wait=True)
+
+       RE(in_a_plan(shutter_a))
+
+   The strings accepted by `set()` are defined in two lists:
+   `valid_open_values` and `valid_close_values`.  These lists
+   are treated (internally to `set()`) as lower case strings.
+
+   Example, add "o" & "x" as aliases for "open" & "close":
+
+       shutter_a.addOpenValue("o")
+       shutter_a.addCloseValue("x")
+       shutter_a.set("o")
+       shutter_a.set("x")
+
+
+   .. py:method:: close(timeout=10) -> None
+
+      request the shutter to close (timeout is ignored)
+
+
+
+   .. py:attribute:: close_pv
+
+
+   .. py:attribute:: close_reset_value
+      :value: 0
+
+
+
+   .. py:attribute:: close_signal
+
+
+   .. py:method:: open(timeout=10) -> None
+
+      request the shutter to open (timeout is ignored)
+
+
+
+   .. py:attribute:: open_pv
+
+
+   .. py:attribute:: open_reset_value
+      :value: 0
+
+
+
+   .. py:attribute:: open_signal
+
+
+   .. py:property:: state
+      :type: str
+
+
+      is shutter "open", "close", or "unknown"?
+
+
+
+.. py:class:: ApsPssShutterWithStatus(prefix, state_pv: str, *args, **kwargs)
+
+   .. container:: import-path
+
+      Import: ``apstools.devices.shutters.ApsPssShutterWithStatus``
+
+
+   Bases: :py:obj:`ApsPssShutter`
+
+
+   APS PSS shutter with separate status PV
+
+   .. index:: Ophyd Device; ApsPssShutterWithStatus
+
+   * APS PSS shutters have separate bit PVs for open and close
+   * set either bit, the shutter moves, and the bit resets a short time later
+   * a separate status PV tells if the shutter is open or closed
+     (see :func:`ApsPssShutter()` for alternative)
+
+   PARAMETERS
+
+   prefix *str* :
+       EPICS PV prefix
+
+   state_pv *str* :
+       Name of EPICS PV that provides shutter's current state.
+
+   name *str* :
+       (kwarg, required) object's canonical name
+
+   EXAMPLE::
+
+       A_shutter = ApsPssShutterWithStatus(
+           "2bma:A_shutter:",
+           "PA:02BM:STA_A_FES_OPEN_PL",
+           name="A_shutter")
+       B_shutter = ApsPssShutterWithStatus(
+           "2bma:B_shutter:",
+           "PA:02BM:STA_B_SBS_OPEN_PL",
+           name="B_shutter")
+       A_shutter.wait_for_connection()
+       B_shutter.wait_for_connection()
+
+       A_shutter.open()
+       A_shutter.close()
+
+       or
+
+       A_shutter.set("open")
+       A_shutter.set("close")
+
+   When using the shutter in a plan, be sure to use `yield from`.
+
+       def in_a_plan(shutter):
+           yield from abs_set(shutter, "open", wait=True)
+           # do something
+           yield from abs_set(shutter, "close", wait=True)
+
+       RE(in_a_plan(A_shutter))
+
+
+
+   .. py:method:: close(timeout=10) -> None
+
+      request the shutter to close
+
+
+
+   .. py:method:: open(timeout=10) -> None
+
+      request the shutter to open
+
+
+
+   .. py:attribute:: pss_state
+
+
+   .. py:attribute:: pss_state_closed_values
+      :value: [0]
+
+
+
+   .. py:attribute:: pss_state_open_values
+      :value: [1]
+
+
+
+   .. py:property:: state
+      :type: str
+
+
+      is shutter "open", "close", or "unknown"?
+
+
+
+   .. py:attribute:: state_pv
+      :type:  str
+
+
+   .. py:method:: wait_for_state(target, timeout=10, poll_s=0.01) -> None
+
+      wait for the PSS state to reach a desired target
+
+      PARAMETERS
+
+      (kwarg, optional) Name of EPICS PV to close the shutter.
+      If ``None``, defaults to ``"{prefix}Close"``.
+
+      target
+          *[str]* :
+          list of strings containing acceptable values
+
+      timeout
+          *non-negative number* :
+          (kwarg, optional) Maximum amount of time (seconds) to wait for PSS
+          state to reach target. If ``None``, defaults to ``10``.
+
+      poll_s
+          *non-negative number* :
+          (kwarg, optional) Time to wait (seconds) in first polling cycle.
+          After first poll, this will be increased by ``_poll_factor_``
+          up to a maximum time of ``_poll_s_max_``.
+          If ``None``, defaults to ``0.01``.
+
+
+
+.. py:class:: EpicsMotorShutter(*args, tolerance: float = 0.01, **kwargs)
+
+   .. container:: import-path
+
+      Import: ``apstools.devices.shutters.EpicsMotorShutter``
+
+
+   Bases: :py:obj:`OneSignalShutter`
+
+
+   Shutter, implemented with an EPICS motor moved between two positions
+
+   .. index:: Ophyd Device; EpicsMotorShutter
+
+   PARAMETERS
+
+   prefix *str* :
+       EPICS PV prefix
+
+   name *str* :
+       (kwarg, required) object's canonical name
+
+   tolerance *float* :
+       Used to decide in-position: abs(readback-setpoint) <= tolerance.
+
+   EXAMPLE::
+
+       tomo_shutter = EpicsMotorShutter("2bma:m23", name="tomo_shutter")
+       tomo_shutter.wait_for_connection()
+       tomo_shutter.close_value = 1.0      # default
+       tomo_shutter.open_value = 0.0       # default
+       tomo_shutter.tolerance = 0.01       # default
+       tomo_shutter.open()
+       tomo_shutter.close()
+
+       # or, when used in a plan
+       def planA():
+           yield from abs_set(tomo_shutter, "open", group="O")
+           yield from wait("O")
+           yield from abs_set(tomo_shutter, "close", group="X")
+           yield from wait("X")
+       def planA():
+           yield from abs_set(tomo_shutter, "open", wait=True)
+           yield from abs_set(tomo_shutter, "close", wait=True)
+       def planA():
+           yield from mv(tomo_shutter, "open")
+           yield from mv(tomo_shutter, "close")
+
+
+
+   .. py:method:: close() -> None
+
+      move motor to BEAM BLOCKED position, interactive use
+
+
+
+   .. py:method:: open() -> None
+
+      move motor to BEAM NOT BLOCKED position, interactive use
+
+
+
+   .. py:attribute:: signal
+
+
+   .. py:property:: state
+      :type: str
+
+
+      is shutter "open", "close", or "unknown"?
+
+
+
+   .. py:attribute:: tolerance
+      :value: 0.01
+
+
+
+.. py:class:: EpicsOnOffShutter(*args, open_value: int = 1, close_value: int = 0, valid_open_values: list[str] = ['open', 'opened'], valid_close_values: list[str] = ['close', 'closed'], delay_s: float = 1.2, **kwargs)
+
+   .. container:: import-path
+
+      Import: ``apstools.devices.shutters.EpicsOnOffShutter``
+
+
+   Bases: :py:obj:`OneSignalShutter`
+
+
+   Shutter using a single EPICS PV moved between two positions
+
+   .. index:: Ophyd Device; EpicsOnOffShutter
+
+   Use for a shutter controlled by a single PV which takes a
+   value for the close command and a different value for the open command.
+   The current position is determined by comparing the value of the control
+   with the expected open and close values.
+
+   PARAMETERS
+
+   prefix *str* :
+       EPICS PV prefix
+
+   name *str* :
+       (kwarg, required) object's canonical name
+
+   EXAMPLE::
+
+       bit_shutter = EpicsOnOffShutter("2bma:bit1", name="bit_shutter")
+       bit_shutter.wait_for_connection()
+       bit_shutter.close_value = 0      # default
+       bit_shutter.open_value = 1       # default
+       bit_shutter.open()
+       bit_shutter.close()
+
+       # or, when used in a plan
+       def planA():
+           yield from mv(bit_shutter, "open")
+           yield from mv(bit_shutter, "close")
+
+
+
+   .. py:attribute:: signal
+
+
+.. py:class:: OneSignalShutter(*args, open_value: int = 1, close_value: int = 0, valid_open_values: list[str] = ['open', 'opened'], valid_close_values: list[str] = ['close', 'closed'], delay_s: float = 1.2, **kwargs)
+
+   .. container:: import-path
+
+      Import: ``apstools.devices.shutters.OneSignalShutter``
+
+
+   Bases: :py:obj:`ShutterBase`
+
+
+   Shutter Device using one Signal for open and close.
+
+   .. index:: Ophyd Device; OneSignalShutter
+
+   PARAMETERS
+
+   signal
+       ``EpicsSignal`` or ``Signal`` :
+       (override in subclass)
+       The ``signal`` is the comunication to the hardware.
+       In a subclass, the hardware may have more than
+       one communication channel to use.  See the
+       ``ApsPssShutter`` as an example.
+
+   name
+       *str* :
+       (kwarg, required) object's canonical name
+
+   See ``ShutterBase`` for more parameters.
+
+   EXAMPLE
+
+   Create a simulated shutter:
+
+       shutter = OneSignalShutter(name="shutter")
+
+   open the shutter (interactively):
+
+       shutter.open()
+
+   Check the shutter is open:
+
+       In [144]: shutter.isOpen
+       Out[144]: True
+
+   Use the shutter in a Bluesky plan.
+   Set a post-move delay time of 1.0 seconds.
+   Be sure to use ``yield from``, such as::
+
+       def in_a_plan(shutter):
+           shutter.delay_s = 1.0
+           t0 = time.time()
+           print("Shutter state: " + shutter.state, time.time()-t0)
+           yield from bps.abs_set(shutter, "open", wait=True)    # wait for completion is optional
+           print("Shutter state: " + shutter.state, time.time()-t0)
+           yield from bps.mv(shutter, "open")    # do it again
+           print("Shutter state: " + shutter.state, time.time()-t0)
+           yield from bps.mv(shutter, "close")    # ALWAYS waits for completion
+           print("Shutter state: " + shutter.state, time.time()-t0)
+
+       RE(in_a_plan(shutter))
+
+   which gives this output:
+
+       Shutter state: close 1.7642974853515625e-05
+       Shutter state: open 1.0032124519348145
+       Shutter state: open 1.0057861804962158
+       Shutter state: close 2.009695529937744
+
+   The strings accepted by `set()` are defined in two lists:
+   `valid_open_values` and `valid_close_values`.  These lists
+   are treated (internally to `set()`) as lower case strings.
+
+   Example, add "o" & "x" as aliases for "open" & "close":
+
+       shutter.addOpenValue("o")
+       shutter.addCloseValue("x")
+       shutter.set("o")
+       shutter.set("x")
+
+
+   .. py:method:: close()
+
+      BLOCKING: request shutter to close, called by set()
+
+
+
+   .. py:method:: open()
+
+      BLOCKING: request shutter to open, called by set()
+
+
+
+   .. py:attribute:: signal
+
+
+   .. py:property:: state
+      :type: str
+
+
+      is shutter "open", "close", or "unknown"?
+
+
+
+.. py:class:: ShutterBase(*args, open_value: int = 1, close_value: int = 0, valid_open_values: list[str] = ['open', 'opened'], valid_close_values: list[str] = ['close', 'closed'], delay_s: float = 1.2, **kwargs)
+
+   .. container:: import-path
+
+      Import: ``apstools.devices.shutters.ShutterBase``
+
+
+   Bases: :py:obj:`ophyd.Device`
+
+
+   Base class for all shutter Devices.
+
+   .. index:: Ophyd Device; ShutterBase
+
+   PARAMETERS
+
+   value *str* :
+       any from ``self.choices`` (typically "open" or "close")
+
+   valid_open_values *list[str]* :
+       A list of lower-case text values that are acceptable
+       for use with the ``set()`` command to open the shutter.
+
+   valid_close_values *list[str]* :
+       A list of lower-case text values that are acceptable
+       for use with the ``set()`` command to close the shutter.
+
+   open_value *number* :
+       The actual value to send to open ``signal`` to open the shutter.
+       (default = 1)
+
+   close_value *number* :
+       The actual value to send to close ``signal`` to close the shutter.
+       (default = 0)
+
+   delay_s *float* :
+       time to wait (s) after move is complete,
+       does not wait if shutter already in position
+       (default = 0)
+
+   busy *Signal* :
+       (internal) tells if a move is in progress
+
+   unknown_state *str* :
+       (constant) Text reported by ``state`` when not open or closed.
+       cannot move to this position
+       (default = "unknown")
+
+   name *str* :
+       (kwarg, required) object's canonical name
+
+
+   .. py:method:: addCloseValue(text) -> list[str]
+
+      a synonym to close the shutter, use with set()
+
+
+
+   .. py:method:: addOpenValue(text) -> list[str]
+
+      a synonym to open the shutter, use with set()
+
+
+
+   .. py:attribute:: busy
+
+      True if a move is in progress.
+
+
+
+   .. py:property:: choices
+
+      return list of acceptable choices for set()
+
+
+
+   .. py:method:: close() -> None
+      :abstractmethod:
+
+
+      BLOCKING: request shutter to close, called by ``set()``.
+
+      Must implement in subclass of ShutterBase()
+
+      EXAMPLE::
+
+          if not self.isClosed:
+              self.signal.put(self.close_value)
+              if self.delay_s > 0:
+                  time.sleep(self.delay_s)    # blocking call OK here
+
+
+
+
+   .. py:attribute:: close_value
+      :value: 0
+
+
+
+   .. py:attribute:: delay_s
+      :value: 1.2
+
+
+
+   .. py:method:: inPosition(target) -> bool
+
+      is the shutter at the target position?
+
+
+
+   .. py:property:: isClosed
+      :type: bool
+
+
+      is the shutter closed?
+
+
+
+   .. py:property:: isOpen
+      :type: bool
+
+
+      is the shutter open?
+
+
+
+   .. py:method:: lowerCaseString(value) -> str
+
+      ensure any given value is a lower-case string
+
+
+
+   .. py:method:: open() -> None
+      :abstractmethod:
+
+
+      BLOCKING: request shutter to open, called by ``set()``.
+
+      Must implement in subclass of ShutterBase()
+
+      EXAMPLE::
+
+          if not self.isOpen:
+              self.signal.put(self.open_value)
+              if self.delay_s > 0:
+                  time.sleep(self.delay_s)    # blocking call OK here
+
+
+
+
+   .. py:attribute:: open_value
+      :value: 1
+
+
+
+   .. py:method:: set(value, **kwargs)
+
+      plan: request the shutter to open or close
+
+      PARAMETERS
+
+      value
+          *str* :
+          any from ``self.choices`` (typically "open" or "close")
+
+      kwargs
+          *dict* :
+          ignored at this time
+
+
+
+
+   .. py:property:: state
+      :type: str
+
+      :abstractmethod:
+
+
+      returns ``open``, ``close``, or ``unknown``
+
+      Must implement in subclass of ShutterBase()
+
+      EXAMPLE::
+
+          if self.signal.get() == self.open_value:
+              result = self.valid_open_values[0]
+          elif self.signal.get() == self.close_value:
+              result = self.valid_close_values[0]
+          else:
+              result = self.unknown_state
+          return result
+
+
+
+
+   .. py:attribute:: unknown_state
+      :type:  str
+      :value: 'unknown'
+
+
+      Text reported by 'state' when not open or closed. Cannot move to this
+      position. (default = "unknown")
+
+
+
+   .. py:method:: validTarget(target: str, should_raise: bool = True)
+
+      return whether (or not) target value is acceptable for self.set()
+
+      raise ValueError if not acceptable (default)
+
+
+
+   .. py:attribute:: valid_close_values
+
+
+   .. py:attribute:: valid_open_values
+
+
+.. py:class:: SimulatedApsPssShutterWithStatus(*args, **kwargs)
+
+   .. container:: import-path
+
+      Import: ``apstools.devices.shutters.SimulatedApsPssShutterWithStatus``
+
+
+   Bases: :py:obj:`ApsPssShutterWithStatus`
+
+
+   Simulated APS PSS shutter
+
+   .. index:: Ophyd Device; SimulatedApsPssShutterWithStatus
+
+   PARAMETERS
+
+   prefix *str* :
+       EPICS PV prefix
+
+   name *str* :
+       (kwarg, required) object's canonical name
+
+   EXAMPLE::
+
+       sim = SimulatedApsPssShutterWithStatus(name="sim")
+
+
+
+   .. py:attribute:: close_signal
+
+
+   .. py:attribute:: open_signal
+
+
+   .. py:attribute:: pss_state
+
+
+   .. py:property:: state
+      :type: str
+
+
+      is shutter "open", "close", or "unknown"?
+
+
+
+   .. py:method:: wait_for_state(target, timeout=10, poll_s=0.01) -> None
+
+      wait for the PSS state to reach a desired target
+
+      PARAMETERS
+
+      target
+          *[str]* :
+          list of strings containing acceptable values
+
+      timeout
+          *non-negative number* :
+          Ignored in the simulation.
+
+      poll_s
+          *non-negative number* :
+          Ignored in the simulation.
+
+
+

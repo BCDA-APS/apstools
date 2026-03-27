@@ -1,0 +1,376 @@
+aps_undulator
+=============
+
+.. py:module:: apstools.devices.aps_undulator
+
+.. autoapi-nested-parse::
+
+   Import: ``apstools.devices.aps_undulator``
+
+   APS undulators (Insertion Devices)
+   ++++++++++++++++++++++++++++++++++
+
+   .. autosummary::
+
+      ~PlanarUndulator
+      ~Revolver_Undulator
+      ~STI_Undulator
+      ~Undulator2M
+      ~Undulator4M
+
+   .. note:: The ``ApsUndulator`` and ``ApsUndulatorDual`` device support
+       classes have been removed.  These devices are not used in the APS-U era.
+
+
+
+
+
+
+Module Contents
+---------------
+
+.. py:class:: ID_Controls_Mixin(prefix='', *, name, kind=None, read_attrs=None, configuration_attrs=None, parent=None, child_name_separator='_', connection_timeout=DEFAULT_CONNECTION_TIMEOUT, **kwargs)
+
+   .. container:: import-path
+
+      Import: ``apstools.devices.aps_undulator.ID_Controls_Mixin``
+
+
+   Bases: :py:obj:`ophyd.Device`
+
+
+   Common controls components for insertion devices.
+
+   Works for: Planar & Revolver
+
+   The signals *busy* and *done* convey complementary
+   information. *busy* comes from the IOC, while *done* comes
+   directly from the controller.
+
+   .. autosummary::
+
+       ~start_button
+       ~stop_button
+       ~busy
+       ~done
+       ~motor_drive_status
+
+
+   .. py:attribute:: busy
+
+
+   .. py:attribute:: done
+
+
+   .. py:attribute:: motor_drive_status
+
+
+   .. py:attribute:: start_button
+
+
+   .. py:attribute:: stop_button
+
+
+.. py:class:: ID_Misc_Mixin(prefix='', *, name, kind=None, read_attrs=None, configuration_attrs=None, parent=None, child_name_separator='_', connection_timeout=DEFAULT_CONNECTION_TIMEOUT, **kwargs)
+
+   .. container:: import-path
+
+      Import: ``apstools.devices.aps_undulator.ID_Misc_Mixin``
+
+
+   Bases: :py:obj:`ophyd.Device`
+
+
+   Common miscellaneous components for insertion devices.
+
+   Works for: Planar & Revolver
+
+   .. autosummary::
+
+       ~gap_deadband
+       ~device_limit
+       ~access_mode
+       ~message1
+       ~message2
+       ~device
+       ~magnet
+       ~location
+       ~version_plc
+       ~version_hpmu
+
+
+   .. py:attribute:: access_mode
+
+
+   .. py:attribute:: device
+
+
+   .. py:attribute:: device_limit
+
+
+   .. py:attribute:: gap_deadband
+
+
+   .. py:attribute:: location
+
+
+   .. py:attribute:: magnet
+
+
+   .. py:attribute:: message1
+
+
+   .. py:attribute:: message2
+
+
+   .. py:attribute:: version_plc
+
+
+.. py:class:: ID_Spectrum_Mixin(prefix='', *, name, kind=None, read_attrs=None, configuration_attrs=None, parent=None, child_name_separator='_', connection_timeout=DEFAULT_CONNECTION_TIMEOUT, **kwargs)
+
+   .. container:: import-path
+
+      Import: ``apstools.devices.aps_undulator.ID_Spectrum_Mixin``
+
+
+   Bases: :py:obj:`ophyd.Device`
+
+
+   Common spectrum components for insertion devices.
+
+   Works for: Planar & Revolver
+
+   .. autosummary::
+
+       ~energy
+       ~energy_taper
+       ~gap
+       ~gap_taper
+       ~harmonic_value
+       ~total_power
+
+
+   .. py:attribute:: energy
+
+
+   .. py:attribute:: energy_taper
+
+
+   .. py:attribute:: gap
+
+
+   .. py:attribute:: gap_taper
+
+
+   .. py:attribute:: harmonic_value
+
+
+   .. py:attribute:: total_power
+
+
+.. py:data:: POSITIONER_DONE
+   :value: 1
+
+
+.. py:class:: PlanarUndulator(prefix='', *, name, kind=None, read_attrs=None, configuration_attrs=None, parent=None, child_name_separator='_', connection_timeout=DEFAULT_CONNECTION_TIMEOUT, **kwargs)
+
+   .. container:: import-path
+
+      Import: ``apstools.devices.aps_undulator.PlanarUndulator``
+
+
+   Bases: :py:obj:`ID_Spectrum_Mixin`, :py:obj:`ID_Controls_Mixin`, :py:obj:`ID_Misc_Mixin`, :py:obj:`ophyd.Device`
+
+
+   APS Planar Undulator.
+
+   .. index:: Ophyd Device; PlanarUndulator
+
+   APS Use: 34 devices, including 20ID.
+
+   EXAMPLE::
+
+       undulator = PlanarUndulator("S25ID:USID:", name="undulator")
+
+
+   .. py:attribute:: version_hpmu
+
+
+.. py:class:: Revolver_Undulator(prefix='', *, name, kind=None, read_attrs=None, configuration_attrs=None, parent=None, child_name_separator='_', connection_timeout=DEFAULT_CONNECTION_TIMEOUT, **kwargs)
+
+   .. container:: import-path
+
+      Import: ``apstools.devices.aps_undulator.Revolver_Undulator``
+
+
+   Bases: :py:obj:`ID_Spectrum_Mixin`, :py:obj:`ID_Controls_Mixin`, :py:obj:`ID_Misc_Mixin`, :py:obj:`ophyd.Device`
+
+
+   APS Revolver Insertion Device.
+
+   .. index:: Ophyd Device; PlanarUndulator
+
+   APS Use: Only 08US, 08DS, 34DS.
+
+   EXAMPLE::
+
+       undulator = Revolver_Undulator("S08ID:USID:", name="undulator")
+
+
+   .. py:attribute:: revolver_select
+
+
+   .. py:attribute:: status_position1
+
+
+   .. py:attribute:: status_position2
+
+
+   .. py:attribute:: status_safe_gap
+
+
+.. py:class:: STI_Undulator(prefix='', *, name, kind=None, read_attrs=None, configuration_attrs=None, parent=None, child_name_separator='_', connection_timeout=DEFAULT_CONNECTION_TIMEOUT, **kwargs)
+
+   .. container:: import-path
+
+      Import: ``apstools.devices.aps_undulator.STI_Undulator``
+
+
+   Bases: :py:obj:`PlanarUndulator`
+
+
+   APS Planar Undulator built by STI Optronics.
+
+   .. index::
+       Ophyd Device; PlanarUndulator
+       Ophyd Device; STI_Undulator
+
+   APS Use: 13 devices, including 4ID.
+
+   EXAMPLE::
+
+       undulator = STI_Undulator("S04ID:USID:", name="undulator")
+
+
+   .. py:attribute:: version_sti
+
+
+.. py:class:: Undulator2M(prefix='', *, name, kind=None, read_attrs=None, configuration_attrs=None, parent=None, child_name_separator='_', connection_timeout=DEFAULT_CONNECTION_TIMEOUT, **kwargs)
+
+   .. container:: import-path
+
+      Import: ``apstools.devices.aps_undulator.Undulator2M``
+
+
+   Bases: :py:obj:`ID_Spectrum_Mixin`, :py:obj:`ID_Controls_Mixin`, :py:obj:`ID_Misc_Mixin`, :py:obj:`ophyd.Device`
+
+
+   APS 2M Undulator.
+
+   .. index::
+       Ophyd Device; PlanarUndulator
+       Ophyd Device; Undulator2M
+
+   APS Use: 1ID, downstream.
+
+   EXAMPLE::
+
+       undulator = Undulator2M("S01ID:DSID:", name="undulator")
+
+
+   .. py:attribute:: busy
+      :value: None
+
+
+
+   .. py:attribute:: done
+
+
+   .. py:attribute:: done_value
+      :value: 0
+
+
+
+   .. py:attribute:: magnet
+      :value: None
+
+
+
+   .. py:attribute:: version_hpmu
+      :value: None
+
+
+
+   .. py:attribute:: version_plc
+      :value: None
+
+
+
+.. py:class:: Undulator4M(prefix='', *, name, kind=None, read_attrs=None, configuration_attrs=None, parent=None, child_name_separator='_', connection_timeout=DEFAULT_CONNECTION_TIMEOUT, **kwargs)
+
+   .. container:: import-path
+
+      Import: ``apstools.devices.aps_undulator.Undulator4M``
+
+
+   Bases: :py:obj:`Undulator2M`
+
+
+   APS 4M Undulator.
+
+   .. index::
+       Ophyd Device; PlanarUndulator
+       Ophyd Device; Undulator4M
+
+   APS Use: 11ID, downstream & upstream.
+
+   EXAMPLE::
+
+       undulator = Undulator4M("S11ID:DSID:", name="undulator")
+
+
+.. py:class:: UndulatorPositioner(prefix='', *, limits=None, name=None, read_attrs=None, configuration_attrs=None, parent=None, egu='', **kwargs)
+
+   .. container:: import-path
+
+      Import: ``apstools.devices.aps_undulator.UndulatorPositioner``
+
+
+   Bases: :py:obj:`ophyd.PVPositioner`
+
+
+   A positioner for any of the gap control parameters.
+
+   Communicates with the parent (presumably the undulator device) to
+   start and stop the device.
+
+   .. autosummary::
+
+       ~setpoint
+       ~readback
+       ~actuate
+       ~stop_signal
+       ~done
+       ~done_value
+
+
+   .. py:attribute:: actuate
+
+
+   .. py:attribute:: done
+
+
+   .. py:attribute:: done_value
+      :value: 1
+
+
+
+   .. py:attribute:: readback
+
+
+   .. py:attribute:: setpoint
+
+
+   .. py:attribute:: stop_signal
+
+

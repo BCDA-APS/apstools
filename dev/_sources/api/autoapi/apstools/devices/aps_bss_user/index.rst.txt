@@ -1,0 +1,96 @@
+aps_bss_user
+============
+
+.. py:module:: apstools.devices.aps_bss_user
+
+.. autoapi-nested-parse::
+
+   Import: ``apstools.devices.aps_bss_user``
+
+   APS User Proposal and ESAF Information
+   +++++++++++++++++++++++++++++++++++++++
+
+   .. autosummary::
+
+      ~ApsBssUserInfoDevice
+
+
+
+
+Module Contents
+---------------
+
+.. py:class:: ApsBssUserInfoDevice(prefix='', *, name, kind=None, read_attrs=None, configuration_attrs=None, parent=None, child_name_separator='_', connection_timeout=DEFAULT_CONNECTION_TIMEOUT, **kwargs)
+
+   .. container:: import-path
+
+      Import: ``apstools.devices.aps_bss_user.ApsBssUserInfoDevice``
+
+
+   Bases: :py:obj:`ophyd.Device`
+
+
+   Provide current experiment info from the APS BSS.
+
+   .. index:: Ophyd Device; ApsBssUserInfoDevice
+
+   BSS: Beamtime Scheduling System
+
+   EXAMPLE::
+
+       bss_user_info = ApsBssUserInfoDevice(
+                           "9id_bss:",
+                           name="bss_user_info")
+       sd.baseline.append(bss_user_info)
+
+   NOTE: There is info provided by the APS proposal & ESAF systems.
+
+
+   .. py:attribute:: activity
+
+
+   .. py:attribute:: badge
+
+
+   .. py:attribute:: bss_name
+
+
+   .. py:attribute:: contact
+
+
+   .. py:attribute:: email
+
+
+   .. py:attribute:: esaf
+
+
+   .. py:attribute:: esaf_contact
+
+
+   .. py:attribute:: esaf_team
+
+
+   .. py:attribute:: institution
+
+
+   .. py:attribute:: proposal_number
+
+
+   .. py:attribute:: station
+
+
+   .. py:attribute:: team_others
+
+
+   .. py:attribute:: time_begin
+
+
+   .. py:attribute:: time_end
+
+
+   .. py:attribute:: timestamp
+
+
+   .. py:attribute:: title
+
+

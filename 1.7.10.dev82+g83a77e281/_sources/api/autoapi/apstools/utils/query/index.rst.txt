@@ -1,0 +1,52 @@
+query
+=====
+
+.. py:module:: apstools.utils.query
+
+.. autoapi-nested-parse::
+
+   Import: ``apstools.utils.query``
+
+   Searching databroker catalogs
+   +++++++++++++++++++++++++++++++++++++++
+
+   .. autosummary::
+
+      ~db_query
+
+
+
+
+Module Contents
+---------------
+
+.. py:function:: db_query(db, query)
+
+   .. container:: import-path
+
+      Import: ``apstools.utils.query.db_query``
+
+
+   Searches the databroker v2 database.
+
+   PARAMETERS
+
+   db
+       *object* :
+       Bluesky database, an instance of ``databroker.catalog``.
+
+   query
+       *dict* :
+       Search parameters.
+
+   RETURNS
+
+   *object* :
+       Bluesky database, an instance of ``databroker.catalog``
+       satisfying the ``query`` parameters.
+
+   .. seealso::
+
+      :func:`databroker.catalog.search`
+
+

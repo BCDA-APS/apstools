@@ -1,0 +1,1209 @@
+
+
+<!DOCTYPE html>
+
+
+<html lang="en" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>apstools.devices.flyer_motor_scaler &#8212; apstools 1.6.17 documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../../_static/styles/theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="../../../_static/styles/bootstrap.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="../../../_static/styles/pydata-sphinx-theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+
+  
+  <link href="../../../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=e353d410970836974a52" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../../_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/graphviz.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/css/custom.css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=e353d410970836974a52" />
+<link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52" />
+
+    <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+    <script src="../../../_static/jquery.js"></script>
+    <script src="../../../_static/underscore.js"></script>
+    <script src="../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="../../../_static/doctools.js"></script>
+    <script src="../../../_static/sphinx_highlight.js"></script>
+    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = '_modules/apstools/devices/flyer_motor_scaler';</script>
+    <script>
+        DOCUMENTATION_OPTIONS.theme_switcher_json_url = 'https://raw.githubusercontent.com/BCDA-APS/apstools/main/docs/source/_static/switcher.json';
+        DOCUMENTATION_OPTIONS.theme_switcher_version_match = '1.6.17';
+        </script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+  
+    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
+<div class="bd-header__inner bd-page-width">
+  <label class="sidebar-toggle primary-toggle" for="__primary">
+    <span class="fa-solid fa-bars"></span>
+  </label>
+  
+  <div class="navbar-header-items__start">
+    
+      <div class="navbar-item">
+  
+
+<a class="navbar-brand logo" href="../../../index.html">
+  
+  
+  
+  
+  
+    <p class="title logo__title">apstools 1.6.17 documentation</p>
+  
+</a></div>
+    
+      <div class="navbar-item">
+<script>
+document.write(`
+  <div class="version-switcher__container dropdown">
+    <button type="button" class="version-switcher__button btn btn-sm navbar-btn dropdown-toggle" data-bs-toggle="dropdown">
+      1.6.17  <!-- this text may get changed later by javascript -->
+      <span class="caret"></span>
+    </button>
+    <div class="version-switcher__menu dropdown-menu list-group-flush py-0">
+    <!-- dropdown will be populated by javascript on page load -->
+    </div>
+  </div>
+`);
+</script></div>
+    
+  </div>
+  
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item"><nav class="navbar-nav">
+  <p class="sidebar-header-items__title"
+     role="heading"
+     aria-level="1"
+     aria-label="Site Navigation">
+    Site Navigation
+  </p>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../overview.html">
+                        Overview
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../applications/index.html">
+                        Applications
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../examples/index.html">
+                        Guides
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../api/index.html">
+                        API Documentation
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../install.html">
+                        Installation
+                      </a>
+                    </li>
+                
+            <div class="nav-item dropdown">
+                <button class="btn dropdown-toggle nav-item" type="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    More
+                </button>
+                <div class="dropdown-menu">
+                    
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../changes.html">
+                        Change History
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../license.html">
+                        License
+                      </a>
+                    </li>
+                
+                </div>
+            </div>
+            
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+  </button>
+`);
+</script>
+        </div>
+      
+      
+        <div class="navbar-item">
+<script>
+document.write(`
+  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
+    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
+    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+  </button>
+`);
+</script></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+  </button>
+`);
+</script>
+    </div>
+  
+
+  
+</div>
+
+    </nav>
+  
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      <div class="bd-sidebar-primary bd-sidebar hide-on-wide">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          <div class="navbar-item"><nav class="navbar-nav">
+  <p class="sidebar-header-items__title"
+     role="heading"
+     aria-level="1"
+     aria-label="Site Navigation">
+    Site Navigation
+  </p>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../overview.html">
+                        Overview
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../applications/index.html">
+                        Applications
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../examples/index.html">
+                        Guides
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../api/index.html">
+                        API Documentation
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../install.html">
+                        Installation
+                      </a>
+                    </li>
+                
+            <div class="nav-item dropdown">
+                <button class="btn dropdown-toggle nav-item" type="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    More
+                </button>
+                <div class="dropdown-menu">
+                    
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../changes.html">
+                        Change History
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../license.html">
+                        License
+                      </a>
+                    </li>
+                
+                </div>
+            </div>
+            
+  </ul>
+</nav></div>
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+<script>
+document.write(`
+  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
+    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
+    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+  </button>
+`);
+</script></div>
+        
+      </div>
+    
+  </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+
+
+<nav aria-label="Breadcrumbs">
+  <ul class="bd-breadcrumbs" role="navigation" aria-label="Breadcrumb">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../../../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="../../index.html" class="nav-link">Module code</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page">apstools.devices.flyer_motor_scaler</li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article" role="main">
+                  
+  <h1>Source code for apstools.devices.flyer_motor_scaler</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Flyers for motor and scaler scans</span>
+<span class="sd">++++++++++++++++++++++++++++++++++++++++++++</span>
+
+<span class="sd">.. rubric:: Public</span>
+
+<span class="sd">.. autosummary::</span>
+<span class="sd">   :recursive:</span>
+
+<span class="sd">   ~SignalValueStack</span>
+<span class="sd">   ~FlyerBase</span>
+<span class="sd">   ~ActionsFlyerBase</span>
+<span class="sd">   ~ScalerMotorFlyer</span>
+
+<span class="sd">.. rubric:: Private</span>
+
+<span class="sd">.. autosummary::</span>
+<span class="sd">   :recursive:</span>
+
+<span class="sd">   ~_SMFlyer_Step_1</span>
+<span class="sd">   ~_SMFlyer_Step_2</span>
+<span class="sd">   ~_SMFlyer_Step_3</span>
+
+<span class="sd">New in release 1.6.9</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">import</span> <span class="nn">logging</span>
+<span class="kn">import</span> <span class="nn">time</span>
+
+<span class="kn">import</span> <span class="nn">pysumreg</span>
+<span class="kn">from</span> <span class="nn">ophyd</span> <span class="kn">import</span> <span class="n">Component</span>
+<span class="kn">from</span> <span class="nn">ophyd</span> <span class="kn">import</span> <span class="n">Device</span>
+<span class="kn">from</span> <span class="nn">ophyd</span> <span class="kn">import</span> <span class="n">DeviceStatus</span>
+<span class="kn">from</span> <span class="nn">ophyd</span> <span class="kn">import</span> <span class="n">EpicsMotor</span>
+<span class="kn">from</span> <span class="nn">ophyd</span> <span class="kn">import</span> <span class="n">Signal</span>
+<span class="kn">from</span> <span class="nn">ophyd.scaler</span> <span class="kn">import</span> <span class="n">ScalerCH</span>
+<span class="kn">from</span> <span class="nn">ophyd.status</span> <span class="kn">import</span> <span class="n">Status</span>
+
+<span class="kn">from</span> <span class="nn">..utils</span> <span class="kn">import</span> <span class="n">run_in_thread</span>
+
+<span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="SignalValueStack"><a class="viewcode-back" href="../../../api/_devices.html#apstools.devices.flyer_motor_scaler.SignalValueStack">[docs]</a><span class="k">class</span> <span class="nc">SignalValueStack</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Gather a list of (signal, value) pairs to be restored later.</span>
+
+<span class="sd">    Signals and values will restored in reverse order from how they were</span>
+<span class="sd">    pushed to the stack.</span>
+
+<span class="sd">    Not a bluesky plan. This is blocking code, intended for use in a separate</span>
+<span class="sd">    thread from the RunEngine.</span>
+
+<span class="sd">    Similar to the ``stage()`` / ``unstage()`` algorithm, an</span>
+<span class="sd">    instance of ``SignalValueStack()`` records signals and their values</span>
+<span class="sd">    to be reset once some operations have finished.</span>
+
+<span class="sd">    Since any signal cannot be staged twice, or staged from within a running</span>
+<span class="sd">    plan, we need some support that will save/restore values that are changed</span>
+<span class="sd">    during a plan&#39;s execution.</span>
+<span class="sd">    Use this for internal operations (such as in a multi-step fly plan)</span>
+<span class="sd">    to allow original values to be recovered from Signals.</span>
+
+<span class="sd">    .. rubric:: Usage</span>
+
+<span class="sd">    ::</span>
+
+<span class="sd">        from apstools.devices import SignalValueStack</span>
+<span class="sd">        import ophyd</span>
+<span class="sd">        signal = ophyd.Signal(name=&quot;signal&quot;, value=1)</span>
+<span class="sd">        original = SignalValueStack()</span>
+
+<span class="sd">        # ... in the threaded code</span>
+<span class="sd">        original.remember(signal) # remember the original value</span>
+<span class="sd">        signal.put(2)  # make some change(s)</span>
+<span class="sd">        original.restore()  # put it back as we found it</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">clear</span><span class="p">()</span>
+
+    <span class="c1"># TODO: Use the &#39;list&#39; interface?</span>
+<div class="viewcode-block" id="SignalValueStack.push"><a class="viewcode-back" href="../../../api/_devices.html#apstools.devices.flyer_motor_scaler.SignalValueStack.push">[docs]</a>    <span class="k">def</span> <span class="nf">push</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">signal</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Add a (signal, value) pair on the stack.&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_cache</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">signal</span><span class="p">,</span> <span class="n">value</span><span class="p">))</span></div>
+
+<div class="viewcode-block" id="SignalValueStack.clear"><a class="viewcode-back" href="../../../api/_devices.html#apstools.devices.flyer_motor_scaler.SignalValueStack.clear">[docs]</a>    <span class="k">def</span> <span class="nf">clear</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Empty the stack.&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_cache</span> <span class="o">=</span> <span class="p">[]</span></div>
+
+<div class="viewcode-block" id="SignalValueStack.remember"><a class="viewcode-back" href="../../../api/_devices.html#apstools.devices.flyer_motor_scaler.SignalValueStack.remember">[docs]</a>    <span class="k">def</span> <span class="nf">remember</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">signal</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Push the signal&#39;s value on the stack.&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">push</span><span class="p">(</span><span class="n">signal</span><span class="p">,</span> <span class="n">signal</span><span class="o">.</span><span class="n">get</span><span class="p">())</span></div>
+
+<div class="viewcode-block" id="SignalValueStack.restore"><a class="viewcode-back" href="../../../api/_devices.html#apstools.devices.flyer_motor_scaler.SignalValueStack.restore">[docs]</a>    <span class="k">def</span> <span class="nf">restore</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Write the signals in the stack, in reverse order.&quot;&quot;&quot;</span>
+        <span class="k">for</span> <span class="n">pair</span> <span class="ow">in</span> <span class="nb">reversed</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_cache</span><span class="p">):</span>
+            <span class="n">pair</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="n">pair</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_cache</span> <span class="o">=</span> <span class="p">[]</span></div></div>
+
+
+<div class="viewcode-block" id="FlyerBase"><a class="viewcode-back" href="../../../api/_devices.html#apstools.devices.flyer_motor_scaler.FlyerBase">[docs]</a><span class="k">class</span> <span class="nc">FlyerBase</span><span class="p">(</span><span class="n">Device</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Canonical ophyd Flyer object.  Acquires one empty data event.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">STREAM_NAME</span> <span class="o">=</span> <span class="s2">&quot;primary&quot;</span>
+
+<div class="viewcode-block" id="FlyerBase.kickoff"><a class="viewcode-back" href="../../../api/_devices.html#apstools.devices.flyer_motor_scaler.FlyerBase.kickoff">[docs]</a>    <span class="k">def</span> <span class="nf">kickoff</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Start the flyer.&quot;&quot;&quot;</span>
+        <span class="n">status</span> <span class="o">=</span> <span class="n">DeviceStatus</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+        <span class="n">status</span><span class="o">.</span><span class="n">set_finished</span><span class="p">()</span>  <span class="c1"># ALWAYS in kickoff()</span>
+        <span class="k">return</span> <span class="n">status</span></div>
+
+<div class="viewcode-block" id="FlyerBase.complete"><a class="viewcode-back" href="../../../api/_devices.html#apstools.devices.flyer_motor_scaler.FlyerBase.complete">[docs]</a>    <span class="k">def</span> <span class="nf">complete</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Wait for the flyer to complete.&quot;&quot;&quot;</span>
+        <span class="n">status</span> <span class="o">=</span> <span class="n">DeviceStatus</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+        <span class="n">status</span><span class="o">.</span><span class="n">set_finished</span><span class="p">()</span>  <span class="c1"># once the flyer is done</span>
+        <span class="k">return</span> <span class="n">status</span></div>
+
+<div class="viewcode-block" id="FlyerBase.describe_collect"><a class="viewcode-back" href="../../../api/_devices.html#apstools.devices.flyer_motor_scaler.FlyerBase.describe_collect">[docs]</a>    <span class="k">def</span> <span class="nf">describe_collect</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Describe the data from :meth:`~collect()`.&quot;&quot;&quot;</span>
+        <span class="n">logging</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;describe_collect()&quot;</span><span class="p">)</span>
+        <span class="n">schema</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">return</span> <span class="p">{</span><span class="bp">self</span><span class="o">.</span><span class="n">STREAM_NAME</span><span class="p">:</span> <span class="n">schema</span><span class="p">}</span></div>
+
+<div class="viewcode-block" id="FlyerBase.collect"><a class="viewcode-back" href="../../../api/_devices.html#apstools.devices.flyer_motor_scaler.FlyerBase.collect">[docs]</a>    <span class="k">def</span> <span class="nf">collect</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Data event(s).&quot;&quot;&quot;</span>
+        <span class="n">logging</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;collect()&quot;</span><span class="p">)</span>
+        <span class="n">event</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">time</span><span class="o">=</span><span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">(),</span> <span class="n">data</span><span class="o">=</span><span class="p">{},</span> <span class="n">timestamps</span><span class="o">=</span><span class="p">{})</span>
+        <span class="k">yield</span> <span class="n">event</span></div></div>
+
+
+<div class="viewcode-block" id="ActionsFlyerBase"><a class="viewcode-back" href="../../../api/_devices.html#apstools.devices.flyer_motor_scaler.ActionsFlyerBase">[docs]</a><span class="k">class</span> <span class="nc">ActionsFlyerBase</span><span class="p">(</span><span class="n">FlyerBase</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Call :meth:`~actions_thread` method from :meth:`~kickoff`.</span>
+
+<span class="sd">    Method :meth:`~actions_thread()` will describe all the fly scan steps.</span>
+<span class="sd">    Method :meth:`~collect` is changed to wait for :meth:`~actions_thread`</span>
+<span class="sd">    to complete before signalling that the flyer is complete and data is ready</span>
+<span class="sd">    to :meth:`~collect`.</span>
+
+<span class="sd">    In :meth:`~actions_thread()`, wait for all fly scan actions to complete,</span>
+<span class="sd">    then mark the status object as finished before returning.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">status_actions_thread</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">status_complete</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">status_kickoff</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+<div class="viewcode-block" id="ActionsFlyerBase.kickoff"><a class="viewcode-back" href="../../../api/_devices.html#apstools.devices.flyer_motor_scaler.ActionsFlyerBase.kickoff">[docs]</a>    <span class="k">def</span> <span class="nf">kickoff</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Start the flyer.&quot;&quot;&quot;</span>
+        <span class="n">logging</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;kickoff()&quot;</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">status_actions_thread</span> <span class="o">=</span> <span class="n">Status</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">status_complete</span> <span class="o">=</span> <span class="n">Status</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">status_kickoff</span> <span class="o">=</span> <span class="n">Status</span><span class="p">()</span>
+
+        <span class="n">logging</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;starting actions thread&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">actions_thread</span><span class="p">()</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">status_kickoff</span><span class="o">.</span><span class="n">set_finished</span><span class="p">()</span>  <span class="c1"># ALWAYS in kickoff()</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">status_kickoff</span></div>
+
+<div class="viewcode-block" id="ActionsFlyerBase.complete"><a class="viewcode-back" href="../../../api/_devices.html#apstools.devices.flyer_motor_scaler.ActionsFlyerBase.complete">[docs]</a>    <span class="k">def</span> <span class="nf">complete</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Wait for the flyer to complete.&quot;&quot;&quot;</span>
+        <span class="n">logging</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;complete()&quot;</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">status_actions_thread</span><span class="o">.</span><span class="n">wait</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">status_complete</span><span class="o">.</span><span class="n">set_finished</span><span class="p">()</span>
+        <span class="n">logging</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;completed actions thread&quot;</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">status_complete</span></div>
+
+<div class="viewcode-block" id="ActionsFlyerBase.actions_thread"><a class="viewcode-back" href="../../../api/_devices.html#apstools.devices.flyer_motor_scaler.ActionsFlyerBase.actions_thread">[docs]</a>    <span class="k">def</span> <span class="nf">actions_thread</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Run the flyer in a thread.  Not a bluesky plan.</span>
+
+<span class="sd">        Any acquired data should be saved internally and yielded from</span>
+<span class="sd">        :meth:`~collect`.  (Remember to modify :meth:`~describe_collect` for</span>
+<span class="sd">        any changes in the structure of data yielded by :meth:`~collect`!)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="nd">@run_in_thread</span>
+        <span class="k">def</span> <span class="nf">example_action</span><span class="p">():</span>
+            <span class="n">logging</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;in actions thread&quot;</span><span class="p">)</span>
+            <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>  <span class="c1"># as a demonstration of a slow action</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">status_actions_thread</span><span class="o">.</span><span class="n">set_finished</span><span class="p">()</span>
+            <span class="n">logging</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;actions thread marked &#39;finished&#39;&quot;</span><span class="p">)</span>
+
+        <span class="n">example_action</span><span class="p">()</span></div></div>
+
+
+<div class="viewcode-block" id="_SMFlyer_Step_1"><a class="viewcode-back" href="../../../api/_devices.html#apstools.devices.flyer_motor_scaler._SMFlyer_Step_1">[docs]</a><span class="k">class</span> <span class="nc">_SMFlyer_Step_1</span><span class="p">(</span><span class="n">ActionsFlyerBase</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Add a motor to ActionsFlyerBase().</span>
+
+<span class="sd">    .. rubric:: Parameters</span>
+
+<span class="sd">    motor</span>
+<span class="sd">        *object* :</span>
+<span class="sd">        Instance of :class:`ophyd.EpicsMotor`.</span>
+<span class="sd">    start</span>
+<span class="sd">        *float* or *int* :</span>
+<span class="sd">        Fly scan will begin at this motor position.</span>
+<span class="sd">    finish</span>
+<span class="sd">        *float* or *int* :</span>
+<span class="sd">        Fly scan will end at this motor position.</span>
+<span class="sd">    fly_time</span>
+<span class="sd">        *float* or *int* :</span>
+<span class="sd">        Time (seconds, approximate) for fly scan to traverse from &#39;start&#39; to</span>
+<span class="sd">        &#39;finish&#39;.  The motor velocity will be set to meet this parameter.</span>
+<span class="sd">        (Default: 1 s)</span>
+<span class="sd">    fly_time_pad</span>
+<span class="sd">        *float* or *int* :</span>
+<span class="sd">        Extra time (seconds) to allow the fly scan to finish before a fly</span>
+<span class="sd">        scan timeout is declared.</span>
+<span class="sd">        (Default: 10 s)</span>
+
+<span class="sd">    .. note:: This class is used internally to build, in steps,</span>
+<span class="sd">        :class:`~ScalerMotorFlyer` from :class:`~ActionsFlyerBase`.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">motor</span><span class="p">,</span> <span class="n">start</span><span class="p">,</span> <span class="n">finish</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="n">fly_time</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">fly_time_pad</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="n">fly_time</span> <span class="o">=</span> <span class="n">fly_time</span> <span class="ow">or</span> <span class="mi">1</span>
+        <span class="n">fly_time_pad</span> <span class="o">=</span> <span class="n">fly_time_pad</span> <span class="ow">or</span> <span class="mi">2</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">motor</span><span class="p">,</span> <span class="s2">&quot;velocity&quot;</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Unprepared to handle as motor: </span><span class="si">{</span><span class="n">motor</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">fly_time</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Must be a POSITIVE number: </span><span class="si">{</span><span class="n">fly_time</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">fly_time_pad</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Must be a POSITIVE number: </span><span class="si">{</span><span class="n">fly_time_pad</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">motor</span> <span class="o">=</span> <span class="n">motor</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">pos_start</span> <span class="o">=</span> <span class="n">start</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">pos_finish</span> <span class="o">=</span> <span class="n">finish</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">fly_time</span> <span class="o">=</span> <span class="n">fly_time</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">fly_time_pad</span> <span class="o">=</span> <span class="n">fly_time_pad</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_original_values</span> <span class="o">=</span> <span class="n">SignalValueStack</span><span class="p">()</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">status_fly</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">status_taxi</span> <span class="o">=</span> <span class="kc">None</span>
+
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+    <span class="nd">@run_in_thread</span>
+    <span class="k">def</span> <span class="nf">actions_thread</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Prep and run the fly scan in a thread.</span>
+
+<span class="sd">        Runs in background thread so it does not block RunEngine. This is not a</span>
+<span class="sd">        generator function. It is not a bluesky plan, so blocking code is ok.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="nd">@run_in_thread</span>
+        <span class="k">def</span> <span class="nf">example_fly_scan</span><span class="p">():</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">status_taxi</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">motor</span><span class="o">.</span><span class="n">move</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">pos_start</span><span class="p">,</span> <span class="n">wait</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">status_taxi</span><span class="o">.</span><span class="n">wait</span><span class="p">()</span>
+
+            <span class="c1"># arrived to within motor&#39;s precision?</span>
+            <span class="k">if</span> <span class="nb">round</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_motor</span><span class="o">.</span><span class="n">position</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">_pos_start</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_motor</span><span class="o">.</span><span class="n">precision</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span>
+                    <span class="s2">&quot;Not in requested taxi position:&quot;</span>
+                    <span class="sa">f</span><span class="s2">&quot; requested=</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">pos_start</span><span class="si">}</span><span class="s2">&quot;</span>
+                    <span class="sa">f</span><span class="s2">&quot; position=</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">motor</span><span class="o">.</span><span class="n">position</span><span class="si">}</span><span class="s2">&quot;</span>
+                <span class="p">)</span>
+
+            <span class="n">velocity</span> <span class="o">=</span> <span class="nb">abs</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">pos_finish</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">pos_start</span><span class="p">)</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">fly_time</span>
+            <span class="k">if</span> <span class="n">velocity</span> <span class="o">!=</span> <span class="bp">self</span><span class="o">.</span><span class="n">motor</span><span class="o">.</span><span class="n">velocity</span><span class="o">.</span><span class="n">get</span><span class="p">():</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_original_values</span><span class="o">.</span><span class="n">remember</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">motor</span><span class="o">.</span><span class="n">velocity</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">motor</span><span class="o">.</span><span class="n">velocity</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="n">velocity</span><span class="p">)</span>
+
+            <span class="bp">self</span><span class="o">.</span><span class="n">status_fly</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">motor</span><span class="o">.</span><span class="n">move</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">pos_finish</span><span class="p">,</span> <span class="n">wait</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">status_fly</span><span class="o">.</span><span class="n">wait</span><span class="p">(</span><span class="n">timeout</span><span class="o">=</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">fly_time</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">fly_time_pad</span><span class="p">))</span>
+
+            <span class="bp">self</span><span class="o">.</span><span class="n">_original_values</span><span class="o">.</span><span class="n">restore</span><span class="p">()</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">status_actions_thread</span><span class="o">.</span><span class="n">set_finished</span><span class="p">()</span>
+
+        <span class="n">example_fly_scan</span><span class="p">()</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">motor</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_motor</span>
+
+    <span class="nd">@motor</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">motor</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">obj</span><span class="p">):</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="n">EpicsMotor</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;Expected instance of &#39;ophyd.EpicsMotor&#39;.  Received: {type(obj)}&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_motor</span> <span class="o">=</span> <span class="n">obj</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">pos_start</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_pos_start</span>
+
+    <span class="nd">@pos_start</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">pos_start</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_pos_start</span> <span class="o">=</span> <span class="n">value</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">pos_finish</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_pos_finish</span>
+
+    <span class="nd">@pos_finish</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">pos_finish</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_pos_finish</span> <span class="o">=</span> <span class="n">value</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">fly_time</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_fly_time</span>
+
+    <span class="nd">@fly_time</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">fly_time</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">value</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Value must be greater than zero.  Received: </span><span class="si">{</span><span class="n">value</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_fly_time</span> <span class="o">=</span> <span class="n">value</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">fly_time_pad</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_fly_time_pad</span>
+
+    <span class="nd">@fly_time_pad</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">fly_time_pad</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">value</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Value must not be negative.  Received: </span><span class="si">{</span><span class="n">value</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_fly_time_pad</span> <span class="o">=</span> <span class="n">value</span></div>
+
+
+<div class="viewcode-block" id="_SMFlyer_Step_2"><a class="viewcode-back" href="../../../api/_devices.html#apstools.devices.flyer_motor_scaler._SMFlyer_Step_2">[docs]</a><span class="k">class</span> <span class="nc">_SMFlyer_Step_2</span><span class="p">(</span><span class="n">_SMFlyer_Step_1</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Add modes (states) to _SMFlyer_Step_1() to recover from exceptions.</span>
+
+<span class="sd">    Overrides :meth:`~actions_thread()` to recover from exceptions and restore</span>
+<span class="sd">    previous values.  Since exceptions from threaded code are not reported</span>
+<span class="sd">    through to the RunEgine (the thread simply stops for unhandled exceptions),</span>
+<span class="sd">    the override handles such exceptions and then restores any signals to</span>
+<span class="sd">    original values, as recorded via use of :class:`~SignalValueStack`. Here&#39;s</span>
+<span class="sd">    the algorithm::</span>
+
+<span class="sd">        try</span>
+<span class="sd">            setup, taxi, then fly</span>
+<span class="sd">        except Exception</span>
+<span class="sd">            report the exception and save as attribute</span>
+<span class="sd">        finally</span>
+<span class="sd">            restore and return to idle</span>
+
+<span class="sd">        mark status finished</span>
+
+<span class="sd">    .. note:: This class is used internally to build, in steps,</span>
+<span class="sd">        :class:`~ScalerMotorFlyer` from :class:`~ActionsFlyerBase`.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">mode</span> <span class="o">=</span> <span class="n">Component</span><span class="p">(</span><span class="n">Signal</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="s2">&quot;idle&quot;</span><span class="p">)</span>
+    <span class="n">ACTION_MODES</span> <span class="o">=</span> <span class="s2">&quot;idle setup taxi fly return&quot;</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
+    <span class="n">action_exception</span> <span class="o">=</span> <span class="kc">None</span>
+
+<div class="viewcode-block" id="_SMFlyer_Step_2.actions_thread"><a class="viewcode-back" href="../../../api/_devices.html#apstools.devices.flyer_motor_scaler._SMFlyer_Step_2.actions_thread">[docs]</a>    <span class="k">def</span> <span class="nf">actions_thread</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Run the flyer in a thread.&quot;&quot;&quot;</span>
+
+        <span class="nd">@run_in_thread</span>
+        <span class="k">def</span> <span class="nf">fly_scan_workflow</span><span class="p">():</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">action_exception</span> <span class="o">=</span> <span class="kc">None</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_action_setup</span><span class="p">()</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_action_taxi</span><span class="p">()</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_action_fly</span><span class="p">()</span>
+            <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">exc</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">action_exception</span> <span class="o">=</span> <span class="n">exc</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">exception</span><span class="p">(</span><span class="s2">&quot;Flyer Error&quot;</span><span class="p">)</span>
+                <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Flyer Error: </span><span class="si">{</span><span class="n">exc</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="k">finally</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_action_return</span><span class="p">()</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">mode</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="s2">&quot;idle&quot;</span><span class="p">)</span>
+
+            <span class="bp">self</span><span class="o">.</span><span class="n">status_actions_thread</span><span class="o">.</span><span class="n">set_finished</span><span class="p">()</span>
+
+        <span class="n">fly_scan_workflow</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="_SMFlyer_Step_2._action_setup"><a class="viewcode-back" href="../../../api/_devices.html#apstools.devices.flyer_motor_scaler._SMFlyer_Step_2._action_setup">[docs]</a>    <span class="k">def</span> <span class="nf">_action_setup</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Prepare for the taxi &amp; fly.&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">mode</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="s2">&quot;setup&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">status_taxi</span> <span class="o">=</span> <span class="kc">None</span>  <span class="c1"># re-created by the taxi move</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">status_fly</span> <span class="o">=</span> <span class="kc">None</span>  <span class="c1"># re-created by the fly move</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_original_values</span><span class="o">.</span><span class="n">clear</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="_SMFlyer_Step_2._action_taxi"><a class="viewcode-back" href="../../../api/_devices.html#apstools.devices.flyer_motor_scaler._SMFlyer_Step_2._action_taxi">[docs]</a>    <span class="k">def</span> <span class="nf">_action_taxi</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Move motor to start position.&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">mode</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="s2">&quot;taxi&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">status_taxi</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">motor</span><span class="o">.</span><span class="n">move</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">pos_start</span><span class="p">,</span> <span class="n">wait</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">status_taxi</span><span class="o">.</span><span class="n">wait</span><span class="p">()</span>
+
+        <span class="c1"># arrived to within motor&#39;s precision?</span>
+        <span class="k">if</span> <span class="nb">round</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_motor</span><span class="o">.</span><span class="n">position</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">_pos_start</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_motor</span><span class="o">.</span><span class="n">precision</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span>
+                <span class="s2">&quot;Not in requested taxi position: requested=</span><span class="si">{self.pos_start}</span><span class="s2"> position=</span><span class="si">{self.motor.position}</span><span class="s2">&quot;</span>
+            <span class="p">)</span></div>
+
+<div class="viewcode-block" id="_SMFlyer_Step_2._action_fly"><a class="viewcode-back" href="../../../api/_devices.html#apstools.devices.flyer_motor_scaler._SMFlyer_Step_2._action_fly">[docs]</a>    <span class="k">def</span> <span class="nf">_action_fly</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Start the fly scan and wait for it to complete.&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">mode</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="s2">&quot;fly&quot;</span><span class="p">)</span>
+
+        <span class="c1"># set the fly scan velocity</span>
+        <span class="n">velocity</span> <span class="o">=</span> <span class="nb">abs</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">pos_finish</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">pos_start</span><span class="p">)</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">fly_time</span>
+        <span class="k">if</span> <span class="n">velocity</span> <span class="o">!=</span> <span class="bp">self</span><span class="o">.</span><span class="n">motor</span><span class="o">.</span><span class="n">velocity</span><span class="o">.</span><span class="n">get</span><span class="p">():</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_original_values</span><span class="o">.</span><span class="n">remember</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">motor</span><span class="o">.</span><span class="n">velocity</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">motor</span><span class="o">.</span><span class="n">velocity</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="n">velocity</span><span class="p">)</span>
+
+        <span class="c1"># get the motor moving</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">status_fly</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">motor</span><span class="o">.</span><span class="n">move</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">pos_finish</span><span class="p">,</span> <span class="n">wait</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+        <span class="c1"># wait for motor to be done moving</span>
+        <span class="n">allowed_motion_time</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">fly_time</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">fly_time_pad</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">status_fly</span><span class="o">.</span><span class="n">wait</span><span class="p">(</span><span class="n">timeout</span><span class="o">=</span><span class="n">allowed_motion_time</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="_SMFlyer_Step_2._action_return"><a class="viewcode-back" href="../../../api/_devices.html#apstools.devices.flyer_motor_scaler._SMFlyer_Step_2._action_return">[docs]</a>    <span class="k">def</span> <span class="nf">_action_return</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Restore original values.&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">mode</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="s2">&quot;return&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_original_values</span><span class="o">.</span><span class="n">restore</span><span class="p">()</span></div></div>
+
+
+<div class="viewcode-block" id="_SMFlyer_Step_3"><a class="viewcode-back" href="../../../api/_devices.html#apstools.devices.flyer_motor_scaler._SMFlyer_Step_3">[docs]</a><span class="k">class</span> <span class="nc">_SMFlyer_Step_3</span><span class="p">(</span><span class="n">_SMFlyer_Step_2</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Add a scaler to _SMFlyer_Step_2() and trigger it for the fly motion.</span>
+
+<span class="sd">    .. rubric:: Parameters</span>
+
+<span class="sd">    scaler</span>
+<span class="sd">        *object* :</span>
+<span class="sd">        Instance of :class:`ophyd.scaler.ScalerCH`.</span>
+<span class="sd">    scaler_time_pad</span>
+<span class="sd">        *float* or *int* :</span>
+<span class="sd">        Extra time (seconds) to leave the scaler counting before a fly scan</span>
+<span class="sd">        timeout is declared.</span>
+<span class="sd">        (Default: 2 s)</span>
+
+<span class="sd">    .. note:: This class is used internally to build, in steps,</span>
+<span class="sd">        :class:`~ScalerMotorFlyer` from :class:`~ActionsFlyerBase`.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">scaler</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="n">scaler_time_pad</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="p">(</span>
+            <span class="c1"># fmt: off</span>
+            <span class="nb">hasattr</span><span class="p">(</span><span class="n">scaler</span><span class="p">,</span> <span class="s2">&quot;count&quot;</span><span class="p">)</span>
+            <span class="ow">and</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">scaler</span><span class="p">,</span> <span class="s2">&quot;preset_time&quot;</span><span class="p">)</span>
+            <span class="ow">and</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">scaler</span><span class="p">,</span> <span class="s2">&quot;update_rate&quot;</span><span class="p">)</span>
+            <span class="c1"># fmt: on</span>
+        <span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Unprepared to handle as scaler: </span><span class="si">{</span><span class="n">scaler</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">scaler</span> <span class="o">=</span> <span class="n">scaler</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">scaler_time_pad</span> <span class="o">=</span> <span class="n">scaler_time_pad</span>
+
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+<div class="viewcode-block" id="_SMFlyer_Step_3._action_fly"><a class="viewcode-back" href="../../../api/_devices.html#apstools.devices.flyer_motor_scaler._SMFlyer_Step_3._action_fly">[docs]</a>    <span class="k">def</span> <span class="nf">_action_fly</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Start the fly scan and wait for it to complete.&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">mode</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="s2">&quot;fly&quot;</span><span class="p">)</span>
+
+        <span class="n">motion_time_allowance</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">fly_time</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">fly_time_pad</span>
+        <span class="n">count_time_allowance</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">fly_time</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">scaler_time_pad</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_original_values</span><span class="o">.</span><span class="n">remember</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">scaler</span><span class="o">.</span><span class="n">count</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_original_values</span><span class="o">.</span><span class="n">remember</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">scaler</span><span class="o">.</span><span class="n">preset_time</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_original_values</span><span class="o">.</span><span class="n">remember</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">scaler</span><span class="o">.</span><span class="n">count_mode</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">scaler</span><span class="o">.</span><span class="n">preset_time</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="n">count_time_allowance</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">scaler</span><span class="o">.</span><span class="n">count_mode</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="s2">&quot;OneShot&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">scaler</span><span class="o">.</span><span class="n">count</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="s2">&quot;Done&quot;</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">scaler</span><span class="o">.</span><span class="n">count</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="s2">&quot;Count&quot;</span><span class="p">)</span>  <span class="c1"># start scaler counting</span>
+        <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">1</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">scaler</span><span class="o">.</span><span class="n">update_rate</span><span class="o">.</span><span class="n">get</span><span class="p">())</span>
+
+        <span class="c1"># get the motor moving</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">status_fly</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">motor</span><span class="o">.</span><span class="n">move</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">pos_finish</span><span class="p">,</span> <span class="n">wait</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+        <span class="c1"># wait for motor to be done moving</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">status_fly</span><span class="o">.</span><span class="n">wait</span><span class="p">(</span><span class="n">timeout</span><span class="o">=</span><span class="n">motion_time_allowance</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">scaler</span><span class="o">.</span><span class="n">count</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="s2">&quot;Done&quot;</span><span class="p">)</span>  <span class="c1"># stop scaler counting</span></div>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">scaler</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_scaler</span>
+
+    <span class="nd">@scaler</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">scaler</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">obj</span><span class="p">):</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="n">ScalerCH</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;Expected instance of &#39;ophyd.scaler.ScalerCH&#39;.  Received: {type(obj)}&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_scaler</span> <span class="o">=</span> <span class="n">obj</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">scaler_time_pad</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_scaler_time_pad</span>
+
+    <span class="nd">@scaler_time_pad</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">scaler_time_pad</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">value</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Value must not be negative.  Received: </span><span class="si">{</span><span class="n">value</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_scaler_time_pad</span> <span class="o">=</span> <span class="n">value</span></div>
+
+
+<div class="viewcode-block" id="ScalerMotorFlyer"><a class="viewcode-back" href="../../../api/_devices.html#apstools.devices.flyer_motor_scaler.ScalerMotorFlyer">[docs]</a><span class="k">class</span> <span class="nc">ScalerMotorFlyer</span><span class="p">(</span><span class="n">_SMFlyer_Step_3</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Motor and scaler flyer, moving at constant velocity.</span>
+
+<span class="sd">    Built from the :class:`~ActionsFlyerBase`, the</span>
+<span class="sd">    :class:`~ScalerMotorFlyer` runs a fly scan described</span>
+<span class="sd">    in :meth:`~actions_thread`.</span>
+
+<span class="sd">    .. rubric:: Parameters</span>
+
+<span class="sd">    period</span>
+<span class="sd">        *float* or *int* :</span>
+<span class="sd">        Time (seconds) between successive (starts of) data collection events.</span>
+<span class="sd">        (Default: 0.1 s)</span>
+
+<span class="sd">    Extends :class:`SMFlyer__Step_3()`, adding periodic data acquisition.</span>
+
+<span class="sd">    .. rubric:: How to change parameters?</span>
+
+<span class="sd">    Start, finish, and other parameters may be changed after the flyer object</span>
+<span class="sd">    has been created. These properties may be changed after the flyer object has</span>
+<span class="sd">    been created (but before a fly scan has started):</span>
+
+<span class="sd">    ====================  ======  ===========================</span>
+<span class="sd">    property              type    description</span>
+<span class="sd">    ====================  ======  ===========================</span>
+<span class="sd">    ``motor``             object  Instance (not the name) of ``EpicsMotor``.</span>
+<span class="sd">    ``scaler``            object  Instance (not the name) of ``ScalerCH``.</span>
+<span class="sd">    ``fly_time``          float   Fly scan duration (seconds). Time to move ``motor`` from start to finish.</span>
+<span class="sd">    ``pos_start``         float   Starting position of the fly scan.</span>
+<span class="sd">    ``pos_finish``        float   Finishing position of the fly scan.</span>
+<span class="sd">    ``period``            float   Sampling period (s); time between (starts of) scaler readings.</span>
+<span class="sd">    ``fly_time_pad``      float   Extra time (s) allowed for motion to reach finish.</span>
+<span class="sd">    ``scaler_time_pad``   float   Extra time (s) allowed for scaler to finish counting.</span>
+<span class="sd">    ====================  ======  ===========================</span>
+
+<span class="sd">    For a flyer object named ``flyer``, change the fly time to 120 s::</span>
+
+<span class="sd">        flyer.fly_time = 120</span>
+
+<span class="sd">    .. autosummary::</span>
+
+<span class="sd">        ~_action_acquire_event</span>
+<span class="sd">        ~_action_setup</span>
+<span class="sd">        ~_action_fly</span>
+<span class="sd">        ~_action_readings_to_collect_events</span>
+<span class="sd">        ~describe_collect</span>
+<span class="sd">        ~collect</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="n">period</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="n">period</span> <span class="o">=</span> <span class="n">period</span> <span class="ow">or</span> <span class="mf">0.1</span>
+        <span class="k">if</span> <span class="n">period</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Sampling period must be a POSITIVE number: </span><span class="si">{</span><span class="n">period</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">period</span> <span class="o">=</span> <span class="n">period</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_readings</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">scaler_keys</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">stats</span> <span class="o">=</span> <span class="kc">None</span>
+
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+<div class="viewcode-block" id="ScalerMotorFlyer._action_acquire_event"><a class="viewcode-back" href="../../../api/_devices.html#apstools.devices.flyer_motor_scaler.ScalerMotorFlyer._action_acquire_event">[docs]</a>    <span class="k">def</span> <span class="nf">_action_acquire_event</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Record a single data acquisition event into the internal cache.</span>
+
+<span class="sd">        Called by subscription to the scaler&#39;s elapsed counting time (CA monitor</span>
+<span class="sd">        event).  Record the data as it exists when this is called.  Scaler</span>
+<span class="sd">        timestamps are set from the current time. (Scaler timestamps update</span>
+<span class="sd">        _only_ once counting has stopped.)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># read all the data at once</span>
+        <span class="n">ts</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+        <span class="n">m_now</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">motor</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+        <span class="n">s_now</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">scaler</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+
+        <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">s_now</span><span class="o">.</span><span class="n">values</span><span class="p">():</span>
+            <span class="c1"># Scaler timestamps update _only_ once counting has stopped.</span>
+            <span class="n">v</span><span class="p">[</span><span class="s2">&quot;timestamp&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">ts</span>  <span class="c1"># substitute with current timestamp</span>
+
+        <span class="c1"># Build the data acquisition event for collect() method.  Use _counting</span>
+        <span class="c1"># and _done_moving keys to ID events for successive counter readings.</span>
+        <span class="n">event</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span>
+            <span class="n">time</span><span class="o">=</span><span class="n">ts</span><span class="p">,</span>
+            <span class="n">_counting</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">scaler</span><span class="o">.</span><span class="n">count</span><span class="o">.</span><span class="n">get</span><span class="p">(),</span>
+            <span class="n">_done_moving</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">motor</span><span class="o">.</span><span class="n">motor_done_move</span><span class="o">.</span><span class="n">get</span><span class="p">(),</span>
+        <span class="p">)</span>
+        <span class="n">event</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">m_now</span><span class="p">)</span>
+        <span class="n">event</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">s_now</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_readings</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">event</span><span class="p">)</span>  <span class="c1"># add to internal cache</span></div>
+
+<div class="viewcode-block" id="ScalerMotorFlyer._action_setup"><a class="viewcode-back" href="../../../api/_devices.html#apstools.devices.flyer_motor_scaler.ScalerMotorFlyer._action_setup">[docs]</a>    <span class="k">def</span> <span class="nf">_action_setup</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Acquire new data at the scaler&#39;s update rate.&quot;&quot;&quot;</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">_action_setup</span><span class="p">()</span>
+
+        <span class="c1"># try to set the sampling period</span>
+        <span class="n">expected_period</span> <span class="o">=</span> <span class="nb">round</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">period</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_original_values</span><span class="o">.</span><span class="n">remember</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">scaler</span><span class="o">.</span><span class="n">update_rate</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">scaler</span><span class="o">.</span><span class="n">update_rate</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="mi">1</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">period</span><span class="p">)</span>
+        <span class="n">received_period</span> <span class="o">=</span> <span class="nb">round</span><span class="p">(</span><span class="mi">1</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">scaler</span><span class="o">.</span><span class="n">update_rate</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">use_monitor</span><span class="o">=</span><span class="kc">False</span><span class="p">),</span> <span class="mi">5</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">received_period</span> <span class="o">!=</span> <span class="n">expected_period</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="s2">&quot;Could not get requested scaler sample period:&quot;</span>
+                <span class="sa">f</span><span class="s2">&quot; requested=</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">period</span><span class="si">}</span><span class="s2">&quot;</span>
+                <span class="sa">f</span><span class="s2">&quot; received=</span><span class="si">{</span><span class="n">received_period</span><span class="si">}</span><span class="s2">&quot;</span>
+            <span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">stats</span> <span class="o">=</span> <span class="kc">None</span></div>
+
+<div class="viewcode-block" id="ScalerMotorFlyer._action_fly"><a class="viewcode-back" href="../../../api/_devices.html#apstools.devices.flyer_motor_scaler.ScalerMotorFlyer._action_fly">[docs]</a>    <span class="k">def</span> <span class="nf">_action_fly</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Start the fly scan and wait for it to complete.</span>
+
+<span class="sd">        Data will be accumulated in response to CA monitor events from the</span>
+<span class="sd">        scaler.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">mode</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="s2">&quot;fly&quot;</span><span class="p">)</span>
+
+        <span class="c1"># set the fly scan velocity</span>
+        <span class="n">velocity</span> <span class="o">=</span> <span class="nb">abs</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">pos_finish</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">pos_start</span><span class="p">)</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">fly_time</span>
+        <span class="k">if</span> <span class="n">velocity</span> <span class="o">!=</span> <span class="bp">self</span><span class="o">.</span><span class="n">motor</span><span class="o">.</span><span class="n">velocity</span><span class="o">.</span><span class="n">get</span><span class="p">():</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_original_values</span><span class="o">.</span><span class="n">remember</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">motor</span><span class="o">.</span><span class="n">velocity</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">motor</span><span class="o">.</span><span class="n">velocity</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="n">velocity</span><span class="p">)</span>
+
+        <span class="c1"># set the scaler count time (allowance)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_original_values</span><span class="o">.</span><span class="n">remember</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">scaler</span><span class="o">.</span><span class="n">preset_time</span><span class="p">)</span>
+        <span class="n">count_time_allowance</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">fly_time</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">scaler_time_pad</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">scaler</span><span class="o">.</span><span class="n">preset_time</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="n">count_time_allowance</span><span class="p">)</span>
+
+        <span class="c1"># start acquiring, scaler update rate was set in _action_setup()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">scaler</span><span class="o">.</span><span class="n">time</span><span class="o">.</span><span class="n">subscribe</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_action_acquire_event</span><span class="p">)</span>  <span class="c1"># CA monitor</span>
+
+        <span class="c1"># start scaler counting, THEN motor moving</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_original_values</span><span class="o">.</span><span class="n">remember</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">scaler</span><span class="o">.</span><span class="n">count</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_original_values</span><span class="o">.</span><span class="n">remember</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">scaler</span><span class="o">.</span><span class="n">count_mode</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">scaler</span><span class="o">.</span><span class="n">count_mode</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="s2">&quot;OneShot&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">scaler</span><span class="o">.</span><span class="n">count</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="s2">&quot;Done&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">scaler</span><span class="o">.</span><span class="n">count</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="s2">&quot;Count&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">status_fly</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">motor</span><span class="o">.</span><span class="n">move</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">pos_finish</span><span class="p">,</span> <span class="n">wait</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+        <span class="c1"># wait for motor to be done moving</span>
+        <span class="n">motion_time_allowance</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">fly_time</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">fly_time_pad</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">status_fly</span><span class="o">.</span><span class="n">wait</span><span class="p">(</span><span class="n">timeout</span><span class="o">=</span><span class="n">motion_time_allowance</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_action_acquire_event</span><span class="p">()</span>  <span class="c1"># last event</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">scaler</span><span class="o">.</span><span class="n">count</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="s2">&quot;Done&quot;</span><span class="p">)</span>  <span class="c1"># stop scaler counting</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">scaler</span><span class="o">.</span><span class="n">time</span><span class="o">.</span><span class="n">unsubscribe_all</span><span class="p">()</span>  <span class="c1"># stop acquiring</span></div>
+
+<div class="viewcode-block" id="ScalerMotorFlyer._action_readings_to_collect_events"><a class="viewcode-back" href="../../../api/_devices.html#apstools.devices.flyer_motor_scaler.ScalerMotorFlyer._action_readings_to_collect_events">[docs]</a>    <span class="k">def</span> <span class="nf">_action_readings_to_collect_events</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return the readings as collect() events.&quot;&quot;&quot;</span>
+        <span class="n">motor_keys</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">motor</span><span class="o">.</span><span class="n">read</span><span class="p">()</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
+        <span class="n">scaler_keys</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">scaler</span><span class="o">.</span><span class="n">read</span><span class="p">()</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
+        <span class="n">all_keys</span> <span class="o">=</span> <span class="n">motor_keys</span> <span class="o">+</span> <span class="n">scaler_keys</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">stats</span> <span class="o">=</span> <span class="p">{</span><span class="n">k</span><span class="p">:</span> <span class="n">pysumreg</span><span class="o">.</span><span class="n">SummationRegisters</span><span class="p">()</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">scaler_keys</span><span class="p">}</span>
+
+        <span class="n">previous</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">for</span> <span class="n">reading</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_readings</span><span class="p">:</span>
+            <span class="k">if</span> <span class="p">(</span>
+                <span class="c1"># fmt: off</span>
+                <span class="n">previous</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
+                <span class="ow">and</span> <span class="n">reading</span><span class="p">[</span><span class="s2">&quot;_counting&quot;</span><span class="p">]</span>
+                <span class="ow">and</span> <span class="ow">not</span> <span class="n">reading</span><span class="p">[</span><span class="s2">&quot;_done_moving&quot;</span><span class="p">]</span>
+                <span class="c1"># fmt: on</span>
+            <span class="p">):</span>
+                <span class="c1"># reportable event</span>
+                <span class="n">ts</span> <span class="o">=</span> <span class="n">reading</span><span class="p">[</span><span class="s2">&quot;time&quot;</span><span class="p">]</span>
+                <span class="c1"># fmt: off</span>
+                <span class="n">event</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span>
+                    <span class="n">time</span><span class="o">=</span><span class="n">ts</span><span class="p">,</span>
+                    <span class="n">data</span><span class="o">=</span><span class="p">{</span><span class="n">k</span><span class="p">:</span> <span class="kc">None</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">all_keys</span><span class="p">},</span>
+                    <span class="n">timestamps</span><span class="o">=</span><span class="p">{</span><span class="n">k</span><span class="p">:</span> <span class="kc">None</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">all_keys</span><span class="p">},</span>
+                <span class="p">)</span>
+                <span class="c1"># fmt: on</span>
+
+                <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">motor_keys</span><span class="p">:</span>
+                    <span class="n">event</span><span class="p">[</span><span class="s2">&quot;data&quot;</span><span class="p">][</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="n">reading</span><span class="p">[</span><span class="n">k</span><span class="p">][</span><span class="s2">&quot;value&quot;</span><span class="p">]</span>
+                    <span class="n">event</span><span class="p">[</span><span class="s2">&quot;timestamps&quot;</span><span class="p">][</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="n">reading</span><span class="p">[</span><span class="n">k</span><span class="p">][</span><span class="s2">&quot;timestamp&quot;</span><span class="p">]</span>
+
+                <span class="c1"># use first motor reading is the one to use</span>
+                <span class="n">x_value</span> <span class="o">=</span> <span class="n">reading</span><span class="p">[</span><span class="n">motor_keys</span><span class="p">[</span><span class="mi">0</span><span class="p">]][</span><span class="s2">&quot;value&quot;</span><span class="p">]</span>
+                <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">scaler_keys</span><span class="p">:</span>
+                    <span class="c1"># TODO: consider divide by time increment</span>
+                    <span class="n">delta</span> <span class="o">=</span> <span class="n">reading</span><span class="p">[</span><span class="n">k</span><span class="p">][</span><span class="s2">&quot;value&quot;</span><span class="p">]</span> <span class="o">-</span> <span class="n">previous</span><span class="p">[</span><span class="n">k</span><span class="p">][</span><span class="s2">&quot;value&quot;</span><span class="p">]</span>
+                    <span class="n">event</span><span class="p">[</span><span class="s2">&quot;data&quot;</span><span class="p">][</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="n">delta</span>
+                    <span class="n">event</span><span class="p">[</span><span class="s2">&quot;timestamps&quot;</span><span class="p">][</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="n">ts</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">stats</span><span class="p">[</span><span class="n">k</span><span class="p">]</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">x_value</span><span class="p">,</span> <span class="n">delta</span><span class="p">)</span>
+
+                <span class="k">yield</span> <span class="n">event</span>
+            <span class="n">previous</span> <span class="o">=</span> <span class="n">reading</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="ScalerMotorFlyer.describe_collect"><a class="viewcode-back" href="../../../api/_devices.html#apstools.devices.flyer_motor_scaler.ScalerMotorFlyer.describe_collect">[docs]</a>    <span class="k">def</span> <span class="nf">describe_collect</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Describe the data from collect().&quot;&quot;&quot;</span>
+        <span class="n">schema</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="n">schema</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">motor</span><span class="o">.</span><span class="n">describe</span><span class="p">())</span>
+        <span class="n">schema</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">scaler</span><span class="o">.</span><span class="n">describe</span><span class="p">())</span>
+        <span class="k">return</span> <span class="p">{</span><span class="bp">self</span><span class="o">.</span><span class="n">STREAM_NAME</span><span class="p">:</span> <span class="n">schema</span><span class="p">}</span></div>
+
+<div class="viewcode-block" id="ScalerMotorFlyer.collect"><a class="viewcode-back" href="../../../api/_devices.html#apstools.devices.flyer_motor_scaler.ScalerMotorFlyer.collect">[docs]</a>    <span class="k">def</span> <span class="nf">collect</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Report the collected data.&quot;&quot;&quot;</span>
+        <span class="kn">from</span> <span class="nn">bluesky</span> <span class="kn">import</span> <span class="n">plan_stubs</span> <span class="k">as</span> <span class="n">bps</span>
+
+        <span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">make_dict_device</span>
+
+        <span class="k">yield from</span> <span class="bp">self</span><span class="o">.</span><span class="n">_action_readings_to_collect_events</span><span class="p">()</span></div>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">period</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_period</span>
+
+    <span class="nd">@period</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">period</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">value</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Value must be greater than zero.  Received: </span><span class="si">{</span><span class="n">value</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_period</span> <span class="o">=</span> <span class="n">value</span></div>
+
+
+<span class="c1"># -----------------------------------------------------------------------------</span>
+<span class="c1"># :author:    Pete R. Jemian</span>
+<span class="c1"># :email:     jemian@anl.gov</span>
+<span class="c1"># :copyright: (c) 2017-2023, UChicago Argonne, LLC</span>
+<span class="c1">#</span>
+<span class="c1"># Distributed under the terms of the Argonne National Laboratory Open Source License.</span>
+<span class="c1">#</span>
+<span class="c1"># The full license is in the file LICENSE.txt, distributed with this software.</span>
+<span class="c1"># -----------------------------------------------------------------------------</span>
+</pre></div>
+
+                </article>
+              
+              
+              
+                <footer class="bd-footer-article">
+                  
+<div class="footer-article-items footer-article__inner">
+  
+    <div class="footer-article-item"><!-- Previous / next buttons -->
+<div class="prev-next-area">
+</div></div>
+  
+</div>
+
+                </footer>
+              
+            </div>
+            
+            
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../../_static/scripts/bootstrap.js?digest=e353d410970836974a52"></script>
+<script src="../../../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+  <p class="copyright">
+    
+      © Copyright 2017-2023, UChicago Argonne, LLC.
+      <br/>
+    
+  </p>
+</div>
+      
+        <div class="footer-item">
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 5.3.0.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item"><p class="theme-version">
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.13.3.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

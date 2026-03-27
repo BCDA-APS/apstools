@@ -1,0 +1,48 @@
+busy
+====
+
+.. py:module:: apstools.synApps.busy
+
+.. autoapi-nested-parse::
+
+   Import: ``apstools.synApps.busy``
+
+   Ophyd support for the EPICS busy record
+
+
+   Public Structures
+
+   .. autosummary::
+
+       ~BusyRecord
+
+
+
+
+Module Contents
+---------------
+
+.. py:class:: BusyRecord(prefix='', *, name, kind=None, read_attrs=None, configuration_attrs=None, parent=None, child_name_separator='_', connection_timeout=DEFAULT_CONNECTION_TIMEOUT, **kwargs)
+
+   .. container:: import-path
+
+      Import: ``apstools.synApps.busy.BusyRecord``
+
+
+   Bases: :py:obj:`ophyd.device.Device`
+
+
+   EPICS synApps busy record
+
+   .. index:: Ophyd Device; synApps BusyRecord
+
+
+   .. py:attribute:: forward_link
+
+
+   .. py:attribute:: output_link
+
+
+   .. py:attribute:: state
+
+

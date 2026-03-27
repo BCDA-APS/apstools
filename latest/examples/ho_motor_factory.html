@@ -1,0 +1,1192 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Grouping Motors with mb_creator &#8212; apstools 1.7</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="../_static/graphviz.css?v=4ae1632d" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.8ecb98da25f57f5357bf6f572d296f466b2cfe2517ffebfabe82451661e28f02.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../_static/css/custom.css?v=8b12e3de" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+
+    <script src="../_static/documentation_options.js?v=84e671e0"></script>
+    <script src="../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'examples/ho_motor_factory';</script>
+    <script>
+        DOCUMENTATION_OPTIONS.theme_version = '0.16.1';
+        DOCUMENTATION_OPTIONS.theme_switcher_json_url = 'https://raw.githubusercontent.com/BCDA-APS/apstools/main/docs/source/_static/switcher.json';
+        DOCUMENTATION_OPTIONS.theme_switcher_version_match = '1.7.9';
+        DOCUMENTATION_OPTIONS.show_version_warning_banner =
+            false;
+        </script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Quick Start: Grouping Motors with mb_creator" href="ho_motor_factory_quickstart.html" />
+    <link rel="prev" title="What are the objects to control?" href="ho_list_control_objects.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="1.7" />
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-3 navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../index.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">apstools 1.7</p>
+  
+</a></div>
+    
+      <div class="navbar-item">
+<div class="version-switcher__container dropdown pst-js-only">
+  <button id="pst-version-switcher-button-2"
+    type="button"
+    class="version-switcher__button btn btn-sm dropdown-toggle"
+    data-bs-toggle="dropdown"
+    aria-haspopup="listbox"
+    aria-controls="pst-version-switcher-list-2"
+    aria-label="Version switcher list"
+  >
+    Choose version  <!-- this text may get changed later by javascript -->
+    <span class="caret"></span>
+  </button>
+  <div id="pst-version-switcher-list-2"
+    class="version-switcher__menu dropdown-menu list-group-flush py-0"
+    role="listbox" aria-labelledby="pst-version-switcher-button-2">
+    <!-- dropdown will be populated by javascript on page load -->
+  </div>
+</div></div>
+    
+  </div>
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../install.html">
+    Installation
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../api/index.html">
+    API Documentation
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../applications/index.html">
+    Applications
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="index.html">
+    Examples
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../changes.html">
+    Change History
+  </a>
+</li>
+
+            <li class="nav-item dropdown">
+                <button class="btn dropdown-toggle nav-item" type="button"
+                data-bs-toggle="dropdown" aria-expanded="false"
+                aria-controls="pst-nav-more-links">
+                    More
+                </button>
+                <ul id="pst-nav-more-links" class="dropdown-menu">
+                    
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../license.html">
+    License
+  </a>
+</li>
+
+                </ul>
+            </li>
+            
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+        <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+      
+        <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/BCDA-APS/apstools" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../install.html">
+    Installation
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../api/index.html">
+    API Documentation
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../applications/index.html">
+    Applications
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="index.html">
+    Examples
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../changes.html">
+    Change History
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../license.html">
+    License
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+        
+          <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/BCDA-APS/apstools" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+        
+      </div>
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+<nav class="bd-docs-nav bd-links"
+     aria-label="Section Navigation">
+  <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
+  <div class="bd-toc-item navbar-nav"><ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="device_examples.html">Device Examples</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="de_0_adsim_hdf5_basic.html">Area Detector with default HDF5 File Name</a></li>
+<li class="toctree-l2"><a class="reference internal" href="de_1_adsim_hdf5_custom_names.html">Area Detector with custom HDF5 File Name</a></li>
+<li class="toctree-l2"><a class="reference internal" href="de_2_adsim_hdf5_single_mode.html">Area Detector, Single mode, HDF5 file</a></li>
+<li class="toctree-l2"><a class="reference internal" href="de_ad_pe.html">ADPerkinElmer Area Detector with default HDF5 File Name</a></li>
+<li class="toctree-l2"><a class="reference internal" href="de_ad_pilatus.html">ADPilatus Area Detector with default HDF5 File Name</a></li>
+<li class="toctree-l2"><a class="reference internal" href="de_aps_data_management.html">Integration with APS Data Management (DM)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="de_sscan.html">The synApps <code class="docutils literal notranslate"><span class="pre">sscan</span></code> and <code class="docutils literal notranslate"><span class="pre">SscanRecord</span></code></a></li>
+</ul>
+</details></li>
+</ul>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="filewriter_examples.html">File Writer Examples</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="fw_nxwriter.html">Callback</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="fw_specfile_example.html">Output scan(s) to a SPEC data file.</a></li>
+</ul>
+</details></li>
+</ul>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="howto_examples.html">How-To Examples</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="ho_contingency.html">How to interrupt/stop/abort a running plan &amp; recover to safe settings</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ho_list_control_objects.html">What are the objects to control?</a></li>
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">Grouping Motors with <code class="docutils literal notranslate"><span class="pre">mb_creator</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ho_motor_factory_quickstart.html">Quick Start: Grouping Motors with <code class="docutils literal notranslate"><span class="pre">mb_creator</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ho_nxwriter_templates.html">How to use NeXus/HDF5 Templates</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ho_search_databroker.html">How to Search for Bluesky Data?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ho_session_logs.html">How to setup logging</a></li>
+</ul>
+</details></li>
+</ul>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="plan_examples.html">Plan Examples</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="pl_excel_scan.html">The <code class="docutils literal notranslate"><span class="pre">Excel_plan()</span></code> – batch scans using a spreadsheet</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pl_lineup.html">The <code class="docutils literal notranslate"><span class="pre">lineup()</span></code> plan - align an axis with a signal</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pl_nscan.html">The <code class="docutils literal notranslate"><span class="pre">nscan()</span></code> plan – scan multiple axes together</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pl_run_command_list.html">The <code class="xref py py-func docutils literal notranslate"><span class="pre">run_command_file()</span></code> plan – batch scans using a text file</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pl_tuneaxis.html">The <code class="docutils literal notranslate"><span class="pre">TuneAxis()</span></code> plan - align an axis with a signal</a></li>
+</ul>
+</details></li>
+</ul>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="download_examples.html">File Downloads for the Examples</a></li>
+</ul>
+</div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+<nav aria-label="Breadcrumb" class="d-print-none">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="index.html" class="nav-link">Examples</a></li>
+    
+    
+    <li class="breadcrumb-item"><a href="howto_examples.html" class="nav-link">How-To Examples</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">Grouping Motors with <code class="docutils literal notranslate"><span class="pre">mb_creator</span></code></span></li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section id="grouping-motors-with-mb-creator">
+<h1>Grouping Motors with <code class="docutils literal notranslate"><span class="pre">mb_creator</span></code><a class="headerlink" href="#grouping-motors-with-mb-creator" title="Link to this heading">#</a></h1>
+<p>It started with a question:</p>
+<blockquote>
+<div><p>How to create a Device simply with just motors?</p>
+</div></blockquote>
+<p>This document shows how to use the <code class="xref py py-func docutils literal notranslate"><span class="pre">apstools.devices.mb_creator()</span></code>
+function to create an ophyd object that has a set of motors.</p>
+<p>An object created by <code class="docutils literal notranslate"><span class="pre">mb_creator()</span></code> is intended to group its component motors.  It does not provide any methods (other than those provided by its base class) that act on the components.  For example, there is no <code class="docutils literal notranslate"><span class="pre">.move()</span></code> method or <code class="docutils literal notranslate"><span class="pre">.position</span></code> property.</p>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<ul class="simple">
+<li><p><a class="reference internal" href="ho_motor_factory_quickstart.html"><span class="doc">Quick Start</span></a></p></li>
+<li><p><a class="reference internal" href="../api/_devices.html#apstools.devices.motor_factory.mb_creator" title="apstools.devices.motor_factory.mb_creator"><code class="xref py py-func docutils literal notranslate"><span class="pre">mb_creator()</span></code></a></p></li>
+</ul>
+</div>
+<section id="background">
+<h2>Background<a class="headerlink" href="#background" title="Link to this heading">#</a></h2>
+<p>Often, we encounter equipment consisting of a set of related motors, whether it
+be a positioning stage, a support table, a set of slits, or some other
+apparatus.  Take, for example the <em>neat stage</em> at APS station 3-ID-D.  The <em>neat
+stage</em> has two translations and one rotation.</p>
+<p><img alt="3-ID-D neat stage" src="../_images/3idd_neat_stage.png" /></p>
+<p>To create an ophyd object that describes the <em>neat stage</em>, we need a custom
+subclass of <code class="docutils literal notranslate"><span class="pre">ophyd.Device</span></code> that names the three motors.</p>
+<div class="highlight-py notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">ophyd</span><span class="w"> </span><span class="kn">import</span> <span class="n">Component</span><span class="p">,</span> <span class="n">Device</span><span class="p">,</span> <span class="n">EpicsMotor</span>
+
+<span class="k">class</span><span class="w"> </span><span class="nc">NeatStage_3IDD</span><span class="p">(</span><span class="n">Device</span><span class="p">):</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">Component</span><span class="p">(</span><span class="n">EpicsMotor</span><span class="p">,</span> <span class="s2">&quot;m1&quot;</span><span class="p">)</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="n">Component</span><span class="p">(</span><span class="n">EpicsMotor</span><span class="p">,</span> <span class="s2">&quot;m2&quot;</span><span class="p">)</span>
+    <span class="n">theta</span> <span class="o">=</span> <span class="n">Component</span><span class="p">(</span><span class="n">EpicsMotor</span><span class="p">,</span> <span class="s2">&quot;m3&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Then, we create the ophyd object as an instance of the custom subclass:</p>
+<div class="highlight-py notranslate"><div class="highlight"><pre><span></span><span class="n">neat_stage</span> <span class="o">=</span> <span class="n">NeatStage_3IDD</span><span class="p">(</span><span class="s2">&quot;3idd:&quot;</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;neat_stage&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>We need a new custom class for every stage.  Often, they are very similar except
+for the axis names and EPICS PV names for the motors.  In most cases, each of
+these custom classes is used exactly once.</p>
+<p><strong>Summary</strong></p>
+<p>We have identified a pattern and an opportunity.  It started with the question:</p>
+<blockquote>
+<div><p>Make (or already exists?) a device that just combines a bunch of motors using just kwargs.</p>
+</div></blockquote>
+<section id="example-using-mb-creator">
+<h3>Example using <code class="docutils literal notranslate"><span class="pre">mb_creator()</span></code><a class="headerlink" href="#example-using-mb-creator" title="Link to this heading">#</a></h3>
+<p>Let’s make that same stage using <a class="reference internal" href="../api/_devices.html#apstools.devices.motor_factory.mb_creator" title="apstools.devices.motor_factory.mb_creator"><code class="xref py py-func docutils literal notranslate"><span class="pre">mb_creator()</span></code></a>, a
+factory function to create such structures.  It is not necessary to create a
+custom class, the factory function does that for us, then builds the ophyd
+object.</p>
+<div class="highlight-py notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">apstools.devices</span><span class="w"> </span><span class="kn">import</span> <span class="n">mb_creator</span>
+
+<span class="n">neat_stage</span> <span class="o">=</span> <span class="n">mb_creator</span><span class="p">(</span>
+    <span class="n">prefix</span><span class="o">=</span><span class="s2">&quot;3idd:&quot;</span><span class="p">,</span>
+    <span class="n">motors</span><span class="o">=</span><span class="p">{</span>
+        <span class="s2">&quot;x&quot;</span><span class="p">:</span> <span class="s2">&quot;m1&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;y&quot;</span><span class="p">:</span> <span class="s2">&quot;m2&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;theta&quot;</span><span class="p">:</span> <span class="s2">&quot;m3&quot;</span><span class="p">,</span>
+    <span class="p">},</span>
+    <span class="n">name</span><span class="o">=</span><span class="s2">&quot;neat_stage&quot;</span><span class="p">,</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="let-s-start">
+<h2>Let’s start<a class="headerlink" href="#let-s-start" title="Link to this heading">#</a></h2>
+<p>The simplest object we can create is a Device structure with no motors at all.
+We must provide a <code class="docutils literal notranslate"><span class="pre">name=</span></code> keyword argument (kwarg) for ophyd.  The convention is
+to use the same name as the ophyd we object to be created.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">apstools.devices</span><span class="w"> </span><span class="kn">import</span> <span class="n">mb_creator</span>
+<span class="n">bundle</span> <span class="o">=</span> <span class="n">mb_creator</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;bundle&quot;</span><span class="p">)</span>
+<span class="n">bundle</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>MB_Device(prefix=&#39;&#39;, name=&#39;bundle&#39;, read_attrs=[], configuration_attrs=[])
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="the-motors-keyword">
+<h2>The <code class="docutils literal notranslate"><span class="pre">motors</span></code> keyword<a class="headerlink" href="#the-motors-keyword" title="Link to this heading">#</a></h2>
+<p>Let’s add one motor axis.  Call it <code class="docutils literal notranslate"><span class="pre">x</span></code>.  Here, we provide the names of the motors as a list of names.</p>
+<details>
+<p>If <code class="docutils literal notranslate"><span class="pre">motors</span></code> is a list, it is converted into a dictionary where each axis is a key with an empty dictionary as its value. This allows for a consistent structure regardless of the input type.  An empty dictionary is a shortcut for <code class="docutils literal notranslate"><span class="pre">{&quot;prefix&quot;:</span> <span class="pre">None,</span> <span class="pre">&quot;class&quot;:</span> <span class="pre">&quot;ophyd.SoftPositioner&quot;}</span></code>.</p>
+</details><div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">bundle</span> <span class="o">=</span> <span class="n">mb_creator</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;bundle&quot;</span><span class="p">,</span> <span class="n">motors</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;x&quot;</span><span class="p">])</span>
+<span class="n">bundle</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>MB_Device(prefix=&#39;&#39;, name=&#39;bundle&#39;, read_attrs=[&#39;x&#39;], configuration_attrs=[])
+</pre></div>
+</div>
+</div>
+</div>
+<p>We can learn more about this axis:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">bundle</span><span class="o">.</span><span class="n">x</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>SoftPositioner(name=&#39;bundle_x&#39;, parent=&#39;bundle&#39;, settle_time=0.0, timeout=None, egu=&#39;&#39;, limits=(0, 0), source=&#39;computed&#39;)
+</pre></div>
+</div>
+</div>
+</div>
+<p>The <a class="reference internal" href="../api/_devices.html#apstools.devices.motor_factory.mb_creator" title="apstools.devices.motor_factory.mb_creator"><code class="xref py py-func docutils literal notranslate"><span class="pre">apstools.devices.motor_factory.mb_creator()</span></code></a> created a
+<code class="docutils literal notranslate"><span class="pre">SoftPositioner</span></code> (simulated motor) since we did not provide an EPICS PV name to
+be used.</p>
+<section id="use-an-epics-motor">
+<h3>Use an EPICS motor<a class="headerlink" href="#use-an-epics-motor" title="Link to this heading">#</a></h3>
+<p>Let’s make a motor bundle with an EPICS motor record.  We’ll need to supply the
+process variable (PV) name.  A Python dictionary is used to provide the axis
+names (as the dictionary keys) and the PV value for each key.  Here, we start
+with just one motor.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">bundle</span> <span class="o">=</span> <span class="n">mb_creator</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;bundle&quot;</span><span class="p">,</span> <span class="n">motors</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;x&quot;</span><span class="p">:</span> <span class="s2">&quot;gp:m1&quot;</span><span class="p">})</span>
+<span class="n">bundle</span><span class="o">.</span><span class="n">wait_for_connection</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">bundle</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">bundle</span><span class="o">.</span><span class="n">x</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>bundle=MB_Device(prefix=&#39;&#39;, name=&#39;bundle&#39;, read_attrs=[&#39;x&#39;, &#39;x.user_readback&#39;, &#39;x.user_setpoint&#39;], configuration_attrs=[&#39;x&#39;, &#39;x.user_offset&#39;, &#39;x.user_offset_dir&#39;, &#39;x.velocity&#39;, &#39;x.acceleration&#39;, &#39;x.motor_egu&#39;])
+bundle.x=EpicsMotor(prefix=&#39;gp:m1&#39;, name=&#39;bundle_x&#39;, parent=&#39;bundle&#39;, settle_time=0.0, timeout=None, read_attrs=[&#39;user_readback&#39;, &#39;user_setpoint&#39;], configuration_attrs=[&#39;user_offset&#39;, &#39;user_offset_dir&#39;, &#39;velocity&#39;, &#39;acceleration&#39;, &#39;motor_egu&#39;])
+</pre></div>
+</div>
+</div>
+</div>
+<p>It’s easy to see how to extend this to any number of motor axes.  Here is a motor bundle with 6 EPICS motors:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">bundle</span> <span class="o">=</span> <span class="n">mb_creator</span><span class="p">(</span>
+    <span class="n">name</span><span class="o">=</span><span class="s2">&quot;bundle&quot;</span><span class="p">,</span> 
+    <span class="n">motors</span><span class="o">=</span><span class="p">{</span>
+        <span class="s2">&quot;x&quot;</span><span class="p">:</span> <span class="s2">&quot;gp:m1&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;y&quot;</span><span class="p">:</span> <span class="s2">&quot;gp:m2&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;z&quot;</span><span class="p">:</span> <span class="s2">&quot;gp:m3&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;roll&quot;</span><span class="p">:</span> <span class="s2">&quot;gp:m4&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;pitch&quot;</span><span class="p">:</span> <span class="s2">&quot;gp:m5&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;yaw&quot;</span><span class="p">:</span> <span class="s2">&quot;gp:m6&quot;</span><span class="p">,</span>
+    <span class="p">}</span>
+<span class="p">)</span>
+<span class="n">bundle</span><span class="o">.</span><span class="n">wait_for_connection</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">bundle</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">bundle</span><span class="o">.</span><span class="n">read</span><span class="p">()</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>bundle=MB_Device(prefix=&#39;&#39;, name=&#39;bundle&#39;, read_attrs=[&#39;x&#39;, &#39;x.user_readback&#39;, &#39;x.user_setpoint&#39;, &#39;y&#39;, &#39;y.user_readback&#39;, &#39;y.user_setpoint&#39;, &#39;z&#39;, &#39;z.user_readback&#39;, &#39;z.user_setpoint&#39;, &#39;roll&#39;, &#39;roll.user_readback&#39;, &#39;roll.user_setpoint&#39;, &#39;pitch&#39;, &#39;pitch.user_readback&#39;, &#39;pitch.user_setpoint&#39;, &#39;yaw&#39;, &#39;yaw.user_readback&#39;, &#39;yaw.user_setpoint&#39;], configuration_attrs=[&#39;x&#39;, &#39;x.user_offset&#39;, &#39;x.user_offset_dir&#39;, &#39;x.velocity&#39;, &#39;x.acceleration&#39;, &#39;x.motor_egu&#39;, &#39;y&#39;, &#39;y.user_offset&#39;, &#39;y.user_offset_dir&#39;, &#39;y.velocity&#39;, &#39;y.acceleration&#39;, &#39;y.motor_egu&#39;, &#39;z&#39;, &#39;z.user_offset&#39;, &#39;z.user_offset_dir&#39;, &#39;z.velocity&#39;, &#39;z.acceleration&#39;, &#39;z.motor_egu&#39;, &#39;roll&#39;, &#39;roll.user_offset&#39;, &#39;roll.user_offset_dir&#39;, &#39;roll.velocity&#39;, &#39;roll.acceleration&#39;, &#39;roll.motor_egu&#39;, &#39;pitch&#39;, &#39;pitch.user_offset&#39;, &#39;pitch.user_offset_dir&#39;, &#39;pitch.velocity&#39;, &#39;pitch.acceleration&#39;, &#39;pitch.motor_egu&#39;, &#39;yaw&#39;, &#39;yaw.user_offset&#39;, &#39;yaw.user_offset_dir&#39;, &#39;yaw.velocity&#39;, &#39;yaw.acceleration&#39;, &#39;yaw.motor_egu&#39;])
+bundle.read()=OrderedDict({&#39;bundle_x&#39;: {&#39;value&#39;: 0.05, &#39;timestamp&#39;: 1747171397.856864}, &#39;bundle_x_user_setpoint&#39;: {&#39;value&#39;: 0.04999999999999987, &#39;timestamp&#39;: 1747171397.856864}, &#39;bundle_y&#39;: {&#39;value&#39;: -0.16670000000000001, &#39;timestamp&#39;: 1747170542.707431}, &#39;bundle_y_user_setpoint&#39;: {&#39;value&#39;: -0.16670000000000001, &#39;timestamp&#39;: 1747170542.707431}, &#39;bundle_z&#39;: {&#39;value&#39;: 0.0, &#39;timestamp&#39;: 1747170542.707435}, &#39;bundle_z_user_setpoint&#39;: {&#39;value&#39;: 0.0, &#39;timestamp&#39;: 1747170542.707435}, &#39;bundle_roll&#39;: {&#39;value&#39;: 0.0, &#39;timestamp&#39;: 1747170542.707438}, &#39;bundle_roll_user_setpoint&#39;: {&#39;value&#39;: 0.0, &#39;timestamp&#39;: 1747170542.707438}, &#39;bundle_pitch&#39;: {&#39;value&#39;: 0.0, &#39;timestamp&#39;: 1746817545.842815}, &#39;bundle_pitch_user_setpoint&#39;: {&#39;value&#39;: 0.0, &#39;timestamp&#39;: 1746817545.842815}, &#39;bundle_yaw&#39;: {&#39;value&#39;: 0.0, &#39;timestamp&#39;: 1746817545.842817}, &#39;bundle_yaw_user_setpoint&#39;: {&#39;value&#39;: 0.0, &#39;timestamp&#39;: 1746817545.842817}})
+</pre></div>
+</div>
+</div>
+</div>
+<p>We can turn any of these axes into a simulator (<code class="docutils literal notranslate"><span class="pre">SoftPositioner</span></code>) by providing <code class="docutils literal notranslate"><span class="pre">None</span></code> instead of an EPICS PV.  Let’s show that for <code class="docutils literal notranslate"><span class="pre">roll</span></code>, <code class="docutils literal notranslate"><span class="pre">pitch</span></code>, and <code class="docutils literal notranslate"><span class="pre">yaw</span></code>.  Note that <code class="docutils literal notranslate"><span class="pre">motors</span></code> must still be a dictionary so that we can specify PVs for the <code class="docutils literal notranslate"><span class="pre">x</span></code>, <code class="docutils literal notranslate"><span class="pre">y</span></code>, and <code class="docutils literal notranslate"><span class="pre">z</span></code> axes.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">bundle</span> <span class="o">=</span> <span class="n">mb_creator</span><span class="p">(</span>
+    <span class="n">name</span><span class="o">=</span><span class="s2">&quot;bundle&quot;</span><span class="p">,</span> 
+    <span class="n">motors</span><span class="o">=</span><span class="p">{</span>
+        <span class="s2">&quot;x&quot;</span><span class="p">:</span> <span class="s2">&quot;gp:m1&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;y&quot;</span><span class="p">:</span> <span class="s2">&quot;gp:m2&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;z&quot;</span><span class="p">:</span> <span class="s2">&quot;gp:m3&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;roll&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="s2">&quot;pitch&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="s2">&quot;yaw&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="p">}</span>
+<span class="p">)</span>
+<span class="n">bundle</span><span class="o">.</span><span class="n">wait_for_connection</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">bundle</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">bundle</span><span class="o">.</span><span class="n">x</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">bundle</span><span class="o">.</span><span class="n">roll</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>bundle=MB_Device(prefix=&#39;&#39;, name=&#39;bundle&#39;, read_attrs=[&#39;x&#39;, &#39;x.user_readback&#39;, &#39;x.user_setpoint&#39;, &#39;y&#39;, &#39;y.user_readback&#39;, &#39;y.user_setpoint&#39;, &#39;z&#39;, &#39;z.user_readback&#39;, &#39;z.user_setpoint&#39;, &#39;roll&#39;, &#39;pitch&#39;, &#39;yaw&#39;], configuration_attrs=[&#39;x&#39;, &#39;x.user_offset&#39;, &#39;x.user_offset_dir&#39;, &#39;x.velocity&#39;, &#39;x.acceleration&#39;, &#39;x.motor_egu&#39;, &#39;y&#39;, &#39;y.user_offset&#39;, &#39;y.user_offset_dir&#39;, &#39;y.velocity&#39;, &#39;y.acceleration&#39;, &#39;y.motor_egu&#39;, &#39;z&#39;, &#39;z.user_offset&#39;, &#39;z.user_offset_dir&#39;, &#39;z.velocity&#39;, &#39;z.acceleration&#39;, &#39;z.motor_egu&#39;])
+bundle.x=EpicsMotor(prefix=&#39;gp:m1&#39;, name=&#39;bundle_x&#39;, parent=&#39;bundle&#39;, settle_time=0.0, timeout=None, read_attrs=[&#39;user_readback&#39;, &#39;user_setpoint&#39;], configuration_attrs=[&#39;user_offset&#39;, &#39;user_offset_dir&#39;, &#39;velocity&#39;, &#39;acceleration&#39;, &#39;motor_egu&#39;])
+bundle.roll=SoftPositioner(name=&#39;bundle_roll&#39;, parent=&#39;bundle&#39;, settle_time=0.0, timeout=None, egu=&#39;&#39;, limits=(0, 0), source=&#39;computed&#39;)
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="the-prefix-keyword">
+<h2>The <code class="docutils literal notranslate"><span class="pre">prefix</span></code> keyword<a class="headerlink" href="#the-prefix-keyword" title="Link to this heading">#</a></h2>
+<p>When all the EPICS PVs share a common starting sequence of symbols, we can
+provide that in the <code class="docutils literal notranslate"><span class="pre">prefix</span></code> kwarg.  Here, we modify from the previous structure
+to show how to use this kwarg.  Note that we remove it from each of the PV
+names:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">bundle</span> <span class="o">=</span> <span class="n">mb_creator</span><span class="p">(</span>
+    <span class="n">name</span><span class="o">=</span><span class="s2">&quot;bundle&quot;</span><span class="p">,</span>
+    <span class="n">prefix</span><span class="o">=</span><span class="s2">&quot;gp:&quot;</span><span class="p">,</span>
+    <span class="n">motors</span><span class="o">=</span><span class="p">{</span>
+        <span class="s2">&quot;x&quot;</span><span class="p">:</span> <span class="s2">&quot;m1&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;y&quot;</span><span class="p">:</span> <span class="s2">&quot;m2&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;z&quot;</span><span class="p">:</span> <span class="s2">&quot;m3&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;roll&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="s2">&quot;pitch&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="s2">&quot;yaw&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="p">}</span>
+<span class="p">)</span>
+<span class="n">bundle</span><span class="o">.</span><span class="n">wait_for_connection</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">bundle</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">bundle</span><span class="o">.</span><span class="n">x</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">bundle</span><span class="o">.</span><span class="n">roll</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>bundle=MB_Device(prefix=&#39;gp:&#39;, name=&#39;bundle&#39;, read_attrs=[&#39;x&#39;, &#39;x.user_readback&#39;, &#39;x.user_setpoint&#39;, &#39;y&#39;, &#39;y.user_readback&#39;, &#39;y.user_setpoint&#39;, &#39;z&#39;, &#39;z.user_readback&#39;, &#39;z.user_setpoint&#39;, &#39;roll&#39;, &#39;pitch&#39;, &#39;yaw&#39;], configuration_attrs=[&#39;x&#39;, &#39;x.user_offset&#39;, &#39;x.user_offset_dir&#39;, &#39;x.velocity&#39;, &#39;x.acceleration&#39;, &#39;x.motor_egu&#39;, &#39;y&#39;, &#39;y.user_offset&#39;, &#39;y.user_offset_dir&#39;, &#39;y.velocity&#39;, &#39;y.acceleration&#39;, &#39;y.motor_egu&#39;, &#39;z&#39;, &#39;z.user_offset&#39;, &#39;z.user_offset_dir&#39;, &#39;z.velocity&#39;, &#39;z.acceleration&#39;, &#39;z.motor_egu&#39;])
+bundle.x=EpicsMotor(prefix=&#39;gp:m1&#39;, name=&#39;bundle_x&#39;, parent=&#39;bundle&#39;, settle_time=0.0, timeout=None, read_attrs=[&#39;user_readback&#39;, &#39;user_setpoint&#39;], configuration_attrs=[&#39;user_offset&#39;, &#39;user_offset_dir&#39;, &#39;velocity&#39;, &#39;acceleration&#39;, &#39;motor_egu&#39;])
+bundle.roll=SoftPositioner(name=&#39;bundle_roll&#39;, parent=&#39;bundle&#39;, settle_time=0.0, timeout=None, egu=&#39;&#39;, limits=(0, 0), source=&#39;computed&#39;)
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="the-labels-keyword">
+<h2>The <code class="docutils literal notranslate"><span class="pre">labels</span></code> keyword<a class="headerlink" href="#the-labels-keyword" title="Link to this heading">#</a></h2>
+<p>Ophyd provides a <code class="docutils literal notranslate"><span class="pre">labels</span></code> kwarg to help categorize the various ophyd objects. It
+is a Python list.  There are very few reserved labels (<code class="docutils literal notranslate"><span class="pre">&quot;detectors&quot;</span></code> is used by
+the <code class="docutils literal notranslate"><span class="pre">%ct</span></code> bluesky magic function, <code class="docutils literal notranslate"><span class="pre">&quot;motors&quot;</span></code> is also used by some convention.)
+Use your own labels as best fits the situation.  Multiple labels are allowed.</p>
+<p>The ophyd registry (<code class="docutils literal notranslate"><span class="pre">oregistry</span></code>) can search for ophyd objects by label.  Let’s show that, too.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">ophyd</span><span class="w"> </span><span class="kn">import</span> <span class="n">Signal</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">ophydregistry</span><span class="w"> </span><span class="kn">import</span> <span class="n">Registry</span>
+
+<span class="n">oregistry</span> <span class="o">=</span> <span class="n">Registry</span><span class="p">()</span>
+<span class="n">oregistry</span><span class="o">.</span><span class="n">auto_register</span> <span class="o">=</span> <span class="kc">True</span>
+
+<span class="n">bundle</span> <span class="o">=</span> <span class="n">mb_creator</span><span class="p">(</span>
+    <span class="n">name</span><span class="o">=</span><span class="s2">&quot;bundle&quot;</span><span class="p">,</span>
+    <span class="n">prefix</span><span class="o">=</span><span class="s2">&quot;gp:&quot;</span><span class="p">,</span>
+    <span class="n">motors</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;x&quot;</span><span class="p">:</span> <span class="s2">&quot;m1&quot;</span><span class="p">,</span> <span class="s2">&quot;y&quot;</span><span class="p">:</span> <span class="s2">&quot;m2&quot;</span><span class="p">},</span>
+    <span class="n">labels</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;bundle&quot;</span><span class="p">,</span> <span class="s2">&quot;example&quot;</span><span class="p">],</span>
+<span class="p">)</span>
+<span class="n">signal</span> <span class="o">=</span> <span class="n">Signal</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;signal&quot;</span><span class="p">,</span> <span class="n">labels</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;not EPICS&quot;</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">oregistry</span><span class="o">.</span><span class="n">device_names</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">oregistry</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="n">label</span><span class="o">=</span><span class="s1">&#39;example&#39;</span><span class="p">)</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">oregistry</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="n">label</span><span class="o">=</span><span class="s1">&#39;not&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">allow_none</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">oregistry</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="n">label</span><span class="o">=</span><span class="s1">&#39;not EPICS&#39;</span><span class="p">)</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>oregistry.device_names={&#39;signal&#39;, &#39;bundle&#39;}
+oregistry.findall(label=&#39;example&#39;)=[MB_Device(prefix=&#39;gp:&#39;, name=&#39;bundle&#39;, read_attrs=[&#39;x&#39;, &#39;x.user_readback&#39;, &#39;x.user_setpoint&#39;, &#39;y&#39;, &#39;y.user_readback&#39;, &#39;y.user_setpoint&#39;], configuration_attrs=[&#39;x&#39;, &#39;x.user_offset&#39;, &#39;x.user_offset_dir&#39;, &#39;x.velocity&#39;, &#39;x.acceleration&#39;, &#39;x.motor_egu&#39;, &#39;y&#39;, &#39;y.user_offset&#39;, &#39;y.user_offset_dir&#39;, &#39;y.velocity&#39;, &#39;y.acceleration&#39;, &#39;y.motor_egu&#39;])]
+oregistry.findall(label=&#39;not&#39;, allow_none=True)=[]
+oregistry.findall(label=&#39;not EPICS&#39;)=[Signal(name=&#39;signal&#39;, value=0.0, timestamp=1747267101.8723898)]
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="the-class-bases-keyword">
+<h2>The <code class="docutils literal notranslate"><span class="pre">class_bases</span></code> keyword<a class="headerlink" href="#the-class-bases-keyword" title="Link to this heading">#</a></h2>
+<p>The factory uses <code class="docutils literal notranslate"><span class="pre">ophyd.MotorBundle</span></code> by default to create the ophyd object.  If you want to use a different base class (or more than one), the <code class="docutils literal notranslate"><span class="pre">class_bases</span></code> kwarg allows you to define a <em>list</em> of base classes.  Here, we use the <code class="docutils literal notranslate"><span class="pre">ophyd.Device</span></code> class:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">bundle</span> <span class="o">=</span> <span class="n">mb_creator</span><span class="p">(</span>
+    <span class="n">name</span><span class="o">=</span><span class="s2">&quot;bundle&quot;</span><span class="p">,</span>
+    <span class="n">motors</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;x&quot;</span><span class="p">,</span> <span class="s2">&quot;y&quot;</span><span class="p">,</span> <span class="s2">&quot;theta&quot;</span><span class="p">],</span>
+    <span class="n">class_bases</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;ophyd.Device&quot;</span><span class="p">],</span>
+<span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">bundle</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>bundle.__class__.__name__=&#39;MB_Device&#39;
+</pre></div>
+</div>
+</div>
+</div>
+<p>To see how <code class="docutils literal notranslate"><span class="pre">ophyd.Device</span></code> has been used, we need to investigate the order of
+base classes used by the <code class="docutils literal notranslate"><span class="pre">bundle</span></code> object.  We can see this by printing the
+<em>Python class Method Resolution Order</em> (<a class="reference external" href="https://www.geeksforgeeks.org/method-resolution-order-in-python-inheritance/">MRO</a>).</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">bundle</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__mro__</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(apstools.devices.motor_factory.MB_Device,
+ ophyd.device.Device,
+ ophyd.device.BlueskyInterface,
+ ophyd.ophydobj.OphydObject,
+ object)
+</pre></div>
+</div>
+</div>
+</div>
+<p>As noted above, the factory does not provide additional methods such as
+<code class="docutils literal notranslate"><span class="pre">.move()</span></code> or <code class="docutils literal notranslate"><span class="pre">.position</span></code>.  To move any of the component motors, move them individually, such as: <code class="docutils literal notranslate"><span class="pre">bundle.x.move(5)</span></code>.  In a bluesky plan stub, they can be moved together, such as</p>
+<div class="highlight-py notranslate"><div class="highlight"><pre><span></span>    <span class="k">yield from</span> <span class="n">bps</span><span class="o">.</span><span class="n">move</span><span class="p">(</span>
+        <span class="n">bundle</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span>
+        <span class="n">bundle</span><span class="o">.</span><span class="n">y</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span>
+        <span class="n">bundle</span><span class="o">.</span><span class="n">theta</span><span class="p">,</span> <span class="mf">25.251</span><span class="p">,</span>
+    <span class="p">)</span>
+</pre></div>
+</div>
+<p>The <code class="docutils literal notranslate"><span class="pre">class_bases</span></code> kwarg is a list, allowing you to
+provide an additional mixin class where such methods could be added.</p>
+<p>Let’s show an example with a custom mixin class that provides a <code class="docutils literal notranslate"><span class="pre">.position</span></code>
+property.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">ophyd</span><span class="w"> </span><span class="kn">import</span> <span class="n">Device</span>
+
+<span class="k">class</span><span class="w"> </span><span class="nc">PositionMixin</span><span class="p">(</span><span class="n">Device</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Report position of any component that has a position property.&quot;&quot;&quot;</span>
+    
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">position</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+        <span class="n">pos</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">for</span> <span class="n">attr</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">component_names</span><span class="p">:</span>
+            <span class="n">cpt</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">attr</span><span class="p">)</span>
+            <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">cpt</span><span class="p">,</span> <span class="s2">&quot;position&quot;</span><span class="p">):</span>
+                <span class="n">pos</span><span class="p">[</span><span class="n">attr</span><span class="p">]</span> <span class="o">=</span> <span class="n">cpt</span><span class="o">.</span><span class="n">position</span>
+        <span class="k">return</span> <span class="n">pos</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Create our <code class="docutils literal notranslate"><span class="pre">bundle</span></code> object, defining the <code class="docutils literal notranslate"><span class="pre">class_bases</span></code> kwarg to include both
+<code class="docutils literal notranslate"><span class="pre">&quot;ophyd.MotorBundle&quot;</span></code> (which will be imported by
+<a class="reference internal" href="../api/_devices.html#apstools.devices.motor_factory.mb_creator" title="apstools.devices.motor_factory.mb_creator"><code class="xref py py-func docutils literal notranslate"><span class="pre">mb_creator()</span></code></a>) and our custom
+<code class="docutils literal notranslate"><span class="pre">PositionMixin</span></code>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">bundle</span> <span class="o">=</span> <span class="n">mb_creator</span><span class="p">(</span>
+    <span class="n">name</span><span class="o">=</span><span class="s2">&quot;bundle&quot;</span><span class="p">,</span>
+    <span class="n">prefix</span><span class="o">=</span><span class="s2">&quot;gp:&quot;</span><span class="p">,</span>
+    <span class="n">motors</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;x&quot;</span><span class="p">:</span> <span class="s2">&quot;m1&quot;</span><span class="p">,</span> <span class="s2">&quot;y&quot;</span><span class="p">:</span> <span class="s2">&quot;m2&quot;</span><span class="p">,</span> <span class="s2">&quot;theta&quot;</span><span class="p">:</span> <span class="s2">&quot;m3&quot;</span><span class="p">},</span>
+    <span class="n">class_bases</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;ophyd.MotorBundle&quot;</span><span class="p">,</span> <span class="n">PositionMixin</span><span class="p">],</span>
+<span class="p">)</span>
+<span class="n">bundle</span><span class="o">.</span><span class="n">wait_for_connection</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">bundle</span><span class="o">.</span><span class="n">position</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>bundle.position={&#39;x&#39;: 0.05, &#39;y&#39;: -0.16670000000000001, &#39;theta&#39;: 0.0}
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="the-class-name-keyword">
+<h2>The <code class="docutils literal notranslate"><span class="pre">class_name</span></code> keyword<a class="headerlink" href="#the-class-name-keyword" title="Link to this heading">#</a></h2>
+<p>All the examples above created ophyd objects as instances of <code class="docutils literal notranslate"><span class="pre">MB_Device</span></code>.  It is
+possible to change that using the <code class="docutils literal notranslate"><span class="pre">class_name</span></code> kwarg. Let’s make an example
+simulated neat stage (see above), then look at its MRO (order of base devices).</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">bundle</span> <span class="o">=</span> <span class="n">mb_creator</span><span class="p">(</span>
+    <span class="n">name</span><span class="o">=</span><span class="s2">&quot;bundle&quot;</span><span class="p">,</span>
+    <span class="n">motors</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;x&quot;</span><span class="p">,</span> <span class="s2">&quot;y&quot;</span><span class="p">,</span> <span class="s2">&quot;theta&quot;</span><span class="p">],</span>
+    <span class="n">class_name</span><span class="o">=</span><span class="s2">&quot;NeatStage_Simulator&quot;</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="n">bundle</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__mro__</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(apstools.devices.motor_factory.NeatStage_Simulator,
+ ophyd.epics_motor.MotorBundle,
+ ophyd.device.Device,
+ ophyd.device.BlueskyInterface,
+ ophyd.ophydobj.OphydObject,
+ object)
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="advanced-use">
+<h2>Advanced use<a class="headerlink" href="#advanced-use" title="Link to this heading">#</a></h2>
+<p>Above, we saw that the <code class="docutils literal notranslate"><span class="pre">motors</span></code> kwarg can be either a list (names of the
+simulated axes) or a dictionary (names and PV names).  Here we show advanced use
+of that dictionary.  Instead of providing a PV name as a string value, we can
+provide a <strong>dictionary</strong> with <code class="docutils literal notranslate"><span class="pre">prefix</span></code> keyword for the PV and any other keywords
+accepted by the class for the axis.</p>
+<p>Let’s demonstrate for an EPICS motor axis and a simulated axis.  Comments were
+added for the additional terms that are not so obvious.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">bundle</span> <span class="o">=</span> <span class="n">mb_creator</span><span class="p">(</span>
+    <span class="n">name</span><span class="o">=</span><span class="s2">&quot;bundle&quot;</span><span class="p">,</span>
+    <span class="n">motors</span><span class="o">=</span><span class="p">{</span>
+        <span class="s2">&quot;motor&quot;</span><span class="p">:</span> <span class="p">{</span>
+            <span class="s2">&quot;prefix&quot;</span><span class="p">:</span> <span class="s2">&quot;gp:m1&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;labels&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;motors&quot;</span><span class="p">,</span> <span class="s2">&quot;EPICS&quot;</span><span class="p">],</span>
+            <span class="s2">&quot;kind&quot;</span><span class="p">:</span> <span class="s2">&quot;hinted&quot;</span><span class="p">,</span>  <span class="c1"># reported as data, plotted if named</span>
+        <span class="p">},</span>
+        <span class="s2">&quot;soft&quot;</span><span class="p">:</span> <span class="p">{</span>
+            <span class="s2">&quot;init_pos&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+            <span class="s2">&quot;limits&quot;</span><span class="p">:</span> <span class="p">[</span><span class="o">-</span><span class="mi">100</span><span class="p">,</span> <span class="mi">100</span><span class="p">],</span>
+            <span class="s2">&quot;labels&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;motors&quot;</span><span class="p">,</span> <span class="s2">&quot;EPICS&quot;</span><span class="p">],</span>
+            <span class="s2">&quot;kind&quot;</span><span class="p">:</span> <span class="s2">&quot;config&quot;</span><span class="p">,</span>  <span class="c1"># reported as configuration, not data</span>
+        <span class="p">},</span>
+    <span class="p">},</span>
+<span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">bundle</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">bundle</span><span class="o">.</span><span class="n">motor</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">bundle</span><span class="o">.</span><span class="n">soft</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>bundle=MB_Device(prefix=&#39;&#39;, name=&#39;bundle&#39;, read_attrs=[&#39;motor&#39;, &#39;motor.user_readback&#39;, &#39;motor.user_setpoint&#39;], configuration_attrs=[&#39;motor&#39;, &#39;motor.user_offset&#39;, &#39;motor.user_offset_dir&#39;, &#39;motor.velocity&#39;, &#39;motor.acceleration&#39;, &#39;motor.motor_egu&#39;, &#39;soft&#39;])
+bundle.motor=EpicsMotor(prefix=&#39;gp:m1&#39;, name=&#39;bundle_motor&#39;, parent=&#39;bundle&#39;, settle_time=0.0, timeout=None, read_attrs=[&#39;user_readback&#39;, &#39;user_setpoint&#39;], configuration_attrs=[&#39;user_offset&#39;, &#39;user_offset_dir&#39;, &#39;velocity&#39;, &#39;acceleration&#39;, &#39;motor_egu&#39;])
+bundle.soft=SoftPositioner(name=&#39;bundle_soft&#39;, parent=&#39;bundle&#39;, settle_time=0.0, timeout=None, egu=&#39;&#39;, limits=(-100, 100), source=&#39;computed&#39;)
+</pre></div>
+</div>
+</div>
+</div>
+<p>In addition to <code class="docutils literal notranslate"><span class="pre">EpicsMotor</span></code> and <code class="docutils literal notranslate"><span class="pre">SoftPositioner</span></code>, it’s possible to use other
+positioner classes for a “motor”.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">bundle</span> <span class="o">=</span> <span class="n">mb_creator</span><span class="p">(</span>
+    <span class="n">name</span><span class="o">=</span><span class="s2">&quot;bundle&quot;</span><span class="p">,</span>
+    <span class="n">prefix</span><span class="o">=</span><span class="s2">&quot;zgp:&quot;</span><span class="p">,</span>
+    <span class="n">motors</span><span class="o">=</span><span class="p">{</span>
+        <span class="s2">&quot;positioner&quot;</span><span class="p">:</span> <span class="p">{</span>
+            <span class="s2">&quot;class&quot;</span><span class="p">:</span> <span class="s2">&quot;apstools.devices.PVPositionerSoftDoneWithStop&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;prefix&quot;</span><span class="p">:</span> <span class="s2">&quot;gp:&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;readback_pv&quot;</span><span class="p">:</span> <span class="s2">&quot;float14&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;setpoint_pv&quot;</span><span class="p">:</span> <span class="s2">&quot;float4&quot;</span><span class="p">,</span>
+        <span class="p">},</span>
+    <span class="p">},</span>
+<span class="p">)</span>
+<span class="n">bundle</span><span class="o">.</span><span class="n">wait_for_connection</span><span class="p">()</span>
+<span class="n">bundle</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>OrderedDict([(&#39;bundle_positioner&#39;, {&#39;value&#39;: 0.0, &#39;timestamp&#39;: 631152000.0}),
+             (&#39;bundle_positioner_setpoint&#39;,
+              {&#39;value&#39;: 0.0, &#39;timestamp&#39;: 631152000.0})])
+</pre></div>
+</div>
+</div>
+</div>
+<p>It’s even possible to specify an axis with the <code class="docutils literal notranslate"><span class="pre">EpicsSignal</span></code> class. Let’s try
+with just a couple PVs:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">bundle</span> <span class="o">=</span> <span class="n">mb_creator</span><span class="p">(</span>
+    <span class="n">name</span><span class="o">=</span><span class="s2">&quot;bundle&quot;</span><span class="p">,</span>
+    <span class="n">motors</span><span class="o">=</span><span class="p">{</span>
+        <span class="s2">&quot;calculated&quot;</span><span class="p">:</span> <span class="p">{</span>
+            <span class="s2">&quot;class&quot;</span><span class="p">:</span> <span class="s2">&quot;ophyd.EpicsSignalRO&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;prefix&quot;</span><span class="p">:</span> <span class="s2">&quot;gp:userCalc8.VAL&quot;</span><span class="p">,</span>
+        <span class="p">},</span>
+        <span class="s2">&quot;b&quot;</span><span class="p">:</span> <span class="p">{</span>
+            <span class="s2">&quot;class&quot;</span><span class="p">:</span> <span class="s2">&quot;ophyd.EpicsSignal&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;prefix&quot;</span><span class="p">:</span> <span class="s2">&quot;gp:userCalc8.B&quot;</span><span class="p">,</span>
+        <span class="p">},</span>
+    <span class="p">},</span>
+<span class="p">)</span>
+<span class="n">bundle</span><span class="o">.</span><span class="n">wait_for_connection</span><span class="p">()</span>
+<span class="n">bundle</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>OrderedDict([(&#39;bundle_calculated&#39;,
+              {&#39;value&#39;: 25.30143434805829, &#39;timestamp&#39;: 1747267101.806678}),
+             (&#39;bundle_b&#39;, {&#39;value&#39;: 25.0, &#39;timestamp&#39;: 1747267101.806678})])
+</pre></div>
+</div>
+</div>
+</div>
+<p>The factory-generated class will be used to create ophyd objects (instances of
+that class).</p>
+<p>Here, we demonstrate a bundle that uses two different factories.  It is typical
+at the APS where a diffractometer is mounted on a multi-axis table.</p>
+<p>Keep in mind that a <a class="reference external" href="https://www.geeksforgeeks.org/class-factories-a-powerful-pattern-in-python/">Python class
+factory</a>
+is different from on object factory:</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>factory</p></th>
+<th class="head"><p>produces</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">mb_class_factory()</span></code></p></td>
+<td><p>Creates a custom Python class which will be used to create one or more ophyd objects.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">mb_creator()</span></code></p></td>
+<td><p>Creates an ophyd object (using <a class="reference internal" href="../api/_devices.html#apstools.devices.motor_factory.mb_class_factory" title="apstools.devices.motor_factory.mb_class_factory"><code class="xref py py-func docutils literal notranslate"><span class="pre">mb_class_factory()</span></code></a>)</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<br />
+<details>
+<hr class="docutils" />
+<p><strong>NOTE</strong></p>
+<p>This example is contrived.  Most diffractometer installations will not expose
+the table motors to use within bluesky since the table axes are used to align
+the diffractometer in the beamline.  Once aligned, the table motors are moved if
+the table is found to require additional alignment.</p>
+<hr class="docutils" />
+</details><div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">bundle</span> <span class="o">=</span> <span class="n">mb_creator</span><span class="p">(</span>
+    <span class="n">name</span><span class="o">=</span><span class="s2">&quot;bundle&quot;</span><span class="p">,</span>
+    <span class="n">labels</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;diffractometer&quot;</span><span class="p">],</span>
+    <span class="n">motors</span><span class="o">=</span><span class="p">{</span>
+        <span class="s2">&quot;psic&quot;</span><span class="p">:</span> <span class="p">{</span>
+            <span class="s2">&quot;factory&quot;</span><span class="p">:</span> <span class="p">{</span>
+                <span class="s2">&quot;function&quot;</span><span class="p">:</span> <span class="s2">&quot;hklpy2.diffract.diffractometer_class_factory&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;geometry&quot;</span><span class="p">:</span> <span class="s2">&quot;APS POLAR&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;solver&quot;</span><span class="p">:</span> <span class="s2">&quot;hkl_soleil&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;solver_kwargs&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;engine&quot;</span><span class="p">:</span> <span class="s2">&quot;hkl&quot;</span><span class="p">},</span>
+                <span class="s2">&quot;reals&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;mu&quot;</span><span class="p">,</span> <span class="s2">&quot;eta&quot;</span><span class="p">,</span> <span class="s2">&quot;chi&quot;</span><span class="p">,</span> <span class="s2">&quot;phi&quot;</span><span class="p">,</span> <span class="s2">&quot;nu&quot;</span><span class="p">,</span> <span class="s2">&quot;delta&quot;</span><span class="p">],</span>
+            <span class="p">}</span>
+        <span class="p">},</span>
+        <span class="s2">&quot;table&quot;</span><span class="p">:</span> <span class="p">{</span>
+            <span class="s2">&quot;factory&quot;</span><span class="p">:</span> <span class="p">{</span>
+                <span class="s2">&quot;function&quot;</span><span class="p">:</span> <span class="s2">&quot;apstools.devices.mb_class_factory&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;motors&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;x1&quot;</span><span class="p">,</span> <span class="s2">&quot;x2&quot;</span><span class="p">,</span> <span class="s2">&quot;y1&quot;</span><span class="p">,</span> <span class="s2">&quot;y2&quot;</span><span class="p">,</span> <span class="s2">&quot;y3&quot;</span><span class="p">,</span> <span class="s2">&quot;z&quot;</span><span class="p">],</span>
+            <span class="p">}</span>
+        <span class="p">},</span>
+    <span class="p">},</span>
+<span class="p">)</span>
+<span class="n">bundle</span><span class="o">.</span><span class="n">wait_for_connection</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">bundle</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">bundle</span><span class="o">.</span><span class="n">psic</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">bundle</span><span class="o">.</span><span class="n">table</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>bundle=MB_Device(prefix=&#39;&#39;, name=&#39;bundle&#39;, read_attrs=[&#39;psic&#39;, &#39;psic.beam&#39;, &#39;psic.beam.wavelength&#39;, &#39;psic.beam.energy&#39;, &#39;psic.h&#39;, &#39;psic.h.readback&#39;, &#39;psic.h.setpoint&#39;, &#39;psic.k&#39;, &#39;psic.k.readback&#39;, &#39;psic.k.setpoint&#39;, &#39;psic.l&#39;, &#39;psic.l.readback&#39;, &#39;psic.l.setpoint&#39;, &#39;psic.mu&#39;, &#39;psic.eta&#39;, &#39;psic.chi&#39;, &#39;psic.phi&#39;, &#39;psic.nu&#39;, &#39;psic.delta&#39;, &#39;table&#39;, &#39;table.x1&#39;, &#39;table.x2&#39;, &#39;table.y1&#39;, &#39;table.y2&#39;, &#39;table.y3&#39;, &#39;table.z&#39;], configuration_attrs=[&#39;psic&#39;, &#39;psic.solver_signature&#39;, &#39;psic.beam&#39;, &#39;psic.beam.source_type&#39;, &#39;psic.beam.wavelength_units&#39;, &#39;psic.beam.wavelength_deadband&#39;, &#39;psic.beam.energy_units&#39;, &#39;psic.h&#39;, &#39;psic.k&#39;, &#39;psic.l&#39;, &#39;table&#39;])
+bundle.psic=Hklpy2Diffractometer(prefix=&#39;&#39;, name=&#39;bundle_psic&#39;, parent=&#39;bundle&#39;, settle_time=0.0, timeout=None, egu=&#39;&#39;, limits=(0, 0), source=&#39;computed&#39;, read_attrs=[&#39;beam&#39;, &#39;beam.wavelength&#39;, &#39;beam.energy&#39;, &#39;h&#39;, &#39;h.readback&#39;, &#39;h.setpoint&#39;, &#39;k&#39;, &#39;k.readback&#39;, &#39;k.setpoint&#39;, &#39;l&#39;, &#39;l.readback&#39;, &#39;l.setpoint&#39;, &#39;mu&#39;, &#39;eta&#39;, &#39;chi&#39;, &#39;phi&#39;, &#39;nu&#39;, &#39;delta&#39;], configuration_attrs=[&#39;solver_signature&#39;, &#39;beam&#39;, &#39;beam.source_type&#39;, &#39;beam.wavelength_units&#39;, &#39;beam.wavelength_deadband&#39;, &#39;beam.energy_units&#39;, &#39;h&#39;, &#39;k&#39;, &#39;l&#39;], concurrent=True)
+bundle.table=MB_Device(prefix=&#39;&#39;, name=&#39;bundle_table&#39;, parent=&#39;bundle&#39;, read_attrs=[&#39;x1&#39;, &#39;x2&#39;, &#39;y1&#39;, &#39;y2&#39;, &#39;y3&#39;, &#39;z&#39;], configuration_attrs=[])
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="ho_list_control_objects.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">What are the objects to control?</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="ho_motor_factory_quickstart.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Quick Start: Grouping Motors with <code class="docutils literal notranslate"><span class="pre">mb_creator</span></code></p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+<div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+  </div>
+  <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#background">Background</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#example-using-mb-creator">Example using <code class="docutils literal notranslate"><span class="pre">mb_creator()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#let-s-start">Let’s start</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-motors-keyword">The <code class="docutils literal notranslate"><span class="pre">motors</span></code> keyword</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#use-an-epics-motor">Use an EPICS motor</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-prefix-keyword">The <code class="docutils literal notranslate"><span class="pre">prefix</span></code> keyword</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-labels-keyword">The <code class="docutils literal notranslate"><span class="pre">labels</span></code> keyword</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-class-bases-keyword">The <code class="docutils literal notranslate"><span class="pre">class_bases</span></code> keyword</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-class-name-keyword">The <code class="docutils literal notranslate"><span class="pre">class_name</span></code> keyword</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#advanced-use">Advanced use</a></li>
+</ul>
+  </nav></div>
+
+  <div class="sidebar-secondary-item">
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/examples/ho_motor_factory.ipynb.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+
+  <p class="copyright">
+    
+      © Copyright 2017-2025, UChicago Argonne, LLC.
+      <br/>
+    
+  </p>
+</div>
+      
+        <div class="footer-item">
+
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.1.3.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item">
+<p class="theme-version">
+  <!-- # L10n: Setting the PST URL as an argument as this does not need to be localized -->
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.16.1.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

@@ -1,0 +1,145 @@
+motor_factory
+=============
+
+.. py:module:: apstools.devices.motor_factory
+
+.. autoapi-nested-parse::
+
+   Import: ``apstools.devices.motor_factory``
+
+   Motor Bundle Factory
+   ====================
+
+   Factory for creating bundles with any number of positioners.
+
+   * Use :func:`~apstools.devices.motor_factory.mb_creator()`
+     to quickly group motors (axes) into a single ophyd device.
+   * Supports different axes types including EpicsMotor,
+     simulated (SoftPositioner), and other positioners.
+   * Advanced axis configuration is possible via per-axis dictionaries.
+   * Custom base classes, class names, labels, and factories are supported.
+
+   .. autosummary::
+
+       ~axis_component
+       ~mb_class_factory
+       ~mb_creator
+
+   .. rubric:: Quick Example
+
+   .. code-block:: python
+       :linenos:
+
+       xy_stage = mb_creator(
+           prefix="IOC:",
+           motors={"x": "m21", "y": "m22"},
+           name="xy_stage",
+       )
+
+   .. seealso::
+
+      * :doc:`Quick Start </examples/ho_motor_factory_quickstart>`
+      * :doc:`How to use 'mb_creator()' </examples/ho_motor_factory>`
+
+
+
+
+
+
+Module Contents
+---------------
+
+.. py:data:: DEFAULT_DEVICE_BASE_CLASSES
+   :type:  collections.abc.Sequence[Union[str, Type]]
+
+.. py:data:: DEFAULT_DEVICE_CLASS_NAME
+   :type:  str
+   :value: 'MB_Device'
+
+
+.. py:data:: DEFAULT_KIND
+   :type:  ophyd.Kind
+
+.. py:data:: DEFAULT_MOTOR_LABELS
+   :type:  collections.abc.Sequence[str]
+   :value: ['motors']
+
+
+.. py:data:: MOTORS_TYPE
+
+.. py:function:: axis_component(parms: Union[None, str, collections.abc.Mapping[str, Any]]) -> ophyd.Component
+
+   .. container:: import-path
+
+      Import: ``apstools.devices.motor_factory.axis_component``
+
+
+   Return a Component with 'parms for this axis.
+
+   PARAMETERS
+
+   parms:
+       Parameters for the axis, either as a string (prefix) or a mapping.
+
+   RETURNS
+
+   Component:
+       An ophyd Component for the axis.
+
+
+.. py:function:: mb_class_factory(motors: Union[MOTORS_TYPE, None] = None, class_bases: collections.abc.Sequence[Union[str, Type]] = DEFAULT_DEVICE_BASE_CLASSES, class_name: str = DEFAULT_DEVICE_CLASS_NAME) -> Type[ophyd.Device]
+
+   .. container:: import-path
+
+      Import: ``apstools.devices.motor_factory.mb_class_factory``
+
+
+   Create a custom MotorBundle (or as specified in 'class_bases') class.
+
+   PARAMETERS
+
+       motors:
+           Dictionary or list of motors to include in the bundle.
+       class_bases:
+           List of base classes (as Python objects or import strings).
+       class_name:
+           Name of the generated class.
+
+   RETURNS:
+       The dynamically-created class (a subclass of ophyd.Device).
+
+
+.. py:function:: mb_creator(*, prefix: str = '', name: Optional[str] = None, motors: MOTORS_TYPE = {}, class_bases: collections.abc.Sequence[Type] = DEFAULT_DEVICE_BASE_CLASSES, class_name: str = DEFAULT_DEVICE_CLASS_NAME, labels: collections.abc.Sequence[str] = ['motor_device']) -> ophyd.Device
+
+   .. container:: import-path
+
+      Import: ``apstools.devices.motor_factory.mb_creator``
+
+
+   Create MotorBundle with any number of motors.
+
+   PARAMETERS
+
+   prefix str:
+       The prefix for the device.
+
+   name str:
+       The name of the device (required).
+
+   motors list | dict:
+       List or dictionary of motor specifications to include in the bundle.
+
+   class_bases:
+       List of base classes for the bundle.
+
+   class_name str:
+       Name of the generated class.
+
+   labels list:
+       List of labels for the device.
+
+   RETURNS
+
+       An instance of the generated MotorBundle (or other, as directed) class.
+
+

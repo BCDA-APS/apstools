@@ -1,0 +1,368 @@
+spec2ophyd
+==========
+
+.. py:module:: apstools.migration.spec2ophyd
+
+.. autoapi-nested-parse::
+
+   Import: ``apstools.migration.spec2ophyd``
+
+   read SPEC config file and convert to ophyd setup commands
+
+   output of ophyd configuration to stdout
+
+   **USAGE**
+
+   .. code-block:: bash
+
+       user@host ~ $ ./spec2ophyd.py
+       usage: spec2ophyd.py [-h] [-v] configFileName
+       spec2ophyd.py: error: the following arguments are required: configFileName
+
+       user@host ~ $ ./spec2ophyd.py -h
+       usage: spec2ophyd.py [-h] [-v] configFileName
+
+       read SPEC config file and convert to ophyd setup commands
+
+       positional arguments:
+       configFileName  SPEC config file name
+
+       optional arguments:
+       -h, --help      show this help message and exit
+       -v, --version   print version number and exit
+
+
+
+
+
+
+
+
+Module Contents
+---------------
+
+.. py:class:: ItemNameBase
+
+   .. container:: import-path
+
+      Import: ``apstools.migration.spec2ophyd.ItemNameBase``
+
+
+   Bases: :py:obj:`Spec2ophydBase`
+
+
+   .. py:attribute:: ignore
+      :value: False
+
+
+
+   .. py:method:: item_name_value(item)
+
+
+   .. py:method:: ophyd_config()
+
+
+   .. py:attribute:: str_keys
+      :value: 'mne config_line name'
+
+
+
+.. py:data:: KNOWN_DEVICES
+
+.. py:class:: Spec2ophydBase
+
+   .. container:: import-path
+
+      Import: ``apstools.migration.spec2ophyd.Spec2ophydBase``
+
+
+   Bases: :py:obj:`object`
+
+
+   .. py:attribute:: mne
+      :value: ''
+
+
+
+   .. py:attribute:: name
+      :value: ''
+
+
+
+   .. py:method:: obj_keys_to_list()
+
+
+   .. py:attribute:: str_keys
+      :value: []
+
+
+
+.. py:class:: SpecConfig(config_file)
+
+   .. container:: import-path
+
+      Import: ``apstools.migration.spec2ophyd.SpecConfig``
+
+
+   Bases: :py:obj:`object`
+
+
+   SPEC configuration
+
+
+   .. py:attribute:: collection
+      :value: []
+
+
+
+   .. py:attribute:: config_file
+
+
+   .. py:attribute:: devices
+
+
+   .. py:method:: find_pv_in_collection(pv)
+
+
+   .. py:method:: read_config(config_file=None)
+
+
+   .. py:attribute:: scalers
+      :value: []
+
+
+
+   .. py:attribute:: unhandled
+      :value: []
+
+
+
+.. py:class:: SpecCounter(config_text)
+
+   .. container:: import-path
+
+      Import: ``apstools.migration.spec2ophyd.SpecCounter``
+
+
+   Bases: :py:obj:`ItemNameBase`
+
+
+   SPEC configuration of a counter channel
+
+   In SPEC's config file, a single PV signal is described as a counter,
+   attached to an EPICS_PV (as described by a VM_EPICS_PV device).
+
+
+   .. py:attribute:: cntpar
+
+
+   .. py:attribute:: config_line
+
+
+   .. py:attribute:: device
+      :value: None
+
+
+
+   .. py:method:: ophyd_config()
+
+
+   .. py:attribute:: pvname
+      :value: None
+
+
+
+   .. py:attribute:: raw
+
+
+   .. py:attribute:: reported_pvs
+      :value: []
+
+
+
+   .. py:method:: setDevice(devices)
+
+
+   .. py:attribute:: str_keys
+
+
+.. py:class:: SpecDevice(config_text)
+
+   .. container:: import-path
+
+      Import: ``apstools.migration.spec2ophyd.SpecDevice``
+
+
+   Bases: :py:obj:`Spec2ophydBase`
+
+
+   SPEC configuration of a device, e.g. multi-channel motor controller
+
+   SPEC "devices" are components which counters or motors to controllers
+
+
+   .. py:attribute:: config_line
+      :value: None
+
+
+
+   .. py:attribute:: index
+      :value: None
+
+
+
+   .. py:attribute:: name
+
+
+   .. py:attribute:: num_channels
+
+
+   .. py:attribute:: ophyd_device
+      :value: None
+
+
+
+   .. py:attribute:: prefix
+
+
+   .. py:attribute:: raw
+
+
+   .. py:attribute:: str_keys
+
+
+.. py:class:: SpecMotor(config_text)
+
+   .. container:: import-path
+
+      Import: ``apstools.migration.spec2ophyd.SpecMotor``
+
+
+   Bases: :py:obj:`ItemNameBase`
+
+
+   SPEC configuration of a motor channel
+
+
+   .. py:attribute:: config_line
+
+
+   .. py:attribute:: device
+      :value: None
+
+
+
+   .. py:attribute:: mac_parms
+      :value: None
+
+
+
+   .. py:attribute:: macro_prefix
+      :value: None
+
+
+
+   .. py:attribute:: motpar
+
+
+   .. py:method:: ophyd_config()
+
+
+   .. py:attribute:: pvname
+      :value: None
+
+
+
+   .. py:attribute:: raw
+
+
+   .. py:method:: setDevice(devices)
+
+
+   .. py:attribute:: str_keys
+
+
+.. py:class:: SpecSignal(mne, nm, pvname, config_text)
+
+   .. container:: import-path
+
+      Import: ``apstools.migration.spec2ophyd.SpecSignal``
+
+
+   Bases: :py:obj:`ItemNameBase`
+
+
+   SPEC configuration of a single EPICS PV
+
+
+   .. py:attribute:: cntpar
+
+
+   .. py:attribute:: device
+      :value: None
+
+
+
+   .. py:attribute:: flags
+
+
+   .. py:attribute:: mne
+
+
+   .. py:attribute:: name
+
+
+   .. py:method:: ophyd_config()
+
+
+   .. py:attribute:: pvname
+
+
+   .. py:attribute:: raw
+
+
+   .. py:method:: setDevice(devices)
+
+
+   .. py:attribute:: signal_name
+      :value: 'EpicsSignal'
+
+
+
+   .. py:attribute:: str_keys
+
+
+.. py:function:: create_ophyd_setup(spec_config)
+
+   .. container:: import-path
+
+      Import: ``apstools.migration.spec2ophyd.create_ophyd_setup``
+
+
+.. py:function:: get_apstools_version()
+
+   .. container:: import-path
+
+      Import: ``apstools.migration.spec2ophyd.get_apstools_version``
+
+
+   Get the version string from the parent package.
+
+
+.. py:function:: get_options()
+
+   .. container:: import-path
+
+      Import: ``apstools.migration.spec2ophyd.get_options``
+
+
+   Handle command line arguments.
+
+
+.. py:function:: main()
+
+   .. container:: import-path
+
+      Import: ``apstools.migration.spec2ophyd.main``
+
+

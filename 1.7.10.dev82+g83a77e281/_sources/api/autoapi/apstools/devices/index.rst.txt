@@ -1,0 +1,59 @@
+devices
+=======
+
+.. py:module:: apstools.devices
+
+.. autoapi-nested-parse::
+
+   Import: ``apstools.devices``
+
+   Support for APS hardware abstractions (both physical and virtual).
+
+
+Submodules
+----------
+
+.. toctree::
+   :maxdepth: 1
+
+   /api/autoapi/apstools/devices/acs_motors/index
+   /api/autoapi/apstools/devices/aps_bss_user/index
+   /api/autoapi/apstools/devices/aps_cycle/index
+   /api/autoapi/apstools/devices/aps_data_management/index
+   /api/autoapi/apstools/devices/aps_machine/index
+   /api/autoapi/apstools/devices/aps_undulator/index
+   /api/autoapi/apstools/devices/area_detector_factory/index
+   /api/autoapi/apstools/devices/area_detector_support/index
+   /api/autoapi/apstools/devices/avs_filters/index
+   /api/autoapi/apstools/devices/axis_tuner/index
+   /api/autoapi/apstools/devices/delay/index
+   /api/autoapi/apstools/devices/description_mixin/index
+   /api/autoapi/apstools/devices/dict_device_support/index
+   /api/autoapi/apstools/devices/epics_scan_id_signal/index
+   /api/autoapi/apstools/devices/eurotherm_2216e/index
+   /api/autoapi/apstools/devices/hhl_apertures/index
+   /api/autoapi/apstools/devices/hhl_slits/index
+   /api/autoapi/apstools/devices/jj_transfocators/index
+   /api/autoapi/apstools/devices/kohzu_monochromator/index
+   /api/autoapi/apstools/devices/labjack/index
+   /api/autoapi/apstools/devices/lakeshore_controllers/index
+   /api/autoapi/apstools/devices/linkam_controllers/index
+   /api/autoapi/apstools/devices/measComp_tc32_support/index
+   /api/autoapi/apstools/devices/measComp_usb_ctr_support/index
+   /api/autoapi/apstools/devices/mixin_base/index
+   /api/autoapi/apstools/devices/motor_factory/index
+   /api/autoapi/apstools/devices/motor_mixins/index
+   /api/autoapi/apstools/devices/positioner_soft_done/index
+   /api/autoapi/apstools/devices/preamp_base/index
+   /api/autoapi/apstools/devices/ptc10_controller/index
+   /api/autoapi/apstools/devices/scaler_support/index
+   /api/autoapi/apstools/devices/shutters/index
+   /api/autoapi/apstools/devices/simulated_controllers/index
+   /api/autoapi/apstools/devices/srs570_preamplifier/index
+   /api/autoapi/apstools/devices/struck3820/index
+   /api/autoapi/apstools/devices/synth_pseudo_voigt/index
+   /api/autoapi/apstools/devices/tracking_signal/index
+   /api/autoapi/apstools/devices/xia_pf4/index
+   /api/autoapi/apstools/devices/xia_slit/index
+
+

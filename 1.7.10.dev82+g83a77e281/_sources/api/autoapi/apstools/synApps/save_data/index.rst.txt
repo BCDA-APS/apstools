@@ -1,0 +1,107 @@
+save_data
+=========
+
+.. py:module:: apstools.synApps.save_data
+
+.. autoapi-nested-parse::
+
+   Import: ``apstools.synApps.save_data``
+
+   Ophyd support for the EPICS synApps saveData support
+
+   see:  https://epics.anl.gov/bcda/synApps/sscan/sscanRecord.html
+
+   EXAMPLE::
+
+       from apstools.synApps import SaveData
+       save_data = SaveData("xxx:saveData_", name="save_data")
+
+
+   Public Structures
+
+   .. autosummary::
+
+       ~SaveData
+
+
+
+
+Module Contents
+---------------
+
+.. py:class:: SaveData(prefix='', *, name, kind=None, read_attrs=None, configuration_attrs=None, parent=None, child_name_separator='_', connection_timeout=DEFAULT_CONNECTION_TIMEOUT, **kwargs)
+
+   .. container:: import-path
+
+      Import: ``apstools.synApps.save_data.SaveData``
+
+
+   Bases: :py:obj:`ophyd.Device`
+
+
+   EPICS synApps saveData support.
+
+   .. index:: Ophyd Device; synApps SaveData
+
+   usage::
+
+       from apstools.synApps import SaveData
+       save_data = SaveData("xxx:saveData_", name="save_data")
+
+   .. autosummary::
+
+       ~reset
+
+
+
+   .. py:attribute:: base_name
+
+
+   .. py:attribute:: comment1
+
+
+   .. py:attribute:: comment2
+
+
+   .. py:attribute:: file_system
+
+
+   .. py:attribute:: full_name
+
+
+   .. py:attribute:: full_path_name
+
+
+   .. py:attribute:: max_retries
+
+
+   .. py:attribute:: message
+
+
+   .. py:attribute:: next_scan_number
+
+
+   .. py:method:: reset()
+
+
+   .. py:attribute:: retry_wait_s
+
+
+   .. py:attribute:: status
+
+
+   .. py:attribute:: subdirectory
+
+
+   .. py:attribute:: write_1D_each_point
+
+
+   .. py:attribute:: write_count_abandoned
+
+
+   .. py:attribute:: write_count_current
+
+
+   .. py:attribute:: write_count_total
+
+

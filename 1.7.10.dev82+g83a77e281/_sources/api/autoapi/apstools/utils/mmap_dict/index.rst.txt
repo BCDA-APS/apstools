@@ -1,0 +1,81 @@
+mmap_dict
+=========
+
+.. py:module:: apstools.utils.mmap_dict
+
+.. autoapi-nested-parse::
+
+   Import: ``apstools.utils.mmap_dict``
+
+   MMap
+   ====
+
+   A dictionary where the keys are also accessible as attributes.
+
+
+
+
+Module Contents
+---------------
+
+.. py:class:: MMap(**kwargs)
+
+   .. container:: import-path
+
+      Import: ``apstools.utils.mmap_dict.MMap``
+
+
+   Bases: :py:obj:`collections.abc.MutableMapping`
+
+
+   Dictionary with keys accessible as attributes (read-only).
+
+   All keys are accessible for read and write by dictionary-style references
+   ('mmap["key"]' or 'mmap.get(key)').
+
+   Since dictionary keys are accessible as attributes, the names of existing
+   attributes (such as 'clear', 'items', keys', values', ...) are reserved and
+   cannot be used as dictionary keys.
+
+   EXAMPLE::
+
+       >>> mmap = MMap(a=1, b=2)
+       >>> mmap
+       MMap(a=1, b=2)
+       >>> mmap["a]
+       1
+       >>> mmap["a"] = 2
+       >>> mmap.a
+       2
+       >>> mmap.a = 3
+       AttributeError: Unknown: attribute='a'
+       >>> mmap
+       MMap(a=2, b=2)
+       >>> mmap["clear"] = 5
+       KeyError: "key='clear' is a reserved name."
+
+   You can retrieve the value of a key by any of these dictionary methods::
+
+       mmap["a"]
+       mmap.get("a")
+       # Or supply a default if the key does not exist.
+       # Here, the default is 1.2345
+       mmap.get("a", 1.2345)
+       
+   and by any attribute method::
+       
+       mmap.a
+       getattr(mmap, "a")
+       # Or supply a default if the key does not exist.
+       getattr(mmap, "a", 1.2345)
+
+
+   .. py:attribute:: attribute_names
+
+
+   .. py:method:: clear()
+
+      D.clear() -> None.  Remove all items from D.
+
+
+

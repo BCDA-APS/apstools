@@ -1,0 +1,232 @@
+hhl_apertures
+=============
+
+.. py:module:: apstools.devices.hhl_apertures
+
+.. autoapi-nested-parse::
+
+   Import: ``apstools.devices.hhl_apertures``
+
+   High Heat-Load Apertures
+   =============================
+
+   .. autosummary::
+
+     ~HHLApertureBase
+     ~HHLAperture
+     ~HHLApertureACS
+     ~HHLApertureWBA
+
+
+
+
+Module Contents
+---------------
+
+.. py:class:: HHLAperture(prefix: str, pitch_motor: str, yaw_motor: str, horizontal_motor: str, diagonal_motor: str, *args, **kwargs)
+
+   .. container:: import-path
+
+      Import: ``apstools.devices.hhl_apertures.HHLAperture``
+
+
+   Bases: :py:obj:`HHLApertureBase`
+
+
+   High Heat Load Aperture.
+
+   There are no independent parts to move, so each axis only has center and size.
+
+   Based on the Variable Mass Aperture Slits support in OPTICS module.
+
+   Similar to HHL_slits but for beamlines that dont follow 25ID nomenclature.
+
+   Parameters
+   ==========
+   prefix:
+     EPICS prefix required to communicate with HHL Slit IOC, ex: "9ida:SL1:"
+   pitch_motor:
+     The motor record PV controlling the real pitch motor, ex "9ida:CR9A1:m3"
+   yaw_motor:
+     The motor record PV controlling the real yaw motor, ex "9ida:CR9A1:m4"
+   horizontal_motor:
+     The motor record PV controlling the real horizontal motor, ex: "9ida:CR9A1:m1"
+   diagonal_motor:
+     The motor record PV controlling the real diagonal motor, ex: "9ida:CR9A1:m2"
+
+
+   .. py:attribute:: diagonal
+
+
+   .. py:attribute:: horizontal
+
+
+   .. py:attribute:: pitch
+
+
+   .. py:attribute:: yaw
+
+
+.. py:class:: HHLApertureACS(prefix: str, pitch_motor: str, yaw_motor: str, horizontal_motor: str, diagonal_motor: str, *args, **kwargs)
+
+   .. container:: import-path
+
+      Import: ``apstools.devices.hhl_apertures.HHLApertureACS``
+
+
+   Bases: :py:obj:`HHLApertureBase`
+
+
+   High Heat Load Aperture for ACS motors.
+
+   There are no independent parts to move, so each axis only has center and size.
+
+   Based on the Variable Mass Aperture Slits support in OPTICS module.
+
+   Similar to HHL_slits but for beamlines that dont follow 25ID nomenclature.
+
+   Parameters
+   ==========
+   prefix:
+     EPICS prefix required to communicate with HHL Slit IOC, ex: "9ida:SL1:"
+   pitch_motor:
+     The motor record PV controlling the real pitch motor, ex "9ida:CR9A1:m3"
+   yaw_motor:
+     The motor record PV controlling the real yaw motor, ex "9ida:CR9A1:m4"
+   horizontal_motor:
+     The motor record PV controlling the real horizontal motor, ex: "9ida:CR9A1:m1"
+   diagonal_motor:
+     The motor record PV controlling the real diagonal motor, ex: "9ida:CR9A1:m2"
+
+
+   .. py:attribute:: diagonal
+
+
+   .. py:attribute:: horizontal
+
+
+   .. py:attribute:: pitch
+
+
+   .. py:attribute:: yaw
+
+
+.. py:class:: HHLApertureBase(prefix='', *, name, kind=None, read_attrs=None, configuration_attrs=None, parent=None, child_name_separator='_', connection_timeout=DEFAULT_CONNECTION_TIMEOUT, **kwargs)
+
+   .. container:: import-path
+
+      Import: ``apstools.devices.hhl_apertures.HHLApertureBase``
+
+
+   Bases: :py:obj:`ophyd.Device`
+
+
+   Base class for HHLAperture classes, 2-axis slit.
+
+
+   .. py:class:: SlitAxis(prefix='', *, name, kind=None, read_attrs=None, configuration_attrs=None, parent=None, child_name_separator='_', connection_timeout=DEFAULT_CONNECTION_TIMEOUT, **kwargs)
+
+      .. container:: import-path
+
+         Import: ``apstools.devices.hhl_apertures.HHLApertureBase.SlitAxis``
+
+
+      Bases: :py:obj:`ophyd.Device`
+
+
+      Base class for device objects
+
+      This class provides attribute access to one or more Signals, which can be
+      a mixture of read-only and writable. All must share the same base_name.
+
+      Parameters
+      ----------
+      prefix : str, optional
+          The PV prefix for all components of the device
+      name : str, keyword only
+          The name of the device (as will be reported via read()`
+      kind : a member of the :class:`~ophydobj.Kind` :class:`~enum.IntEnum`
+          (or equivalent integer), optional
+          Default is ``Kind.normal``. See :class:`~ophydobj.Kind` for options.
+      read_attrs : sequence of attribute names
+          DEPRECATED: the components to include in a normal reading
+          (i.e., in ``read()``)
+      configuration_attrs : sequence of attribute names
+          DEPRECATED: the components to be read less often (i.e., in
+          ``read_configuration()``) and to adjust via ``configure()``
+      parent : instance or None, optional
+          The instance of the parent device, if applicable
+      connection_timeout : float or None, optional
+          Timeout for connection of all underlying signals.
+
+          The default value DEFAULT_CONNECTION_TIMEOUT means, "Fall back to
+          class-wide default." See Device.set_defaults to
+          configure class defaults.
+
+          Explicitly passing None means, "Wait forever."
+
+      Attributes
+      ----------
+      lazy_wait_for_connection : bool
+          When instantiating a lazy signal upon first access, wait for it to
+          connect before returning control to the user.  See also the context
+          manager helpers: ``wait_for_lazy_connection`` and
+          ``do_not_wait_for_lazy_connection``.
+
+      Subscriptions
+      -------------
+      SUB_ACQ_DONE
+          A one-time subscription indicating the requested trigger-based
+          acquisition has completed.
+
+
+      .. py:attribute:: center
+
+
+      .. py:attribute:: size
+
+
+
+   .. py:attribute:: h
+
+
+   .. py:attribute:: v
+
+
+.. py:class:: HHLApertureWBA(prefix: str, pitch_motor: str, yaw_motor: str, horizontal_motor: str, diagonal_motor: str, *args, **kwargs)
+
+   .. container:: import-path
+
+      Import: ``apstools.devices.hhl_apertures.HHLApertureWBA``
+
+
+   Bases: :py:obj:`HHLApertureACS`
+
+
+   High Heat-Load Apertures White Beam
+
+
+   .. py:attribute:: diag_indexed
+
+
+   .. py:attribute:: diag_zeroed
+
+
+   .. py:attribute:: hor_indexed
+
+
+   .. py:attribute:: hor_zeroed
+
+
+   .. py:attribute:: pitch_indexed
+
+
+   .. py:attribute:: pitch_zeroed
+
+
+   .. py:attribute:: yaw_indexed
+
+
+   .. py:attribute:: yaw_zeroed
+
+

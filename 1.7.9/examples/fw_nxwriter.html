@@ -1,0 +1,961 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Callback &#8212; apstools 1.7</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="../_static/graphviz.css?v=4ae1632d" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.8ecb98da25f57f5357bf6f572d296f466b2cfe2517ffebfabe82451661e28f02.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../_static/css/custom.css?v=8b12e3de" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+
+    <script src="../_static/documentation_options.js?v=84e671e0"></script>
+    <script src="../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'examples/fw_nxwriter';</script>
+    <script>
+        DOCUMENTATION_OPTIONS.theme_version = '0.16.1';
+        DOCUMENTATION_OPTIONS.theme_switcher_json_url = 'https://raw.githubusercontent.com/BCDA-APS/apstools/main/docs/source/_static/switcher.json';
+        DOCUMENTATION_OPTIONS.theme_switcher_version_match = '1.7.9';
+        DOCUMENTATION_OPTIONS.show_version_warning_banner =
+            false;
+        </script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Output scan(s) to a SPEC data file." href="fw_specfile_example.html" />
+    <link rel="prev" title="File Writer Examples" href="filewriter_examples.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="1.7" />
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-3 navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../index.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">apstools 1.7</p>
+  
+</a></div>
+    
+      <div class="navbar-item">
+<div class="version-switcher__container dropdown pst-js-only">
+  <button id="pst-version-switcher-button-2"
+    type="button"
+    class="version-switcher__button btn btn-sm dropdown-toggle"
+    data-bs-toggle="dropdown"
+    aria-haspopup="listbox"
+    aria-controls="pst-version-switcher-list-2"
+    aria-label="Version switcher list"
+  >
+    Choose version  <!-- this text may get changed later by javascript -->
+    <span class="caret"></span>
+  </button>
+  <div id="pst-version-switcher-list-2"
+    class="version-switcher__menu dropdown-menu list-group-flush py-0"
+    role="listbox" aria-labelledby="pst-version-switcher-button-2">
+    <!-- dropdown will be populated by javascript on page load -->
+  </div>
+</div></div>
+    
+  </div>
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../install.html">
+    Installation
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../api/index.html">
+    API Documentation
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../applications/index.html">
+    Applications
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="index.html">
+    Examples
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../changes.html">
+    Change History
+  </a>
+</li>
+
+            <li class="nav-item dropdown">
+                <button class="btn dropdown-toggle nav-item" type="button"
+                data-bs-toggle="dropdown" aria-expanded="false"
+                aria-controls="pst-nav-more-links">
+                    More
+                </button>
+                <ul id="pst-nav-more-links" class="dropdown-menu">
+                    
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../license.html">
+    License
+  </a>
+</li>
+
+                </ul>
+            </li>
+            
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+        <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+      
+        <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/BCDA-APS/apstools" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../install.html">
+    Installation
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../api/index.html">
+    API Documentation
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../applications/index.html">
+    Applications
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="index.html">
+    Examples
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../changes.html">
+    Change History
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../license.html">
+    License
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+        
+          <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/BCDA-APS/apstools" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+        
+      </div>
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+<nav class="bd-docs-nav bd-links"
+     aria-label="Section Navigation">
+  <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
+  <div class="bd-toc-item navbar-nav"><ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="device_examples.html">Device Examples</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="de_0_adsim_hdf5_basic.html">Area Detector with default HDF5 File Name</a></li>
+<li class="toctree-l2"><a class="reference internal" href="de_1_adsim_hdf5_custom_names.html">Area Detector with custom HDF5 File Name</a></li>
+<li class="toctree-l2"><a class="reference internal" href="de_2_adsim_hdf5_single_mode.html">Area Detector, Single mode, HDF5 file</a></li>
+<li class="toctree-l2"><a class="reference internal" href="de_ad_pe.html">ADPerkinElmer Area Detector with default HDF5 File Name</a></li>
+<li class="toctree-l2"><a class="reference internal" href="de_ad_pilatus.html">ADPilatus Area Detector with default HDF5 File Name</a></li>
+<li class="toctree-l2"><a class="reference internal" href="de_aps_data_management.html">Integration with APS Data Management (DM)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="de_sscan.html">The synApps <code class="docutils literal notranslate"><span class="pre">sscan</span></code> and <code class="docutils literal notranslate"><span class="pre">SscanRecord</span></code></a></li>
+</ul>
+</details></li>
+</ul>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="filewriter_examples.html">File Writer Examples</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">Callback</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="fw_specfile_example.html">Output scan(s) to a SPEC data file.</a></li>
+</ul>
+</details></li>
+</ul>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="howto_examples.html">How-To Examples</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="ho_contingency.html">How to interrupt/stop/abort a running plan &amp; recover to safe settings</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ho_list_control_objects.html">What are the objects to control?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ho_motor_factory.html">Grouping Motors with <code class="docutils literal notranslate"><span class="pre">mb_creator</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ho_motor_factory_quickstart.html">Quick Start: Grouping Motors with <code class="docutils literal notranslate"><span class="pre">mb_creator</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ho_nxwriter_templates.html">How to use NeXus/HDF5 Templates</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ho_search_databroker.html">How to Search for Bluesky Data?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ho_session_logs.html">How to setup logging</a></li>
+</ul>
+</details></li>
+</ul>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="plan_examples.html">Plan Examples</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="pl_excel_scan.html">The <code class="docutils literal notranslate"><span class="pre">Excel_plan()</span></code> – batch scans using a spreadsheet</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pl_lineup.html">The <code class="docutils literal notranslate"><span class="pre">lineup()</span></code> plan - align an axis with a signal</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pl_nscan.html">The <code class="docutils literal notranslate"><span class="pre">nscan()</span></code> plan – scan multiple axes together</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pl_run_command_list.html">The <code class="xref py py-func docutils literal notranslate"><span class="pre">run_command_file()</span></code> plan – batch scans using a text file</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pl_tuneaxis.html">The <code class="docutils literal notranslate"><span class="pre">TuneAxis()</span></code> plan - align an axis with a signal</a></li>
+</ul>
+</details></li>
+</ul>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="download_examples.html">File Downloads for the Examples</a></li>
+</ul>
+</div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+<nav aria-label="Breadcrumb" class="d-print-none">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="index.html" class="nav-link">Examples</a></li>
+    
+    
+    <li class="breadcrumb-item"><a href="filewriter_examples.html" class="nav-link">File Writer Examples</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">Callback</span></li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section id="callback">
+<h1>Callback<a class="headerlink" href="#callback" title="Link to this heading">#</a></h1>
+<p>To demonstrate how the <code class="docutils literal notranslate"><span class="pre">NXWriter</span></code> is used as a callback, it is necessary to have a data acquisition setup.</p>
+<p>This example scans a <code class="docutils literal notranslate"><span class="pre">sensor</span></code> in response to a <code class="docutils literal notranslate"><span class="pre">motor</span></code> position.  The <code class="docutils literal notranslate"><span class="pre">NXWriter</span></code> is subscribed to the <code class="docutils literal notranslate"><span class="pre">RunEngine</span></code> so that during data collection, the <code class="docutils literal notranslate"><span class="pre">NXWriter</span></code> receives data updates.  Once the acquisition ends (when a <code class="docutils literal notranslate"><span class="pre">stop</span></code> document is received), the HDF5 file is written.</p>
+<p>The data acquisition is a prebuilt <a class="reference external" href="https://github.com/epics-modules/xxx">synApps xxx IOC</a> driver, packaged in a <a class="reference external" href="https://www.docker.com/">docker</a> image
+(<a class="reference external" href="https://hub.docker.com/r/prjemian/prjemian/synapps/tags">prjemian/synapps</a>).  The <a class="reference external" href="https://docs.epics-controls.org/projects/how-tos/en/latest/getting-started/creating-ioc.html">EPICS IOC</a> is started using prefix <code class="docutils literal notranslate"><span class="pre">gp:</span></code> by the <a class="reference external" href="https://raw.githubusercontent.com/prjemian/epics-docker/main/resources/iocmgr.sh">bash shell script</a>:</p>
+<pre>
+$ <b>iocmgr.sh start GP gp</b>
+</pre>
+<p>For the purposes of demonstration, the sensor is a random number generator (new values at 10 Hz).  The random number generator is provided by a <a class="reference external" href="https://htmlpreview.github.io/?https://raw.githubusercontent.com/epics-modules/calc/R3-6-1/documentation/swaitRecord.html">userCalc</a>.  The motor is a <a class="reference external" href="https://github.com/epics-motor/motorMotorSim">software simulator of a stepping motor</a>.  There is no particular correlation between the <code class="docutils literal notranslate"><span class="pre">sensor</span></code> and the <code class="docutils literal notranslate"><span class="pre">motor</span></code> in this example, they are used only for purposes of illustration.</p>
+<p>After connecting with the EPICS PVs, the <code class="docutils literal notranslate"><span class="pre">RunEngine</span></code> is constructed and connected with a temporary databroker catalog.</p>
+<p><strong>Note</strong></p>
+<p>If you use <code class="docutils literal notranslate"><span class="pre">NXWriter</span></code> (or a subclass), you must wait for all data processing to finish before proceeding with the next acquisition or processing.  (The <code class="docutils literal notranslate"><span class="pre">writer()</span></code> method is launched in a background thread to complete once all readable assets are available, potentially even after the run ends.)  See the <code class="docutils literal notranslate"><span class="pre">NXWriter</span></code> <a class="reference external" href="https://bcda-aps.github.io/apstools/latest/api/_filewriters.html#apstools.callbacks.nexus_writer.NXWriter">documentation</a> for details.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%</span><span class="k">matplotlib</span> inline
+<span class="kn">from</span><span class="w"> </span><span class="nn">apstools.synApps</span><span class="w"> </span><span class="kn">import</span> <span class="n">setup_random_number_swait</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">apstools.synApps</span><span class="w"> </span><span class="kn">import</span> <span class="n">SwaitRecord</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">bluesky</span><span class="w"> </span><span class="kn">import</span> <span class="n">RunEngine</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">bluesky</span><span class="w"> </span><span class="kn">import</span> <span class="n">SupplementalData</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">bluesky</span><span class="w"> </span><span class="kn">import</span> <span class="n">plans</span> <span class="k">as</span> <span class="n">bp</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">bluesky.callbacks.best_effort</span><span class="w"> </span><span class="kn">import</span> <span class="n">BestEffortCallback</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">matplotlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">pyplot</span> <span class="k">as</span> <span class="n">plt</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">ophyd</span><span class="w"> </span><span class="kn">import</span> <span class="n">EpicsMotor</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">ophyd</span><span class="w"> </span><span class="kn">import</span> <span class="n">EpicsSignalRO</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">databroker</span>
+
+<span class="n">IOC</span> <span class="o">=</span> <span class="s2">&quot;gp:&quot;</span>
+
+<span class="c1"># ophyd-level</span>
+<span class="n">motor</span> <span class="o">=</span> <span class="n">EpicsMotor</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">IOC</span><span class="si">}</span><span class="s2">m10&quot;</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;motor&quot;</span><span class="p">)</span>
+<span class="n">calc10</span> <span class="o">=</span> <span class="n">SwaitRecord</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">IOC</span><span class="si">}</span><span class="s2">userCalc10&quot;</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;calc10&quot;</span><span class="p">)</span>
+<span class="n">sensor</span> <span class="o">=</span> <span class="n">EpicsSignalRO</span><span class="p">(</span><span class="n">calc10</span><span class="o">.</span><span class="n">calculated_value</span><span class="o">.</span><span class="n">pvname</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;sensor&quot;</span><span class="p">)</span>
+<span class="n">motor</span><span class="o">.</span><span class="n">wait_for_connection</span><span class="p">()</span>
+<span class="n">sensor</span><span class="o">.</span><span class="n">wait_for_connection</span><span class="p">()</span>
+
+<span class="c1"># calc10 sets up the RNG, updating at 10Hz</span>
+<span class="n">calc10</span><span class="o">.</span><span class="n">wait_for_connection</span><span class="p">()</span>
+<span class="n">setup_random_number_swait</span><span class="p">(</span><span class="n">calc10</span><span class="p">)</span>
+
+<span class="c1"># bluesky-level</span>
+<span class="n">best_effort_callback</span> <span class="o">=</span> <span class="n">BestEffortCallback</span><span class="p">()</span>
+<span class="n">cat</span> <span class="o">=</span> <span class="n">databroker</span><span class="o">.</span><span class="n">temp</span><span class="p">()</span><span class="o">.</span><span class="n">v2</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ion</span><span class="p">()</span>  <span class="c1"># enables matplotlib graphics</span>
+<span class="n">RE</span> <span class="o">=</span> <span class="n">RunEngine</span><span class="p">({})</span>
+<span class="n">RE</span><span class="o">.</span><span class="n">subscribe</span><span class="p">(</span><span class="n">cat</span><span class="o">.</span><span class="n">v1</span><span class="o">.</span><span class="n">insert</span><span class="p">)</span>
+<span class="n">RE</span><span class="o">.</span><span class="n">subscribe</span><span class="p">(</span><span class="n">best_effort_callback</span><span class="p">)</span>  <span class="c1"># LivePlot &amp; LiveTable</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1
+</pre></div>
+</div>
+</div>
+</div>
+<p>Setup the <code class="docutils literal notranslate"><span class="pre">NXWriter</span></code> to create and write the scan data to an HDF5 file.  We override the default HDF5 file name.  The steps:</p>
+<ol class="arabic simple">
+<li><p>import the Python structures</p></li>
+<li><p>Define the file name.  (A pathlib object provides an easy way to test if the
+file exists.)</p></li>
+<li><p>Create the <code class="docutils literal notranslate"><span class="pre">NXWriter</span></code> instance</p></li>
+<li><p>Subscribe the writer’s <code class="docutils literal notranslate"><span class="pre">receiver</span></code> to the RunEngine.</p></li>
+<li><p>Configure the writer for file name and to suppress extra warnings in the example.</p></li>
+</ol>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">apstools.callbacks</span><span class="w"> </span><span class="kn">import</span> <span class="n">NXWriter</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pathlib</span>
+
+<span class="n">h5_file</span> <span class="o">=</span> <span class="n">pathlib</span><span class="o">.</span><span class="n">Path</span><span class="p">(</span><span class="s2">&quot;/tmp/nxwriter.h5&quot;</span><span class="p">)</span>
+
+<span class="n">nxwriter</span> <span class="o">=</span> <span class="n">NXWriter</span><span class="p">()</span>
+<span class="n">RE</span><span class="o">.</span><span class="n">subscribe</span><span class="p">(</span><span class="n">nxwriter</span><span class="o">.</span><span class="n">receiver</span><span class="p">)</span>
+<span class="n">nxwriter</span><span class="o">.</span><span class="n">file_name</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">h5_file</span><span class="p">)</span>
+<span class="n">nxwriter</span><span class="o">.</span><span class="n">warn_on_missing_content</span> <span class="o">=</span> <span class="kc">False</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Collect data by scanning <code class="docutils literal notranslate"><span class="pre">sensor</span></code> <em>v</em>. <code class="docutils literal notranslate"> <span class="pre">motor</span></code>.  A <code class="docutils literal notranslate"><span class="pre">LiveTable</span></code> and <code class="docutils literal notranslate"> <span class="pre">LivePlot</span></code> will be shown.</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">sensor</span></code> updates automatically at 10 Hz.  The <code class="docutils literal notranslate"><span class="pre">motor</span></code> moves slowly enough that the sensor updates before the next position is reached.  The data itself is for the purpose of demonstrating the <code class="docutils literal notranslate"><span class="pre">NXWriter</span></code> callback.</p>
+<p>After the scan, show that the file exists.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">RE</span><span class="p">(</span><span class="n">bp</span><span class="o">.</span><span class="n">scan</span><span class="p">([</span><span class="n">sensor</span><span class="p">],</span> <span class="n">motor</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">h5_file</span><span class="o">.</span><span class="n">exists</span><span class="p">()</span><span class="si">=}</span><span class="s2">  </span><span class="si">{</span><span class="n">h5_file</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Transient Scan ID: 1     Time: 2022-08-12 17:27:38
+Persistent Unique Scan ID: &#39;c888d282-1094-403b-baff-3781057ff087&#39;
+New stream: &#39;primary&#39;
++-----------+------------+------------+------------+
+|   seq_num |       time |      motor |     sensor |
++-----------+------------+------------+------------+
+|         1 | 17:27:40.1 |   -0.50000 |    0.69377 |
+|         2 | 17:27:40.5 |   -0.25000 |    0.44727 |
+|         3 | 17:27:41.0 |    0.00000 |    0.07127 |
+|         4 | 17:27:41.5 |    0.25000 |    0.97433 |
+|         5 | 17:27:42.0 |    0.50000 |    0.57342 |
++-----------+------------+------------+------------+
+generator scan [&#39;c888d282&#39;] (scan num: 1)
+
+
+
+h5_file.exists()=True  h5_file=PosixPath(&#39;/tmp/nxwriter.h5&#39;)
+</pre></div>
+</div>
+<img alt="../_images/12c168da0f8bab32b33e551260ad369cf16ae8535dc4f905d45e37af87465d44.png" src="../_images/12c168da0f8bab32b33e551260ad369cf16ae8535dc4f905d45e37af87465d44.png" />
+</div>
+</div>
+<p>Show the content of the NeXus HDF5 data file using <a class="reference external" href="https://prjemian.github.io/punx">punx</a>, a program external to our Bluesky Python session.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">apstools.utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">unix</span>
+
+<span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">unix</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;punx tree </span><span class="si">{</span><span class="n">nxwriter</span><span class="o">.</span><span class="n">file_name</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">line</span><span class="o">.</span><span class="n">decode</span><span class="p">()</span><span class="o">.</span><span class="n">strip</span><span class="p">())</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>!!! WARNING: this program is not ready for distribution.
+
+/tmp/nxwriter.h5 : NeXus data file
+  @HDF5_Version = &quot;1.12.1&quot;
+  @NeXus_release = &quot;v2020.1&quot;
+  @creator = &quot;NXWriter&quot;
+  @default = &quot;entry&quot;
+  @file_name = &quot;/tmp/nxwriter.h5&quot;
+  @file_time = &quot;2022-08-12T17:27:42.294183&quot;
+  @h5py_version = &quot;3.7.0&quot;
+  entry:NXentry
+    @NX_class = &quot;NXentry&quot;
+    @default = &quot;data&quot;
+    @target = &quot;/entry&quot;
+    duration:NX_FLOAT64[] = 
+      @units = &quot;s&quot;
+    end_time:NX_CHAR = b&#39;2022-08-12T17:27:42.139426&#39;
+    entry_identifier --&gt; /entry/instrument/bluesky/metadata/run_start_uid
+    plan_name --&gt; /entry/instrument/bluesky/metadata/plan_name
+    program_name:NX_CHAR = b&#39;bluesky&#39;
+    start_time:NX_CHAR = b&#39;2022-08-12T17:27:38.779351&#39;
+    title:NX_CHAR = b&#39;scan-S0001-c888d28&#39;
+    data:NXdata
+      @NX_class = &quot;NXdata&quot;
+      @axes = [&quot;motor&quot;]
+      @signal = &quot;sensor&quot;
+      @target = &quot;/entry/data&quot;
+      EPOCH --&gt; /entry/instrument/bluesky/streams/primary/sensor/time
+      motor --&gt; /entry/instrument/bluesky/streams/primary/motor/value
+      motor_user_setpoint --&gt; /entry/instrument/bluesky/streams/primary/motor_user_setpoint/value
+      sensor --&gt; /entry/instrument/bluesky/streams/primary/sensor/value
+    instrument:NXinstrument
+      @NX_class = &quot;NXinstrument&quot;
+      @target = &quot;/entry/instrument&quot;
+      bluesky:NXnote
+        @NX_class = &quot;NXnote&quot;
+        @target = &quot;/entry/instrument/bluesky&quot;
+        plan_name --&gt; /entry/instrument/bluesky/metadata/plan_name
+        uid --&gt; /entry/instrument/bluesky/metadata/run_start_uid
+        metadata:NXnote
+          @NX_class = &quot;NXnote&quot;
+          @target = &quot;/entry/instrument/bluesky/metadata&quot;
+          detectors:NX_CHAR = b&#39;- sensor\n&#39;
+            @target = &quot;/entry/instrument/bluesky/metadata/detectors&quot;
+            @text_format = &quot;yaml&quot;
+          hints:NX_CHAR = b&#39;dimensions:\n- !!python/tuple\n  - - motor\n  - primary\n&#39;
+            @target = &quot;/entry/instrument/bluesky/metadata/hints&quot;
+            @text_format = &quot;yaml&quot;
+          motors:NX_CHAR = b&#39;!!python/tuple\n- motor\n&#39;
+            @target = &quot;/entry/instrument/bluesky/metadata/motors&quot;
+            @text_format = &quot;yaml&quot;
+          num_intervals:NX_INT64[] = 
+            @target = &quot;/entry/instrument/bluesky/metadata/num_intervals&quot;
+          num_points:NX_INT64[] = 
+            @target = &quot;/entry/instrument/bluesky/metadata/num_points&quot;
+          plan_args:NX_CHAR = b&quot;args:\n- EpicsMotor(prefix=&#39;gp:m10&#39;, name=&#39;motor&#39;, settle_time=0.0, timeout=None, read_attrs=[&#39;user_readback&#39;,\n  &#39;user_setpoint&#39;], configuration_attrs=[&#39;user_offset&#39;, &#39;user_offset_dir&#39;, &#39;velocity&#39;,\n  &#39;acceleration&#39;, &#39;motor_egu&#39;])\n- -0.5\n- 0.5\ndetectors:\n- EpicsSignalRO(read_pv=&#39;gp:userCalc10.VAL&#39;, name=&#39;sensor&#39;, timestamp=1660343258.421057,\n  auto_monitor=False, string=False)\nnum: 5\nper_step: None\n&quot;
+            @target = &quot;/entry/instrument/bluesky/metadata/plan_args&quot;
+            @text_format = &quot;yaml&quot;
+          plan_name:NX_CHAR = b&#39;scan&#39;
+            @target = &quot;/entry/instrument/bluesky/metadata/plan_name&quot;
+          plan_pattern:NX_CHAR = b&#39;inner_product&#39;
+            @target = &quot;/entry/instrument/bluesky/metadata/plan_pattern&quot;
+          plan_pattern_args:NX_CHAR = b&quot;args:\n- EpicsMotor(prefix=&#39;gp:m10&#39;, name=&#39;motor&#39;, settle_time=0.0, timeout=None, read_attrs=[&#39;user_readback&#39;,\n  &#39;user_setpoint&#39;], configuration_attrs=[&#39;user_offset&#39;, &#39;user_offset_dir&#39;, &#39;velocity&#39;,\n  &#39;acceleration&#39;, &#39;motor_egu&#39;])\n- -0.5\n- 0.5\nnum: 5\n&quot;
+            @target = &quot;/entry/instrument/bluesky/metadata/plan_pattern_args&quot;
+            @text_format = &quot;yaml&quot;
+          plan_pattern_module:NX_CHAR = b&#39;bluesky.plan_patterns&#39;
+            @target = &quot;/entry/instrument/bluesky/metadata/plan_pattern_module&quot;
+          plan_type:NX_CHAR = b&#39;generator&#39;
+            @target = &quot;/entry/instrument/bluesky/metadata/plan_type&quot;
+          run_start_uid:NX_CHAR = b&#39;c888d282-1094-403b-baff-3781057ff087&#39;
+            @long_name = &quot;bluesky run uid&quot;
+            @target = &quot;/entry/instrument/bluesky/metadata/run_start_uid&quot;
+          versions:NX_CHAR = b&#39;bluesky: 1.8.3\nophyd: 1.6.4\n&#39;
+            @target = &quot;/entry/instrument/bluesky/metadata/versions&quot;
+            @text_format = &quot;yaml&quot;
+        streams:NXnote
+          @NX_class = &quot;NXnote&quot;
+          @target = &quot;/entry/instrument/bluesky/streams&quot;
+          primary:NXnote
+            @NX_class = &quot;NXnote&quot;
+            @target = &quot;/entry/instrument/bluesky/streams/primary&quot;
+            @uid = &quot;c808bd42-27b4-4498-819d-2279f9516608&quot;
+            motor:NXdata
+              @NX_class = &quot;NXdata&quot;
+              @axes = [&quot;time&quot;]
+              @signal = &quot;value&quot;
+              @signal_type = &quot;positioner&quot;
+              @target = &quot;/entry/instrument/bluesky/streams/primary/motor&quot;
+              EPOCH:NX_FLOAT64[5] = [1660343259.975937, 1660343260.576943, 1660343261.078024, 1660343261.579225, 1660343262.080634]
+                @long_name = &quot;epoch time (s)&quot;
+                @target = &quot;/entry/instrument/bluesky/streams/primary/motor/EPOCH&quot;
+                @units = &quot;s&quot;
+              time:NX_FLOAT64[5] = [0.0, 0.601006031036377, 1.1020870208740234, 1.603288173675537, 2.1046972274780273]
+                @long_name = &quot;time since first data (s)&quot;
+                @start_time = 1660343259.975937
+                @start_time_iso = &quot;2022-08-12T17:27:39.975937&quot;
+                @target = &quot;/entry/instrument/bluesky/streams/primary/motor/time&quot;
+                @units = &quot;s&quot;
+              value:NX_FLOAT64[5] = [-0.5, -0.25, 0.0, 0.25, 0.5]
+                @long_name = &quot;motor&quot;
+                @lower_ctrl_limit = -32000.0
+                @precision = 5
+                @signal_type = &quot;positioner&quot;
+                @source = &quot;PV:gp:m10.RBV&quot;
+                @target = &quot;/entry/instrument/bluesky/streams/primary/motor/value&quot;
+                @units = &quot;degrees&quot;
+                @upper_ctrl_limit = 32000.0
+            motor_user_setpoint:NXdata
+              @NX_class = &quot;NXdata&quot;
+              @axes = [&quot;time&quot;]
+              @signal = &quot;value&quot;
+              @signal_type = &quot;other&quot;
+              @target = &quot;/entry/instrument/bluesky/streams/primary/motor_user_setpoint&quot;
+              EPOCH:NX_FLOAT64[5] = [1660343258.784328, 1660343260.169698, 1660343260.644624, 1660343261.141399, 1660343261.645333]
+                @long_name = &quot;epoch time (s)&quot;
+                @target = &quot;/entry/instrument/bluesky/streams/primary/motor_user_setpoint/EPOCH&quot;
+                @units = &quot;s&quot;
+              time:NX_FLOAT64[5] = [0.0, 1.3853700160980225, 1.8602960109710693, 2.3570709228515625, 2.8610050678253174]
+                @long_name = &quot;time since first data (s)&quot;
+                @start_time = 1660343258.784328
+                @start_time_iso = &quot;2022-08-12T17:27:38.784328&quot;
+                @target = &quot;/entry/instrument/bluesky/streams/primary/motor_user_setpoint/time&quot;
+                @units = &quot;s&quot;
+              value:NX_FLOAT64[5] = [-0.5, -0.25, 0.0, 0.25, 0.5]
+                @long_name = &quot;motor_user_setpoint&quot;
+                @lower_ctrl_limit = -32000.0
+                @precision = 5
+                @signal_type = &quot;other&quot;
+                @source = &quot;PV:gp:m10.VAL&quot;
+                @target = &quot;/entry/instrument/bluesky/streams/primary/motor_user_setpoint/value&quot;
+                @units = &quot;degrees&quot;
+                @upper_ctrl_limit = 32000.0
+            sensor:NXdata
+              @NX_class = &quot;NXdata&quot;
+              @axes = [&quot;time&quot;]
+              @signal = &quot;value&quot;
+              @signal_type = &quot;detector&quot;
+              @target = &quot;/entry/instrument/bluesky/streams/primary/sensor&quot;
+              EPOCH:NX_FLOAT64[5] = [1660343260.021116, 1660343260.521089, 1660343261.021125, 1660343261.521131, 1660343262.021114]
+                @long_name = &quot;epoch time (s)&quot;
+                @target = &quot;/entry/instrument/bluesky/streams/primary/sensor/EPOCH&quot;
+                @units = &quot;s&quot;
+              time:NX_FLOAT64[5] = [0.0, 0.4999730587005615, 1.0000090599060059, 1.5000150203704834, 1.9999980926513672]
+                @long_name = &quot;time since first data (s)&quot;
+                @start_time = 1660343260.021116
+                @start_time_iso = &quot;2022-08-12T17:27:40.021116&quot;
+                @target = &quot;/entry/instrument/bluesky/streams/primary/sensor/time&quot;
+                @units = &quot;s&quot;
+              value:NX_FLOAT64[5] = [0.6937666895551995, 0.44727244983596554, 0.07127489127946898, 0.9743343251697566, 0.5734187838559548]
+                @long_name = &quot;sensor&quot;
+                @lower_ctrl_limit = 0.0
+                @precision = 5
+                @signal_type = &quot;detector&quot;
+                @source = &quot;PV:gp:userCalc10.VAL&quot;
+                @target = &quot;/entry/instrument/bluesky/streams/primary/sensor/value&quot;
+                @units = &quot;&quot;
+                @upper_ctrl_limit = 0.0
+      detectors:NXnote
+        @NX_class = &quot;NXnote&quot;
+        @target = &quot;/entry/instrument/detectors&quot;
+        sensor:NXdetector
+          @NX_class = &quot;NXdetector&quot;
+          @target = &quot;/entry/instrument/detectors/sensor&quot;
+          data --&gt; /entry/instrument/bluesky/streams/primary/sensor
+      positioners:NXnote
+        @NX_class = &quot;NXnote&quot;
+        @target = &quot;/entry/instrument/positioners&quot;
+        motor:NXpositioner
+          @NX_class = &quot;NXpositioner&quot;
+          @target = &quot;/entry/instrument/positioners/motor&quot;
+          value --&gt; /entry/instrument/bluesky/streams/primary/motor
+      source:NXsource
+        @NX_class = &quot;NXsource&quot;
+        @target = &quot;/entry/instrument/source&quot;
+        name:NX_CHAR = b&#39;Bluesky framework&#39;
+          @short_name = &quot;bluesky&quot;
+        probe:NX_CHAR = b&#39;x-ray&#39;
+        type:NX_CHAR = b&#39;Synchrotron X-ray Source&#39;
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="export">
+<h1>Export<a class="headerlink" href="#export" title="Link to this heading">#</a></h1>
+<p>It is possible to use the <code class="docutils literal notranslate"><span class="pre">NXWriter</span></code> to export the data from the databroker to a NeXus/HDF5 file.  The bluesky community is preparing the <a class="reference external" href="https://blueskyproject.io/tiled/">tiled</a> data access service to make such data readily available.</p>
+<p>This example shows an alternative method to export one <em>run</em> to one NeXus/HDF5 data file.  While other variations are possible (such as a list of runs in one file), they are not shown here to keep the example simple.</p>
+<p>The data export is based on the <a class="reference external" href="https://bcda-aps.github.io/apstools/latest/api/_utils.html?highlight=replay#apstools.utils.misc.replay">replay()</a> from <a class="reference external" href="https://bcda-aps.github.io/apstools/latest/">apstools</a>.</p>
+<p>We assume the <em>run</em> to be exported is identified by <code class="docutils literal notranslate"><span class="pre">scan_id</span> <span class="pre">=</span> <span class="pre">1</span></code>, as the example above shows.  This example uses the <code class="docutils literal notranslate"><span class="pre">cat</span></code> object created above.  You should create this as shown in the comment.</p>
+<p>The steps:</p>
+<ol class="arabic simple">
+<li><p>the Python imports</p></li>
+<li><p>define the file to be read and the scan_id</p></li>
+<li><p>create the <code class="docutils literal notranslate"><span class="pre">NXWriter()</span></code> instance</p></li>
+<li><p>suppress the warnings we do not need to see</p></li>
+<li><p>use <code class="docutils literal notranslate"><span class="pre">replay()</span></code> to get the data (note the <code class="docutils literal notranslate"><span class="pre">v1</span></code> is important) and send it to
+the <code class="docutils literal notranslate"><span class="pre">receiver</span></code></p></li>
+<li><p>show the new HDF5 file exists</p></li>
+</ol>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">apstools.callbacks</span><span class="w"> </span><span class="kn">import</span> <span class="n">NXWriter</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">apstools.utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">replay</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">databroker</span>
+
+<span class="c1"># This example uses &#39;cat&#39; as defined above.  You use this next line:</span>
+<span class="c1"># cat = databroker.databroker[&quot;YOUR_CATALOG_NAME&quot;]</span>
+
+<span class="n">h5_file</span> <span class="o">=</span> <span class="n">pathlib</span><span class="o">.</span><span class="n">Path</span><span class="p">(</span><span class="s2">&quot;/tmp/db_export.h5&quot;</span><span class="p">)</span>
+<span class="n">scan_id</span> <span class="o">=</span> <span class="mi">1</span>  <span class="c1"># TODO: you choose</span>
+
+<span class="n">nxwriter</span> <span class="o">=</span> <span class="n">NXWriter</span><span class="p">()</span>
+<span class="n">nxwriter</span><span class="o">.</span><span class="n">file_name</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">h5_file</span><span class="p">)</span>
+<span class="n">nxwriter</span><span class="o">.</span><span class="n">warn_on_missing_content</span> <span class="o">=</span> <span class="kc">False</span>
+<span class="n">replay</span><span class="p">(</span><span class="n">cat</span><span class="o">.</span><span class="n">v1</span><span class="p">[</span><span class="n">scan_id</span><span class="p">],</span> <span class="n">nxwriter</span><span class="o">.</span><span class="n">receiver</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">h5_file</span><span class="o">.</span><span class="n">exists</span><span class="p">()</span><span class="si">=}</span><span class="s2">  </span><span class="si">{</span><span class="n">h5_file</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>h5_file.exists()=True  h5_file=PosixPath(&#39;/tmp/db_export.h5&#39;)
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="filewriter_examples.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">File Writer Examples</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="fw_specfile_example.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Output scan(s) to a SPEC data file.</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+<div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+  </div>
+  <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">Callback</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#export">Export</a></li>
+</ul>
+
+  </nav></div>
+
+  <div class="sidebar-secondary-item">
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/examples/fw_nxwriter.ipynb.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+
+  <p class="copyright">
+    
+      © Copyright 2017-2025, UChicago Argonne, LLC.
+      <br/>
+    
+  </p>
+</div>
+      
+        <div class="footer-item">
+
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.1.3.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item">
+<p class="theme-version">
+  <!-- # L10n: Setting the PST URL as an argument as this does not need to be localized -->
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.16.1.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

@@ -1,0 +1,50 @@
+tracking_signal
+===============
+
+.. py:module:: apstools.devices.tracking_signal
+
+.. autoapi-nested-parse::
+
+   Import: ``apstools.devices.tracking_signal``
+
+   Tracking Signal for Device coordination
+   +++++++++++++++++++++++++++++++++++++++
+
+   .. autosummary::
+
+      ~TrackingSignal
+
+
+
+
+Module Contents
+---------------
+
+.. py:class:: TrackingSignal(*, name, value=_DefaultFloat(0.0), dtype=None, shape=None, timestamp=None, parent=None, labels=None, kind=Kind.hinted, tolerance=None, rtolerance=None, metadata=None, cl=None, attr_name='')
+
+   .. container:: import-path
+
+      Import: ``apstools.devices.tracking_signal.TrackingSignal``
+
+
+   Bases: :py:obj:`ophyd.Signal`
+
+
+   Non-EPICS signal for use when coordinating Device actions.
+
+   .. index:: Ophyd Signal; TrackingSignal
+
+   Signal to decide if undulator will be tracked while changing the
+   monochromator energy.
+
+
+   .. py:method:: check_value(value)
+
+      Check if the value is a boolean.
+
+      RAISES
+
+      ValueError
+
+
+
