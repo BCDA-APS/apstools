@@ -154,7 +154,7 @@ def lineup(
 
         if det0.name not in bec.peaks[feature]:
             logger.error(
-                "No statistical analysis of scan peak for feature '%s'!" "  (bec.peaks=%s, bec=%s)",
+                "No statistical analysis of scan peak for feature '%s'!  (bec.peaks=%s, bec=%s)",
                 feature,
                 bec.peaks,
                 bec,
@@ -341,6 +341,7 @@ def edge_align(detectors, mover, start, end, points, cat=None, md={}):
         print("No significant signal change detected; motor movement skipped.")
 
 
+@versionchanged(version="1.7.10", reason="Write peak statistics as a bluesky stream before run closes.")
 @versionchanged(version="1.7.2", reason="Changed from PySumReg to numpy")
 @versionadded(version="1.6.18")
 @plan
@@ -358,6 +359,7 @@ def lineup2(
     signal_stats=None,
     reporting=None,
     md={},
+    stats_stream="signal_stats",
     # fmt: on
 ):
     """
@@ -448,6 +450,11 @@ def lineup2(
 
     md *dict*:
         User-supplied metadata for this scan.
+
+    stats_stream *str*:
+        Name of the bluesky stream in which peak statistics (including
+        ``success`` and ``reasons``) are written before the run closes.
+        (default: ``"signal_stats"``)  (new in release 1.7.10)
 
     ----
 
@@ -565,17 +572,47 @@ def lineup2(
     if "plan_name" not in _md:
         _md["plan_name"] = "lineup2"
 
+    _target = [None]  # mutable closure cell for target from find_peak_position()
+
     @bpp.subs_decorator(signal_stats.receiver)
     def _inner():
-        """Run the scan, collecting statistics at each step."""
-        # TODO: save signal stats into separate stream
-        yield from bp.rel_scan(detectors, mover, rel_start, rel_end, points, md=_md)
+        """Run the scan, writing peak statistics before the run closes."""
+
+        def insert_before_close(msg):
+            if msg.command == "close_run":
+
+                def new_gen():
+                    signal_stats.compute()
+                    _target[0] = find_peak_position()
+                    if signal_stats.analysis is not None:
+                        stats = signal_stats.analysis
+                        components = {k: Component(Signal) for k in stats}
+                        DynDevice = type("SignalStatsResults", (Device,), components)
+                        dev = DynDevice(name="lineup2_signal_stats")
+                        for k, v in stats.items():
+                            if isinstance(v, list):
+                                val = "; ".join(str(item) for item in v)
+                            elif hasattr(v, "item"):
+                                val = v.item()
+                            else:
+                                val = v
+                            getattr(dev, k).put(val)
+                        yield from write_stream(dev, stats_stream)
+                    yield msg
+
+                return new_gen(), None
+            return None, None
+
+        yield from bpp.plan_mutator(
+            bp.rel_scan(detectors, mover, rel_start, rel_end, points, md=_md),
+            insert_before_close,
+        )
 
     while nscans > 0:  # allow for repeated scans
         yield from _inner()  # Run the scan.
         nscans -= 1
 
-        target = find_peak_position()
+        target = _target[0]
         if target is None:
             nscans = 0  # Nothing found, no point scanning again.
             yield from bps.mv(mover, m_pos)  # back to starting position

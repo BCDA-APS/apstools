@@ -223,3 +223,77 @@ def test_event_wrong_descriptor_ignored(signal_stats):
 
     signal_stats.event({"descriptor": "wrong_uid", "data": {"motor": 1.0}})
     assert signal_stats._data["motor"] == []
+
+
+def test_compute_before_data(signal_stats):
+    """compute() is a no-op when no data has been accumulated."""
+    signal_stats.clear()
+    signal_stats.compute()
+    assert signal_stats.analysis is None
+
+
+def test_compute_with_data(signal_stats):
+    """compute() populates analysis from manually accumulated data."""
+    signal_stats.clear()
+    signal_stats._x_name = "x"
+    signal_stats._y_names = ["y"]
+    signal_stats._data = {"x": [1.0, 2.0, 3.0], "y": [10.0, 20.0, 10.0]}
+
+    signal_stats.compute()
+
+    assert signal_stats.analysis is not None
+    assert signal_stats.analysis["n"] == 3
+    assert signal_stats.analysis["max_y"] == 20.0
+    assert signal_stats.analysis["x_at_max_y"] == 2.0
+
+
+def test_compute_called_by_stop(signal_stats, RE, motor, noisy_det):
+    """stop() calls compute(), populating analysis correctly."""
+    RE.subscribe(signal_stats.receiver)
+    RE(bp.scan([noisy_det], motor, -2, 2, 11))
+
+    assert signal_stats.analysis is not None
+    assert signal_stats.analysis["n"] == 11
+    assert math.isclose(signal_stats.analysis["centroid"], 0.0, abs_tol=0.2)
+
+
+@pytest.mark.parametrize(
+    "parms, context",
+    [
+        pytest.param(
+            dict(x_name=None, y_names=["y"], data={"y": [1.0, 2.0]}),
+            does_not_raise(),
+            id="compute is no-op when _x_name is None",
+        ),
+        pytest.param(
+            dict(x_name="x", y_names=[], data={"x": [1.0, 2.0]}),
+            does_not_raise(),
+            id="compute is no-op when _y_names is empty",
+        ),
+        pytest.param(
+            dict(x_name="x", y_names=["y"], data={"x": [], "y": []}),
+            does_not_raise(),
+            id="compute is no-op when _data arrays are empty",
+        ),
+        pytest.param(
+            dict(x_name="x", y_names=["y"], data={"x": [1.0, 2.0]}),
+            pytest.raises(KeyError, match=re.escape("y")),
+            id="compute raises KeyError when y_name not in _data",
+        ),
+        pytest.param(
+            dict(x_name="x", y_names=["y"], data={"x": [1.0, 2.0], "y": [1.0]}),
+            pytest.raises(ValueError, match=re.escape("Unequal shapes:")),
+            id="compute raises ValueError when x and y have different lengths",
+        ),
+    ],
+)
+def test_compute_incomplete_data(parms, context, signal_stats):
+    """compute() handles missing or inconsistent data correctly."""
+    with context:
+        signal_stats.clear()
+        signal_stats._x_name = parms["x_name"]
+        signal_stats._y_names = parms["y_names"]
+        signal_stats._data = parms["data"]
+
+        signal_stats.compute()
+        assert signal_stats.analysis is None
