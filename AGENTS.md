@@ -59,6 +59,7 @@ Example: `1150-full-run-uid-to-dm`
 - Place entries under the appropriate (possibly still-commented-out) upcoming release section.
 - Use the correct subsection heading (`Enhancements`, `Fixes`, `Maintenance`, etc.).
 - Reference the issue number with the RST role `` (:issue:`<number>`) ``.
+- Keep entries within each subsection sorted alphabetically by the first significant word.
 - Keep the release date in the upcoming section in sync with the due date on the corresponding GitHub milestone.
 
 Example:
@@ -122,6 +123,32 @@ In the PR body, link related issues with a markdown bullet list:
 ```
 
 Use `Closes #N` to auto-close the issue when the PR is merged.
+
+## API Documentation Bullet Lists
+
+The curated API topic pages under `docs/source/api/` (`_callbacks.rst`,
+`_devices.rst`, `_filewriters.rst`, `_plans.rst`, `_utils.rst`, and
+`synApps/index.rst`) use hand-maintained bullet lists of the form:
+
+```rst
+* :func:`~apstools.plans.alignment.lineup2` — align a mover to a peak
+* :class:`~apstools.plans.alignment.TuneAxis` — tune a single axis
+```
+
+These lists are intentionally maintained by agents, not auto-generated.
+When adding, removing, or renaming public API symbols:
+
+- Add a bullet for every new public function, class, or constant in the
+  appropriate section of the relevant curated RST file.
+- Remove the bullet when a symbol is deleted or made private.
+- Update the one-liner when a symbol's purpose changes significantly.
+- Use `:func:` for functions, `:class:` for classes, `:data:` for
+  module-level constants, `:meth:` for methods.
+- The tilde (`~`) in the role target suppresses the module path in the
+  rendered link text, showing only the symbol name.
+- Keep the one-liner to a single short sentence — it is the user's first
+  signal about whether to click through.
+- Keep entries within each section sorted alphabetically by symbol name.
 
 ## Do Not
 

@@ -22,6 +22,7 @@ __pycache__/
 *.tar.gz
 *.whl
 docs/build/
+docs/source/api/autoapi/
 .settings/
 build/
 .ipynb_checkpoints/

@@ -29,11 +29,11 @@ describe future plans.
    Enhancements
    ------------
 
-   * Add full bluesky run ``uid`` (as ``bluesky_run_uid``) to metadata shared with APS DM. (:issue:`1150`)
    * ``lineup2()`` now writes peak statistics (including ``success`` and
      ``reasons``) as a bluesky stream before the run closes.  Stream name
      is controlled by the new ``stats_stream`` kwarg (default:
      ``"signal_stats"``). (:issue:`1046`)
+   * Add full bluesky run ``uid`` (as ``bluesky_run_uid``) to metadata shared with APS DM. (:issue:`1150`)
 
    Fixes
    -------------
@@ -46,19 +46,24 @@ describe future plans.
    Maintenance
    -----------
 
-   * Relocate some utils code from apsbits.
+   * Add tests verifying ``EmailNotifications`` sends correctly via SMTP. (:issue:`1112`)
+   * Add unit tests for ``SignalStatsCallback``. (:issue:`1072`)
    * Bump minimum Python version to 3.10 (Python 3.9 is EOL). (:issue:`1150`)
    * Consolidate ruff configuration into ``pyproject.toml``, removing ``.ruff.toml``. (:issue:`1150`)
-   * Add tests verifying ``EmailNotifications`` sends correctly via SMTP. (:issue:`1112`)
+   * Move test catalogs from ``resources/`` to ``apstools/tests/`` and drop
+     ``_test`` suffix from file names. (:issue:`1165`)
    * Refactor test catalog installation to use in-memory ``databroker.temp()``
      loaded from ``.json.gz`` snapshots, removing the fragile ``databroker-unpack``
      / msgpack / intake YAML approach.  Re-enable 20 skipped tests. (:issue:`1131`)
+   * Replace ``sphinx.ext.autosummary`` and ``.. automodule::`` directives with
+     ``sphinx-autoapi`` for auto-generated API reference.  Curated topic pages
+     (Callbacks, Devices, File Writers, Plans, Utilities, synApps) are retained
+     as bullet-list indexes that cross-reference into the auto-generated pages.
+     (:issue:`1081`)
    * Review and refactor unit tests: remove ``try/except`` anti-patterns, use
      ``parms, context`` parametrize style, add ``re.escape()`` to ``match=``
      strings, replace ``os.chdir()`` with ``monkeypatch.chdir()``. (:issue:`1154`)
-   * Move test catalogs from ``resources/`` to ``apstools/tests/`` and drop
-     ``_test`` suffix from file names. (:issue:`1165`)
-   * Add unit tests for ``SignalStatsCallback``. (:issue:`1072`)
+   * Relocate some utils code from apsbits.
 
 1.7.9
 *****
