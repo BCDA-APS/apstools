@@ -29,6 +29,8 @@ from .. import AD_plugin_primed
 from .. import AD_prime_plugin2
 from .. import BadPixelPlugin
 from .. import ad_creator
+from ..area_detector_support import _plugin_disabled_on_stage
+from ..area_detector_support import ensure_AD_plugin_primed
 
 
 def caput_AD(signal, value):
@@ -342,9 +344,9 @@ def test_file_numbering(fname):
     assert isinstance(full_file_name, str)
     assert len(full_file_name) > 0
     assert full_file_name.find(fname) > 0, str(full_file_name)
-    assert full_file_name.endswith(
-        f"{fname}_{file_number:04d}.h5"
-    ), f"{full_file_name=} {fname}_{file_number:04d}.h5"
+    assert full_file_name.endswith(f"{fname}_{file_number:04d}.h5"), (
+        f"{full_file_name=} {fname}_{file_number:04d}.h5"
+    )
 
     # prepare for file name with no file number
     file_number = plugin.file_number.get()
@@ -523,3 +525,116 @@ def test_HDF5plugin_i1062(setup, attrs, context, expected):
 
     if expected is not None:
         assert expected in str(exinfo)
+
+
+# ---------------------------------------------------------------------------
+# Tests for _plugin_disabled_on_stage(), AD_plugin_primed(), and
+# ensure_AD_plugin_primed() — no EPICS IOC required (issue #1061).
+# ---------------------------------------------------------------------------
+
+
+class _MockPlugin:
+    """Minimal stand-in for an ophyd area-detector plugin."""
+
+    def __init__(self, stage_sigs=None, name="mock_plugin"):
+        self.stage_sigs = dict(stage_sigs or {})
+        self.name = name
+
+
+@pytest.mark.parametrize(
+    "parms, context",
+    [
+        pytest.param(
+            dict(stage_sigs={}, expected=False),
+            does_not_raise(),
+            id="no enable key -> not disabled",
+        ),
+        pytest.param(
+            dict(stage_sigs={"enable": 1}, expected=False),
+            does_not_raise(),
+            id="enable=1 -> not disabled",
+        ),
+        pytest.param(
+            dict(stage_sigs={"enable": 0}, expected=True),
+            does_not_raise(),
+            id="enable=0 -> disabled",
+        ),
+        pytest.param(
+            dict(stage_sigs={"enable": False}, expected=True),
+            does_not_raise(),
+            id="enable=False -> disabled",
+        ),
+        pytest.param(
+            dict(stage_sigs={"enable": "Disable"}, expected=True),
+            does_not_raise(),
+            id="enable='Disable' -> disabled",
+        ),
+        pytest.param(
+            dict(stage_sigs={"enable": "disable"}, expected=True),
+            does_not_raise(),
+            id="enable='disable' (lower-case) -> disabled",
+        ),
+        pytest.param(
+            dict(stage_sigs={"enable": "Enable"}, expected=False),
+            does_not_raise(),
+            id="enable='Enable' -> not disabled",
+        ),
+    ],
+)
+def test_plugin_disabled_on_stage(parms, context):
+    """_plugin_disabled_on_stage() reflects the enable key in stage_sigs."""
+    with context:
+        plugin = _MockPlugin(stage_sigs=parms["stage_sigs"])
+        assert _plugin_disabled_on_stage(plugin) is parms["expected"]
+
+
+@pytest.mark.parametrize(
+    "parms, context",
+    [
+        pytest.param(
+            dict(stage_sigs={"enable": 0}, expected_primed=True),
+            does_not_raise(),
+            id="disabled plugin is reported as primed (no IOC needed)",
+        ),
+        pytest.param(
+            dict(stage_sigs={"enable": "Disable"}, expected_primed=True),
+            does_not_raise(),
+            id="'Disable' string also skips check",
+        ),
+    ],
+)
+def test_AD_plugin_primed_skips_when_disabled(parms, context):
+    """AD_plugin_primed() returns True immediately for a disabled plugin."""
+    with context:
+        plugin = _MockPlugin(stage_sigs=parms["stage_sigs"])
+        # No IOC: without the guard this would raise AttributeError
+        # trying to access plugin.parent.cam.
+        assert AD_plugin_primed(plugin) is parms["expected_primed"]
+
+
+@pytest.mark.parametrize(
+    "parms, context",
+    [
+        pytest.param(
+            dict(stage_sigs={"enable": 0}, allow=True),
+            does_not_raise(),
+            id="disabled plugin with allow=True skips priming",
+        ),
+        pytest.param(
+            dict(stage_sigs={"enable": 0}, allow=False),
+            does_not_raise(),
+            id="disabled plugin with allow=False skips priming",
+        ),
+        pytest.param(
+            dict(stage_sigs={"enable": "Disable"}, allow=True),
+            does_not_raise(),
+            id="'Disable' string skips priming even when allow=True",
+        ),
+    ],
+)
+def test_ensure_AD_plugin_primed_skips_when_disabled(parms, context):
+    """ensure_AD_plugin_primed() does nothing for a disabled plugin."""
+    with context:
+        plugin = _MockPlugin(stage_sigs=parms["stage_sigs"])
+        # No IOC: without the guard this would raise AttributeError.
+        ensure_AD_plugin_primed(plugin, allow=parms["allow"])

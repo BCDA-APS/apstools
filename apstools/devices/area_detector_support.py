@@ -39,6 +39,7 @@ from collections import OrderedDict
 import epics
 import numpy as np
 from deprecated.sphinx import versionadded
+from deprecated.sphinx import versionchanged
 from ophyd import ADComponent
 from ophyd import CamBase
 from ophyd import EpicsSignal
@@ -128,9 +129,27 @@ def AD_setup_FrameType(prefix, scheme="NeXus"):
         epics.caput(template.format(prefix, "_RBV", field), value)
 
 
+def _plugin_disabled_on_stage(plugin):
+    """
+    Return ``True`` if the plugin's ``stage_sigs`` will disable it on stage.
+
+    Checks whether ``plugin.stage_sigs`` contains an ``enable`` key whose
+    value resolves to a disabled state (``0``, ``False``, or the string
+    ``"Disable"``).  Used to skip the priming check when a plugin is
+    intentionally staged as disabled.
+    """
+    _DISABLED_VALUES = {0, False, "Disable", "disable"}
+    enable_val = plugin.stage_sigs.get("enable")
+    return enable_val in _DISABLED_VALUES
+
+
 def AD_plugin_primed(plugin):
     """
     Has area detector pushed an NDarray to the file writer plugin?  True or False
+
+    Returns ``True`` immediately (without connecting to the IOC) when the
+    plugin's ``stage_sigs`` will disable the plugin on stage, because the
+    priming check is irrelevant for a disabled plugin.
 
     PARAMETERS
 
@@ -161,6 +180,10 @@ def AD_plugin_primed(plugin):
     in the plugin. This removes the need to initialize the plugin
     with a dummy frame before starting capture.
     """
+    if _plugin_disabled_on_stage(plugin):
+        logger.debug("'%s' plugin is disabled on stage; skipping primed check", plugin.name)
+        return True
+
     cam = plugin.parent.cam
     tests = []
 
@@ -261,6 +284,7 @@ def AD_prime_plugin2(plugin):
         sig.set(val).wait()
 
 
+@versionchanged(version="1.7.10", reason="Skip priming check when plugin is disabled on stage.")
 @versionadded(version="1.6.16")
 def ensure_AD_plugin_primed(plugin, allow=False):
     """
@@ -311,6 +335,10 @@ def ensure_AD_plugin_primed(plugin, allow=False):
     .. seealso:: ``ophyd.areadetector.plugins.UnprimedPlugin``:
        https://github.com/bluesky/ophyd/blob/7612b2c9de9d5bc16cf28eea79ba5c12553f3cc2/ophyd/areadetector/plugins.py#L999-L1004
     """
+    if _plugin_disabled_on_stage(plugin):
+        logger.debug("'%s' plugin is disabled on stage; skipping primed check", plugin.name)
+        return
+
     if allow:
         if not AD_plugin_primed(plugin):
             logger.info(f"Priming {plugin.name} ...")
@@ -766,10 +794,11 @@ class BadPixelPlugin(PluginBase):
     """
     ADCore NDBadPixel, new in AD 3.13.
     """
+
     _html_docs = ["NDBadPixelDoc.html"]
-    
+
     file_name = ADComponent(EpicsSignal, "FileName", string=True)
-    
+
 
 @versionadded(version="1.6.3")
 class CamMixin_V3_1_1(CamBase):
