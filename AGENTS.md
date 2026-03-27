@@ -82,6 +82,21 @@ public API changes.  Keep these tags consistent with any code changes:
 
 These tags apply to **public API code only** — test files do not need them.
 
+## Unit Test Style
+
+Write tests using `@pytest.mark.parametrize` with `parms, context` parameters:
+
+- Use `pytest.param(dict(...), context, id="...")` for each case.
+- Use `does_not_raise()` for success cases, `pytest.raises(Exception, match=re.escape(...))` for failures.
+- Put **all** functional code and assertions inside the `with context:` block.
+- Keep the test function body minimal and reusable — it is the testing
+  machinery.  Parameter sets represent user-facing scenarios.
+- Systematically identify parameter sets by walking through code paths:
+  success cases, failure modes, edge cases, and invalid inputs.
+- The goal is less test code and more parameter sets.  Adding a test for a
+  future bug report should require only a new `pytest.param(...)` entry.
+- Test files do not need `@deprecated` / `@versionadded` / `@versionchanged` tags.
+
 ## Before Every Commit
 
 - Run `ruff check .` from the repo root (matching what CI runs) and fix any errors before committing.
