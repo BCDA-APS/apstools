@@ -49,6 +49,11 @@ describe future plans.
    * Adopt ``pre-commit`` for code style with ``ruff`` (lint + format) and
      file hygiene hooks; remove legacy ``black``, ``flake8``, and ``isort``
      configurations. (:issue:`1156`)
+   * Add ``scripts/make_switcher.py`` to auto-generate ``switcher.json`` from
+     git tags; simplify docs deployment: ``dev/`` auto-deploys on every push
+     to ``main``, tagged releases deploy on manual trigger only; remove
+     ``define_versions.sh`` and the gh-pages zip download/rebuild cycle.
+     (:issue:`1157`)
    * Add ``scripts/update_copyright.py`` pre-commit hook to keep copyright
      ending year current automatically. (:issue:`1172`)
    * Add tests verifying ``EmailNotifications`` sends correctly via SMTP. (:issue:`1112`)
