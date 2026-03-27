@@ -24,7 +24,7 @@ jj_transfocators
        y1_motor:
          The motor record PV controlling the real vertical motor on CRL1, ex: "100id:m2"
 
-           
+
            Optional
            ========
            For CRL with translation (JJtransfocator1xZ) there's one more motor:

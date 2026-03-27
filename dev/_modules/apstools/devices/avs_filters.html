@@ -33,7 +33,7 @@
     <link rel="stylesheet" type="text/css" href="../../../_static/graphviz.css?v=4ae1632d" />
     <link rel="stylesheet" type="text/css" href="../../../_static/mystnb.11b39860a7a0cbfd473a3ad8a317855267ff0bd372690045ca344a6b62be495e.css" />
     <link rel="stylesheet" type="text/css" href="../../../_static/sphinx-design.min.css?v=95c83b7e" />
-    <link rel="stylesheet" type="text/css" href="../../../_static/css/custom.css?v=c14d4873" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/css/custom.css?v=fb1a6b5d" />
   
   <!-- So that users can add custom icons -->
   <script src="../../../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
@@ -41,7 +41,7 @@
   <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
 <link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
-    <script src="../../../_static/documentation_options.js?v=f5d85129"></script>
+    <script src="../../../_static/documentation_options.js?v=db910731"></script>
     <script src="../../../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../../../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../../../_static/design-tabs.js?v=f930bc37"></script>
@@ -441,7 +441,6 @@
 
 <span class="sd">&quot;&quot;&quot;</span>
 
-
 <span class="kn">from</span><span class="w"> </span><span class="nn">ophyd</span><span class="w"> </span><span class="kn">import</span> <span class="n">Component</span> <span class="k">as</span> <span class="n">Cpt</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">ophyd</span><span class="w"> </span><span class="kn">import</span> <span class="n">FormattedComponent</span> <span class="k">as</span> <span class="n">FCpt</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">ophyd</span><span class="w"> </span><span class="kn">import</span> <span class="n">Device</span>
@@ -456,9 +455,11 @@
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    filter index; increasing index, increasing attenuation</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">readback</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignalRO</span><span class="p">,</span> <span class="s1">&#39;sortedIndex_RBV&#39;</span><span class="p">)</span>
-    <span class="n">setpoint</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s1">&#39;sortedIndex&#39;</span><span class="p">)</span>
-    <span class="n">done</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignalRO</span><span class="p">,</span> <span class="s1">&#39;filterBusy&#39;</span><span class="p">)</span></div>
+
+    <span class="n">readback</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignalRO</span><span class="p">,</span> <span class="s2">&quot;sortedIndex_RBV&quot;</span><span class="p">)</span>
+    <span class="n">setpoint</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">&quot;sortedIndex&quot;</span><span class="p">)</span>
+    <span class="n">done</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignalRO</span><span class="p">,</span> <span class="s2">&quot;filterBusy&quot;</span><span class="p">)</span></div>
+
 
 
 <div class="viewcode-block" id="filter_atten">
@@ -467,9 +468,11 @@
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    filter attenuation positioner</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">readback</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignalRO</span><span class="p">,</span> <span class="s1">&#39;attenuation_actual&#39;</span><span class="p">)</span>
-    <span class="n">setpoint</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s1">&#39;attenuation&#39;</span><span class="p">)</span>
-    <span class="n">done</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignalRO</span><span class="p">,</span> <span class="s1">&#39;filterBusy&#39;</span><span class="p">)</span></div>
+
+    <span class="n">readback</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignalRO</span><span class="p">,</span> <span class="s2">&quot;attenuation_actual&quot;</span><span class="p">)</span>
+    <span class="n">setpoint</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">&quot;attenuation&quot;</span><span class="p">)</span>
+    <span class="n">done</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignalRO</span><span class="p">,</span> <span class="s2">&quot;filterBusy&quot;</span><span class="p">)</span></div>
+
 
 
 <div class="viewcode-block" id="filter_trans">
@@ -478,39 +481,38 @@
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    filter transmission positioner</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">readback</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignalRO</span><span class="p">,</span> <span class="s1">&#39;transmission_RBV&#39;</span><span class="p">)</span>
-    <span class="n">setpoint</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s1">&#39;transmission&#39;</span><span class="p">)</span>
-    <span class="n">done</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignalRO</span><span class="p">,</span> <span class="s1">&#39;filterBusy&#39;</span><span class="p">)</span></div>
+
+    <span class="n">readback</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignalRO</span><span class="p">,</span> <span class="s2">&quot;transmission_RBV&quot;</span><span class="p">)</span>
+    <span class="n">setpoint</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">&quot;transmission&quot;</span><span class="p">)</span>
+    <span class="n">done</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignalRO</span><span class="p">,</span> <span class="s2">&quot;filterBusy&quot;</span><span class="p">)</span></div>
+
 
 
 <div class="viewcode-block" id="AVSfilters">
 <a class="viewcode-back" href="../../../api/autoapi/apstools/devices/avs_filters/index.html#apstools.devices.avs_filters.AVSfilters">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">AVSfilters</span><span class="p">(</span><span class="n">Device</span><span class="p">):</span>
-
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">prefix</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
         <span class="n">translation_motor</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
         <span class="o">*</span><span class="n">args</span><span class="p">,</span>
         <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
-    <span class="p">):</span>    
-    
+    <span class="p">):</span>
+
         <span class="bp">self</span><span class="o">.</span><span class="n">_translation</span> <span class="o">=</span> <span class="n">translation_motor</span>
-    
+
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">prefix</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 
-    
     <span class="n">index</span> <span class="o">=</span> <span class="n">FCpt</span><span class="p">(</span><span class="n">filter_index</span><span class="p">,</span> <span class="s2">&quot;</span><span class="si">{prefix}</span><span class="s2">&quot;</span><span class="p">)</span>
     <span class="n">attenuation</span> <span class="o">=</span> <span class="n">FCpt</span><span class="p">(</span><span class="n">filter_atten</span><span class="p">,</span> <span class="s2">&quot;</span><span class="si">{prefix}</span><span class="s2">&quot;</span><span class="p">)</span>
     <span class="n">transmission</span> <span class="o">=</span> <span class="n">FCpt</span><span class="p">(</span><span class="n">filter_trans</span><span class="p">,</span> <span class="s2">&quot;</span><span class="si">{prefix}</span><span class="s2">&quot;</span><span class="p">)</span>
-    <span class="n">translation</span> <span class="o">=</span> <span class="n">FCpt</span><span class="p">(</span><span class="n">EpicsMotor</span><span class="p">,</span> <span class="s2">&quot;</span><span class="si">{_translation}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">labels</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;motors&#39;</span><span class="p">})</span>
-    
+    <span class="n">translation</span> <span class="o">=</span> <span class="n">FCpt</span><span class="p">(</span><span class="n">EpicsMotor</span><span class="p">,</span> <span class="s2">&quot;</span><span class="si">{_translation}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">labels</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;motors&quot;</span><span class="p">})</span>
+
     <span class="n">binary_crl1_config</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignalRO</span><span class="p">,</span> <span class="s2">&quot;filterConfig&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;hinted&quot;</span><span class="p">)</span>
     <span class="n">bw_crl1_config</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignalRO</span><span class="p">,</span> <span class="s2">&quot;filterConfig_BW&quot;</span><span class="p">)</span>
     <span class="n">rbv_crl1_config</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignalRO</span><span class="p">,</span> <span class="s2">&quot;filterConfig_RBV&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;hinted&quot;</span><span class="p">)</span>
     <span class="n">inMask_config</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignalRO</span><span class="p">,</span> <span class="s2">&quot;inMask_RBV&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;config&quot;</span><span class="p">)</span>
     <span class="n">outMask_config</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignalRO</span><span class="p">,</span> <span class="s2">&quot;outMask_RBV&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;config&quot;</span><span class="p">)</span></div>
-
 
 </pre></div>
 
@@ -553,7 +555,7 @@
 
   <p class="copyright">
     
-      © Copyright 2017-2025, UChicago Argonne, LLC.
+      © Copyright 2017-2026, UChicago Argonne, LLC.
       <br/>
     
   </p>

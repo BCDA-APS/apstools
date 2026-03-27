@@ -34,7 +34,7 @@
     <link rel="stylesheet" type="text/css" href="../_static/graphviz.css?v=4ae1632d" />
     <link rel="stylesheet" type="text/css" href="../_static/mystnb.11b39860a7a0cbfd473a3ad8a317855267ff0bd372690045ca344a6b62be495e.css" />
     <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
-    <link rel="stylesheet" type="text/css" href="../_static/css/custom.css?v=c14d4873" />
+    <link rel="stylesheet" type="text/css" href="../_static/css/custom.css?v=fb1a6b5d" />
   
   <!-- So that users can add custom icons -->
   <script src="../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
@@ -42,7 +42,7 @@
   <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
-    <script src="../_static/documentation_options.js?v=f5d85129"></script>
+    <script src="../_static/documentation_options.js?v=db910731"></script>
     <script src="../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../_static/design-tabs.js?v=f930bc37"></script>
@@ -519,11 +519,13 @@ columns as you need, one column per argument.</p>
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Import matplotlib and put it in interactive mode.</span>
 <span class="o">%</span><span class="k">matplotlib</span> notebook
 <span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+
 <span class="n">plt</span><span class="o">.</span><span class="n">ion</span><span class="p">()</span>
 
 <span class="kn">import</span><span class="w"> </span><span class="nn">pathlib</span>
 
 <span class="kn">import</span><span class="w"> </span><span class="nn">databroker</span>
+
 <span class="n">cat</span> <span class="o">=</span> <span class="n">databroker</span><span class="o">.</span><span class="n">temp</span><span class="p">()</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">bluesky</span><span class="w"> </span><span class="kn">import</span> <span class="n">RunEngine</span>
@@ -547,8 +549,17 @@ columns as you need, one column per argument.</p>
 <span class="n">shutter</span> <span class="o">=</span> <span class="n">APS_devices</span><span class="o">.</span><span class="n">SimulatedApsPssShutterWithStatus</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;shutter&quot;</span><span class="p">)</span>
 <span class="n">watch_for_shutter_close</span> <span class="o">=</span> <span class="n">SuspendFloor</span><span class="p">(</span><span class="n">shutter</span><span class="o">.</span><span class="n">pss_state</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
 
-<span class="n">noisy_det</span> <span class="o">=</span> <span class="n">SynGauss</span><span class="p">(</span><span class="s1">&#39;noisy_det&#39;</span><span class="p">,</span> <span class="n">motor1</span><span class="p">,</span> <span class="s1">&#39;motor1&#39;</span><span class="p">,</span> <span class="n">center</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">Imax</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
-                <span class="n">noise</span><span class="o">=</span><span class="s1">&#39;uniform&#39;</span><span class="p">,</span> <span class="n">sigma</span><span class="o">=</span><span class="mf">0.9</span><span class="p">,</span> <span class="n">noise_multiplier</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span> <span class="n">labels</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;detectors&#39;</span><span class="p">})</span>
+<span class="n">noisy_det</span> <span class="o">=</span> <span class="n">SynGauss</span><span class="p">(</span>
+    <span class="s2">&quot;noisy_det&quot;</span><span class="p">,</span>
+    <span class="n">motor1</span><span class="p">,</span>
+    <span class="s2">&quot;motor1&quot;</span><span class="p">,</span>
+    <span class="n">center</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+    <span class="n">Imax</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+    <span class="n">noise</span><span class="o">=</span><span class="s2">&quot;uniform&quot;</span><span class="p">,</span>
+    <span class="n">sigma</span><span class="o">=</span><span class="mf">0.9</span><span class="p">,</span>
+    <span class="n">noise_multiplier</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span>
+    <span class="n">labels</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;detectors&quot;</span><span class="p">},</span>
+<span class="p">)</span>
 <span class="n">noisy_det</span><span class="o">.</span><span class="n">kind</span> <span class="o">=</span> <span class="s2">&quot;hinted&quot;</span>
 </pre></div>
 </div>
@@ -562,17 +573,22 @@ columns as you need, one column per argument.</p>
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">beforeExcelPlan</span><span class="p">():</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;things to be done at the start of every Excel plan&quot;&quot;&quot;</span>
     <span class="k">yield from</span> <span class="n">bps</span><span class="o">.</span><span class="n">mv</span><span class="p">(</span>
-        <span class="n">shutter</span><span class="p">,</span> <span class="s2">&quot;open&quot;</span><span class="p">,</span>    <span class="c1"># for example</span>
+        <span class="n">shutter</span><span class="p">,</span>
+        <span class="s2">&quot;open&quot;</span><span class="p">,</span>  <span class="c1"># for example</span>
     <span class="p">)</span>
 
-    
+
 <span class="k">def</span><span class="w"> </span><span class="nf">afterExcelPlan</span><span class="p">():</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;things to be done at the end of every Excel plan&quot;&quot;&quot;</span>
     <span class="k">yield from</span> <span class="n">bps</span><span class="o">.</span><span class="n">mv</span><span class="p">(</span>
-        <span class="n">shutter</span><span class="p">,</span> <span class="s2">&quot;close&quot;</span><span class="p">,</span>   <span class="c1"># for example</span>
-        <span class="n">motor1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span>              <span class="c1"># park the motors</span>
-        <span class="n">motor2</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span>
-        <span class="n">motor3</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span>
+        <span class="n">shutter</span><span class="p">,</span>
+        <span class="s2">&quot;close&quot;</span><span class="p">,</span>  <span class="c1"># for example</span>
+        <span class="n">motor1</span><span class="p">,</span>
+        <span class="mi">0</span><span class="p">,</span>  <span class="c1"># park the motors</span>
+        <span class="n">motor2</span><span class="p">,</span>
+        <span class="mi">0</span><span class="p">,</span>
+        <span class="n">motor3</span><span class="p">,</span>
+        <span class="mi">0</span><span class="p">,</span>
     <span class="p">)</span>
 
 
@@ -581,8 +597,10 @@ columns as you need, one column per argument.</p>
 <span class="sd">    run a step scan over a common range at given sample position</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">yield from</span> <span class="n">bps</span><span class="o">.</span><span class="n">mv</span><span class="p">(</span>
-        <span class="n">motor2</span><span class="p">,</span> <span class="n">pos_X</span><span class="p">,</span>
-        <span class="n">motor3</span><span class="p">,</span> <span class="n">pos_Y</span><span class="p">,</span>
+        <span class="n">motor2</span><span class="p">,</span>
+        <span class="n">pos_X</span><span class="p">,</span>
+        <span class="n">motor3</span><span class="p">,</span>
+        <span class="n">pos_Y</span><span class="p">,</span>
     <span class="p">)</span>
     <span class="n">md</span><span class="p">[</span><span class="n">motor2</span><span class="o">.</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">motor2</span><span class="o">.</span><span class="n">position</span>
     <span class="n">md</span><span class="p">[</span><span class="n">motor3</span><span class="o">.</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">motor3</span><span class="o">.</span><span class="n">position</span>
@@ -598,9 +616,9 @@ columns as you need, one column per argument.</p>
 <span class="k">def</span><span class="w"> </span><span class="nf">Excel_plan</span><span class="p">(</span><span class="n">xl_file</span><span class="p">,</span> <span class="n">md</span><span class="o">=</span><span class="p">{}):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    example of reading a list of samples from Excel spreadsheet</span>
-<span class="sd">    </span>
+
 <span class="sd">    USAGE::</span>
-<span class="sd">    </span>
+
 <span class="sd">        summarize_plan(run_Excel_file(&quot;sample_example.xlsx&quot;))</span>
 <span class="sd">        RE(run_Excel_file(&quot;sample_example.xlsx&quot;))</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -611,33 +629,33 @@ columns as you need, one column per argument.</p>
     <span class="k">yield from</span> <span class="n">beforeExcelPlan</span><span class="p">()</span>
     <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">row</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">xl</span><span class="o">.</span><span class="n">db</span><span class="o">.</span><span class="n">values</span><span class="p">()):</span>
         <span class="c1"># print(f&quot;row={row}&quot;)</span>
-        
+
         <span class="c1"># metadata</span>
         <span class="c1"># all parameters from this row go into the metadata</span>
         <span class="c1"># columns names are the keys in the metadata dictionary</span>
         <span class="c1"># make sure md keys are &quot;clean&quot;</span>
         <span class="c1"># also provide crossreference to original column names</span>
         <span class="n">_md</span> <span class="o">=</span> <span class="p">{</span><span class="n">APS_utils</span><span class="o">.</span><span class="n">cleanupText</span><span class="p">(</span><span class="n">k</span><span class="p">):</span> <span class="n">v</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">row</span><span class="o">.</span><span class="n">items</span><span class="p">()}</span>
-        <span class="n">_md</span><span class="p">[</span><span class="s2">&quot;table_row&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">i</span><span class="o">+</span><span class="mi">1</span>
+        <span class="n">_md</span><span class="p">[</span><span class="s2">&quot;table_row&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">i</span> <span class="o">+</span> <span class="mi">1</span>
         <span class="n">_md</span><span class="p">[</span><span class="s2">&quot;Excel_file&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">excel_file</span><span class="p">)</span>
         <span class="n">_md</span><span class="p">[</span><span class="s2">&quot;xl_file&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">xl_file</span>
         <span class="n">_md</span><span class="p">[</span><span class="s2">&quot;original_keys&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="n">APS_utils</span><span class="o">.</span><span class="n">cleanupText</span><span class="p">(</span><span class="n">k</span><span class="p">):</span> <span class="n">k</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">row</span><span class="o">.</span><span class="n">keys</span><span class="p">()}</span>
-        <span class="n">_md</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">md</span><span class="p">)</span>      <span class="c1"># overlay with user-supplied metadata</span>
+        <span class="n">_md</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">md</span><span class="p">)</span>  <span class="c1"># overlay with user-supplied metadata</span>
 
         <span class="n">scan_command</span> <span class="o">=</span> <span class="p">(</span><span class="n">row</span><span class="p">[</span><span class="s2">&quot;Scan Type&quot;</span><span class="p">]</span> <span class="ow">or</span> <span class="s2">&quot;&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
         <span class="k">if</span> <span class="n">scan_command</span> <span class="o">==</span> <span class="s2">&quot;step_scan&quot;</span><span class="p">:</span>
             <span class="k">yield from</span> <span class="n">common_step_scan</span><span class="p">(</span>
                 <span class="n">row</span><span class="p">[</span><span class="s2">&quot;sx&quot;</span><span class="p">],</span>  <span class="c1"># label must match cell string EXACTLY</span>
-                <span class="n">row</span><span class="p">[</span><span class="s2">&quot;sy&quot;</span><span class="p">],</span> 
-                <span class="n">row</span><span class="p">[</span><span class="s2">&quot;Thickness&quot;</span><span class="p">],</span> 
+                <span class="n">row</span><span class="p">[</span><span class="s2">&quot;sy&quot;</span><span class="p">],</span>
+                <span class="n">row</span><span class="p">[</span><span class="s2">&quot;Thickness&quot;</span><span class="p">],</span>
                 <span class="n">row</span><span class="p">[</span><span class="s2">&quot;Sample Name&quot;</span><span class="p">],</span>
                 <span class="c1"># add all input as scan metadata, ensure the keys are clean</span>
                 <span class="n">md</span><span class="o">=</span><span class="n">_md</span><span class="p">,</span>
-                <span class="p">)</span>
+            <span class="p">)</span>
         <span class="k">elif</span> <span class="n">scan_command</span> <span class="o">==</span> <span class="s2">&quot;some_other_action&quot;</span><span class="p">:</span>
             <span class="k">pass</span>  <span class="c1"># TODO: suggestion</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;no handling for table row </span><span class="si">{</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">row</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;no handling for table row </span><span class="si">{</span><span class="n">i</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">row</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
     <span class="k">yield from</span> <span class="n">afterExcelPlan</span><span class="p">()</span>
 
 
@@ -2283,7 +2301,7 @@ no handling for table row 3: OrderedDict([(&#39;Scan Type&#39;, &#39;this will b
 
   <p class="copyright">
     
-      © Copyright 2017-2025, UChicago Argonne, LLC.
+      © Copyright 2017-2026, UChicago Argonne, LLC.
       <br/>
     
   </p>

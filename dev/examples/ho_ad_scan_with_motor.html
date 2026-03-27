@@ -34,7 +34,7 @@
     <link rel="stylesheet" type="text/css" href="../_static/graphviz.css?v=4ae1632d" />
     <link rel="stylesheet" type="text/css" href="../_static/mystnb.11b39860a7a0cbfd473a3ad8a317855267ff0bd372690045ca344a6b62be495e.css" />
     <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
-    <link rel="stylesheet" type="text/css" href="../_static/css/custom.css?v=c14d4873" />
+    <link rel="stylesheet" type="text/css" href="../_static/css/custom.css?v=fb1a6b5d" />
   
   <!-- So that users can add custom icons -->
   <script src="../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
@@ -42,7 +42,7 @@
   <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
-    <script src="../_static/documentation_options.js?v=f5d85129"></script>
+    <script src="../_static/documentation_options.js?v=db910731"></script>
     <script src="../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../_static/design-tabs.js?v=f930bc37"></script>
@@ -505,6 +505,7 @@
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%</span><span class="k">matplotlib</span> inline
 <span class="kn">import</span><span class="w"> </span><span class="nn">warnings</span>
+
 <span class="n">warnings</span><span class="o">.</span><span class="n">filterwarnings</span><span class="p">(</span><span class="s2">&quot;ignore&quot;</span><span class="p">,</span> <span class="n">category</span><span class="o">=</span><span class="ne">FutureWarning</span><span class="p">)</span>
 
 <span class="kn">import</span><span class="w"> </span><span class="nn">databroker</span>
@@ -623,7 +624,9 @@ statistics signals to record.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">uids</span> <span class="o">=</span> <span class="n">RE</span><span class="p">(</span><span class="n">bp</span><span class="o">.</span><span class="n">count</span><span class="p">([</span><span class="n">adsimdet</span><span class="p">],</span> <span class="n">num</span><span class="o">=</span><span class="mi">3</span><span class="p">))</span>
-<span class="n">cat</span><span class="o">.</span><span class="n">v2</span><span class="p">[</span><span class="n">uids</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]]</span><span class="o">.</span><span class="n">primary</span><span class="o">.</span><span class="n">read</span><span class="p">()[[</span><span class="s2">&quot;adsimdet_stats1_total&quot;</span><span class="p">,</span> <span class="s2">&quot;adsimdet_stats1_max_value&quot;</span><span class="p">,</span> <span class="s2">&quot;adsimdet_stats1_unique_id&quot;</span><span class="p">]]</span>
+<span class="n">cat</span><span class="o">.</span><span class="n">v2</span><span class="p">[</span><span class="n">uids</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]]</span><span class="o">.</span><span class="n">primary</span><span class="o">.</span><span class="n">read</span><span class="p">()[</span>
+    <span class="p">[</span><span class="s2">&quot;adsimdet_stats1_total&quot;</span><span class="p">,</span> <span class="s2">&quot;adsimdet_stats1_max_value&quot;</span><span class="p">,</span> <span class="s2">&quot;adsimdet_stats1_unique_id&quot;</span><span class="p">]</span>
+<span class="p">]</span>
 </pre></div>
 </div>
 </div>
@@ -1809,8 +1812,12 @@ Data variables:
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">uids</span> <span class="o">=</span> <span class="n">RE</span><span class="p">(</span>
     <span class="n">bp</span><span class="o">.</span><span class="n">scan</span><span class="p">(</span>
         <span class="p">[</span><span class="n">adsimdet</span><span class="p">],</span>
-        <span class="n">m1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span>
-        <span class="n">m2</span><span class="p">,</span>  <span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span>
+        <span class="n">m1</span><span class="p">,</span>
+        <span class="o">-</span><span class="mi">1</span><span class="p">,</span>
+        <span class="mi">1</span><span class="p">,</span>
+        <span class="n">m2</span><span class="p">,</span>
+        <span class="mi">0</span><span class="p">,</span>
+        <span class="mi">2</span><span class="p">,</span>
         <span class="mi">5</span><span class="p">,</span>
     <span class="p">)</span>
 <span class="p">)</span>
@@ -2413,8 +2420,14 @@ Data variables:
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">uids</span> <span class="o">=</span> <span class="n">RE</span><span class="p">(</span>
     <span class="n">bp</span><span class="o">.</span><span class="n">grid_scan</span><span class="p">(</span>
         <span class="p">[</span><span class="n">adsimdet</span><span class="p">],</span>
-        <span class="n">m1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span>
-        <span class="n">m2</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span>
+        <span class="n">m1</span><span class="p">,</span>
+        <span class="o">-</span><span class="mi">1</span><span class="p">,</span>
+        <span class="mi">1</span><span class="p">,</span>
+        <span class="mi">3</span><span class="p">,</span>
+        <span class="n">m2</span><span class="p">,</span>
+        <span class="o">-</span><span class="mf">0.5</span><span class="p">,</span>
+        <span class="mf">0.5</span><span class="p">,</span>
+        <span class="mi">4</span><span class="p">,</span>
         <span class="n">snake_axes</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
     <span class="p">)</span>
 <span class="p">)</span>
@@ -3051,13 +3064,13 @@ configured correctly.</p>
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">pathlib</span>
 
-<span class="n">AD_IOC_MOUNT_PATH</span>   <span class="o">=</span> <span class="n">pathlib</span><span class="o">.</span><span class="n">Path</span><span class="p">(</span><span class="s2">&quot;/tmp&quot;</span><span class="p">)</span>
-<span class="n">BLUESKY_MOUNT_PATH</span>  <span class="o">=</span> <span class="n">pathlib</span><span class="o">.</span><span class="n">Path</span><span class="p">(</span><span class="s2">&quot;/tmp/docker_ioc/iocad/tmp&quot;</span><span class="p">)</span>
-<span class="n">IMAGE_DIR</span>           <span class="o">=</span> <span class="s2">&quot;images&quot;</span>
+<span class="n">AD_IOC_MOUNT_PATH</span> <span class="o">=</span> <span class="n">pathlib</span><span class="o">.</span><span class="n">Path</span><span class="p">(</span><span class="s2">&quot;/tmp&quot;</span><span class="p">)</span>
+<span class="n">BLUESKY_MOUNT_PATH</span> <span class="o">=</span> <span class="n">pathlib</span><span class="o">.</span><span class="n">Path</span><span class="p">(</span><span class="s2">&quot;/tmp/docker_ioc/iocad/tmp&quot;</span><span class="p">)</span>
+<span class="n">IMAGE_DIR</span> <span class="o">=</span> <span class="s2">&quot;images&quot;</span>
 
 <span class="c1"># Must end with &#39;/&#39; — pathlib does not add it.</span>
-<span class="n">WRITE_PATH_TEMPLATE</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">AD_IOC_MOUNT_PATH</span><span class="w">  </span><span class="o">/</span><span class="w"> </span><span class="n">IMAGE_DIR</span><span class="si">}</span><span class="s2">/&quot;</span>
-<span class="n">READ_PATH_TEMPLATE</span>  <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">BLUESKY_MOUNT_PATH</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">IMAGE_DIR</span><span class="si">}</span><span class="s2">/&quot;</span>
+<span class="n">WRITE_PATH_TEMPLATE</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">AD_IOC_MOUNT_PATH</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">IMAGE_DIR</span><span class="si">}</span><span class="s2">/&quot;</span>
+<span class="n">READ_PATH_TEMPLATE</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">BLUESKY_MOUNT_PATH</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">IMAGE_DIR</span><span class="si">}</span><span class="s2">/&quot;</span>
 </pre></div>
 </div>
 </div>
@@ -3086,7 +3099,7 @@ write files (IOC path) and where bluesky can read them back (local path).</p>
             <span class="s2">&quot;hdf1&quot;</span><span class="p">:</span> <span class="p">{</span>
                 <span class="s2">&quot;class&quot;</span><span class="p">:</span> <span class="n">HDF5FileWriterPlugin</span><span class="p">,</span>
                 <span class="s2">&quot;write_path_template&quot;</span><span class="p">:</span> <span class="n">WRITE_PATH_TEMPLATE</span><span class="p">,</span>
-                <span class="s2">&quot;read_path_template&quot;</span><span class="p">:</span>  <span class="n">READ_PATH_TEMPLATE</span><span class="p">,</span>
+                <span class="s2">&quot;read_path_template&quot;</span><span class="p">:</span> <span class="n">READ_PATH_TEMPLATE</span><span class="p">,</span>
             <span class="p">}</span>
         <span class="p">},</span>
     <span class="p">],</span>
@@ -3115,14 +3128,14 @@ before acquisition begins.</p>
 
 <span class="n">det_hdf</span><span class="o">.</span><span class="n">cam</span><span class="o">.</span><span class="n">stage_sigs</span><span class="p">[</span><span class="s2">&quot;num_images&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
 <span class="n">det_hdf</span><span class="o">.</span><span class="n">cam</span><span class="o">.</span><span class="n">stage_sigs</span><span class="p">[</span><span class="s2">&quot;wait_for_plugins&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;Yes&quot;</span>
-<span class="n">det_hdf</span><span class="o">.</span><span class="n">image</span><span class="o">.</span><span class="n">stage_sigs</span><span class="p">[</span><span class="s2">&quot;blocking_callbacks&quot;</span><span class="p">]</span>  <span class="o">=</span> <span class="s2">&quot;No&quot;</span>
-<span class="n">det_hdf</span><span class="o">.</span><span class="n">pva</span><span class="o">.</span><span class="n">stage_sigs</span><span class="p">[</span><span class="s2">&quot;blocking_callbacks&quot;</span><span class="p">]</span>    <span class="o">=</span> <span class="s2">&quot;No&quot;</span>
-<span class="n">det_hdf</span><span class="o">.</span><span class="n">roi1</span><span class="o">.</span><span class="n">stage_sigs</span><span class="p">[</span><span class="s2">&quot;blocking_callbacks&quot;</span><span class="p">]</span>   <span class="o">=</span> <span class="s2">&quot;No&quot;</span>
+<span class="n">det_hdf</span><span class="o">.</span><span class="n">image</span><span class="o">.</span><span class="n">stage_sigs</span><span class="p">[</span><span class="s2">&quot;blocking_callbacks&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;No&quot;</span>
+<span class="n">det_hdf</span><span class="o">.</span><span class="n">pva</span><span class="o">.</span><span class="n">stage_sigs</span><span class="p">[</span><span class="s2">&quot;blocking_callbacks&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;No&quot;</span>
+<span class="n">det_hdf</span><span class="o">.</span><span class="n">roi1</span><span class="o">.</span><span class="n">stage_sigs</span><span class="p">[</span><span class="s2">&quot;blocking_callbacks&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;No&quot;</span>
 <span class="n">det_hdf</span><span class="o">.</span><span class="n">stats1</span><span class="o">.</span><span class="n">stage_sigs</span><span class="p">[</span><span class="s2">&quot;blocking_callbacks&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;No&quot;</span>
-<span class="n">det_hdf</span><span class="o">.</span><span class="n">hdf1</span><span class="o">.</span><span class="n">stage_sigs</span><span class="p">[</span><span class="s2">&quot;blocking_callbacks&quot;</span><span class="p">]</span>   <span class="o">=</span> <span class="s2">&quot;No&quot;</span>
+<span class="n">det_hdf</span><span class="o">.</span><span class="n">hdf1</span><span class="o">.</span><span class="n">stage_sigs</span><span class="p">[</span><span class="s2">&quot;blocking_callbacks&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;No&quot;</span>
 
-<span class="n">det_hdf</span><span class="o">.</span><span class="n">stats1</span><span class="o">.</span><span class="n">kind</span>           <span class="o">=</span> <span class="s2">&quot;hinted&quot;</span>
-<span class="n">det_hdf</span><span class="o">.</span><span class="n">stats1</span><span class="o">.</span><span class="n">total</span><span class="o">.</span><span class="n">kind</span>     <span class="o">=</span> <span class="s2">&quot;hinted&quot;</span>
+<span class="n">det_hdf</span><span class="o">.</span><span class="n">stats1</span><span class="o">.</span><span class="n">kind</span> <span class="o">=</span> <span class="s2">&quot;hinted&quot;</span>
+<span class="n">det_hdf</span><span class="o">.</span><span class="n">stats1</span><span class="o">.</span><span class="n">total</span><span class="o">.</span><span class="n">kind</span> <span class="o">=</span> <span class="s2">&quot;hinted&quot;</span>
 <span class="n">det_hdf</span><span class="o">.</span><span class="n">stats1</span><span class="o">.</span><span class="n">max_value</span><span class="o">.</span><span class="n">kind</span> <span class="o">=</span> <span class="s2">&quot;hinted&quot;</span>
 <span class="n">det_hdf</span><span class="o">.</span><span class="n">stats1</span><span class="o">.</span><span class="n">unique_id</span><span class="o">.</span><span class="n">kind</span> <span class="o">=</span> <span class="s2">&quot;hinted&quot;</span>
 
@@ -3857,7 +3870,7 @@ Exists on local filesystem: True
 
   <p class="copyright">
     
-      © Copyright 2017-2025, UChicago Argonne, LLC.
+      © Copyright 2017-2026, UChicago Argonne, LLC.
       <br/>
     
   </p>

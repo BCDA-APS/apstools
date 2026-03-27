@@ -34,7 +34,7 @@
     <link rel="stylesheet" type="text/css" href="../_static/graphviz.css?v=4ae1632d" />
     <link rel="stylesheet" type="text/css" href="../_static/mystnb.11b39860a7a0cbfd473a3ad8a317855267ff0bd372690045ca344a6b62be495e.css" />
     <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
-    <link rel="stylesheet" type="text/css" href="../_static/css/custom.css?v=c14d4873" />
+    <link rel="stylesheet" type="text/css" href="../_static/css/custom.css?v=fb1a6b5d" />
   
   <!-- So that users can add custom icons -->
   <script src="../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
@@ -42,7 +42,7 @@
   <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
-    <script src="../_static/documentation_options.js?v=f5d85129"></script>
+    <script src="../_static/documentation_options.js?v=db910731"></script>
     <script src="../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../_static/design-tabs.js?v=f930bc37"></script>
@@ -647,6 +647,7 @@ I Mon-15:49:27 - #### Startup is complete. ####
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">apstools.utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">listobjects</span>
+
 <span class="n">listobjects</span><span class="p">()</span>
 </pre></div>
 </div>
@@ -795,6 +796,7 @@ EXAMPLE::
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">apstools.utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">listdevice</span>
+
 <span class="n">listdevice</span><span class="p">(</span><span class="n">noisy</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -1357,6 +1359,7 @@ training instrument</a> is started:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">apstools.utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">listplans</span>
+
 <span class="n">listplans</span><span class="p">()</span>
 </pre></div>
 </div>
@@ -1472,6 +1475,7 @@ bluesky.plans.x2x_scan                    Relatively scan over two motors in a 2
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">apstools.plans</span>
+
 <span class="n">listplans</span><span class="p">(</span><span class="n">apstools</span><span class="o">.</span><span class="n">plans</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -1509,6 +1513,7 @@ apstools.plans.write_stream          add an ophyd Device as an additional docume
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">apstools.utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">findCatalogsInNamespace</span>
+
 <span class="n">findCatalogsInNamespace</span><span class="p">()</span>
 </pre></div>
 </div>
@@ -1525,6 +1530,7 @@ configuration details, even if they are not loaded into memory yet.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">databroker</span>
+
 <span class="nb">list</span><span class="p">(</span><span class="n">databroker</span><span class="o">.</span><span class="n">catalog</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -1636,7 +1642,7 @@ configuration details, even if they are not loaded into memory yet.</p>
 
   <p class="copyright">
     
-      © Copyright 2017-2025, UChicago Argonne, LLC.
+      © Copyright 2017-2026, UChicago Argonne, LLC.
       <br/>
     
   </p>

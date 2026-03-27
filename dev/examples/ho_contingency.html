@@ -34,7 +34,7 @@
     <link rel="stylesheet" type="text/css" href="../_static/graphviz.css?v=4ae1632d" />
     <link rel="stylesheet" type="text/css" href="../_static/mystnb.11b39860a7a0cbfd473a3ad8a317855267ff0bd372690045ca344a6b62be495e.css" />
     <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
-    <link rel="stylesheet" type="text/css" href="../_static/css/custom.css?v=c14d4873" />
+    <link rel="stylesheet" type="text/css" href="../_static/css/custom.css?v=fb1a6b5d" />
   
   <!-- So that users can add custom icons -->
   <script src="../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
@@ -42,7 +42,7 @@
   <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
-    <script src="../_static/documentation_options.js?v=f5d85129"></script>
+    <script src="../_static/documentation_options.js?v=db910731"></script>
     <script src="../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../_static/design-tabs.js?v=f930bc37"></script>
@@ -604,6 +604,8 @@ that is likly a bug in one of the ophyd objects methods or the plan.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">bluesky</span><span class="w"> </span><span class="kn">import</span> <span class="n">plan_stubs</span> <span class="k">as</span> <span class="n">bps</span>
+
+
 <span class="k">def</span><span class="w"> </span><span class="nf">my_plan</span><span class="p">(</span><span class="n">terminate</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
     <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Start my_plan(), with </span><span class="si">{</span><span class="n">terminate</span><span class="si">=}</span><span class="s2">.&quot;</span><span class="p">)</span>
     <span class="k">yield from</span> <span class="n">bps</span><span class="o">.</span><span class="n">mv</span><span class="p">(</span><span class="n">shutter</span><span class="p">,</span> <span class="s2">&quot;open&quot;</span><span class="p">)</span>
@@ -650,7 +652,7 @@ MyException: Requested terminate=True
 <p><strong>Caution</strong>: Wrapping the <code class="docutils literal notranslate"><span class="pre">RunEngine</span></code> with <code class="docutils literal notranslate"><span class="pre">try..except</span></code> is not considered best practice since it aborts <code class="docutils literal notranslate"><span class="pre">RE</span></code> completely, subverting many features already built into the <code class="docutils literal notranslate"><span class="pre">RunEngine</span></code> (such as <code class="docutils literal notranslate"><span class="pre">^C</span> <span class="pre">^C</span></code> described above).  It is recommended to <strong><em>wrap the plan</em></strong> with <code class="docutils literal notranslate"><span class="pre">try..except</span></code> rather than wrap the <code class="docutils literal notranslate"><span class="pre">RE</span></code>, as will be shown in the examples below.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">try</span><span class="p">:</span>                                    <span class="c1"># caution: not recommended</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">try</span><span class="p">:</span>  <span class="c1"># caution: not recommended</span>
     <span class="n">RE</span><span class="p">(</span><span class="n">my_plan</span><span class="p">(</span><span class="kc">True</span><span class="p">))</span>
 <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">exinfo</span><span class="p">:</span>
     <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Found an exception: </span><span class="si">{</span><span class="n">exinfo</span><span class="si">}</span><span class="s2">  </span><span class="si">{</span><span class="n">shutter</span><span class="o">.</span><span class="n">state</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
@@ -754,9 +756,11 @@ there is some <a class="reference external" href="https://youtu.be/iKzOBWOHGFE?s
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">bluesky</span><span class="w"> </span><span class="kn">import</span> <span class="n">preprocessors</span> <span class="k">as</span> <span class="n">bpp</span>
 
+
 <span class="k">def</span><span class="w"> </span><span class="nf">close_the_shutter</span><span class="p">():</span>
     <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;close_the_shutter()&quot;</span><span class="p">)</span>
     <span class="k">yield from</span> <span class="n">bps</span><span class="o">.</span><span class="n">mv</span><span class="p">(</span><span class="n">shutter</span><span class="p">,</span> <span class="s2">&quot;close&quot;</span><span class="p">)</span>
+
 
 <span class="nd">@bpp</span><span class="o">.</span><span class="n">finalize_decorator</span><span class="p">(</span><span class="n">close_the_shutter</span><span class="p">)</span>
 <span class="k">def</span><span class="w"> </span><span class="nf">my_plan</span><span class="p">(</span><span class="n">terminate</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
@@ -854,14 +858,17 @@ Finish wrap_the_plan()  shutter.state=&#39;close&#39;
     <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;my_except_plan(): </span><span class="si">{</span><span class="n">ex</span><span class="si">=}</span><span class="s2">, </span><span class="si">{</span><span class="n">shutter</span><span class="o">.</span><span class="n">state</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
     <span class="k">yield from</span> <span class="n">bps</span><span class="o">.</span><span class="n">null</span><span class="p">()</span>
 
+
 <span class="k">def</span><span class="w"> </span><span class="nf">my_else_plan</span><span class="p">():</span>
     <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;my_else_plan(): plan completed successfully! </span><span class="si">{</span><span class="n">shutter</span><span class="o">.</span><span class="n">state</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
     <span class="k">yield from</span> <span class="n">bps</span><span class="o">.</span><span class="n">null</span><span class="p">()</span>
     <span class="k">yield from</span> <span class="n">bps</span><span class="o">.</span><span class="n">null</span><span class="p">()</span>
 
+
 <span class="k">def</span><span class="w"> </span><span class="nf">close_the_shutter</span><span class="p">():</span>
     <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;close_the_shutter()&quot;</span><span class="p">)</span>
     <span class="k">yield from</span> <span class="n">bps</span><span class="o">.</span><span class="n">mv</span><span class="p">(</span><span class="n">shutter</span><span class="p">,</span> <span class="s2">&quot;close&quot;</span><span class="p">)</span>
+
 
 <span class="nd">@bpp</span><span class="o">.</span><span class="n">contingency_decorator</span><span class="p">(</span>
     <span class="n">except_plan</span><span class="o">=</span><span class="n">my_except_plan</span><span class="p">,</span>
@@ -984,21 +991,22 @@ countdown complete.
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">apstools.utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">run_in_thread</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">time</span>
 
+
 <span class="nd">@run_in_thread</span>
 <span class="k">def</span><span class="w"> </span><span class="nf">blink_shutter_thread</span><span class="p">():</span>
     <span class="n">t0</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
     <span class="n">t</span> <span class="o">=</span> <span class="mf">2.3</span>
-    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span><span class="o">-</span><span class="n">t0</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">s  blink_shutter(): waiting for </span><span class="si">{</span><span class="n">t</span><span class="si">}</span><span class="s2"> s&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">t0</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">s  blink_shutter(): waiting for </span><span class="si">{</span><span class="n">t</span><span class="si">}</span><span class="s2"> s&quot;</span><span class="p">)</span>
     <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="n">t</span><span class="p">)</span>
 
     <span class="n">t</span> <span class="o">=</span> <span class="mf">3.2</span>
-    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span><span class="o">-</span><span class="n">t0</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">s  blink_shutter(): closing the shutter for </span><span class="si">{</span><span class="n">t</span><span class="si">}</span><span class="s2"> s&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">t0</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">s  blink_shutter(): closing the shutter for </span><span class="si">{</span><span class="n">t</span><span class="si">}</span><span class="s2"> s&quot;</span><span class="p">)</span>
     <span class="n">shutter</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
     <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="n">t</span><span class="p">)</span>
 
-    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span><span class="o">-</span><span class="n">t0</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">s  blink_shutter(): opening the shutter&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">t0</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">s  blink_shutter(): opening the shutter&quot;</span><span class="p">)</span>
     <span class="n">shutter</span><span class="o">.</span><span class="n">open</span><span class="p">()</span>
-    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span><span class="o">-</span><span class="n">t0</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">s  blink_shutter(): ending&quot;</span><span class="p">)</span>   
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">t0</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">s  blink_shutter(): ending&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -1049,12 +1057,12 @@ Signal shutter_pss_state is low
     <span class="n">t0</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
     <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">shutter</span><span class="o">.</span><span class="n">state</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
     <span class="k">yield from</span> <span class="n">bps</span><span class="o">.</span><span class="n">mv</span><span class="p">(</span><span class="n">shutter</span><span class="p">,</span> <span class="s2">&quot;open&quot;</span><span class="p">)</span>
-    
+
     <span class="n">blink_shutter_thread</span><span class="p">()</span>  <span class="c1"># operate the shutter in the background</span>
     <span class="k">yield from</span> <span class="n">_plan</span><span class="p">()</span>  <span class="c1"># run the countdown plan with the shutter suspender</span>
 
     <span class="k">yield from</span> <span class="n">bps</span><span class="o">.</span><span class="n">mv</span><span class="p">(</span><span class="n">shutter</span><span class="p">,</span> <span class="s2">&quot;close&quot;</span><span class="p">)</span>
-    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">shutter</span><span class="o">.</span><span class="n">state</span><span class="si">=}</span><span class="s2">  total execution time: </span><span class="si">{</span><span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span><span class="o">-</span><span class="n">t0</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2"> s&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">shutter</span><span class="o">.</span><span class="n">state</span><span class="si">=}</span><span class="s2">  total execution time: </span><span class="si">{</span><span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">t0</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2"> s&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -1101,6 +1109,7 @@ shutter.state=&#39;close&#39;  total execution time: 21.79 s
     <span class="c1"># pause that triggers automatic RE.abort()</span>
     <span class="k">yield from</span> <span class="n">bps</span><span class="o">.</span><span class="n">pause</span><span class="p">()</span>
     <span class="c1"># RE.state will be &quot;idle&quot;</span>
+
 
 <span class="nd">@bpp</span><span class="o">.</span><span class="n">finalize_decorator</span><span class="p">(</span><span class="n">close_the_shutter</span><span class="p">)</span>
 <span class="k">def</span><span class="w"> </span><span class="nf">my_plan</span><span class="p">(</span><span class="n">terminate</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
@@ -1355,7 +1364,7 @@ RE.state=&#39;idle&#39;
 
   <p class="copyright">
     
-      © Copyright 2017-2025, UChicago Argonne, LLC.
+      © Copyright 2017-2026, UChicago Argonne, LLC.
       <br/>
     
   </p>

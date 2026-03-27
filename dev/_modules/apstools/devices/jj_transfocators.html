@@ -33,7 +33,7 @@
     <link rel="stylesheet" type="text/css" href="../../../_static/graphviz.css?v=4ae1632d" />
     <link rel="stylesheet" type="text/css" href="../../../_static/mystnb.11b39860a7a0cbfd473a3ad8a317855267ff0bd372690045ca344a6b62be495e.css" />
     <link rel="stylesheet" type="text/css" href="../../../_static/sphinx-design.min.css?v=95c83b7e" />
-    <link rel="stylesheet" type="text/css" href="../../../_static/css/custom.css?v=c14d4873" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/css/custom.css?v=fb1a6b5d" />
   
   <!-- So that users can add custom icons -->
   <script src="../../../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
@@ -41,7 +41,7 @@
   <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
 <link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
-    <script src="../../../_static/documentation_options.js?v=f5d85129"></script>
+    <script src="../../../_static/documentation_options.js?v=db910731"></script>
     <script src="../../../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../../../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../../../_static/design-tabs.js?v=f930bc37"></script>
@@ -445,15 +445,15 @@
 <span class="sd">    y1_motor:</span>
 <span class="sd">      The motor record PV controlling the real vertical motor on CRL1, ex: &quot;100id:m2&quot;</span>
 
-<span class="sd">	</span>
-<span class="sd">	Optional</span>
-<span class="sd">	========</span>
-<span class="sd">	For CRL with translation (JJtransfocator1xZ) there&#39;s one more motor:</span>
 
-<span class="sd">	z1_motor:</span>
+<span class="sd">        Optional</span>
+<span class="sd">        ========</span>
+<span class="sd">        For CRL with translation (JJtransfocator1xZ) there&#39;s one more motor:</span>
+
+<span class="sd">        z1_motor:</span>
 <span class="sd">      The motor record PV controlling the real translation motor on CRL1, ex: &quot;100id:m3&quot;</span>
 
-<span class="sd">	For two CRL system  (JJtransfocator2x) there&#39;s 4 more motors:</span>
+<span class="sd">        For two CRL system  (JJtransfocator2x) there&#39;s 4 more motors:</span>
 
 <span class="sd">    pitch2_motor:</span>
 <span class="sd">      The motor record PV controlling the real pitch motor on CRL1, ex &quot;100id:m29&quot;</span>
@@ -464,13 +464,12 @@
 <span class="sd">    y2_motor:</span>
 <span class="sd">      The motor record PV controlling the real vertical motor on CRL1, ex: &quot;100id:m27&quot;</span>
 
-<span class="sd">	For two CRL system with Translation (JJtransfocator2xZ), there&#39;s yet another motor:</span>
+<span class="sd">        For two CRL system with Translation (JJtransfocator2xZ), there&#39;s yet another motor:</span>
 
-<span class="sd">	z2_motor:</span>
+<span class="sd">        z2_motor:</span>
 <span class="sd">      The motor record PV controlling the real translation motor on CRL2, ex: &quot;100id:m28&quot;</span>
 
 <span class="sd">&quot;&quot;&quot;</span>
-
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">ophyd</span><span class="w"> </span><span class="kn">import</span> <span class="n">Component</span> <span class="k">as</span> <span class="n">Cpt</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">ophyd</span><span class="w"> </span><span class="kn">import</span> <span class="n">FormattedComponent</span> <span class="k">as</span> <span class="n">FCpt</span>
@@ -486,9 +485,11 @@
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    focal power index &quot;positioner&quot;; increasing index, increasing focal power</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">readback</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignalRO</span><span class="p">,</span> <span class="s1">&#39;1:sortedIndex_RBV&#39;</span><span class="p">)</span>
-    <span class="n">setpoint</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s1">&#39;1:sortedInde&#39;</span><span class="p">)</span>
-    <span class="n">done</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignalRO</span><span class="p">,</span> <span class="s1">&#39;sysBusy&#39;</span><span class="p">)</span></div>
+
+    <span class="n">readback</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignalRO</span><span class="p">,</span> <span class="s2">&quot;1:sortedIndex_RBV&quot;</span><span class="p">)</span>
+    <span class="n">setpoint</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">&quot;1:sortedInde&quot;</span><span class="p">)</span>
+    <span class="n">done</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignalRO</span><span class="p">,</span> <span class="s2">&quot;sysBusy&quot;</span><span class="p">)</span></div>
+
 
 
 <div class="viewcode-block" id="focal_size">
@@ -497,15 +498,16 @@
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    focal size positioner</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">readback</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignalRO</span><span class="p">,</span> <span class="s1">&#39;fSize_actual&#39;</span><span class="p">)</span>
-    <span class="n">setpoint</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s1">&#39;focalSize&#39;</span><span class="p">)</span>
-    <span class="n">done</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignalRO</span><span class="p">,</span> <span class="s1">&#39;sysBusy&#39;</span><span class="p">)</span></div>
+
+    <span class="n">readback</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignalRO</span><span class="p">,</span> <span class="s2">&quot;fSize_actual&quot;</span><span class="p">)</span>
+    <span class="n">setpoint</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">&quot;focalSize&quot;</span><span class="p">)</span>
+    <span class="n">done</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignalRO</span><span class="p">,</span> <span class="s2">&quot;sysBusy&quot;</span><span class="p">)</span></div>
+
 
 
 <div class="viewcode-block" id="JJtransfocator">
 <a class="viewcode-back" href="../../../api/autoapi/apstools/devices/jj_transfocators/index.html#apstools.devices.jj_transfocators.JJtransfocator">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">JJtransfocator</span><span class="p">(</span><span class="n">Device</span><span class="p">):</span>
-
     <span class="n">focalPower</span> <span class="o">=</span> <span class="n">FCpt</span><span class="p">(</span><span class="n">fpower_index</span><span class="p">,</span> <span class="s2">&quot;</span><span class="si">{prefix}</span><span class="s2">&quot;</span><span class="p">)</span>
     <span class="n">focalSize</span> <span class="o">=</span> <span class="n">FCpt</span><span class="p">(</span><span class="n">focal_size</span><span class="p">,</span> <span class="s2">&quot;</span><span class="si">{prefix}</span><span class="s2">&quot;</span><span class="p">)</span>
 
@@ -517,19 +519,20 @@
     <span class="n">energy_keV_local</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">&quot;EnergyLocal&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;config&quot;</span><span class="p">)</span>
     <span class="n">energy_keV_mono</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignalRO</span><span class="p">,</span> <span class="s2">&quot;EnergyBeamline&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;config&quot;</span><span class="p">)</span>
     <span class="n">energy_keV_lookup</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignalRO</span><span class="p">,</span> <span class="s2">&quot;energy_rbv&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;hinted&quot;</span><span class="p">)</span>
-    
+
     <span class="n">beamMode</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">&quot;beamMode&quot;</span><span class="p">,</span> <span class="n">string</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;config&quot;</span><span class="p">)</span>
     <span class="n">energyMode</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">&quot;energySelect&quot;</span><span class="p">,</span> <span class="n">string</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;config&quot;</span><span class="p">)</span></div>
 
 
-    
+
 <div class="viewcode-block" id="JJtransfocator1x">
 <a class="viewcode-back" href="../../../api/autoapi/apstools/devices/jj_transfocators/index.html#apstools.devices.jj_transfocators.JJtransfocator1x">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">JJtransfocator1x</span><span class="p">(</span><span class="n">JJtransfocator</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Handles single transfocator system</span>
-<span class="sd">    </span>
-<span class="sd">    &#39;&#39;&#39;</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">prefix</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
@@ -555,22 +558,22 @@
     <span class="n">crl1_z_pos</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignalRO</span><span class="p">,</span> <span class="s2">&quot;1:oePositionOffset_RBV&quot;</span><span class="p">)</span>
 
     <span class="n">interLensDelay1</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignal</span><span class="p">,</span> <span class="s2">&quot;1:interLensDelay&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;config&quot;</span><span class="p">)</span>
-    
+
     <span class="n">pitch1</span> <span class="o">=</span> <span class="n">FCpt</span><span class="p">(</span><span class="n">EpicsMotor</span><span class="p">,</span> <span class="s2">&quot;</span><span class="si">{_pitch1_motor}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">labels</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;motors&quot;</span><span class="p">})</span>
     <span class="n">yaw1</span> <span class="o">=</span> <span class="n">FCpt</span><span class="p">(</span><span class="n">EpicsMotor</span><span class="p">,</span> <span class="s2">&quot;</span><span class="si">{_yaw1_motor}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">labels</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;motors&quot;</span><span class="p">})</span>
     <span class="n">x1</span> <span class="o">=</span> <span class="n">FCpt</span><span class="p">(</span><span class="n">EpicsMotor</span><span class="p">,</span> <span class="s2">&quot;</span><span class="si">{_x1_motor}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">labels</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;motors&quot;</span><span class="p">})</span>
     <span class="n">y1</span> <span class="o">=</span> <span class="n">FCpt</span><span class="p">(</span><span class="n">EpicsMotor</span><span class="p">,</span> <span class="s2">&quot;</span><span class="si">{_y1_motor}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">labels</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;motors&quot;</span><span class="p">})</span></div>
 
-    
+
+
 <div class="viewcode-block" id="JJtransfocator2x">
 <a class="viewcode-back" href="../../../api/autoapi/apstools/devices/jj_transfocators/index.html#apstools.devices.jj_transfocators.JJtransfocator2x">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">JJtransfocator2x</span><span class="p">(</span><span class="n">JJtransfocator1x</span><span class="p">):</span>
-<span class="w">    </span>
-<span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Adds a second transfocator to beamline</span>
-<span class="sd">    </span>
-<span class="sd">    &#39;&#39;&#39;</span>
-    
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">prefix</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
@@ -588,7 +591,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">_y2_motor</span> <span class="o">=</span> <span class="n">y2_motor</span>
 
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">prefix</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
-    
+
     <span class="n">binary_crl2_config</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignalRO</span><span class="p">,</span> <span class="s2">&quot;2:lenses&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;hinted&quot;</span><span class="p">)</span>
     <span class="n">bw_crl2_config</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignalRO</span><span class="p">,</span> <span class="s2">&quot;2:lensConfig_BW&quot;</span><span class="p">)</span>
     <span class="n">rbv_crl2_config</span> <span class="o">=</span> <span class="n">Cpt</span><span class="p">(</span><span class="n">EpicsSignalRO</span><span class="p">,</span> <span class="s2">&quot;2:lensConfig_RBV&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;hinted&quot;</span><span class="p">)</span>
@@ -602,11 +605,11 @@
     <span class="n">x2</span> <span class="o">=</span> <span class="n">FCpt</span><span class="p">(</span><span class="n">EpicsMotor</span><span class="p">,</span> <span class="s2">&quot;</span><span class="si">{_x2_motor}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">labels</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;motors&quot;</span><span class="p">})</span>
     <span class="n">y2</span> <span class="o">=</span> <span class="n">FCpt</span><span class="p">(</span><span class="n">EpicsMotor</span><span class="p">,</span> <span class="s2">&quot;</span><span class="si">{_y2_motor}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">labels</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;motors&quot;</span><span class="p">})</span></div>
 
-    
+
+
 <div class="viewcode-block" id="JJtransfocator1xZ">
 <a class="viewcode-back" href="../../../api/autoapi/apstools/devices/jj_transfocators/index.html#apstools.devices.jj_transfocators.JJtransfocator1xZ">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">JJtransfocator1xZ</span><span class="p">(</span><span class="n">JJtransfocator1x</span><span class="p">):</span>
-    
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">prefix</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
@@ -618,14 +621,14 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">_z1_motor</span> <span class="o">=</span> <span class="n">z1_motor</span>
 
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">prefix</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
-        
+
     <span class="n">z1</span> <span class="o">=</span> <span class="n">FCpt</span><span class="p">(</span><span class="n">EpicsMotor</span><span class="p">,</span> <span class="s2">&quot;</span><span class="si">{_z1_motor}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">labels</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;motors&quot;</span><span class="p">})</span></div>
+
 
 
 <div class="viewcode-block" id="JJtransfocator2xZ">
 <a class="viewcode-back" href="../../../api/autoapi/apstools/devices/jj_transfocators/index.html#apstools.devices.jj_transfocators.JJtransfocator2xZ">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">JJtransfocator2xZ</span><span class="p">(</span><span class="n">JJtransfocator2x</span><span class="p">):</span>
-    
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">prefix</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
@@ -637,7 +640,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">_z2_motor</span> <span class="o">=</span> <span class="n">z2_motor</span>
 
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">prefix</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
-        
+
     <span class="n">z2</span> <span class="o">=</span> <span class="n">FCpt</span><span class="p">(</span><span class="n">EpicsMotor</span><span class="p">,</span> <span class="s2">&quot;</span><span class="si">{_z2_motor}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">labels</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;motors&quot;</span><span class="p">})</span></div>
 
 </pre></div>
@@ -681,7 +684,7 @@
 
   <p class="copyright">
     
-      © Copyright 2017-2025, UChicago Argonne, LLC.
+      © Copyright 2017-2026, UChicago Argonne, LLC.
       <br/>
     
   </p>

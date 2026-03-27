@@ -97,7 +97,7 @@
     "    center=3 + 5 * random.random(),\n",
     "    width=0.01 + 0.5 * random.random(),\n",
     "    scale=10_000 * (0.98 + 0.04 * random.random()),\n",
-    "    noise=0.02\n",
+    "    noise=0.02,\n",
     ")\n",
     "\n",
     "# wait for the other connections\n",
@@ -283,7 +283,12 @@
     "    [\"/entry/instrument/bluesky/streams/primary/tth/value\", \"/entry/monopd:NXdata/polar_angle\"],\n",
     "    [\"/entry/instrument/bluesky/streams/primary/sensor/value\", \"/entry/monopd:NXdata/data\"],\n",
     "    [\"/entry/monopd/@signal\", \"data\"],\n",
-    "    [\"/entry/monopd/@axes\", [\"polar_angle\", ]],\n",
+    "    [\n",
+    "        \"/entry/monopd/@axes\",\n",
+    "        [\n",
+    "            \"polar_angle\",\n",
+    "        ],\n",
+    "    ],\n",
     "    [\"/entry/@default\", \"monopd\"],  # change the default plot group\n",
     "    [\"/entry/monitor:NXmonitor/@signal\", \"integral\"],  # in NXmonitor, same as for NXdata groups\n",
     "]"
@@ -296,7 +301,7 @@
    "outputs": [],
    "source": [
     "md = {\n",
-    "    \"title\": \"Demonstrate NeXus/HDF5 template support\", \n",
+    "    \"title\": \"Demonstrate NeXus/HDF5 template support\",\n",
     "    nxwriter.template_key: json.dumps(templates),\n",
     "    \"mono_wavelength\": 1.0,  # simulation\n",
     "    \"sample_name\": \"simulation\",\n",
@@ -377,9 +382,10 @@
    "source": [
     "def th2th(detectors, tth, th, start, finish, num, md={}):\n",
     "    # Since x2x is a relative scan, first move to the absolute start positions.\n",
-    "    yield from bps.mv(tth, start, th, start/2)\n",
-    "    yield from bp.x2x_scan(detectors, tth, th, 0, finish-start, num, md=md)\n",
+    "    yield from bps.mv(tth, start, th, start / 2)\n",
+    "    yield from bp.x2x_scan(detectors, tth, th, 0, finish - start, num, md=md)\n",
     "    print(f\"{h5_file.exists()=}  {h5_file=}\")\n",
+    "\n",
     "\n",
     "RE(th2th([sensor, I0], tth, th, 2, 10, 11, md=md))"
    ]

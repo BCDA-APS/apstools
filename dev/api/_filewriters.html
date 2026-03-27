@@ -34,7 +34,7 @@
     <link rel="stylesheet" type="text/css" href="../_static/graphviz.css?v=4ae1632d" />
     <link rel="stylesheet" type="text/css" href="../_static/mystnb.11b39860a7a0cbfd473a3ad8a317855267ff0bd372690045ca344a6b62be495e.css" />
     <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
-    <link rel="stylesheet" type="text/css" href="../_static/css/custom.css?v=c14d4873" />
+    <link rel="stylesheet" type="text/css" href="../_static/css/custom.css?v=fb1a6b5d" />
   
   <!-- So that users can add custom icons -->
   <script src="../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
@@ -42,7 +42,7 @@
   <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
-    <script src="../_static/documentation_options.js?v=f5d85129"></script>
+    <script src="../_static/documentation_options.js?v=db910731"></script>
     <script src="../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../_static/design-tabs.js?v=f930bc37"></script>
@@ -958,7 +958,7 @@ as shown in this example:</p>
 <span class="linenos">16</span>    motors:NX_CHAR = b&#39;- m_stage_r\n&#39;
 <span class="linenos">17</span>      @target = /entry/instrument/bluesky/metadata/motors
 <span class="linenos">18</span>      @text_format = yaml
-<span class="linenos">19</span>    pid:NX_INT64[] = 
+<span class="linenos">19</span>    pid:NX_INT64[] =
 <span class="linenos">20</span>      @target = /entry/instrument/bluesky/metadata/pid
 <span class="linenos">21</span>    plan_name:NX_CHAR = b&#39;tune_mr&#39;
 <span class="linenos">22</span>      @target = /entry/instrument/bluesky/metadata/plan_name
@@ -1031,7 +1031,7 @@ Here, we show the tree structure for one signal (<code class="docutils literal n
 <span class="linenos">25</span>        @signal_type = detector
 <span class="linenos">26</span>        @source = PV:9idcLAX:vsc:c0.S2
 <span class="linenos">27</span>        @target = /entry/instrument/bluesky/streams/primary/I0_USAXS/value
-<span class="linenos">28</span>        @units = 
+<span class="linenos">28</span>        @units =
 <span class="linenos">29</span>        @upper_ctrl_limit = 0.0
 </pre></div>
 </div>
@@ -1070,7 +1070,7 @@ The datasets include <code class="docutils literal notranslate"><span class="pre
 <span class="linenos">25</span>        @target = /entry/instrument/bluesky/streams/baseline/aps_current/value
 <span class="linenos">26</span>        @units = mA
 <span class="linenos">27</span>        @upper_ctrl_limit = 310.0
-<span class="linenos">28</span>      value_end:NX_FLOAT64[] = 
+<span class="linenos">28</span>      value_end:NX_FLOAT64[] =
 <span class="linenos">29</span>        @long_name = aps_current
 <span class="linenos">30</span>        @lower_ctrl_limit = 0.0
 <span class="linenos">31</span>        @precision = 1
@@ -1078,7 +1078,7 @@ The datasets include <code class="docutils literal notranslate"><span class="pre
 <span class="linenos">33</span>        @target = /entry/instrument/bluesky/streams/baseline/aps_current/value_end
 <span class="linenos">34</span>        @units = mA
 <span class="linenos">35</span>        @upper_ctrl_limit = 310.0
-<span class="linenos">36</span>      value_start:NX_FLOAT64[] = 
+<span class="linenos">36</span>      value_start:NX_FLOAT64[] =
 <span class="linenos">37</span>        @long_name = aps_current
 <span class="linenos">38</span>        @lower_ctrl_limit = 0.0
 <span class="linenos">39</span>        @precision = 1
@@ -1223,7 +1223,7 @@ NeXus structure is completed by making links to data from either
 <span class="linenos"> 2</span>    @NX_class = NXsource
 <span class="linenos"> 3</span>    @target = /entry/instrument/source
 <span class="linenos"> 4</span>    current --&gt; /entry/instrument/bluesky/streams/baseline/aps_current/value_start
-<span class="linenos"> 5</span>    energy:NX_INT64[] = 
+<span class="linenos"> 5</span>    energy:NX_INT64[] =
 <span class="linenos"> 6</span>      @units = GeV
 <span class="linenos"> 7</span>    fill_number --&gt; /entry/instrument/bluesky/streams/baseline/aps_fill_number/value_start
 <span class="linenos"> 8</span>    name:NX_CHAR = Advanced Photon Source
@@ -1439,7 +1439,7 @@ NeXus structure is completed by making links to data from either
 
   <p class="copyright">
     
-      © Copyright 2017-2025, UChicago Argonne, LLC.
+      © Copyright 2017-2026, UChicago Argonne, LLC.
       <br/>
     
   </p>

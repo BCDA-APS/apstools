@@ -34,7 +34,7 @@
     <link rel="stylesheet" type="text/css" href="../_static/graphviz.css?v=4ae1632d" />
     <link rel="stylesheet" type="text/css" href="../_static/mystnb.11b39860a7a0cbfd473a3ad8a317855267ff0bd372690045ca344a6b62be495e.css" />
     <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
-    <link rel="stylesheet" type="text/css" href="../_static/css/custom.css?v=c14d4873" />
+    <link rel="stylesheet" type="text/css" href="../_static/css/custom.css?v=fb1a6b5d" />
   
   <!-- So that users can add custom icons -->
   <script src="../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
@@ -42,7 +42,7 @@
   <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
-    <script src="../_static/documentation_options.js?v=f5d85129"></script>
+    <script src="../_static/documentation_options.js?v=db910731"></script>
     <script src="../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../_static/design-tabs.js?v=f930bc37"></script>
@@ -499,6 +499,7 @@
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%</span><span class="k">matplotlib</span> inline
 <span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+
 <span class="n">plt</span><span class="o">.</span><span class="n">ion</span><span class="p">()</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">bluesky</span><span class="w"> </span><span class="kn">import</span> <span class="n">RunEngine</span><span class="p">,</span> <span class="n">plans</span> <span class="k">as</span> <span class="n">bp</span>
@@ -523,8 +524,10 @@
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">apstools.plans</span><span class="w"> </span><span class="kn">import</span> <span class="n">label_stream_wrapper</span>
 
+
 <span class="k">def</span><span class="w"> </span><span class="nf">motor_start_preprocessor</span><span class="p">(</span><span class="n">plan</span><span class="p">):</span>
     <span class="k">return</span> <span class="n">label_stream_wrapper</span><span class="p">(</span><span class="n">plan</span><span class="p">,</span> <span class="s2">&quot;motor&quot;</span><span class="p">,</span> <span class="n">when</span><span class="o">=</span><span class="s2">&quot;start&quot;</span><span class="p">)</span>
+
 
 <span class="n">RE</span><span class="o">.</span><span class="n">preprocessors</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">motor_start_preprocessor</span><span class="p">)</span>
 </pre></div>
@@ -557,12 +560,13 @@
 <span class="n">det</span><span class="o">.</span><span class="n">wait_for_connection</span><span class="p">()</span>
 
 <span class="n">setup_gaussian_swait</span><span class="p">(</span>
-    <span class="n">swait</span><span class="p">,</span> <span class="n">motor</span><span class="o">.</span><span class="n">user_readback</span><span class="p">,</span> 
-    <span class="n">center</span><span class="o">=-</span><span class="mf">0.5</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">uniform</span><span class="p">(),</span> 
-    <span class="n">width</span><span class="o">=</span><span class="mf">0.01</span> <span class="o">+</span> <span class="mf">0.2</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">uniform</span><span class="p">(),</span> 
-    <span class="n">noise</span><span class="o">=</span><span class="mf">0.05</span><span class="o">*</span><span class="p">(</span><span class="mf">.95</span> <span class="o">+</span> <span class="mf">.1</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">uniform</span><span class="p">()),</span>
-    <span class="n">scale</span><span class="o">=</span><span class="mi">100_000</span><span class="o">*</span><span class="p">(</span><span class="mf">.95</span> <span class="o">+</span> <span class="mf">.1</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">uniform</span><span class="p">()),</span> 
-    <span class="p">)</span>
+    <span class="n">swait</span><span class="p">,</span>
+    <span class="n">motor</span><span class="o">.</span><span class="n">user_readback</span><span class="p">,</span>
+    <span class="n">center</span><span class="o">=-</span><span class="mf">0.5</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">uniform</span><span class="p">(),</span>
+    <span class="n">width</span><span class="o">=</span><span class="mf">0.01</span> <span class="o">+</span> <span class="mf">0.2</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">uniform</span><span class="p">(),</span>
+    <span class="n">noise</span><span class="o">=</span><span class="mf">0.05</span> <span class="o">*</span> <span class="p">(</span><span class="mf">0.95</span> <span class="o">+</span> <span class="mf">0.1</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">uniform</span><span class="p">()),</span>
+    <span class="n">scale</span><span class="o">=</span><span class="mi">100_000</span> <span class="o">*</span> <span class="p">(</span><span class="mf">0.95</span> <span class="o">+</span> <span class="mf">0.1</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">uniform</span><span class="p">()),</span>
+<span class="p">)</span>
 
 <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;calc = </span><span class="si">{</span><span class="n">swait</span><span class="o">.</span><span class="n">calculation</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;A: x = </span><span class="si">{</span><span class="n">swait</span><span class="o">.</span><span class="n">channels</span><span class="o">.</span><span class="n">A</span><span class="o">.</span><span class="n">input_pv</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
@@ -1214,6 +1218,7 @@ Data variables:
 
 <span class="n">DEMO_SPEC_FILE</span> <span class="o">=</span> <span class="s2">&quot;test_specdata.txt&quot;</span>
 
+
 <span class="k">def</span><span class="w"> </span><span class="nf">specfile_example</span><span class="p">(</span><span class="n">runs</span><span class="p">,</span> <span class="n">filename</span><span class="o">=</span><span class="n">DEMO_SPEC_FILE</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;write one or more headers (scans) to a SPEC data file&quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">runs</span><span class="p">,</span> <span class="n">databroker</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">BlueskyRun</span><span class="p">):</span>
@@ -1586,7 +1591,7 @@ Look at SPEC data file: test_specdata.txt
 
   <p class="copyright">
     
-      © Copyright 2017-2025, UChicago Argonne, LLC.
+      © Copyright 2017-2026, UChicago Argonne, LLC.
       <br/>
     
   </p>

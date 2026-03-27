@@ -128,6 +128,8 @@
    "outputs": [],
    "source": [
     "from bluesky import plan_stubs as bps\n",
+    "\n",
+    "\n",
     "def my_plan(terminate=False):\n",
     "    print(f\"Start my_plan(), with {terminate=}.\")\n",
     "    yield from bps.mv(shutter, \"open\")\n",
@@ -228,7 +230,7 @@
     }
    ],
    "source": [
-    "try:                                    # caution: not recommended\n",
+    "try:  # caution: not recommended\n",
     "    RE(my_plan(True))\n",
     "except Exception as exinfo:\n",
     "    print(f\"Found an exception: {exinfo}  {shutter.state=}\")"
@@ -354,9 +356,11 @@
    "source": [
     "from bluesky import preprocessors as bpp\n",
     "\n",
+    "\n",
     "def close_the_shutter():\n",
     "    print(\"close_the_shutter()\")\n",
     "    yield from bps.mv(shutter, \"close\")\n",
+    "\n",
     "\n",
     "@bpp.finalize_decorator(close_the_shutter)\n",
     "def my_plan(terminate=False):\n",
@@ -519,14 +523,17 @@
     "    print(f\"my_except_plan(): {ex=}, {shutter.state=}\")\n",
     "    yield from bps.null()\n",
     "\n",
+    "\n",
     "def my_else_plan():\n",
     "    print(f\"my_else_plan(): plan completed successfully! {shutter.state=}\")\n",
     "    yield from bps.null()\n",
     "    yield from bps.null()\n",
     "\n",
+    "\n",
     "def close_the_shutter():\n",
     "    print(\"close_the_shutter()\")\n",
     "    yield from bps.mv(shutter, \"close\")\n",
+    "\n",
     "\n",
     "@bpp.contingency_decorator(\n",
     "    except_plan=my_except_plan,\n",
@@ -710,21 +717,22 @@
     "from apstools.utils import run_in_thread\n",
     "import time\n",
     "\n",
+    "\n",
     "@run_in_thread\n",
     "def blink_shutter_thread():\n",
     "    t0 = time.time()\n",
     "    t = 2.3\n",
-    "    print(f\"{time.time()-t0:.2f}s  blink_shutter(): waiting for {t} s\")\n",
+    "    print(f\"{time.time() - t0:.2f}s  blink_shutter(): waiting for {t} s\")\n",
     "    time.sleep(t)\n",
     "\n",
     "    t = 3.2\n",
-    "    print(f\"{time.time()-t0:.2f}s  blink_shutter(): closing the shutter for {t} s\")\n",
+    "    print(f\"{time.time() - t0:.2f}s  blink_shutter(): closing the shutter for {t} s\")\n",
     "    shutter.close()\n",
     "    time.sleep(t)\n",
     "\n",
-    "    print(f\"{time.time()-t0:.2f}s  blink_shutter(): opening the shutter\")\n",
+    "    print(f\"{time.time() - t0:.2f}s  blink_shutter(): opening the shutter\")\n",
     "    shutter.open()\n",
-    "    print(f\"{time.time()-t0:.2f}s  blink_shutter(): ending\")   "
+    "    print(f\"{time.time() - t0:.2f}s  blink_shutter(): ending\")"
    ]
   },
   {
@@ -806,12 +814,12 @@
     "    t0 = time.time()\n",
     "    print(f\"{shutter.state=}\")\n",
     "    yield from bps.mv(shutter, \"open\")\n",
-    "    \n",
+    "\n",
     "    blink_shutter_thread()  # operate the shutter in the background\n",
     "    yield from _plan()  # run the countdown plan with the shutter suspender\n",
     "\n",
     "    yield from bps.mv(shutter, \"close\")\n",
-    "    print(f\"{shutter.state=}  total execution time: {time.time()-t0:.2f} s\")"
+    "    print(f\"{shutter.state=}  total execution time: {time.time() - t0:.2f} s\")"
    ]
   },
   {
@@ -886,6 +894,7 @@
     "    # pause that triggers automatic RE.abort()\n",
     "    yield from bps.pause()\n",
     "    # RE.state will be \"idle\"\n",
+    "\n",
     "\n",
     "@bpp.finalize_decorator(close_the_shutter)\n",
     "def my_plan(terminate=False):\n",

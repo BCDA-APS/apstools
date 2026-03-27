@@ -34,7 +34,7 @@
     <link rel="stylesheet" type="text/css" href="../_static/graphviz.css?v=4ae1632d" />
     <link rel="stylesheet" type="text/css" href="../_static/mystnb.11b39860a7a0cbfd473a3ad8a317855267ff0bd372690045ca344a6b62be495e.css" />
     <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
-    <link rel="stylesheet" type="text/css" href="../_static/css/custom.css?v=c14d4873" />
+    <link rel="stylesheet" type="text/css" href="../_static/css/custom.css?v=fb1a6b5d" />
   
   <!-- So that users can add custom icons -->
   <script src="../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
@@ -42,7 +42,7 @@
   <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
-    <script src="../_static/documentation_options.js?v=f5d85129"></script>
+    <script src="../_static/documentation_options.js?v=db910731"></script>
     <script src="../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../_static/design-tabs.js?v=f930bc37"></script>
@@ -1195,7 +1195,7 @@ searches to an existing catalog.</p>
 <p>To answer this, we must know how to apply the MongoDB Query to the catalog.  The catalog has a <code class="docutils literal notranslate"><span class="pre">.search(query)</span></code> method, where the <code class="docutils literal notranslate"><span class="pre">query</span></code> term is the dictionary, similar to how it was used above.  Instead of a keyword, though, the metadata key is <em><strong>in</strong></em> the dictionary.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">query</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;plan_name&quot;</span><span class="p">:{</span><span class="s2">&quot;$eq&quot;</span><span class="p">:</span> <span class="s2">&quot;count&quot;</span><span class="p">}}</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">query</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;plan_name&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;$eq&quot;</span><span class="p">:</span> <span class="s2">&quot;count&quot;</span><span class="p">}}</span>
 <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">query</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
 <span class="n">filtered_cat</span> <span class="o">=</span> <span class="n">cat</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="n">query</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;There are </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">filtered_cat</span><span class="p">)</span><span class="si">}</span><span class="s2"> runs collected by the &#39;count()&#39; plan.&quot;</span><span class="p">)</span>
@@ -1214,7 +1214,7 @@ and 80. (This catalog has duplicates in this range.)  Display the filtered
 catalog using <code class="docutils literal notranslate"><span class="pre">listruns()</span></code></p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">filtered_cat</span> <span class="o">=</span> <span class="n">cat</span><span class="o">.</span><span class="n">search</span><span class="p">({</span><span class="s2">&quot;plan_name&quot;</span><span class="p">:{</span><span class="s2">&quot;$eq&quot;</span><span class="p">:</span> <span class="s2">&quot;count&quot;</span><span class="p">},</span> <span class="s2">&quot;scan_id&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;$gt&quot;</span><span class="p">:</span> <span class="mi">70</span><span class="p">,</span> <span class="s2">&quot;$lt&quot;</span><span class="p">:</span> <span class="mi">80</span><span class="p">}})</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">filtered_cat</span> <span class="o">=</span> <span class="n">cat</span><span class="o">.</span><span class="n">search</span><span class="p">({</span><span class="s2">&quot;plan_name&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;$eq&quot;</span><span class="p">:</span> <span class="s2">&quot;count&quot;</span><span class="p">},</span> <span class="s2">&quot;scan_id&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;$gt&quot;</span><span class="p">:</span> <span class="mi">70</span><span class="p">,</span> <span class="s2">&quot;$lt&quot;</span><span class="p">:</span> <span class="mi">80</span><span class="p">}})</span>
 <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">filtered_cat</span><span class="p">)</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
 <span class="n">listruns</span><span class="p">(</span><span class="n">filtered_cat</span><span class="p">)</span>
 </pre></div>
@@ -1277,6 +1277,7 @@ the <code class="docutils literal notranslate"><span class="pre">listruns()</spa
 <span class="kn">import</span><span class="w"> </span><span class="nn">pyRestTable</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">time</span>
 
+
 <span class="k">def</span><span class="w"> </span><span class="nf">custom_list</span><span class="p">(</span><span class="n">cat</span><span class="p">,</span> <span class="n">n_runs</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">start_md_keys</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    List n_runs most recent, successful (rel_)scan runs.</span>
@@ -1291,11 +1292,14 @@ the <code class="docutils literal notranslate"><span class="pre">listruns()</spa
 <span class="sd">        List of additional (start document) metadata keys to report.</span>
 <span class="sd">        (default: &#39;beamline_id, instrument_name, login_id, proposal_id&#39;)</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">start_md_keys</span> <span class="o">=</span> <span class="n">start_md_keys</span> <span class="ow">or</span> <span class="s2">&quot;&quot;&quot;</span>
+    <span class="n">start_md_keys</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="n">start_md_keys</span>
+        <span class="ow">or</span> <span class="s2">&quot;&quot;&quot;</span>
 <span class="s2">        beamline_id instrument_name login_id proposal_id</span>
 <span class="s2">    &quot;&quot;&quot;</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
+    <span class="p">)</span>
 
-    <span class="n">ts</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span> <span class="o">-</span> <span class="mi">60</span><span class="o">*</span><span class="mi">60</span><span class="o">*</span><span class="mi">24</span><span class="o">*</span><span class="mi">7</span><span class="o">*</span><span class="p">(</span><span class="mi">52</span><span class="o">/</span><span class="mi">2</span><span class="p">)</span>  <span class="c1"># ~6 months ago</span>
+    <span class="n">ts</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span> <span class="o">-</span> <span class="mi">60</span> <span class="o">*</span> <span class="mi">60</span> <span class="o">*</span> <span class="mi">24</span> <span class="o">*</span> <span class="mi">7</span> <span class="o">*</span> <span class="p">(</span><span class="mi">52</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)</span>  <span class="c1"># ~6 months ago</span>
     <span class="n">dt</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">fromtimestamp</span><span class="p">(</span><span class="n">ts</span><span class="p">)</span>
     <span class="n">since</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">dt</span><span class="o">.</span><span class="n">year</span><span class="si">}</span><span class="s2">-</span><span class="si">{</span><span class="n">dt</span><span class="o">.</span><span class="n">month</span><span class="si">:</span><span class="s2">02d</span><span class="si">}</span><span class="s2">&quot;</span>  <span class="c1"># start of that month</span>
     <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">since</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
@@ -1328,19 +1332,19 @@ the <code class="docutils literal notranslate"><span class="pre">listruns()</spa
     <span class="k">for</span> <span class="n">uid</span> <span class="ow">in</span> <span class="n">filtered_cat</span><span class="p">:</span>
         <span class="n">run</span> <span class="o">=</span> <span class="n">filtered_cat</span><span class="p">[</span><span class="n">uid</span><span class="p">]</span>
 
-        <span class="n">success</span> <span class="o">=</span> <span class="n">run</span><span class="o">.</span><span class="n">metadata</span><span class="p">[</span><span class="s1">&#39;stop&#39;</span><span class="p">][</span><span class="s1">&#39;exit_status&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;success&quot;</span>
+        <span class="n">success</span> <span class="o">=</span> <span class="n">run</span><span class="o">.</span><span class="n">metadata</span><span class="p">[</span><span class="s2">&quot;stop&quot;</span><span class="p">][</span><span class="s2">&quot;exit_status&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;success&quot;</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">success</span><span class="p">:</span>
             <span class="k">continue</span>
 
         <span class="n">uid7</span> <span class="o">=</span> <span class="n">uid</span><span class="p">[:</span><span class="mi">7</span><span class="p">]</span>
-        <span class="n">date</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">fromtimestamp</span><span class="p">(</span><span class="nb">round</span><span class="p">(</span><span class="n">run</span><span class="o">.</span><span class="n">metadata</span><span class="p">[</span><span class="s1">&#39;start&#39;</span><span class="p">][</span><span class="s1">&#39;time&#39;</span><span class="p">],</span> <span class="mi">3</span><span class="p">))</span>
-        <span class="n">scan_id</span> <span class="o">=</span> <span class="n">run</span><span class="o">.</span><span class="n">metadata</span><span class="p">[</span><span class="s1">&#39;start&#39;</span><span class="p">][</span><span class="s1">&#39;scan_id&#39;</span><span class="p">]</span>
-        <span class="n">detectors</span> <span class="o">=</span> <span class="n">run</span><span class="o">.</span><span class="n">metadata</span><span class="p">[</span><span class="s1">&#39;start&#39;</span><span class="p">][</span><span class="s1">&#39;detectors&#39;</span><span class="p">]</span>
+        <span class="n">date</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">fromtimestamp</span><span class="p">(</span><span class="nb">round</span><span class="p">(</span><span class="n">run</span><span class="o">.</span><span class="n">metadata</span><span class="p">[</span><span class="s2">&quot;start&quot;</span><span class="p">][</span><span class="s2">&quot;time&quot;</span><span class="p">],</span> <span class="mi">3</span><span class="p">))</span>
+        <span class="n">scan_id</span> <span class="o">=</span> <span class="n">run</span><span class="o">.</span><span class="n">metadata</span><span class="p">[</span><span class="s2">&quot;start&quot;</span><span class="p">][</span><span class="s2">&quot;scan_id&quot;</span><span class="p">]</span>
+        <span class="n">detectors</span> <span class="o">=</span> <span class="n">run</span><span class="o">.</span><span class="n">metadata</span><span class="p">[</span><span class="s2">&quot;start&quot;</span><span class="p">][</span><span class="s2">&quot;detectors&quot;</span><span class="p">]</span>
         <span class="c1"># motors = run.metadata[&#39;start&#39;][&#39;motors&#39;]</span>
-        <span class="n">plan</span> <span class="o">=</span> <span class="n">run</span><span class="o">.</span><span class="n">metadata</span><span class="p">[</span><span class="s1">&#39;start&#39;</span><span class="p">][</span><span class="s1">&#39;plan_name&#39;</span><span class="p">]</span>
+        <span class="n">plan</span> <span class="o">=</span> <span class="n">run</span><span class="o">.</span><span class="n">metadata</span><span class="p">[</span><span class="s2">&quot;start&quot;</span><span class="p">][</span><span class="s2">&quot;plan_name&quot;</span><span class="p">]</span>
         <span class="c1"># n_points = run.metadata[&#39;start&#39;][&#39;num_points&#39;]  # requested</span>
-        <span class="n">plan_args</span> <span class="o">=</span> <span class="n">run</span><span class="o">.</span><span class="n">metadata</span><span class="p">[</span><span class="s1">&#39;start&#39;</span><span class="p">][</span><span class="s1">&#39;plan_args&#39;</span><span class="p">][</span><span class="s1">&#39;args&#39;</span><span class="p">]</span>
-        <span class="n">n_points</span> <span class="o">=</span> <span class="n">run</span><span class="o">.</span><span class="n">metadata</span><span class="p">[</span><span class="s1">&#39;stop&#39;</span><span class="p">][</span><span class="s1">&#39;num_events&#39;</span><span class="p">][</span><span class="s1">&#39;primary&#39;</span><span class="p">]</span>  <span class="c1"># recorded</span>
+        <span class="n">plan_args</span> <span class="o">=</span> <span class="n">run</span><span class="o">.</span><span class="n">metadata</span><span class="p">[</span><span class="s2">&quot;start&quot;</span><span class="p">][</span><span class="s2">&quot;plan_args&quot;</span><span class="p">][</span><span class="s2">&quot;args&quot;</span><span class="p">]</span>
+        <span class="n">n_points</span> <span class="o">=</span> <span class="n">run</span><span class="o">.</span><span class="n">metadata</span><span class="p">[</span><span class="s2">&quot;stop&quot;</span><span class="p">][</span><span class="s2">&quot;num_events&quot;</span><span class="p">][</span><span class="s2">&quot;primary&quot;</span><span class="p">]</span>  <span class="c1"># recorded</span>
 
         <span class="c1"># This data can&#39;t be extracted using only MongoDB Query</span>
         <span class="n">p_start</span><span class="p">,</span> <span class="n">p_end</span> <span class="o">=</span> <span class="n">plan_args</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="mi">3</span><span class="p">]</span>  <span class="c1"># as defined in the bp.scan() plan</span>
@@ -1351,16 +1355,23 @@ the <code class="docutils literal notranslate"><span class="pre">listruns()</spa
         <span class="c1"># build the table row</span>
         <span class="n">row</span> <span class="o">=</span> <span class="p">[</span>
             <span class="n">scan_id</span><span class="p">,</span>
-            <span class="n">plan</span><span class="p">,</span> <span class="s2">&quot;, &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">detectors</span><span class="p">),</span> <span class="s2">&quot;, &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">motors</span><span class="p">),</span> <span class="nb">round</span><span class="p">(</span><span class="n">p_start</span><span class="p">,</span> <span class="mi">5</span><span class="p">),</span> <span class="nb">round</span><span class="p">(</span><span class="n">p_end</span><span class="p">,</span> <span class="mi">5</span><span class="p">),</span> <span class="n">n_points</span><span class="p">,</span>
-            <span class="n">date</span><span class="p">,</span> <span class="n">uid7</span><span class="p">,</span>
+            <span class="n">plan</span><span class="p">,</span>
+            <span class="s2">&quot;, &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">detectors</span><span class="p">),</span>
+            <span class="s2">&quot;, &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">motors</span><span class="p">),</span>
+            <span class="nb">round</span><span class="p">(</span><span class="n">p_start</span><span class="p">,</span> <span class="mi">5</span><span class="p">),</span>
+            <span class="nb">round</span><span class="p">(</span><span class="n">p_end</span><span class="p">,</span> <span class="mi">5</span><span class="p">),</span>
+            <span class="n">n_points</span><span class="p">,</span>
+            <span class="n">date</span><span class="p">,</span>
+            <span class="n">uid7</span><span class="p">,</span>
         <span class="p">]</span>
-        <span class="n">row</span> <span class="o">+=</span> <span class="p">[</span><span class="n">run</span><span class="o">.</span><span class="n">metadata</span><span class="p">[</span><span class="s1">&#39;start&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">start_md_keys</span><span class="p">]</span>
+        <span class="n">row</span> <span class="o">+=</span> <span class="p">[</span><span class="n">run</span><span class="o">.</span><span class="n">metadata</span><span class="p">[</span><span class="s2">&quot;start&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">start_md_keys</span><span class="p">]</span>
 
         <span class="n">table</span><span class="o">.</span><span class="n">rows</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">row</span><span class="p">)</span>
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">table</span><span class="o">.</span><span class="n">rows</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="n">n_runs</span><span class="p">:</span>
             <span class="k">break</span>
 
     <span class="nb">print</span><span class="p">(</span><span class="n">table</span><span class="p">)</span>
+
 
 <span class="n">custom_list</span><span class="p">(</span><span class="n">cat</span><span class="p">,</span> <span class="mi">20</span><span class="p">)</span>
 </pre></div>
@@ -1549,7 +1560,7 @@ be expedited by additional MongoDB Query constructs.</p>
 
   <p class="copyright">
     
-      © Copyright 2017-2025, UChicago Argonne, LLC.
+      © Copyright 2017-2026, UChicago Argonne, LLC.
       <br/>
     
   </p>

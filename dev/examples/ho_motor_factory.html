@@ -34,7 +34,7 @@
     <link rel="stylesheet" type="text/css" href="../_static/graphviz.css?v=4ae1632d" />
     <link rel="stylesheet" type="text/css" href="../_static/mystnb.11b39860a7a0cbfd473a3ad8a317855267ff0bd372690045ca344a6b62be495e.css" />
     <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
-    <link rel="stylesheet" type="text/css" href="../_static/css/custom.css?v=c14d4873" />
+    <link rel="stylesheet" type="text/css" href="../_static/css/custom.css?v=fb1a6b5d" />
   
   <!-- So that users can add custom icons -->
   <script src="../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
@@ -42,7 +42,7 @@
   <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
-    <script src="../_static/documentation_options.js?v=f5d85129"></script>
+    <script src="../_static/documentation_options.js?v=db910731"></script>
     <script src="../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../_static/design-tabs.js?v=f930bc37"></script>
@@ -563,6 +563,7 @@ to use the same name as the ophyd we object to be created.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">apstools.devices</span><span class="w"> </span><span class="kn">import</span> <span class="n">mb_creator</span>
+
 <span class="n">bundle</span> <span class="o">=</span> <span class="n">mb_creator</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;bundle&quot;</span><span class="p">)</span>
 <span class="n">bundle</span>
 </pre></div>
@@ -635,7 +636,7 @@ bundle.x=EpicsMotor(prefix=&#39;gp:m1&#39;, name=&#39;bundle_x&#39;, parent=&#39
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">bundle</span> <span class="o">=</span> <span class="n">mb_creator</span><span class="p">(</span>
-    <span class="n">name</span><span class="o">=</span><span class="s2">&quot;bundle&quot;</span><span class="p">,</span> 
+    <span class="n">name</span><span class="o">=</span><span class="s2">&quot;bundle&quot;</span><span class="p">,</span>
     <span class="n">motors</span><span class="o">=</span><span class="p">{</span>
         <span class="s2">&quot;x&quot;</span><span class="p">:</span> <span class="s2">&quot;gp:m1&quot;</span><span class="p">,</span>
         <span class="s2">&quot;y&quot;</span><span class="p">:</span> <span class="s2">&quot;gp:m2&quot;</span><span class="p">,</span>
@@ -643,7 +644,7 @@ bundle.x=EpicsMotor(prefix=&#39;gp:m1&#39;, name=&#39;bundle_x&#39;, parent=&#39
         <span class="s2">&quot;roll&quot;</span><span class="p">:</span> <span class="s2">&quot;gp:m4&quot;</span><span class="p">,</span>
         <span class="s2">&quot;pitch&quot;</span><span class="p">:</span> <span class="s2">&quot;gp:m5&quot;</span><span class="p">,</span>
         <span class="s2">&quot;yaw&quot;</span><span class="p">:</span> <span class="s2">&quot;gp:m6&quot;</span><span class="p">,</span>
-    <span class="p">}</span>
+    <span class="p">},</span>
 <span class="p">)</span>
 <span class="n">bundle</span><span class="o">.</span><span class="n">wait_for_connection</span><span class="p">()</span>
 <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">bundle</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
@@ -662,7 +663,7 @@ bundle.read()=OrderedDict({&#39;bundle_x&#39;: {&#39;value&#39;: 0.05, &#39;time
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">bundle</span> <span class="o">=</span> <span class="n">mb_creator</span><span class="p">(</span>
-    <span class="n">name</span><span class="o">=</span><span class="s2">&quot;bundle&quot;</span><span class="p">,</span> 
+    <span class="n">name</span><span class="o">=</span><span class="s2">&quot;bundle&quot;</span><span class="p">,</span>
     <span class="n">motors</span><span class="o">=</span><span class="p">{</span>
         <span class="s2">&quot;x&quot;</span><span class="p">:</span> <span class="s2">&quot;gp:m1&quot;</span><span class="p">,</span>
         <span class="s2">&quot;y&quot;</span><span class="p">:</span> <span class="s2">&quot;gp:m2&quot;</span><span class="p">,</span>
@@ -670,7 +671,7 @@ bundle.read()=OrderedDict({&#39;bundle_x&#39;: {&#39;value&#39;: 0.05, &#39;time
         <span class="s2">&quot;roll&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
         <span class="s2">&quot;pitch&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
         <span class="s2">&quot;yaw&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
-    <span class="p">}</span>
+    <span class="p">},</span>
 <span class="p">)</span>
 <span class="n">bundle</span><span class="o">.</span><span class="n">wait_for_connection</span><span class="p">()</span>
 <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">bundle</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
@@ -707,7 +708,7 @@ names:</p>
         <span class="s2">&quot;roll&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
         <span class="s2">&quot;pitch&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
         <span class="s2">&quot;yaw&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
-    <span class="p">}</span>
+    <span class="p">},</span>
 <span class="p">)</span>
 <span class="n">bundle</span><span class="o">.</span><span class="n">wait_for_connection</span><span class="p">()</span>
 <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">bundle</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
@@ -820,9 +821,10 @@ property.</p>
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">ophyd</span><span class="w"> </span><span class="kn">import</span> <span class="n">Device</span>
 
+
 <span class="k">class</span><span class="w"> </span><span class="nc">PositionMixin</span><span class="p">(</span><span class="n">Device</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Report position of any component that has a position property.&quot;&quot;&quot;</span>
-    
+
     <span class="nd">@property</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">position</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
         <span class="n">pos</span> <span class="o">=</span> <span class="p">{}</span>
@@ -1158,7 +1160,7 @@ bundle.table=MB_Device(prefix=&#39;&#39;, name=&#39;bundle_table&#39;, parent=&#
 
   <p class="copyright">
     
-      © Copyright 2017-2025, UChicago Argonne, LLC.
+      © Copyright 2017-2026, UChicago Argonne, LLC.
       <br/>
     
   </p>

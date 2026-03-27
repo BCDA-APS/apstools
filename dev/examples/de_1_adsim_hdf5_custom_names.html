@@ -34,7 +34,7 @@
     <link rel="stylesheet" type="text/css" href="../_static/graphviz.css?v=4ae1632d" />
     <link rel="stylesheet" type="text/css" href="../_static/mystnb.11b39860a7a0cbfd473a3ad8a317855267ff0bd372690045ca344a6b62be495e.css" />
     <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
-    <link rel="stylesheet" type="text/css" href="../_static/css/custom.css?v=c14d4873" />
+    <link rel="stylesheet" type="text/css" href="../_static/css/custom.css?v=fb1a6b5d" />
   
   <!-- So that users can add custom icons -->
   <script src="../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
@@ -42,7 +42,7 @@
   <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
-    <script src="../_static/documentation_options.js?v=f5d85129"></script>
+    <script src="../_static/documentation_options.js?v=db910731"></script>
     <script src="../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../_static/design-tabs.js?v=f930bc37"></script>
@@ -636,13 +636,16 @@ include the file number.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">prepare_count</span><span class="p">(</span>
-    <span class="n">plugin</span><span class="p">,</span> <span class="n">file_name</span><span class="p">,</span> <span class="n">acquire_time</span><span class="p">,</span> <span class="n">acquire_period</span><span class="p">,</span>
-    <span class="n">n_images</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> 
-    <span class="n">auto_increment</span><span class="o">=</span><span class="s2">&quot;Yes&quot;</span><span class="p">,</span> 
+    <span class="n">plugin</span><span class="p">,</span>
+    <span class="n">file_name</span><span class="p">,</span>
+    <span class="n">acquire_time</span><span class="p">,</span>
+    <span class="n">acquire_period</span><span class="p">,</span>
+    <span class="n">n_images</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+    <span class="n">auto_increment</span><span class="o">=</span><span class="s2">&quot;Yes&quot;</span><span class="p">,</span>
     <span class="n">auto_save</span><span class="o">=</span><span class="s2">&quot;Yes&quot;</span><span class="p">,</span>
-    <span class="n">compression</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> 
-    <span class="n">create_directory</span><span class="o">=-</span><span class="mi">5</span><span class="p">,</span> 
-    <span class="n">file_path</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> 
+    <span class="n">compression</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">create_directory</span><span class="o">=-</span><span class="mi">5</span><span class="p">,</span>
+    <span class="n">file_path</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
     <span class="n">file_template</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
 <span class="p">):</span>
     <span class="n">compression</span> <span class="o">=</span> <span class="n">compression</span> <span class="ow">or</span> <span class="s2">&quot;zlib&quot;</span>
@@ -652,18 +655,30 @@ include the file number.</p>
     <span class="n">image_mode</span> <span class="o">=</span> <span class="s2">&quot;Multiple&quot;</span> <span class="k">if</span> <span class="n">n_images</span> <span class="o">&gt;</span> <span class="mi">1</span> <span class="k">else</span> <span class="s2">&quot;Single&quot;</span>
 
     <span class="k">yield from</span> <span class="n">bps</span><span class="o">.</span><span class="n">mv</span><span class="p">(</span>
-        <span class="n">adsimdet</span><span class="o">.</span><span class="n">cam</span><span class="o">.</span><span class="n">num_images</span><span class="p">,</span> <span class="n">n_images</span><span class="p">,</span>
-        <span class="n">adsimdet</span><span class="o">.</span><span class="n">cam</span><span class="o">.</span><span class="n">acquire_time</span><span class="p">,</span> <span class="n">acquire_time</span><span class="p">,</span>
-        <span class="n">adsimdet</span><span class="o">.</span><span class="n">cam</span><span class="o">.</span><span class="n">acquire_period</span><span class="p">,</span> <span class="n">acquire_period</span><span class="p">,</span>
-        <span class="n">adsimdet</span><span class="o">.</span><span class="n">cam</span><span class="o">.</span><span class="n">image_mode</span><span class="p">,</span> <span class="n">image_mode</span><span class="p">,</span>
-        <span class="n">plugin</span><span class="o">.</span><span class="n">auto_increment</span><span class="p">,</span> <span class="n">auto_increment</span><span class="p">,</span>
-        <span class="n">plugin</span><span class="o">.</span><span class="n">auto_save</span><span class="p">,</span> <span class="n">auto_save</span><span class="p">,</span>
-        <span class="n">plugin</span><span class="o">.</span><span class="n">create_directory</span><span class="p">,</span> <span class="n">create_directory</span><span class="p">,</span>
-        <span class="n">plugin</span><span class="o">.</span><span class="n">file_name</span><span class="p">,</span> <span class="n">file_name</span><span class="p">,</span>
-        <span class="n">plugin</span><span class="o">.</span><span class="n">file_path</span><span class="p">,</span> <span class="n">file_path</span><span class="p">,</span>
-        <span class="n">plugin</span><span class="o">.</span><span class="n">num_capture</span><span class="p">,</span> <span class="n">n_images</span><span class="p">,</span>  <span class="c1"># save all frames received</span>
-        <span class="n">plugin</span><span class="o">.</span><span class="n">compression</span><span class="p">,</span> <span class="n">compression</span><span class="p">,</span>
-        <span class="n">plugin</span><span class="o">.</span><span class="n">file_template</span><span class="p">,</span> <span class="n">file_template</span><span class="p">,</span>
+        <span class="n">adsimdet</span><span class="o">.</span><span class="n">cam</span><span class="o">.</span><span class="n">num_images</span><span class="p">,</span>
+        <span class="n">n_images</span><span class="p">,</span>
+        <span class="n">adsimdet</span><span class="o">.</span><span class="n">cam</span><span class="o">.</span><span class="n">acquire_time</span><span class="p">,</span>
+        <span class="n">acquire_time</span><span class="p">,</span>
+        <span class="n">adsimdet</span><span class="o">.</span><span class="n">cam</span><span class="o">.</span><span class="n">acquire_period</span><span class="p">,</span>
+        <span class="n">acquire_period</span><span class="p">,</span>
+        <span class="n">adsimdet</span><span class="o">.</span><span class="n">cam</span><span class="o">.</span><span class="n">image_mode</span><span class="p">,</span>
+        <span class="n">image_mode</span><span class="p">,</span>
+        <span class="n">plugin</span><span class="o">.</span><span class="n">auto_increment</span><span class="p">,</span>
+        <span class="n">auto_increment</span><span class="p">,</span>
+        <span class="n">plugin</span><span class="o">.</span><span class="n">auto_save</span><span class="p">,</span>
+        <span class="n">auto_save</span><span class="p">,</span>
+        <span class="n">plugin</span><span class="o">.</span><span class="n">create_directory</span><span class="p">,</span>
+        <span class="n">create_directory</span><span class="p">,</span>
+        <span class="n">plugin</span><span class="o">.</span><span class="n">file_name</span><span class="p">,</span>
+        <span class="n">file_name</span><span class="p">,</span>
+        <span class="n">plugin</span><span class="o">.</span><span class="n">file_path</span><span class="p">,</span>
+        <span class="n">file_path</span><span class="p">,</span>
+        <span class="n">plugin</span><span class="o">.</span><span class="n">num_capture</span><span class="p">,</span>
+        <span class="n">n_images</span><span class="p">,</span>  <span class="c1"># save all frames received</span>
+        <span class="n">plugin</span><span class="o">.</span><span class="n">compression</span><span class="p">,</span>
+        <span class="n">compression</span><span class="p">,</span>
+        <span class="n">plugin</span><span class="o">.</span><span class="n">file_template</span><span class="p">,</span>
+        <span class="n">file_template</span><span class="p">,</span>
     <span class="p">)</span>
 </pre></div>
 </div>
@@ -690,7 +705,7 @@ include the file number.</p>
             <span class="n">title</span><span class="o">=</span><span class="s2">&quot;Area Detector with custom HDF5 File Name&quot;</span><span class="p">,</span>
             <span class="n">purpose</span><span class="o">=</span><span class="s2">&quot;image&quot;</span><span class="p">,</span>
             <span class="n">image_file_name_style</span><span class="o">=</span><span class="s2">&quot;EPICS(AD PVs)&quot;</span><span class="p">,</span>
-        <span class="p">)</span>
+        <span class="p">),</span>
     <span class="p">)</span>
 <span class="p">)</span>
 
@@ -1025,7 +1040,7 @@ run.primary.read()[&#39;adsimdet_image&#39;].shape=(1, 5, 1024, 1024)
 
   <p class="copyright">
     
-      © Copyright 2017-2025, UChicago Argonne, LLC.
+      © Copyright 2017-2026, UChicago Argonne, LLC.
       <br/>
     
   </p>

@@ -272,4 +272,3 @@ General
      - ensure a string does not exceed EPICS PV length
    * - :func:`~apstools.utils.misc.unix`
      - run a UNIX command, return (stdout, stderr)
-

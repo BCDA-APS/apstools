@@ -34,7 +34,7 @@
     <link rel="stylesheet" type="text/css" href="../_static/graphviz.css?v=4ae1632d" />
     <link rel="stylesheet" type="text/css" href="../_static/mystnb.11b39860a7a0cbfd473a3ad8a317855267ff0bd372690045ca344a6b62be495e.css" />
     <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
-    <link rel="stylesheet" type="text/css" href="../_static/css/custom.css?v=c14d4873" />
+    <link rel="stylesheet" type="text/css" href="../_static/css/custom.css?v=fb1a6b5d" />
   
   <!-- So that users can add custom icons -->
   <script src="../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
@@ -42,7 +42,7 @@
   <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
-    <script src="../_static/documentation_options.js?v=f5d85129"></script>
+    <script src="../_static/documentation_options.js?v=db910731"></script>
     <script src="../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../_static/design-tabs.js?v=f930bc37"></script>
@@ -581,7 +581,7 @@ output scans(s) to a NeXus HDF5 file.  These are the modifications of that setup
     <span class="n">center</span><span class="o">=</span><span class="mi">3</span> <span class="o">+</span> <span class="mi">5</span> <span class="o">*</span> <span class="n">random</span><span class="o">.</span><span class="n">random</span><span class="p">(),</span>
     <span class="n">width</span><span class="o">=</span><span class="mf">0.01</span> <span class="o">+</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="n">random</span><span class="o">.</span><span class="n">random</span><span class="p">(),</span>
     <span class="n">scale</span><span class="o">=</span><span class="mi">10_000</span> <span class="o">*</span> <span class="p">(</span><span class="mf">0.98</span> <span class="o">+</span> <span class="mf">0.04</span> <span class="o">*</span> <span class="n">random</span><span class="o">.</span><span class="n">random</span><span class="p">()),</span>
-    <span class="n">noise</span><span class="o">=</span><span class="mf">0.02</span>
+    <span class="n">noise</span><span class="o">=</span><span class="mf">0.02</span><span class="p">,</span>
 <span class="p">)</span>
 
 <span class="c1"># wait for the other connections</span>
@@ -750,7 +750,12 @@ axis, as customary for powder diffraction data.</p>
     <span class="p">[</span><span class="s2">&quot;/entry/instrument/bluesky/streams/primary/tth/value&quot;</span><span class="p">,</span> <span class="s2">&quot;/entry/monopd:NXdata/polar_angle&quot;</span><span class="p">],</span>
     <span class="p">[</span><span class="s2">&quot;/entry/instrument/bluesky/streams/primary/sensor/value&quot;</span><span class="p">,</span> <span class="s2">&quot;/entry/monopd:NXdata/data&quot;</span><span class="p">],</span>
     <span class="p">[</span><span class="s2">&quot;/entry/monopd/@signal&quot;</span><span class="p">,</span> <span class="s2">&quot;data&quot;</span><span class="p">],</span>
-    <span class="p">[</span><span class="s2">&quot;/entry/monopd/@axes&quot;</span><span class="p">,</span> <span class="p">[</span><span class="s2">&quot;polar_angle&quot;</span><span class="p">,</span> <span class="p">]],</span>
+    <span class="p">[</span>
+        <span class="s2">&quot;/entry/monopd/@axes&quot;</span><span class="p">,</span>
+        <span class="p">[</span>
+            <span class="s2">&quot;polar_angle&quot;</span><span class="p">,</span>
+        <span class="p">],</span>
+    <span class="p">],</span>
     <span class="p">[</span><span class="s2">&quot;/entry/@default&quot;</span><span class="p">,</span> <span class="s2">&quot;monopd&quot;</span><span class="p">],</span>  <span class="c1"># change the default plot group</span>
     <span class="p">[</span><span class="s2">&quot;/entry/monitor:NXmonitor/@signal&quot;</span><span class="p">,</span> <span class="s2">&quot;integral&quot;</span><span class="p">],</span>  <span class="c1"># in NXmonitor, same as for NXdata groups</span>
 <span class="p">]</span>
@@ -761,7 +766,7 @@ axis, as customary for powder diffraction data.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">md</span> <span class="o">=</span> <span class="p">{</span>
-    <span class="s2">&quot;title&quot;</span><span class="p">:</span> <span class="s2">&quot;Demonstrate NeXus/HDF5 template support&quot;</span><span class="p">,</span> 
+    <span class="s2">&quot;title&quot;</span><span class="p">:</span> <span class="s2">&quot;Demonstrate NeXus/HDF5 template support&quot;</span><span class="p">,</span>
     <span class="n">nxwriter</span><span class="o">.</span><span class="n">template_key</span><span class="p">:</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">templates</span><span class="p">),</span>
     <span class="s2">&quot;mono_wavelength&quot;</span><span class="p">:</span> <span class="mf">1.0</span><span class="p">,</span>  <span class="c1"># simulation</span>
     <span class="s2">&quot;sample_name&quot;</span><span class="p">:</span> <span class="s2">&quot;simulation&quot;</span><span class="p">,</span>
@@ -789,9 +794,10 @@ Lorentzian peak is expected.</p>
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">th2th</span><span class="p">(</span><span class="n">detectors</span><span class="p">,</span> <span class="n">tth</span><span class="p">,</span> <span class="n">th</span><span class="p">,</span> <span class="n">start</span><span class="p">,</span> <span class="n">finish</span><span class="p">,</span> <span class="n">num</span><span class="p">,</span> <span class="n">md</span><span class="o">=</span><span class="p">{}):</span>
     <span class="c1"># Since x2x is a relative scan, first move to the absolute start positions.</span>
-    <span class="k">yield from</span> <span class="n">bps</span><span class="o">.</span><span class="n">mv</span><span class="p">(</span><span class="n">tth</span><span class="p">,</span> <span class="n">start</span><span class="p">,</span> <span class="n">th</span><span class="p">,</span> <span class="n">start</span><span class="o">/</span><span class="mi">2</span><span class="p">)</span>
-    <span class="k">yield from</span> <span class="n">bp</span><span class="o">.</span><span class="n">x2x_scan</span><span class="p">(</span><span class="n">detectors</span><span class="p">,</span> <span class="n">tth</span><span class="p">,</span> <span class="n">th</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">finish</span><span class="o">-</span><span class="n">start</span><span class="p">,</span> <span class="n">num</span><span class="p">,</span> <span class="n">md</span><span class="o">=</span><span class="n">md</span><span class="p">)</span>
+    <span class="k">yield from</span> <span class="n">bps</span><span class="o">.</span><span class="n">mv</span><span class="p">(</span><span class="n">tth</span><span class="p">,</span> <span class="n">start</span><span class="p">,</span> <span class="n">th</span><span class="p">,</span> <span class="n">start</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)</span>
+    <span class="k">yield from</span> <span class="n">bp</span><span class="o">.</span><span class="n">x2x_scan</span><span class="p">(</span><span class="n">detectors</span><span class="p">,</span> <span class="n">tth</span><span class="p">,</span> <span class="n">th</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">finish</span> <span class="o">-</span> <span class="n">start</span><span class="p">,</span> <span class="n">num</span><span class="p">,</span> <span class="n">md</span><span class="o">=</span><span class="n">md</span><span class="p">)</span>
     <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">h5_file</span><span class="o">.</span><span class="n">exists</span><span class="p">()</span><span class="si">=}</span><span class="s2">  </span><span class="si">{</span><span class="n">h5_file</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
+
 
 <span class="n">RE</span><span class="p">(</span><span class="n">th2th</span><span class="p">([</span><span class="n">sensor</span><span class="p">,</span> <span class="n">I0</span><span class="p">],</span> <span class="n">tth</span><span class="p">,</span> <span class="n">th</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">11</span><span class="p">,</span> <span class="n">md</span><span class="o">=</span><span class="n">md</span><span class="p">))</span>
 </pre></div>
@@ -1247,7 +1253,7 @@ h5_file.exists()=True  h5_file=PosixPath(&#39;/tmp/nxwriter.h5&#39;)
 
   <p class="copyright">
     
-      © Copyright 2017-2025, UChicago Argonne, LLC.
+      © Copyright 2017-2026, UChicago Argonne, LLC.
       <br/>
     
   </p>

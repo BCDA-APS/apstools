@@ -34,7 +34,7 @@
     <link rel="stylesheet" type="text/css" href="../_static/graphviz.css?v=4ae1632d" />
     <link rel="stylesheet" type="text/css" href="../_static/mystnb.11b39860a7a0cbfd473a3ad8a317855267ff0bd372690045ca344a6b62be495e.css" />
     <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
-    <link rel="stylesheet" type="text/css" href="../_static/css/custom.css?v=c14d4873" />
+    <link rel="stylesheet" type="text/css" href="../_static/css/custom.css?v=fb1a6b5d" />
   
   <!-- So that users can add custom icons -->
   <script src="../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
@@ -42,7 +42,7 @@
   <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
-    <script src="../_static/documentation_options.js?v=f5d85129"></script>
+    <script src="../_static/documentation_options.js?v=db910731"></script>
     <script src="../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../_static/design-tabs.js?v=f930bc37"></script>
@@ -596,6 +596,7 @@ user@workstation:~$ <b>iocmgr.sh start ADSIM ad</b>
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">apstools.devices</span><span class="w"> </span><span class="kn">import</span> <span class="n">SimDetectorCam_V34</span>
 
+
 <span class="k">class</span><span class="w"> </span><span class="nc">TheDetectorCam</span><span class="p">(</span><span class="n">SimDetectorCam_V34</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Add settings for staging.&quot;&quot;&quot;</span>
 
@@ -681,6 +682,7 @@ user@workstation:~$ <b>iocmgr.sh start ADSIM ad</b>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">apstools.devices</span><span class="w"> </span><span class="kn">import</span> <span class="n">ad_creator</span>
+
 <span class="n">plugins</span> <span class="o">=</span> <span class="p">[]</span>
 <span class="n">plugins</span><span class="o">.</span><span class="n">append</span><span class="p">({</span><span class="s2">&quot;cam&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;class&quot;</span><span class="p">:</span> <span class="n">TheDetectorCam</span><span class="p">}})</span>
 <span class="n">plugins</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
@@ -834,13 +836,7 @@ user@workstation:~$ <b>iocmgr.sh start ADSIM ad</b>
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">bluesky.plans</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">bp</span>
 
-<span class="n">uids</span> <span class="o">=</span> <span class="n">RE</span><span class="p">(</span>
-    <span class="n">bp</span><span class="o">.</span><span class="n">count</span><span class="p">([</span><span class="n">adsimdet</span><span class="p">],</span>
-    <span class="n">md</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span>
-        <span class="n">title</span><span class="o">=</span><span class="s2">&quot;Area Detector, Single mode, HDF5 file&quot;</span><span class="p">,</span>
-        <span class="n">purpose</span><span class="o">=</span><span class="s2">&quot;image&quot;</span><span class="p">)</span>
-    <span class="p">)</span>
-<span class="p">)</span>
+<span class="n">uids</span> <span class="o">=</span> <span class="n">RE</span><span class="p">(</span><span class="n">bp</span><span class="o">.</span><span class="n">count</span><span class="p">([</span><span class="n">adsimdet</span><span class="p">],</span> <span class="n">md</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">title</span><span class="o">=</span><span class="s2">&quot;Area Detector, Single mode, HDF5 file&quot;</span><span class="p">,</span> <span class="n">purpose</span><span class="o">=</span><span class="s2">&quot;image&quot;</span><span class="p">)))</span>
 </pre></div>
 </div>
 </div>
@@ -1318,10 +1314,11 @@ Attributes:
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">file_name</span> <span class="o">=</span> <span class="n">pathlib</span><span class="o">.</span><span class="n">Path</span><span class="p">(</span>
-    <span class="n">rsrc</span><span class="p">[</span><span class="s2">&quot;resource_kwargs&quot;</span><span class="p">][</span><span class="s2">&quot;template&quot;</span><span class="p">]</span> <span class="o">%</span> <span class="p">(</span>
+    <span class="n">rsrc</span><span class="p">[</span><span class="s2">&quot;resource_kwargs&quot;</span><span class="p">][</span><span class="s2">&quot;template&quot;</span><span class="p">]</span>
+    <span class="o">%</span> <span class="p">(</span>
         <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">rsrc</span><span class="p">[</span><span class="s1">&#39;root&#39;</span><span class="p">]</span><span class="si">}{</span><span class="n">rsrc</span><span class="p">[</span><span class="s1">&#39;resource_path&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">/&quot;</span><span class="p">,</span>
         <span class="n">rsrc</span><span class="p">[</span><span class="s2">&quot;resource_kwargs&quot;</span><span class="p">][</span><span class="s2">&quot;filename&quot;</span><span class="p">],</span>
-        <span class="n">rsrc</span><span class="p">[</span><span class="s2">&quot;resource_kwargs&quot;</span><span class="p">][</span><span class="s2">&quot;frame_per_point&quot;</span><span class="p">]</span> <span class="o">-</span> <span class="mi">1</span>
+        <span class="n">rsrc</span><span class="p">[</span><span class="s2">&quot;resource_kwargs&quot;</span><span class="p">][</span><span class="s2">&quot;frame_per_point&quot;</span><span class="p">]</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span>
     <span class="p">)</span>
 <span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">file_name</span><span class="o">.</span><span class="n">exists</span><span class="p">()</span><span class="si">=}</span><span class="se">\n</span><span class="si">{</span><span class="n">file_name</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
@@ -1696,7 +1693,7 @@ local_file_name=PosixPath(&#39;/tmp/docker_ioc/iocad/tmp/example/2024/08/25/e62f
 
   <p class="copyright">
     
-      © Copyright 2017-2025, UChicago Argonne, LLC.
+      © Copyright 2017-2026, UChicago Argonne, LLC.
       <br/>
     
   </p>

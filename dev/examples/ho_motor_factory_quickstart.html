@@ -34,7 +34,7 @@
     <link rel="stylesheet" type="text/css" href="../_static/graphviz.css?v=4ae1632d" />
     <link rel="stylesheet" type="text/css" href="../_static/mystnb.11b39860a7a0cbfd473a3ad8a317855267ff0bd372690045ca344a6b62be495e.css" />
     <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
-    <link rel="stylesheet" type="text/css" href="../_static/css/custom.css?v=c14d4873" />
+    <link rel="stylesheet" type="text/css" href="../_static/css/custom.css?v=fb1a6b5d" />
   
   <!-- So that users can add custom icons -->
   <script src="../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
@@ -42,7 +42,7 @@
   <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
-    <script src="../_static/documentation_options.js?v=f5d85129"></script>
+    <script src="../_static/documentation_options.js?v=db910731"></script>
     <script src="../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../_static/design-tabs.js?v=f930bc37"></script>
@@ -549,9 +549,9 @@ from a set of motor specifications.</p>
         <span class="s2">&quot;y&quot;</span><span class="p">:</span> <span class="s2">&quot;m2&quot;</span><span class="p">,</span>
         <span class="s2">&quot;z&quot;</span><span class="p">:</span> <span class="s2">&quot;m3&quot;</span><span class="p">,</span>
         <span class="s2">&quot;roll&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>  <span class="c1"># Simulated</span>
-        <span class="s2">&quot;pitch&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span> <span class="c1"># Simulated</span>
-        <span class="s2">&quot;yaw&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span> <span class="c1"># Simulated</span>
-    <span class="p">}</span>
+        <span class="s2">&quot;pitch&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>  <span class="c1"># Simulated</span>
+        <span class="s2">&quot;yaw&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>  <span class="c1"># Simulated</span>
+    <span class="p">},</span>
 <span class="p">)</span>
 <span class="n">combo</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="n">combo</span><span class="o">.</span><span class="n">roll</span>
 </pre></div>
@@ -570,11 +570,7 @@ from a set of motor specifications.</p>
 <p>Add custom labels to your device for organization or registry lookup:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">labeled</span> <span class="o">=</span> <span class="n">mb_creator</span><span class="p">(</span>
-    <span class="n">name</span><span class="o">=</span><span class="s2">&quot;labeled&quot;</span><span class="p">,</span>
-    <span class="n">motors</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;x&quot;</span><span class="p">:</span> <span class="s2">&quot;m1&quot;</span><span class="p">},</span>
-    <span class="n">labels</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;mygroup&quot;</span><span class="p">,</span> <span class="s2">&quot;motors&quot;</span><span class="p">]</span>
-<span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">labeled</span> <span class="o">=</span> <span class="n">mb_creator</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;labeled&quot;</span><span class="p">,</span> <span class="n">motors</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;x&quot;</span><span class="p">:</span> <span class="s2">&quot;m1&quot;</span><span class="p">},</span> <span class="n">labels</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;mygroup&quot;</span><span class="p">,</span> <span class="s2">&quot;motors&quot;</span><span class="p">])</span>
 <span class="n">labeled</span><span class="o">.</span><span class="n">_ophyd_labels_</span>
 </pre></div>
 </div>
@@ -686,7 +682,7 @@ from a set of motor specifications.</p>
 
   <p class="copyright">
     
-      © Copyright 2017-2025, UChicago Argonne, LLC.
+      © Copyright 2017-2026, UChicago Argonne, LLC.
       <br/>
     
   </p>
