@@ -4,8 +4,11 @@ Generate ``docs/source/_static/switcher.json`` from git tags.
 Pruning rule
 ------------
 - ``dev`` entry always included first (points to ``dev/`` on gh-pages).
-- All patches for the **current** (highest) ``major.minor``.
+- All patches for the **current** (highest) ``major.minor``, including
+  the latest rc tag if no final release exists yet for that patch.
 - Only the **latest patch** for every older ``major.minor``.
+- rc tags are dropped for any patch that has a final (non-rc) release.
+- Only the **latest rc** is kept when no final release exists yet.
 
 Run this script locally as part of the release process, then commit
 the updated ``switcher.json`` to ``main`` before triggering the docs
@@ -21,6 +24,7 @@ deploy workflow::
 import json
 import subprocess
 from pathlib import Path
+
 from packaging.version import Version
 
 BASE_URL = "https://bcda-aps.github.io/apstools"
@@ -28,10 +32,12 @@ SWITCHER_FILE = Path(__file__).parent.parent / "docs" / "source" / "_static" / "
 
 
 def git_tags():
-    """Return all final release version tags sorted newest-first.
+    """Return all relevant version tags sorted newest-first.
 
-    Excludes pre-release tags (alpha, beta, rc) and the old date-based
-    tags (e.g. ``2019.0321.1``) that pre-date the ``1.x.y`` scheme.
+    Includes final releases and rc tags, but excludes:
+    - alpha/beta/dev pre-releases
+    - 0.x.y tags
+    - old date-based tags (major >= 2019)
     """
     result = subprocess.run(
         ["git", "tag", "--sort=-version:refname"],
@@ -48,11 +54,13 @@ def git_tags():
             v = Version(t)
         except Exception:
             continue  # skip non-PEP-440 tags
-        if v.is_prerelease or v.is_devrelease:
-            continue  # skip rc, alpha, beta, dev tags
+        if v.is_devrelease:
+            continue
+        # keep rc tags but drop alpha/beta
+        if v.is_prerelease and v.pre and v.pre[0] in ("a", "b"):
+            continue
         if v.major == 0 or v.epoch != 0:
-            continue  # skip 0.x.y and old date-based epoch tags
-        # skip old date-style tags (major >= 2019)
+            continue
         if v.major >= 2019:
             continue
         tags.append(t)
@@ -64,25 +72,54 @@ def prune(tags):
     Apply the pruning rule and return the ordered list of version strings
     to include in the switcher (newest first).
 
-    - All patches for the highest major.minor.
-    - Latest patch only for every older major.minor.
+    - All patches for the highest major.minor (final releases only, plus
+      the latest rc for any patch that has no final release yet).
+    - Latest patch only for every older major.minor (final releases only;
+      rc tags for older minors are dropped entirely once a final exists).
     """
     if not tags:
         return []
 
     parsed = [(t, Version(t)) for t in tags]
-    # highest major.minor
-    current_minor = (parsed[0][1].major, parsed[0][1].minor)
+
+    # Collect the set of base versions that have a final (non-rc) release.
+    final_bases = set()
+    for _, v in parsed:
+        if not v.is_prerelease:
+            final_bases.add((v.major, v.minor, v.micro))
+
+    # highest major.minor among final releases
+    finals = [(t, v) for t, v in parsed if not v.is_prerelease]
+    if not finals:
+        # all tags are rc — use the highest rc to determine current minor
+        current_minor = (parsed[0][1].major, parsed[0][1].minor)
+    else:
+        current_minor = (finals[0][1].major, finals[0][1].minor)
 
     kept = []
-    seen_minor = set()
+    seen_minor = set()  # for older minors (final releases only)
+    seen_patch_rc = set()  # track latest rc per base version
+
     for tag, v in parsed:
         minor_key = (v.major, v.minor)
+        base = (v.major, v.minor, v.micro)
+        is_rc = v.is_prerelease
+
         if minor_key == current_minor:
-            kept.append(tag)  # keep all patches for current minor
-        elif minor_key not in seen_minor:
-            kept.append(tag)  # keep only latest patch for older minors
-            seen_minor.add(minor_key)
+            if is_rc:
+                # Include latest rc for this patch only if no final exists.
+                if base not in final_bases and base not in seen_patch_rc:
+                    kept.append(tag)
+                    seen_patch_rc.add(base)
+                # else: skip — either a final exists or we already have a newer rc
+            else:
+                kept.append(tag)  # keep all final patches for current minor
+        else:
+            # Older minor: keep only the latest final patch.
+            if not is_rc and minor_key not in seen_minor:
+                kept.append(tag)
+                seen_minor.add(minor_key)
+
     return kept
 
 
@@ -100,7 +137,12 @@ def make_entry(version, latest_tag):
 def build_switcher(tags):
     """Return the full switcher list including the dev entry."""
     versions = prune(tags)
-    latest_tag = versions[0] if versions else None
+
+    # "latest" is the highest final (non-rc) release only.
+    latest_tag = next(
+        (v for v in versions if not Version(v).is_prerelease),
+        None,
+    )
 
     entries = [
         {
