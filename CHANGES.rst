@@ -51,7 +51,6 @@ describe future plans.
      configurations. (:issue:`1156`)
    * Add ``scripts/update_copyright.py`` pre-commit hook to keep copyright
      ending year current automatically. (:issue:`1172`)
-   * Update copyright ending year to 2026. (:issue:`1172`)
    * Add tests verifying ``EmailNotifications`` sends correctly via SMTP. (:issue:`1112`)
    * Add unit tests for ``SignalStatsCallback``. (:issue:`1072`)
    * Bump minimum Python version to 3.10 (Python 3.9 is EOL). (:issue:`1150`)
@@ -61,6 +60,7 @@ describe future plans.
    * Refactor test catalog installation to use in-memory ``databroker.temp()``
      loaded from ``.json.gz`` snapshots, removing the fragile ``databroker-unpack``
      / msgpack / intake YAML approach.  Re-enable 20 skipped tests. (:issue:`1131`)
+   * Relocate some utils code from apsbits.
    * Replace ``sphinx.ext.autosummary`` and ``.. automodule::`` directives with
      ``sphinx-autoapi`` for auto-generated API reference.  Curated topic pages
      (Callbacks, Devices, File Writers, Plans, Utilities, synApps) are retained
@@ -69,7 +69,7 @@ describe future plans.
    * Review and refactor unit tests: remove ``try/except`` anti-patterns, use
      ``parms, context`` parametrize style, add ``re.escape()`` to ``match=``
      strings, replace ``os.chdir()`` with ``monkeypatch.chdir()``. (:issue:`1154`)
-   * Relocate some utils code from apsbits.
+   * Update copyright ending year to 2026. (:issue:`1172`)
 
 1.7.9
 *****
