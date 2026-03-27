@@ -38,6 +38,9 @@ describe future plans.
    Fixes
    -------------
 
+   * ``AD_plugin_primed()`` and ``ensure_AD_plugin_primed()`` now skip the
+     priming check when the plugin's ``stage_sigs`` will disable it on stage.
+     (:issue:`1061`)
    * BUG 'dt_cycle_ends' in apstools.devices.aps_cycle.ApsCycleDM
 
    Maintenance
