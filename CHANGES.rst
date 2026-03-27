@@ -51,6 +51,7 @@ describe future plans.
      strings, replace ``os.chdir()`` with ``monkeypatch.chdir()``. (:issue:`1154`)
    * Move test catalogs from ``resources/`` to ``apstools/tests/`` and drop
      ``_test`` suffix from file names. (:issue:`1165`)
+   * Add unit tests for ``SignalStatsCallback``. (:issue:`1072`)
 
 1.7.9
 *****
