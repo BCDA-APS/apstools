@@ -102,6 +102,7 @@ doc = [
   "pygments-ipython-console",
   "setuptools-scm",
   "sphinx",
+  "sphinx-autoapi",
   "sphinx-design",
 ]
 all = ["apstools[dev,doc]"]

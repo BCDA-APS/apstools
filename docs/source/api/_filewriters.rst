@@ -4,16 +4,25 @@
 File Writers
 ============
 
-Write data files during data acquisition.  The file writer callbacks are:
+Write data files during data acquisition.
 
-.. autosummary::
-    :nosignatures:
+For complete API details see the :doc:`Full API Reference <autoapi/apstools/index>`.
 
-   ~apstools.callbacks.callback_base.FileWriterCallbackBase
-   ~apstools.callbacks.nexus_writer.NXWriterAPS
-   ~apstools.callbacks.nexus_writer.NXWriter
-   ~apstools.callbacks.spec_file_writer.SpecWriterCallback
-   ~apstools.callbacks.spec_file_writer.SpecWriterCallback2
+.. list-table::
+   :header-rows: 0
+   :widths: 40 60
+
+   * - :class:`~apstools.callbacks.callback_base.FileWriterCallbackBase`
+     - base class for filewriter callbacks
+   * - :class:`~apstools.callbacks.nexus_writer.NXWriter`
+     - write HDF5/NeXus file using NeXus base classes
+   * - :class:`~apstools.callbacks.nexus_writer.NXWriterAPS`
+     - customize :class:`~apstools.callbacks.nexus_writer.NXWriter` with APS-specific content
+   * - :class:`~apstools.callbacks.spec_file_writer.SpecWriterCallback`
+     - (*deprecated*) write SPEC data file line-by-line
+   * - :class:`~apstools.callbacks.spec_file_writer.SpecWriterCallback2`
+     - write SPEC data file as data is collected, line-by-line
+
 
 
 Overview
@@ -32,7 +41,7 @@ Examples
 
 Write SPEC file automatically from data acquisition::
 
-    specwriter = apstools.callbacks.SpecWriterCallback()
+    specwriter = apstools.callbacks.SpecWriterCallback2()
     RE.subscribe(specwriter.receiver)
 
 Write NeXus file automatically from data acquisition::
@@ -54,12 +63,15 @@ One less import when only accessing the Databroker.
 The *only* advantage to subclassing from ``CallbackBase``
 seems to be a simpler setup call to ``RE.subscribe()``.
 
-============  ===============================
+============  ================================
 superclass    subscription code
-============  ===============================
+============  ================================
 object        ``RE.subscribe(specwriter.receiver)``
 CallbackBase  ``RE.subscribe(specwriter)``
-============  ===============================
+============  ================================
+
+``SpecWriterCallback2`` subclasses from ``object``; use
+``RE.subscribe(specwriter.receiver)`` to subscribe it.
 
 HDF5/NeXus File Writers
 ++++++++++++++++++++++++++
@@ -374,31 +386,31 @@ Examples of additional structure in NeXus file added by
     :linenos:
     :language: text
 
-.. _filewriters.SpecWriterCallback:
+.. _filewriters.SpecWriterCallback2:
 
 SPEC File Structure
 +++++++++++++++++++
 
 EXAMPLE : use as Bluesky callback::
 
-    from apstools import SpecWriterCallback
-    specwriter = SpecWriterCallback()
+    from apstools.callbacks import SpecWriterCallback2
+    specwriter = SpecWriterCallback2()
     RE.subscribe(specwriter.receiver)
 
 EXAMPLE : use as writer from Databroker::
 
-    from apstools import SpecWriterCallback
-    specwriter = SpecWriterCallback()
+    from apstools.callbacks import SpecWriterCallback2
+    specwriter = SpecWriterCallback2()
     for key, doc in db.get_documents(db["a123456"]):
         specwriter.receiver(key, doc)
-    print("Look at SPEC data file: "+specwriter.spec_filename)
+    print("Look at SPEC data file: " + specwriter.spec_filename)
 
 EXAMPLE : use as writer from Databroker with customizations::
 
-    from apstools import SpecWriterCallback
+    from apstools.callbacks import SpecWriterCallback2
 
     # write into file: /tmp/cerium.spec
-    specwriter = SpecWriterCallback(filename="/tmp/cerium.spec")
+    specwriter = SpecWriterCallback2(filename="/tmp/cerium.spec")
     for key, doc in db.get_documents(db["abcd123"]):
         specwriter.receiver(key, doc)
 
@@ -407,21 +419,11 @@ EXAMPLE : use as writer from Databroker with customizations::
     for key, doc in db.get_documents(db["b46b63d4"]):
         specwriter.receiver(key, doc)
 
-Example output from ``SpecWriterCallback()``:
+Example output from ``SpecWriterCallback2()``:
 
 .. literalinclude:: ../resources/demo_specdata.dat
     :linenos:
     :language: text
 
 
-Source Code
-++++++++++++++++
 
-.. automodule:: apstools.callbacks.callback_base
-    :members:
-
-.. automodule:: apstools.callbacks.nexus_writer
-    :members:
-
-.. automodule:: apstools.callbacks.spec_file_writer
-    :members:
