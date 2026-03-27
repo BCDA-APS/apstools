@@ -22,8 +22,6 @@ class SignalStatsCallback:
     """
     Callback: Collect peak (& other) statistics during a scan.
 
-    .. caution:: This is an early draft and is subject to change!
-
     Subscribe the ``receiver()`` method. Use with step scan plans such as
     ``bp.scan()`` and ``bp.rel_scan()``.
 
