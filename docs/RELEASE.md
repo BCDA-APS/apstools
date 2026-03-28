@@ -29,6 +29,7 @@ Before starting a release cycle:
       [apstools-feedstock](https://github.com/conda-forge/apstools-feedstock)
       somewhere on your filesystem (outside the apstools repo directory).
       One-time setup if you haven't done this yet:
+
       ```bash
       # anywhere outside the apstools directory, e.g. ~/projects/conda-forge/
       git clone https://github.com/<your-github-username>/apstools-feedstock
